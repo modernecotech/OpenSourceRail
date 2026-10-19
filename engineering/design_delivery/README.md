@@ -53,3 +53,31 @@ The design runner's disk/output and physical evidence limits remain in force.
 Services: `osr-design-publication.timer` (daily compact Git publication) and
 `osr-design-coverage.timer` (15-minute family coverage), alongside the existing
 continuous design service and hourly local geometry reports.
+
+Publication uses the optimiser's delivery policy, rather than a separate mass
+ranking. For each civil architecture/function it also retains eligible mass,
+lift and onsite-work leaders sharing the primary's context and comparison-basis
+identity. Extra leaders carry their selection roles and exact candidate keys;
+all remain subject to the same native/confirmation vetoes and archive budgets
+(at most 64 dependency jobs).
+
+Offline verification compares exported results, metrics, verification claims,
+open evidence, implementations, manufacturing tables and compressed schedules/QA
+records directly with the archived originals. It regenerates summaries and
+report text from those inputs. The requirement inventory is bound to the source
+epoch, and the maturity ledger is recomputed from archived unit definitions,
+exact native confirmations and individual handling/numerical checks. Five
+explicit civil catalogue allocations currently link requirements to
+representative unit revisions, joints and evidence paths/hashes. Similar names
+create no allocation. Geometry and research screens remain separate from
+manufacturing qualification, authenticated acceptance and complete design.
+
+The publisher persists built, committed and pushed transaction phases outside
+Git. Recovery precedes selection deduplication and the daily binary budget.
+An interrupted installation or commit is reconciled using the exact parent,
+owned-path diff and manifest bytes. Failed pushes retain the committed revision
+and retry that exact commit with a non-force refspec, including when selected
+designs have not changed. A 15-minute timer check retries transactions while the
+one-generation-per-day budget still controls new binary publications. Failed
+scratch builds are removed before any journal/Git mutation; journalled evidence
+remains until push succeeds.

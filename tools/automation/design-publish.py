@@ -17,7 +17,7 @@ def unit_text(workspace,qualification):
     command=' '.join(map(quote,[sys.executable,Path(__file__).resolve(),'cycle','--workspace',Path(workspace).resolve(),'--repository',ROOT,'--qualification',Path(qualification).resolve(),'--push']))
     maintenance=' '.join(map(quote,[sys.executable,Path(__file__).resolve(),'maintain','--workspace',Path(workspace).resolve()]))
     return {'osr-design-publication.service':'[Unit]\nDescription=OpenSourceRail qualified design evidence publication\n\n[Service]\nType=oneshot\nExecStart='+command+'\nNice=15\nCPUQuota=150%\nMemoryMax=2G\nTasksMax=256\nTimeoutStartSec=30min\nUMask=0077\n',
-        'osr-design-publication.timer':'[Unit]\nDescription=OpenSourceRail daily design evidence publication\n\n[Timer]\nOnCalendar=daily\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n',
+        'osr-design-publication.timer':'[Unit]\nDescription=OpenSourceRail daily design evidence publication\n\n[Timer]\nOnCalendar=daily\nOnUnitActiveSec=15min\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n',
         'osr-design-coverage.service':'[Unit]\nDescription=OpenSourceRail task family coverage\n\n[Service]\nType=oneshot\nExecStart='+maintenance+'\nTimeoutStartSec=2min\nMemoryMax=256M\n',
         'osr-design-coverage.timer':'[Unit]\nDescription=OpenSourceRail task family coverage cadence\n\n[Timer]\nOnBootSec=2min\nOnUnitActiveSec=15min\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n'}
 

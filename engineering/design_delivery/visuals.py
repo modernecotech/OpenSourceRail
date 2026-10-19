@@ -138,7 +138,7 @@ def generate(choice,output):
         physical_release=False,motion_path_verified=False)
 
 
-def report(output,selected,ledger):
+def report_files(selected,ledger):
     from engineering.twin_workflow import core
     h=lambda value:escape(str(value),quote=True)
     rows=['<!doctype html><html lang="en"><meta charset="utf-8"><title>OpenSourceRail design delivery</title>',
@@ -147,10 +147,12 @@ def report(output,selected,ledger):
         '<p>Publication integrity can pass while engineering completion remains open. No manufacturing or physical release is claimed.</p>',
         '<p>'+str(ledger['required_components'])+' authoritative items and '+str(ledger['required_packages'])+' work packages are tracked; '+str(ledger['accepted_components'])+' items have accepted completion evidence in this ledger.</p>',
         '<p><a href="completion.json">Full completion gates</a> | <a href="tests.log">Executed tests</a> | <a href="qualification.json">Test/source receipt</a> | <a href="evidence.tar.gz">Portable raw evidence</a> | <a href="manifest.json">Checksums</a></p>']
+    counts=ledger.get('research_maturity_counts',{})
+    rows+=['<p>Research maturity across '+str(counts.get('representative_unit_revisions',0))+' representative civil unit revisions: '+str(counts.get('geometry_defined',0))+' with explicit geometry; '+str(counts.get('native_geometry_verified',0))+' with native geometry confirmation; '+str(counts.get('numerically_screened',0))+' with unit-specific numerical screens; '+str(counts.get('manufacturing_qualified',0))+' manufacturing qualified. These counts are alternatives, not installed quantities or accepted designs.</p>']
     for c in selected:
         base='models/'+c['id']+'/'
         rows+=['<article><h2>'+h(c['group'])+'</h2><p>Exact candidate '+h(c['key'])+'</p><p>'+h(c['scope'])+'</p>',
-            '<p><a href="'+base+'summary.json">Metrics and verification</a></p>']
+            '<p>Selection roles: '+h(', '.join(c.get('selection_roles',[])))+'</p><p><a href="'+base+'summary.json">Metrics and verification</a></p>']
         if 'visualisation' in c:
             rows+=['<p>'+h(c['visualisation']['kind'])+'; final-position sequence illustration, not a motion or collision simulation.</p>',
                 '<img alt="Retained candidate geometry" src="'+base+'overview.png">',
@@ -160,13 +162,17 @@ def report(output,selected,ledger):
             rows+=['<img alt="Retained executable test checks" src="'+base+'tests.png">']
         rows+=['<p><a href="'+base+'result.json">Full retained result</a></p>']
         rows+=['<details><summary>Outstanding evidence</summary><pre>'+h(json.dumps(c['outstanding'][:12],indent=2))+'</pre></details></article>']
-    rows+=['</html>'];(output/'index.html').write_text('\n'.join(rows))
+    rows+=['</html>'];html='\n'.join(rows)
     text='# Provisional continuous design delivery\n\nOpen [the illustrated review](index.html) for CAD pictures and short videos.\n\nThis package preserves selected source-bound research results, tests, native CAD, manufacturing/QA data and sequence visualisations. Full component and system completion remains open in [completion.json](completion.json); no physical or manufacturing release is claimed.\n\nVerify offline from the repository root:\n\n```bash\ntools/automation/osr-python tools/automation/design-publish.py verify --package docs/design-engine/continuous-delivery --media\n```\n\nThe portable evidence archive contains original receipts and all their retained files. Archive integrity is checked without rerunning physics. Publication-time eligibility is a snapshot, not a continuing acceptance claim. Assembly videos reveal retained solids at their final positions following evaluated operation/schedule events; they do not prove insertion paths, collision freedom or connection resistance. The underframe uses a camera inspection tour when no detailed assembly graph is present.\n'
     for c in selected:
         if 'visualisation' not in c:continue
         base='models/'+c['id']+'/'
         text+='\n## '+c['group']+'\n\n![Retained native geometry]('+base+'overview.png)\n\n[Eight-second '+c['visualisation']['kind']+' video]('+base+c['visualisation']['video']+') · [Native CAD]('+base+'model.FCStd) · [Metrics and open evidence]('+base+'summary.json)\n'
-    (output/'README.md').write_text(text)
+    return {'index.html':html,'README.md':text}
+
+
+def report(output,selected,ledger):
+    for name,text in report_files(selected,ledger).items():(output/name).write_text(text)
 
 
 def software(choice,output):

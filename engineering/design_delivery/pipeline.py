@@ -11,11 +11,12 @@ import tarfile
 import time
 
 from engineering.twin_workflow import core
-from engineering.continuous_design import service,eligibility,tasks,runtime
+from engineering.continuous_design import service,eligibility,tasks,runtime,objectives
 
 SCHEMA='osr-continuous-delivery/1'
 MAX_BYTES=64*1024*1024
 MAX_RAW=256*1024*1024
+REQUIREMENTS_PATH=(core.PACKET/'specifications.json.gz').relative_to(core.ROOT).as_posix()
 PHYSICAL={'mechanical-detail','mechanical-equipment-study','civil-kit-study'}
 QUALIFICATION_TESTS=[
     'engineering/analysis/tests/'+name+'.py' for name in (
@@ -70,7 +71,8 @@ def verified_job(store,row,baseline):
 def select(store,baseline):
     """Bounded representatives, never a failed/held candidate or old epoch."""
     resolver=eligibility.Resolver(store,baseline);choices={}
-    rows=sorted(resolver.observations.values(),key=lambda r:(r['kind']!='integration-protocol',r['mass'] if r['mass'] is not None else float('inf'),r['key']))
+    groups={}
+    rows=sorted(resolver.observations.values(),key=lambda r:(r['kind']!='integration-protocol',objectives.primary_rank(r),r['key']))
     for observation in rows:
         kind=observation['kind']
         if kind not in PHYSICAL|{'software-logic','software-receiver','integration-protocol','integration-coupling'} or not observation['study_pass']:continue
@@ -84,20 +86,39 @@ def select(store,baseline):
         if kind=='civil-kit-study':
             v=task['parameters']['variables'];group=kind+'/'+v['architecture']+('/station' if v['station_package'] else '/bay')
         if kind.startswith('integration-'):group='integration'
-        if group in choices:continue
-        result,receipt=verified_job(store,row,baseline)
-        confirmation=None
-        if kind in PHYSICAL:
-            candidates=[c for c in state['confirmations'] if c['state']=='passed']
-            if not candidates:continue
-            confirmation=resolver.rows[sorted(candidates,key=lambda c:c['key'])[-1]['key']]
-            verified_job(store,confirmation,baseline)
-        choices[group]=dict(row=dict(row),result=result,receipt=receipt,confirmation=dict(confirmation) if confirmation else None,
-            group=group,kind=kind,task=task,eligibility=state)
+        groups.setdefault(group,[]).append(observation)
+    for group,peers in groups.items():
+        primary=peers[0];leaders={primary['key']:['delivery-policy-primary']}
+        # Complementary leaders must share the primary's exact functional basis
+        # and context. Unknown/different bases cannot claim comparable trade-offs.
+        basis=objectives.metrics(primary).get('comparison_basis_sha256')
+        comparable=[r for r in peers if r['context']==primary['context'] and basis and objectives.metrics(r).get('comparison_basis_sha256')==basis]
+        if primary['kind']=='civil-kit-study':
+            for leader in objectives.roles(comparable):
+                roles=[r for r in leader['roles'] if r in {'minimum-modeled-mass','smallest-lift','least-scenario-onsite-work'}]
+                if roles:leaders.setdefault(leader['row']['key'],[]).extend(roles)
+        for key,roles in leaders.items():
+            row=resolver.rows[key];task=json.loads(row['task']);kind=task['kind'];state=resolver.state(key)
+            result,receipt=verified_job(store,row,baseline);confirmation=None
+            if kind in PHYSICAL:
+                candidates=[c for c in state['confirmations'] if c['state']=='passed']
+                if not candidates:continue
+                confirmation=resolver.rows[sorted(candidates,key=lambda c:c['key'])[-1]['key']]
+                verified_job(store,confirmation,baseline)
+            export_group=group if key==primary['key'] else group+'/alternative-'+key[:12]
+            choices[export_group]=dict(row=dict(row),result=result,receipt=receipt,confirmation=dict(confirmation) if confirmation else None,
+                group=export_group,comparison_group=group,selection_roles=roles,kind=kind,task=task,eligibility=state)
     return list(choices.values()),resolver
 
 
-def completion(graph,selected,needs):
+def load_candidate(candidate,name,*,confirmation=False):
+    row=candidate.get('confirmation') if confirmation else candidate.get('row')
+    if not row:return None
+    path=Path(row['folder'])/safe(name)
+    return path.read_bytes() if path.is_file() else None
+
+
+def completion(graph,selected,needs,load=None):
     """Every authoritative item remains open until exact accepted evidence exists.
 
     Research result flags and package counts are never inferred as acceptance.
@@ -108,11 +129,16 @@ def completion(graph,selected,needs):
         reason='Exact item-to-candidate allocation and accepted detail/verification evidence remain unbound') for item in graph['items']]
     packages=[dict(id=p['id'],domain=p['domain'],state='open',required_gates=p['required_gates'],
         completion_artifacts=p['completion_artifacts'],dependencies=p['dependencies']) for p in graph['packages']]
-    kinds={c['kind'] for c in selected};families={c['group'] for c in selected}
+    families={c['group'] for c in selected}
     required={'mechanical-detail','mechanical-equipment-study','software-logic','software-receiver','integration'}
     required|={'civil-kit-study/'+a+'/bay' for a in ('large-span','segmental','light-ribbed')}
     required.add('civil-kit-study/large-span/station')
-    return dict(schema='osr-completion-ledger/1',items=items,packages=packages,open_needs=needs,
+    from . import maturity
+    progress=maturity.annotate(graph,selected,load or load_candidate)
+    for item in items:
+        item['research_unit_evidence_ids']=progress['research_allocations'][item['id']]
+        if item['research_unit_evidence_ids']:item['reason']='Representative research units are allocated; accepted section-specific design and qualification evidence remain open'
+    return dict(schema='osr-completion-ledger/2',**progress,items=items,packages=packages,open_needs=needs,
         missing_research_representatives=sorted(required-families),
         accepted_components=0,required_components=len(items),required_packages=len(packages),
         state='provisional-research-package',
@@ -125,7 +151,7 @@ def completion(graph,selected,needs):
 
 def identity(choices,binding):
     return core.digest(dict(baseline=binding['baseline_sha256'],sources=sources(),
-        selected=[dict(group=c['group'],key=c['row']['key'],receipt=c['row']['receipt_sha'],
+        selected=[dict(group=c['group'],roles=c.get('selection_roles',[]),key=c['row']['key'],receipt=c['row']['receipt_sha'],
             confirmation=c['confirmation']['receipt_sha'] if c['confirmation'] else None) for c in choices]))
 
 
@@ -146,7 +172,7 @@ def archive_jobs(store,baseline,choices,destination):
     while pending:
         key=pending.pop()
         if key in rows:continue
-        if len(rows)>=32:raise ValueError('evidence dependency budget exceeded')
+        if len(rows)>=64:raise ValueError('evidence dependency budget exceeded')
         row=store.db.execute('SELECT * FROM jobs WHERE key=?',(key,)).fetchone();result,receipt=verified_job(store,row,baseline)
         rows[key]=(row,result,receipt);task=json.loads(row['task']);pending+=task.get('parameters',{}).get('children',[])
         if task['kind'] in tasks.CONFIRMABLE:
@@ -213,10 +239,31 @@ def verify(package,*,media=False):
     ledger=core.read(package/'completion.json',maximum=20_000_000)
     if ledger['accepted_components']!=0 or ledger['design_complete'] is not False:raise ValueError('unsupported completion claim')
     selected=core.read(package/'selection.json',maximum=20_000_000)
+    requirements=package/'requirements.json.gz'
+    if core.sha(requirements)!=binding['source_sha256'].get(REQUIREMENTS_PATH):raise ValueError('completion requirements differ from source epoch')
+    graph=json.loads(gzip.decompress(requirements.read_bytes()))
+    def load(candidate,name,*,confirmation=False):
+        key=candidate.get('confirmation_key') if confirmation else candidate['key']
+        return members.get(str(key)+'/'+name)
+    expected_ledger=completion(graph,selected,core.read(package/'open-needs.json'),load=load)
+    if ledger!=expected_ledger:raise ValueError('completion maturity differs from archived evidence')
+    if len({c['id'] for c in selected})!=len(selected):raise ValueError('duplicate export identity')
     for candidate in selected:
         key=candidate['key'];record=m['jobs'][key];result=json.loads(members[key+'/result.json'])
         if candidate['task']!=record['task'] or candidate['receipt_sha256']!=record['receipt_sha256'] or not result['study_pass']:
             raise ValueError('selected candidate evidence differs')
+        folder=package/'models'/safe(candidate['id'])
+        if candidate['kind']!=record['task']['kind']:raise ValueError('exported kind differs from archived task')
+        for field,expected_value in result_fields(result).items():
+            if candidate.get(field)!=expected_value:raise ValueError('exported '+field+' differs from archived result')
+        if core.read(folder/'summary.json',maximum=20_000_000)!=candidate:raise ValueError('exported summary differs from selection')
+        if (folder/'result.json').read_bytes()!=members[key+'/result.json']:raise ValueError('exported result differs from archived result')
+        for name in ('generated-controller.py','generated-receiver.py','manufacturing-units.csv','delivery-schedule.json','qa-travellers.json'):
+            raw=key+'/output/'+name;compressed=name.endswith('.json');copy=folder/(name+'.gz' if compressed else name)
+            if raw in members:
+                data=gzip.decompress(copy.read_bytes()) if compressed else copy.read_bytes()
+                if data!=members[raw]:raise ValueError('exported '+name+' differs from archived evidence')
+            elif copy.exists():raise ValueError('exported file has no archived evidence: '+name)
         if candidate['kind'] in PHYSICAL:
             confirmation=candidate['confirmation_key'];task=m['jobs'][confirmation]['task']
             if task['parameters']['child']!=key:raise ValueError('native confirmation targets another candidate')
@@ -250,7 +297,15 @@ def verify(package,*,media=False):
             if media:
                 import subprocess
                 subprocess.run(['ffmpeg','-nostdin','-v','error','-i',str(folder/safe(visual['video'])),'-f','null','-'],check=True,capture_output=True,timeout=60)
+    from . import visuals
+    for name,text in visuals.report_files(selected,ledger).items():
+        if (package/name).read_bytes()!=text.encode():raise ValueError('displayed report differs from receipt-bound inputs: '+name)
     return dict(verified=True,files=len(m['files_sha256']),jobs=len(m['jobs']),bytes=size,design_complete=False)
+
+
+def result_fields(result):
+    return dict(metrics=result.get('metrics',{}),scope=result.get('scope'),verification=result.get('verification'),
+        outstanding=result.get('open_evidence',result.get('needs',[])))
 
 
 def build(workspace,output,qualification):
@@ -260,7 +315,9 @@ def build(workspace,output,qualification):
     prepared=inspect(workspace);before=sources();q=core.read(qualification,maximum=20_000_000)
     if not q['passed'] or q['sources']!=before:raise ValueError('passing exact-source publication qualification required')
     if q['log_sha256']!=core.sha(Path(qualification).with_name('tests.log')):raise ValueError('qualification log changed')
-    output.mkdir(parents=True);core.write(output/'baseline.json',prepared['binding']);core.write(output/'completion.json',prepared['ledger'])
+    output.mkdir(parents=True);(output/'requirements.json.gz').write_bytes((core.ROOT/REQUIREMENTS_PATH).read_bytes())
+    core.write(output/'open-needs.json',prepared['ledger']['open_needs'])
+    core.write(output/'baseline.json',prepared['binding']);core.write(output/'completion.json',prepared['ledger'])
     core.write(output/'qualification.json',q);(output/'tests.log').write_bytes(Path(qualification).with_name('tests.log').read_bytes())
     with snapshot(workspace) as (store,active):
         if active!=prepared['active']:raise ValueError('source epoch changed during publication')
@@ -270,12 +327,11 @@ def build(workspace,output,qualification):
     selected=[]
     for i,c in enumerate(prepared['choices']):
         name=c['group'].replace('/','-');folder=output/'models'/name;folder.mkdir(parents=True)
-        entry=dict(id=name,group=c['group'],kind=c['kind'],task=c['task'],key=c['row']['key'],
-            receipt_sha256=c['row']['receipt_sha'],metrics=c['result'].get('metrics',{}),scope=c['result'].get('scope'),
-            verification=c['result'].get('verification'),outstanding=c['result'].get('open_evidence',c['result'].get('needs',[])),
+        entry=dict(id=name,group=c['group'],comparison_group=c['comparison_group'],selection_roles=c['selection_roles'],kind=c['kind'],task=c['task'],key=c['row']['key'],
+            receipt_sha256=c['row']['receipt_sha'],**result_fields(c['result']),
             confirmation_key=c['confirmation']['key'] if c['confirmation'] else None)
         if c['kind'] in PHYSICAL:entry['visualisation']=visuals.generate(c,folder)
-        core.write(folder/'result.json',c['result'])
+        (folder/'result.json').write_bytes((Path(c['row']['folder'])/'result.json').read_bytes())
         original=Path(c['row']['folder'])/'output'
         for source_name in ('generated-controller.py','generated-receiver.py','manufacturing-units.csv'):
             if (original/source_name).is_file():(folder/source_name).write_bytes((original/source_name).read_bytes())

@@ -103,11 +103,79 @@ def maintain(workspace,*,now=None):
     finally:db.close()
 
 
+def recover_publication(repository,state_path,*,push):
+    """Resume an owned transaction before considering fresh design selections.
+
+    A crash after commit but before recording it is recovered from the exact
+    parent, manifest and path-limited diff. Push only that recorded commit.
+    """
+    if not state_path.exists():return None
+    state=core.read(state_path)
+    if state['repository']!=str(repository):raise ValueError('publication recovery repository differs')
+    if state['phase']=='pushed':
+        stage=Path(state['stage'])
+        if stage.parent==state_path.parent and stage.name.startswith('package-') and stage.is_dir() and not stage.is_symlink():shutil.rmtree(stage)
+        return None
+    if state['phase']=='built':
+        stage=Path(state['stage'])
+        if stage.parent!=state_path.parent or stage.is_symlink() or not stage.name.startswith('package-'):
+            raise ValueError('publication recovery stage is not owned')
+        pipeline.verify(stage)
+        if core.sha(stage/'manifest.json')!=state['manifest_sha256']:raise ValueError('publication recovery manifest changed')
+        head=git(repository,'rev-parse','HEAD')
+        if head==state['parent']:
+            dirty=git(repository,'status','--porcelain')
+            if dirty:
+                # Atomic replacement may have completed before a crash. Only
+                # the exact already-verified target generation may be committed.
+                target=repository/DESTINATION;pipeline.verify(target)
+                if core.sha(target/'manifest.json')!=state['manifest_sha256']:
+                    raise ValueError('publication recovery target changed')
+                names=git(repository,'diff','HEAD','--name-only').splitlines()+git(repository,'ls-files','--others','--exclude-standard').splitlines()
+                if any(not n.startswith(DESTINATION+'/') for n in names):raise ValueError('unrelated recovery edits')
+                manifest=core.read(target/'manifest.json',maximum=20_000_000)
+                if not all((repository/n).is_file() and core.sha(repository/n)==d for n,d in manifest['publisher_sources'].items()):raise ValueError('recovery qualification sources changed')
+                if git(repository,'rev-parse','--abbrev-ref','HEAD')!='main':raise ValueError('recovery requires main')
+                git(repository,'add','--',DESTINATION)
+                git(repository,'commit','-m','Publish confirmed design evidence, completion gates and assembly videos')
+                head=git(repository,'rev-parse','HEAD')
+            else:
+                result=commit_package(repository,stage,expected_head=state['parent'])
+                if not result.get('changed'):raise ValueError('recovery produced no owned publication commit')
+                head=result['commit']
+        if git(repository,'rev-parse',head+'^')!=state['parent']:raise ValueError('publication recovery parent changed')
+        names=git(repository,'diff-tree','--no-commit-id','--name-only','-r',head).splitlines()
+        if not names or any(not n.startswith(DESTINATION+'/') for n in names):raise ValueError('publication recovery commit has unrelated paths')
+        # Read committed bytes, not mutable working-copy bytes.
+        import hashlib
+        committed=subprocess.run(['git','-C',str(repository),'show',head+':'+DESTINATION+'/manifest.json'],check=True,capture_output=True,timeout=30).stdout
+        if hashlib.sha256(committed).hexdigest()!=state['manifest_sha256']:raise ValueError('publication recovery committed manifest differs')
+        state.update(phase='committed',commit=head);core.write(state_path,state)
+    if state['phase']!='committed':raise ValueError('unknown publication transaction phase')
+    commit=state['commit']
+    if git(repository,'rev-parse',commit+'^')!=state['parent']:raise ValueError('publication retry parent differs')
+    names=git(repository,'diff-tree','--no-commit-id','--name-only','-r',commit).splitlines()
+    if not names or any(not n.startswith(DESTINATION+'/') for n in names):raise ValueError('publication retry includes unrelated paths')
+    import hashlib
+    committed=subprocess.run(['git','-C',str(repository),'show',commit+':'+DESTINATION+'/manifest.json'],check=True,capture_output=True,timeout=30).stdout
+    if hashlib.sha256(committed).hexdigest()!=state['manifest_sha256']:raise ValueError('publication retry manifest differs')
+    if not push:return dict(changed=True,commit=state['commit'],pushed=False,phase='committed',recovered=True)
+    # Explicit commit refspec cannot accidentally push unrelated later edits.
+    git(repository,'push','origin',state['commit']+':refs/heads/main')
+    state.update(phase='pushed',pushed_unix=time.time());core.write(state_path,state)
+    stage=Path(state['stage'])
+    if stage.parent==state_path.parent and stage.name.startswith('package-') and stage.is_dir() and not stage.is_symlink():shutil.rmtree(stage)
+    return dict(changed=True,commit=state['commit'],pushed=True,phase='pushed',recovered=True)
+
+
 def cycle(workspace,repository,qualification,*,push=False,force=False):
     workspace=Path(workspace).resolve();root=workspace/'publications';root.mkdir(exist_ok=True)
     with (root/'.lock').open('a') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
-        repository=Path(repository).resolve();head=git(repository,'rev-parse','HEAD')
+        repository=Path(repository).resolve();state_path=root/'transaction.json'
+        recovered=recover_publication(repository,state_path,push=push)
+        if recovered:return recovered
+        head=git(repository,'rev-parse','HEAD')
         if git(repository,'status','--porcelain'):raise ValueError('publication waits for a clean source checkout')
         state=pipeline.inspect(workspace);existing=repository/DESTINATION/'manifest.json'
         if existing.exists():
@@ -120,13 +188,19 @@ def cycle(workspace,repository,qualification,*,push=False,force=False):
         try:
             pipeline.build(workspace,stage,qualification)
             if pipeline.inspect(workspace)['signature']!=state['signature']:raise ValueError('live selection changed before Git publication')
-            result=commit_package(repository,stage,expected_head=head,push=push)
-            return result
-        finally:
-            # Only this call's disposable staging generation is removed. Final
-            # Git package, tests, previous retained evidence and worker data stay.
-            if stage.exists():shutil.rmtree(stage)
-            history=root/'history'
-            if history.exists():
-                owned=sorted((p for p in history.iterdir() if p.is_dir() and not p.is_symlink() and (p.name.startswith('previous-') or p.name.startswith('continuous-delivery-'))),key=lambda p:p.stat().st_mtime,reverse=True)
-                for old in owned[2:]:shutil.rmtree(old)
+        except BaseException:
+            # No Git mutation or journal exists yet; discard only this call's
+            # failed scratch build. Journalled generations remain recoverable.
+            if stage.is_dir() and not stage.is_symlink():shutil.rmtree(stage)
+            raise
+        # Persist built state BEFORE any working-tree/Git mutation. Keep stage
+        # until successful push so either side of a crash can be reconstructed.
+        transaction=dict(schema='osr-publication-transaction/1',phase='built',repository=str(repository),
+            stage=str(stage),parent=head,signature=state['signature'],manifest_sha256=core.sha(stage/'manifest.json'))
+        core.write(state_path,transaction)
+        result=recover_publication(repository,state_path,push=push)
+        history=root/'history'
+        if history.exists():
+            owned=sorted((p for p in history.iterdir() if p.is_dir() and not p.is_symlink() and (p.name.startswith('previous-') or p.name.startswith('continuous-delivery-'))),key=lambda p:p.stat().st_mtime,reverse=True)
+            for old in owned[2:]:shutil.rmtree(old)
+        return result
