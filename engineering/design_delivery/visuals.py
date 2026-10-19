@@ -81,9 +81,13 @@ def frame(mesh,visible,destination,title,caption,angle=24):
         polygons.extend(np.stack([faces@right,faces@up],axis=2));depth.extend(faces@camera);colors.extend(shades[:,None]*np.array(to_rgb(color)))
     fig=plt.figure(figsize=(9.6,5.4),dpi=100,facecolor='#f5f7fa');ax=fig.add_axes([.04,.22,.92,.56]);ax.axis('off')
     if polygons:
-        from matplotlib.collections import PolyCollection
-        order=np.argsort(np.mean(depth,axis=1));ax.add_collection(PolyCollection(np.array(polygons)[order],facecolors=np.array(colors)[order],linewidths=0))
-    ax.set_xlim(lo[0]-pad,hi[0]+pad);ax.set_ylim(lo[1]-pad,hi[1]+pad);ax.set_aspect('equal')
+        import runpy
+        from engineering.twin_workflow import core
+        rasterize=runpy.run_path(str(core.ROOT/'tools/automation/design-progress.py'))['rasterize']
+        # Degenerate non-rendering anchors keep the full-model camera framing
+        # fixed across milestones. Opaque z-buffering hides embedded solids.
+        polygons.extend([[lo.tolist()]*3,[hi.tolist()]*3]);depth.extend([[-1e12]*3,[-1e12]*3]);colors.extend([[1.,1.,1.],[1.,1.,1.]])
+        ax.imshow(rasterize(polygons,depth,colors,width=960,height=360),interpolation='lanczos')
     fig.text(.04,.92,title[:100],fontsize=14,color='#18384c');fig.text(.04,.84,caption[:120],fontsize=9)
     fig.text(.04,.12,'Provisional native geometry | sequence illustration; no motion, collision or strength proof',fontsize=9)
     fig.text(.04,.06,'Detailed reinforcement, connections, services and physical acceptance remain open.',fontsize=9)
