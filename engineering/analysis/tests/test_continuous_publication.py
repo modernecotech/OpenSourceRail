@@ -388,3 +388,17 @@ def test_exported_manufacturing_and_executable_copies_match_originals(tmp_path,n
     path=package/'models/software-logic'/(name+'.gz' if name.endswith('.json') else name)
     path.write_bytes(gzip.compress(b'changed\n') if name.endswith('.json') else b'changed\n');reseal(package)
     with pytest.raises(ValueError,match='exported'):pipeline.verify(package)
+
+
+def test_pi_beam_requirement_is_not_allocated_to_other_deck_types():
+    from engineering.design_delivery import maturity
+    graph=dict(items=[dict(id='pi-only',catalogue_id='OSR-TYPE-D36A7871D9B7',required_detail_sections=['geometry'])])
+    unit=dict(id='deck',revision='unit-revision',category='deck',physical_part_ids=[])
+    choice=dict(kind='civil-kit-study',key='a'*64)
+    for architecture in ('large-span','segmental','light-ribbed'):
+        kit=dict(units=[unit],variables={'architecture':architecture},operation_graph={'joints':[]})
+        def load(c,name,*,confirmation=False):
+            if confirmation:return None
+            return core.encoded(kit if name.endswith('civil-kit.json') else {'checks':{}})
+        ledger=maturity.annotate(graph,[choice],load)
+        assert bool(ledger['research_allocations']['pi-only'])==(architecture=='large-span')

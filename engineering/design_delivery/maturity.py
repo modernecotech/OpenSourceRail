@@ -40,7 +40,8 @@ def annotate(graph,selected,load):
             checks={n:v for n,v in result.get('checks',{}).items() if n.startswith('handling/'+uid+'/')}
             numerical={n:v for n,v in proof.get('checks',{}).items() if n.startswith(uid+'/')}
             joint_ids=sorted(j['id'] for j in joints if uid in j.get('endpoints',[]))
-            mapped=[i for i in graph['items'] if CIVIL_ALLOCATIONS.get(i.get('catalogue_id'))==unit['category']]
+            mapped=[i for i in graph['items'] if CIVIL_ALLOCATIONS.get(i.get('catalogue_id'))==unit['category']
+                and (i.get('catalogue_id')!='OSR-TYPE-D36A7871D9B7' or kit['variables']['architecture']=='large-span')]
             evidence_id=key+'/'+uid
             entry=dict(id=evidence_id,candidate_key=key,unit_id=uid,unit_revision=unit['revision'],category=unit['category'],
                 requirement_item_ids=[i['id'] for i in mapped],joint_ids=joint_ids,part_ids=part_ids,
