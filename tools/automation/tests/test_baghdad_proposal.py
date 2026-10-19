@@ -320,6 +320,12 @@ def test_current_energy_and_repayment_text_tracks_generated_scenario():
     assert f'{energy.scheduled_daily_train_journeys:,.0f} one way journeys' in text
     assert f'{energy.scheduled_daily_train_km:,.0f} train km per day' in text
     assert f'{energy.annual_energy_kwh/1e6:,.1f} GWh annual traction demand' in text
+    pv_mw = sum(site.get('pv_nameplate_kw', 0) for site in scenario['sites'])/1000
+    storage_mwh = sum(site.get('storage_capacity_kwh', 0) for site in scenario['sites'])/1000
+    charging_mw = sum(station.get('charging_power_kw', 0) for station in scenario['stations'])/1000
+    assert f'{pv_mw:,.1f} MW station/depot PV' in text
+    assert f'{storage_mwh:,.1f} MWh site storage' in text
+    assert f'{charging_mw:,.1f} MW connected charging' in text
     metrics = json.loads((CITY/'engineering/programme-recalculation/summary.json').read_text())['finance_cases']['local_positive']
     if metrics['terminal_all_debt_iqd'] < 1 and metrics['unfunded_support_iqd'] < 1:
         assert 'repay debt within this scenario' in text
