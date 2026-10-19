@@ -247,8 +247,14 @@ def write_ifc(output, plan, variants, city_slug):
     reopened = ifcopenshell.open(str(output))
     if len(reopened.by_type('IfcElementAssembly')) != len(plan['instances']): raise ValueError('IFC station count mismatch')
     if len({p.GlobalId for p in reopened.by_type('IfcRoot')}) != len(reopened.by_type('IfcRoot')): raise ValueError('Duplicate IFC identity')
+    import ifcopenshell.validate
+    schema_log = ifcopenshell.validate.json_logger()
+    ifcopenshell.validate.validate(reopened, schema_log)
+    if schema_log.statements:
+        raise ValueError('Federation IFC schema findings: ' + str(schema_log.statements[:3]))
     return dict(schema=f.schema, station_instances=len(elements), variant_geometry=counts,
-        representation_reuse='nested IfcRepresentationMap/IfcMappedItem; source body geometry retained once per variant', reopen_validated=True)
+        representation_reuse='nested IfcRepresentationMap/IfcMappedItem; source body geometry retained once per variant',
+        reopen_validated=True, schema_validated=True, schema_findings=0)
 
 
 def preview(output, model, plan, variants, *, video=True):
@@ -339,7 +345,7 @@ def generate(city, output=None, root=ROOT):
     else:
         (output / 'model.ifc').unlink(missing_ok=True)
         model = dict(schema=None, station_instances=len(plan['instances']), geometry_instances=0,
-            variant_geometry={}, reopen_validated=False)
+            variant_geometry={}, reopen_validated=False, schema_validated=False)
     missing = sorted(set(variants) - set(available))
     model['missing_geometry_variants'] = missing
     model['geometry_status'] = 'geometry-unavailable' if not available else 'partial-geometry' if missing else 'placed-retained-geometry'

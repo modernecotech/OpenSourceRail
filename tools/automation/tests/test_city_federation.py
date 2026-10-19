@@ -51,6 +51,8 @@ def test_actual_geometry_reused_at_each_station_with_source_product_transform(tm
     assert report['model']['station_instances'] == 2
     assert len(report['model']['variant_geometry']) == 1
     assert report['manufacturing_release'] is False
+    assert report['model']['schema_validated'] is True
+    assert report['model']['schema_findings'] == 0
     assert report['media']['native_vertex_count'] == 8
     assert report['media']['native_triangle_count'] == 12
     assert report['media']['source_variant'] == 'variant-001'
