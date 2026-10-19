@@ -1,0 +1,715 @@
+{
+  "families": [
+    {
+      "adapter": "engineering.assembly_design.models",
+      "design_complete": false,
+      "id": "service-cassette",
+      "limitations": "finite pilot domain; electrical/HVAC/connection qualification open",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "steel sheet/RHS and exact bought-out envelopes",
+      "qualification": "exact-source assembly qualification required",
+      "registered_for_bounded_design": true,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {
+        "bolt_diameter_m": [
+          0.016,
+          0.02
+        ],
+        "duct_area_m2": [
+          0.01,
+          0.02,
+          0.03
+        ],
+        "rail_wall_m": [
+          0.002,
+          0.003,
+          0.004
+        ]
+      }
+    },
+    {
+      "adapter": "engineering.assembly_design.models",
+      "design_complete": false,
+      "id": "bearing-seat",
+      "limitations": "complete reference reaction ledger; ground/resistance/supplier ratings held",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "drilled steel plate and purchased bearing boundary",
+      "qualification": "exact-source assembly qualification required",
+      "registered_for_bounded_design": true,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {
+        "bearing_family": [
+          "elastomeric-reference",
+          "uk-spherical-candidate"
+        ],
+        "bolt_diameter_m": [
+          0.02,
+          0.024,
+          0.027
+        ],
+        "plate_thickness_m": [
+          0.02,
+          0.03,
+          0.04
+        ]
+      }
+    },
+    {
+      "adapter": "engineering.assembly_design.structural_bay",
+      "design_complete": false,
+      "id": "structural-bay",
+      "limitations": "isolated provisional bay; local/modal/fatigue/whole-vehicle exits open",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "stock RHS, sheet floor and bolted equipment interfaces",
+      "qualification": "exact-source assembly qualification required",
+      "registered_for_bounded_design": true,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {
+        "crossmember_count": [
+          2,
+          3
+        ],
+        "floor_thickness_m": [
+          0.003,
+          0.004
+        ],
+        "rail_wall_m": [
+          0.003,
+          0.004,
+          0.005
+        ]
+      }
+    },
+    {
+      "adapter": "engineering.integration_programme.joints",
+      "design_complete": false,
+      "id": "joints-brackets",
+      "limitations": "generator/resistance benchmark registration required",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "elastic bolt groups and local connection models",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    },
+    {
+      "adapter": "engineering.design_engine.roof_shell",
+      "design_complete": false,
+      "id": "composite-panels",
+      "limitations": "hot-wet/fire/insert/contact qualification required; retain known roof failures",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "compatible laminate/core/bond/finish bundles",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    },
+    {
+      "adapter": "engineering.assembly_design.cassette_system",
+      "design_complete": false,
+      "id": "harness",
+      "limitations": "mating routing, ampacity/derating/protection/physical acceptance held",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "exact solder-contact LV reference kits",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    },
+    {
+      "adapter": "engineering.assembly_design.cassette_system",
+      "design_complete": false,
+      "id": "duct",
+      "limitations": "fan/refrigerant maps and calibrated rig required",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "sheet duct and bounded air/heat/moisture model",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    },
+    {
+      "adapter": "engineering.integration_programme.battery",
+      "design_complete": false,
+      "id": "battery-enclosure",
+      "limitations": "mechanical/cooling/fire/vent and measured chemistry maps required",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "chemistry-specific bought-out battery boundary",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    },
+    {
+      "adapter": "engineering.civil_exploration.foundations",
+      "design_complete": false,
+      "id": "pile-cap-pier",
+      "limitations": "actual strata/groundwater/settlement/cyclic/calibration required",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "site-applicable pile/cap/pier forms",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    },
+    {
+      "adapter": "engineering.integration_programme.stations",
+      "design_complete": false,
+      "id": "station-modules",
+      "limitations": "new assembly adapter plus site/access/egress/connection qualification required",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "catalogue station structural/service modules",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    }
+  ],
+  "sources": [
+    {
+      "applicability": "reference-only",
+      "approved": false,
+      "document_sha256": null,
+      "evidence_state": "hold-document-not-retained",
+      "exact_part": "S355ML Declaration of Performance, 1 May 2025: thickness-dependent yield",
+      "id": "british-steel",
+      "licence": "copyright; public metadata reference only",
+      "locator": "S355ML Declaration of Performance, 1 May 2025: thickness-dependent yield",
+      "operating_envelope": {
+        "facts": [
+          {
+            "applicability": "S355ML reference grade; no automatic plate/mill or hot-temperature qualification",
+            "id": "steel.yield_by_thickness",
+            "locator": "Minimum yield strength for nominal thickness bands",
+            "status": "published-reference",
+            "unit": "m,Pa",
+            "value": [
+              [
+                0.016,
+                355000000.0
+              ],
+              [
+                0.04,
+                345000000.0
+              ]
+            ]
+          }
+        ],
+        "scope": "Section grade reference; plate sourcing, heat certificate, toughness and welding qualification remain open"
+      },
+      "publisher": "British Steel",
+      "retrieved": "2026-10-19",
+      "revision": "unconfirmed-document-revision",
+      "schema": "osr-source-card/1",
+      "uncertainty": "Published reference or family limit; derating, combined envelope and exact offered configuration not established",
+      "unit": "mixed; each fact carries its unit",
+      "url": "https://britishsteel.co.uk/media/m2mnwujw/s355ml.pdf",
+      "valid_until": null
+    },
+    {
+      "applicability": "reference-only",
+      "approved": false,
+      "document_sha256": null,
+      "evidence_state": "hold-document-not-retained",
+      "exact_part": "Designed & manufactured in the UK; product families",
+      "id": "ekspan",
+      "licence": "copyright; public metadata reference only",
+      "locator": "Designed & manufactured in the UK; product families",
+      "operating_envelope": {
+        "facts": [
+          {
+            "applicability": "Candidate supplier; exact bearing/temperature/rating to be offered",
+            "id": "bearing.uk_manufacture",
+            "locator": "Designed and manufactured in the UK",
+            "status": "published-reference",
+            "unit": "boolean",
+            "value": true
+          }
+        ],
+        "scope": "Manufacturer capability/origin statement; no offered configuration or project rating"
+      },
+      "publisher": "EKSPAN",
+      "retrieved": "2026-10-19",
+      "revision": "unconfirmed-document-revision",
+      "schema": "osr-source-card/1",
+      "uncertainty": "Published reference or family limit; derating, combined envelope and exact offered configuration not established",
+      "unit": "mixed; each fact carries its unit",
+      "url": "https://www.ekspan.com/bridge-bearings/",
+      "valid_until": null
+    },
+    {
+      "applicability": "reference-only",
+      "approved": false,
+      "document_sha256": null,
+      "evidence_state": "hold-document-not-retained",
+      "exact_part": "Advantages: operating temperatures, forces, movements and rotation",
+      "id": "freyssinet",
+      "licence": "copyright; public metadata reference only",
+      "locator": "Advantages: operating temperatures, forces, movements and rotation",
+      "operating_envelope": {
+        "facts": [
+          {
+            "applicability": "Family reference only; +70C is peak, not continuous",
+            "id": "bearing.reference_temperature",
+            "locator": "Chloroprene minimum and continuous maximum",
+            "status": "published-reference",
+            "unit": "degC",
+            "value": [
+              -25.0,
+              50.0
+            ]
+          },
+          {
+            "applicability": "Duration and combined performance require supplier confirmation",
+            "id": "bearing.reference_peak_temperature",
+            "locator": "Maximum peak temperature",
+            "status": "published-reference",
+            "unit": "degC",
+            "value": 70.0
+          }
+        ],
+        "scope": "Published family envelope; not an offered configuration, UK origin or combined-load qualification"
+      },
+      "publisher": "Freyssinet",
+      "retrieved": "2026-10-19",
+      "revision": "unconfirmed-document-revision",
+      "schema": "osr-source-card/1",
+      "uncertainty": "Published reference or family limit; derating, combined envelope and exact offered configuration not established",
+      "unit": "mixed; each fact carries its unit",
+      "url": "https://www.freyssinet.com/solution/build/bearings/elastomeric-bearings/",
+      "valid_until": null
+    },
+    {
+      "applicability": "reference-only",
+      "approved": false,
+      "document_sha256": null,
+      "evidence_state": "hold-document-not-retained",
+      "exact_part": "M80-4000000F1-10-326-00-000",
+      "id": "harwin-power",
+      "licence": "copyright; public metadata reference only",
+      "locator": "Technical details; Dimensions; Country of Origin",
+      "operating_envelope": {
+        "facts": [
+          {
+            "applicability": "LV cassette reference; no traction HV use",
+            "id": "connector.part",
+            "locator": "Product identity",
+            "status": "published-reference",
+            "unit": "part-number",
+            "value": "M80-4000000F1-10-326-00-000"
+          },
+          {
+            "applicability": "Published exact-part origin; delivered lot certification remains required",
+            "id": "connector.origin",
+            "locator": "Country of Origin",
+            "status": "published-reference",
+            "unit": "country-code",
+            "value": "GB"
+          },
+          {
+            "applicability": "Exact female connector",
+            "id": "connector.contacts",
+            "locator": "Number of Power/Coax Contacts",
+            "status": "published-reference",
+            "unit": "count",
+            "value": 10
+          },
+          {
+            "applicability": "Coordination envelope; purchased internals not modelled",
+            "id": "connector.dimensions",
+            "locator": "Dimensions: millimetres converted to metres",
+            "status": "published-reference",
+            "unit": "m",
+            "value": [
+              0.05,
+              0.0055,
+              0.013
+            ]
+          },
+          {
+            "applicability": "Published component mass; excludes cable and mating connector",
+            "id": "connector.mass",
+            "locator": "Weight: grams converted to kilograms",
+            "status": "published-reference",
+            "unit": "kg",
+            "value": 0.005722
+          },
+          {
+            "applicability": "Headline maximum; simultaneous loading/temperature derating unresolved",
+            "id": "connector.current_max",
+            "locator": "Current Rating",
+            "status": "published-reference",
+            "unit": "A/contact",
+            "value": 15.0
+          },
+          {
+            "applicability": "Connector only; not a rating for the complete cassette",
+            "id": "connector.temperature",
+            "locator": "Operating Temperature",
+            "status": "published-reference",
+            "unit": "degC",
+            "value": [
+              -55.0,
+              125.0
+            ]
+          }
+        ],
+        "scope": "Exact female connector; mating counterpart, derating and railway qualification not established"
+      },
+      "publisher": "Harwin",
+      "retrieved": "2026-10-19",
+      "revision": "unconfirmed-document-revision",
+      "schema": "osr-source-card/1",
+      "uncertainty": "Published reference or family limit; derating, combined envelope and exact offered configuration not established",
+      "unit": "mixed; each fact carries its unit",
+      "url": "https://www.harwin.com/products/M80-4000000F1-10-326-00-000",
+      "valid_until": null
+    },
+    {
+      "applicability": "reference-only",
+      "approved": false,
+      "document_sha256": null,
+      "evidence_state": "hold-document-not-retained",
+      "exact_part": "Iraq Country Profile: Climate and Development, Climate and weather table",
+      "id": "iraq-climate",
+      "licence": "copyright; public metadata reference only",
+      "locator": "Iraq Country Profile: Climate and Development, Climate and weather table",
+      "operating_envelope": {
+        "facts": [
+          {
+            "applicability": "Climatological context, not an extreme design value",
+            "id": "climate.baghdad_mean_july_max",
+            "locator": "Monthly mean maximum for July in Baghdad",
+            "status": "published-reference",
+            "unit": "degC",
+            "value": 43.0
+          },
+          {
+            "applicability": "Country-level context; location/return period not established",
+            "id": "climate.iraq_summer_max_context",
+            "locator": "June-August maxima context",
+            "status": "published-reference",
+            "unit": "degC",
+            "value": [
+              43.0,
+              50.0
+            ]
+          }
+        ],
+        "scope": "Country context supports hot-climate sensitivities; not a site-specific design return-period temperature"
+      },
+      "publisher": "Iraq / UNFCCC",
+      "retrieved": "2026-10-19",
+      "revision": "unconfirmed-document-revision",
+      "schema": "osr-source-card/1",
+      "uncertainty": "Published reference or family limit; derating, combined envelope and exact offered configuration not established",
+      "unit": "mixed; each fact carries its unit",
+      "url": "https://unfccc.int/sites/default/files/2026-01/NDC%20Report%20EN%20-%202025.pdf",
+      "valid_until": null
+    },
+    {
+      "applicability": "reference-only",
+      "approved": false,
+      "document_sha256": null,
+      "evidence_state": "hold-document-not-retained",
+      "exact_part": "Worked M20 class 8.8 bolt shear example: 0.6*800*245/1.25=94.1 kN",
+      "id": "sci-bolts",
+      "licence": "copyright; public metadata reference only",
+      "locator": "Worked M20 class 8.8 bolt shear example: 0.6*800*245/1.25=94.1 kN",
+      "operating_envelope": {
+        "facts": [
+          {
+            "applicability": "Method check for stated assumptions, not an assembly rating",
+            "id": "bolts.m20_benchmark",
+            "locator": "Worked shear example",
+            "status": "published-reference",
+            "unit": "N",
+            "value": 94100.0
+          }
+        ],
+        "scope": "Independent benchmark only; complete joint resistance and railway adoption not established"
+      },
+      "publisher": "Steel Construction Institute",
+      "retrieved": "2026-10-19",
+      "revision": "unconfirmed-document-revision",
+      "schema": "osr-source-card/1",
+      "uncertainty": "Published reference or family limit; derating, combined envelope and exact offered configuration not established",
+      "unit": "mixed; each fact carries its unit",
+      "url": "https://www.steelconstruction.info/images/5/50/Sci_p364.pdf",
+      "valid_until": null
+    },
+    {
+      "applicability": "reference-only",
+      "approved": false,
+      "document_sha256": null,
+      "evidence_state": "hold-document-not-retained",
+      "exact_part": "BS EN 50716:2023 project record",
+      "id": "software-standard",
+      "licence": "copyright; public metadata reference only",
+      "locator": "BS EN 50716:2023 project record",
+      "operating_envelope": {
+        "facts": [],
+        "scope": "Candidate software lifecycle reference; no SIL allocation or conformity claim"
+      },
+      "publisher": "BSI",
+      "retrieved": "2026-10-19",
+      "revision": "unconfirmed-document-revision",
+      "schema": "osr-source-card/1",
+      "uncertainty": "Published reference or family limit; derating, combined envelope and exact offered configuration not established",
+      "unit": "mixed; each fact carries its unit",
+      "url": "https://standardsdevelopment.bsigroup.com/projects/2022-00241",
+      "valid_until": null
+    },
+    {
+      "applicability": "reference-only",
+      "approved": false,
+      "document_sha256": null,
+      "evidence_state": "hold-document-not-retained",
+      "exact_part": "BS EN 12663-1:2010+A2:2023 catalogue metadata",
+      "id": "vehicle-standard",
+      "licence": "copyright; public metadata reference only",
+      "locator": "BS EN 12663-1:2010+A2:2023 catalogue metadata",
+      "operating_envelope": {
+        "facts": [],
+        "scope": "Candidate reference framework only; normative text/category/combinations and Iraqi project adoption remain open"
+      },
+      "publisher": "BSI",
+      "retrieved": "2026-10-19",
+      "revision": "unconfirmed-document-revision",
+      "schema": "osr-source-card/1",
+      "uncertainty": "Published reference or family limit; derating, combined envelope and exact offered configuration not established",
+      "unit": "mixed; each fact carries its unit",
+      "url": "https://knowledge.bsigroup.com/products/railway-applications-structural-requirements-of-railway-vehicle-bodies-locomotives-and-passenger-rolling-stock-and-alternative-method-for-freight-wagons-1",
+      "valid_until": null
+    },
+    {
+      "applicability": "Provisional cassette reference, not traction or safety authorisation",
+      "approved": false,
+      "document_sha256": "cfd043f736bd3e8e13dc2171c3348273faa71b1e939a665f1a3f7fbb15cf7ea6",
+      "exact_part": "M80-4000000F1-10-326-00-000",
+      "id": "harwin-female",
+      "licence": "Public access; publisher copyright; linked, not redistributed",
+      "locator": "Kit description; technical details; related mating products",
+      "operating_envelope": "14 AWG M80-326 solder contacts; headline 15 A/contact, not simultaneous derating",
+      "publisher": "Harwin",
+      "retrieved": "2026-10-19",
+      "revision": "product page retrieved 2026-10-19",
+      "uncertainty": "Application derating and actual supplied revision unconfirmed",
+      "units": [
+        "AWG",
+        "A"
+      ],
+      "url": "https://www.harwin.com/products/M80-4000000F1-10-326-00-000"
+    },
+    {
+      "applicability": "Provisional cassette reference, not traction or safety authorisation",
+      "approved": false,
+      "document_sha256": "3627635ba8a4e3aae9caa530a9804f4cfb9bf09961c7af920f0c2ea143c51ff6",
+      "exact_part": "M80-5000000M1-10-335-00-000",
+      "id": "harwin-male",
+      "licence": "Public access; publisher copyright; linked, not redistributed",
+      "locator": "Kit description; related mating products includes exact female",
+      "operating_envelope": "12 AWG M80-335 solder contacts, internally threaded jackscrews",
+      "publisher": "Harwin",
+      "retrieved": "2026-10-19",
+      "revision": "product page retrieved 2026-10-19",
+      "uncertainty": "Offered stock and system suitability unconfirmed",
+      "units": [
+        "AWG"
+      ],
+      "url": "https://www.harwin.com/products/M80-5000000M1-10-335-00-000"
+    },
+    {
+      "applicability": "Provisional cassette reference, not traction or safety authorisation",
+      "approved": false,
+      "document_sha256": "7d073de0c992e7678bb866a86d4068ff451876e3c9fd89d1475478a8548b5698",
+      "exact_part": "M80-326/M80-335",
+      "id": "harwin-is52",
+      "licence": "Public access; publisher copyright; linked, not redistributed",
+      "locator": "pp2-5 cable assembly, insertion/removal, appendix 1",
+      "operating_envelope": "Minimum strip 5 mm; solder before insertion; Z80-290 removal tool",
+      "publisher": "Harwin",
+      "retrieved": "2026-10-19",
+      "revision": "IS-52 issue 2, 2023-02-01",
+      "uncertainty": "Solder alloy, iron profile and rail workmanship qualification not supplied",
+      "units": [
+        "mm"
+      ],
+      "url": "https://content.harwin.com/asset/e1364346-f61c-4492-9ac1-d501ed4f9674/IS-52-IS-52-Datamate-Mix-Tek-Assembly-and-Contact-Removal-Instruction-Sheet.pdf"
+    },
+    {
+      "applicability": "Provisional cassette reference, not traction or safety authorisation",
+      "approved": false,
+      "document_sha256": "7f794408a92cd98f9b1e1b29b8e6c8f4809a8f63fff3253cddfc87bf94dded38",
+      "exact_part": "Datamate M80 power",
+      "id": "harwin-c005",
+      "licence": "Public access; publisher copyright; linked, not redistributed",
+      "locator": "p5 section2.3 power; p8 mating face numbering; appendix5 jackscrews",
+      "operating_envelope": "Power contact maximum resistance 6 milliohm; female face numbering mirrored",
+      "publisher": "Harwin",
+      "retrieved": "2026-10-19",
+      "revision": "C00542, 2024-10-22",
+      "uncertainty": "Condition-specific operating resistance and installed life unconfirmed",
+      "units": [
+        "ohm"
+      ],
+      "url": "https://content.harwin.com/m/af82fc432c606a31/original/C005-C005XX-Component-Specification-Datamate-M80-and-M83-Series-2-00mm-4-00mm-pitch-High-Reliability.pdf"
+    },
+    {
+      "applicability": "Provisional cassette reference, not traction or safety authorisation",
+      "approved": false,
+      "document_sha256": "744a54d430e519ab93c8fb6f1ae91434f513bb62187314126688ab29255acea6",
+      "exact_part": "Datamate Power cable assemblies",
+      "id": "harwin-c049",
+      "licence": "Public access; publisher copyright; linked, not redistributed",
+      "locator": "Datamate Power column, materials and testing rows",
+      "operating_envelope": "FIT221-1/8-0 heat shrink reference for non-PM5/PF5 power contacts",
+      "publisher": "Harwin",
+      "retrieved": "2026-10-19",
+      "revision": "C04913 issue13",
+      "uncertainty": "Referenced sleeve is not an adopted OSR rail fire-qualified installation",
+      "units": [],
+      "url": "https://content.harwin.com/asset/d8c6ba59-643e-4a53-a135-7db78cfadb90/C049-C049XX-Component-Specification-Cable-Assembly-Specifications-for-all-HRi-products.pdf"
+    }
+  ],
+  "standards": {
+    "adopted": false,
+    "design_complete": false,
+    "entries": [
+      {
+        "affected": [
+          "analysis",
+          "tests",
+          "qa",
+          "supplier-qualification"
+        ],
+        "edition": "2026 edition 3.0",
+        "id": "IEC61373",
+        "impact_review": [
+          "mounting category and operating environment",
+          "updated functional spectra and long-life acceleration method",
+          "fixture qualification and sequence",
+          "traction-motor/mechanical-only substructure exclusions",
+          "review old receipts before reuse; no automatic edition migration"
+        ],
+        "publication_date": "2026-07-17",
+        "replaces": "2010 edition 2.0",
+        "scope": "Rolling-stock attached equipment shock/vibration; main vehicle structure and fixing bolts not evaluated",
+        "url": "https://webstore.iec.ch/en/publication/68999"
+      },
+      {
+        "affected": [
+          "battery-duty",
+          "electrothermal",
+          "tests",
+          "qa"
+        ],
+        "chemistry": "lithium-ion",
+        "edition": "2017 edition 1.0",
+        "id": "IEC62928",
+        "publication_date": "2017-12-07",
+        "scope": "Onboard lithium-ion traction battery design, operation and tests",
+        "url": "https://webstore.iec.ch/en/publication/31101"
+      }
+    ],
+    "equipment_category": null,
+    "jurisdiction": "Iraq; project adoption not established",
+    "licensed_text_available": false,
+    "manufacturing_release": false,
+    "physical_release": false,
+    "physical_validation": false,
+    "retrieved": "2026-10-19",
+    "review_state": "hold-licensed-text-category-and-authority",
+    "schema": "osr-standards-register/1"
+  }
+}

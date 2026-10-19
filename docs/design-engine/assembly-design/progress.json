@@ -1,17 +1,2610 @@
 {
-  "controller_scope": "Automatic parameter/design generation and scoped verification for two registered pilot assemblies plus executable cassette software; remaining components require generator/evaluator development",
+  "closure": {
+    "design_complete": false,
+    "engineering_closed_tasks": 0,
+    "manufacturing_release": false,
+    "packages": [
+      {
+        "dependencies": [],
+        "exit_state": "open",
+        "id": "WP00",
+        "independent_reviewer": null,
+        "owner": null,
+        "page": 3,
+        "role": "Systems/configuration"
+      },
+      {
+        "dependencies": [
+          "WP00"
+        ],
+        "exit_state": "open",
+        "id": "WP01",
+        "independent_reviewer": null,
+        "owner": null,
+        "page": 3,
+        "role": "CAD/BIM/data"
+      },
+      {
+        "dependencies": [
+          "WP00",
+          "WP01"
+        ],
+        "exit_state": "open",
+        "id": "WP02",
+        "independent_reviewer": null,
+        "owner": null,
+        "page": 2,
+        "role": "Loads/integration"
+      },
+      {
+        "dependencies": [
+          "WP01",
+          "WP02"
+        ],
+        "exit_state": "open",
+        "id": "WP03",
+        "independent_reviewer": null,
+        "owner": null,
+        "page": 4,
+        "role": "Mechanical/composites"
+      },
+      {
+        "dependencies": [
+          "WP01",
+          "WP02"
+        ],
+        "exit_state": "open",
+        "id": "WP04",
+        "independent_reviewer": null,
+        "owner": null,
+        "page": 5,
+        "role": "Manufacturing/assembly"
+      },
+      {
+        "dependencies": [
+          "WP00",
+          "WP01",
+          "WP02"
+        ],
+        "exit_state": "open",
+        "id": "WP05",
+        "independent_reviewer": null,
+        "owner": null,
+        "page": 6,
+        "role": "Electrical/battery"
+      },
+      {
+        "dependencies": [
+          "WP00",
+          "WP01",
+          "WP02",
+          "WP05"
+        ],
+        "exit_state": "open",
+        "id": "WP06",
+        "independent_reviewer": null,
+        "owner": null,
+        "page": 7,
+        "role": "Thermal-fluid/HVAC"
+      },
+      {
+        "dependencies": [
+          "WP00",
+          "WP01",
+          "WP02"
+        ],
+        "exit_state": "open",
+        "id": "WP07",
+        "independent_reviewer": null,
+        "owner": null,
+        "page": 8,
+        "role": "Civil/geotechnical"
+      },
+      {
+        "dependencies": [
+          "WP02",
+          "WP03",
+          "WP04",
+          "WP05",
+          "WP06",
+          "WP07"
+        ],
+        "exit_state": "open",
+        "id": "WP08",
+        "independent_reviewer": null,
+        "owner": null,
+        "page": 9,
+        "role": "Dynamics/integration"
+      },
+      {
+        "dependencies": [
+          "WP01"
+        ],
+        "exit_state": "open",
+        "id": "WP09",
+        "independent_reviewer": null,
+        "owner": null,
+        "page": 10,
+        "role": "Generative/V&V"
+      },
+      {
+        "dependencies": [
+          "WP01"
+        ],
+        "exit_state": "open",
+        "id": "WP10",
+        "independent_reviewer": null,
+        "owner": null,
+        "page": 11,
+        "role": "V&V/QA"
+      },
+      {
+        "dependencies": [
+          "WP01",
+          "WP04",
+          "WP10"
+        ],
+        "exit_state": "open",
+        "id": "WP11",
+        "independent_reviewer": null,
+        "owner": null,
+        "page": 13,
+        "role": "UI/ERP/cost"
+      },
+      {
+        "dependencies": [
+          "WP03",
+          "WP04",
+          "WP05",
+          "WP06",
+          "WP07",
+          "WP08",
+          "WP10"
+        ],
+        "exit_state": "open",
+        "id": "WP12",
+        "independent_reviewer": null,
+        "owner": null,
+        "page": 14,
+        "role": "Prototype team"
+      }
+    ],
+    "physical_release": false,
+    "physical_validation": false,
+    "pilot_contracts": {
+      "service-cassette": {
+        "coverage": {
+          "analyses": {
+            "bond-fault-duty": "unknown",
+            "duct-flow-seal-drain": "unknown",
+            "electrical-derating-protection": "unknown",
+            "environment-and-fire": "unknown",
+            "insertion-and-tool-path": "unknown",
+            "loads-and-joints": "unknown",
+            "tolerance-and-thermal-stack": "unknown"
+          },
+          "interfaces": {
+            "LV-mate": "unknown",
+            "air-flanges": "unknown",
+            "earth-bond": "unknown",
+            "locking-indication": "unknown",
+            "maintenance-access": "unknown",
+            "vehicle-mount": "unknown"
+          },
+          "operations": {
+            "bench-assembly": "unknown",
+            "disconnection": "unknown",
+            "insertion": "unknown",
+            "installed-tests": "unknown",
+            "positive-lock": "unknown",
+            "removal": "unknown",
+            "safe-isolation": "unknown",
+            "service-connection": "unknown",
+            "transport-restraint": "unknown",
+            "unlock": "unknown"
+          },
+          "parts": {
+            "bond-conductor": "unknown",
+            "clamp-lining-and-retention": "unknown",
+            "cover": "unknown",
+            "duct-seals": "unknown",
+            "harness": "unknown",
+            "mating-connectors": "unknown",
+            "positive-lock": "unknown",
+            "runners": "unknown",
+            "secondary-retention": "unknown",
+            "solder-contacts": "unknown",
+            "tray": "unknown"
+          },
+          "physical": {
+            "bond-resistance": "unknown",
+            "installed-acceptance": "unknown",
+            "leak-flow": "unknown",
+            "pull-lock": "unknown",
+            "vibration-thermal-fire": "unknown"
+          }
+        },
+        "design_complete": false,
+        "digital_specification_complete": false,
+        "failed": [],
+        "manufacturing_release": false,
+        "missing": [
+          "parts/tray",
+          "parts/runners",
+          "parts/positive-lock",
+          "parts/secondary-retention",
+          "parts/cover",
+          "parts/duct-seals",
+          "parts/clamp-lining-and-retention",
+          "parts/bond-conductor",
+          "parts/mating-connectors",
+          "parts/solder-contacts",
+          "parts/harness",
+          "interfaces/vehicle-mount",
+          "interfaces/locking-indication",
+          "interfaces/LV-mate",
+          "interfaces/earth-bond",
+          "interfaces/air-flanges",
+          "interfaces/maintenance-access",
+          "operations/bench-assembly",
+          "operations/transport-restraint",
+          "operations/insertion",
+          "operations/positive-lock",
+          "operations/service-connection",
+          "operations/installed-tests",
+          "operations/safe-isolation",
+          "operations/disconnection",
+          "operations/unlock",
+          "operations/removal",
+          "analyses/loads-and-joints",
+          "analyses/tolerance-and-thermal-stack",
+          "analyses/insertion-and-tool-path",
+          "analyses/electrical-derating-protection",
+          "analyses/bond-fault-duty",
+          "analyses/duct-flow-seal-drain",
+          "analyses/environment-and-fire",
+          "physical/pull-lock",
+          "physical/bond-resistance",
+          "physical/leak-flow",
+          "physical/vibration-thermal-fire",
+          "physical/installed-acceptance"
+        ],
+        "physical_records_complete": false,
+        "physical_release": false,
+        "physical_validation": false,
+        "pilot": "service-cassette",
+        "research_shortlist_eligible": false,
+        "revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+        "scope": "Coverage evaluation only. Authenticated external evidence and appointed authority release are separate."
+      },
+      "structural-bay": {
+        "coverage": {
+          "analyses": {
+            "buckling": "unknown",
+            "degraded": "unknown",
+            "fatigue": "unknown",
+            "fire-and-crash-applicability": "unknown",
+            "global-and-local-loads": "unknown",
+            "hot-wet-composite": "unknown",
+            "joint-resistance": "unknown",
+            "lifting-jacking": "unknown",
+            "modal": "unknown"
+          },
+          "interfaces": {
+            "adjacent-bays": "unknown",
+            "body-bogie": "unknown",
+            "doors-and-gauge": "unknown",
+            "equipment": "unknown",
+            "services": "unknown"
+          },
+          "operations": {
+            "assemble": "unknown",
+            "equipment-install": "unknown",
+            "fabrication": "unknown",
+            "inspect": "unknown",
+            "join": "unknown",
+            "repair": "unknown",
+            "teardown": "unknown"
+          },
+          "parts": {
+            "equipment-mounts": "unknown",
+            "floor": "unknown",
+            "joints": "unknown",
+            "panel-inserts": "unknown",
+            "side-roof-panels": "unknown",
+            "underframe": "unknown"
+          },
+          "physical": {
+            "joint-panel-correlation": "unknown",
+            "material-process-coupons": "unknown",
+            "measured-mass": "unknown",
+            "vehicle-validation": "unknown",
+            "weld-bond-capability": "unknown"
+          }
+        },
+        "design_complete": false,
+        "digital_specification_complete": false,
+        "failed": [],
+        "manufacturing_release": false,
+        "missing": [
+          "parts/underframe",
+          "parts/floor",
+          "parts/side-roof-panels",
+          "parts/panel-inserts",
+          "parts/equipment-mounts",
+          "parts/joints",
+          "interfaces/adjacent-bays",
+          "interfaces/body-bogie",
+          "interfaces/equipment",
+          "interfaces/doors-and-gauge",
+          "interfaces/services",
+          "operations/fabrication",
+          "operations/join",
+          "operations/inspect",
+          "operations/assemble",
+          "operations/equipment-install",
+          "operations/repair",
+          "operations/teardown",
+          "analyses/global-and-local-loads",
+          "analyses/buckling",
+          "analyses/fatigue",
+          "analyses/modal",
+          "analyses/lifting-jacking",
+          "analyses/degraded",
+          "analyses/joint-resistance",
+          "analyses/hot-wet-composite",
+          "analyses/fire-and-crash-applicability",
+          "physical/material-process-coupons",
+          "physical/joint-panel-correlation",
+          "physical/measured-mass",
+          "physical/weld-bond-capability",
+          "physical/vehicle-validation"
+        ],
+        "physical_records_complete": false,
+        "physical_release": false,
+        "physical_validation": false,
+        "pilot": "structural-bay",
+        "research_shortlist_eligible": false,
+        "revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+        "scope": "Coverage evaluation only. Authenticated external evidence and appointed authority release are separate."
+      },
+      "viaduct-bay": {
+        "coverage": {
+          "analyses": {
+            "bearing-restraint-rotation": "unknown",
+            "complete-load-reactions": "unknown",
+            "construction-stages": "unknown",
+            "crack-creep-losses": "unknown",
+            "fatigue": "unknown",
+            "ground-settlement-group": "unknown",
+            "local-global-resistance": "unknown",
+            "transport-crane-at-radius": "unknown",
+            "wind-seismic": "unknown"
+          },
+          "interfaces": {
+            "bearing-cap": "unknown",
+            "cap-pier": "unknown",
+            "corridor": "unknown",
+            "deck-bearing": "unknown",
+            "ground": "unknown",
+            "pier-foundation": "unknown",
+            "train-track": "unknown"
+          },
+          "operations": {
+            "bearing-replacement": "unknown",
+            "erection": "unknown",
+            "installed-tests": "unknown",
+            "joint-completion": "unknown",
+            "manufacture": "unknown",
+            "prestress-transfer": "unknown",
+            "strength-release": "unknown",
+            "survey": "unknown",
+            "temporary-stability": "unknown",
+            "transport": "unknown"
+          },
+          "parts": {
+            "anchors-diaphragms": "unknown",
+            "bearings": "unknown",
+            "caps": "unknown",
+            "deck": "unknown",
+            "foundations": "unknown",
+            "lifting-and-jacking": "unknown",
+            "piers": "unknown",
+            "reinforcement-prestress": "unknown",
+            "services": "unknown",
+            "trackform": "unknown",
+            "walkway-parapet": "unknown"
+          },
+          "physical": {
+            "asbuilt-installed-tests": "unknown",
+            "connection-mockups": "unknown",
+            "materials": "unknown",
+            "site-investigation": "unknown",
+            "temporary-works-acceptance": "unknown"
+          }
+        },
+        "design_complete": false,
+        "digital_specification_complete": false,
+        "failed": [],
+        "manufacturing_release": false,
+        "missing": [
+          "parts/deck",
+          "parts/reinforcement-prestress",
+          "parts/anchors-diaphragms",
+          "parts/bearings",
+          "parts/caps",
+          "parts/piers",
+          "parts/foundations",
+          "parts/trackform",
+          "parts/walkway-parapet",
+          "parts/services",
+          "parts/lifting-and-jacking",
+          "interfaces/train-track",
+          "interfaces/deck-bearing",
+          "interfaces/bearing-cap",
+          "interfaces/cap-pier",
+          "interfaces/pier-foundation",
+          "interfaces/ground",
+          "interfaces/corridor",
+          "operations/manufacture",
+          "operations/prestress-transfer",
+          "operations/transport",
+          "operations/temporary-stability",
+          "operations/erection",
+          "operations/joint-completion",
+          "operations/strength-release",
+          "operations/survey",
+          "operations/installed-tests",
+          "operations/bearing-replacement",
+          "analyses/complete-load-reactions",
+          "analyses/construction-stages",
+          "analyses/local-global-resistance",
+          "analyses/crack-creep-losses",
+          "analyses/fatigue",
+          "analyses/bearing-restraint-rotation",
+          "analyses/wind-seismic",
+          "analyses/ground-settlement-group",
+          "analyses/transport-crane-at-radius",
+          "physical/site-investigation",
+          "physical/materials",
+          "physical/connection-mockups",
+          "physical/temporary-works-acceptance",
+          "physical/asbuilt-installed-tests"
+        ],
+        "physical_records_complete": false,
+        "physical_release": false,
+        "physical_validation": false,
+        "pilot": "viaduct-bay",
+        "research_shortlist_eligible": false,
+        "revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+        "scope": "Coverage evaluation only. Authenticated external evidence and appointed authority release are separate."
+      }
+    },
+    "prototype": {
+      "architecture": "baghdad-six-car",
+      "battery_chemistry": "lfp",
+      "bogie_arrangement": {
+        "powered_per_car": 1,
+        "supplier_configuration": null,
+        "trailer_per_car": 1
+      },
+      "charging": {
+        "concept": "station/depot charging candidates",
+        "reason": "No adopted charger/concurrency/duty/thermal map",
+        "selected_configuration": null,
+        "state": "hold"
+      },
+      "conflicts": [
+        "Gross-mass planning cases are not reconciled to profile tare/passenger/axle maps; not interchangeable load definitions"
+      ],
+      "design_complete": false,
+      "door_layout": {
+        "reason": "Six-car door positions, clear openings and platform match require definition",
+        "state": "hold",
+        "value": null
+      },
+      "emergency_acceptance": {
+        "criteria": null,
+        "state": "hold"
+      },
+      "emergency_states": [
+        "loss-of-traction",
+        "loss-of-cooling",
+        "fire-isolation",
+        "rescue-tow",
+        "loss-of-auxiliary-supply"
+      ],
+      "family": "metro-6car",
+      "id": "BAGHDAD-PROTOTYPE-6C-2026-10-19",
+      "low_floor_layout": {
+        "reason": "No adopted six-car floor/door map; LM3 350/760 mm arrangement not transferred",
+        "state": "hold",
+        "value": null
+      },
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+      "route": {
+        "reason": "Surveyed route, gradient/speed histories and platform positions required",
+        "state": "hold",
+        "value": null
+      },
+      "schema": "osr-prototype-configuration/1",
+      "sensitivities": {
+        "gross_mass_cases": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "kg",
+          "value": [
+            384000.0,
+            460800.0
+          ]
+        },
+        "roof_hot_case": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "degC",
+          "value": 85
+        }
+      },
+      "source_sha256": {
+        "design/component-catalogue/src/osr_mech/rolling_stock/trainset.py": "8bcfb0f66fd4e6fdf2cc85854e101779f996111e07dcaeec34b0b5f1621929be",
+        "engineering/assembly_design/data/baseline.json": "eeff00516af22d313e1ae3bb62856102c284ae27bb8386f5873ecd3eb18a962a",
+        "engineering/data/baghdad-reference-parts.json": "5892d816571dcf4d47506c74e35a6c77565016afb577917d19ac763f2afed91c",
+        "lib/templates/rolling-stock.toml": "b0edc6de8c3ffa21b8e21044329ecd4db7aaa3254984964c7c509666f3bd3877",
+        "lib/templates/track-geometry.toml": "70590b731e73c1694cd9593bd67481a8953f20c4117f1d8671a5bda7fe1065c2"
+      },
+      "status": "frozen-provisional-software-baseline",
+      "values": {
+        "ambient": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "degC",
+          "value": 50
+        },
+        "battery_nameplate": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "kWh",
+          "value": 1350
+        },
+        "battery_usable_allocation": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "kWh",
+          "value": 1080
+        },
+        "car_count": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "count",
+          "value": 6
+        },
+        "car_length": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "m",
+          "value": 18.5
+        },
+        "crush_passengers": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "count",
+          "value": 960
+        },
+        "gauge": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "mm",
+          "value": 1435
+        },
+        "length": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "m",
+          "value": 111
+        },
+        "nominal_passengers": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "count",
+          "value": 720
+        },
+        "seats": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "count",
+          "value": 120
+        },
+        "speed_ceiling": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "m/s",
+          "value": 28
+        },
+        "tare_mass": {
+          "status": "provisional",
+          "uncertainty": null,
+          "unit": "kg",
+          "value": 204000
+        }
+      }
+    },
+    "requests": [
+      {
+        "component_revision": null,
+        "configuration_revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+        "contact_scope": "Request for data/test scoping only; not issued",
+        "design_complete": false,
+        "destinations": [
+          "NPL metrology",
+          "qualified electrical/flow and environmental lab"
+        ],
+        "fixture": {
+          "calibration": null,
+          "definition_revision": null,
+          "drawings": null,
+          "load_path_review": null,
+          "required": [
+            "instrument and fixture identities/revisions",
+            "calibration coverage and uncertainty",
+            "controlled boundary conditions",
+            "adverse and repeatability cases"
+          ]
+        },
+        "id": "RFQ-service-cassette",
+        "inputs": [
+          "exact component/unit/interface revision",
+          "approved load/duty/environment envelope",
+          "sample count and destructive-test allocation agreed with reviewer"
+        ],
+        "issued": false,
+        "manufacturing_release": false,
+        "outputs": [
+          "raw time series and units",
+          "calibration certificates",
+          "method and standard edition",
+          "temperature/humidity/supply/loading conditions",
+          "measurement uncertainty",
+          "signed lab report and separate applicable review",
+          "NCRs and retest disposition",
+          "parameter/calibration/untouched holdout split",
+          "data retention/publication rights",
+          "lead time, complete quotation and responsibilities"
+        ],
+        "physical_release": false,
+        "physical_validation": false,
+        "pilot": "service-cassette",
+        "quotation": null,
+        "selected": false,
+        "supplier": null,
+        "tests": [
+          "pull-lock",
+          "bond-resistance",
+          "leak-flow",
+          "vibration-thermal-fire",
+          "installed-acceptance"
+        ]
+      },
+      {
+        "component_revision": null,
+        "configuration_revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+        "contact_scope": "Request for data/test scoping only; not issued",
+        "design_complete": false,
+        "destinations": [
+          "NCC material/joint/panel scope",
+          "Huddersfield IRR dynamics scope"
+        ],
+        "fixture": {
+          "calibration": null,
+          "definition_revision": null,
+          "drawings": null,
+          "load_path_review": null,
+          "required": [
+            "instrument and fixture identities/revisions",
+            "calibration coverage and uncertainty",
+            "controlled boundary conditions",
+            "adverse and repeatability cases"
+          ]
+        },
+        "id": "RFQ-structural-bay",
+        "inputs": [
+          "exact component/unit/interface revision",
+          "approved load/duty/environment envelope",
+          "sample count and destructive-test allocation agreed with reviewer"
+        ],
+        "issued": false,
+        "manufacturing_release": false,
+        "outputs": [
+          "raw time series and units",
+          "calibration certificates",
+          "method and standard edition",
+          "temperature/humidity/supply/loading conditions",
+          "measurement uncertainty",
+          "signed lab report and separate applicable review",
+          "NCRs and retest disposition",
+          "parameter/calibration/untouched holdout split",
+          "data retention/publication rights",
+          "lead time, complete quotation and responsibilities"
+        ],
+        "physical_release": false,
+        "physical_validation": false,
+        "pilot": "structural-bay",
+        "quotation": null,
+        "selected": false,
+        "supplier": null,
+        "tests": [
+          "material-process-coupons",
+          "joint-panel-correlation",
+          "measured-mass",
+          "weld-bond-capability",
+          "vehicle-validation"
+        ]
+      },
+      {
+        "component_revision": null,
+        "configuration_revision": "99f44cfda163e488a74f37f539b4b5d5e57120198f0f916ba513048016e6061d",
+        "contact_scope": "Request for data/test scoping only; not issued",
+        "design_complete": false,
+        "desktop_site_evidence": {
+          "actual_ground_investigation_complete": false,
+          "context_revision": "7c9bf653fe069e6d9ab508ee5b1ed831240a3dc95f788ed1fbf38e06d96adc62",
+          "infrastructure_revision": "3e6d7ee337b16b4bf22825b3bbc343697412f18d7f18b1b87fac4e39e1987a28",
+          "investigation_quantity_scenarios": "Per-route 250/500 m chainage spacing plus mapped water/infrastructure hotspots; provisional quantities in site/summary.json"
+        },
+        "destinations": [
+          "COSQC/appointed Iraqi labs",
+          "competent ground investigation team",
+          "qualified precast/lifting team"
+        ],
+        "fixture": {
+          "calibration": null,
+          "definition_revision": null,
+          "drawings": null,
+          "load_path_review": null,
+          "required": [
+            "instrument and fixture identities/revisions",
+            "calibration coverage and uncertainty",
+            "controlled boundary conditions",
+            "adverse and repeatability cases"
+          ]
+        },
+        "id": "RFQ-viaduct-bay",
+        "inputs": [
+          "exact component/unit/interface revision",
+          "approved load/duty/environment envelope",
+          "sample count and destructive-test allocation agreed with reviewer"
+        ],
+        "issued": false,
+        "manufacturing_release": false,
+        "outputs": [
+          "raw time series and units",
+          "calibration certificates",
+          "method and standard edition",
+          "temperature/humidity/supply/loading conditions",
+          "measurement uncertainty",
+          "signed lab report and separate applicable review",
+          "NCRs and retest disposition",
+          "parameter/calibration/untouched holdout split",
+          "data retention/publication rights",
+          "lead time, complete quotation and responsibilities"
+        ],
+        "physical_release": false,
+        "physical_validation": false,
+        "pilot": "viaduct-bay",
+        "quotation": null,
+        "selected": false,
+        "supplier": null,
+        "tests": [
+          "site-investigation",
+          "materials",
+          "connection-mockups",
+          "temporary-works-acceptance",
+          "asbuilt-installed-tests"
+        ]
+      }
+    ],
+    "schema": "osr-full-design-closure-progress/1",
+    "scope": "All plan tasks retained. Partial implementation is not a completed digital specification or accepted physical design.",
+    "site_screening_revision": "3e6d7ee337b16b4bf22825b3bbc343697412f18d7f18b1b87fac4e39e1987a28",
+    "source_pdf": "OpenSourceRail_Full_Design_Closure_Plan_2026-10-19.pdf",
+    "source_pdf_sha256": "258963e409fa69a94ef0954aed502d4e696b1079f74459c7829db50446857ab8",
+    "task_count": 88,
+    "tasks": [
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "prototype_configuration",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/contracts.py",
+            "source_sha256": "c80e913ef085f9aea476c0812b8f1a6f84b67e20854050880e9d2d662169b9db"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP00-prototype",
+        "implementation": "partial-provisional",
+        "implementation_scope": "provisional named configuration; layout/route/duty adoption remains open",
+        "kind": "mixed",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 3,
+        "required_evidence": "Freeze named provisional six-car geometry, layout, consist, loads, duty, route, speed, gauge, charging, climate and emergency baseline",
+        "title": "Freeze the named provisional six-car prototype and operating duty",
+        "wp": "WP00"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "crosswalk",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/contracts.py",
+            "source_sha256": "c80e913ef085f9aea476c0812b8f1a6f84b67e20854050880e9d2d662169b9db"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP00-architecture",
+        "implementation": "partial-provisional",
+        "implementation_scope": "architecture boundaries enforced; physical duplicate reconciliation requires review",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 3,
+        "required_evidence": "Resolve contradictory dimensions/masses; keep LM3 and Baghdad alternatives separate",
+        "title": "Reconcile architecture alternatives and conflicting dimensions or masses",
+        "wp": "WP00"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "source_card",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/contracts.py",
+            "source_sha256": "c80e913ef085f9aea476c0812b8f1a6f84b67e20854050880e9d2d662169b9db"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP00-sources",
+        "implementation": "partial-provisional",
+        "implementation_scope": "typed and hash-aware source contract; missing licensed/supplier hashes held",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 3,
+        "required_evidence": "Source cards: exact identity, revision, publisher, URL, hash, locator, units, licence, date, envelope and uncertainty",
+        "title": "Create complete, revisioned source cards with applicability and uncertainty",
+        "wp": "WP00"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "standards_register",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/contracts.py",
+            "source_sha256": "c80e913ef085f9aea476c0812b8f1a6f84b67e20854050880e9d2d662169b9db"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP00-standards",
+        "implementation": "partial-provisional",
+        "implementation_scope": "edition/chemistry impact register; adoption/licences open",
+        "kind": "mixed",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 3,
+        "required_evidence": "Licensed standards, editions, categories and Iraqi adoption register; IEC61373:2026 impact and chemistry applicability",
+        "title": "Maintain standards editions, licences, jurisdiction and impact reviews",
+        "wp": "WP00"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP00-authority",
+        "implementation": "external-input",
+        "kind": "external",
+        "next_action": "obtain externally authenticated evidence and appointed review",
+        "page": 3,
+        "required_evidence": "Appoint named engineering owners, independent reviewers and Iraqi acceptance authority",
+        "title": "Appoint engineering owners, independent reviewers and acceptance authority",
+        "wp": "WP00"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "crosswalk",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/contracts.py",
+            "source_sha256": "c80e913ef085f9aea476c0812b8f1a6f84b67e20854050880e9d2d662169b9db"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP01-crosswalk",
+        "implementation": "partial-provisional",
+        "implementation_scope": "all source identities retained; inferred family/type mappings require confirmation",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 3,
+        "required_evidence": "Crosswalk all345legacy+69Baghdad records by architecture, function, duplicate/alternative/assembly/requirement and reusable family",
+        "title": "Crosswalk all 414 records into architecture and reusable component families",
+        "wp": "WP01"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "component_bundle",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/contracts.py",
+            "source_sha256": "c80e913ef085f9aea476c0812b8f1a6f84b67e20854050880e9d2d662169b9db"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP01-component",
+        "implementation": "partial-provisional",
+        "implementation_scope": "typed wrapper over existing geometry authority",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 3,
+        "required_evidence": "Common owned/purchased component: geometry, process, mass/CG/inertia, units, datums, tolerances, provenance, uncertainty",
+        "title": "Define the common owned/purchased component contract",
+        "wp": "WP01"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "interface",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/contracts.py",
+            "source_sha256": "c80e913ef085f9aea476c0812b8f1a6f84b67e20854050880e9d2d662169b9db"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP01-interfaces",
+        "implementation": "partial-provisional",
+        "implementation_scope": "typed endpoints and applicability; full railway interface population open",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 3,
+        "required_evidence": "Structural/bearing/electrical/fluid/software endpoints, degrees of freedom and revisioned interface contracts",
+        "title": "Define structural, bearing, electrical, air/fluid and software interfaces",
+        "wp": "WP01"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "regenerate",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/contracts.py",
+            "source_sha256": "c80e913ef085f9aea476c0812b8f1a6f84b67e20854050880e9d2d662169b9db"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP01-invalidation",
+        "implementation": "partial-provisional",
+        "implementation_scope": "revision-bound dependent-adapter invalidation; production CAD/BIM adapters incomplete",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 3,
+        "required_evidence": "Propagate mount/connector/material changes into CAD, analysis, harness, schedule, cost and QA; reject mismatch/staleness",
+        "title": "Propagate design changes to every affected representation and check",
+        "wp": "WP01"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "run",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/workflow.py",
+            "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP01-consolidation",
+        "implementation": "partial-provisional",
+        "implementation_scope": "existing queue, qualification, native confirmation and portable publication extended",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 3,
+        "required_evidence": "Reuse discipline adapters, queues, identities, qualification and publication; avoid another workflow",
+        "title": "Consolidate existing workflows through compatibility adapters",
+        "wp": "WP01"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "export",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/bim.py",
+            "source_sha256": "91d7bb469f5b12a8e09b102420f1ccaad5edc4252101176199c9dbbf8a8937d7"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP01-bim",
+        "implementation": "partial-provisional",
+        "implementation_scope": "native tessellation to stable-ID IFC and executed IDS information tests; issued BIM placement and engineering performance remain open",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 3,
+        "required_evidence": "EditableCAD/STEP and IFC/Bonsai placement/classification with sameIDs and IDS information checks",
+        "title": "Export identity-preserving CAD/STEP/IFC and validate IFC information with IDS",
+        "wp": "WP01"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "envelope",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/reactions.py",
+            "source_sha256": "6fc392e917b630acc73591397c1c7a0379bca269e2ce32cbfd01debd3833e361"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP02-bearing-omission",
+        "implementation": "partial-provisional",
+        "implementation_scope": "complete reference load allocation replaces parallel deck-only estimate",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 2,
+        "required_evidence": "Correct missing60000kg track support through one revision-bound complete-kit reaction envelope",
+        "title": "Correct the omitted 60-tonne track-support bearing load",
+        "wp": "WP02"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "envelope",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/reactions.py",
+            "source_sha256": "6fc392e917b630acc73591397c1c7a0379bca269e2ce32cbfd01debd3833e361"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP02-permanent",
+        "implementation": "partial-provisional",
+        "implementation_scope": "all reference-kit allocations accounted; unresolved allowances remain explicit",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 2,
+        "required_evidence": "Inventory rails/trackform/services/walkway and every permanent allocation without omission or double count",
+        "title": "Account for every permanent allocation without omission or duplication",
+        "wp": "WP02"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "envelope",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/reactions.py",
+            "source_sha256": "6fc392e917b630acc73591397c1c7a0379bca269e2ce32cbfd01debd3833e361"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP02-actions",
+        "implementation": "partial-provisional",
+        "implementation_scope": "signed reference actions and explicit unquantified mandatory action holds",
+        "kind": "mixed",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 2,
+        "required_evidence": "Signed braking, thermal, uplift, wind, seismic, construction and erection combinations with explicit applicability",
+        "title": "Define signed action envelopes and applicable load combinations",
+        "wp": "WP02"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "envelope",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/reactions.py",
+            "source_sha256": "6fc392e917b630acc73591397c1c7a0379bca269e2ce32cbfd01debd3833e361"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP02-load-path",
+        "implementation": "partial-provisional",
+        "implementation_scope": "equilibrium resultants through reference supports; stiffness and resistance unqualified",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 2,
+        "required_evidence": "Propagate actual reactions through bearing/cap/column/foundation to ground; shared mass/CG/inertia and force/power/heat ledgers",
+        "title": "Carry the shared load path through every support to ground",
+        "wp": "WP02"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "build",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/structural_bay.py",
+            "source_sha256": "513b1bc83ca31fde892f182461760b095e08039d30dd696aebf086c22fdfe571"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP03-connected-bay",
+        "implementation": "partial-provisional",
+        "implementation_scope": "isolated floor/frame/equipment pilot with actual joints; side/roof/bogie/whole-body scope open",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 4,
+        "required_evidence": "Connected underframe, side/roof/floor, doors/windows, equipment and bogie/articulation interfaces",
+        "title": "Complete the connected structural bay and vehicle interfaces",
+        "wp": "WP03"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP03-local-joints",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 4,
+        "required_evidence": "Local holes/welds/inserts/cutouts/load introduction models; bolt stack, preload/locking, engagement, bearing/net/block/prying/access/corrosion",
+        "title": "Detail reversible joints and local load introduction",
+        "wp": "WP03"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP03-welds",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 4,
+        "required_evidence": "Weld throat/category/sequence/distortion and NDTplan",
+        "title": "Define welds, distortion allowances, inspection and NDT",
+        "wp": "WP03"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "evaluate",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/structural_bay.py",
+            "source_sha256": "513b1bc83ca31fde892f182461760b095e08039d30dd696aebf086c22fdfe571"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP03-structural-checks",
+        "implementation": "partial-provisional",
+        "implementation_scope": "native mass properties and independent longitudinal elasticity/boundary controls; local/modal/fatigue criteria held",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 4,
+        "required_evidence": "Global bending/torsion, localbuckling, fatigue, modal, lifting/jacking/recovery, attachmentloss/degraded checks",
+        "title": "Check structural, fatigue, modal, handling and degraded load cases",
+        "wp": "WP03"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP03-crash",
+        "implementation": "not-implemented",
+        "kind": "mixed",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 4,
+        "required_evidence": "Justified crash load path and independent tests; no geometry-freeenergy allocation credit",
+        "title": "Develop and validate the crash load path",
+        "wp": "WP03"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP03-purchased",
+        "implementation": "not-implemented",
+        "kind": "mixed",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 4,
+        "required_evidence": "Qualified bought-out bogie/wheel/brake/traction/articulation with maps, stiffness/damping, fatigue and maintenance boundaries",
+        "title": "Define qualified purchased running-gear and traction boundaries",
+        "wp": "WP03"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP03-composite",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 4,
+        "required_evidence": "Compatible resin/fibre/core/bond/finish bundle, inserts/plydrops/core failure/delamination/impact/hotwet/repair; retain85Cfailures",
+        "title": "Qualify compatible composite material systems and repairs",
+        "wp": "WP03"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP03-solver",
+        "implementation": "not-implemented",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 4,
+        "required_evidence": "Verified shell/contact/preload/nonlinear adapters; processconstrained optimisation, reconstructedCAD and independentremesh",
+        "title": "Benchmark shell, contact, preload and nonlinear analysis adapters",
+        "wp": "WP03"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "tables",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/workflow.py",
+            "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP03-build-pack",
+        "implementation": "partial-provisional",
+        "implementation_scope": "editable CAD/STEP, unissued layout, BOM/joints/QA; issued drawings and process qualification open",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 4,
+        "required_evidence": "EditableCAD/STEP, issued-state drawings, material/process/BOM/joints/tolerances, instructions/QA and exactanalysisinputs",
+        "title": "Issue a consistent pilot CAD, drawing, BOM, process and inspection package",
+        "wp": "WP03"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP03-correlation",
+        "implementation": "external-input",
+        "kind": "external",
+        "next_action": "obtain externally authenticated evidence and appointed review",
+        "page": 4,
+        "required_evidence": "One structuralbay: mesh/boundary sensitivity, independentformulation, measuredmass and joint/paneltestcorrelation",
+        "title": "Correlate the structural bay with independent and physical evidence",
+        "wp": "WP03"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP04-cassette-details",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 5,
+        "required_evidence": "Mating connector/terminations, clamping/lining/retention, earthconductor, ductseals, inspectioncover and installinterface",
+        "title": "Finish cassette mating, retention, bonding, seals and inspection details",
+        "wp": "WP04"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP04-lock",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 5,
+        "required_evidence": "Guidedlocation, positive and secondaryretention, seated/locked indication, insertion/release/mismating/wear",
+        "title": "Design guided location and positive retention",
+        "wp": "WP04"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "process_graph",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/cassette_system.py",
+            "source_sha256": "cfaa019dc967e6fab4adbfa3f1d9274750bec3f28f11e643eff4ea128ac06c76"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP04-process",
+        "implementation": "partial-provisional",
+        "implementation_scope": "process/access/teardown model; measured installation not performed",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 5,
+        "required_evidence": "Shared joint/processgraph: dependencies/fixtures/access/path/rotation/parameters/testprerequisites andteardown",
+        "title": "Generate assembly, inspection and removal from one process graph",
+        "wp": "WP04"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "process_graph",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/cassette_system.py",
+            "source_sha256": "cfaa019dc967e6fab4adbfa3f1d9274750bec3f28f11e643eff4ea128ac06c76"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP04-stages",
+        "implementation": "partial-provisional",
+        "implementation_scope": "controlled installation/removal states; executed physical states absent",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 5,
+        "required_evidence": "Bench, transportrestraint, temporarymount, finallock, serviceconnection, installedtest and maintenanceremoval states",
+        "title": "Distinguish bench, transport, temporary, installed and maintenance states",
+        "wp": "WP04"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "report",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/cassette_system.py",
+            "source_sha256": "cfaa019dc967e6fab4adbfa3f1d9274750bec3f28f11e643eff4ea128ac06c76"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP04-tolerance",
+        "implementation": "partial-provisional",
+        "implementation_scope": "worst-case dimensional and thermal hypotheses; measured distributions absent",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 5,
+        "required_evidence": "Worstcase dimensional/thermal stack with weld/cure/site/connectorfloat; statisticalyield only with measured distributions",
+        "title": "Check worst-case dimensional and thermal tolerance stacks",
+        "wp": "WP04"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP04-civil-kits",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 5,
+        "required_evidence": "Repeatable pile/cage/cap/column/bearing/deck/track/walkway/serviceprocessgraph with engineered force transfer",
+        "title": "Apply the joint/process method to complete civil kits",
+        "wp": "WP04"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP04-comparison",
+        "implementation": "not-implemented",
+        "kind": "mixed",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 5,
+        "required_evidence": "Compare conventional/guided/captive/quicklock using personhours/path/tool/height/yield/rework/repair/lifts/fullcost at productionvolume",
+        "title": "Compare conventional, guided and quick-lock installation at production scale",
+        "wp": "WP04"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP04-bench",
+        "implementation": "external-input",
+        "kind": "external",
+        "next_action": "obtain externally authenticated evidence and appointed review",
+        "page": 5,
+        "required_evidence": "Demonstrated installation/removal/access; serial/revision lock/connection/bond/seal checks and environmental/vibration qualification",
+        "title": "Demonstrate cassette installation, removal and environmental qualification",
+        "wp": "WP04"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP05-single-line",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 6,
+        "required_evidence": "Hierarchical traction/charge/batteryBMS/converters/auxLV/protection/bonding/comms, nets/voltagelimits/faultreturns/isolation",
+        "title": "Create hierarchical traction, charging, battery and auxiliary schematics",
+        "wp": "WP05"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "report",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/cassette_system.py",
+            "source_sha256": "cfaa019dc967e6fab4adbfa3f1d9274750bec3f28f11e643eff4ea128ac06c76"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP05-harness",
+        "implementation": "partial-provisional",
+        "implementation_scope": "active pin nets and termination BOM; routing/process qualification open",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 6,
+        "required_evidence": "Same-netlist harnessdrawings/BOM bothhalves/terminals/seals/backshell/strainrelief/solderorcrimp/wire/shield/route/bends/IDs",
+        "title": "Generate the complete harness definition and manufacturing BOM",
+        "wp": "WP05"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "report",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/cassette_system.py",
+            "source_sha256": "cfaa019dc967e6fab4adbfa3f1d9274750bec3f28f11e643eff4ea128ac06c76"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP05-ratings",
+        "implementation": "partial-provisional",
+        "implementation_scope": "cable voltage/heat screens; supplier ampacity/selectivity/EMC unresolved",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 6,
+        "required_evidence": "Continuous/transient current, voltagedrop, derating/heat/inrush/precharge/fault/selectivity/clearance/bonding/EMC",
+        "title": "Verify electrical ratings, derating, protection, bonding and EMC",
+        "wp": "WP05"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "report",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/cassette_system.py",
+            "source_sha256": "cfaa019dc967e6fab4adbfa3f1d9274750bec3f28f11e643eff4ea128ac06c76"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP05-harwin",
+        "implementation": "partial-provisional",
+        "implementation_scope": "exact solder-contact kits; derating and complete native mating geometry open",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 6,
+        "required_evidence": "Exact Harwin female/male kit, soldercontacts, jackscrews and assembly instructions; reject genericcontactcrimps",
+        "title": "Represent the exact Harwin solder-contact mating kits and process",
+        "wp": "WP05"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP05-battery-duty",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 6,
+        "required_evidence": "Selectedchemistry measuredPyBaMM parameters; stationcycles/grade/HVAC/recovery/chargingconcurrency/loss/hotage/degraded",
+        "title": "Bind battery and charging calculations to chemistry and repeated route duty",
+        "wp": "WP05"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP05-battery-safety",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 6,
+        "required_evidence": "Cooling/leak/vent/contactor/fuse/sensor/HVinterlock/emergencyisolation/fire and supplier traction/brakemaps",
+        "title": "Detail battery cooling, isolation, protection, venting and traction limits",
+        "wp": "WP05"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP05-circuits",
+        "implementation": "not-implemented",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 6,
+        "required_evidence": "KiCad/ngspice transient/electrothermal adapter and independentpower/heatcontrols",
+        "title": "Benchmark circuit transients and electrothermal adapters",
+        "wp": "WP05"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "report",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/cassette_system.py",
+            "source_sha256": "cfaa019dc967e6fab4adbfa3f1d9274750bec3f28f11e643eff4ea128ac06c76"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP05-lv-faults",
+        "implementation": "partial-provisional",
+        "implementation_scope": "offline fault and power controls; bench/SIL/HIL unexecuted",
+        "kind": "mixed",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 6,
+        "required_evidence": "CompleteLV open/short/reverse/mismate/supplyvariation and thermal/fault tests",
+        "title": "Test complete LV faults, supply variation and power balances",
+        "wp": "WP05"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP05-battery-bench",
+        "implementation": "external-input",
+        "kind": "external",
+        "next_action": "obtain externally authenticated evidence and appointed review",
+        "page": 6,
+        "required_evidence": "Battery/charger/auxiliary bench/SIL/HIL and independentenergy/heatbalance",
+        "title": "Verify the battery, charger and auxiliary chain on bench/SIL/HIL",
+        "wp": "WP05"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP06-whole-car",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 7,
+        "required_evidence": "Sensible/latent passengers/solar/glazing/doors/equipment/ventilation/history/hotsoak; humidity/CO2/filter/noise/pressure/degraded duty",
+        "title": "Define whole-car sensible, latent, ventilation and hot-soak duty",
+        "wp": "WP06"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "report",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/cassette_system.py",
+            "source_sha256": "cfaa019dc967e6fab4adbfa3f1d9274750bec3f28f11e643eff4ea128ac06c76"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP06-level1",
+        "implementation": "partial-provisional",
+        "implementation_scope": "bounded flow/heat/moisture balances; whole-car refrigeration not complete",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 7,
+        "required_evidence": "Controlled one/twozone heat/moisture/ductnetwork with mass/energy/water conservation",
+        "title": "Implement conserving heat, moisture and duct-network models",
+        "wp": "WP06"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP06-level2",
+        "implementation": "not-implemented",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 7,
+        "required_evidence": "Fan/duct/damper/filter/refrigerant/coolant maps with pinnedModelica/CoolProp and railway boundaries",
+        "title": "Couple fan, duct, filter, coolant and refrigeration maps",
+        "wp": "WP06"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP06-level3",
+        "implementation": "not-implemented",
+        "kind": "mixed",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 7,
+        "required_evidence": "ShortlistCFD mesh/time/domain convergence for distribution/bypass/stagnation/obstruction and measuredflow",
+        "title": "Confirm shortlisted flow layouts with converged CFD and measurements",
+        "wp": "WP06"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP06-interfaces",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 7,
+        "required_evidence": "Flanges/sealcompression/insulation/vapour/drainfall/access/support/isolation/firepenetrations/removal/mass/power",
+        "title": "Detail HVAC seals, drains, supports, isolation, fire and maintenance interfaces",
+        "wp": "WP06"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "report",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/cassette_system.py",
+            "source_sha256": "cfaa019dc967e6fab4adbfa3f1d9274750bec3f28f11e643eff4ea128ac06c76"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP06-faults",
+        "implementation": "partial-provisional",
+        "implementation_scope": "duct/leak/blockage and LV fault controls; whole-car adverse cases open",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 7,
+        "required_evidence": "Occupancy/hotstart/door/filter/fanfan/coolingfailure/sensorbias; updatebattery everyvariation",
+        "title": "Evaluate thermal, airflow, control and cooling failures",
+        "wp": "WP06"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP06-rig",
+        "implementation": "external-input",
+        "kind": "external",
+        "next_action": "obtain externally authenticated evidence and appointed review",
+        "page": 7,
+        "required_evidence": "Calibratedcar/cabinrig airflow/distribution/temp/humidity/condensate/power using adopted14750edition",
+        "title": "Correlate the complete cabin/HVAC duty on a calibrated rig",
+        "wp": "WP06"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP07-kit-details",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 8,
+        "required_evidence": "Manufactured reinforcement/prestress/tendon/anchor/diaphragm/bearing/jacking/lift/drain/trackfastener/parapet/services",
+        "title": "Detail every manufactured civil unit and installed item",
+        "wp": "WP07"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP07-resistance",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 8,
+        "required_evidence": "Cracking/ultimate/shear/torsion/fatigue/creep/shrinkage/prestresstransferlosses/restraint/rotation/thermal/uplift/windseismic/stages",
+        "title": "Check concrete, prestress, bearing and staged structural resistance",
+        "wp": "WP07"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP07-ground-model",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 8,
+        "required_evidence": "Zonedstrata/water/investigation/settlement/pilegroup/cyclicpy/tz/qz with boundedvalidity",
+        "title": "Develop site-applicable ground and foundation models",
+        "wp": "WP07"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "snapshot",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/site_screening.py",
+            "source_sha256": "d2fa484f15028bcba29431907b9eeda720b457d09267da4425130d11af918c08"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP07-ground-input",
+        "implementation": "partial-provisional",
+        "implementation_scope": "actual open-data terrain/population/land/water/infrastructure estimates and investigation priorities; surveyed ground and physical tests remain open",
+        "kind": "external",
+        "next_action": "obtain externally authenticated evidence and appointed review",
+        "page": 8,
+        "required_evidence": "Actualsiteinvestigation/survey/utilities/water/seismicwindflood/groundresistanceandvibration",
+        "title": "Obtain Baghdad ground, water, survey, hazard and utility evidence",
+        "wp": "WP07"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP07-system-opt",
+        "implementation": "not-implemented",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 8,
+        "required_evidence": "Optimise piles/caps/piers/span/spacing/joint/material together; retainresistance/durability and fullinstalledmass",
+        "title": "Optimise foundations, supports, span and deck as one installed system",
+        "wp": "WP07"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP07-corridor",
+        "implementation": "not-implemented",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 8,
+        "required_evidence": "Repeatedcorridor/sharedsupports/crossings/stations/plant/mould/transport/craneradius/outriggers/temporaryworks/weather/calendars",
+        "title": "Extend comparisons to repeated corridors and real erection logistics",
+        "wp": "WP07"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP07-erection",
+        "implementation": "not-implemented",
+        "kind": "mixed",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 8,
+        "required_evidence": "Replaytransport/erection with permanentandtemporaryloadpaths, independentcontrols and connectionmockups",
+        "title": "Verify transport, erection and temporary load paths",
+        "wp": "WP07"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP07-installed",
+        "implementation": "external-input",
+        "kind": "external",
+        "next_action": "obtain externally authenticated evidence and appointed review",
+        "page": 8,
+        "required_evidence": "Traceablematerials/ground, surveyed asbuilt and installed interface tests",
+        "title": "Close civil as-built and installed interface evidence",
+        "wp": "WP07"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "snapshot",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/integration.py",
+            "source_sha256": "69a333786e285cc9633b2f77a36e0438e54a18ac524493d11b119435d02a4f73"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP08-adapters",
+        "implementation": "partial-provisional",
+        "implementation_scope": "existing physics adapters indexed; source-bound dynamic requalification pending",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 9,
+        "required_evidence": "Reuse/requalify flexible/spatial/wheelrail/fullpassage adapters; labelhistorical sourcemismatch",
+        "title": "Reuse and requalify existing flexible, spatial and contact adapters",
+        "wp": "WP08"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP08-exact-vehicle",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 9,
+        "required_evidence": "Bindexact generatedmodalmass/modes/equipmentCG/inertia and supplier suspension/joint/wheelrail data",
+        "title": "Bind dynamics to exact vehicle modes, mass properties and supplier laws",
+        "wp": "WP08"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "snapshot",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/integration.py",
+            "source_sha256": "69a333786e285cc9633b2f77a36e0438e54a18ac524493d11b119435d02a4f73"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP08-kit-interface",
+        "implementation": "partial-provisional",
+        "implementation_scope": "exact child revision interface and ledger; full dynamic passage unexecuted",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 9,
+        "required_evidence": "Connect currentcivilkit/bearingseat/cassette revisions to shared integration interface",
+        "title": "Connect the complete kit, bearing, cassette and software revisions",
+        "wp": "WP08"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP08-passages",
+        "implementation": "not-implemented",
+        "kind": "design",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 9,
+        "required_evidence": "Fullapproach/passage/exit plus speed/curve/cant/roughness/tractionbrake/wind/degradedsuspension and contact/unloading/clearance/acceleration/reactions",
+        "title": "Complete full train passages and adverse operating cases",
+        "wp": "WP08"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP08-convergence",
+        "implementation": "not-implemented",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 9,
+        "required_evidence": "Independenttime/structure/rail/modalconvergence; timeout/shortkernel never fullpassage",
+        "title": "Demonstrate time, mesh, rail and modal convergence",
+        "wp": "WP08"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "snapshot",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/integration.py",
+            "source_sha256": "69a333786e285cc9633b2f77a36e0438e54a18ac524493d11b119435d02a4f73"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP08-cosimulation",
+        "implementation": "partial-provisional",
+        "implementation_scope": "force/power/heat interface contract; coupled transient solving pending",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 9,
+        "required_evidence": "Power/heat/force causality/sampletime, HVACbattery/voltagecommunicationpermission/regen limits",
+        "title": "Couple power, heat, force and control through explicit interfaces",
+        "wp": "WP08"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP08-calibration",
+        "implementation": "external-input",
+        "kind": "external",
+        "next_action": "obtain externally authenticated evidence and appointed review",
+        "page": 9,
+        "required_evidence": "Separateparameter/calibration/holdout; measuredjoint/modal/bogie/track and independentphysicschecks",
+        "title": "Calibrate against independent physical data and untouched holdouts",
+        "wp": "WP08"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "run",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/development.py",
+            "source_sha256": "bf7e1f87d3eca5fae44754ef44e86d567832ac528db554942a19b3ebd42687bc"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP09-two-loops",
+        "implementation": "partial-provisional",
+        "implementation_scope": "isolated developer/critic separate from trusted family registry and design loop",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 10,
+        "required_evidence": "Separate design generation/evaluation/Pareto/native/adoption from isolatedcapability/critic/independentbenchmark/registration",
+        "title": "Separate the design loop from benchmarked capability development",
+        "wp": "WP09"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "registry",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/families.py",
+            "source_sha256": "a22306f9f579f8aba393af01bd8cde8b203eed551f9acf215affad0f20d354cd"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP09-families",
+        "implementation": "partial-provisional",
+        "implementation_scope": "family domains, existing adapters and explicit unregistered-family work orders",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 10,
+        "required_evidence": "Joint/bracket/panel/bay/harness/duct/batteryenclosure/bearing/pile/cap/pier/stationfamilies: domains/outputs/independentchecks",
+        "title": "Register reusable families with controlled domains and independent checks",
+        "wp": "WP09"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "candidates",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/structural_bay.py",
+            "source_sha256": "513b1bc83ca31fde892f182461760b095e08039d30dd696aebf086c22fdfe571"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP09-grammar",
+        "implementation": "partial-provisional",
+        "implementation_scope": "stock RHS wall/floor thickness and crossmember assembly grammar; laminate/topology grammars remain separate",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 10,
+        "required_evidence": "Manufacturingconstrainedstock/fold/weld/ribs/shell/laminate/core/reinforcement/partitions",
+        "title": "Generate manufacturing-constrained shape and assembly alternatives",
+        "wp": "WP09"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "material_bundle",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/contracts.py",
+            "source_sha256": "c80e913ef085f9aea476c0812b8f1a6f84b67e20854050880e9d2d662169b9db"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP09-material-bundle",
+        "implementation": "partial-provisional",
+        "implementation_scope": "inseparable sourced bundles, scope and density consistency guards",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 10,
+        "required_evidence": "Inseparablesourcedstrength/density/fatigue/fire/hotwet/process/fibrebundles; no artificialmixing",
+        "title": "Keep material properties in inseparable sourced bundles",
+        "wp": "WP09"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "pareto",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/families.py",
+            "source_sha256": "a22306f9f579f8aba393af01bd8cde8b203eed551f9acf215affad0f20d354cd"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP09-objectives",
+        "implementation": "partial-provisional",
+        "implementation_scope": "constraint-first multiobjective frontier; null costs excluded from dominance claims",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 10,
+        "required_evidence": "Fullmass/cost/factorysiteeffort/lift/delivery/replacement/uncertaintyPareto with coverage constraints andnullunknowncost",
+        "title": "Retain constraint-first multiobjective alternatives with unknown costs visible",
+        "wp": "WP09"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "seal",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/workflow.py",
+            "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP09-reproducibility",
+        "implementation": "partial-provisional",
+        "implementation_scope": "source/runtime/recipe identities, retained failures/native correspondence; surrogate qualification not implemented",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 10,
+        "required_evidence": "Seeds/budgets/failures/toolsource/domain/uncertainty/fidelitydiscrepancy/surrogateholdout/finalmanufacturedCAD",
+        "title": "Preserve sources, runtime, seeds, budgets, failures and fidelity discrepancy",
+        "wp": "WP09"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "run",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/workflow.py",
+            "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP09-fairness",
+        "implementation": "partial-provisional",
+        "implementation_scope": "least-served family scheduling and finite-domain stop; missing-data work stays open",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 10,
+        "required_evidence": "Spendonundercoveredconstraints; stopmissingdata/modelrepeats; consistentleaders everyview/export",
+        "title": "Allocate effort fairly and stop when missing inputs prevent progress",
+        "wp": "WP09"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP09-improvement",
+        "implementation": "not-implemented",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 10,
+        "required_evidence": "Benchmarkedautomaticshape andassembly/materialimprovement perpilot; invalidcontrols/relaxedlimits cannotwin",
+        "title": "Demonstrate independently checked shape and assembly/material improvements",
+        "wp": "WP09"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "completion",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/closure.py",
+            "source_sha256": "2bd4b40776b4866a151aefd0d58d7c3f141b6a5ddd7c3e6a3548ba0e4863ea6a"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP10-test-pyramid",
+        "implementation": "partial-provisional",
+        "implementation_scope": "separate research/digital/physical/production gates",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 11,
+        "required_evidence": "Contract/reference/native/numerical/system/physical/productiontiers with applicability and evidence",
+        "title": "Implement the layered verification and acceptance evidence contracts",
+        "wp": "WP10"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "qualify",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/workflow.py",
+            "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP10-ci",
+        "implementation": "partial-provisional",
+        "implementation_scope": "fast CI and weekly equipped-runner exact-source qualification; skipped required native checks veto qualification",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 11,
+        "required_evidence": "FastadverseCI plus affectednative/FEA and scheduled equippedrunnerprofiles; skippedrequiredchecks leavegatesopen",
+        "title": "Run fast CI and scheduled equipped-runner native acceptance profiles",
+        "wp": "WP10"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "envelope",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/reactions.py",
+            "source_sha256": "6fc392e917b630acc73591397c1c7a0379bca269e2ce32cbfd01debd3833e361"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP10-negative-controls",
+        "implementation": "partial-provisional",
+        "implementation_scope": "omission/architecture/revision/electrical/duct/tolerance/source controls; local panel/prestress/ground detail controls remain open",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 11,
+        "required_evidence": "Deadloadomission, connector/lock/electricalfaults/ductleakblock/paneldamage/prestress/ground/removal adversecases",
+        "title": "Maintain adverse controls for omissions, faults and invalid domains",
+        "wp": "WP10"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "ingest",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/acceptance.py",
+            "source_sha256": "a702120bc23757ea078ad847b719d29f4b7a184fc0d45a9051111ca7615c795c"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP10-authentication",
+        "implementation": "partial-provisional",
+        "implementation_scope": "pinned-key signed raw/calibration and independent applicable review; no release authority inferred",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 11,
+        "required_evidence": "Pinnedkey externalsignedraw/calibration/fixture/method/conditions/uncertainty and separateapplicable review/disposition",
+        "title": "Authenticate raw measurements, calibration and independent disposition",
+        "wp": "WP10"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "requests",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/closure.py",
+            "source_sha256": "2bd4b40776b4866a151aefd0d58d7c3f141b6a5ddd7c3e6a3548ba0e4863ea6a"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP10-fixtures",
+        "implementation": "partial-provisional",
+        "implementation_scope": "data/fixture/holdout specifications generated; fixture manufacture/calibration not performed",
+        "kind": "mixed",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 11,
+        "required_evidence": "Coupon/joint/cassette/panel/bearing/civil fixtures, calibration, samplematrix andholdoutprogramme",
+        "title": "Define and build the coupon, joint and subsystem test fixtures",
+        "wp": "WP10"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP10-acceptance",
+        "implementation": "external-input",
+        "kind": "external",
+        "next_action": "obtain externally authenticated evidence and appointed review",
+        "page": 11,
+        "required_evidence": "Authenticatedserial/batch evidence, NCR/retest/disposition and appointedauthorityrelease",
+        "title": "Close serial/batch acceptance, NCRs, retests and authority release",
+        "wp": "WP10"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "report",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/publication.py",
+            "source_sha256": "99f1cc18972d3eb7b8b0854f426dee494c4e575517e809e62061d4ae98d65db3"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP11-common-ui",
+        "implementation": "partial-provisional",
+        "implementation_scope": "one offline closure/coverage/source/pilot index with RTL companion view",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 13,
+        "required_evidence": "Oneofflineindex: architecture/coverage/ownedpurchased/interfaces/source/maturity/nextaction; ArabicRTL",
+        "title": "Publish a common offline coverage and release interface with Arabic/RTL",
+        "wp": "WP11"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP11-part-links",
+        "implementation": "not-implemented",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 13,
+        "required_evidence": "Part->joints/drawings/analyses/QA withexact BOM/revision/serial and cost/manufacturinghandoff",
+        "title": "Link each part to joints, drawings, analyses, QA and manufacturing handoffs",
+        "wp": "WP11"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP11-compare",
+        "implementation": "not-implemented",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 13,
+        "required_evidence": "Visibleassumptions in mass/lift/time/assembly/costcomparison; distinguishplanned/executed/correlated/accepted",
+        "title": "Compare scope-complete mass, lifting, time and cost with assumptions visible",
+        "wp": "WP11"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "summary",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/workflow.py",
+            "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP11-publication",
+        "implementation": "partial-provisional",
+        "implementation_scope": "new source/result/task links in existing portable report; historical epochs preserved",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 13,
+        "required_evidence": "Exposeallrunner/sourceepoch/publicationstate; retainboundedraw plusportableverifiedreviewexports",
+        "title": "Expose current sources, runner status and portable evidence",
+        "wp": "WP11"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "recover",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/workflow.py",
+            "source_sha256": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP11-recovery",
+        "implementation": "partial-provisional",
+        "implementation_scope": "existing receipt recovery and publication-copy regressions retained",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 13,
+        "required_evidence": "Maintaincommit/pushcrashrecovery and presentationcopyconsistencyregressions",
+        "title": "Maintain publication recovery and exported-copy consistency checks",
+        "wp": "WP11"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP12-cassette-build",
+        "implementation": "external-input",
+        "kind": "external",
+        "next_action": "obtain externally authenticated evidence and appointed review",
+        "page": 14,
+        "required_evidence": "Manufacture/test servicecassette withpull/lock/earth/leak/flow/environmentfire and installedacceptance",
+        "title": "Manufacture and qualify the service-cassette prototype",
+        "wp": "WP12"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP12-bay-build",
+        "implementation": "external-input",
+        "kind": "external",
+        "next_action": "obtain externally authenticated evidence and appointed review",
+        "page": 14,
+        "required_evidence": "Manufacture/test structuralbay withcoupons/weldbond/panel/jointcorrelation/crashfire asapplicable",
+        "title": "Manufacture and qualify the structural-bay prototype",
+        "wp": "WP12"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP12-civil-build",
+        "implementation": "external-input",
+        "kind": "external",
+        "next_action": "obtain externally authenticated evidence and appointed review",
+        "page": 14,
+        "required_evidence": "Manufacture/test viaductbay withground/mockup/lifttemporaryworks/survey/installacceptance",
+        "title": "Manufacture and qualify the viaduct-bay prototype",
+        "wp": "WP12"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [],
+        "external_evidence": [],
+        "id": "WP12-ncr",
+        "implementation": "external-input",
+        "kind": "external",
+        "next_action": "obtain externally authenticated evidence and appointed review",
+        "page": 14,
+        "required_evidence": "Resolveprototype NCRs, measuredassemblyeffort/cost andcalibratemodels usingholdoutpredictions",
+        "title": "Resolve prototype NCRs and calibrate production and engineering models",
+        "wp": "WP12"
+      },
+      {
+        "engineering_exit": "open",
+        "evidence": [
+          {
+            "entrypoint": "requests",
+            "evidence_level": "implementation-source; executed tests in qualification receipt",
+            "source": "engineering/assembly_design/closure.py",
+            "source_sha256": "2bd4b40776b4866a151aefd0d58d7c3f141b6a5ddd7c3e6a3548ba0e4863ea6a"
+          }
+        ],
+        "external_evidence": [],
+        "id": "WP12-rfq",
+        "implementation": "partial-provisional",
+        "implementation_scope": "three pilot RFQ/data packs, no outreach, availability or quotation claim",
+        "kind": "software",
+        "next_action": "finish remaining scope and execute the exact engineering exit cases",
+        "page": 14,
+        "required_evidence": "Revisionedprototype RFQ/datarequests: method/envelope/samples/fixtures/calibration/raw/uncertainty/rights/responsibility/commercialscope",
+        "title": "Prepare revision-specific prototype RFQ and test-data requests",
+        "wp": "WP12"
+      }
+    ]
+  },
+  "controller_scope": "Automatic parameter/design generation and scoped verification for registered provisional pilot families plus executable cassette software; remaining families require generator/evaluator development",
   "counts": {
     "baghdad_records": 69,
-    "completed_trials": 38,
-    "component_records_needing_adapter": 411,
-    "component_records_with_pilot": 3,
+    "completed_trials": 50,
+    "component_records_needing_adapter": 410,
+    "component_records_with_pilot": 4,
     "facts": 21,
     "legacy_or_unreconciled_records": 345,
     "qualified_components": 0,
     "requirement_records": 414
   },
   "design_complete": false,
-  "epoch": "222abc67c78260702675290ef3bb9da1cd42dd06eab6ff37ba17645a09722a52",
+  "diagnostics": [
+    {
+      "design_complete": false,
+      "key": "f5ae0757e32ec08dfa2abc716a1730c842ce78f64a44ac3060257af6f1c00d57",
+      "kind": "service-cassette",
+      "native": "completed",
+      "scope": "Excluded diagnostic exhibit; known mandatory failure or failed native geometry; never a research or integration shortlist",
+      "selection_eligible": false
+    }
+  ],
+  "epoch": "27a64394e0b8324a33d3140f68f19fa72cf9378ebe6674f94f91a072f35195d7",
+  "families": [
+    {
+      "adapter": "engineering.assembly_design.models",
+      "design_complete": false,
+      "id": "service-cassette",
+      "limitations": "finite pilot domain; electrical/HVAC/connection qualification open",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "steel sheet/RHS and exact bought-out envelopes",
+      "qualification": "exact-source assembly qualification required",
+      "registered_for_bounded_design": true,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {
+        "bolt_diameter_m": [
+          0.016,
+          0.02
+        ],
+        "duct_area_m2": [
+          0.01,
+          0.02,
+          0.03
+        ],
+        "rail_wall_m": [
+          0.002,
+          0.003,
+          0.004
+        ]
+      }
+    },
+    {
+      "adapter": "engineering.assembly_design.models",
+      "design_complete": false,
+      "id": "bearing-seat",
+      "limitations": "complete reference reaction ledger; ground/resistance/supplier ratings held",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "drilled steel plate and purchased bearing boundary",
+      "qualification": "exact-source assembly qualification required",
+      "registered_for_bounded_design": true,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {
+        "bearing_family": [
+          "elastomeric-reference",
+          "uk-spherical-candidate"
+        ],
+        "bolt_diameter_m": [
+          0.02,
+          0.024,
+          0.027
+        ],
+        "plate_thickness_m": [
+          0.02,
+          0.03,
+          0.04
+        ]
+      }
+    },
+    {
+      "adapter": "engineering.assembly_design.structural_bay",
+      "design_complete": false,
+      "id": "structural-bay",
+      "limitations": "isolated provisional bay; local/modal/fatigue/whole-vehicle exits open",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "stock RHS, sheet floor and bolted equipment interfaces",
+      "qualification": "exact-source assembly qualification required",
+      "registered_for_bounded_design": true,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {
+        "crossmember_count": [
+          2,
+          3
+        ],
+        "floor_thickness_m": [
+          0.003,
+          0.004
+        ],
+        "rail_wall_m": [
+          0.003,
+          0.004,
+          0.005
+        ]
+      }
+    },
+    {
+      "adapter": "engineering.integration_programme.joints",
+      "design_complete": false,
+      "id": "joints-brackets",
+      "limitations": "generator/resistance benchmark registration required",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "elastic bolt groups and local connection models",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    },
+    {
+      "adapter": "engineering.design_engine.roof_shell",
+      "design_complete": false,
+      "id": "composite-panels",
+      "limitations": "hot-wet/fire/insert/contact qualification required; retain known roof failures",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "compatible laminate/core/bond/finish bundles",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    },
+    {
+      "adapter": "engineering.assembly_design.cassette_system",
+      "design_complete": false,
+      "id": "harness",
+      "limitations": "mating routing, ampacity/derating/protection/physical acceptance held",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "exact solder-contact LV reference kits",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    },
+    {
+      "adapter": "engineering.assembly_design.cassette_system",
+      "design_complete": false,
+      "id": "duct",
+      "limitations": "fan/refrigerant maps and calibrated rig required",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "sheet duct and bounded air/heat/moisture model",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    },
+    {
+      "adapter": "engineering.integration_programme.battery",
+      "design_complete": false,
+      "id": "battery-enclosure",
+      "limitations": "mechanical/cooling/fire/vent and measured chemistry maps required",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "chemistry-specific bought-out battery boundary",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    },
+    {
+      "adapter": "engineering.civil_exploration.foundations",
+      "design_complete": false,
+      "id": "pile-cap-pier",
+      "limitations": "actual strata/groundwater/settlement/cyclic/calibration required",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "site-applicable pile/cap/pier forms",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    },
+    {
+      "adapter": "engineering.integration_programme.stations",
+      "design_complete": false,
+      "id": "station-modules",
+      "limitations": "new assembly adapter plus site/access/egress/connection qualification required",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "catalogue station structural/service modules",
+      "qualification": "adapter development and independent benchmarks required",
+      "registered_for_bounded_design": false,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {}
+    }
+  ],
   "manufacturing_release": false,
   "physical_release": false,
   "physical_validation": false,
@@ -27,26 +2620,148 @@
       "Connector mating counterpart, current derating, harness insulation/ampacity and fire performance",
       "HVAC supplier map, whole-car air quality/heat/moisture duty and refrigeration design",
       "Detailed locking/preload/prying/thread engagement, coating and physical tests"
+    ],
+    "structural-bay": [
+      "Approved six-car local/global loads, equipment/axle/CG map and emergency conditions",
+      "Local holes/inserts, weld throat/procedure/NDT, bolt preload/prying/slip/fatigue and loss-of-fastener checks",
+      "Floor plate local bending, global torsion and shell/local buckling with mesh/boundary sensitivity",
+      "Modal acceptance and vehicle frequency transfer, measured damping and equipment maps",
+      "Fatigue duty/spectra, crash/lifting/jacking/recovery and degraded configurations",
+      "Material heat/process/hot-wet/fire, corrosion, panel/joint physical correlation and independent acceptance",
+      "Complete structural bay enclosure, panels/inserts, repairs, removal access and qualified vehicle integration",
+      "Weld-bead/coating/service mass and actual equipment fixture replacement remain unrepresented"
     ]
   },
   "schema": "osr-assembly-progress/1",
   "selected": [
     {
       "design_complete": false,
-      "key": "d150174969450621308d50ec2ae9eb0c958dcfcc4f9777d3ba9759cedaf19237",
+      "key": "6c0297154d0a514d0988f79e095bda47cdd90bce7ecd8329873f7018fcb64564",
       "kind": "bearing-seat",
       "native": "completed",
       "scope": "Provisional research representative; all assembly closure and qualification holds remain applicable"
     },
     {
       "design_complete": false,
-      "key": "9df5a6627b18c5b633665e3f2ce5e37f278ca359218c1a7792293bf256d29128",
-      "kind": "service-cassette",
+      "key": "a2da067200a1d132faa973d9222019697e3659b3e2d51b4b57b928b741b06851",
+      "kind": "structural-bay",
       "native": "completed",
       "scope": "Provisional research representative; all assembly closure and qualification holds remain applicable"
     }
   ],
+  "site_summary": {
+    "built_up_fraction": 0.311175023347706,
+    "classified_area_km2": 1654.8735,
+    "concept_route_count": 14,
+    "concept_route_length_km": 473.86577,
+    "elevation_percentiles_m": {
+      "5": 31.0,
+      "95": 41.0
+    },
+    "investigation_locations": {
+      "250": 1919,
+      "500": 971
+    },
+    "landuse_investigation_candidates": 12,
+    "median_elevation_m": 36.0,
+    "missing_landcover_longitudes": [
+      44.1,
+      44.2
+    ],
+    "modelled_population": 8631423.627875682,
+    "network_corridor_population": [
+      {
+        "algorithm_and_pixel_footprint_envelope": {
+          "lower": {
+            "native_pixels": 45302,
+            "persons": 3267597.049383244
+          },
+          "upper": {
+            "native_pixels": 63166,
+            "persons": 4453603.709408892
+          }
+        },
+        "algorithm_bounds": {
+          "lower": {
+            "native_pixels": 52117,
+            "persons": 3727229.744103305
+          },
+          "upper": {
+            "native_pixels": 56815,
+            "persons": 4037840.5064285803
+          }
+        },
+        "algorithm_margin_m": 25.0,
+        "nominal": {
+          "native_pixels": 54458,
+          "persons": 3883353.604150661
+        },
+        "pixel_footprint_margin_m": 71.0,
+        "radius_m": 500.0
+      },
+      {
+        "algorithm_and_pixel_footprint_envelope": {
+          "lower": {
+            "native_pixels": 87794,
+            "persons": 5862167.342212891
+          },
+          "upper": {
+            "native_pixels": 101105,
+            "persons": 6512997.603940722
+          }
+        },
+        "algorithm_bounds": {
+          "lower": {
+            "native_pixels": 92868,
+            "persons": 6117341.47468553
+          },
+          "upper": {
+            "native_pixels": 96314,
+            "persons": 6288903.218403212
+          }
+        },
+        "algorithm_margin_m": 25.0,
+        "nominal": {
+          "native_pixels": 94656,
+          "persons": 6206510.695074501
+        },
+        "pixel_footprint_margin_m": 71.0,
+        "radius_m": 1000.0
+      }
+    ],
+    "permanent_water_fraction": 0.02731241995234077,
+    "population_corridor_basis": "WorldPop2026 model and concept-line proximity; different retained extent from context total, unique-pixel network union, not ridership/walking access",
+    "population_corridor_crop_extent": {
+      "east": 44.75,
+      "north": 33.5,
+      "south": 33.05,
+      "west": 44.2
+    },
+    "requested_bbox": {
+      "east": 44.6,
+      "north": 33.5,
+      "south": 33.1,
+      "west": 44.1
+    },
+    "river_centreline_crossings": 18,
+    "site_investigation_complete": false
+  },
   "source_sha256": {
+    "OpenSourceRail_Full_Design_Closure_Plan_2026-10-19.pdf": "258963e409fa69a94ef0954aed502d4e696b1079f74459c7829db50446857ab8",
+    "cities/catalogue/west-asia/Iraq/Baghdad/baghdad.corridor.geojson": "e4f6216d08a36d2342470162dd1a1f5bec8c367d641ee1ffa308feb7b2323c11",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/access/population-pixels.npz.gz": "2a5a94aec63edb90d7cb8980a1c440c5aaa53c6021053ed3b39fae538aaaf1c2",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/access/population-source.json": "f09e44e3086dc581828e9ed77bc21e678de97e071b30d84ebac9702c50704e2a",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/independent-landcover-samples.bin.gz": "258fb51a3c14c3cf5ab867a548df1643164e28109f1846171704c6feb201266b",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/planning-grid.json": "fe531936a003b0ce9563ac8de36d2a2d57d50690c3f9fa4934edf12a50337a43",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/alignment/water-source-receipt.json": "6610b1ffa8ff80e5cdadd434c037a0d02928dae526ae4244dce3bda6bcf1973d",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/building-footprints.json.gz": "fe96a42bbfd5ab8d53e2657bda56b753786fecf8c9baf2b5ea8d5b8657d2bcbe",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/clearance/building-source.json": "df9743b33e125cc6d208d9ac71ec7f099454ca23337a9870b98acc5fd70291e2",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/ghsl-2025-pixels.npz.gz": "320f40fd3a6e4bd5b47a5e919d373ee08c9f44ee9ab469bdabac069f0c67c991",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/ghsl-2025-source.json": "e2b8f4ceea2b0201ea1154af130de661752a206faf43d289b28a9e1f6dbed0bd",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/street-source.json": "ae8d181a52fe93e7aaed4c91c3c35125acf870df51d18ffe34e610f9bbd8dd89",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/walking-streets.geojson.gz": "08e1b63c95ac8163b1d9245cd087b7c578317e823a7d8c0eab8790b413b27da0",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/worldpop-2026-pixels.npz.gz": "bf23aa16ba1135dbd4da7b0f6191bc8b31e000b5d1ae6b6977197661ae222849",
+    "cities/catalogue/west-asia/Iraq/Baghdad/engineering/mapping/worldpop-2026-source.json": "973e686f3497b76fd731e90490338724285bbc8af7b421f1a86053216e18491e",
     "control-electronics/README.md": "c603c8a6d5ec302f87fe0ab42eecc27cce7e3f28915edbda76fe5104eae374b5",
     "design/component-catalogue/catalog/buildable-civil/reusable-type-release-register.json": "23c0c69140a75bab27400e140904d37d1fc117ad1af09da471d606fc0bd3a26f",
     "design/component-catalogue/catalog/buildable-stations/factory-drawings/STN-ACC-400.json": "5b6db00ad05416b831dc12dad67a3b62c79c9ae4c3976e6765b5c81e73f90aa3",
@@ -264,17 +2979,52 @@
     "docs/design-engine/baghdad-digital-twin-2026-10-17/specifications.json.gz": "85df1951f51cc93a41fb78bdf5cac93b36ccc5a2b1e9505ba9c1e15bcc539d71",
     "docs/design-engine/baghdad-digital-twin-2026-10-17/summary.json": "f3ab475619025bf8804b235869ed0a27e4564092e7e89c1bc17927aba31fdefc",
     "docs/rolling-stock/design-system.md": "631b31cd8e0640d9638ca40b0726b7e121588f63461471152a10dc32174e6303",
-    "engineering/analysis/tests/test_assembly_design.py": "f327ed8550c5c6906093c112bd3fe6b9b29791d93b2aa6a936be4e8e3a35bb00",
+    "engineering/analysis/tests/test_assembly_design.py": "b0dce994964da1ee8bf28a963fb45351ae4c4e9167bee3e795a1674a22720b9e",
+    "engineering/analysis/tests/test_closure_acceptance.py": "1edd108a5257071e9674c71bc160fcee87dadd2105dd04f7989ff812297e78ee",
+    "engineering/analysis/tests/test_closure_bim.py": "73caafb32b968e3382d693db4f9ed19ddc8aca90c3d937f4c99040b6d69f1c8d",
+    "engineering/analysis/tests/test_closure_cassette.py": "fefc7f2715bff3279887cc0c58d2c34a5bb7a1d3e2455d76132f4ca7beb393c3",
+    "engineering/analysis/tests/test_closure_contracts.py": "b69c61cb02f0a05298d3ec1d36c5bcde395a502bf6618a79401994fecc7def3c",
+    "engineering/analysis/tests/test_closure_integration.py": "735e0e4b23d321331c676891c4e5088c0eaec7fd001c4f763416e9fcdebbd35c",
+    "engineering/analysis/tests/test_closure_plan.py": "5873051ff1e19ed11b4f7c0c112e63452a95dae31deec6d1b793996f7cbd7f78",
+    "engineering/analysis/tests/test_closure_reactions.py": "dee9e3c25b2d17093fc922eba08cf4162aa88e13e1540207ada5c452257ada01",
+    "engineering/analysis/tests/test_closure_site_bundle.py": "f31bcb40e56d17f05486a5b318bb0b1549bd41330af6a8313ded81df165cec2b",
+    "engineering/analysis/tests/test_closure_site_catchments.py": "742f70160347494c2b22365d5463da56b72af2f74ca58a5e8b9c78d3d9b9adb6",
+    "engineering/analysis/tests/test_closure_site_context.py": "5408f4fcc83d6f53a89c9ff6b1d2aae53b6638877b40e6264c0b6b1dcc323286",
+    "engineering/analysis/tests/test_closure_site_screening.py": "f0fd2dc81ec10a85f1010f93844ab413559725c7173cb6314047b8bcc52791cd",
+    "engineering/analysis/tests/test_closure_structural_bay.py": "cb425db25396e0252af5b802ec85fb0132d9a1ab3250ed9f02e90a4da789bcd8",
     "engineering/analysis/tests/test_protocol_receiver.py": "d2da42a6f2df14cd80de87c24e026b1f6edbf64429fa27bb0c7f9fbe22a3c1b5",
     "engineering/assembly_design/__init__.py": "bf73258f664aedc3f592a5d5ae9db08fa1a2c9e9e232181f41310147eb8ab387",
-    "engineering/assembly_design/baseline.py": "d14f17b911a347d5d1e5bebdd73bed97b27864fa0960b69f4fae8ee91c53197c",
-    "engineering/assembly_design/data/baseline.json": "bd1cdc077f43909782c1e2741bdf3f6f513d026231e95ba338cd9ca3eebfa914",
-    "engineering/assembly_design/development.py": "dc963b294d046bf986d846d7037c0ba39c6755e777460b11fc7953f1189c4d8d",
-    "engineering/assembly_design/evaluate.py": "9d1ddbca8d897754aad62bd65f43756700f4da2f95c5ce0ed3965f4468a7cec3",
-    "engineering/assembly_design/models.py": "27cc218cca6870dc22764c3dff6895457bc4250acac6506979e819cf7a757e9b",
+    "engineering/assembly_design/acceptance.py": "a702120bc23757ea078ad847b719d29f4b7a184fc0d45a9051111ca7615c795c",
+    "engineering/assembly_design/baseline.py": "1c3f7c83c963a6259f4cd813737b787555bce74696f1d919420a32cd957c1dc0",
+    "engineering/assembly_design/bim.py": "91d7bb469f5b12a8e09b102420f1ccaad5edc4252101176199c9dbbf8a8937d7",
+    "engineering/assembly_design/cassette_system.py": "cfaa019dc967e6fab4adbfa3f1d9274750bec3f28f11e643eff4ea128ac06c76",
+    "engineering/assembly_design/closure.py": "2bd4b40776b4866a151aefd0d58d7c3f141b6a5ddd7c3e6a3548ba0e4863ea6a",
+    "engineering/assembly_design/contracts.py": "c80e913ef085f9aea476c0812b8f1a6f84b67e20854050880e9d2d662169b9db",
+    "engineering/assembly_design/data/baghdad-site-geometry.geojson.gz": "3cd528ab8778a7bb9eafd0d5caa88234b6e79404f29a4cfd1bcfa4512f7beb20",
+    "engineering/assembly_design/data/baghdad-site-osm.json.gz": "fde5819f39c513b59ff1e24a326dfd403f939d074455c76e8122e5d809f29c14",
+    "engineering/assembly_design/data/baghdad-site-screening.json": "9921476d11abc16e75efec5fda217d90738c2072331293362d8ee11ceafbfd25",
+    "engineering/assembly_design/data/baseline.json": "eeff00516af22d313e1ae3bb62856102c284ae27bb8386f5873ecd3eb18a962a",
+    "engineering/assembly_design/data/closure-plan.json": "4433d0d15641d6531167e86daae67ab7f1f7aad31a3d9493ce537cb3ae82cdf0",
+    "engineering/assembly_design/data/site-catchments.json": "8232b4d707967c47f2afcb4686a7fb15edfc1eff342d1017407c853ef0831e63",
+    "engineering/assembly_design/data/site-context-terrain.npz.gz": "337b340b13e8e27b6c04eaa4159f72a2ae4a0bace301c23f58bd27422f4e8348",
+    "engineering/assembly_design/data/site-context-worldpop.npz.gz": "9d7b2a42a68835d563fa46e10127bfd566fcb2bbc6ea2c017badaa9f94b53f60",
+    "engineering/assembly_design/data/site-context.geojson": "3f1d039fc4da8372b473a1d09b2d34e48e85bd06ad997ac55830e37bc2461489",
+    "engineering/assembly_design/data/site-context.json": "0985b0fc44be19b6c1a6d8692446c97211f44f9a8e48746e99a16b47051ae88b",
+    "engineering/assembly_design/development.py": "bf7e1f87d3eca5fae44754ef44e86d567832ac528db554942a19b3ebd42687bc",
+    "engineering/assembly_design/evaluate.py": "a8541cf8ff0b738091062ffdf7e6ebe7f0a2843096c38c71564638c4f919ebd4",
+    "engineering/assembly_design/families.py": "a22306f9f579f8aba393af01bd8cde8b203eed551f9acf215affad0f20d354cd",
+    "engineering/assembly_design/integration.py": "69a333786e285cc9633b2f77a36e0438e54a18ac524493d11b119435d02a4f73",
+    "engineering/assembly_design/models.py": "99101fb3805bd667dd8a235e7a54dbf126b066017bf917bc9d43cc71306b78d5",
+    "engineering/assembly_design/numerical_runtime.py": "002f6fa1d5ab697344b843ad0dabe1ff76bf4e7ab17738fc12acc8963997b6f9",
     "engineering/assembly_design/presentation.py": "9bd5a39c8f8aebf6e7a3f32aec8acdc9c72c2217a461c5f7c10ba2e67c0ab450",
-    "engineering/assembly_design/publication.py": "f61acb18463a70e06f4b72eb1668ab551a8d707c2e7e7599c86b16bd4521241c",
-    "engineering/assembly_design/workflow.py": "542c117bac089270b00e847b5067275bc7c543566666b9ea954dc8a7923293b9",
+    "engineering/assembly_design/publication.py": "99f1cc18972d3eb7b8b0854f426dee494c4e575517e809e62061d4ae98d65db3",
+    "engineering/assembly_design/reactions.py": "6fc392e917b630acc73591397c1c7a0379bca269e2ce32cbfd01debd3833e361",
+    "engineering/assembly_design/site_bundle.py": "05547fcd84b3daa41a70b313f783d04761a449311ebe7f9db85fa33874d79ff5",
+    "engineering/assembly_design/site_catchments.py": "aadc2f19a505514be5bae3ca97f186a185813e4bb5813bf28bf167ed133b15e7",
+    "engineering/assembly_design/site_context.py": "2e64c1de2341f972fdd16f8035655ad2853e1c4325dff5751b0cf21d227d5331",
+    "engineering/assembly_design/site_screening.py": "d2fa484f15028bcba29431907b9eeda720b457d09267da4425130d11af918c08",
+    "engineering/assembly_design/structural_bay.py": "513b1bc83ca31fde892f182461760b095e08039d30dd696aebf086c22fdfe571",
+    "engineering/assembly_design/workflow.py": "0557be624d2b06d9af3c929751df3d5f03f347ac786a02fe0be17d8b334e3dd8",
     "engineering/assurance/civil-reference/route-basis.json": "b53a08a3541c9b27fcb598425f1c48255cb54a91f3390bf588e5d9f1a69d2cb2",
     "engineering/assurance/civil-reference/transport-and-erection.md": "b33ce617713f8d178f33bf280bb9ad139d2dc7f294f106baac1e2ce1b6a3ee5d",
     "engineering/assurance/numerical_reproducibility.py": "145928663899c219b845e0e53ce90991c27cb74d2d7caf836ad47f43f4781b96",
@@ -606,7 +3356,7 @@
     "lib/templates/trainset-supplier-anchors.toml": "4621199776db6c8c0074555b71bfb03657967cd7d563e204accd009d647ea820",
     "lib/templates/workforce.toml": "90a5be91161dce010a1b5c88a31e2bfc9590af56b8953532e7c712c42b5466f1",
     "osr": "45386e18deedd6ec839e664b387e62bf1d9fe28c76750388015097881c035e80",
-    "tools/automation/design-assemblies.py": "1a953c7de4c6ef49cc24b8a90ae8e81fc5b0884cd361c1110d8176df5c3b592d",
+    "tools/automation/design-assemblies.py": "910084057525dca978869192bc83c303adc6dd78e355b4a15f72da39e0db27ff",
     "tools/automation/design-best-practice-twin.py": "97d961c0a36355712e5793c54d954c8c1d511316d18ea95897f7250a8009ca2f",
     "tools/automation/design-continuous.py": "907653f5a948f1206405795bc9b1f3aa8e002e5f5a2a445d6859043b2aefaed8",
     "tools/automation/design-digital-thread.py": "432e07dfc4321a7f1781d276fccd00bf1972721955b8556158b0f06862bdf91d",
@@ -618,96 +3368,21 @@
   "trials": [
     {
       "error": null,
-      "failed_checks": [],
-      "held_checks": [
-        "bearing-continuous-temperature-applicability"
-      ],
-      "key": "07bc7b7b7b007fd8be61b6f3111e2ae0193dc56741adcb39b74bd68b6f7b619e",
-      "kind": "bearing-seat",
-      "mass_kg": 200.32007241975455,
-      "state": "hold",
-      "status": "completed",
-      "variables": {
-        "bearing_family": "uk-spherical-candidate",
-        "bolt_diameter_m": 0.024,
-        "plate_thickness_m": 0.03
-      }
-    },
-    {
-      "error": null,
       "failed_checks": [
         "bearing-continuous-temperature-applicability"
       ],
-      "held_checks": [],
-      "key": "0b8def7d8520535d9eda26e789c938c692a3eb97cd6dd18fe364cdde6b19bca1",
-      "kind": "bearing-seat",
-      "mass_kg": 172.28615297297375,
-      "state": "failed",
-      "status": "completed",
-      "variables": {
-        "bearing_family": "elastomeric-reference",
-        "bolt_diameter_m": 0.024,
-        "plate_thickness_m": 0.02
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
       "held_checks": [
-        "bearing-continuous-temperature-applicability"
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items"
       ],
-      "key": "2af3ef4126672847cf034892786f8c7b745b75ce353216142ed7d9097d0ac8fb",
-      "kind": "bearing-seat",
-      "mass_kg": 229.74609431600862,
-      "state": "hold",
-      "status": "completed",
-      "variables": {
-        "bearing_family": "uk-spherical-candidate",
-        "bolt_diameter_m": 0.027,
-        "plate_thickness_m": 0.04
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [
-        "bearing-continuous-temperature-applicability"
-      ],
-      "held_checks": [],
-      "key": "318ba346e9cf683b3321fee9605db9bfe5b01f177cbdecca2818f65e527d4650",
-      "kind": "bearing-seat",
-      "mass_kg": 170.7624227946156,
-      "state": "failed",
-      "status": "completed",
-      "variables": {
-        "bearing_family": "elastomeric-reference",
-        "bolt_diameter_m": 0.02,
-        "plate_thickness_m": 0.02
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [
-        "bearing-continuous-temperature-applicability"
-      ],
-      "key": "42d5d229d999230a3f8ecf9fae5bc6cf02e6db959c8f2db23edce5f2a95f3d88",
-      "kind": "bearing-seat",
-      "mass_kg": 226.84849147070005,
-      "state": "hold",
-      "status": "completed",
-      "variables": {
-        "bearing_family": "uk-spherical-candidate",
-        "bolt_diameter_m": 0.02,
-        "plate_thickness_m": 0.04
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [
-        "bearing-continuous-temperature-applicability"
-      ],
-      "held_checks": [],
-      "key": "44215b201aed9f2b36291014233d25a7ee9b65a74f0e33c7b9e6c08dd9af1ee7",
+      "key": "0f28b7e11ced3cb4ed6c66914938e926b3a70cdf3e1b0518aee0d0865f889643",
       "kind": "bearing-seat",
       "mass_kg": 201.72009860992665,
       "state": "failed",
@@ -723,16 +3398,104 @@
       "failed_checks": [
         "bearing-continuous-temperature-applicability"
       ],
-      "held_checks": [],
-      "key": "4aea720f37bdd5065ef485d27a1bdb2b66e17e59a01cf5cb691e1bdd4cc99f43",
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items"
+      ],
+      "key": "13180530993737f6a46b8f88dcd4611c984b270b3a17dfcf1622007ed593990d",
       "kind": "bearing-seat",
-      "mass_kg": 226.84849147070005,
+      "mass_kg": 198.8054571326578,
       "state": "failed",
       "status": "completed",
       "variables": {
         "bearing_family": "elastomeric-reference",
         "bolt_diameter_m": 0.02,
-        "plate_thickness_m": 0.04
+        "plate_thickness_m": 0.03
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items",
+        "bearing-continuous-temperature-applicability"
+      ],
+      "key": "17b523471dbfe7f573305a58439bf9feb3ae918ac6a86b12317907f38997a0d0",
+      "kind": "bearing-seat",
+      "mass_kg": 201.72009860992665,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "bearing_family": "uk-spherical-candidate",
+        "bolt_diameter_m": 0.027,
+        "plate_thickness_m": 0.03
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items",
+        "bearing-continuous-temperature-applicability"
+      ],
+      "key": "26d041eb7066e67c3d63549f44dbd125b5dfff4a11a4ca0b43e8f4471812319e",
+      "kind": "bearing-seat",
+      "mass_kg": 198.8054571326578,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "bearing_family": "uk-spherical-candidate",
+        "bolt_diameter_m": 0.02,
+        "plate_thickness_m": 0.03
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items",
+        "bearing-continuous-temperature-applicability"
+      ],
+      "key": "3d2cbdbc3dca9a949d1dd3f1d075e74fd796659df42164831f9267f7e641bdaf",
+      "kind": "bearing-seat",
+      "mass_kg": 200.32007241975455,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "bearing_family": "uk-spherical-candidate",
+        "bolt_diameter_m": 0.024,
+        "plate_thickness_m": 0.03
       }
     },
     {
@@ -740,8 +3503,45 @@
       "failed_checks": [
         "bearing-continuous-temperature-applicability"
       ],
-      "held_checks": [],
-      "key": "5967db799ea1a6291151cfa02442a3a3067dff92852365a9b7ff2410c94a0947",
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items"
+      ],
+      "key": "4651e1cefab915fb3784de6177ccf67c75bd191c067085547f673ae3999f200e",
+      "kind": "bearing-seat",
+      "mass_kg": 170.7624227946156,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bearing_family": "elastomeric-reference",
+        "bolt_diameter_m": 0.02,
+        "plate_thickness_m": 0.02
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "bearing-continuous-temperature-applicability"
+      ],
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items"
+      ],
+      "key": "57bea712f443d93e83692b4714c95ba3890c4e52bb42d16ecc914f46c8d74093",
       "kind": "bearing-seat",
       "mass_kg": 229.74609431600862,
       "state": "failed",
@@ -756,128 +3556,18 @@
       "error": null,
       "failed_checks": [],
       "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items",
         "bearing-continuous-temperature-applicability"
       ],
-      "key": "60a1e01e411ceeee721901f74ab63ccc65d6a849f1786868506d6bd1502f9903",
-      "kind": "bearing-seat",
-      "mass_kg": 201.72009860992665,
-      "state": "hold",
-      "status": "completed",
-      "variables": {
-        "bearing_family": "uk-spherical-candidate",
-        "bolt_diameter_m": 0.027,
-        "plate_thickness_m": 0.03
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [
-        "bearing-continuous-temperature-applicability"
-      ],
-      "held_checks": [],
-      "key": "61b0316aa4664d6340e2fecc10464a9d01731a44d1f8cb41e846f4b9d9609c3c",
-      "kind": "bearing-seat",
-      "mass_kg": 173.69410290384468,
-      "state": "failed",
-      "status": "completed",
-      "variables": {
-        "bearing_family": "elastomeric-reference",
-        "bolt_diameter_m": 0.027,
-        "plate_thickness_m": 0.02
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [
-        "bearing-continuous-temperature-applicability"
-      ],
-      "key": "721c9fac9c78ac68a1c24b2eade810c8721738c6d4cdb7e97353d87fcf8527f2",
-      "kind": "bearing-seat",
-      "mass_kg": 228.35399186653538,
-      "state": "hold",
-      "status": "completed",
-      "variables": {
-        "bearing_family": "uk-spherical-candidate",
-        "bolt_diameter_m": 0.024,
-        "plate_thickness_m": 0.04
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [
-        "bearing-continuous-temperature-applicability"
-      ],
-      "held_checks": [],
-      "key": "7c34986b6d1aa09622ba8f6156aba090da4fbe3b16150857ce67a7a239798189",
-      "kind": "bearing-seat",
-      "mass_kg": 200.32007241975455,
-      "state": "failed",
-      "status": "completed",
-      "variables": {
-        "bearing_family": "elastomeric-reference",
-        "bolt_diameter_m": 0.024,
-        "plate_thickness_m": 0.03
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [
-        "bearing-continuous-temperature-applicability"
-      ],
-      "key": "7e1a3d6b5457b2503f93dc95266b6821c74efe5e801de4662ba71bb4f33d261c",
-      "kind": "bearing-seat",
-      "mass_kg": 172.28615297297375,
-      "state": "hold",
-      "status": "completed",
-      "variables": {
-        "bearing_family": "uk-spherical-candidate",
-        "bolt_diameter_m": 0.024,
-        "plate_thickness_m": 0.02
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [
-        "bearing-continuous-temperature-applicability"
-      ],
-      "held_checks": [],
-      "key": "a18d10778355e80e9ea5ff9513a147e214166598ba481f3e747c7567a81872c8",
-      "kind": "bearing-seat",
-      "mass_kg": 228.35399186653538,
-      "state": "failed",
-      "status": "completed",
-      "variables": {
-        "bearing_family": "elastomeric-reference",
-        "bolt_diameter_m": 0.024,
-        "plate_thickness_m": 0.04
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [
-        "bearing-continuous-temperature-applicability"
-      ],
-      "held_checks": [],
-      "key": "b07cf9d9468e196c41ffd234df82daab8d0d9dcd98ca99bf86ec463f49771858",
-      "kind": "bearing-seat",
-      "mass_kg": 198.8054571326578,
-      "state": "failed",
-      "status": "completed",
-      "variables": {
-        "bearing_family": "elastomeric-reference",
-        "bolt_diameter_m": 0.02,
-        "plate_thickness_m": 0.03
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [
-        "bearing-continuous-temperature-applicability"
-      ],
-      "key": "d150174969450621308d50ec2ae9eb0c958dcfcc4f9777d3ba9759cedaf19237",
+      "key": "6c0297154d0a514d0988f79e095bda47cdd90bce7ecd8329873f7018fcb64564",
       "kind": "bearing-seat",
       "mass_kg": 170.7624227946156,
       "state": "hold",
@@ -890,11 +3580,232 @@
     },
     {
       "error": null,
-      "failed_checks": [],
-      "held_checks": [
+      "failed_checks": [
         "bearing-continuous-temperature-applicability"
       ],
-      "key": "d224c2473c96d99938830d754f68d2a2b16b5f3d75b05dacf39c4c99a8ea9c5b",
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items"
+      ],
+      "key": "8ee3b9d089b89e3cc73a4471fe0ae60aef0d5005faf3c7c6c4ce11adeb514793",
+      "kind": "bearing-seat",
+      "mass_kg": 200.32007241975455,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bearing_family": "elastomeric-reference",
+        "bolt_diameter_m": 0.024,
+        "plate_thickness_m": 0.03
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "bearing-continuous-temperature-applicability"
+      ],
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items"
+      ],
+      "key": "9c00c8354169127a5fc11135e488fb0524bddc5815f78f397132c4a4ad9c2cb4",
+      "kind": "bearing-seat",
+      "mass_kg": 226.84849147070005,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bearing_family": "elastomeric-reference",
+        "bolt_diameter_m": 0.02,
+        "plate_thickness_m": 0.04
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items",
+        "bearing-continuous-temperature-applicability"
+      ],
+      "key": "c635d0c2e0242c23e74db8c5c88a4e650a0f96e99b7c60e4f3d3f55b407a507a",
+      "kind": "bearing-seat",
+      "mass_kg": 228.35399186653538,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "bearing_family": "uk-spherical-candidate",
+        "bolt_diameter_m": 0.024,
+        "plate_thickness_m": 0.04
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "bearing-continuous-temperature-applicability"
+      ],
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items"
+      ],
+      "key": "c841234c67dd905e6dd4beff7eaee9c17fd9ea009b07ffb8b51d16d9d82f1116",
+      "kind": "bearing-seat",
+      "mass_kg": 228.35399186653538,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bearing_family": "elastomeric-reference",
+        "bolt_diameter_m": 0.024,
+        "plate_thickness_m": 0.04
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "bearing-continuous-temperature-applicability"
+      ],
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items"
+      ],
+      "key": "ca8d2f49d68855dcbe250ee105459fa64fbed0b29301889a6d2ee4c2ab2733d7",
+      "kind": "bearing-seat",
+      "mass_kg": 172.28615297297375,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bearing_family": "elastomeric-reference",
+        "bolt_diameter_m": 0.024,
+        "plate_thickness_m": 0.02
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items",
+        "bearing-continuous-temperature-applicability"
+      ],
+      "key": "e568ffcb13fe6401cd66413bf1f0218dc0b99018b03c97e389b437697c6d76db",
+      "kind": "bearing-seat",
+      "mass_kg": 229.74609431600862,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "bearing_family": "uk-spherical-candidate",
+        "bolt_diameter_m": 0.027,
+        "plate_thickness_m": 0.04
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items",
+        "bearing-continuous-temperature-applicability"
+      ],
+      "key": "ebfe8a2156fcc13d3032984c4ad096288dc5fe40db3df08dd04958421a6b438e",
+      "kind": "bearing-seat",
+      "mass_kg": 226.84849147070005,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "bearing_family": "uk-spherical-candidate",
+        "bolt_diameter_m": 0.02,
+        "plate_thickness_m": 0.04
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items",
+        "bearing-continuous-temperature-applicability"
+      ],
+      "key": "f85b11ce2b80a1684674d7f7800c9b817b644a38028fc7ac63b7072bb1fde948",
+      "kind": "bearing-seat",
+      "mass_kg": 172.28615297297375,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "bearing_family": "uk-spherical-candidate",
+        "bolt_diameter_m": 0.024,
+        "plate_thickness_m": 0.02
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items",
+        "bearing-continuous-temperature-applicability"
+      ],
+      "key": "fb4501d39dd4e9af56ae9cb70bbdb4dd77cebc3a774bcc0a038a4f35c83e316b",
       "kind": "bearing-seat",
       "mass_kg": 173.69410290384468,
       "state": "hold",
@@ -907,39 +3818,36 @@
     },
     {
       "error": null,
-      "failed_checks": [],
-      "held_checks": [
+      "failed_checks": [
         "bearing-continuous-temperature-applicability"
       ],
-      "key": "effd86ee25b71f0ffb9bf4b5dac4b8495a3aa251e55e338f97fb14d20beab91c",
+      "held_checks": [
+        "mandatory-action/braking-traction",
+        "mandatory-action/thermal-restraint",
+        "mandatory-action/wind",
+        "mandatory-action/seismic",
+        "mandatory-action/uplift-contact",
+        "mandatory-action/erection",
+        "mandatory-action/railway-dynamic-axle-fatigue",
+        "mandatory-action/ground-response",
+        "mandatory-action/unrepresented-permanent-items"
+      ],
+      "key": "fe471a1a580bd7b435076e5d742e05d23e92cd474ebc6766988e1782ecef5fa1",
       "kind": "bearing-seat",
-      "mass_kg": 198.8054571326578,
-      "state": "hold",
+      "mass_kg": 173.69410290384468,
+      "state": "failed",
       "status": "completed",
       "variables": {
-        "bearing_family": "uk-spherical-candidate",
-        "bolt_diameter_m": 0.02,
-        "plate_thickness_m": 0.03
+        "bearing_family": "elastomeric-reference",
+        "bolt_diameter_m": 0.027,
+        "plate_thickness_m": 0.02
       }
     },
     {
       "error": null,
       "failed_checks": [],
       "held_checks": [],
-      "key": "50ccb41c0683cf1bb25e9ef1072a7968b21fa6c414ec3f41a310c04b8106fbdf",
-      "kind": "cassette-control",
-      "mass_kg": null,
-      "state": "offline-tests",
-      "status": "completed",
-      "variables": {
-        "variant": "bitmask"
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [],
-      "key": "55d3c60a05a48086013247fd1ab4a56743cf320f9ba8329ee561018745438672",
+      "key": "01d646d364e7febfd1194492962a5aeafe87138b973d94a0d66e61bc4910e4e9",
       "kind": "cassette-control",
       "mass_kg": null,
       "state": "offline-tests",
@@ -950,30 +3858,36 @@
     },
     {
       "error": null,
-      "failed_checks": [
-        "duct-packaging"
-      ],
+      "failed_checks": [],
       "held_checks": [],
-      "key": "0125329760236fddc4a75c924d44f65d7c367d50a662555b5842d4ff07b83b8a",
-      "kind": "service-cassette",
-      "mass_kg": 39.52903700730088,
-      "state": "failed",
+      "key": "110af6cb1d124b35696f4d17dde09aed6c5a468f687fa21752b8197dd50a93d9",
+      "kind": "cassette-control",
+      "mass_kg": null,
+      "state": "offline-tests",
       "status": "completed",
       "variables": {
-        "bolt_diameter_m": 0.016,
-        "duct_area_m2": 0.03,
-        "rail_wall_m": 0.004
+        "variant": "bitmask"
       }
     },
     {
       "error": null,
       "failed_checks": [
-        "duct-packaging"
+        "duct-packaging",
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float"
       ],
-      "held_checks": [],
-      "key": "02dbb37c26223d9d1f650040aa3123c408456df1a82000030dc78cbf0804a6da",
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "00288e0e8c0060176c290e2e42706b9cd8dfbe7498aef0c44d862824fa254f88",
       "kind": "service-cassette",
-      "mass_kg": 36.975727033813044,
+      "mass_kg": 36.95544967279714,
       "state": "failed",
       "status": "completed",
       "variables": {
@@ -984,74 +3898,23 @@
     },
     {
       "error": null,
-      "failed_checks": [],
-      "held_checks": [],
-      "key": "184c72f28d6a37717da3fd49cf0cc795e4c6068c69c2b39224b64da0e95e5335",
-      "kind": "service-cassette",
-      "mass_kg": 35.56272703381305,
-      "state": "screened-with-open-design-requirements",
-      "status": "completed",
-      "variables": {
-        "bolt_diameter_m": 0.02,
-        "duct_area_m2": 0.01,
-        "rail_wall_m": 0.003
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [],
-      "key": "1d085105ab73ed3ef8551f765395dba9079be3bba91a3dbc19a43ea62bee8bf8",
-      "kind": "service-cassette",
-      "mass_kg": 38.77933469955695,
-      "state": "screened-with-open-design-requirements",
-      "status": "completed",
-      "variables": {
-        "bolt_diameter_m": 0.02,
-        "duct_area_m2": 0.01,
-        "rail_wall_m": 0.004
-      }
-    },
-    {
-      "error": null,
       "failed_checks": [
-        "duct-packaging"
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float"
       ],
-      "held_checks": [],
-      "key": "232158f132f582867ab92dbab1f065de63c80102ef9af32a84c7172314f11bbf",
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "039c0c83255379330eb7b48cb495ff93b16dae80fb9adfc266df057fdb540664",
       "kind": "service-cassette",
-      "mass_kg": 36.30383530122479,
+      "mass_kg": 36.24894967279713,
       "state": "failed",
-      "status": "completed",
-      "variables": {
-        "bolt_diameter_m": 0.016,
-        "duct_area_m2": 0.03,
-        "rail_wall_m": 0.003
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [],
-      "key": "32371f9e6765a041ebd7d1f6c3e6fa66ac9cc702adb90e72f4e0736ad909cc44",
-      "kind": "service-cassette",
-      "mass_kg": 32.22141359514869,
-      "state": "screened-with-open-design-requirements",
-      "status": "completed",
-      "variables": {
-        "bolt_diameter_m": 0.016,
-        "duct_area_m2": 0.02,
-        "rail_wall_m": 0.002
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [],
-      "key": "3d0e77904823b1469e5ab480bbf92f85eb2b1a42e4de1703b94fe67810cbb688",
-      "kind": "service-cassette",
-      "mass_kg": 36.269227033813046,
-      "state": "screened-with-open-design-requirements",
       "status": "completed",
       "variables": {
         "bolt_diameter_m": 0.02,
@@ -1062,43 +3925,24 @@
     {
       "error": null,
       "failed_checks": [
-        "duct-packaging"
+        "cassette-system/nominal_duct_flow_target",
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float",
+        "cassette-system/nominal-duct/proposed_flow_target"
       ],
-      "held_checks": [],
-      "key": "5147ca3c5f579886981450f4b847b819a8f381941fc20af2e36b98430629afd1",
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "0606520b10c34726065ab1efe83da3a3f598a345865de32496a176cfc5a4197c",
       "kind": "service-cassette",
-      "mass_kg": 32.92791359514869,
+      "mass_kg": 32.17512200705323,
       "state": "failed",
-      "status": "completed",
-      "variables": {
-        "bolt_diameter_m": 0.016,
-        "duct_area_m2": 0.03,
-        "rail_wall_m": 0.002
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [],
-      "key": "90e41f0d8f40751d349ca21bab3a2707d53042dcf231b900a7effe3b192be73d",
-      "kind": "service-cassette",
-      "mass_kg": 39.485834699556946,
-      "state": "screened-with-open-design-requirements",
-      "status": "completed",
-      "variables": {
-        "bolt_diameter_m": 0.02,
-        "duct_area_m2": 0.02,
-        "rail_wall_m": 0.004
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [],
-      "key": "913f6a0763361782f59b6f0055cc70a4112ee4d1dff4341a5840553f7df41c23",
-      "kind": "service-cassette",
-      "mass_kg": 32.19539936806915,
-      "state": "screened-with-open-design-requirements",
       "status": "completed",
       "variables": {
         "bolt_diameter_m": 0.02,
@@ -1108,75 +3952,28 @@
     },
     {
       "error": null,
-      "failed_checks": [],
-      "held_checks": [],
-      "key": "9df5a6627b18c5b633665e3f2ce5e37f278ca359218c1a7792293bf256d29128",
+      "failed_checks": [
+        "cassette-system/nominal_duct_flow_target",
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float",
+        "cassette-system/nominal-duct/proposed_flow_target"
+      ],
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "0a167b95aa5038774411fead82c29399ff04f3f3ec9aa9d2c3e363a1d6eba184",
       "kind": "service-cassette",
-      "mass_kg": 31.514913595148688,
-      "state": "screened-with-open-design-requirements",
+      "mass_kg": 35.54244967279713,
+      "state": "failed",
       "status": "completed",
       "variables": {
-        "bolt_diameter_m": 0.016,
-        "duct_area_m2": 0.01,
-        "rail_wall_m": 0.002
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [],
-      "key": "b99a9cd25fd1e6aba8dddd99c5d05f15af3d815c9dc0e32a5f92a2843c12ba2c",
-      "kind": "service-cassette",
-      "mass_kg": 38.82253700730088,
-      "state": "screened-with-open-design-requirements",
-      "status": "completed",
-      "variables": {
-        "bolt_diameter_m": 0.016,
-        "duct_area_m2": 0.02,
-        "rail_wall_m": 0.004
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [],
-      "key": "cd1ad494b6817394cfaefdf6f8a4f05db45a80b7298714ca05b2e6ac58a30255",
-      "kind": "service-cassette",
-      "mass_kg": 35.59733530122478,
-      "state": "screened-with-open-design-requirements",
-      "status": "completed",
-      "variables": {
-        "bolt_diameter_m": 0.016,
-        "duct_area_m2": 0.02,
-        "rail_wall_m": 0.003
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [],
-      "key": "d0c9de6d60cd4883605eed3c3fe48ae2dbca65fd396c008fcc561fe86846747d",
-      "kind": "service-cassette",
-      "mass_kg": 38.11603700730088,
-      "state": "screened-with-open-design-requirements",
-      "status": "completed",
-      "variables": {
-        "bolt_diameter_m": 0.016,
-        "duct_area_m2": 0.01,
-        "rail_wall_m": 0.004
-      }
-    },
-    {
-      "error": null,
-      "failed_checks": [],
-      "held_checks": [],
-      "key": "d8663756149f055fd0db941dc0a75b859c316f4b505fc1b6c82655e2a524159e",
-      "kind": "service-cassette",
-      "mass_kg": 34.89083530122478,
-      "state": "screened-with-open-design-requirements",
-      "status": "completed",
-      "variables": {
-        "bolt_diameter_m": 0.016,
+        "bolt_diameter_m": 0.02,
         "duct_area_m2": 0.01,
         "rail_wall_m": 0.003
       }
@@ -1184,12 +3981,48 @@
     {
       "error": null,
       "failed_checks": [
-        "duct-packaging"
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float"
       ],
-      "held_checks": [],
-      "key": "de73d4a097fcb1835aee2071e1102f6252c2e4c6b93cb05fac0dfa0f86c11ce5",
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "316ec9c64d23850d186594f56827da92474218fe54f9d9d0906fdc74837b7a8e",
       "kind": "service-cassette",
-      "mass_kg": 40.19233469955695,
+      "mass_kg": 38.802259646284966,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bolt_diameter_m": 0.016,
+        "duct_area_m2": 0.02,
+        "rail_wall_m": 0.004
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "duct-packaging",
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float"
+      ],
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "32e342a6d4daa0143beb5062f0314c634bf250803ac8c57474475449875c7fea",
+      "kind": "service-cassette",
+      "mass_kg": 40.17205733854104,
       "state": "failed",
       "status": "completed",
       "variables": {
@@ -1201,12 +4034,211 @@
     {
       "error": null,
       "failed_checks": [
-        "duct-packaging"
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float"
       ],
-      "held_checks": [],
-      "key": "ebcadfec4d05bd95c4ab1bdd62453e4b094f7f7fd5a2b97b6a2dba46c6b9a922",
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "46b45b744747cb356ab42b362bc8df11544a597224e1f65daad4d42ab928ed07",
       "kind": "service-cassette",
-      "mass_kg": 33.60839936806914,
+      "mass_kg": 32.88162200705323,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bolt_diameter_m": 0.02,
+        "duct_area_m2": 0.02,
+        "rail_wall_m": 0.002
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "cassette-system/nominal_duct_flow_target",
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float",
+        "cassette-system/nominal-duct/proposed_flow_target"
+      ],
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "52604c651f6298db22667787f358a943236350a560fff968162e5f84aa698e72",
+      "kind": "service-cassette",
+      "mass_kg": 31.494636234132773,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bolt_diameter_m": 0.016,
+        "duct_area_m2": 0.01,
+        "rail_wall_m": 0.002
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float"
+      ],
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "80a18362b0e746bc610053cf32a5ee23a32ed81128f39d8d57d94499c2b0b5eb",
+      "kind": "service-cassette",
+      "mass_kg": 35.577057940208874,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bolt_diameter_m": 0.016,
+        "duct_area_m2": 0.02,
+        "rail_wall_m": 0.003
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "duct-packaging",
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float"
+      ],
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "8ae9a45d7920671ec397b490d70ed33a0a877171d55da7cfcd9ef6df5c4d5a6f",
+      "kind": "service-cassette",
+      "mass_kg": 36.28355794020887,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bolt_diameter_m": 0.016,
+        "duct_area_m2": 0.03,
+        "rail_wall_m": 0.003
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "cassette-system/nominal_duct_flow_target",
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float",
+        "cassette-system/nominal-duct/proposed_flow_target"
+      ],
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "9f8be8775519c39e4a706397a499ce2f665cee354f5785e181f3f9cf99ac3632",
+      "kind": "service-cassette",
+      "mass_kg": 38.09575964628497,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bolt_diameter_m": 0.016,
+        "duct_area_m2": 0.01,
+        "rail_wall_m": 0.004
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float"
+      ],
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "b9d86fbbeb6c6bf9f4fe4d85f53376418cacf172253afb17e0777f8475b96497",
+      "kind": "service-cassette",
+      "mass_kg": 39.46555733854104,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bolt_diameter_m": 0.02,
+        "duct_area_m2": 0.02,
+        "rail_wall_m": 0.004
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "cassette-system/nominal_duct_flow_target",
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float",
+        "cassette-system/nominal-duct/proposed_flow_target"
+      ],
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "ce197f5f8534fc36a09c571d923f641307d4891254bba3678c77f0862f7e5ac3",
+      "kind": "service-cassette",
+      "mass_kg": 38.759057338541034,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bolt_diameter_m": 0.02,
+        "duct_area_m2": 0.01,
+        "rail_wall_m": 0.004
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "duct-packaging",
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float"
+      ],
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "d7fe4779e930a6268feac6115e0c168c0652f1d3ab144ca3d3a1c5c683e5d706",
+      "kind": "service-cassette",
+      "mass_kg": 33.58812200705324,
       "state": "failed",
       "status": "completed",
       "variables": {
@@ -1217,17 +4249,398 @@
     },
     {
       "error": null,
-      "failed_checks": [],
-      "held_checks": [],
-      "key": "f4f03b30a640fc2110dbe9af92b439f8a8266bfb9271e28fe23d94c7f0d7a338",
+      "failed_checks": [
+        "duct-packaging",
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float"
+      ],
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "d8505a6ebb6daaa4f522c14cca28ab7e4a24b345353bda4081d643b5ddc71316",
       "kind": "service-cassette",
-      "mass_kg": 32.901899368069145,
-      "state": "screened-with-open-design-requirements",
+      "mass_kg": 32.907636234132774,
+      "state": "failed",
       "status": "completed",
       "variables": {
-        "bolt_diameter_m": 0.02,
+        "bolt_diameter_m": 0.016,
+        "duct_area_m2": 0.03,
+        "rail_wall_m": 0.002
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "cassette-system/nominal_duct_flow_target",
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float",
+        "cassette-system/nominal-duct/proposed_flow_target"
+      ],
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "dbb08ad23a9bb5ee2ad771a1593429c0fd8c6e14cbd9128e66dadc06209516fd",
+      "kind": "service-cassette",
+      "mass_kg": 34.87055794020887,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bolt_diameter_m": 0.016,
+        "duct_area_m2": 0.01,
+        "rail_wall_m": 0.003
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float"
+      ],
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "f5ae0757e32ec08dfa2abc716a1730c842ce78f64a44ac3060257af6f1c00d57",
+      "kind": "service-cassette",
+      "mass_kg": 32.201136234132775,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bolt_diameter_m": 0.016,
         "duct_area_m2": 0.02,
         "rail_wall_m": 0.002
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [
+        "duct-packaging",
+        "cassette-system/worst_case_guide_fit",
+        "cassette-system/worst_case_connector_float"
+      ],
+      "held_checks": [
+        "cassette-system/connector_derating",
+        "cassette-system/protection_coordination",
+        "cassette-system/actual_removal_access",
+        "cassette-system/physical_qualification",
+        "cassette-system/nominal-duct/fan_supplier_map",
+        "cassette-system/nominal-duct/installed_leak_acceptance",
+        "cassette-system/nominal-duct/refrigeration_capacity"
+      ],
+      "key": "f7317cbb87ce0e66415130759574805a27634d08e84b1cda2989b8c233a32a52",
+      "kind": "service-cassette",
+      "mass_kg": 39.508759646284965,
+      "state": "failed",
+      "status": "completed",
+      "variables": {
+        "bolt_diameter_m": 0.016,
+        "duct_area_m2": 0.03,
+        "rail_wall_m": 0.004
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "local-floor-resistance",
+        "bolt-and-weld-resistance",
+        "shell-buckling",
+        "modal-acceptance",
+        "fatigue-spectrum",
+        "actual-equipment-loads",
+        "whole-car-bogie-interface",
+        "physical-joint-panel-correlation"
+      ],
+      "key": "01767194006c56712dd190a8f1afee1e92eaa3ba3b54035f29e0f3c83b0b8259",
+      "kind": "structural-bay",
+      "mass_kg": 125.24645960362926,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "crossmember_count": 2,
+        "floor_thickness_m": 0.004,
+        "rail_wall_m": 0.005
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "local-floor-resistance",
+        "bolt-and-weld-resistance",
+        "shell-buckling",
+        "modal-acceptance",
+        "fatigue-spectrum",
+        "actual-equipment-loads",
+        "whole-car-bogie-interface",
+        "physical-joint-panel-correlation"
+      ],
+      "key": "21c8c138a4de54f6cb9a47dbbcc30596e123686287a201b59ef8c06d64427287",
+      "kind": "structural-bay",
+      "mass_kg": 134.10125960362927,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "crossmember_count": 3,
+        "floor_thickness_m": 0.004,
+        "rail_wall_m": 0.005
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "local-floor-resistance",
+        "bolt-and-weld-resistance",
+        "shell-buckling",
+        "modal-acceptance",
+        "fatigue-spectrum",
+        "actual-equipment-loads",
+        "whole-car-bogie-interface",
+        "physical-joint-panel-correlation"
+      ],
+      "key": "2b9c17eb0c3edaa53db9cf67d303bdba764e097e83d8beffe3029f6d48c6bf2f",
+      "kind": "structural-bay",
+      "mass_kg": 107.66497160362927,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "crossmember_count": 2,
+        "floor_thickness_m": 0.004,
+        "rail_wall_m": 0.003
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "local-floor-resistance",
+        "bolt-and-weld-resistance",
+        "shell-buckling",
+        "modal-acceptance",
+        "fatigue-spectrum",
+        "actual-equipment-loads",
+        "whole-car-bogie-interface",
+        "physical-joint-panel-correlation"
+      ],
+      "key": "3a8741329994ae635e085f68cead59b63ea1d5957b56b523624efc10bda2a17c",
+      "kind": "structural-bay",
+      "mass_kg": 124.12610864541128,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "crossmember_count": 3,
+        "floor_thickness_m": 0.003,
+        "rail_wall_m": 0.005
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "local-floor-resistance",
+        "bolt-and-weld-resistance",
+        "shell-buckling",
+        "modal-acceptance",
+        "fatigue-spectrum",
+        "actual-equipment-loads",
+        "whole-car-bogie-interface",
+        "physical-joint-panel-correlation"
+      ],
+      "key": "4401a42f6b1c29c41b544d1eb077b1b81a84fcc9ea58d894b38ca66f77509481",
+      "kind": "structural-bay",
+      "mass_kg": 116.59010760362926,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "crossmember_count": 2,
+        "floor_thickness_m": 0.004,
+        "rail_wall_m": 0.004
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "local-floor-resistance",
+        "bolt-and-weld-resistance",
+        "shell-buckling",
+        "modal-acceptance",
+        "fatigue-spectrum",
+        "actual-equipment-loads",
+        "whole-car-bogie-interface",
+        "physical-joint-panel-correlation"
+      ],
+      "key": "579e68542dcccb743b84a4c1758e35d5c550923090160d10fe2acf236ea736b7",
+      "kind": "structural-bay",
+      "mass_kg": 115.27130864541128,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "crossmember_count": 2,
+        "floor_thickness_m": 0.003,
+        "rail_wall_m": 0.005
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "local-floor-resistance",
+        "bolt-and-weld-resistance",
+        "shell-buckling",
+        "modal-acceptance",
+        "fatigue-spectrum",
+        "actual-equipment-loads",
+        "whole-car-bogie-interface",
+        "physical-joint-panel-correlation"
+      ],
+      "key": "725e3cc98a7a2c3a774a6365256ad3c30e4eedaaae4f2b0c198a129405eea6fd",
+      "kind": "structural-bay",
+      "mass_kg": 106.61495664541127,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "crossmember_count": 2,
+        "floor_thickness_m": 0.003,
+        "rail_wall_m": 0.004
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "local-floor-resistance",
+        "bolt-and-weld-resistance",
+        "shell-buckling",
+        "modal-acceptance",
+        "fatigue-spectrum",
+        "actual-equipment-loads",
+        "whole-car-bogie-interface",
+        "physical-joint-panel-correlation"
+      ],
+      "key": "9f609501100cf5ef168de0d914657170062e35ebc240b8eaa4fde5525cb241e8",
+      "kind": "structural-bay",
+      "mass_kg": 103.17979664541127,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "crossmember_count": 3,
+        "floor_thickness_m": 0.003,
+        "rail_wall_m": 0.003
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "local-floor-resistance",
+        "bolt-and-weld-resistance",
+        "shell-buckling",
+        "modal-acceptance",
+        "fatigue-spectrum",
+        "actual-equipment-loads",
+        "whole-car-bogie-interface",
+        "physical-joint-panel-correlation"
+      ],
+      "key": "a2da067200a1d132faa973d9222019697e3659b3e2d51b4b57b928b741b06851",
+      "kind": "structural-bay",
+      "mass_kg": 97.68982064541127,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "crossmember_count": 2,
+        "floor_thickness_m": 0.003,
+        "rail_wall_m": 0.003
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "local-floor-resistance",
+        "bolt-and-weld-resistance",
+        "shell-buckling",
+        "modal-acceptance",
+        "fatigue-spectrum",
+        "actual-equipment-loads",
+        "whole-car-bogie-interface",
+        "physical-joint-panel-correlation"
+      ],
+      "key": "b35341f6fc044d28c840b4a843adc2f49a0a8cd519ee6f2021fd4ee0ec4a1cd7",
+      "kind": "structural-bay",
+      "mass_kg": 123.79201160362926,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "crossmember_count": 3,
+        "floor_thickness_m": 0.004,
+        "rail_wall_m": 0.004
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "local-floor-resistance",
+        "bolt-and-weld-resistance",
+        "shell-buckling",
+        "modal-acceptance",
+        "fatigue-spectrum",
+        "actual-equipment-loads",
+        "whole-car-bogie-interface",
+        "physical-joint-panel-correlation"
+      ],
+      "key": "bd59a9ea59a3507af5d785e721c933b81123ba9bd590e663718b25d9d1b95b40",
+      "kind": "structural-bay",
+      "mass_kg": 113.81686064541127,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "crossmember_count": 3,
+        "floor_thickness_m": 0.003,
+        "rail_wall_m": 0.004
+      }
+    },
+    {
+      "error": null,
+      "failed_checks": [],
+      "held_checks": [
+        "local-floor-resistance",
+        "bolt-and-weld-resistance",
+        "shell-buckling",
+        "modal-acceptance",
+        "fatigue-spectrum",
+        "actual-equipment-loads",
+        "whole-car-bogie-interface",
+        "physical-joint-panel-correlation"
+      ],
+      "key": "e101eeca76fa0cb8f035945add74e75b323a4cfa9310ac4e38888eb04664d601",
+      "kind": "structural-bay",
+      "mass_kg": 113.15494760362927,
+      "state": "hold",
+      "status": "completed",
+      "variables": {
+        "crossmember_count": 3,
+        "floor_thickness_m": 0.004,
+        "rail_wall_m": 0.003
       }
     }
   ],

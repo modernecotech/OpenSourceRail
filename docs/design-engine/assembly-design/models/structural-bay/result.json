@@ -1,0 +1,473 @@
+{
+  "candidate_revision": "872259b8b52c4b53ecde4aee1162377d0ad1fd88b26ea2c51c852c6622329116",
+  "checks": {
+    "actual-equipment-loads": null,
+    "bolt-and-weld-resistance": null,
+    "fatigue-spectrum": null,
+    "local-floor-resistance": null,
+    "modal-acceptance": null,
+    "physical-joint-panel-correlation": null,
+    "shell-buckling": null,
+    "vertical-1.0g/clamped-boundary-control": true,
+    "vertical-1.0g/closed-form-agreement": true,
+    "vertical-1.0g/equilibrium": true,
+    "vertical-1.0g/mesh-refinement": true,
+    "vertical-1.0g/rail-deflection-provisional": true,
+    "vertical-1.0g/rail-stress-provisional": true,
+    "vertical-1.0g/whole-bay-force-balance": true,
+    "vertical-3.0g/clamped-boundary-control": true,
+    "vertical-3.0g/closed-form-agreement": true,
+    "vertical-3.0g/equilibrium": true,
+    "vertical-3.0g/mesh-refinement": true,
+    "vertical-3.0g/rail-deflection-provisional": true,
+    "vertical-3.0g/rail-stress-provisional": true,
+    "vertical-3.0g/whole-bay-force-balance": true,
+    "whole-car-bogie-interface": null
+  },
+  "connection_resistance_qualified": false,
+  "design_complete": false,
+  "digital_specification_complete": false,
+  "failed_checks": [],
+  "held_checks": [
+    "local-floor-resistance",
+    "bolt-and-weld-resistance",
+    "shell-buckling",
+    "modal-acceptance",
+    "fatigue-spectrum",
+    "actual-equipment-loads",
+    "whole-car-bogie-interface",
+    "physical-joint-panel-correlation"
+  ],
+  "implemented_checks_pass": true,
+  "kind": "structural-bay",
+  "manufacturing_release": false,
+  "measurements": {
+    "beam_cases": [
+      {
+        "acceleration_factor": 1.0,
+        "analytical_agreement_relative_error": 4.714006962558415e-13,
+        "analytical_deflection_m": 4.065517758429828e-05,
+        "assumption": "Symmetric uniform gravity apportionment to two simply supported longitudinal RHS; no composite floor stiffness or qualified local joint transfer",
+        "boundary_sensitivity": {
+          "clamped_deflection_m": 8.131035516860124e-06,
+          "pinned_deflection_m": 4.065517758427912e-05,
+          "ratio": 4.999999999997356,
+          "scope": "Two ideal boundary-condition formulations only; actual attachment fixity requires local model/test"
+        },
+        "deflection_m": 4.065517758427912e-05,
+        "id": "vertical-1.0g",
+        "load_per_rail_n_m": 399.1707831801343,
+        "numerical_meshes": [
+          {
+            "displacement_rotation": [
+              0.0,
+              -0.00010841380689146094,
+              -1.578564317140323e-05,
+              -9.909699536172691e-05,
+              -2.8966814028812432e-05,
+              -7.453449223788015e-05,
+              -3.763780112296355e-05,
+              -3.980819471795875e-05,
+              -4.065517758429815e-05,
+              6.587107548722031e-19,
+              -3.76378011229634e-05,
+              3.980819471795964e-05,
+              -2.8966814028812287e-05,
+              7.453449223787932e-05,
+              -1.5785643171403186e-05,
+              9.909699536172637e-05,
+              0.0,
+              0.0001084138068914612
+            ],
+            "force_balance_relative_error": 1.7563129922268383e-14,
+            "input": {
+              "clamped": false,
+              "divisions": 8,
+              "ei_nm2": 265098.1200000002,
+              "length_m": 1.2,
+              "point_loads_n": [],
+              "supports_m": [
+                0.0,
+                1.2
+              ],
+              "uniform_n_m": 399.1707831801343
+            },
+            "maximum_nodal_deflection_m": 4.065517758429815e-05,
+            "midspan_deflection_m": 4.065517758429815e-05,
+            "nodes_m": [
+              0.0,
+              0.15,
+              0.3,
+              0.44999999999999996,
+              0.6,
+              0.75,
+              0.8999999999999999,
+              1.05,
+              1.2
+            ],
+            "reactions": [
+              {
+                "dof": "translation",
+                "value": 239.50246990809114,
+                "x_m": 0.0
+              },
+              {
+                "dof": "translation",
+                "value": 239.5024699080784,
+                "x_m": 1.2
+              }
+            ]
+          },
+          {
+            "displacement_rotation": [
+              0.0,
+              -0.00010841380689136424,
+              -8.069496917970608e-06,
+              -0.00010597873115065824,
+              -1.5785643171391605e-05,
+              -9.909699536166703e-05,
+              -2.283876064975744e-05,
+              -8.840383667414644e-05,
+              -2.8966814028794126e-05,
+              -7.453449223784893e-05,
+              -3.395541077045935e-05,
+              -5.812419920253314e-05,
+              -3.76378011229428e-05,
+              -3.980819471796083e-05,
+              -3.98948781206654e-05,
+              -2.0221715933869912e-05,
+              -4.065517758427912e-05,
+              -1.6264463083264243e-17,
+              -3.989487812066806e-05,
+              2.0221715933832087e-05,
+              -3.763780112294807e-05,
+              3.980819471792918e-05,
+              -3.395541077046637e-05,
+              5.81241992025184e-05,
+              -2.8966814028801875e-05,
+              7.453449223784482e-05,
+              -2.2838760649765065e-05,
+              8.840383667415405e-05,
+              -1.5785643171397982e-05,
+              9.909699536169307e-05,
+              -8.069496917974464e-06,
+              0.00010597873115070013,
+              0.0,
+              0.00010841380689142585
+            ],
+            "force_balance_relative_error": 1.547454149907971e-13,
+            "input": {
+              "clamped": false,
+              "divisions": 16,
+              "ei_nm2": 265098.1200000002,
+              "length_m": 1.2,
+              "point_loads_n": [],
+              "supports_m": [
+                0.0,
+                1.2
+              ],
+              "uniform_n_m": 399.1707831801343
+            },
+            "maximum_nodal_deflection_m": 4.065517758427912e-05,
+            "midspan_deflection_m": 4.065517758427912e-05,
+            "nodes_m": [
+              0.0,
+              0.075,
+              0.15,
+              0.22499999999999998,
+              0.3,
+              0.375,
+              0.44999999999999996,
+              0.525,
+              0.6,
+              0.6749999999999999,
+              0.75,
+              0.825,
+              0.8999999999999999,
+              0.975,
+              1.05,
+              1.125,
+              1.2
+            ],
+            "reactions": [
+              {
+                "dof": "translation",
+                "value": 239.50246990819767,
+                "x_m": 0.0
+              },
+              {
+                "dof": "translation",
+                "value": 239.5024699080376,
+                "x_m": 1.2
+              }
+            ]
+          }
+        ],
+        "refinement_relative_change": 4.68070027181966e-13,
+        "represented_mass_kg": 97.68982064541127,
+        "stiffness_ei_nm2": 265098.1200000002,
+        "stress_pa": 2845862.4309008797,
+        "support_reactions": [
+          {
+            "force_z_n": 239.50246990819767,
+            "rail": -1,
+            "x_m": -0.6
+          },
+          {
+            "force_z_n": 239.5024699080376,
+            "rail": -1,
+            "x_m": 0.6
+          },
+          {
+            "force_z_n": 239.50246990819767,
+            "rail": 1,
+            "x_m": -0.6
+          },
+          {
+            "force_z_n": 239.5024699080376,
+            "rail": 1,
+            "x_m": 0.6
+          }
+        ]
+      },
+      {
+        "acceleration_factor": 3.0,
+        "analytical_agreement_relative_error": 5.365707878013382e-13,
+        "analytical_deflection_m": 0.00012196553275289488,
+        "assumption": "Symmetric uniform gravity apportionment to two simply supported longitudinal RHS; no composite floor stiffness or qualified local joint transfer",
+        "boundary_sensitivity": {
+          "clamped_deflection_m": 2.4393106550580365e-05,
+          "pinned_deflection_m": 0.00012196553275282943,
+          "ratio": 4.999999999997032,
+          "scope": "Two ideal boundary-condition formulations only; actual attachment fixity requires local model/test"
+        },
+        "deflection_m": 0.00012196553275282943,
+        "id": "vertical-3.0g",
+        "load_per_rail_n_m": 1197.5123495404032,
+        "numerical_meshes": [
+          {
+            "displacement_rotation": [
+              0.0,
+              -0.0003252414206743951,
+              -4.7356929514210886e-05,
+              -0.00029729098608518526,
+              -8.69004420864388e-05,
+              -0.00022360347671364068,
+              -0.00011291340336889201,
+              -0.00011942458415387452,
+              -0.0001219655327528953,
+              6.5871075487220305e-18,
+              -0.00011291340336889046,
+              0.00011942458415388177,
+              -8.690044208643689e-05,
+              0.00022360347671363797,
+              -4.7356929514209565e-05,
+              0.00029729098608517914,
+              0.0,
+              0.00032524142067438366
+            ],
+            "force_balance_relative_error": 2.4525091332897287e-14,
+            "input": {
+              "clamped": false,
+              "divisions": 8,
+              "ei_nm2": 265098.1200000002,
+              "length_m": 1.2,
+              "point_loads_n": [],
+              "supports_m": [
+                0.0,
+                1.2
+              ],
+              "uniform_n_m": 1197.5123495404032
+            },
+            "maximum_nodal_deflection_m": 0.0001219655327528953,
+            "midspan_deflection_m": 0.0001219655327528953,
+            "nodes_m": [
+              0.0,
+              0.15,
+              0.3,
+              0.44999999999999996,
+              0.6,
+              0.75,
+              0.8999999999999999,
+              1.05,
+              1.2
+            ],
+            "reactions": [
+              {
+                "dof": "translation",
+                "value": 718.5074097242117,
+                "x_m": 0.0
+              },
+              {
+                "dof": "translation",
+                "value": 718.507409724237,
+                "x_m": 1.2
+              }
+            ]
+          },
+          {
+            "displacement_rotation": [
+              0.0,
+              -0.0003252414206739766,
+              -2.420849075390443e-05,
+              -0.0003179361934518931,
+              -4.735692951416248e-05,
+              -0.0002972909860849503,
+              -6.851628194925719e-05,
+              -0.000265211510022415,
+              -8.690044208636636e-05,
+              -0.0002236034767135468,
+              -0.00010186623231136298,
+              -0.0001743725976076237,
+              -0.00011291340336881541,
+              -0.00011942458415391276,
+              -0.00011968463436198554,
+              -6.0665147801639684e-05,
+              -0.00012196553275282943,
+              -9.108099326627976e-17,
+              -0.00011968463436199935,
+              6.0665147801456244e-05,
+              -0.00011291340336884217,
+              0.00011942458415375351,
+              -0.00010186623231139879,
+              0.00017437259760754483,
+              -8.690044208640573e-05,
+              0.00022360347671353446,
+              -6.851628194929526e-05,
+              0.00026521151002246394,
+              -4.735692951419394e-05,
+              0.0002972909860850792,
+              -2.420849075392339e-05,
+              0.0003179361934521003,
+              0.0,
+              0.0003252414206742775
+            ],
+            "force_balance_relative_error": 2.6582034476946736e-13,
+            "input": {
+              "clamped": false,
+              "divisions": 16,
+              "ei_nm2": 265098.1200000002,
+              "length_m": 1.2,
+              "point_loads_n": [],
+              "supports_m": [
+                0.0,
+                1.2
+              ],
+              "uniform_n_m": 1197.5123495404032
+            },
+            "maximum_nodal_deflection_m": 0.00012196553275282943,
+            "midspan_deflection_m": 0.00012196553275282943,
+            "nodes_m": [
+              0.0,
+              0.075,
+              0.15,
+              0.22499999999999998,
+              0.3,
+              0.375,
+              0.44999999999999996,
+              0.525,
+              0.6,
+              0.6749999999999999,
+              0.75,
+              0.825,
+              0.8999999999999999,
+              0.975,
+              1.05,
+              1.125,
+              1.2
+            ],
+            "reactions": [
+              {
+                "dof": "translation",
+                "value": 718.5074097247458,
+                "x_m": 0.0
+              },
+              {
+                "dof": "translation",
+                "value": 718.5074097241201,
+                "x_m": 1.2
+              }
+            ]
+          }
+        ],
+        "refinement_relative_change": 5.400124791776761e-13,
+        "represented_mass_kg": 97.68982064541127,
+        "stiffness_ei_nm2": 265098.1200000002,
+        "stress_pa": 8537587.292702643,
+        "support_reactions": [
+          {
+            "force_z_n": 718.5074097247458,
+            "rail": -1,
+            "x_m": -0.6
+          },
+          {
+            "force_z_n": 718.5074097241201,
+            "rail": -1,
+            "x_m": 0.6
+          },
+          {
+            "force_z_n": 718.5074097247458,
+            "rail": 1,
+            "x_m": -0.6
+          },
+          {
+            "force_z_n": 718.5074097241201,
+            "rail": 1,
+            "x_m": 0.6
+          }
+        ]
+      }
+    ],
+    "cg_m": [
+      0.0,
+      0.0,
+      0.029818498050312992
+    ],
+    "geometry_revision": "872259b8b52c4b53ecde4aee1162377d0ad1fd88b26ea2c51c852c6622329116",
+    "inertia_tensor_kg_m2": [
+      [
+        8.753343466508534,
+        -4.336808689942018e-19,
+        5.421010862427522e-20
+      ],
+      [
+        -4.336808689942018e-19,
+        10.035000331277981,
+        -1.9312351197398048e-19
+      ],
+      [
+        5.421010862427522e-20,
+        -1.9312351197398048e-19,
+        17.847504602382717
+      ]
+    ],
+    "load_path": [
+      "equipment test block",
+      "four mount legs and feet",
+      "drilled floor",
+      "crossmembers and longitudinal rails",
+      "four declared end supports"
+    ],
+    "mass_kg": 97.68982064541127,
+    "mass_scope": "All represented steel bay and fastener/test-block geometry only; omitted weld/coating/services listed as open",
+    "owned_part_count": 14,
+    "part_count": 26,
+    "section_inertia_m4": 1.2623720000000011e-06
+  },
+  "open_requirements": [
+    "Approved six-car local/global loads, equipment/axle/CG map and emergency conditions",
+    "Local holes/inserts, weld throat/procedure/NDT, bolt preload/prying/slip/fatigue and loss-of-fastener checks",
+    "Floor plate local bending, global torsion and shell/local buckling with mesh/boundary sensitivity",
+    "Modal acceptance and vehicle frequency transfer, measured damping and equipment maps",
+    "Fatigue duty/spectra, crash/lifting/jacking/recovery and degraded configurations",
+    "Material heat/process/hot-wet/fire, corrosion, panel/joint physical correlation and independent acceptance",
+    "Complete structural bay enclosure, panels/inserts, repairs, removal access and qualified vehicle integration",
+    "Weld-bead/coating/service mass and actual equipment fixture replacement remain unrepresented"
+  ],
+  "physical_release": false,
+  "physical_validation": false,
+  "schema": "osr-assembly-screening/1",
+  "scope": "Proposed isolated 1.2 m steel floor/rail bay with a represented steel test block; no whole-car or manufacturing acceptance; only equivalent longitudinal-rail gravity solution independently screened",
+  "screen_pass": false,
+  "state": "hold"
+}
