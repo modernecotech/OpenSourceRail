@@ -142,3 +142,16 @@ def test_full_refresh_rechecks_retained_clearance_without_deleted_osm_cache(tmp_
     assert module.finish_city('retained', design, 1)['passed']
     command = next(c for c in commands if 'audit-viaduct-clearance.py' in ' '.join(c))
     assert '--retain-inputs' in command and '--fetch-terrain' in command
+
+
+def test_aggregate_publication_reseals_context_then_inventory_then_archives(tmp_path, monkeypatch):
+    design, commands = _prepared_city(tmp_path, monkeypatch, 'baghdad')
+    assert module.finalize_publication('baghdad', design)['passed']
+    names = [Path(command[1]).name for command in commands]
+    assert names == ['generate-city-package-manifest.py', 'publish-city-summary.py',
+                     'generate-city-federation.py', 'generate-city-design-status.py',
+                     'generate-city-package-manifest.py', 'build-baghdad-proposal.py']
+    commands.clear()
+    monkeypatch.setattr(module, 'run_logged', lambda command, *a, **k: commands.append(command) or 1)
+    assert not module.finalize_publication('baghdad', design)['passed']
+    assert len(commands) == 1  # Stale numerical evidence cannot be repaired by resealing text.

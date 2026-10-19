@@ -541,6 +541,28 @@ def run_parallel(
     return results
 
 
+def finalize_publication(slug: str, design_path: Path) -> dict[str, object]:
+    """Reseal presentation after aggregate documents, preserving solver gates."""
+    city = design_path.parent
+    manifest = [sys.executable, str(REPO_ROOT/'tools/automation/generate-city-package-manifest.py'),
+                '--city-dir', str(city), '--planning-example']
+    commands = [manifest,
+        [sys.executable, str(REPO_ROOT/'tools/automation/publish-city-summary.py'), '--design', str(design_path)],
+        [sys.executable, str(REPO_ROOT/'tools/automation/generate-city-federation.py'), '--design', str(design_path)],
+        [sys.executable, str(REPO_ROOT/'tools/automation/generate-city-design-status.py'), '--design', str(design_path)],
+        manifest]
+    if slug == 'baghdad':
+        commands.append([sys.executable, str(REPO_ROOT/'tools/automation/build-baghdad-proposal.py')])
+    log = LOG_ROOT/f'publication-{slug}.log'
+    for command in commands:
+        code = run_logged(command, log)
+        if code:
+            return dict(city=slug, passed=False, phase='final-publication', return_code=code,
+                        failed_command=command, manufacturing_release=False)
+    return dict(city=slug, passed=True, phase='final-publication', return_code=0,
+                manufacturing_release=False)
+
+
 def engineering_results(selected: set[str]) -> tuple[int, set[str]]:
     if not ENGINEERING_SUMMARY.is_file():
         return 1, set()
@@ -574,6 +596,8 @@ def main() -> int:
     parser.add_argument('--current-design-logic',action='store_true',default=True,help='compatibility flag: current-source generation is the default; replacing an existing layout requires an explicit resynthesis flag')
     parser.add_argument('--prepare-only',action='store_true',help='regenerate layouts/scenarios/maps; retain an explicit incomplete batch receipt until engineering is refreshed')
     parser.add_argument('--finish-only',action='store_true',help='preserve frozen layouts/scenarios and refresh engineering and dependent packages')
+    parser.add_argument('--publication-only', action='store_true',
+                        help='verify existing planning evidence and reseal presentation after aggregate documents; does not rerun solvers')
     parser.add_argument('--reuse-planned-corridors',action='store_true',help='verify retained plan source hashes and regenerate stations without rerouting')
     parser.add_argument('--native-ci-root',type=Path,help='verified native artifact root containing one folder per city')
     parser.add_argument('--native-ci-commit',help='exact source commit of imported native artifacts')
@@ -581,6 +605,9 @@ def main() -> int:
     if args.jobs < 1:
         parser.error("--jobs must be positive")
     if args.prepare_only and args.finish_only:parser.error('prepare-only and finish-only are mutually exclusive')
+    if args.publication_only and any((args.prepare_only, args.finish_only, args.from_scratch,
+                                     args.resynthesise_corridors, args.resynthesise_design, args.reuse_planned_corridors)):
+        parser.error('publication-only cannot replace or regenerate engineering inputs')
     if args.reuse_planned_corridors and (args.finish_only or args.from_scratch or args.resynthesise_corridors or args.resynthesise_design):
         parser.error('Reusing a controlled plan cannot be combined with route replacement or finish-only')
     if (args.native_ci_root is None)!=(args.native_ci_commit is None):parser.error('native artifact root and exact commit are required together')
@@ -591,6 +618,13 @@ def main() -> int:
     if unknown:
         parser.error(f"no canonical design for: {', '.join(unknown)}")
     selected = {slug: available[slug] for slug in sorted(requested)}
+    if args.publication_only:
+        results = run_parallel(selected, args.jobs, finalize_publication)
+        passed = all(row['passed'] for row in results.values())
+        atomic_json(SUMMARY_PATH.parent/'publication-summary.json', dict(
+            schema_version='1.0', phase='final-publication', passed=passed,
+            results=results, manufacturing_release=False, operational_release=False))
+        return 0 if passed else 1
     with CATALOG.open("rb") as handle:
         catalog = tomllib.load(handle)
     catalog_cities = {
@@ -726,10 +760,7 @@ def main() -> int:
     if 'baghdad' in complete and not failures and not any(portfolio_return_codes.values()) and index_return_code == 0:
         # The proposal also archives country briefs and other Iraqi city
         # READMEs, so a batch must finish those dependencies before publication.
-        publication_return_codes['baghdad_proposal'] = run_logged(
-            [sys.executable, str(REPO_ROOT / 'tools/automation/build-baghdad-proposal.py')],
-            LOG_ROOT / 'package-baghdad-proposal.log',
-        )
+        publication_return_codes['baghdad_proposal'] = finalize_publication('baghdad', selected['baghdad'])['return_code']
     summary = {
         "schema_version": "1.0",
         "city_count": len(selected),
