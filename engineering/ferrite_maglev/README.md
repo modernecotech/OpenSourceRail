@@ -228,3 +228,25 @@ no-walkway scorecards hold energy/charging because extra chute mass is unknown.
 The profile-level baseline duty remains a comparator. Supplier-priced cost,
 imported value, labour and repair times are not inferred from a lighter mass target.
 The separate legacy civil schedule is not promoted into a maglev winner.
+
+
+The [manufacturer's special-constructions page](https://escape-chute.net/en/special-constructions/)
+explicitly lists monorail and gondola applications. Its
+[stationary page](https://escape-chute.net/en/stationary-escape-chute/) gives a
+custom application range from roughly 2 m to over 110 m; this is distinct from
+the UK supplier's 4–120 m listing. Neither is an accepted OSR operating envelope.
+The [mobile system](https://escape-chute.net/en/mobile-escape-chute/) has zippered
+exits at different heights. Their spacing, selection, outlet clearance and
+train-specific stabilisation are not specified by these pages. A named transport
+installation and its approval have not been independently verified here.
+
+The retained study now contains seven open installation requirements: protected
+cassette, enclosed controlled descent, route height coverage, structural entry
+and anchors, ground outlet/dispersal or alternative, complete lifecycle scope,
+and driverless deployment/assistance. It does not assume a trained attendant is
+aboard. A hypothetical device with exits at 8/12/20/30 m fails the sampled 10 m
+height: covering minimum and maximum height alone does not cover the intervening
+terrain. Even exact sampled height matches remain held for usable outlet, safe
+receiving area, wind, assistance and every-stop coverage. No zippered-port layout
+or mounting design is selected. As a further geometric comparator, a 20 m
+inclined slide at 35 degrees projects about 28.56 m horizontally before landing.

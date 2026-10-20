@@ -2,6 +2,10 @@
 
 ## 0.5 development — whole-catalogue transition and executable studies
 
+- Record manufacturer-listed monorail/gondola and variable-height chute applications;
+  add seven onboard installation requirements and retain discrete-exit coverage gaps.
+  Supplier application claims do not establish an approved or unattended OSR installation.
+
 - Put the current maglev introduction, illustration and three primary links first;
   group retained v0.4 books/CAD/videos explicitly and move section comparisons into civil engineering.
 - Add per-candidate whole-system scorecards, matched hot no-regen duty/charging,

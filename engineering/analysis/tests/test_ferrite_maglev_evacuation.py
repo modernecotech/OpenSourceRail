@@ -186,3 +186,42 @@ def test_chute_evidence_and_envelope_inputs_fail_closed(monkeypatch,tmp_path,bef
     original=evacuation.INPUT.read_text();assert before in original
     p=tmp_path/'evac.toml';p.write_text(original.replace(before,after));monkeypatch.setattr(evacuation,'INPUT',p)
     with pytest.raises(ValueError):evacuation.load()
+
+
+def test_zippered_exit_extremes_do_not_cover_intermediate_ground_height():
+    r=evacuation.assess_exit_heights([8,10,12,20,30],[8,12,20,30])
+    assert r['state']=='rejected' and not r['all_sampled_heights_match']
+    gap=next(v for v in r['matches'] if v['door_sill_to_ground_m']==10)
+    assert gap['outlet_height_above_ground_m']==2 and gap['state']=='rejected'
+    covered=evacuation.assess_exit_heights([8,12],[8,12])
+    assert covered['all_sampled_heights_match'] and covered['state']=='hold'
+    assert not covered['continuous_route_height_coverage_proved']
+    assert not covered['usable_exit_proved'] and not covered['driverless_operation_proved']
+    empty=evacuation.assess_exit_heights([8],[])
+    assert empty['state']=='rejected' and empty['matches'][0]['nearest_exit_drop_m'] is None
+
+
+@pytest.mark.parametrize('required,ports',[([],[]),([0],[8]),([8],[-1]),([float('nan')],[8])])
+def test_invalid_height_records_do_not_create_coverage(required,ports):
+    with pytest.raises(ValueError):evacuation.assess_exit_heights(required,ports)
+
+
+def test_manufacturer_application_claims_and_installation_requirements_do_not_approve_device():
+    r=evacuation.study();supplier=r['chute_supplier_comparison'][0]
+    assert supplier['transport_application_url']=='https://escape-chute.net/en/special-constructions/'
+    assert supplier['manufacturer_stationary_height_claim']['upper_description']=='over 110 m'
+    assert supplier['height_claim_m']==[4,120] # Separate retailer listing, not a merged approval range.
+    assert not supplier['installed_transport_reference_verified'] and not supplier['unattended_operation_demonstrated']
+    requirements=r['onboard_installation_requirements']
+    assert len({v['id'] for v in requirements})==7
+    assert all(v['state']=='open' and not v['accepted'] and v['evidence_required'] for v in requirements)
+    assert any(v['id']=='EVAC-DRIVERLESS' and 'without assuming' in v['requirement'] for v in requirements)
+    assert r['illustrative_20m_35degree_slide']['horizontal_run_m']==pytest.approx(20/math.tan(math.radians(35)))
+    assert r['variable_height_research']['selected_exit_drops_m'] is None
+    assert not r['walkway_removal_approved']
+
+
+def test_unattended_operation_claim_is_rejected(monkeypatch,tmp_path):
+    p=tmp_path/'evac.toml';p.write_text(evacuation.INPUT.read_text().replace('unattended_operation_demonstrated = false','unattended_operation_demonstrated = true'))
+    monkeypatch.setattr(evacuation,'INPUT',p)
+    with pytest.raises(ValueError):evacuation.load()

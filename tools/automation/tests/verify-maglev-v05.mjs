@@ -183,6 +183,25 @@ try {
   );
   assert.equal(evacuation.chute_operating_height_approved_m, null);
   assert.equal(evacuation.chute_descent_simulation_performed, false);
+  assert.equal(evacuation.onboard_installation_requirements.length, 7);
+  assert.ok(
+    evacuation.onboard_installation_requirements.every(
+      (r) => !r.accepted && r.state === "open",
+    ),
+  );
+  assert.equal(
+    evacuation.variable_height_research.discrete_exit_counterexample.state,
+    "rejected",
+  );
+  assert.equal(
+    evacuation.variable_height_research.continuous_height_coverage_proved,
+    false,
+  );
+  assert.equal(
+    evacuation.chute_supplier_comparison[0]
+      .installed_transport_reference_verified,
+    false,
+  );
   assert.ok(
     evacuation.chute_supplier_comparison.every(
       (s) => s.railway_accepted === false,

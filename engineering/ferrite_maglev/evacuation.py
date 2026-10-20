@@ -16,6 +16,12 @@ from . import model,geometry
 
 INPUT=Path(__file__).with_suffix('.toml')
 SOURCES=[
+ dict(url='https://escape-chute.net/en/special-constructions/',date='verified 2026-10-20',
+      scope='Manufacturer lists monorail/gondola applications; no named installation, railway acceptance or OSR device configuration established'),
+ dict(url='https://escape-chute.net/en/stationary-escape-chute/',date='verified 2026-10-20',
+      scope='Manufacturer stationary custom systems: internal spiral, self-braking, roughly 2 m to over 110 m application heights; drill throughput claims are not guaranteed rail performance'),
+ dict(url='https://escape-chute.net/en/mobile-escape-chute/',date='verified 2026-10-20',
+      scope='Manufacturer mobile system has zippered exits at different heights; port spacing, dry-ground stabilisation and driverless train deployment not specified'),
  dict(url='https://www.transit.dot.gov/sites/fta.dot.gov/files/docs/repg_rts.pdf',date='1991',
       scope='Historical rail emergency guidance: move to station or rescue transfer where appropriate; no present-day rail approval established'),
  dict(url='https://www.nfpa.org/codes-and-standards/nfpa-130-standard-development/130?tab=2',date='2026 edition listed',
@@ -38,6 +44,7 @@ REQUIRED=(
  'supplier-process-inspection-repack-replacement-and-cost',
  'chute-descent-control-blockage-recovery-and-entry-exit-queues',
  'chute-variable-height-ground-stabilisation-and-door-body-anchor-loads',
+ 'driverless-deployment-entry-and-assistance-without-assumed-attendant',
  'independent-full-scale-tests-and-authority-acceptance',
 )
 
@@ -67,7 +74,7 @@ def load():
     model.positive(a['flow']['deployment_delay_screen_seconds'],'deployment delay',zero=True)
     for key in ('outer_diameter_screen_m','door_standoff_screen_m','assumed_lateral_sway_screen_m','landing_clearance_screen_m','published_building_flow_claim_persons_per_minute'):
         model.positive(a['chute'][key],key)
-    if any(a['chute'][key] is not False for key in ('railway_device_selected','wind_response_validated','accessible_evacuation_demonstrated')):
+    if any(a['chute'][key] is not False for key in ('railway_device_selected','wind_response_validated','accessible_evacuation_demonstrated','unattended_operation_demonstrated')):
         raise ValueError('unqualified chute evidence')
     return a
 
@@ -84,6 +91,48 @@ def chute_geometry(height_m,*,diameter_m=1.2,standoff_m=1.,assumed_sway_m=.5,lan
         descent_time_s=None,descent_speed_m_s=None,minimum_operating_height_m=None,maximum_operating_height_m=None,
         bottom_stabilisation='unselected: dry-ground anchorage/tensioning, variable length and outlet require independent design',
         supplier_device_selected=False,physical_validation=False)
+
+
+def assess_exit_heights(required_door_sill_to_ground_m,available_exit_drops_m):
+    """Exact discrete outlet-height coverage only, not a safe-exit evaluator.
+
+    Drop is measured downwards from the entry. No unspecified opening size,
+    stretching, step tolerance or port selection mechanism supplies missing height.
+    """
+    if not required_door_sill_to_ground_m:raise ValueError('required route heights cannot be empty')
+    if len(required_door_sill_to_ground_m)>256 or len(available_exit_drops_m)>256:raise ValueError('bounded height screen required')
+    for value in [*required_door_sill_to_ground_m,*available_exit_drops_m]:model.positive(value,'door/outlet drop')
+    matches=[]
+    for height in required_door_sill_to_ground_m:
+        nearest=min(available_exit_drops_m,key=lambda drop:abs(drop-height)) if available_exit_drops_m else None
+        exact=nearest is not None and math.isclose(nearest,height,rel_tol=0,abs_tol=1e-9)
+        matches.append(dict(door_sill_to_ground_m=height,nearest_exit_drop_m=nearest,
+            outlet_height_above_ground_m=height-nearest if nearest is not None else None,
+            exact_height_match=exact,state='hold' if exact else 'rejected'))
+    return dict(state='hold' if all(v['exact_height_match'] for v in matches) else 'rejected',
+        matches=matches,all_sampled_heights_match=all(v['exact_height_match'] for v in matches),
+        continuous_route_height_coverage_proved=False,usable_exit_proved=False,driverless_operation_proved=False,
+        scope='Hypothetical discrete outlet drops at sampled ground levels only. Exact numerical match does not prove outlet opening clearance, anchorage, extension, access, wind, passenger flow or every-stop route coverage.',
+        accepted=False,**model.FLAGS)
+
+
+def onboard_requirements():
+    definitions=[
+        ('EVAC-DOOR','Protected, positively retained replaceable cassette at every designated evacuation doorway; designated doors and usable exits are separate counts',
+         'Configuration-specific layout, packed envelope, retention, door interlocks and normal/failed-clearance evidence'),
+        ('EVAC-DESCENT','Enclosed spiral textile path with protected entrance and controlled descent for the declared passenger population',
+         'Supplier configuration, fire/weather/ageing limits, controlled descent, blockage rescue and representative passenger tests'),
+        ('EVAC-HEIGHT','Usable outlet at every required door-sill-to-ground height, accounting for terrain, train capture/roll and tolerances',
+         'Route height profile, selected exit/length mechanism, outlet clearance and every-stop coverage/alternative'),
+        ('EVAC-ANCHOR','Entry frame and anchors transfer loads into vehicle structure; deployment clears beam, piers and other structures',
+         'Full cassette/entrance/anchor mass and load cases, structural proof, swept envelopes and qualified attachment process'),
+        ('EVAC-OUTLET','Controlled ground exit and dispersal area; accepted alternative where roads, water or obstructions prevent descent',
+         'Surveyed safe receiving area, ground restraint and outlet usability, traffic isolation, rescue/access and alternative route evidence'),
+        ('EVAC-LIFECYCLE','Account for cassette, entry frame, attachments, inspection, maintenance, repacking and renewal',
+         'Supplier-priced complete MBOM, origin, actual installed mass, inspection intervals, process and lifecycle cost'),
+        ('EVAC-DRIVERLESS','Demonstrate deployment, entry, assistance and realistic throughput without assuming a trained attendant is present',
+         'Unattended/assisted operating concept, power-loss/manual intervention, passenger instructions, misuse and deployment protection, measured representative tests')]
+    return [dict(id=key,requirement=text,evidence_required=evidence,state='open',accepted=False) for key,text,evidence in definitions]
 
 
 def chute_guideway_path(*,towards_adjacent,door_sill_height_m=20.,diameter_m=1.2,standoff_m=1.,assumed_sway_m=.5):
@@ -204,9 +253,20 @@ def study():
         chute_envelopes=chutes,chute_landing_cases=chute_cases,chute_building_claim_flow_bounds=claim_bounds,
         chute_guideway_paths=[chute_guideway_path(towards_adjacent=side) for side in (False,True)],
         chute_outward_extended_standoff_path=chute_guideway_path(towards_adjacent=False,standoff_m=2.),
+        onboard_installation_requirements=onboard_requirements(),
+        variable_height_research=dict(candidate_mechanism=a['chute']['variable_height_mechanism_candidate'],
+            manufacturer_url='https://escape-chute.net/en/mobile-escape-chute/',
+            selected_exit_drops_m=None,required_route_height_profile_m=None,
+            discrete_exit_counterexample=assess_exit_heights([8.,10.,12.,20.,30.],[8.,12.,20.,30.]),
+            continuous_height_coverage_proved=False,unattended_operation_demonstrated=False),
+        illustrative_20m_35degree_slide=slide_geometry(20,35),
         chute_operating_height_approved_m=None,chute_descent_simulation_performed=False,
         chute_supplier_comparison=[
-            dict(name='Axel Thoms',mechanism='vertical internal spiral; controlled descent',application='site-specific building/industrial escape',
+            dict(name='Axel Thoms',mechanism='vertical internal spiral; controlled descent',application='custom building/industrial systems; manufacturer also lists monorail and gondola applications',
+                 transport_application_url='https://escape-chute.net/en/special-constructions/',
+                 mobile_variable_height_url='https://escape-chute.net/en/mobile-escape-chute/',
+                 manufacturer_stationary_height_claim=dict(approximate_min_m=2,upper_description='over 110 m',is_custom_application_range=True),
+                 installed_transport_reference_verified=False,unattended_operation_demonstrated=False,
                  url='https://escape-chute.net/en/stationary-escape-chute/',origin_url='https://escape-chute.net/en/',
                  uk_supply_url=c['flow_claim_url'],manufacturing_country='Germany',uk_manufacture_confirmed=False,
                  height_claim_m=[4,120],height_claim_source=c['flow_claim_url'],railway_accepted=False),
