@@ -69,9 +69,9 @@ def package(tmp_path,monkeypatch):
     policy=baseline.validate(core.read(baseline.DATA));prepared=dict(policy=policy,prototype=contracts.prototype_configuration(),
         source_sha256={'fixture.py':'f'*64})
     monkeypatch.setattr(baseline,'sources',lambda:prepared['source_sha256'])
-    config=system_design.defaults();config['duration_s']=10.;case=system_design.simulate(config)
     def report(equipment=None):
-        v=dict(schema='fixture',equipment_definition_revision=equipment['revision'],electrical=system_design.electrical_architecture(),duty_cases=[case],refinement={},circuit=system_design.circuit_benchmark(),**core.FLAGS)
+        config=system_design.defaults(equipment);config['duration_s']=10.;case=system_design.simulate(config)
+        v=dict(schema='fixture',equipment_definition_revision=equipment['revision'],equipment_counts=equipment['counts'],electrical=system_design.electrical_architecture(equipment),duty_cases=[case],refinement={},circuit=system_design.circuit_benchmark(),**core.FLAGS)
         v['revision']=core.digest(v);return v
     monkeypatch.setattr(system_design,'report',report)
     monkeypatch.setattr(studies,'_duty_media',lambda *args:dict(state='hold',reason='fixture excludes rendering'))
@@ -99,7 +99,7 @@ def test_build_retains_three_models_unissued_requests_and_native_holds(package):
     assert (folder/'parts.csv').read_text().count('\n')>200
 
 
-@pytest.mark.parametrize('defect',('source','promoted','presentation','hidden-failure','fake-native','part-mass','qa','rfq','search'))
+@pytest.mark.parametrize('defect',('source','promoted','presentation','hidden-failure','fake-native','part-mass','qa','rfq','search','system-equipment-power','thermal-equipment-count'))
 def test_resealed_inner_inconsistency_fails(package,defect):
     folder,prepared,value=package
     if defect=='source':
@@ -120,8 +120,17 @@ def test_resealed_inner_inconsistency_fails(package,defect):
     elif defect=='qa':studies.write_record(folder/value['models'][0]['kind'],'qa-plan.json',[])
     elif defect=='rfq':
         r=core.read(folder/'prototype-test-requests.json');r[0]['included_component_scope']='Complete qualified viaduct';core.write(folder/'prototype-test-requests.json',r)
-    else:
+    elif defect=='search':
         r=studies.read_record(folder,'search.json');r['eligible_research_revisions']=['invented'];studies.write_record(folder,'search.json',r)
+    elif defect=='system-equipment-power':
+        r=studies.read_record(folder,'system-design.json');case=r['duty_cases'][0];case['input']['fan_power_w']+=1
+        case['revision']=core.digest({k:v for k,v in case.items() if k!='revision'})
+        r['revision']=core.digest({k:v for k,v in r.items() if k!='revision'});studies.write_record(folder,'system-design.json',r)
+        value['system_revision']=r['revision'];value['duty_cases']=[{k:case[k] for k in ('fault','elapsed_s','final','failed_checks','held_checks','revision')}]
+        studies.write_record(folder,'summary.json',value);(folder/'index.html').write_text(studies.report_html(value))
+    else:
+        r=studies.read_record(folder,'cassette-transient-duty.json');r['thermal'][1]['result']['hypotheses']['number_of_duct_cassettes']=1
+        studies.write_record(folder,'cassette-transient-duty.json',r)
     reseal(folder,prepared)
     with pytest.raises((ValueError,FileNotFoundError,KeyError)):studies.verify(folder,prepared)
 

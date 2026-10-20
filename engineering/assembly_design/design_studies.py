@@ -481,6 +481,10 @@ def verify(folder,prepared):
         raise ValueError('cassette transient duty classification differs')
     if transient['equipment_definition_revision']!=expected_equipment['revision'] or system.get('equipment_definition_revision')!=expected_equipment['revision']:
         raise ValueError('thermal/system equipment definition differs')
+    system_design.verify_equipment_binding(expected_equipment,system)
+    if any(case['result']['hypotheses']['number_of_duct_cassettes']!=expected_equipment['counts']['cassettes_per_car']
+           or case['result']['case']['module_count']!=expected_equipment['counts']['cooling_modules_per_car'] for case in transient['thermal']):
+        raise ValueError('thermal case differs from controlled equipment counts')
     gap=dict(thermal_ducts_per_car=transient['thermal'][0]['result']['hypotheses']['number_of_duct_cassettes'],
         mass_cassettes_per_car=len(installed['allocations'])/prepared['prototype']['values']['car_count']['value'],equipment_definition_revision=expected_equipment['revision'],state='quantities-reconciled; installation-and-complete-equipment-held')
     if gap['thermal_ducts_per_car']!=gap['mass_cassettes_per_car']:raise ValueError('mass/thermal equipment count differs')

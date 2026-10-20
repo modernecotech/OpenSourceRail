@@ -99,6 +99,9 @@ def validate_architecture(value,*,require_revision=True):
 def defaults(equipment=None):
     """All non-template quantities are explicit planning sensitivities."""
     from . import installed_equipment,cassette_duty,cassette_system
+    if equipment is not None and (equipment['revision']!=core.digest({k:v for k,v in equipment.items() if k!='revision'})
+        or equipment['layout_sha256']!=core.sha(installed_equipment.DATA) or equipment['counts']!=installed_equipment.counts()):
+        raise ValueError('exact controlled equipment definition required for system duty')
     p=profile();counts=installed_equipment.counts()
     performance=cassette_duty.cooling_map(p['hvac_design_ambient_c'])
     duct_area=equipment['duct_clear_area_m2'] if equipment else .01
@@ -294,3 +297,18 @@ def report(equipment=None):
                       applicability='Higher fidelity property adapter still required; present Level 1 uses declared constant cp/latent assumptions')],
         scope='Hierarchical electrical interface definition plus conserving temporal research model; exact purchased configurations, physical calibration and full train integration remain open',**core.FLAGS)
     value['revision']=core.digest(value);return value
+
+
+def verify_equipment_binding(equipment,result):
+    """A resealed system result cannot silently change the equipment duty basis."""
+    expected=defaults(equipment)
+    if result.get('equipment_definition_revision')!=equipment['revision'] or result.get('equipment_counts')!=equipment['counts']:
+        raise ValueError('system installed equipment identity/count differs')
+    if result['electrical']!=electrical_architecture(equipment):
+        raise ValueError('electrical group to equipment instance binding differs')
+    keys=('equipment_definition_revision','equipment_layout_sha256','equipment_counts',
+          'fan_power_w','base_auxiliary_w','cooling_capacity_w','cop','fresh_air_kg_s')
+    for case in result['duty_cases']:
+        if any(case['input'].get(key)!=expected[key] for key in keys):
+            raise ValueError('system duty differs from controlled equipment allocation')
+    return True
