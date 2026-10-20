@@ -1,0 +1,2 @@
+import runpy
+runpy.run_path('/home/hayder/Documents/OpenSourceRail/engineering/design_delivery/visuals.py')["export_mesh"]('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/a31b519b4a3700575ff57cd78c58fcd958d36c3ef8cefadc4da0fbc123e322bb/closure-studies-attempt/panels/side-stiffened-aluminium/native/candidate.FCStd','/home/hayder/.local/state/opensourcerail/assembly-design/epochs/a31b519b4a3700575ff57cd78c58fcd958d36c3ef8cefadc4da0fbc123e322bb/closure-studies-attempt/panels/side-stiffened-aluminium/bim/native-mesh.json')

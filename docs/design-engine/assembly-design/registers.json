@@ -3,6 +3,7 @@
     {
       "adapter": "engineering.assembly_design.models",
       "design_complete": false,
+      "execution": "registered queue",
       "id": "service-cassette",
       "limitations": "finite pilot domain; electrical/HVAC/connection qualification open",
       "manufacturing_release": false,
@@ -39,6 +40,7 @@
     {
       "adapter": "engineering.assembly_design.models",
       "design_complete": false,
+      "execution": "registered queue",
       "id": "bearing-seat",
       "limitations": "complete reference reaction ledger; ground/resistance/supplier ratings held",
       "manufacturing_release": false,
@@ -75,6 +77,7 @@
     {
       "adapter": "engineering.assembly_design.structural_bay",
       "design_complete": false,
+      "execution": "registered queue",
       "id": "structural-bay",
       "limitations": "isolated provisional bay; local/modal/fatigue/whole-vehicle exits open",
       "manufacturing_release": false,
@@ -94,11 +97,14 @@
       "variables": {
         "crossmember_count": [
           2,
-          3
+          3,
+          4
         ],
         "floor_thickness_m": [
           0.003,
           0.004,
+          0.006,
+          0.008,
           0.012,
           0.016
         ],
@@ -112,6 +118,7 @@
     {
       "adapter": "engineering.integration_programme.joints",
       "design_complete": false,
+      "execution": "unregistered",
       "id": "joints-brackets",
       "limitations": "generator/resistance benchmark registration required",
       "manufacturing_release": false,
@@ -133,6 +140,7 @@
     {
       "adapter": "engineering.design_engine.roof_shell",
       "design_complete": false,
+      "execution": "unregistered",
       "id": "composite-panels",
       "limitations": "hot-wet/fire/insert/contact qualification required; retain known roof failures",
       "manufacturing_release": false,
@@ -152,8 +160,41 @@
       "variables": {}
     },
     {
+      "adapter": "engineering.assembly_design.panel_adapter",
+      "design_complete": false,
+      "execution": "finite companion after registered queue",
+      "id": "body-panels",
+      "limitations": "registered research subset; complete formed panels, attachments, thermal/fire and manufacturing acceptance remain open",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "matched aluminium/GFRP panel variants and native owned-section companion",
+      "qualification": "exact-source assembly qualification required",
+      "registered_for_bounded_design": true,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {
+        "locations": [
+          "side",
+          "roof"
+        ],
+        "routes": [
+          "stiffened-aluminium",
+          "aluminium-sandwich",
+          "gfrp-sandwich"
+        ]
+      }
+    },
+    {
       "adapter": "engineering.assembly_design.cassette_system",
       "design_complete": false,
+      "execution": "unregistered",
       "id": "harness",
       "limitations": "mating routing, ampacity/derating/protection/physical acceptance held",
       "manufacturing_release": false,
@@ -175,6 +216,7 @@
     {
       "adapter": "engineering.assembly_design.cassette_system",
       "design_complete": false,
+      "execution": "unregistered",
       "id": "duct",
       "limitations": "fan/refrigerant maps and calibrated rig required",
       "manufacturing_release": false,
@@ -196,6 +238,7 @@
     {
       "adapter": "engineering.integration_programme.battery",
       "design_complete": false,
+      "execution": "unregistered",
       "id": "battery-enclosure",
       "limitations": "mechanical/cooling/fire/vent and measured chemistry maps required",
       "manufacturing_release": false,
@@ -217,6 +260,7 @@
     {
       "adapter": "engineering.civil_exploration.foundations",
       "design_complete": false,
+      "execution": "unregistered",
       "id": "pile-cap-pier",
       "limitations": "actual strata/groundwater/settlement/cyclic/calibration required",
       "manufacturing_release": false,
@@ -238,6 +282,7 @@
     {
       "adapter": "engineering.integration_programme.stations",
       "design_complete": false,
+      "execution": "unregistered",
       "id": "station-modules",
       "limitations": "new assembly adapter plus site/access/egress/connection qualification required",
       "manufacturing_release": false,

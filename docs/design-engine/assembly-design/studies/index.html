@@ -6,33 +6,35 @@
 <h2>New manufactured detail</h2><table><tr><th>Family</th><th>Native state</th><th>Parts</th><th>Failed / held checks</th></tr>
 <tr><td><a href="service-cassette-detail/assessment.json.gz">service-cassette-detail</a></td><td>passed</td><td>184</td><td>exact_supplier_mating_geometry, actual_vehicle_interface, protective_devices_and_derating, qualified_seal_clamping_force, physical_environment_and_assembly, qualified_frame_weld_local_buckling_fatigue, mount_preload_prying_member_resistance, adopted_shock_and_vibration_qualification</td></tr>
 <tr><td><a href="civil-cap-detail/assessment.json.gz">civil-cap-detail</a></td><td>passed</td><td>47</td><td>demould/early-age-cracking-strength, demould/qualified-insert-and-breakout, transport/early-age-cracking-strength, transport/qualified-insert-and-breakout, lifting/early-age-cracking-strength, lifting/qualified-insert-and-breakout, temporary-placement/early-age-cracking-strength, temporary-placement/qualified-insert-and-breakout, bar-development-and-cap-segment-joint, welded-link-ductility-and-confinement, shear-torsion-fatigue, crack-width-creep-shrinkage, jacking-head-flange-spreading, wind-seismic-ground-and-corridor</td></tr>
-<tr><td><a href="structural-bay/assessment.json.gz">structural-bay</a></td><td>passed</td><td>30</td><td>local-floor-resistance, bolt-and-weld-resistance, shell-buckling, modal-acceptance, fatigue-spectrum, actual-equipment-loads, whole-car-bogie-interface, physical-joint-panel-correlation, detail/thread-stripping-and-selected-nut, detail/nonlinear-contact-and-prying, detail/local-shell-buckling-resistance, detail/actual-modal-transfer-acceptance, detail/fatigue-duty-and-qualified-SN, detail/qualified-preload-locking-and-WPS, detail/physical-joint-panel-correlation</td></tr>
+<tr><td><a href="structural-bay/assessment.json.gz">structural-bay</a></td><td>passed</td><td>32</td><td>local-floor-resistance, bolt-and-weld-resistance, shell-buckling, modal-acceptance, fatigue-spectrum, actual-equipment-loads, whole-car-bogie-interface, physical-joint-panel-correlation, detail/thread-stripping-and-selected-nut, detail/nonlinear-contact-and-prying, detail/local-shell-buckling-resistance, detail/actual-modal-transfer-acceptance, detail/fatigue-duty-and-qualified-SN, detail/qualified-preload-locking-and-WPS, detail/physical-joint-panel-correlation</td></tr>
 </table>
-<h3>service-cassette-detail</h3><p>Revision <code>2ee2ebaa636b030122b2ba11b0a4919e6fdad6994373a72e88b47b17b96169b3</code></p>
+<h3>service-cassette-detail</h3><p>Revision <code>bf24db6bbf9b97c62f8f203085a1b451bb70829889f36028f3985bac7515b5aa</code></p>
 <p><a href="service-cassette-detail/candidate.json.gz">Detailed definition</a> | <a href="service-cassette-detail/manufacturing-bom.csv">Cut/part schedule</a> | <a href="service-cassette-detail/qa-plan.json.gz">Unexecuted QA (compressed)</a> | <a href="service-cassette-detail/inspection.svg">Unissued inspection drawing</a></p>
 <img src="service-cassette-detail/overview.png" alt="Native detail geometry"><p><a href="service-cassette-detail/native/candidate.FCStd">Editable FreeCAD</a> | <a href="service-cassette-detail/model.step.gz">Compressed STEP</a> | <a href="service-cassette-detail/bim/assembly.ifc.gz">Compressed native-derived IFC</a> | <a href="service-cassette-detail/bim/requirements.ids.gz">Compressed IDS requirements</a></p>
 <video controls preload="metadata" src="service-cassette-detail/fixture-motion.mp4"></video><p>Native triangles move through the proposed fixture path. This is a rigid kinematic illustration with declared groups detached; contact forces, flexible services and actual vehicle access remain unverified.</p>
-<h3>civil-cap-detail</h3><p>Revision <code>017ce771b14d39654c54182e88ef3f5a61de0cc033e69342d8e4c56a245360ce</code></p>
+<h3>civil-cap-detail</h3><p>Revision <code>c118dc4a7bbadb6f2964718f9c69ac01b6c2cf66358eb9733d702defdd5a8981</code></p>
 <p><a href="civil-cap-detail/candidate.json.gz">Detailed definition</a> | <a href="civil-cap-detail/manufacturing-bom.csv">Cut/part schedule</a> | <a href="civil-cap-detail/qa-plan.json.gz">Unexecuted QA (compressed)</a> | <a href="civil-cap-detail/inspection.svg">Unissued inspection drawing</a></p>
 <img src="civil-cap-detail/overview.png" alt="Native detail geometry"><p><a href="civil-cap-detail/native/candidate.FCStd">Editable FreeCAD</a> | <a href="civil-cap-detail/model.step.gz">Compressed STEP</a> | <a href="civil-cap-detail/bim/assembly.ifc.gz">Compressed native-derived IFC</a> | <a href="civil-cap-detail/bim/requirements.ids.gz">Compressed IDS requirements</a></p>
-<h3>structural-bay</h3><p>Revision <code>4e21f9857a24db2384628a3fd79dddfe8c00957e56213e915d5c1911fd65cd6d</code></p>
+<h3>structural-bay</h3><p>Revision <code>c1257f49a3e81485a8f6873680b7b435184ba7ef991439990ae73b561c6c1d23</code></p>
 <p><a href="structural-bay/candidate.json.gz">Detailed definition</a> | <a href="structural-bay/manufacturing-bom.csv">Cut/part schedule</a> | <a href="structural-bay/qa-plan.json.gz">Unexecuted QA (compressed)</a> | <a href="structural-bay/inspection.svg">Unissued inspection drawing</a></p>
 <img src="structural-bay/overview.png" alt="Native detail geometry"><p><a href="structural-bay/native/candidate.FCStd">Editable FreeCAD</a> | <a href="structural-bay/model.step.gz">Compressed STEP</a> | <a href="structural-bay/bim/assembly.ifc.gz">Compressed native-derived IFC</a> | <a href="structural-bay/bim/requirements.ids.gz">Compressed IDS requirements</a></p>
 <h2>Coupled electrical, HVAC and battery duty</h2><p>12 executed cases, with an independent RC control and time refinement. Synthetic battery/HVAC parameters test numerical behaviour; no supplier performance or comfort qualification is claimed.</p>
 <img src="coupled-duty.png" alt="Executed temperature, SOC and power traces">
 <video controls preload="metadata" src="coupled-duty.mp4"></video>
 <table><tr><th>Case</th><th>Final cabin °C</th><th>Final SOC</th><th>Executed horizon</th><th>Numerical failures</th></tr>
-<tr><td>nominal</td><td>26.2</td><td>0.64348</td><td>1200.0 s</td><td></td></tr>
-<tr><td>cooling-loss</td><td>57.553</td><td>0.68249</td><td>1200.0 s</td><td></td></tr>
-<tr><td>battery-cooling-loss</td><td>26.2</td><td>0.64468</td><td>1200.0 s</td><td></td></tr>
-<tr><td>combined-cooling-loss</td><td>57.553</td><td>0.68369</td><td>1200.0 s</td><td></td></tr>
-<tr><td>fan-failure</td><td>55.814</td><td>0.68473</td><td>1200.0 s</td><td></td></tr>
-<tr><td>blocked-filter</td><td>26.015</td><td>0.64783</td><td>1200.0 s</td><td></td></tr>
-<tr><td>communication-loss</td><td>49.189</td><td>0.75647</td><td>1200.0 s</td><td></td></tr>
-<tr><td>open-bond</td><td>55.814</td><td>0.79413</td><td>1200.0 s</td><td></td></tr>
-<tr><td>unlock</td><td>55.814</td><td>0.79413</td><td>1200.0 s</td><td></td></tr>
-<tr><td>hot-start</td><td>33.709</td><td>0.64348</td><td>1200.0 s</td><td></td></tr>
-<tr><td>sensor-bias</td><td>30.999</td><td>0.64858</td><td>1200.0 s</td><td></td></tr>
-<tr><td>aged-battery</td><td>26.2</td><td>0.60328</td><td>1200.0 s</td><td></td></tr>
+<tr><td>nominal</td><td>26.007</td><td>0.64098</td><td>1200.0 s</td><td></td></tr>
+<tr><td>cooling-loss</td><td>56.726</td><td>0.68293</td><td>1200.0 s</td><td></td></tr>
+<tr><td>battery-cooling-loss</td><td>26.007</td><td>0.64218</td><td>1200.0 s</td><td></td></tr>
+<tr><td>combined-cooling-loss</td><td>56.726</td><td>0.68413</td><td>1200.0 s</td><td></td></tr>
+<tr><td>fan-failure</td><td>55.814</td><td>0.68325</td><td>1200.0 s</td><td></td></tr>
+<tr><td>blocked-filter</td><td>25.973</td><td>0.64711</td><td>1200.0 s</td><td></td></tr>
+<tr><td>communication-loss</td><td>45.935</td><td>0.75116</td><td>1200.0 s</td><td></td></tr>
+<tr><td>open-bond</td><td>55.814</td><td>0.79267</td><td>1200.0 s</td><td></td></tr>
+<tr><td>unlock</td><td>55.814</td><td>0.79267</td><td>1200.0 s</td><td></td></tr>
+<tr><td>hot-start</td><td>25.992</td><td>0.63137</td><td>1200.0 s</td><td></td></tr>
+<tr><td>sensor-bias</td><td>31.018</td><td>0.64833</td><td>1200.0 s</td><td></td></tr>
+<tr><td>aged-battery</td><td>26.007</td><td>0.60013</td><td>1200.0 s</td><td></td></tr>
 </table><p>Conservation passing does not establish passenger comfort or equipment fitness. Cooling-loss and hot-start temperatures remain visible in the retained results.</p>
-<p>Open quantity interface: the cassette thermal sensitivity assumes 8 duct cassettes per car; the gross installed-mass sensitivity places 1.0 cassette per car. These are separate provisional cases. Full equipment quantities, refrigeration mass and the vehicle BOM must be reconciled before system admission.</p></html>
+<h2>Registered panel research companion</h2><p><a href="panels/index.html">Six material/location representatives, analytical inventory, independent metal bending controls and native owned-section exhibits</a>. Complete core/potting, fastenings, formed roofs and installed manufacturing qualification remain open.</p>
+<p><a href="reinforcement-alternatives.json.gz">Bent round-link and coupler schedules</a>: bend radii, hook/coupler reservations, congestion checks, assembly sequence and unexecuted inspections. These alternatives have no curved native confirmation and are excluded from cap selection.</p>
+<p>Controlled equipment quantity: thermal and gross installed-mass sensitivities both use 8 complete LV/ventilation cassettes per car. <a href="installed-context.json.gz">Exact instance locations, mass/inertia, harness and known duty schedules</a>. Full equipment selection, refrigeration mass, host packaging and vehicle BOM remain open before system admission.</p></html>

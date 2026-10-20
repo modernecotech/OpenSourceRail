@@ -1,14 +1,14 @@
 import sys,runpy
 sys.path[:0]=['/home/hayder/Documents/OpenSourceRail', '/home/hayder/Documents/OpenSourceRail/design/component-catalogue/src']
 module=runpy.run_path('/home/hayder/Documents/OpenSourceRail/engineering/design_engine/native_cad.py')
-module["native"]('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/1db4bb751739072421b9d61783d325c084b58db0d22b10c20eba79627792facc/closure-studies-attempt/civil-cap-detail/definition.json','/home/hayder/.local/state/opensourcerail/assembly-design/epochs/1db4bb751739072421b9d61783d325c084b58db0d22b10c20eba79627792facc/closure-studies-attempt/civil-cap-detail/native')
+module["native"]('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/a31b519b4a3700575ff57cd78c58fcd958d36c3ef8cefadc4da0fbc123e322bb/closure-studies-attempt/civil-cap-detail/definition.json','/home/hayder/.local/state/opensourcerail/assembly-design/epochs/a31b519b4a3700575ff57cd78c58fcd958d36c3ef8cefadc4da0fbc123e322bb/closure-studies-attempt/civil-cap-detail/native')
 import json,hashlib
 from pathlib import Path
 import FreeCAD as App
-definition=json.loads(Path('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/1db4bb751739072421b9d61783d325c084b58db0d22b10c20eba79627792facc/closure-studies-attempt/civil-cap-detail/definition.json').read_text())
+definition=json.loads(Path('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/a31b519b4a3700575ff57cd78c58fcd958d36c3ef8cefadc4da0fbc123e322bb/closure-studies-attempt/civil-cap-detail/definition.json').read_text())
 unit_map={p["id"]:p["manufacturing_unit_id"] for p in definition["parts"] if p.get("manufacturing_unit_id")}
 if unit_map:
-    path=Path('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/1db4bb751739072421b9d61783d325c084b58db0d22b10c20eba79627792facc/closure-studies-attempt/civil-cap-detail/native')
+    path=Path('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/a31b519b4a3700575ff57cd78c58fcd958d36c3ef8cefadc4da0fbc123e322bb/closure-studies-attempt/civil-cap-detail/native')
     doc=App.openDocument(str(path/"candidate.FCStd"))
     for obj in doc.Objects:
         if hasattr(obj,"PhysicalPartId") and obj.PhysicalPartId in unit_map:
