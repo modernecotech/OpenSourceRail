@@ -49,7 +49,7 @@ OpenSourceRail is an open urban-rail reference platform for countries that want 
 > [!IMPORTANT]
 > Repository outputs are planning and engineering-screening evidence—not bids, construction releases, safety certificates, approvals or endorsements. Open topography and water data do not replace survey, geotechnical or hydraulic evidence. Simulation and formal checks do not authorize live railway command.
 
-**Platform navigation:** [one-page overview](docs/open-source-rail-overview.md) · [shared software architecture](docs/ARCHITECTURE.md) · [platform roadmap](docs/ROADMAP.md#reviewed-open-work). Earlier physical documents are grouped under [v0.4 wheel/rail references](#v04-wheelrail-references).
+**Platform navigation:** [one-page overview](docs/open-source-rail-overview.md) · [shared software architecture](docs/ARCHITECTURE.md) · [platform roadmap](docs/ROADMAP.md#primary-maglev-closure-queue). Earlier physical documents are grouped under [v0.4 wheel/rail references](#v04-wheelrail-references).
 
 **AI CAD and BIM workflow:** [October 2026 tool review and completion programme](docs/design-engine/ai-cad-bim-workflow-2026-10-17.md) compares editable CAD agents and BIM tools, and provides a resumable proposal → native geometry → solver/IFC checks → feedback loop. Research examples retain the full work-order backlog; complete railway specification and physical acceptance remain open.
 
@@ -57,7 +57,9 @@ OpenSourceRail is an open urban-rail reference platform for countries that want 
 
 **Retained Baghdad wheel/rail assembly development:** [sourced requirements and first assembly campaign](docs/design-engine/assembly-design/index.html) separates 69 Baghdad reference parts from legacy configurations, runs cassette/bearing-seat alternatives and executable interface tests, and starts isolated capability development with independent research review. [Workflow and limits](engineering/assembly_design/README.md). Complete railway design and manufacturing acceptance remain open.
 
-## Functional comparison
+## Shared platform and retained function comparison
+
+The tooling below retains its original configuration and evidence scope; it does not establish completed maglev engineering.
 
 **Native part generation:** generate drilled steel cleats and RHS/I-section civil beams through FreeCAD → Gmsh → CalculiX, then use native feedback to choose subsequent designs. Deterministic bounded search retains failed cases, provenance, geometry and solver files. Best-design claims cover the declared, fully tested numerical domain; physical qualification remains open. [Run the recursive workflow](engineering/design_engine/README.md) · [Review twelve related design systems](docs/design-engine/generative-systems-review.md). OpenSourceRail connects corridor choices to engineering revisions, local production, delivery costs and maintenance evidence. Its planning portfolio covers **265 cities in 44 developing countries**, plus one European comparison model. This table compares published functions, not performance, price or railway acceptance. **Reviewed 12 October 2026:** linked primary sources; capabilities depend on edition/configuration. “Integrated” means an existing OSR component; “workflow” means a tool used with OSR; “benchmark” implies no connector.
 
@@ -107,130 +109,19 @@ These retained physical designs document earlier engineering and manufacturing w
 - [LM3 rolling-stock reference](docs/rolling-stock/light-metro-3car/README.md), [CAD and IFC](engineering/models/bim/reference/README.md) and [buildable trainset](design/component-catalogue/catalog/buildable-trainset/README.md).
 - [Vehicle assembly video](engineering/models/digital-twins/fabrication-assembly/fabrication-assembly-digital-twin.mp4) and [civil IFC sequence](engineering/models/bim/reference/civil-construction-sequence.mp4).
 
-### Retained civil design exploration
+## Inspect the current design
 
-The [civil workbench](engineering/civil_exploration/README.md) compares complete **beam–pier–foundation packages**, with Baghdad as the qualification target. It searches for separate low-cost, low-mass and short-construction-time choices and retains the Pareto tradeoffs, failures, changed parameters and evidence gaps. The retained LM3 verification studies and Baghdad research results have distinct load bases; Baghdad supplier axle positions are still missing. The [queued-systems results](docs/design-engine/queued-systems-results-2026-10-16.md) add [63 preliminary package studies](docs/design-engine/queued-systems/index.html), mechanical fit repairs, six-car load feedback, factory equipment/utility alternatives and production/inspection registers. Six native CAD checks passed; engineering qualification and manufacturing release remain open. The [detailed multi-agent scenario](docs/design-engine/multi-agent-detail-scenario-2026-10-17.md) adds feedback-directed civil/mechanical details and manufacturing closure tasks. The [hierarchical development pilot](docs/design-engine/hierarchical-development-2026-10-17.md) adds killed-worker recovery, continued Pareto search, isolated software experiments and parent-level rejection. The [unified campaign review](docs/design-engine/campaign-review/index.html) adds configuration filters, failures, open gates and side-by-side comparison. The [17 October architecture continuation](docs/design-engine/architecture-feedback-2026-10-17.md) propagates lighter-frame and gap proposals, full-module platforms and British tooling limits through 12 provisional cases.
+The [primary Workbench](docs/workbench/maglev/index.html) joins city plans, native geometry, control replays, images and assembly videos. Start it with `./osr workbench`.
 
-| Part of the system | Choices investigated |
-|---|---|
-| Beams and decks | Pi20/Pi25 controls; hollow box; prestressed I; U; ribbed; targeted UHPC ribs; FRP shell/concrete; segmental box; steel–concrete I; FRP–concrete I. Research spans include 20, 25 and 30 m. |
-| Materials and composites | Normal, high-performance and structural lightweight concrete; targeted UHPC; steel; GFRP and CFRP orthotropic matrices. Properties remain declared research hypotheses until measured. |
-| Piers | Solid; solid tapered; hollow tapered; hollow prismatic; segmental hollow; experimental double-skin FRP/concrete. Reinforcement, confinement, joint and cyclic acceptance remain open. |
-| Foundations | Reference pile group; four/six bored piles; single shaft; CFA; displacement piles; hollow and square driven precast piles; spread footings. Diameter, length and cap sizes are investigated with each package. |
-| Assembly and delivery | Simple spans, link slabs and continuity; full precast, segmental, shell/infill and in-situ construction; finite factory/rig/transport/erection resources, curing and inspection. |
+![Primary maglev Workbench with Baghdad planning and native geometry](docs/screenshots/workbench/maglev-primary.png)
 
-![Parametric beam, pier and foundation research choices; colours identify materials and blue markers identify pile positions](engineering/civil_exploration/examples/system-choices.svg)
-
-<!-- GENERATED: complete viaduct choices -->
-Executed comparison: **731 distinct complete packages**, **779 evaluations**, **24 detailed packages**, using **300 m of double track**.
-
-| Conditional objective | Beam | Pier | Foundation | Synthetic installed cost | Installed study mass | Working time |
-|---|---|---|---|---:|---:|---:|
-| Cheapest in `concrete-first` | U-girder 20 m, lightweight | hollow-tapered | CFA-six | $1,774,796 | 6,504.4 t | 120 working days |
-| Lightest in `concrete-first` | hybrid-shell 20 m, high-performance | hollow-prismatic | square-driven-six | $7,374,804 | 5,499.2 t | 154.625 working days |
-| Fastest in `concrete-first` | uhpc-ribbed 20 m, high-performance | hollow-prismatic | CFA-six | $2,640,915 | 7,609.1 t | 63 working days |
-
-These are the best confirmed research choices found within the declared search budget and synthetic price/productivity scenarios. Supplier-priced cheapest design, railway qualification and global optimality remain unresolved. All physical and operating release flags remain false.
-<!-- END GENERATED: complete viaduct choices -->
-
-Reduced native models screen the packages. A diverse shortlist receives three actual-section CalculiX solid meshes and three 3D OpenSees meshes, including separate tracks, asymmetric uniform loading, braking sensitivity, transverse cap bending, torsion and coupled foundation translation/rotation. Composite-slip diagnostics expose dependence on connectors. Empty shipping/lifting units remain separate from complete service mass; driven-pile production and delivery are included in construction planning. The detailed shortlist contains 16 designs at 20 m, six at 25 m and two at 30 m. All 24 converged; 22 passed every shared provisional constraint. The two 30 m cases remain rejected diagnostics, with their failed limits retained. Every refined load case repeats the shared drift, settlement, foundation-demand, deflection and lifting checks. Force and central solid-stress convergence are recorded as well as displacement convergence. Evolution considers all three commercial scenarios, whole-life cost and erection mass; per-seed benchmarks retain unique evaluations, timing, coverage and observed Pareto quality.
-
-Native **FreeCAD 1.1.4** verification passed all **25 registered beam, pier and foundation families** and all **24 complete shortlisted assemblies**, including valid kernel solids, independent net volumes and agreement with the retained IFC quantities. The [source-bound receipt](engineering/civil_exploration/examples/native-cad-verification.json) is separate from ordinary Python CAD fallback tests. Reproduce with `FreeCADCmd tools/automation/verify-civil-native-cad.py` in a FreeCAD environment. Structural construction-stage load paths, V/Y supports, haunched sections and calibrated ground improvement remain explicit model extensions; measured inputs, physical validation and independent acceptance remain open.
-
-Reproduce with `tools/automation/osr-python tools/automation/civil-study.py system-study` and `system-verify`; see the retained comparison below for the complete commands. Open the generated `report.html` to filter choices and compare objectives, or read the [retained comparison](engineering/civil_exploration/examples/complete-system-review.md) and [implementation/acceptance details](docs/civil/complete-system-exploration.md). The scope includes materials, reinforcement/tendon allowances, foundations, connections, production, transport, plant, temporary works, labour, QA, site carrying cost, maintenance and bearing/joint replacement scenarios. The [shared engineering demonstrators](engineering/design_consistency/README.md) reconcile native CAD mass/CG/inertia, hollow sections, IFC analysis identities, joint screens and evidence-gated mixed searches. **Actual Baghdad supplier prices and construction commitments remain open.** Static distributed planning loads support research comparisons; actual axle loading, calibrated soil/material/connection behaviour, physical tests and independent acceptance are required for railway qualification. No numerical winner automatically changes the catalogue, city finances or release status.
-
-## Feature Highlights
-
-```mermaid
-flowchart LR
-  P[1. PLAN<br/>City Studio / GIS] --> E[2. ENGINEER<br/>CAD / IFC4.3 / simulation] --> D[3. DELIVER<br/>CPM / ERP / QA / manufacturing] --> O[4. OPERATE<br/>assets / SCADA views / evidence] --> R[maintain / renew] --> P
-```
-
-## Digital standards adherence from the first design change
-
-The [Digital Standards Thread](docs/certification/digital-standards-adherence.md) connects publisher records and deployment law to controls, requirements, hazards, design items, evidence and G1–G4 decisions. Local validation rejects stale reviews, broken mappings and changed hashes, while its impact index identifies reassessment after change. A green result means evidence coherence—not clause conformity, physical qualification, independent assessment or legal authorization.
-
-**1. Turn city data into a costed railway candidate.** Rust planning and simulation work with deterministic Python GIS/design generators to connect **source-locked city data → route and station candidates → reference vehicles and civil quantities → service, fleet and energy checks → procurement, construction schedule and cashflow**. In [City Studio](docs/city-studio.md), edit lines, stations and service over 20 layers including roads, buildings, population/demand, open-DEM elevation/slope and mapped water. Compare catchment and service implications, identify likely crossings and station exclusions, seal a candidate revision and regenerate its delivery twin. This makes alternatives and their costs reviewable from the same inputs. Surveyed walking access, turnout/siding layouts, calibrated running times and engineering release require further evidence; route coverage, battery suitability and safety headways are checked against declared inputs rather than guaranteed by automation. The [population, transfer and viaduct-clearance review](engineering/assurance/access-clearance/README.md) separates native population catchments from routing demand, includes transfers through intermediate lines, and records beam/building, support/foundation and terrain conflicts. Unknown heights and incomplete mapping remain explicit release gates.
-
-**2. Engineer the railway and its interfaces.** Export OSR-ALN, GIS and IFC4.3 data for QGIS and Bonsai/IfcOpenShell; generate quantities, classifications, asset identities, 4D states, IDS requirements and BCF-oriented evidence; and use native FreeCAD train, station and civil geometry. System simulation connects trains, stations, energy, wayside, points/crossings, fares, regenerative braking and depots. Route changes flow into named compatibility checks for gradient, curvature, cant, platforms, clearances, braking, energy, crosswind, recovery and evacuation. The [design-detail register](engineering/models/bim/design-detail-register.md) controls terrain/water impacts, BIM groups, vehicle datums, mechanical interfaces, load cases and route gates. All 146 split LM3 IFC files carry provenance and interface properties; the buildingSMART [IDS requirements](engineering/models/bim/reference/lm3-information-requirements.ids) execute **4 specifications and 945 checks**. This closes information delivery—not supplier selection, calculations, tolerance stacks, structural proof, physical tests or authority acceptance.
-
-**3. Deliver through local production and accountable project controls.** Turn city design into asset registers, BOM demand, finite-resource schedules, supplier candidates, order-by dates, cash requirements, QA gates and construction states. ERPNext holds native projects, procurement, inventory, manufacturing, quality, finance, people and maintenance records. The first-article baseline controls 120 product rows and 26 assembly nodes; 30 tooling families, 16 [factory packages](design/component-catalogue/catalog/buildable-trainset/factory-release-work-packages.md) and 29 [drawing-definition seeds](design/component-catalogue/catalog/buildable-trainset/factory-drawings/index.md) feed nested BOMs, methods, travelers and hold points. Across 62 locally made rows, 472 fail-closed slots—including [exterior finish](design/component-catalogue/catalog/buildable-trainset/exterior-finish-system.md) and [mass closure](design/component-catalogue/catalog/buildable-trainset/mass-closure-ledger.md)—prevent first-article release without required production and approval evidence.
-
-**4. Operate, maintain and retain evidence.** One [Workbench](docs/workbench/README.md) joins City Studio, simulation, OCC, railway works, ERPNext/Frappe HR, FUXA and lifecycle views. Nine native Rust evaluator families publish exact units, identities and provenance through a versioned **observation-only** contract into durable history, alarms and read-only supervision. Reviewed conditions become ERP maintenance cases and Asset Repairs with parts, technicians, downtime and evidence. Local end-to-end acceptance exercises complete-city load, queued delivery, restart persistence, backup and clean-volume recovery. ERP, FUXA and management automation have no path to movement authority, point/barrier command, safety release or engineering acceptance.
-
-## Step-by-step use cases
-
-### Scenario 1 — Compare two city corridors before funding survey work
-
-1. Select a catalogue city in [City Studio](docs/city-studio.md), then inspect roads, buildings, demand, existing rail and places. 2. Draw candidate lines and stations; compare OD demand, fleet and timetable implications. 3. Add source-locked open DEM and water evidence. The router classifies likely at-grade, viaduct and bridge segments and rejects stations in mapped exclusions. 4. Model constrained single-track sections with passing at stations and recovery sidings where appropriate. 5. Compile each candidate into an immutable revision and generate its asset, quantity, cost, cashflow, critical-path and survey-gap outputs. 6. Use the comparison to commission field survey, geotechnical and hydraulic work—not to release a route or structure.
-
-### Scenario 2 — Propagate an alignment change into engineering and delivery
-
-1. Seal the revised GIS/OSR-ALN candidate so every downstream result refers to the same bytes. 2. Regenerate civil/station IFC4.3, quantities, classifications, asset IDs and 4D construction states. 3. Run route–vehicle gates for gradient, curvature, cant, platform, clearance, braking, energy, crosswind, evacuation and recovery interfaces. 4. Validate the 146-file LM3 federation against the [IDS requirements](engineering/models/bim/reference/lm3-information-requirements.ids), then run deterministic FMEA/standards and baseline-drift checks. 5. Recalculate BOM demand, finite-resource CPM, suppliers, order-by dates, QA gates and local/import cashflow; expose affected open ERP work for disposition. 6. Stop at unresolved calculations, supplier data, physical tests or approvals. A green digital report is design evidence, not construction release.
-
-### Scenario 3 — Manufacture and commission a locally built subsystem
-
-1. Start from one of 120 controlled product rows and follow its CAD/IFC, mechanical interfaces, material/process fields and nested BOM. 2. Issue a bounded supplier package separating NRE, tooling, first article, repeat units and support; treat catalogue vendors as leads until qualified. 3. Create the ERP project, purchase and receipt records; preserve batch/serial identity and inspection references. 4. Execute the factory traveler and hold points, record NCRs and accepted evidence, then install the serialized item against its planned asset identity. 5. Bind design, execution, inspection and simulation commissioning evidence. A later replacement keeps the removed serial's history and requires fresh evidence. 6. Provision a lookup-only QR only after an operator has configured a secure resolver and independently verified the physical binding; see the [governance templates](docs/operating/lifecycle-governance-and-qr.md).
-
-### Scenario 4 — Turn a train or station fault into controlled maintenance
-
-1. The Rust evaluator emits unit- and source-qualified observations through the command-free `osr-supervision-contract` boundary. 2. The gateway retains history and alarm state; FUXA shows condition but cannot grant movement authority or engineering release. 3. A reviewed actionable condition creates one durable ERP Issue, including response guidance and immutable incident provenance. 4. A maintainer previews the linked Asset, parts availability, technician and downtime, then creates one unsubmitted Asset Repair. 5. Native ERP records work, stock and actual downtime; separate inspection and handback evidence decide whether railway use may resume. 6. Restart, ERP outage and duplicate-delivery tests prove queued events and serial history recover without turning case closure into safety clearance.
-
-### Scenario 5 — Rehearse degraded operation and recovery
-
-1. Run normal, peak, continuously degraded and recovery profiles against the current controlled Samawah scenario using the [multi-day soak harness](docs/certification/software-soak-report.md). 2. Exercise shared battery/cabin thermal control: pack cooling, traction derate and protection take priority over comfort. 3. Remove the network path. Stored plan plus sensor localisation may retain route intent only when two fresh, trusted inputs match exactly; disagreement holds. 4. Rehearse corridor recovery from every-third-station sidings with the fail-held shunt-robot model, while retaining separation, route locking, detected points, speed supervision and emergency braking requirements. 5. Review bounded queues, historian tiers, events, CBM state, work-order evidence and the [resilience report](docs/certification/software-resilience-report.md); proceed to HIL and physical trials before any safety claim.
-
-### Scenario 6 — Use multi-model AI for administration without delegating authority
-
-1. Freeze the ERP/SCADA context and ask the experimental [executive council](docs/operating/ai-executive-council.md) for an allowlisted budget, maintenance, material-request or work-order proposal. 2. Collect blind ballots from strategy, finance, operations and risk identities spanning at least two providers and three model families. 3. Require 75% endorsement; any rejection, missing perspective, stale context or diversity failure routes the proposal to human review. 4. Deterministically verify the policy, context, proposal and ballot hashes, then require an operator-keyed attestation. 5. Let ERPNext independently verify and map the result to an **unsubmitted draft**. Models cannot pay, contract, hire/fire, certify, release engineering, operate SCADA or command trains.
-
-For a single runnable story joining planning, ERPNext, manufacturing, FUXA, native Rust evaluation, maintenance, restart and clean-volume recovery, follow the [Samawah example-city acceptance](deployment/example-city/README.md).
-
-## What is ready for what?
-
-| Product | Current maturity | Credible use now |
-|---|---|---|
-| Design and delivery platform | Serious demonstration | City GIS, alignment, service, cost, IFC, procurement, schedule, project twin and engineering coordination. |
-| Train and infrastructure reference system | Engineering development | Local-manufacture planning, supplier RFQs, prototype definition, BIM coordination and civil option studies. |
-| Open GoA 4 control system | R&D / pre-certification | Deterministic simulation, shadow mode, formal review and HIL preparation—not live railway command. |
-
-The first adoptable product does not require a new autonomous railway. Start with an existing depot, workshop or pilot corridor and deploy the non-safety owner/operator stack: asset register, project controls, simulator, Ops Core, QA, maintenance and evidence portal. See the [first-adoptable-product boundary](docs/first-adoptable-product.md).
-
-## See the current system
-
-The default [maglev Workbench](docs/workbench/maglev/index.html) opens the current city planning, mechanical/civil geometry, control replays and design evidence. Start it with `./osr workbench`.
-
-![Primary maglev Workbench with Baghdad planning and current native geometry](docs/screenshots/workbench/maglev-primary.png)
-
-### Retained shared platform and v0.4 views
-
-| Unified lifecycle workspace | ERPNext city execution | Embedded supervision |
-|---|---|---|
-| ![Installed Workbench lifecycle overview and city deployment status](docs/screenshots/workbench/lifecycle-overview.png) | ![Native ERPNext project and OpenSourceRail operating actions inside Workbench](docs/screenshots/workbench/erp-city-project.png) | ![FUXA vehicle condition monitoring from Rust evaluators](docs/screenshots/workbench/embedded-supervision.png) |
-
-| City Studio | Civil IFC coordination | Trainset assembly |
-|---|---|---|
-| ![City Studio deterministic GIS workspace](docs/screenshots/city-studio/gis-workspace.png) | ![Bonsai IFC4.3 construction sequence](engineering/models/bim/reference/civil-construction-sequence.gif) | ![LM3 complete 146-node assembly](docs/screenshots/assembly/trainset-assembly-complete.png) |
-
-These are captures of the installed management/simulation platform and retained v0.4 wheel/rail engineering models. The LM3 train and civil IFC images/videos do not depict the current maglev design. Reproduce the Workbench captures with [`capture-platform.mjs`](deployment/workbench/tests/capture-platform.mjs), or watch the [88-second product assembly](engineering/models/digital-twins/fabrication-assembly/fabrication-assembly-digital-twin.mp4) and [48-second civil IFC sequence](engineering/models/bim/reference/civil-construction-sequence.mp4).
+The shared [ERPNext](deployment/erpnext/README.md), [supervision](deployment/supervision/README.md) and [assurance](docs/certification/README.md) platform remains available. Existing wheel/rail asset, supplier, manufacturing and operating records retain their original configuration; they do not accept a maglev replacement.
 
 ## The economic case
 
 The primary v0.5 study retains explicit low/base/high budgets and adds local-manufacture optimisation targets. Its base repeat three-car train is $872,197 and ordinary elevated dual-route-km is $8,345,876, conditional on unresolved design and procurement inputs. [Review scopes, targets, localisation and open gates](docs/design-engine/ferrite-maglev/reference/index.html). The existing economics below describe retained wheel/rail comparators; they are not maglev project budgets.
 
-The platform is designed to let a public owner competitively procure ordinary civil works, vehicle structures, GFRP panels, interiors, wiring, installation and maintenance locally, importing specialist components where local suppliers are not yet qualified. The reference model uses about **$0.9M per 3-car light-metro trainset** (current build record: $885k), a **factory-gate planning target** whose [BOM, labour and contingency basis](docs/cost-model.md#rolling-stock) remains subject to supplier/process qualification. Delivered procurement must separately price engineering, homologation, commissioning, warranty and spares. The **$60k per supported vehicle/car module** country factory allowance scales with fleet size; national capital uses the larger of that allowance and the physical city-order factory envelope. Workshop budgets must account for the actual buildings, equipment, tooling, test paths and production-readiness work. The [Iraq strategy](cities/catalogue/west-asia/Iraq/NATIONAL-BRIEF.md) publishes conditional city studies; a consolidated national budget, funded deployment and realised national saving remain unestablished. Transparent code and COTS choices expose assumptions for review; independently calibrated demand, risk and comparable bids are still needed to control [optimism bias](https://ppp.worldbank.org/poor-planning-and-project-selection).
-
-<!-- GENERATED: portfolio economics -->
-For an illustrative **$100M OpenSourceRail scope**, the editable default comparison applies a 2.0× foreign-turnkey price with 90% requiring foreign currency or international capital:
-
-| Same modelled railway scope | Localisation-first OpenSourceRail | Foreign-turnkey sensitivity |
-|---|---:|---:|
-| Programme price | **$100.0M** | **$200.0M** |
-| Value not requiring external capital | $79.1M | $20.0M |
-| External-capital requirement | **$20.9M** | **$180.0M** |
-
-In that scenario, the external-capital requirement is **$159.1M (88.4%)** lower before interest. Across the 265-city model, **about $493B—roughly 79% of programme value—is assigned to domestic activity**. **Scope snapshot: 7 October 2026, retained catalogue finance; excludes adoption of the revised Baghdad scenario.** These are reproducible planning sensitivities, not bids, audited origin claims or financing offers. Review the assumptions, low/default/high comparisons and financing cases in the [portfolio calculation](docs/portfolio-summary.md).
-<!-- END GENERATED: portfolio economics -->
+Local fabrication and integration aim to reduce imported finished equipment, retain repair authority and build national capability. Achieved local value and external-capital requirements need a complete origin-traced MBOM, installed scope and financing terms. The [retained portfolio comparison](docs/portfolio-summary.md) and [Iraq funding programme](cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md) describe earlier wheel/rail scenarios and are not maglev funding commitments.
 
 ## Run it
 
@@ -240,6 +131,10 @@ Install the toolchain, build the primary v0.5 study and run its control replay:
 ./install.sh
 ./osr build
 ./osr design check
+./osr readiness
+./osr capabilities
+./osr catalogue plan --city baghdad
+./osr test
 ./osr
 cargo run -p osr-maglev-control --release --example multimodule_replay
 ./osr city baghdad
@@ -254,14 +149,14 @@ The primary review is [generated here](docs/design-engine/ferrite-maglev/referen
 
 | If you are… | Start with… |
 |---|---|
-| A city or transport planner | [City Studio](docs/city-studio.md), [city catalogue](cities/catalogue/README.md), [cost model](docs/cost-model.md) and [portfolio](docs/portfolio-summary.md) |
+| A city or transport planner | [Primary maglev city plans](engineering/ferrite_maglev/city-index.md), retained [City Studio](docs/city-studio.md), [city catalogue](cities/catalogue/README.md), [cost model](docs/cost-model.md) and [portfolio](docs/portfolio-summary.md) |
 | A civil/BIM engineer | [Civil system](docs/civil/README.md), [Bonsai IFC workflow](docs/civil/bonsai-ifc-workflow.md), [BIM reference package](engineering/models/bim/reference/README.md) and [survey gates](cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/field-evidence-brief.md) |
 | A rolling-stock, supplier or manufacturing engineer | [Primary maglev implementation and closure](engineering/ferrite_maglev/README.md), retained [LM3 reference](docs/rolling-stock/light-metro-3car/README.md), [buildable trainset](design/component-catalogue/catalog/buildable-trainset/README.md), [supplier technical-support package](docs/commercial/supplier-technical-support-package.md), [CAD models](design/component-catalogue/models/cad/README.md) and [factory readiness](design/component-catalogue/catalog/buildable-trainset/factory-release-readiness.md) |
 | Researching component and system best practice | [Source-backed handbook](docs/best-practice/handbook.md), [installed design twin](engineering/models/digital-twins/best-practice/index.html), [design expansion review](docs/best-practice/digital-twin-design-expansion.md), [component mapping](engineering/best_practice/component-guidance.csv) and [OSR-BP-001](docs/standards/OSR-BP-001.md) |
 | An operator or maintainer | [Operations](docs/operations/README.md), [Workbench](docs/workbench/README.md), [connected lifecycle](docs/lifecycle/README.md) and [example-city deployment](deployment/example-city/README.md) |
 | An ERP/SCADA integrator | [Operating platform](docs/operating/README.md), [ERPNext setup](deployment/erpnext/README.md), [supervision gateway](deployment/supervision/README.md) and [embedded contract](docs/lifecycle/embedded-integration.md) |
 | A software or assurance reviewer | [Rust workspace](crates/README.md), [software architecture](docs/software-architecture-diagrams.md), [formal results](engineering/assurance/formal/results/README.md), [safety case](docs/safety-case/README.md), [assurance/authorization framework](docs/certification/README.md), [manufactured viaduct review](docs/baghdad-manufactured-viaduct-review-2026-10-04.md), [controls and financial review](docs/baghdad-ci-controls-review-2026-10-04.md) and [historical codebase review](docs/codebase-and-iraq-review-2026-10-03.md) |
-| A public owner, funder or delivery partner | [October 5 cost and demand reconciliation](docs/baghdad-cost-and-demand-review-2026-10-05.md), [latest Baghdad staffing, depot, local-production and funding recalculation](cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md), [complete Baghdad proposal](cities/catalogue/west-asia/Iraq/Baghdad/README.md), [Baghdad-only original reference funding programme](cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md), [competitive position and proof roadmap](docs/competitive-position-and-proof-roadmap.md), [owner–builder–operator plan](docs/owner-builder-operator-setup.md), [mobilisation status](docs/owner-builder-operator-mobilisation-status.md), [JV/development framework](docs/commercial/joint-development-framework.md), [partnership status](docs/commercial/partnership-readiness.md) and [supplier-support status](docs/commercial/supplier-technical-support-readiness.md) |
+| A public owner, funder or delivery partner | [Primary Baghdad maglev planning and cost gaps](cities/catalogue/west-asia/Iraq/Baghdad/engineering/maglev/README.md), retained [October 5 cost and demand reconciliation](docs/baghdad-cost-and-demand-review-2026-10-05.md), [latest Baghdad staffing, depot, local-production and funding recalculation](cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md), [complete Baghdad proposal](cities/catalogue/west-asia/Iraq/Baghdad/README.md), [Baghdad-only original reference funding programme](cities/catalogue/west-asia/Iraq/IRAQ-FUNDING-PROGRAMME.md), [competitive position and proof roadmap](docs/competitive-position-and-proof-roadmap.md), [owner–builder–operator plan](docs/owner-builder-operator-setup.md), [mobilisation status](docs/owner-builder-operator-mobilisation-status.md), [JV/development framework](docs/commercial/joint-development-framework.md), [partnership status](docs/commercial/partnership-readiness.md) and [supplier-support status](docs/commercial/supplier-technical-support-readiness.md) |
 | A contributor | [Contributing guide](CONTRIBUTING.md), [governance](GOVERNANCE.md), [change log](CHANGELOG.md) and [release checklist](docs/releases.md) |
 
 ## Source Of Truth
@@ -272,12 +167,14 @@ This root README is the only human-facing front door. A hash proves which bytes 
 
 | Concern | Source of truth | Generated/review output |
 |---|---|---|
-| Architecture and decisions | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), accepted [`docs/rfcs/`](docs/rfcs/README.md) | Diagrams, guides and summaries |
+| Architecture and decisions | [`lib/templates/infrastructure.toml`](lib/templates/infrastructure.toml), [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md), accepted [`docs/rfcs/`](docs/rfcs/README.md) | Diagrams, guides and summaries |
+| Primary maglev city/vehicle/civil planning | [`engineering/ferrite_maglev/`](engineering/ferrite_maglev/README.md), [`ferrite-maglev-study.toml`](ferrite-maglev-study.toml) | Maglev city plans, native studies, partial costs, simulations and open gates |
+| Primary SBC development | [`deployment/maglev.toml`](deployment/maglev.toml), [`osr-maglev-control`](crates/osr-maglev-control/README.md) | Offline replay only; hardware interfaces and physical timing remain open |
 | Rust behavior and simulation | [`crates/`](crates/README.md) and tests | Applications, traces and coverage evidence |
-| City synthesis and shared assumptions | [`design/city-generation/`](design/city-generation/README.md), [`lib/templates/`](lib/templates/), [`lib/recipes/`](lib/recipes/), [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml) | City catalogue, service, finance and engineering packages |
-| Iraqi funding and current publication | [`lib/templates/baghdad-programme-recalculation.toml`](lib/templates/baghdad-programme-recalculation.toml), [`lib/templates/iraq-funding.toml`](lib/templates/iraq-funding.toml), controlled procurement schedules and [`lib/templates/city-publication.toml`](lib/templates/city-publication.toml) | [Current Baghdad summary](cities/catalogue/west-asia/Iraq/Baghdad/README.md), [latest scope and funding cases](cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md); original catalogue appraisals are labelled separately |
+| Retained wheel/rail synthesis and inputs | [`design/city-generation/`](design/city-generation/README.md), [`lib/templates/`](lib/templates/), [`lib/recipes/`](lib/recipes/), [`lib/city-batches/world-sample.toml`](lib/city-batches/world-sample.toml) | City catalogue, service, finance and engineering packages |
+| Retained Iraqi wheel/rail funding | [`lib/templates/baghdad-programme-recalculation.toml`](lib/templates/baghdad-programme-recalculation.toml), [`lib/templates/iraq-funding.toml`](lib/templates/iraq-funding.toml), controlled procurement schedules and [`lib/templates/city-publication.toml`](lib/templates/city-publication.toml) | [Retained Baghdad summary](cities/catalogue/west-asia/Iraq/Baghdad/README.md), [reference scope and funding cases](cities/catalogue/west-asia/Iraq/Baghdad/engineering/programme-recalculation/README.md); original catalogue appraisals are labelled separately |
 | Interactive city revisions | [`cities/workspaces/`](cities/workspaces/README.md) | Content-addressed candidates and exports |
-| Mechanical/station/civil geometry | [`design/component-catalogue/src/osr_mech/`](design/component-catalogue/src/osr_mech/) | FreeCAD, IFC, BOM, traveler and image artifacts |
+| Retained wheel/rail geometry | [`design/component-catalogue/src/osr_mech/`](design/component-catalogue/src/osr_mech/) | FreeCAD, IFC, BOM, traveler and image artifacts |
 | Component and system practice research | [`engineering/best_practice/data/`](engineering/best_practice/data/), linked to existing standards controls | Reproducible handbook, catalogue coverage and open verification/backlog plans |
 | ERP and supervision integration | [`deployment/erpnext/`](deployment/erpnext/README.md), [`deployment/supervision/`](deployment/supervision/README.md), [`services/integration/`](services/integration/) | ERP workflows, FUXA views, history and maintenance evidence |
 | Survey and released alignment | Accepted deployment GIS and OSR-ALN sources | QGIS, GeoPackage, corridor and IFC alignment evidence |

@@ -21,6 +21,11 @@ jobs:
       - run: python -m pip install pytest -r engineering/ferrite_maglev/requirements.txt
       - name: Verify every published source and packet file is tracked
         run: python tools/automation/tests/verify-maglev-sources.py
+      - name: Primary deployment and capability configuration
+        run: |
+          python tools/automation/validate-host-manifests.py
+          python tools/automation/capabilities.py --check
+          python tools/automation/catalogue.py index --check
       - run: cargo test --locked -p osr-maglev-control --all-targets
       - run: cargo check --locked -p osr-maglev-control --no-default-features
       - run: cargo fmt --package osr-maglev-control -- --check

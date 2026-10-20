@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import subprocess
+import argparse
 from collections import defaultdict
 from pathlib import Path
 
@@ -109,10 +110,21 @@ def generate() -> str:
     return "\n".join(lines)
 
 
-def main() -> None:
-    OUT.write_text(generate(), encoding="utf-8")
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--check',action='store_true')
+    args = parser.parse_args()
+    value = generate()
+    if args.check:
+        if not OUT.is_file() or OUT.read_text()!=value:
+            print('stale: docs/INDEX.md')
+            return 1
+        print('current: docs/INDEX.md')
+        return 0
+    OUT.write_text(value, encoding="utf-8")
     print(f"wrote {OUT.relative_to(REPO_ROOT)}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

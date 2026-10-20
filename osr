@@ -27,15 +27,19 @@ Usage: ./osr [COMMAND] [arguments]
   build legacy       Build the retained full wheel/rail comparator payload
   book [arguments]   Rebuild the primary maglev OpenSourceRail-Book.pdf
   book legacy ...    Build the retained wheel/rail reader edition
-  test               Run Rust, Python, browser, and repository checks
+  test               Verify the primary maglev Rust/Python/UI/configuration
+  test legacy        Run the retained whole-platform comparison checks
   validate ...       Run/plan/verify local checks with source-bound receipts
   doctor ...         Inspect a named local toolchain profile without installing
-  capabilities ...   Generate/check the retained capability and source directory
-  catalogue ...      Index retained payloads or plan/run only selected cities
+  capabilities ...   Generate/check the primary maglev capability directory
+  capabilities legacy ...  Retained platform/source capability inventory
+  catalogue ...      Index/plan/rebuild selected primary maglev city packages
+  catalogue legacy ...  Explicit retained wheel/rail city generation
   check --scope ...  Run selected local verification tiers or plan source impact
   engineering ...    Run an engineering-toolchain command
-  example-city ...   Run/manage the isolated complete-city acceptance scenario
-  readiness [...]    Audit all city ERP, component and supervision inputs
+  example-city legacy ...  Retained isolated wheel/rail platform scenario
+  readiness [...]    Source-bound primary maglev readiness and open gates
+  readiness legacy ...  Retained city ERP/component/supervision audit
   supervision ...    Generate and operate FUXA, telemetry and lifecycle integration
   erp ...            Manage ERPNext business operations (init/build/up/setup/status/bench)
 EOF
@@ -52,9 +56,15 @@ case "$command_name" in
         exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py "$@"
         ;;
     example-city)
+        [[ "${1:-}" == legacy ]] || { printf 'This is a retained wheel/rail scenario. Use: ./osr example-city legacy <action>\n' >&2; exit 2; }
+        shift
         exec python3 tools/automation/city-e2e.py "$@"
         ;;
     readiness)
+        if [[ "${1:-}" != legacy ]]; then
+            exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py readiness "$@"
+        fi
+        shift
         exec python3 tools/automation/operating-readiness.py "$@"
         ;;
     supervision)
@@ -136,15 +146,19 @@ case "$command_name" in
         exec tools/automation/osr-python tools/automation/doctor.py "$@"
         ;;
     capabilities)
+        if [[ "${1:-}" == legacy ]]; then shift; set -- --legacy "$@"; fi
         exec tools/automation/osr-python tools/automation/capabilities.py "$@"
         ;;
     catalogue)
+        if [[ "${1:-}" == legacy ]]; then shift; set -- --legacy "$@"; fi
         exec tools/automation/osr-python tools/automation/catalogue.py "$@"
         ;;
     check)
         exec tools/automation/osr-python tools/automation/check.py "$@"
         ;;
     test)
+        if (( $# == 0 )); then exec bash tools/automation/test-maglev.sh; fi
+        [[ "$1" == legacy && $# == 1 ]] || { printf 'usage: ./osr test [legacy]\n' >&2; exit 2; }
         cargo fmt --all -- --check
         cargo clippy --workspace --all-targets -- -D warnings
         cargo test --workspace --all-targets

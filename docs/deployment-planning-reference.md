@@ -1,5 +1,7 @@
 # Deployment Planning Reference
 
+This method describes retained wheel/rail city and national calculations. Primary v0.5 city planning uses the [maglev compiler and assumptions](../engineering/ferrite_maglev/README.md); old train counts, axle/track/civil quantities, costs and acceptance do not transfer. Existing geography and demand remain provisional inputs.
+
 This page defines the common interpretation of every generated OpenSourceRail
 city README and national brief. Location folders contain only local inputs,
 calculated results, exceptions and evidence links. Shared assumptions belong

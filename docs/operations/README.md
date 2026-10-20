@@ -1,5 +1,7 @@
 # OpenSourceRail — Operations Rulebook
 
+Primary v0.5 operating and emergency interfaces are under development in the [maglev adapter](../../engineering/ferrite_maglev/README.md) and its advisory Rust egress/support replays. The rules below retain their wheel/rail reference scope. Wheelset inspections, points, rail odometry, support-preserving stops and chute deployment require explicit applicability review; no maglev operating rulebook or passenger-evacuation approval is released.
+
 This directory holds the rule text referenced by
 [RFC 0013](../rfcs/0013-operations-rulebook.md). Every rule sits
 inside the one-sentence-one-decision style the RFC commits to.

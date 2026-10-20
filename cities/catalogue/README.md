@@ -1,5 +1,8 @@
 # City Design Catalogue
 
+> **Primary v0.5: ferrite-PM maglev.** [Open the current city planning index](../../engineering/ferrite_maglev/city-index.md) or run `./osr city <slug>`.
+> The quantities, train families, finance and validation tables below are retained v0.4 wheel/rail comparisons. They do not qualify the maglev city packages.
+
 This directory retains 265 developing-world city planning models and
 1 technical comparison model defined by
 `lib/city-batches/world-sample.toml`. These routed designs are retained
@@ -23,7 +26,7 @@ their ERP/component profiles and family-applicable supervision packages.
 Planning completeness does not imply operator configuration, physical
 commissioning or railway release.
 
-## Validation status
+## Retained wheel/rail validation status
 
 Current planning examples: **227 complete and 39 requiring refresh**.
 Full screening acceptance: **0 pass and 266 retain open gates**. Complete documented planning examples can retain unaccepted depot/stabling requirements.

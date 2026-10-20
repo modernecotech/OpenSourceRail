@@ -10,7 +10,7 @@ import subprocess
 import sys
 import tempfile
 
-from . import cities, coupled, delivery, evacuation, geometry, media, model, system_development
+from . import cities, coupled, delivery, evacuation, geometry, media, model, system_development, navigation
 
 BASE = model.ROOT/'docs/design-engine/ferrite-maglev'
 STATE = model.ROOT/'build/maglev-workflow'
@@ -105,17 +105,21 @@ def stages(output):
     def document(script, *args):
         subprocess.run([sys.executable, str(model.ROOT/'tools/automation'/script), *args], cwd=model.ROOT, check=True, capture_output=True, text=True)
     values = [
+        ('primary-host-configuration', lambda: document('validate-host-manifests.py'), lambda: document('validate-host-manifests.py')),
         ('native-interface-and-bay', lambda: geometry.verify_native(BASE/'native'), native),
         ('beam-only-kit', lambda: evacuation.verify_native(BASE/'beam-only'), lambda: fresh_packet('beam-only', evacuation.publish_native)),
         ('linked-mechanical-civil-software', system_development.verify, lambda: fresh_packet('system-development', system_development.publish)),
         ('coupled-controller-guideway', lambda: coupled.verify(BASE/'coupled'), lambda: fresh_packet('coupled', coupled.publish, marker='receipt.json')),
         ('all-city-maglev-planning', city_check, cities.generate_all),
+        ('primary-capability-directory', lambda: navigation.publish(check=True), navigation.publish),
+        ('markdown-inventory', lambda: document('generate-doc-index.py','--check'), lambda: document('generate-doc-index.py')),
         ('primary-report', lambda: report_check(delivery.OUTPUT), lambda: delivery.publish()),
         ('primary-overview', lambda: document('generate-public-overview.py', '--check'), lambda: document('generate-public-overview.py')),
         ('primary-reader-book', lambda: document('build-doc-book.py', '--check'), lambda: document('build-doc-book.py')),
     ]
     if Path(output).resolve() != delivery.OUTPUT.resolve():
-        values.insert(6, ('report-mirror', lambda: report_check(output), lambda: delivery.publish(output)))
+        report_position = next(i for i, row in enumerate(values) if row[0]=='primary-report')
+        values.insert(report_position+1, ('report-mirror', lambda: report_check(output), lambda: delivery.publish(output)))
     return values
 
 

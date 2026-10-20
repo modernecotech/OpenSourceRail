@@ -1,5 +1,7 @@
 # ERPNext operating deployment
 
+ERPNext remains a shared business platform. The primary [maglev transition and industrialisation register](../../engineering/ferrite_maglev/README.md) has no released, priced maglev MBOM. Existing LM3/city templates are comparator planning packages; do not import them as approved maglev manufacturing or procurement records.
+
 This composition runs ERPNext, Frappe HR, the OSR reference integration,
 MariaDB, Redis, workers, scheduler, websocket server and nginx frontend.
 

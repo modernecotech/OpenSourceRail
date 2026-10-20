@@ -1,11 +1,15 @@
-# Host Deployment Baseline
+# Host Deployment and Development Profiles
 
-This directory is the reproducible software-composition baseline for the five
+The primary v0.5 profile is [maglev.toml](maglev.toml): the implemented Rust maglev core and offline replay examples on the proposed off-the-shelf SBC architecture. It binds no physical outputs and releases no host image. Isolated I/O, power stages, timing, independent protection and vehicle interfaces remain qualification work.
+
+The retained five-host wheel/rail composition follows below. Its image roster, self-test and safety targets do not qualify a maglev host.
+
+This directory also retains the software-composition reference for the five
 hardware classes described by RFC 0005. It answers which workspace packages
 belong on each host, their startup order, commissioning check, log policy, and
 update/rollback contract.
 
-- `hosts.toml` is the source of truth for host images.
+- `maglev.toml` selects the primary development host; `hosts.toml` retains explicit comparator image compositions.
 - `components.toml` gives every Cargo workspace package a disposition.
 - `config/*.toml` contains the non-secret configuration shipped in an image.
 - `tools/automation/validate-host-manifests.py` validates the model against Cargo

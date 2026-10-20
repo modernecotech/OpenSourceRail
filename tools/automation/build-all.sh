@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the public OpenSourceRail system from the tracked source in one command.
+# Explicit retained wheel/rail comparator build; primary v0.5 uses ./osr build.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
@@ -8,7 +8,7 @@ TOOL_ROOT="${HOME}/.local/share/opensource-rail/toolchains"
 export PATH="$ROOT/.venv/bin:$TOOL_ROOT/bin:$TOOL_ROOT/node-v$NODE_VERSION/bin:${HOME}/.cargo/bin:$PATH"
 cd "$ROOT"
 
-(( $# == 0 )) || { printf 'Run ./osr build without options.\n' >&2; exit 2; }
+(( $# == 0 )) || { printf 'Run ./osr build legacy without further options.\n' >&2; exit 2; }
 
 section() {
     printf '\n==> %s\n' "$1"
@@ -23,7 +23,7 @@ python3 tools/automation/generate-cost-model.py
 python3 tools/automation/generate-design-index.py
 python3 tools/automation/generate-national-briefs.py
 python3 tools/automation/generate-portfolio-summary.py
-python3 tools/automation/generate-public-overview.py
+python3 tools/automation/generate-public-overview.py --legacy
 
 section "Building browser and native applications"
 npm run frontend:build
@@ -73,9 +73,9 @@ python3 tools/automation/digital-assurance.py
 python3 tools/automation/component_assurance.py
 python3 tools/automation/civil_reference.py
 
-section "Building the root documentation book"
+section "Building the retained wheel/rail reader edition"
 python3 tools/automation/generate-doc-index.py
-python3 tools/automation/build-doc-book.py
+python3 tools/automation/build-doc-book.py --legacy
 
 section "Checking the generated repository"
 python3 tools/automation/audit-project-twins.py
@@ -84,8 +84,9 @@ python3 tools/automation/check-readmes.py
 python3 tools/automation/check-markdown-links.py
 python3 tools/automation/repo-health.py --quiet
 
-printf '\nOpenSourceRail build complete.\n'
-printf '  Workbench: ./osr\n'
-printf '  Book:      OpenSourceRail-Book.pdf\n'
+printf '\nRetained wheel/rail comparator build complete.\n'
+printf '  Workbench: ./osr workbench legacy\n'
+printf '  Book:      build/legacy-book/OpenSourceRail-v04.pdf\n'
 printf '  BIM:       engineering/models/bim/reference/\n'
 printf '  Job data:  build/\n'
+printf 'Refresh primary maglev studies after changed reference inputs with: ./osr build\n'

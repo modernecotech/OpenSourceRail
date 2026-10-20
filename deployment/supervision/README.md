@@ -1,5 +1,11 @@
 # Equipment supervision and lifecycle integration
 
+This is the retained business/supervision integration. Existing physical assets
+and field bindings keep their wheel/rail configuration; no maglev support,
+guidance or propulsion hardware adapter is commissioned. The default v0.5
+Workbench is read-only. Use a separate retained platform Workbench for lifecycle
+and ERP/FUXA links, for example `./osr workbench legacy --port 8190 --city-port 8191`.
+
 ERPNext owns business execution; FUXA displays equipment; OSR owns engineering,
 controller behaviour and railway assurance. The integration joins their identities
 without treating a delivery, alarm clearance or ERP case closure as railway release.
@@ -13,27 +19,30 @@ Start the existing ERP stack first (`./osr erp up`). Then:
 ./osr supervision up
 ./osr supervision setup-fuxa
 ./osr supervision connect-erp samawah mosul
-./osr supervision prepare samawah --first-site --first-vehicle --first-plant
-./osr supervision prepare mosul --first-site --first-vehicle --first-plant
+./osr supervision prepare samawah --first-site --first-vehicle --first-plant --workbench-url http://127.0.0.1:8190
+./osr supervision prepare mosul --first-site --first-vehicle --first-plant --workbench-url http://127.0.0.1:8190
 ./osr supervision apply build/supervision/samawah/simulation/package.json
 ./osr supervision apply build/supervision/mosul/simulation/package.json
 ./osr supervision preview-fuxa \
   build/supervision/samawah/simulation/package.json \
   build/supervision/mosul/simulation/package.json \
-  --output build/supervision/fuxa-import-review.json
+  --output build/supervision/fuxa-import-review.json --workbench-url http://127.0.0.1:8190
 ./osr supervision import-fuxa \
   build/supervision/samawah/simulation/package.json \
   build/supervision/mosul/simulation/package.json \
-  --review build/supervision/fuxa-import-review.json
+  --review build/supervision/fuxa-import-review.json --workbench-url http://127.0.0.1:8190
 ./osr supervision simulate
 ```
 
-For a separate Workbench, pass `--workbench-url http://127.0.0.1:8190` to
+Pass `--workbench-url http://127.0.0.1:8190` to
 `prepare`, `preview-fuxa` and `import-fuxa`. Use the same origin for preview and
 import: generated asset links and the origin are bound into the reviewed project
-hash. The default remains `http://127.0.0.1:8090`.
+hash. The retained integration adapter's compatibility default is still
+`http://127.0.0.1:8090`; select the legacy platform origin explicitly when the
+primary maglev UI occupies that port. Existing private deployment records are
+not rewritten by this documentation change.
 
-- Workbench lifecycle: <http://127.0.0.1:8090/docs/lifecycle/>
+- Retained Workbench lifecycle: <http://127.0.0.1:8190/docs/lifecycle/>
 - FUXA: <http://127.0.0.1:1881/home>
 - ERPNext: <http://127.0.0.1:8080/app/opensourcerail>
 - Integration health: <http://127.0.0.1:8092/health>

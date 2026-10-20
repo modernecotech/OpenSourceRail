@@ -21,6 +21,20 @@ cargo build -p osr-maglev-control --release --example coupled_bridge
 tools/automation/osr-python -m engineering.ferrite_maglev.coupled --duration-s 3
 ```
 
+`./osr capabilities` now publishes the primary maglev source/command directory;
+`./osr catalogue index|plan|run` indexes or rebuilds only primary city packages.
+Use `./osr catalogue plan --city baghdad` before a selected rebuild. The default
+`./osr readiness` reports current-source maglev gates, and `./osr test` runs the
+primary Rust, Python, configuration, report and browser checks. Retained platform
+checks and city experiments require `test legacy`, `catalogue legacy`,
+`capabilities legacy`, `readiness legacy` or `example-city legacy` explicitly.
+
+The [primary development-host profile](../../deployment/maglev.toml) contains
+the actual Rust replay entrypoints and no physical bindings. The five old host
+images remain explicitly scoped comparators; hot-axle and points services are
+not selected into the primary development host. Shared traction, braking,
+odometry, protection and passenger interfaces still require revalidation.
+
 [Open the generated report](../../docs/design-engine/ferrite-maglev/reference/index.html).
 The [primary Workbench](../../docs/workbench/maglev/index.html),
 [public overview](../../docs/open-source-rail-overview.md) and

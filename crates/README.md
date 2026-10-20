@@ -4,15 +4,20 @@ The `crates/` tree is the OpenSourceRail software stack. It contains
 the simulator, safety evaluators, onboard and wayside services,
 operator GUIs, design synthesis tools, and evidence generators.
 
-## Common Commands
+The primary v0.5 control implementation is [`osr-maglev-control`](osr-maglev-control/README.md), with fixed magnetic modules, linear electromagnetic propulsion and offline SBC replays. [deployment/maglev.toml](../deployment/maglev.toml) defines its development profile; no old host image or wheel/rail control result is inherited.
+
+## Primary Commands
 
 ```bash
-cargo test --workspace
-cargo run --release --bin osr-sim -- --duration 3600 --status-every 300
-cargo run --release --bin osr-design -- --help
+cargo test --locked -p osr-maglev-control --all-targets
+cargo check --locked -p osr-maglev-control --no-default-features
+cargo run --locked -p osr-maglev-control --example multimodule_replay
+./osr test
 ```
 
-## Main Groups
+The remaining crates provide shared platform functions and retained wheel/rail references. Use `./osr sim legacy`, `./osr design legacy` and `./osr test legacy` for explicit comparator workflows. Wheel-specific traction, braking, odometry, axle and points logic requires replacement or interface revalidation.
+
+## Shared and Retained Groups
 
 | Area | Crates |
 |---|---|

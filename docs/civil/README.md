@@ -1,5 +1,7 @@
 # Civil And Alignment
 
+The primary v0.5 civil work is the [ferrite-PM maglev beam/support study](../../engineering/ferrite_maglev/README.md) and [current geometry and construction-stage evidence](../design-engine/ferrite-maglev/reference/index.html). It targets one integrated guidebeam per direction, necessary reaction iron and supports, with conditional walkway removal and onboard spiral-chute evacuation. The slab track, axle-load, Pi-beam, bogie and rerailing references below are v0.4 comparators; their capacity, cost and evacuation evidence does not transfer.
+
 This folder holds civil-engineering interfaces and planning-grade
 alignment material. It is the bridge between generated city designs,
 survey/CAD tools, and the mechanical civil catalogue.

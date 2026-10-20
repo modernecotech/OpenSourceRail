@@ -1,5 +1,7 @@
 # OpenSourceRail Control Electronics
 
+For v0.5, use the [primary maglev development profile](../deployment/maglev.toml) and [Rust maglev control core](../crates/osr-maglev-control/README.md). It runs offline examples on the proposed off-the-shelf SBC architecture; physical I/O, power stages, independent protection and measured deadlines remain open. The five host classes below are retained interface references, not released maglev images. Maglev support, immobilisation and traction-stop power paths require revalidation together.
+
 The [reference integration source](reference-integration.json) and revised
 [host bench requirements](diy-assembly/README.md) include the corrected
 power, watchdog, bus and pin interfaces. The [Baghdad detail register](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/README.md)

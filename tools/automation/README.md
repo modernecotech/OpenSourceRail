@@ -1,18 +1,24 @@
 # Repository Automation
 
+Primary v0.5 commands use the [maglev dependency runner](../../engineering/ferrite_maglev/README.md): `./osr build`, `./osr city <slug>`, `./osr catalogue plan --city <slug>`, `./osr capabilities`, `./osr readiness` and `./osr test`. Retained wheel/rail generators require explicit `legacy` launcher commands; shared ERP and supervision tools retain configuration-specific authority.
+
 This folder contains small orchestration helpers for regeneration,
 documentation publishing, and repository health checks. Scripts should
 stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 `design/component-catalogue`.
 
-## Commands
+## Primary and retained commands
 
 | Script | Purpose |
 |---|---|
+| [`ferrite-maglev-study.py`](ferrite-maglev-study.py) | Primary dependency build, readiness, native studies, report and timer |
+| [`capabilities.py`](capabilities.py) | Primary source-bound maglev directory; `--legacy` retains old inventory |
+| [`catalogue.py`](catalogue.py) | Primary selected-city index/plan/run; `--legacy` explicitly runs old synthesis |
+| [`test-maglev.sh`](test-maglev.sh) | Primary Rust, Python, deployment, report and browser checks |
 | [`release-evidence.py`](release-evidence.py) | Require a clean software tag and all four exact-commit local release profiles; package public city/proof evidence, PDF, overview, readiness and checksums; historical GitHub evidence is an explicit option |
 | [`local-validation.py`](local-validation.py) | Run/plan/verify source-bound local checks via `./osr validate`; keep logs locally and GitHub for storage; see the [local validation guide](../../docs/local-validation.md) |
 | [`safety-case-summary.py`](safety-case-summary.py) | Generate or check GSN inventory counts without claiming successful proofs or independent acceptance |
-| [`build-all.sh`](build-all.sh) | One-command regeneration of shared product/cost/catalogue data, browser and native applications, BOM/IFC packages, the root reader PDF, and documentation checks; invoked as `./osr build` |
+| [`build-all.sh`](build-all.sh) | One-command regeneration of shared product/cost/catalogue data, browser and native applications, BOM/IFC packages, the root reader PDF, and documentation checks; invoked as `./osr build legacy` |
 | [`../../osr`](../../osr) | Root user command for the Workbench, build, simulator, tests and engineering workflows |
 | [`verify-civil-native-cad.py`](verify-civil-native-cad.py) | Run with FreeCADCmd to verify native solids and independent net volumes for all registered civil families; retains a source-bound kernel receipt |
 | [`regenerate-city.sh`](regenerate-city.sh) | Regenerate one city design from the batch catalogue |
@@ -34,7 +40,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`baghdad_delivery_stress.py`](baghdad_delivery_stress.py) | Audit frozen production/civil lanes, fixed process holds, priced recoveries, funding pauses and reconciled native-currency cash/debt; `--check` validates inputs and outputs |
 | [`baghdad_qualification.py`](baghdad_qualification.py) | Build temporary-facility RFQs, source-bound ERP evidence tasks, denied-placement gates and a separately operated first section; verify measured results with independent signatures |
 | [`build-baghdad-proposal.py`](build-baghdad-proposal.py) | Publish the complete Baghdad proposal, detailed registers and evidence archive, with a separately reconciled future Iraqi programme; `--check` validates hashes and archive integrity |
-| [`build-doc-book.py`](build-doc-book.py) | Build the complete reader-edition PDF, including current reconciled city totals, every route, and the Baghdad-only Iraqi funding appraisal; paginate long evidence rows |
+| [`build-doc-book.py`](build-doc-book.py) | Build the primary maglev reader PDF and source receipt; `--legacy` explicitly builds the retained wheel/rail edition |
 | [`generate-doc-index.py`](generate-doc-index.py) | Rebuild the exhaustive Markdown inventory used for search and CI diagnostics; it is not a second documentation guide |
 | [`render-sim-screenshots.py`](render-sim-screenshots.py) | Generate city-local simulator screenshots from any scenario |
 | [`render-city-engineering.py`](render-city-engineering.py) | Render hash-linked QGIS engineering-layer and SUMO validation visuals for city READMEs |
@@ -59,7 +65,7 @@ stay thin: domain logic belongs in Rust crates, `design/city-generation`, or
 | [`refresh-city-design-costs.py`](refresh-city-design-costs.py) | Refresh controlled layout costs without letting an unreviewed corridor cache remove rings or replace station identities; resynthesis requires an explicit flag |
 | [`generate-national-briefs.py`](generate-national-briefs.py) | Generate concise country-specific city/factory/capital aggregates linked to the common deployment planning reference |
 | [`generate-portfolio-summary.py`](generate-portfolio-summary.py) | Aggregate the current city and national-factory models into human-readable `docs/portfolio-summary.md` and machine-readable `docs/portfolio-summary.json` evidence |
-| [`generate-public-overview.py`](generate-public-overview.py) | Generate and drift-check the GitHub-native Markdown brief and landscape HTML/print edition from the design catalogue and LM3 build-cost record |
+| [`generate-public-overview.py`](generate-public-overview.py) | Generate and drift-check the GitHub-native Markdown brief and landscape HTML/print edition from the primary maglev adapter; `--legacy` retains the old overview |
 | [`recalculate-city-capex.py`](recalculate-city-capex.py) | Recalculate civil, station, depot, charging and family fleet CAPEX from controlled rates; write a cost migration receipt without rewriting historical evidence hashes |
 | [`validate-city-simulation.py`](validate-city-simulation.py) | Run nominal and mandatory degraded-energy OSR simulations on distinct physical cores, including combined aged/hot, consecutive missed-charge and late-running charger-overlap cases, and write compact reproducible evidence |
 | [`check-tracked-file-sizes.py`](check-tracked-file-sizes.py) | Keep useful GitHub artifacts in-tree while enforcing the 50 MiB per-file repository ceiling |

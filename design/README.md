@@ -1,5 +1,7 @@
 # Design Sources
 
+The active v0.5 physical design sources are in [engineering/ferrite_maglev](../engineering/ferrite_maglev/README.md). The component catalogue and wheel/rail synthesis interfaces below are retained references. Maglev support, linear propulsion, capture, braking, evacuation and civil interfaces require their own geometry and verification; an old component is not adopted by renaming it.
+
 This domain contains reusable design logic, not individual city revisions or
 site-approved engineering.
 

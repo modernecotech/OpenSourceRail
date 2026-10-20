@@ -53,7 +53,7 @@ def units(output):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system'))
+    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system'))
     parser.add_argument('--output',type=Path,default=delivery.OUTPUT)
     args=parser.parse_args()
     if args.action=='install':
@@ -94,6 +94,12 @@ def main():
     elif args.action=='coupled':
         from engineering.ferrite_maglev import coupled
         result=coupled.publish(model.ROOT/'docs/design-engine/ferrite-maglev/coupled')
+    elif args.action=='readiness':
+        delivery.verify(args.output)
+        retained=json.loads((args.output/'result.json').read_text())
+        result=dict(family=retained['family'],source_current=True,scope='Primary maglev digital studies; no engineering/physical release',
+            accepted_physical_releases=0,open_requirements=len(retained['requirements']),gates=retained['gates'],
+            transition_inventory=retained['transition_inventory'],**model.FLAGS)
     elif args.action=='status':
         policy,c,_=model.load()
         result=dict(version='0.5.0',family=c['metadata']['family'],primary_development=True,

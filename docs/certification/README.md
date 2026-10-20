@@ -1,5 +1,7 @@
 # Assurance, conformity and authorization
 
+The primary architecture is now [ferrite-PM maglev](../../engineering/ferrite_maglev/README.md). Its G0–G5 development programme and item transition register keep every engineering/physical acceptance gate open. The retained G0–G4 passports and evidence examples below describe their original configurations; identity coverage or a shared process does not accept a maglev replacement.
+
 OpenSourceRail does not treat “certification” as one certificate or one final test. A railway is accepted through several different decisions: the design is verified, real products are qualified, installed subsystems are validated, the system safety argument is independently assessed, and legally competent organizations authorize the stated use.
 
 > [!IMPORTANT]

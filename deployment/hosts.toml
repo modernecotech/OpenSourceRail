@@ -1,6 +1,13 @@
 schema_version = 1
 manifest_version = "0.2.0"
 
+[architecture]
+family = "wheel-rail-reference"
+scope = "explicit-v04-comparator; shared-interfaces-require-revalidation"
+primary = false
+primary_profile = "deployment/maglev.toml"
+acceptance_transfers_to_maglev = false
+
 [defaults]
 log_format = "json-lines"
 log_sink = "journald-and-event-recorder"

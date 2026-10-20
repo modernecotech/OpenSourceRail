@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import argparse
 import sys
 import tomllib
 
@@ -66,7 +67,7 @@ def workspace_packages() -> set[str]:
     return set(names)
 
 
-def validate() -> list[str]:
+def validate_legacy() -> list[str]:
     errors: list[str] = []
     hosts_doc = load_toml("deployment/hosts.toml")
     components_doc = load_toml("deployment/components.toml")
@@ -158,9 +159,73 @@ def validate() -> list[str]:
     return errors
 
 
+def validate_primary(document=None) -> list[str]:
+    """Validate the offline primary profile without inheriting old host acceptance."""
+    errors = []
+    profile = load_toml('deployment/maglev.toml') if document is None else document
+    if not isinstance(profile, dict) or any(not isinstance(profile.get(section),dict) for section in ('runtime','io','release')):
+        return ['primary profile requires runtime, io and release tables']
+    policy = load_toml('lib/templates/infrastructure.toml')
+    if (profile.get('schema') != 'osr-maglev-development-host/1'
+            or profile.get('family') != policy['development']['primary_family']
+            or profile.get('role') != 'maglev-study-sbc'):
+        errors.append('primary maglev profile identity differs')
+    if profile.get('reference_host_images_adopted') is not False:
+        errors.append('primary maglev profile cannot inherit comparator host images')
+    for field in ('design_complete', 'physical_validation', 'manufacturing_release', 'physical_release'):
+        if profile.get('release', {}).get(field) is not False:
+            errors.append('primary development profile cannot claim '+field)
+    runtime = profile.get('runtime', {})
+    for field, expected in dict(language='Rust', preferred_host='off-the-shelf-SBC',
+        core_package='osr-maglev-control', mode='offline-replay-only', target_sku_frozen=False,
+        target_timing_measured=False).items():
+        if runtime.get(field) != expected or type(runtime.get(field)) is not type(expected):
+            errors.append('primary runtime.'+field+' differs')
+    if profile.get('services') != ['osr-maglev-control']:
+        errors.append('primary services must use the implemented offline maglev core only')
+    if profile.get('retired_wheel_specific') != ['osr-hot-axle','osr-hot-axle-wayside','osr-wayside-points']:
+        errors.append('wheel-specific retirement inventory differs')
+    revalidate = profile.get('interface_revalidation_required')
+    if not isinstance(revalidate,list) or not all(isinstance(name,str) for name in revalidate):
+        errors.append('primary interface revalidation inventory required')
+    elif not {'osr-traction','osr-brake','osr-odometry','osr-derailment','osr-atp','osr-bms','osr-door-control','osr-fire-safety'} <= set(revalidate):
+        errors.append('primary support/brake/protection interfaces require revalidation')
+    expected_examples = {'sbc_replay', 'multimodule_replay', 'egress_replay', 'coupled_bridge'}
+    examples = runtime.get('examples', [])
+    if not isinstance(examples, list) or any(not isinstance(name,str) for name in examples):
+        errors.append('primary example inventory must be a string list')
+    elif set(examples) != expected_examples or len(examples)!=len(expected_examples):
+        errors.append('primary example inventory differs')
+    for name in expected_examples:
+        if not (ROOT/'crates/osr-maglev-control/examples'/f'{name}.rs').is_file():
+            errors.append('missing actual primary Rust example: '+name)
+    io = profile.get('io', {})
+    if (io.get('physical_outputs_enabled') is not False or io.get('physical_adapter')!='unimplemented'
+            or io.get('hardware_addresses')!=[]):
+        errors.append('primary development profile cannot bind physical outputs')
+    if io.get('requirements')!=['isolated-sensing-and-output','qualified-current-drive-and-cooling',
+            'independent-protection-and-watchdog','support-preserving-traction-stop','measured-deadlines-and-power-loss-response']:
+        errors.append('primary physical interface qualification requirements differ')
+    legacy = load_toml('deployment/hosts.toml').get('architecture', {})
+    if legacy.get('family')!='wheel-rail-reference' or legacy.get('primary') is not False or legacy.get('acceptance_transfers_to_maglev') is not False:
+        errors.append('retained five-host scope must remain an explicit comparator')
+    components = load_toml('deployment/components.toml').get('component', [])
+    core = [row for row in components if row.get('name')=='osr-maglev-control']
+    if len(core)!=1 or core[0].get('hosts')!=['maglev-study-sbc'] or core[0].get('disposition')!='shared-library':
+        errors.append('maglev core must have an explicit development-library disposition')
+    return errors
+
+
+def validate() -> list[str]:
+    return validate_primary()+validate_legacy()
+
+
 def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--legacy', action='store_true', help='Check the explicit retained five-host comparator only.')
+    args = parser.parse_args()
     try:
-        errors = validate()
+        errors = validate_legacy() if args.legacy else validate()
     except (OSError, ValueError, tomllib.TOMLDecodeError) as exc:
         print(f"host manifest validation failed: {exc}", file=sys.stderr)
         return 2
@@ -168,7 +233,7 @@ def main() -> int:
         for error in errors:
             print(f"ERROR: {error}", file=sys.stderr)
         return 1
-    print("host manifests: OK (5 hosts; complete Cargo component inventory)")
+    print('host manifests: OK ('+('retained five-host comparator' if args.legacy else 'primary offline maglev profile; retained five-host comparator')+'; complete Cargo inventory; no maglev physical image released)')
     return 0
 
 

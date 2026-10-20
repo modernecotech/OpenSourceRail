@@ -1,5 +1,7 @@
 # Machine-Readable Inputs
 
+The selected architecture is controlled by [templates/infrastructure.toml](templates/infrastructure.toml), with the primary [ferrite-maglev input](../ferrite-maglev-study.toml) and [city planning assumptions](../engineering/ferrite_maglev/city-planning.toml). `./osr city` uses the maglev compiler. The wheel/rail templates and Rust `osr-design` loader below are explicit comparator inputs, not fallback maglev profiles.
+
 The `lib/` tree holds the data that drives generated city designs,
 simulator examples, and reusable planning assumptions. These files are
 intended to be edited, reviewed, and versioned alongside the code.

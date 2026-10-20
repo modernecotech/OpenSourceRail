@@ -1,5 +1,8 @@
 schema_version = 1
 
+# Complete workspace inventory, not a selected physical host image.
+# Primary maglev development composition: deployment/maglev.toml.
+
 # disposition values: composed-service, deployable-endpoint,
 # shared-library, simulation, tooling.
 [[component]]
@@ -130,6 +133,10 @@ hosts = ["o-srv", "design-tooling"]
 name = "osr-lighting"
 disposition = "composed-service"
 hosts = ["t-ecu-a"]
+[[component]]
+name = "osr-maglev-control"
+disposition = "shared-library"
+hosts = ["maglev-study-sbc"]
 [[component]]
 name = "osr-obstacle-detect"
 disposition = "composed-service"

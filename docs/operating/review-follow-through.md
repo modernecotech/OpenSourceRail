@@ -134,11 +134,11 @@ candidate. Complete-city release artifacts must still pass their exact-commit ga
 ## Repeatable commands
 
 ```sh
-./osr example-city business-check
-./osr example-city disposition-check
-./osr example-city coverage
+./osr example-city legacy business-check
+./osr example-city legacy disposition-check
+./osr example-city legacy coverage
 # Only after a full scenario started on the same clean candidate commit:
-./osr example-city release-evidence
+./osr example-city legacy release-evidence
 
 PATH="$HOME/.cargo/bin:$PATH" tools/automation/osr-python \
   tools/automation/assurance-evidence.py run \

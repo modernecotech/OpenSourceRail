@@ -161,7 +161,7 @@ def build():
             "deployment-service",
             name + " maintainer",
             "deployment/" + name + "/README.md",
-            "./osr " + ("erp" if name == "erpnext" else name),
+            "./osr " + ("erp" if name == "erpnext" else "example-city legacy" if name == "example-city" else name),
             "deployment/" + name + "/README.md",
             ["deployment/" + name + "/tests"],
             "deployment/" + name + "/README.md",

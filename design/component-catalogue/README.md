@@ -1,5 +1,7 @@
 # Parametric Component Catalogue
 
+This catalogue retains wheel/rail vehicle, track, station and civil reference products. Primary v0.5 maglev geometry and manufacturing development is owned by [engineering/ferrite_maglev](../../engineering/ferrite_maglev/README.md). Shared products require exact-interface revalidation; wheelsets, bogies, rotating traction motors and conventional track do not become maglev components by reuse of this catalogue.
+
 Reusable OpenSourceRail rolling-stock, track, station, and civil-kit components
 are expressed as parametric Python geometry. Deployment survey, railway
 alignment, ground conditions, structural release calculations, and the

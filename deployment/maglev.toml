@@ -1,0 +1,30 @@
+# Primary v0.5 development profile. This is not a deployable railway image.
+schema = "osr-maglev-development-host/1"
+family = "ferrite-pm-maglev-study"
+role = "maglev-study-sbc"
+status = "offline-development; hardware-and-system-qualification-open"
+reference_host_images_adopted = false
+services = ["osr-maglev-control"]
+retired_wheel_specific = ["osr-hot-axle", "osr-hot-axle-wayside", "osr-wayside-points"]
+interface_revalidation_required = ["osr-traction", "osr-brake", "osr-odometry", "osr-derailment", "osr-atp", "osr-bms", "osr-door-control", "osr-fire-safety"]
+
+[runtime]
+language = "Rust"
+preferred_host = "off-the-shelf-SBC"
+core_package = "osr-maglev-control"
+examples = ["sbc_replay", "multimodule_replay", "egress_replay", "coupled_bridge"]
+mode = "offline-replay-only"
+target_sku_frozen = false
+target_timing_measured = false
+
+[io]
+physical_outputs_enabled = false
+physical_adapter = "unimplemented"
+hardware_addresses = []
+requirements = ["isolated-sensing-and-output", "qualified-current-drive-and-cooling", "independent-protection-and-watchdog", "support-preserving-traction-stop", "measured-deadlines-and-power-loss-response"]
+
+[release]
+design_complete = false
+physical_validation = false
+manufacturing_release = false
+physical_release = false

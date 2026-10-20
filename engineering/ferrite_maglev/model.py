@@ -306,6 +306,8 @@ def sources():
     paths += [ROOT/name for name in ('tools/automation/maglev-workbench.py', 'install.sh',
         'tools/automation/generate-public-overview.py', 'tools/automation/build-doc-book.py',
         'docs/workbench/maglev/index.html', 'docs/workbench/maglev/app.js', 'docs/workbench/maglev/app.css')]
+    from . import navigation
+    paths += navigation.source_paths()
     return {p.relative_to(ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in sorted(set(paths))}
 
 

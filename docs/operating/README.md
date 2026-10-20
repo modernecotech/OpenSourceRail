@@ -1,5 +1,7 @@
 # OpenSourceRail operating platform
 
+The business platform is reusable for v0.5, but existing city assets, MBOMs, tasks and financial packages retain their wheel/rail configuration. Use `./osr readiness` for source-bound maglev gates and `./osr readiness legacy` for the retained ERP/component/supervision audit. No existing ERP record becomes a maglev engineering acceptance by reuse.
+
 ERPNext is the business system of record. Frappe HR supplies personnel and
 payroll on the same Frappe site. OSR retains railway engineering, control and
 assurance. The [operating page](index.html) launches native ERPNext modules;

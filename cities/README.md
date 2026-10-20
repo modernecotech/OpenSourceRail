@@ -1,5 +1,7 @@
 # Cities
 
+Current city planning uses the [primary maglev compiler and index](../engineering/ferrite_maglev/city-index.md): `./osr city <slug>` or `./osr catalogue plan --city <slug>`. Each city’s `engineering/maglev/` package recomputes formation, duty, fleet, charging and partial cost allowances. Other city physical/finance packages retain their wheel/rail reference scope.
+
 This domain keeps city inputs and outputs together without confusing them.
 
 | Area | Purpose | Editing rule |

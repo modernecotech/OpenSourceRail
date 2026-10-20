@@ -2,12 +2,11 @@
 
 v0.5 primary physical development: [ferrite-maglev adapter](ferrite_maglev/README.md), [Rust control package](../crates/osr-maglev-control/README.md) and [architecture transition](../docs/rfcs/0035-v05-primary-ferrite-maglev.md). Older physical studies remain explicit wheel/rail comparators.
 
-This domain combines reusable design sources with city alignment and accepted
-engineering inputs. It owns analysis and exchange evidence, not the canonical
-component geometry.
+This domain owns the primary maglev geometry, calculations, control coupling and city-planning adapter under `ferrite_maglev/`. Other analysis and exchange packages below retain their own configurations; the old component catalogue does not supply accepted maglev geometry.
 
 | Area | Contents |
 |---|---|
+| [`ferrite_maglev/`](ferrite_maglev/README.md) | Primary magnetic/mechanical/civil studies, city planning, source-bound publication and open acceptance programme |
 | [`analysis/analysis-register.toml`](analysis/analysis-register.toml) | Machine-readable source of truth for current analysis status and remaining evidence |
 | [`analysis/`](analysis/) | Field-to-drainage/ground deployment gates, station evidence and solver inputs |
 | [`interchange/`](interchange/) | Deterministic IFC4.3 and station-interchange generators; [`ifc_mesh.py`](interchange/ifc_mesh.py) converts indexed native solids into bounded, source-bound browser geometry |

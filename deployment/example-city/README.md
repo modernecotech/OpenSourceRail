@@ -1,5 +1,7 @@
 # Reproducible example-city acceptance
 
+This is an explicit v0.4 wheel/rail business/platform acceptance scenario. Run it through `./osr example-city legacy <action>`. Its software and ERP checks do not accept the primary ferrite-PM maglev design.
+
 This scenario builds a separate **Samawah simulation deployment**, with Mosul as
 an independent control city. It runs actual ERPNext, Frappe HR, FUXA, the integration
 gateway, the native Rust controller bridge and the shared Workbench. Business
@@ -18,13 +20,13 @@ npm ci
 npm run frontend:build
 cargo build -p osr-sim --example operating_bridge
 PLAYWRIGHT_BROWSERS_PATH="$HOME/.local/share/opensource-rail/toolchains/playwright" npx playwright install chromium
-./osr example-city setup
-./osr example-city run
-./osr example-city restart-check
-./osr example-city expand-check
-./osr example-city business-check
-./osr example-city disposition-check
-./osr example-city coverage
+./osr example-city legacy setup
+./osr example-city legacy run
+./osr example-city legacy restart-check
+./osr example-city legacy expand-check
+./osr example-city legacy business-check
+./osr example-city legacy disposition-check
+./osr example-city legacy coverage
 ```
 
 Open **http://127.0.0.1:8190** after success. The report, native record identifiers,
@@ -47,11 +49,11 @@ permissions. ERP uses `Administrator` and the generated `ADMIN_PASSWORD` in
 Integration roles are in `integration.json`. These files are not test artifacts.
 
 ```sh
-./osr example-city stop    # stop only example services; retain records
-./osr example-city start   # reopen the retained successful example
-./osr example-city reset   # remove only example services, volumes and local outputs
-./osr example-city setup
-./osr example-city run     # repeat from a clean city deployment
+./osr example-city legacy stop    # stop only example services; retain records
+./osr example-city legacy start   # reopen the retained successful example
+./osr example-city legacy reset   # remove only example services, volumes and local outputs
+./osr example-city legacy setup
+./osr example-city legacy run     # repeat from a clean city deployment
 ```
 
 Save reports/screenshots before reset. A run refuses to reuse an existing run
@@ -107,7 +109,7 @@ into the reviewed project hash.
 
 ## Expanded function and variable coverage
 
-After a successful base run, `./osr example-city expand-check` can be repeated
+After a successful base run, `./osr example-city legacy expand-check` can be repeated
 against the retained example. It pauses the example simulator, changes reviewed
 Samawah configurations, checks actual HTTP effects and restores the baseline and
 fresh telemetry in a `finally` block. It runs native ERP variations inside a
@@ -142,7 +144,7 @@ Added variations include:
 ### The coverage register is the acceptance boundary
 
 [`coverage-register.md`](coverage-register.md) is the recorded readable register.
-`./osr example-city coverage` regenerates current evidence under
+`./osr example-city legacy coverage` regenerates current evidence under
 `build/city-example/coverage.json` and `coverage.md`, plus the discovered contracts
 in `coverage-inventory-current.json`. It inventories **526** registered functions,
 inputs, shared settings, route prefixes and named workflows. It explicitly excludes
@@ -196,7 +198,7 @@ Fixture accounts and records remain in the isolated example; passwords remain pr
 
 ### Commit-bound release evidence
 
-After all checks, `./osr example-city release-evidence` binds the required reports to
+After all checks, `./osr example-city legacy release-evidence` binds the required reports to
 the clean commit recorded at scenario start. Dirty local demonstrations and reports
 from an earlier commit are rejected. CI publishes `city-evidence.json`, and release
 packaging downloads the artifact from the exact successful candidate run. Missing,

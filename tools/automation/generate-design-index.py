@@ -130,6 +130,9 @@ def main() -> int:
     content = [
         "# City Design Catalogue",
         "",
+        "> **Primary v0.5: ferrite-PM maglev.** [Open the current city planning index](../../engineering/ferrite_maglev/city-index.md) or run `./osr city <slug>`.",
+        "> The quantities, train families, finance and validation tables below are retained v0.4 wheel/rail comparisons. They do not qualify the maglev city packages.",
+        "",
         f"This directory retains {len(public_rows)} developing-world city planning models and",
         f"{len(comparison_rows)} technical comparison "
         f"model{'s' if len(comparison_rows) != 1 else ''} defined by",
@@ -154,7 +157,7 @@ def main() -> int:
         "Planning completeness does not imply operator configuration, physical",
         "commissioning or railway release.",
         "",
-        "## Validation status",
+        "## Retained wheel/rail validation status",
         "",
         f"Current planning examples: **{planning_packages} complete and {len(actual) - planning_packages} requiring refresh**.",
         f"Full screening acceptance: **{complete_packages} pass and {len(actual) - complete_packages} retain open gates**. Complete documented planning examples can retain unaccepted depot/stabling requirements.",
