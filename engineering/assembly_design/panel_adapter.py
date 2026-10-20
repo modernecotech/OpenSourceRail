@@ -61,6 +61,8 @@ def section(config,baseline,ctx,row):
     contracts.validate(contract);properties=contracts.summary(contract)
     if not math.isclose(properties['mass_kg'],expected,rel_tol=1e-10):raise ValueError('owned panel-section mass does not reconcile')
     candidate=dict(schema='osr-assembly-design-candidate/1',kind='panel-owned-section',revision=revision,variables=v,contract=contract,
+        metadata=dict(architecture='panel-benchmark-unadopted',
+            geometry_basis='Historical module research footprints; not adopted Baghdad six-car body dimensions'),
         analytical_candidate_id=row['id'],context_revision=ctx['revision'],represented_mass_components=covered,
         unrepresented_mass_components=sorted(set(row['mass_components_kg'])-set(covered)),
         complete_analytical_installed_mass_kg=row['installed_mass_kg'],full_native_reconstruction=False,
