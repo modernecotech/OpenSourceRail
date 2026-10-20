@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6527**.
+Indexed Markdown files: **6529**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **6527**.
 | [crates](#crates) | 6 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 254 |
+| [docs](#docs) | 256 |
 | [engineering](#engineering) | 83 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
@@ -4455,7 +4455,7 @@ Indexed Markdown files: **6527**.
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/survey/structural-release-readiness.md) | Amarah structural-release gate |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/survey/surveyed-alignment-readiness.md) | Amarah surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Iraq/Amarah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Amarah/operations/acceptance-evidence-report.md) | Amarah Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Iraq/Baghdad/BAGHDAD-PROPOSAL.md`](../cities/catalogue/west-asia/Iraq/Baghdad/BAGHDAD-PROPOSAL.md) | Baghdad Proposal |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/BAGHDAD-PROPOSAL.md`](../cities/catalogue/west-asia/Iraq/Baghdad/BAGHDAD-PROPOSAL.md) | Baghdad Proposal — retained wheel/rail comparator |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-ENGINEERING.md`](../cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-ENGINEERING.md) | Baghdad detailed engineering and Iraqi manufacturing plan |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-SCHEDULES.md`](../cities/catalogue/west-asia/Iraq/Baghdad/DETAILED-SCHEDULES.md) | Baghdad detailed schedules |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) | Baghdad — Urban Rail Network |
@@ -6343,7 +6343,7 @@ Indexed Markdown files: **6527**.
 | [`docs/commercial/supplier-technical-support-readiness.md`](../docs/commercial/supplier-technical-support-readiness.md) | Supplier Technical-Support Readiness |
 | [`docs/competitive-position-and-proof-roadmap.md`](../docs/competitive-position-and-proof-roadmap.md) | Competitive Position And Proof Roadmap |
 | [`docs/component-rfc-readiness.md`](../docs/component-rfc-readiness.md) | Component RFC Implementation Readiness |
-| [`docs/cost-model.md`](../docs/cost-model.md) | OpenSourceRail Cost Model |
+| [`docs/cost-model.md`](../docs/cost-model.md) | OpenSourceRail retained wheel/rail cost model |
 | [`docs/data/automatic-mapping-sources.md`](../docs/data/automatic-mapping-sources.md) | Automatic mapping: population, streets and traffic |
 | [`docs/deployment-model.md`](../docs/deployment-model.md) | Unified Deployment Model |
 | [`docs/deployment-planning-reference.md`](../docs/deployment-planning-reference.md) | Deployment Planning Reference |
@@ -6360,6 +6360,7 @@ Indexed Markdown files: **6527**.
 | [`docs/design-engine/factory-integration-2026-10-16.md`](../docs/design-engine/factory-integration-2026-10-16.md) | Factory review follow-up: portable evidence and common design jobs |
 | [`docs/design-engine/factory-stages-notes-2026-10-16.md`](../docs/design-engine/factory-stages-notes-2026-10-16.md) | Baghdad factory staged stressing and unloading studies |
 | [`docs/design-engine/factory-support-notes-2026-10-16.md`](../docs/design-engine/factory-support-notes-2026-10-16.md) | Baghdad factory support and finite resource development |
+| [`docs/design-engine/ferrite-maglev/baghdad-reference/README.md`](../docs/design-engine/ferrite-maglev/baghdad-reference/README.md) | Baghdad six-car native reference study |
 | [`docs/design-engine/generative-systems-review.md`](../docs/design-engine/generative-systems-review.md) | Generative mechanical and civil design: systems review |
 | [`docs/design-engine/hierarchical-development-2026-10-17.md`](../docs/design-engine/hierarchical-development-2026-10-17.md) | Hierarchical engineering experiments and review repairs |
 | [`docs/design-engine/mechanical-civil-factory-plan-2026-10-16.md`](../docs/design-engine/mechanical-civil-factory-plan-2026-10-16.md) | Mechanical and civil design and factory buildout plan |
@@ -6422,7 +6423,8 @@ Indexed Markdown files: **6527**.
 | [`docs/operations-portal/ops-core.md`](../docs/operations-portal/ops-core.md) | OSR Ops Core |
 | [`docs/owner-builder-operator-mobilisation-status.md`](../docs/owner-builder-operator-mobilisation-status.md) | Owner–Builder–Operator Mobilisation Status |
 | [`docs/owner-builder-operator-setup.md`](../docs/owner-builder-operator-setup.md) | Owner–Builder–Operator Setup Plan |
-| [`docs/portfolio-summary.md`](../docs/portfolio-summary.md) | Portfolio capital summary |
+| [`docs/portfolio-economics-comparator.md`](../docs/portfolio-economics-comparator.md) | Retained wheel/rail economics comparator |
+| [`docs/portfolio-summary.md`](../docs/portfolio-summary.md) | Retained wheel/rail portfolio capital comparison |
 | [`docs/reference/history/samawah-pre-core-planning.md`](../docs/reference/history/samawah-pre-core-planning.md) | Historical Samawah planning reference |
 | [`docs/release-v0.3.1.md`](../docs/release-v0.3.1.md) | OpenSourceRail v0.3.1 |
 | [`docs/release-v0.3.md`](../docs/release-v0.3.md) | OpenSourceRail v0.3.0 |

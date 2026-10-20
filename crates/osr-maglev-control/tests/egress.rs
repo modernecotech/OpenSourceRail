@@ -231,3 +231,127 @@ fn corrupt_active_history_and_unlatched_idle_cassette_inhibit_traction() {
     assert!(r.traction_inhibit_required_in_study);
     assert!(!r.physical_output_authorised);
 }
+
+fn flowing() -> State {
+    let mut state = State::default();
+    for n in 1..=5 {
+        let mut i = frame(n);
+        if n >= 4 {
+            i.stowed_locked = false;
+            i.deployment_requested = true;
+        }
+        if n == 5 {
+            i.deployment_confirmed = true;
+            i.exit_open_confirmed = true;
+        }
+        state = tick(state, i);
+    }
+    assert_eq!(state.phase, Phase::FlowStudy);
+    state
+}
+#[test]
+fn flow_confirmation_loss_latches_and_recovery_cannot_restart_entry() {
+    for (deployed, outlet) in [(false, true), (true, false), (false, false)] {
+        let mut i = frame(6);
+        i.stowed_locked = false;
+        i.deployment_confirmed = deployed;
+        i.exit_open_confirmed = outlet;
+        let lost = evaluate(flowing(), i, i.issued_ns, params());
+        assert_eq!(lost.state.phase, Phase::FaultHold);
+        assert!(!lost.further_entry_permitted_in_study);
+        assert!(
+            lost.traction_inhibit_required_in_study && lost.support_must_be_maintained_in_study
+        );
+        i = frame(7);
+        i.stowed_locked = false;
+        i.deployment_confirmed = true;
+        i.exit_open_confirmed = true;
+        let restored = evaluate(lost.state, i, i.issued_ns, params());
+        assert_eq!(restored.state.phase, Phase::FaultHold);
+        assert!(!restored.further_entry_permitted_in_study);
+        assert!(!restored.physical_output_authorised);
+    }
+}
+#[test]
+fn deadline_reset_requires_new_monotonic_in_deadline_history() {
+    let healthy = tick(State::default(), frame(1));
+    let missed = tick(healthy, frame(10));
+    assert_eq!(missed.fault, Some(Fault::ClockReplayOrDeadline));
+    assert_eq!(missed.last_now_ns, Some(10_000_000));
+    for (mut invalid, now) in [
+        (frame(10), 11_000_000),
+        (frame(9), 9_000_000),
+        (frame(11), 12_000_000),
+    ] {
+        invalid.emergency_requested = false;
+        invalid.reset_requested = true;
+        let held = evaluate(missed, invalid, now, params());
+        assert_eq!(held.state.phase, Phase::FaultHold);
+        assert_eq!(held.state.last_now_ns, missed.last_now_ns);
+    }
+    let held = tick(missed, frame(11));
+    assert_eq!(held.phase, Phase::FaultHold);
+    let mut reset = frame(12);
+    reset.emergency_requested = false;
+    reset.reset_requested = true;
+    assert_eq!(tick(held, reset).phase, Phase::Idle);
+}
+#[test]
+fn completed_flow_never_permits_new_entry_or_automatically_releases_hold() {
+    let mut i = frame(6);
+    i.stowed_locked = false;
+    i.deployment_confirmed = true;
+    i.exit_open_confirmed = true;
+    i.flow_complete = true;
+    let completed = evaluate(flowing(), i, i.issued_ns, params());
+    assert_eq!(completed.state.phase, Phase::CompleteHold);
+    assert!(!completed.further_entry_permitted_in_study);
+    let later = evaluate(completed.state, frame(7), 7_000_000, params());
+    assert_eq!(later.state.phase, Phase::CompleteHold);
+    assert!(later.traction_inhibit_required_in_study && later.support_must_be_maintained_in_study);
+}
+
+#[test]
+fn train_hold_survives_another_doors_reset_blocked_outlet_and_lost_support() {
+    use osr_maglev_control::egress::{train_hold, TrainSupport};
+    let active = evaluate(
+        flowing(),
+        {
+            let mut i = frame(6);
+            i.stowed_locked = false;
+            i.deployment_confirmed = true;
+            i
+        },
+        6_000_000,
+        params(),
+    );
+    assert_eq!(active.state.phase, Phase::FaultHold); // blocked outlet
+    let idle = evaluate(
+        State::default(),
+        {
+            let mut i = frame(1);
+            i.emergency_requested = false;
+            i
+        },
+        1_000_000,
+        params(),
+    );
+    let mut doors = [idle; 36];
+    doors[35] = active;
+    let held = train_hold(&doors, 36, true, false);
+    assert!(held.traction_inhibit_required_in_study);
+    assert_eq!(held.support, TrainSupport::MaintainAvailableSupport);
+    assert_eq!(
+        train_hold(&doors, 36, false, false).support,
+        TrainSupport::CaptureRequired
+    );
+    assert_eq!(
+        train_hold(&doors, 36, false, true).support,
+        TrainSupport::CapturedHold
+    );
+    assert!(!held.physical_output_authorised);
+    assert!(train_hold(&[], 36, true, false).traction_inhibit_required_in_study);
+    assert!(train_hold(&doors[..35], 36, true, false).traction_inhibit_required_in_study);
+    doors[35] = idle;
+    assert!(!train_hold(&doors, 36, true, false).traction_inhibit_required_in_study);
+}

@@ -1,0 +1,1170 @@
+{
+  "architecture": "ferrite-pm-maglev-study",
+  "cars_per_train": 6,
+  "chute_net_mass_ledger": {
+    "cg_m": null,
+    "devices_per_train": 36,
+    "fabric_and_deployment_mass_to_add_kg": null,
+    "net_train_addition_kg": null,
+    "overlapping_body_mass_to_remove_kg": null,
+    "partial_entry_hardware_gross_kg": 7950.970261726022,
+    "travel_stowage_qualified": false
+  },
+  "city": "Baghdad",
+  "configuration_revision": "V05-BAGHDAD-SIX-CAR-2",
+  "design_complete": false,
+  "emergency_energy_cases": [
+    {
+      "assumed_support_kw_per_car": 2.0,
+      "result": {
+        "approved_reserve_kwh": null,
+        "calculated_total_kwh": null,
+        "design_complete": false,
+        "known_energy_kwh": 10.12,
+        "manufacturing_release": false,
+        "missing_power_terms": [
+          "deployment-hardware/stop",
+          "deployment-hardware/deploy",
+          "deployment-hardware/evacuate",
+          "deployment-hardware/rescue"
+        ],
+        "physical_release": false,
+        "physical_validation": false,
+        "rows": [
+          {
+            "component": "support",
+            "duration_s": 60.0,
+            "energy_kwh": 0.2,
+            "phase": "stop",
+            "power_kw": 12.0
+          },
+          {
+            "component": "controls",
+            "duration_s": 60.0,
+            "energy_kwh": 0.016666666666666666,
+            "phase": "stop",
+            "power_kw": 1.0
+          },
+          {
+            "component": "lights",
+            "duration_s": 60.0,
+            "energy_kwh": 0.01,
+            "phase": "stop",
+            "power_kw": 0.6
+          },
+          {
+            "component": "communications",
+            "duration_s": 60.0,
+            "energy_kwh": 0.0033333333333333335,
+            "phase": "stop",
+            "power_kw": 0.2
+          },
+          {
+            "component": "support",
+            "duration_s": 180.0,
+            "energy_kwh": 0.6,
+            "phase": "deploy",
+            "power_kw": 12.0
+          },
+          {
+            "component": "controls",
+            "duration_s": 180.0,
+            "energy_kwh": 0.05,
+            "phase": "deploy",
+            "power_kw": 1.0
+          },
+          {
+            "component": "lights",
+            "duration_s": 180.0,
+            "energy_kwh": 0.03,
+            "phase": "deploy",
+            "power_kw": 0.6
+          },
+          {
+            "component": "communications",
+            "duration_s": 180.0,
+            "energy_kwh": 0.01,
+            "phase": "deploy",
+            "power_kw": 0.2
+          },
+          {
+            "component": "support",
+            "duration_s": 600.0,
+            "energy_kwh": 2.0,
+            "phase": "evacuate",
+            "power_kw": 12.0
+          },
+          {
+            "component": "controls",
+            "duration_s": 600.0,
+            "energy_kwh": 0.16666666666666666,
+            "phase": "evacuate",
+            "power_kw": 1.0
+          },
+          {
+            "component": "lights",
+            "duration_s": 600.0,
+            "energy_kwh": 0.1,
+            "phase": "evacuate",
+            "power_kw": 0.6
+          },
+          {
+            "component": "communications",
+            "duration_s": 600.0,
+            "energy_kwh": 0.03333333333333333,
+            "phase": "evacuate",
+            "power_kw": 0.2
+          },
+          {
+            "component": "support",
+            "duration_s": 1800.0,
+            "energy_kwh": 6.0,
+            "phase": "rescue",
+            "power_kw": 12.0
+          },
+          {
+            "component": "controls",
+            "duration_s": 1800.0,
+            "energy_kwh": 0.5,
+            "phase": "rescue",
+            "power_kw": 1.0
+          },
+          {
+            "component": "lights",
+            "duration_s": 1800.0,
+            "energy_kwh": 0.3,
+            "phase": "rescue",
+            "power_kw": 0.6
+          },
+          {
+            "component": "communications",
+            "duration_s": 1800.0,
+            "energy_kwh": 0.1,
+            "phase": "rescue",
+            "power_kw": 0.2
+          }
+        ],
+        "scope": "Assumed DC energy only; EOL, temperature, conversion, faults, redundancy and physical load measurements require acceptance"
+      }
+    },
+    {
+      "assumed_support_kw_per_car": 5.0,
+      "result": {
+        "approved_reserve_kwh": null,
+        "calculated_total_kwh": null,
+        "design_complete": false,
+        "known_energy_kwh": 23.32,
+        "manufacturing_release": false,
+        "missing_power_terms": [
+          "deployment-hardware/stop",
+          "deployment-hardware/deploy",
+          "deployment-hardware/evacuate",
+          "deployment-hardware/rescue"
+        ],
+        "physical_release": false,
+        "physical_validation": false,
+        "rows": [
+          {
+            "component": "support",
+            "duration_s": 60.0,
+            "energy_kwh": 0.5,
+            "phase": "stop",
+            "power_kw": 30.0
+          },
+          {
+            "component": "controls",
+            "duration_s": 60.0,
+            "energy_kwh": 0.016666666666666666,
+            "phase": "stop",
+            "power_kw": 1.0
+          },
+          {
+            "component": "lights",
+            "duration_s": 60.0,
+            "energy_kwh": 0.01,
+            "phase": "stop",
+            "power_kw": 0.6
+          },
+          {
+            "component": "communications",
+            "duration_s": 60.0,
+            "energy_kwh": 0.0033333333333333335,
+            "phase": "stop",
+            "power_kw": 0.2
+          },
+          {
+            "component": "support",
+            "duration_s": 180.0,
+            "energy_kwh": 1.5,
+            "phase": "deploy",
+            "power_kw": 30.0
+          },
+          {
+            "component": "controls",
+            "duration_s": 180.0,
+            "energy_kwh": 0.05,
+            "phase": "deploy",
+            "power_kw": 1.0
+          },
+          {
+            "component": "lights",
+            "duration_s": 180.0,
+            "energy_kwh": 0.03,
+            "phase": "deploy",
+            "power_kw": 0.6
+          },
+          {
+            "component": "communications",
+            "duration_s": 180.0,
+            "energy_kwh": 0.01,
+            "phase": "deploy",
+            "power_kw": 0.2
+          },
+          {
+            "component": "support",
+            "duration_s": 600.0,
+            "energy_kwh": 5.0,
+            "phase": "evacuate",
+            "power_kw": 30.0
+          },
+          {
+            "component": "controls",
+            "duration_s": 600.0,
+            "energy_kwh": 0.16666666666666666,
+            "phase": "evacuate",
+            "power_kw": 1.0
+          },
+          {
+            "component": "lights",
+            "duration_s": 600.0,
+            "energy_kwh": 0.1,
+            "phase": "evacuate",
+            "power_kw": 0.6
+          },
+          {
+            "component": "communications",
+            "duration_s": 600.0,
+            "energy_kwh": 0.03333333333333333,
+            "phase": "evacuate",
+            "power_kw": 0.2
+          },
+          {
+            "component": "support",
+            "duration_s": 1800.0,
+            "energy_kwh": 15.0,
+            "phase": "rescue",
+            "power_kw": 30.0
+          },
+          {
+            "component": "controls",
+            "duration_s": 1800.0,
+            "energy_kwh": 0.5,
+            "phase": "rescue",
+            "power_kw": 1.0
+          },
+          {
+            "component": "lights",
+            "duration_s": 1800.0,
+            "energy_kwh": 0.3,
+            "phase": "rescue",
+            "power_kw": 0.6
+          },
+          {
+            "component": "communications",
+            "duration_s": 1800.0,
+            "energy_kwh": 0.1,
+            "phase": "rescue",
+            "power_kw": 0.2
+          }
+        ],
+        "scope": "Assumed DC energy only; EOL, temperature, conversion, faults, redundancy and physical load measurements require acceptance"
+      }
+    },
+    {
+      "assumed_support_kw_per_car": 10.0,
+      "result": {
+        "approved_reserve_kwh": null,
+        "calculated_total_kwh": null,
+        "design_complete": false,
+        "known_energy_kwh": 45.32,
+        "manufacturing_release": false,
+        "missing_power_terms": [
+          "deployment-hardware/stop",
+          "deployment-hardware/deploy",
+          "deployment-hardware/evacuate",
+          "deployment-hardware/rescue"
+        ],
+        "physical_release": false,
+        "physical_validation": false,
+        "rows": [
+          {
+            "component": "support",
+            "duration_s": 60.0,
+            "energy_kwh": 1.0,
+            "phase": "stop",
+            "power_kw": 60.0
+          },
+          {
+            "component": "controls",
+            "duration_s": 60.0,
+            "energy_kwh": 0.016666666666666666,
+            "phase": "stop",
+            "power_kw": 1.0
+          },
+          {
+            "component": "lights",
+            "duration_s": 60.0,
+            "energy_kwh": 0.01,
+            "phase": "stop",
+            "power_kw": 0.6
+          },
+          {
+            "component": "communications",
+            "duration_s": 60.0,
+            "energy_kwh": 0.0033333333333333335,
+            "phase": "stop",
+            "power_kw": 0.2
+          },
+          {
+            "component": "support",
+            "duration_s": 180.0,
+            "energy_kwh": 3.0,
+            "phase": "deploy",
+            "power_kw": 60.0
+          },
+          {
+            "component": "controls",
+            "duration_s": 180.0,
+            "energy_kwh": 0.05,
+            "phase": "deploy",
+            "power_kw": 1.0
+          },
+          {
+            "component": "lights",
+            "duration_s": 180.0,
+            "energy_kwh": 0.03,
+            "phase": "deploy",
+            "power_kw": 0.6
+          },
+          {
+            "component": "communications",
+            "duration_s": 180.0,
+            "energy_kwh": 0.01,
+            "phase": "deploy",
+            "power_kw": 0.2
+          },
+          {
+            "component": "support",
+            "duration_s": 600.0,
+            "energy_kwh": 10.0,
+            "phase": "evacuate",
+            "power_kw": 60.0
+          },
+          {
+            "component": "controls",
+            "duration_s": 600.0,
+            "energy_kwh": 0.16666666666666666,
+            "phase": "evacuate",
+            "power_kw": 1.0
+          },
+          {
+            "component": "lights",
+            "duration_s": 600.0,
+            "energy_kwh": 0.1,
+            "phase": "evacuate",
+            "power_kw": 0.6
+          },
+          {
+            "component": "communications",
+            "duration_s": 600.0,
+            "energy_kwh": 0.03333333333333333,
+            "phase": "evacuate",
+            "power_kw": 0.2
+          },
+          {
+            "component": "support",
+            "duration_s": 1800.0,
+            "energy_kwh": 30.0,
+            "phase": "rescue",
+            "power_kw": 60.0
+          },
+          {
+            "component": "controls",
+            "duration_s": 1800.0,
+            "energy_kwh": 0.5,
+            "phase": "rescue",
+            "power_kw": 1.0
+          },
+          {
+            "component": "lights",
+            "duration_s": 1800.0,
+            "energy_kwh": 0.3,
+            "phase": "rescue",
+            "power_kw": 0.6
+          },
+          {
+            "component": "communications",
+            "duration_s": 1800.0,
+            "energy_kwh": 0.1,
+            "phase": "rescue",
+            "power_kw": 0.2
+          }
+        ],
+        "scope": "Assumed DC energy only; EOL, temperature, conversion, faults, redundancy and physical load measurements require acceptance"
+      }
+    }
+  ],
+  "emergency_stages_assumption_seconds": {
+    "deploy": 180.0,
+    "evacuate": 600.0,
+    "rescue": 1800.0,
+    "stop": 60.0
+  },
+  "financial_scope": "Partial native station quantities; all rates and complete six-car/programme prices unresolved",
+  "manufacturing_release": false,
+  "open_design_tasks": [
+    "Complete stowed/deployed chute mechanism and measured net mass",
+    "Supplier-grade representative electromagnetic module with converged force/loss maps and rig tests",
+    "Six-car priced repeated/shared equipment MBOM and complete Baghdad programme scope",
+    "Located corridor alignment, terminal closure, landing surveys, recovery and utility designs"
+  ],
+  "physical_release": false,
+  "physical_validation": false,
+  "pier_height_families": [
+    {
+      "column_mass_kg": 60000.0,
+      "demands": {
+        "accepted": false,
+        "additional_equipment_mass_sensitivity_kg_per_car": 0.0,
+        "approved_dimension_reduction": null,
+        "cap_scale": 1.0,
+        "capacity_utilisation": null,
+        "column_base_axial_n": 3094004.235896471,
+        "column_geometric_slenderness": [
+          18.475208614068023,
+          13.856406460551016
+        ],
+        "column_nominal_extreme_stress_pa": [
+          1031334.7452988237,
+          1031334.7452988237
+        ],
+        "column_scale": 1.0,
+        "column_top_axial_n": 2505404.235896471,
+        "compression_only_linear_contact_admissible": true,
+        "design_complete": false,
+        "foundation_scale": 1.0,
+        "ground_vertical_n": 3689961.735896471,
+        "load_case": "both-trains",
+        "manufacturing_release": false,
+        "physical_release": false,
+        "physical_validation": false,
+        "pier_height_m": 8.0,
+        "rectangular_footing_linear_contact_pa": [
+          182220.33263686276,
+          182220.33263686276
+        ],
+        "scope": "Unfactored gravity/axial-eccentricity demand only. Linear footing contact assumes full contact; negative pressure invalidates that assumption. No pile/soil, settlement, wind/seismic/braking, prestress/rebar or stability acceptance.",
+        "soil_bearing_limit_pa": null,
+        "support_modelled_concrete_mass_kg": 173250.0,
+        "track_vertical_reactions_n": [
+          995189.6179482355,
+          995189.6179482355
+        ],
+        "transverse_eccentric_moment_nm": 0.0,
+        "tributary_span_m": 25.0,
+        "walkway_included": true
+      },
+      "door_sill_to_ground_m": 11.1,
+      "erection_equipment_selected": false,
+      "foundation_selected": false,
+      "ground_level_assumed_m": 0.0,
+      "installed_cost_usd": null,
+      "lateral_capacity": null,
+      "pier_height_m": 8.0
+    },
+    {
+      "column_mass_kg": 90000.0,
+      "demands": {
+        "accepted": false,
+        "additional_equipment_mass_sensitivity_kg_per_car": 0.0,
+        "approved_dimension_reduction": null,
+        "cap_scale": 1.0,
+        "capacity_utilisation": null,
+        "column_base_axial_n": 3388304.235896471,
+        "column_geometric_slenderness": [
+          27.712812921102035,
+          20.784609690826525
+        ],
+        "column_nominal_extreme_stress_pa": [
+          1129434.7452988236,
+          1129434.7452988236
+        ],
+        "column_scale": 1.0,
+        "column_top_axial_n": 2505404.235896471,
+        "compression_only_linear_contact_admissible": true,
+        "design_complete": false,
+        "foundation_scale": 1.0,
+        "ground_vertical_n": 3984261.735896471,
+        "load_case": "both-trains",
+        "manufacturing_release": false,
+        "physical_release": false,
+        "physical_validation": false,
+        "pier_height_m": 12.0,
+        "rectangular_footing_linear_contact_pa": [
+          196753.6659701961,
+          196753.6659701961
+        ],
+        "scope": "Unfactored gravity/axial-eccentricity demand only. Linear footing contact assumes full contact; negative pressure invalidates that assumption. No pile/soil, settlement, wind/seismic/braking, prestress/rebar or stability acceptance.",
+        "soil_bearing_limit_pa": null,
+        "support_modelled_concrete_mass_kg": 203250.0,
+        "track_vertical_reactions_n": [
+          995189.6179482355,
+          995189.6179482355
+        ],
+        "transverse_eccentric_moment_nm": 0.0,
+        "tributary_span_m": 25.0,
+        "walkway_included": true
+      },
+      "door_sill_to_ground_m": 15.1,
+      "erection_equipment_selected": false,
+      "foundation_selected": false,
+      "ground_level_assumed_m": 0.0,
+      "installed_cost_usd": null,
+      "lateral_capacity": null,
+      "pier_height_m": 12.0
+    },
+    {
+      "column_mass_kg": 150000.0,
+      "demands": {
+        "accepted": false,
+        "additional_equipment_mass_sensitivity_kg_per_car": 0.0,
+        "approved_dimension_reduction": null,
+        "cap_scale": 1.0,
+        "capacity_utilisation": null,
+        "column_base_axial_n": 3976904.235896471,
+        "column_geometric_slenderness": [
+          46.18802153517006,
+          34.64101615137754
+        ],
+        "column_nominal_extreme_stress_pa": [
+          1325634.7452988236,
+          1325634.7452988236
+        ],
+        "column_scale": 1.0,
+        "column_top_axial_n": 2505404.235896471,
+        "compression_only_linear_contact_admissible": true,
+        "design_complete": false,
+        "foundation_scale": 1.0,
+        "ground_vertical_n": 4572861.735896471,
+        "load_case": "both-trains",
+        "manufacturing_release": false,
+        "physical_release": false,
+        "physical_validation": false,
+        "pier_height_m": 20.0,
+        "rectangular_footing_linear_contact_pa": [
+          225820.33263686276,
+          225820.33263686276
+        ],
+        "scope": "Unfactored gravity/axial-eccentricity demand only. Linear footing contact assumes full contact; negative pressure invalidates that assumption. No pile/soil, settlement, wind/seismic/braking, prestress/rebar or stability acceptance.",
+        "soil_bearing_limit_pa": null,
+        "support_modelled_concrete_mass_kg": 263250.0,
+        "track_vertical_reactions_n": [
+          995189.6179482355,
+          995189.6179482355
+        ],
+        "transverse_eccentric_moment_nm": 0.0,
+        "tributary_span_m": 25.0,
+        "walkway_included": true
+      },
+      "door_sill_to_ground_m": 23.1,
+      "erection_equipment_selected": false,
+      "foundation_selected": false,
+      "ground_level_assumed_m": 0.0,
+      "installed_cost_usd": null,
+      "lateral_capacity": null,
+      "pier_height_m": 20.0
+    },
+    {
+      "column_mass_kg": 225000.0,
+      "demands": {
+        "accepted": false,
+        "additional_equipment_mass_sensitivity_kg_per_car": 0.0,
+        "approved_dimension_reduction": null,
+        "cap_scale": 1.0,
+        "capacity_utilisation": null,
+        "column_base_axial_n": 4712654.235896471,
+        "column_geometric_slenderness": [
+          69.28203230275508,
+          51.96152422706631
+        ],
+        "column_nominal_extreme_stress_pa": [
+          1570884.7452988236,
+          1570884.7452988236
+        ],
+        "column_scale": 1.0,
+        "column_top_axial_n": 2505404.235896471,
+        "compression_only_linear_contact_admissible": true,
+        "design_complete": false,
+        "foundation_scale": 1.0,
+        "ground_vertical_n": 5308611.735896471,
+        "load_case": "both-trains",
+        "manufacturing_release": false,
+        "physical_release": false,
+        "physical_validation": false,
+        "pier_height_m": 30.0,
+        "rectangular_footing_linear_contact_pa": [
+          262153.6659701961,
+          262153.6659701961
+        ],
+        "scope": "Unfactored gravity/axial-eccentricity demand only. Linear footing contact assumes full contact; negative pressure invalidates that assumption. No pile/soil, settlement, wind/seismic/braking, prestress/rebar or stability acceptance.",
+        "soil_bearing_limit_pa": null,
+        "support_modelled_concrete_mass_kg": 338250.0,
+        "track_vertical_reactions_n": [
+          995189.6179482355,
+          995189.6179482355
+        ],
+        "transverse_eccentric_moment_nm": 0.0,
+        "tributary_span_m": 25.0,
+        "walkway_included": true
+      },
+      "door_sill_to_ground_m": 33.1,
+      "erection_equipment_selected": false,
+      "foundation_selected": false,
+      "ground_level_assumed_m": 0.0,
+      "installed_cost_usd": null,
+      "lateral_capacity": null,
+      "pier_height_m": 30.0
+    }
+  ],
+  "publication_role": "primary-provisional-design",
+  "schema": "osr-baghdad-reference-assembly/1",
+  "selected_configuration": {
+    "architecture": "ferrite-pm-maglev-study",
+    "configuration": {
+      "civil": {
+        "depth_m": 1.6,
+        "flange_m": 0.18,
+        "ground_level_m": 0.0,
+        "pier_height_m": 8.0,
+        "rail_pitch_m": 2.5,
+        "rail_segment_length_m": 2.49,
+        "rail_thickness_m": 0.02,
+        "rail_width_m": 0.96,
+        "span_m": 25.0,
+        "web_m": 0.15,
+        "width_m": 0.8
+      },
+      "cost": {
+        "installed_programme_usd": null,
+        "origin_audited": false,
+        "quantity_basis": "selected native geometry; unmodelled and unpriced scope remains open"
+      },
+      "evacuation": {
+        "complete_device_mass_kg": "unknown",
+        "packed_fabric_volume_m3": "unknown",
+        "selected": "vertical-spiral-chute-research",
+        "walkway_removal_approved": false
+      },
+      "formation": {
+        "arm_width_m": 2.96,
+        "body_length_m": 17.0,
+        "cabin_width_m": 2.65,
+        "cars": 6,
+        "city": "Baghdad",
+        "coupling_gap_assumption_m": 0.5,
+        "doors_per_side_x_m": [
+          -5.0,
+          0.0,
+          5.0
+        ]
+      },
+      "magnetic": {
+        "force_map": null,
+        "measured_electrical_limits": null,
+        "modules_per_car": 24
+      },
+      "operations": {
+        "approved_reserve_kwh": null,
+        "charger_kw_per_car": 600.0,
+        "gross_storage_kwh_per_car": 225.0,
+        "recovery_method": null
+      },
+      "revision": "V05-BAGHDAD-SIX-CAR-2",
+      "station": {
+        "arm_clearance_assumption_m": 0.1,
+        "capture_drop_assumption_m": 0.02,
+        "end_allowance_assumption_m": 2.5,
+        "floor_top_above_beam_m": 0.3,
+        "island_width_m": 4.2,
+        "lift_length_m": 2.0,
+        "lift_width_m": 2.0,
+        "minimum_side_passage_m": 1.0,
+        "stopping_tolerance_assumption_m": 0.5
+      },
+      "vehicle": {
+        "baseline_tare_kg_per_car": 18750.0,
+        "cg_m": null,
+        "inertia_kg_m2": null,
+        "net_chute_addition_kg": null,
+        "payload_aw3_kg_per_car": 12000.0
+      }
+    },
+    "design_complete": false,
+    "manufacturing_release": false,
+    "physical_release": false,
+    "physical_validation": false,
+    "publication_role": "primary-provisional-design",
+    "schema": "osr-selected-configuration/1"
+  },
+  "station": {
+    "arm_to_platform_horizontal_clearance_m": 0.10000000000000009,
+    "assumed_overall_train_length_m": 104.5,
+    "beam_centres_y_m": [
+      -3.68,
+      3.68
+    ],
+    "beam_unit_length_m": 21.9,
+    "body_to_platform_horizontal_gap_m": 0.25500000000000034,
+    "captured_vertical_step_m": 0.02,
+    "cars": [
+      {
+        "body_bounds_x_m": [
+          -52.25,
+          -35.25
+        ],
+        "car": 1,
+        "centre_x_m": -43.75
+      },
+      {
+        "body_bounds_x_m": [
+          -34.75,
+          -17.75
+        ],
+        "car": 2,
+        "centre_x_m": -26.25
+      },
+      {
+        "body_bounds_x_m": [
+          -17.25,
+          -0.25
+        ],
+        "car": 3,
+        "centre_x_m": -8.75
+      },
+      {
+        "body_bounds_x_m": [
+          0.25,
+          17.25
+        ],
+        "car": 4,
+        "centre_x_m": 8.75
+      },
+      {
+        "body_bounds_x_m": [
+          17.75,
+          34.75
+        ],
+        "car": 5,
+        "centre_x_m": 26.25
+      },
+      {
+        "body_bounds_x_m": [
+          35.25,
+          52.25
+        ],
+        "car": 6,
+        "centre_x_m": 43.75
+      }
+    ],
+    "charging_equipment_selected": false,
+    "charging_kw_per_train": 3600.0,
+    "clear_passage_each_lift_side_m": 1.1,
+    "configuration_revision": "V05-BAGHDAD-SIX-CAR-2",
+    "design_complete": false,
+    "door_interfaces": [
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 1,
+        "door": 1,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": -48.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 1,
+        "door": 2,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": -43.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 1,
+        "door": 3,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": -38.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 1,
+        "door": 1,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": -48.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 1,
+        "door": 2,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": -43.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 1,
+        "door": 3,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": -38.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 2,
+        "door": 1,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": -31.25
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 2,
+        "door": 2,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": -26.25
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 2,
+        "door": 3,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": -21.25
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 2,
+        "door": 1,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": -31.25
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 2,
+        "door": 2,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": -26.25
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 2,
+        "door": 3,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": -21.25
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 3,
+        "door": 1,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": -13.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 3,
+        "door": 2,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": -8.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 3,
+        "door": 3,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": -3.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 3,
+        "door": 1,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": -13.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 3,
+        "door": 2,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": -8.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 3,
+        "door": 3,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": -3.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 4,
+        "door": 1,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": 3.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 4,
+        "door": 2,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": 8.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 4,
+        "door": 3,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": 13.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 4,
+        "door": 1,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": 3.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 4,
+        "door": 2,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": 8.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 4,
+        "door": 3,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": 13.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 5,
+        "door": 1,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": 21.25
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 5,
+        "door": 2,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": 26.25
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 5,
+        "door": 3,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": 31.25
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 5,
+        "door": 1,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": 21.25
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 5,
+        "door": 2,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": 26.25
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 5,
+        "door": 3,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": 31.25
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 6,
+        "door": 1,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": 38.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 6,
+        "door": 2,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": 43.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 6,
+        "door": 3,
+        "normal_sill_z_m": 0.3,
+        "side": -1,
+        "sill_y_m": -5.005,
+        "x_m": 48.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 6,
+        "door": 1,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": 38.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 6,
+        "door": 2,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": 43.75
+      },
+      {
+        "captured_sill_z_m": 0.27999999999999997,
+        "car": 6,
+        "door": 3,
+        "normal_sill_z_m": 0.3,
+        "side": 1,
+        "sill_y_m": -2.3550000000000004,
+        "x_m": 48.75
+      }
+    ],
+    "door_sill_to_ground_m": 11.1,
+    "ground_level_relative_to_beam_m": -10.799999999999999,
+    "holds": [
+      "Coupling/stopping/end allowances are assumptions; dynamic swept envelopes and bridge-plate accessibility open",
+      "Station support, ground, connections, canopy, stairs, barriers, fire/egress and passenger capacity unqualified",
+      "Charging devices and emergency chutes remain space/interface requirements, not selected hardware"
+    ],
+    "id": "OSR-V05-BAGHDAD-SIX-CAR-STATION",
+    "interference_roles": [
+      "ferrite",
+      "carrier",
+      "retainer",
+      "fastener",
+      "magnetic-rail"
+    ],
+    "joints_and_bearings_qualified": false,
+    "lift_centre_xy_m": [
+      0.0,
+      0.0
+    ],
+    "lift_threshold_step_m": 0.0,
+    "manufactured_bays_per_direction": 5,
+    "manufacturing_release": false,
+    "material_density_assumptions_kg_m3": {
+      "aluminium": 2700.0,
+      "concrete": 2500.0,
+      "ferrite": 5000.0,
+      "steel": 7850.0,
+      "winding-envelope": 5500.0
+    },
+    "modelled_cg_m": [
+      -0.00013179052980754501,
+      -0.12625282902603632,
+      -0.5241119581959359
+    ],
+    "modelled_material_mass_kg": 539794.7796816,
+    "nominal_body_length_m": 102.0,
+    "normal_floor_gap_accepted": false,
+    "passenger_bridge_plate_required": true,
+    "physical_release": false,
+    "platform_length_m": 109.5,
+    "retain_native_tessellation": true,
+    "schema": "osr-maglev-development-solids/1",
+    "scope": "Two guidebeams, split island platform, centred lift frame and six repeated partial native floor frames. No complete cabin, magnetic cartridges, canopy, station support, stairs, charging device or qualified passenger installation."
+  },
+  "station_installed_cost_usd": null,
+  "station_quantity_ledger": {
+    "concrete": {
+      "installed_rate_usd": null,
+      "mass_kg": 452530.0,
+      "unit_rate_usd": null,
+      "volume_m3": 181.012
+    },
+    "steel": {
+      "installed_rate_usd": null,
+      "mass_kg": 68745.59000000019,
+      "unit_rate_usd": null,
+      "volume_m3": 8.757399999999986
+    }
+  }
+}

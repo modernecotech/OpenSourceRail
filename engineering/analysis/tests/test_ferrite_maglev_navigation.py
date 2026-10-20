@@ -94,7 +94,8 @@ def test_readiness_is_current_maglev_and_example_city_requires_explicit_legacy()
     assert result.returncode==0, result.stderr
     data = json.loads(result.stdout)
     assert data['family']=='ferrite-pm-maglev-study' and data['source_current']
-    assert data['accepted_physical_releases']==0 and data['open_requirements']==72
+    assert data['accepted_physical_releases']==0 and data['open_requirements']==79
+    assert data['handoff_open_requirements']==72 and data['evacuation_open_requirements']==7
     assert all(g['accepted'] is False for g in data['gates'])
     assert command('example-city','setup').returncode==2
     assert command('example-city','legacy','--help').returncode==0

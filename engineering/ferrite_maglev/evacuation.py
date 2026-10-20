@@ -318,7 +318,7 @@ def envelope_svg(result):
 
 def native_sources():
     from . import media
-    paths=[Path(__file__),INPUT,Path(geometry.__file__),Path(media.__file__),
+    paths=[*geometry.configuration.source_paths(),Path(__file__),INPUT,Path(geometry.__file__),Path(media.__file__),
            model.ROOT/'engineering/factory_examples/native.py',model.ROOT/'engineering/factory_examples/models.py']
     return {p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in paths}
 

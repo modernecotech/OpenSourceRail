@@ -19,6 +19,7 @@ pub enum Fault {
     ContextChanged,
     ContradictoryFeedback,
     LostDeploymentPrerequisite,
+    LostFlowConfirmation,
 }
 #[derive(Debug, Clone, Copy)]
 pub struct Params {
@@ -64,6 +65,7 @@ pub struct Output {
     pub missing_prerequisites: u16,
     pub traction_inhibit_required_in_study: bool,
     pub support_must_be_maintained_in_study: bool,
+    pub further_entry_permitted_in_study: bool,
     pub physical_output_authorised: bool,
 }
 pub fn evaluate(previous: State, input: Inputs, now_ns: u64, params: Params) -> Output {
@@ -80,19 +82,19 @@ pub fn evaluate(previous: State, input: Inputs, now_ns: u64, params: Params) -> 
     let missing = checks.iter().enumerate().fold(0_u16, |bits, (i, good)| {
         bits | if *good { 0 } else { 1 << i }
     });
-    let temporal = previous.last_now_ns.is_none_or(|v| now_ns > v)
+    let fresh = previous.last_now_ns.is_none_or(|v| now_ns > v)
         && previous.last_issued_ns.is_none_or(|v| input.issued_ns > v)
         && previous.last_sequence.is_none_or(|v| input.sequence > v)
         && input.issued_ns <= now_ns
         && input.sequence != 0
         && now_ns
             .checked_sub(input.issued_ns)
-            .is_some_and(|v| v <= params.maximum_age_ns)
-        && previous.last_now_ns.is_none_or(|v| {
-            now_ns
-                .checked_sub(v)
-                .is_some_and(|d| d <= params.maximum_tick_ns)
-        });
+            .is_some_and(|v| v <= params.maximum_age_ns);
+    let within_deadline = previous.last_now_ns.is_none_or(|v| {
+        now_ns
+            .checked_sub(v)
+            .is_some_and(|d| d <= params.maximum_tick_ns)
+    });
     let inconsistent_history = (previous.phase == Phase::Idle && previous.context.is_some())
         || (!matches!(previous.phase, Phase::Idle | Phase::FaultHold)
             && previous.context.is_none());
@@ -109,12 +111,16 @@ pub fn evaluate(previous: State, input: Inputs, now_ns: u64, params: Params) -> 
     );
     let new_fault = if params.maximum_age_ns == 0 || params.maximum_tick_ns == 0 {
         Some(Fault::InvalidParameters)
-    } else if !temporal {
+    } else if !fresh || !within_deadline {
         Some(Fault::ClockReplayOrDeadline)
     } else if context_changed || inconsistent_history {
         Some(Fault::ContextChanged)
     } else if contradictory || (input.deployment_confirmed && !started) {
         Some(Fault::ContradictoryFeedback)
+    } else if previous.phase == Phase::FlowStudy
+        && (!input.deployment_confirmed || !input.exit_open_confirmed)
+    {
+        Some(Fault::LostFlowConfirmation)
     } else if started && missing != 0 {
         Some(Fault::LostDeploymentPrerequisite)
     } else {
@@ -122,7 +128,10 @@ pub fn evaluate(previous: State, input: Inputs, now_ns: u64, params: Params) -> 
     };
     let mut state = previous;
     state.fault = previous.fault.or(new_fault);
-    if temporal {
+    // A fresh monotonic frame advances timing history even after a missed tick.
+    // The fault remains latched; reset needs a subsequent in-deadline frame.
+    // Stale/replayed/regressed frames never establish new history.
+    if fresh {
         state.last_now_ns = Some(now_ns);
         state.last_issued_ns = Some(input.issued_ns);
         state.last_sequence = Some(input.sequence);
@@ -178,6 +187,48 @@ pub fn evaluate(previous: State, input: Inputs, now_ns: u64, params: Params) -> 
         missing_prerequisites: missing,
         traction_inhibit_required_in_study: active,
         support_must_be_maintained_in_study: active,
+        further_entry_permitted_in_study: state.phase == Phase::FlowStudy
+            && input.deployment_confirmed
+            && input.exit_open_confirmed,
+        physical_output_authorised: false,
+    }
+}
+
+/// Train-wide hold composition; no hardware actuation or automatic rescue.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum TrainSupport {
+    MaintainAvailableSupport,
+    CaptureRequired,
+    CapturedHold,
+    NoEgressDemand,
+}
+#[derive(Debug, Clone, Copy)]
+pub struct TrainHold {
+    pub traction_inhibit_required_in_study: bool,
+    pub support: TrainSupport,
+    pub physical_output_authorised: bool,
+}
+pub fn train_hold(
+    doors: &[Output],
+    expected_doors: usize,
+    support_available: bool,
+    captured_confirmed: bool,
+) -> TrainHold {
+    // An incomplete configured door inventory cannot establish a release.
+    let active = expected_doors == 0
+        || doors.len() != expected_doors
+        || doors.iter().any(|d| d.traction_inhibit_required_in_study);
+    TrainHold {
+        traction_inhibit_required_in_study: active,
+        support: if !active {
+            TrainSupport::NoEgressDemand
+        } else if captured_confirmed {
+            TrainSupport::CapturedHold
+        } else if support_available {
+            TrainSupport::MaintainAvailableSupport
+        } else {
+            TrainSupport::CaptureRequired
+        },
         physical_output_authorised: false,
     }
 }

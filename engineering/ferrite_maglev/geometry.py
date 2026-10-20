@@ -12,7 +12,7 @@ from pathlib import Path
 import subprocess
 import sys
 
-from . import model
+from . import model,configuration
 
 MATERIALS={'steel':7850.,'aluminium':2700.,'ferrite':5000.,'concrete':2500.,'winding-envelope':5500.}
 
@@ -55,17 +55,22 @@ def finish(identity,parts,stages,*,scope,holds):
                 scope=scope,holds=holds,physical_release=False,manufacturing_release=False,design_complete=False)
 
 
-def beam_parts(prefix,span,centre_y=0):
+def beam_parts(prefix,span,centre_y=0,*,width=None,depth=None,web=None,flange=None):
+    cv=configuration.selected().civil
+    width=cv.width_m if width is None else width;depth=cv.depth_m if depth is None else depth
+    web=cv.web_m if web is None else web;flange=cv.flange_m if flange is None else flange
+    model.positive(span,'span')
+    model.section(width,depth,web,flange)
     x=-span/2;y=centre_y;p=[]
-    p.append(part(prefix+'/top-slab',[span,.8,.18],[x,y-.4,-.18],'concrete'))
-    p.append(part(prefix+'/bottom-slab',[span,.8,.18],[x,y-.4,-1.6],'concrete'))
+    p.append(part(prefix+'/top-slab',[span,width,flange],[x,y-width/2,-flange],'concrete'))
+    p.append(part(prefix+'/bottom-slab',[span,width,flange],[x,y-width/2,-depth],'concrete'))
     for side in (-1,1):
-        at=y-.4 if side<0 else y+.25
-        p.append(part(prefix+f'/web-{side}',[span,.15,1.24],[x,at,-1.42],'concrete'))
-        for index in range(math.ceil(span/2.5)):
-            start=x+index*2.5;length=min(2.49,span-(start-x))
-            ry=y+.4 if side>0 else y-1.36
-            p.append(part(prefix+f'/lift-rail-{side}-{index}',[length,.96,.02],[start,ry,-.3], 'steel',role='magnetic-rail'))
+        at=y-width/2 if side<0 else y+width/2-web
+        p.append(part(prefix+f'/web-{side}',[span,web,depth-2*flange],[x,at,-depth+flange],'concrete'))
+        for index in range(math.ceil(span/cv.rail_pitch_m)):
+            start=x+index*cv.rail_pitch_m;length=min(cv.rail_segment_length_m,span-(start-x))
+            ry=y+width/2 if side>0 else y-width/2-cv.rail_width_m
+            p.append(part(prefix+f'/lift-rail-{side}-{index}',[length,cv.rail_width_m,cv.rail_thickness_m],[start,ry,-.3], 'steel',role='magnetic-rail'))
     return p
 
 
@@ -80,7 +85,7 @@ def interface(variant='recessed-retainer'):
     side_length=.968 if variant=='unrepaired' else .958
     side_start=-side_length/2
     hole_y=(.27-bolt_offset,.27+bolt_offset)
-    p=beam_parts('guideway',25);groups={'guideway':[v['id'] for v in p]}
+    p=beam_parts('guideway',configuration.selected().civil.span_m);groups={'guideway':[v['id'] for v in p]}
     frame=[]
     for side in (-1,1):
         frame.append(part(f'frame/stringer-{side}',[17,.1,.18],[-8.5,side*1.1-.05,.11],'steel',kind='tube',wall_m=.008,axis=0))
@@ -127,7 +132,7 @@ def interface(variant='recessed-retainer'):
     groups['cartridges']=[v for m in modules for v in m['part_ids']]
     stages=[dict(id=k,parts=ids) for k,ids in groups.items()]
     result=finish('OSR-V05-MAGNETIC-INTERFACE',p,stages,
-        scope='One provisional 17m floor/frame and 24-cartridge lift interface on a 25m guidebeam; no cabin fitout or functional propulsion circuit',
+        scope=f'One provisional 17m floor/frame and 24-cartridge lift interface on a {configuration.selected().civil.span_m:g}m guidebeam; no cabin fitout or functional propulsion circuit',
         holds=['force/thermal/demagnetisation map and grade selection','keeper/bolt/potting retention under fault/crash/fatigue',
                'gap/thermal/control/structure error budget and low-profile fastener qualification remain open',
                'supplier-ground ferrite edge recesses need crack/demagnetisation/dimensional qualification; not an accepted machining process',
@@ -146,23 +151,43 @@ def interface(variant='recessed-retainer'):
     return result
 
 
-def civil_bay():
+def guideway_quantities(span=None,*,width=None,depth=None,web=None,flange=None):
+    """One source of material quantities, including actual segmented rail lengths.
+
+    Magnetic attachments and winding hardware not represented in these solids
+    remain unquantified. The former 100 kg/m is a historical comparator only.
+    """
+    if span is None:span=configuration.selected().civil.span_m
+    parts=beam_parts('quantity',span,width=width,depth=depth,web=web,flange=flange)
+    rail=sum(volume(p)*MATERIALS[p['material']] for p in parts if p['role']=='magnetic-rail')
+    concrete=sum(volume(p)*MATERIALS[p['material']] for p in parts if p['material']=='concrete')
+    return dict(span_m=span,magnetic_rail_mass_kg=rail,magnetic_rail_line_mass_kg_m=rail/span,
+        beam_concrete_mass_kg=concrete,beam_concrete_line_mass_kg_m=concrete/span,
+        total_line_mass_kg_m=(rail+concrete)/span,
+        historical_magnetic_allowance_kg_m=100.,unmodelled_attachment_mass_kg=None)
+
+
+def civil_bay(span=None,*,width=None,depth=None,web=None,flange=None,pier_height=None):
+    cv=configuration.selected().civil
+    span=cv.span_m if span is None else span;pier_height=cv.pier_height_m if pier_height is None else pier_height
+    model.positive(pier_height,'pier height')
+    depth=cv.depth_m if depth is None else depth
     p=[];stages=[]
-    for side in (-1,1):p+=beam_parts(f'beam-{side}',25,side*1.9)
+    for side in (-1,1):p+=beam_parts(f'beam-{side}',span,side*1.9,width=width,depth=depth,web=web,flange=flange)
     stages.append(dict(id='beams-and-functional-rails',parts=[v['id'] for v in p]))
     sub=[]
-    for x in (-12.5,12.5):
-        sub.append(part(f'support-{x}/cap',[2.5,7,1.2],[x-1.25,-3.5,-2.8],'concrete'))
-        sub.append(part(f'support-{x}/column',[1.5,2,8],[x-.75,-1,-10.8],'concrete'))
-        sub.append(part(f'support-{x}/foundation-envelope',[4.5,4.5,1.2],[x-2.25,-2.25,-12],'concrete',role='ground-assumption'))
+    for x in (-span/2,span/2):
+        sub.append(part(f'support-{x}/cap',[2.5,7,1.2],[x-1.25,-3.5,-depth-1.2],'concrete'))
+        sub.append(part(f'support-{x}/column',[1.5,2,pier_height],[x-.75,-1,-depth-1.2-pier_height],'concrete'))
+        sub.append(part(f'support-{x}/foundation-envelope',[4.5,4.5,1.2],[x-2.25,-2.25,-depth-2.4-pier_height],'concrete',role='ground-assumption'))
     p+=sub;stages.append(dict(id='support-ground-assumptions',parts=[v['id'] for v in sub]))
     walk=[]
     for side in (-1,1):
-        for j in range(10):
-            x=-12.5+j*2.5
-            walk.append(part(f'walkway-{side}-{j}',[2.49,1,.12],[x,3.6 if side>0 else -4.6,-.02],'concrete'))
+        for j in range(math.ceil(span/2.5)):
+            x=-span/2+j*2.5
+            walk.append(part(f'walkway-{side}-{j}',[min(2.49,span-j*2.5),1,.12],[x,3.6 if side>0 else -4.6,-.02],'concrete'))
     p+=walk;stages.append(dict(id='walkway-cassettes',parts=[v['id'] for v in walk]))
-    r=finish('OSR-V05-CIVIL-BAY',p,stages,scope='Dual-direction25m geometric kit; solid cap and shallow foundation envelopes are alternative study inputs, not site designs',
+    r=finish('OSR-V05-CIVIL-BAY',p,stages,scope=f'Dual-direction {span:g}m geometric kit; solid cap and shallow foundation envelopes are alternative study inputs, not site designs',
         holds=['soil/pile/shallow-foundation selection and settlement','prestress/rebar/diaphragms and lifting inserts','corbels/bearings/joints/walkway brackets/anchors',
                'local magnetic loads, torsion, wind, seismic and fault/capture loads','transport/crane ground support and connection/strength development',
                'walkway supports and egress/platform swept envelope; no installed cost or structural release'])
@@ -193,6 +218,7 @@ def seal_native(output):
     paths=[p for p in output.rglob('*') if p.is_file() and p.name!='manifest.json']
     manifest=dict(schema='osr-maglev-native-packet/1',
         geometry_sha256=sha256(Path(__file__).read_bytes()).hexdigest(),
+        geometry_sources_sha256={p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in configuration.source_paths()},
         exporter_sha256=sha256((model.ROOT/'engineering/factory_examples/native.py').read_bytes()).hexdigest(),
         files_sha256={p.relative_to(output).as_posix():sha256(p.read_bytes()).hexdigest() for p in sorted(paths)},
         physical_release=False,manufacturing_release=False)
@@ -204,6 +230,7 @@ def verify_native(output):
     output=Path(output);manifest=json.loads((output/'manifest.json').read_text())
     if manifest['schema']!='osr-maglev-native-packet/1' or any(manifest.get(k) is not False for k in ('physical_release','manufacturing_release')):
         raise ValueError('native packet identity or release differs')
+    if manifest.get('geometry_sources_sha256')!={p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in configuration.source_paths()}:raise ValueError('native geometry configuration changed')
     actual={p.relative_to(output).as_posix() for p in output.rglob('*') if p.is_file() and p.name!='manifest.json'}
     required={folder+'/'+name for folder in ('interface','civil-bay') for name in (
         'definition.json','model.FCStd','model.step.gz','native-cad.json','native-mesh.json.gz',

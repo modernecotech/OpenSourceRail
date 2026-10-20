@@ -25,7 +25,9 @@ def test_fe_point_load_and_modal_frequencies_have_independent_controls():
     assert result["centre_relative_error"] < 1e-8
     assert result["distributed_point_load_max_error_m"] < 1e-9
     assert result["modal_frequency_max_relative_error"] < 2e-5
-    assert result["modal_frequency_hz"][0] == pytest.approx(4.578899, rel=1e-6)
+    a=coupled.BeamAssumptions()
+    expected=np.pi/(2*a.span_m**2)*np.sqrt(a.young_pa*a.second_moment_m4/a.line_mass_kg_m)
+    assert result["modal_frequency_hz"][0] == pytest.approx(expected, rel=1e-6)
     assert result["modal_static_truncation_max_m"] < 1e-6
 
 

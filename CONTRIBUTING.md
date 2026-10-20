@@ -36,7 +36,7 @@ safety case for a real railway.
 
 ## Development Workflow
 
-Use the root [one-command setup](README.md#one-command-linux-setup). Installation
+Use the root [one-command setup](README.md#run-it). Installation
 behaviour is documented there only so it cannot drift between guides.
 
 1. Open or reference an issue for behavioral changes, safety claims,

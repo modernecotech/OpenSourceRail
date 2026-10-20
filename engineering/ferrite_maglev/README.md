@@ -331,3 +331,25 @@ mass, centre of mass and inertias remain open. Treating the illustrated frame
 as added hardware is a gross sensitivity; a net MBOM must resolve any overlap
 with the existing body structure and emergency allocations. It does not qualify
 the entry frame, support variants, moving trains or full vehicle dynamics.
+
+## Baghdad reference configuration — revision 2
+
+The [typed configuration](configuration.py) and
+[dimension assumptions](reference-configuration.toml) fix Baghdad at six 17 m
+bodies. The station study adds assumed 0.5 m inter-car gaps and 2.5 m end
+allowances: 104.5 m assumed train length and 109.5 m platform. These allowances
+remain unresolved engineering inputs. The 2.96 m magnetic arms determine beam
+spacing. A 0.255 m cabin-to-platform gap requires a qualified bridge plate.
+The centred lift has a native floor opening and zero nominal threshold step.
+
+[Retained native station, quantities and video](../../docs/design-engine/ferrite-maglev/baghdad-reference/README.md)
+include partial floor frames for six cars, rather than a complete vehicle.
+Pier-height studies at 8/12/20/30 m propagate column mass and gravity demand;
+the corresponding assumed door heights are 11.1/15.1/23.1/33.1 m. Chute height
+screens alone do not qualify these structures or outlets. Emergency-energy
+accounting includes stop, deployment, passenger flow and rescue; unknown device
+power prevents a complete reserve claim.
+
+The [common requirements register](requirements.py) combines 72 handoff and
+seven evacuation requirements. `CIV-004` remains applicable until an approved
+route-specific alternative exists. No requirement is superseded by a study pass.

@@ -89,12 +89,14 @@ def entry_geometry(standoff_m=None):
     return r
 
 
-def support_geometry(column_scale=.8,foundation_scale=.85,cap_scale=.75):
+def support_geometry(column_scale=.8,foundation_scale=.85,cap_scale=.75,*,span=None,pier_height=None):
     if not .5<=column_scale<=1 or not .5<=foundation_scale<=1 or not 4.6/7<=cap_scale<=1:raise ValueError('bounded support scales required')
-    source=geometry.civil_bay();parts=[]
+    source=geometry.civil_bay(span,pier_height=pier_height);parts=[]
+    origin=min(p['at_m'][0]+p['size_m'][0]/2 for p in source['parts'] if p['id'].endswith('/cap'))
+    prefix=next(p['id'].rsplit('/',1)[0] for p in source['parts'] if p['id'].endswith('/cap') and p['at_m'][0]<0)
     for p in source['parts']:
-        if not p['id'].startswith('support--12.5/'):continue
-        p=deepcopy(p);p['id']=p['id'].replace('support--12.5','study-support');p['at_m'][0]+=12.5
+        if not p['id'].startswith(prefix+'/'):continue
+        p=deepcopy(p);p['id']=p['id'].replace(prefix,'study-support');p['at_m'][0]-=origin
         scale=column_scale if p['id'].endswith('/column') else foundation_scale if p['id'].endswith('/foundation-envelope') else cap_scale
         for axis in ((1,) if p['id'].endswith('/cap') else (0,1)):
             centre=p['at_m'][axis]+p['size_m'][axis]/2;p['size_m'][axis]*=scale;p['at_m'][axis]=centre-p['size_m'][axis]/2
@@ -109,12 +111,13 @@ def support_geometry(column_scale=.8,foundation_scale=.85,cap_scale=.75):
     return r
 
 
-def support_demands(*,column_scale=1.,foundation_scale=1.,cap_scale=1.,walkway=True,load_case='both-trains',additional_equipment_kg_per_car=0.,_context=None):
+def support_demands(*,column_scale=1.,foundation_scale=1.,cap_scale=1.,walkway=True,load_case='both-trains',additional_equipment_kg_per_car=0.,pier_height=None,_context=None):
     model.positive(additional_equipment_kg_per_car,'additional equipment mass',zero=True)
     if load_case not in {'empty','both-trains','one-train','one-beam-erection'}:raise ValueError('declared load case required')
     cfg,c=_context if _context is not None else (load(),model.load()[1]);span=c['civil']['reference_span_m'];g=9.81
     if cfg['civil']['passenger_payload_kg_per_car']!=c['vehicle']['aw3_passengers_per_car']*c['vehicle']['passenger_mass_screen_kg']:raise ValueError('matched full passenger load required')
-    native=geometry.civil_bay();support=support_geometry(column_scale,foundation_scale,cap_scale)
+    box=c['civil']['narrow_box_screen']
+    native=geometry.civil_bay(span,width=box['outer_width_m'],depth=box['outer_depth_m'],web=box['web_thickness_m'],flange=box['flange_thickness_m']);support=support_geometry(column_scale,foundation_scale,cap_scale,span=span,pier_height=pier_height)
     # A continuous interior support receives half of each of two adjacent equal spans.
     beam=sum(p['modelled_mass_kg'] for p in native['parts'] if p['id'].startswith('beam-1/'))
     walks=sum(p['modelled_mass_kg'] for p in native['parts'] if p['id'].startswith('walkway-1-')) if walkway else 0.
@@ -137,6 +140,8 @@ def support_demands(*,column_scale=1.,foundation_scale=1.,cap_scale=1.,walkway=T
     qmin=n_ground/footing_area-abs(moment)/footing_z;qmax=n_ground/footing_area+abs(moment)/footing_z
     return dict(column_scale=column_scale,foundation_scale=foundation_scale,cap_scale=cap_scale,walkway_included=walkway,load_case=load_case,
         additional_equipment_mass_sensitivity_kg_per_car=additional_equipment_kg_per_car,
+        pier_height_m=column['size_m'][2],
+        column_geometric_slenderness=[column['size_m'][2]/(d/math.sqrt(12)) for d in column['size_m'][:2]],
         tributary_span_m=span,track_vertical_reactions_n=[v*g for v in masses],column_top_axial_n=n_column,
         transverse_eccentric_moment_nm=moment,column_base_axial_n=n_base,ground_vertical_n=n_ground,
         column_nominal_extreme_stress_pa=[n_base/area-abs(moment)/section_modulus,n_base/area+abs(moment)/section_modulus],
@@ -173,7 +178,7 @@ def study():
 
 
 def sources():
-    names=[Path(__file__),INPUT,Path(coupled.__file__),Path(geometry.__file__),Path(evacuation.__file__),evacuation.INPUT,Path(media.__file__),
+    names=[*geometry.configuration.source_paths(),Path(__file__),INPUT,Path(coupled.__file__),Path(geometry.__file__),Path(evacuation.__file__),evacuation.INPUT,Path(media.__file__),
         Path(model.__file__),model.INPUT,model.ROOT/'engineering/factory_examples/native.py',model.ROOT/'engineering/factory_examples/models.py',
         model.ROOT/'Cargo.toml',model.ROOT/'Cargo.lock',model.ROOT/'rust-toolchain.toml',model.ROOT/'crates/osr-maglev-control/Cargo.toml']
     names+=list((model.ROOT/'crates/osr-maglev-control').rglob('*.rs'))
@@ -226,10 +231,11 @@ def publish(output=OUTPUT):
         geometry.verify_native(native_folder)
         mesh=json.loads(gzip.decompress((native_folder/'civil-bay/native-mesh.json.gz').read_bytes()))
         native_mass=sum(p['volume_m3']*geometry.MATERIALS[p['material']] for p in mesh['parts'] if p['id'].startswith('beam-1/'))
-        section=model.section(.8,1.6,.15,.18)
-        assumptions=coupled.BeamAssumptions(line_mass_kg_m=native_mass/25,second_moment_m4=section['vertical_i_m4'])
+        cv=geometry.configuration.selected().civil;span=cv.span_m
+        section=model.section(cv.width_m,cv.depth_m,cv.web_m,cv.flange_m)
+        assumptions=coupled.BeamAssumptions(span_m=span,line_mass_kg_m=native_mass/span,second_moment_m4=section['vertical_i_m4'])
         executable,execution=coupled._build_bridge()
-        matched=dict(schema='osr-native-derived-guideway-coupling/1',native_beam_line_mass_kg_m=native_mass/25,
+        matched=dict(schema='osr-native-derived-guideway-coupling/1',native_beam_line_mass_kg_m=native_mass/span,
             native_mesh_sha256=before['docs/design-engine/ferrite-maglev/native/civil-bay/native-mesh.json.gz'],
             section_basis='Analytical reference box inertia; line mass recovered from native kernel volumes; no material/force-map validation',
             car_mass_kg=27750.+result['entry_partial_material_mass_kg_per_car'],complete_egress_system_included=False,

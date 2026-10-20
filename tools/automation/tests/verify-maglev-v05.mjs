@@ -65,6 +65,7 @@ try {
     })),
   );
   const expectedImages = [
+    "../baghdad-reference/station/overview.png",
     "guidebeam-sections.svg",
     "duty-energy.svg",
     "../native/interface/overview.png",
@@ -80,7 +81,7 @@ try {
     images.map((image) => image.src).sort(),
     expectedImages.sort(),
   );
-  assert.equal(images.length, 10);
+  assert.equal(images.length, 11);
   assert.ok(images.every((i) => i.loaded));
   assert.match(await page.locator("h1").innerText(), /Ferrite-maglev/);
   const origin = `http://127.0.0.1:${port}`;
@@ -300,6 +301,12 @@ try {
     "../system-development/entry/assembly-visibility.mp4",
     "../system-development/compact-support/assembly-visibility.mp4",
   );
+  expectedVideos.push("../baghdad-reference/station/assembly-visibility.mp4");
+  const stationManifest = await jsonAsset("../baghdad-reference/manifest.json");
+  const stationStudy = await jsonAsset("../baghdad-reference/study.json");
+  assert.equal(stationStudy.cars_per_train,6);
+  assert.equal(stationStudy.station.lift_threshold_step_m,0);
+  assert.equal(stationStudy.station_installed_cost_usd,null);
   const systemManifest = await jsonAsset("../system-development/manifest.json");
   assert.equal(systemManifest.manufacturing_release, false);
   const development = data.linked_system_development;
@@ -343,14 +350,15 @@ try {
       "assembly video must contain media bytes",
     );
     assert.equal(video.body.subarray(4, 8).toString("ascii"), "ftyp");
+    const stationVideo = href.startsWith("../baghdad-reference/");
     const systemVideo = href.startsWith("../system-development/");
     const name = href.replace(
-      systemVideo ? "../system-development/" : "../native/",
+      stationVideo ? "../baghdad-reference/" : systemVideo ? "../system-development/" : "../native/",
       "",
     );
     assert.equal(
       createHash("sha256").update(video.body).digest("hex"),
-      (systemVideo ? systemManifest : nativeManifest).files_sha256[name],
+      (stationVideo ? stationManifest : systemVideo ? systemManifest : nativeManifest).files_sha256[name],
     );
     videos.push({
       href: video.pathname,

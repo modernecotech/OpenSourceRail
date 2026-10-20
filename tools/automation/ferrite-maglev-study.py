@@ -98,14 +98,16 @@ def main():
         delivery.verify(args.output)
         retained=json.loads((args.output/'result.json').read_text())
         result=dict(family=retained['family'],source_current=True,scope='Primary maglev digital studies; no engineering/physical release',
-            accepted_physical_releases=0,open_requirements=len(retained['requirements']),gates=retained['gates'],
+            accepted_physical_releases=0,open_requirements=len(retained['applicable_requirements']['requirements']),
+            handoff_open_requirements=len(retained['requirements']),
+            evacuation_open_requirements=len(retained['applicable_requirements']['requirements'])-len(retained['requirements']),gates=retained['gates'],
             transition_inventory=retained['transition_inventory'],**model.FLAGS)
     elif args.action=='status':
         policy,c,_=model.load()
         result=dict(version='0.5.0',family=c['metadata']['family'],primary_development=True,
                     legacy=policy['development']['legacy_use'],gates='G0–G5 open',
                     city_migration='266 primary maglev city packages; legacy geometry/demand retained, fleet/duty/charging/partial costs recomputed',
-                    inventory='414 items and63 legacy packages have explicit dispositions;72 requirements/11 new packages; accepted completion0',**model.FLAGS)
+                    inventory='414 items and 63 legacy packages have explicit dispositions; 72 handoff plus 7 evacuation requirements / 11 new packages; accepted completion 0',**model.FLAGS)
     elif args.action=='release-check':
         model.load()
         print(json.dumps(dict(release_allowed=False,reason='No authenticated magnetic/vehicle/civil/hardware acceptance adapter',

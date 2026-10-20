@@ -1,4 +1,6 @@
-# Baghdad Proposal
+# Baghdad Proposal — retained wheel/rail comparator
+
+Architecture: conventional wheel/rail. Configuration: retained six-car Baghdad proposal. Financial scope: historical wheel/rail programme; no acceptance or cost transfer to v0.5 ferrite maglev.
 
 OpenSourceRail proposes an owner led feasibility and front end engineering programme for Baghdad, with Iraqi train manufacture and local infrastructure delivery. This proposal brings the Baghdad network, railway systems, operating organisation, delivery evidence and financing together, and sets out a separate path for future national development. It is addressed to the prospective Iraqi public sponsor, Baghdad authorities, operating organisation and financing partners; no appointment or financing commitment is asserted.
 

@@ -97,15 +97,9 @@ def civil(c,costs,v,width,depth,web,flange,span,a,*,guideway_mode='walkway-refer
     if guideway_mode not in {'walkway-reference','onboard-evacuation-no-walkway'}:raise ValueError('unknown guideway mode')
     beam_only=guideway_mode=='onboard-evacuation-no-walkway'
     target=deepcopy(c);box=target['civil']['narrow_box_screen'];box['web_thickness_m']=web;box['flange_thickness_m']=flange
-    from . import geometry
-    native_rail_line_mass=sum(geometry.volume(p)*geometry.MATERIALS[p['material']]
-        for p in geometry.beam_parts('quantity-screen',25) if p['role']=='magnetic-rail')/25
-    # The exported wide lift faces are heavier than the old 100 kg/m allowance.
-    # Never buy a lighter beam by quietly undercounting retained rail material.
-    box['magnetic_hardware_line_mass_screen_kg_m_per_direction']=max(
-        box['magnetic_hardware_line_mass_screen_kg_m_per_direction'],native_rail_line_mass)
     walkway_area=0 if beam_only else a['civil']['reference_walkway_concrete_area_m2_per_direction']
     r=model.civil_case(target,width,depth,span,walkway_area_m2=walkway_area)
+    native_rail_line_mass=r['magnetic_quantities']['magnetic_rail_line_mass_kg_m']
     r['web_m']=web;r['flange_m']=flange
     base=model.cost_case(c,costs,'base',c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'])
     rows=deepcopy(base['civil_rows_usd_dual_km']);b=a['civil']
@@ -209,7 +203,7 @@ def _study(canonical):
     fixed=sum(base['civil_rows_usd_dual_km'][k] for k in b['unchanged_cost_rows'])
     eligible_bare=[r for r in beam_only_rows if r['numerical_screen_pass']]
     bare_best=min(eligible_bare,key=lambda r:(r['civil']['indexed_allowance_usd_dual_km'],r['id'])) if eligible_bare else None
-    return dict(schema='osr-maglev-whole-system-optimisation/1',candidate_count=len(rows),numerical_screen_pass_count=len(passing),
+    return dict(quantity_source_sha256=a['quantity_source_sha256'],schema='osr-maglev-whole-system-optimisation/1',candidate_count=len(rows),numerical_screen_pass_count=len(passing),
         research_extrema=extrema,fully_coupled_optimisation=False,
         coupling_evidence=[
             dict(link='vehicle mass to AW3 UDL/beam deflection',state='implemented analytical screen'),
@@ -234,12 +228,20 @@ def _study(canonical):
         references=REFERENCES,**model.FLAGS)
 
 
+def canonical_inputs(c,costs,assumptions):
+    """Bind custom study screens to the same complete identity as normal runs."""
+    from . import evacuation,geometry
+    evacuation.load();a=deepcopy(assumptions)
+    a['quantity_source_sha256']={p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in calculation_dependencies()}
+    a['quantity_materials_kg_m3']=geometry.MATERIALS
+    a['selected_rail_quantities']=geometry.guideway_quantities()
+    a['evacuation_input_sha256']=sha256(evacuation.INPUT.read_bytes()).hexdigest()
+    return json.dumps([c,costs,a],sort_keys=True,allow_nan=False)
+
+
 def study(c=None,costs=None):
     if c is None or costs is None:_,c,costs=model.load()
-    from . import evacuation
-    a=load();evacuation.load()
-    a['evacuation_input_sha256']=sha256(evacuation.INPUT.read_bytes()).hexdigest()
-    return _study(json.dumps([c,costs,a],sort_keys=True,allow_nan=False))
+    return _study(canonical_inputs(c,costs,load()))
 
 
 def route_strategy(design,corridor,a=None):
@@ -283,3 +285,10 @@ def route_strategy(design,corridor,a=None):
         required_evidence=[dict(id=k,state='unknown',accepted=False) for k in ROUTE_EVIDENCE],
         fixed_topology_exceptions=['rings','terminal loops','station approaches','obstacle/river/airspace avoidance'],
         references=REFERENCES,**model.FLAGS)
+
+
+def calculation_dependencies():
+    from . import geometry,configuration,evacuation,workbook
+    return [Path(__file__),INPUT,Path(geometry.__file__),*configuration.source_paths(),
+        Path(model.__file__),model.POLICY,Path(evacuation.__file__),evacuation.INPUT,
+        Path(workbook.__file__),model.ROOT/'OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx']

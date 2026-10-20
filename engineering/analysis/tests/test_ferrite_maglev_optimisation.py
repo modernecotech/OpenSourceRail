@@ -140,7 +140,7 @@ def test_invalid_or_unqualified_savings_configuration_is_rejected(monkeypatch,tm
 
 def test_no_numerical_candidate_does_not_invent_an_accepted_design(context):
     _,c,k=context;a=optimisation.load();a['civil']['maximum_bare_beam_lift_mass_screen_kg']=1
-    result=optimisation._study(__import__('json').dumps([c,k,a],sort_keys=True))
+    result=optimisation._study(optimisation.canonical_inputs(c,k,a))
     assert result['numerical_screen_pass_count']==0
     assert result['minimum_indexed_allowance_candidate'] is None
     assert result['pareto_candidate_ids']==[]
@@ -205,7 +205,7 @@ def test_distinct_extrema_only_use_passing_reference_configurations(context):
     assert mass['civil']['counted_concrete_mass_kg_dual_km']==min(v['civil']['counted_concrete_mass_kg_dual_km'] for v in passing)
     assert e['fastest_construction_candidate_id'] is None
     a=optimisation.load();a['civil']['maximum_bare_beam_lift_mass_screen_kg']=1
-    empty=optimisation._study(__import__('json').dumps([context[1],context[2],a],sort_keys=True))['research_extrema']
+    empty=optimisation._study(optimisation.canonical_inputs(context[1],context[2],a))['research_extrema']
     assert empty['lowest_indexed_ordinary_allowance_candidate_id'] is empty['lowest_counted_concrete_mass_candidate_id'] is None
 
 

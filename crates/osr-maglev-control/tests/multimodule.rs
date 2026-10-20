@@ -376,3 +376,34 @@ fn corrupt_history_and_unsupported_plant_force_are_rejected() {
     ));
     assert_eq!(plant, old);
 }
+
+#[test]
+fn train_egress_hold_reaches_all_twenty_four_support_channels() {
+    use osr_maglev_control::egress::{self, Phase, State};
+    let door = egress::Output {
+        state: State {
+            phase: Phase::FaultHold,
+            ..State::default()
+        },
+        missing_prerequisites: 128, // assistance missing
+        traction_inhibit_required_in_study: true,
+        support_must_be_maintained_in_study: true,
+        further_entry_permitted_in_study: false,
+        physical_output_authorised: false,
+    };
+    let hold = egress::train_hold(&[door; 36], 36, true, false);
+    let mut frame = support::frame(1);
+    frame.stop_requested = hold.traction_inhibit_required_in_study;
+    let result = evaluate_array(ArrayState::default(), &frame, 1_000_000, &support::params());
+    assert!(!result.traction_permitted_in_study);
+    assert_eq!(result.support, ArraySupport::StudyForces);
+    assert_eq!(result.allocation.unwrap().forces.len(), 24);
+    assert!(!result.physical_output_authorised);
+    frame = support::frame(2);
+    frame.stop_requested = true;
+    frame.support_power_available = false;
+    let lost = evaluate_array(result.state, &frame, 2_000_000, &support::params());
+    assert_eq!(lost.support, ArraySupport::LocalFallbackRequired);
+    assert!(!lost.traction_permitted_in_study);
+    assert!(!lost.physical_output_authorised);
+}

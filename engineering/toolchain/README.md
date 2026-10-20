@@ -23,7 +23,7 @@ repository contains no raw observations. The deterministic
 receipts and runs `rnx2rtkp` when the frozen deployment binary and real RINEX
 inputs are present; its automated quality result never records survey approval.
 
-Use the root [one-command setup](../../README.md#one-command-linux-setup) and
+Use the root [one-command setup](../../README.md#run-it) and
 accept the optional engineering applications when prompted.
 
 Run engineering workflows through the common launcher:

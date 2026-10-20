@@ -8,7 +8,7 @@ from pathlib import Path
 import platform
 import tempfile
 
-from . import model,transition,geometry,field,media,optimisation,evacuation,system_development
+from . import model,transition,geometry,field,media,optimisation,evacuation,system_development,reference_assembly
 
 OUTPUT = model.ROOT / 'docs/design-engine/ferrite-maglev/reference'
 EXPECTED={'result.json','index.html','guidebeam-sections.svg','duty-energy.svg','transition-register.json.gz','interface-definition.json.gz','civil-bay-definition.json.gz','field-study.json.gz','field-study.png','optimisation-study.json.gz','evacuation-study.json.gz','evacuation-envelope.svg'}
@@ -81,6 +81,8 @@ def render(result):
 +<p>Column/foundation alternatives propagate gravity, self-weight and transverse eccentricity through both-train, one-train and one-beam erection cases. Negative linear footing pressure identifies an inadmissible full-contact assumption. Ground, lateral loads, capacity and stability remain open; no smaller foundation or erection-day saving is approved.</p>
 +<p>The offline Rust egress state machine uses source-bound entry identity and calculated hypothetical clearance/height gates. Inward clashes, a missing 10 m outlet and road landing prevent a study deployment sequence. Readiness/security/assistance inputs remain synthetic. An egress stop can inhibit traction while the existing controller maintains valid support. No door, inflation or support actuation is enabled.</p>
 +<p>A separate actual two-way Rust/beam replay now uses line mass recovered from native CAD volumes (about 1,950 kg/m), with the analytical reference section inertia. This stationary-car example adds the partial entry hardware for six hypothetical door units per car to the 27,750 kg baseline, retaining assumed inertias. Full chute mass, deployment, moving trains and actual magnetic force/loss maps remain absent. It does not validate the doorway design or the support alternatives.</p>
++<h2>Baghdad six-car reference assembly</h2><p>Six 17 m bodies (102 m total), assumed coupling and berthing allowances, a split island platform, a centred flush lift floor and the 2.96 m magnetic-arm envelope now share one revision. Native frames remain partial; the passenger gap requires a qualified bridge plate. Station quantities are unpriced. Pier-height families and emergency-energy studies keep missing loads and deployment power open.</p>
++<p><a href="../baghdad-reference/station/model.FCStd">Station FreeCAD</a> · <a href="../baghdad-reference/station/model.step.gz">Station STEP</a> · <a href="../baghdad-reference/station/assembly-visibility.mp4">Station visibility video</a> · <a href="../baghdad-reference/study.json">Quantities, pier heights and emergency energy</a> · <a href="../baghdad-reference/requirements.json">Versioned applicability register</a></p><img src="../baghdad-reference/station/overview.png" alt="Native six-car Baghdad partial floor frames, two guidebeams and centred island lift">
 +<h2>Costed development scenarios</h2><p>Matched three-car / 675 kWh / 3 t ferrite per car. USD planning allowances; supplier quotes and feasibility remain open. Train, ordinary guideway and first pilot are separate scopes.</p>
 +<table><tr><th>Scenario</th><th>Repeat train</th><th>Dual-route-km guideway</th><th>First pilot programme</th></tr>{rows}</table>
 +<h2>Local-manufacture optimisation targets</h2><p>Only the magnetic hardware bundle changes here; every other base allowance is retained. These are budget targets, not achieved prices. Imported input costs and origins remain necessary to calculate localisation.</p>
@@ -128,10 +130,11 @@ def external_evidence():
     base=model.ROOT/'docs/design-engine/ferrite-maglev'
     geometry.verify_native(base/'native');coupled.verify(base/'coupled');evacuation.verify_native(base/'beam-only')
     system_development.verify(base/'system-development')
+    reference_assembly.verify(base/'baghdad-reference')
     catalogue=cities.verify_index()
     if not catalogue['current']:raise ValueError('city catalogue inputs/outputs changed: '+str(catalogue['errors'][:3]))
     return {p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest()
-            for p in (base/'native/manifest.json',base/'coupled/receipt.json',base/'beam-only/manifest.json',base/'system-development/manifest.json')}
+            for p in (base/'native/manifest.json',base/'coupled/receipt.json',base/'beam-only/manifest.json',base/'system-development/manifest.json',base/'baghdad-reference/manifest.json')}
 
 
 def publish(output=OUTPUT, *, check=False):

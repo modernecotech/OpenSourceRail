@@ -63,7 +63,7 @@ mode.
 | Manufacturing schedule RFC | [`rfcs/0030-manufacturing-schedule-system.md`](rfcs/0030-manufacturing-schedule-system.md) |
 
 Run the integrated product through the root
-[one-command setup](../README.md#one-command-linux-setup). Standalone portal
+[one-command setup](../README.md#run-it). Standalone portal
 development and data-generation commands remain with the
 [operations portal](operations-portal/README.md), where they are maintained.
 

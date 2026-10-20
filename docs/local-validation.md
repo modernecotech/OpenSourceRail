@@ -26,7 +26,7 @@ prerequisites handled by the setup command, rather than profile execution.
 
 ## Run checks
 
-Use the [one-command setup](../README.md#one-command-linux-setup), then:
+Use the [one-command setup](../README.md#run-it), then:
 
 ```bash
 ./osr validate run --profile quick

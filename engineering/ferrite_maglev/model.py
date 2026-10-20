@@ -193,9 +193,12 @@ def civil_case(c, width, depth, span, *, walkway_area_m2=.12):
     b = c['civil']['narrow_box_screen']; s = section(width, depth, b['web_thickness_m'], b['flange_thickness_m'])
     g, rho, young = 9.81, 2500, b['gross_uncracked_concrete_e_pa']
     vehicle = mass(c, c['mass']['ferrite_base'], c['power']['gross_battery_matched_kwh_per_car'])
-    dead = (s['area_m2']+walkway_area_m2)*rho+b['magnetic_hardware_line_mass_screen_kg_m_per_direction']
+    from .geometry import guideway_quantities,MATERIALS
+    quantities=guideway_quantities(span,width=width,depth=depth,web=b['web_thickness_m'],flange=b['flange_thickness_m'])
+    rho=MATERIALS['concrete']
+    dead = quantities['total_line_mass_kg_m']+walkway_area_m2*rho
     live = vehicle['aw3_kg']/c['vehicle']['nominal_car_length_m'];w=(dead+live)*g
-    s.update(width_m=width, depth_m=depth, span_m=span, bare_beam_mass_kg=s['area_m2']*span*rho,
+    s.update(magnetic_quantities=quantities,width_m=width, depth_m=depth, span_m=span, bare_beam_mass_kg=s['area_m2']*span*rho,
              listed_concrete_m3_dual_km=(s['area_m2']+walkway_area_m2)*2000,
              shared_piers_per_route_km=1000/span, dead_line_mass_kg_m=dead, vehicle_line_mass_kg_m=live,
              total_moment_nm=w*span**2/8, total_elastic_deflection_m=5*w*span**4/(384*young*s['vertical_i_m4']),
@@ -288,7 +291,7 @@ def requirement_register():
 
 
 def sources():
-    paths=[POLICY,INPUT,SPEC,ROOT/'OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx',ROOT/'VERSION',ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'osr',ROOT/'package.json',ROOT/'package-lock.json',
+    paths=[ROOT/'OpenSourceRail maglev station concept.png',ROOT/'Vertical spiral escape chute concept.png',POLICY,INPUT,SPEC,ROOT/'OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx',ROOT/'VERSION',ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'osr',ROOT/'package.json',ROOT/'package-lock.json',
            ROOT/'tools/automation/ferrite-maglev-study.py',ROOT/'engineering/analysis/tests/test_ferrite_maglev.py',
            ROOT/'design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json',ROOT/'lib/templates/civil-cost-model.toml']
     paths+=list(Path(__file__).parent.glob('*.py'))
@@ -312,7 +315,7 @@ def sources():
 
 
 def build():
-    from . import transition,coupled,optimisation,evacuation,system_development
+    from . import transition,coupled,optimisation,evacuation,system_development,requirements,configuration
     from . import geometry as native_geometry
     policy,c,costs=load();cost_cases=[];energies=[];masses=[]
     for ferrite,battery in itertools.product((c['mass']['ferrite_base'],c['mass']['ferrite_sensitivity']),
@@ -339,7 +342,7 @@ def build():
         ('magnetic-force-loss','nonlinear 2D/3D force, loss, thermal and demagnetisation maps','capability-required',['magnetic-cad']),
         ('vehicle-mass','component-level mass, CG, inertia and distribution','open',['magnetic-cad']),
         ('civil-kit','complete guideway, supports, foundations, walkways and erection stages','open',['magnetic-force-loss','vehicle-mass']),
-        ('rust-support-control','single-module study and fault/stop policy; multimodule allocation remains','implemented-subset',['requirements-profile']),
+        ('rust-support-control','24-module heave/roll/pitch allocation and fault/stop policy; hardware I/O and measured force maps remain open','implemented-subset',['requirements-profile']),
         ('coupled-dynamics','6-DOF, flexible body/guideway, mapped actuators and faults','capability-required',['magnetic-force-loss','rust-support-control','civil-kit']),
         ('sbc-io-timing','isolated hardware I/O, independent protection and measured host deadlines','hardware-evidence-required',['rust-support-control','magnetic-force-loss']),
         ('switch-free-city','equal-capacity formation, service, terminals, charging, depot and recovery','capability-required',['coupled-dynamics']),
@@ -360,6 +363,11 @@ def build():
     import json
     catalogue=json.loads(catalogue_path.read_text()) if catalogue_path.is_file() else None
     return dict(schema='osr-primary-infrastructure-study/1',version='0.5.0',family=policy['development']['primary_family'],
+                architecture=policy['development']['primary_family'],configuration_revision=configuration.selected().revision,
+                publication_role='primary-provisional-design',city='Baghdad reference; generic three-car cost comparators retained',
+                formation=dict(baghdad_cars=6,nominal_body_length_m=102.,three_car_cost_comparator_only=True),
+                financial_scope='Partial maglev repeat fleet and ordinary civil planning allowances; total installed programme and localisation unknown',
+                selected_configuration=configuration.selected().record(),applicable_requirements=requirements.register(),
                 primary_development=True,controller_state='migration and numerical studies implemented; physical design/acceptance closure remains open',
                 policy=policy,inputs=c,workbook_inputs=costs,mass_variants=masses,cost_cases=cost_cases,
                 local_manufacture_cost_targets=targets,energy_cases=energies,adverse_energy_cases=adverse,

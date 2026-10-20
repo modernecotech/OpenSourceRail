@@ -158,7 +158,7 @@ def replay_fixture(context, assumptions):
     for event in line['duty']['arrival_events_per_circuit']:
         event['hot_regen_motion_kwh']=event['hot_no_regen_motion_kwh']*.5
     return dict(schema='osr-maglev-city-planning/1',city='fixture',physical_release=False,
-                source_sha256={str(Path(cities.__file__).relative_to(ROOT)):cities.digest(cities.__file__)},lines=[line])
+                source_sha256={str(p.relative_to(ROOT)):cities.digest(p) for p in [Path(cities.__file__),*cities.calculation_dependencies()]},lines=[line])
 
 
 def test_replay_missed_charge_losses_and_ledger_close(context, assumptions):

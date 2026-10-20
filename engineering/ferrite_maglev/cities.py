@@ -314,7 +314,7 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
         f = formation(c, scenario['consist'], [profiles[line['rolling_stock']]])
         stations = [s for s in design['stations'] if s['line'] == line['name']]
         lines.append(line_plan(c, a, f, line, stations, fleets[line['name']], evaluate))
-    source_paths = [design_path, scenario_path, profiles_path, ASSUMPTIONS, Path(__file__),
+    source_paths = [*calculation_dependencies(),design_path, scenario_path, profiles_path, ASSUMPTIONS, Path(__file__),
                     model.INPUT, model.POLICY, Path(model.__file__), ROOT/'engineering/ferrite_maglev/workbook.py',
                     ROOT/c['cost']['cost_input_file'], ROOT/'VERSION']
     source_paths += [ROOT/'design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json',
@@ -372,7 +372,11 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
         gross_avoided_viaduct_scope_allowance_usd=bare['gross_avoided_scope_usd_dual_km']*elevated if bare else None,
         minimum_gross_only_candidate_id=bare['id'] if bare else None,
         selection_state='hold; landing at every stop position, accessible alternatives, fire/weather/fault/rescue and supplier acceptance unproved')
-    report = dict(schema='osr-maglev-city-planning/1', architecture=c['metadata']['family'], version='0.5',
+    from . import configuration
+    for line in lines:configuration.selected(c,city=slug,cars=line['formation']['cars'])
+    report = dict(configuration_revision=configuration.selected(c).revision,publication_role='primary-provisional-design',
+                  financial_scope='Partial fleet and ordinary elevated civil allowances; complete installed programme unknown',
+                  schema='osr-maglev-city-planning/1', architecture=c['metadata']['family'], version='0.5',
                   city=slug, name=scenario['scenario']['name'], status='provisional-planning; physical-acceptance-open',
                   source_sha256=sources, planning_assumptions=a, routing_strategy=strategy, retained_records_file='retained-records.json', lines=lines,
                   diagnostics=dict(ring_closure_discrepancies=[dict(line=l['line'], discrepancy_m=l['topology']['ring_wrap_discrepancy_m'])
@@ -478,13 +482,18 @@ def generate_all(output_root=None):
     return index
 
 
+def calculation_dependencies():
+    """Transitive shared computational inputs used by generation and replay."""
+    return optimisation.calculation_dependencies()
+
+
 def source_paths():
     """Unique city compiler input/output paths for an enclosing source snapshot.
 
     Reading this list neither regenerates packages nor edits entry notices.
     Missing generated output is reported by verify_index(), not manufactured.
     """
-    paths={Path(__file__),ASSUMPTIONS,model.POLICY,model.INPUT,Path(model.__file__),
+    paths={*calculation_dependencies(),Path(__file__),ASSUMPTIONS,model.POLICY,model.INPUT,Path(model.__file__),
            ROOT/'engineering/ferrite_maglev/workbook.py',Path(optimisation.__file__),optimisation.INPUT,Path(evacuation.__file__),evacuation.INPUT,ROOT/'VERSION',
            ROOT/'OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx',ROOT/'lib/templates/rolling-stock.toml',
            ROOT/'lib/templates/civil-cost-model.toml',
@@ -565,6 +574,7 @@ def verify_index(index_path=INDEX):
             errors.append(label+': compiled city identity/schema differs')
         if any(report.get(k) is not False for k in model.FLAGS):
             errors.append(label+': unqualified city release flags differ')
+        if not {p.relative_to(ROOT).as_posix() for p in [Path(__file__),*calculation_dependencies()]}<=set(report.get('source_sha256',{})):errors.append(label+': required geometry/configuration source bindings missing')
         check_sources(report.get('source_sha256',{}),label)
         check_hash(package/'retained-records.json',report.get('retained_records_sha256'),label+' retained records')
         entry=ROOT/row.get('catalogue_path','missing-city')/'README.md'
@@ -598,7 +608,9 @@ def replay_city(report, *, cycles=2, start_soc=None, charger_efficiency=0.90,
         count(event, 'missed charge event')
     if report.get('schema')!='osr-maglev-city-planning/1' or report.get('physical_release') is not False:
         raise ValueError('unqualified compiled city plan required')
-    source_current=all((ROOT/p).is_file() and digest(ROOT/p)==h for p,h in report['source_sha256'].items())
+    declared=report.get('source_sha256',{})
+    required={p.relative_to(ROOT).as_posix() for p in [Path(__file__),*calculation_dependencies()]}
+    source_current=isinstance(declared,dict) and required<=set(declared) and all((ROOT/p).is_file() and digest(ROOT/p)==h for p,h in declared.items())
     if not source_current:
         raise ValueError('compiled city sources changed; regenerate before replay')
     lines=[]

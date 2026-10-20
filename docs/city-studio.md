@@ -96,7 +96,7 @@ Validate every committed city project:
 
     python3 tools/automation/validate-city-projects.py
 
-Install through the root [one-command setup](../README.md#one-command-linux-setup),
+Install through the root [one-command setup](../README.md#run-it),
 then run every browser front end with `npm run test:frontend`.
 
 For the 122-check Studio-only workflow, use

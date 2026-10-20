@@ -32,15 +32,27 @@ DT_S = 0.001
 
 @dataclass(frozen=True)
 class BeamAssumptions:
-    young_pa: float = 30e9
-    second_moment_m4: float = 0.193624
-    span_m: float = 25.0
-    # 0.660 m² concrete at an ASSUMED 2500 kg/m³, plus ASSUMED 100 kg/m
-    # magnetic interfaces. This is a dynamic line-mass hypothesis, not an MBOM.
-    line_mass_kg_m: float = 1750.0
+    young_pa: float | None = None
+    second_moment_m4: float | None = None
+    span_m: float | None = None
+    # Current native concrete and segmented reaction iron; attachments unresolved.
+    line_mass_kg_m: float | None = None
     elements: int = 50
     retained_modes: int = 6
     damping_ratio: float = 0.02
+
+    def __post_init__(self):
+        from .configuration import selected
+        from .model import section
+        import tomllib
+        cv=selected().civil
+        values=dict(span_m=cv.span_m,second_moment_m4=section(cv.width_m,cv.depth_m,cv.web_m,cv.flange_m)['vertical_i_m4'],
+            young_pa=tomllib.loads((ROOT/'ferrite-maglev-study.toml').read_text())['civil']['narrow_box_screen']['gross_uncracked_concrete_e_pa'])
+        for name,value in values.items():
+            if getattr(self,name) is None:object.__setattr__(self,name,value)
+        if self.line_mass_kg_m is None:
+            from .geometry import guideway_quantities
+            object.__setattr__(self,'line_mass_kg_m',guideway_quantities(self.span_m)['total_line_mass_kg_m'])
 
     def validate(self) -> None:
         values = (self.young_pa, self.second_moment_m4, self.span_m, self.line_mass_kg_m)
@@ -83,7 +95,8 @@ class FlexibleGuideway:
     bending, flexible car structure and individual reaction-surface flexibility
     are absent. Node rotations and slopes are small-angle quantities.
     """
-    def __init__(self, assumptions: BeamAssumptions = BeamAssumptions()):
+    def __init__(self, assumptions: BeamAssumptions | None = None):
+        assumptions=assumptions or BeamAssumptions()
         assumptions.validate()
         self.assumptions = assumptions
         n = assumptions.elements
@@ -165,7 +178,8 @@ class FlexibleGuideway:
         self.q, self.velocity = new[:, 0], new[:, 1]
 
 
-def static_benchmark(assumptions: BeamAssumptions = BeamAssumptions()) -> dict:
+def static_benchmark(assumptions: BeamAssumptions | None = None) -> dict:
+    assumptions=assumptions or BeamAssumptions()
     beam = FlexibleGuideway(assumptions)
     # Independent exact centre point load: P L³/(48 E I).
     midpoint = np.array([assumptions.span_m/2])
@@ -237,7 +251,7 @@ class RustController:
 
 
 def cosimulate(executable: Path, duration_s: float = 3.0, *, initial_down_error_m: float = 0.0005,
-               disturbance_n: float = 5000.0, car_mass_kg: float = 27750., assumptions: BeamAssumptions = BeamAssumptions()) -> dict:
+               disturbance_n: float = 5000.0, car_mass_kg: float = 27750., assumptions: BeamAssumptions | None = None) -> dict:
     """Two-way held-force partitioned co-simulation, fixed virtual 1 ms step.
 
     Beam reaction is downward and equals upward car support force. Sensor gap
@@ -246,6 +260,7 @@ def cosimulate(executable: Path, duration_s: float = 3.0, *, initial_down_error_
     The controller sees identical ideal duplicate channels. Beam/modal and car
     updates use each returned force frame over the same interval.
     """
+    assumptions=assumptions or BeamAssumptions()
     if not math.isfinite(duration_s) or not 0.02 <= duration_s <= 10:
         raise ValueError("duration must be between 0.02 and 10 virtual seconds")
     if (not math.isfinite(initial_down_error_m) or abs(initial_down_error_m) > 0.01
@@ -311,6 +326,10 @@ PUBLICATION_SCHEMA = "osr-coupled-guideway-publication/1"
 BUILD_COMMAND = ["cargo", "build", "--locked", "--release", "-p", "osr-maglev-control",
                  "--example", "coupled_bridge", "--message-format=json"]
 PUBLICATION_SOURCES = (
+    "engineering/ferrite_maglev/configuration.py",
+    "engineering/ferrite_maglev/reference-configuration.toml",
+    "engineering/ferrite_maglev/geometry.py",
+    "engineering/ferrite_maglev/model.py",
     "Cargo.toml", "Cargo.lock", "rust-toolchain.toml", "ferrite-maglev-study.toml",
     "crates/osr-maglev-control/Cargo.toml", "crates/osr-maglev-control/src/lib.rs",
     "crates/osr-maglev-control/src/array.rs", "crates/osr-maglev-control/src/ideal.rs",

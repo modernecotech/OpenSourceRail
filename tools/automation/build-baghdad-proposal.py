@@ -343,7 +343,9 @@ def build_narrative(d, s, p, f, n, ops, deployment):
                   for name,m in early.items()]
     national_rows = [[c['city'],f"{c['population']:,}",c['family'],f"{c['route_km']:.1f}",c['trainsets'],usd_m(c['city_capex_usd'])]
                      for c in n['cities']]
-    intro = f'''# Baghdad Proposal
+    intro = f'''# Baghdad Proposal — retained wheel/rail comparator
+
+Architecture: conventional wheel/rail. Configuration: retained six-car Baghdad proposal. Financial scope: historical wheel/rail programme; no acceptance or cost transfer to v0.5 ferrite maglev.
 
 OpenSourceRail proposes an owner led feasibility and front end engineering programme for Baghdad, with Iraqi train manufacture and local infrastructure delivery. This proposal brings the Baghdad network, railway systems, operating organisation, delivery evidence and financing together, and sets out a separate path for future national development. It is addressed to the prospective Iraqi public sponsor, Baghdad authorities, operating organisation and financing partners; no appointment or financing commitment is asserted.
 
@@ -747,7 +749,8 @@ def build_pdf(sources, as_of):
     story=[Spacer(1,3*cm),Paragraph('Baghdad Proposal',styles['title']),
            Paragraph('Urban railway and Iraqi manufacturing<br/>Future national development',styles['subtitle']),
            Spacer(1,.8*cm),Paragraph(f'OpenSourceRail · Planning baseline {as_of}',styles['subtitle']),
-           Paragraph('Complete proposal, detailed schedules and technical evidence annexes',styles['subtitle']),
+           Paragraph('Retained conventional wheel/rail comparator — six-car Baghdad planning',styles['subtitle']),
+           Paragraph('Configuration: retained Baghdad proposal. Financial scope: historical wheel/rail finance; not the current v0.5 maglev budget.',styles['body']),
            Paragraph('Prepared for the prospective Iraqi sponsor, Baghdad authorities, operating organisation and financing partners.',styles['body']),
            Paragraph('Baghdad finance only. National expansion is a separate future development programme. Construction and operating approval remain pending.',styles['body']),Spacer(1,.5*cm)]
     story.extend(book._image_flowables({'attrs':{'url':'baghdad-network-map.png'},'children':[{'type':'text','raw':'Baghdad planning network'}]},OUT/'BAGHDAD-PROPOSAL.md',styles,max_width=content_width,max_height=9.5*cm,max_px=1600,quality=85))
@@ -765,7 +768,7 @@ def build_pdf(sources, as_of):
     if book.IMAGE_ERRORS: raise ValueError('Missing proposal images: '+str(book.IMAGE_ERRORS))
     def footer(canv,doc):
         canv.saveState();canv.setFont(styles['small'].fontName,7)
-        canv.setFillColor(colors.HexColor('#52616A'));canv.drawString(1.45*cm,.75*cm,'OpenSourceRail Baghdad Proposal · '+as_of+' · planning only')
+        canv.setFillColor(colors.HexColor('#52616A'));canv.drawString(1.45*cm,.75*cm,'Retained wheel/rail Baghdad comparator · '+as_of+' · no maglev cost transfer')
         canv.drawRightString(width-1.45*cm,.75*cm,str(doc.page));canv.restoreState()
     doc=ProposalDoc(str(OUT/'Baghdad-Proposal.pdf'),pagesize=A4,leftMargin=1.45*cm,rightMargin=1.45*cm,topMargin=1.55*cm,bottomMargin=1.55*cm,
                     title='Baghdad Proposal',author='OpenSourceRail',invariant=1)
@@ -880,11 +883,12 @@ def source_inputs():
     # reconciliation/network manifests and packaged in the companion archive.
     # Preserve it there without overflowing the original supporting archive.
     paths.discard(ROOT/'engineering/network-planning/baghdad/corrected-alignment-sources.json.gz')
-    return sorted(paths)
+    return sorted(p for p in paths if not p.is_relative_to(CITY/'engineering/maglev'))
 
 
 def verify():
     manifest=read_json(OUT/'manifest.json')
+    if manifest.get('architecture')!='wheel-rail-reference' or manifest.get('publication_role')!='retained-comparator' or not manifest.get('financial_scope') or manifest.get('cars_per_train')!=6:raise ValueError('explicit comparator architecture/configuration/finance scope required')
     for group in ('inputs','outputs'):
         for relative,value in manifest[group].items():
             if receipt(ROOT/relative) != value: raise ValueError('Proposal '+group+' changed: '+relative)
@@ -909,13 +913,33 @@ def verify():
     print('Baghdad proposal: source/output hashes and archive CRCs pass')
 
 
+
+def retained_numerical_identity():
+    """Check archived numerical records against Git; do not refresh old receipts."""
+    revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
+    raw=subprocess.check_output(['git','ls-tree','-r','-z',revision,'--',str(CITY.relative_to(ROOT)),str((COUNTRY/'finance').relative_to(ROOT))],cwd=ROOT)
+    records={}
+    for entry in raw.split(b'\0'):
+        if not entry:continue
+        meta,name=entry.split(b'\t',1);relative=name.decode();path=ROOT/relative
+        if path.suffix not in {'.json','.toml'} or publication_output(path) or path.is_relative_to(CITY/'engineering/maglev'):continue
+        data=path.read_bytes();blob=hashlib.sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
+        if blob!=meta.split()[2].decode():raise ValueError('Historical numerical input changed; re-evaluation required: '+relative)
+        records[relative]=hashlib.sha256(data).hexdigest()
+    if not records:raise ValueError('Historical numerical input identity missing')
+    return dict(git_revision=revision,files_sha256=records,
+        scope='Unchanged archived numerical records only. Engineering receipts and current-source acceptance not requalified.')
+
 def main():
-    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--check',action='store_true');args=parser.parse_args()
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--check',action='store_true')
+    parser.add_argument('--retained-comparator',action='store_true',help='Export unchanged Git-recorded numerical inputs as a historical comparator; never requalify stale engineering evidence')
+    args=parser.parse_args()
     if args.check: verify();return 0
     OUT.mkdir(parents=True,exist_ok=True)
     d=tomllib.loads((CITY/'design.toml').read_text());s=tomllib.loads((CITY/'baghdad.toml').read_text())
     p=read_json(COUNTRY/'finance/baghdad-programme.json');f=read_json(CITY/'engineering/finance/summary.json')
-    check_baseline(p,read_json(CITY/'package-manifest.json'))
+    historical_identity=retained_numerical_identity() if args.retained_comparator else None
+    if not args.retained_comparator:check_baseline(p,read_json(CITY/'package-manifest.json'))
     n=national_context(p);ops=read_json(CITY/'operations/baghdad-operations-manifest.json')['totals']
     continuation=read_json(CITY/'engineering/delivery-closure/finance-reconciled_full_fleet.json')
     revised=read_json(CITY/'engineering/programme-recalculation/summary.json')
@@ -924,7 +948,7 @@ def main():
     (OUT/'national-context.json').write_text(json.dumps(n,indent=2,sort_keys=True)+'\n')
     early=read_json(COUNTRY/'finance/baghdad-early-repayment.json')['cases']['cost_priority']
     write_registers(d,s,early)
-    city_docs=sorted(path for path in CITY.rglob('*.md') if not publication_output(path))
+    city_docs=sorted(path for path in CITY.rglob('*.md') if not publication_output(path) and not path.is_relative_to(CITY/'engineering/maglev'))
     sources=[OUT/'BAGHDAD-PROPOSAL.md',OUT/'DETAILED-SCHEDULES.md',*city_docs,COUNTRY/'IRAQ-FUNDING-PROGRAMME.md',COUNTRY/'NATIONAL-BRIEF.md',*[ROOT/p for p in SHARED]]
     (OUT/'appendix-sources.json').write_text(json.dumps([p.relative_to(ROOT).as_posix() for p in sources],indent=2)+'\n')
     as_of=max(tomllib.loads((ROOT/'lib/templates/iraq-funding.toml').read_text())['model']['as_of'],
@@ -949,8 +973,12 @@ def main():
     outputs=generated+[OUT/name for name in supporting_archives]
     for path in outputs:
         if path.stat().st_size>MAX_BYTES: raise ValueError('Proposal artifact exceeds repository 50 MiB limit: '+str(path))
-    manifest={'schema_version':'1.0','title':'Baghdad Proposal','as_of':as_of,'document_status':'planning-proposal-not-construction-or-operating-release',
-              'baghdad_financing_scope':['Baghdad'],'national_development_status':'future-separate-not-funded','factory_count':1,
+    manifest={'schema_version':'1.0','title':'Baghdad Proposal',
+              'architecture':'wheel-rail-reference','configuration_revision':'retained-Baghdad-proposal',
+              'city':'Baghdad','cars_per_train':6,'publication_role':'retained-comparator',
+              'financial_scope':'historical wheel/rail Baghdad planning; no transfer to current maglev','as_of':as_of,'document_status':'planning-proposal-not-construction-or-operating-release',
+              'historical_numerical_inputs':historical_identity,'baseline_requalified':not args.retained_comparator,
+              'engineering_acceptance_transferred':False,'baghdad_financing_scope':['Baghdad'],'national_development_status':'future-separate-not-funded','factory_count':1,
               'baseline_revision':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
               'inputs':{path.relative_to(ROOT).as_posix():receipt(path) for path in inputs},
               'outputs':{path.relative_to(ROOT).as_posix():receipt(path) for path in outputs},

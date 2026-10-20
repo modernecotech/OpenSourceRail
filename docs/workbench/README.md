@@ -25,7 +25,7 @@ with each city under `engineering/project-twin/summary.json`.
 
 ![Workbench any-city digital-twin generator](../screenshots/workbench/city-twin-generator.png)
 
-Install and launch it through the root [one-command setup](../../README.md#one-command-linux-setup).
+Install and launch it through the root [one-command setup](../../README.md#run-it).
 
 Open <http://127.0.0.1:8090/>. Workbench binds only to localhost; its trusted development identity
 is unsuitable for a shared network endpoint. Use the authenticated standalone
