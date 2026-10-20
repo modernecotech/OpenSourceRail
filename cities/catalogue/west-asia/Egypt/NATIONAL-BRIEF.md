@@ -3,7 +3,7 @@
 This page contains only Egypt-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$28.70 B (88.6%) of external capital** and **$35.28 B of external interest**. Capital plus saved interest totals **$63.98 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$29.83 B (88.6%) of external capital** and **$36.67 B of external interest**. Capital plus saved interest totals **$66.50 B**.
 
 ## National Programme
 
@@ -11,40 +11,40 @@ This page contains only Egypt-specific aggregation. Shared network, service, ene
 |---|---:|
 | Catalogue cities | 19 |
 | Represented population | 10,600,000 |
-| Trainsets / vehicle modules | 3,108 / 9,129 |
-| City infrastructure and fleet CAPEX | $17.17 B |
+| Trainsets / vehicle modules | 3,230 / 9,478 |
+| City infrastructure and fleet CAPEX | $17.89 B |
 | Shared national factory | $769.1 M |
 | Factory sizing basis | 807 modules for Tanta, then reused nationally |
-| **Total national programme** | **$17.99 B** |
+| **Total national programme** | **$18.71 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $3.69 B (20.5%) |
-| Domestic / local capital | $14.30 B (79.5%) |
-| Annual external capital draw | $738.3 M / yr |
-| Annual local capital draw | $2.86 B / yr |
-| Annual public construction commitment | $1.94 B / yr for 5 years |
-| Annual post-grace debt service | $1.45 B / yr |
-| Default foreign-turnkey external capital | $32.39 B |
-| External capital saved | $28.70 B |
-| Capital + lifetime external interest saved | $63.98 B |
+| Imported / external capital | $3.85 B (20.6%) |
+| Domestic / local capital | $14.86 B (79.4%) |
+| Annual external capital draw | $769.9 M / yr |
+| Annual local capital draw | $2.97 B / yr |
+| Annual public construction commitment | $2.02 B / yr for 5 years |
+| Annual post-grace debt service | $1.51 B / yr |
+| Default foreign-turnkey external capital | $33.68 B |
+| External capital saved | $29.83 B |
+| Capital + lifetime external interest saved | $66.50 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $9.36 B | $1.40 B | $7.96 B |
-| Stations | $2.04 B | $407.6 M | $1.63 B |
-| Depots | $1.39 B | $347.2 M | $1.04 B |
-| Rolling stock | $2.73 B | $955.8 M | $1.78 B |
-| Dedicated solar plants | $454.4 M | $204.5 M | $249.9 M |
-| Residual train control | $50.2 M | $25.1 M | $25.1 M |
-| Charging microgrids | $52.6 M | $21.1 M | $31.6 M |
-| EPC / project services | $1.15 B | $172.1 M | $975.3 M |
+| Civil works | $9.45 B | $1.42 B | $8.03 B |
+| Stations | $2.48 B | $495.8 M | $1.98 B |
+| Depots | $1.41 B | $351.7 M | $1.06 B |
+| Rolling stock | $2.83 B | $992.2 M | $1.84 B |
+| Dedicated solar plants | $465.2 M | $209.4 M | $255.9 M |
+| Residual train control | $51.6 M | $25.8 M | $25.8 M |
+| Charging microgrids | $61.0 M | $24.4 M | $36.6 M |
+| EPC / project services | $1.19 B | $179.0 M | $1.01 B |
 | Shared national trainset factory | $769.1 M | $153.8 M | $615.2 M |
-| **Total** | **$17.99 B** | **$3.69 B** | **$14.30 B** |
+| **Total** | **$18.71 B** | **$3.85 B** | **$14.86 B** |
 
 ## City Programme
 
@@ -57,18 +57,18 @@ This page contains only Egypt-specific aggregation. Shared network, service, ene
 | [Ismailia](Ismailia/README.md) | 700,000 | 191 | $1.10 B | $226.4 M | $877.1 M | 4 | 1 | 48.0% | 57.0% |
 | [Zagazig](Zagazig/README.md) | 700,000 | 147 | $788.6 M | $163.5 M | $625.2 M | 4 | 1 | 36.2% | 33.9% |
 | [Asyut](Asyut/README.md) | 600,000 | 196 | $961.1 M | $204.5 M | $756.6 M | 4 | 1 | 29.9% | 44.7% |
-| [Mahalla](Mahalla/README.md) | 600,000 | 131 | $682.7 M | $142.3 M | $540.4 M | 4 | 1 | 26.9% | 28.6% |
+| [Mahalla](Mahalla/README.md) | 600,000 | 138 | $724.7 M | $151.1 M | $573.7 M | 4 | 1 | 26.9% | 33.9% |
 | [Minya](Minya/README.md) | 600,000 | 191 | $1.18 B | $239.2 M | $945.2 M | 4 | 1 | 14.1% | 27.0% |
-| [Sohag](Sohag/README.md) | 550,000 | 127 | $689.4 M | $141.6 M | $547.8 M | 4 | 1 | 23.7% | 29.2% |
+| [Sohag](Sohag/README.md) | 550,000 | 163 | $932.3 M | $193.4 M | $738.9 M | 4 | 1 | 23.7% | 33.1% |
 | [Damanhur](Damanhur/README.md) | 500,000 | 190 | $1.00 B | $208.9 M | $793.8 M | 5 | 2 | 39.5% | 46.7% |
 | [Fayoum](Fayoum/README.md) | 500,000 | 233 | $1.19 B | $249.8 M | $936.8 M | 5 | 2 | 31.7% | 36.2% |
-| [Luxor](Luxor/README.md) | 500,000 | 177 | $965.0 M | $198.8 M | $766.2 M | 5 | 2 | 32.5% | 48.2% |
+| [Luxor](Luxor/README.md) | 500,000 | 213 | $1.24 B | $255.4 M | $984.4 M | 5 | 2 | 32.5% | 42.7% |
 | [Damietta](Damietta/README.md) | 400,000 | 264 | $1.38 B | $289.5 M | $1.09 B | 5 | 2 | 37.3% | 45.6% |
 | [Beni Suef](Beni-Suef/README.md) | 350,000 | 123 | $749.8 M | $150.6 M | $599.2 M | 4 | 1 | 28.3% | 27.7% |
-| [Qena](Qena/README.md) | 350,000 | 169 | $1.04 B | $208.2 M | $833.1 M | 5 | 2 | 32.5% | 46.7% |
+| [Qena](Qena/README.md) | 350,000 | 195 | $1.08 B | $226.3 M | $857.3 M | 5 | 2 | 32.5% | 57.4% |
 | [Arish](Arish/README.md) | 300,000 | 39 | $241.5 M | $45.9 M | $195.6 M | 2 | 0 | 28.5% | 33.5% |
 | [Hurghada](Hurghada/README.md) | 300,000 | 84 | $585.5 M | $109.4 M | $476.1 M | 4 | 1 | 65.1% | 63.4% |
-| [Kafr El Sheikh](Kafr-El-Sheikh/README.md) | 300,000 | 72 | $493.7 M | $92.2 M | $401.6 M | 4 | 1 | 45.7% | 43.3% |
+| [Kafr El Sheikh](Kafr-El-Sheikh/README.md) | 300,000 | 89 | $608.3 M | $114.8 M | $493.5 M | 4 | 1 | 45.7% | 49.1% |
 
 ## Local Basis And Regeneration
 

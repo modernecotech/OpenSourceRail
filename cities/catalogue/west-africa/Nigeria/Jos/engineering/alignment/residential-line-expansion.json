@@ -93,6 +93,10 @@
   "city": "jos",
   "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
   "final_line_count": 5,
+  "network_correction": {
+    "report": "cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/network-correction.json",
+    "sha256": "f2ac698ede0d40a25163212e4500210b42500efec580e0ad7cc5290eb8e3f342"
+  },
   "operating_release": false,
   "original_line_count": 3,
   "original_route_m": 47308.755,
@@ -101,12 +105,10 @@
   "planned_stop_cells_by_line": {},
   "population_is_current_census": false,
   "population_year": 2020,
-  "proposed_station_sample_radial_fraction": 0.29461094,
-  "rejected_priority_areas": [],
-  "schema": "osr-residential-line-expansion/1",
-  "sources_sha256": {
+  "pre_network_sources_sha256": {
     "cities/catalogue/west-africa/Nigeria/Jos/engineering/access/population-pixels.npz.gz": "c74dc028b80784be467d8cc0f83b4661d0b50535f3ae87b98c3a4f2a31b84f7c",
     "cities/catalogue/west-africa/Nigeria/Jos/engineering/access/population-source.json": "e54151c5b33ccd8158594b4ff59815654e4101e3af99bbbbdf08d12de5702bce",
+    "cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/network-correction.json": "f05a527284ac9323c908056f12fb38b35359653c650f2a30a7eaf48726011b0e",
     "cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/network-expansion-baseline.json.gz": "45d5c5b1dbb48366f1a045bd144cccfe676464daa71961d1043f69dc3b0f4109",
     "cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/planning-terrain-slope.f32.gz": "761b187fd90c819b1677906ef71d023878ffd4f1ad0c23719fa0191914483cc3",
     "cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/planning-terrain-source.json": "338ad505e4e4d0bf38f8f852fd4b357a328a777660c7789ae22918d2a6e406c7",
@@ -115,6 +117,12 @@
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
     "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
     "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+  },
+  "proposed_station_sample_radial_fraction": 0.29461094,
+  "rejected_priority_areas": [],
+  "schema": "osr-residential-line-expansion/1",
+  "sources_sha256": {
+    "cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/network-correction.json": "f2ac698ede0d40a25163212e4500210b42500efec580e0ad7cc5290eb8e3f342"
   },
   "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
   "status": "expanded-controlled-planning-layout",

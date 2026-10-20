@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.685,
+    "high_demand_cell_fraction": 0.745,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 203599.18975448608,
     "catchments": [
       {
-        "covered_population_2020": 43012.6185798645,
-        "fraction_of_raster_population": 0.2112612463327191,
+        "covered_population_2020": 50008.17936325073,
+        "fraction_of_raster_population": 0.2456207189407484,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 83270.40113067627,
-        "fraction_of_raster_population": 0.40899180999241425,
+        "covered_population_2020": 86768.75981140137,
+        "fraction_of_raster_population": 0.4261743866271428,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 103760.85653686523,
-        "fraction_of_raster_population": 0.5096329541487233,
+        "covered_population_2020": 101124.62914276123,
+        "fraction_of_raster_population": 0.4966848309401637,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 126213.15693664551,
-        "fraction_of_raster_population": 0.619909917563238,
+        "covered_population_2020": 122329.319190979,
+        "fraction_of_raster_population": 0.6008340177507195,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 137748.27508163452,
-        "fraction_of_raster_population": 0.676565929597956,
+        "covered_population_2020": 136886.01469039917,
+        "fraction_of_raster_population": 0.6723308420601563,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,60 +74,32 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 14,
+    "unique_station_coordinates": 15,
     "valid_pixels": 3265
   },
   "population_source_country": "YE",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-asia/Yemen/Dhamar/design.toml": "4384be9063fb07855a68625e114d0cb31f7f5c6ff997bc669599d4fce2d7143d",
-    "cities/catalogue/west-asia/Yemen/Dhamar/dhamar.design-quality.yaml": "83ff38a4617046e7e9ea75a6d5b5f50f505a7aa6cf414bd205cc3c66f44b8179",
+    "cities/catalogue/west-asia/Yemen/Dhamar/design.toml": "c495d7d6c4cc88da3d0e7cf923829e811a434f89be2f55821659eb228f664f2c",
+    "cities/catalogue/west-asia/Yemen/Dhamar/dhamar.design-quality.yaml": "bda574e5a61e46bc1446ef019825c1b86f5000345877d082f0128eecc2dd491c",
     "cities/catalogue/west-asia/Yemen/Dhamar/engineering/access/population-pixels.npz.gz": "6f6ee3c12cd7b126ffcc71f53b70157145a5546da9699ef2c27f921d61084c2f",
     "cities/catalogue/west-asia/Yemen/Dhamar/engineering/access/population-source.json": "1a2db2a3ffbcc128e5139eba3e769e2b9ee8a3830e97848988ce471c2cb72118",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
   },
-  "transfer_recovery_candidates": [
-    {
-      "accessible_path_accepted": false,
-      "barrier_and_height_clearance_accepted": false,
-      "components": [
-        0,
-        1
-      ],
-      "lines": [
-        "line-1",
-        "line-2"
-      ],
-      "required_evidence": [
-        "surveyed entrances and accessible pedestrian path",
-        "river/road/wall crossings",
-        "walking/vertical access and transfer time",
-        "property and operating approval"
-      ],
-      "stations": [
-        "line-1-0445-0352-s011118",
-        "line-2-0451-0385-s002362"
-      ],
-      "straight_distance_m": 670.141,
-      "transfer_created": false,
-      "walk_time_minutes": null
-    }
-  ],
+  "transfer_recovery_candidates": [],
   "transfers": {
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [
       [
         "line-1",
+        "line-2",
         "line-3",
         "line-4"
-      ],
-      [
-        "line-2"
       ]
     ],
-    "direct_transfer_fraction": 0.3333333333333333,
+    "direct_transfer_fraction": 0.6666666666666666,
     "line_count": 4,
     "line_pair_count": 6,
     "maximum_required_transfers": 2,
@@ -137,7 +109,7 @@
           "line-1",
           "line-2"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 1
       },
       {
         "lines": [
@@ -158,14 +130,14 @@
           "line-2",
           "line-3"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 1
       },
       {
         "lines": [
           "line-2",
           "line-4"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 2
       },
       {
         "lines": [
@@ -175,7 +147,7 @@
         "minimum_transfers": 1
       }
     ],
-    "reachable_line_pair_fraction": 0.5,
-    "reachable_with_at_most_two_transfers_fraction": 0.5
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
   }
 }

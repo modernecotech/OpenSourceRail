@@ -1,0 +1,320 @@
+{
+  "annual_opex_usd": {
+    "components": {
+      "civil_station_depot_maintenance": 17325887.88,
+      "labour": 5508324.0,
+      "residual_grid_energy": 0.0,
+      "rolling_stock_maintenance_including_battery_renewal_reserve": 7596000.0,
+      "signalling_maintenance": 161450.90000000002,
+      "solar_plant_maintenance": 377773.34383015375
+    },
+    "total": 30969436.123830155
+  },
+  "capex_eur": {
+    "reconciled_project_total": 1069167365.3415828
+  },
+  "capex_usd": {
+    "authoritative_design_base": 1136953551.0,
+    "imported_external_capital": 239141902.2649046,
+    "imported_percentage_of_total": 0.20577746498409272,
+    "local_capital": 922996538.3237723,
+    "local_percentage_of_total": 0.7942225350159072,
+    "national_trainset_factory_treatment": "excluded from city CAPEX; costed once in the country NATIONAL-BRIEF.md",
+    "procurement_origin_buckets": [
+      {
+        "bucket": "civil",
+        "imported_share": 0.15,
+        "imported_usd": 91329639.6,
+        "local_share": 0.85,
+        "local_usd": 517534624.4,
+        "total_usd": 608864264.0
+      },
+      {
+        "bucket": "stations",
+        "imported_share": 0.2,
+        "imported_usd": 33500000.0,
+        "local_share": 0.8,
+        "local_usd": 134000000.0,
+        "total_usd": 167500000.0
+      },
+      {
+        "bucket": "depots",
+        "imported_share": 0.25,
+        "imported_usd": 22482532.5,
+        "local_share": 0.75,
+        "local_usd": 67447597.5,
+        "total_usd": 89930130.0
+      },
+      {
+        "bucket": "rolling_stock",
+        "imported_share": 0.35,
+        "imported_usd": 66464999.99999999,
+        "local_share": 0.65,
+        "local_usd": 123435000.0,
+        "total_usd": 189900000.0
+      },
+      {
+        "bucket": "solar_plant",
+        "imported_share": 0.45,
+        "imported_usd": 11333200.314904613,
+        "local_share": 0.55,
+        "local_usd": 13851689.273772305,
+        "total_usd": 25184889.58867692
+      },
+      {
+        "bucket": "signalling",
+        "imported_share": 0.5,
+        "imported_usd": 1614509.0,
+        "local_share": 0.5,
+        "local_usd": 1614509.0,
+        "total_usd": 3229018.0
+      },
+      {
+        "bucket": "charging_microgrid",
+        "imported_share": 0.4,
+        "imported_usd": 1260000.0,
+        "local_share": 0.6,
+        "local_usd": 1890000.0,
+        "total_usd": 3150000.0
+      },
+      {
+        "bucket": "epc_overhead",
+        "imported_share": 0.15,
+        "imported_usd": 11157020.85,
+        "local_share": 0.85,
+        "local_usd": 63223118.15,
+        "total_usd": 74380139.0
+      }
+    ],
+    "reconciled_project_total": 1162138440.588677,
+    "risk_envelope_15_percent": 1336459206.6769783,
+    "risk_envelope_25_percent": 1452673050.735846,
+    "timetable_sized_dedicated_solar": 25184889.58867692
+  },
+  "cases": {
+    "high_capacity_use": {
+      "annual_operating_cash_usd": 97690808.35616985,
+      "annual_paid_trips": 195523200.0,
+      "annual_public_support_usd": 2844151.37773706,
+      "annual_revenue_usd": 128660244.48,
+      "capacity_utilisation": 0.8,
+      "project_irr": 0.06577768282338745,
+      "project_npv_usd_at_8_percent": -153142318.38804895,
+      "steady_state_dscr": 0.9717098272554654
+    },
+    "low_capacity_use": {
+      "annual_operating_cash_usd": 50765240.35616985,
+      "annual_paid_trips": 122202000.0,
+      "annual_public_support_usd": 49769719.37773706,
+      "annual_revenue_usd": 81734676.48,
+      "capacity_utilisation": 0.5,
+      "project_irr": 0.022739105709540526,
+      "project_npv_usd_at_8_percent": -525351385.9052781,
+      "steady_state_dscr": 0.5049511184023334
+    }
+  },
+  "city": "huambo",
+  "country_parameter_basis": "Retained indicative country scenario; deployment verification required",
+  "country_parameters_calibrated": false,
+  "foreign_turnkey_comparator": {
+    "basis": "Illustrative variable benchmark for an equivalent foreign-company turnkey delivery. It excludes tunnels, land, tax/duty, utility relocation, financing fees, and escalation on both sides; it does not represent a received bid or named vendor price.",
+    "default_comparison": {
+      "annual_foreign_company_external_draw_usd": 418369838.6119237,
+      "annual_osr_external_capital_saving_usd": 370541458.1589428,
+      "construction_interest_years": 5,
+      "cost_multiplier": 2.0,
+      "external_interest_rate": 0.045,
+      "foreign_company_external_capital_usd": 2091849193.0596185,
+      "foreign_company_lifetime_external_interest_usd": 2571856778.6077604,
+      "foreign_company_total_capex_usd": 2324276881.177354,
+      "osr_external_capital_reduction": 0.8856791861199484,
+      "osr_external_capital_saving_usd": 1852707290.794714,
+      "osr_external_interest_saving_usd": 2277840018.494394,
+      "osr_lifetime_external_financing_reduction": 0.8856791861199484,
+      "osr_lifetime_external_financing_saving_usd": 4130547309.289108,
+      "osr_lifetime_external_interest_usd": 294016760.11336666,
+      "osr_total_capex_reduction": 0.5,
+      "osr_total_capex_saving_usd": 1162138440.588677,
+      "repayment_years": 35
+    },
+    "external_capital_share": 0.9,
+    "financing_basis": "OSR and foreign-turnkey external debt use the same country rate, construction interest period, and repayment tenor; foreign-turnkey external capital is assumed debt-financed. Lifetime saving equals avoided external capital plus avoided external interest.",
+    "selected_case": "default",
+    "sensitivity_cases": {
+      "default": {
+        "annual_foreign_company_external_draw_usd": 418369838.6119237,
+        "annual_osr_external_capital_saving_usd": 370541458.1589428,
+        "construction_interest_years": 5,
+        "cost_multiplier": 2.0,
+        "external_interest_rate": 0.045,
+        "foreign_company_external_capital_usd": 2091849193.0596185,
+        "foreign_company_lifetime_external_interest_usd": 2571856778.6077604,
+        "foreign_company_total_capex_usd": 2324276881.177354,
+        "osr_external_capital_reduction": 0.8856791861199484,
+        "osr_external_capital_saving_usd": 1852707290.794714,
+        "osr_external_interest_saving_usd": 2277840018.494394,
+        "osr_lifetime_external_financing_reduction": 0.8856791861199484,
+        "osr_lifetime_external_financing_saving_usd": 4130547309.289108,
+        "osr_lifetime_external_interest_usd": 294016760.11336666,
+        "osr_total_capex_reduction": 0.5,
+        "osr_total_capex_saving_usd": 1162138440.588677,
+        "repayment_years": 35
+      },
+      "high": {
+        "annual_foreign_company_external_draw_usd": 627554757.9178855,
+        "annual_osr_external_capital_saving_usd": 579726377.4649047,
+        "construction_interest_years": 5,
+        "cost_multiplier": 3.0,
+        "external_interest_rate": 0.045,
+        "foreign_company_external_capital_usd": 3137773789.589428,
+        "foreign_company_lifetime_external_interest_usd": 3857785167.911641,
+        "foreign_company_total_capex_usd": 3486415321.766031,
+        "osr_external_capital_reduction": 0.9237861240799656,
+        "osr_external_capital_saving_usd": 2898631887.3245234,
+        "osr_external_interest_saving_usd": 3563768407.7982745,
+        "osr_lifetime_external_financing_reduction": 0.9237861240799656,
+        "osr_lifetime_external_financing_saving_usd": 6462400295.122798,
+        "osr_lifetime_external_interest_usd": 294016760.11336666,
+        "osr_total_capex_reduction": 0.6666666666666667,
+        "osr_total_capex_saving_usd": 2324276881.177354,
+        "repayment_years": 35
+      },
+      "low": {
+        "annual_foreign_company_external_draw_usd": 313777378.9589428,
+        "annual_osr_external_capital_saving_usd": 265948998.5059619,
+        "construction_interest_years": 5,
+        "cost_multiplier": 1.5,
+        "external_interest_rate": 0.045,
+        "foreign_company_external_capital_usd": 1568886894.794714,
+        "foreign_company_lifetime_external_interest_usd": 1928892583.9558206,
+        "foreign_company_total_capex_usd": 1743207660.8830154,
+        "osr_external_capital_reduction": 0.8475722481599313,
+        "osr_external_capital_saving_usd": 1329744992.5298095,
+        "osr_external_interest_saving_usd": 1634875823.842454,
+        "osr_lifetime_external_financing_reduction": 0.8475722481599313,
+        "osr_lifetime_external_financing_saving_usd": 2964620816.3722634,
+        "osr_lifetime_external_interest_usd": 294016760.11336666,
+        "osr_total_capex_reduction": 0.33333333333333337,
+        "osr_total_capex_saving_usd": 581069220.2943385,
+        "repayment_years": 35
+      }
+    },
+    "status": "illustrative-variable-benchmark-not-vendor-quote"
+  },
+  "funding": {
+    "annual_debt_service_usd": 100534959.73390691,
+    "annual_external_capital_draw_usd": 47828380.45298092,
+    "annual_external_debt_service_usd": 13695763.839104792,
+    "annual_grace_interest_usd": 95677067.12770778,
+    "annual_local_bond_issuance_usd": 147679446.13180357,
+    "annual_local_bond_service_usd": 86839195.89480212,
+    "annual_local_capital_draw_usd": 184599307.66475445,
+    "annual_local_public_equity_draw_usd": 36919861.53295088,
+    "annual_public_construction_commitment_usd": 132596928.66065866,
+    "construction_grace_years": 5,
+    "debt_principal_usd": 977539132.9239225,
+    "external_capital_required_usd": 239141902.2649046,
+    "external_debt_rate": 0.045,
+    "external_debt_usd": 239141902.2649046,
+    "external_grant_usd": 0.0,
+    "lender_commitment_status": "unconfirmed-placeholder",
+    "local_bond_principal_usd": 738397230.6590179,
+    "local_bond_rate": 0.115,
+    "local_capital_required_usd": 922996538.3237723,
+    "local_public_equity_usd": 184599307.6647544,
+    "repayment_years": 35
+  },
+  "limitations": [
+    "No calibrated origin-destination or stated-preference ridership survey.",
+    "No committed lender term sheet, vendor bids, land valuation, utility relocation survey, tax or duty assessment.",
+    "Imported shares are planning assumptions pending country supplier-capability, customs, tax, and procurement-origin surveys.",
+    "NPV, IRR and DSCR are deterministic planning screens and exclude inflation and foreign-exchange paths.",
+    "The 15% and 25% risk envelopes are sensitivities, not a quantified probabilistic risk analysis.",
+    "The foreign-turnkey comparison is a configurable like-for-like multiplier sensitivity, not a received bid or vendor quotation.",
+    "Lifetime external-interest savings use identical country financing terms for both cases and assume the foreign-turnkey external requirement is debt-financed."
+  ],
+  "operations_basis": {
+    "annual_train_km_including_non_revenue": 11837762.730899999,
+    "energy_kwh_per_car_km_hot_climate_planning": 4.0,
+    "non_revenue_train_km_factor": 1.08,
+    "scheduled_train_km_per_day": 30029.8395
+  },
+  "passed": true,
+  "renewal_policy": {
+    "field_asset_renewals": "included in fixed-asset maintenance allowance pending condition-based asset plan",
+    "train_battery_cycle_years": 12,
+    "treatment": "included in rolling-stock maintenance reserve; do not double-count as separate CAPEX"
+  },
+  "revenue_basis": {
+    "demand_status": "capacity-led-not-calibrated-od-forecast",
+    "mean_boardings_calibrated": false,
+    "mean_boardings_per_paid_journey": 1.0,
+    "nonfare_revenue_usd_per_year": 3525396.4799999995,
+    "operating_neutral_capacity_utilisation": 0.17545257828629895,
+    "operating_neutral_paid_trips_per_year": 42881311.94348461,
+    "paid_journey_conversion": "One boarding per paid journey: zero-transfer upper bound; integrated fares require surveyed journey/boarding conversion",
+    "practical_capacity_passenger_trips_per_day": 669600.0,
+    "single_trip_fare_usd": 0.64
+  },
+  "schema_version": 4,
+  "sources": {
+    "capex_costs": "lib/templates/capex-costs.toml",
+    "capex_costs_sha256": "a3d72157395371f8cbd3ea60b49c7576c31041fecec9fb95383deb603c484b19",
+    "capital_model": "design/city-generation/src/osr_scenario/capital.py",
+    "capital_model_sha256": "4e57bba28ff737fbd8c963f909239a06d15b888fc1fe1b91c22286f95052f8a5",
+    "civil_cost_model": "lib/templates/civil-cost-model.toml",
+    "civil_cost_model_sha256": "bfe9b81fc8b2bb78fc80477ddc21d9a8494f9426b00c9083db4e39115927eb88",
+    "country_finance": "lib/templates/country-finance.toml",
+    "country_finance_sha256": "498ff034ce54419364e4aef853418649cb818f2e075a61b97e915b214527c0ed",
+    "design": "cities/catalogue/central-africa/Angola/Huambo/design.toml",
+    "design_sha256": "3030d74c2fd4378ec8aab7fa8bb1dd1e5a9b35225049e2335fe9bb2073279bbb",
+    "generator": "tools/automation/generate-city-finance.py",
+    "generator_sha256": "bbd5448cd82b6e1715eec634458693fe0c0156329c876ee1d3becb6d5f1f25d1",
+    "network_finance_model": "design/city-generation/src/osr_scenario/network_readme.py",
+    "network_finance_model_sha256": "3ff944229d8cecbf0d73109043e47af9f89db079c597dd45dd9b0e9bb4a542ea",
+    "operating_scope": "lib/templates/city-operating-scope.toml",
+    "operating_scope_sha256": "c45034a7f12eb948236825d4956f5e436a8f5a363b99c7d089a04b05946eac7e",
+    "scenario": "cities/catalogue/central-africa/Angola/Huambo/huambo.toml",
+    "scenario_sha256": "fcf35b34304c5a25eb3c064c22d0a8f4329628c453910e8596068de732f2de31"
+  },
+  "status": "planning-screen",
+  "workforce": {
+    "annual_cost_per_fte_usd": 7413.625841184387,
+    "annual_labour_usd": 5508324.0,
+    "basis": "Two continuously covered station posts; annual productive hours and graded country-income proxy wages. Indicative FTE, not an accepted roster.",
+    "groups_fte": {
+      "admin_training": 37,
+      "fleet_maintenance": 103,
+      "infrastructure_energy": 73,
+      "occ_remote_assist": 153,
+      "passenger_service": 81,
+      "station_platform": 296
+    },
+    "monthly_country_income_proxy_usd": 240.0,
+    "productive_hours_per_fte_year": 1520,
+    "service_hours_per_day": 20.5,
+    "shift_hours": 8,
+    "total_fte": 743,
+    "wage_multipliers": {
+      "admin_training": 3.0,
+      "fleet_maintenance": 2.25,
+      "infrastructure_energy": 2.25,
+      "occ_remote_assist": 2.25,
+      "passenger_service": 1.5,
+      "station_platform": 1.5
+    },
+    "workforce_rules": {
+      "employer_cost_fraction": 0.25,
+      "leave_hours": 240,
+      "normal_shifts": 2,
+      "overtime_allowance_fraction": 0.1,
+      "paid_hours_per_year": 2080,
+      "service_days": 365,
+      "shift_hours": 8,
+      "sickness_hours": 80,
+      "station_posts": 2,
+      "training_hours": 80,
+      "travel_handover_hours": 160
+    }
+  }
+}

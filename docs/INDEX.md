@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6243**.
+Indexed Markdown files: **6253**.
 
 ## Sections
 
@@ -27,8 +27,8 @@ Indexed Markdown files: **6243**.
 | [crates](#crates) | 5 |
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
-| [docs](#docs) | 248 |
-| [engineering](#engineering) | 73 |
+| [docs](#docs) | 253 |
+| [engineering](#engineering) | 78 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -61,6 +61,188 @@ Indexed Markdown files: **6243**.
 |---|---|
 | [`cities/README.md`](../cities/README.md) | Cities |
 | [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City Design Catalogue |
+| [`cities/catalogue/central-africa/Angola/Benguela/README.md`](../cities/catalogue/central-africa/Angola/Benguela/README.md) | Benguela — provisional network |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/access/README.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/access/README.md) | Benguela — population access and transfers |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/alignment/README.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/alignment/README.md) | Benguela Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/clearance/README.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/clearance/README.md) | Benguela — viaduct obstacle clearance |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/delivery/README.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/delivery/README.md) | Benguela organisation and design work |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/deployment/README.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/deployment/README.md) | Benguela deployment gaps |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/depot-scope/README.md) | benguela depot scope reconciliation |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/factory/README.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/factory/README.md) | Benguela city-order factory requirement |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/line-depots/README.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/simulation/operations-crosscheck.md) | Benguela operations cross-check |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/soil/README.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/soil/README.md) | Benguela civil soil screening |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/stabling/README.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/survey/control-processing-readiness.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/survey/control-processing-readiness.md) | Benguela survey-control processing |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/survey/drainage-ground-readiness.md) | Benguela drainage and ground-design gate |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/survey/field-evidence-brief.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/survey/field-evidence-brief.md) | Benguela field-evidence brief |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/survey/ground-model-readiness.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/survey/ground-model-readiness.md) | Benguela surveyed-ground-model gate |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/survey/route-station-fit-readiness.md) | Benguela route and station fit gate |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/survey/structural-release-readiness.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/survey/structural-release-readiness.md) | Benguela structural-release gate |
+| [`cities/catalogue/central-africa/Angola/Benguela/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/survey/surveyed-alignment-readiness.md) | Benguela surveyed-alignment gate |
+| [`cities/catalogue/central-africa/Angola/Benguela/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/Angola/Benguela/operations/acceptance-evidence-report.md) | Benguela Acceptance And Accreditation Evidence Basis |
+| [`cities/catalogue/central-africa/Angola/Huambo/README.md`](../cities/catalogue/central-africa/Angola/Huambo/README.md) | Huambo — provisional network |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/access/README.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/access/README.md) | Huambo — population access and transfers |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/alignment/README.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/alignment/README.md) | Huambo Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/clearance/README.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/clearance/README.md) | Huambo — viaduct obstacle clearance |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/delivery/README.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/delivery/README.md) | Huambo organisation and design work |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/deployment/README.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/deployment/README.md) | Huambo deployment gaps |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/depot-scope/README.md) | huambo depot scope reconciliation |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/factory/README.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/factory/README.md) | Huambo city-order factory requirement |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/line-depots/README.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/simulation/operations-crosscheck.md) | Huambo operations cross-check |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/soil/README.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/soil/README.md) | Huambo civil soil screening |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/stabling/README.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/survey/control-processing-readiness.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/survey/control-processing-readiness.md) | Huambo survey-control processing |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/survey/drainage-ground-readiness.md) | Huambo drainage and ground-design gate |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/survey/field-evidence-brief.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/survey/field-evidence-brief.md) | Huambo field-evidence brief |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/survey/ground-model-readiness.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/survey/ground-model-readiness.md) | Huambo surveyed-ground-model gate |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/survey/route-station-fit-readiness.md) | Huambo route and station fit gate |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/survey/structural-release-readiness.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/survey/structural-release-readiness.md) | Huambo structural-release gate |
+| [`cities/catalogue/central-africa/Angola/Huambo/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/survey/surveyed-alignment-readiness.md) | Huambo surveyed-alignment gate |
+| [`cities/catalogue/central-africa/Angola/Huambo/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/Angola/Huambo/operations/acceptance-evidence-report.md) | Huambo Acceptance And Accreditation Evidence Basis |
+| [`cities/catalogue/central-africa/Angola/Lobito/README.md`](../cities/catalogue/central-africa/Angola/Lobito/README.md) | Lobito — provisional network |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/access/README.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/access/README.md) | Lobito — population access and transfers |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/alignment/README.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/alignment/README.md) | Lobito Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/clearance/README.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/clearance/README.md) | Lobito — viaduct obstacle clearance |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/delivery/README.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/delivery/README.md) | Lobito organisation and design work |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/deployment/README.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/deployment/README.md) | Lobito deployment gaps |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/depot-scope/README.md) | lobito depot scope reconciliation |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/factory/README.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/factory/README.md) | Lobito city-order factory requirement |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/line-depots/README.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/simulation/operations-crosscheck.md) | Lobito operations cross-check |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/soil/README.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/soil/README.md) | Lobito civil soil screening |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/stabling/README.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/survey/control-processing-readiness.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/survey/control-processing-readiness.md) | Lobito survey-control processing |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/survey/drainage-ground-readiness.md) | Lobito drainage and ground-design gate |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/survey/field-evidence-brief.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/survey/field-evidence-brief.md) | Lobito field-evidence brief |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/survey/ground-model-readiness.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/survey/ground-model-readiness.md) | Lobito surveyed-ground-model gate |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/survey/route-station-fit-readiness.md) | Lobito route and station fit gate |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/survey/structural-release-readiness.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/survey/structural-release-readiness.md) | Lobito structural-release gate |
+| [`cities/catalogue/central-africa/Angola/Lobito/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/survey/surveyed-alignment-readiness.md) | Lobito surveyed-alignment gate |
+| [`cities/catalogue/central-africa/Angola/Lobito/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/Angola/Lobito/operations/acceptance-evidence-report.md) | Lobito Acceptance And Accreditation Evidence Basis |
+| [`cities/catalogue/central-africa/Angola/Luanda/README.md`](../cities/catalogue/central-africa/Angola/Luanda/README.md) | Luanda — provisional network |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/access/README.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/access/README.md) | Luanda — population access and transfers |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/alignment/README.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/alignment/README.md) | Luanda Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/clearance/README.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/clearance/README.md) | Luanda — viaduct obstacle clearance |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/delivery/README.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/delivery/README.md) | Luanda organisation and design work |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/deployment/README.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/deployment/README.md) | Luanda deployment gaps |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/depot-scope/README.md) | luanda depot scope reconciliation |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/factory/README.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/factory/README.md) | Luanda city-order factory requirement |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/line-depots/README.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/simulation/operations-crosscheck.md) | Luanda operations cross-check |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/soil/README.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/soil/README.md) | Luanda civil soil screening |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/stabling/README.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/survey/control-processing-readiness.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/survey/control-processing-readiness.md) | Luanda survey-control processing |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/survey/drainage-ground-readiness.md) | Luanda drainage and ground-design gate |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/survey/field-evidence-brief.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/survey/field-evidence-brief.md) | Luanda field-evidence brief |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/survey/ground-model-readiness.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/survey/ground-model-readiness.md) | Luanda surveyed-ground-model gate |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/survey/route-station-fit-readiness.md) | Luanda route and station fit gate |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/survey/structural-release-readiness.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/survey/structural-release-readiness.md) | Luanda structural-release gate |
+| [`cities/catalogue/central-africa/Angola/Luanda/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/survey/surveyed-alignment-readiness.md) | Luanda surveyed-alignment gate |
+| [`cities/catalogue/central-africa/Angola/Luanda/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/Angola/Luanda/operations/acceptance-evidence-report.md) | Luanda Acceptance And Accreditation Evidence Basis |
+| [`cities/catalogue/central-africa/Angola/Lubango/README.md`](../cities/catalogue/central-africa/Angola/Lubango/README.md) | Lubango — provisional network |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/access/README.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/access/README.md) | Lubango — population access and transfers |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/alignment/README.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/alignment/README.md) | Lubango Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/clearance/README.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/clearance/README.md) | Lubango — viaduct obstacle clearance |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/delivery/README.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/delivery/README.md) | Lubango organisation and design work |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/deployment/README.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/deployment/README.md) | Lubango deployment gaps |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/depot-scope/README.md) | lubango depot scope reconciliation |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/factory/README.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/factory/README.md) | Lubango city-order factory requirement |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/line-depots/README.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/simulation/operations-crosscheck.md) | Lubango operations cross-check |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/soil/README.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/soil/README.md) | Lubango civil soil screening |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/stabling/README.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/survey/control-processing-readiness.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/survey/control-processing-readiness.md) | Lubango survey-control processing |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/survey/drainage-ground-readiness.md) | Lubango drainage and ground-design gate |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/survey/field-evidence-brief.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/survey/field-evidence-brief.md) | Lubango field-evidence brief |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/survey/ground-model-readiness.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/survey/ground-model-readiness.md) | Lubango surveyed-ground-model gate |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/survey/route-station-fit-readiness.md) | Lubango route and station fit gate |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/survey/structural-release-readiness.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/survey/structural-release-readiness.md) | Lubango structural-release gate |
+| [`cities/catalogue/central-africa/Angola/Lubango/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/survey/surveyed-alignment-readiness.md) | Lubango surveyed-alignment gate |
+| [`cities/catalogue/central-africa/Angola/Lubango/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/Angola/Lubango/operations/acceptance-evidence-report.md) | Lubango Acceptance And Accreditation Evidence Basis |
+| [`cities/catalogue/central-africa/Angola/Malanje/README.md`](../cities/catalogue/central-africa/Angola/Malanje/README.md) | Malanje — provisional network |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/access/README.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/access/README.md) | Malanje — population access and transfers |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/alignment/README.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/alignment/README.md) | Malanje Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/clearance/README.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/clearance/README.md) | Malanje — viaduct obstacle clearance |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/delivery/README.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/delivery/README.md) | Malanje organisation and design work |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/deployment/README.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/deployment/README.md) | Malanje deployment gaps |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/depot-scope/README.md) | malanje depot scope reconciliation |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/factory/README.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/factory/README.md) | Malanje city-order factory requirement |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/line-depots/README.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/simulation/operations-crosscheck.md) | Malanje operations cross-check |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/soil/README.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/soil/README.md) | Malanje civil soil screening |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/stabling/README.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/survey/control-processing-readiness.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/survey/control-processing-readiness.md) | Malanje survey-control processing |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/survey/drainage-ground-readiness.md) | Malanje drainage and ground-design gate |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/survey/field-evidence-brief.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/survey/field-evidence-brief.md) | Malanje field-evidence brief |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/survey/ground-model-readiness.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/survey/ground-model-readiness.md) | Malanje surveyed-ground-model gate |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/survey/route-station-fit-readiness.md) | Malanje route and station fit gate |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/survey/structural-release-readiness.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/survey/structural-release-readiness.md) | Malanje structural-release gate |
+| [`cities/catalogue/central-africa/Angola/Malanje/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/survey/surveyed-alignment-readiness.md) | Malanje surveyed-alignment gate |
+| [`cities/catalogue/central-africa/Angola/Malanje/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/Angola/Malanje/operations/acceptance-evidence-report.md) | Malanje Acceptance And Accreditation Evidence Basis |
+| [`cities/catalogue/central-africa/Angola/NATIONAL-BRIEF.md`](../cities/catalogue/central-africa/Angola/NATIONAL-BRIEF.md) | Angola National OpenSourceRail Strategy |
+| [`cities/catalogue/central-africa/Angola/Namibe/README.md`](../cities/catalogue/central-africa/Angola/Namibe/README.md) | Namibe — provisional network |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/access/README.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/access/README.md) | Namibe — population access and transfers |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/alignment/README.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/alignment/README.md) | Namibe Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/clearance/README.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/clearance/README.md) | Namibe — viaduct obstacle clearance |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/delivery/README.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/delivery/README.md) | Namibe organisation and design work |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/deployment/README.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/deployment/README.md) | Namibe deployment gaps |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/depot-scope/README.md) | namibe depot scope reconciliation |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/factory/README.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/factory/README.md) | Namibe city-order factory requirement |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/line-depots/README.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/simulation/operations-crosscheck.md) | Namibe operations cross-check |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/soil/README.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/soil/README.md) | Namibe civil soil screening |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/stabling/README.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/survey/control-processing-readiness.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/survey/control-processing-readiness.md) | Namibe survey-control processing |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/survey/drainage-ground-readiness.md) | Namibe drainage and ground-design gate |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/survey/field-evidence-brief.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/survey/field-evidence-brief.md) | Namibe field-evidence brief |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/survey/ground-model-readiness.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/survey/ground-model-readiness.md) | Namibe surveyed-ground-model gate |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/survey/route-station-fit-readiness.md) | Namibe route and station fit gate |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/survey/structural-release-readiness.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/survey/structural-release-readiness.md) | Namibe structural-release gate |
+| [`cities/catalogue/central-africa/Angola/Namibe/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/survey/surveyed-alignment-readiness.md) | Namibe surveyed-alignment gate |
+| [`cities/catalogue/central-africa/Angola/Namibe/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/Angola/Namibe/operations/acceptance-evidence-report.md) | Namibe Acceptance And Accreditation Evidence Basis |
+| [`cities/catalogue/central-africa/Angola/Soyo/README.md`](../cities/catalogue/central-africa/Angola/Soyo/README.md) | Soyo — provisional network |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/access/README.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/access/README.md) | Soyo — population access and transfers |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/alignment/README.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/alignment/README.md) | Soyo Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/clearance/README.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/clearance/README.md) | Soyo — viaduct obstacle clearance |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/delivery/README.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/delivery/README.md) | Soyo organisation and design work |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/deployment/README.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/deployment/README.md) | Soyo deployment gaps |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/depot-scope/README.md) | soyo depot scope reconciliation |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/factory/README.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/factory/README.md) | Soyo city-order factory requirement |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/line-depots/README.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/simulation/operations-crosscheck.md) | Soyo operations cross-check |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/soil/README.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/soil/README.md) | Soyo civil soil screening |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/stabling/README.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/survey/control-processing-readiness.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/survey/control-processing-readiness.md) | Soyo survey-control processing |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/survey/drainage-ground-readiness.md) | Soyo drainage and ground-design gate |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/survey/field-evidence-brief.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/survey/field-evidence-brief.md) | Soyo field-evidence brief |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/survey/ground-model-readiness.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/survey/ground-model-readiness.md) | Soyo surveyed-ground-model gate |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/survey/route-station-fit-readiness.md) | Soyo route and station fit gate |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/survey/structural-release-readiness.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/survey/structural-release-readiness.md) | Soyo structural-release gate |
+| [`cities/catalogue/central-africa/Angola/Soyo/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/survey/surveyed-alignment-readiness.md) | Soyo surveyed-alignment gate |
+| [`cities/catalogue/central-africa/Angola/Soyo/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/Angola/Soyo/operations/acceptance-evidence-report.md) | Soyo Acceptance And Accreditation Evidence Basis |
+| [`cities/catalogue/central-africa/Angola/Uige/README.md`](../cities/catalogue/central-africa/Angola/Uige/README.md) | Uige — provisional network |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/access/README.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/access/README.md) | Uige — population access and transfers |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/alignment/README.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/alignment/README.md) | Uige Planning OSR-ALN Package |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/clearance/README.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/clearance/README.md) | Uige — viaduct obstacle clearance |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/delivery/README.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/delivery/README.md) | Uige organisation and design work |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/deployment/README.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/deployment/README.md) | Uige deployment gaps |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/depot-scope/README.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/depot-scope/README.md) | uige depot scope reconciliation |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/factory/README.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/factory/README.md) | Uige city-order factory requirement |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/line-depots/README.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/simulation/operations-crosscheck.md) | Uige operations cross-check |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/soil/README.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/soil/README.md) | Uige civil soil screening |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/stabling/README.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/stabling/hybrid-cycle-screen.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/stabling/hybrid-cycle-screen.md) | Line-local station/depot service-cycle screen |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/survey/control-processing-readiness.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/survey/control-processing-readiness.md) | Uige survey-control processing |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/survey/drainage-ground-readiness.md) | Uige drainage and ground-design gate |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/survey/field-evidence-brief.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/survey/field-evidence-brief.md) | Uige field-evidence brief |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/survey/ground-model-readiness.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/survey/ground-model-readiness.md) | Uige surveyed-ground-model gate |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/survey/route-station-fit-readiness.md) | Uige route and station fit gate |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/survey/structural-release-readiness.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/survey/structural-release-readiness.md) | Uige structural-release gate |
+| [`cities/catalogue/central-africa/Angola/Uige/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/survey/surveyed-alignment-readiness.md) | Uige surveyed-alignment gate |
+| [`cities/catalogue/central-africa/Angola/Uige/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/Angola/Uige/operations/acceptance-evidence-report.md) | Uige Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/README.md) | Bukavu — Urban Rail Network |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/access/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/access/README.md) | Bukavu — population access and transfers |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/alignment/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/alignment/README.md) | Bukavu Planning OSR-ALN Package |
@@ -142,7 +324,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/survey/structural-release-readiness.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/survey/structural-release-readiness.md) | Kinshasa structural-release gate |
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/survey/surveyed-alignment-readiness.md) | Kinshasa surveyed-alignment gate |
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/operations/acceptance-evidence-report.md) | Kinshasa Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/central-africa/DR Congo/Kisangani/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/README.md) | Kisangani — Urban Rail Network |
+| [`cities/catalogue/central-africa/DR Congo/Kisangani/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/README.md) | Kisangani — provisional network |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/access/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/access/README.md) | Kisangani — population access and transfers |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/alignment/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/alignment/README.md) | Kisangani Planning OSR-ALN Package |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/clearance/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/clearance/README.md) | Kisangani — viaduct obstacle clearance |
@@ -162,7 +344,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/survey/structural-release-readiness.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/survey/structural-release-readiness.md) | Kisangani structural-release gate |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/survey/surveyed-alignment-readiness.md) | Kisangani surveyed-alignment gate |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/operations/acceptance-evidence-report.md) | Kisangani Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/central-africa/DR Congo/Lubumbashi/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/README.md) | Lubumbashi — Urban Rail Network |
+| [`cities/catalogue/central-africa/DR Congo/Lubumbashi/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/README.md) | Lubumbashi — provisional network |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/access/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/access/README.md) | Lubumbashi — population access and transfers |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/alignment/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/alignment/README.md) | Lubumbashi Planning OSR-ALN Package |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/clearance/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/clearance/README.md) | Lubumbashi — viaduct obstacle clearance |
@@ -203,188 +385,6 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/survey/surveyed-alignment-readiness.md) | Mbuji-Mayi surveyed-alignment gate |
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/operations/acceptance-evidence-report.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/operations/acceptance-evidence-report.md) | Mbuji Mayi Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/central-africa/DR Congo/NATIONAL-BRIEF.md`](../cities/catalogue/central-africa/DR Congo/NATIONAL-BRIEF.md) | DR Congo National OpenSourceRail Strategy |
-| [`cities/catalogue/east-africa/Angola/Benguela/README.md`](../cities/catalogue/east-africa/Angola/Benguela/README.md) | Benguela — Urban Rail Network |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/access/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/access/README.md) | Benguela — population access and transfers |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/alignment/README.md) | Benguela Planning OSR-ALN Package |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/clearance/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/clearance/README.md) | Benguela — viaduct obstacle clearance |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/delivery/README.md) | Benguela organisation and design work |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/deployment/README.md) | Benguela deployment gaps |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/depot-scope/README.md) | benguela depot scope reconciliation |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/factory/README.md) | Benguela city-order factory requirement |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/simulation/operations-crosscheck.md) | Benguela operations cross-check |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/soil/README.md) | Benguela civil soil screening |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/stabling/README.md) | Station and depot overnight allocation |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/survey/control-processing-readiness.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/survey/control-processing-readiness.md) | Benguela survey-control processing |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/survey/drainage-ground-readiness.md) | Benguela drainage and ground-design gate |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/survey/field-evidence-brief.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/survey/field-evidence-brief.md) | Benguela field-evidence brief |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/survey/ground-model-readiness.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/survey/ground-model-readiness.md) | Benguela surveyed-ground-model gate |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/survey/route-station-fit-readiness.md) | Benguela route and station fit gate |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/survey/structural-release-readiness.md) | Benguela structural-release gate |
-| [`cities/catalogue/east-africa/Angola/Benguela/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Angola/Benguela/engineering/survey/surveyed-alignment-readiness.md) | Benguela surveyed-alignment gate |
-| [`cities/catalogue/east-africa/Angola/Benguela/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Benguela/operations/acceptance-evidence-report.md) | Benguela Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Angola/Huambo/README.md`](../cities/catalogue/east-africa/Angola/Huambo/README.md) | Huambo — Urban Rail Network |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/access/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/access/README.md) | Huambo — population access and transfers |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/alignment/README.md) | Huambo Planning OSR-ALN Package |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/clearance/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/clearance/README.md) | Huambo — viaduct obstacle clearance |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/delivery/README.md) | Huambo organisation and design work |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/deployment/README.md) | Huambo deployment gaps |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/depot-scope/README.md) | huambo depot scope reconciliation |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/factory/README.md) | Huambo city-order factory requirement |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/simulation/operations-crosscheck.md) | Huambo operations cross-check |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/soil/README.md) | Huambo civil soil screening |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/stabling/README.md) | Station and depot overnight allocation |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/survey/control-processing-readiness.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/survey/control-processing-readiness.md) | Huambo survey-control processing |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/survey/drainage-ground-readiness.md) | Huambo drainage and ground-design gate |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/survey/field-evidence-brief.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/survey/field-evidence-brief.md) | Huambo field-evidence brief |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/survey/ground-model-readiness.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/survey/ground-model-readiness.md) | Huambo surveyed-ground-model gate |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/survey/route-station-fit-readiness.md) | Huambo route and station fit gate |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/survey/structural-release-readiness.md) | Huambo structural-release gate |
-| [`cities/catalogue/east-africa/Angola/Huambo/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Angola/Huambo/engineering/survey/surveyed-alignment-readiness.md) | Huambo surveyed-alignment gate |
-| [`cities/catalogue/east-africa/Angola/Huambo/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Huambo/operations/acceptance-evidence-report.md) | Huambo Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Angola/Lobito/README.md`](../cities/catalogue/east-africa/Angola/Lobito/README.md) | Lobito — Urban Rail Network |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/access/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/access/README.md) | Lobito — population access and transfers |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/alignment/README.md) | Lobito Planning OSR-ALN Package |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/clearance/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/clearance/README.md) | Lobito — viaduct obstacle clearance |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/delivery/README.md) | Lobito organisation and design work |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/deployment/README.md) | Lobito deployment gaps |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/depot-scope/README.md) | lobito depot scope reconciliation |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/factory/README.md) | Lobito city-order factory requirement |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/simulation/operations-crosscheck.md) | Lobito operations cross-check |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/soil/README.md) | Lobito civil soil screening |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/stabling/README.md) | Station and depot overnight allocation |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/survey/control-processing-readiness.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/survey/control-processing-readiness.md) | Lobito survey-control processing |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/survey/drainage-ground-readiness.md) | Lobito drainage and ground-design gate |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/survey/field-evidence-brief.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/survey/field-evidence-brief.md) | Lobito field-evidence brief |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/survey/ground-model-readiness.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/survey/ground-model-readiness.md) | Lobito surveyed-ground-model gate |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/survey/route-station-fit-readiness.md) | Lobito route and station fit gate |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/survey/structural-release-readiness.md) | Lobito structural-release gate |
-| [`cities/catalogue/east-africa/Angola/Lobito/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Angola/Lobito/engineering/survey/surveyed-alignment-readiness.md) | Lobito surveyed-alignment gate |
-| [`cities/catalogue/east-africa/Angola/Lobito/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Lobito/operations/acceptance-evidence-report.md) | Lobito Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Angola/Luanda/README.md`](../cities/catalogue/east-africa/Angola/Luanda/README.md) | Luanda — Urban Rail Network |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/access/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/access/README.md) | Luanda — population access and transfers |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/alignment/README.md) | Luanda Planning OSR-ALN Package |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/clearance/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/clearance/README.md) | Luanda — viaduct obstacle clearance |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/delivery/README.md) | Luanda organisation and design work |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/deployment/README.md) | Luanda deployment gaps |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/depot-scope/README.md) | luanda depot scope reconciliation |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/factory/README.md) | Luanda city-order factory requirement |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/simulation/operations-crosscheck.md) | Luanda operations cross-check |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/soil/README.md) | Luanda civil soil screening |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/stabling/README.md) | Station and depot overnight allocation |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/survey/control-processing-readiness.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/survey/control-processing-readiness.md) | Luanda survey-control processing |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/survey/drainage-ground-readiness.md) | Luanda drainage and ground-design gate |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/survey/field-evidence-brief.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/survey/field-evidence-brief.md) | Luanda field-evidence brief |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/survey/ground-model-readiness.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/survey/ground-model-readiness.md) | Luanda surveyed-ground-model gate |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/survey/route-station-fit-readiness.md) | Luanda route and station fit gate |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/survey/structural-release-readiness.md) | Luanda structural-release gate |
-| [`cities/catalogue/east-africa/Angola/Luanda/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Angola/Luanda/engineering/survey/surveyed-alignment-readiness.md) | Luanda surveyed-alignment gate |
-| [`cities/catalogue/east-africa/Angola/Luanda/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Luanda/operations/acceptance-evidence-report.md) | Luanda Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Angola/Lubango/README.md`](../cities/catalogue/east-africa/Angola/Lubango/README.md) | Lubango — Urban Rail Network |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/access/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/access/README.md) | Lubango — population access and transfers |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/alignment/README.md) | Lubango Planning OSR-ALN Package |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/clearance/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/clearance/README.md) | Lubango — viaduct obstacle clearance |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/delivery/README.md) | Lubango organisation and design work |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/deployment/README.md) | Lubango deployment gaps |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/depot-scope/README.md) | lubango depot scope reconciliation |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/factory/README.md) | Lubango city-order factory requirement |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/simulation/operations-crosscheck.md) | Lubango operations cross-check |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/soil/README.md) | Lubango civil soil screening |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/stabling/README.md) | Station and depot overnight allocation |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/survey/control-processing-readiness.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/survey/control-processing-readiness.md) | Lubango survey-control processing |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/survey/drainage-ground-readiness.md) | Lubango drainage and ground-design gate |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/survey/field-evidence-brief.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/survey/field-evidence-brief.md) | Lubango field-evidence brief |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/survey/ground-model-readiness.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/survey/ground-model-readiness.md) | Lubango surveyed-ground-model gate |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/survey/route-station-fit-readiness.md) | Lubango route and station fit gate |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/survey/structural-release-readiness.md) | Lubango structural-release gate |
-| [`cities/catalogue/east-africa/Angola/Lubango/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Angola/Lubango/engineering/survey/surveyed-alignment-readiness.md) | Lubango surveyed-alignment gate |
-| [`cities/catalogue/east-africa/Angola/Lubango/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Lubango/operations/acceptance-evidence-report.md) | Lubango Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Angola/Malanje/README.md`](../cities/catalogue/east-africa/Angola/Malanje/README.md) | Malanje — Urban Rail Network |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/access/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/access/README.md) | Malanje — population access and transfers |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/alignment/README.md) | Malanje Planning OSR-ALN Package |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/clearance/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/clearance/README.md) | Malanje — viaduct obstacle clearance |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/delivery/README.md) | Malanje organisation and design work |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/deployment/README.md) | Malanje deployment gaps |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/depot-scope/README.md) | malanje depot scope reconciliation |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/factory/README.md) | Malanje city-order factory requirement |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/simulation/operations-crosscheck.md) | Malanje operations cross-check |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/soil/README.md) | Malanje civil soil screening |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/stabling/README.md) | Station and depot overnight allocation |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/survey/control-processing-readiness.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/survey/control-processing-readiness.md) | Malanje survey-control processing |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/survey/drainage-ground-readiness.md) | Malanje drainage and ground-design gate |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/survey/field-evidence-brief.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/survey/field-evidence-brief.md) | Malanje field-evidence brief |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/survey/ground-model-readiness.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/survey/ground-model-readiness.md) | Malanje surveyed-ground-model gate |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/survey/route-station-fit-readiness.md) | Malanje route and station fit gate |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/survey/structural-release-readiness.md) | Malanje structural-release gate |
-| [`cities/catalogue/east-africa/Angola/Malanje/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Angola/Malanje/engineering/survey/surveyed-alignment-readiness.md) | Malanje surveyed-alignment gate |
-| [`cities/catalogue/east-africa/Angola/Malanje/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Malanje/operations/acceptance-evidence-report.md) | Malanje Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Angola/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/Angola/NATIONAL-BRIEF.md) | Angola National OpenSourceRail Strategy |
-| [`cities/catalogue/east-africa/Angola/Namibe/README.md`](../cities/catalogue/east-africa/Angola/Namibe/README.md) | Namibe — Urban Rail Network |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/access/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/access/README.md) | Namibe — population access and transfers |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/alignment/README.md) | Namibe Planning OSR-ALN Package |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/clearance/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/clearance/README.md) | Namibe — viaduct obstacle clearance |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/delivery/README.md) | Namibe organisation and design work |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/deployment/README.md) | Namibe deployment gaps |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/depot-scope/README.md) | namibe depot scope reconciliation |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/factory/README.md) | Namibe city-order factory requirement |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/simulation/operations-crosscheck.md) | Namibe operations cross-check |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/soil/README.md) | Namibe civil soil screening |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/stabling/README.md) | Station and depot overnight allocation |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/survey/control-processing-readiness.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/survey/control-processing-readiness.md) | Namibe survey-control processing |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/survey/drainage-ground-readiness.md) | Namibe drainage and ground-design gate |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/survey/field-evidence-brief.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/survey/field-evidence-brief.md) | Namibe field-evidence brief |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/survey/ground-model-readiness.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/survey/ground-model-readiness.md) | Namibe surveyed-ground-model gate |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/survey/route-station-fit-readiness.md) | Namibe route and station fit gate |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/survey/structural-release-readiness.md) | Namibe structural-release gate |
-| [`cities/catalogue/east-africa/Angola/Namibe/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Angola/Namibe/engineering/survey/surveyed-alignment-readiness.md) | Namibe surveyed-alignment gate |
-| [`cities/catalogue/east-africa/Angola/Namibe/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Namibe/operations/acceptance-evidence-report.md) | Namibe Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Angola/Soyo/README.md`](../cities/catalogue/east-africa/Angola/Soyo/README.md) | Soyo — Urban Rail Network |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/access/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/access/README.md) | Soyo — population access and transfers |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/alignment/README.md) | Soyo Planning OSR-ALN Package |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/clearance/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/clearance/README.md) | Soyo — viaduct obstacle clearance |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/delivery/README.md) | Soyo organisation and design work |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/deployment/README.md) | Soyo deployment gaps |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/depot-scope/README.md) | soyo depot scope reconciliation |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/factory/README.md) | Soyo city-order factory requirement |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/simulation/operations-crosscheck.md) | Soyo operations cross-check |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/soil/README.md) | Soyo civil soil screening |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/stabling/README.md) | Station and depot overnight allocation |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/survey/control-processing-readiness.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/survey/control-processing-readiness.md) | Soyo survey-control processing |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/survey/drainage-ground-readiness.md) | Soyo drainage and ground-design gate |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/survey/field-evidence-brief.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/survey/field-evidence-brief.md) | Soyo field-evidence brief |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/survey/ground-model-readiness.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/survey/ground-model-readiness.md) | Soyo surveyed-ground-model gate |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/survey/route-station-fit-readiness.md) | Soyo route and station fit gate |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/survey/structural-release-readiness.md) | Soyo structural-release gate |
-| [`cities/catalogue/east-africa/Angola/Soyo/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Angola/Soyo/engineering/survey/surveyed-alignment-readiness.md) | Soyo surveyed-alignment gate |
-| [`cities/catalogue/east-africa/Angola/Soyo/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Soyo/operations/acceptance-evidence-report.md) | Soyo Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Angola/Uige/README.md`](../cities/catalogue/east-africa/Angola/Uige/README.md) | Uige — Urban Rail Network |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/access/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/access/README.md) | Uige — population access and transfers |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/alignment/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/alignment/README.md) | Uige Planning OSR-ALN Package |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/clearance/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/clearance/README.md) | Uige — viaduct obstacle clearance |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/delivery/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/delivery/README.md) | Uige organisation and design work |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/deployment/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/deployment/README.md) | Uige deployment gaps |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/depot-scope/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/depot-scope/README.md) | uige depot scope reconciliation |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/factory/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/factory/README.md) | Uige city-order factory requirement |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/line-depots/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/line-depots/README.md) | Line-local full-fleet depot planning scope |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/simulation/operations-crosscheck.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/simulation/operations-crosscheck.md) | Uige operations cross-check |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/soil/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/soil/README.md) | Uige civil soil screening |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/stabling/README.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/stabling/README.md) | Station and depot overnight allocation |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/stabling/hybrid-cycle-screen.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/stabling/hybrid-cycle-screen.md) | Line-local station/depot service-cycle screen |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/survey/control-processing-readiness.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/survey/control-processing-readiness.md) | Uige survey-control processing |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/survey/drainage-ground-readiness.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/survey/drainage-ground-readiness.md) | Uige drainage and ground-design gate |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/survey/field-evidence-brief.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/survey/field-evidence-brief.md) | Uige field-evidence brief |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/survey/ground-model-readiness.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/survey/ground-model-readiness.md) | Uige surveyed-ground-model gate |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/survey/route-station-fit-readiness.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/survey/route-station-fit-readiness.md) | Uige route and station fit gate |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/survey/structural-release-readiness.md) | Uige structural-release gate |
-| [`cities/catalogue/east-africa/Angola/Uige/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Angola/Uige/engineering/survey/surveyed-alignment-readiness.md) | Uige surveyed-alignment gate |
-| [`cities/catalogue/east-africa/Angola/Uige/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Angola/Uige/operations/acceptance-evidence-report.md) | Uige Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/README.md) | Eldoret — Urban Rail Network |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/access/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/access/README.md) | Eldoret — population access and transfers |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/alignment/README.md) | Eldoret Planning OSR-ALN Package |
@@ -405,7 +405,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/survey/structural-release-readiness.md) | Eldoret structural-release gate |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/survey/surveyed-alignment-readiness.md) | Eldoret surveyed-alignment gate |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Eldoret/operations/acceptance-evidence-report.md) | Eldoret Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Kenya/Garissa/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/README.md) | Garissa — Urban Rail Network |
+| [`cities/catalogue/east-africa/Kenya/Garissa/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/README.md) | Garissa — provisional network |
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/access/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/access/README.md) | Garissa — population access and transfers |
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/alignment/README.md) | Garissa Planning OSR-ALN Package |
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/clearance/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/clearance/README.md) | Garissa — viaduct obstacle clearance |
@@ -505,7 +505,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/east-africa/Kenya/Kitale/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/survey/structural-release-readiness.md) | Kitale structural-release gate |
 | [`cities/catalogue/east-africa/Kenya/Kitale/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/survey/surveyed-alignment-readiness.md) | Kitale surveyed-alignment gate |
 | [`cities/catalogue/east-africa/Kenya/Kitale/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Kitale/operations/acceptance-evidence-report.md) | Kitale Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Kenya/Machakos/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/README.md) | Machakos — Urban Rail Network |
+| [`cities/catalogue/east-africa/Kenya/Machakos/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/README.md) | Machakos — provisional network |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/access/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/access/README.md) | Machakos — population access and transfers |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/README.md) | Machakos Planning OSR-ALN Package |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/clearance/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/clearance/README.md) | Machakos — viaduct obstacle clearance |
@@ -525,7 +525,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/survey/structural-release-readiness.md) | Machakos structural-release gate |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/survey/surveyed-alignment-readiness.md) | Machakos surveyed-alignment gate |
 | [`cities/catalogue/east-africa/Kenya/Machakos/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Machakos/operations/acceptance-evidence-report.md) | Machakos Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Kenya/Malindi/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/README.md) | Malindi — Urban Rail Network |
+| [`cities/catalogue/east-africa/Kenya/Malindi/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/README.md) | Malindi — provisional network |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/access/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/access/README.md) | Malindi — population access and transfers |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/alignment/README.md) | Malindi Planning OSR-ALN Package |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/clearance/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/clearance/README.md) | Malindi — viaduct obstacle clearance |
@@ -545,7 +545,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/survey/structural-release-readiness.md) | Malindi structural-release gate |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/survey/surveyed-alignment-readiness.md) | Malindi surveyed-alignment gate |
 | [`cities/catalogue/east-africa/Kenya/Malindi/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Kenya/Malindi/operations/acceptance-evidence-report.md) | Malindi Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Kenya/Meru-Ke/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/README.md) | Meru-Ke — Urban Rail Network |
+| [`cities/catalogue/east-africa/Kenya/Meru-Ke/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/README.md) | Meru-Ke — provisional network |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/access/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/access/README.md) | Meru-Ke — population access and transfers |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/README.md) | Meru-Ke Planning OSR-ALN Package |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/clearance/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/clearance/README.md) | Meru-Ke — viaduct obstacle clearance |
@@ -747,7 +747,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/survey/structural-release-readiness.md) | Chimoio structural-release gate |
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/survey/surveyed-alignment-readiness.md) | Chimoio surveyed-alignment gate |
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/operations/acceptance-evidence-report.md) | Chimoio Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Mozambique/Lichinga/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/README.md) | Lichinga — Urban Rail Network |
+| [`cities/catalogue/east-africa/Mozambique/Lichinga/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/README.md) | Lichinga — provisional network |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/access/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/access/README.md) | Lichinga — population access and transfers |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/alignment/README.md) | Lichinga Planning OSR-ALN Package |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/clearance/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/clearance/README.md) | Lichinga — viaduct obstacle clearance |
@@ -828,7 +828,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/survey/structural-release-readiness.md) | Nampula structural-release gate |
 | [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/survey/surveyed-alignment-readiness.md) | Nampula surveyed-alignment gate |
 | [`cities/catalogue/east-africa/Mozambique/Nampula/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Mozambique/Nampula/operations/acceptance-evidence-report.md) | Nampula Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/README.md) | Pemba-Mz — Urban Rail Network |
+| [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/README.md) | Pemba-Mz — provisional network |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/access/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/access/README.md) | Pemba-Mz — population access and transfers |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/README.md) | Pemba-Mz Planning OSR-ALN Package |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/clearance/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/clearance/README.md) | Pemba-Mz — viaduct obstacle clearance |
@@ -992,7 +992,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/operations/acceptance-evidence-report.md) | Mogadishu Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Somalia/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/Somalia/NATIONAL-BRIEF.md) | Somalia National OpenSourceRail Strategy |
 | [`cities/catalogue/east-africa/South Sudan/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/South Sudan/NATIONAL-BRIEF.md) | South Sudan National OpenSourceRail Strategy |
-| [`cities/catalogue/east-africa/South Sudan/Wau/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/README.md) | Waw — Urban Rail Network |
+| [`cities/catalogue/east-africa/South Sudan/Wau/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/README.md) | Wau — provisional network |
 | [`cities/catalogue/east-africa/South Sudan/Wau/engineering/access/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/access/README.md) | Wau — population access and transfers |
 | [`cities/catalogue/east-africa/South Sudan/Wau/engineering/alignment/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/alignment/README.md) | Wau Planning OSR-ALN Package |
 | [`cities/catalogue/east-africa/South Sudan/Wau/engineering/clearance/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/clearance/README.md) | Wau — viaduct obstacle clearance |
@@ -1193,7 +1193,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/survey/surveyed-alignment-readiness.md) | Mwanza surveyed-alignment gate |
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/operations/acceptance-evidence-report.md) | Mwanza Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/east-africa/Tanzania/NATIONAL-BRIEF.md`](../cities/catalogue/east-africa/Tanzania/NATIONAL-BRIEF.md) | Tanzania National OpenSourceRail Strategy |
-| [`cities/catalogue/east-africa/Tanzania/Shinyanga/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/README.md) | Shinyanga — Urban Rail Network |
+| [`cities/catalogue/east-africa/Tanzania/Shinyanga/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/README.md) | Shinyanga — provisional network |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/access/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/access/README.md) | Shinyanga — population access and transfers |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/alignment/README.md) | Shinyanga Planning OSR-ALN Package |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/clearance/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/clearance/README.md) | Shinyanga — viaduct obstacle clearance |
@@ -1233,7 +1233,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/east-africa/Tanzania/Songea/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/survey/structural-release-readiness.md) | Songea structural-release gate |
 | [`cities/catalogue/east-africa/Tanzania/Songea/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/survey/surveyed-alignment-readiness.md) | Songea surveyed-alignment gate |
 | [`cities/catalogue/east-africa/Tanzania/Songea/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Tanzania/Songea/operations/acceptance-evidence-report.md) | Songea Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Tanzania/Sumbawanga/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/README.md) | Sumbawanga — Urban Rail Network |
+| [`cities/catalogue/east-africa/Tanzania/Sumbawanga/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/README.md) | Sumbawanga — provisional network |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/access/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/access/README.md) | Sumbawanga — population access and transfers |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/README.md) | Sumbawanga Planning OSR-ALN Package |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/clearance/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/clearance/README.md) | Sumbawanga — viaduct obstacle clearance |
@@ -1454,7 +1454,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/east-africa/Uganda/Kampala/engineering/survey/structural-release-readiness.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/survey/structural-release-readiness.md) | Kampala structural-release gate |
 | [`cities/catalogue/east-africa/Uganda/Kampala/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/survey/surveyed-alignment-readiness.md) | Kampala surveyed-alignment gate |
 | [`cities/catalogue/east-africa/Uganda/Kampala/operations/acceptance-evidence-report.md`](../cities/catalogue/east-africa/Uganda/Kampala/operations/acceptance-evidence-report.md) | Kampala Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/east-africa/Uganda/Lira/README.md`](../cities/catalogue/east-africa/Uganda/Lira/README.md) | Lira — Urban Rail Network |
+| [`cities/catalogue/east-africa/Uganda/Lira/README.md`](../cities/catalogue/east-africa/Uganda/Lira/README.md) | Lira — provisional network |
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/access/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/access/README.md) | Lira — population access and transfers |
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/alignment/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/alignment/README.md) | Lira Planning OSR-ALN Package |
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/clearance/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/clearance/README.md) | Lira — viaduct obstacle clearance |
@@ -1740,7 +1740,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/survey/structural-release-readiness.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/survey/structural-release-readiness.md) | Kenitra structural-release gate |
 | [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/survey/surveyed-alignment-readiness.md) | Kenitra surveyed-alignment gate |
 | [`cities/catalogue/north-africa/Morocco/Kenitra/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Morocco/Kenitra/operations/acceptance-evidence-report.md) | Kenitra Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/north-africa/Morocco/Khouribga/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/README.md) | Khouribga — Urban Rail Network |
+| [`cities/catalogue/north-africa/Morocco/Khouribga/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/README.md) | Khouribga — provisional network |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/access/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/access/README.md) | Khouribga — population access and transfers |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/README.md) | Khouribga Planning OSR-ALN Package |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/clearance/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/clearance/README.md) | Khouribga — viaduct obstacle clearance |
@@ -1901,7 +1901,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/survey/structural-release-readiness.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/survey/structural-release-readiness.md) | Tetouan structural-release gate |
 | [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/survey/surveyed-alignment-readiness.md) | Tetouan surveyed-alignment gate |
 | [`cities/catalogue/north-africa/Morocco/Tetouan/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Morocco/Tetouan/operations/acceptance-evidence-report.md) | Tetouan Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/north-africa/Sudan/El-Obeid/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/README.md) | El-Obeid — Urban Rail Network |
+| [`cities/catalogue/north-africa/Sudan/El-Obeid/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/README.md) | El-Obeid — provisional network |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/access/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/access/README.md) | El-Obeid — population access and transfers |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/alignment/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/alignment/README.md) | El-Obeid Planning OSR-ALN Package |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/clearance/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/clearance/README.md) | El-Obeid — viaduct obstacle clearance |
@@ -2002,7 +2002,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/survey/structural-release-readiness.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/survey/structural-release-readiness.md) | Omdurman structural-release gate |
 | [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/survey/surveyed-alignment-readiness.md) | Omdurman surveyed-alignment gate |
 | [`cities/catalogue/north-africa/Sudan/Omdurman/operations/acceptance-evidence-report.md`](../cities/catalogue/north-africa/Sudan/Omdurman/operations/acceptance-evidence-report.md) | Omdurman Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/north-africa/Sudan/Port-Sudan/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/README.md) | Port-Sudan — Urban Rail Network |
+| [`cities/catalogue/north-africa/Sudan/Port-Sudan/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/README.md) | Port-Sudan — provisional network |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/access/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/access/README.md) | Port-Sudan — population access and transfers |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/README.md) | Port-Sudan Planning OSR-ALN Package |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/clearance/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/clearance/README.md) | Port-Sudan — viaduct obstacle clearance |
@@ -2366,7 +2366,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/survey/surveyed-alignment-readiness.md) | Mymensingh surveyed-alignment gate |
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/operations/acceptance-evidence-report.md) | Mymensingh Acceptance And Accreditation Evidence Basis |
 | [`cities/catalogue/south-asia/Bangladesh/NATIONAL-BRIEF.md`](../cities/catalogue/south-asia/Bangladesh/NATIONAL-BRIEF.md) | Bangladesh National OpenSourceRail Strategy |
-| [`cities/catalogue/south-asia/Bangladesh/Narayanganj/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/README.md) | Narayanganj — Urban Rail Network |
+| [`cities/catalogue/south-asia/Bangladesh/Narayanganj/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/README.md) | Narayanganj — provisional network |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/access/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/access/README.md) | Narayanganj — population access and transfers |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/alignment/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/alignment/README.md) | Narayanganj Planning OSR-ALN Package |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/clearance/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/clearance/README.md) | Narayanganj — viaduct obstacle clearance |
@@ -2787,7 +2787,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/survey/structural-release-readiness.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/survey/structural-release-readiness.md) | Visakhapatnam structural-release gate |
 | [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/survey/surveyed-alignment-readiness.md) | Visakhapatnam surveyed-alignment gate |
 | [`cities/catalogue/south-asia/India/Visakhapatnam/operations/acceptance-evidence-report.md`](../cities/catalogue/south-asia/India/Visakhapatnam/operations/acceptance-evidence-report.md) | Visakhapatnam Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/south-asia/Nepal/Biratnagar/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/README.md) | Biratnagar — Urban Rail Network |
+| [`cities/catalogue/south-asia/Nepal/Biratnagar/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/README.md) | Biratnagar — provisional network |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/access/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/access/README.md) | Biratnagar — population access and transfers |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/alignment/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/alignment/README.md) | Biratnagar Planning OSR-ALN Package |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/clearance/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/clearance/README.md) | Biratnagar — viaduct obstacle clearance |
@@ -3458,7 +3458,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/survey/structural-release-readiness.md) | Edea structural-release gate |
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/survey/surveyed-alignment-readiness.md) | Edea surveyed-alignment gate |
 | [`cities/catalogue/west-africa/Cameroon/Edea/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Cameroon/Edea/operations/acceptance-evidence-report.md) | Edea Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-africa/Cameroon/Garoua/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/README.md) | Garoua — Urban Rail Network |
+| [`cities/catalogue/west-africa/Cameroon/Garoua/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/README.md) | Garoua — provisional network |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/access/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/access/README.md) | Garoua — population access and transfers |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/alignment/README.md) | Garoua Planning OSR-ALN Package |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/clearance/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/clearance/README.md) | Garoua — viaduct obstacle clearance |
@@ -3702,7 +3702,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/survey/structural-release-readiness.md) | Ilorin structural-release gate |
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/survey/surveyed-alignment-readiness.md) | Ilorin surveyed-alignment gate |
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/operations/acceptance-evidence-report.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/operations/acceptance-evidence-report.md) | Ilorin Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-africa/Nigeria/Jos/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/README.md) | Jos — Urban Rail Network |
+| [`cities/catalogue/west-africa/Nigeria/Jos/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/README.md) | Jos — provisional network |
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/access/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/access/README.md) | Jos — population access and transfers |
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/alignment/README.md) | Jos Planning OSR-ALN Package |
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/clearance/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/clearance/README.md) | Jos — viaduct obstacle clearance |
@@ -4004,7 +4004,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/survey/structural-release-readiness.md) | Ismailia structural-release gate |
 | [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/survey/surveyed-alignment-readiness.md) | Ismailia surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Egypt/Ismailia/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Ismailia/operations/acceptance-evidence-report.md) | Ismailia Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/README.md) | Kafr-El-Sheikh — Urban Rail Network |
+| [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/README.md) | Kafr-El-Sheikh — provisional network |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/access/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/access/README.md) | Kafr-El-Sheikh — population access and transfers |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/alignment/README.md) | Kafr-El-Sheikh Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/clearance/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/clearance/README.md) | Kafr-El-Sheikh — viaduct obstacle clearance |
@@ -4024,7 +4024,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/survey/structural-release-readiness.md) | Kafr-El-Sheikh structural-release gate |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/survey/surveyed-alignment-readiness.md) | Kafr-El-Sheikh surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/operations/acceptance-evidence-report.md) | Kafr El Sheikh Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Egypt/Luxor/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/README.md) | Luxor — Urban Rail Network |
+| [`cities/catalogue/west-asia/Egypt/Luxor/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/README.md) | Luxor — provisional network |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/access/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/access/README.md) | Luxor — population access and transfers |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/README.md) | Luxor Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/clearance/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/clearance/README.md) | Luxor — viaduct obstacle clearance |
@@ -4044,7 +4044,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/survey/structural-release-readiness.md) | Luxor structural-release gate |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/survey/surveyed-alignment-readiness.md) | Luxor surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Egypt/Luxor/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Luxor/operations/acceptance-evidence-report.md) | Luxor Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Egypt/Mahalla/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/README.md) | Mahalla — Urban Rail Network |
+| [`cities/catalogue/west-asia/Egypt/Mahalla/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/README.md) | Mahalla — provisional network |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/access/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/access/README.md) | Mahalla — population access and transfers |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/README.md) | Mahalla Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/clearance/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/clearance/README.md) | Mahalla — viaduct obstacle clearance |
@@ -4125,7 +4125,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/survey/structural-release-readiness.md) | Port-Said structural-release gate |
 | [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/survey/surveyed-alignment-readiness.md) | Port-Said surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Egypt/Port-Said/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Port-Said/operations/acceptance-evidence-report.md) | Port Said Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Egypt/Qena/README.md`](../cities/catalogue/west-asia/Egypt/Qena/README.md) | Qena — Urban Rail Network |
+| [`cities/catalogue/west-asia/Egypt/Qena/README.md`](../cities/catalogue/west-asia/Egypt/Qena/README.md) | Qena — provisional network |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/access/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/access/README.md) | Qena — population access and transfers |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/README.md) | Qena Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/clearance/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/clearance/README.md) | Qena — viaduct obstacle clearance |
@@ -4145,7 +4145,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/survey/structural-release-readiness.md) | Qena structural-release gate |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/survey/surveyed-alignment-readiness.md) | Qena surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Egypt/Qena/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Egypt/Qena/operations/acceptance-evidence-report.md) | Qena Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Egypt/Sohag/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/README.md) | Sohag — Urban Rail Network |
+| [`cities/catalogue/west-asia/Egypt/Sohag/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/README.md) | Sohag — provisional network |
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/access/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/access/README.md) | Sohag — population access and transfers |
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/alignment/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/alignment/README.md) | Sohag Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/clearance/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/clearance/README.md) | Sohag — viaduct obstacle clearance |
@@ -4345,7 +4345,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/survey/structural-release-readiness.md) | Basra structural-release gate |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/survey/surveyed-alignment-readiness.md) | Basra surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Iraq/Basra/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Iraq/Basra/operations/acceptance-evidence-report.md) | Basra Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Iraq/Diwaniyah/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/README.md) | Diwaniyah — Urban Rail Network |
+| [`cities/catalogue/west-asia/Iraq/Diwaniyah/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/README.md) | Diwaniyah — provisional network |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/access/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/access/README.md) | Diwaniyah — population access and transfers |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/alignment/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/alignment/README.md) | Diwaniyah Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/clearance/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/clearance/README.md) | Diwaniyah — viaduct obstacle clearance |
@@ -4850,7 +4850,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/west-asia/Palestine/Nablus/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/survey/structural-release-readiness.md) | Nablus structural-release gate |
 | [`cities/catalogue/west-asia/Palestine/Nablus/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/survey/surveyed-alignment-readiness.md) | Nablus surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Palestine/Nablus/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Palestine/Nablus/operations/acceptance-evidence-report.md) | Nablus Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Saudi Arabia/Abha/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/README.md) | Abha — Urban Rail Network |
+| [`cities/catalogue/west-asia/Saudi Arabia/Abha/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/README.md) | Abha — provisional network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/access/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/access/README.md) | Abha — population access and transfers |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/alignment/README.md) | Abha Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/clearance/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/clearance/README.md) | Abha — viaduct obstacle clearance |
@@ -5010,7 +5010,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/survey/structural-release-readiness.md) | Jizan structural-release gate |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/survey/surveyed-alignment-readiness.md) | Jizan surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/operations/acceptance-evidence-report.md) | Jizan Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/README.md) | Khamis-Mushait — Urban Rail Network |
+| [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/README.md) | Khamis-Mushait — provisional network |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/access/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/access/README.md) | Khamis-Mushait — population access and transfers |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/README.md) | Khamis-Mushait Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/clearance/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/clearance/README.md) | Khamis-Mushait — viaduct obstacle clearance |
@@ -5251,7 +5251,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/west-asia/Syria/Idlib/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/survey/structural-release-readiness.md) | Idlib structural-release gate |
 | [`cities/catalogue/west-asia/Syria/Idlib/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/survey/surveyed-alignment-readiness.md) | Idlib surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Syria/Idlib/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Syria/Idlib/operations/acceptance-evidence-report.md) | Idlib Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Syria/Latakia/README.md`](../cities/catalogue/west-asia/Syria/Latakia/README.md) | Latakia — Urban Rail Network |
+| [`cities/catalogue/west-asia/Syria/Latakia/README.md`](../cities/catalogue/west-asia/Syria/Latakia/README.md) | Latakia — provisional network |
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/access/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/access/README.md) | Latakia — population access and transfers |
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/README.md) | Latakia Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/clearance/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/clearance/README.md) | Latakia — viaduct obstacle clearance |
@@ -5333,7 +5333,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/west-asia/Yemen/Aden/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/survey/structural-release-readiness.md) | Aden structural-release gate |
 | [`cities/catalogue/west-asia/Yemen/Aden/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/survey/surveyed-alignment-readiness.md) | Aden surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Yemen/Aden/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Yemen/Aden/operations/acceptance-evidence-report.md) | Aden Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Yemen/Dhamar/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/README.md) | Dhamar — Urban Rail Network |
+| [`cities/catalogue/west-asia/Yemen/Dhamar/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/README.md) | Dhamar — provisional network |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/access/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/access/README.md) | Dhamar — population access and transfers |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/alignment/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/alignment/README.md) | Dhamar Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/clearance/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/clearance/README.md) | Dhamar — viaduct obstacle clearance |
@@ -5373,7 +5373,7 @@ Indexed Markdown files: **6243**.
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/survey/structural-release-readiness.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/survey/structural-release-readiness.md) | Hodeidah structural-release gate |
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/survey/surveyed-alignment-readiness.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/survey/surveyed-alignment-readiness.md) | Hodeidah surveyed-alignment gate |
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/operations/acceptance-evidence-report.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/operations/acceptance-evidence-report.md) | Hodeidah Acceptance And Accreditation Evidence Basis |
-| [`cities/catalogue/west-asia/Yemen/Ibb/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/README.md) | Ibb — Urban Rail Network |
+| [`cities/catalogue/west-asia/Yemen/Ibb/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/README.md) | Ibb — provisional network |
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/access/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/access/README.md) | Ibb — population access and transfers |
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/alignment/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/alignment/README.md) | Ibb Planning OSR-ALN Package |
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/clearance/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/clearance/README.md) | Ibb — viaduct obstacle clearance |
@@ -6081,7 +6081,12 @@ Indexed Markdown files: **6243**.
 | [`docs/deployment-planning-reference.md`](../docs/deployment-planning-reference.md) | Deployment Planning Reference |
 | [`docs/deployment-roles.md`](../docs/deployment-roles.md) | Deployment Roles |
 | [`docs/design-engine/README.md`](../docs/design-engine/README.md) | Design, Jobs And Evidence Workflows |
+| [`docs/design-engine/ai-cad-bim-pilot-2026-10-17.md`](../docs/design-engine/ai-cad-bim-pilot-2026-10-17.md) | Executed CAD and BIM workflow pilot |
+| [`docs/design-engine/ai-cad-bim-workflow-2026-10-17.md`](../docs/design-engine/ai-cad-bim-workflow-2026-10-17.md) | AI CAD and BIM authoring and the Baghdad twin completion workflow |
 | [`docs/design-engine/architecture-feedback-2026-10-17.md`](../docs/design-engine/architecture-feedback-2026-10-17.md) | Provisional architecture feedback — 17 October 2026 |
+| [`docs/design-engine/baghdad-engineering-twin-2026-10-17.md`](../docs/design-engine/baghdad-engineering-twin-2026-10-17.md) | Baghdad engineering twin development and specification coverage |
+| [`docs/design-engine/continuous-delivery/README.md`](../docs/design-engine/continuous-delivery/README.md) | Provisional continuous design delivery |
+| [`docs/design-engine/continuous-runner-2026-10-17.md`](../docs/design-engine/continuous-runner-2026-10-17.md) | Continuous mechanical civil software and integration runner |
 | [`docs/design-engine/factory-beam-demands-2026-10-16.md`](../docs/design-engine/factory-beam-demands-2026-10-16.md) | Baghdad Pi-beam railway and handling demand development |
 | [`docs/design-engine/factory-completion-2026-10-16.md`](../docs/design-engine/factory-completion-2026-10-16.md) | Mechanical and civil factory development delivery record |
 | [`docs/design-engine/factory-integration-2026-10-16.md`](../docs/design-engine/factory-integration-2026-10-16.md) | Factory review follow-up: portable evidence and common design jobs |
@@ -6248,10 +6253,12 @@ Indexed Markdown files: **6243**.
 | [`engineering/analysis/deployment-summary.md`](../engineering/analysis/deployment-summary.md) | Catalogue deployment evidence |
 | [`engineering/analysis/stations/mitigation-work-packages.md`](../engineering/analysis/stations/mitigation-work-packages.md) | Depot thermal and fire mitigation work packages |
 | [`engineering/analysis/stations/screening-summary.md`](../engineering/analysis/stations/screening-summary.md) | Station systems screening |
+| [`engineering/assembly_design/README.md`](../engineering/assembly_design/README.md) | Baghdad assembly development |
 | [`engineering/assurance/access-clearance/README.md`](../engineering/assurance/access-clearance/README.md) | Population access, transfers and viaduct obstacle review |
 | [`engineering/assurance/baghdad-test-inputs/README.md`](../engineering/assurance/baghdad-test-inputs/README.md) | Current Baghdad test inputs |
 | [`engineering/assurance/battery-cooling/qualification-report.md`](../engineering/assurance/battery-cooling/qualification-report.md) | Battery-cooling qualification readiness |
-| [`engineering/assurance/catalogue-geography/README.md`](../engineering/assurance/catalogue-geography/README.md) | Catalogue water and junction placement review |
+| [`engineering/assurance/catalogue-geography/README.md`](../engineering/assurance/catalogue-geography/README.md) | Catalogue network geometry audit |
+| [`engineering/assurance/catalogue-network-layout/README.md`](../engineering/assurance/catalogue-network-layout/README.md) | Catalogue map corrections — 20 October 2026 |
 | [`engineering/assurance/civil-reference/README.md`](../engineering/assurance/civil-reference/README.md) | Civil reference demonstration A |
 | [`engineering/assurance/civil-reference/calculations/README.md`](../engineering/assurance/civil-reference/calculations/README.md) | Civil calculation records |
 | [`engineering/assurance/civil-reference/drainage/README.md`](../engineering/assurance/civil-reference/drainage/README.md) | Synthetic drainage scenarios |
@@ -6271,6 +6278,7 @@ Indexed Markdown files: **6243**.
 | [`engineering/civil_exploration/examples/complete-system-review.md`](../engineering/civil_exploration/examples/complete-system-review.md) | Complete viaduct system exploration |
 | [`engineering/civil_exploration/examples/programme-review.md`](../engineering/civil_exploration/examples/programme-review.md) | C01–C14 executed software and remaining acceptance |
 | [`engineering/composite_panels/reference/README.md`](../engineering/composite_panels/reference/README.md) | Hybrid GFRP exterior-panel development |
+| [`engineering/continuous_design/README.md`](../engineering/continuous_design/README.md) | Persistent engineering design runner |
 | [`engineering/design-options/README.md`](../engineering/design-options/README.md) | City design options |
 | [`engineering/design-options/results.md`](../engineering/design-options/results.md) | Design option results — 18 September 2026 |
 | [`engineering/design_consistency/README.md`](../engineering/design_consistency/README.md) | Shared engineering definitions and demonstrators |
@@ -6279,6 +6287,7 @@ Indexed Markdown files: **6243**.
 | [`engineering/design_consistency/examples/solver/README.md`](../engineering/design_consistency/examples/solver/README.md) | Executed hollow-section benchmarks |
 | [`engineering/design_consistency/examples/solver/coarse/README.md`](../engineering/design_consistency/examples/solver/coarse/README.md) | Hollow cantilever bending execution |
 | [`engineering/design_consistency/examples/solver/refined/README.md`](../engineering/design_consistency/examples/solver/refined/README.md) | Hollow cantilever bending execution |
+| [`engineering/design_delivery/README.md`](../engineering/design_delivery/README.md) | Continuous design delivery |
 | [`engineering/design_engine/LICENSE.md`](../engineering/design_engine/LICENSE.md) | Design Engine Licensing |
 | [`engineering/design_engine/README.md`](../engineering/design_engine/README.md) | Shared Design Engine |
 | [`engineering/factory_examples/README.md`](../engineering/factory_examples/README.md) | Mechanical, civil and factory development examples |
@@ -6316,6 +6325,7 @@ Indexed Markdown files: **6243**.
 | [`engineering/toolchain/README.md`](../engineering/toolchain/README.md) | Engineering Toolchain |
 | [`engineering/toolchain/baseline-assurance.md`](../engineering/toolchain/baseline-assurance.md) | Engineering Baseline Assurance |
 | [`engineering/toolchain/tla/README.md`](../engineering/toolchain/tla/README.md) | Retained TLC assurance executable |
+| [`engineering/twin_workflow/README.md`](../engineering/twin_workflow/README.md) | CAD and BIM proposal execution |
 
 ## lib
 

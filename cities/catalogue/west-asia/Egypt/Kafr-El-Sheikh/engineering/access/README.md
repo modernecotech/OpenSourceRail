@@ -18,11 +18,11 @@ Native **2020 bbox population: 508,562**. Catalogue planning population: 300,000
 
 | Radius | Residents in union of station circles (2020) | Share of raster bbox population |
 |---|---:|---:|
-| 500 m | 80,908 | 15.9% |
-| 800 m | 164,506 | 32.3% |
-| 1000 m | 220,001 | 43.3% |
-| 1500 m | 324,582 | 63.8% |
-| 2000 m | 359,362 | 70.7% |
+| 500 m | 99,414 | 19.5% |
+| 800 m | 189,282 | 37.2% |
+| 1000 m | 249,828 | 49.1% |
+| 1500 m | 329,758 | 64.8% |
+| 2000 m | 361,405 | 71.1% |
 
 Excluded nodata pixels: 24,474; valid pixels: 6,333.
 
@@ -30,6 +30,6 @@ Excluded nodata pixels: 24,474; valid pixels: 6,333.
 
 Station circles use great-circle distances and count each native pixel once. They are potential radial access, **not validated walking coverage**: rivers, motorways, walls, hills and actual entrances can reduce access. Native pixel-centre assignment adds source-resolution uncertainty at catchment boundaries. The 1,500–2,000 m cases are extended access/feeder sensitivities; no feeder service or finance is assumed.
 
-The legacy routing score (77.5%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
+The legacy routing score (79.2%) measures high-demand cells close to tracks. It can be lower or higher than population access. Its former multiplication by city population is retired. Coverage alone never increases modeled paid trips or financial viability.
 
 [Machine-readable accounting and source hashes](summary.json).

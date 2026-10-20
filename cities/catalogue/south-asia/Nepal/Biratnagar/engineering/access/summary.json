@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.494,
+    "high_demand_cell_fraction": 0.637,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 463267.9861545563,
     "catchments": [
       {
-        "covered_population_2020": 44332.30400085449,
-        "fraction_of_raster_population": 0.09569472816121655,
+        "covered_population_2020": 47906.172954559326,
+        "fraction_of_raster_population": 0.10340920241913022,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 101842.10572433472,
-        "fraction_of_raster_population": 0.21983411064013816,
+        "covered_population_2020": 110572.50866699219,
+        "fraction_of_raster_population": 0.2386793647988074,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 148293.3554649353,
-        "fraction_of_raster_population": 0.3201027480786497,
+        "covered_population_2020": 160226.6211528778,
+        "fraction_of_raster_population": 0.3458616307223584,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 235724.98083019257,
-        "fraction_of_raster_population": 0.5088307154286064,
+        "covered_population_2020": 243396.44846248627,
+        "fraction_of_raster_population": 0.5253901753126622,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 306681.3066596985,
-        "fraction_of_raster_population": 0.6619954666096503,
+        "covered_population_2020": 310376.7886428833,
+        "fraction_of_raster_population": 0.6699724520557198,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,60 +74,32 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 11,
+    "unique_station_coordinates": 13,
     "valid_pixels": 6000
   },
   "population_source_country": "NP",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/south-asia/Nepal/Biratnagar/biratnagar.design-quality.yaml": "dc89dcd8d470424750a9e2cd726bfd3db90a255ec59ee894b98fe93ad8decd0f",
-    "cities/catalogue/south-asia/Nepal/Biratnagar/design.toml": "a6fe205be668275afaf62c8e91bee59c19fa509903241f61bc0b29bb1a01e212",
+    "cities/catalogue/south-asia/Nepal/Biratnagar/biratnagar.design-quality.yaml": "5aaf0a73719230aba46943ce9f9a677fdc4a6fa9c89c8a7997a2f3f0e70b55f5",
+    "cities/catalogue/south-asia/Nepal/Biratnagar/design.toml": "89eeb6cb8c6b2ffe8a33cceb425e085bb8d502dd791d218091f9fd34f08eaf62",
     "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/access/population-pixels.npz.gz": "25842ad6472566654bbd841a294b58c1f2ea420dbc04e3b36a9dd6897b0dcfa5",
     "cities/catalogue/south-asia/Nepal/Biratnagar/engineering/access/population-source.json": "cff23b8bbecb45cf0bf957b65963fdeb533f2cc04386e685014535734eceead6",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
   },
-  "transfer_recovery_candidates": [
-    {
-      "accessible_path_accepted": false,
-      "barrier_and_height_clearance_accepted": false,
-      "components": [
-        0,
-        1
-      ],
-      "lines": [
-        "line-1",
-        "line-2"
-      ],
-      "required_evidence": [
-        "surveyed entrances and accessible pedestrian path",
-        "river/road/wall crossings",
-        "walking/vertical access and transfer time",
-        "property and operating approval"
-      ],
-      "stations": [
-        "line-1-0371-0379-s005999",
-        "line-2-0339-0471-s004279"
-      ],
-      "straight_distance_m": 1946.239,
-      "transfer_created": false,
-      "walk_time_minutes": null
-    }
-  ],
+  "transfer_recovery_candidates": [],
   "transfers": {
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [
       [
         "line-1",
+        "line-2",
         "line-3",
         "line-4"
-      ],
-      [
-        "line-2"
       ]
     ],
-    "direct_transfer_fraction": 0.3333333333333333,
+    "direct_transfer_fraction": 0.6666666666666666,
     "line_count": 4,
     "line_pair_count": 6,
     "maximum_required_transfers": 2,
@@ -137,7 +109,7 @@
           "line-1",
           "line-2"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 1
       },
       {
         "lines": [
@@ -158,14 +130,14 @@
           "line-2",
           "line-3"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 1
       },
       {
         "lines": [
           "line-2",
           "line-4"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 2
       },
       {
         "lines": [
@@ -175,7 +147,7 @@
         "minimum_transfers": 1
       }
     ],
-    "reachable_line_pair_fraction": 0.5,
-    "reachable_with_at_most_two_transfers_fraction": 0.5
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
   }
 }

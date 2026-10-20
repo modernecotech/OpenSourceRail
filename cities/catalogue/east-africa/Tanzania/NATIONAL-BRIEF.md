@@ -3,7 +3,7 @@
 This page contains only Tanzania-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$41.29 B (88.3%) of external capital** and **$51.76 B of external interest**. Capital plus saved interest totals **$93.05 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$41.92 B (88.3%) of external capital** and **$52.55 B of external interest**. Capital plus saved interest totals **$94.47 B**.
 
 ## National Programme
 
@@ -11,40 +11,40 @@ This page contains only Tanzania-specific aggregation. Shared network, service, 
 |---|---:|
 | Catalogue cities | 15 |
 | Represented population | 13,854,689 |
-| Trainsets / vehicle modules | 2,918 / 11,768 |
-| City infrastructure and fleet CAPEX | $25.00 B |
+| Trainsets / vehicle modules | 2,976 / 11,884 |
+| City infrastructure and fleet CAPEX | $25.40 B |
 | Shared national factory | $910.8 M |
 | Factory sizing basis | 6,318 modules for Dar Es Salaam, then reused nationally |
-| **Total national programme** | **$25.98 B** |
+| **Total national programme** | **$26.37 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $5.47 B (21.1%) |
-| Domestic / local capital | $20.51 B (78.9%) |
-| Annual external capital draw | $781.6 M / yr |
-| Annual local capital draw | $2.93 B / yr |
-| Annual public construction commitment | $2.39 B / yr for 7 years |
-| Annual post-grace debt service | $1.96 B / yr |
-| Default foreign-turnkey external capital | $46.76 B |
-| External capital saved | $41.29 B |
-| Capital + lifetime external interest saved | $93.05 B |
+| Imported / external capital | $5.55 B (21.0%) |
+| Domestic / local capital | $20.82 B (79.0%) |
+| Annual external capital draw | $792.9 M / yr |
+| Annual local capital draw | $2.97 B / yr |
+| Annual public construction commitment | $2.43 B / yr for 7 years |
+| Annual post-grace debt service | $1.99 B / yr |
+| Default foreign-turnkey external capital | $47.47 B |
+| External capital saved | $41.92 B |
+| Capital + lifetime external interest saved | $94.47 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $12.78 B | $1.92 B | $10.87 B |
-| Stations | $4.18 B | $836.2 M | $3.34 B |
-| Depots | $1.44 B | $361.1 M | $1.08 B |
-| Rolling stock | $3.36 B | $1.18 B | $2.19 B |
+| Civil works | $12.87 B | $1.93 B | $10.94 B |
+| Stations | $4.42 B | $883.2 M | $3.53 B |
+| Depots | $1.45 B | $362.9 M | $1.09 B |
+| Rolling stock | $3.39 B | $1.19 B | $2.21 B |
 | Dedicated solar plants | $1.46 B | $655.6 M | $801.3 M |
-| Residual train control | $67.4 M | $33.7 M | $33.7 M |
-| Charging microgrids | $168.9 M | $67.6 M | $101.4 M |
-| EPC / project services | $1.60 B | $240.6 M | $1.36 B |
+| Residual train control | $68.0 M | $34.0 M | $34.0 M |
+| Charging microgrids | $171.7 M | $68.7 M | $103.0 M |
+| EPC / project services | $1.63 B | $244.5 M | $1.39 B |
 | Shared national trainset factory | $910.8 M | $182.2 M | $728.6 M |
-| **Total** | **$25.98 B** | **$5.47 B** | **$20.51 B** |
+| **Total** | **$26.37 B** | **$5.55 B** | **$20.82 B** |
 
 ## City Programme
 
@@ -62,9 +62,9 @@ This page contains only Tanzania-specific aggregation. Shared network, service, 
 | [Moshi](Moshi/README.md) | 300,000 | 79 | $623.8 M | $116.0 M | $507.8 M | 4 | 1 | 28.8% | 38.9% |
 | [Tabora](Tabora/README.md) | 300,000 | 65 | $458.3 M | $87.5 M | $370.8 M | 4 | 1 | 38.4% | 48.5% |
 | [Iringa](Iringa/README.md) | 250,000 | 86 | $622.3 M | $118.3 M | $503.9 M | 4 | 1 | 51.2% | 49.9% |
-| [Shinyanga](Shinyanga/README.md) | 250,000 | 77 | $512.3 M | $95.5 M | $416.8 M | 4 | 1 | 38.9% | 43.5% |
+| [Shinyanga](Shinyanga/README.md) | 250,000 | 121 | $798.3 M | $153.9 M | $644.5 M | 4 | 1 | 38.9% | 49.9% |
 | [Songea](Songea/README.md) | 250,000 | 29 | $184.7 M | $35.3 M | $149.4 M | 2 | 0 | 24.3% | 24.3% |
-| [Sumbawanga](Sumbawanga/README.md) | 250,000 | 32 | $219.0 M | $42.9 M | $176.1 M | 3 | 0 | 42.4% | 42.4% |
+| [Sumbawanga](Sumbawanga/README.md) | 250,000 | 46 | $327.7 M | $63.6 M | $264.2 M | 3 | 0 | 42.4% | 45.2% |
 
 ## Local Basis And Regeneration
 

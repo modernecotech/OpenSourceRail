@@ -67,7 +67,7 @@ Geometry/operating-distance findings remain recorded. Conflict-capable timetable
 | [Amarah](Amarah/README.md) | 660,000 | 177 | $1.13 B | $224.6 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 37.4% | 35.1% |
 | [Ramadi](Ramadi/README.md) | 525,000 | 181 | $978.5 M | $204.3 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 30.0% | 36.9% |
 | [Baqubah](Baqubah/README.md) | 470,000 | 243 | $1.32 B | $275.3 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 37.2% | 33.8% |
-| [Diwaniyah](Diwaniyah/README.md) | 440,000 | 171 | $935.4 M | $192.3 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 30.6% | 26.8% |
+| [Diwaniyah](Diwaniyah/README.md) | 440,000 | 198 | $1.07 B | $222.2 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 30.6% | 49.1% |
 | [Kut](Kut/README.md) | 410,000 | 166 | $1.05 B | $209.6 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 40.8% | 42.7% |
 | [Samawah](Samawah/README.md) | 373,770 | 182 | $1.03 B | $211.9 M | Catalogue base estimate; scope and field releases open | 5 | 2 | 40.9% | 47.8% |
 | [Duhok](Duhok/README.md) | 360,000 | 213 | $1.08 B | $235.9 M | Catalogue base estimate; scope and field releases open | 4 | 1 | 46.8% | 53.3% |

@@ -80,6 +80,10 @@
   "city": "luxor",
   "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
   "final_line_count": 5,
+  "network_correction": {
+    "report": "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/network-correction.json",
+    "sha256": "7ed75523d530bb157fc7f48ad023445a6891c316970758df27fa582706b9c308"
+  },
   "operating_release": false,
   "original_line_count": 3,
   "original_route_m": 45827.03,
@@ -88,10 +92,7 @@
   "planned_stop_cells_by_line": {},
   "population_is_current_census": false,
   "population_year": 2020,
-  "proposed_station_sample_radial_fraction": 0.49255892,
-  "rejected_priority_areas": [],
-  "schema": "osr-residential-line-expansion/1",
-  "sources_sha256": {
+  "pre_network_sources_sha256": {
     "cities/catalogue/west-asia/Egypt/Luxor/engineering/access/population-pixels.npz.gz": "ab32331d267d385b364c459bc1b019fd949632e977bdc1dbcd2760c5939972de",
     "cities/catalogue/west-asia/Egypt/Luxor/engineering/access/population-source.json": "0da920ef170ea3e03bf5ca8deafcfd98bce2d491874a47ca93f3e0acfba8911a",
     "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/network-expansion-baseline.json.gz": "9d5cce7484a130486c240ec6e34163c1fe5f7d215648f1725fabd0f361169bfb",
@@ -102,6 +103,12 @@
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
     "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
     "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+  },
+  "proposed_station_sample_radial_fraction": 0.49255892,
+  "rejected_priority_areas": [],
+  "schema": "osr-residential-line-expansion/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/network-correction.json": "7ed75523d530bb157fc7f48ad023445a6891c316970758df27fa582706b9c308"
   },
   "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
   "status": "expanded-controlled-planning-layout",

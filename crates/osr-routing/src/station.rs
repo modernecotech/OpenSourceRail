@@ -967,6 +967,27 @@ pub fn force_ring_radial_terminal_interchanges(
     });
 }
 
+fn raster_route_retraces_or_crosses(cells: &[(usize, usize)]) -> bool {
+    use std::collections::HashSet;
+    let mut vertices = HashSet::new();
+    if cells.iter().any(|cell| !vertices.insert(*cell)) {
+        return true;
+    }
+    let mut diagonals = HashSet::new();
+    for pair in cells.windows(2) {
+        let (a, b) = (pair[0], pair[1]);
+        if a.0.abs_diff(b.0) == 1 && a.1.abs_diff(b.1) == 1 {
+            let key = (a.0.min(b.0), a.1.min(b.1));
+            let rising = (a.0 < b.0) == (a.1 < b.1);
+            if diagonals.contains(&(key, !rising)) {
+                return true;
+            }
+            diagonals.insert((key, rising));
+        }
+    }
+    false
+}
+
 /// Extend radial endpoints that stop just short of a ring onto the ring.
 ///
 /// For an endpoint near-miss of up to the extension envelope, route a
@@ -1050,6 +1071,11 @@ pub fn connect_radial_termini_to_rings(
                     candidate = connector;
                 } else {
                     candidate.extend(connector.into_iter().skip(1));
+                }
+                // A small axis reversal can still be a real out-and-back
+                // overlap. Do not create it while extending a terminus.
+                if raster_route_retraces_or_crosses(&candidate) {
+                    continue;
                 }
                 let old_backtrack = maximum_axis_backtrack_m(&line.cells, grid.reference.cell_m);
                 if maximum_axis_backtrack_m(&candidate, grid.reference.cell_m)
@@ -2219,6 +2245,16 @@ mod tests {
     }
 
     #[test]
+    fn shared_run_exit_remains_a_geometric_crossing() {
+        let routes = vec![
+            line("A", LineShape::Radial, vec![(420,123),(419,122),(418,121),(417,121),(416,121),(415,122),(414,123)]),
+            line("B", LineShape::Radial, vec![(420,122),(419,122),(418,121),(417,121),(416,121),(415,121),(414,120)]),
+        ];
+        let sites = geometric_crossings(&routes, 20.0);
+        assert!(sites.iter().any(|site| site.cell == (416,121)));
+    }
+
+    #[test]
     fn radial_crossings_insert_grouped_platforms_at_the_actual_intersection() {
         let grid = uniform_grid(201, 201);
         let lines = vec![
@@ -2950,5 +2986,23 @@ mod tests {
         let count = connect_radial_termini_to_rings(&mut lines, &grid, 3, 8, DemandWeight(0.0));
         assert_eq!(count, 0);
         assert_eq!(lines[0].cells, original);
+    }
+
+    #[test]
+    fn ring_connector_cannot_double_back_over_its_original_radial() {
+        let grid = uniform_grid(30, 30);
+        let original = vec![(10, 0), (10, 2), (10, 4), (10, 6), (10, 8)];
+        let mut lines = vec![
+            line("L1", LineShape::Radial, original.clone()),
+            line("R1", LineShape::Ring, vec![(10, 4)]),
+        ];
+        assert_eq!(connect_radial_termini_to_rings(&mut lines, &grid, 3, 8, DemandWeight(0.0)), 0);
+        assert_eq!(lines[0].cells, original);
+    }
+
+    #[test]
+    fn opposite_raster_diagonals_are_a_self_crossing_without_duplicate_cells() {
+        assert!(raster_route_retraces_or_crosses(&[(0, 0), (1, 1), (0, 1), (1, 0)]));
+        assert!(!raster_route_retraces_or_crosses(&[(0, 0), (1, 1), (2, 1), (3, 2)]));
     }
 }

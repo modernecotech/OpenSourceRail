@@ -58,6 +58,10 @@
   "city": "mahalla",
   "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
   "final_line_count": 4,
+  "network_correction": {
+    "report": "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/network-correction.json",
+    "sha256": "675d741b0a73c4487da88a29f56571850fb9afc616279472f00ca0348dc89015"
+  },
   "operating_release": false,
   "original_line_count": 3,
   "original_route_m": 34753.061,
@@ -66,12 +70,10 @@
   "planned_stop_cells_by_line": {},
   "population_is_current_census": false,
   "population_year": 2020,
-  "proposed_station_sample_radial_fraction": 0.39560641,
-  "rejected_priority_areas": [],
-  "schema": "osr-residential-line-expansion/1",
-  "sources_sha256": {
+  "pre_network_sources_sha256": {
     "cities/catalogue/west-asia/Egypt/Mahalla/engineering/access/population-pixels.npz.gz": "e5acd3d65ea945319b0659e8a12c2e641ebdc332c2201e47eef3cb2a3b11f9aa",
     "cities/catalogue/west-asia/Egypt/Mahalla/engineering/access/population-source.json": "0dd399a11a144deff78eb1a00fcc08d6502031c98f178356c5f8bcf1574306ec",
+    "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/network-correction.json": "3282df6e85e7dd5abc97ab8bc58b824769226244c0eb1be8a315e50fe21ee03e",
     "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/network-expansion-baseline.json.gz": "dc28b992992c07a7e3a6a42ffa09be1ae92562595c63464c8c2723260d674fe1",
     "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/planning-terrain-slope.f32.gz": "a28240573df8116ab579eae53197804c08aa5499c6b3a6339850dfea6a759678",
     "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/planning-terrain-source.json": "8be5f3381eac8e2e54d8d2f7731ac16e86bd55a7fe5f530d91398d6631840e7c",
@@ -80,6 +82,12 @@
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
     "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
     "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+  },
+  "proposed_station_sample_radial_fraction": 0.39560641,
+  "rejected_priority_areas": [],
+  "schema": "osr-residential-line-expansion/1",
+  "sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Mahalla/engineering/alignment/network-correction.json": "675d741b0a73c4487da88a29f56571850fb9afc616279472f00ca0348dc89015"
   },
   "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
   "status": "expanded-controlled-planning-layout",

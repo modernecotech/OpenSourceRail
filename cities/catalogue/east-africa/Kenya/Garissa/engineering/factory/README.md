@@ -1,16 +1,16 @@
 # Garissa city-order factory requirement
 
-**57 tram-2car trainsets / 114 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**70 tram-2car trainsets / 140 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 161.4 trainsets/year, 2 separate test paths, 271 direct production FTE. Plant reference envelope: **USD 216.682m**.
+Planning output: 197.2 trainsets/year, 2 separate test paths, 338 direct production FTE. Plant reference envelope: **USD 248.857m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 13 | 587 | 677 | 677 |
-| line-2 | 20 | 620 | 710 | 710 |
-| line-3 | 14 | 643 | 733 | 733 |
-| line-4 | 10 | 659 | 749 | 749 |
+| line-1 | 17 | 590 | 680 | 680 |
+| line-2 | 25 | 622 | 712 | 712 |
+| line-3 | 14 | 641 | 731 | 731 |
+| line-4 | 14 | 659 | 749 | 749 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

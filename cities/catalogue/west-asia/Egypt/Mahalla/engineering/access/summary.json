@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.473,
+    "high_demand_cell_fraction": 0.547,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 1601837.121421814,
     "catchments": [
       {
-        "covered_population_2020": 134961.30031967163,
-        "fraction_of_raster_population": 0.0842540720993393,
+        "covered_population_2020": 165877.28205108643,
+        "fraction_of_raster_population": 0.10355440002779517,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 313764.3808631897,
-        "fraction_of_raster_population": 0.19587783093994468,
+        "covered_population_2020": 374007.9899749756,
+        "fraction_of_raster_population": 0.23348690386385892,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 457887.9143371582,
-        "fraction_of_raster_population": 0.2858517312488864,
+        "covered_population_2020": 542483.382484436,
+        "fraction_of_raster_population": 0.3386632605960086,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 843873.3685874939,
-        "fraction_of_raster_population": 0.5268159648082444,
+        "covered_population_2020": 891050.536190033,
+        "fraction_of_raster_population": 0.5562678778471082,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 1025210.4696044922,
-        "fraction_of_raster_population": 0.6400216700525084,
+        "covered_population_2020": 1025286.7975139618,
+        "fraction_of_raster_population": 0.640069320283889,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,63 +74,35 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 12,
+    "unique_station_coordinates": 15,
     "valid_pixels": 14936
   },
   "population_source_country": "EG",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-asia/Egypt/Mahalla/design.toml": "14b4dcc6858d25da1cd7e1a0845875fb1c58f60756384da74167f20e5155f1d9",
+    "cities/catalogue/west-asia/Egypt/Mahalla/design.toml": "773f8868ecdcc36a90c5011d157344c0736ce9c6bf4d4d5bfc1b0831ad96de49",
     "cities/catalogue/west-asia/Egypt/Mahalla/engineering/access/population-pixels.npz.gz": "e5acd3d65ea945319b0659e8a12c2e641ebdc332c2201e47eef3cb2a3b11f9aa",
     "cities/catalogue/west-asia/Egypt/Mahalla/engineering/access/population-source.json": "0dd399a11a144deff78eb1a00fcc08d6502031c98f178356c5f8bcf1574306ec",
-    "cities/catalogue/west-asia/Egypt/Mahalla/mahalla.design-quality.yaml": "3c5afcca3d0db44b9a6a0c64c9365e51c24a06f50ad33876a50059f498568048",
+    "cities/catalogue/west-asia/Egypt/Mahalla/mahalla.design-quality.yaml": "3ae1c271d0d9d6df6ed1785f8c9564a4e89fe4c2649755148171f1ac9bef2ac0",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
   },
-  "transfer_recovery_candidates": [
-    {
-      "accessible_path_accepted": false,
-      "barrier_and_height_clearance_accepted": false,
-      "components": [
-        0,
-        1
-      ],
-      "lines": [
-        "line-1",
-        "line-3"
-      ],
-      "required_evidence": [
-        "surveyed entrances and accessible pedestrian path",
-        "river/road/wall crossings",
-        "walking/vertical access and transfer time",
-        "property and operating approval"
-      ],
-      "stations": [
-        "line-1-0700-0463-s000000",
-        "line-3-0647-0470-s000000"
-      ],
-      "straight_distance_m": 1069.784,
-      "transfer_created": false,
-      "walk_time_minutes": null
-    }
-  ],
+  "transfer_recovery_candidates": [],
   "transfers": {
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [
       [
         "line-1",
-        "line-2"
-      ],
-      [
+        "line-2",
         "line-3",
         "line-4"
       ]
     ],
-    "direct_transfer_fraction": 0.3333333333333333,
+    "direct_transfer_fraction": 0.5,
     "line_count": 4,
     "line_pair_count": 6,
-    "maximum_required_transfers": 1,
+    "maximum_required_transfers": 3,
     "pairs": [
       {
         "lines": [
@@ -144,28 +116,28 @@
           "line-1",
           "line-3"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 1
       },
       {
         "lines": [
           "line-1",
           "line-4"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 2
       },
       {
         "lines": [
           "line-2",
           "line-3"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 2
       },
       {
         "lines": [
           "line-2",
           "line-4"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 3
       },
       {
         "lines": [
@@ -175,7 +147,7 @@
         "minimum_transfers": 1
       }
     ],
-    "reachable_line_pair_fraction": 0.3333333333333333,
-    "reachable_with_at_most_two_transfers_fraction": 0.3333333333333333
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 0.8333333333333334
   }
 }

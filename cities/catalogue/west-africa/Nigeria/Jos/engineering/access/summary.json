@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.427,
+    "high_demand_cell_fraction": 0.354,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 739018.2613165379,
     "catchments": [
       {
-        "covered_population_2020": 56016.365458488464,
-        "fraction_of_raster_population": 0.07579835085360011,
+        "covered_population_2020": 60819.12374973297,
+        "fraction_of_raster_population": 0.08229718659642539,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 138443.3234128952,
-        "fraction_of_raster_population": 0.18733410344456544,
+        "covered_population_2020": 145476.6708908081,
+        "fraction_of_raster_population": 0.1968512532175402,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 207813.00136232376,
-        "fraction_of_raster_population": 0.2812014428332412,
+        "covered_population_2020": 213698.16593503952,
+        "fraction_of_raster_population": 0.28916493288588424,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 364580.0259809494,
-        "fraction_of_raster_population": 0.4933301990825795,
+        "covered_population_2020": 359447.72397756577,
+        "fraction_of_raster_population": 0.48638544240736475,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 456300.49419283867,
-        "fraction_of_raster_population": 0.6174414328814468,
+        "covered_population_2020": 450525.655217886,
+        "fraction_of_raster_population": 0.6096272295291981,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,64 +74,36 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 19,
+    "unique_station_coordinates": 25,
     "valid_pixels": 57132
   },
   "population_source_country": "NG",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/west-africa/Nigeria/Jos/design.toml": "03b1d70a63ae7ae048b23414b33af471f7859f3e658d53186eb3fa28bcf8e7cc",
+    "cities/catalogue/west-africa/Nigeria/Jos/design.toml": "9cfc8e145c17a5863f3727c3de8a3462d5f986ddfd10690dbd054653378242b9",
     "cities/catalogue/west-africa/Nigeria/Jos/engineering/access/population-pixels.npz.gz": "c74dc028b80784be467d8cc0f83b4661d0b50535f3ae87b98c3a4f2a31b84f7c",
     "cities/catalogue/west-africa/Nigeria/Jos/engineering/access/population-source.json": "e54151c5b33ccd8158594b4ff59815654e4101e3af99bbbbdf08d12de5702bce",
-    "cities/catalogue/west-africa/Nigeria/Jos/jos.design-quality.yaml": "99d5fd2c15e73c1c21bd4229acc272bc9a58a3383b2df8554709b834428a4635",
+    "cities/catalogue/west-africa/Nigeria/Jos/jos.design-quality.yaml": "0ce1e36fb241c91b098a83e922b988148130ff9cf0211144a617bf7b3508970f",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
   },
-  "transfer_recovery_candidates": [
-    {
-      "accessible_path_accepted": false,
-      "barrier_and_height_clearance_accepted": false,
-      "components": [
-        0,
-        1
-      ],
-      "lines": [
-        "line-1",
-        "line-3"
-      ],
-      "required_evidence": [
-        "surveyed entrances and accessible pedestrian path",
-        "river/road/wall crossings",
-        "walking/vertical access and transfer time",
-        "property and operating approval"
-      ],
-      "stations": [
-        "line-1-0695-0624-s017611",
-        "line-3-0650-0711-s009026"
-      ],
-      "straight_distance_m": 1957.581,
-      "transfer_created": false,
-      "walk_time_minutes": null
-    }
-  ],
+  "transfer_recovery_candidates": [],
   "transfers": {
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [
       [
         "line-1",
         "line-2",
+        "line-3",
         "line-4",
         "line-5"
-      ],
-      [
-        "line-3"
       ]
     ],
-    "direct_transfer_fraction": 0.3,
+    "direct_transfer_fraction": 0.4,
     "line_count": 5,
     "line_pair_count": 10,
-    "maximum_required_transfers": 2,
+    "maximum_required_transfers": 3,
     "pairs": [
       {
         "lines": [
@@ -145,7 +117,7 @@
           "line-1",
           "line-3"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 2
       },
       {
         "lines": [
@@ -166,7 +138,7 @@
           "line-2",
           "line-3"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 3
       },
       {
         "lines": [
@@ -187,14 +159,14 @@
           "line-3",
           "line-4"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 3
       },
       {
         "lines": [
           "line-3",
           "line-5"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 1
       },
       {
         "lines": [
@@ -204,7 +176,7 @@
         "minimum_transfers": 2
       }
     ],
-    "reachable_line_pair_fraction": 0.6,
-    "reachable_with_at_most_two_transfers_fraction": 0.6
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 0.8
   }
 }

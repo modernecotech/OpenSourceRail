@@ -3,7 +3,7 @@
 This page contains only Morocco-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$29.80 B (88.8%) of external capital** and **$36.63 B of external interest**. Capital plus saved interest totals **$66.43 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$29.96 B (88.8%) of external capital** and **$36.83 B of external interest**. Capital plus saved interest totals **$66.79 B**.
 
 ## National Programme
 
@@ -11,40 +11,40 @@ This page contains only Morocco-specific aggregation. Shared network, service, e
 |---|---:|
 | Catalogue cities | 12 |
 | Represented population | 8,050,000 |
-| Trainsets / vehicle modules | 2,251 / 7,443 |
-| City infrastructure and fleet CAPEX | $17.67 B |
+| Trainsets / vehicle modules | 2,268 / 7,477 |
+| City infrastructure and fleet CAPEX | $17.78 B |
 | Shared national factory | $912.3 M |
 | Factory sizing basis | 1,492 modules for Marrakech, then reused nationally |
-| **Total national programme** | **$18.65 B** |
+| **Total national programme** | **$18.75 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $3.77 B (20.2%) |
-| Domestic / local capital | $14.88 B (79.8%) |
-| Annual external capital draw | $755.0 M / yr |
-| Annual local capital draw | $2.98 B / yr |
-| Annual public construction commitment | $1.30 B / yr for 5 years |
-| Annual post-grace debt service | $897.7 M / yr |
-| Default foreign-turnkey external capital | $33.57 B |
-| External capital saved | $29.80 B |
-| Capital + lifetime external interest saved | $66.43 B |
+| Imported / external capital | $3.80 B (20.2%) |
+| Domestic / local capital | $14.96 B (79.8%) |
+| Annual external capital draw | $759.1 M / yr |
+| Annual local capital draw | $2.99 B / yr |
+| Annual public construction commitment | $1.31 B / yr for 5 years |
+| Annual post-grace debt service | $902.6 M / yr |
+| Default foreign-turnkey external capital | $33.75 B |
+| External capital saved | $29.96 B |
+| Capital + lifetime external interest saved | $66.79 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $9.45 B | $1.42 B | $8.03 B |
-| Stations | $3.08 B | $616.5 M | $2.47 B |
-| Depots | $1.06 B | $265.6 M | $796.9 M |
-| Rolling stock | $2.15 B | $753.8 M | $1.40 B |
+| Civil works | $9.48 B | $1.42 B | $8.05 B |
+| Stations | $3.14 B | $627.9 M | $2.51 B |
+| Depots | $1.07 B | $266.3 M | $798.9 M |
+| Rolling stock | $2.16 B | $757.1 M | $1.41 B |
 | Dedicated solar plants | $653.3 M | $294.0 M | $359.3 M |
-| Residual train control | $51.0 M | $25.5 M | $25.5 M |
-| Charging microgrids | $107.0 M | $42.8 M | $64.2 M |
-| EPC / project services | $1.18 B | $176.6 M | $1.00 B |
+| Residual train control | $51.1 M | $25.5 M | $25.5 M |
+| Charging microgrids | $107.8 M | $43.1 M | $64.7 M |
+| EPC / project services | $1.18 B | $177.6 M | $1.01 B |
 | Shared national trainset factory | $912.3 M | $182.5 M | $729.9 M |
-| **Total** | **$18.65 B** | **$3.77 B** | **$14.88 B** |
+| **Total** | **$18.75 B** | **$3.80 B** | **$14.96 B** |
 
 ## City Programme
 
@@ -60,7 +60,7 @@ This page contains only Morocco-specific aggregation. Shared network, service, e
 | [Tetouan](Tetouan/README.md) | 500,000 | 205 | $1.22 B | $251.2 M | $972.3 M | 4 | 1 | 40.4% | 56.1% |
 | [Safi](Safi/README.md) | 350,000 | 148 | $789.6 M | $164.8 M | $624.8 M | 4 | 1 | 67.8% | 69.7% |
 | [Beni Mellal](Beni-Mellal/README.md) | 300,000 | 69 | $468.7 M | $88.3 M | $380.4 M | 4 | 1 | 59.0% | 59.4% |
-| [Khouribga](Khouribga/README.md) | 250,000 | 39 | $286.0 M | $54.1 M | $231.9 M | 3 | 0 | 49.3% | 49.6% |
+| [Khouribga](Khouribga/README.md) | 250,000 | 56 | $387.7 M | $74.6 M | $313.1 M | 3 | 0 | 49.3% | 70.2% |
 | [Nador](Nador/README.md) | 250,000 | 92 | $663.5 M | $124.7 M | $538.8 M | 4 | 1 | 47.2% | 53.6% |
 
 ## Local Basis And Regeneration

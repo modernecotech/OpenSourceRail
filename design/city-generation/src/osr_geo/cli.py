@@ -14,12 +14,17 @@ import argparse
 import json
 import logging
 import math
+import gzip
+import hashlib
+import io
+import tomllib
+import numpy as np
 import sys
 from pathlib import Path
 
 from osr_osm.fetcher import BBox, CityOSM
 
-from .rasterize import DEMAND_RADIUS_M, rasterize_city, save_grid
+from .rasterize import DEMAND_RADIUS_M, rasterize_city, save_grid, _grid_ref
 from .terrain import sample_elevation_grid
 
 log = logging.getLogger(__name__)
@@ -40,6 +45,40 @@ def _load_city(path: Path) -> CityOSM:
         anchors=raw.get("anchors", []),
         rail_existing=raw.get("rail_existing", []),
     )
+
+
+def retained_population(city: CityOSM, country: str | None):
+    """Reuse a hash-checked city crop, avoiding a new whole-country download."""
+    if country is None:return None
+    root=Path(__file__).resolve().parents[4]
+    paths=list((root/'cities/catalogue').glob('*/*/*/design.toml'))
+    for path in paths:
+        # Read only the header for other cities; large civil registers need
+        # not be parsed merely to locate this slug.
+        header=[]
+        with path.open() as stream:
+            for line in stream:
+                if line.strip().startswith('[climate]'):break
+                header.append(line)
+        try:spec=tomllib.loads(''.join(header))['city']
+        except (ValueError,KeyError):continue
+        if spec['slug']!=city.slug:continue
+        directory=path.parent/'engineering/access'
+        pixels=directory/'population-pixels.npz.gz';receipt=directory/'population-source.json'
+        if not pixels.is_file() or not receipt.is_file():return None
+        source=json.loads(receipt.read_text());expected=dict(south=city.bbox.south,west=city.bbox.west,north=city.bbox.north,east=city.bbox.east)
+        if country!=spec['country'] or source['bbox']!=expected:raise ValueError('Retained population jurisdiction/bbox differs')
+        status=directory/'summary.json'
+        if status.exists() and json.loads(status.read_text())['population']['status']!='available':return None
+        raw=pixels.read_bytes()
+        if hashlib.sha256(raw).hexdigest()!=source['retained_sha256']:raise ValueError('Retained population crop altered')
+        from .population import sample_retained_population_into_grid,population_demand_layer
+        grid=_grid_ref(city.bbox,20.)
+        with np.load(io.BytesIO(gzip.decompress(raw)),allow_pickle=False) as values:
+            samples,_=sample_retained_population_into_grid(values,source,grid)
+        log.info('reusing retained %s population pixels for %s; relative demand only',source['year'],city.slug)
+        return samples
+    return None
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -110,10 +149,16 @@ def main(argv: list[str] | None = None) -> int:
         )
         elevation_layer = terrain.elevation_m
         terrain_provenance = terrain.provenance
+    population_layer=None
+    retained=retained_population(city,args.country) if args.cell_m==20. else None
+    if retained is not None:
+        from .population import population_demand_layer
+        population_layer=population_demand_layer(retained,DEMAND_RADIUS_M/args.cell_m)
     bundle = rasterize_city(
         city,
         cell_m=args.cell_m,
         country=args.country,
+        population_layer=population_layer,
         pop_cache_dir=args.pop_cache_dir,
         elevation_layer=elevation_layer,
         terrain_provenance=terrain_provenance,

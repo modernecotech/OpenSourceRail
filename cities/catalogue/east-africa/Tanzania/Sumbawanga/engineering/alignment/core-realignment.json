@@ -7,12 +7,13 @@
     "west": 31.575701
   },
   "core_analytical_length_m": 10556.892802,
-  "core_final_route_length_m": 10600.041841,
+  "core_final_route_length_m": 15015.230867899783,
   "core_original_length_m": 15698.380375,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
     "centred_bbox_fraction": 0.6
   },
+  "final_route_quantity_basis": "Final complete line lengths in network-correction.json; former core analytical quantities superseded",
   "limitations": [
     "The centroid-centred rectangle is an explicit planning study area, not a verified city-centre boundary.",
     "Elevation does not grant property/air rights or clear buildings, protected sites, terrain, utilities or obstacles.",
@@ -36,7 +37,13 @@
               6480.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 6662.509233,
+          "seed_from_index": 0,
+          "seed_to_index": 270,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 4300.0,
@@ -49,20 +56,15 @@
                 9140.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 6662.509233,
-          "seed_from_index": 0,
-          "seed_to_index": 270,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 3771.025971,
+      "final_core_route_m": 6637.787873376923,
       "line": "line-1",
       "original_cells": 271,
       "original_route_m": 6662.509233,
-      "reworked_cells": 156,
-      "reworked_route_m": 3771.025971,
+      "reworked_cells": 272,
+      "reworked_route_m": 6637.787873376899,
       "water_route_changes": []
     },
     {
@@ -80,7 +82,13 @@
               8560.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 5746.66089,
+          "seed_from_index": 0,
+          "seed_to_index": 231,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 5400.0,
@@ -93,20 +101,15 @@
                 7860.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 5746.66089,
-          "seed_from_index": 0,
-          "seed_to_index": 231,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 4129.949494,
+      "final_core_route_m": 5678.376618407377,
       "line": "line-2",
       "original_cells": 232,
       "original_route_m": 5746.66089,
-      "reworked_cells": 193,
-      "reworked_route_m": 4129.949494,
+      "reworked_cells": 229,
+      "reworked_route_m": 5678.376618407357,
       "water_route_changes": []
     },
     {
@@ -734,7 +737,7 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "superseded-by-closed-retrace-removal; retained-edge geometry review",
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
           "original_length_m": 3289.210252,
           "seed_from_index": 0,
           "seed_to_index": 133,
@@ -742,65 +745,24 @@
           "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 2699.066376,
+      "final_core_route_m": 2699.0663761154838,
       "line": "line-3",
       "original_cells": 134,
       "original_route_m": 3289.210252,
       "reworked_cells": 114,
-      "reworked_route_m": 2699.066376,
+      "reworked_route_m": 2699.066376115481,
       "water_route_changes": []
     }
   ],
-  "residential_line_expansion": {
-    "accessible_walking_coverage_accepted": false,
-    "actual_regenerated_station_coverage": null,
-    "added_line_count": 0,
-    "added_lines": [],
-    "added_route_limit_m": 2650.01,
-    "added_route_m": 0.0,
-    "as_of": "2026-10-12",
-    "base_line_junction_changes": [],
-    "base_line_junction_reviews": [],
-    "baseline_actual_station_radial_fraction": 0.423993,
-    "baseline_with_sampled_infill_radial_fraction": 0.429548,
-    "bbox_population_2020": 177458.499,
-    "city": "sumbawanga",
-    "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
-    "final_line_count": 3,
-    "operating_release": false,
-    "original_line_count": 3,
-    "original_route_m": 10600.042,
-    "outcome": "bounded candidates exhausted; remaining residential gaps require further route/source/site investigation",
-    "physical_release": false,
-    "planned_stop_cells_by_line": {},
-    "population_is_current_census": false,
-    "population_year": 2020,
-    "proposed_station_sample_radial_fraction": 0.423993,
-    "rejected_priority_areas": [],
-    "schema": "osr-residential-line-expansion/1",
-    "sources_sha256": {
-      "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/access/population-pixels.npz.gz": "b915953c94ee5005f7951c57190eaae2a42d1ee333266eede65be373a8eac39a",
-      "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/access/population-source.json": "c6d5e00e8f4fc868e18d113d6fe64288911ff5ef0d846baceca82b8410b5eba4",
-      "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/network-expansion-baseline.json.gz": "15ad595e789a8960fadc5aba95f0f772f33f439670fe1a5061283c6b98fadf84",
-      "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/planning-terrain-slope.f32.gz": "aa136d65557acb2f60172da359dfc906116c2e838126a69150457bc44d92b52b",
-      "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/planning-terrain-source.json": "5d3e349b7f90c1ae19205b5268e1629f99100b312fc343971f20548dd78fe938",
-      "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
-      "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-      "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
-      "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
-      "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
-    },
-    "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
-    "status": "expanded-controlled-planning-layout",
-    "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
-    "target_met_in_proposed_station_sample": false,
-    "target_radial_fraction": 0.8
+  "network_correction": {
+    "report": "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/network-correction.json",
+    "sha256": "df29dbb626ec64ecc23e5b7816575152f53e447f39f584245daacbe20cf0c5cf"
   },
-  "schema_version": 3,
-  "sources_sha256": {
+  "pre_network_sources_sha256": {
     "cities/catalogue/east-africa/Tanzania/Sumbawanga/alignment-policy.toml": "963cea568bb579f15edcfaba39db5f69f10fb06aee5055714a1a341fc549fa32",
     "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/access/population-pixels.npz.gz": "b915953c94ee5005f7951c57190eaae2a42d1ee333266eede65be373a8eac39a",
     "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/access/population-source.json": "c6d5e00e8f4fc868e18d113d6fe64288911ff5ef0d846baceca82b8410b5eba4",
+    "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/network-correction.json": "f3876ff2a3d96fd633445ec50646faa2e9f749114f75c92ef32237f9016a67be",
     "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/network-expansion-baseline.json.gz": "15ad595e789a8960fadc5aba95f0f772f33f439670fe1a5061283c6b98fadf84",
     "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/planning-buildability-mask.bin.gz": "c21af92c3ad10420c269605817a5d639d29aa8723728b15942a9d1e23bcb3cf0",
     "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/planning-grid.json": "9ad42ab8241505d1ad993770b87688a07895bb64f602b52bced0f0b2487a9a50",
@@ -808,7 +770,7 @@
     "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/planning-terrain-source.json": "5d3e349b7f90c1ae19205b5268e1629f99100b312fc343971f20548dd78fe938",
     "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/planning-water-mask.bin.gz": "ef805133ee1de4f8bc28747247cad8d0c48011166c3621470ffc12b80e74754a",
     "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/pre-rework-corridors.json.gz": "8fcc706729dbe1d5a77aae139401930bde37071ae6cb414d93c85cea88af44bc",
-    "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/residential-line-expansion.json": "16ec93cff21a6e832d94459bc91f99dc4e88be4981e0fa0929d7b65d11dc33ab",
+    "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/residential-line-expansion.json": "355b424cd34d8d2eb1b2883778447804b846b11a584aa18a07fef5d18922be70",
     "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/water-source-receipt.json": "43ad12d63d82e6796511d5dc4d6be1c1c1acfcda89d60d5a45fed1ad6f737b4e",
     "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
@@ -819,6 +781,64 @@
     "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
     "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
     "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+  },
+  "residential_line_expansion": {
+    "accessible_walking_coverage_accepted": false,
+    "actual_regenerated_station_coverage": null,
+    "added_line_count": 0,
+    "added_lines": [],
+    "added_route_limit_m": 2650.01,
+    "added_route_m": 0.0,
+    "as_of": "2026-10-12",
+    "base_line_junction_changes": [],
+    "base_line_junction_reviews": [],
+    "baseline_actual_station_radial_fraction": 0.42399288,
+    "baseline_with_sampled_infill_radial_fraction": 0.42954832,
+    "bbox_population_2020": 177458.499,
+    "city": "sumbawanga",
+    "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
+    "final_line_count": 3,
+    "network_correction": {
+      "report": "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/network-correction.json",
+      "sha256": "df29dbb626ec64ecc23e5b7816575152f53e447f39f584245daacbe20cf0c5cf"
+    },
+    "operating_release": false,
+    "original_line_count": 3,
+    "original_route_m": 10600.042,
+    "outcome": "bounded candidates exhausted; remaining residential gaps require further route/source/site investigation",
+    "physical_release": false,
+    "planned_stop_cells_by_line": {},
+    "population_is_current_census": false,
+    "population_year": 2020,
+    "pre_network_sources_sha256": {
+      "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/access/population-pixels.npz.gz": "b915953c94ee5005f7951c57190eaae2a42d1ee333266eede65be373a8eac39a",
+      "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/access/population-source.json": "c6d5e00e8f4fc868e18d113d6fe64288911ff5ef0d846baceca82b8410b5eba4",
+      "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/network-correction.json": "f3876ff2a3d96fd633445ec50646faa2e9f749114f75c92ef32237f9016a67be",
+      "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/network-expansion-baseline.json.gz": "15ad595e789a8960fadc5aba95f0f772f33f439670fe1a5061283c6b98fadf84",
+      "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/planning-terrain-slope.f32.gz": "aa136d65557acb2f60172da359dfc906116c2e838126a69150457bc44d92b52b",
+      "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/planning-terrain-source.json": "5d3e349b7f90c1ae19205b5268e1629f99100b312fc343971f20548dd78fe938",
+      "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
+      "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+      "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+      "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
+      "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+    },
+    "proposed_station_sample_radial_fraction": 0.42399288,
+    "rejected_priority_areas": [],
+    "schema": "osr-residential-line-expansion/1",
+    "sources_sha256": {
+      "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/network-correction.json": "df29dbb626ec64ecc23e5b7816575152f53e447f39f584245daacbe20cf0c5cf"
+    },
+    "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
+    "status": "expanded-controlled-planning-layout",
+    "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
+    "target_met_in_proposed_station_sample": false,
+    "target_radial_fraction": 0.8
+  },
+  "schema_version": 3,
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/network-correction.json": "df29dbb626ec64ecc23e5b7816575152f53e447f39f584245daacbe20cf0c5cf",
+    "cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/alignment/residential-line-expansion.json": "5bca17cbc741884d12b4880f5baaf00053dcf03756ca96bf3ad7109542e2d386"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

@@ -153,28 +153,28 @@ def _build_query(bbox: BBox) -> str:
     * One cache entry per city > many tiny ones.
     * `out:json` streams all layers together so we parse once.
     """
-    b = bbox.as_overpass()
+    b = bbox.as_overpass()[1:-1]
 
-    arterials = "\n".join(f'  way["highway"="{t}"]{b};' for t in ARTERIAL_TAGS)
+    arterials = "\n".join(f'  way["highway"="{t}"];' for t in ARTERIAL_TAGS)
     anchors_q = "\n".join(
-        f'  node["{k}"="{v}"]{b};\n  way["{k}"="{v}"]{b};' for k, v, _ in ANCHOR_RULES
+        f'  node["{k}"="{v}"];\n  way["{k}"="{v}"];' for k, v, _ in ANCHOR_RULES
     )
 
     return f"""
-[out:json][timeout:120];
+[out:json][timeout:120][bbox:{b}];
 (
 {arterials}
-  way["building"]{b};
-  way["natural"="water"]{b};
-  relation["natural"="water"]{b};
-  way["waterway"="river"]{b};
-  way["boundary"="protected_area"]{b};
-  relation["boundary"="protected_area"]{b};
-  way["landuse"="military"]{b};
-  way["railway"~"^(rail|light_rail|subway|tram)$"]{b};
+  way["building"];
+  way["natural"="water"];
+  relation["natural"="water"];
+  way["waterway"="river"];
+  way["boundary"="protected_area"];
+  relation["boundary"="protected_area"];
+  way["landuse"="military"];
+  way["railway"~"^(rail|light_rail|subway|tram)$"];
 {anchors_q}
 );
-out geom tags;
+out body geom;
 """.strip()
 
 
@@ -196,7 +196,10 @@ def _fetch_overpass(query: str) -> dict[str, Any]:
                 headers={"User-Agent": UA},
                 timeout=HTTP_TIMEOUT_S,
             )
-            if r.status_code in {405, 406}:
+            # Some public gateways reject/time out POST while the identical
+            # URL-encoded GET succeeds. Preserve the complete query, rather
+            # than changing the requested layers or accepting partial data.
+            if r.status_code in {405, 406, 502, 503, 504}:
                 r = requests.get(endpoint, params={"data": query}, headers={"User-Agent": UA}, timeout=HTTP_TIMEOUT_S)
             if r.status_code == 429:
                 # Rate limited. Short sleep + next endpoint.
@@ -204,12 +207,18 @@ def _fetch_overpass(query: str) -> dict[str, Any]:
                 time.sleep(2)
                 continue
             r.raise_for_status()
-            return r.json()
+            return _complete_payload(r.json())
         except (requests.RequestException, ValueError) as e:
             last_exc = e
             log.warning("overpass fail at %s: %s", endpoint, e)
             time.sleep(1)
     raise OverpassError(f"all endpoints failed; last error: {last_exc}")
+
+
+def _complete_payload(raw: dict[str, Any]) -> dict[str, Any]:
+    if not isinstance(raw,dict) or not isinstance(raw.get('elements'),list) or raw.get('remark'):
+        raise ValueError('Incomplete Overpass response: '+str(raw.get('remark') if isinstance(raw,dict) else 'invalid JSON structure'))
+    return raw
 
 
 def _fetch_overpass_tiled(
@@ -245,9 +254,9 @@ def _fetch_overpass_tiled(
         tile_slug = f"{slug}-tile-{depth + 1}-{index}"
         tile_cache = _cache_path(cache_root, query, tile_slug)
         try:
-            payload = json.loads(tile_cache.read_text())
+            payload = _complete_payload(json.loads(tile_cache.read_text()))
             log.info("tile cache hit: %s", tile_cache.name)
-        except (OSError, json.JSONDecodeError):
+        except (OSError, ValueError):
             try:
                 payload = _fetch_overpass(query)
             except OverpassError:
@@ -428,11 +437,11 @@ def fetch_city(
         try:
             text = cpath.read_text()
             if text.strip():
-                raw = json.loads(text)
+                raw = _complete_payload(json.loads(text))
                 log.info("cache hit: %s", cpath.name)
                 return _parse_overpass(raw, bbox, slug)
             log.warning("cache empty for %s; refetching", cpath.name)
-        except (OSError, json.JSONDecodeError) as e:
+        except (OSError, ValueError) as e:
             log.warning("cache invalid for %s (%s); refetching", cpath.name, e)
         try:
             cpath.unlink()

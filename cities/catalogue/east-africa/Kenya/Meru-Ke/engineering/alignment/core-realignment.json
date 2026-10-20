@@ -7,12 +7,13 @@
     "west": 37.614305
   },
   "core_analytical_length_m": 18555.164578,
-  "core_final_route_length_m": 24499.007204,
+  "core_final_route_length_m": 27591.698397717013,
   "core_original_length_m": 22875.537662,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
     "centred_bbox_fraction": 0.6
   },
+  "final_route_quantity_basis": "Final complete line lengths in network-correction.json; former core analytical quantities superseded",
   "limitations": [
     "The centroid-centred rectangle is an explicit planning study area, not a verified city-centre boundary.",
     "Elevation does not grant property/air rights or clear buildings, protected sites, terrain, utilities or obstacles.",
@@ -36,7 +37,13 @@
               6680.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 11485.239533,
+          "seed_from_index": 87,
+          "seed_to_index": 607,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 3360.0,
@@ -49,20 +56,15 @@
                 8400.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 11485.239533,
-          "seed_from_index": 87,
-          "seed_to_index": 607,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 9372.447327,
+      "final_core_route_m": 11485.239533417489,
       "line": "line-1",
       "original_cells": 608,
       "original_route_m": 13589.747468,
-      "reworked_cells": 521,
-      "reworked_route_m": 11476.955262,
+      "reworked_cells": 608,
+      "reworked_route_m": 13589.747468305834,
       "water_route_changes": []
     },
     {
@@ -977,19 +979,20 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "retained-contour-route-avoids-new-terrain-conflict",
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
           "original_length_m": 5187.594514,
           "seed_from_index": 0,
           "seed_to_index": 225,
-          "simplification_tolerance_m": null
+          "simplification_tolerance_m": null,
+          "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 5187.594514,
+      "final_core_route_m": 5187.594513539349,
       "line": "line-2",
       "original_cells": 226,
       "original_route_m": 5187.594514,
       "reworked_cells": 226,
-      "reworked_route_m": 5187.594514,
+      "reworked_route_m": 5187.594513539338,
       "water_route_changes": []
     },
     {
@@ -1007,7 +1010,13 @@
               2900.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 6202.703615,
+          "seed_from_index": 0,
+          "seed_to_index": 253,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 9280.0,
@@ -1020,34 +1029,57 @@
                 7260.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 6202.703615,
-          "seed_from_index": 0,
-          "seed_to_index": 253,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 5015.634919,
+      "final_core_route_m": 5995.533905932761,
       "line": "line-3",
       "original_cells": 390,
       "original_route_m": 9295.495822,
-      "reworked_cells": 364,
-      "reworked_route_m": 8080.142853,
+      "reworked_cells": 384,
+      "reworked_route_m": 9060.04184082106,
       "water_route_changes": []
     },
     {
       "core_runs": [],
-      "final_core_route_m": 4923.330445,
+      "final_core_route_m": 4923.330444827418,
       "geometry_basis": "population-led additional corridor; curve/profile and structural review open",
       "line": "line-4",
       "original_cells": 0,
       "original_route_m": 0,
       "reworked_cells": 219,
-      "reworked_route_m": 4923.330445,
+      "reworked_route_m": 4923.330444827409,
       "water_route_changes": []
     }
   ],
+  "network_correction": {
+    "report": "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/network-correction.json",
+    "sha256": "f6e2e46c3def3991e88bcb4e843bf6eaf360c576f0e98e9be213b621156f8f7b"
+  },
+  "pre_network_sources_sha256": {
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/alignment-policy.toml": "199d19195aa6a265eb9e1742124ff0b652cfcad11825559696456b50cd87ad90",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/access/population-pixels.npz.gz": "f3ceb110d6470a8f19c2da8e0c052839bd7b3b75be08d029c86eaecdc2641d83",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/access/population-source.json": "ead61a364dc36aff1eaea88af91fda42c256c7894e0078d9d1f939f4ac0051cf",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/network-correction.json": "f5f4765ff57e270c725237080d7e46ea4ae400025c70341ee323cd495500a585",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/network-expansion-baseline.json.gz": "64ef4ed7b6cabf08b03cc699b1f56e339da86d66b76e878c86fe2e5abc0907d7",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-buildability-mask.bin.gz": "380eea312060c53a02d10457949cbd99fa462f1ba2ddc77cb02241185ee3f73b",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-grid.json": "cb308443f244e10f49011378d7787064f575569c2feb5322b0ed263a1d3f6038",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-terrain-slope.f32.gz": "b56638d6add6fab9c2857cb442f62cbaca059b7f99014782db722303fecc066b",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-terrain-source.json": "ca6b871d6af56a8ccb6c61243d3f0f598b8b06c5599a080442ec97691d59bad0",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-water-mask.bin.gz": "681dfb0bd7149653b497fecbe5fe4790a1ba40ee6ccf740a171e2d12c542db06",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/pre-rework-corridors.json.gz": "ab34abcd8f58e40ed02e40ee6bcfbfebb176785754a542762a762215f353f039",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/residential-line-expansion.json": "236ebb7281aa43d2e7290a2fa7c882401e24f80b9dbba7230c45f8abc04ed681",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/water-source-receipt.json": "3c69a8805a7bef66cb9eaca6c17a6ea0bfde1bfc89bf0fd092008de112f9339d",
+    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
+    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
+    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
+    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+  },
   "residential_line_expansion": {
     "accessible_walking_coverage_accepted": false,
     "actual_regenerated_station_coverage": null,
@@ -1064,7 +1096,7 @@
         "end_connection_line": null,
         "geometry_basis": "bounded water/buildability raster investigation route",
         "incremental_residents_2020": 9640.975,
-        "length_m": 4923.330445,
+        "length_m": 4923.330444827409,
         "line": "line-4",
         "priority_areas": [
           [
@@ -1094,12 +1126,16 @@
     "as_of": "2026-10-12",
     "base_line_junction_changes": [],
     "base_line_junction_reviews": [],
-    "baseline_actual_station_radial_fraction": 0.257106,
-    "baseline_with_sampled_infill_radial_fraction": 0.348308,
+    "baseline_actual_station_radial_fraction": 0.25710592,
+    "baseline_with_sampled_infill_radial_fraction": 0.34830842,
     "bbox_population_2020": 202964.388,
     "city": "meru-ke",
     "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
     "final_line_count": 4,
+    "network_correction": {
+      "report": "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/network-correction.json",
+      "sha256": "f6e2e46c3def3991e88bcb4e843bf6eaf360c576f0e98e9be213b621156f8f7b"
+    },
     "operating_release": false,
     "original_line_count": 3,
     "original_route_m": 24744.693,
@@ -1108,12 +1144,10 @@
     "planned_stop_cells_by_line": {},
     "population_is_current_census": false,
     "population_year": 2020,
-    "proposed_station_sample_radial_fraction": 0.304607,
-    "rejected_priority_areas": [],
-    "schema": "osr-residential-line-expansion/1",
-    "sources_sha256": {
+    "pre_network_sources_sha256": {
       "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/access/population-pixels.npz.gz": "f3ceb110d6470a8f19c2da8e0c052839bd7b3b75be08d029c86eaecdc2641d83",
       "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/access/population-source.json": "ead61a364dc36aff1eaea88af91fda42c256c7894e0078d9d1f939f4ac0051cf",
+      "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/network-correction.json": "f5f4765ff57e270c725237080d7e46ea4ae400025c70341ee323cd495500a585",
       "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/network-expansion-baseline.json.gz": "64ef4ed7b6cabf08b03cc699b1f56e339da86d66b76e878c86fe2e5abc0907d7",
       "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-terrain-slope.f32.gz": "b56638d6add6fab9c2857cb442f62cbaca059b7f99014782db722303fecc066b",
       "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-terrain-source.json": "ca6b871d6af56a8ccb6c61243d3f0f598b8b06c5599a080442ec97691d59bad0",
@@ -1123,6 +1157,12 @@
       "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
       "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
     },
+    "proposed_station_sample_radial_fraction": 0.30460674,
+    "rejected_priority_areas": [],
+    "schema": "osr-residential-line-expansion/1",
+    "sources_sha256": {
+      "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/network-correction.json": "f6e2e46c3def3991e88bcb4e843bf6eaf360c576f0e98e9be213b621156f8f7b"
+    },
     "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
     "status": "expanded-controlled-planning-layout",
     "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
@@ -1131,27 +1171,8 @@
   },
   "schema_version": 3,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/alignment-policy.toml": "199d19195aa6a265eb9e1742124ff0b652cfcad11825559696456b50cd87ad90",
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/access/population-pixels.npz.gz": "f3ceb110d6470a8f19c2da8e0c052839bd7b3b75be08d029c86eaecdc2641d83",
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/access/population-source.json": "ead61a364dc36aff1eaea88af91fda42c256c7894e0078d9d1f939f4ac0051cf",
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/network-expansion-baseline.json.gz": "64ef4ed7b6cabf08b03cc699b1f56e339da86d66b76e878c86fe2e5abc0907d7",
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-buildability-mask.bin.gz": "380eea312060c53a02d10457949cbd99fa462f1ba2ddc77cb02241185ee3f73b",
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-grid.json": "cb308443f244e10f49011378d7787064f575569c2feb5322b0ed263a1d3f6038",
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-terrain-slope.f32.gz": "b56638d6add6fab9c2857cb442f62cbaca059b7f99014782db722303fecc066b",
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-terrain-source.json": "ca6b871d6af56a8ccb6c61243d3f0f598b8b06c5599a080442ec97691d59bad0",
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/planning-water-mask.bin.gz": "681dfb0bd7149653b497fecbe5fe4790a1ba40ee6ccf740a171e2d12c542db06",
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/pre-rework-corridors.json.gz": "ab34abcd8f58e40ed02e40ee6bcfbfebb176785754a542762a762215f353f039",
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/residential-line-expansion.json": "23d47cecd7addf192ce2a01ded5ed9f746fcd9a3c961f09a390f8520d9109739",
-    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/water-source-receipt.json": "3c69a8805a7bef66cb9eaca6c17a6ea0bfde1bfc89bf0fd092008de112f9339d",
-    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
-    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
-    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
-    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
-    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
-    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
-    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
-    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/network-correction.json": "f6e2e46c3def3991e88bcb4e843bf6eaf360c576f0e98e9be213b621156f8f7b",
+    "cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/alignment/residential-line-expansion.json": "ff7af5a1c83eaa5ad1c9726315635eec9524384354b6bb6d93ea97fb873ae467"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

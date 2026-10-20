@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.525,
+    "high_demand_cell_fraction": 0.382,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 6063805.770187378,
     "catchments": [
       {
-        "covered_population_2020": 529230.5806503296,
-        "fraction_of_raster_population": 0.08727696775056432,
+        "covered_population_2020": 604905.3105735779,
+        "fraction_of_raster_population": 0.09975670948228371,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 1277967.2418670654,
-        "fraction_of_raster_population": 0.2107533272503837,
+        "covered_population_2020": 1426279.1105575562,
+        "fraction_of_raster_population": 0.2352118726443777,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 1884272.327659607,
-        "fraction_of_raster_population": 0.31074087777078996,
+        "covered_population_2020": 2072080.8227424622,
+        "fraction_of_raster_population": 0.34171292770125,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 3632517.0413093567,
-        "fraction_of_raster_population": 0.5990490426274172,
+        "covered_population_2020": 3867748.5042304993,
+        "fraction_of_raster_population": 0.6378417533170726,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 4809969.935508728,
-        "fraction_of_raster_population": 0.7932262539075513,
+        "covered_population_2020": 4964672.309745789,
+        "fraction_of_raster_population": 0.8187386763201644,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,16 +74,16 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 23,
+    "unique_station_coordinates": 29,
     "valid_pixels": 32565
   },
   "population_source_country": "BD",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/south-asia/Bangladesh/Narayanganj/design.toml": "a78b72db40289f2eba0cba64a55a77458530d86f2719a19a28d082dafb65a183",
+    "cities/catalogue/south-asia/Bangladesh/Narayanganj/design.toml": "9a83f40644e8263af39ef9e1807ee5d099888317f5b5577763baed01c0c422da",
     "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/access/population-pixels.npz.gz": "b5b7acbf0ec07f093eb320224b99594f82be9eab703631444766f17949e5a569",
     "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/access/population-source.json": "7118d6dd869dd353233ed47b47783ef878d243cd76d802d393a41582127ee00f",
-    "cities/catalogue/south-asia/Bangladesh/Narayanganj/narayanganj.design-quality.yaml": "62ca67be4762b6833af26dd6ea8ba16f35cd0c419c41a4dbc9fb0df8896bfda6",
+    "cities/catalogue/south-asia/Bangladesh/Narayanganj/narayanganj.design-quality.yaml": "08480a5c8cb3c8b51c8a9e8ebbbdca63214f232332fca30622d8036562ce968a",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
@@ -100,10 +100,10 @@
         "line-5"
       ]
     ],
-    "direct_transfer_fraction": 0.4,
+    "direct_transfer_fraction": 0.5,
     "line_count": 5,
     "line_pair_count": 10,
-    "maximum_required_transfers": 3,
+    "maximum_required_transfers": 2,
     "pairs": [
       {
         "lines": [
@@ -138,35 +138,35 @@
           "line-2",
           "line-3"
         ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-4"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-2",
+          "line-5"
+        ],
+        "minimum_transfers": 1
+      },
+      {
+        "lines": [
+          "line-3",
+          "line-4"
+        ],
         "minimum_transfers": 2
       },
       {
         "lines": [
-          "line-2",
-          "line-4"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-2",
-          "line-5"
-        ],
-        "minimum_transfers": 1
-      },
-      {
-        "lines": [
-          "line-3",
-          "line-4"
-        ],
-        "minimum_transfers": 3
-      },
-      {
-        "lines": [
           "line-3",
           "line-5"
         ],
-        "minimum_transfers": 3
+        "minimum_transfers": 2
       },
       {
         "lines": [
@@ -177,6 +177,6 @@
       }
     ],
     "reachable_line_pair_fraction": 1.0,
-    "reachable_with_at_most_two_transfers_fraction": 0.8
+    "reachable_with_at_most_two_transfers_fraction": 1.0
   }
 }

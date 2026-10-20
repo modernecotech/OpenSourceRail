@@ -1,107 +1,34 @@
-# Luxor — Urban Rail Network
+# Luxor — provisional network
 
-**Country:** EG · **Population:** 500,000 · [National brief](../NATIONAL-BRIEF.md)
+**Engineering revalidation pending.** Current geometry and planning quantities are published below. The package remains incomplete; no engineering, manufacturing or physical release is claimed.
 
-This page contains only Luxor-specific results. Shared routing, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../../docs/deployment-planning-reference.md).
+[Current design coverage and open gates](engineering/design-system/index.html) · [Exact package status](package-manifest.json).
 
-> [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this local plan avoids **$1.54 bn (88.6%) of external capital** and **$1.89 bn of external interest**. Capital plus saved interest totals **$3.43 bn**. See the common reference for interpretation and limitations.
+| Current planning measure | Value |
+| --- | --- |
+| Lines | 5 |
+| Route length | 63.1 km |
+| Proposed platform records | 37 |
+| Planned fleet | 213 trainsets |
 
-**Population-led network revision (2026-10-12).** The controlled planning inventory contains **5 lines**, including **2 additional residential lines**. **48.2%** of retained 2020 bbox residents are within a 1 km circle of the actual emitted station coordinates. The working target is 80%; remaining areas and station/access alternatives remain in the review. These are distance screens, not current census, surveyed walksheds or fare demand. New common corridor cells have identified junction/structure and access design requirements; no track switch or site approval is inferred. Country fleet, depot, civil, energy, staffing and financing models use the regenerated inventory, with installed quotations and operating acceptance still open. [Line additions and priorities](engineering/alignment/residential-line-expansion.json) · [Actual station coverage and source receipts](engineering/alignment/residential-expansion-evaluation.json).
+![Current proposed network](luxor-network-map.png)
 
-**Current alignment, depot and production basis.** Core corridors change from **46.622 km to 51.914 km**, with elevated land sections, water-aware radial routes and separately engineered bridge candidates at short water crossings. 0 core fragments retain raster geometry for further curve review. The centre is a design-centroid screen; survey, property, obstacles, foundations and geometry releases remain open. All **20 platform points** pass the retained water-mask screen; footprints, bank stability and access remain open. [Alignment controls](engineering/alignment/core-realignment.json) · [Before/after map](engineering/alignment/core-alignment-comparison.png) · [Water screen](engineering/alignment/station-water-screen.json).
+[Source-bound corridor correction](engineering/alignment/network-correction.json) · [Independent geometry and transfer audit](engineering/alignment/network-topology.json).
 
-**5 line-local depots** provide **177 full-fleet storage slots**, separate from workshop bays. Fleet length and workload set quantities; PV/storage is included once in depot capital. Site acceptance and installed/land/utility quotations remain open. [Depot costs](engineering/line-depots/README.md). The factory requires **177 light-metro-3car trainsets / 531 cars**, with **18-month facility readiness**, then qualification and manufacture. Integrated openings wait for fleet readiness where production or test paths constrain them. Shared factory capital is counted once; concurrent national loading and supplier commitments remain open. [Factory and dates](engineering/factory/README.md).
+| Line | Route km | Proposed platforms |
+| --- | --- | --- |
+| line-1 | 13.3 | 8 |
+| line-2 | 23.1 | 10 |
+| line-3 | 16.7 | 11 |
+| line-4 | 5.4 | 6 |
+| line-5 | 4.7 | 2 |
 
-Station staffing uses two posts, two normal eight-hour shifts, plus service-window, leave and training cover. Basic wages start at 1.5 times the retained country income proxy, with higher technical/management grades and employer allowances. [Staff](engineering/delivery/README.md) · [Finance](engineering/finance/summary.json). Finance retains country-specific fixed-price, steady-state assumptions; Baghdad’s indexed cashflows are separate.
+The geometry audit checks the retained water mask, line continuity, grouped platforms and self-intersections. Walking access, levels, detailed structures and site acceptance remain open.
 
-Auto-planned by the OpenSourceRail design pipeline from the controlled city catalogue, source-locked geospatial inputs and shared templates. Population is counted once within the union of station circles; this is potential radial access, not a verified walkshed or fare-demand estimate. Reachable line pairs include transfers through intermediate lines. [Population radii, denominator and transfer paths](engineering/access/README.md) · [Viaduct beam, foundation and terrain checks](engineering/clearance/README.md). Capital figures are base planning allowances: route-search scores are excluded from money, while special structures and installed-price gaps remain open. [Cost boundary](../../../../../docs/finance/civil-allowance-boundary.md).
+## Evidence awaiting revalidation
 
-## Network
+Retained operating, energy, clearance and delivery reports apply to their recorded source revisions. This page gives them no current-layout pass. The package manifest lists stale and missing evidence.
 
-![Luxor rail network on OpenStreetMap](luxor-network-map.png)
+[Retained operating evidence](engineering/simulation/validation-summary.json) · [Retained energy evidence](engineering/energy/summary.json) · [Clearance evidence](engineering/clearance/README.md) · [Planning finance and its assumptions](engineering/finance/summary.json).
 
-| Local measure | Value |
-|---|---:|
-| Lines / unique stations / interchanges | 5 / 20 / 4 |
-| Route length | 55.9 km double track |
-| Direct transfers / reachable line pairs | 40.0% / 60.0% |
-| Residents within 800 m radial station catchments | 1,029,508 (2020 raster; 35.1% of bbox) |
-| Service span / peak headway | 05:30–02:00 / 3 min |
-| Fleet | 177 × 3-car `light-metro-3car` trainsets (159 peak revenue) |
-| Peak network throughput | 72,000 passengers/hour |
-| Practical service capacity | 669,600 passenger-trips/day |
-| Annual paid-trip planning range | 122.2–195.5 M |
-
-### Lines
-
-| Line | Length | Stations | Trainsets | Termini |
-|---|---:|---:|---:|---|
-| line-1 | 10.1 km | 4 | 31 | NW Mid ↔ S Inner |
-| line-2 | 23.1 km | 8 | 73 | SW Outer ↔ NE Mid |
-| line-3 | 12.6 km | 4 | 39 | E Mid ↔ NW Mid |
-| line-4 |  5.4 km | 2 | 18 | E Mid ↔ E Inner |
-| line-5 |  4.7 km | 2 | 16 | NE Inner ↔ E Mid |
-| **Total** | **55.9 km** | **20 unique** | **177** | |
-
-## Energy
-
-| Local measure | Value |
-|---|---:|
-| Scheduled service | 2,325 one-way journeys / 25,978 train-km/day |
-| Annual traction demand | 122.9 GWh |
-| Station/depot PV / storage | 28.9 MW / 206.5 MWh |
-| Aggregate charging power | 9.0 MW |
-| Dedicated solar plant | 31.3 MW |
-| Residual grid/PPA import | 0.0 GWh/yr |
-| Worst powered-stop gap | line-2: 12.6 km / 102 kWh |
-| Lowest traversal charging margin | line-5: 16 kWh |
-
-## Capital And Funding
-
-| Local CAPEX bucket | Planning value |
-|---|---:|
-| Civil works | $536 M |
-| Stations | $94 M |
-| Depots | $85 M |
-| Rolling stock | $159 M |
-| Dedicated solar plant | $25 M |
-| Residual train control | $2.8 M |
-| Charging microgrids | $1.9 M |
-| EPC / project services | $61 M |
-| **Total city programme** | **$965 M** |
-
-| Local funding measure | Planning value |
-|---|---:|
-| Imported / external capital | $199 M (20.6%) |
-| Domestic / local capital | $766 M (79.4%) |
-| Annual public construction commitment | $104 M / yr for 5 years |
-| Annual post-grace debt service | $78 M / yr |
-| External capital saved vs default turnkey sensitivity | $1.54 bn |
-| Capital + lifetime external interest saved | $3.43 bn |
-| Annual OPEX | $26 M / yr |
-
-## Local Evidence
-
-| Package | Current status | Evidence |
-|---|---|---|
-| Finance | pass | [`summary.json`](engineering/finance/summary.json) |
-| Native simulation + degraded cases | pass | [`validation-summary.json`](engineering/simulation/validation-summary.json) |
-| SUMO timetable | pass | [`summary.json`](engineering/sumo/summary.json) |
-| Independent OSR/SUMO running-time cross-check | pass; junction/authority gate open | [`operations-crosscheck.md`](engineering/simulation/operations-crosscheck.md) |
-| GIS package | pass | [`summary.json`](engineering/gis/summary.json) |
-| Solar/storage snapshot (operating duty unverified) | pass; 0 findings; 3 grid-only diagnostics | [`summary.json`](engineering/energy/summary.json) |
-| Operations, QA and maintenance | 313 assets / 1,957 tasks | [`luxor-operations-manifest.json`](operations/luxor-operations-manifest.json) |
-
-## Local Files And Regeneration
-
-| File | Local role |
-|---|---|
-| [`design.toml`](design.toml) | Authoritative generated city design |
-| [`luxor.toml`](luxor.toml) | Expanded simulator scenario |
-| [`luxor.corridor.geojson`](luxor.corridor.geojson) | GIS corridor and stations |
-| [`luxor.design-quality.yaml`](luxor.design-quality.yaml) | Coverage, source and civil-quality gates |
-
-```bash
-tools/automation/regenerate-city.sh luxor
-```
+Planning finance uses controlled assumptions and does not establish bids, funding commitments or operating performance.

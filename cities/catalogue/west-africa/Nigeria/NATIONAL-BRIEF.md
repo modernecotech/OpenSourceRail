@@ -3,7 +3,7 @@
 This page contains only Nigeria-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$46.35 B (88.4%) of external capital** and **$58.11 B of external interest**. Capital plus saved interest totals **$104.46 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$46.55 B (88.4%) of external capital** and **$58.35 B of external interest**. Capital plus saved interest totals **$104.90 B**.
 
 ## National Programme
 
@@ -11,40 +11,40 @@ This page contains only Nigeria-specific aggregation. Shared network, service, e
 |---|---:|
 | Catalogue cities | 10 |
 | Represented population | 19,200,000 |
-| Trainsets / vehicle modules | 2,811 / 12,880 |
-| City infrastructure and fleet CAPEX | $28.19 B |
+| Trainsets / vehicle modules | 2,829 / 12,934 |
+| City infrastructure and fleet CAPEX | $28.31 B |
 | Shared national factory | $877.6 M |
 | Factory sizing basis | 4,662 modules for Kano, then reused nationally |
-| **Total national programme** | **$29.13 B** |
+| **Total national programme** | **$29.25 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $6.08 B (20.9%) |
-| Domestic / local capital | $23.05 B (79.1%) |
-| Annual external capital draw | $868.3 M / yr |
-| Annual local capital draw | $3.29 B / yr |
-| Annual public construction commitment | $3.42 B / yr for 7 years |
-| Annual post-grace debt service | $2.89 B / yr |
-| Default foreign-turnkey external capital | $52.43 B |
-| External capital saved | $46.35 B |
-| Capital + lifetime external interest saved | $104.46 B |
+| Imported / external capital | $6.10 B (20.9%) |
+| Domestic / local capital | $23.15 B (79.1%) |
+| Annual external capital draw | $872.1 M / yr |
+| Annual local capital draw | $3.31 B / yr |
+| Annual public construction commitment | $3.44 B / yr for 7 years |
+| Annual post-grace debt service | $2.90 B / yr |
+| Default foreign-turnkey external capital | $52.65 B |
+| External capital saved | $46.55 B |
+| Capital + lifetime external interest saved | $104.90 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $15.17 B | $2.28 B | $12.89 B |
-| Stations | $4.26 B | $851.7 M | $3.41 B |
-| Depots | $1.43 B | $357.0 M | $1.07 B |
-| Rolling stock | $3.64 B | $1.27 B | $2.37 B |
-| Dedicated solar plants | $1.67 B | $752.3 M | $919.5 M |
-| Residual train control | $78.7 M | $39.4 M | $39.4 M |
-| Charging microgrids | $207.2 M | $82.9 M | $124.3 M |
-| EPC / project services | $1.80 B | $269.4 M | $1.53 B |
+| Civil works | $15.19 B | $2.28 B | $12.91 B |
+| Stations | $4.33 B | $866.1 M | $3.46 B |
+| Depots | $1.43 B | $357.6 M | $1.07 B |
+| Rolling stock | $3.66 B | $1.28 B | $2.38 B |
+| Dedicated solar plants | $1.67 B | $752.7 M | $919.9 M |
+| Residual train control | $78.9 M | $39.4 M | $39.4 M |
+| Charging microgrids | $208.0 M | $83.2 M | $124.8 M |
+| EPC / project services | $1.80 B | $270.6 M | $1.53 B |
 | Shared national trainset factory | $877.6 M | $175.5 M | $702.1 M |
-| **Total** | **$29.13 B** | **$6.08 B** | **$23.05 B** |
+| **Total** | **$29.25 B** | **$6.10 B** | **$23.15 B** |
 
 ## City Programme
 
@@ -58,7 +58,7 @@ This page contains only Nigeria-specific aggregation. Shared network, service, e
 | [Maiduguri](Maiduguri/README.md) | 1,200,000 | 253 | $3.23 B | $623.9 M | $2.61 B | 8 | 3 | 30.7% | 36.8% |
 | [Ilorin](Ilorin/README.md) | 1,000,000 | 180 | $1.01 B | $211.6 M | $802.2 M | 5 | 2 | 20.9% | 24.7% |
 | [Aba Ng](Aba-Ng/README.md) | 900,000 | 115 | $673.8 M | $139.8 M | $534.0 M | 4 | 1 | 27.2% | 30.0% |
-| [Jos](Jos/README.md) | 900,000 | 185 | $989.5 M | $203.4 M | $786.2 M | 5 | 2 | 21.6% | 28.1% |
+| [Jos](Jos/README.md) | 900,000 | 203 | $1.11 B | $229.4 M | $883.0 M | 5 | 2 | 21.6% | 28.9% |
 | [Uyo](Uyo/README.md) | 800,000 | 124 | $735.8 M | $152.9 M | $582.8 M | 4 | 1 | 14.7% | 17.9% |
 
 ## Local Basis And Regeneration

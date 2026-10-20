@@ -1,16 +1,16 @@
 # Kafr-El-Sheikh city-order factory requirement
 
-**72 tram-2car trainsets / 144 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**89 tram-2car trainsets / 178 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 205.3 trainsets/year, 2 separate test paths, 344 direct production FTE. Plant reference envelope: **USD 251.299m**.
+Planning output: 260.0 trainsets/year, 3 separate test paths, 428 direct production FTE. Plant reference envelope: **USD 300.664m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 28 | 603 | 693 | 693 |
-| line-2 | 20 | 629 | 719 | 719 |
-| line-3 | 11 | 643 | 733 | 733 |
-| line-4 | 13 | 659 | 749 | 749 |
+| line-1 | 29 | 598 | 688 | 688 |
+| line-2 | 28 | 626 | 716 | 716 |
+| line-3 | 19 | 645 | 735 | 735 |
+| line-4 | 13 | 658 | 748 | 748 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

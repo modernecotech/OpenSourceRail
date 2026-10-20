@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "analysis_id": "OSR-OPERATIONS-CROSSCHECK:lobito",
+  "city": "lobito",
+  "passed": true,
+  "status": "running-time-screen-passed-awaiting-junction-evidence",
+  "automatic_crosscheck_passed": true,
+  "full_service_evidence_current": true,
+  "full_service_evidence_basis": "source-bound-CI-executable",
+  "full_service_evidence_passed": true,
+  "line_scope_matches": true,
+  "reference_findings": [],
+  "reference_basis": "separately generated kinematic reference; not a service replay",
+  "relative_tolerance": 0.15,
+  "absolute_tolerance_s": 120.0,
+  "line_comparisons": [
+    {
+      "line_id": "line-1",
+      "osr_reference_trip_time_s": 1860.318,
+      "sumo_mean_trip_time_s": 1859.5,
+      "delta_s": -0.818,
+      "delta_percent_of_osr": -0.044,
+      "tolerance_s": 279.048,
+      "passed": true
+    },
+    {
+      "line_id": "line-2",
+      "osr_reference_trip_time_s": 1153.091,
+      "sumo_mean_trip_time_s": 1155.5,
+      "delta_s": 2.409,
+      "delta_percent_of_osr": 0.209,
+      "tolerance_s": 172.964,
+      "passed": true
+    },
+    {
+      "line_id": "line-3",
+      "osr_reference_trip_time_s": 773.0,
+      "sumo_mean_trip_time_s": 767.5,
+      "delta_s": -5.5,
+      "delta_percent_of_osr": -0.712,
+      "tolerance_s": 120.0,
+      "passed": true
+    },
+    {
+      "line_id": "line-4",
+      "osr_reference_trip_time_s": 524.318,
+      "sumo_mean_trip_time_s": 518.5,
+      "delta_s": -5.818,
+      "delta_percent_of_osr": -1.11,
+      "tolerance_s": 120.0,
+      "passed": true
+    }
+  ],
+  "junction_occupancy_passed": false,
+  "junction_findings": [
+    "independently reviewed junction-occupancy evidence not received"
+  ],
+  "authority_accepted": false,
+  "acceptance_findings": [
+    "signed operational acceptance record not received"
+  ],
+  "evidence_hashes": {
+    "design_sha256": "29ccbc94fbceeae89a39e05179904ec61cbc38bfd083670897fce6ba1dda1b94",
+    "sumo_summary_sha256": "3c76a20a2e6e9e82f7a611b4ab4cb48096aead4a8ab326a1cf93f7c9a54a00b0",
+    "simulation_summary_sha256": "9f42c78220160b9be13009d4e8b8aec8bdce7e8498c451f56b131cdd2e817283",
+    "native_timing_reference_sha256": "187e5edcf97758384d6b34b391427d9e07971a324fa246434df4703501761b2a",
+    "ci_execution_sha256": "3e8f6a3e68886401181c2aa89cd7af18e1c4962d01703789c7f9305aab353ba6",
+    "ci_verifier_sha256": "9519137c171b98fa52b3982349a579c86cfc7ae6e61a72d1900ea671c5ac8ae9"
+  },
+  "junction_evidence_sha256": null,
+  "generator": "engineering/analysis/operations_crosscheck.py",
+  "generator_sha256": "79123a863b6c077a28d751f48d76c3935f1992576eceaeaabcb182c1be6e58f7",
+  "sources": {
+    "design": "cities/catalogue/central-africa/Angola/Lobito/design.toml",
+    "sumo_summary": "cities/catalogue/central-africa/Angola/Lobito/engineering/sumo/summary.json",
+    "simulation_summary": "cities/catalogue/central-africa/Angola/Lobito/engineering/simulation/validation-summary.json",
+    "native_timing_reference": "cities/catalogue/central-africa/Angola/Lobito/engineering/simulation/native-timing-reference.json",
+    "ci_execution": "cities/catalogue/central-africa/Angola/Lobito/engineering/simulation/ci-execution.json",
+    "ci_verifier": "tools/automation/planning_ci_evidence.py"
+  },
+  "technical_boundary": "The automatic result is a deterministic planning-model timing comparison, not proof of safe headways, signalling performance or junction capacity.",
+  "acceptance_boundary": "Junction occupancy must be checked in an independently reviewed conflict-capable model and the operator or authority must sign the bound evidence before operational release."
+}

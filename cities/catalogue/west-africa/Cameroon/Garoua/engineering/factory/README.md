@@ -1,16 +1,16 @@
 # Garoua city-order factory requirement
 
-**109 light-metro-3car trainsets / 327 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
+**122 light-metro-3car trainsets / 366 cars**. Facility readiness is **18 months from NTP**; fleet qualification and series manufacture follow it.
 
-Planning output: 312.0 trainsets/year, 3 separate test paths, 757 direct production FTE. Plant reference envelope: **USD 355.293m**.
+Planning output: 346.7 trainsets/year, 4 separate test paths, 839 direct production FTE. Plant reference envelope: **USD 391.516m**.
 
 This is an independent city-order capacity requirement. Shared factory capital is counted once in the national brief. Concurrent cities, factory availability, national sequencing and suppliers remain uncommitted. Production wages/materials are within train prices, not repeated in the plant envelope. Reference cycles require measured family-specific qualification; smaller trains retain conservative reference cycles.
 
 | Line | Trainsets | Infrastructure working day | Fleet working day | Integrated working day |
 |---|---:|---:|---:|---:|
-| line-1 | 32 | 595 | 685 | 685 |
-| line-2 | 35 | 625 | 715 | 715 |
-| line-3 | 26 | 646 | 736 | 736 |
-| line-4 | 16 | 660 | 750 | 750 |
+| line-1 | 42 | 601 | 691 | 691 |
+| line-2 | 35 | 627 | 717 | 717 |
+| line-3 | 28 | 648 | 738 | 738 |
+| line-4 | 17 | 661 | 751 | 751 |
 
 All dates are conditional working days from NTP, not fare receipt dates or acceptance. Small-city civil work may finish before factory readiness; its integrated opening is delayed explicitly. National/pre-NTP finance, site release, recruitment, equipment delivery and type acceptance remain open.

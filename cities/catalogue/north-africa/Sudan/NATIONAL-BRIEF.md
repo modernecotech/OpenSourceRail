@@ -3,7 +3,7 @@
 This page contains only Sudan-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$28.06 B (88.4%) of external capital** and **$36.25 B of external interest**. Capital plus saved interest totals **$64.31 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$28.57 B (88.4%) of external capital** and **$36.90 B of external interest**. Capital plus saved interest totals **$65.47 B**.
 
 ## National Programme
 
@@ -11,40 +11,40 @@ This page contains only Sudan-specific aggregation. Shared network, service, ene
 |---|---:|
 | Catalogue cities | 6 |
 | Represented population | 10,729,000 |
-| Trainsets / vehicle modules | 1,820 / 8,287 |
-| City infrastructure and fleet CAPEX | $17.10 B |
-| Shared national factory | $507.2 M |
+| Trainsets / vehicle modules | 1,866 / 8,425 |
+| City infrastructure and fleet CAPEX | $17.37 B |
+| Shared national factory | $554.0 M |
 | Factory sizing basis | 4,584 modules for Khartoum, then reused nationally |
-| **Total national programme** | **$17.64 B** |
+| **Total national programme** | **$17.96 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $3.70 B (21.0%) |
-| Domestic / local capital | $13.95 B (79.0%) |
-| Annual external capital draw | $369.6 M / yr |
-| Annual local capital draw | $1.39 B / yr |
-| Annual public construction commitment | $2.12 B / yr for 10 years |
-| Annual post-grace debt service | $1.93 B / yr |
-| Default foreign-turnkey external capital | $31.76 B |
-| External capital saved | $28.06 B |
-| Capital + lifetime external interest saved | $64.31 B |
+| Imported / external capital | $3.76 B (20.9%) |
+| Domestic / local capital | $14.20 B (79.1%) |
+| Annual external capital draw | $376.3 M / yr |
+| Annual local capital draw | $1.42 B / yr |
+| Annual public construction commitment | $2.16 B / yr for 10 years |
+| Annual post-grace debt service | $1.96 B / yr |
+| Default foreign-turnkey external capital | $32.33 B |
+| External capital saved | $28.57 B |
+| Capital + lifetime external interest saved | $65.47 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $8.98 B | $1.35 B | $7.64 B |
-| Stations | $2.73 B | $546.8 M | $2.19 B |
-| Depots | $849.2 M | $212.3 M | $636.9 M |
-| Rolling stock | $2.35 B | $823.1 M | $1.53 B |
-| Dedicated solar plants | $947.5 M | $426.4 M | $521.1 M |
-| Residual train control | $47.3 M | $23.6 M | $23.6 M |
-| Charging microgrids | $128.0 M | $51.2 M | $76.8 M |
-| EPC / project services | $1.09 B | $163.8 M | $928.3 M |
-| Shared national trainset factory | $507.2 M | $101.4 M | $405.8 M |
-| **Total** | **$17.64 B** | **$3.70 B** | **$13.95 B** |
+| Civil works | $9.11 B | $1.37 B | $7.74 B |
+| Stations | $2.81 B | $561.3 M | $2.25 B |
+| Depots | $856.6 M | $214.1 M | $642.4 M |
+| Rolling stock | $2.39 B | $837.6 M | $1.56 B |
+| Dedicated solar plants | $956.9 M | $430.6 M | $526.3 M |
+| Residual train control | $47.9 M | $23.9 M | $23.9 M |
+| Charging microgrids | $128.9 M | $51.5 M | $77.3 M |
+| EPC / project services | $1.11 B | $166.9 M | $945.6 M |
+| Shared national trainset factory | $554.0 M | $110.8 M | $443.2 M |
+| **Total** | **$17.96 B** | **$3.76 B** | **$14.20 B** |
 
 ## City Programme
 
@@ -53,9 +53,9 @@ This page contains only Sudan-specific aggregation. Shared network, service, ene
 | [Khartoum](Khartoum/README.md) | 5,829,000 | 764 | $8.48 B | $1.84 B | $6.64 B | 14 | 5 | 22.4% | 22.4% |
 | [Omdurman](Omdurman/README.md) | 2,800,000 | 535 | $5.51 B | $1.12 B | $4.39 B | 9 | 3 | 24.5% | 23.3% |
 | [Nyala](Nyala/README.md) | 600,000 | 164 | $1.01 B | $203.7 M | $811.1 M | 5 | 2 | 18.4% | 19.3% |
-| [El Obeid](El-Obeid/README.md) | 500,000 | 166 | $908.4 M | $188.1 M | $720.3 M | 5 | 2 | 18.7% | 24.6% |
+| [El Obeid](El-Obeid/README.md) | 500,000 | 184 | $1.01 B | $208.3 M | $797.1 M | 5 | 2 | 18.7% | 27.0% |
 | [Kassala](Kassala/README.md) | 500,000 | 86 | $584.4 M | $114.5 M | $469.8 M | 4 | 1 | 21.7% | 21.6% |
-| [Port Sudan](Port-Sudan/README.md) | 500,000 | 105 | $598.1 M | $121.7 M | $476.4 M | 4 | 1 | 18.2% | 19.4% |
+| [Port Sudan](Port-Sudan/README.md) | 500,000 | 133 | $771.3 M | $157.9 M | $613.4 M | 4 | 1 | 18.2% | 24.4% |
 
 ## Local Basis And Regeneration
 

@@ -339,6 +339,28 @@ def sample_population_into_grid(
         return dst
 
 
+
+def sample_retained_population_into_grid(values,source,grid):
+    lat,lon,counts,valid=(values[k] for k in ('lat','lon','counts','valid'))
+    # Receipts store [x,y] resolution; WorldPop's retained cells are square
+    # angular pixels. Preserve explicit ordering for non-square sources too.
+    dx,dy=map(abs,source['source_resolution_degrees'])
+    south=float(np.min(lat));west=float(np.min(lon))
+    rr=np.rint((lat-south)/dy).astype(int);cc=np.rint((lon-west)/dx).astype(int)
+    height,width=int(rr.max()+1),int(cc.max()+1)
+    if len(set(zip(rr,cc)))!=len(rr):raise ValueError('Duplicate native population cells')
+    native=np.zeros((height,width),dtype=np.float32);known=np.zeros((height,width),dtype=bool)
+    use=valid&np.isfinite(counts)&(counts>=0)
+    native[rr[use],cc[use]]=counts[use];known[rr[use],cc[use]]=True
+    target_lat=grid.bbox_north-(np.arange(grid.height)+.5)*grid.cell_m/grid.m_per_deg_lat
+    target_lon=grid.bbox_west+(np.arange(grid.width)+.5)*grid.cell_m/grid.m_per_deg_lon
+    row=np.floor((target_lat-south)/dy+.5).astype(int);col=np.floor((target_lon-west)/dx+.5).astype(int)
+    inside=(row[:,None]>=0)&(row[:,None]<height)&(col[None,:]>=0)&(col[None,:]<width)
+    r=np.clip(row,0,height-1);c=np.clip(col,0,width-1)
+    supported=inside&known[r[:,None],c[None,:]]
+    return np.where(supported,native[r[:,None],c[None,:]],0),supported
+
+
 def population_demand_layer(
     pop: np.ndarray,
     sigma_cells: float,

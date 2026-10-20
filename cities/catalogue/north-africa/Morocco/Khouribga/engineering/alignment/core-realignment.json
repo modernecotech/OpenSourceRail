@@ -7,12 +7,13 @@
     "west": -6.955405
   },
   "core_analytical_length_m": 15114.738907,
-  "core_final_route_length_m": 16218.418459,
+  "core_final_route_length_m": 18788.124086713222,
   "core_original_length_m": 18788.124087,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
     "centred_bbox_fraction": 0.6
   },
+  "final_route_quantity_basis": "Final complete line lengths in network-correction.json; former core analytical quantities superseded",
   "limitations": [
     "The centroid-centred rectangle is an explicit planning study area, not a verified city-centre boundary.",
     "Elevation does not grant property/air rights or clear buildings, protected sites, terrain, utilities or obstacles.",
@@ -36,7 +37,13 @@
               10880.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 8892.346315,
+          "seed_from_index": 0,
+          "seed_to_index": 380,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 6820.0,
@@ -49,20 +56,15 @@
                 6580.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 8892.346315,
-          "seed_from_index": 0,
-          "seed_to_index": 380,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 6847.493501,
+      "final_core_route_m": 8892.346314604067,
       "line": "line-1",
       "original_cells": 381,
       "original_route_m": 8892.346315,
-      "reworked_cells": 280,
-      "reworked_route_m": 6847.493501,
+      "reworked_cells": 381,
+      "reworked_route_m": 8892.346314604056,
       "water_route_changes": []
     },
     {
@@ -1057,19 +1059,20 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "retained-contour-route-avoids-new-terrain-conflict",
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
           "original_length_m": 5703.574311,
           "seed_from_index": 0,
           "seed_to_index": 245,
-          "simplification_tolerance_m": null
+          "simplification_tolerance_m": null,
+          "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 5703.574311,
+      "final_core_route_m": 5703.574311003821,
       "line": "line-2",
       "original_cells": 246,
       "original_route_m": 5703.574311,
       "reworked_cells": 246,
-      "reworked_route_m": 5703.574311,
+      "reworked_route_m": 5703.574311003805,
       "water_route_changes": []
     },
     {
@@ -1087,7 +1090,13 @@
               7660.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 4192.203461,
+          "seed_from_index": 0,
+          "seed_to_index": 186,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 9260.0,
@@ -1100,73 +1109,27 @@
                 6420.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 4192.203461,
-          "seed_from_index": 0,
-          "seed_to_index": 186,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 3667.350647,
+      "final_core_route_m": 4192.203461105334,
       "line": "line-3",
       "original_cells": 187,
       "original_route_m": 4192.203461,
-      "reworked_cells": 162,
-      "reworked_route_m": 3667.350647,
+      "reworked_cells": 187,
+      "reworked_route_m": 4192.203461105329,
       "water_route_changes": []
     }
   ],
-  "residential_line_expansion": {
-    "accessible_walking_coverage_accepted": false,
-    "actual_regenerated_station_coverage": null,
-    "added_line_count": 0,
-    "added_lines": [],
-    "added_route_limit_m": 4054.605,
-    "added_route_m": 0.0,
-    "as_of": "2026-10-12",
-    "base_line_junction_changes": [],
-    "base_line_junction_reviews": [],
-    "baseline_actual_station_radial_fraction": 0.492886,
-    "baseline_with_sampled_infill_radial_fraction": 0.61741,
-    "bbox_population_2020": 232377.846,
-    "city": "khouribga",
-    "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
-    "final_line_count": 3,
-    "operating_release": false,
-    "original_line_count": 3,
-    "original_route_m": 16218.418,
-    "outcome": "bounded candidates exhausted; remaining residential gaps require further route/source/site investigation",
-    "physical_release": false,
-    "planned_stop_cells_by_line": {},
-    "population_is_current_census": false,
-    "population_year": 2020,
-    "proposed_station_sample_radial_fraction": 0.492886,
-    "rejected_priority_areas": [],
-    "schema": "osr-residential-line-expansion/1",
-    "sources_sha256": {
-      "cities/catalogue/north-africa/Morocco/Khouribga/engineering/access/population-pixels.npz.gz": "2c04d28b793651132ca34b255e4eb6794a00bf75f09aa708a7bbec82ed5a20b3",
-      "cities/catalogue/north-africa/Morocco/Khouribga/engineering/access/population-source.json": "d2df1e3a820174d9778ebdb85dc04bbc05d22ba40b1e38dd594839fd7b45c5a8",
-      "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/network-expansion-baseline.json.gz": "85b805be66e8334953e9e92344f8b7a811bdfd36b00d101f06aefe368be36e76",
-      "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/planning-terrain-slope.f32.gz": "6affc35d61594bd51e919769bf865d7da14b75d81c858c05cb982856551d57c5",
-      "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/planning-terrain-source.json": "e323d62d971d865d12d53b42517d18e4711f89e85f2914914f25a915d6de0191",
-      "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
-      "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-      "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
-      "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
-      "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
-    },
-    "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
-    "status": "expanded-controlled-planning-layout",
-    "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
-    "target_met_in_proposed_station_sample": false,
-    "target_radial_fraction": 0.8
+  "network_correction": {
+    "report": "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/network-correction.json",
+    "sha256": "481ce75c1d09aa04f97346aac242f7ff33b6e103d945addff1a0bc9e0c0240dd"
   },
-  "schema_version": 3,
-  "sources_sha256": {
+  "pre_network_sources_sha256": {
     "cities/catalogue/north-africa/Morocco/Khouribga/alignment-policy.toml": "0d47198eeef6c5c6671e868e44982ce7045492abe389f5d0467111f586fb7aac",
     "cities/catalogue/north-africa/Morocco/Khouribga/engineering/access/population-pixels.npz.gz": "2c04d28b793651132ca34b255e4eb6794a00bf75f09aa708a7bbec82ed5a20b3",
     "cities/catalogue/north-africa/Morocco/Khouribga/engineering/access/population-source.json": "d2df1e3a820174d9778ebdb85dc04bbc05d22ba40b1e38dd594839fd7b45c5a8",
+    "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/network-correction.json": "18c9bb89dbfb9de795e876c084ce27c045780608b679178df3fa689cf4df73f5",
     "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/network-expansion-baseline.json.gz": "85b805be66e8334953e9e92344f8b7a811bdfd36b00d101f06aefe368be36e76",
     "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/planning-buildability-mask.bin.gz": "f04a30098bc072834132ea3994f3575ec4cc8c35abb9d3f85c28c6131baf7dfe",
     "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/planning-grid.json": "85c30201ecd8f7b8b80bc2e33a5e886a985538a942e42ba056f38f9258a566ee",
@@ -1174,7 +1137,7 @@
     "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/planning-terrain-source.json": "e323d62d971d865d12d53b42517d18e4711f89e85f2914914f25a915d6de0191",
     "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/planning-water-mask.bin.gz": "e371c2edc6247551bfb0545dabe15807bfe1e50f9741cb501bb71e8c00783bff",
     "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/pre-rework-corridors.json.gz": "1145470a61c25216d9e6c695d0e263ef003c875795f73897cd7f2a2820d24887",
-    "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/residential-line-expansion.json": "d7376ee9e650d6a7bda1fcf32338f09243c8764fb4e2e78bc8f8c5ebc6430485",
+    "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/residential-line-expansion.json": "e057cc45b20259a884c12cc53b9bdcda8c219e84e067d69251b6b0e5ad08f35d",
     "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/water-source-receipt.json": "71265db31d5f1a6a79ba8962d8fdc98cc86db51c089426644f07f4e0a92697f6",
     "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
@@ -1185,6 +1148,64 @@
     "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
     "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
     "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+  },
+  "residential_line_expansion": {
+    "accessible_walking_coverage_accepted": false,
+    "actual_regenerated_station_coverage": null,
+    "added_line_count": 0,
+    "added_lines": [],
+    "added_route_limit_m": 4054.605,
+    "added_route_m": 0.0,
+    "as_of": "2026-10-12",
+    "base_line_junction_changes": [],
+    "base_line_junction_reviews": [],
+    "baseline_actual_station_radial_fraction": 0.4928861,
+    "baseline_with_sampled_infill_radial_fraction": 0.61740967,
+    "bbox_population_2020": 232377.846,
+    "city": "khouribga",
+    "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
+    "final_line_count": 3,
+    "network_correction": {
+      "report": "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/network-correction.json",
+      "sha256": "481ce75c1d09aa04f97346aac242f7ff33b6e103d945addff1a0bc9e0c0240dd"
+    },
+    "operating_release": false,
+    "original_line_count": 3,
+    "original_route_m": 16218.418,
+    "outcome": "bounded candidates exhausted; remaining residential gaps require further route/source/site investigation",
+    "physical_release": false,
+    "planned_stop_cells_by_line": {},
+    "population_is_current_census": false,
+    "population_year": 2020,
+    "pre_network_sources_sha256": {
+      "cities/catalogue/north-africa/Morocco/Khouribga/engineering/access/population-pixels.npz.gz": "2c04d28b793651132ca34b255e4eb6794a00bf75f09aa708a7bbec82ed5a20b3",
+      "cities/catalogue/north-africa/Morocco/Khouribga/engineering/access/population-source.json": "d2df1e3a820174d9778ebdb85dc04bbc05d22ba40b1e38dd594839fd7b45c5a8",
+      "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/network-correction.json": "18c9bb89dbfb9de795e876c084ce27c045780608b679178df3fa689cf4df73f5",
+      "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/network-expansion-baseline.json.gz": "85b805be66e8334953e9e92344f8b7a811bdfd36b00d101f06aefe368be36e76",
+      "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/planning-terrain-slope.f32.gz": "6affc35d61594bd51e919769bf865d7da14b75d81c858c05cb982856551d57c5",
+      "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/planning-terrain-source.json": "e323d62d971d865d12d53b42517d18e4711f89e85f2914914f25a915d6de0191",
+      "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
+      "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+      "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+      "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
+      "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+    },
+    "proposed_station_sample_radial_fraction": 0.4928861,
+    "rejected_priority_areas": [],
+    "schema": "osr-residential-line-expansion/1",
+    "sources_sha256": {
+      "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/network-correction.json": "481ce75c1d09aa04f97346aac242f7ff33b6e103d945addff1a0bc9e0c0240dd"
+    },
+    "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
+    "status": "expanded-controlled-planning-layout",
+    "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
+    "target_met_in_proposed_station_sample": false,
+    "target_radial_fraction": 0.8
+  },
+  "schema_version": 3,
+  "sources_sha256": {
+    "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/network-correction.json": "481ce75c1d09aa04f97346aac242f7ff33b6e103d945addff1a0bc9e0c0240dd",
+    "cities/catalogue/north-africa/Morocco/Khouribga/engineering/alignment/residential-line-expansion.json": "2e7b69593bee66007b6039f8f61c07637efe0306c92f906f92b918615702548a"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

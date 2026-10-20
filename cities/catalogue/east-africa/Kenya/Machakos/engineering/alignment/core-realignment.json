@@ -7,12 +7,13 @@
     "west": 37.222547
   },
   "core_analytical_length_m": 20184.072965,
-  "core_final_route_length_m": 26221.99277,
+  "core_final_route_length_m": 29786.012972767778,
   "core_original_length_m": 24801.830875,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
     "centred_bbox_fraction": 0.6
   },
+  "final_route_quantity_basis": "Final complete line lengths in network-correction.json; former core analytical quantities superseded",
   "limitations": [
     "The centroid-centred rectangle is an explicit planning study area, not a verified city-centre boundary.",
     "Elevation does not grant property/air rights or clear buildings, protected sites, terrain, utilities or obstacles.",
@@ -1634,7 +1635,7 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "superseded-by-closed-retrace-removal; retained-edge geometry review",
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
           "original_length_m": 9188.783403,
           "seed_from_index": 131,
           "seed_to_index": 525,
@@ -1642,12 +1643,12 @@
           "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 8970.924958,
+      "final_core_route_m": 8970.924958366755,
       "line": "line-1",
       "original_cells": 526,
       "original_route_m": 12206.428423,
       "reworked_cells": 518,
-      "reworked_route_m": 11988.569978,
+      "reworked_route_m": 11988.56997824492,
       "water_route_changes": []
     },
     {
@@ -1665,7 +1666,13 @@
               2980.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 6533.624817,
+          "seed_from_index": 0,
+          "seed_to_index": 301,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 7900.0,
@@ -1678,20 +1685,15 @@
                 8400.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 6533.624817,
-          "seed_from_index": 0,
-          "seed_to_index": 301,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 5738.233765,
+      "final_core_route_m": 6414.213562373099,
       "line": "line-2",
       "original_cells": 351,
       "original_route_m": 7646.173157,
-      "reworked_cells": 321,
-      "reworked_route_m": 6830.782105,
+      "reworked_cells": 349,
+      "reworked_route_m": 7506.761902332486,
       "water_route_changes": []
     },
     {
@@ -1709,7 +1711,13 @@
               3220.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 9079.422654,
+          "seed_from_index": 0,
+          "seed_to_index": 408,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 7800.0,
@@ -1722,34 +1730,57 @@
                 7380.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 9079.422654,
-          "seed_from_index": 0,
-          "seed_to_index": 408,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 6206.66089,
+      "final_core_route_m": 9094.701294725886,
       "line": "line-3",
       "original_cells": 409,
       "original_route_m": 9079.422654,
-      "reworked_cells": 255,
-      "reworked_route_m": 6206.66089,
+      "reworked_cells": 411,
+      "reworked_route_m": 9094.701294725885,
       "water_route_changes": []
     },
     {
       "core_runs": [],
-      "final_core_route_m": 5306.173157,
+      "final_core_route_m": 5306.173157302039,
       "geometry_basis": "population-led additional corridor; curve/profile and structural review open",
       "line": "line-4",
       "original_cells": 0,
       "original_route_m": 0,
       "reworked_cells": 234,
-      "reworked_route_m": 5306.173157,
+      "reworked_route_m": 5306.173157302028,
       "water_route_changes": []
     }
   ],
+  "network_correction": {
+    "report": "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/network-correction.json",
+    "sha256": "d6b265b6b9467f7af275c57c2aea818e1d59bc85c95574d153d4396bc096a30f"
+  },
+  "pre_network_sources_sha256": {
+    "cities/catalogue/east-africa/Kenya/Machakos/alignment-policy.toml": "67bfecf227804aaa7c649150d38187ad893811e255f1297bf5115fe829f78a93",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/access/population-pixels.npz.gz": "20f0a55092f18cb8ac41c1a89ad3c76ab5d289264ff2b118983a2877b6cae908",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/access/population-source.json": "02af078bc1fb2416310c69e8dccb21dec324091a58da2e7266cb2e5450cb89d3",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/network-correction.json": "3f3aded8397ca2b45608d255f7da88df733122fe8158c2a2d62874242597f4d9",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/network-expansion-baseline.json.gz": "18d4c0e773e2e806cf319eae7f548b379dba030072082ad94243d0b26ab16cc7",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-buildability-mask.bin.gz": "380eea312060c53a02d10457949cbd99fa462f1ba2ddc77cb02241185ee3f73b",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-grid.json": "5ed6cf48754f27f50c735cc0012a9c2c63c0b209d8b01bc00ea5364496375bb9",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-terrain-slope.f32.gz": "1268f8ff12f23b10bce694356aff5cf0a557d56f619d645f8e361d86a7b26af5",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-terrain-source.json": "e9b9d89e3725de5edd413d0d8a3ac77f4358ba67b6459ef7751a82bd14c39772",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-water-mask.bin.gz": "00f86f8bb646aaa39b1ce6be9e6f882763fd785cdb6e0ec9f3dbb24e5980f7c7",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/pre-rework-corridors.json.gz": "138675d0b358cc3957c31ee3c5cfb2e46d4107fab5a752c2f8a2146a33b29486",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/residential-line-expansion.json": "92f3f4d1bcf5a9951363a30aa7796a1cf4947f526c9593ffd00bd0a4598b9240",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/water-source-receipt.json": "fa679381240e53a7d28771dc527f432aac3dc675bb1ecb38caad56fec20c5e78",
+    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
+    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
+    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
+    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+  },
   "residential_line_expansion": {
     "accessible_walking_coverage_accepted": false,
     "actual_regenerated_station_coverage": null,
@@ -1766,7 +1797,7 @@
         "end_connection_line": null,
         "geometry_basis": "bounded water/buildability raster investigation route",
         "incremental_residents_2020": 9715.25,
-        "length_m": 5306.173157,
+        "length_m": 5306.173157302028,
         "line": "line-4",
         "priority_areas": [
           [
@@ -1788,12 +1819,16 @@
     "as_of": "2026-10-12",
     "base_line_junction_changes": [],
     "base_line_junction_reviews": [],
-    "baseline_actual_station_radial_fraction": 0.284413,
-    "baseline_with_sampled_infill_radial_fraction": 0.333983,
+    "baseline_actual_station_radial_fraction": 0.28441293,
+    "baseline_with_sampled_infill_radial_fraction": 0.33398323,
     "bbox_population_2020": 172061.036,
     "city": "machakos",
     "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
     "final_line_count": 4,
+    "network_correction": {
+      "report": "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/network-correction.json",
+      "sha256": "d6b265b6b9467f7af275c57c2aea818e1d59bc85c95574d153d4396bc096a30f"
+    },
     "operating_release": false,
     "original_line_count": 3,
     "original_route_m": 25026.013,
@@ -1802,12 +1837,10 @@
     "planned_stop_cells_by_line": {},
     "population_is_current_census": false,
     "population_year": 2020,
-    "proposed_station_sample_radial_fraction": 0.340877,
-    "rejected_priority_areas": [],
-    "schema": "osr-residential-line-expansion/1",
-    "sources_sha256": {
+    "pre_network_sources_sha256": {
       "cities/catalogue/east-africa/Kenya/Machakos/engineering/access/population-pixels.npz.gz": "20f0a55092f18cb8ac41c1a89ad3c76ab5d289264ff2b118983a2877b6cae908",
       "cities/catalogue/east-africa/Kenya/Machakos/engineering/access/population-source.json": "02af078bc1fb2416310c69e8dccb21dec324091a58da2e7266cb2e5450cb89d3",
+      "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/network-correction.json": "3f3aded8397ca2b45608d255f7da88df733122fe8158c2a2d62874242597f4d9",
       "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/network-expansion-baseline.json.gz": "18d4c0e773e2e806cf319eae7f548b379dba030072082ad94243d0b26ab16cc7",
       "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-terrain-slope.f32.gz": "1268f8ff12f23b10bce694356aff5cf0a557d56f619d645f8e361d86a7b26af5",
       "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-terrain-source.json": "e9b9d89e3725de5edd413d0d8a3ac77f4358ba67b6459ef7751a82bd14c39772",
@@ -1817,6 +1850,12 @@
       "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
       "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
     },
+    "proposed_station_sample_radial_fraction": 0.34087691,
+    "rejected_priority_areas": [],
+    "schema": "osr-residential-line-expansion/1",
+    "sources_sha256": {
+      "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/network-correction.json": "d6b265b6b9467f7af275c57c2aea818e1d59bc85c95574d153d4396bc096a30f"
+    },
     "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
     "status": "expanded-controlled-planning-layout",
     "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
@@ -1825,27 +1864,8 @@
   },
   "schema_version": 3,
   "sources_sha256": {
-    "cities/catalogue/east-africa/Kenya/Machakos/alignment-policy.toml": "67bfecf227804aaa7c649150d38187ad893811e255f1297bf5115fe829f78a93",
-    "cities/catalogue/east-africa/Kenya/Machakos/engineering/access/population-pixels.npz.gz": "20f0a55092f18cb8ac41c1a89ad3c76ab5d289264ff2b118983a2877b6cae908",
-    "cities/catalogue/east-africa/Kenya/Machakos/engineering/access/population-source.json": "02af078bc1fb2416310c69e8dccb21dec324091a58da2e7266cb2e5450cb89d3",
-    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/network-expansion-baseline.json.gz": "18d4c0e773e2e806cf319eae7f548b379dba030072082ad94243d0b26ab16cc7",
-    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-buildability-mask.bin.gz": "380eea312060c53a02d10457949cbd99fa462f1ba2ddc77cb02241185ee3f73b",
-    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-grid.json": "5ed6cf48754f27f50c735cc0012a9c2c63c0b209d8b01bc00ea5364496375bb9",
-    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-terrain-slope.f32.gz": "1268f8ff12f23b10bce694356aff5cf0a557d56f619d645f8e361d86a7b26af5",
-    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-terrain-source.json": "e9b9d89e3725de5edd413d0d8a3ac77f4358ba67b6459ef7751a82bd14c39772",
-    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/planning-water-mask.bin.gz": "00f86f8bb646aaa39b1ce6be9e6f882763fd785cdb6e0ec9f3dbb24e5980f7c7",
-    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/pre-rework-corridors.json.gz": "138675d0b358cc3957c31ee3c5cfb2e46d4107fab5a752c2f8a2146a33b29486",
-    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/residential-line-expansion.json": "ff56c091bcbfbcdc61f923860e72b536bd283cf841dcf08c4a4b11459ab6c9c4",
-    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/water-source-receipt.json": "fa679381240e53a7d28771dc527f432aac3dc675bb1ecb38caad56fec20c5e78",
-    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
-    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
-    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
-    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
-    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
-    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
-    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
-    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/network-correction.json": "d6b265b6b9467f7af275c57c2aea818e1d59bc85c95574d153d4396bc096a30f",
+    "cities/catalogue/east-africa/Kenya/Machakos/engineering/alignment/residential-line-expansion.json": "48c3b026783bdbfb1f9c1739246861d2bc5a1db7807db951cb0d90d27f6353b0"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

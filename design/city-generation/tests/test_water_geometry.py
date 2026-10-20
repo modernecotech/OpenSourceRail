@@ -7,7 +7,40 @@ import numpy as np
 import pytest
 
 from osr_geo.rasterize import GridRef, build_water_mask, build_cost_surface
-from osr_osm.fetcher import BBox, CityOSM, OverpassError, _parse_overpass
+from osr_osm.fetcher import BBox, CityOSM, OverpassError, _parse_overpass, _build_query
+
+
+def test_live_query_requests_relation_members_as_well_as_geometry():
+    query = _build_query(BBox(0, 0, 1, 1))
+    assert 'out body geom;' in query
+    assert 'out geom tags;' not in query  # tags mode omits relation members
+    assert query.count('[bbox:0,0,1,1]')==1
+    assert 'way["building"];' in query and 'relation["natural"="water"];' in query
+
+
+def test_gateway_post_failure_uses_the_same_complete_query_over_get(monkeypatch):
+    from osr_osm import fetcher
+    from types import SimpleNamespace
+    calls=[];payload={'elements':[{'type':'node','id':1}]}
+    monkeypatch.setattr(fetcher,'OVERPASS_ENDPOINTS',['https://fixture.invalid/interpreter'])
+    monkeypatch.setattr(fetcher.requests,'post',lambda *a,**k:SimpleNamespace(status_code=502))
+    def get(endpoint,**kwargs):
+        calls.append((endpoint,kwargs['params']['data']))
+        return SimpleNamespace(status_code=200,raise_for_status=lambda:None,json=lambda:payload)
+    monkeypatch.setattr(fetcher.requests,'get',get)
+    assert fetcher._fetch_overpass('complete query')==payload
+    assert calls==[('https://fixture.invalid/interpreter','complete query')]
+
+
+def test_success_status_with_runtime_error_cannot_accept_partial_osm_data(monkeypatch):
+    from osr_osm import fetcher
+    from types import SimpleNamespace
+    monkeypatch.setattr(fetcher,'OVERPASS_ENDPOINTS',['https://fixture.invalid/interpreter'])
+    monkeypatch.setattr(fetcher.time,'sleep',lambda *a:None)
+    monkeypatch.setattr(fetcher.requests,'post',lambda *a,**k:SimpleNamespace(status_code=200,raise_for_status=lambda:None,
+        json=lambda:{'elements':[{'type':'node','id':1}],'remark':'runtime error: partial result'}))
+    with pytest.raises(OverpassError,match='Incomplete Overpass response'):
+        fetcher._fetch_overpass('complete query')
 
 
 def grid():

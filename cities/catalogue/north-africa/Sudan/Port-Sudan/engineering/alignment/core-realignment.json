@@ -7,12 +7,13 @@
     "west": 37.153078
   },
   "core_analytical_length_m": 25740.891903,
-  "core_final_route_length_m": 32578.4603,
+  "core_final_route_length_m": 40244.145724998714,
   "core_original_length_m": 33306.71413,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
     "centred_bbox_fraction": 0.6
   },
+  "final_route_quantity_basis": "Final complete line lengths in network-correction.json; former core analytical quantities superseded",
   "limitations": [
     "The centroid-centred rectangle is an explicit planning study area, not a verified city-centre boundary.",
     "Elevation does not grant property/air rights or clear buildings, protected sites, terrain, utilities or obstacles.",
@@ -2293,19 +2294,20 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "retained-route-avoids-forbidden-core-shortcut",
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
           "original_length_m": 12874.011537,
           "seed_from_index": 0,
           "seed_to_index": 565,
-          "simplification_tolerance_m": null
+          "simplification_tolerance_m": null,
+          "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 12874.011537,
+      "final_core_route_m": 14596.85424949235,
       "line": "line-1",
       "original_cells": 589,
       "original_route_m": 13449.991334,
-      "reworked_cells": 589,
-      "reworked_route_m": 13449.991334,
+      "reworked_cells": 671,
+      "reworked_route_m": 15172.834046956847,
       "water_route_changes": []
     },
     {
@@ -2323,7 +2325,13 @@
               10160.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 11295.29004,
+          "seed_from_index": 0,
+          "seed_to_index": 525,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 15540.0,
@@ -2336,20 +2344,15 @@
                 8260.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 11295.29004,
-          "seed_from_index": 0,
-          "seed_to_index": 525,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 7537.300141,
+      "final_core_route_m": 11082.152954766496,
       "line": "line-2",
       "original_cells": 526,
       "original_route_m": 11295.29004,
-      "reworked_cells": 341,
-      "reworked_route_m": 7537.300141,
+      "reworked_cells": 517,
+      "reworked_route_m": 11082.152954766494,
       "water_route_changes": []
     },
     {
@@ -2367,7 +2370,13 @@
               11120.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 9137.412553,
+          "seed_from_index": 0,
+          "seed_to_index": 408,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 15220.0,
@@ -2380,34 +2389,57 @@
                 13460.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 9137.412553,
-          "seed_from_index": 0,
-          "seed_to_index": 408,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 6538.132752,
+      "final_core_route_m": 8109.848480983516,
       "line": "line-3",
       "original_cells": 409,
       "original_route_m": 9137.412553,
-      "reworked_cells": 284,
-      "reworked_route_m": 6538.132752,
+      "reworked_cells": 363,
+      "reworked_route_m": 8109.8484809835,
       "water_route_changes": []
     },
     {
       "core_runs": [],
-      "final_core_route_m": 5629.01587,
+      "final_core_route_m": 6455.290039756357,
       "geometry_basis": "population-led additional corridor; curve/profile and structural review open",
       "line": "line-4",
       "original_cells": 0,
       "original_route_m": 0,
-      "reworked_cells": 246,
-      "reworked_route_m": 5629.01587,
+      "reworked_cells": 284,
+      "reworked_route_m": 6455.290039756343,
       "water_route_changes": []
     }
   ],
+  "network_correction": {
+    "report": "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/network-correction.json",
+    "sha256": "f647d571432d012ba71c7560663144010d2fe86c65a2503750b17e2fbed479df"
+  },
+  "pre_network_sources_sha256": {
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/alignment-policy.toml": "7070db2cd8203613482d324c9e004abed211539d567e719e04e4f6f56ee4ae81",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/access/population-pixels.npz.gz": "a68e07ae24b6ee68a3ee6dfba68cf0ef926a3ea85a0045cb6f52fc1890083539",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/access/population-source.json": "b4b107002f7cc0b0ad24273e21510826ee68b0561da0e9da6c3ec53ab0c3d3c6",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/network-correction.json": "aeff1a715026811c679fe69d838a55a0285a387cabdc75416c3444dd21ea17c2",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/network-expansion-baseline.json.gz": "b823af5b816d146091bed6fa8a824404fb2025649472b38f7fa7e92a3cfe34ca",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-buildability-mask.bin.gz": "270432af8d8ed377c1b207d4663d0bc33ac6de2baddf613def6dce4719cce81c",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-grid.json": "c728bf02eba1e4415cf35f5a3ca69410e6f3c90c8e60bca29c7bdaf82f8f43ea",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-terrain-slope.f32.gz": "e94b4d60830185b046a4c68fb4cd5d3b9244ff4f5128f9286e2a76d83e95c24b",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-terrain-source.json": "eed6b480f8bba7cfb3432ae78c32a720e6bf215d8f76943c56ec7f0ca3e23f04",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-water-mask.bin.gz": "8e7e9d06dd98410ad7a5c3f1208d924cb30f3fd048ce9d101932dc7ab2c2644e",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/pre-rework-corridors.json.gz": "8095a103b17a105c037a7d09f68592fb8a709e9afb36859da2be0e1e480b53aa",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/residential-line-expansion.json": "a5f441cb67c447dec37755e20cd79e2517bed125f8559e842a4d916d05031962",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/water-source-receipt.json": "e05649c4f990181676fbdbf740eb059c6fde2404a79ca90b55862412e15cd67c",
+    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
+    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
+    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
+    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+  },
   "residential_line_expansion": {
     "accessible_walking_coverage_accepted": false,
     "actual_regenerated_station_coverage": null,
@@ -2424,7 +2456,7 @@
         "end_connection_line": null,
         "geometry_basis": "bounded water/buildability raster investigation route",
         "incremental_residents_2020": 32686.564,
-        "length_m": 5629.01587,
+        "length_m": 5629.015869776647,
         "line": "line-4",
         "priority_areas": [
           [
@@ -2462,12 +2494,16 @@
     "as_of": "2026-10-12",
     "base_line_junction_changes": [],
     "base_line_junction_reviews": [],
-    "baseline_actual_station_radial_fraction": 0.181933,
-    "baseline_with_sampled_infill_radial_fraction": 0.199042,
+    "baseline_actual_station_radial_fraction": 0.18193255,
+    "baseline_with_sampled_infill_radial_fraction": 0.19904163,
     "bbox_population_2020": 480842.314,
     "city": "port-sudan",
     "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
     "final_line_count": 4,
+    "network_correction": {
+      "report": "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/network-correction.json",
+      "sha256": "f647d571432d012ba71c7560663144010d2fe86c65a2503750b17e2fbed479df"
+    },
     "operating_release": false,
     "original_line_count": 3,
     "original_route_m": 27525.424,
@@ -2476,12 +2512,10 @@
     "planned_stop_cells_by_line": {},
     "population_is_current_census": false,
     "population_year": 2020,
-    "proposed_station_sample_radial_fraction": 0.24991,
-    "rejected_priority_areas": [],
-    "schema": "osr-residential-line-expansion/1",
-    "sources_sha256": {
+    "pre_network_sources_sha256": {
       "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/access/population-pixels.npz.gz": "a68e07ae24b6ee68a3ee6dfba68cf0ef926a3ea85a0045cb6f52fc1890083539",
       "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/access/population-source.json": "b4b107002f7cc0b0ad24273e21510826ee68b0561da0e9da6c3ec53ab0c3d3c6",
+      "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/network-correction.json": "aeff1a715026811c679fe69d838a55a0285a387cabdc75416c3444dd21ea17c2",
       "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/network-expansion-baseline.json.gz": "b823af5b816d146091bed6fa8a824404fb2025649472b38f7fa7e92a3cfe34ca",
       "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-terrain-slope.f32.gz": "e94b4d60830185b046a4c68fb4cd5d3b9244ff4f5128f9286e2a76d83e95c24b",
       "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-terrain-source.json": "eed6b480f8bba7cfb3432ae78c32a720e6bf215d8f76943c56ec7f0ca3e23f04",
@@ -2491,6 +2525,12 @@
       "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
       "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
     },
+    "proposed_station_sample_radial_fraction": 0.24991027,
+    "rejected_priority_areas": [],
+    "schema": "osr-residential-line-expansion/1",
+    "sources_sha256": {
+      "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/network-correction.json": "f647d571432d012ba71c7560663144010d2fe86c65a2503750b17e2fbed479df"
+    },
     "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
     "status": "expanded-controlled-planning-layout",
     "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
@@ -2499,27 +2539,8 @@
   },
   "schema_version": 3,
   "sources_sha256": {
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/alignment-policy.toml": "7070db2cd8203613482d324c9e004abed211539d567e719e04e4f6f56ee4ae81",
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/access/population-pixels.npz.gz": "a68e07ae24b6ee68a3ee6dfba68cf0ef926a3ea85a0045cb6f52fc1890083539",
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/access/population-source.json": "b4b107002f7cc0b0ad24273e21510826ee68b0561da0e9da6c3ec53ab0c3d3c6",
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/network-expansion-baseline.json.gz": "b823af5b816d146091bed6fa8a824404fb2025649472b38f7fa7e92a3cfe34ca",
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-buildability-mask.bin.gz": "270432af8d8ed377c1b207d4663d0bc33ac6de2baddf613def6dce4719cce81c",
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-grid.json": "c728bf02eba1e4415cf35f5a3ca69410e6f3c90c8e60bca29c7bdaf82f8f43ea",
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-terrain-slope.f32.gz": "e94b4d60830185b046a4c68fb4cd5d3b9244ff4f5128f9286e2a76d83e95c24b",
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-terrain-source.json": "eed6b480f8bba7cfb3432ae78c32a720e6bf215d8f76943c56ec7f0ca3e23f04",
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/planning-water-mask.bin.gz": "8e7e9d06dd98410ad7a5c3f1208d924cb30f3fd048ce9d101932dc7ab2c2644e",
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/pre-rework-corridors.json.gz": "8095a103b17a105c037a7d09f68592fb8a709e9afb36859da2be0e1e480b53aa",
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/residential-line-expansion.json": "2474acad841af2aee57d5285fc18fbcafd092730d1b24f7aef1749936464581f",
-    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/water-source-receipt.json": "e05649c4f990181676fbdbf740eb059c6fde2404a79ca90b55862412e15cd67c",
-    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
-    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
-    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
-    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
-    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
-    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
-    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
-    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/network-correction.json": "f647d571432d012ba71c7560663144010d2fe86c65a2503750b17e2fbed479df",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/alignment/residential-line-expansion.json": "4edc3947ddc36d232275cfa264a53bd7a78ce57bab959df76f6db55d3989e01d"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

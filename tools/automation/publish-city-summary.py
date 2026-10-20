@@ -61,6 +61,60 @@ def compact_local_summary(text):
     return text
 
 
+def provisional_network_summary(design):
+    """Publish current geometry while numerical evidence awaits new executions.
+
+    This presentation mode requires an explicitly incomplete package and a
+    current passing geometry audit. It never clears an engineering gate or
+    presents retained analytical results as results for the revised layout.
+    """
+    city=design.parent;proof_path=city/'engineering/alignment/network-correction.json'
+    manifest_path=city/'package-manifest.json'
+    if not proof_path.is_file() or not manifest_path.is_file():return None
+    manifest=read(manifest_path)
+    if manifest.get('planning_example_complete') is True:return None
+    if manifest.get('passed') is not False or manifest.get('package_status')!='incomplete':
+        raise ValueError('Provisional network publication requires an incomplete package')
+    proof=read(proof_path);routes=read(city/'corridors.json')
+    if (proof.get('schema')!='osr-city-network-correction/1'
+            or proof.get('candidate_sha256')!=sha(encoded(routes))
+            or proof.get('engineering_release') is not False or proof.get('physical_release') is not False):
+        raise ValueError('Provisional network candidate identity or scope differs')
+    if not isinstance(proof.get('source_sha256'),dict) or not proof['source_sha256']:
+        raise ValueError('Missing provisional network dependencies')
+    for relative,digest in proof['source_sha256'].items():
+        source=ROOT/relative
+        if (not source.resolve().is_relative_to(ROOT.resolve()) or not source.is_file()
+                or sha(source.read_bytes())!=digest):raise ValueError('Stale network dependency: '+relative)
+    audit=read(city/'engineering/alignment/network-topology.json');rows=audit.get('cities',[])
+    if not isinstance(rows,list) or len(rows)!=1:raise ValueError('Geometry audit must identify exactly one city')
+    data=tomllib.loads(design.read_text());slug=data['city']['slug'];row=rows[0]
+    if not (city/(slug+'-network-map.png')).is_file():raise ValueError('Missing current network preview')
+    if (audit.get('passed') is not True or row.get('passed') is not True or row.get('city')!=slug
+            or row.get('connected_network') is not True
+            or audit.get('operating_release') is not False or audit.get('physical_release') is not False
+            or row.get('design_sha256')!=sha(design.read_bytes())
+            or row.get('corridor_sha256')!=sha((city/(slug+'.corridor.geojson')).read_bytes())
+            or audit.get('generator_sha256')!=sha((ROOT/'tools/automation/audit-city-geography.py').read_bytes())
+            or row.get('water_source_receipt_sha256')!=sha((city/'engineering/alignment/water-source-receipt.json').read_bytes())):
+        raise ValueError('Geometry audit failed, stale or outside provisional scope')
+    lines=data['lines'];km=sum(float(line['length_m']) for line in lines)/1000
+    fleet=sum(int(f['trainset_count']) for f in data.get('fleets',[]))
+    return '\n'.join([f"# {data['city'].get('name',city.name)} — provisional network",'',
+        '**Engineering revalidation pending.** Current geometry and planning quantities are published below. The package remains incomplete; no engineering, manufacturing or physical release is claimed.','',
+        '[Current design coverage and open gates](engineering/design-system/index.html) · [Exact package status](package-manifest.json).','',
+        table(['Current planning measure','Value'],[['Lines',len(lines)],['Route length',f'{km:.1f} km'],
+            ['Proposed platform records',len(data['stations'])],['Planned fleet',f'{fleet} trainsets']]),'',
+        f'![Current proposed network]({slug}-network-map.png)','',
+        '[Source-bound corridor correction](engineering/alignment/network-correction.json) · [Independent geometry and transfer audit](engineering/alignment/network-topology.json).','',
+        table(['Line','Route km','Proposed platforms'],[[l['name'],f"{float(l['length_m'])/1000:.1f}",sum(s['line']==l['name'] for s in data['stations'])] for l in lines]),'',
+        'The geometry audit checks the retained water mask, line continuity, grouped platforms and self-intersections. Walking access, levels, detailed structures and site acceptance remain open.','',
+        '## Evidence awaiting revalidation','',
+        'Retained operating, energy, clearance and delivery reports apply to their recorded source revisions. This page gives them no current-layout pass. The package manifest lists stale and missing evidence.','',
+        '[Retained operating evidence](engineering/simulation/validation-summary.json) · [Retained energy evidence](engineering/energy/summary.json) · [Clearance evidence](engineering/clearance/README.md) · [Planning finance and its assumptions](engineering/finance/summary.json).','',
+        'Planning finance uses controlled assumptions and does not establish bids, funding commitments or operating performance.','']).encode()
+
+
 def without_context(text):
     return re.sub(re.escape(BEGIN)+r'.*?'+re.escape(END)+r'\n\n?', '', text, flags=re.S)
 
@@ -353,6 +407,13 @@ Measured Baghdad traffic counts, speeds and OD demand remain unavailable. Pedest
 def publish(design, scenario, output, *, check=False, allow_stale_evidence=False):
     registry=tomllib.loads(CONFIG.read_text())['city']
     entry=next((e for e in registry if (ROOT/e['directory']/'design.toml').resolve()==design.resolve()),None)
+    if entry is None:
+        provisional=provisional_network_summary(design)
+        if provisional is not None:
+            if check:
+                if not output.is_file() or output.read_bytes()!=provisional:raise ValueError('Stale provisional network publication: '+str(output))
+            else:output.write_bytes(provisional)
+            return
     baseline=residential_context(design,access_context(design,render_readme(design,scenario,allow_stale_evidence=allow_stale_evidence and entry is None)))
     if not entry:
         expected=compact_local_summary(design_system_context(mapping_context(design,current_catalogue_context(design,baseline)))).encode()

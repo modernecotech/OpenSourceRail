@@ -3,6 +3,7 @@ import importlib.util
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 ROOT = Path(__file__).resolve().parents[3]
 spec = importlib.util.spec_from_file_location('city_geography_audit', ROOT/'tools/automation/audit-city-geography.py')
@@ -53,6 +54,43 @@ def test_shared_curved_trunk_requires_platforms_at_its_junctions_only():
                                 np.zeros((100, 100), dtype=np.uint8))
     assert result['passed']
     assert result['dry_geometric_crossings'] == 2
+
+
+def test_a_network_without_rings_still_requires_every_line_to_connect():
+    grid=dict(bbox_north=1.,bbox_west=0.,m_per_deg_lat=1000,m_per_deg_lon=1000,cell_m=20)
+    def coord(r,c):return [(c+.5)*.02,1-(r+.5)*.02]
+    features={'features':[{'properties':{'name':name},'geometry':{'type':'LineString',
+                         'coordinates':[coord(*p) for p in points]}}
+                         for name,points in [('a',[(2,2),(8,2)]),('b',[(2,8),(8,8)])]]}
+    result=audit.check_design({'stations':[]},features,grid,np.zeros((12,12),dtype=np.uint8))
+    assert not result['passed'] and not result['connected_network']
+    assert result['geometric_components']==[['a'],['b']]
+
+
+def test_a_self_crossing_cannot_pass_as_a_connected_single_line():
+    grid=dict(bbox_north=1.,bbox_west=0.,m_per_deg_lat=1000,m_per_deg_lon=1000,cell_m=20)
+    def coord(r,c):return [(c+.5)*.02,1-(r+.5)*.02]
+    features={'features':[{'properties':{'name':'a'},'geometry':{'type':'LineString',
+                         'coordinates':[coord(*p) for p in [(2,2),(8,8),(2,8),(8,2)]]}}]}
+    result=audit.check_design({'stations':[]},features,grid,np.zeros((12,12),dtype=np.uint8))
+    assert result['connected_network'] and not result['passed']
+    assert result['self_intersecting_lines']==['a']
+
+
+@pytest.mark.parametrize('city',[
+    'east-africa/Kenya/Garissa',
+    'central-africa/DR Congo/Kisangani',
+    'central-africa/DR Congo/Lubumbashi',
+])
+def test_reported_city_maps_have_one_connected_dry_platform_network(city):
+    import gzip,json,tomllib
+    folder=ROOT/'cities/catalogue'/city;design=tomllib.loads((folder/'design.toml').read_text())
+    grid=json.loads((folder/'engineering/alignment/planning-grid.json').read_text())
+    mask=np.frombuffer(gzip.decompress((folder/'engineering/alignment/planning-water-mask.bin.gz').read_bytes()),dtype=np.uint8).reshape(grid['height'],grid['width'])
+    features=json.loads((folder/(design['city']['slug']+'.corridor.geojson')).read_text())
+    report=audit.check_design(design,features,grid,mask)
+    assert report['passed'],report
+    assert len(report['transfer_components'])==1
 
 
 def test_diagonal_crossing_matches_native_half_up_cell_without_extending_tolerance():

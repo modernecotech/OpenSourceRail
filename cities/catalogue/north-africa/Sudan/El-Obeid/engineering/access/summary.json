@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.574,
+    "high_demand_cell_fraction": 0.254,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 259113.82585519552,
     "catchments": [
       {
-        "covered_population_2020": 17855.337280988693,
-        "fraction_of_raster_population": 0.06890924180544136,
+        "covered_population_2020": 19144.587515592575,
+        "fraction_of_raster_population": 0.07388485524617058,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 43375.867881298065,
-        "fraction_of_raster_population": 0.16740082370416798,
+        "covered_population_2020": 47043.95787072182,
+        "fraction_of_raster_population": 0.18155711188106227,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 63817.56635069847,
-        "fraction_of_raster_population": 0.24629162932572576,
+        "covered_population_2020": 69872.90711450577,
+        "fraction_of_raster_population": 0.2696610529518942,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 114647.69573044777,
-        "fraction_of_raster_population": 0.44246074230912735,
+        "covered_population_2020": 118801.47728347778,
+        "fraction_of_raster_population": 0.45849146370857646,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 144793.53701114655,
-        "fraction_of_raster_population": 0.5588028216296868,
+        "covered_population_2020": 144748.1515222788,
+        "fraction_of_raster_population": 0.558627665060106,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,14 +74,14 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 21,
+    "unique_station_coordinates": 23,
     "valid_pixels": 57960
   },
   "population_source_country": "SD",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/north-africa/Sudan/El-Obeid/design.toml": "ea0fae676ae31913b54e2937399077ea20da8dfebb0df5531a67c0cd8e26e6cf",
-    "cities/catalogue/north-africa/Sudan/El-Obeid/el-obeid.design-quality.yaml": "83a1fb1136812dce99f44dbb222c992e95207e0552f0b6d5c61396a7b0345a67",
+    "cities/catalogue/north-africa/Sudan/El-Obeid/design.toml": "2ffde8e83ceb60871e83de9d526ea97caf1b16c5214f079d9c9074d790849f97",
+    "cities/catalogue/north-africa/Sudan/El-Obeid/el-obeid.design-quality.yaml": "5aaaba71703323810411cea05ab00ef8a8f19cac9f7bb864610057ee80124558",
     "cities/catalogue/north-africa/Sudan/El-Obeid/engineering/access/population-pixels.npz.gz": "555b84f9d6c853c272fd23976d1170d3dd42ebbbaea348020868f8849c30f862",
     "cities/catalogue/north-africa/Sudan/El-Obeid/engineering/access/population-source.json": "19141f4a9a78a65975db7da9e3f4aa00256b34f06697e11400c07a03777e8781",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
@@ -100,7 +100,7 @@
         "line-5"
       ]
     ],
-    "direct_transfer_fraction": 0.4,
+    "direct_transfer_fraction": 0.5,
     "line_count": 5,
     "line_pair_count": 10,
     "maximum_required_transfers": 3,
@@ -124,7 +124,7 @@
           "line-1",
           "line-4"
         ],
-        "minimum_transfers": 2
+        "minimum_transfers": 1
       },
       {
         "lines": [
@@ -159,7 +159,7 @@
           "line-3",
           "line-4"
         ],
-        "minimum_transfers": 3
+        "minimum_transfers": 2
       },
       {
         "lines": [
@@ -177,6 +177,6 @@
       }
     ],
     "reachable_line_pair_fraction": 1.0,
-    "reachable_with_at_most_two_transfers_fraction": 0.8
+    "reachable_with_at_most_two_transfers_fraction": 0.9
   }
 }

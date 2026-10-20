@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.664,
+    "high_demand_cell_fraction": 0.563,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 193594.56311273575,
     "catchments": [
       {
-        "covered_population_2020": 35207.482553720474,
-        "fraction_of_raster_population": 0.1818619386186901,
+        "covered_population_2020": 45754.32731938362,
+        "fraction_of_raster_population": 0.23634097251346642,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 69730.6229826212,
-        "fraction_of_raster_population": 0.3601889529408686,
+        "covered_population_2020": 84317.20032060146,
+        "fraction_of_raster_population": 0.43553496009854936,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 94546.20879018307,
-        "fraction_of_raster_population": 0.4883722314821727,
+        "covered_population_2020": 110621.68700873852,
+        "fraction_of_raster_population": 0.5714090583438559,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 131993.3454284668,
-        "fraction_of_raster_population": 0.6818029561687806,
+        "covered_population_2020": 138576.9471669197,
+        "fraction_of_raster_population": 0.7158101185218839,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 148172.48653948307,
-        "fraction_of_raster_population": 0.7653752468926409,
+        "covered_population_2020": 154713.54179990292,
+        "fraction_of_raster_population": 0.7991626382080199,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,60 +74,32 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 12,
+    "unique_station_coordinates": 16,
     "valid_pixels": 15706
   },
   "population_source_country": "KE",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/east-africa/Kenya/Malindi/design.toml": "6f650a74312527926aca5897e7cb74f2911b1966c5a8be63180ff5c31f09ab1f",
+    "cities/catalogue/east-africa/Kenya/Malindi/design.toml": "e529af553b13a5b46e7a6c3806af59ad8fe6828f186fd6ff408556cf9d99a6d7",
     "cities/catalogue/east-africa/Kenya/Malindi/engineering/access/population-pixels.npz.gz": "085de897a4c83ba56e77fa00d184f64c2d14bbdb18e3493252a49bce850773c9",
     "cities/catalogue/east-africa/Kenya/Malindi/engineering/access/population-source.json": "132a338d57d52a3451400ac726f5f5e9aff84a347ca8a970181402e422365cd9",
-    "cities/catalogue/east-africa/Kenya/Malindi/malindi.design-quality.yaml": "77308551e69883867df2de440112f81ae33125ef7b8faf7f1f6a3e867f95e391",
+    "cities/catalogue/east-africa/Kenya/Malindi/malindi.design-quality.yaml": "9f1b19f39b145c3524e449a8d387a10157332795d66055e10d84cac379be1927",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
   },
-  "transfer_recovery_candidates": [
-    {
-      "accessible_path_accepted": false,
-      "barrier_and_height_clearance_accepted": false,
-      "components": [
-        0,
-        1
-      ],
-      "lines": [
-        "line-1",
-        "line-3"
-      ],
-      "required_evidence": [
-        "surveyed entrances and accessible pedestrian path",
-        "river/road/wall crossings",
-        "walking/vertical access and transfer time",
-        "property and operating approval"
-      ],
-      "stations": [
-        "line-1-0412-0420-s009951",
-        "line-3-0360-0410-s007150"
-      ],
-      "straight_distance_m": 1059.592,
-      "transfer_created": false,
-      "walk_time_minutes": null
-    }
-  ],
+  "transfer_recovery_candidates": [],
   "transfers": {
     "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
     "components": [
       [
         "line-1",
         "line-2",
+        "line-3",
         "line-4"
-      ],
-      [
-        "line-3"
       ]
     ],
-    "direct_transfer_fraction": 0.3333333333333333,
+    "direct_transfer_fraction": 0.6666666666666666,
     "line_count": 4,
     "line_pair_count": 6,
     "maximum_required_transfers": 2,
@@ -144,7 +116,7 @@
           "line-1",
           "line-3"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 1
       },
       {
         "lines": [
@@ -158,7 +130,7 @@
           "line-2",
           "line-3"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 1
       },
       {
         "lines": [
@@ -172,10 +144,10 @@
           "line-3",
           "line-4"
         ],
-        "minimum_transfers": null
+        "minimum_transfers": 2
       }
     ],
-    "reachable_line_pair_fraction": 0.5,
-    "reachable_with_at_most_two_transfers_fraction": 0.5
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
   }
 }

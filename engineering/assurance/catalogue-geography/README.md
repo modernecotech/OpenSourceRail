@@ -1,94 +1,49 @@
-# Catalogue water and junction placement review
+# Catalogue network geometry audit
 
-The [current audit](summary.json) checks all **266 cities** against retained,
-independently sampled water evidence and their actual exported route geometry.
-All checks pass. These are controlled planning examples; construction and
-operating approvals remain open.
+The [current independent audit](summary.json) checks all **266 city examples** against their exported route geometry, proposed platform groups and retained independent water evidence. All 266 networks form one connected line graph and one connected proposed transfer graph. No missing grouped platforms at checked dry crossings, wet platform cells, unknown platform cells or unapproved water runs above 1 km are reported.
 
-| Check | Previous revision | Current layouts |
-|---|---:|---:|
-| Cities with findings | 256 | 0 |
-| Platform records in detected water cells | 249 | 0 |
-| Missing grouped platforms at checked dry line junctions | 1,868 | 0 |
-| Unapproved contiguous water runs above 1 km | 197 | 0 |
+**The complete geometry audit remains open:** 31 self-intersecting lines remain in 29 older city layouts. Connectivity is not sufficient for a usable alignment. These findings are retained explicitly below; they are not engineering or operating releases.
 
-The [baseline audit](baseline.json) uses revision
-`1fa30889464105bacfc634b87594866840575561` and the same retained water inputs.
-Crossing counts are checks of pairs of lines, rather than unique station
-complexes or passenger transfers.
+[39 regenerated cities and correction evidence](../catalogue-network-layout/README.md) include Kisangani, Lubumbashi, Garissa, the other disconnected examples, and all nine Angola cities. All 39 pass the expanded local map audit. Angola is classified as Central Africa (UN M49 Middle Africa).
 
-Bukavu previously had four platform records in detected water cells, five
-missed junction checks and two long lake crossings. Its regenerated example
-has 21 platform records and none of those findings. Goma previously missed
-two checked junctions; its 19 current platforms cover both, with no wet
-platforms.
+The common planner restores source-routed radials where forced core chords distorted them, removes only bounded local raster knots, and joins disconnected components using constrained continuous corridors. Protected land, known water, unknown coverage, retained population-priority stops and maximum added route scope remain explicit. Larger unresolvable loops require another controlled alignment decision.
 
-The shared pipeline restores complete OSM multipolygon geometry, including
-island holes; samples ESA WorldCover 2021 permanent water on each controlled
-20 m grid; excludes every detected water cell and unknown coverage from
-platform sites; and checks between sparse route vertices. Short crossings are
-priced bridge candidates. Longer water stretches require a retained shore
-detour or an explicitly bounded change in endpoint scope.
+Checks use Shapely independently of native station generation. Projected line crossings over mapped water cannot create passenger transfers. Dry geometric crossings require grouped proposed platforms within the native 60 m raster tolerance. Continuous geometry, walking access, levels, foundations and site acceptance remain open.
 
-Full-resolution GeoJSON preserves the actual centreline without display
-offsets. Platform markers use actual coordinates. Shared route sections have
-junctions at their entries and exits; each intermediate bend is not another
-interchange. Native checks and a separate Shapely audit require grouped
-platforms within 60 m of dry junctions at the controlled grid precision.
+| City with remaining self-intersections | Lines |
+|---|---|
+| kinshasa | line-9 |
+| kakamega | line-1 |
+| mombasa | line-3, line-6 |
+| antananarivo | line-8 |
+| mogadishu | line-4 |
+| dar-es-salaam | line-9 |
+| tangier | line-8 |
+| khartoum | line-9 |
+| tunis | line-6 |
+| kabul | line-7 |
+| bhopal | line-6 |
+| patna | line-3, line-6 |
+| vijayawada | line-6 |
+| kathmandu | line-6 |
+| karachi | line-9 |
+| colombo | line-9 |
+| bandung | line-6 |
+| mandalay | line-6 |
+| yangon | line-9 |
+| davao | line-6 |
+| conakry | line-3 |
+| bamako | line-6 |
+| dakar | line-6 |
+| karbala | line-3 |
+| beirut | line-6 |
+| dammam | line-6 |
+| aleppo | line-1 |
+| damascus | line-6 |
+| hama | line-3 |
 
-The changed layouts also require fresh full-day nominal and degraded software
-screens and current fleet, depot, workforce and finance quantities. Kut,
-Lubango and Khamis Mushait use costed two-cabinet station charging requirements.
-Their actual reruns retain the 90% floor for ordinary degraded cases and
-achieve minimum completion of 91.54%, 93.69% and 92.92%, respectively.
-Khamis Mushait completes 89.69% during the ten-hour all-site grid outage,
-above that exceptional case's unchanged 60% curtailment floor.
-The requirements and release boundaries
-are recorded in each city's `design-overrides.toml`; charging supplier,
-electrical and thermal acceptance remain open.
+The [earlier baseline audit](baseline.json) records the previous water-placement campaign. Its narrower checks did not establish whole-network connectivity or absence of self-intersections. Earlier operating and energy results remain valid only for their recorded source revisions. Changed alignments require new runs; each updated city publishes an incomplete package manifest and an explicit revalidation notice.
 
-Kinshasa’s enlarged 1,440-trainset example uses an actual local invocation of
-the same source-bound native runner, with four independent case workers and
-a larger wall-time allowance. Its execution receipt identifies the local
-environment. All nominal/degraded durations, service floors and native output
-hash checks are retained. The other 265 current executions are verified
-GitHub outputs. The selected-city recovery workflow also allows additional
-wall time for large networks. These are software planning results.
+Each city retains its grid, ESA WorldCover 2021 class samples, OSM water geometries, combined mask and source receipts. Checks reconstruct these masks from retained inputs. Historical satellite classification and mapped features are planning evidence, not current shoreline surveys. Attribution: © ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data; OSM supplement © OpenStreetMap contributors, ODbL.
 
-Planning capital retains the existing constructability multiplier for elevated
-curves below 300 m radius. Restoring full geometry can materially raise that
-cost screen. Realignment, survey and supplier quotations must validate it
-before an investment decision; earlier capital and return headlines require
-recalculation.
-
-Endpoint changes in Douala, Zanzibar, Mwanza, Dar es Salaam and Tanga retain
-city-specific bounds and reasons in their water-route policies and alignment
-reports. Douala excludes the offshore end of one radial through a roughly
-12 km water stretch. Recalculations use the shortened shore route. Recorded
-shoreline backtracking remains an open geometry review, with its measured
-excursion and the original 750 m threshold retained.
-
-Each city publishes its land-cover samples, supplementary OSM water geometry,
-combined mask, exact grid, buildability constraints and source receipt. The
-receipt records actual source tile URLs and hashes, sampled windows and
-retained input hashes. Checks recompute the mask from these retained inputs;
-an empty legacy water relation is not treated as proof of dry land.
-
-The historical 10 m classification comes from
-[ESA WorldCover 2021 v200](https://esa-worldcover.org/en/data-access), class 80,
-with four quarter-cell samples per 20 m planning cell. Attribution:
-© ESA WorldCover project 2021 / Contains modified Copernicus Sentinel data
-(2021) processed by ESA WorldCover consortium. Data licence: CC BY 4.0.
-
-These checks do not establish current surveyed shorelines, platform footprints,
-bank stability, transfer access or levels, property rights, bridge spans,
-continuous curve geometry or physical rail–structure acceptance. Those remain
-project releases even where the software planning checks pass.
-
-Regenerate or verify with:
-
-```sh
-python tools/automation/refresh-city-water-evidence.py --check --jobs 4
-python tools/automation/audit-city-geography.py
-python tools/automation/audit-city-geography.py --check
-```
+Sources: [ESA WorldCover](https://esa-worldcover.org/en/data-access), [UN Angola classification](https://data.un.org/legacy/en/iso/ao.html).

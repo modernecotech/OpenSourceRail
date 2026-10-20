@@ -13,6 +13,47 @@ CITY=ROOT/'cities/catalogue/west-asia/Iraq/Baghdad'
 STUDY=CITY/'engineering/programme-recalculation'
 
 
+@pytest.fixture
+def pending_network(tmp_path,monkeypatch):
+    monkeypatch.setattr(publication,'ROOT',tmp_path)
+    city=tmp_path/'city';out=city/'engineering/alignment';out.mkdir(parents=True)
+    design=city/'design.toml';design.write_text('[city]\nslug="fixture"\nname="Fixture"\n[[lines]]\nname="line-1"\nlength_m=1200.0\n[[stations]]\nline="line-1"\n[[fleets]]\ntrainset_count=2\n')
+    (city/'package-manifest.json').write_bytes(publication.encoded(dict(passed=False,planning_example_complete=False,package_status='incomplete',stale_analysis_sources=[{'artifact':'energy'}])))
+    routes={'lines':[{'name':'line-1','cells':[[0,0],[1,1]]}]};(city/'corridors.json').write_bytes(publication.encoded(routes))
+    (city/'fixture.corridor.geojson').write_bytes(b'current native corridor')
+    (city/'fixture-network-map.png').write_bytes(b'unit fixture preview')
+    dependency=tmp_path/'seed';dependency.write_bytes(b'retained input')
+    (out/'water-source-receipt.json').write_bytes(b'retained water receipt')
+    audit_generator=tmp_path/'tools/automation/audit-city-geography.py';audit_generator.parent.mkdir(parents=True);audit_generator.write_bytes(b'audit generator')
+    proof=dict(schema='osr-city-network-correction/1',candidate_sha256=publication.sha(publication.encoded(routes)),engineering_release=False,physical_release=False,source_sha256={'seed':publication.sha(dependency.read_bytes())})
+    (out/'network-correction.json').write_bytes(publication.encoded(proof))
+    audit=dict(passed=True,operating_release=False,physical_release=False,generator_sha256=publication.sha(audit_generator.read_bytes()),cities=[dict(city='fixture',passed=True,connected_network=True,design_sha256=publication.sha(design.read_bytes()),corridor_sha256=publication.sha((city/'fixture.corridor.geojson').read_bytes()),water_source_receipt_sha256=publication.sha((out/'water-source-receipt.json').read_bytes()))])
+    (out/'network-topology.json').write_bytes(publication.encoded(audit))
+    old=city/'engineering/simulation/validation-summary.json';old.parent.mkdir();old.write_text('{"nominal_completion":99.9}')
+    return design
+
+
+def test_pending_network_publishes_geometry_without_reusing_old_numerical_passes(pending_network):
+    text=publication.provisional_network_summary(pending_network).decode()
+    assert 'Engineering revalidation pending' in text and '1.2 km' in text
+    assert '2 trainsets' in text and '99.9' not in text
+    assert len(text.splitlines())<=120
+    assert json.loads((pending_network.parent/'package-manifest.json').read_text())['passed'] is False
+
+
+@pytest.mark.parametrize('change',['dependency','audit-failure','candidate-revision','missing-map'])
+def test_pending_network_publication_holds_failed_or_stale_geometry(pending_network,change):
+    out=pending_network.parent/'engineering/alignment'
+    if change=='dependency':(publication.ROOT/'seed').write_bytes(b'changed source')
+    elif change=='missing-map':(pending_network.parent/'fixture-network-map.png').unlink()
+    else:
+        path=out/'network-topology.json';audit=json.loads(path.read_text())
+        if change=='audit-failure':audit['passed']=False
+        else:audit['cities'][0]['design_sha256']='0'*64
+        path.write_bytes(publication.encoded(audit))
+    with pytest.raises(ValueError):publication.provisional_network_summary(pending_network)
+
+
 def test_baghdad_landing_page_matches_current_scope_and_cashflows():
     publication.publish(CITY/'design.toml',CITY/'baghdad.toml',CITY/'README.md',check=True)
     text=(CITY/'README.md').read_text();case=json.loads((STUDY/'local_positive.json').read_text())

@@ -50,6 +50,7 @@ def check_design(design,features,grid,mask):
             if run['unknown']:unknown_runs.append(dict(line=name,water_run_m=round(run['length_m'],3)))
             elif run['length_m']>1000:long_runs.append(dict(line=name,water_run_m=round(run['length_m'],3)))
     names=sorted(lines)
+    self_intersections=[name for name in names if not LineString(lines[name]).is_simple]
     for i,first in enumerate(names):
         for second in names[i+1:]:
             intersection=LineString(lines[first]).intersection(LineString(lines[second]))
@@ -82,17 +83,36 @@ def check_design(design,features,grid,mask):
     unsupported=[s['id'] for s,p in stations if s.get('mandatory_crossing') and not any(
         s['line'] in c['lines'] and p.distance(Point(*c['native_validation_cell']))*grid['cell_m']<=60.0001
         for c in crossings)]
-    return dict(passed=not(wet or unknown or long_runs or unknown_runs or missing or unsupported),
+    def connected_groups(require_platforms):
+        remaining=set(lines);groups=[]
+        while remaining:
+            group={min(remaining)};remaining-=group;pending=list(group)
+            while pending:
+                first=pending.pop()
+                for crossing in crossings:
+                    if require_platforms and not crossing['platforms_grouped_at_crossing']:continue
+                    if first not in crossing['lines']:continue
+                    for other in crossing['lines']:
+                        if other in remaining:
+                            remaining.remove(other);group.add(other);pending.append(other)
+            groups.append(sorted(group))
+        return sorted(groups)
+    geometric_components=connected_groups(False);transfer_components=connected_groups(True)
+    disconnected=len(geometric_components)!=1 or len(transfer_components)!=1
+    return dict(passed=not(wet or unknown or long_runs or unknown_runs or missing or unsupported or disconnected or self_intersections),
                 platforms_checked=len(design['stations']),wet_platforms=wet,unknown_platforms=unknown,
                 long_unapproved_water_runs=long_runs,unknown_route_runs=unknown_runs,
                 dry_geometric_crossings=len(crossings),missing_crossing_platforms=missing,
-                unsupported_mandatory_platforms=unsupported)
+                unsupported_mandatory_platforms=unsupported,
+                self_intersecting_lines=self_intersections,
+                geometric_components=geometric_components,transfer_components=transfer_components,
+                connected_network=not disconnected)
 
 
-def audit(baseline_ref=None):
+def audit(baseline_ref=None,design_paths=None):
     commit=subprocess.check_output(['git','rev-parse',baseline_ref],cwd=ROOT,text=True).strip() if baseline_ref else None
     rows=[];missing_sources=[]
-    for design_path in sorted((ROOT/'cities/catalogue').glob('*/*/*/design.toml')):
+    for design_path in sorted(design_paths or (ROOT/'cities/catalogue').glob('*/*/*/design.toml')):
         out=design_path.parent/'engineering/alignment'
         if not (out/'water-source-receipt.json').is_file():missing_sources.append(design_path.parent.name);continue
         water_evidence.refresh(design_path,check=True)
@@ -117,6 +137,8 @@ def audit(baseline_ref=None):
         cities_with_findings=sum(not r['passed'] for r in rows),wet_platform_count=sum(len(r['wet_platforms']) for r in rows),
         missing_crossing_platform_count=sum(len(r['missing_crossing_platforms']) for r in rows),
         long_unapproved_water_run_count=sum(len(r['long_unapproved_water_runs']) for r in rows),
+        disconnected_network_count=sum(not r['connected_network'] for r in rows),
+        self_intersecting_line_count=sum(len(r['self_intersecting_lines']) for r in rows),
         physical_release=False,operating_release=False,
         source_documentation='https://esa-worldcover.org/en/data-access',
         limitations=['Historical satellite classification is a planning check; survey, bank access and platform footprints remain open.',
@@ -127,9 +149,10 @@ def audit(baseline_ref=None):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--baseline-ref')
+    parser.add_argument('--design',type=Path,action='append',help='audit only these cities; otherwise audit the entire catalogue')
     parser.add_argument('--out',type=Path,default=ROOT/'engineering/assurance/catalogue-geography/summary.json')
     parser.add_argument('--check',action='store_true');args=parser.parse_args()
-    report=audit(args.baseline_ref);encoded=(json.dumps(report,sort_keys=True,indent=2)+'\n').encode()
+    report=audit(args.baseline_ref,[p.resolve() for p in args.design] if args.design else None);encoded=(json.dumps(report,sort_keys=True,indent=2)+'\n').encode()
     if args.check:
         if args.out.read_bytes()!=encoded:raise ValueError('Stale catalogue geographic audit')
     else:args.out.parent.mkdir(parents=True,exist_ok=True);args.out.write_bytes(encoded)

@@ -7,12 +7,13 @@
     "west": 42.665201
   },
   "core_analytical_length_m": 59359.65851,
-  "core_final_route_length_m": 78125.448738,
+  "core_final_route_length_m": 78125.44873752297,
   "core_original_length_m": 59359.65851,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
     "centred_bbox_fraction": 0.6
   },
+  "final_route_quantity_basis": "Final complete line lengths in network-correction.json; former core analytical quantities superseded",
   "limitations": [
     "The centroid-centred rectangle is an explicit planning study area, not a verified city-centre boundary.",
     "Elevation does not grant property/air rights or clear buildings, protected sites, terrain, utilities or obstacles.",
@@ -1333,19 +1334,20 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "retained-contour-route-avoids-new-terrain-conflict",
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
           "original_length_m": 21980.863308,
           "seed_from_index": 83,
           "seed_to_index": 408,
-          "simplification_tolerance_m": null
+          "simplification_tolerance_m": null,
+          "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 23124.936495,
+      "final_core_route_m": 23124.93649538453,
       "line": "line-1",
       "original_cells": 414,
       "original_route_m": 28085.783577,
       "reworked_cells": 1318,
-      "reworked_route_m": 29976.795078,
+      "reworked_route_m": 29976.795077635776,
       "water_route_changes": []
     },
     {
@@ -2884,19 +2886,20 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "retained-contour-route-avoids-new-terrain-conflict",
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
           "original_length_m": 17249.642694,
           "seed_from_index": 53,
           "seed_to_index": 434,
-          "simplification_tolerance_m": null
+          "simplification_tolerance_m": null,
+          "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 20048.082246,
+      "final_core_route_m": 20048.082245892125,
       "line": "line-2",
       "original_cells": 530,
       "original_route_m": 24781.381425,
-      "reworked_cells": 1259,
-      "reworked_route_m": 27852.388155,
+      "reworked_cells": 1413,
+      "reworked_route_m": 30932.388155425117,
       "water_route_changes": []
     },
     {
@@ -4647,44 +4650,73 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "retained-route-avoids-forbidden-core-shortcut",
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
           "original_length_m": 20129.152508,
           "seed_from_index": 15,
           "seed_to_index": 449,
-          "simplification_tolerance_m": null
+          "simplification_tolerance_m": null,
+          "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 22207.047609,
+      "final_core_route_m": 22207.047609330035,
       "line": "line-3",
       "original_cells": 557,
       "original_route_m": 25763.479094,
       "reworked_cells": 1304,
-      "reworked_route_m": 28727.535342,
+      "reworked_route_m": 28727.53534168273,
       "water_route_changes": []
     },
     {
       "core_runs": [],
-      "final_core_route_m": 8370.336213,
+      "final_core_route_m": 8370.336213336315,
       "geometry_basis": "population-led additional corridor; curve/profile and structural review open",
       "line": "line-4",
       "original_cells": 0,
       "original_route_m": 0,
       "reworked_cells": 352,
-      "reworked_route_m": 8370.336213,
+      "reworked_route_m": 8370.33621333629,
       "water_route_changes": []
     },
     {
       "core_runs": [],
-      "final_core_route_m": 4375.046174,
+      "final_core_route_m": 4375.046173579956,
       "geometry_basis": "population-led additional corridor; curve/profile and structural review open",
       "line": "line-5",
       "original_cells": 0,
       "original_route_m": 0,
       "reworked_cells": 192,
-      "reworked_route_m": 4375.046174,
+      "reworked_route_m": 4375.046173579947,
       "water_route_changes": []
     }
   ],
+  "network_correction": {
+    "report": "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/network-correction.json",
+    "sha256": "3311fb1ce848eceffd88ea4151ee4e004e4729392cfca4066dbf2f2643d862dd"
+  },
+  "pre_network_sources_sha256": {
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/alignment-policy.toml": "f251ecfcafe05eea6efa19400cbd761f444dc62c87a345d8ced88f164693257a",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/access/population-pixels.npz.gz": "3659f97f2995711276611eb79790ac04eae70302b996c74df9cbd948b33eb142",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/access/population-source.json": "973f89c05af63c74e2bd1992bfbd5fa1b81e824a6ab4de60a331e1c21b496756",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/network-correction.json": "76aa627d71223b6d919ec135afd18fb3cd6679d7fe5c0cccf05dae56bfcb7496",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/network-expansion-baseline.json.gz": "86e2187c070b57647df20cb42b0694d4f11d9da244b592dbba3b2d6737c926eb",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-buildability-mask.bin.gz": "9368bce5377c5d21c26c3038b7bf2c9e4ed2e3449af4f963f373441d9d7e62aa",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-grid.json": "00512acad738d4384b494f2c3db0d78226916bb5d652a2348a8ca150eb11f33d",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-terrain-slope.f32.gz": "2e2a67a3a5efe9645615e089a09401dc8e3fe9569edfe4d24bf64e3556e8cadb",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-terrain-source.json": "6b1ddb5252e6bf12a415d8fb00967a24efc3b4c2283b9a6f32ba33e8b52a9d73",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-water-mask.bin.gz": "1ea684bc3f6c0554a8ced766c619c2160ae6de013bf4bf282fd05d9515a2d20e",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/pre-rework-corridors.json.gz": "514dcc005ae6d06c6bc44cdf6400cfdfc426961cfd567f53ea3d50c7edbd0b56",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/residential-line-expansion.json": "9a8ab7f3f5d29e54f26f2df32903c9a1bdf8eba19d75a97315969fc8cad3fa82",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/water-source-receipt.json": "73a9ba10b1a81b3feba3c39b9b7fc6a6e2cd483d73a3e89e3686ac2275be2122",
+    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
+    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
+    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
+    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+  },
   "residential_line_expansion": {
     "accessible_walking_coverage_accepted": false,
     "actual_regenerated_station_coverage": null,
@@ -4701,7 +4733,7 @@
         "end_connection_line": null,
         "geometry_basis": "bounded water/buildability raster investigation route",
         "incremental_residents_2020": 35401.903,
-        "length_m": 8370.336213,
+        "length_m": 8370.33621333629,
         "line": "line-4",
         "priority_areas": [
           [
@@ -4744,7 +4776,7 @@
         "end_connection_line": null,
         "geometry_basis": "bounded water/buildability raster investigation route",
         "incremental_residents_2020": 17233.96,
-        "length_m": 4375.046174,
+        "length_m": 4375.046173579947,
         "line": "line-5",
         "priority_areas": [
           [
@@ -4774,12 +4806,16 @@
     "as_of": "2026-10-12",
     "base_line_junction_changes": [],
     "base_line_junction_reviews": [],
-    "baseline_actual_station_radial_fraction": 0.322957,
-    "baseline_with_sampled_infill_radial_fraction": 0.388176,
+    "baseline_actual_station_radial_fraction": 0.32295713,
+    "baseline_with_sampled_infill_radial_fraction": 0.38817581,
     "bbox_population_2020": 524230.623,
     "city": "khamis-mushait",
     "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
     "final_line_count": 5,
+    "network_correction": {
+      "report": "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/network-correction.json",
+      "sha256": "3311fb1ce848eceffd88ea4151ee4e004e4729392cfca4066dbf2f2643d862dd"
+    },
     "operating_release": false,
     "original_line_count": 3,
     "original_route_m": 86556.719,
@@ -4788,12 +4824,10 @@
     "planned_stop_cells_by_line": {},
     "population_is_current_census": false,
     "population_year": 2020,
-    "proposed_station_sample_radial_fraction": 0.423363,
-    "rejected_priority_areas": [],
-    "schema": "osr-residential-line-expansion/1",
-    "sources_sha256": {
+    "pre_network_sources_sha256": {
       "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/access/population-pixels.npz.gz": "3659f97f2995711276611eb79790ac04eae70302b996c74df9cbd948b33eb142",
       "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/access/population-source.json": "973f89c05af63c74e2bd1992bfbd5fa1b81e824a6ab4de60a331e1c21b496756",
+      "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/network-correction.json": "76aa627d71223b6d919ec135afd18fb3cd6679d7fe5c0cccf05dae56bfcb7496",
       "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/network-expansion-baseline.json.gz": "86e2187c070b57647df20cb42b0694d4f11d9da244b592dbba3b2d6737c926eb",
       "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-terrain-slope.f32.gz": "2e2a67a3a5efe9645615e089a09401dc8e3fe9569edfe4d24bf64e3556e8cadb",
       "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-terrain-source.json": "6b1ddb5252e6bf12a415d8fb00967a24efc3b4c2283b9a6f32ba33e8b52a9d73",
@@ -4803,6 +4837,12 @@
       "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
       "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
     },
+    "proposed_station_sample_radial_fraction": 0.42336306,
+    "rejected_priority_areas": [],
+    "schema": "osr-residential-line-expansion/1",
+    "sources_sha256": {
+      "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/network-correction.json": "3311fb1ce848eceffd88ea4151ee4e004e4729392cfca4066dbf2f2643d862dd"
+    },
     "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
     "status": "expanded-controlled-planning-layout",
     "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
@@ -4811,27 +4851,8 @@
   },
   "schema_version": 3,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/alignment-policy.toml": "f251ecfcafe05eea6efa19400cbd761f444dc62c87a345d8ced88f164693257a",
-    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/access/population-pixels.npz.gz": "3659f97f2995711276611eb79790ac04eae70302b996c74df9cbd948b33eb142",
-    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/access/population-source.json": "973f89c05af63c74e2bd1992bfbd5fa1b81e824a6ab4de60a331e1c21b496756",
-    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/network-expansion-baseline.json.gz": "86e2187c070b57647df20cb42b0694d4f11d9da244b592dbba3b2d6737c926eb",
-    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-buildability-mask.bin.gz": "9368bce5377c5d21c26c3038b7bf2c9e4ed2e3449af4f963f373441d9d7e62aa",
-    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-grid.json": "00512acad738d4384b494f2c3db0d78226916bb5d652a2348a8ca150eb11f33d",
-    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-terrain-slope.f32.gz": "2e2a67a3a5efe9645615e089a09401dc8e3fe9569edfe4d24bf64e3556e8cadb",
-    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-terrain-source.json": "6b1ddb5252e6bf12a415d8fb00967a24efc3b4c2283b9a6f32ba33e8b52a9d73",
-    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/planning-water-mask.bin.gz": "1ea684bc3f6c0554a8ced766c619c2160ae6de013bf4bf282fd05d9515a2d20e",
-    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/pre-rework-corridors.json.gz": "514dcc005ae6d06c6bc44cdf6400cfdfc426961cfd567f53ea3d50c7edbd0b56",
-    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/residential-line-expansion.json": "89dbeecab56ee345701f01d0a5a9920df1a5a59453290af548923f1dca1b537d",
-    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/water-source-receipt.json": "73a9ba10b1a81b3feba3c39b9b7fc6a6e2cd483d73a3e89e3686ac2275be2122",
-    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
-    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
-    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
-    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
-    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
-    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
-    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
-    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/network-correction.json": "3311fb1ce848eceffd88ea4151ee4e004e4729392cfca4066dbf2f2643d862dd",
+    "cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/alignment/residential-line-expansion.json": "a4deed122d2ce3899ec0c190aaa6e4b06483f3adb934261c1796104c24f0d71d"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

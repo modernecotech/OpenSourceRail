@@ -50,6 +50,10 @@
   "city": "pemba-mz",
   "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
   "final_line_count": 4,
+  "network_correction": {
+    "report": "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/network-correction.json",
+    "sha256": "50ca521b24ee97f6cd31865495eb4fb04e6ddc17201b32917f04676971e8318a"
+  },
   "operating_release": false,
   "original_line_count": 3,
   "original_route_m": 25716.307,
@@ -58,6 +62,19 @@
   "planned_stop_cells_by_line": {},
   "population_is_current_census": false,
   "population_year": 2020,
+  "pre_network_sources_sha256": {
+    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/access/population-pixels.npz.gz": "717393113a11200add0fcc293f865792a0c63877dbafeef456361cda08cd72cb",
+    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/access/population-source.json": "3b4c808c9124766d5e4908831b49a5f9a6bdc456b3b5cebd9335a89526ada2af",
+    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/network-correction.json": "506e063a66f9d5775535bfabb63f6e83e63cfaa96663610a5cf9f4d659f6b2ef",
+    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/network-expansion-baseline.json.gz": "5c778f94a4193ff08046e519cc31a36e457639ac1017b4c58b71c991e185fcdc",
+    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/planning-terrain-slope.f32.gz": "6792fee3f9ac427e46eb5fb48da907a75207ecd44203dbc9faf0b7db9e7a7920",
+    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/planning-terrain-source.json": "59febd2b34708191fdd652a2efad96da2d9ddf666b5708745277ebf933b54541",
+    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
+    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+  },
   "proposed_station_sample_radial_fraction": 0.53267303,
   "rejected_priority_areas": [
     {
@@ -77,16 +94,7 @@
   ],
   "schema": "osr-residential-line-expansion/1",
   "sources_sha256": {
-    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/access/population-pixels.npz.gz": "717393113a11200add0fcc293f865792a0c63877dbafeef456361cda08cd72cb",
-    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/access/population-source.json": "3b4c808c9124766d5e4908831b49a5f9a6bdc456b3b5cebd9335a89526ada2af",
-    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/network-expansion-baseline.json.gz": "5c778f94a4193ff08046e519cc31a36e457639ac1017b4c58b71c991e185fcdc",
-    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/planning-terrain-slope.f32.gz": "6792fee3f9ac427e46eb5fb48da907a75207ecd44203dbc9faf0b7db9e7a7920",
-    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/planning-terrain-source.json": "59febd2b34708191fdd652a2efad96da2d9ddf666b5708745277ebf933b54541",
-    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
-    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
-    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
-    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/alignment/network-correction.json": "50ca521b24ee97f6cd31865495eb4fb04e6ddc17201b32917f04676971e8318a"
   },
   "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
   "status": "expanded-controlled-planning-layout",

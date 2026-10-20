@@ -58,6 +58,10 @@
   "city": "lira",
   "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
   "final_line_count": 4,
+  "network_correction": {
+    "report": "cities/catalogue/east-africa/Uganda/Lira/engineering/alignment/network-correction.json",
+    "sha256": "5708140a86f4493c26cea97e86d3faf27af4e5e5aab9cfcd9aa309e43315359e"
+  },
   "operating_release": false,
   "original_line_count": 3,
   "original_route_m": 38810.807,
@@ -66,12 +70,10 @@
   "planned_stop_cells_by_line": {},
   "population_is_current_census": false,
   "population_year": 2020,
-  "proposed_station_sample_radial_fraction": 0.51947207,
-  "rejected_priority_areas": [],
-  "schema": "osr-residential-line-expansion/1",
-  "sources_sha256": {
+  "pre_network_sources_sha256": {
     "cities/catalogue/east-africa/Uganda/Lira/engineering/access/population-pixels.npz.gz": "dd4695ccb804b68497822d9d05a62d6395a338c22ddfe50735154ef5ecea9b54",
     "cities/catalogue/east-africa/Uganda/Lira/engineering/access/population-source.json": "2e69d9c8f854cc63d8566c35dcbd24326a72fadf1895f6ac03e07840290b3fa6",
+    "cities/catalogue/east-africa/Uganda/Lira/engineering/alignment/network-correction.json": "b7db1d67dba198c8491003d169c5b51e264c4f99ed44ce25ed83144372bd943a",
     "cities/catalogue/east-africa/Uganda/Lira/engineering/alignment/network-expansion-baseline.json.gz": "1399ff7fa04cba6e7119ae05fee70cef15b03b9b58236b4d85c25d10c4871693",
     "cities/catalogue/east-africa/Uganda/Lira/engineering/alignment/planning-terrain-slope.f32.gz": "e85bdf55eb60fedb2bbef8f04e740bf3ee3632ffef66c99cd0630cc02fe7f3df",
     "cities/catalogue/east-africa/Uganda/Lira/engineering/alignment/planning-terrain-source.json": "85c7249336d17f1827319e9f3a22b73b66d16e4c7cc3f7ce17f537a9eab3fcac",
@@ -80,6 +82,12 @@
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
     "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
     "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+  },
+  "proposed_station_sample_radial_fraction": 0.51947207,
+  "rejected_priority_areas": [],
+  "schema": "osr-residential-line-expansion/1",
+  "sources_sha256": {
+    "cities/catalogue/east-africa/Uganda/Lira/engineering/alignment/network-correction.json": "5708140a86f4493c26cea97e86d3faf27af4e5e5aab9cfcd9aa309e43315359e"
   },
   "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
   "status": "expanded-controlled-planning-layout",

@@ -3,7 +3,7 @@
   "input_findings": [],
   "legacy_routing_score": {
     "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
-    "high_demand_cell_fraction": 0.578,
+    "high_demand_cell_fraction": 0.399,
     "retired_resident_proxy": null
   },
   "physical_release": false,
@@ -12,32 +12,32 @@
     "bbox_population_2020": 4203665.036187023,
     "catchments": [
       {
-        "covered_population_2020": 269751.0336227417,
-        "fraction_of_raster_population": 0.0641704396759981,
+        "covered_population_2020": 344460.1709871292,
+        "fraction_of_raster_population": 0.08194282085319893,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 500
       },
       {
-        "covered_population_2020": 654559.0140886307,
-        "fraction_of_raster_population": 0.15571150613902268,
+        "covered_population_2020": 790082.6675958633,
+        "fraction_of_raster_population": 0.1879509096929654,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 800
       },
       {
-        "covered_population_2020": 977985.3287572861,
-        "fraction_of_raster_population": 0.23265063232639907,
+        "covered_population_2020": 1146489.2222280502,
+        "fraction_of_raster_population": 0.27273562768644977,
         "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
         "radius_m": 1000
       },
       {
-        "covered_population_2020": 1800119.3059647083,
-        "fraction_of_raster_population": 0.42822615276633097,
+        "covered_population_2020": 1940125.0638349056,
+        "fraction_of_raster_population": 0.46153179359759733,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 1500
       },
       {
-        "covered_population_2020": 2410473.128693342,
-        "fraction_of_raster_population": 0.5734217897817535,
+        "covered_population_2020": 2530327.259477496,
+        "fraction_of_raster_population": 0.6019336073867234,
         "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
         "radius_m": 2000
       }
@@ -74,16 +74,16 @@
       "year": 2020
     },
     "status": "available",
-    "unique_station_coordinates": 36,
+    "unique_station_coordinates": 48,
     "valid_pixels": 132972
   },
   "population_source_country": "CD",
   "schema": "osr-city-access/1",
   "sources_sha256": {
-    "cities/catalogue/central-africa/DR Congo/Lubumbashi/design.toml": "9fa086abf72348a2889137aa1bb8866eddfbbf2b0078e7300503923a4dfcdf5a",
+    "cities/catalogue/central-africa/DR Congo/Lubumbashi/design.toml": "2896b6d3c16469537db3768a8c6726915bd6f1688e01264b594c06e4b4dcb6d6",
     "cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/access/population-pixels.npz.gz": "df1d2a3f1c7a1c022ecab6a714d786c8d42992648c3bed08621ef17f2146db63",
     "cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/access/population-source.json": "db1357dec01473b397ca7e3b8194089ca58eff3bd423cbd8caf8c9327fea1f2a",
-    "cities/catalogue/central-africa/DR Congo/Lubumbashi/lubumbashi.design-quality.yaml": "ce6618dc7e25df9f03f4ce56d711cc772228e3c3a29dcb8031ce3dc5100ea4f6",
+    "cities/catalogue/central-africa/DR Congo/Lubumbashi/lubumbashi.design-quality.yaml": "91e13b2c17262660988df190d4e7cd1f90611216cc4549e1f941194c7c5a7e4f",
     "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
     "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
     "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
@@ -103,7 +103,7 @@
         "line-8"
       ]
     ],
-    "direct_transfer_fraction": 0.42857142857142855,
+    "direct_transfer_fraction": 0.4642857142857143,
     "line_count": 8,
     "line_pair_count": 28,
     "maximum_required_transfers": 3,
@@ -141,7 +141,7 @@
           "line-1",
           "line-6"
         ],
-        "minimum_transfers": 2
+        "minimum_transfers": 1
       },
       {
         "lines": [
@@ -246,7 +246,7 @@
           "line-4",
           "line-6"
         ],
-        "minimum_transfers": 3
+        "minimum_transfers": 2
       },
       {
         "lines": [
@@ -306,6 +306,6 @@
       }
     ],
     "reachable_line_pair_fraction": 1.0,
-    "reachable_with_at_most_two_transfers_fraction": 0.8928571428571429
+    "reachable_with_at_most_two_transfers_fraction": 0.9285714285714286
   }
 }

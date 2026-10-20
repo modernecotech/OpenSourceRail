@@ -3,7 +3,7 @@
 This page contains only Uganda-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$21.14 B (89.0%) of external capital** and **$26.50 B of external interest**. Capital plus saved interest totals **$47.64 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$21.46 B (89.0%) of external capital** and **$26.90 B of external interest**. Capital plus saved interest totals **$48.37 B**.
 
 ## National Programme
 
@@ -11,40 +11,40 @@ This page contains only Uganda-specific aggregation. Shared network, service, en
 |---|---:|
 | Catalogue cities | 12 |
 | Represented population | 4,925,000 |
-| Trainsets / vehicle modules | 1,609 / 4,403 |
-| City infrastructure and fleet CAPEX | $12.40 B |
+| Trainsets / vehicle modules | 1,633 / 4,451 |
+| City infrastructure and fleet CAPEX | $12.60 B |
 | Shared national factory | $750.0 M |
 | Factory sizing basis | 1,444 modules for Kampala, then reused nationally |
-| **Total national programme** | **$13.20 B** |
+| **Total national programme** | **$13.40 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $2.62 B (19.9%) |
-| Domestic / local capital | $10.58 B (80.1%) |
-| Annual external capital draw | $374.8 M / yr |
-| Annual local capital draw | $1.51 B / yr |
-| Annual public construction commitment | $1.61 B / yr for 7 years |
-| Annual post-grace debt service | $1.35 B / yr |
-| Default foreign-turnkey external capital | $23.76 B |
-| External capital saved | $21.14 B |
-| Capital + lifetime external interest saved | $47.64 B |
+| Imported / external capital | $2.66 B (19.9%) |
+| Domestic / local capital | $10.74 B (80.1%) |
+| Annual external capital draw | $380.4 M / yr |
+| Annual local capital draw | $1.53 B / yr |
+| Annual public construction commitment | $1.63 B / yr for 7 years |
+| Annual post-grace debt service | $1.38 B / yr |
+| Default foreign-turnkey external capital | $24.12 B |
+| External capital saved | $21.46 B |
+| Capital + lifetime external interest saved | $48.37 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $6.74 B | $1.01 B | $5.73 B |
-| Stations | $2.24 B | $448.3 M | $1.79 B |
-| Depots | $848.9 M | $212.2 M | $636.7 M |
-| Rolling stock | $1.26 B | $441.2 M | $819.4 M |
-| Dedicated solar plants | $428.9 M | $193.0 M | $235.9 M |
-| Residual train control | $36.3 M | $18.1 M | $18.1 M |
-| Charging microgrids | $60.9 M | $24.4 M | $36.6 M |
-| EPC / project services | $835.7 M | $125.3 M | $710.3 M |
+| Civil works | $6.80 B | $1.02 B | $5.78 B |
+| Stations | $2.35 B | $469.2 M | $1.88 B |
+| Depots | $852.4 M | $213.1 M | $639.3 M |
+| Rolling stock | $1.27 B | $445.9 M | $828.1 M |
+| Dedicated solar plants | $430.0 M | $193.5 M | $236.5 M |
+| Residual train control | $36.6 M | $18.3 M | $18.3 M |
+| Charging microgrids | $62.3 M | $24.9 M | $37.4 M |
+| EPC / project services | $848.7 M | $127.3 M | $721.4 M |
 | Shared national trainset factory | $750.0 M | $150.0 M | $600.0 M |
-| **Total** | **$13.20 B** | **$2.62 B** | **$10.58 B** |
+| **Total** | **$13.40 B** | **$2.66 B** | **$10.74 B** |
 
 ## City Programme
 
@@ -57,7 +57,7 @@ This page contains only Uganda-specific aggregation. Shared network, service, en
 | [Mbale](Mbale/README.md) | 300,000 | 95 | $705.3 M | $132.4 M | $572.9 M | 5 | 2 | 28.1% | 33.1% |
 | [Arua](Arua/README.md) | 250,000 | 98 | $721.9 M | $136.7 M | $585.2 M | 4 | 1 | 33.3% | 31.7% |
 | [Entebbe](Entebbe/README.md) | 250,000 | 110 | $797.6 M | $152.6 M | $645.0 M | 4 | 1 | 46.6% | 54.6% |
-| [Lira](Lira/README.md) | 250,000 | 92 | $627.8 M | $119.3 M | $508.5 M | 4 | 1 | 41.8% | 42.6% |
+| [Lira](Lira/README.md) | 250,000 | 116 | $828.0 M | $158.4 M | $669.6 M | 4 | 1 | 41.8% | 44.2% |
 | [Masaka](Masaka/README.md) | 250,000 | 83 | $626.0 M | $117.9 M | $508.1 M | 4 | 1 | 37.2% | 36.3% |
 | [Fort Portal](Fort-Portal/README.md) | 200,000 | 85 | $621.0 M | $116.4 M | $504.6 M | 4 | 1 | 30.0% | 35.2% |
 | [Hoima](Hoima/README.md) | 200,000 | 71 | $523.9 M | $98.4 M | $425.5 M | 4 | 1 | 40.0% | 44.4% |

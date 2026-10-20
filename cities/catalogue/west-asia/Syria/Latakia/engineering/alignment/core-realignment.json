@@ -7,12 +7,13 @@
     "west": 35.717417
   },
   "core_analytical_length_m": 29714.566721,
-  "core_final_route_length_m": 39150.806615,
+  "core_final_route_length_m": 46675.60025653923,
   "core_original_length_m": 40021.925955,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
     "centred_bbox_fraction": 0.6
   },
+  "final_route_quantity_basis": "Final complete line lengths in network-correction.json; former core analytical quantities superseded",
   "limitations": [
     "The centroid-centred rectangle is an explicit planning study area, not a verified city-centre boundary.",
     "Elevation does not grant property/air rights or clear buildings, protected sites, terrain, utilities or obstacles.",
@@ -2594,7 +2595,7 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "superseded-by-closed-retrace-removal; retained-edge geometry review",
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
           "original_length_m": 15397.566806,
           "seed_from_index": 0,
           "seed_to_index": 638,
@@ -2602,12 +2603,12 @@
           "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 15086.70273,
+      "final_core_route_m": 15086.7027304758,
       "line": "line-1",
       "original_cells": 756,
       "original_route_m": 18292.612979,
       "reworked_cells": 746,
-      "reworked_route_m": 17981.748904,
+      "reworked_route_m": 17981.74890405583,
       "water_route_changes": []
     },
     {
@@ -2625,7 +2626,13 @@
               14720.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 11464.793642,
+          "seed_from_index": 0,
+          "seed_to_index": 473,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 8000.0,
@@ -2638,20 +2645,15 @@
                 8460.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 11464.793642,
-          "seed_from_index": 0,
-          "seed_to_index": 473,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 6690.782105,
+      "final_core_route_m": 11191.656556895925,
       "line": "line-2",
       "original_cells": 474,
       "original_route_m": 11464.793642,
-      "reworked_cells": 314,
-      "reworked_route_m": 6690.782105,
+      "reworked_cells": 462,
+      "reworked_route_m": 11191.656556895932,
       "water_route_changes": []
     },
     {
@@ -2670,7 +2672,7 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
           "original_length_m": 13159.565508,
           "seed_from_index": 0,
           "seed_to_index": 570,
@@ -2691,12 +2693,12 @@
           ]
         }
       ],
-      "final_core_route_m": 9265.239533,
+      "final_core_route_m": 12289.158723275354,
       "line": "line-3",
       "original_cells": 571,
       "original_route_m": 13159.565508,
-      "reworked_cells": 410,
-      "reworked_route_m": 9265.239533,
+      "reworked_cells": 538,
+      "reworked_route_m": 12289.158723275375,
       "water_route_changes": [
         {
           "detour_route_m": 4050.19336,
@@ -2718,27 +2720,55 @@
     },
     {
       "core_runs": [],
-      "final_core_route_m": 4033.036072,
+      "final_core_route_m": 4033.0360723121903,
       "geometry_basis": "population-led additional corridor; curve/profile and structural review open",
       "line": "line-4",
       "original_cells": 0,
       "original_route_m": 0,
       "reworked_cells": 172,
-      "reworked_route_m": 4033.036072,
+      "reworked_route_m": 4033.0360723121807,
       "water_route_changes": []
     },
     {
       "core_runs": [],
-      "final_core_route_m": 4075.046174,
+      "final_core_route_m": 4075.0461735799554,
       "geometry_basis": "population-led additional corridor; curve/profile and structural review open",
       "line": "line-5",
       "original_cells": 0,
       "original_route_m": 0,
       "reworked_cells": 177,
-      "reworked_route_m": 4075.046174,
+      "reworked_route_m": 4075.046173579947,
       "water_route_changes": []
     }
   ],
+  "network_correction": {
+    "report": "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/network-correction.json",
+    "sha256": "5459608147721d99fbb81effb468a40b6b2bbcaa33eea5d77a25f03f5195c498"
+  },
+  "pre_network_sources_sha256": {
+    "cities/catalogue/west-asia/Syria/Latakia/alignment-policy.toml": "e841062a3ea8fbcd2b2f77d1c935e5c8b545c7133c6b579675ae65bf9da036a0",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/access/population-pixels.npz.gz": "e767aad8edfaf95a9b28c5f6792a647ed2169dedd8378794cbb89c734e8f4d67",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/access/population-source.json": "1f842a5c468687304445cb0defc944eabf391249d1e4b61ed83aeda01f547ef8",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/network-correction.json": "4dc74d2aa5d330cac814e0e1cd89f63d482e832b951d6fa3c4711ac417be3f4d",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/network-expansion-baseline.json.gz": "f429964c229dabfe5a65e7ae3bda2f3900a03704f7a847ff4610411d3de4f858",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-buildability-mask.bin.gz": "5d1a2337eadbad2ec9acdbd3602fd3ced5aaa9cb3d3076136d1f3285dfa06eb2",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-grid.json": "a7f890c1e85a1973b5c04f373cd1b79de5290a20dd2925fd1014ba3f42e46071",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-terrain-slope.f32.gz": "5c7dbcadf7d83cb8075e15aca1e470b83a372aa8cb1c120fea0aa0cf14b07c49",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-terrain-source.json": "c2e9eada40b6db293885c4e33cedf25bac9c49812d4de55de8fb11dbb80dcd06",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-water-mask.bin.gz": "ed05c9d91de812376aa8037704a90fb88f7a78f61c2bb759cb0414a66f4b9694",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/pre-rework-corridors.json.gz": "d63c29145575a7b8e2b0fa48efcffd730dc233096f1eff721ffb3f24c8e1b85d",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/residential-line-expansion.json": "e8e16f39f5e13994901bcc1e072ecd06a791fa14a6fe4b8c46e14e2ec7ab8f1a",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/water-source-receipt.json": "48e0e369d3b647dc4d3dbabd7cf1f595597b1930d8575577f2e37ca4d03e43d9",
+    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
+    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
+    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
+    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+  },
   "residential_line_expansion": {
     "accessible_walking_coverage_accepted": false,
     "actual_regenerated_station_coverage": null,
@@ -2755,7 +2785,7 @@
         "end_connection_line": null,
         "geometry_basis": "bounded water/buildability raster investigation route",
         "incremental_residents_2020": 66139.189,
-        "length_m": 4033.036072,
+        "length_m": 4033.0360723121807,
         "line": "line-4",
         "priority_areas": [
           [
@@ -2790,7 +2820,7 @@
         "end_connection_line": null,
         "geometry_basis": "bounded water/buildability raster investigation route",
         "incremental_residents_2020": 3273.368,
-        "length_m": 4075.046174,
+        "length_m": 4075.046173579947,
         "line": "line-5",
         "priority_areas": [
           [
@@ -2812,12 +2842,16 @@
     "as_of": "2026-10-12",
     "base_line_junction_changes": [],
     "base_line_junction_reviews": [],
-    "baseline_actual_station_radial_fraction": 0.374829,
-    "baseline_with_sampled_infill_radial_fraction": 0.461907,
+    "baseline_actual_station_radial_fraction": 0.37482897,
+    "baseline_with_sampled_infill_radial_fraction": 0.46190723,
     "bbox_population_2020": 627025.499,
     "city": "latakia",
     "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
     "final_line_count": 5,
+    "network_correction": {
+      "report": "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/network-correction.json",
+      "sha256": "5459608147721d99fbb81effb468a40b6b2bbcaa33eea5d77a25f03f5195c498"
+    },
     "operating_release": false,
     "original_line_count": 3,
     "original_route_m": 33937.771,
@@ -2826,12 +2860,10 @@
     "planned_stop_cells_by_line": {},
     "population_is_current_census": false,
     "population_year": 2020,
-    "proposed_station_sample_radial_fraction": 0.48553,
-    "rejected_priority_areas": [],
-    "schema": "osr-residential-line-expansion/1",
-    "sources_sha256": {
+    "pre_network_sources_sha256": {
       "cities/catalogue/west-asia/Syria/Latakia/engineering/access/population-pixels.npz.gz": "e767aad8edfaf95a9b28c5f6792a647ed2169dedd8378794cbb89c734e8f4d67",
       "cities/catalogue/west-asia/Syria/Latakia/engineering/access/population-source.json": "1f842a5c468687304445cb0defc944eabf391249d1e4b61ed83aeda01f547ef8",
+      "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/network-correction.json": "4dc74d2aa5d330cac814e0e1cd89f63d482e832b951d6fa3c4711ac417be3f4d",
       "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/network-expansion-baseline.json.gz": "f429964c229dabfe5a65e7ae3bda2f3900a03704f7a847ff4610411d3de4f858",
       "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-terrain-slope.f32.gz": "5c7dbcadf7d83cb8075e15aca1e470b83a372aa8cb1c120fea0aa0cf14b07c49",
       "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-terrain-source.json": "c2e9eada40b6db293885c4e33cedf25bac9c49812d4de55de8fb11dbb80dcd06",
@@ -2841,6 +2873,12 @@
       "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
       "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
     },
+    "proposed_station_sample_radial_fraction": 0.4855303,
+    "rejected_priority_areas": [],
+    "schema": "osr-residential-line-expansion/1",
+    "sources_sha256": {
+      "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/network-correction.json": "5459608147721d99fbb81effb468a40b6b2bbcaa33eea5d77a25f03f5195c498"
+    },
     "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
     "status": "expanded-controlled-planning-layout",
     "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
@@ -2849,27 +2887,8 @@
   },
   "schema_version": 3,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Syria/Latakia/alignment-policy.toml": "e841062a3ea8fbcd2b2f77d1c935e5c8b545c7133c6b579675ae65bf9da036a0",
-    "cities/catalogue/west-asia/Syria/Latakia/engineering/access/population-pixels.npz.gz": "e767aad8edfaf95a9b28c5f6792a647ed2169dedd8378794cbb89c734e8f4d67",
-    "cities/catalogue/west-asia/Syria/Latakia/engineering/access/population-source.json": "1f842a5c468687304445cb0defc944eabf391249d1e4b61ed83aeda01f547ef8",
-    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/network-expansion-baseline.json.gz": "f429964c229dabfe5a65e7ae3bda2f3900a03704f7a847ff4610411d3de4f858",
-    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-buildability-mask.bin.gz": "5d1a2337eadbad2ec9acdbd3602fd3ced5aaa9cb3d3076136d1f3285dfa06eb2",
-    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-grid.json": "a7f890c1e85a1973b5c04f373cd1b79de5290a20dd2925fd1014ba3f42e46071",
-    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-terrain-slope.f32.gz": "5c7dbcadf7d83cb8075e15aca1e470b83a372aa8cb1c120fea0aa0cf14b07c49",
-    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-terrain-source.json": "c2e9eada40b6db293885c4e33cedf25bac9c49812d4de55de8fb11dbb80dcd06",
-    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/planning-water-mask.bin.gz": "ed05c9d91de812376aa8037704a90fb88f7a78f61c2bb759cb0414a66f4b9694",
-    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/pre-rework-corridors.json.gz": "d63c29145575a7b8e2b0fa48efcffd730dc233096f1eff721ffb3f24c8e1b85d",
-    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/residential-line-expansion.json": "c8c174bc50cc89e2710f8cc6fcd8fb774314d4f66cea638f14e26e9b0daa2b91",
-    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/water-source-receipt.json": "48e0e369d3b647dc4d3dbabd7cf1f595597b1930d8575577f2e37ca4d03e43d9",
-    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
-    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
-    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
-    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
-    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
-    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
-    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
-    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/network-correction.json": "5459608147721d99fbb81effb468a40b6b2bbcaa33eea5d77a25f03f5195c498",
+    "cities/catalogue/west-asia/Syria/Latakia/engineering/alignment/residential-line-expansion.json": "2679ee298fa7852b6470582f6e60a854c44761ea38aa763438c2b90b04d42829"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

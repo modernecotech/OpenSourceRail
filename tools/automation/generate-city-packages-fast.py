@@ -43,6 +43,22 @@ def atomic_json(path: Path, value: object) -> None:
     os.replace(temporary, path)
 
 
+def verify_network_correction(city_dir: Path, routes: dict) -> None:
+    path=city_dir/'engineering/alignment/network-correction.json'
+    if not path.exists():return
+    proof=json.loads(path.read_text())
+    raw=(json.dumps(routes,sort_keys=True,indent=2,allow_nan=False)+'\n').encode()
+    if (proof.get('schema')!='osr-city-network-correction/1' or
+        proof.get('candidate_sha256')!=hashlib.sha256(raw).hexdigest() or
+        proof.get('engineering_release') is not False or proof.get('physical_release') is not False):
+        raise ValueError('Corrected corridor candidate identity or scope differs')
+    if not proof.get('source_sha256'):raise ValueError('Corrected corridor source inventory is empty')
+    for relative,digest in proof['source_sha256'].items():
+        source=REPO_ROOT/relative
+        if not source.resolve().is_relative_to(REPO_ROOT.resolve()) or not source.is_file() or hashlib.sha256(source.read_bytes()).hexdigest()!=digest:
+            raise ValueError('Stale corrected corridor source: '+relative)
+
+
 def discover_designs() -> dict[str, Path]:
     designs: dict[str, Path] = {}
     for path in sorted((REPO_ROOT / "cities/catalogue").glob("*/*/*/design.toml")):
@@ -252,11 +268,14 @@ def prepare_city(
                     raise ValueError('Stale planned corridor input: '+source)
         if not corridor_cache.is_file():raise ValueError('Missing controlled corridor cache: '+slug)
         cached=json.loads(corridor_cache.read_text())
+        verify_network_correction(city_dir,cached)
         expansion=reports['residential-line-expansion.json']
         if expansion['city']!=slug or expansion['final_line_count']!=len(cached['lines']) or {
             line['name'] for line in cached['lines']}!={row['line'] for row in reports['core-realignment.json']['lines']}:
             raise ValueError('Corridor cache differs from the controlled line inventory: '+slug)
         if '--design-only' not in design_command:design_command.append('--design-only')
+        commands.append([sys.executable,str(REPO_ROOT/'tools/automation/generate-station-water-screen.py'),
+                         '--design',str(design_path),'--prepare-grid'])
         commands.append(design_command)
     elif not replace_layout:
         # Current-source refresh is the default, including cities with an
@@ -276,6 +295,7 @@ def prepare_city(
         if not (city_dir/'engineering/alignment/water-source-receipt.json').is_file():
             commands.append([sys.executable,str(REPO_ROOT/'tools/automation/refresh-city-water-evidence.py'),'--design',str(design_path)])
         commands.append([sys.executable,str(REPO_ROOT/'tools/automation/rework-city-alignment.py'),'--design',str(design_path)])
+        commands.append([sys.executable,str(REPO_ROOT/'tools/automation/correct-city-network.py'),'--design',str(design_path)])
         commands.append([sys.executable,str(REPO_ROOT/'tools/automation/generate-station-water-screen.py'),'--design',str(design_path),'--prepare-grid'])
         if '--design-only' not in design_command:design_command.append('--design-only')
         commands.append(design_command)
@@ -364,6 +384,11 @@ def prepare_city(
                 "phase": "prepare",
                 "return_code": return_code,
             }
+    if (city_dir/'engineering/alignment/network-correction.json').is_file():
+        command=[sys.executable,str(REPO_ROOT/'tools/automation/audit-city-geography.py'),
+                 '--design',str(design_path),'--out',str(city_dir/'engineering/alignment/network-topology.json')]
+        code=run_logged(command,log_path)
+        if code:return dict(city=slug,passed=False,phase='whole-network-connectivity',return_code=code)
     return {
         "city": slug,
         "duration_seconds": round(time.monotonic() - started, 3),
@@ -383,9 +408,14 @@ def finish_city(slug: str, design_path: Path, resilience_jobs: int,
     operations_dir = city_dir / "operations"
     log_path = LOG_ROOT / f"package-{slug}.log"
     clearance = [sys.executable, str(REPO_ROOT / "tools/automation/audit-viaduct-clearance.py"), "--city", slug]
-    if not all((city_dir/'engineering/clearance'/name).is_file() for name in (
+    retained_clearance=all((city_dir/'engineering/clearance'/name).is_file() for name in (
             'building-footprints.json.gz', 'building-source.json',
-            'terrain-elevation.f32.gz', 'terrain-source.json')):
+            'terrain-elevation.f32.gz', 'terrain-source.json'))
+    if retained_clearance:
+        corridor_digest=hashlib.sha256((city_dir/f'{slug}.corridor.geojson').read_bytes()).hexdigest()
+        retained_clearance=all(json.loads((city_dir/'engineering/clearance'/name).read_text()).get('corridor_sha256')==corridor_digest
+                               for name in ('building-source.json','terrain-source.json'))
+    if not retained_clearance:
         clearance += ['--retain-inputs', '--fetch-terrain']
     if (ci_directory is None)!=(ci_commit is None):
         raise ValueError('CI evidence requires its artifact directory and exact commit')
@@ -675,8 +705,9 @@ def main() -> int:
 
     catalog_validation_return_codes: dict[str, int] = {}
     if ready:
-        validation_selection = ['--all'] if set(ready) == set(available) else [
-            argument for path in ready.values() for argument in ('--design', str(path))]
+        # The committed catalogue index consumes complete catalogue reports.
+        # A selected-city run must not replace them with a partial inventory.
+        validation_selection = ['--all']
         catalog_validation_return_codes = {
             "station_clusters": run_logged(
                 [

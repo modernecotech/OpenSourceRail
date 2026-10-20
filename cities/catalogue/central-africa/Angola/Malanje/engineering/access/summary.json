@@ -1,0 +1,116 @@
+{
+  "city": "malanje",
+  "input_findings": [],
+  "legacy_routing_score": {
+    "basis": "Fraction of demand >= 0.5 cells within 20 routing cells of any track; mixed POI/population/centre demand, not resident coverage.",
+    "high_demand_cell_fraction": 0.144,
+    "retired_resident_proxy": null
+  },
+  "physical_release": false,
+  "population": {
+    "basis": "Great-circle distance from native population pixel centres to station coordinates; union without double counting.",
+    "bbox_population_2020": 308205.3328053802,
+    "catchments": [
+      {
+        "covered_population_2020": 11541.592332839966,
+        "fraction_of_raster_population": 0.037447737285350724,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 500
+      },
+      {
+        "covered_population_2020": 25091.781188964844,
+        "fraction_of_raster_population": 0.08141254715021215,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 800
+      },
+      {
+        "covered_population_2020": 35683.45656585693,
+        "fraction_of_raster_population": 0.11577819319690247,
+        "interpretation": "Radial station-access sensitivity; barriers and entrance paths unverified.",
+        "radius_m": 1000
+      },
+      {
+        "covered_population_2020": 62820.997022628784,
+        "fraction_of_raster_population": 0.20382839080301643,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 1500
+      },
+      {
+        "covered_population_2020": 88015.89993286133,
+        "fraction_of_raster_population": 0.2855755256786552,
+        "interpretation": "Extended radial/feeder sensitivity; no feeder service assumed or funded.",
+        "radius_m": 2000
+      }
+    ],
+    "denominator": "Sum of valid native population-count pixels inside the city bounding box; no scaling to catalogue population.",
+    "limitations": [
+      "Population year/boundary differs from the catalogue; counts are not current census counts.",
+      "Radial access can overstate walking access across rivers, motorways, walls or steep terrain.",
+      "No fare demand, unique passengers, feeder revenue or funding improvement is inferred."
+    ],
+    "missing_pixels": 22,
+    "planning_city_population": 500000,
+    "population_year": 2020,
+    "source": {
+      "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+      "bbox": {
+        "east": 16.4415,
+        "north": -9.4411,
+        "south": -9.6393,
+        "west": 16.2405
+      },
+      "dataset": "WorldPop 2020 native gridded population counts",
+      "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+      "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+      "retained_sha256": "164a15661586e780582a2311a36a9e40df322198720cc3547fdaa2da162c5a10",
+      "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+      "source_resolution_degrees": [
+        0.0008333333299993288,
+        0.0008333333300006096
+      ],
+      "source_sha256": "bbafe0854a916e08e787478ccccf88d6d8d5a99eb750072305635f50c1f503c0",
+      "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020/2020/AGO/ago_ppp_2020.tif",
+      "units": "persons per native source pixel",
+      "year": 2020
+    },
+    "status": "available",
+    "unique_station_coordinates": 8,
+    "valid_pixels": 57336
+  },
+  "population_source_country": "AO",
+  "schema": "osr-city-access/1",
+  "sources_sha256": {
+    "cities/catalogue/central-africa/Angola/Malanje/design.toml": "698314f1a664efa5882fdf80ffaafb09eb09896b6195e05867f41c1c253ae7a7",
+    "cities/catalogue/central-africa/Angola/Malanje/engineering/access/population-pixels.npz.gz": "164a15661586e780582a2311a36a9e40df322198720cc3547fdaa2da162c5a10",
+    "cities/catalogue/central-africa/Angola/Malanje/engineering/access/population-source.json": "cb160d7fd03bd38ab4c4d8a98123e9988478b65c3c3931a6126ffff4cd9d21ce",
+    "cities/catalogue/central-africa/Angola/Malanje/malanje.design-quality.yaml": "175a76075b02cfed0f3c49098e3b1630fe6f8bdb3091d259304db5569b167a34",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "tools/automation/audit-city-access.py": "11ffad22fd6d6613d8494df97c62b00d053afe3fc58f6f0e8efc238740c699c5",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09"
+  },
+  "transfer_recovery_candidates": [],
+  "transfers": {
+    "basis": "Declared passenger-transfer topology; no pedestrian accessibility, timetable or travel-time acceptance implied.",
+    "components": [
+      [
+        "line-1",
+        "line-2"
+      ]
+    ],
+    "direct_transfer_fraction": 1.0,
+    "line_count": 2,
+    "line_pair_count": 1,
+    "maximum_required_transfers": 1,
+    "pairs": [
+      {
+        "lines": [
+          "line-1",
+          "line-2"
+        ],
+        "minimum_transfers": 1
+      }
+    ],
+    "reachable_line_pair_fraction": 1.0,
+    "reachable_with_at_most_two_transfers_fraction": 1.0
+  }
+}

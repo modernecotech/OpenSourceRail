@@ -7,12 +7,13 @@
     "west": 32.572752
   },
   "core_analytical_length_m": 37314.53653,
-  "core_final_route_length_m": 51913.590155,
+  "core_final_route_length_m": 59119.21640836407,
   "core_original_length_m": 46621.687477,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
     "centred_bbox_fraction": 0.6
   },
+  "final_route_quantity_basis": "Final complete line lengths in network-correction.json; former core analytical quantities superseded",
   "limitations": [
     "The centroid-centred rectangle is an explicit planning study area, not a verified city-centre boundary.",
     "Elevation does not grant property/air rights or clear buildings, protected sites, terrain, utilities or obstacles.",
@@ -36,7 +37,13 @@
               10520.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 13254.743136,
+          "seed_from_index": 0,
+          "seed_to_index": 548,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 14240.0,
@@ -49,20 +56,15 @@
                 7660.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 13254.743136,
-          "seed_from_index": 0,
-          "seed_to_index": 548,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 10123.229432,
+      "final_core_route_m": 13254.743135546909,
       "line": "line-1",
       "original_cells": 549,
       "original_route_m": 13254.743136,
-      "reworked_cells": 450,
-      "reworked_route_m": 10123.229432,
+      "reworked_cells": 549,
+      "reworked_route_m": 13254.743135546947,
       "water_route_changes": []
     },
     {
@@ -1477,7 +1479,7 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "superseded-by-water-constrained-route-requires-geometry-review",
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
           "original_length_m": 16701.062823,
           "seed_from_index": 71,
           "seed_to_index": 421,
@@ -1485,12 +1487,12 @@
           "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 19143.372286,
+      "final_core_route_m": 19143.372285648446,
       "line": "line-2",
       "original_cells": 422,
       "original_route_m": 20030.467866,
       "reworked_cells": 1044,
-      "reworked_route_m": 23096.753237,
+      "reworked_route_m": 23096.753236814715,
       "water_route_changes": [
         {
           "from_cell": [
@@ -1523,7 +1525,13 @@
               7960.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 16665.881519,
+          "seed_from_index": 0,
+          "seed_to_index": 673,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 6000.0,
@@ -1536,45 +1544,67 @@
                 17240.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 16665.881519,
-          "seed_from_index": 0,
-          "seed_to_index": 673,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 12607.047609,
+      "final_core_route_m": 16681.16015902528,
       "line": "line-3",
       "original_cells": 674,
       "original_route_m": 16665.881519,
-      "reworked_cells": 522,
-      "reworked_route_m": 12607.047609,
+      "reworked_cells": 676,
+      "reworked_route_m": 16681.16015902537,
       "water_route_changes": []
     },
     {
       "core_runs": [],
-      "final_core_route_m": 5384.062043,
+      "final_core_route_m": 5384.062043356616,
       "geometry_basis": "population-led additional corridor; curve/profile and structural review open",
       "line": "line-4",
       "original_cells": 0,
       "original_route_m": 0,
       "reworked_cells": 206,
-      "reworked_route_m": 5384.062043,
+      "reworked_route_m": 5384.062043356595,
       "water_route_changes": []
     },
     {
       "core_runs": [],
-      "final_core_route_m": 4655.878785,
+      "final_core_route_m": 4655.878784786817,
       "geometry_basis": "population-led additional corridor; curve/profile and structural review open",
       "line": "line-5",
       "original_cells": 0,
       "original_route_m": 0,
       "reworked_cells": 199,
-      "reworked_route_m": 4655.878785,
+      "reworked_route_m": 4655.8787847868,
       "water_route_changes": []
     }
   ],
+  "network_correction": {
+    "report": "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/network-correction.json",
+    "sha256": "7ed75523d530bb157fc7f48ad023445a6891c316970758df27fa582706b9c308"
+  },
+  "pre_network_sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Luxor/alignment-policy.toml": "755d05d969462d5e8f95cc5d46ddfa73d421c3df1c51d358c1e7bc4e67603f34",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/access/population-pixels.npz.gz": "ab32331d267d385b364c459bc1b019fd949632e977bdc1dbcd2760c5939972de",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/access/population-source.json": "0da920ef170ea3e03bf5ca8deafcfd98bce2d491874a47ca93f3e0acfba8911a",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/network-expansion-baseline.json.gz": "9d5cce7484a130486c240ec6e34163c1fe5f7d215648f1725fabd0f361169bfb",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/planning-buildability-mask.bin.gz": "3d3a3e40af6edbe7b3064d3ff2e7256b3661c010dfdc76e465dd502c0ff73ef7",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/planning-grid.json": "5045286d3a7cee65ee52433fdfdf2d80ec9ec102ad7f9f0a8a5d37d786dd8a87",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/planning-terrain-slope.f32.gz": "ca350b84acbad2a6bf3312b1557a95e2b1e3629f6a9172bed3391e99103eda4a",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/planning-terrain-source.json": "a9fa1cf5d7a090218cb9daf6f9edc57b5dc2d5f5d4a8c56a57142a7cfc8e7b3d",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/planning-water-mask.bin.gz": "ef77542b822f4cae6e7b70799ab99f9a93eda3ec659653809970eddde3f6eaec",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/pre-rework-corridors.json.gz": "b37ff95d954913ed6baef3c5265e44bfadde065e4694a40b193d076c09e3b0cd",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/residential-line-expansion.json": "4b6fbced3f6446d67234d8507525e14cb98a5b5d27cbba7c3717c2556dba5831",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/water-source-receipt.json": "609e08fadc7348e0037a748c6efa99861d95ed8a7ff5c86243912230593156c8",
+    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
+    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
+    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
+    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+  },
   "residential_line_expansion": {
     "accessible_walking_coverage_accepted": false,
     "actual_regenerated_station_coverage": null,
@@ -1594,7 +1624,7 @@
         "end_connection_line": "line-2",
         "geometry_basis": "bounded water/buildability raster investigation route",
         "incremental_residents_2020": 279286.839,
-        "length_m": 5384.062043,
+        "length_m": 5384.062043356595,
         "line": "line-4",
         "priority_areas": [
           [
@@ -1621,7 +1651,7 @@
         "end_connection_line": null,
         "geometry_basis": "bounded water/buildability raster investigation route",
         "incremental_residents_2020": 211443.821,
-        "length_m": 4655.878785,
+        "length_m": 4655.8787847868,
         "line": "line-5",
         "priority_areas": [
           [
@@ -1651,12 +1681,16 @@
     "as_of": "2026-10-12",
     "base_line_junction_changes": [],
     "base_line_junction_reviews": [],
-    "baseline_actual_station_radial_fraction": 0.325031,
-    "baseline_with_sampled_infill_radial_fraction": 0.401664,
+    "baseline_actual_station_radial_fraction": 0.32503145,
+    "baseline_with_sampled_infill_radial_fraction": 0.40166351,
     "bbox_population_2020": 2929254.903,
     "city": "luxor",
     "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
     "final_line_count": 5,
+    "network_correction": {
+      "report": "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/network-correction.json",
+      "sha256": "7ed75523d530bb157fc7f48ad023445a6891c316970758df27fa582706b9c308"
+    },
     "operating_release": false,
     "original_line_count": 3,
     "original_route_m": 45827.03,
@@ -1665,10 +1699,7 @@
     "planned_stop_cells_by_line": {},
     "population_is_current_census": false,
     "population_year": 2020,
-    "proposed_station_sample_radial_fraction": 0.492559,
-    "rejected_priority_areas": [],
-    "schema": "osr-residential-line-expansion/1",
-    "sources_sha256": {
+    "pre_network_sources_sha256": {
       "cities/catalogue/west-asia/Egypt/Luxor/engineering/access/population-pixels.npz.gz": "ab32331d267d385b364c459bc1b019fd949632e977bdc1dbcd2760c5939972de",
       "cities/catalogue/west-asia/Egypt/Luxor/engineering/access/population-source.json": "0da920ef170ea3e03bf5ca8deafcfd98bce2d491874a47ca93f3e0acfba8911a",
       "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/network-expansion-baseline.json.gz": "9d5cce7484a130486c240ec6e34163c1fe5f7d215648f1725fabd0f361169bfb",
@@ -1680,6 +1711,12 @@
       "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
       "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
     },
+    "proposed_station_sample_radial_fraction": 0.49255892,
+    "rejected_priority_areas": [],
+    "schema": "osr-residential-line-expansion/1",
+    "sources_sha256": {
+      "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/network-correction.json": "7ed75523d530bb157fc7f48ad023445a6891c316970758df27fa582706b9c308"
+    },
     "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
     "status": "expanded-controlled-planning-layout",
     "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
@@ -1688,27 +1725,8 @@
   },
   "schema_version": 3,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Egypt/Luxor/alignment-policy.toml": "755d05d969462d5e8f95cc5d46ddfa73d421c3df1c51d358c1e7bc4e67603f34",
-    "cities/catalogue/west-asia/Egypt/Luxor/engineering/access/population-pixels.npz.gz": "ab32331d267d385b364c459bc1b019fd949632e977bdc1dbcd2760c5939972de",
-    "cities/catalogue/west-asia/Egypt/Luxor/engineering/access/population-source.json": "0da920ef170ea3e03bf5ca8deafcfd98bce2d491874a47ca93f3e0acfba8911a",
-    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/network-expansion-baseline.json.gz": "9d5cce7484a130486c240ec6e34163c1fe5f7d215648f1725fabd0f361169bfb",
-    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/planning-buildability-mask.bin.gz": "3d3a3e40af6edbe7b3064d3ff2e7256b3661c010dfdc76e465dd502c0ff73ef7",
-    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/planning-grid.json": "5045286d3a7cee65ee52433fdfdf2d80ec9ec102ad7f9f0a8a5d37d786dd8a87",
-    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/planning-terrain-slope.f32.gz": "ca350b84acbad2a6bf3312b1557a95e2b1e3629f6a9172bed3391e99103eda4a",
-    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/planning-terrain-source.json": "a9fa1cf5d7a090218cb9daf6f9edc57b5dc2d5f5d4a8c56a57142a7cfc8e7b3d",
-    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/planning-water-mask.bin.gz": "ef77542b822f4cae6e7b70799ab99f9a93eda3ec659653809970eddde3f6eaec",
-    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/pre-rework-corridors.json.gz": "b37ff95d954913ed6baef3c5265e44bfadde065e4694a40b193d076c09e3b0cd",
-    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/residential-line-expansion.json": "4b6fbced3f6446d67234d8507525e14cb98a5b5d27cbba7c3717c2556dba5831",
-    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/water-source-receipt.json": "609e08fadc7348e0037a748c6efa99861d95ed8a7ff5c86243912230593156c8",
-    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
-    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
-    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
-    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
-    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
-    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
-    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
-    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/network-correction.json": "7ed75523d530bb157fc7f48ad023445a6891c316970758df27fa582706b9c308",
+    "cities/catalogue/west-asia/Egypt/Luxor/engineering/alignment/residential-line-expansion.json": "793010b58dea61edcc43f4ea060f90baf2c3cc1d18966e7baf030d5b9f1c3587"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }

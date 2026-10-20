@@ -1,0 +1,29 @@
+slug: lobito
+pass: true
+metrics:
+  total_route_m: 41827.0
+  n_lines: 4
+  n_stations: 23
+  anchor_hit_rate: 0.652
+  high_demand_coverage: 0.331
+  civil_mix_m:
+    at_grade: 3113.200
+    elevated: 37601.400
+    bridge:   1112.500
+  elevated_fraction: 0.926
+  viaduct_products_m:
+    osr_pi20_pi25: 26143.162
+    osr_us:      8875.320
+    special:     1112.500
+    realign:     2582.918
+  max_elevated_cost_multiplier: 17.711
+gates:
+  hard:
+    has_stations:      true
+    length_reasonable: true
+  soft:
+    coverage_ge_0.30:   true
+    anchor_hit_ge_0.20: true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: false
+    soft_pass_all:      false

@@ -31,7 +31,8 @@ if (arguments_[0] === '--check') {
   }
   console.log('Brochure source and PDF hashes pass');
 } else {
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: true,
+    ...(process.env.OSR_BROCHURE_BROWSER_CHANNEL ? { channel: process.env.OSR_BROCHURE_BROWSER_CHANNEL } : {}) });
   try {
     const page = await browser.newPage();
     await page.goto(pathToFileURL(path.join(root, source)).href, { waitUntil: 'networkidle' });

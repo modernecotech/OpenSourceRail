@@ -427,7 +427,7 @@ The July 2024 reported estimate is a historical 148 km, USD 18bn scope. An entir
 
 ## Future national development
 
-Baghdad can establish manufacturing, maintenance, training, procurement and digital delivery capacity that later Iraqi cities can reuse. The existing catalogue contains 18 cities representing 29,491,199 planning residents, 4,824 trainsets and 20,080 vehicle modules across several standard families. These are proposed urban networks; national intercity rail and freight connections are a future feasibility topic, without routes, budgets, revenues or approvals in these totals.
+Baghdad can establish manufacturing, maintenance, training, procurement and digital delivery capacity that later Iraqi cities can reuse. The existing catalogue contains 18 cities representing 29,491,199 planning residents, 4,851 trainsets and 20,161 vehicle modules across several standard families. These are proposed urban networks; national intercity rail and freight connections are a future feasibility topic, without routes, budgets, revenues or approvals in these totals.
 
 | Future catalogue city | Planning population | Fleet family | Route km | Trainsets | City CAPEX USD eq m |
 | --- | --- | --- | --- | --- | --- |
@@ -444,13 +444,13 @@ Baghdad can establish manufacturing, maintenance, training, procurement and digi
 | Amarah | 660,000 | light-metro-3car | 55.3 | 177 | 1,129.751 |
 | Ramadi | 525,000 | light-metro-3car | 54.9 | 181 | 978.492 |
 | Baqubah | 470,000 | light-metro-3car | 76.7 | 243 | 1,324.146 |
-| Diwaniyah | 440,000 | light-metro-3car | 53.5 | 171 | 935.389 |
+| Diwaniyah | 440,000 | light-metro-3car | 62.3 | 198 | 1,066.909 |
 | Kut | 410,000 | light-metro-3car | 53.1 | 166 | 1,052.838 |
 | Samawah | 373,770 | light-metro-3car | 57.9 | 182 | 1,027.650 |
 | Duhok | 360,000 | light-metro-3car | 68.4 | 213 | 1,084.332 |
 | Fallujah | 360,000 | light-metro-3car | 60.2 | 195 | 1,058.900 |
 
-The table retains generic catalogue appraisal scopes. Their arithmetic sums city capital to USD 42.334bn, and adds a shared factory at USD 939.223m plus EPC at USD 65.746m to reach USD 43.339bn equivalent. This is a retained comparator, not a current consolidated national budget. The historical Baghdad funding reference contains USD 303.505m of plant and USD 21.245m of EPC; its generic future-scope difference is USD 35.387bn, including USD 680.219m of additional shared-plant/EPC allowance. Generic imported/local procurement is USD 9.029bn / USD 34.309bn. These differences do not establish available finance or realised savings.
+The table retains generic catalogue appraisal scopes. Their arithmetic sums city capital to USD 42.465bn, and adds a shared factory at USD 939.223m plus EPC at USD 65.746m to reach USD 43.470bn equivalent. This is a retained comparator, not a current consolidated national budget. The historical Baghdad funding reference contains USD 303.505m of plant and USD 21.245m of EPC; its generic future-scope difference is USD 35.519bn, including USD 680.219m of additional shared-plant/EPC allowance. Generic imported/local procurement is USD 9.059bn / USD 34.411bn. These differences do not establish available finance or realised savings.
 
 The [current Iraq planning basis](../CURRENT-PLANNING-BASIS.json) and [national brief](../NATIONAL-BRIEF.md) instead identify the retained USD 8.667bn Baghdad `local_positive` comparator, including its assembly/component facilities, and the separate unpriced accelerated scenario. Shared-factory reuse and upgrades require scope reconciliation before a national budget can be stated. Iraq already has many precast facilities and production expertise; beam-specific contracts and spare capacity remain unverified.
 

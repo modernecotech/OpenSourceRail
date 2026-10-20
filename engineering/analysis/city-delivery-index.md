@@ -1,5 +1,7 @@
 # City organisation and design work
 
+> **Retained delivery comparison:** 39 city alignments were refreshed on 20 October 2026. These older delivery figures require source-specific revalidation. Use the [current map audit](../assurance/catalogue-network-layout/README.md) and city manifests to distinguish current geometry from retained analyses.
+
 Generated from current city finance, work orders, climate presets and mapped soil. All figures remain planning quantities pending local workforce and design qualification.
 
 | City | Operating FTE | Organisation, skills, tasks and design refinements |
@@ -11,15 +13,15 @@ Generated from current city finance, work orders, climate presets and mapped soi
 | kisangani | 434 | [city work package](../../cities/catalogue/central-africa/DR%20Congo/Kisangani/engineering/delivery/README.md) |
 | lubumbashi | 914 | [city work package](../../cities/catalogue/central-africa/DR%20Congo/Lubumbashi/engineering/delivery/README.md) |
 | mbuji-mayi | 754 | [city work package](../../cities/catalogue/central-africa/DR%20Congo/Mbuji-Mayi/engineering/delivery/README.md) |
-| benguela | 518 | [city work package](../../cities/catalogue/east-africa/Angola/Benguela/engineering/delivery/README.md) |
-| huambo | 461 | [city work package](../../cities/catalogue/east-africa/Angola/Huambo/engineering/delivery/README.md) |
-| lobito | 390 | [city work package](../../cities/catalogue/east-africa/Angola/Lobito/engineering/delivery/README.md) |
-| luanda | 2846 | [city work package](../../cities/catalogue/east-africa/Angola/Luanda/engineering/delivery/README.md) |
-| lubango | 434 | [city work package](../../cities/catalogue/east-africa/Angola/Lubango/engineering/delivery/README.md) |
-| malanje | 248 | [city work package](../../cities/catalogue/east-africa/Angola/Malanje/engineering/delivery/README.md) |
-| namibe | 390 | [city work package](../../cities/catalogue/east-africa/Angola/Namibe/engineering/delivery/README.md) |
-| soyo | 348 | [city work package](../../cities/catalogue/east-africa/Angola/Soyo/engineering/delivery/README.md) |
-| uige | 116 | [city work package](../../cities/catalogue/east-africa/Angola/Uige/engineering/delivery/README.md) |
+| benguela | 518 | [city work package](../../cities/catalogue/central-africa/Angola/Benguela/engineering/delivery/README.md) |
+| huambo | 461 | [city work package](../../cities/catalogue/central-africa/Angola/Huambo/engineering/delivery/README.md) |
+| lobito | 390 | [city work package](../../cities/catalogue/central-africa/Angola/Lobito/engineering/delivery/README.md) |
+| luanda | 2846 | [city work package](../../cities/catalogue/central-africa/Angola/Luanda/engineering/delivery/README.md) |
+| lubango | 434 | [city work package](../../cities/catalogue/central-africa/Angola/Lubango/engineering/delivery/README.md) |
+| malanje | 248 | [city work package](../../cities/catalogue/central-africa/Angola/Malanje/engineering/delivery/README.md) |
+| namibe | 390 | [city work package](../../cities/catalogue/central-africa/Angola/Namibe/engineering/delivery/README.md) |
+| soyo | 348 | [city work package](../../cities/catalogue/central-africa/Angola/Soyo/engineering/delivery/README.md) |
+| uige | 116 | [city work package](../../cities/catalogue/central-africa/Angola/Uige/engineering/delivery/README.md) |
 | eldoret | 528 | [city work package](../../cities/catalogue/east-africa/Kenya/Eldoret/engineering/delivery/README.md) |
 | garissa | 265 | [city work package](../../cities/catalogue/east-africa/Kenya/Garissa/engineering/delivery/README.md) |
 | kakamega | 393 | [city work package](../../cities/catalogue/east-africa/Kenya/Kakamega/engineering/delivery/README.md) |

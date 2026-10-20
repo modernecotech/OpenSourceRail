@@ -1,0 +1,29 @@
+slug: benguela
+pass: true
+metrics:
+  total_route_m: 63848.5
+  n_lines: 5
+  n_stations: 45
+  anchor_hit_rate: 0.444
+  high_demand_coverage: 0.456
+  civil_mix_m:
+    at_grade: 7561.000
+    elevated: 56162.800
+    bridge:   124.700
+  elevated_fraction: 0.882
+  viaduct_products_m:
+    osr_pi20_pi25: 44897.164
+    osr_us:      9103.778
+    special:     124.700
+    realign:     2161.858
+  max_elevated_cost_multiplier: 20.119
+gates:
+  hard:
+    has_stations:      true
+    length_reasonable: true
+  soft:
+    coverage_ge_0.30:   true
+    anchor_hit_ge_0.20: true
+    elevated_le_0.30:   false
+    elevated_geometry_constructible: false
+    soft_pass_all:      false

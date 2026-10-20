@@ -1,5 +1,7 @@
 # Catalogue deployment evidence
 
+> **Retained delivery comparison:** 39 city alignments were refreshed on 20 October 2026. These older delivery figures require source-specific revalidation. Use the [current map audit](../assurance/catalogue-network-layout/README.md) and city manifests to distinguish current geometry from retained analyses.
+
 City registers distinguish completed screening and data work from field investigation, physical design and operating release. Soil means and uncertainty are planning inputs.
 
 | City | Soil complete / sampled locations | Open deployment gates | Soil inputs | Deployment work |
@@ -11,15 +13,15 @@ City registers distinguish completed screening and data work from field investig
 | kisangani | 343 / 343 | 13 | [soil](../../cities/catalogue/central-africa/DR%20Congo/Kisangani/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/DR%20Congo/Kisangani/engineering/deployment/README.md) |
 | lubumbashi | 613 / 613 | 13 | [soil](../../cities/catalogue/central-africa/DR%20Congo/Lubumbashi/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/DR%20Congo/Lubumbashi/engineering/deployment/README.md) |
 | mbuji-mayi | 281 / 283 | 14 | [soil](../../cities/catalogue/central-africa/DR%20Congo/Mbuji-Mayi/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/DR%20Congo/Mbuji-Mayi/engineering/deployment/README.md) |
-| benguela | 170 / 203 | 13 | [soil](../../cities/catalogue/east-africa/Angola/Benguela/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Benguela/engineering/deployment/README.md) |
-| huambo | 110 / 110 | 12 | [soil](../../cities/catalogue/east-africa/Angola/Huambo/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Huambo/engineering/deployment/README.md) |
-| lobito | 244 / 250 | 13 | [soil](../../cities/catalogue/east-africa/Angola/Lobito/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Lobito/engineering/deployment/README.md) |
-| luanda | 1123 / 1123 | 13 | [soil](../../cities/catalogue/east-africa/Angola/Luanda/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Luanda/engineering/deployment/README.md) |
-| lubango | 308 / 308 | 12 | [soil](../../cities/catalogue/east-africa/Angola/Lubango/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Lubango/engineering/deployment/README.md) |
-| malanje | 56 / 56 | 12 | [soil](../../cities/catalogue/east-africa/Angola/Malanje/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Malanje/engineering/deployment/README.md) |
-| namibe | 78 / 209 | 13 | [soil](../../cities/catalogue/east-africa/Angola/Namibe/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Namibe/engineering/deployment/README.md) |
-| soyo | 92 / 92 | 12 | [soil](../../cities/catalogue/east-africa/Angola/Soyo/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Soyo/engineering/deployment/README.md) |
-| uige | 21 / 21 | 12 | [soil](../../cities/catalogue/east-africa/Angola/Uige/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Angola/Uige/engineering/deployment/README.md) |
+| benguela | 170 / 203 | 13 | [soil](../../cities/catalogue/central-africa/Angola/Benguela/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/Angola/Benguela/engineering/deployment/README.md) |
+| huambo | 110 / 110 | 12 | [soil](../../cities/catalogue/central-africa/Angola/Huambo/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/Angola/Huambo/engineering/deployment/README.md) |
+| lobito | 244 / 250 | 13 | [soil](../../cities/catalogue/central-africa/Angola/Lobito/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/Angola/Lobito/engineering/deployment/README.md) |
+| luanda | 1123 / 1123 | 13 | [soil](../../cities/catalogue/central-africa/Angola/Luanda/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/Angola/Luanda/engineering/deployment/README.md) |
+| lubango | 308 / 308 | 12 | [soil](../../cities/catalogue/central-africa/Angola/Lubango/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/Angola/Lubango/engineering/deployment/README.md) |
+| malanje | 56 / 56 | 12 | [soil](../../cities/catalogue/central-africa/Angola/Malanje/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/Angola/Malanje/engineering/deployment/README.md) |
+| namibe | 78 / 209 | 13 | [soil](../../cities/catalogue/central-africa/Angola/Namibe/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/Angola/Namibe/engineering/deployment/README.md) |
+| soyo | 92 / 92 | 12 | [soil](../../cities/catalogue/central-africa/Angola/Soyo/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/Angola/Soyo/engineering/deployment/README.md) |
+| uige | 21 / 21 | 12 | [soil](../../cities/catalogue/central-africa/Angola/Uige/engineering/soil/README.md) | [register](../../cities/catalogue/central-africa/Angola/Uige/engineering/deployment/README.md) |
 | eldoret | 140 / 140 | 12 | [soil](../../cities/catalogue/east-africa/Kenya/Eldoret/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Kenya/Eldoret/engineering/deployment/README.md) |
 | garissa | 70 / 70 | 12 | [soil](../../cities/catalogue/east-africa/Kenya/Garissa/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Kenya/Garissa/engineering/deployment/README.md) |
 | kakamega | 115 / 115 | 12 | [soil](../../cities/catalogue/east-africa/Kenya/Kakamega/engineering/soil/README.md) | [register](../../cities/catalogue/east-africa/Kenya/Kakamega/engineering/deployment/README.md) |

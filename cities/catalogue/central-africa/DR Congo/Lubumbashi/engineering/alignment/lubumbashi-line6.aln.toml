@@ -6,7 +6,7 @@
 [meta]
 schema_version = "1.0"
 line_id        = "line-6"
-design_date    = "2026-08-12"
+design_date    = "2026-10-19"
 surveyor       = "UNSURVEYED — OSR generated planning trace"
 preset         = "standard-metro"
 consist        = "metro-4car"
@@ -14,8 +14,8 @@ crs            = "EPSG:32735"
 units          = "metric"
 is_ring        = false
 source_status  = "planning-only; replace with signed survey/CAD export"
-source_design_sha256 = "9fa086abf72348a2889137aa1bb8866eddfbbf2b0078e7300503923a4dfcdf5a"
-source_geojson_sha256 = "7666609c277f51d3a5d5363ace2b99cb7da6c8e565f289f47092253f714b215c"
+source_design_sha256 = "15309d3e42dfd926a9d870035d77a633c0cfe8b18b8b5915d54a406a90a6432c"
+source_geojson_sha256 = "664f694fa18d9325974556841bbdcb7f343b34cd65aeae7bc25e443331971100"
 horizontal_status = "GIS control polyline simplified to ≤10 m; curves and transitions not fitted"
 vertical_status   = "zero-datum placeholder; surveyed top-of-rail profile required"
 cant_status       = "not designed; absent means zero only for planning validation"
@@ -738,16 +738,6 @@ class          = "elevated"
 
 [[civil]]
 from_station_m = 780.800
-to_station_m   = 1035.400
-class          = "elevated"
-
-[[civil]]
-from_station_m = 1035.400
-to_station_m   = 1176.800
-class          = "bridge"
-
-[[civil]]
-from_station_m = 1176.800
 to_station_m   = 1378.200
 class          = "elevated"
 
@@ -1069,8 +1059,18 @@ station_m         = 0.000
 platform_length_m = 85.000
 
 [[station]]
-id                = "line-6-1063-0937-s004108"
-station_m         = 4107.600
+id                = "line-6-1022-0926-s005205"
+station_m         = 5205.000
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-6-0991-0934-s005891"
+station_m         = 5891.300
+platform_length_m = 85.000
+
+[[station]]
+id                = "line-6-0981-0934-s006091"
+station_m         = 6091.300
 platform_length_m = 85.000
 
 [[station]]

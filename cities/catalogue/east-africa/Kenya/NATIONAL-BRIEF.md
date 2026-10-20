@@ -3,7 +3,7 @@
 This page contains only Kenya-specific aggregation. Shared network, service, energy, civil, cost, finance, QA and validation methods are defined once in the [deployment planning reference](../../../../docs/deployment-planning-reference.md).
 
 > [!IMPORTANT]
-> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$44.42 B (88.3%) of external capital** and **$55.69 B of external interest**. Capital plus saved interest totals **$100.11 B**.
+> **Foreign-capital advantage:** against the default equivalent foreign-turnkey sensitivity, this national programme avoids **$45.12 B (88.3%) of external capital** and **$56.56 B of external interest**. Capital plus saved interest totals **$101.69 B**.
 
 ## National Programme
 
@@ -11,40 +11,40 @@ This page contains only Kenya-specific aggregation. Shared network, service, ene
 |---|---:|
 | Catalogue cities | 15 |
 | Represented population | 11,750,000 |
-| Trainsets / vehicle modules | 3,181 / 12,630 |
-| City infrastructure and fleet CAPEX | $27.14 B |
+| Trainsets / vehicle modules | 3,243 / 12,754 |
+| City infrastructure and fleet CAPEX | $27.58 B |
 | Shared national factory | $750.0 M |
 | Factory sizing basis | 6,768 modules for Nairobi, then reused nationally |
-| **Total national programme** | **$27.95 B** |
+| **Total national programme** | **$28.39 B** |
 
 ## Capital And Funding
 
 | Local funding measure | Planning value |
 |---|---:|
-| Imported / external capital | $5.88 B (21.1%) |
-| Domestic / local capital | $22.06 B (78.9%) |
-| Annual external capital draw | $840.5 M / yr |
-| Annual local capital draw | $3.15 B / yr |
-| Annual public construction commitment | $2.92 B / yr for 7 years |
-| Annual post-grace debt service | $2.43 B / yr |
-| Default foreign-turnkey external capital | $50.31 B |
-| External capital saved | $44.42 B |
-| Capital + lifetime external interest saved | $100.11 B |
+| Imported / external capital | $5.97 B (21.0%) |
+| Domestic / local capital | $22.41 B (79.0%) |
+| Annual external capital draw | $853.0 M / yr |
+| Annual local capital draw | $3.20 B / yr |
+| Annual public construction commitment | $2.97 B / yr for 7 years |
+| Annual post-grace debt service | $2.47 B / yr |
+| Default foreign-turnkey external capital | $51.09 B |
+| External capital saved | $45.12 B |
+| Capital + lifetime external interest saved | $101.69 B |
 
 ### Procurement-Origin Composition
 
 | CAPEX bucket | Total | Imported | Local value |
 |---|---:|---:|---:|
-| Civil works | $13.81 B | $2.07 B | $11.74 B |
-| Stations | $4.71 B | $942.1 M | $3.77 B |
-| Depots | $1.51 B | $377.2 M | $1.13 B |
-| Rolling stock | $3.59 B | $1.26 B | $2.33 B |
-| Dedicated solar plants | $1.58 B | $711.3 M | $869.4 M |
-| Residual train control | $73.9 M | $37.0 M | $37.0 M |
-| Charging microgrids | $198.1 M | $79.2 M | $118.9 M |
-| EPC / project services | $1.72 B | $258.7 M | $1.47 B |
+| Civil works | $13.91 B | $2.09 B | $11.82 B |
+| Stations | $4.98 B | $995.0 M | $3.98 B |
+| Depots | $1.52 B | $379.1 M | $1.14 B |
+| Rolling stock | $3.63 B | $1.27 B | $2.36 B |
+| Dedicated solar plants | $1.58 B | $710.4 M | $868.3 M |
+| Residual train control | $74.6 M | $37.3 M | $37.3 M |
+| Charging microgrids | $201.6 M | $80.6 M | $121.0 M |
+| EPC / project services | $1.75 B | $263.1 M | $1.49 B |
 | Shared national trainset factory | $750.0 M | $150.0 M | $600.0 M |
-| **Total** | **$27.95 B** | **$5.88 B** | **$22.06 B** |
+| **Total** | **$28.39 B** | **$5.97 B** | **$22.41 B** |
 
 ## City Programme
 
@@ -56,13 +56,13 @@ This page contains only Kenya-specific aggregation. Shared network, service, ene
 | [Kisumu](Kisumu/README.md) | 600,000 | 191 | $1.08 B | $224.0 M | $851.2 M | 5 | 2 | 26.2% | 32.4% |
 | [Eldoret](Eldoret/README.md) | 500,000 | 261 | $1.45 B | $302.6 M | $1.15 B | 5 | 2 | 33.1% | 44.0% |
 | [Thika](Thika/README.md) | 350,000 | 256 | $1.34 B | $284.9 M | $1.05 B | 5 | 2 | 28.8% | 29.0% |
-| [Garissa](Garissa/README.md) | 300,000 | 57 | $394.6 M | $74.9 M | $319.7 M | 4 | 1 | 55.0% | 61.8% |
+| [Garissa](Garissa/README.md) | 300,000 | 70 | $503.9 M | $95.0 M | $409.0 M | 4 | 1 | 55.0% | 59.8% |
 | [Kakamega](Kakamega/README.md) | 300,000 | 98 | $754.4 M | $141.2 M | $613.1 M | 4 | 1 | 31.8% | 35.7% |
 | [Kisii](Kisii/README.md) | 300,000 | 69 | $512.2 M | $95.9 M | $416.3 M | 4 | 1 | 21.4% | 26.4% |
 | [Kitale](Kitale/README.md) | 300,000 | 99 | $727.1 M | $137.5 M | $589.6 M | 4 | 1 | 15.9% | 37.1% |
-| [Machakos](Machakos/README.md) | 300,000 | 68 | $480.0 M | $89.2 M | $390.8 M | 4 | 1 | 28.4% | 34.7% |
-| [Malindi](Malindi/README.md) | 300,000 | 68 | $497.2 M | $92.9 M | $404.4 M | 4 | 1 | 41.1% | 48.8% |
-| [Meru Ke](Meru-Ke/README.md) | 250,000 | 65 | $473.8 M | $87.8 M | $386.0 M | 4 | 1 | 25.7% | 30.3% |
+| [Machakos](Machakos/README.md) | 300,000 | 89 | $636.3 M | $120.4 M | $515.9 M | 4 | 1 | 28.4% | 39.1% |
+| [Malindi](Malindi/README.md) | 300,000 | 76 | $528.0 M | $99.9 M | $428.1 M | 4 | 1 | 41.1% | 57.1% |
+| [Meru Ke](Meru-Ke/README.md) | 250,000 | 85 | $615.7 M | $116.6 M | $499.1 M | 4 | 1 | 25.7% | 35.8% |
 | [Naivasha](Naivasha/README.md) | 250,000 | 110 | $796.6 M | $150.5 M | $646.1 M | 4 | 1 | 49.3% | 45.5% |
 | [Nyeri](Nyeri/README.md) | 250,000 | 86 | $656.4 M | $122.4 M | $534.0 M | 4 | 1 | 29.0% | 30.5% |
 

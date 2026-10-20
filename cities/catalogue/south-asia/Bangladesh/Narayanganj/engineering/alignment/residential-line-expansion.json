@@ -93,6 +93,10 @@
   "city": "narayanganj",
   "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
   "final_line_count": 5,
+  "network_correction": {
+    "report": "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/alignment/network-correction.json",
+    "sha256": "a97aa6d5d6a04ecd1780b20430a424300c2c937928ba394e1e04ebe41b7943a5"
+  },
   "operating_release": false,
   "original_line_count": 3,
   "original_route_m": 72080.983,
@@ -101,6 +105,18 @@
   "planned_stop_cells_by_line": {},
   "population_is_current_census": false,
   "population_year": 2020,
+  "pre_network_sources_sha256": {
+    "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/access/population-pixels.npz.gz": "b5b7acbf0ec07f093eb320224b99594f82be9eab703631444766f17949e5a569",
+    "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/access/population-source.json": "7118d6dd869dd353233ed47b47783ef878d243cd76d802d393a41582127ee00f",
+    "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/alignment/network-expansion-baseline.json.gz": "67129de814c710f5f4a758eafbd9c8e229fb426270e1760acc4770f2113765b7",
+    "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/alignment/planning-terrain-slope.f32.gz": "75b6402f2dcaab937c32415ec6c0718c6c16b1288f7797a149d2320832de3c08",
+    "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/alignment/planning-terrain-source.json": "5457d324a9a8f8a7b65e0a9632ed45bfa618edff1cf0b5fecf1662426fb46bef",
+    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
+    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+  },
   "proposed_station_sample_radial_fraction": 0.49424945,
   "rejected_priority_areas": [
     {
@@ -120,16 +136,7 @@
   ],
   "schema": "osr-residential-line-expansion/1",
   "sources_sha256": {
-    "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/access/population-pixels.npz.gz": "b5b7acbf0ec07f093eb320224b99594f82be9eab703631444766f17949e5a569",
-    "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/access/population-source.json": "7118d6dd869dd353233ed47b47783ef878d243cd76d802d393a41582127ee00f",
-    "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/alignment/network-expansion-baseline.json.gz": "67129de814c710f5f4a758eafbd9c8e229fb426270e1760acc4770f2113765b7",
-    "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/alignment/planning-terrain-slope.f32.gz": "75b6402f2dcaab937c32415ec6c0718c6c16b1288f7797a149d2320832de3c08",
-    "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/alignment/planning-terrain-source.json": "5457d324a9a8f8a7b65e0a9632ed45bfa618edff1cf0b5fecf1662426fb46bef",
-    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
-    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
-    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
-    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
+    "cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/alignment/network-correction.json": "a97aa6d5d6a04ecd1780b20430a424300c2c937928ba394e1e04ebe41b7943a5"
   },
   "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
   "status": "expanded-controlled-planning-layout",

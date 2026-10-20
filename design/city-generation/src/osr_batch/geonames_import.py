@@ -50,7 +50,7 @@ COUNTRY_CONTINENT = {
     "CI": "west-africa", "SN": "west-africa", "ML": "west-africa",
     "BF": "west-africa", "NE": "west-africa", "TD": "west-africa",
     "MR": "west-africa", "CM": "west-africa", "ZA": "south-africa",
-    "ZW": "south-africa", "MZ": "south-africa", "AO": "south-africa",
+    "ZW": "south-africa", "MZ": "south-africa", "AO": "central-africa",
     "CD": "central-africa", "CG": "central-africa", "CF": "central-africa",
     # South Asia
     "IN": "south-asia", "BD": "south-asia", "PK": "south-asia",

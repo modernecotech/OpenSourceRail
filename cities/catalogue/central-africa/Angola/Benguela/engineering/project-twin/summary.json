@@ -1,0 +1,843 @@
+{
+  "actuals": {
+    "deliveries": [],
+    "invoices": [],
+    "payments": [],
+    "progress_updates": [],
+    "purchase_orders": [],
+    "source": "Ops Core append-only project records"
+  },
+  "baseline": {
+    "actuals_status": "empty-until-recorded-in-ops-core",
+    "calendar": "working-day offsets; map to an approved local calendar before release",
+    "kind": "deterministic-planning-baseline",
+    "project_day_zero": "notice-to-proceed"
+  },
+  "budget_by_bucket": {
+    "charging_microgrid": {
+      "budget_usd": 4650000.0,
+      "work_packages": 90
+    },
+    "civil": {
+      "budget_usd": 569257198.0,
+      "work_packages": 120
+    },
+    "depots": {
+      "budget_usd": 90397563.0,
+      "work_packages": 15
+    },
+    "epc_overhead": {
+      "budget_usd": 79897803.0,
+      "work_packages": 2120
+    },
+    "rolling_stock": {
+      "budget_usd": 198900000.0,
+      "work_packages": 1547
+    },
+    "signalling": {
+      "budget_usd": 3192424.0,
+      "work_packages": 258
+    },
+    "solar_plant": {
+      "budget_usd": 20420688.06,
+      "work_packages": 90
+    },
+    "stations": {
+      "budget_usd": 275000000.0,
+      "work_packages": 90
+    }
+  },
+  "cashflow": {
+    "calendar_basis": "Assumed calendar-month buckets: 260 working days/year; financial close 30 working days before NTP. Approved local calendar pending.",
+    "currency": "USD",
+    "monthly_requirements": [
+      {
+        "cumulative_requirement_usd": 39695.99,
+        "imported_requirement_usd": 16752.48,
+        "local_requirement_usd": 22943.51,
+        "month_index": 14,
+        "planned_requirement_usd": 39695.99,
+        "project_day_finish": 294,
+        "project_day_start": 274
+      },
+      {
+        "cumulative_requirement_usd": 4597647.6,
+        "imported_requirement_usd": 774958.3,
+        "local_requirement_usd": 3782993.3,
+        "month_index": 15,
+        "planned_requirement_usd": 4557951.61,
+        "project_day_finish": 316,
+        "project_day_start": 295
+      },
+      {
+        "cumulative_requirement_usd": 17332450.68,
+        "imported_requirement_usd": 2354345.98,
+        "local_requirement_usd": 10380457.11,
+        "month_index": 16,
+        "planned_requirement_usd": 12734803.08,
+        "project_day_finish": 338,
+        "project_day_start": 317
+      },
+      {
+        "cumulative_requirement_usd": 63899094.57,
+        "imported_requirement_usd": 7927813.87,
+        "local_requirement_usd": 38638829.98,
+        "month_index": 17,
+        "planned_requirement_usd": 46566643.89,
+        "project_day_finish": 359,
+        "project_day_start": 339
+      },
+      {
+        "cumulative_requirement_usd": 98213860.49,
+        "imported_requirement_usd": 6276518.37,
+        "local_requirement_usd": 28038247.54,
+        "month_index": 18,
+        "planned_requirement_usd": 34314765.92,
+        "project_day_finish": 381,
+        "project_day_start": 360
+      },
+      {
+        "cumulative_requirement_usd": 135405518.85,
+        "imported_requirement_usd": 7385908.8,
+        "local_requirement_usd": 29805749.52,
+        "month_index": 19,
+        "planned_requirement_usd": 37191658.36,
+        "project_day_finish": 403,
+        "project_day_start": 382
+      },
+      {
+        "cumulative_requirement_usd": 174296216.61,
+        "imported_requirement_usd": 7658087.29,
+        "local_requirement_usd": 31232610.5,
+        "month_index": 20,
+        "planned_requirement_usd": 38890697.76,
+        "project_day_finish": 424,
+        "project_day_start": 404
+      },
+      {
+        "cumulative_requirement_usd": 229226359.52,
+        "imported_requirement_usd": 10368863.61,
+        "local_requirement_usd": 44561279.29,
+        "month_index": 21,
+        "planned_requirement_usd": 54930142.91,
+        "project_day_finish": 446,
+        "project_day_start": 425
+      },
+      {
+        "cumulative_requirement_usd": 289904555.49,
+        "imported_requirement_usd": 11772631.22,
+        "local_requirement_usd": 48905564.5,
+        "month_index": 22,
+        "planned_requirement_usd": 60678195.97,
+        "project_day_finish": 468,
+        "project_day_start": 447
+      },
+      {
+        "cumulative_requirement_usd": 367735719.68,
+        "imported_requirement_usd": 13841484.49,
+        "local_requirement_usd": 63989679.4,
+        "month_index": 23,
+        "planned_requirement_usd": 77831164.19,
+        "project_day_finish": 489,
+        "project_day_start": 469
+      },
+      {
+        "cumulative_requirement_usd": 464224357.91,
+        "imported_requirement_usd": 17248175.84,
+        "local_requirement_usd": 79240461.92,
+        "month_index": 24,
+        "planned_requirement_usd": 96488638.23,
+        "project_day_finish": 511,
+        "project_day_start": 490
+      },
+      {
+        "cumulative_requirement_usd": 540534863.75,
+        "imported_requirement_usd": 14112495.58,
+        "local_requirement_usd": 62198009.74,
+        "month_index": 25,
+        "planned_requirement_usd": 76310505.84,
+        "project_day_finish": 533,
+        "project_day_start": 512
+      },
+      {
+        "cumulative_requirement_usd": 632816441.09,
+        "imported_requirement_usd": 16525169.47,
+        "local_requirement_usd": 75756407.6,
+        "month_index": 26,
+        "planned_requirement_usd": 92281577.34,
+        "project_day_finish": 554,
+        "project_day_start": 534
+      },
+      {
+        "cumulative_requirement_usd": 731377051.79,
+        "imported_requirement_usd": 18811650.01,
+        "local_requirement_usd": 79748960.21,
+        "month_index": 27,
+        "planned_requirement_usd": 98560610.7,
+        "project_day_finish": 576,
+        "project_day_start": 555
+      },
+      {
+        "cumulative_requirement_usd": 852465850.41,
+        "imported_requirement_usd": 23658179.45,
+        "local_requirement_usd": 97430617.65,
+        "month_index": 28,
+        "planned_requirement_usd": 121088798.62,
+        "project_day_finish": 598,
+        "project_day_start": 577
+      },
+      {
+        "cumulative_requirement_usd": 960687132.0,
+        "imported_requirement_usd": 22679176.42,
+        "local_requirement_usd": 85542103.78,
+        "month_index": 29,
+        "planned_requirement_usd": 108221281.59,
+        "project_day_finish": 619,
+        "project_day_start": 599
+      },
+      {
+        "cumulative_requirement_usd": 1063587553.74,
+        "imported_requirement_usd": 23401681.37,
+        "local_requirement_usd": 79498738.86,
+        "month_index": 30,
+        "planned_requirement_usd": 102900421.74,
+        "project_day_finish": 641,
+        "project_day_start": 620
+      },
+      {
+        "cumulative_requirement_usd": 1136261995.46,
+        "imported_requirement_usd": 19606934.88,
+        "local_requirement_usd": 53067505.69,
+        "month_index": 31,
+        "planned_requirement_usd": 72674441.72,
+        "project_day_finish": 663,
+        "project_day_start": 642
+      },
+      {
+        "cumulative_requirement_usd": 1173645552.3,
+        "imported_requirement_usd": 11824891.12,
+        "local_requirement_usd": 25558665.66,
+        "month_index": 32,
+        "planned_requirement_usd": 37383556.84,
+        "project_day_finish": 684,
+        "project_day_start": 664
+      },
+      {
+        "cumulative_requirement_usd": 1203491202.8,
+        "imported_requirement_usd": 9446520.45,
+        "local_requirement_usd": 20399129.97,
+        "month_index": 33,
+        "planned_requirement_usd": 29845650.5,
+        "project_day_finish": 706,
+        "project_day_start": 685
+      },
+      {
+        "cumulative_requirement_usd": 1225124482.83,
+        "imported_requirement_usd": 6453544.43,
+        "local_requirement_usd": 15179735.87,
+        "month_index": 34,
+        "planned_requirement_usd": 21633280.03,
+        "project_day_finish": 728,
+        "project_day_start": 707
+      },
+      {
+        "cumulative_requirement_usd": 1235702357.29,
+        "imported_requirement_usd": 3096410.82,
+        "local_requirement_usd": 7481463.59,
+        "month_index": 35,
+        "planned_requirement_usd": 10577874.46,
+        "project_day_finish": 749,
+        "project_day_start": 729
+      },
+      {
+        "cumulative_requirement_usd": 1238412865.44,
+        "imported_requirement_usd": 877480.31,
+        "local_requirement_usd": 1833027.84,
+        "month_index": 36,
+        "planned_requirement_usd": 2710508.15,
+        "project_day_finish": 771,
+        "project_day_start": 750
+      },
+      {
+        "cumulative_requirement_usd": 1239927596.5,
+        "imported_requirement_usd": 510662.95,
+        "local_requirement_usd": 1004068.11,
+        "month_index": 37,
+        "planned_requirement_usd": 1514731.06,
+        "project_day_finish": 793,
+        "project_day_start": 772
+      },
+      {
+        "cumulative_requirement_usd": 1241040450.89,
+        "imported_requirement_usd": 375177.66,
+        "local_requirement_usd": 737676.73,
+        "month_index": 38,
+        "planned_requirement_usd": 1112854.39,
+        "project_day_finish": 814,
+        "project_day_start": 794
+      },
+      {
+        "cumulative_requirement_usd": 1241641003.15,
+        "imported_requirement_usd": 202464.72,
+        "local_requirement_usd": 398087.54,
+        "month_index": 39,
+        "planned_requirement_usd": 600552.26,
+        "project_day_finish": 836,
+        "project_day_start": 815
+      },
+      {
+        "cumulative_requirement_usd": 1241715676.06,
+        "imported_requirement_usd": 25174.55,
+        "local_requirement_usd": 49498.36,
+        "month_index": 40,
+        "planned_requirement_usd": 74672.91,
+        "project_day_finish": 858,
+        "project_day_start": 837
+      }
+    ],
+    "peak_month": {
+      "cumulative_requirement_usd": 852465850.41,
+      "imported_requirement_usd": 23658179.45,
+      "local_requirement_usd": 97430617.65,
+      "month_index": 28,
+      "planned_requirement_usd": 121088798.62,
+      "project_day_finish": 598,
+      "project_day_start": 577
+    },
+    "total_planned_requirement_usd": 1241715676.06,
+    "working_days_per_year": 260
+  },
+  "city": "benguela",
+  "critical_path": {
+    "critical_task_count": 89,
+    "critical_task_uids": [
+      "benguela:BEN-RS-L1-001:rs-10-material-kit",
+      "benguela:BEN-RS-L1-002:rs-10-material-kit",
+      "benguela:BEN-RS-L1-001:rs-20-carbody-bogie",
+      "benguela:BEN-RS-L1-001:rs-23-moulded-body-modules",
+      "benguela:BEN-RS-L1-001:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-002:rs-20-carbody-bogie",
+      "benguela:BEN-RS-L1-002:rs-23-moulded-body-modules",
+      "benguela:BEN-RS-L1-002:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-001:rs-30-traction-battery-control",
+      "benguela:BEN-RS-L1-002:rs-30-traction-battery-control",
+      "benguela:BEN-RS-L1-001:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L1-002:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L1-001:rs-50-dynamic-commissioning",
+      "benguela:BEN-RS-L1-002:rs-50-dynamic-commissioning",
+      "benguela:BEN-RS-L1-010:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-012:rs-10-material-kit",
+      "benguela:BEN-RS-L1-010:rs-30-traction-battery-control",
+      "benguela:BEN-RS-L1-012:rs-20-carbody-bogie",
+      "benguela:BEN-RS-L1-012:rs-23-moulded-body-modules",
+      "benguela:BEN-RS-L1-012:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-010:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L1-018:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-020:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-022:rs-10-material-kit",
+      "benguela:BEN-RS-L1-020:rs-30-traction-battery-control",
+      "benguela:BEN-RS-L1-022:rs-20-carbody-bogie",
+      "benguela:BEN-RS-L1-022:rs-23-moulded-body-modules",
+      "benguela:BEN-RS-L1-022:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-020:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L1-026:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-028:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-030:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-032:rs-10-material-kit",
+      "benguela:BEN-RS-L1-030:rs-30-traction-battery-control",
+      "benguela:BEN-RS-L1-032:rs-20-carbody-bogie",
+      "benguela:BEN-RS-L1-032:rs-23-moulded-body-modules",
+      "benguela:BEN-RS-L1-032:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-030:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L1-036:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-040:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-042:rs-10-material-kit",
+      "benguela:BEN-RS-L1-042:rs-20-carbody-bogie",
+      "benguela:BEN-RS-L1-042:rs-23-moulded-body-modules",
+      "benguela:BEN-RS-L1-042:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-039:rs-50-dynamic-commissioning",
+      "benguela:BEN-RS-L1-048:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-050:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-052:rs-10-material-kit",
+      "benguela:BEN-RS-L1-056:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-058:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-056:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L1-062:rs-10-material-kit",
+      "benguela:BEN-RS-L1-062:rs-20-carbody-bogie",
+      "benguela:BEN-RS-L1-062:rs-23-moulded-body-modules",
+      "benguela:BEN-RS-L1-062:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-066:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-066:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L1-070:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-072:rs-10-material-kit",
+      "benguela:BEN-RS-L1-072:rs-20-carbody-bogie",
+      "benguela:BEN-RS-L1-072:rs-23-moulded-body-modules",
+      "benguela:BEN-RS-L1-072:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-078:rs-25-clip-on-body",
+      "benguela:BEN-RS-L1-076:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L1-076:rs-50-dynamic-commissioning",
+      "benguela:BEN-RS-L2-001:rs-25-clip-on-body",
+      "benguela:BEN-RS-L2-004:rs-20-carbody-bogie",
+      "benguela:BEN-RS-L2-004:rs-23-moulded-body-modules",
+      "benguela:BEN-RS-L2-004:rs-25-clip-on-body",
+      "benguela:BEN-RS-L2-004:rs-30-traction-battery-control",
+      "benguela:BEN-RS-L2-004:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L2-009:rs-25-clip-on-body",
+      "benguela:BEN-RS-L2-014:rs-20-carbody-bogie",
+      "benguela:BEN-RS-L2-014:rs-23-moulded-body-modules",
+      "benguela:BEN-RS-L2-014:rs-25-clip-on-body",
+      "benguela:BEN-RS-L2-014:rs-30-traction-battery-control",
+      "benguela:BEN-RS-L2-014:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L2-023:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L2-033:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L2-033:rs-50-dynamic-commissioning",
+      "benguela:BEN-RS-L2-050:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L3-006:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L3-015:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L3-015:rs-50-dynamic-commissioning",
+      "benguela:BEN-RS-L3-042:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L4-003:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L4-003:rs-50-dynamic-commissioning",
+      "benguela:BEN-RS-L5-015:rs-40-fitout-static-test",
+      "benguela:BEN-RS-L5-015:rs-50-dynamic-commissioning"
+    ],
+    "external_gate_rule": "recorded as pre-baseline release gates; they do not silently receive zero duration",
+    "method": "earliest-feasible ready-task dispatch with finite-resource lanes followed by CPM forward/backward pass",
+    "programme_working_days": 752,
+    "resource_ready_days": {
+      "benguela light-metro-3car body installation": 390,
+      "benguela light-metro-3car composite kits": 390,
+      "benguela light-metro-3car electrical integration": 390,
+      "benguela light-metro-3car fitout and static test": 390,
+      "benguela light-metro-3car structural assembly": 390,
+      "benguela trainset acceptance bays": 390,
+      "benguela trainset kitting": 390
+    },
+    "unresolved_external_gates": []
+  },
+  "procurement": {
+    "candidate_status": "controlled-design-input-not-order",
+    "earliest_order_by_day": -60,
+    "manufacturer_candidate_ids": [
+      "OSR-COTS-AIR-KNORR-VV120T",
+      "OSR-COTS-ANTENNA-HS-85137717",
+      "OSR-COTS-BATTERY-HOPPECKE-LITRAC",
+      "OSR-COTS-BEARING-SKF-TBU",
+      "OSR-COTS-BRAKE-KNORR-RZKT",
+      "OSR-COTS-CAMERA-MOXA-P06HC",
+      "OSR-COTS-CHARGER-SCHUNK",
+      "OSR-COTS-COMPOSITE-GURIT-130FR",
+      "OSR-COTS-COMPUTE-MOXA-V2406C",
+      "OSR-COTS-CONTROL-DUAGON-MH50C",
+      "OSR-COTS-CONVERTER-ABB-CC400",
+      "OSR-COTS-COOLROOF-PURDUE-CACO3",
+      "OSR-COTS-COUPLER-DELLNER430",
+      "OSR-COTS-DOOR-IFE",
+      "OSR-COTS-FASTENER-RIVNUT",
+      "OSR-COTS-FINISH-3M-180MC",
+      "OSR-COTS-FIRE-FOGTEC",
+      "OSR-COTS-FIRE-LIIONTAMER-3",
+      "OSR-COTS-FLOOR-COMFLOOR",
+      "OSR-COTS-FLOOR-FORBO-6R3883",
+      "OSR-COTS-GANGWAY-HUBNER",
+      "OSR-COTS-GEAR-VOITH-SE",
+      "OSR-COTS-GLASS-AGC",
+      "OSR-COTS-GLAZING-SIKA268",
+      "OSR-COTS-HV-SCHALTBAU-C360",
+      "OSR-COTS-HV-TE-HVP800",
+      "OSR-COTS-HVAC-LONGERTEK",
+      "OSR-COTS-JOINT-SCHAEFFLER",
+      "OSR-COTS-LIDAR-OUSTER-OS1",
+      "OSR-COTS-LIGHT-TEKNOWARE",
+      "OSR-COTS-MOTOR-ABB-AMXE250",
+      "OSR-COTS-PIS-LUMINATOR",
+      "OSR-COTS-PV-SUNMAN",
+      "OSR-COTS-RECORDER-HASLER",
+      "OSR-COTS-RESISTOR-DANOTHERM",
+      "OSR-COTS-ROUTER-WESTERMO-630-5G",
+      "OSR-COTS-SAFETYRELAY-PILZ-751184",
+      "OSR-COTS-SEAT-FAINSA",
+      "OSR-COTS-SUSPENSION-CONTI",
+      "OSR-COTS-TRAINLINE-IGUS-HARTING",
+      "OSR-COTS-WHEELSET-GHH"
+    ],
+    "manufacturer_candidate_linked_rows": 18343,
+    "planned_purchase_orders": 26697,
+    "pre_ntp_order_actions": 1,
+    "priced_rows": 23647,
+    "quotation_required_rows": 3050
+  },
+  "product_scope": {
+    "rolling_stock_definition": "detailed LM3 part/BOM/tooling/traveller reference",
+    "rolling_stock_family": "light-metro-3car"
+  },
+  "release_gates": [
+    "approved surveyed alignment, utilities, land and geotechnical baseline",
+    "engineer-released civil, station, systems and rolling-stock design packages",
+    "supplier-frozen configurations, quotations, lead times and contractual terms",
+    "approved resource calendar, risk allowance and construction baseline",
+    "funding approvals and independently reviewed schedule-linked cashflow",
+    "national approvals, independent safety assessment and competent-person release"
+  ],
+  "revision_id": "twin-ff3e0d74c859fb01",
+  "revisions": [
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-74304778395f2d10",
+      "sequence": 1,
+      "source_hash": "7e3dabade057b5d3fa7b28088433766aa438961f87e23f5fffedc2deca8d2d30"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-901d53178191b8e5",
+      "sequence": 2,
+      "source_hash": "f57fb721ca6359ecb8f51746fc5deda284000dcf46a8690daf6701940a7e3684"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-6447b7d5f3d880e8",
+      "sequence": 3,
+      "source_hash": "6355237a4a0616ff8d098d2cb662285205bb0c23dc1204a39345864193354abc"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-dfb501e24c4fad6c",
+      "sequence": 4,
+      "source_hash": "2122f6606083d68a51f2447dd677bcbe1403107fafeee931c07876705ceda647"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-728d7e90c6471f22",
+      "sequence": 5,
+      "source_hash": "3e526ffea53cd4b8b8396e919ce56e9e1f9f6c8dd91175dfba8764099c2fd42b"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-9ccf53b9f716db5f",
+      "sequence": 6,
+      "source_hash": "d84f107440d1d60bb40480bc45917193ef22d4114a00771b4128cdff675b8cda"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-10144e79b0598245",
+      "sequence": 7,
+      "source_hash": "4d5be9dca13dff723b02866f6d38632a824b3dc5a28623a7799e27837cb596a2"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-5f7b32cb175779e5",
+      "sequence": 8,
+      "source_hash": "62a5a760e5b79c273632ead132931aab5ebf5e1c8c5df30fbaf439ee272d0b28"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-e31c94b3fee1d2f1",
+      "sequence": 9,
+      "source_hash": "880f0368f7782fe7077843054b6ea41c3446806ba6eb99b9fb0fd3feb32f65d4"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-53afce3775bc3713",
+      "sequence": 10,
+      "source_hash": "1be9e156b1790d7354ec98efd952abbf10632426bc77fecff4fd2842399752f2"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-a2851fa1867466ca",
+      "sequence": 11,
+      "source_hash": "cee44e9de4cef1d1abb09b9e49e91a11867407e68ae5ec3e6ebc1a4bb4ac02ee"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-46c87e8f86b84bf0",
+      "sequence": 12,
+      "source_hash": "335bf843b08ccc1f9862fba93e1f568b2343c37e3db3604ec283593c56d96bda"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-32d94f4f1fb7b211",
+      "sequence": 13,
+      "source_hash": "6e1511271f8afab3bd107fc52b56b6ea8e735de4e2698ffaf52cbf3270cc9415"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-f26b4519a93363d5",
+      "sequence": 14,
+      "source_hash": "26b297e802db443a638b3d41210184d2a421f718d17e8778e9c4ba8ba98e3fbb"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-224791b5c4cc97d6",
+      "sequence": 15,
+      "source_hash": "be816c3eff4b46c859f9bd9b90d2b8d784736fd1e77998b2bc8f4aa23ad164cc"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-167d005d36411ba8",
+      "sequence": 16,
+      "source_hash": "cb513620b2ae7289544eea194da6edd7897dae8e65fb5f1f7d0d0768fae5959b"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-451c674c1251683a",
+      "sequence": 17,
+      "source_hash": "1eb5b7a118543e8e3a3462852a38764dd38b9d29db250358f92472ba91dd9a60"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-ddb594553b3a8035",
+      "sequence": 18,
+      "source_hash": "c95514813f7941f61cd9b55aabf7e6d110ff39f34d908ecfe9e3d4e9666f7a2f"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-d90d584a02c5c3b9",
+      "sequence": 19,
+      "source_hash": "bec5180d53caa9af06354a3aeed1ff51959e8cc04b10b397f7edf98d0ffdc2b3"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-c4bec255d719ab03",
+      "sequence": 20,
+      "source_hash": "4073dd3df0e7ae9626f709d4287129f0cab144755620ffd3e313749997d8ff49"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-f0b7eab49a0feab0",
+      "sequence": 21,
+      "source_hash": "429d2d38d705cda9e949c4ad7375024d7f8cd0e68408660f266aaa18b318f944"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-d8b0279a682ce6ca",
+      "sequence": 22,
+      "source_hash": "a952b73a3b96d02f2dd071bdbb731cb83f167fa9ac08b5e99c33335ae66f345c"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-469ca6f53700c02f",
+      "sequence": 23,
+      "source_hash": "d03372a65f03933d875d19261ffc895736bea8efeab892c1960d1073b7d214fb"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-21594b6c7df76a49",
+      "sequence": 24,
+      "source_hash": "6f13203ce0c353376e1cc11461c8fc43bc6649e6e8afff467f162ca9b348a107"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-03510a66ac61d814",
+      "sequence": 25,
+      "source_hash": "3e1fbef22e2ddc4cf528f8659e8fff7db886f1bb80bbec6fb2e65f9c5074407c"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-3a05137872e5bfe1",
+      "sequence": 26,
+      "source_hash": "26aaf323e443a39d8ee7c398b6a860b5b09ff1b40b8206522404c7b30e1b8724"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-744c58ab005363e7",
+      "sequence": 27,
+      "source_hash": "58b6d1aded86433c2134bd9c1f8350ac55e286ecf448ef7fbabc0c1c51eeba80"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-754f9c1e6a6e3c4d",
+      "sequence": 28,
+      "source_hash": "a15e22dd76be658b3e0dbe8c6b83caa0a7a66081c775b4c8830bf4d8ed332778"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-9ecedb8c77c86970",
+      "sequence": 29,
+      "source_hash": "05f37ac7a6e6fbfb9c1651d0168e187e0885ac94c208ed195f6aac414dc62edb"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-559bee4193698d53",
+      "sequence": 30,
+      "source_hash": "35092d6e7302c0dd73ef70de119cf9a81dcbdc80fac2cbc41c34b2991f3ce8f8"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-8f4ea47561b8bb71",
+      "sequence": 31,
+      "source_hash": "06e173950d2d691378ed942a2bc023d04dc8811a67547dc7e1358b95127a28d8"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-0b0c5acbaf6078a6",
+      "sequence": 32,
+      "source_hash": "cd0ffea7899d5f825229edde7c7584ba6a1050d0a2c3241e6eeac1f88d158a46"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-bd4761207e4e317f",
+      "sequence": 33,
+      "source_hash": "e64530f0635cd2eb344e088213dfd83409ff5609db2e4e281486c5b292792c9a"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-1252de0629ed9ff8",
+      "sequence": 34,
+      "source_hash": "6ae81ed3cd2760d5d52edfecb750841af900ae328a023ef3a39740b00899c105"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-100ad383f8cf18ec",
+      "sequence": 35,
+      "source_hash": "61314b39e2edaa5e44e45ea0d9274d0abcb5c9d04425f9be4fca567b8d5ff22f"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-424a969a616b00f9",
+      "sequence": 36,
+      "source_hash": "c09853e9f8865db1f879af6f738868bf945bf652f202f7e2ce6ad5321c4ca7d2"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-22607904e6c06b65",
+      "sequence": 37,
+      "source_hash": "8c9d321b91838ca97d9e8972ccb05b1609d70f0220b30fa3d54c989b2c15086e"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-e0b5bc0db453d96f",
+      "sequence": 38,
+      "source_hash": "56208be5680d548066147293517f1f14117a4c6ac1129932d8bb86e92c8dad9d"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-1eda3f479540c4c3",
+      "sequence": 39,
+      "source_hash": "c2e1cda959934bdc3a0999b9dfb252a5c390259b0aa5bfc7a5e2a1b6e86cb2bd"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-c4b00a2b3321ab9f",
+      "sequence": 40,
+      "source_hash": "d214e24620ec78732f83cfdd06c1dde69924469a0dcab3973e776d37b81c8fe9"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-9e60189cf812fb0c",
+      "sequence": 41,
+      "source_hash": "bb4e8ccea2d7a1ad2723fa2bae44286f95c7a0a643d2487b43dd6771c687ebd9"
+    },
+    {
+      "approval_status": "candidate-not-approved",
+      "kind": "generated-planning-baseline",
+      "revision_id": "twin-ff3e0d74c859fb01",
+      "sequence": 42,
+      "source_hash": "b453a426ae326ac0444a73e855f3a7fcab1402ceb8de1ed6e0f0db448224d3c4"
+    }
+  ],
+  "schema_version": "1.0",
+  "sources": {
+    "city_factory": {
+      "path": "lib/templates/city-factory.toml",
+      "sha256": "aaa12ea11590077e8911020b179574438d25efd7bafd3a16a123374f96ab0917"
+    },
+    "delivery_rephasing_generator": {
+      "path": "tools/automation/delivery_rephasing.py",
+      "sha256": "8881ac220d90e08e2ef2ce72367e895d4f3359406ce17f930fd8374f514c7357"
+    },
+    "design": {
+      "path": "cities/catalogue/central-africa/Angola/Benguela/design.toml",
+      "sha256": "73f80affbfadaf868849de37cb2b775f6cdcbe0e63318afed66311881fb5a766"
+    },
+    "factory_sizing_generator": {
+      "path": "tools/automation/factory_sizing.py",
+      "sha256": "912f53a1c26ba58df43f6288edb49e9d2bab1ca303eadb9d8161bd9f531fdd12"
+    },
+    "finance": {
+      "path": "cities/catalogue/central-africa/Angola/Benguela/engineering/finance/summary.json",
+      "sha256": "3d0396d7aa5392ed485ee5096391641c31edffee03135ea121ae35832cba68bc"
+    },
+    "manufacturing_template": {
+      "path": "lib/templates/manufacturing-schedule.toml",
+      "sha256": "d7586735c71b85b74bef52798960713a69d34c808bb0e20224625cb8e3adc5fa"
+    },
+    "operations_generator": {
+      "path": "tools/automation/generate-qa-maintenance-data.py",
+      "sha256": "971b5c947d45bb040476c3bb4eef14403936e421d3d0150a70aeec8b7747a80b"
+    },
+    "project_twin_generator": {
+      "path": "tools/automation/project_twin.py",
+      "sha256": "707dea0ff4aaeb7a8a4fd9e7c2539cf65379bf8e1ba7bb5e1c3188d708ca61e2"
+    },
+    "scenario": {
+      "path": "cities/catalogue/central-africa/Angola/Benguela/benguela.toml",
+      "sha256": "32e6b1fdb7ec7ab7978694a4ea718404d854e7d6dd146ac1f81b2c608eaf8d13"
+    },
+    "trainset_cots_candidates": {
+      "path": "design/component-catalogue/catalog/buildable-trainset/cots-candidates.json",
+      "sha256": "6b10b40825095a1829010a3af218eaddd274fcc8f696f37e8d3ff89066d197b2"
+    },
+    "trainset_first_article_execution": {
+      "path": "design/component-catalogue/catalog/buildable-trainset/first-article-execution-pack.md",
+      "sha256": "1744121dbe73e54e00bbb582f51cf97efb97f9da28151942645c5dc3f556d28e"
+    }
+  },
+  "status": "planning-digital-twin-not-construction-release",
+  "totals": {
+    "assets": 491,
+    "budget_contracts": 4330,
+    "cashflow_months": 27,
+    "critical_work_packages": 89,
+    "planned_capex_usd": 1241715676.06,
+    "planned_purchase_orders": 26697,
+    "pre_ntp_order_actions": 1,
+    "priced_procurement_usd": 154775140.0,
+    "programme_working_days": 752,
+    "work_packages": 2121
+  },
+  "visualization": {
+    "adapter": "visualization_timeline in the generated operations bundle",
+    "event_count": 4242
+  }
+}

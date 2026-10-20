@@ -7,12 +7,13 @@
     "west": 32.650347
   },
   "core_analytical_length_m": 34584.028027,
-  "core_final_route_length_m": 42116.634893,
+  "core_final_route_length_m": 48042.60602504816,
   "core_original_length_m": 41768.528002,
   "core_selection": {
     "centre_basis": "controlled-design-centroid",
     "centred_bbox_fraction": 0.6
   },
+  "final_route_quantity_basis": "Final complete line lengths in network-correction.json; former core analytical quantities superseded",
   "limitations": [
     "The centroid-centred rectangle is an explicit planning study area, not a verified city-centre boundary.",
     "Elevation does not grant property/air rights or clear buildings, protected sites, terrain, utilities or obstacles.",
@@ -2246,7 +2247,7 @@
             ]
           ],
           "controls": [],
-          "geometry_basis": "superseded-by-closed-retrace-removal; retained-edge geometry review",
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
           "original_length_m": 12843.698122,
           "seed_from_index": 0,
           "seed_to_index": 549,
@@ -2254,12 +2255,12 @@
           "superseded_analytical_controls": []
         }
       ],
-      "final_core_route_m": 12401.118318,
+      "final_core_route_m": 12401.118318204268,
       "line": "line-1",
       "original_cells": 550,
       "original_route_m": 12843.698122,
       "reworked_cells": 532,
-      "reworked_route_m": 12401.118318,
+      "reworked_route_m": 12401.11831820431,
       "water_route_changes": []
     },
     {
@@ -2277,7 +2278,13 @@
               17160.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 18076.035077,
+          "seed_from_index": 0,
+          "seed_to_index": 385,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 17520.0,
@@ -2290,20 +2297,15 @@
                 5140.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 18076.035077,
-          "seed_from_index": 0,
-          "seed_to_index": 385,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 16330.966799,
+      "final_core_route_m": 19857.627688842626,
       "line": "line-2",
       "original_cells": 423,
       "original_route_m": 19688.233145,
-      "reworked_cells": 787,
-      "reworked_route_m": 18370.966799,
+      "reworked_cells": 879,
+      "reworked_route_m": 21602.72436876141,
       "water_route_changes": []
     },
     {
@@ -2321,7 +2323,13 @@
               13900.0
             ]
           ],
-          "controls": [
+          "controls": [],
+          "geometry_basis": "final-network-correction; see network-correction.json; geometry release open",
+          "original_length_m": 10848.794802,
+          "seed_from_index": 0,
+          "seed_to_index": 434,
+          "simplification_tolerance_m": 600.0,
+          "superseded_analytical_controls": [
             {
               "end": [
                 4320.0,
@@ -2334,45 +2342,68 @@
                 10140.0
               ]
             }
-          ],
-          "geometry_basis": "analytical-tangents-and-circular-fillets",
-          "original_length_m": 10848.794802,
-          "seed_from_index": 0,
-          "seed_to_index": 434,
-          "simplification_tolerance_m": 600.0
+          ]
         }
       ],
-      "final_core_route_m": 8070.336213,
+      "final_core_route_m": 10469.646455628164,
       "line": "line-3",
       "original_cells": 658,
       "original_route_m": 15954.96796,
-      "reworked_cells": 560,
-      "reworked_route_m": 13176.509371,
+      "reworked_cells": 646,
+      "reworked_route_m": 15575.819612930194,
       "water_route_changes": []
     },
     {
       "core_runs": [],
-      "final_core_route_m": 4567.939392,
+      "final_core_route_m": 4567.939392393405,
       "geometry_basis": "population-led additional corridor; curve/profile and structural review open",
       "line": "line-4",
       "original_cells": 0,
       "original_route_m": 0,
       "reworked_cells": 212,
-      "reworked_route_m": 4567.939392,
+      "reworked_route_m": 4567.9393923934,
       "water_route_changes": []
     },
     {
       "core_runs": [],
-      "final_core_route_m": 746.27417,
+      "final_core_route_m": 746.2741699796952,
       "geometry_basis": "population-led additional corridor; curve/profile and structural review open",
       "line": "line-5",
       "original_cells": 0,
       "original_route_m": 0,
       "reworked_cells": 234,
-      "reworked_route_m": 5447.005769,
+      "reworked_route_m": 5447.0057685088805,
       "water_route_changes": []
     }
   ],
+  "network_correction": {
+    "report": "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/network-correction.json",
+    "sha256": "8cba9416b9edfaf540f108a4d080ddcce67e72ae9398cad144d1a859ef489ca7"
+  },
+  "pre_network_sources_sha256": {
+    "cities/catalogue/west-asia/Egypt/Qena/alignment-policy.toml": "812c725c91ba68fa74ceb19f1e76a2f080fcdce5376d0887abacc7a81e47bae2",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/access/population-pixels.npz.gz": "0576d7962c6e3dfbd7e2cf67f143a8813d9bc4d6f974ddce38d3782d5b7a162a",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/access/population-source.json": "b218f6016ebf75680f33489c09f6bceeb9e192a53b61b89d95f86017e431eda8",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/network-correction.json": "dab96cfd9c186bd6d2b3aa97105eb9830ac162629d641651be5a09d134f5e6ca",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/network-expansion-baseline.json.gz": "e3ab583fac4e8be7e959013fe7f38b574d94902fea5436d4de616a188c2c8eca",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-buildability-mask.bin.gz": "3d3a3e40af6edbe7b3064d3ff2e7256b3661c010dfdc76e465dd502c0ff73ef7",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-grid.json": "b6d06fd9103fe355a0d4d74cdbbae4ba06928f10d1670f6dc1f4a5cfd280610d",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-terrain-slope.f32.gz": "b65ae15343785e6b5e3f6fd459788f26669f0e655c112b19bc839896e882cc53",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-terrain-source.json": "12b883ecaca8ce6a4d3dc36e9aea3d5ce1522fc99700e4d5251dc5b2feccf1d8",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-water-mask.bin.gz": "e512d62d95544c312c87d08ee55ef143b2bdc0fd43d41c60683c61ed29d3398c",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/pre-rework-corridors.json.gz": "06c36e4ee3f2377946b71d9211261c6382ac0e3345d57627cc017bc5be789245",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/residential-line-expansion.json": "91656a70ced9590ccb3383f865ca96f18148abd2d7ac6ed21da29a50204475f8",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/water-source-receipt.json": "0db9a60408fbe776a40d76e352af257f07ca511cf88a41af5b0b01b47d3b1049",
+    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
+    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
+    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
+    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
+    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
+    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
+    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
+    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
+    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+  },
   "residential_line_expansion": {
     "accessible_walking_coverage_accepted": false,
     "actual_regenerated_station_coverage": null,
@@ -2389,7 +2420,7 @@
         "end_connection_line": null,
         "geometry_basis": "bounded water/buildability raster investigation route",
         "incremental_residents_2020": 42633.866,
-        "length_m": 4567.939392,
+        "length_m": 4567.9393923934,
         "line": "line-4",
         "priority_areas": [
           [
@@ -2432,7 +2463,7 @@
         "end_connection_line": null,
         "geometry_basis": "bounded water/buildability raster investigation route",
         "incremental_residents_2020": 16246.05,
-        "length_m": 5447.005769,
+        "length_m": 5447.0057685088805,
         "line": "line-5",
         "priority_areas": [
           [
@@ -2462,12 +2493,16 @@
     "as_of": "2026-10-12",
     "base_line_junction_changes": [],
     "base_line_junction_reviews": [],
-    "baseline_actual_station_radial_fraction": 0.324853,
-    "baseline_with_sampled_infill_radial_fraction": 0.370504,
+    "baseline_actual_station_radial_fraction": 0.32485272,
+    "baseline_with_sampled_infill_radial_fraction": 0.37050399,
     "bbox_population_2020": 310963.391,
     "city": "qena",
     "design_stage": "Controlled network planning adoption; structural/site and operating acceptance remain open",
     "final_line_count": 5,
+    "network_correction": {
+      "report": "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/network-correction.json",
+      "sha256": "8cba9416b9edfaf540f108a4d080ddcce67e72ae9398cad144d1a859ef489ca7"
+    },
     "operating_release": false,
     "original_line_count": 3,
     "original_route_m": 43948.594,
@@ -2476,12 +2511,10 @@
     "planned_stop_cells_by_line": {},
     "population_is_current_census": false,
     "population_year": 2020,
-    "proposed_station_sample_radial_fraction": 0.5142,
-    "rejected_priority_areas": [],
-    "schema": "osr-residential-line-expansion/1",
-    "sources_sha256": {
+    "pre_network_sources_sha256": {
       "cities/catalogue/west-asia/Egypt/Qena/engineering/access/population-pixels.npz.gz": "0576d7962c6e3dfbd7e2cf67f143a8813d9bc4d6f974ddce38d3782d5b7a162a",
       "cities/catalogue/west-asia/Egypt/Qena/engineering/access/population-source.json": "b218f6016ebf75680f33489c09f6bceeb9e192a53b61b89d95f86017e431eda8",
+      "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/network-correction.json": "dab96cfd9c186bd6d2b3aa97105eb9830ac162629d641651be5a09d134f5e6ca",
       "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/network-expansion-baseline.json.gz": "e3ab583fac4e8be7e959013fe7f38b574d94902fea5436d4de616a188c2c8eca",
       "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-terrain-slope.f32.gz": "b65ae15343785e6b5e3f6fd459788f26669f0e655c112b19bc839896e882cc53",
       "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-terrain-source.json": "12b883ecaca8ce6a4d3dc36e9aea3d5ce1522fc99700e4d5251dc5b2feccf1d8",
@@ -2491,6 +2524,12 @@
       "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
       "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6"
     },
+    "proposed_station_sample_radial_fraction": 0.5141995,
+    "rejected_priority_areas": [],
+    "schema": "osr-residential-line-expansion/1",
+    "sources_sha256": {
+      "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/network-correction.json": "8cba9416b9edfaf540f108a4d080ddcce67e72ae9398cad144d1a859ef489ca7"
+    },
     "station_spacing_policy": "Native demand bands: 1.6 km core, 3 km urban, 7 km suburban/outer",
     "status": "expanded-controlled-planning-layout",
     "target_interpretation": "Native 2020 station-circle union; measured regenerated stations must be audited separately.",
@@ -2499,27 +2538,8 @@
   },
   "schema_version": 3,
   "sources_sha256": {
-    "cities/catalogue/west-asia/Egypt/Qena/alignment-policy.toml": "812c725c91ba68fa74ceb19f1e76a2f080fcdce5376d0887abacc7a81e47bae2",
-    "cities/catalogue/west-asia/Egypt/Qena/engineering/access/population-pixels.npz.gz": "0576d7962c6e3dfbd7e2cf67f143a8813d9bc4d6f974ddce38d3782d5b7a162a",
-    "cities/catalogue/west-asia/Egypt/Qena/engineering/access/population-source.json": "b218f6016ebf75680f33489c09f6bceeb9e192a53b61b89d95f86017e431eda8",
-    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/network-expansion-baseline.json.gz": "e3ab583fac4e8be7e959013fe7f38b574d94902fea5436d4de616a188c2c8eca",
-    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-buildability-mask.bin.gz": "3d3a3e40af6edbe7b3064d3ff2e7256b3661c010dfdc76e465dd502c0ff73ef7",
-    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-grid.json": "b6d06fd9103fe355a0d4d74cdbbae4ba06928f10d1670f6dc1f4a5cfd280610d",
-    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-terrain-slope.f32.gz": "b65ae15343785e6b5e3f6fd459788f26669f0e655c112b19bc839896e882cc53",
-    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-terrain-source.json": "12b883ecaca8ce6a4d3dc36e9aea3d5ce1522fc99700e4d5251dc5b2feccf1d8",
-    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/planning-water-mask.bin.gz": "e512d62d95544c312c87d08ee55ef143b2bdc0fd43d41c60683c61ed29d3398c",
-    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/pre-rework-corridors.json.gz": "06c36e4ee3f2377946b71d9211261c6382ac0e3345d57627cc017bc5be789245",
-    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/residential-line-expansion.json": "b4789199dd0ab419864424c8015279a95d1c09f447094ec140aa9b9de0cc3e3c",
-    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/water-source-receipt.json": "0db9a60408fbe776a40d76e352af257f07ca511cf88a41af5b0b01b47d3b1049",
-    "design/network-planning/residential-expansion.json": "86c2523df5be55e96d662285a1b25e26e413d005754c19974b561a54ca6fbc1b",
-    "docs/data/city-population-source-overrides.json": "db75e53d2274e312d0c6373866b79f57be61ded4a4fff15bc7a0d4873ec35e7b",
-    "lib/templates/city-core-alignment.toml": "bceb1def89e80f98a6fe7403d42a62eda2551c8e65b628ff9a05764db95ed3d6",
-    "tools/automation/city_access.py": "82c8a8f4351ae5588f34e67ad9bf15c253ac30e911e855337ce81b7e573f3a09",
-    "tools/automation/residential_route_expansion.py": "111b02d1eb7d421a0b4a0b1a1b6b2d7af8a1dcf7dd0d0a6f41baa4f9d9c9fc1c",
-    "tools/automation/rework-baghdad-alignment.py": "7a60d74a7a64832e5cd72c53d6da691631a2ea048afff70a9e006bd6581a3ed7",
-    "tools/automation/rework-city-alignment.py": "094b3851e0ed16dc19acceea665d4a00863e5d0020411cf1e57a52ab97a67949",
-    "tools/automation/validate-ring-interchanges.py": "9985a79e20b2553dca416fec6f09b1a119f99106cc6e7e5b82a7fa7d2d3fb5c6",
-    "tools/automation/water-route-constraints.py": "0edbf9947b7315392234587a1fb9b067d7dbf26eb8cc5d2a248111c88525ebe1"
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/network-correction.json": "8cba9416b9edfaf540f108a4d080ddcce67e72ae9398cad144d1a859ef489ca7",
+    "cities/catalogue/west-asia/Egypt/Qena/engineering/alignment/residential-line-expansion.json": "9474a441d391e744d655eeeeb12f92821a3da2572e9caf0b8867bb310530152a"
   },
   "status": "concept-alignment-requires-survey-property-utilities-crossing-and-independent-review"
 }
