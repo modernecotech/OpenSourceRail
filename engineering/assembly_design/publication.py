@@ -31,7 +31,7 @@ def report(data,policy):
     if 'closure' in data:
         c=data['closure']
         lines+=['<h2>Full design closure plan — execution and open exits</h2>',
-            '<p>'+h(c['task_count'])+' deliverables across 13 work packages. '+h(c['engineering_closed_tasks'])+' engineering exits closed. Partial implementation and executed research checks do not constitute completed designs.</p>',
+            '<p>'+h(c['task_count'])+' deliverables across 13 work packages. '+h(c['engineering_closed_tasks'])+' engineering exits closed; '+h(c.get('digital_completed_tasks',0))+' digital specifications with complete reviewed records. Digital coverage, physical validation and manufacturing release are separate. Partial implementation and executed research checks do not constitute completed designs.</p>',
             '<p><a href="closure-progress.json">All task statuses, pilot contracts and RFQ/test requests</a> | <a href="prototype.json">Named prototype and conflicts</a> | <a href="family-crosswalk.json">414-record architecture/family crosswalk</a> | <a href="registers.json">Source, standards and family registers</a> | <a href="integration.json">Exact revision integration and open passage gates</a></p>',
             '<div lang="ar" dir="rtl"><h2>بغداد — متابعة استكمال التصميم</h2><p>هذه تصاميم ودراسات أولية. لم يكتمل تصميم القطار أو المنشآت، ولا يوجد تصريح للتصنيع أو التشغيل. يتضمن السجل '+h(c['task_count'])+' مهمة؛ لا توجد مهام ذات قبول هندسي نهائي. الفحوص البرمجية والهندسية المنفذة منفصلة عن الاختبارات الميدانية والقبول المستقل. تبقى بيانات التربة والموردين والاختبارات الفعلية مطلوبة.</p><p>توضح الروابط أعلاه المتطلبات والمكونات والواجهات والأدلة والمهمة التالية لكل حزمة عمل. لم تُرسل طلبات البيانات أو عروض الأسعار إلى أي جهة.</p></div>',
             '<details><summary>Every plan task and its remaining work</summary><table><tr><th>Task / PDF page</th><th>Deliverable</th><th>Implementation evidence / limit</th><th>Engineering exit</th></tr>']
@@ -89,6 +89,8 @@ def export(workspace,output):
         (output/'baseline.json.gz').write_bytes(gzip.compress((epoch_path/'baseline.json').read_bytes(),mtime=0))
         for name in ('qualification.json','tests.log','work-orders.json'):shutil.copyfile(epoch_path/name,output/name)
         if 'closure' in data:
+            from . import closure_evidence
+            closure_evidence.export_raw(prepared,output/'closure-records')
             for name,value in [('closure-progress.json',data['closure']),('prototype.json',prepared['prototype']),
                 ('family-crosswalk.json',prepared['family_crosswalk']),('registers.json',prepared['registers']),('integration.json',prepared['integration'])]:core.write(output/name,value)
         if prepared.get('site'):
@@ -168,7 +170,15 @@ def verify(output):
     if data['source_sha256']!=prepared['source_sha256'] or core.read(output/'work-orders.json',maximum=20_000_000)!=workflow.work_orders(prepared):raise ValueError('requirement/work-order allocation differs')
     if prepared.get('closure_plan'):
         from . import closure,families
-        if data.get('closure')!=closure.snapshot(prepared) or data.get('families')!=families.registry(prepared['policy']):raise ValueError('closure status or family allocation differs')
+        subjects=None
+        if data.get('additional_design_studies'):
+            from . import design_studies
+            design_studies.verify(output/'studies',prepared)
+            subjects=design_studies.completion_subjects(output/'studies')
+            if data.get('closure_subjects')!=subjects:raise ValueError('closure component subjects differ')
+        from . import closure_evidence
+        closure_evidence.verify_raw(output/'closure-records')
+        if data.get('closure')!=closure.snapshot(prepared,subjects=subjects,evidence_root=output/'closure-records') or data.get('families')!=families.registry(prepared['policy']):raise ValueError('closure status or family allocation differs')
         for name,value in [('closure-progress.json',data['closure']),('prototype.json',prepared['prototype']),
             ('family-crosswalk.json',prepared['family_crosswalk']),('registers.json',prepared['registers']),('integration.json',prepared['integration'])]:
             if core.read(output/name,maximum=20_000_000)!=value:raise ValueError('exported closure, source or integration copy differs')

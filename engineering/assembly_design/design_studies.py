@@ -129,12 +129,10 @@ def requests(prototype,pairs):
 
 def installed_context(policy,candidate,kit):
     """Actual owned-part gross addition through existing mass/reaction adapters."""
-    from osr_mech.family_definition import family_definition
-    from . import integration,reactions
+    from . import integration,reactions,installed_equipment
     parts=[p for p in candidate['contract']['parts'] if p['id'] in candidate['metadata']['cassette_installed_part_ids']]
-    cars=family_definition('metro-6car')['cars']
-    allocations=[dict(id=car['id']+'/cassette',translation_m=[car['centre_x_m'],0.,0.],rotation=[[1.,0.,0.],[0.,1.,0.],[0.,0.,1.]]) for car in cars]
-    mass=integration.mass_properties(parts,allocations);facts=baseline.facts(policy);a=policy['pilots']['bearing-seat']['assumptions']
+    equipment=installed_equipment.build(policy,candidate);allocations=equipment['allocations']
+    mass=equipment['represented_gross_properties'];facts=baseline.facts(policy);a=policy['pilots']['bearing-seat']['assumptions']
     train=reactions.revisioned(dict(architecture=policy['architecture'],mass_cases_kg=[v+mass['mass_kg'] for v in facts['train.mass_cases']],
         cars=a['train_cars'],car_length_m=facts['train.car_length'],tracks=a['tracks'],span_m=a['span_m'],gravity_m_s2=a['gravity_m_s2'],
         permanent_factor=a['vertical_factor'],variable_factor=a['vertical_factor']))
@@ -143,10 +141,23 @@ def installed_context(policy,candidate,kit):
     seat=reactions.revisioned(dict(candidate_revision=bearing['revision'],mass_kg=sum(p['properties']['mass_kg'] for p in bearing['contract']['parts'])))
     envelope=reactions.envelope(kit,train,seat,expected_kit_revision=core.digest(kit),expected_train_revision=train['revision'])
     value=dict(schema='osr-detailed-cassette-installed-context/1',candidate_revision=candidate['revision'],
-        allocations=allocations,installed_part_ids=[p['id'] for p in parts],gross_added_properties=mass,train=train,seat=seat,
+        equipment_definition=equipment,allocations=allocations,installed_part_ids=[p['id'] for p in parts],gross_added_properties=mass,train=train,seat=seat,
         force_ledger=envelope,removal_credit_kg=0.,admitted_for_system_simulation=False,
-        scope='Six identical cassette gross additions at provisional car origins; complete vehicle baseline/net CG, actual mounts, host and vehicle-side services remain unallocated. No removal credit or dynamic validation.',**core.FLAGS)
+        scope='Gross additions from all 48 located cassette instances in the controlled provisional six-car equipment definition; complete vehicle baseline/net CG, actual mounts, refrigeration and trunk services remain open. No removal credit or dynamic validation.',**core.FLAGS)
     value['revision']=core.digest(value);return value
+
+
+def completion_subjects(folder):
+    """Exact verified exhibit revisions; isolated details never cover a full pilot."""
+    folder=Path(folder);summary=read_record(folder,'summary.json');subjects={}
+    for model in summary['models']:
+        pilot={'service-cassette-detail':'service-cassette','structural-bay':'structural-bay','civil-cap-detail':'viaduct-bay'}[model['kind']]
+        candidate=read_record(folder/model['kind'],'candidate.json')
+        subjects[pilot]=dict(component_id=model['kind'],component_revision=candidate['revision'],
+            interface_revision=core.digest(candidate['contract']['assembly_joints']),full_pilot_scope=False,
+            scope=candidate['source_scope'],serial=None,known_failures=model['failed_checks'],
+            native_required=True,native_state=model['native_state'])
+    return subjects
 
 
 def _model(candidate,assessment,folder):
@@ -260,15 +271,17 @@ def report_html(value):
     for case in value['duty_cases']:lines+=['<tr><td>'+h(case['fault'])+'</td><td>'+h(round(case['final']['cabin_c'],3))+'</td><td>'+h(round(case['final']['soc'],5))+'</td><td>'+h(case['elapsed_s'])+' s</td><td>'+h(', '.join(case['failed_checks']))+'</td></tr>']
     lines+=['</table><p>Conservation passing does not establish passenger comfort or equipment fitness. Cooling-loss and hot-start temperatures remain visible in the retained results.</p>']
     gap=value['integration_context_gap']
-    lines+=['<p>Open quantity interface: the cassette thermal sensitivity assumes '+h(gap['thermal_ducts_per_car'])+' duct cassettes per car; the gross installed-mass sensitivity places '+h(gap['mass_cassettes_per_car'])+' cassette per car. These are separate provisional cases. Full equipment quantities, refrigeration mass and the vehicle BOM must be reconciled before system admission.</p></html>']
+    lines+=['<h2>Registered panel research companion</h2><p><a href="panels/index.html">Six material/location representatives, analytical inventory, independent metal bending controls and native owned-section exhibits</a>. Complete core/potting, fastenings, formed roofs and installed manufacturing qualification remain open.</p>',
+        '<p><a href="reinforcement-alternatives.json.gz">Bent round-link and coupler schedules</a>: bend radii, hook/coupler reservations, congestion checks, assembly sequence and unexecuted inspections. These alternatives have no curved native confirmation and are excluded from cap selection.</p>']
+    lines+=['<p>Controlled equipment quantity: thermal and gross installed-mass sensitivities both use '+h(gap['thermal_ducts_per_car'])+' complete LV/ventilation cassettes per car. <a href="installed-context.json.gz">Exact instance locations, mass/inertia, harness and known duty schedules</a>. Full equipment selection, refrigeration mass, host packaging and vehicle BOM remain open before system admission.</p></html>']
     return '\n'.join(lines)
 
 
 def build(prepared,folder):
-    from . import cassette_detail,cassette_duty,civil_detail,structural_bay,workflow
+    from . import cassette_detail,cassette_duty,civil_detail,structural_bay,workflow,reinforcement_options,panel_adapter
     folder=Path(folder);folder.mkdir(parents=True)
     if list(folder.iterdir()):raise ValueError('new companion study directory required')
-    policy=prepared['policy'];system=system_design.report();write_record(folder,'system-design.json',system)
+    policy=prepared['policy']
     base=_candidate(policy,'service-cassette')
     cassette_variants=[]
     for gap,float_m,compression in itertools.product((.003,.006,.009),(.001,.006),(.15,.25)):
@@ -279,6 +292,7 @@ def build(prepared,folder):
     # Pass actual detailed mass into the shared reaction ledger before civil
     # variants are assessed; the original planning train definition is retained.
     provisional_context=installed_context(policy,cassette_pair[0],kit)
+    system=system_design.report(equipment=provisional_context['equipment_definition']);write_record(folder,'system-design.json',system)
     envelope=provisional_context['force_ledger']
     civil_variants=[]
     for variables in civil_detail.candidates():
@@ -296,26 +310,29 @@ def build(prepared,folder):
         variants=[dict(kind=v['candidate']['kind'],revision=v['candidate']['revision'],variables=v['candidate']['variables'],
             mass_kg=sum(p['properties']['mass_kg'] for p in v['candidate']['contract']['parts']),
             failed_checks=v['assessment']['failed_checks'],held_checks=v['assessment']['held_checks']) for v in variants],
-        scope='Final exhibits retain explicit native states; research eligibility requires passed confirmation and no implemented failure. Other variants have analytical/geometry-definition checks only. The 24 structural variants repeat the regular campaign domain and are not additional unique designs. Detail mass is not complete installed civil mass.',**core.FLAGS)
+        scope='Final exhibits retain explicit native states; research eligibility requires passed confirmation and no implemented failure. Other variants have analytical/geometry-definition checks only. Structural variants repeat the registered campaign domain and are not additional unique designs. Detail mass is not complete installed civil mass.',**core.FLAGS)
     models_out=[cassette_model];native_diagnostics=list(cassette_diagnostics)
     for index,choices in enumerate((civil_variants,structural_variants),start=1):
         pair,result,failed=confirm_alternatives(choices,folder)
         pairs[index]=pair;models_out.append(result);native_diagnostics.extend(failed)
     final_context=provisional_context
+    write_record(folder,'reinforcement-alternatives.json',reinforcement_options.build(pairs[1][0]))
     write_record(folder,'installed-context.json',final_context)
     write_record(folder,'civil-context.json',dict(reaction_envelope=envelope,kit_revision=core.digest(kit)))
     search['exhibit_revisions']=[candidate['revision'] for candidate,_ in pairs]
     search['eligible_research_revisions']=[m['candidate_revision'] for m in models_out if m['eligible_for_research']]
     write_record(folder,'search.json',search)
-    transient=cassette_duty.campaign(candidate=pairs[0][0]);write_record(folder,'cassette-transient-duty.json',transient)
+    transient=cassette_duty.campaign(candidate=pairs[0][0],equipment=final_context['equipment_definition']);write_record(folder,'cassette-transient-duty.json',transient)
     # Cross-discipline handoff is generated from the same exact part definitions.
     (folder/'parts.csv').write_text(handoff(pairs))
     core.write(folder/'prototype-test-requests.json',requests(prepared['prototype'],pairs))
     media=_duty_media(system,folder)
+    panels=panel_adapter.campaign(prepared,folder/'panels')
     value=dict(schema='osr-closure-companion-studies/1',epoch=core.digest(prepared),sources_sha256=prepared['source_sha256'],
         system_revision=system['revision'],models=models_out,native_diagnostics=native_diagnostics,media=media,detail_variants=search['variant_count'],
+        panel_companion_revision=core.digest(panels),
         integration_context_gap=dict(thermal_ducts_per_car=transient['thermal'][0]['result']['hypotheses']['number_of_duct_cassettes'],
-            mass_cassettes_per_car=len(final_context['allocations'])/prepared['prototype']['values']['car_count']['value'],state='hold-unadopted-equipment-quantities'),
+            mass_cassettes_per_car=len(final_context['allocations'])/prepared['prototype']['values']['car_count']['value'],equipment_definition_revision=final_context['equipment_definition']['revision'],state='quantities-reconciled; installation-and-complete-equipment-held'),
         duty_cases=[{k:c[k] for k in ('fault','elapsed_s','final','failed_checks','held_checks','revision')} for c in system['duty_cases']],
         circuit=system['circuit'],refinement=system['refinement'],engineering_closed_tasks=0,**core.FLAGS)
     write_record(folder,'summary.json',value);(folder/'index.html').write_text(report_html(value))
@@ -334,6 +351,9 @@ def verify(folder,prepared):
         raise ValueError('companion source epoch differs')
     if any(value.get(k) is not False for k in core.FLAGS) or value['engineering_closed_tasks']!=0:
         raise ValueError('companion studies cannot assert engineering acceptance')
+    from . import panel_adapter
+    panels=panel_adapter.verify(prepared,folder/'panels')
+    if value['panel_companion_revision']!=core.digest(panels):raise ValueError('panel companion revision differs')
     system=read_record(folder,'system-design.json')
     if system['revision']!=core.digest({k:v for k,v in system.items() if k!='revision'}) or system['revision']!=value['system_revision']:
         raise ValueError('coupled study revision differs')
@@ -429,6 +449,9 @@ def verify(folder,prepared):
     if (folder/'parts.csv').read_bytes()!=handoff(pairs).encode():raise ValueError('part handoff differs')
     civil_context=read_record(folder,'civil-context.json');envelope=civil_context['reaction_envelope']
     civil_candidate,civil_assessment=pairs[1]
+    from . import reinforcement_options
+    if read_record(folder,'reinforcement-alternatives.json')!=reinforcement_options.build(civil_candidate):
+        raise ValueError('reinforcement alternative source or geometry schedule differs')
     if envelope['revision']!=core.digest({k:v for k,v in envelope.items() if k!='revision'}) or civil_context['kit_revision']!=envelope['kit_revision']:
         raise ValueError('civil reaction context revision differs')
     if civil_candidate['source_kit_revision']!=envelope['kit_revision'] or civil_assessment['reaction_revision']!=envelope['revision'] or civil_candidate['source_unit']['revision']!=envelope['unit_revisions'].get(civil_candidate['source_unit']['id']):
@@ -436,10 +459,13 @@ def verify(folder,prepared):
     installed=read_record(folder,'installed-context.json')
     if installed['revision']!=core.digest({k:v for k,v in installed.items() if k!='revision'}) or installed['candidate_revision']!=pairs[0][0]['revision'] or installed['force_ledger']!=envelope:
         raise ValueError('installed mass/reaction context differs')
-    from . import integration
+    from . import integration,installed_equipment
     candidate=pairs[0][0];parts=[p for p in candidate['contract']['parts'] if p['id'] in candidate['metadata']['cassette_installed_part_ids']]
     mass=integration.mass_properties(parts,installed['allocations'])
-    if mass!=installed['gross_added_properties'] or len(installed['allocations'])!=6 or installed['installed_part_ids']!=[p['id'] for p in parts]:
+    expected_equipment=installed_equipment.build(prepared['policy'],candidate)
+    if installed['equipment_definition']!=expected_equipment or installed['allocations']!=expected_equipment['allocations']:
+        raise ValueError('controlled installed equipment definition differs')
+    if mass!=installed['gross_added_properties'] or len(installed['allocations'])!=6*expected_equipment['counts']['cassettes_per_car'] or installed['installed_part_ids']!=[p['id'] for p in parts]:
         raise ValueError('installed part mass/CG/inertia differs')
     expected_masses=[v+mass['mass_kg'] for v in baseline.facts(prepared['policy'])['train.mass_cases']]
     if installed['train']['mass_cases_kg']!=expected_masses or envelope['train_revision']!=installed['train']['revision'] or envelope['seat_revision']!=installed['seat']['revision']:
@@ -453,8 +479,11 @@ def verify(folder,prepared):
         raise ValueError('cassette transient duty identity/scope differs')
     if set(transient['failed_checks'])!={k for k,v in transient['checks'].items() if v is False} or set(transient['held_checks'])!={k for k,v in transient['checks'].items() if v is None}:
         raise ValueError('cassette transient duty classification differs')
+    if transient['equipment_definition_revision']!=expected_equipment['revision'] or system.get('equipment_definition_revision')!=expected_equipment['revision']:
+        raise ValueError('thermal/system equipment definition differs')
     gap=dict(thermal_ducts_per_car=transient['thermal'][0]['result']['hypotheses']['number_of_duct_cassettes'],
-        mass_cassettes_per_car=len(installed['allocations'])/prepared['prototype']['values']['car_count']['value'],state='hold-unadopted-equipment-quantities')
+        mass_cassettes_per_car=len(installed['allocations'])/prepared['prototype']['values']['car_count']['value'],equipment_definition_revision=expected_equipment['revision'],state='quantities-reconciled; installation-and-complete-equipment-held')
+    if gap['thermal_ducts_per_car']!=gap['mass_cassettes_per_car']:raise ValueError('mass/thermal equipment count differs')
     if value['integration_context_gap']!=gap:raise ValueError('equipment quantity context differs')
     if (folder/'index.html').read_text()!=report_html(value):raise ValueError('companion presentation differs')
     return value

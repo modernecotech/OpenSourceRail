@@ -70,8 +70,8 @@ def package(tmp_path,monkeypatch):
         source_sha256={'fixture.py':'f'*64})
     monkeypatch.setattr(baseline,'sources',lambda:prepared['source_sha256'])
     config=system_design.defaults();config['duration_s']=10.;case=system_design.simulate(config)
-    def report():
-        v=dict(schema='fixture',electrical=system_design.electrical_architecture(),duty_cases=[case],refinement={},circuit=system_design.circuit_benchmark(),**core.FLAGS)
+    def report(equipment=None):
+        v=dict(schema='fixture',equipment_definition_revision=equipment['revision'],electrical=system_design.electrical_architecture(),duty_cases=[case],refinement={},circuit=system_design.circuit_benchmark(),**core.FLAGS)
         v['revision']=core.digest(v);return v
     monkeypatch.setattr(system_design,'report',report)
     monkeypatch.setattr(studies,'_duty_media',lambda *args:dict(state='hold',reason='fixture excludes rendering'))

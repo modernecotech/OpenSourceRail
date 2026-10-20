@@ -222,7 +222,19 @@ def report(policy,candidate):
     degraded=[local_mount(positions_m=candidate['metadata']['mount_positions_m'],mass_kg=mass,cg_height_m=.11-floor,
         floor_m=floor,missing_bolt=i,young_pa=young,yield_pa=fy) for i in range(4)]
     # One-way strips intentionally provide no 2D floor/diaphragm credit.
-    strip=floor_strip(force_n=mass*9.80665*3/4,span_m=candidate['metadata']['rail_spacing_m']-.06,width_m=.08,thickness_m=floor,young_pa=young,uniform_n_m=.08*floor*density*9.80665*3)
+    support_route='transverse strip between longitudinal rails'
+    strip_span=candidate['metadata']['rail_spacing_m']-.06;strip_width=.08;strip_force=mass*9.80665*3/4
+    inner=[x for x in candidate['metadata']['crossmember_positions_m'] if abs(x)<.5]
+    if len(inner)==2:
+        # Two equipment feet share each longitudinal strip. Count both forces;
+        # replacing this by one quarter of the load would invent a saving.
+        lower,upper=sorted(inner);cross_width=policy['pilots']['structural-bay']['assumptions']['crossmember_width_m']
+        if not all(lower+cross_width/2<x<upper-cross_width/2 for x,y,z in candidate['metadata']['mount_positions_m']):
+            raise ValueError('equipment foot holes outside proposed close-support span')
+        strip_span=upper-lower-cross_width;strip_width=.06;strip_force=mass*9.80665*3/2
+        support_route='longitudinal strip between two added crossmembers; both equipment feet counted'
+    strip=floor_strip(force_n=strip_force,span_m=strip_span,width_m=strip_width,thickness_m=floor,young_pa=young,uniform_n_m=strip_width*floor*density*9.80665*3)
+    strip['support_route']=support_route
     from engineering.continuous_design import beam_confirmation
     strip_fem=beam_confirmation.solve(strip['span_m'],[0.,strip['span_m']],young*strip['inertia_m4'],
         points=[(strip['span_m']/2,strip['force_n'])],uniform=strip['uniform_n_m'],divisions=16)
@@ -246,6 +258,26 @@ def report(policy,candidate):
     checks['floor-strip/equilibrium']=strip_fem['force_balance_relative_error']<1e-8
     checks['floor-strip/stress-provisional']=strip['stress_pa']<=.6*fy
     checks['floor-strip/deflection-provisional']=strip['deflection_m']<=.002
+    crossmember_cases=[]
+    if len(inner)==2:
+        for part in candidate['contract']['parts']:
+            if not part['id'].startswith('crossmember-'):continue
+            x=part['placement']['translation_m'][0]
+            if x not in inner:continue
+            cross=part['analysis']['section'];cross_span=candidate['metadata']['rail_spacing_m']-.06
+            # Conservatively give each added crossmember half of all represented
+            # floor and equipment gravity; retain full frame mass in rail checks.
+            floor_mass=next(p['properties']['mass_kg'] for p in candidate['contract']['parts'] if p['id']=='floor-panel')
+            force=(floor_mass+mass)*9.80665*3/2
+            inertia=cross['iy_m4'];moment=force*cross_span/4
+            analytic=force*cross_span**3/(48*young*inertia)
+            response=beam_confirmation.solve(cross_span,[0.,cross_span],young*inertia,points=[(cross_span/2,force)],divisions=16)
+            stress=moment*policy['pilots']['structural-bay']['assumptions']['crossmember_height_m']/2/inertia
+            checks[part['id']+'/added-support-independent-beam']=abs(response['maximum_nodal_deflection_m']/analytic-1)<1e-7
+            checks[part['id']+'/added-support-stress']=stress<=.6*fy
+            checks[part['id']+'/added-support-deflection']=analytic<=.002
+            crossmember_cases.append(dict(id=part['id'],force_n=force,span_m=cross_span,inertia_m4=inertia,
+                stress_pa=stress,deflection_m=analytic,numerical=response))
     checks['modal/closed-form-first-three']=max(modes[1]['relative_errors'])<.001
     checks['modal/mesh-refinement']=max(abs(x/y-1) for x,y in zip(modes[1]['frequencies_hz'],modes[0]['frequencies_hz']))<.002
     checks['weld/direct-shear-provisional']=all(c['average_throat_shear_pa']<=c['proposed_limit_pa'] for c in weld_cases)
@@ -255,7 +287,7 @@ def report(policy,candidate):
         checks[name]=None
     result=dict(schema='osr-structural-detail-screen/1',candidate_revision=candidate['revision'],checks=checks,
         failed_checks=[k for k,v in checks.items() if v is False],held_checks=[k for k,v in checks.items() if v is None],
-        mount=mount,adverse_mount=adverse,one_bolt_missing=degraded,floor_strip=strip,floor_fem=strip_fem,
+        mount=mount,adverse_mount=adverse,one_bolt_missing=degraded,floor_strip=strip,floor_fem=strip_fem,added_crossmember_cases=crossmember_cases,
         modal=modes,rail_web_elastic_buckling_stress_pa=plate_critical,
         buckling_scope='Ideal simply supported internal plate elastic eigenstress, k=4; no welded RHS imperfections/postbuckling or rail design resistance',
         weld_register=welds,weld_shear_cases=weld_cases,

@@ -132,7 +132,7 @@ def test_run_is_durable_and_deduplicated_and_fair_across_four_families(campaign)
     assert {r['kind'] for r in first['trials'] if r['status']=='completed'}=={'service-cassette','bearing-seat','structural-bay','cassette-control'}
     second=workflow.run(w,budget=3,native=False);assert second['counts']['completed_trials']==7
     assert second['counts']['qualified_components']==0 and not second['design_complete']
-    with workflow.locked(w) as (_,db):assert db.execute('SELECT COUNT(*) FROM jobs WHERE epoch=?',(epoch,)).fetchone()[0]==62
+    with workflow.locked(w) as (_,db):assert db.execute('SELECT COUNT(*) FROM jobs WHERE epoch=?',(epoch,)).fetchone()[0]==92
 
 
 def test_recovery_uses_sealed_identity_and_preserves_interrupted_attempts(campaign):

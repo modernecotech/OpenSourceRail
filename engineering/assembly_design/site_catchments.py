@@ -17,12 +17,17 @@ from scipy.spatial import cKDTree
 
 from engineering.twin_workflow import core
 from . import site_context
+from engineering.assurance.numerical_reproducibility import differences
 
 EARTH_RADIUS_M=6371000.
 STEP_M=50.
 ROOT_ROUTE=Path('cities/catalogue/west-asia/Iraq/Baghdad/baghdad.corridor.geojson')
 PIXELS=site_context.CITY/'mapping/worldpop-2026-pixels.npz.gz'
 RECEIPT=site_context.CITY/'mapping/worldpop-2026-source.json'
+# Reproduction only: sub-micrometre round-off in recomputed sampling diagnostics.
+# Population sums, native counts, thresholds, geometry bytes, sources, decisions
+# and the retained report's own content hash remain exact.
+REPRODUCTION_RULES=((r'routes\[\d+\]\.geometry_sampling\.(?:spherical_length_m|maximum_spacing_m|maximum_distance_overestimate_m)',1e-7,1e-13),)
 
 
 def xyz(lat,lon):
@@ -114,5 +119,12 @@ def analyse(*,root=None):
 
 
 def verify(report,*,root=None):
-    if core.digest(report)!=core.digest(analyse(root=root)):raise ValueError('corridor population/source/revision differs')
-    return dict(verified=True,routes=report['route_count'])
+    if report.get('revision')!=core.digest({k:v for k,v in report.items() if k!='revision'}):
+        raise ValueError('corridor retained report revision differs')
+    expected=analyse(root=root)
+    actual_values={k:v for k,v in report.items() if k!='revision'}
+    expected_values={k:v for k,v in expected.items() if k!='revision'}
+    changed=differences(actual_values,expected_values,rules=REPRODUCTION_RULES)
+    if changed:raise ValueError('corridor population/source/revision differs at '+', '.join(changed[:8]))
+    return dict(verified=True,routes=report['route_count'],
+        reproduction_scope='Only named sampling diagnostics tolerate round-off; engineering limits and population/source/decision identity remain exact')

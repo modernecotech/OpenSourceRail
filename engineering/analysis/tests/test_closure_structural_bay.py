@@ -16,8 +16,8 @@ def candidate(policy,**changes):
     v=next(s.candidates(policy));v.update(changes);return s.build(policy,v)
 
 
-def test_domain_has_twenty_four_repeatable_shape_and_assembly_variations(policy):
-    recipes=list(s.candidates(policy));assert len(recipes)==24
+def test_domain_has_fifty_four_repeatable_shape_and_loadpath_variations(policy):
+    recipes=list(s.candidates(policy));assert len(recipes)==54
     first=candidate(policy);second=s.build(policy,recipes[0])
     assert first==second
     assert first['requirement_ids']==['baghdad:ME-01']
@@ -55,6 +55,22 @@ def test_more_crossmembers_and_thicker_floor_add_geometry_and_mass(policy):
     assert len({base['revision'],more['revision'],floor['revision']})==3
 
 
+def test_close_crossmembers_improve_loadpath_with_all_hardware_and_both_feet_counted(policy):
+    old=candidate(policy,floor_thickness_m=.016)
+    improved=candidate(policy,crossmember_count=4,floor_thickness_m=.012)
+    rejected=candidate(policy,crossmember_count=4,floor_thickness_m=.008)
+    a=s.evaluate(policy,old);b=s.evaluate(policy,improved);bad=s.evaluate(policy,rejected)
+    assert not a['failed_checks'] and not b['failed_checks']
+    assert b['measurements']['mass_kg']<a['measurements']['mass_kg']
+    assert len(improved['contract']['parts'])==len(old['contract']['parts'])+2
+    detail=b['supplemental_evidence']['structural-detail'];prior=a['supplemental_evidence']['structural-detail']
+    assert detail['floor_strip']['force_n']>1.99*prior['floor_strip']['force_n']
+    assert detail['floor_strip']['span_m']==pytest.approx(.45)
+    assert len(detail['added_crossmember_cases'])==2
+    assert 'detail/floor-strip/deflection-provisional' in bad['failed_checks']
+    assert b['held_checks'] and not b['digital_specification_complete']
+
+
 def test_closed_form_refinement_equilibrium_and_adverse_scaling(policy):
     r=s.evaluate(policy,candidate(policy));a,b=r['measurements']['beam_cases']
     for case in (a,b):
@@ -82,7 +98,7 @@ def test_every_non_external_part_is_connected_in_declared_loadpath(policy):
     assert len([p for p in c['contract']['parts'] if p['geometric_role']=='hardware-envelope'])==16
 
 
-@pytest.mark.parametrize('change',({'rail_wall_m':float('nan')},{'rail_wall_m':.001},{'crossmember_count':4}))
+@pytest.mark.parametrize('change',({'rail_wall_m':float('nan')},{'rail_wall_m':.001},{'crossmember_count':5}))
 def test_unregistered_and_nonfinite_domains_rejected(policy,change):
     with pytest.raises(ValueError):candidate(policy,**change)
 

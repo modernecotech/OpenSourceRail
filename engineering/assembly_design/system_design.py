@@ -20,9 +20,10 @@ def profile():
     return tomllib.loads((core.ROOT/'lib/templates/rolling-stock.toml').read_text())['profiles']['metro-6car']
 
 
-def electrical_architecture():
+def electrical_architecture(equipment=None):
     """Named per-car circuits, isolation and returns; no implicit chassis return."""
-    p=profile();nodes=[];nets=[];interfaces=[]
+    from . import installed_equipment
+    p=profile();nodes=[];nets=[];interfaces=[];counts=installed_equipment.counts()
     functions=('charger','battery','bms','service-disconnect','main-fuse','precharge',
                'main-contactor','dc-link','inverter','motor','brake-chopper',
                'isolated-dcdc','lv-fuse','lv-cassette','hvac','battery-cooler','bond-bar','controller')
@@ -30,6 +31,8 @@ def electrical_architecture():
         stem=f'car-{car:02d}/'
         for function in functions:
             nodes.append(dict(id=stem+function,function=function,ownership='purchased-boundary',
+                physical_quantity=counts['cassettes_per_car'] if function=='lv-cassette' else counts['cooling_modules_per_car'] if function=='hvac' else None,
+                physical_instance_ids=[i['id'] for i in equipment['instances']+equipment['purchased_boundaries'] if i['electrical_node_id']==stem+function] if equipment else [],
                 supplier_part=None,mass_kg=None,configuration_revision=None,
                 qualification='hold-exact-offered-configuration',nominal_voltage_v=(24. if function in {'lv-fuse','lv-cassette','controller'} else None)))
         routes=[('charger','battery','charge-hv'),('battery','service-disconnect','pack-hv'),
@@ -58,6 +61,7 @@ def electrical_architecture():
             interfaces.append(dict(id=stem+signal,endpoints=[stem+source,stem+target],type='software-signal',
                 safe_state='deenergise-request',sample_time_s=None,timeout_s=None,target_timing_verified=False))
     value=dict(schema='osr-six-car-electrical-architecture/1',prototype_revision=contracts.prototype_configuration()['revision'],
+        equipment_definition_revision=equipment['revision'] if equipment else None,
         nodes=nodes,nets=nets,interfaces=interfaces,
         isolation_boundaries=['per-car service disconnect','precharge versus main contactor','isolated HV/LV converter',
                               'protective bond separate from traction and signal returns'],
@@ -72,6 +76,13 @@ def validate_architecture(value,*,require_revision=True):
     if require_revision and value.get('revision')!=core.digest({k:v for k,v in value.items() if k!='revision'}):
         raise ValueError('electrical architecture revision differs')
     if len(ids)!=len(set(ids)) or not ids:raise ValueError('unique equipment identities required')
+    if value.get('equipment_definition_revision'):
+        physical_ids=[]
+        for node in value['nodes']:
+            if node['physical_quantity'] is not None and len(node['physical_instance_ids'])!=node['physical_quantity']:
+                raise ValueError('electrical group/physical instance count differs')
+            physical_ids+=node['physical_instance_ids']
+        if len(set(physical_ids))!=len(physical_ids):raise ValueError('physical equipment instance mapped twice')
     routes=[n['id'] for n in value['nets']+value['interfaces']]
     if len(routes)!=len(set(routes)):raise ValueError('unique circuit and interface identities required')
     connected=set()
@@ -85,17 +96,25 @@ def validate_architecture(value,*,require_revision=True):
     return True
 
 
-def defaults():
+def defaults(equipment=None):
     """All non-template quantities are explicit planning sensitivities."""
-    p=profile()
+    from . import installed_equipment,cassette_duty,cassette_system
+    p=profile();counts=installed_equipment.counts()
+    performance=cassette_duty.cooling_map(p['hvac_design_ambient_c'])
+    duct_area=equipment['duct_clear_area_m2'] if equipment else .01
+    duct=cassette_system.duct_case(duct_area)
+    fan_w=counts['cassettes_per_car']*duct['fan_input_w']
+    lv_w=equipment['schedule']['model_lv_source_w']/p['cars'] if equipment else counts['cassettes_per_car']*cassette_system.electrical_case()['power_w']['source']
     return dict(architecture='baghdad-six-car',car_count=p['cars'],car_length_m=p['length_m']/p['cars'],
         passengers_per_car=p['passenger_capacity']/p['cars'],ambient_c=p['hvac_design_ambient_c'],
         target_c=26.,initial_c=35.,ambient_humidity_kg_kg=.015,initial_humidity_kg_kg=.010,
         dry_air_mass_kg=150.,thermal_capacity_j_k=1.2e6,envelope_ua_w_k=250.,
         passenger_sensible_w=75.,passenger_latent_w=55.,solar_w=7000.,equipment_w=3000.,
-        fresh_air_kg_s=.55,door_air_kg_s=.88,cp_j_kg_k=1005.,latent_j_kg=2.45e6,
-        cooling_capacity_w=65000.,sensible_cooling_fraction=.75,cop=2.5,fan_power_w=1500.,
-        base_auxiliary_w=3000.,converter_efficiency=.95,battery_soc=.8,battery_soh=1.,
+        fresh_air_kg_s=1.1*min(cassette_system.whole_car_duty()['assumptions']['fresh_air_m3_s'],counts['cassettes_per_car']*duct['useful_flow_m3_s']),door_air_kg_s=.88,cp_j_kg_k=1005.,latent_j_kg=2.45e6,
+        cooling_capacity_w=counts['cooling_modules_per_car']*performance['per_module_capacity_w'],sensible_cooling_fraction=.75,cop=performance['cop'],fan_power_w=fan_w,
+        base_auxiliary_w=3000.+lv_w,converter_efficiency=.95,battery_soc=.8,battery_soh=1.,
+        equipment_definition_revision=equipment['revision'] if equipment else None,
+        equipment_layout_sha256=core.sha(installed_equipment.DATA),equipment_counts=counts,
         battery_voltage_v=p['battery_nominal_voltage_v'],battery_capacity_ah=p['onboard_battery_nameplate_kwh']*1000/p['cars']/p['battery_nominal_voltage_v'],
         battery_resistance_ohm=.03,battery_thermal_capacity_j_k=2.e6,battery_ua_w_k=120.,
         battery_initial_c=35.,battery_cooling_w=2000.,battery_cooling_cop=2.5,traction_per_car_w=p['traction_peak_kw']*1000/p['cars']*.5,
@@ -257,12 +276,12 @@ def circuit_benchmark():
         open=['selected converter input model','electrothermal contact/arc model','protective device I2t and selectivity'],**core.FLAGS)
 
 
-def report():
-    config=defaults();cases=[simulate(config,fault=fault) for fault in ('nominal','cooling-loss','battery-cooling-loss','combined-cooling-loss','fan-failure','blocked-filter',
+def report(equipment=None):
+    config=defaults(equipment);cases=[simulate(config,fault=fault) for fault in ('nominal','cooling-loss','battery-cooling-loss','combined-cooling-loss','fan-failure','blocked-filter',
         'communication-loss','open-bond','unlock','hot-start','sensor-bias','aged-battery')]
     refined=simulate(config,dt_s=.5);nominal=cases[0]
     differences={k:abs(nominal['final'][k]-refined['final'][k]) for k in nominal['final']}
-    value=dict(schema='osr-provisional-system-design/1',electrical=electrical_architecture(),duty_cases=cases,
+    value=dict(schema='osr-provisional-system-design/1',equipment_definition_revision=config['equipment_definition_revision'],equipment_counts=config['equipment_counts'],electrical=electrical_architecture(equipment),duty_cases=cases,
         refinement=dict(dt_s=[1.,.5],absolute_final_differences=differences,
             same_final_state_within_screen=all(v<.02 for v in differences.values()),
             scope='Time discretisation check in the synthetic duty; not spatial/modal convergence or comfort acceptance'),

@@ -85,7 +85,7 @@ IMPLEMENTATION = {
     'WP09-two-loops': ('development.py', 'run', 'isolated developer/critic separate from trusted family registry and design loop'),
     'WP09-families': ('families.py', 'registry', 'family domains, existing adapters and explicit unregistered-family work orders'),
     'WP09-material-bundle': ('contracts.py', 'material_bundle', 'inseparable sourced bundles, scope and density consistency guards'),
-    'WP09-grammar': ('structural_bay.py', 'candidates', 'stock RHS wall/floor thickness and crossmember assembly grammar; laminate/topology grammars remain separate'),
+    'WP09-grammar': ('structural_bay.py', 'candidates', '54 stock RHS/floor/support-path variations, including close crossmembers; registered panel companion adds thermal construction choices; curved-link native adapter remains open'),
     'WP09-reproducibility': ('workflow.py', 'seal', 'source/runtime/recipe identities, retained failures/native correspondence; surrogate qualification not implemented'),
     'WP09-objectives': ('families.py', 'pareto', 'constraint-first multiobjective frontier; null costs excluded from dominance claims'),
     'WP09-fairness': ('workflow.py', 'run', 'least-served family scheduling and finite-domain stop; missing-data work stays open'),
@@ -175,10 +175,14 @@ def tasks_for(item, controlled_plan):
     return [t['id'] for t in controlled_plan['tasks'] if t['wp'] in packages]
 
 
-def snapshot(prepared):
+def snapshot(prepared,*,subjects=None,evidence_index=None,trust=None,evidence_root=None,today=None):
     """Source-bound actionable view; a source file alone never completes design."""
-    from . import contracts
+    from . import contracts,closure_evidence
     value = deepcopy(prepared.get('closure_plan') or plan())
+    config = prepared.get('prototype') or contracts.prototype_configuration()
+    frozen={**prepared,'prototype':config}
+    consumed=closure_evidence.evaluate(value['tasks'],frozen,subjects=subjects,index=evidence_index,
+        trust=trust,root=evidence_root,today=today)
     for task in value['tasks']:
         task['implementation'] = 'external-input' if task['kind']=='external' else 'not-implemented'
         task['evidence'] = []
@@ -191,12 +195,15 @@ def snapshot(prepared):
                         evidence_level='implementation-source; executed tests in qualification receipt')])
         task['next_action'] = ('obtain externally authenticated evidence and appointed review' if task['kind']=='external'
                                else 'finish remaining scope and execute the exact engineering exit cases')
-        task['engineering_exit'] = 'open'
-    config = prepared.get('prototype') or contracts.prototype_configuration()
+        task.update({k:v for k,v in consumed['tasks'][task['id']].items() if k!='evidence'})
+        task['completion_evidence']=consumed['tasks'][task['id']]['evidence']
     result=dict(schema='osr-full-design-closure-progress/1', source_pdf=value['source_pdf'],
         source_pdf_sha256=value['source_sha256'], packages=value['packages'], tasks=value['tasks'],
-        task_count=len(value['tasks']), engineering_closed_tasks=0,
-        prototype=config, pilot_contracts={p:completion(p, config['revision']) for p in PILOTS},
+        task_count=len(value['tasks']), engineering_closed_tasks=sum(t['engineering_evidence_complete'] for t in value['tasks']),
+        digital_completed_tasks=sum(t['digital_specification_complete'] for t in value['tasks']),
+        physical_records_completed_tasks=sum(t['physical_validation_records_complete'] for t in value['tasks']),
+        evidence_index_revision=consumed['index_revision'],trust_revision=consumed['trust_revision'],invalid_evidence=consumed['invalid_records'],
+        prototype=config, pilot_contracts={p:completion(p, (subjects or {}).get(p,{}).get('component_revision') or config['revision'],consumed['pilot_records'].get(p)) for p in PILOTS},
         requests=requests(config),
         scope='All plan tasks retained. Partial implementation is not a completed digital specification or accepted physical design.', **core.FLAGS)
     if prepared.get('site'):

@@ -58,3 +58,33 @@ def test_actual_fourteen_route_report_is_native_union_with_provenance():
     assert report['ridership'] is None and not report['validated_walking_access']
     changed=deepcopy(report);changed['network_union'][0]['nominal']['persons']+=1
     with pytest.raises(ValueError):s.verify(changed)
+
+
+def test_sampling_roundoff_is_tolerated_only_after_exact_archive_identity(monkeypatch):
+    original=site_context.read(core.ROOT/'engineering/assembly_design/data/site-catchments.json')
+    monkeypatch.setattr(s,'analyse',lambda **kwargs:deepcopy(original))
+    changed=deepcopy(original)
+    geometry=changed['routes'][0]['geometry_sampling']
+    geometry['spherical_length_m']=math.nextafter(geometry['spherical_length_m'],math.inf)
+    with pytest.raises(ValueError,match='retained report revision'):s.verify(changed)
+    changed['revision']=core.digest({k:v for k,v in changed.items() if k!='revision'})
+    assert s.verify(changed)['verified']
+    geometry['spherical_length_m']+=1e-3
+    changed['revision']=core.digest({k:v for k,v in changed.items() if k!='revision'})
+    with pytest.raises(ValueError,match='spherical_length_m'):s.verify(changed)
+
+
+@pytest.mark.parametrize('defect',('population','count','source','geometry-source','threshold','decision','generator'))
+def test_resealed_non_sampling_changes_are_always_exact(monkeypatch,defect):
+    original=site_context.read(core.ROOT/'engineering/assembly_design/data/site-catchments.json')
+    monkeypatch.setattr(s,'analyse',lambda **kwargs:deepcopy(original))
+    changed=deepcopy(original)
+    if defect=='population':changed['network_union'][0]['nominal']['persons']=math.nextafter(changed['network_union'][0]['nominal']['persons'],math.inf)
+    elif defect=='count':changed['valid_pixels']+=1
+    elif defect=='source':changed['input_sha256'][s.PIXELS.as_posix()]='0'*64
+    elif defect=='geometry-source':changed['input_sha256'][s.ROOT_ROUTE.as_posix()]='0'*64
+    elif defect=='threshold':changed['network_union'][0]['radius_m']+=1e-12
+    elif defect=='decision':changed['validated_walking_access']=True
+    else:changed['generator_sha256']='0'*64
+    changed['revision']=core.digest({k:v for k,v in changed.items() if k!='revision'})
+    with pytest.raises(ValueError):s.verify(changed)

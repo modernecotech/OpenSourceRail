@@ -127,7 +127,8 @@ def candidate(config, baseline, ctx, route, variables):
         raise ValueError('exact source-bound panel context required')
     c = deepcopy(baseline)
     density = variables.get('core_density_kg_m3', 80)
-    c['core'] = panel.coupled_core(c, density)
+    c['core'] = (deepcopy(config['alternative_core_grades'][variables['core_grade']])
+                 if variables.get('core_grade') else panel.coupled_core(c, density))
     width, length, area = ctx['width_m'], ctx['developed_length_m'], ctx['panel_area_m2']
     network = ctx['support_network']; count = network['panel_attachment_count']
     pressure, span = ctx['pressure_pa'], ctx['ideal_simple_span_m']
@@ -144,7 +145,7 @@ def candidate(config, baseline, ctx, route, variables):
         hat_area = props['area_m2']-pitch*skin
         # Ideal mitered perimeter returns, no corner overlap or bend-arc credit.
         return_volume = 2*(width+length)*hat['edge_return_m']*skin
-        foam_volume = area*depth-hat_area*n*length
+        foam_volume = area*depth-(hat_area-hat['crown_width_m']*hat['wall_m'])*n*length
         if foam_volume <= 0: raise ValueError('hat assembly consumes insulation volume')
         masses = dict(face=area*skin*metal['density_kg_m3'],
             hats=hat_area*n*length*metal['density_kg_m3'],
@@ -199,6 +200,20 @@ def candidate(config, baseline, ctx, route, variables):
                    ['prepare mould and fibre/core kits', 'lay up skins and solid lands, locate inserts',
                     'infuse and cure to a supplier-controlled schedule', 'trim, seal cut edges and inspect bonds'])
         process += ['fit liner and common mount/seal kit', 'master-frame fit and inspect']
+    backer=variables.get('thermal_backer_m',0.)
+    if type(backer) not in (int,float) or not math.isfinite(backer) or not 0<=backer<=.08:
+        raise ValueError('bounded continuous thermal backer required')
+    if backer:
+        masses['continuous_thermal_backer']=area*backer*c['core']['density_kg_m3']
+        # Count a conservative parallel steel through-pin path instead of
+        # declaring the attachment an ideal thermal break.
+        pins=count*math.pi*config['thermal_backer']['skin_mount_through_pin_radius_m']**2/area
+        field=thermal+backer/c['core']['thermal_conductivity_w_mk']
+        pin=(model['depth_m']+backer)/config['thermal_backer']['metal_pin_conductivity_w_mk']
+        thermal=1/((1-pins)/field+pins/pin)
+        model['depth_m']+=backer
+        model['thermal_backer_m']=backer
+        model['thermal_attachment_through_pin_area_fraction']=pins
     masses['liner'] = area*config['liner_mass_kg_m2']
     masses['support_rails_brackets_fasteners'] = network['mass_kg']
     if any(not math.isfinite(m) or m < 0 for m in masses.values()): raise ValueError('invalid mass inventory')
@@ -214,7 +229,7 @@ def candidate(config, baseline, ctx, route, variables):
         model=model, conduction_resistance_screen_m2k_w=thermal,
         thermal_scope='Conduction-only local section; perimeter/mount bridges, convection, solar/PV heat and complete service temperature remain unqualified',
         core_grade=c['core'], screening_checks=checks, conditional_screen_pass=all(checks.values()),
-        mandatory_engineering_checks={name: None for name in OPEN},
+        mandatory_engineering_checks={name: None for name in OPEN+['temperature-compatible complete stack and thermal-break attachment creep']},
         installed_cost_usd=None, factory_hours=None, annual_good_panels=None, replacement_minutes=None,
         process=process, engineering_eligible=False, **core.FLAGS)
 
@@ -234,6 +249,16 @@ def generate_cases(config, baseline):
             cases.append(candidate(config, baseline, ctx, ROUTES[0], dict(sheet_m=sheet, hat_depth_m=depth, hat_pitch_limit_m=pitch)))
         for route, skin, depth, density in itertools.product(ROUTES[1:], grid['sandwich_skin_m'], grid['sandwich_core_m'], grid['core_density_kg_m3']):
             cases.append(candidate(config, baseline, ctx, route, dict(skin_m=skin, core_m=depth, core_density_kg_m3=density)))
+        # Explicit new construction choices on the identical context. These are
+        # additions to the original162-case grammar, not a claim of an optimum.
+        for core_name in (None,'AIREX-T90.100'):
+            for route in ROUTES[:2]:
+                variables=(dict(sheet_m=.002,hat_depth_m=.035,hat_pitch_limit_m=.25) if route==ROUTES[0]
+                           else dict(skin_m=.0015,core_m=.03,core_density_kg_m3=80))
+                variables['thermal_backer_m']=config['thermal_backer']['depth_m']
+                if core_name:variables['core_grade']=core_name
+                cases.append(candidate(config,baseline,ctx,route,variables))
+        cases.append(candidate(config,baseline,ctx,ROUTES[2],dict(skin_m=.002,core_m=.03,core_grade='AIREX-T90.100',thermal_backer_m=config['thermal_backer']['depth_m'])))
     return contexts, cases
 
 
@@ -290,10 +315,10 @@ def report(config, cases, reps):
         f'All routes use the same developed footprint, proposed rails/clip sites, actual rail span, {config["pressure_pa"]/1000:g} kPa editable pressure and {config["deflection_limit_m"]*1000:g} mm deflection screen. These are research assumptions, not approved railway loads or acceptance limits. Roof curvature earns no membrane stiffness. Solid bays are screened; door/window cutouts and compound-curved ends need their own matched generators. The historical 144-module three-car inventory is not a six-car quantity or a new mass estimate.', '',
         'Installed inventory includes skins, core/insulation, solid edge closures or returns, hats where used, potting/inserts or backing plates, clips, independent retention, seals, finish, a common provisional liner allowance and the same actual steel rails/brackets/fasteners. The parent structural frame and equipment are excluded equally. Folded returns use ideal mitered strip lengths; bend allowances and mount geometry need manufacturing CAD. Complete rail fire performance of the liner and entire stack remains unknown.', '',
         'The folded-sheet screen adds local skin bending between hats to global face/hat strip bending. Full face effectiveness, perfect hat attachment and simple supports are ideal assumptions; fastener slip, shear deformation, local buckling, joints, strength and fatigue remain open. Sandwich screens assume perfect bonds; laminate ABD is retained for GFRP. Sensitivity factors are deliberately material-specific and uncalibrated, not measured hot/wet or temperature allowables.', '',
-        f'Conduction is screened separately from bending against an editable {config["thermal_resistance_review_m2k_w"]:g} m²K/W review threshold. Aluminium webs and solid aluminium edge lands introduce thermal paths; a light metal panel can therefore fail the shared conduction screen. These are deliberately simple metal details, not optimised thermally broken aluminium constructions. No cost or assembly-speed superiority follows from these results. The inherited H60/H80/H100 cores have a 70°C continuous-temperature datum; the roof hypothesis is {config["roof_temperature_c"]:g}°C. Every generated candidate retains its own temperature result. Higher-temperature stacks must be added with full coupled properties and fire/bond evidence rather than deleting a failed screen.', '',
+        f'Conduction is screened separately from bending against an editable {config["thermal_resistance_review_m2k_w"]:g} m²K/W review threshold. The original continuous-metal details retain their failed thermal screens. New aluminium variants add a continuous rear insulation layer with explicit steel through-pin heat paths, mass and depth. These are proposed thermally broken constructions, not selected attachment systems. No cost or assembly-speed superiority follows from these results. The inherited H60/H80/H100 cores retain their 70°C datum against the {config["roof_temperature_c"]:g}°C roof hypothesis. Additional AIREX T90.100 variants use the manufacturer’s100°C long-term thermal-stability datum and coupled grade properties. This is not a complete-stack service allowable: adhesive, skin/resin, liner, seal, attachment creep and fire applicability all remain held. The supplier explicitly makes sandwich fire performance dependent on the particular design.', '',
         'British manufacture is prioritised case by case: Esprit Photon 5G for a quoted metal-cutting configuration; Blackman & White Genesis-Z/Genesis-V for fibre/core kit preparation. Their manufacturers state UK manufacture; that is not proof of every component origin, Iraqi support or process fitness. A brake/rolling machine, cure/infusion cell and trim/extraction cell remain unselected. Tiderock is a rail-composite technical partner enquiry, not a panel approval. The side bay exceeds a 3 m table before trim margins; confirm a larger bed or qualified indexed operation. No supplier has been contacted.', '',
         'The RFQ requires identical issued interfaces/quantities and complete installed scope: material, labour, tooling, cure/energy, scrap/rework, fixtures, qualification, maintenance and replacement. Annual volume, good output per shift, local labour, tooling amortisation, price and replacement time are unknown and remain null. Use first-article coupons, joint/insert specimens and pressure/heat/fire/retention rigs to replace assumptions before any cost winner or installed release.', '',
-        'Run `.venv/bin/python tools/automation/panel-material-study.py`; use `--check` to reproduce source/output hashes. Existing native GFRP CAD and plate studies remain separate evidence and do not confirm these new metal candidates. Integrating this adapter into the uninterrupted qualified runner requires native reconstruction, adverse controls and a new exact-source qualification epoch.', '',
+        'Run `.venv/bin/python tools/automation/panel-material-study.py`; use `--check` to reproduce source/output hashes. The assembly runner now executes a registered companion panel adapter, with native owned-section exhibits, geometry/manufacturing preflight and independent controls. Its subset geometry does not confirm complete mounts, curved formed roofs, manufacturing tolerances or complete installed assemblies. The exact-source qualification receipt is required before the updated runner executes. Existing GFRP plate/CAD evidence remains separate.', '',
         'Primary technical sources: [Hydro rail extrusions](https://www.hydro.com/gb/global/aluminium/products/extruded-profiles/aluminium-extrusions-in-use/modern-trains-and-rail/), [Composites UK process selection](https://compositesuk.co.uk/composite-materials/processes/), [Tiderock rail](https://tiderockcomposites.com/rail/), [Esprit Photon 5G](https://espritautomation.com/photon-5g/), [Blackman & White manufacture](https://blackmanandwhite.com/about-us/), [BSI railway fire scope](https://landingpage.bsigroup.com/LandingPage/Undated?UPI=000000000030334174). Core values come from the source-hashed supplier-grade records in the existing development config, with no project calibration claimed.', '']
     return '\n'.join(rows).encode()
 
@@ -301,6 +326,8 @@ def report(config, cases, reps):
 def build():
     config, baseline = core.read(CONFIG), core.read(BASELINE)
     sources = core.read(SOURCES)
+    for grade in config['alternative_core_grades'].values():
+        if core.sha(ROOT/grade['source_file'])!=grade['source_sha256']:raise ValueError('alternative core source bytes differ')
     contexts, cases = generate_cases(config, baseline)
     reps = representatives(cases)
     outputs = {'contexts.json': core.encoded(contexts), 'candidates.json': core.encoded(cases),
@@ -309,7 +336,8 @@ def build():
         reference_route=config['reference_route'], representatives=reps,
         conditional_pass_count=sum(c['conditional_screen_pass'] for c in cases),
         engineering_eligible_count=0, selected_released_design=None,
-        adopted_train_mass_or_bom_changed=False, qualified_runner_changed=False,
+        adopted_train_mass_or_bom_changed=False, qualified_runner_changed=True,
+        runner_scope='Registered companion research adapter; full native manufacturing/physical release remains held',
         scope='Matched-footprint analytical strip and inventory study; not native CAD, physical tests or complete railway acceptance', **core.FLAGS))
     table = io.StringIO()
     fields = ['candidate_id', 'context_revision', 'kind', 'route', 'installed_mass_kg', 'installed_mass_kg_m2',
@@ -330,9 +358,10 @@ def build():
             'currency, date, validity, lead time and annual volume', 'repair, timed replacement and spare kits',
             'machine origin and UK economic activity; Baghdad export/installation/training/service support'],
         required_evidence=OPEN, purchase_approved=False, **core.FLAGS))
-    dependencies = [CONFIG, BASELINE, SOURCES, Path(__file__), Path(__file__).with_name('__init__.py'),
+    dependencies = [CONFIG, BASELINE, SOURCES, *[ROOT/g['source_file'] for g in config['alternative_core_grades'].values()], Path(__file__), Path(__file__).with_name('__init__.py'),
         ROOT/'tools/automation/panel-material-study.py', ROOT/'engineering/twin_workflow/core.py',
         ROOT/'engineering/analysis/tests/test_panel_materials.py',
+        ROOT/'engineering/assembly_design/panel_adapter.py',ROOT/'engineering/analysis/tests/test_closure_panels.py',
         ROOT/'design/component-catalogue/src/osr_mech/rolling_stock/composite_panels.py',
         *[ROOT/'design/component-catalogue/src/osr_mech'/name for name in
           ('__init__.py', 'section_contract.py', 'automated_geometry.py', 'provenance.py',

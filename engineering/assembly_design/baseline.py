@@ -16,6 +16,9 @@ def sources():
         core.ROOT/'tools/automation/design-assemblies.py',core.ROOT/'engineering/analysis/tests/test_assembly_design.py',
         core.ROOT/'engineering/integration_programme/joints.py',core.ROOT/'engineering/design_delivery/pipeline.py',core.ROOT/'engineering/design_delivery/visuals.py',core.ROOT/'tools/automation/design-progress.py',core.ROOT/'tools/automation/design-progress-mesh.py']
     paths += list((core.ROOT/'engineering/analysis/tests').glob('test_closure_*.py'))
+    paths += [*list((core.ROOT/'engineering/panel_materials').glob('*.py')),
+              *list((core.ROOT/'engineering/panel_materials/config').glob('*')),
+              core.ROOT/'engineering/analysis/tests/test_panel_materials.py',core.ROOT/'tools/automation/panel-material-study.py']
     paths += [core.ROOT/'OpenSourceRail_Full_Design_Closure_Plan_2026-10-19.pdf',
               core.ROOT/'lib/templates/rolling-stock.toml',core.ROOT/'lib/templates/track-geometry.toml',
               core.ROOT/'design/component-catalogue/src/osr_mech/rolling_stock/trainset.py']
@@ -73,9 +76,11 @@ def inventory(policy):
 
 
 def build():
-    from . import closure,contracts,cassette_system,families,integration,site_bundle
+    from . import closure,closure_evidence,contracts,cassette_system,families,integration,site_bundle
     policy=validate(core.read(DATA));inv=inventory(policy)
     return dict(policy=policy,inventory=inv,prototype=contracts.prototype_configuration(),
+        completion_evidence=core.read(closure_evidence.DATA/'closure-evidence.json'),
+        completion_trust=core.read(closure_evidence.DATA/'closure-trust.json'),
         family_crosswalk=contracts.crosswalk(inv),closure_plan=closure.plan(),
         registers=dict(sources=contracts.baseline_source_cards(policy)+cassette_system.SOURCE_CARDS,
             standards=contracts.standards_register(),families=families.registry(policy)),

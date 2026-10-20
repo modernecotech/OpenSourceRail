@@ -78,8 +78,12 @@ def build(policy,cassette,bearing,kit,vehicle,allocations,children,*,expected_so
     for candidate,kind in ((cassette,'service-cassette'),(bearing,'bearing-seat')):
         if candidate['kind']!=kind or core.digest(candidate)!=core.digest(models.build(policy,kind,candidate['variables'])):
             raise ValueError('integration candidate/geometry revision stale')
-    if not allocations or len(allocations)!=6 or {a.get('body_id') for a in allocations}!=set(vehicle['cars']):
-        raise ValueError('one explicit cassette allocation for each configured car required')
+    from . import installed_equipment
+    per_car=installed_equipment.counts()['cassettes_per_car']
+    if (not allocations or len(allocations)!=6*per_car or len({a.get('id') for a in allocations})!=len(allocations)
+        or {a.get('body_id') for a in allocations}!=set(vehicle['cars'])
+        or any(sum(a.get('body_id')==car for a in allocations)!=per_car for car in vehicle['cars'])):
+        raise ValueError('controlled cassette count for every configured car required')
     if any(a.get('candidate_revision')!=cassette['revision'] or a.get('architecture')!=vehicle['architecture'] or a.get('context_id')!=vehicle['context_id'] for a in allocations):
         raise ValueError('installed allocation revision/architecture/context differs')
     expected={'cassette':cassette['revision'],'bearing':bearing['revision'],'civil-kit':core.digest(kit),'software':core.digest(evaluate.control_source('branch'))}
@@ -151,7 +155,7 @@ def build(policy,cassette,bearing,kit,vehicle,allocations,children,*,expected_so
 
 def snapshot(policy=None):
     """Reproducible provisional interface for the closure report, not an admission."""
-    from . import contracts
+    from . import contracts,installed_equipment
     from osr_mech.family_definition import family_definition
     policy=policy or baseline.validate(core.read(baseline.DATA));prototype=contracts.prototype_configuration()
     def candidate(kind):
@@ -164,10 +168,10 @@ def snapshot(policy=None):
         prototype_revision=prototype['revision'],base_cg_m=None,base_inertia_kg_m2=None,
         basis='Six-car planning length/frame only; complete vehicle allocation and actual mount datums not adopted'))
     a=policy['pilots']['service-cassette']['assumptions']
-    allocations=[dict(id=car['id']+'/service-cassette',body_id=car['id'],candidate_revision=cassette['revision'],architecture=policy['architecture'],context_id=context,
-        translation_m=[car['centre_x_m'],0.,0.],rotation=np.eye(3).tolist(),power_w=a['lv_voltage_v']*a['branch_current_a'],
+    allocations=[dict(id=car['id']+'/service-cassette-'+str(i+1).zfill(2),body_id=car['id'],candidate_revision=cassette['revision'],architecture=policy['architecture'],context_id=context,
+        translation_m=[car['centre_x_m']+point[0],point[1],point[2]],rotation=np.eye(3).tolist(),power_w=a['lv_voltage_v']*a['branch_current_a'],
         heat_w=None,mechanical_output_w=None,storage_rate_w=None,
-        status='Provisional one-per-car origin placement for sensitivity only; actual mounting and power/heat maps require adoption') for car in cars]
+        status='Controlled eight-per-car provisional placement; base-cassette reference mass, actual mounting and power/heat maps remain held') for car in cars for i,point in enumerate(installed_equipment.layout()['cassette_local_positions_m'])]
     sources=baseline.sources();source_revision=core.digest(sources)
     results={'cassette':evaluate.evaluate(policy,cassette),'bearing':evaluate.evaluate(policy,bearing),
         'civil-kit':dict(candidate_revision=core.digest(kit),state='hold',reason='Complete structural and ground acceptance absent'),

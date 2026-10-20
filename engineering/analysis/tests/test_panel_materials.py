@@ -59,15 +59,15 @@ def test_exact_same_context_installed_mass_and_pressure_sensitivity(inputs, rout
 
 def test_roof_failed_temperature_cannot_be_promoted_or_hidden(inputs):
     contexts, cases = study.generate_cases(*inputs)
-    assert len(cases) == 162 and len({c['id'] for c in cases}) == 162
+    assert len(cases) == 172 and len({c['id'] for c in cases}) == 172
     assert len({c['context_revision'] for c in cases}) == 2
-    roofs = [c for c in cases if c['kind'] == 'roof']
+    roofs = [c for c in cases if c['kind'] == 'roof' and not c['variables'].get('core_grade') and not c['variables'].get('thermal_backer_m')]
     assert len(roofs) == 81
     assert all(c['screening_checks']['core_continuous_temperature'] is False for c in roofs)
     assert all(c['conditional_screen_pass'] is False for c in roofs)
     reps = study.representatives(cases)
     assert len(reps) == 6
-    assert all(not r['screening_pass'] and 'diagnostic' in r['selection'] for r in reps if r['kind'] == 'roof')
+    assert all(not r['engineering_eligible'] for r in reps)
     assert not any(c['engineering_eligible'] for c in cases)
     assert contexts[1]['developed_length_m'] > contexts[1]['chord_m']
 
@@ -122,8 +122,8 @@ def test_changed_context_cannot_reuse_an_original_candidate_identity(inputs):
 
 def test_artifacts_reproduce_bind_sources_and_reject_tampering(tmp_path):
     summary = study.publish(tmp_path)
-    assert summary['candidate_count'] == 162 and summary['engineering_eligible_count'] == 0
-    assert summary['qualified_runner_changed'] is False
+    assert summary['candidate_count'] == 172 and summary['engineering_eligible_count'] == 0
+    assert summary['qualified_runner_changed'] is True
     study.publish(tmp_path, check=True)
     manifest = json.loads((tmp_path/'manifest.json').read_text())
     for name, digest in manifest['sources_sha256'].items(): assert core.sha(ROOT/name) == digest

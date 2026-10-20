@@ -3,7 +3,7 @@ from copy import deepcopy
 
 import pytest
 
-from engineering.assembly_design import baseline,models,evaluate,reactions,integration
+from engineering.assembly_design import baseline,models,evaluate,reactions,integration,installed_equipment
 from engineering.continuous_design import civil_kit
 from engineering.twin_workflow import core
 
@@ -20,8 +20,8 @@ def case(monkeypatch):
             return models.build(policy,kind,variables)
         cassette=candidate('service-cassette');bearing=candidate('bearing-seat');kit=civil_kit.build(civil_kit.defaults())
         vehicle=reactions.revisioned(dict(architecture='baghdad-six-car',context_id='test-context',cars=['car-'+str(i) for i in range(1,7)]))
-        allocations=[dict(id=body+'/cassette',body_id=body,candidate_revision=cassette['revision'],architecture=vehicle['architecture'],context_id=vehicle['context_id'],
-            translation_m=[i*18.5,0.,1.],rotation=[[1.,0.,0.],[0.,1.,0.],[0.,0.,1.]],power_w=120.,heat_w=60.,mechanical_output_w=60.,storage_rate_w=0.) for i,body in enumerate(vehicle['cars'])]
+        allocations=[dict(id=body+'/cassette-'+str(j),body_id=body,candidate_revision=cassette['revision'],architecture=vehicle['architecture'],context_id=vehicle['context_id'],
+            translation_m=[i*18.5+point[0],point[1],point[2]],rotation=[[1.,0.,0.],[0.,1.,0.],[0.,0.,1.]],power_w=120.,heat_w=60.,mechanical_output_w=60.,storage_rate_w=0.) for i,body in enumerate(vehicle['cars']) for j,point in enumerate(installed_equipment.layout()['cassette_local_positions_m'])]
         revisions={'cassette':cassette['revision'],'bearing':bearing['revision'],'civil-kit':core.digest(kit),'software':core.digest(evaluate.control_source('branch'))}
         children={}
         for name,revision in revisions.items():
@@ -49,13 +49,13 @@ def test_mass_cg_and_rotated_inertia_reuse_existing_parallel_axis_adapter():
 def test_exact_revision_mass_power_heat_force_ledgers_and_passage_holds(case):
     inputs=case();result=build(inputs);f=baseline.facts(inputs['policy'])
     mass=sum(p['properties']['mass_kg'] for p in inputs['cassette']['contract']['parts'])
-    assert result['gross_added_properties']['mass_kg']==pytest.approx(6*mass)
+    assert result['gross_added_properties']['mass_kg']==pytest.approx(48*mass)
     assert result['local_cassette_properties']['mass_kg']==pytest.approx(mass)
-    assert result['electrical_ledger']['total_terminal_power_w']==720.
+    assert result['electrical_ledger']['total_terminal_power_w']==5760.
     assert result['thermal_ledger']['reconciled'] is True
     assert all(r['residual_w']==0. for r in result['thermal_ledger']['entries'])
     planning=[c for c in result['force_ledger']['combinations'] if c['id'].startswith('planning-characteristic')]
-    assert [c['train_mass_kg'] for c in planning]==pytest.approx([m+6*mass for m in f['train.mass_cases']])
+    assert [c['train_mass_kg'] for c in planning]==pytest.approx([m+48*mass for m in f['train.mass_cases']])
     assert all(result['force_ledger']['checks'].values())
     assert result['candidate_revisions']['civil-kit']==core.digest(inputs['kit'])
     assert not result['children_eligible'] and result['interface_consistent']

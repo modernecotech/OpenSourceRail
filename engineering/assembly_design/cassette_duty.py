@@ -73,8 +73,13 @@ def cooling_map(ambient_c,voltage_v=24.):
         capacity_map_hypothesis=True,supplier_source=None)
 
 
-def car_transient(*,initial_c=26.,ambient_c=50.,passengers=100,module_count=3,failed_modules=0,
-                  fault='none',duration_s=1800.,step_s=5.,sensor_bias_c=0.,voltage_v=24.,duct_area_m2=.01):
+def car_transient(*,initial_c=26.,ambient_c=50.,passengers=100,module_count=None,failed_modules=0,
+                  fault='none',duration_s=1800.,step_s=5.,sensor_bias_c=0.,voltage_v=24.,duct_area_m2=.01,duct_count=None):
+    from . import installed_equipment
+    counts=installed_equipment.counts()
+    duct_count=counts['cassettes_per_car'] if duct_count is None else duct_count
+    module_count=counts['cooling_modules_per_car'] if module_count is None else module_count
+    if type(duct_count) is not int or not 1<=duct_count<=24:raise ValueError('bounded positive duct count required')
     if type(passengers)is not int or passengers<0 or type(module_count)is not int or type(failed_modules)is not int or not 0<=failed_modules<=module_count:
         raise ValueError('nonnegative occupancy and module availability required')
     if fault not in ('none','frequent-doors','loaded-filter','blocked-duct','failed-fan','loss-of-cooling'):raise ValueError('registered climate fault required')
@@ -82,7 +87,7 @@ def car_transient(*,initial_c=26.,ambient_c=50.,passengers=100,module_count=3,fa
     performance=cooling_map(ambient_c,voltage_v);base=cassette_system.whole_car_duty()['assumptions']
     ductfault={'loaded-filter':'loaded-filter','blocked-duct':'blockage','failed-fan':'fan-fault'}.get(fault,'none')
     duct=cassette_system.duct_case(duct_area_m2,fault=ductfault)
-    fresh=min(base['fresh_air_m3_s'],8*duct['useful_flow_m3_s'])*min(1.,voltage_v/24.)
+    fresh=min(base['fresh_air_m3_s'],duct_count*duct['useful_flow_m3_s'])*min(1.,voltage_v/24.)
     volume=18.5*2.65*2.8;dry_mass=1.1*volume;capacity=8e6;latent=2.45e6
     temp=initial_c;water=.010;co2=400e-6;elapsed=0.;history=[]
     ledger=dict(sensible_gains_j=0.,sensible_cooling_j=0.,vapour_in_kg=0.,vapour_out_kg=0.,passenger_water_kg=0.,condensate_kg=0.,cooling_j=0.,compressor_input_j=0.,rejected_heat_j=0.)
@@ -118,13 +123,18 @@ def car_transient(*,initial_c=26.,ambient_c=50.,passengers=100,module_count=3,fa
         water_residual_kg=dry_mass*(water-initial_water)-ledger['vapour_in_kg']+ledger['vapour_out_kg']-ledger['passenger_water_kg']+ledger['condensate_kg'],
         condenser_balance_residual_j=ledger['rejected_heat_j']-ledger['cooling_j']-ledger['compressor_input_j'],
         hypotheses=dict(zone_volume_m3=volume,dry_air_mass_kg=dry_mass,thermal_capacity_j_k=capacity,
-            occupant_co2_source_m3_s_per_person=5e-6,number_of_duct_cassettes=8,latent_fraction_cap=.25),
+            occupant_co2_source_m3_s_per_person=5e-6,number_of_duct_cassettes=duct_count,latent_fraction_cap=.25),
         comfort_qualified=False,air_quality_criterion_adopted=False,refrigerant_circuit_designed=False,
         fan_failure_scope='Fresh-air cassette fans fail; independent recirculation/cooling assumed, not a complete fan system failure',
-        scope='One well-mixed car,8duct hypotheses, synthetic ambient/voltage capacity-COP maps; no refrigerant selection, rail comfort/fire/air-distribution or measured performance',**core.FLAGS)
+        scope='One well-mixed car with declared installed duct count and synthetic ambient/voltage capacity-COP maps; no refrigerant selection, rail comfort/fire/air-distribution or measured performance',**core.FLAGS)
 
 
-def campaign(duct_area_m2=.01,*,candidate=None):
+def campaign(duct_area_m2=.01,*,candidate=None,equipment=None):
+    from . import installed_equipment
+    quantities=installed_equipment.counts()
+    if equipment is not None:
+        if equipment['revision']!=core.digest({k:v for k,v in equipment.items() if k!='revision'}) or equipment['candidate_revision']!=candidate['revision'] or equipment['counts']!=quantities:
+            raise ValueError('exact installed equipment definition required')
     female=.8;male=1.;revision=None
     if candidate is not None:
         if candidate.get('kind')!='service-cassette-detail':raise ValueError('detailed cassette context required')
@@ -136,14 +146,15 @@ def campaign(duct_area_m2=.01,*,candidate=None):
         ('blocked-duct',dict(fault='blocked-duct')),('failed-fan',dict(fault='failed-fan')),
         ('one-cooling-module-failed',dict(failed_modules=1)),('loss-of-cooling',dict(fault='loss-of-cooling')),
         ('sensor-low-bias',dict(sensor_bias_c=-3.)),('supply-low',dict(voltage_v=18.))]
-    thermal=[dict(id=name,result=car_transient(duct_area_m2=duct_area_m2,**kwargs))for name,kwargs in cases]
+    common=dict(duct_area_m2=duct_area_m2,duct_count=quantities['cassettes_per_car'],module_count=quantities['cooling_modules_per_car'])
+    thermal=[dict(id=name,result=car_transient(**common,**kwargs))for name,kwargs in cases]
     electrical=[electrothermal(fault=f,female_length_m=female,male_length_m=male)for f in ('none','short','open','reversed')]
-    refined=car_transient(duct_area_m2=duct_area_m2,step_s=2.5)
+    refined=car_transient(**common,step_s=2.5)
     nominal=thermal[0]['result']
     checks=dict(electrical_conservation=all(abs(r['electrical_balance_residual_j'])<1e-8 and abs(r['thermal_balance_residual_j'])<1e-8 for r in electrical),
         heat_water_conservation=all(abs(r['result']['sensible_energy_residual_j'])<1e-4 and abs(r['result']['water_residual_kg'])<1e-8 and abs(r['result']['condenser_balance_residual_j'])<1e-4 for r in thermal),
         zone_time_refinement=abs(refined['final_temperature_c']-nominal['final_temperature_c'])<.1,
         actual_supplier_map=None,physical_climate_and_fault_correlation=None)
-    return dict(schema='osr-cassette-transient-duty/1',candidate_revision=revision,electrical=electrical,thermal=thermal,refined_nominal=refined,checks=checks,
+    return dict(schema='osr-cassette-transient-duty/1',candidate_revision=revision,equipment_definition_revision=equipment['revision'] if equipment else None,electrical=electrical,thermal=thermal,refined_nominal=refined,checks=checks,
         failed_checks=[k for k,v in checks.items()if v is False],held_checks=[k for k,v in checks.items()if v is None],
         digital_specification_complete=False,scope='Conservation/adverse transient implementation; all synthetic equipment properties remain unqualified',**core.FLAGS)

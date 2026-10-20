@@ -8,6 +8,7 @@ DEFINITIONS = {
     'structural-bay': ('engineering.assembly_design.structural_bay', 'stock RHS, sheet floor and bolted equipment interfaces', 'isolated provisional bay; local/modal/fatigue/whole-vehicle exits open'),
     'joints-brackets': ('engineering.integration_programme.joints', 'elastic bolt groups and local connection models', 'generator/resistance benchmark registration required'),
     'composite-panels': ('engineering.design_engine.roof_shell', 'compatible laminate/core/bond/finish bundles', 'hot-wet/fire/insert/contact qualification required; retain known roof failures'),
+    'body-panels': ('engineering.assembly_design.panel_adapter', 'matched aluminium/GFRP panel variants and native owned-section companion', 'registered research subset; complete formed panels, attachments, thermal/fire and manufacturing acceptance remain open'),
     'harness': ('engineering.assembly_design.cassette_system', 'exact solder-contact LV reference kits', 'mating routing, ampacity/derating/protection/physical acceptance held'),
     'duct': ('engineering.assembly_design.cassette_system', 'sheet duct and bounded air/heat/moisture model', 'fan/refrigerant maps and calibrated rig required'),
     'battery-enclosure': ('engineering.integration_programme.battery', 'chemistry-specific bought-out battery boundary', 'mechanical/cooling/fire/vent and measured chemistry maps required'),
@@ -18,9 +19,10 @@ DEFINITIONS = {
 
 def registry(policy):
     return [dict(id=identity, adapter=adapter, process_domain=domain, limitations=limits,
-        registered_for_bounded_design=identity in policy['pilots'],
-        variables=policy['pilots'].get(identity, {}).get('domains', {}),
-        qualification='exact-source assembly qualification required' if identity in policy['pilots'] else 'adapter development and independent benchmarks required',
+        registered_for_bounded_design=identity in policy['pilots'] or identity=='body-panels',
+        variables=policy['pilots'].get(identity, {}).get('domains', {}) if identity!='body-panels' else {'routes':['stiffened-aluminium','aluminium-sandwich','gfrp-sandwich'],'locations':['side','roof']},
+        qualification='exact-source assembly qualification required' if identity in policy['pilots'] or identity=='body-panels' else 'adapter development and independent benchmarks required',
+        execution='finite companion after registered queue' if identity=='body-panels' else 'registered queue' if identity in policy['pilots'] else 'unregistered',
         required_registration=['frozen architecture/interface/load/material/process domain',
             'source/runtime qualification receipt', 'independent analytical or numerical controls',
             'known-invalid adverse controls', 'manufactured-CAD reconstruction/native confirmation',

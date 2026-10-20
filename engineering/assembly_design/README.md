@@ -57,11 +57,15 @@ tools/automation/osr-python tools/automation/design-assemblies.py verify-cycle -
 
 The five-minute timer runs six pending experiments per cycle and retains a
 portable local report at `~/.local/state/opensourcerail/assembly-design/latest/`.
-The current bounded domain has 60 physical recipes and two software implementations.
+The current bounded domain has 90 physical recipes and two software implementations.
 Once these finish, the same runner executes a bounded companion study: twelve
 detailed cassette variants, twenty-seven civil cap-cage variants and the same
-twenty-four structural variants. Replayed structural variants are not additional
-unique designs. It confirms the best analytical alternatives in native CAD,
+fifty-four structural variants. The expanded structural grammar includes two
+crossmembers nearer the equipment feet; it counts both feet on each loaded
+strip and independently checks the added support beams. Replayed structural variants are not additional
+unique designs. A registered companion also compares 172 aluminium/GFRP panel
+hypotheses and confirms six explicitly scoped owned-section CAD exhibits.
+Full installed panels, formed roofs and qualification remain open. It confirms the best analytical alternatives in native CAD,
 retaining failed confirmations and trying up to three alternatives per family.
 Tool unavailability holds the family instead of spending this fallback budget.
 After exhaustion it explicitly waits for new requirements or capabilities; it
@@ -102,6 +106,40 @@ Its 88 deliverables and 13 work packages are tracked in
 open. `partial-provisional` in the report describes implemented code and its
 limited evidence, not a completed engineering task. Named engineering owners,
 independent reviewers and acceptance authority remain unappointed.
+
+The tracker now consumes the controlled `data/closure-evidence.json` index and
+separately pinned `data/closure-trust.json` keys. Original digital-author and
+independent digital-review signatures bind each task's required scope,
+component/interface revisions, engineering inputs, drawings, analyses and
+inspection/process artifacts. Missing, failed or stale evidence cannot close a
+gate. Original referenced bytes are included in portable publications. Historical
+records are retained; a new valid revision can replace stale coverage, while a
+known failure on the current revision remains a veto. Digital specification,
+physical-record coverage and manufacturing release are reported separately.
+The current index is empty, so no accepted completion is invented.
+When a physical unit and adopted method exist, its serial, component/interface
+revision and method/standard applicability belong in that controlled task's
+`physical_expected` field in `data/closure-plan.json`. A submission cannot set
+its own applicability; original measurement/calibration and independent review
+envelopes still pass the existing authenticated-record adapter.
+
+`data/equipment-layout.json` is the shared provisional instance layout: eight
+complete LV/ventilation cassettes and three refrigeration boundaries per car.
+The detailed mass/inertia, pigtail/conductor quantities, known fan/LV model
+power, thermal counts and electrical group mappings derive from the same
+definition. All48cassettes are counted. Refrigeration mass, trunk routes, actual
+vehicle packaging, maintenance access and costs remain unknown; gross additions
+earn no removal credit and do not revise the adopted planning train mass.
+
+Site catchment replay uses the existing numerical-reproduction utility with a
+local whitelist for sub-micrometre sampling diagnostics. Report self-hashes,
+source/geometry bytes, population values, integer counts and decisions remain
+exact. These replay tolerances do not relax engineering acceptance limits.
+
+The cap companion retains six round bent-link/hook/coupler schedules, including
+mandrel radii, hook arcs/tails, congestion checks and manufacturing/inspection
+steps. They are excluded from cap selection while curved native geometry,
+development, anchorage, coupler ratings and resistance remain unconfirmed.
 
 The existing programme now carries a named provisional configuration, source and
 standards registers, a 414-record family crosswalk, typed component/interface

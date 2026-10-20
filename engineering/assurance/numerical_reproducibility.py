@@ -15,18 +15,18 @@ RULES = (
 )
 
 
-def differences(actual, expected, path=""):
+def differences(actual, expected, path="", *, rules=RULES):
     """Return changed paths; tolerate only finite floats at registered paths."""
     if type(actual) is not type(expected):return [path or '$']
     if isinstance(actual, dict):
         if actual.keys()!=expected.keys():return [path or '$']
-        return [p for key in actual for p in differences(actual[key],expected[key],f'{path}.{key}' if path else key)]
+        return [p for key in actual for p in differences(actual[key],expected[key],f'{path}.{key}' if path else key,rules=rules)]
     if isinstance(actual,list):
         if len(actual)!=len(expected):return [path or '$']
-        return [p for i,(a,b) in enumerate(zip(actual,expected)) for p in differences(a,b,f'{path}[{i}]')]
+        return [p for i,(a,b) in enumerate(zip(actual,expected)) for p in differences(a,b,f'{path}[{i}]',rules=rules)]
     if isinstance(actual,float):
         if not math.isfinite(actual) or not math.isfinite(expected):return [path or '$']
-        for pattern,absolute,relative in RULES:
+        for pattern,absolute,relative in rules:
             if re.fullmatch(pattern,path):
                 return [] if math.isclose(actual,expected,abs_tol=absolute,rel_tol=relative) else [path]
     return [] if actual==expected else [path or '$']

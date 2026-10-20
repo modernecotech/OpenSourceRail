@@ -269,7 +269,6 @@ def summary(workspace,db,epoch,prepared):
         controller_scope='Automatic parameter/design generation and scoped verification for registered provisional pilot families plus executable cassette software; remaining families require generator/evaluator development',**core.FLAGS)
     if prepared.get('closure_plan'):
         from . import closure,families
-        report['closure']=closure.snapshot(prepared)
         report['families']=families.registry(prepared['policy'])
     if prepared.get('site'):
         from . import site_bundle
@@ -280,6 +279,9 @@ def summary(workspace,db,epoch,prepared):
         executed=design_studies.verify(companion,prepared)
         report['additional_design_studies']=dict(revision=core.digest(executed),models=executed['models'],
             duty_cases=len(executed['duty_cases']),scope='Additional provisional detail and coupled duty; full PDF engineering exits remain open')
+        report['closure_subjects']=design_studies.completion_subjects(companion)
+    if prepared.get('closure_plan'):
+        report['closure']=closure.snapshot(prepared,subjects=report.get('closure_subjects'))
     return report
 
 

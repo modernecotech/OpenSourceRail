@@ -15,7 +15,7 @@ from engineering.assembly_design import baseline
 from . import structural_detail
 
 PILOT=dict(requirement_ids=['baghdad:ME-01'],
-    domains=dict(rail_wall_m=[.003,.004,.005],crossmember_count=[2,3],floor_thickness_m=[.003,.004,.012,.016]),
+    domains=dict(rail_wall_m=[.003,.004,.005],crossmember_count=[2,3,4],floor_thickness_m=[.003,.004,.006,.008,.012,.016]),
     assumptions=dict(length_m=1.2,width_between_rail_centres_m=1.,rail_width_m=.06,rail_height_m=.1,
         crossmember_width_m=.05,crossmember_height_m=.08,gravity_m_s2=9.80665,
         vertical_acceleration_factors=[1.,3.],stress_fraction=.6,deflection_limit_m=.002,
@@ -68,7 +68,7 @@ def build(policy,variables):
         add(contracts.member(identity,L,rw,rh,wall,'steel',materials,centre=(0,side*spacing/2,-rh/2),
             inspections=['wall and section dimensions','material trace','weld/joint interfaces']))
     cross_length=spacing-rw
-    positions=[-.55,.55] if count==2 else [-.55,0.,.55]
+    positions={2:[-.55,.55],3:[-.55,0.,.55],4:[-.55,-.25,.25,.55]}[count]
     for i,x in enumerate(positions):
         identity='crossmember-'+str(i)
         value=contracts.member(identity,cross_length,a['crossmember_width_m'],a['crossmember_height_m'],wall,'steel',materials,
