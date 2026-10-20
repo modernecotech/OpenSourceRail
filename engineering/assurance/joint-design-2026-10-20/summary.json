@@ -1,0 +1,228 @@
+{
+  "accepted_complete_parts": 0,
+  "accepted_complete_systems": 0,
+  "accepted_engineering_tasks": 0,
+  "campaign": {
+    "completed_trials": 92,
+    "connection_coupons": 3,
+    "controller_state": "waiting-for-new-requirements-or-capabilities",
+    "registered_system_variants": 15,
+    "scoped_native_exhibits": 14
+  },
+  "coupon_exhibits": [
+    {
+      "candidate_revision": "9f431186983c75a1bd657051310c8b5836cf6ff9c1b6640a05577be897674150",
+      "eligible_for_research": false,
+      "failed_checks": [
+        "nominal_complete_penetration"
+      ],
+      "held_checks": [
+        "Source frame uses ideal rigid joint offsets, synthetic planning loads and an unadopted body fixture; no railway joint demand adoption",
+        "Member-end restoring forces include endpoint lumped load and rigid-joint transfer ambiguity; a resolved free-body weld traction is not established",
+        "Issued bevel/root face/backing and corner transitions, access, fit tolerances and distortion control are absent",
+        "Selected steel heat/corner radii and filler classification, metallurgy, process and WPS/PQR/welder qualification are absent",
+        "Local weld/HAZ/parent stress, shear/torsion/warping, residual stress, imperfections, buckling, fracture and railway fatigue resistance are unverified",
+        "Inspection/NDT method, access, acceptance criteria, repair disposition and authenticated serial evidence require adoption",
+        "Coupon is not installed in the carbody; no body stiffness, mass, load path or accepted completion is changed"
+      ],
+      "kind": "carbody-splice-half",
+      "native_state": "passed",
+      "parts": 6
+    },
+    {
+      "candidate_revision": "d896d9f8fa53aeac3a25743909340da86e84194d9f5d310525dd774502eb2f5a",
+      "eligible_for_research": false,
+      "failed_checks": [
+        "nominal_complete_penetration"
+      ],
+      "held_checks": [
+        "Source frame uses ideal rigid joint offsets, synthetic planning loads and an unadopted body fixture; no railway joint demand adoption",
+        "Member-end restoring forces include endpoint lumped load and rigid-joint transfer ambiguity; a resolved free-body weld traction is not established",
+        "Issued bevel/root face/backing and corner transitions, access, fit tolerances and distortion control are absent",
+        "Selected steel heat/corner radii and filler classification, metallurgy, process and WPS/PQR/welder qualification are absent",
+        "Local weld/HAZ/parent stress, shear/torsion/warping, residual stress, imperfections, buckling, fracture and railway fatigue resistance are unverified",
+        "Inspection/NDT method, access, acceptance criteria, repair disposition and authenticated serial evidence require adoption",
+        "Coupon is not installed in the carbody; no body stiffness, mass, load path or accepted completion is changed"
+      ],
+      "kind": "carbody-splice-three-quarter",
+      "native_state": "passed",
+      "parts": 6
+    },
+    {
+      "candidate_revision": "00f80679f1b0d4eca4fde0d52fc9fd1a9e3ab8a3bafc98015032e04cbf45f578",
+      "eligible_for_research": true,
+      "failed_checks": [],
+      "held_checks": [
+        "Source frame uses ideal rigid joint offsets, synthetic planning loads and an unadopted body fixture; no railway joint demand adoption",
+        "Member-end restoring forces include endpoint lumped load and rigid-joint transfer ambiguity; a resolved free-body weld traction is not established",
+        "Issued bevel/root face/backing and corner transitions, access, fit tolerances and distortion control are absent",
+        "Selected steel heat/corner radii and filler classification, metallurgy, process and WPS/PQR/welder qualification are absent",
+        "Local weld/HAZ/parent stress, shear/torsion/warping, residual stress, imperfections, buckling, fracture and railway fatigue resistance are unverified",
+        "Inspection/NDT method, access, acceptance criteria, repair disposition and authenticated serial evidence require adoption",
+        "Coupon is not installed in the carbody; no body stiffness, mass, load path or accepted completion is changed"
+      ],
+      "kind": "carbody-splice-full",
+      "native_state": "passed",
+      "parts": 6
+    }
+  ],
+  "design_complete": false,
+  "epoch": "01825e46f50c03880b426ab2dcefc5bf7c8a0f969c25320251aee1f02aee75d2",
+  "joint_response": {
+    "candidate_revision": "e5eb46dc22fdc288752017c2cdccdd089b220b4b9152d9fa0ca2850623fc3391",
+    "checks": {
+      "actual_joint_calibration": null,
+      "adverse_double_load_control": true,
+      "all_equilibrium": true,
+      "connection_resistance_and_fatigue": null,
+      "high_stiffness_recovers_rigid_limit": true,
+      "independent_rail_acceptance": null,
+      "independent_spring_beam_controls": true,
+      "joint_action_reaction": true,
+      "supplier_or_test_stiffness_selection": null
+    },
+    "connections": 158,
+    "interpretation": "Weak-assumption failures are sensitivity findings, not proof of an actual joint failure. No hypothetical passing factor resolves unknown actual connection stiffness.",
+    "numerical_controls": {
+      "adverse_load_scaling_error": 0.0,
+      "high_stiffness_rigid_difference_relative": 0.0021481891193640148,
+      "maximum_action_reaction_relative": 2.676411708743069e-16,
+      "maximum_equilibrium_relative": 3.1617288266757286e-09
+    },
+    "physical_nodes": 667,
+    "revision": "357a53e9bf761fe19cd9cc61ef78b22bf48d237c91d391e7724d9aa9aea19631",
+    "scope": "Linear numerical sensitivity only; metre-scale motions are not predicted operable displacements. Actual owned3DRHSbeam network with finite6DOFlinear connectors and exact eccentric rigid arms; same planning mass/load/fixture hypotheses as rigid study",
+    "selected_stiffness_factor": null,
+    "summary": [
+      {
+        "maximum_gross_elastic_fibre_stress_pa": 230444750.63037023,
+        "maximum_joint_rotation_rad": 0.5328782191075896,
+        "maximum_joint_translation_m": 4.733854908303188,
+        "maximum_vertical_displacement_m": 6.763626586566103,
+        "research_failed_checks": [
+          "refined_planning/provisional_length_over_1000_vertical_target",
+          "double_vertical/provisional_length_over_1000_vertical_target",
+          "lateral_sensitivity/provisional_length_over_1000_vertical_target",
+          "braking_sensitivity/provisional_length_over_1000_vertical_target",
+          "eccentric_floor_sensitivity/provisional_length_over_1000_vertical_target",
+          "represented_self_weight/provisional_length_over_1000_vertical_target"
+        ],
+        "research_state": "failed",
+        "stiffness_factor": 0.1
+      },
+      {
+        "maximum_gross_elastic_fibre_stress_pa": 214381477.71082088,
+        "maximum_joint_rotation_rad": 0.047436856202254275,
+        "maximum_joint_translation_m": 0.47338713151913125,
+        "maximum_vertical_displacement_m": 0.7069653531656452,
+        "research_failed_checks": [
+          "refined_planning/provisional_length_over_1000_vertical_target",
+          "double_vertical/provisional_length_over_1000_vertical_target",
+          "lateral_sensitivity/provisional_length_over_1000_vertical_target",
+          "braking_sensitivity/provisional_length_over_1000_vertical_target",
+          "eccentric_floor_sensitivity/provisional_length_over_1000_vertical_target",
+          "represented_self_weight/provisional_length_over_1000_vertical_target"
+        ],
+        "research_state": "failed",
+        "stiffness_factor": 1.0
+      },
+      {
+        "maximum_gross_elastic_fibre_stress_pa": 192564127.41191894,
+        "maximum_joint_rotation_rad": 6.776825741915247e-07,
+        "maximum_joint_translation_m": 5.438001809426716e-06,
+        "maximum_vertical_displacement_m": 0.016324599570345842,
+        "research_failed_checks": [],
+        "research_state": "hold",
+        "stiffness_factor": 100000.0
+      }
+    ]
+  },
+  "manufacturing_release": false,
+  "physical_release": false,
+  "physical_validation": false,
+  "publication": {
+    "browser_check_sha256": "63d1e6e63d5db57792cc27e8462a98a8aa84c8928c402e2f79b48097cd1e79fc",
+    "bytes": 56449992,
+    "copy_verification_sha256": "06b309b9e8b2a0847368e8eebc49073ad952edf858bad8b1eeafb2fee292c839",
+    "files": 437,
+    "manifest_sha256": "ed4fe626c81be5440e03e2c52eda8be7d877a5715363e0e76e00201742775fa3"
+  },
+  "qualification_sha256": "3052b5cea8a99add92a740242f6e869741509170669d8889d62452c5273f2518",
+  "qualified_source_commit": "3b1f9bd2fd3cb3d272e48d0e5702727242404b63",
+  "schema": "osr-carbody-joint-delivery-observation/1",
+  "source_entries": 669,
+  "source_qualification_current": true,
+  "splice_demands": {
+    "adopted_joint_demands": false,
+    "simultaneous_end_vectors": 56,
+    "source_cases": 7,
+    "source_frame_revision": "3228c8a885fb0360b16533814920afd7d0a7a18ad530fb953e9d0d37aad9b986",
+    "splices": 4
+  },
+  "storage": {
+    "evidence_bytes_and_receipts_unchanged": true,
+    "observation_scope": "Free-space observations include concurrent activity; logical file lengths and receipt hashes are unchanged",
+    "policy": {
+      "compression_properties": [
+        {
+          "after": "compression=zstd",
+          "before": "",
+          "path": "epochs",
+          "scope": "Transparent compression for newly created descendants; existing evidence bytes unchanged"
+        },
+        {
+          "after": "compression=zstd",
+          "before": "",
+          "path": "epochs/13e63abd0859af6b7ce009004d5c8ca8b6d1c8e192f5120a32e087a8f1adbc7d/attempts",
+          "scope": "Transparent compression for newly created descendants; existing evidence bytes unchanged"
+        }
+      ],
+      "logical_output_limit_gib_after": 29,
+      "logical_output_limit_gib_before": 26,
+      "observed_free_gib": 24.369049072265625,
+      "observed_unix": 1792487531.9709923,
+      "reserve_gib_after": 20,
+      "reserve_gib_before": 20,
+      "schema": "osr-runner-storage-observation/1",
+      "source_logic_changed": false
+    },
+    "proof_files_sha256": {
+      "batch-1.json.gz": "1b12f38bd73d6d7b66811db3b7460cb8dcfd1891a80ddf40e1d3d6e8cc410055",
+      "batch-2.json.gz": "d747034640a5c8b2637d3a59b9bf9d4a7aa1cc38cb50c9e3237fe8c457950649",
+      "batch-3.json.gz": "c60658789df9cc62f773abd8142a8d080605b3b6b8ee2b5ac33a9b6f0db5464c",
+      "final-local-compaction-recipe.txt": "52962fa45fb073f0460e9fc78f3542f165c7e9d03e8aba10a498203e270209ce",
+      "runner-policy.json": "ef553a7af293c2f399421d219087343dc4e19f12dbfb44363147be2e2e9aba76",
+      "single-file-probe.json": "2a79937435d8d785adb2845df4f12e02f6df5b0c6c300b1b52b29751da44bac7",
+      "unused-build-cache.log": "cef670b8f43b1e743a65ae8f8a5f1368b0fca514160899f0f17a50ffec0cbec3"
+    },
+    "sum_of_observed_filesystem_free_deltas_bytes": 4730286080,
+    "unique_logical_bytes_processed": 5335392230,
+    "unique_receipt_bound_files_processed": 6626
+  },
+  "tests": {
+    "assembly": {
+      "log_sha256": "8a75d5d58255779e1ae0fa68667b16c93107c0eb8eff8278692b8dbe1218511c",
+      "passed": 485,
+      "skipped": 0
+    },
+    "integrity": {
+      "included_in_assembly": true,
+      "log_sha256": "5229f5fcb06511b3c185f497bcbaf2c66d47e6d33ae2da74fbb988e2122999e3",
+      "passed": 58
+    },
+    "joint_focused": {
+      "included_in_assembly": true,
+      "passed": 10
+    },
+    "splice_focused": {
+      "included_in_assembly": true,
+      "passed": 24
+    },
+    "unchanged_publication_qualification": {
+      "exact_source_still_current": true,
+      "passed": 149,
+      "qualification_sha256": "f66127c237bd6be71b48059e52e031126b0d8b5e10bded4f2cab4ce545354929",
+      "rerun_this_delivery": false
+    }
+  }
+}

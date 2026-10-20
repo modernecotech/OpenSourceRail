@@ -1,0 +1,146 @@
+{
+  "assembly_media": {
+    "candidate_revision": "00f80679f1b0d4eca4fde0d52fc9fd1a9e3ab8a3bafc98015032e04cbf45f578",
+    "decoded_video": {
+      "codec_name": "h264",
+      "height": 600,
+      "nb_frames": "18",
+      "width": 1000
+    },
+    "design_complete": false,
+    "ffmpeg_sha256": "69f439a5e25894babc003b7891087f72eb3b0e574484926029834aaa93bb8fad",
+    "ffprobe_sha256": "6e4476b8f0242becb9ad618039c529827766f56e7fd93979eb9691929b9598df",
+    "files_sha256": {
+      "assembly-intermediate.png": "b29e27ed3ce5236ef4ed2fadb775f9eb68cf623c6e58de4ac937fa9232755a36",
+      "assembly-sequence.mp4": "936213e4140f139b0d26d1247e8a8c98d85cc337f5c135801cf53bfc05519363",
+      "assembly-stages.png": "a6b872375423aa545f50fab64e1c9649e62522e6ea6cbda856c650b673562de5"
+    },
+    "frames": 18,
+    "frames_per_second": 6,
+    "manufacturing_release": false,
+    "native_mesh_sha256": "1add68d2178111953bf6b91ed712426406d3e206d5119bb4eaf5904987f1cc77",
+    "physical_release": false,
+    "physical_validation": false,
+    "scope": "Native CAD construction-stage visibility sequence at final coordinates; not a motion, collision, crane or construction-load simulation",
+    "stages": [
+      {
+        "id": "fit-source-stock",
+        "part_ids": [
+          "rhs-offcut-0",
+          "rhs-offcut-1"
+        ],
+        "requires": [],
+        "title": "Cut and fixture selected RHS offcuts at3mm gap; issued edge prep absent"
+      },
+      {
+        "id": "nominal-face-strips",
+        "part_ids": [
+          "nominal-weld-top",
+          "nominal-weld-bottom"
+        ],
+        "requires": [
+          "fit-source-stock"
+        ],
+        "title": "Show nominal top/bottom gap ownership; actual passes unissued"
+      },
+      {
+        "id": "nominal-side-strips",
+        "part_ids": [
+          "nominal-weld-side-negative",
+          "nominal-weld-side-positive"
+        ],
+        "requires": [
+          "nominal-face-strips"
+        ],
+        "title": "Show nominal sidewall gap ownership; corner/root fusion and NDT held"
+      }
+    ],
+    "state": "executed"
+  },
+  "candidate_revision": "00f80679f1b0d4eca4fde0d52fc9fd1a9e3ab8a3bafc98015032e04cbf45f578",
+  "design_complete": false,
+  "eligible_for_research": true,
+  "failed_checks": [],
+  "held_checks": [
+    "Source frame uses ideal rigid joint offsets, synthetic planning loads and an unadopted body fixture; no railway joint demand adoption",
+    "Member-end restoring forces include endpoint lumped load and rigid-joint transfer ambiguity; a resolved free-body weld traction is not established",
+    "Issued bevel/root face/backing and corner transitions, access, fit tolerances and distortion control are absent",
+    "Selected steel heat/corner radii and filler classification, metallurgy, process and WPS/PQR/welder qualification are absent",
+    "Local weld/HAZ/parent stress, shear/torsion/warping, residual stress, imperfections, buckling, fracture and railway fatigue resistance are unverified",
+    "Inspection/NDT method, access, acceptance criteria, repair disposition and authenticated serial evidence require adoption",
+    "Coupon is not installed in the carbody; no body stiffness, mass, load path or accepted completion is changed"
+  ],
+  "kind": "carbody-splice-full",
+  "manufacturing_release": false,
+  "native_error": null,
+  "native_proof": {
+    "checks": [
+      {
+        "cg_error_m": 2.498121527204475e-16,
+        "inertia_relative_error": 1.6979445674226743e-16,
+        "mass_relative_error": 1.3322676295501878e-15,
+        "physical_id": "rhs-offcut-0"
+      },
+      {
+        "cg_error_m": 2.498121527204475e-16,
+        "inertia_relative_error": 1.6979534632599133e-16,
+        "mass_relative_error": 1.3322676295501878e-15,
+        "physical_id": "rhs-offcut-1"
+      },
+      {
+        "cg_error_m": 4.443926361280465e-19,
+        "inertia_relative_error": 4.31215201971283e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "nominal-weld-top"
+      },
+      {
+        "cg_error_m": 4.443926361280465e-19,
+        "inertia_relative_error": 4.31215201971283e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "nominal-weld-bottom"
+      },
+      {
+        "cg_error_m": 3.525178880430331e-18,
+        "inertia_relative_error": 2.6838972970396447e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "nominal-weld-side-negative"
+      },
+      {
+        "cg_error_m": 3.525178880430331e-18,
+        "inertia_relative_error": 2.6838972970396447e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "nominal-weld-side-positive"
+      }
+    ],
+    "drawing_issued": false,
+    "files_sha256": {
+      "candidate.FCStd": "034264f1761f6cee4c2fac8d448affb8126ba9bb7d1e3b22c5524ddaec24efc4",
+      "candidate.step": "0773f5bd6711e19b2bca6535d17c867a6e71bb3fc31c437fb2ffaead2ea60f68"
+    },
+    "freecad_version": [
+      "1",
+      "1",
+      "4",
+      "45039 (Git)",
+      "https://github.com/FreeCAD/FreeCAD.git",
+      "2026/09/28 13:46:34",
+      "(HEAD detached at 1.1.4)",
+      "4fd3bf320d9566a27e60069fc8387448aaa3a094"
+    ],
+    "input_sha256": "f87650b3fb334bf32f13ab9138e10f0dfaaefd16bd9f0dd99b2e7b6aa5dee298",
+    "inspection_projection_edges": 24,
+    "manufacturing_unit_ids_preserved": true,
+    "native_reopened": true,
+    "opencascade_version": "7.8.1",
+    "physical_ids_preserved": true,
+    "physical_release": false,
+    "schema": "osr-candidate-native-cad/1",
+    "step_volume_reconciled": true
+  },
+  "native_state": "passed",
+  "native_step_compressed_sha256": "6ea5157d96ac693a2db4e00130934b2b9e61ef7ad769085ac0287ca4ba09c0aa",
+  "parts": 6,
+  "physical_release": false,
+  "physical_validation": false,
+  "scope": "Separate selected-RHS offcut coupon with nominal weld-gap material ownership and exact simultaneous source endpoint demands; no installed weld preparation, connection stiffness, resistance or railway acceptance"
+}

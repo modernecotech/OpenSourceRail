@@ -1,0 +1,148 @@
+{
+  "assembly_media": {
+    "candidate_revision": "d896d9f8fa53aeac3a25743909340da86e84194d9f5d310525dd774502eb2f5a",
+    "decoded_video": {
+      "codec_name": "h264",
+      "height": 600,
+      "nb_frames": "18",
+      "width": 1000
+    },
+    "design_complete": false,
+    "ffmpeg_sha256": "69f439a5e25894babc003b7891087f72eb3b0e574484926029834aaa93bb8fad",
+    "ffprobe_sha256": "6e4476b8f0242becb9ad618039c529827766f56e7fd93979eb9691929b9598df",
+    "files_sha256": {
+      "assembly-intermediate.png": "b1be63f93631fd2c7f802673fe37828a9c01b0f65a6e7b20317288a3b9f2d2ab",
+      "assembly-sequence.mp4": "56035bd395bd605b09b124d096a3c2fc583bf38c992bc7d2274686cc8c387b92",
+      "assembly-stages.png": "a6bf992d27d845e36f15baaebb3d0ab0ecb8056d18c025f61e282c2bdc4db4a3"
+    },
+    "frames": 18,
+    "frames_per_second": 6,
+    "manufacturing_release": false,
+    "native_mesh_sha256": "b2ab55aeaf034d9503cb81a9240db13791dddc3f4a41a797bb588a4cf930c6a1",
+    "physical_release": false,
+    "physical_validation": false,
+    "scope": "Native CAD construction-stage visibility sequence at final coordinates; not a motion, collision, crane or construction-load simulation",
+    "stages": [
+      {
+        "id": "fit-source-stock",
+        "part_ids": [
+          "rhs-offcut-0",
+          "rhs-offcut-1"
+        ],
+        "requires": [],
+        "title": "Cut and fixture selected RHS offcuts at3mm gap; issued edge prep absent"
+      },
+      {
+        "id": "nominal-face-strips",
+        "part_ids": [
+          "nominal-weld-top",
+          "nominal-weld-bottom"
+        ],
+        "requires": [
+          "fit-source-stock"
+        ],
+        "title": "Show nominal top/bottom gap ownership; actual passes unissued"
+      },
+      {
+        "id": "nominal-side-strips",
+        "part_ids": [
+          "nominal-weld-side-negative",
+          "nominal-weld-side-positive"
+        ],
+        "requires": [
+          "nominal-face-strips"
+        ],
+        "title": "Show nominal sidewall gap ownership; corner/root fusion and NDT held"
+      }
+    ],
+    "state": "executed"
+  },
+  "candidate_revision": "d896d9f8fa53aeac3a25743909340da86e84194d9f5d310525dd774502eb2f5a",
+  "design_complete": false,
+  "eligible_for_research": false,
+  "failed_checks": [
+    "nominal_complete_penetration"
+  ],
+  "held_checks": [
+    "Source frame uses ideal rigid joint offsets, synthetic planning loads and an unadopted body fixture; no railway joint demand adoption",
+    "Member-end restoring forces include endpoint lumped load and rigid-joint transfer ambiguity; a resolved free-body weld traction is not established",
+    "Issued bevel/root face/backing and corner transitions, access, fit tolerances and distortion control are absent",
+    "Selected steel heat/corner radii and filler classification, metallurgy, process and WPS/PQR/welder qualification are absent",
+    "Local weld/HAZ/parent stress, shear/torsion/warping, residual stress, imperfections, buckling, fracture and railway fatigue resistance are unverified",
+    "Inspection/NDT method, access, acceptance criteria, repair disposition and authenticated serial evidence require adoption",
+    "Coupon is not installed in the carbody; no body stiffness, mass, load path or accepted completion is changed"
+  ],
+  "kind": "carbody-splice-three-quarter",
+  "manufacturing_release": false,
+  "native_error": null,
+  "native_proof": {
+    "checks": [
+      {
+        "cg_error_m": 2.498121527204475e-16,
+        "inertia_relative_error": 1.6979445674226743e-16,
+        "mass_relative_error": 1.3322676295501878e-15,
+        "physical_id": "rhs-offcut-0"
+      },
+      {
+        "cg_error_m": 2.498121527204475e-16,
+        "inertia_relative_error": 1.6979534632599133e-16,
+        "mass_relative_error": 1.3322676295501878e-15,
+        "physical_id": "rhs-offcut-1"
+      },
+      {
+        "cg_error_m": 6.911730586074404e-19,
+        "inertia_relative_error": 2.2735005025995824e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "nominal-weld-top"
+      },
+      {
+        "cg_error_m": 6.911730586074404e-19,
+        "inertia_relative_error": 2.2735005025995824e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "nominal-weld-bottom"
+      },
+      {
+        "cg_error_m": 4.700281501592061e-18,
+        "inertia_relative_error": 2.266934381576516e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "nominal-weld-side-negative"
+      },
+      {
+        "cg_error_m": 4.700281501592061e-18,
+        "inertia_relative_error": 2.266934381576516e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "nominal-weld-side-positive"
+      }
+    ],
+    "drawing_issued": false,
+    "files_sha256": {
+      "candidate.FCStd": "4ca1e14af08db3231c82ebee930e2ab8785aee7da1917adea37ff38ab57f2360",
+      "candidate.step": "c06402e390417ba711a9b02f354621ace12d0c87866bc63be78c8902971297ef"
+    },
+    "freecad_version": [
+      "1",
+      "1",
+      "4",
+      "45039 (Git)",
+      "https://github.com/FreeCAD/FreeCAD.git",
+      "2026/09/28 13:46:34",
+      "(HEAD detached at 1.1.4)",
+      "4fd3bf320d9566a27e60069fc8387448aaa3a094"
+    ],
+    "input_sha256": "ac8716fc3d96b08c6f7ef0eb2de630ffbd328080d34eb5dedccaea0672f440e8",
+    "inspection_projection_edges": 26,
+    "manufacturing_unit_ids_preserved": true,
+    "native_reopened": true,
+    "opencascade_version": "7.8.1",
+    "physical_ids_preserved": true,
+    "physical_release": false,
+    "schema": "osr-candidate-native-cad/1",
+    "step_volume_reconciled": true
+  },
+  "native_state": "passed",
+  "native_step_compressed_sha256": "fd1f9174574b971a68485ca12e99186ff9254f52185f801703a80a2b7885697a",
+  "parts": 6,
+  "physical_release": false,
+  "physical_validation": false,
+  "scope": "Separate selected-RHS offcut coupon with nominal weld-gap material ownership and exact simultaneous source endpoint demands; no installed weld preparation, connection stiffness, resistance or railway acceptance"
+}

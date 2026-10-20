@@ -7,7 +7,7 @@
           "kind": "file",
           "label": "Native CAD",
           "path": "carbody-assembly/native/candidate.FCStd",
-          "sha256": "dba0a82a25904f21dbdf008836107f9e7921becfc4a2982620a07aff1a9a94e5",
+          "sha256": "6a84a9663344ea55c35482d0c4a71c869567f3d9c2629169805e56539f26d070",
           "url": "carbody-assembly/native/candidate.FCStd"
         },
         {
@@ -15,15 +15,15 @@
           "kind": "file",
           "label": "STEP",
           "path": "carbody-assembly/model.step.gz",
-          "sha256": "ca987990e467db3b34ed89cfb1a0c8dbc69adf344e89ec3f6caf58ef85506b19",
+          "sha256": "ca62c693d64216e1439b92cd15fa9ff9240e1cd78bb1a4f11a0f9ed6973efd07",
           "url": "carbody-assembly/model.step.gz"
         },
         {
-          "bytes": 59736,
+          "bytes": 59747,
           "kind": "file",
           "label": "IFC",
           "path": "carbody-assembly/bim/assembly.ifc.gz",
-          "sha256": "b16a694e410f1352fcf296326b11e135666bab0316f0c25eb65035b409de4873",
+          "sha256": "238afd291a78e8b43ecaf01f02c132dd91cb53dc8c7134fdb1d370e16cdc917e",
           "url": "carbody-assembly/bim/assembly.ifc.gz"
         },
         {
@@ -59,6 +59,14 @@
           "url": "carbody-assembly/carbody-frame.json.gz"
         },
         {
+          "bytes": 896301,
+          "kind": "file",
+          "label": "Finite joint-stiffness sensitivities",
+          "path": "carbody-assembly/joint-response.json.gz",
+          "sha256": "a8ad91378c4fb4649d7d35bde54635cc1ca2137ed9e11f3aa0e41e68eb1fef8e",
+          "url": "carbody-assembly/joint-response.json.gz"
+        },
+        {
           "bytes": 1211,
           "kind": "file",
           "label": "Inspection plan",
@@ -71,7 +79,7 @@
           "kind": "file",
           "label": "Retained result",
           "path": "carbody-assembly/result.json",
-          "sha256": "b331a925ef95acb40140dfc92378139e63ece49b7de9df4a979ed3a56e9d1ea9",
+          "sha256": "576835d6487f2cc4edeb26622e9be88bcf0d025678c0adfcc34d2f51f1242c2c",
           "url": "carbody-assembly/result.json"
         },
         {
@@ -105,6 +113,14 @@
           "path": "carbody-assembly/frame-response.png",
           "sha256": "4d5c1d9b7bc3d177cf8a2431d388d4453630c8c3ca8ca06be433c5d3656a9473",
           "url": "carbody-assembly/frame-response.png"
+        },
+        {
+          "bytes": 65519,
+          "kind": "image",
+          "label": "Joint flexibility and frame response",
+          "path": "carbody-assembly/joint-response.png",
+          "sha256": "a653b1b5f6b087c936154cb5e925f84820cb5ee264e17741fc1d04b6d395e5d4",
+          "url": "carbody-assembly/joint-response.png"
         },
         {
           "bytes": 158641,
@@ -8309,17 +8325,19 @@
       "title": "carbody-assembly",
       "unassigned_part_ids": [],
       "unavailable_assets": [
+        "Exact simultaneous splice cuts",
+        "Represented splice section and defects",
         "Cassette fixture movement"
       ]
     },
     {
       "assets": [
         {
-          "bytes": 621952,
+          "bytes": 621951,
           "kind": "file",
           "label": "Native CAD",
           "path": "civil-connected-bay/native/candidate.FCStd",
-          "sha256": "9599f0bef9c9f700398537b6c8bb5a980e02145eee1e82e789de8fb932984de0",
+          "sha256": "328a5b76588c2f68b2e2f846a446945d4b7a1b1b814847d22655b02503845bd4",
           "url": "civil-connected-bay/native/candidate.FCStd"
         },
         {
@@ -8327,15 +8345,15 @@
           "kind": "file",
           "label": "STEP",
           "path": "civil-connected-bay/model.step.gz",
-          "sha256": "72c50d28af742f4be19f45b02453421583551b6c20ed7199834a7d117a196785",
+          "sha256": "a3fb1e219806b2b6502cd30b6938f5013a6873236c556e96a746ef1d8b1ea69d",
           "url": "civil-connected-bay/model.step.gz"
         },
         {
-          "bytes": 1348543,
+          "bytes": 1348537,
           "kind": "file",
           "label": "IFC",
           "path": "civil-connected-bay/bim/assembly.ifc.gz",
-          "sha256": "1bc9f2dc8c3f58bc8c6864504cf6cf6067501806bfbafbdabb72436cdb8d3d24",
+          "sha256": "fc506b15aefb5acfb6f4a4025238d9272a39b248e7f91843423a37d89aaf77f8",
           "url": "civil-connected-bay/bim/assembly.ifc.gz"
         },
         {
@@ -8375,7 +8393,7 @@
           "kind": "file",
           "label": "Retained result",
           "path": "civil-connected-bay/result.json",
-          "sha256": "ee06c2609ce8930a0d489ab2b833c0dc738dc7569b216cd4c3245cec7ab82368",
+          "sha256": "4331863ef4c33d019b2a64bdc765ad0bac4b87694324adfbb0473af4bddd22f7",
           "url": "civil-connected-bay/result.json"
         },
         {
@@ -39264,7 +39282,1401 @@
       "unassigned_part_ids": [],
       "unavailable_assets": [
         "Whole-frame numerical data",
+        "Finite joint-stiffness sensitivities",
+        "Exact simultaneous splice cuts",
         "Whole-frame response",
+        "Joint flexibility and frame response",
+        "Represented splice section and defects",
+        "Cassette fixture movement"
+      ]
+    },
+    {
+      "assets": [
+        {
+          "bytes": 13759,
+          "kind": "file",
+          "label": "Native CAD",
+          "path": "connections/carbody-splice-half/native/candidate.FCStd",
+          "sha256": "d76bfbbf59c862ddd25191c9988b869de6a164b1b30f9470a9583842eba45f38",
+          "url": "connections/carbody-splice-half/native/candidate.FCStd"
+        },
+        {
+          "bytes": 13200,
+          "kind": "file",
+          "label": "STEP",
+          "path": "connections/carbody-splice-half/model.step.gz",
+          "sha256": "6275c1118b5335f50a8f0fceae729f0980a456e30bedb5eda5d35fd9c2405341",
+          "url": "connections/carbody-splice-half/model.step.gz"
+        },
+        {
+          "bytes": 3021,
+          "kind": "file",
+          "label": "IFC",
+          "path": "connections/carbody-splice-half/bim/assembly.ifc.gz",
+          "sha256": "1ebf763a84611c9d159fa4d54f1381faceff98dc83525d65d2ad12e83dd5e10c",
+          "url": "connections/carbody-splice-half/bim/assembly.ifc.gz"
+        },
+        {
+          "bytes": 4511,
+          "kind": "file",
+          "label": "Parts schedule",
+          "path": "connections/carbody-splice-half/manufacturing-bom.csv",
+          "sha256": "e0d98c305cd77062110c22135381ad59dbb210311599f00d4e1a59876e5b469e",
+          "url": "connections/carbody-splice-half/manufacturing-bom.csv"
+        },
+        {
+          "bytes": 4085,
+          "kind": "file",
+          "label": "Alternative recipes and failures",
+          "path": "connections/carbody-splice-half/alternatives.csv",
+          "sha256": "927f3426d780fa96bf9103195ef3c9dbc97a07afffd1f118284b411f9b44ecf8",
+          "url": "connections/carbody-splice-half/alternatives.csv"
+        },
+        {
+          "bytes": 6952,
+          "kind": "file",
+          "label": "Checks",
+          "path": "connections/carbody-splice-half/assessment.json.gz",
+          "sha256": "cc38102371c953608cfec3f0105e28d4c7138d2d8fe38345bc539050cb9a715b",
+          "url": "connections/carbody-splice-half/assessment.json.gz"
+        },
+        {
+          "bytes": 13140,
+          "kind": "file",
+          "label": "Exact simultaneous splice cuts",
+          "path": "connections/carbody-splice-half/splice-demands.json.gz",
+          "sha256": "7bbc97ab82e084de515b46db3f65bc6ee6cf7c199d02135f76714e0555c9270d",
+          "url": "connections/carbody-splice-half/splice-demands.json.gz"
+        },
+        {
+          "bytes": 384,
+          "kind": "file",
+          "label": "Inspection plan",
+          "path": "connections/carbody-splice-half/qa-plan.json.gz",
+          "sha256": "a5195e25d4c119273c3bba162ff398707983c142707060930f16478d859a5174",
+          "url": "connections/carbody-splice-half/qa-plan.json.gz"
+        },
+        {
+          "bytes": 5984,
+          "kind": "file",
+          "label": "Retained result",
+          "path": "connections/carbody-splice-half/result.json",
+          "sha256": "348d5f49b517a688d36daf3003314e5585a2451c97482004c01711024a16fcd0",
+          "url": "connections/carbody-splice-half/result.json"
+        },
+        {
+          "bytes": 10221,
+          "kind": "file",
+          "label": "Assembly definition",
+          "path": "connections/carbody-splice-half/candidate.json.gz",
+          "sha256": "c23bd251547a58017e9b9b202f933ec89bb42a73310b189d2bd1bd3593cf232d",
+          "url": "connections/carbody-splice-half/candidate.json.gz"
+        },
+        {
+          "bytes": 684,
+          "kind": "file",
+          "label": "Native mesh",
+          "path": "connections/carbody-splice-half/bim/native-mesh.json.gz",
+          "sha256": "33820d207b8f51abfa6a6921e7a24c6014351c9869a2aabcfe833badba81e1b7",
+          "url": "connections/carbody-splice-half/bim/native-mesh.json.gz"
+        },
+        {
+          "bytes": 136573,
+          "kind": "image",
+          "label": "Native model",
+          "path": "connections/carbody-splice-half/overview.png",
+          "sha256": "928770ec759d13db4b9de75f2120e37b1e2fa585a1f9e6283a0c9aa3580f0528",
+          "url": "connections/carbody-splice-half/overview.png"
+        },
+        {
+          "bytes": 41786,
+          "kind": "image",
+          "label": "Intermediate assembly stage",
+          "path": "connections/carbody-splice-half/assembly-intermediate.png",
+          "sha256": "061bbe5248cf36821dc11b261cc4d9eac634a19701deaca431ba1f2f1d1510c2",
+          "url": "connections/carbody-splice-half/assembly-intermediate.png"
+        },
+        {
+          "bytes": 41785,
+          "kind": "image",
+          "label": "Final assembly stage",
+          "path": "connections/carbody-splice-half/assembly-stages.png",
+          "sha256": "8cf8581f720793ee1db941089e580b1d2cc7ce22e48f25612a157229968ae92a",
+          "url": "connections/carbody-splice-half/assembly-stages.png"
+        },
+        {
+          "bytes": 2096,
+          "kind": "image",
+          "label": "Inspection drawing",
+          "path": "connections/carbody-splice-half/inspection.svg",
+          "sha256": "a98ce3cf73b31303e040990ee4045f3dce4d9c047aca9ba56a709bea6818c94b",
+          "url": "connections/carbody-splice-half/inspection.svg"
+        },
+        {
+          "bytes": 3021,
+          "kind": "image",
+          "label": "Represented splice section and defects",
+          "path": "connections/carbody-splice-half/splice-section.svg",
+          "sha256": "34aa881872925bfa084040eef765f0325da028340b6067a45a899683303354b3",
+          "url": "connections/carbody-splice-half/splice-section.svg"
+        },
+        {
+          "bytes": 29106,
+          "kind": "video",
+          "label": "Assembly sequence",
+          "path": "connections/carbody-splice-half/assembly-sequence.mp4",
+          "sha256": "3fd30eabc86c6f5af053214ade1e3f61ea751911bc86b2ac6c0c80fbe5b14e8d",
+          "url": "connections/carbody-splice-half/assembly-sequence.mp4"
+        }
+      ],
+      "design_complete": false,
+      "failed_checks": [
+        "nominal_complete_penetration"
+      ],
+      "held_checks": [
+        "Source frame uses ideal rigid joint offsets, synthetic planning loads and an unadopted body fixture; no railway joint demand adoption",
+        "Member-end restoring forces include endpoint lumped load and rigid-joint transfer ambiguity; a resolved free-body weld traction is not established",
+        "Issued bevel/root face/backing and corner transitions, access, fit tolerances and distortion control are absent",
+        "Selected steel heat/corner radii and filler classification, metallurgy, process and WPS/PQR/welder qualification are absent",
+        "Local weld/HAZ/parent stress, shear/torsion/warping, residual stress, imperfections, buckling, fracture and railway fatigue resistance are unverified",
+        "Inspection/NDT method, access, acceptance criteria, repair disposition and authenticated serial evidence require adoption",
+        "Coupon is not installed in the carbody; no body stiffness, mass, load path or accepted completion is changed"
+      ],
+      "id": "carbody-splice-half",
+      "manufacturing_release": false,
+      "native_state": "passed",
+      "open_requirements": [
+        "Source frame uses ideal rigid joint offsets, synthetic planning loads and an unadopted body fixture; no railway joint demand adoption",
+        "Member-end restoring forces include endpoint lumped load and rigid-joint transfer ambiguity; a resolved free-body weld traction is not established",
+        "Issued bevel/root face/backing and corner transitions, access, fit tolerances and distortion control are absent",
+        "Selected steel heat/corner radii and filler classification, metallurgy, process and WPS/PQR/welder qualification are absent",
+        "Local weld/HAZ/parent stress, shear/torsion/warping, residual stress, imperfections, buckling, fracture and railway fatigue resistance are unverified",
+        "Inspection/NDT method, access, acceptance criteria, repair disposition and authenticated serial evidence require adoption",
+        "Coupon is not installed in the carbody; no body stiffness, mass, load path or accepted completion is changed"
+      ],
+      "parts": [
+        {
+          "id": "rhs-offcut-0",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 23.91424,
+          "material": "steel",
+          "process": "Saw selected RHS stock, deburr and fixture; square-ended research blank, issued weld edge preparation absent",
+          "revision": "9f431186983c75a1bd657051310c8b5836cf6ff9c1b6640a05577be897674150",
+          "role": "source-stock-offcut"
+        },
+        {
+          "id": "rhs-offcut-1",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 23.91424,
+          "material": "steel",
+          "process": "Saw selected RHS stock, deburr and fixture; square-ended research blank, issued weld edge preparation absent",
+          "revision": "9f431186983c75a1bd657051310c8b5836cf6ff9c1b6640a05577be897674150",
+          "role": "source-stock-offcut"
+        },
+        {
+          "id": "nominal-weld-top",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 0.018840000000000003,
+          "material": "weld-metal-hypothesis",
+          "process": "Nominal solid ownership for deposition study; actual joint prep, access, passes, backing and inspection unissued",
+          "revision": "9f431186983c75a1bd657051310c8b5836cf6ff9c1b6640a05577be897674150",
+          "role": "unqualified-weld-metal-region"
+        },
+        {
+          "id": "nominal-weld-bottom",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 0.018840000000000003,
+          "material": "weld-metal-hypothesis",
+          "process": "Nominal solid ownership for deposition study; actual joint prep, access, passes, backing and inspection unissued",
+          "revision": "9f431186983c75a1bd657051310c8b5836cf6ff9c1b6640a05577be897674150",
+          "role": "unqualified-weld-metal-region"
+        },
+        {
+          "id": "nominal-weld-side-negative",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 0.0324048,
+          "material": "weld-metal-hypothesis",
+          "process": "Nominal solid ownership for deposition study; actual joint prep, access, passes, backing and inspection unissued",
+          "revision": "9f431186983c75a1bd657051310c8b5836cf6ff9c1b6640a05577be897674150",
+          "role": "unqualified-weld-metal-region"
+        },
+        {
+          "id": "nominal-weld-side-positive",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 0.0324048,
+          "material": "weld-metal-hypothesis",
+          "process": "Nominal solid ownership for deposition study; actual joint prep, access, passes, backing and inspection unissued",
+          "revision": "9f431186983c75a1bd657051310c8b5836cf6ff9c1b6640a05577be897674150",
+          "role": "unqualified-weld-metal-region"
+        }
+      ],
+      "physical_release": false,
+      "projection": {
+        "bounds_m": [
+          -0.360829,
+          -0.2712193,
+          0.360829,
+          0.2712193
+        ],
+        "parts": [
+          {
+            "envelope": [
+              [
+                -0.360829,
+                -0.1861221
+              ],
+              [
+                -0.2763054,
+                -0.2712193
+              ],
+              [
+                0.0409024,
+                -0.2017768
+              ],
+              [
+                0.0409024,
+                0.1160844
+              ],
+              [
+                -0.0436213,
+                0.2011815
+              ],
+              [
+                -0.360829,
+                0.131739
+              ]
+            ],
+            "id": "rhs-offcut-0"
+          },
+          {
+            "envelope": [
+              [
+                -0.0409024,
+                -0.1160844
+              ],
+              [
+                0.0436213,
+                -0.2011815
+              ],
+              [
+                0.360829,
+                -0.131739
+              ],
+              [
+                0.360829,
+                0.1861221
+              ],
+              [
+                0.2763054,
+                0.2712193
+              ],
+              [
+                -0.0409024,
+                0.2017768
+              ]
+            ],
+            "id": "rhs-offcut-1"
+          },
+          {
+            "envelope": [
+              [
+                -0.0436213,
+                0.1976497
+              ],
+              [
+                0.0409024,
+                0.1125526
+              ],
+              [
+                0.0436213,
+                0.1131478
+              ],
+              [
+                0.0436213,
+                0.1166796
+              ],
+              [
+                -0.0409024,
+                0.2017768
+              ],
+              [
+                -0.0436213,
+                0.2011815
+              ]
+            ],
+            "id": "nominal-weld-top"
+          },
+          {
+            "envelope": [
+              [
+                -0.0436213,
+                -0.1166796
+              ],
+              [
+                0.0409024,
+                -0.2017768
+              ],
+              [
+                0.0436213,
+                -0.2011815
+              ],
+              [
+                0.0436213,
+                -0.1976497
+              ],
+              [
+                -0.0409024,
+                -0.1125526
+              ],
+              [
+                -0.0436213,
+                -0.1131478
+              ]
+            ],
+            "id": "nominal-weld-bottom"
+          },
+          {
+            "envelope": [
+              [
+                -0.0436213,
+                -0.109616
+              ],
+              [
+                -0.0419308,
+                -0.111318
+              ],
+              [
+                -0.0392119,
+                -0.1107227
+              ],
+              [
+                -0.0392119,
+                0.1930112
+              ],
+              [
+                -0.0409024,
+                0.1947132
+              ],
+              [
+                -0.0436213,
+                0.1941179
+              ]
+            ],
+            "id": "nominal-weld-side-negative"
+          },
+          {
+            "envelope": [
+              [
+                0.0392119,
+                -0.1930112
+              ],
+              [
+                0.0409024,
+                -0.1947132
+              ],
+              [
+                0.0436213,
+                -0.1941179
+              ],
+              [
+                0.0436213,
+                0.109616
+              ],
+              [
+                0.0419308,
+                0.111318
+              ],
+              [
+                0.0392119,
+                0.1107227
+              ]
+            ],
+            "id": "nominal-weld-side-positive"
+          }
+        ],
+        "scope": "Projected native outer envelopes; openings and depth occlusion are not represented. Assembly visibility only; no motion, collision or physics simulation."
+      },
+      "represented_mass_kg": 47.9309696,
+      "revision": "9f431186983c75a1bd657051310c8b5836cf6ff9c1b6640a05577be897674150",
+      "scope": "Separate selected-RHS offcut coupon with nominal weld-gap material ownership and exact simultaneous source endpoint demands; no installed weld preparation, connection stiffness, resistance or railway acceptance",
+      "stages": [
+        {
+          "id": "fit-source-stock",
+          "part_ids": [
+            "rhs-offcut-0",
+            "rhs-offcut-1"
+          ],
+          "requires": [],
+          "title": "Cut and fixture selected RHS offcuts at3mm gap; issued edge prep absent"
+        },
+        {
+          "id": "nominal-face-strips",
+          "part_ids": [
+            "nominal-weld-top",
+            "nominal-weld-bottom"
+          ],
+          "requires": [
+            "fit-source-stock"
+          ],
+          "title": "Show nominal top/bottom gap ownership; actual passes unissued"
+        },
+        {
+          "id": "nominal-side-strips",
+          "part_ids": [
+            "nominal-weld-side-negative",
+            "nominal-weld-side-positive"
+          ],
+          "requires": [
+            "nominal-face-strips"
+          ],
+          "title": "Show nominal sidewall gap ownership; corner/root fusion and NDT held"
+        }
+      ],
+      "title": "Separate selected-sill offcut/weld-gap research coupon; not installed",
+      "unassigned_part_ids": [],
+      "unavailable_assets": [
+        "Whole-frame numerical data",
+        "Finite joint-stiffness sensitivities",
+        "Whole-frame response",
+        "Joint flexibility and frame response",
+        "Cassette fixture movement"
+      ]
+    },
+    {
+      "assets": [
+        {
+          "bytes": 13761,
+          "kind": "file",
+          "label": "Native CAD",
+          "path": "connections/carbody-splice-three-quarter/native/candidate.FCStd",
+          "sha256": "4ca1e14af08db3231c82ebee930e2ab8785aee7da1917adea37ff38ab57f2360",
+          "url": "connections/carbody-splice-three-quarter/native/candidate.FCStd"
+        },
+        {
+          "bytes": 13200,
+          "kind": "file",
+          "label": "STEP",
+          "path": "connections/carbody-splice-three-quarter/model.step.gz",
+          "sha256": "fd1f9174574b971a68485ca12e99186ff9254f52185f801703a80a2b7885697a",
+          "url": "connections/carbody-splice-three-quarter/model.step.gz"
+        },
+        {
+          "bytes": 3008,
+          "kind": "file",
+          "label": "IFC",
+          "path": "connections/carbody-splice-three-quarter/bim/assembly.ifc.gz",
+          "sha256": "b68832181c6bb1b596d333616d581508a7f685ad6ba58ae0c885b099f0aa53ea",
+          "url": "connections/carbody-splice-three-quarter/bim/assembly.ifc.gz"
+        },
+        {
+          "bytes": 4507,
+          "kind": "file",
+          "label": "Parts schedule",
+          "path": "connections/carbody-splice-three-quarter/manufacturing-bom.csv",
+          "sha256": "450162ce8967cf2ae43ee57022b89df414401995d90b1700d18934dab604451f",
+          "url": "connections/carbody-splice-three-quarter/manufacturing-bom.csv"
+        },
+        {
+          "bytes": 4085,
+          "kind": "file",
+          "label": "Alternative recipes and failures",
+          "path": "connections/carbody-splice-three-quarter/alternatives.csv",
+          "sha256": "927f3426d780fa96bf9103195ef3c9dbc97a07afffd1f118284b411f9b44ecf8",
+          "url": "connections/carbody-splice-three-quarter/alternatives.csv"
+        },
+        {
+          "bytes": 6984,
+          "kind": "file",
+          "label": "Checks",
+          "path": "connections/carbody-splice-three-quarter/assessment.json.gz",
+          "sha256": "047d0a98fa1cd0a7f9c06001c32a957a234e399054a0f7375dc58bd7b7b3a4e8",
+          "url": "connections/carbody-splice-three-quarter/assessment.json.gz"
+        },
+        {
+          "bytes": 13140,
+          "kind": "file",
+          "label": "Exact simultaneous splice cuts",
+          "path": "connections/carbody-splice-three-quarter/splice-demands.json.gz",
+          "sha256": "7bbc97ab82e084de515b46db3f65bc6ee6cf7c199d02135f76714e0555c9270d",
+          "url": "connections/carbody-splice-three-quarter/splice-demands.json.gz"
+        },
+        {
+          "bytes": 383,
+          "kind": "file",
+          "label": "Inspection plan",
+          "path": "connections/carbody-splice-three-quarter/qa-plan.json.gz",
+          "sha256": "35ef86ef7734c05f1741216b1a687264476f91f9b915983413ff55789b072d44",
+          "url": "connections/carbody-splice-three-quarter/qa-plan.json.gz"
+        },
+        {
+          "bytes": 5993,
+          "kind": "file",
+          "label": "Retained result",
+          "path": "connections/carbody-splice-three-quarter/result.json",
+          "sha256": "e78093f5a9bb70a8bc53a2347e94f2f13c7442c16add50a6e5ce57db63d03219",
+          "url": "connections/carbody-splice-three-quarter/result.json"
+        },
+        {
+          "bytes": 10228,
+          "kind": "file",
+          "label": "Assembly definition",
+          "path": "connections/carbody-splice-three-quarter/candidate.json.gz",
+          "sha256": "e6586d7edb27477cd25966c7e19a840f0de81cd973af195a5945518acb0316cf",
+          "url": "connections/carbody-splice-three-quarter/candidate.json.gz"
+        },
+        {
+          "bytes": 685,
+          "kind": "file",
+          "label": "Native mesh",
+          "path": "connections/carbody-splice-three-quarter/bim/native-mesh.json.gz",
+          "sha256": "daf24fe0655ea440d8378d83fb0da3b89afe504c2e79a6aad5fd285008844859",
+          "url": "connections/carbody-splice-three-quarter/bim/native-mesh.json.gz"
+        },
+        {
+          "bytes": 138071,
+          "kind": "image",
+          "label": "Native model",
+          "path": "connections/carbody-splice-three-quarter/overview.png",
+          "sha256": "00fe6f7cde2d81a410b930226f44c8f11ec0abe60ceb3ac6d9578a39e7da2534",
+          "url": "connections/carbody-splice-three-quarter/overview.png"
+        },
+        {
+          "bytes": 42691,
+          "kind": "image",
+          "label": "Intermediate assembly stage",
+          "path": "connections/carbody-splice-three-quarter/assembly-intermediate.png",
+          "sha256": "b1be63f93631fd2c7f802673fe37828a9c01b0f65a6e7b20317288a3b9f2d2ab",
+          "url": "connections/carbody-splice-three-quarter/assembly-intermediate.png"
+        },
+        {
+          "bytes": 42681,
+          "kind": "image",
+          "label": "Final assembly stage",
+          "path": "connections/carbody-splice-three-quarter/assembly-stages.png",
+          "sha256": "a6bf992d27d845e36f15baaebb3d0ab0ecb8056d18c025f61e282c2bdc4db4a3",
+          "url": "connections/carbody-splice-three-quarter/assembly-stages.png"
+        },
+        {
+          "bytes": 2105,
+          "kind": "image",
+          "label": "Inspection drawing",
+          "path": "connections/carbody-splice-three-quarter/inspection.svg",
+          "sha256": "edcb9337d64e0b66a1dd6afc41de0a658efa0734663fc1238cf9b93f53cc1902",
+          "url": "connections/carbody-splice-three-quarter/inspection.svg"
+        },
+        {
+          "bytes": 3021,
+          "kind": "image",
+          "label": "Represented splice section and defects",
+          "path": "connections/carbody-splice-three-quarter/splice-section.svg",
+          "sha256": "02e28990ababcd4b7bb227d5d73f30077f05df900bbbf8083c2c65837124f124",
+          "url": "connections/carbody-splice-three-quarter/splice-section.svg"
+        },
+        {
+          "bytes": 29557,
+          "kind": "video",
+          "label": "Assembly sequence",
+          "path": "connections/carbody-splice-three-quarter/assembly-sequence.mp4",
+          "sha256": "56035bd395bd605b09b124d096a3c2fc583bf38c992bc7d2274686cc8c387b92",
+          "url": "connections/carbody-splice-three-quarter/assembly-sequence.mp4"
+        }
+      ],
+      "design_complete": false,
+      "failed_checks": [
+        "nominal_complete_penetration"
+      ],
+      "held_checks": [
+        "Source frame uses ideal rigid joint offsets, synthetic planning loads and an unadopted body fixture; no railway joint demand adoption",
+        "Member-end restoring forces include endpoint lumped load and rigid-joint transfer ambiguity; a resolved free-body weld traction is not established",
+        "Issued bevel/root face/backing and corner transitions, access, fit tolerances and distortion control are absent",
+        "Selected steel heat/corner radii and filler classification, metallurgy, process and WPS/PQR/welder qualification are absent",
+        "Local weld/HAZ/parent stress, shear/torsion/warping, residual stress, imperfections, buckling, fracture and railway fatigue resistance are unverified",
+        "Inspection/NDT method, access, acceptance criteria, repair disposition and authenticated serial evidence require adoption",
+        "Coupon is not installed in the carbody; no body stiffness, mass, load path or accepted completion is changed"
+      ],
+      "id": "carbody-splice-three-quarter",
+      "manufacturing_release": false,
+      "native_state": "passed",
+      "open_requirements": [
+        "Source frame uses ideal rigid joint offsets, synthetic planning loads and an unadopted body fixture; no railway joint demand adoption",
+        "Member-end restoring forces include endpoint lumped load and rigid-joint transfer ambiguity; a resolved free-body weld traction is not established",
+        "Issued bevel/root face/backing and corner transitions, access, fit tolerances and distortion control are absent",
+        "Selected steel heat/corner radii and filler classification, metallurgy, process and WPS/PQR/welder qualification are absent",
+        "Local weld/HAZ/parent stress, shear/torsion/warping, residual stress, imperfections, buckling, fracture and railway fatigue resistance are unverified",
+        "Inspection/NDT method, access, acceptance criteria, repair disposition and authenticated serial evidence require adoption",
+        "Coupon is not installed in the carbody; no body stiffness, mass, load path or accepted completion is changed"
+      ],
+      "parts": [
+        {
+          "id": "rhs-offcut-0",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 23.91424,
+          "material": "steel",
+          "process": "Saw selected RHS stock, deburr and fixture; square-ended research blank, issued weld edge preparation absent",
+          "revision": "d896d9f8fa53aeac3a25743909340da86e84194d9f5d310525dd774502eb2f5a",
+          "role": "source-stock-offcut"
+        },
+        {
+          "id": "rhs-offcut-1",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 23.91424,
+          "material": "steel",
+          "process": "Saw selected RHS stock, deburr and fixture; square-ended research blank, issued weld edge preparation absent",
+          "revision": "d896d9f8fa53aeac3a25743909340da86e84194d9f5d310525dd774502eb2f5a",
+          "role": "source-stock-offcut"
+        },
+        {
+          "id": "nominal-weld-top",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 0.02826,
+          "material": "weld-metal-hypothesis",
+          "process": "Nominal solid ownership for deposition study; actual joint prep, access, passes, backing and inspection unissued",
+          "revision": "d896d9f8fa53aeac3a25743909340da86e84194d9f5d310525dd774502eb2f5a",
+          "role": "unqualified-weld-metal-region"
+        },
+        {
+          "id": "nominal-weld-bottom",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 0.02826,
+          "material": "weld-metal-hypothesis",
+          "process": "Nominal solid ownership for deposition study; actual joint prep, access, passes, backing and inspection unissued",
+          "revision": "d896d9f8fa53aeac3a25743909340da86e84194d9f5d310525dd774502eb2f5a",
+          "role": "unqualified-weld-metal-region"
+        },
+        {
+          "id": "nominal-weld-side-negative",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 0.048607199999999996,
+          "material": "weld-metal-hypothesis",
+          "process": "Nominal solid ownership for deposition study; actual joint prep, access, passes, backing and inspection unissued",
+          "revision": "d896d9f8fa53aeac3a25743909340da86e84194d9f5d310525dd774502eb2f5a",
+          "role": "unqualified-weld-metal-region"
+        },
+        {
+          "id": "nominal-weld-side-positive",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 0.048607199999999996,
+          "material": "weld-metal-hypothesis",
+          "process": "Nominal solid ownership for deposition study; actual joint prep, access, passes, backing and inspection unissued",
+          "revision": "d896d9f8fa53aeac3a25743909340da86e84194d9f5d310525dd774502eb2f5a",
+          "role": "unqualified-weld-metal-region"
+        }
+      ],
+      "physical_release": false,
+      "projection": {
+        "bounds_m": [
+          -0.360829,
+          -0.2712193,
+          0.360829,
+          0.2712193
+        ],
+        "parts": [
+          {
+            "envelope": [
+              [
+                -0.360829,
+                -0.1861221
+              ],
+              [
+                -0.2763054,
+                -0.2712193
+              ],
+              [
+                0.0409024,
+                -0.2017768
+              ],
+              [
+                0.0409024,
+                0.1160844
+              ],
+              [
+                -0.0436213,
+                0.2011815
+              ],
+              [
+                -0.360829,
+                0.131739
+              ]
+            ],
+            "id": "rhs-offcut-0"
+          },
+          {
+            "envelope": [
+              [
+                -0.0409024,
+                -0.1160844
+              ],
+              [
+                0.0436213,
+                -0.2011815
+              ],
+              [
+                0.360829,
+                -0.131739
+              ],
+              [
+                0.360829,
+                0.1861221
+              ],
+              [
+                0.2763054,
+                0.2712193
+              ],
+              [
+                -0.0409024,
+                0.2017768
+              ]
+            ],
+            "id": "rhs-offcut-1"
+          },
+          {
+            "envelope": [
+              [
+                -0.0436213,
+                0.1958838
+              ],
+              [
+                0.0409024,
+                0.1107867
+              ],
+              [
+                0.0436213,
+                0.1113819
+              ],
+              [
+                0.0436213,
+                0.1166796
+              ],
+              [
+                -0.0409024,
+                0.2017768
+              ],
+              [
+                -0.0436213,
+                0.2011815
+              ]
+            ],
+            "id": "nominal-weld-top"
+          },
+          {
+            "envelope": [
+              [
+                -0.0436213,
+                -0.1166796
+              ],
+              [
+                0.0409024,
+                -0.2017768
+              ],
+              [
+                0.0436213,
+                -0.2011815
+              ],
+              [
+                0.0436213,
+                -0.1958838
+              ],
+              [
+                -0.0409024,
+                -0.1107867
+              ],
+              [
+                -0.0436213,
+                -0.1113819
+              ]
+            ],
+            "id": "nominal-weld-bottom"
+          },
+          {
+            "envelope": [
+              [
+                -0.0436213,
+                -0.109616
+              ],
+              [
+                -0.0410856,
+                -0.1121689
+              ],
+              [
+                -0.0383667,
+                -0.1115737
+              ],
+              [
+                -0.0383667,
+                0.1921603
+              ],
+              [
+                -0.0409024,
+                0.1947132
+              ],
+              [
+                -0.0436213,
+                0.1941179
+              ]
+            ],
+            "id": "nominal-weld-side-negative"
+          },
+          {
+            "envelope": [
+              [
+                0.0383667,
+                -0.1921603
+              ],
+              [
+                0.0409024,
+                -0.1947132
+              ],
+              [
+                0.0436213,
+                -0.1941179
+              ],
+              [
+                0.0436213,
+                0.109616
+              ],
+              [
+                0.0410856,
+                0.1121689
+              ],
+              [
+                0.0383667,
+                0.1115737
+              ]
+            ],
+            "id": "nominal-weld-side-positive"
+          }
+        ],
+        "scope": "Projected native outer envelopes; openings and depth occlusion are not represented. Assembly visibility only; no motion, collision or physics simulation."
+      },
+      "represented_mass_kg": 47.982214400000004,
+      "revision": "d896d9f8fa53aeac3a25743909340da86e84194d9f5d310525dd774502eb2f5a",
+      "scope": "Separate selected-RHS offcut coupon with nominal weld-gap material ownership and exact simultaneous source endpoint demands; no installed weld preparation, connection stiffness, resistance or railway acceptance",
+      "stages": [
+        {
+          "id": "fit-source-stock",
+          "part_ids": [
+            "rhs-offcut-0",
+            "rhs-offcut-1"
+          ],
+          "requires": [],
+          "title": "Cut and fixture selected RHS offcuts at3mm gap; issued edge prep absent"
+        },
+        {
+          "id": "nominal-face-strips",
+          "part_ids": [
+            "nominal-weld-top",
+            "nominal-weld-bottom"
+          ],
+          "requires": [
+            "fit-source-stock"
+          ],
+          "title": "Show nominal top/bottom gap ownership; actual passes unissued"
+        },
+        {
+          "id": "nominal-side-strips",
+          "part_ids": [
+            "nominal-weld-side-negative",
+            "nominal-weld-side-positive"
+          ],
+          "requires": [
+            "nominal-face-strips"
+          ],
+          "title": "Show nominal sidewall gap ownership; corner/root fusion and NDT held"
+        }
+      ],
+      "title": "Separate selected-sill offcut/weld-gap research coupon; not installed",
+      "unassigned_part_ids": [],
+      "unavailable_assets": [
+        "Whole-frame numerical data",
+        "Finite joint-stiffness sensitivities",
+        "Whole-frame response",
+        "Joint flexibility and frame response",
+        "Cassette fixture movement"
+      ]
+    },
+    {
+      "assets": [
+        {
+          "bytes": 13761,
+          "kind": "file",
+          "label": "Native CAD",
+          "path": "connections/carbody-splice-full/native/candidate.FCStd",
+          "sha256": "034264f1761f6cee4c2fac8d448affb8126ba9bb7d1e3b22c5524ddaec24efc4",
+          "url": "connections/carbody-splice-full/native/candidate.FCStd"
+        },
+        {
+          "bytes": 13182,
+          "kind": "file",
+          "label": "STEP",
+          "path": "connections/carbody-splice-full/model.step.gz",
+          "sha256": "6ea5157d96ac693a2db4e00130934b2b9e61ef7ad769085ac0287ca4ba09c0aa",
+          "url": "connections/carbody-splice-full/model.step.gz"
+        },
+        {
+          "bytes": 2977,
+          "kind": "file",
+          "label": "IFC",
+          "path": "connections/carbody-splice-full/bim/assembly.ifc.gz",
+          "sha256": "954cac71de0df01192dbe1fb96e5e586601a7a9a127a1e7d0b34f39fc77bae0a",
+          "url": "connections/carbody-splice-full/bim/assembly.ifc.gz"
+        },
+        {
+          "bytes": 4511,
+          "kind": "file",
+          "label": "Parts schedule",
+          "path": "connections/carbody-splice-full/manufacturing-bom.csv",
+          "sha256": "385902fea6c7168fc83f16b256592d6b06c8a21bdbdb2727401a6c33d0aca953",
+          "url": "connections/carbody-splice-full/manufacturing-bom.csv"
+        },
+        {
+          "bytes": 4085,
+          "kind": "file",
+          "label": "Alternative recipes and failures",
+          "path": "connections/carbody-splice-full/alternatives.csv",
+          "sha256": "927f3426d780fa96bf9103195ef3c9dbc97a07afffd1f118284b411f9b44ecf8",
+          "url": "connections/carbody-splice-full/alternatives.csv"
+        },
+        {
+          "bytes": 6200,
+          "kind": "file",
+          "label": "Checks",
+          "path": "connections/carbody-splice-full/assessment.json.gz",
+          "sha256": "2d594cfecdabefab09efaac8d3ec21077c05b7d191747fcdb84f8b525be577f7",
+          "url": "connections/carbody-splice-full/assessment.json.gz"
+        },
+        {
+          "bytes": 13140,
+          "kind": "file",
+          "label": "Exact simultaneous splice cuts",
+          "path": "connections/carbody-splice-full/splice-demands.json.gz",
+          "sha256": "7bbc97ab82e084de515b46db3f65bc6ee6cf7c199d02135f76714e0555c9270d",
+          "url": "connections/carbody-splice-full/splice-demands.json.gz"
+        },
+        {
+          "bytes": 381,
+          "kind": "file",
+          "label": "Inspection plan",
+          "path": "connections/carbody-splice-full/qa-plan.json.gz",
+          "sha256": "f762edd1e52d75d98c7e43497c48eb1d4c8f6c13b8d59954325b45fa2f432f7b",
+          "url": "connections/carbody-splice-full/qa-plan.json.gz"
+        },
+        {
+          "bytes": 5943,
+          "kind": "file",
+          "label": "Retained result",
+          "path": "connections/carbody-splice-full/result.json",
+          "sha256": "6b4a5d6eff3eb21b8a8802ee09d582ebba60da660f0ab7f22809ecaec68d9cb6",
+          "url": "connections/carbody-splice-full/result.json"
+        },
+        {
+          "bytes": 10124,
+          "kind": "file",
+          "label": "Assembly definition",
+          "path": "connections/carbody-splice-full/candidate.json.gz",
+          "sha256": "2278ff49e434f1eac559228e5ce5d830e684007e4fbb0b87513e2ee6bceb8bd1",
+          "url": "connections/carbody-splice-full/candidate.json.gz"
+        },
+        {
+          "bytes": 654,
+          "kind": "file",
+          "label": "Native mesh",
+          "path": "connections/carbody-splice-full/bim/native-mesh.json.gz",
+          "sha256": "16675faafddbdbc07b09ec57b7517781416b861d3dc89f8272f3e9e93eca7259",
+          "url": "connections/carbody-splice-full/bim/native-mesh.json.gz"
+        },
+        {
+          "bytes": 136033,
+          "kind": "image",
+          "label": "Native model",
+          "path": "connections/carbody-splice-full/overview.png",
+          "sha256": "5bfb47e8db7b7a3a2fdaa31b653af70bd4eb954cc33f2f51620fe9aa0b03e638",
+          "url": "connections/carbody-splice-full/overview.png"
+        },
+        {
+          "bytes": 41771,
+          "kind": "image",
+          "label": "Intermediate assembly stage",
+          "path": "connections/carbody-splice-full/assembly-intermediate.png",
+          "sha256": "b29e27ed3ce5236ef4ed2fadb775f9eb68cf623c6e58de4ac937fa9232755a36",
+          "url": "connections/carbody-splice-full/assembly-intermediate.png"
+        },
+        {
+          "bytes": 41819,
+          "kind": "image",
+          "label": "Final assembly stage",
+          "path": "connections/carbody-splice-full/assembly-stages.png",
+          "sha256": "a6b872375423aa545f50fab64e1c9649e62522e6ea6cbda856c650b673562de5",
+          "url": "connections/carbody-splice-full/assembly-stages.png"
+        },
+        {
+          "bytes": 2096,
+          "kind": "image",
+          "label": "Inspection drawing",
+          "path": "connections/carbody-splice-full/inspection.svg",
+          "sha256": "c6298493771abb6c8c11a7640c231f8608965b67c7ef336c15225f9a76847a0f",
+          "url": "connections/carbody-splice-full/inspection.svg"
+        },
+        {
+          "bytes": 3021,
+          "kind": "image",
+          "label": "Represented splice section and defects",
+          "path": "connections/carbody-splice-full/splice-section.svg",
+          "sha256": "83d8d4315af88219c70c6864fb401cbe55ae2692ba4c08fb1005a9c2470a8953",
+          "url": "connections/carbody-splice-full/splice-section.svg"
+        },
+        {
+          "bytes": 28942,
+          "kind": "video",
+          "label": "Assembly sequence",
+          "path": "connections/carbody-splice-full/assembly-sequence.mp4",
+          "sha256": "936213e4140f139b0d26d1247e8a8c98d85cc337f5c135801cf53bfc05519363",
+          "url": "connections/carbody-splice-full/assembly-sequence.mp4"
+        }
+      ],
+      "design_complete": false,
+      "failed_checks": [],
+      "held_checks": [
+        "Source frame uses ideal rigid joint offsets, synthetic planning loads and an unadopted body fixture; no railway joint demand adoption",
+        "Member-end restoring forces include endpoint lumped load and rigid-joint transfer ambiguity; a resolved free-body weld traction is not established",
+        "Issued bevel/root face/backing and corner transitions, access, fit tolerances and distortion control are absent",
+        "Selected steel heat/corner radii and filler classification, metallurgy, process and WPS/PQR/welder qualification are absent",
+        "Local weld/HAZ/parent stress, shear/torsion/warping, residual stress, imperfections, buckling, fracture and railway fatigue resistance are unverified",
+        "Inspection/NDT method, access, acceptance criteria, repair disposition and authenticated serial evidence require adoption",
+        "Coupon is not installed in the carbody; no body stiffness, mass, load path or accepted completion is changed"
+      ],
+      "id": "carbody-splice-full",
+      "manufacturing_release": false,
+      "native_state": "passed",
+      "open_requirements": [
+        "Source frame uses ideal rigid joint offsets, synthetic planning loads and an unadopted body fixture; no railway joint demand adoption",
+        "Member-end restoring forces include endpoint lumped load and rigid-joint transfer ambiguity; a resolved free-body weld traction is not established",
+        "Issued bevel/root face/backing and corner transitions, access, fit tolerances and distortion control are absent",
+        "Selected steel heat/corner radii and filler classification, metallurgy, process and WPS/PQR/welder qualification are absent",
+        "Local weld/HAZ/parent stress, shear/torsion/warping, residual stress, imperfections, buckling, fracture and railway fatigue resistance are unverified",
+        "Inspection/NDT method, access, acceptance criteria, repair disposition and authenticated serial evidence require adoption",
+        "Coupon is not installed in the carbody; no body stiffness, mass, load path or accepted completion is changed"
+      ],
+      "parts": [
+        {
+          "id": "rhs-offcut-0",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 23.91424,
+          "material": "steel",
+          "process": "Saw selected RHS stock, deburr and fixture; square-ended research blank, issued weld edge preparation absent",
+          "revision": "00f80679f1b0d4eca4fde0d52fc9fd1a9e3ab8a3bafc98015032e04cbf45f578",
+          "role": "source-stock-offcut"
+        },
+        {
+          "id": "rhs-offcut-1",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 23.91424,
+          "material": "steel",
+          "process": "Saw selected RHS stock, deburr and fixture; square-ended research blank, issued weld edge preparation absent",
+          "revision": "00f80679f1b0d4eca4fde0d52fc9fd1a9e3ab8a3bafc98015032e04cbf45f578",
+          "role": "source-stock-offcut"
+        },
+        {
+          "id": "nominal-weld-top",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 0.037680000000000005,
+          "material": "weld-metal-hypothesis",
+          "process": "Nominal solid ownership for deposition study; actual joint prep, access, passes, backing and inspection unissued",
+          "revision": "00f80679f1b0d4eca4fde0d52fc9fd1a9e3ab8a3bafc98015032e04cbf45f578",
+          "role": "unqualified-weld-metal-region"
+        },
+        {
+          "id": "nominal-weld-bottom",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 0.037680000000000005,
+          "material": "weld-metal-hypothesis",
+          "process": "Nominal solid ownership for deposition study; actual joint prep, access, passes, backing and inspection unissued",
+          "revision": "00f80679f1b0d4eca4fde0d52fc9fd1a9e3ab8a3bafc98015032e04cbf45f578",
+          "role": "unqualified-weld-metal-region"
+        },
+        {
+          "id": "nominal-weld-side-negative",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 0.0648096,
+          "material": "weld-metal-hypothesis",
+          "process": "Nominal solid ownership for deposition study; actual joint prep, access, passes, backing and inspection unissued",
+          "revision": "00f80679f1b0d4eca4fde0d52fc9fd1a9e3ab8a3bafc98015032e04cbf45f578",
+          "role": "unqualified-weld-metal-region"
+        },
+        {
+          "id": "nominal-weld-side-positive",
+          "joints": [
+            "coupon-butt-connection"
+          ],
+          "mass_kg": 0.0648096,
+          "material": "weld-metal-hypothesis",
+          "process": "Nominal solid ownership for deposition study; actual joint prep, access, passes, backing and inspection unissued",
+          "revision": "00f80679f1b0d4eca4fde0d52fc9fd1a9e3ab8a3bafc98015032e04cbf45f578",
+          "role": "unqualified-weld-metal-region"
+        }
+      ],
+      "physical_release": false,
+      "projection": {
+        "bounds_m": [
+          -0.360829,
+          -0.2712193,
+          0.360829,
+          0.2712193
+        ],
+        "parts": [
+          {
+            "envelope": [
+              [
+                -0.360829,
+                -0.1861221
+              ],
+              [
+                -0.2763054,
+                -0.2712193
+              ],
+              [
+                0.0409024,
+                -0.2017768
+              ],
+              [
+                0.0409024,
+                0.1160844
+              ],
+              [
+                -0.0436213,
+                0.2011815
+              ],
+              [
+                -0.360829,
+                0.131739
+              ]
+            ],
+            "id": "rhs-offcut-0"
+          },
+          {
+            "envelope": [
+              [
+                -0.0409024,
+                -0.1160844
+              ],
+              [
+                0.0436213,
+                -0.2011815
+              ],
+              [
+                0.360829,
+                -0.131739
+              ],
+              [
+                0.360829,
+                0.1861221
+              ],
+              [
+                0.2763054,
+                0.2712193
+              ],
+              [
+                -0.0409024,
+                0.2017768
+              ]
+            ],
+            "id": "rhs-offcut-1"
+          },
+          {
+            "envelope": [
+              [
+                -0.0436213,
+                0.1941179
+              ],
+              [
+                0.0409024,
+                0.1090208
+              ],
+              [
+                0.0436213,
+                0.109616
+              ],
+              [
+                0.0436213,
+                0.1166796
+              ],
+              [
+                -0.0409024,
+                0.2017768
+              ],
+              [
+                -0.0436213,
+                0.2011815
+              ]
+            ],
+            "id": "nominal-weld-top"
+          },
+          {
+            "envelope": [
+              [
+                -0.0436213,
+                -0.1166796
+              ],
+              [
+                0.0409024,
+                -0.2017768
+              ],
+              [
+                0.0436213,
+                -0.2011815
+              ],
+              [
+                0.0436213,
+                -0.1941179
+              ],
+              [
+                -0.0409024,
+                -0.1090208
+              ],
+              [
+                -0.0436213,
+                -0.109616
+              ]
+            ],
+            "id": "nominal-weld-bottom"
+          },
+          {
+            "envelope": [
+              [
+                -0.0436213,
+                -0.109616
+              ],
+              [
+                -0.0402403,
+                -0.1130199
+              ],
+              [
+                -0.0375214,
+                -0.1124247
+              ],
+              [
+                -0.0375214,
+                0.1913093
+              ],
+              [
+                -0.0409024,
+                0.1947132
+              ],
+              [
+                -0.0436213,
+                0.1941179
+              ]
+            ],
+            "id": "nominal-weld-side-negative"
+          },
+          {
+            "envelope": [
+              [
+                0.0375214,
+                -0.1913093
+              ],
+              [
+                0.0409024,
+                -0.1947132
+              ],
+              [
+                0.0436213,
+                -0.1941179
+              ],
+              [
+                0.0436213,
+                0.109616
+              ],
+              [
+                0.0402403,
+                0.1130199
+              ],
+              [
+                0.0375214,
+                0.1124247
+              ]
+            ],
+            "id": "nominal-weld-side-positive"
+          }
+        ],
+        "scope": "Projected native outer envelopes; openings and depth occlusion are not represented. Assembly visibility only; no motion, collision or physics simulation."
+      },
+      "represented_mass_kg": 48.033459199999996,
+      "revision": "00f80679f1b0d4eca4fde0d52fc9fd1a9e3ab8a3bafc98015032e04cbf45f578",
+      "scope": "Separate selected-RHS offcut coupon with nominal weld-gap material ownership and exact simultaneous source endpoint demands; no installed weld preparation, connection stiffness, resistance or railway acceptance",
+      "stages": [
+        {
+          "id": "fit-source-stock",
+          "part_ids": [
+            "rhs-offcut-0",
+            "rhs-offcut-1"
+          ],
+          "requires": [],
+          "title": "Cut and fixture selected RHS offcuts at3mm gap; issued edge prep absent"
+        },
+        {
+          "id": "nominal-face-strips",
+          "part_ids": [
+            "nominal-weld-top",
+            "nominal-weld-bottom"
+          ],
+          "requires": [
+            "fit-source-stock"
+          ],
+          "title": "Show nominal top/bottom gap ownership; actual passes unissued"
+        },
+        {
+          "id": "nominal-side-strips",
+          "part_ids": [
+            "nominal-weld-side-negative",
+            "nominal-weld-side-positive"
+          ],
+          "requires": [
+            "nominal-face-strips"
+          ],
+          "title": "Show nominal sidewall gap ownership; corner/root fusion and NDT held"
+        }
+      ],
+      "title": "Separate selected-sill offcut/weld-gap research coupon; not installed",
+      "unassigned_part_ids": [],
+      "unavailable_assets": [
+        "Whole-frame numerical data",
+        "Finite joint-stiffness sensitivities",
+        "Whole-frame response",
+        "Joint flexibility and frame response",
         "Cassette fixture movement"
       ]
     }

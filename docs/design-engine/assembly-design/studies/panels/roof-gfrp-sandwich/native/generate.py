@@ -1,14 +1,14 @@
 import sys,runpy
 sys.path[:0]=['/home/hayder/Documents/OpenSourceRail', '/home/hayder/Documents/OpenSourceRail/design/component-catalogue/src']
 module=runpy.run_path('/home/hayder/Documents/OpenSourceRail/engineering/design_engine/native_cad.py')
-module["native"]('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/74469c2e2284bd310b62f66c72c27b159dd6a4bb1a625379753c851c76c1ff49/closure-studies-attempt/panels/roof-gfrp-sandwich/definition.json','/home/hayder/.local/state/opensourcerail/assembly-design/epochs/74469c2e2284bd310b62f66c72c27b159dd6a4bb1a625379753c851c76c1ff49/closure-studies-attempt/panels/roof-gfrp-sandwich/native')
+module["native"]('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/01825e46f50c03880b426ab2dcefc5bf7c8a0f969c25320251aee1f02aee75d2/closure-studies-attempt/panels/roof-gfrp-sandwich/definition.json','/home/hayder/.local/state/opensourcerail/assembly-design/epochs/01825e46f50c03880b426ab2dcefc5bf7c8a0f969c25320251aee1f02aee75d2/closure-studies-attempt/panels/roof-gfrp-sandwich/native')
 import json,hashlib
 from pathlib import Path
 import FreeCAD as App
-definition=json.loads(Path('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/74469c2e2284bd310b62f66c72c27b159dd6a4bb1a625379753c851c76c1ff49/closure-studies-attempt/panels/roof-gfrp-sandwich/definition.json').read_text())
+definition=json.loads(Path('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/01825e46f50c03880b426ab2dcefc5bf7c8a0f969c25320251aee1f02aee75d2/closure-studies-attempt/panels/roof-gfrp-sandwich/definition.json').read_text())
 unit_map={p["id"]:p["manufacturing_unit_id"] for p in definition["parts"] if p.get("manufacturing_unit_id")}
 if unit_map:
-    path=Path('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/74469c2e2284bd310b62f66c72c27b159dd6a4bb1a625379753c851c76c1ff49/closure-studies-attempt/panels/roof-gfrp-sandwich/native')
+    path=Path('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/01825e46f50c03880b426ab2dcefc5bf7c8a0f969c25320251aee1f02aee75d2/closure-studies-attempt/panels/roof-gfrp-sandwich/native')
     doc=App.openDocument(str(path/"candidate.FCStd"))
     for obj in doc.Objects:
         if hasattr(obj,"PhysicalPartId") and obj.PhysicalPartId in unit_map:
