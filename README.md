@@ -1,5 +1,9 @@
 # OpenSourceRail
 
+![OpenSourceRail v0.5 ferrite-maglev station concept in Baghdad, with vehicle and magnetic guideway interface details](OpenSourceRail%20maglev%20station%20concept.png)
+
+*v0.5 development concept — station layout and magnetic interfaces under study.*
+
 **nobody should be priced out of dignity**
 
 **v0.5 — primary ferrite-maglev development architecture.** OpenSourceRail now develops fixed magnetic modules for local manufacture, passive narrow guidebeams and Rust controls on off-the-shelf SBCs. [Review the executable study and images](docs/design-engine/ferrite-maglev/reference/index.html) · [architecture transition and remaining work](docs/rfcs/0035-v05-primary-ferrite-maglev.md). Engineering and physical acceptance remain open. Existing wheel/rail city packages, CAD, assembly videos, book and brochure are retained v0.4 comparators.
