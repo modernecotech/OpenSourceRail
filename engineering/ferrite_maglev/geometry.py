@@ -155,7 +155,7 @@ def guideway_quantities(span=None,*,width=None,depth=None,web=None,flange=None):
     """One source of material quantities, including actual segmented rail lengths.
 
     Magnetic attachments and winding hardware not represented in these solids
-    remain unquantified. The former 100 kg/m is a historical comparator only.
+    remain unquantified.
     """
     if span is None:span=configuration.selected().civil.span_m
     parts=beam_parts('quantity',span,width=width,depth=depth,web=web,flange=flange)
@@ -164,7 +164,7 @@ def guideway_quantities(span=None,*,width=None,depth=None,web=None,flange=None):
     return dict(span_m=span,magnetic_rail_mass_kg=rail,magnetic_rail_line_mass_kg_m=rail/span,
         beam_concrete_mass_kg=concrete,beam_concrete_line_mass_kg_m=concrete/span,
         total_line_mass_kg_m=(rail+concrete)/span,
-        historical_magnetic_allowance_kg_m=100.,unmodelled_attachment_mass_kg=None)
+        unmodelled_attachment_mass_kg=None)
 
 
 def civil_bay(span=None,*,width=None,depth=None,web=None,flange=None,pier_height=None):

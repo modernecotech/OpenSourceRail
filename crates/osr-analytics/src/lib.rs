@@ -4,7 +4,7 @@
 //! typically, but any `&[Sample]` works). Produces the operational
 //! KPIs the OCC dashboard and monthly reports consume.
 //!
-//! Phase 2e crate of [RFC 0005 §4.8](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2e crate of [RFC 0005 §4.8](../../../docs/ARCHITECTURE.md).
 //! SIL-0. All numeric aggregations — no side effects.
 //!
 //! # Provided KPIs

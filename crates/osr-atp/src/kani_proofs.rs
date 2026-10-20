@@ -165,7 +165,7 @@ fn kani_a2_expired_ma_trips() {
     // An empty network is sufficient: the A2 check runs before any
     // `Network` field is read.
     let net = Network::default();
-    let consist = ConsistDescriptor::reference_3car();
+    let consist = ConsistDescriptor::synthetic_analysis_fixture();
     let state = state_on_section(7, 1000, 0);
 
     let mut ma = nominal_ma(7, 1001, 500_000, 0);
@@ -219,7 +219,9 @@ fn kani_a1_determinism() {
     // Check the compiled fixture against the original reference consist.
     assert!(
         PROFILE
-            == crate::envelope::BrakeProfile::from_consist(&ConsistDescriptor::reference_3car())
+            == crate::envelope::BrakeProfile::from_consist(
+                &ConsistDescriptor::synthetic_analysis_fixture()
+            )
     );
     let consist = PROFILE;
 
@@ -254,7 +256,7 @@ fn kani_a3_unknown_position_trips() {
     kani::assume(valid_until_ns > now_ns);
 
     let net = Network::default();
-    let consist = ConsistDescriptor::reference_3car();
+    let consist = ConsistDescriptor::synthetic_analysis_fixture();
     let state = state_on_section(7, 1000, 0);
     let mut ma = nominal_ma(7, 1001, 500_000, 0);
     ma.valid_until_ns = valid_until_ns;
@@ -279,7 +281,7 @@ fn kani_a4_train_mismatch_trips() {
     kani::assume(state_id != ma_id);
 
     let net = Network::default();
-    let consist = ConsistDescriptor::reference_3car();
+    let consist = ConsistDescriptor::synthetic_analysis_fixture();
     let state = state_on_section(state_id, 1000, 0);
     let ma = nominal_ma(ma_id, 1001, 500_000, 0);
 
@@ -306,7 +308,7 @@ fn kani_a5_head_past_ma_end_trips_same_section() {
     // Unwinding assertions also check that longer paths are unreachable
     // under the assumptions below; they are not silently discarded.
     let net = Network::default();
-    let consist = ConsistDescriptor::reference_3car();
+    let consist = ConsistDescriptor::synthetic_analysis_fixture();
 
     let head_offset: i64 = kani::any();
     let end_offset: i64 = kani::any();
@@ -360,7 +362,7 @@ fn kani_a6_severe_overspeed_trips() {
     // The same-section distance path does not read topology. Bound 33
     // accommodates all 32 integer square-root steps and the exit check; all checks remain enabled.
     let net = Network::default();
-    let consist = ConsistDescriptor::reference_3car();
+    let consist = ConsistDescriptor::synthetic_analysis_fixture();
     let decel = DecelTable::from_emergency(&consist);
     let envelope = max_safe_speed_mmps(dist, &decel);
 
@@ -434,7 +436,7 @@ fn kani_a7_uncertainty_widening_is_conservative() {
 
     // Both evaluations use the same-section fast path, with no graph lookup.
     let net = Network::default();
-    let consist = ConsistDescriptor::reference_3car();
+    let consist = ConsistDescriptor::synthetic_analysis_fixture();
 
     let mut state_low = state_on_section(7, 1000, head_offset);
     state_low.speed_mmps = speed_mmps;

@@ -1,6 +1,6 @@
 """Bounded cost/quantity research and elevated route objectives; no engineering release.
 
-Cost coefficients are indexed from the supplied workbook, not invented supplier
+Cost coefficients are explicit quantity/process planning assumptions, not supplier
 quotes. Required equipment, payload, reserve, magnetic mass and storage remain
 visible. A smaller mass allocation does not itself earn a procurement saving.
 """
@@ -57,7 +57,7 @@ def load():
         for key in MASS_KEYS:
             if type(p[key]) not in (int,float) or not .5<=p[key]<=1:raise ValueError('bounded positive mass ratios required')
         if type(p['unqualified_change_count']) is not int or p['unqualified_change_count']<0:raise ValueError('nonnegative change count required')
-        if p['hardware_target']!='retain-workbook':model.positive(p['hardware_target'],'hardware target')
+        if p['hardware_target']!='retain-process-rates':model.positive(p['hardware_target'],'hardware target')
     return a
 
 
@@ -70,16 +70,15 @@ def vehicle(c,costs,p):
     target['mass']['base_tare_target_150kwh_3t_ferrite']-=saved
     target['mass']['matched_tare_target_225kwh_3t_ferrite']-=saved
     m=model.mass(target,c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'])
-    hardware=None if p['hardware_target']=='retain-workbook' else p['hardware_target']
+    hardware=None if p['hardware_target']=='retain-process-rates' else p['hardware_target']
     cost=model.cost_case(c,costs,'base',c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'],hardware_target=hardware)
     duty=model.cycle(target,m['aw3_kg'],hot=True,regen=False)
     return target,dict(id=p['id'],mass=m,mass_allocation_changes=changes,assumed_mass_saving_kg=saved,
-        repeat_three_car_train_allowance_usd=cost['train_usd'],hardware_target_usd_train=hardware,
+        repeat_reference_train_allowance_usd=cost['train_usd'],hardware_target_usd_train=hardware,
         unqualified_change_count=p['unqualified_change_count'],
         fixed_allocations_kg={k:c['mass'][k] for k in ('ferrite_base','capture_landing_emergency_braking','battery_150kwh_installed','growth_reserve')},
         gross_storage_kwh_per_car=c['power']['gross_battery_matched_kwh_per_car'],
         aw2_passengers_per_car=c['vehicle']['aw2_passengers_per_car'],aw3_passengers_per_car=c['vehicle']['aw3_passengers_per_car'],
-        removed_wheel_gear_credit_usd_train=cost['removed_direct_usd_train'],
         required_systems_retained=['passenger doors','HVAC fans/pumps as required','support drives/sensing/cooling',
             'capture/landing/emergency braking','battery protection','independent protection','couplers/gangways','evacuation'],
         normal_running_gear_moving_parts_objective=0,total_moving_parts_count=None,
@@ -102,26 +101,16 @@ def civil(c,costs,v,width,depth,web,flange,span,a,*,guideway_mode='walkway-refer
     native_rail_line_mass=r['magnetic_quantities']['magnetic_rail_line_mass_kg_m']
     r['web_m']=web;r['flange_m']=flange
     base=model.cost_case(c,costs,'base',c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'])
-    rows=deepcopy(base['civil_rows_usd_dual_km']);b=a['civil']
-    volume=(r['area_m2']+walkway_area)*2000
+    b=a['civil']
+    from . import manufacturing
+    bill=manufacturing.civil(target,costs,area=r['area_m2'],span=span,walkway_area=walkway_area)
+    rows={r['id']:r['amount_usd'] for r in bill['rows']}
+    volume=bill['quantities']['concrete_m3_dual_km']
     refvolume=c['civil']['narrow_box_screen']['candidate_listed_concrete_m3_per_dual_route_km']
     reference_lift=c['civil']['narrow_box_screen']['derived_concrete_area_m2']*c['civil']['reference_span_m']*b['reference_concrete_density_kg_m3']
     piers=1000/span;reference_piers=1000/c['civil']['reference_span_m']
     lift_mass=r['area_m2']*span*b['reference_concrete_density_kg_m3']
     ratio=volume/refvolume;lift_ratio=lift_mass/reference_lift;support_ratio=piers/reference_piers
-    rows['structural_supply']*=ratio
-    # No foundation shrink credit: same assumed support-unit price, varied count.
-    rows['supports']*=support_ratio
-    variable=b['transport_cost_variable_fraction'];rows['transport']*=1-variable+variable*ratio
-    # Longer/heavier spans reduce lift count but increase a transparent handling allowance.
-    rows['erection']*=support_ratio*max(1,lift_ratio)
-    if beam_only:rows['walkway_brackets']=0
-    if set(b['unchanged_cost_rows'])!={'passive_rail_supply','walkway_brackets','temporary','installation','night','qa','relocation','traffic'}:
-        raise ValueError('required unchanged scope rows differ')
-    reference=base['civil_rows_usd_dual_km']
-    for key in b['unchanged_cost_rows']:
-        if rows[key]!=reference[key] and not (beam_only and key=='walkway_brackets'):
-            raise ValueError('unqualified fixed-scope credit: '+key)
     stiffness=r['total_elastic_deflection_m']<=span/b['gross_deflection_span_divisor_screen']
     lifting=lift_mass<=b['maximum_bare_beam_lift_mass_screen_kg']
     return dict(section=r,concrete_m3_dual_km=volume,counted_concrete_mass_kg_dual_km=volume*b['reference_concrete_density_kg_m3'],
@@ -148,8 +137,8 @@ def scorecard(v,civil):
     return dict(
         installed_cost_usd_dual_route_km=None,
         indexed_ordinary_viaduct_allowance_usd_dual_route_km=civil['indexed_allowance_usd_dual_km'],
-        factory_gate_cost_usd_three_car_train=None,
-        indexed_repeat_three_car_train_allowance_usd=v['repeat_three_car_train_allowance_usd'],
+        factory_gate_cost_usd_reference_train=None,
+        indexed_repeat_reference_train_allowance_usd=v['repeat_reference_train_allowance_usd'],
         tare_kg_per_car=v['mass']['tare_kg'],aw2_kg_per_car=v['mass']['aw2_kg'],aw3_kg_per_car=v['mass']['aw3_kg'],
         hot_aw3_no_regen_cycle_kwh_per_car=None if held else v['matched_duty']['hot_aw3_no_regen_cycle_kwh_per_car'],
         balanced_charger_kw_per_car=None if held else v['matched_duty']['balanced_charger_kw_per_car'],
@@ -166,7 +155,7 @@ def scorecard(v,civil):
 
 def _vector(r):
     return (r['civil']['indexed_allowance_usd_dual_km'],r['civil']['counted_concrete_mass_kg_dual_km'],
-            r['civil']['maximum_bare_beam_lift_kg'],r['vehicle']['mass']['tare_kg'],r['vehicle']['repeat_three_car_train_allowance_usd'],
+            r['civil']['maximum_bare_beam_lift_kg'],r['vehicle']['mass']['tare_kg'],r['vehicle']['repeat_reference_train_allowance_usd'],
             r['vehicle']['unqualified_change_count'])
 
 
@@ -199,7 +188,7 @@ def _study(canonical):
         lowest_counted_concrete_mass_candidate_id=lightest['id'] if lightest else None,
         fastest_construction_candidate_id=None,
         scope='Reference configurations passing gross stiffness/bare-lift screens only. Whole installed cost/mass and construction time not established; held no-walkway variants excluded.',
-        construction_time_hold='No maglev-specific production/erection resource schedule, productivity or curing/connection evidence; legacy wheel/rail schedule winners cannot transfer.')
+        construction_time_hold='No maglev-specific production/erection resource schedule, productivity or curing/connection evidence; no qualified maglev production schedule is available.')
     fixed=sum(base['civil_rows_usd_dual_km'][k] for k in b['unchanged_cost_rows'])
     eligible_bare=[r for r in beam_only_rows if r['numerical_screen_pass']]
     bare_best=min(eligible_bare,key=lambda r:(r['civil']['indexed_allowance_usd_dual_km'],r['id'])) if eligible_bare else None
@@ -219,9 +208,9 @@ def _study(canonical):
         beam_only_selection_hold='No safe landing/accessibility/fire/fault/route/supplier acceptance; additional onboard mass, cost, inspection and replacement unknown. Gross avoidance is not a net saving.',
         reference_ordinary_viaduct_usd_dual_km=base['civil_usd_dual_km'],unchanged_scope_floor_usd_dual_km=fixed,
         acceptance_eligible_candidate_count=0,local_value_added_fraction=None,
-        objective_units=['USD/dual-route-km','counted concrete kg/dual-route-km','maximum bare lift kg','tare kg/car','USD/three-car train','unqualified vehicle target changes'],
+        objective_units=['USD/dual-route-km','counted concrete kg/dual-route-km','maximum bare lift kg','tare kg/car','USD/reference formation','unqualified vehicle target changes'],
         coupling='Equal passenger capacity, storage, reserve and ferrite allocation; candidate tare changes AW3 load in civil stiffness screens.',
-        cost_method='Workbook-indexed structural volume, support count, transport mass and lift count/weight. Unchanged scope floor retained; no automatic soil, QA, rail, utility, traffic, energy or maintenance savings.',
+        cost_method='Independent maglev quantity/process assumptions for concrete, reinforcement, reaction steel, support units, deliveries and lifts. Unchanged scope floor retained; no automatic soil, QA, rail, utility, traffic, energy or maintenance savings.',
         claims='Research ordering only. Gross uncracked deflection and bare lifting mass filters do not qualify strength, relative gap, fabrication, installation or route feasibility. Analytical alternatives are not the retained native CAD or coupled replay configuration.',
         exclusions=['stations/access/lifts','special crossings','land/air rights','loop structures','depot','power/charging',
                     'survey and engineering qualification','plant/NRE/EPC','financing/tax/escalation','actual renewal/OPEX'],
@@ -288,7 +277,7 @@ def route_strategy(design,corridor,a=None):
 
 
 def calculation_dependencies():
-    from . import geometry,configuration,evacuation,workbook
+    from . import geometry,configuration,evacuation,manufacturing
     return [Path(__file__),INPUT,Path(geometry.__file__),*configuration.source_paths(),
         Path(model.__file__),model.POLICY,Path(evacuation.__file__),evacuation.INPUT,
-        Path(workbook.__file__),model.ROOT/'OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx']
+        Path(manufacturing.__file__),manufacturing.INPUT]

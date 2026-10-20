@@ -1,6 +1,6 @@
 //! OpenSourceRail regen arbiter.
 //!
-//! When the traction inverter is decelerating, the motor generates
+//! During regenerative deceleration, the propulsion converter receives
 //! current that has to go somewhere. `osr-regen` decides how that
 //! current is divided between:
 //!
@@ -10,7 +10,7 @@
 //!    remainder the pack + resistor can't absorb).
 //!
 //! Phase 2b crate 4 of
-//! [RFC 0005 §4.2](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! [RFC 0005 §4.2](../../../docs/ARCHITECTURE.md).
 //! SIL-2 — a bad decision here is an energy-efficiency issue or a
 //! minor ride-quality issue (via refused regen), never a safety issue.
 //!
@@ -52,7 +52,7 @@ use serde::{Deserialize, Serialize};
 pub struct RegenInputs {
     pub now_ns: u64,
     /// Regen current offered by the traction converter (mA, positive).
-    /// Zero when the train is motoring.
+    /// Zero during powered acceleration.
     pub requested_ma: u32,
     /// From [`osr_bms`]: current the pack will accept (mA).
     pub bms_charge_limit_ma: u32,

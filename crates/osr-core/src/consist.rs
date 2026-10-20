@@ -4,11 +4,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum TrainClass {
-    LightMetro,
-    Metro,
+    UrbanMaglev,
     Engineering,
     Yard,
-    // Intercity and freight are deliberately omitted; see ARCHITECTURE.md §1.
+    // Urban passenger and maintenance service classes only.
 }
 
 /// Piecewise-linear deceleration profile keyed by speed (m/s).
@@ -20,8 +19,8 @@ pub struct BrakingCurve {
 }
 
 impl BrakingCurve {
-    /// Reasonable defaults for a light-metro trainset.
-    pub fn light_metro_default() -> Self {
+    /// Synthetic curve for arithmetic regression fixtures; not a qualified vehicle curve.
+    pub fn synthetic_analysis_fixture() -> Self {
         Self {
             service: vec![(0.0, 1.1), (20.0, 1.0), (28.0, 0.9)],
             emergency: vec![(0.0, 1.5), (20.0, 1.4), (28.0, 1.2)],
@@ -41,25 +40,22 @@ pub struct ConsistDescriptor {
     /// Service-brake acceleration (m/s²). Used with the braking curve to
     /// compute kinematic travel times.
     pub service_accel_mps2: f32,
-    pub has_pantograph: bool,
     pub battery_capacity_wh: u32,
 }
 
 impl ConsistDescriptor {
-    /// Reference 3-car light-metro consist per RFC 0008 §1.
-    pub fn reference_3car() -> Self {
+    /// Synthetic two-car fixture for generic protocol and protection arithmetic.
+    /// Never use this as an operating or engineering vehicle configuration.
+    pub fn synthetic_analysis_fixture() -> Self {
         Self {
-            train_class: TrainClass::LightMetro,
-            car_count: 3,
-            length_mm: 49_500,
-            mass_kg: 78_750,
+            train_class: TrainClass::UrbanMaglev,
+            car_count: 2,
+            length_mm: 40_000,
+            mass_kg: 40_000,
             max_speed_mps: 22.0, // ≈ 80 km/h
-            braking: BrakingCurve::light_metro_default(),
-            service_accel_mps2: 1.0, // typical light metro service accel
-            has_pantograph: false,   // side-pin is the default station charger
-            // 675 kWh nameplate provides the documented 540 kWh usable
-            // energy after retaining the 20% operating reserve.
-            battery_capacity_wh: 675_000,
+            braking: BrakingCurve::synthetic_analysis_fixture(),
+            service_accel_mps2: 1.0, // synthetic kinematic parameter
+            battery_capacity_wh: 100_000,
         }
     }
 

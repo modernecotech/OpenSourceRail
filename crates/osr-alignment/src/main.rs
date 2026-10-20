@@ -8,7 +8,6 @@ use anyhow::{Context, Result};
 use clap::Parser;
 use osr_alignment::{
     alignment::{Alignment, HorizontalElement, VerticalElement},
-    cant::cant_design,
     chainage::sample_every,
     landxml, railml,
 };
@@ -22,8 +21,7 @@ use serde::Deserialize;
 struct Cli {
     /// Input JSON: `{"line_slug", "design_speed_kmh", "points":
     /// [[x,y,z], ...]}`. Points are in metres; +X east, +Y north,
-    /// +Z up. A typical source is `osr-design`'s per-line chainage
-    /// output augmented with terrain-sampled elevations.
+    /// +Z up. Inputs must provide independently checked elevations.
     #[arg(long)]
     input: PathBuf,
     /// Output directory. Writes `<slug>.landxml`, `<slug>.railml`,
@@ -33,12 +31,6 @@ struct Cli {
     /// Stake-out sampling interval, metres. Default 20 m.
     #[arg(long, default_value_t = 20.0)]
     stake_interval_m: f64,
-    /// Maximum applied cant, mm (RFC 0009). Default 150 (light-metro).
-    #[arg(long, default_value_t = 150.0)]
-    max_cant_mm: f64,
-    /// Maximum cant deficiency, mm (RFC 0009). Default 130.
-    #[arg(long, default_value_t = 130.0)]
-    max_deficiency_mm: f64,
 }
 
 #[derive(Deserialize)]
@@ -58,7 +50,6 @@ fn main() -> Result<()> {
     }
 
     let alignment = fit_polyline(&doc.line_slug, doc.design_speed_kmh, &doc.points);
-    let cant = cant_design(&alignment, cli.max_cant_mm, cli.max_deficiency_mm);
 
     fs::create_dir_all(&cli.out).with_context(|| format!("creating {}", cli.out.display()))?;
 
@@ -75,7 +66,6 @@ fn main() -> Result<()> {
         cli.out.join(format!("{slug}.alignment.json")),
         serde_json::to_string_pretty(&AlignmentBundle {
             alignment: &alignment,
-            cant: &cant,
         })?,
     )?;
 
@@ -100,7 +90,6 @@ fn main() -> Result<()> {
 #[derive(serde::Serialize)]
 struct AlignmentBundle<'a> {
     alignment: &'a Alignment,
-    cant: &'a osr_alignment::cant::CantSchedule,
 }
 
 /// Fit an alignment to a 3-D polyline. v0.1 algorithm:
@@ -112,8 +101,8 @@ struct AlignmentBundle<'a> {
 /// - **Vertical**: constant-grade segments between consecutive points;
 ///   no vertical curves in v0.1.
 ///
-/// The fit is deliberately conservative: real engineers iterate on
-/// curve placement, but the output is always geometrically valid.
+/// These segments are a planning polyline, not a resolved curved alignment.
+/// Corner transitions and all engineering acceptance remain open.
 fn fit_polyline(slug: &str, v_kmh: f64, pts: &[[f64; 3]]) -> Alignment {
     let mut horizontal = Vec::new();
     let mut vertical = Vec::new();

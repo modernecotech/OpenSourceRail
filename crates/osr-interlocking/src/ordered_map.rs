@@ -28,6 +28,11 @@ impl<K: Ord, V> OrderedMap<K, V> {
             .ok()
             .map(|index| self.entries[index].1.as_ref())
     }
+    pub fn get_mut(&mut self, key: &K) -> Option<&mut V> {
+        self.position(key)
+            .ok()
+            .map(|index| self.entries[index].1.as_mut())
+    }
     pub fn insert(&mut self, key: K, value: V) -> Option<V> {
         match self.position(&key) {
             Ok(index) => Some(std::mem::replace(self.entries[index].1.as_mut(), value)),

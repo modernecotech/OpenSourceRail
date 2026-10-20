@@ -9,7 +9,7 @@
 //! When richer telemetry is needed, the caller can split the event
 //! across several records with a correlating code.
 //!
-//! Phase 2c crate 7 of [RFC 0005 §4.1](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2c crate 7 of [RFC 0005 §4.1](../../../docs/ARCHITECTURE.md).
 //! SIL-2 because losing the record compromises incident
 //! investigation but does not directly endanger passengers.
 //!
@@ -71,7 +71,7 @@ pub enum EventCategory {
     Traction = 6,
     /// BMS SoC / fault / contactor.
     Bms = 7,
-    /// Fire / smoke / derailment / hot-axle trips.
+    /// Fire, smoke or loss-of-guidance protection trips.
     SafetyMonitor = 8,
     /// HVAC / lighting / PIS — comfort systems.
     Comfort = 9,

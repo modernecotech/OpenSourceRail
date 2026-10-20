@@ -1,6 +1,6 @@
 //! OpenSourceRail onboard obstacle detection (SIL-4, GoA 4).
 //!
-//! Per [RFC 0015](../../docs/rfcs/0015-driverless-operation.md) every
+//! Per [RFC 0015](../../../docs/ARCHITECTURE.md) every
 //! trainset ships as an unattended (GoA 4) system. Without a driver's
 //! eyes, an independent sensor suite carries the burden of detecting
 //! obstacles in the train's path. This crate is the SIL-4 evaluator

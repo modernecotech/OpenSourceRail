@@ -1,5 +1,7 @@
 # Multan — v0.5 maglev city planning
 
+![Geographic corridor planning map](network.svg)
+
 Provisional planning from retained geography, station demand and service schedules. All physical and manufacturing release flags remain false.
 
 8 lines; 164 provisional trainsets / 656 cars; 147,600 kWh gross onboard storage.
@@ -15,7 +17,7 @@ Provisional planning from retained geography, station demand and service schedul
 | line-7 | 4 | 480 / 640 | 68 | fixed-terminal-loops | 5 / 7 | 109 |
 | line-8 | 4 | 480 / 640 | 68 | fixed-terminal-loops | 7 / 9 | 133 |
 
-Retained ring wrap distances do not close the complete geographic route. Recomputed closure adds the following distances to the old wrap values; actual closure alignment remains open: line-5 3,794.0 m.
+Retained ring wrap distances do not close the complete geographic route. Recomputed closure adds the following distances to the input wrap values; actual closure alignment remains open: line-5 3,794.0 m.
 
 **Integrated-beam/no-walkway target:** door-mounted evacuation is a study candidate. Continuous walkway removal is not approved. Necessary iron reaction faces, supports/foundations, joints and protection remain. 3936 onboard packs are a provisional door-count hypothesis; new mass, lifetime cost and net savings are unknown. Landing space, accessible alternatives, fire/weather/fault conditions and rescue/maintenance access must be proved along the complete route.
 
@@ -33,14 +35,11 @@ Station charging is screened at 600 kW per car, with dwell extended to cover the
 
 | Scenario | Repeat fleet allowance USD | Ordinary elevated allowance USD | Partial subtotal USD |
 |---|---:|---:|---:|
-| low | 167,104,502 | 980,604,861 | 1,147,709,362 |
-| base | 190,720,502 | 1,161,218,480 | 1,351,938,981 |
-| high | 247,136,502 | 1,464,903,747 | 1,712,040,248 |
-| target-90000 | 178,912,502 | 1,161,218,480 | 1,340,130,981 |
-| target-60000 | 171,040,502 | 1,161,218,480 | 1,332,258,981 |
-| indexed-joint-optimisation-target | 171,040,502 | 1,066,395,328 | 1,237,435,829 |
+| low | 110,980,440 | 464,187,179 | 575,167,619 |
+| base | 147,973,920 | 618,916,239 | 766,890,159 |
+| high | 221,960,880 | 928,374,358 | 1,150,335,238 |
 
-**Complete city programme cost remains unknown.** Partial allowances extrapolate the supplied three-car cost per car and ordinary elevated route km. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, stations, depots, energy, controls, land, NRE/plant, EPC and other scope listed in the structured report. The joint optimisation row uses unqualified mass/hardware targets and indexed civil quantities; it retains conservative baseline fleet counts. Targets are unquoted hypotheses; old city totals are not reused.
+**Complete city programme cost remains unknown.** Partial allowances price each formation by car, coupling and shared train systems, plus measured section/reaction-steel quantities and explicit process assumptions per ordinary elevated route km. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, stations, depots, energy, controls, land, NRE/plant, EPC and other scope listed in the structured report. Rates and productivity assumptions require supplier and site validation. Complete project costs and localisation remain unknown.
 
 Open acceptance work:
 
@@ -57,9 +56,23 @@ Open acceptance work:
 - programme-cost: Price all station/land/loop/bridge/at-grade/depot/energy/control/production/QA/NRE/spares/OPEX scope, origin-trace MBOM and apply EPC once.
 - physical-release: Close G0–G5 through authenticated independent physical acceptance; planning arithmetic is insufficient.
 
-[Structured plan](summary.json) · [Preserved geography/demand records](retained-records.json)
+## Manufacture and erection
 
-The structured plan binds source bytes with SHA-256. Retained old designs remain separate wheel/rail comparators.
+Local work is proposed for repeated frames, cartridges, coils, concrete units and system integration. Input origins and local value added remain unverified. Factory capacity and programme duration require measured cycle times, cure/release criteria and site access.
+
+- **beam**: qualify concrete and reinforcement → assemble reusable mould and cage → stress approved tendons → cast and monitor cure → verify release strength → demould and survey → install reaction faces → proof/inspect serialised element.
+- **supports**: investigate utilities and ground → qualify foundation type → prefabricate cage/pier where feasible → construct foundation → erect and temporarily stabilise pier/cap → survey bearing seats.
+- **vehicle**: cut and form simple repeat panels/members → join on dimensional fixtures → inspect joints → install doors, glazing and interior → integrate batteries, HVAC and safety systems → weigh and survey finished car.
+- **magnetics**: qualify ferrite and core steel → machine carriers and reaction faces → wind and insulate coils → impregnate and cure → assemble replaceable cartridges → map force/loss/temperature → calibrate independent sensing.
+- **erection**: survey delivery corridor → verify lift plan and crane at radius → deliver and lift beam → locate and positively lock engineered joint → survey reaction faces → complete serial QA traveller → test integrated route section.
+- **software**: build reproducible Rust control → execute oracle/fault/deadline tests → bind exact geometry and force-map revision → test isolated SBC I/O and independent trips → measure worst-case timing → perform integrated rig and route tests.
+
+UK equipment candidates are capability leads, not prices or approved purchases. Rotary coil winding and CCL prestressing have explicit UK-manufacture statements; complete configuration, ratings and origin schedules remain open. See the linked manufacturing bill for dated primary sources.
+
+
+[Structured plan](summary.json) · [Preserved geography/demand records](retained-records.json) · [Quantity bills, manufacturing routes and factory equipment](manufacturing.json)
+
+The structured plan binds current source bytes and manufacturing bills with SHA-256.
 
 [Primary planning method](../../../../../../../engineering/ferrite_maglev/README.md)
 

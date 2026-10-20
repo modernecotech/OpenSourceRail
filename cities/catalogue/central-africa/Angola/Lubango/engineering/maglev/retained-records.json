@@ -93,50 +93,180 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 150,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 15808.0,
       "name": "line-1",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 26168.1,
       "name": "line-2",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 13975.9,
       "name": "line-3",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 150,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 8413.5,
       "name": "line-4",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0445-0353-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0647-0895-s015808"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -169,22 +299,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 53
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0818-0385-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0145-0992-s026168"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -217,22 +334,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 82
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0533-0317-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0725-0794-s013976"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -265,22 +369,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 60
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-4-0432-0733-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-4-0438-0587-s008414"
-        }
-      ],
       "line": "line-4",
       "schedule": [
         {
@@ -313,10 +404,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 28
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -832,9 +920,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "amenity:university",
-      "anchor_name": "Instituto Superior Politécnico Sinodal (ISPS)",
-      "archetype": "terminal",
       "id": "line-1-0445-0353-s000000",
       "lat": -14.898274927113702,
       "line": "line-1",
@@ -843,9 +928,6 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "public_transport:station",
-      "anchor_name": "Mapunda (Km 239)",
-      "archetype": "major",
       "id": "line-1-0460-0463-s003013",
       "lat": -14.900974419609113,
       "line": "line-1",
@@ -854,66 +936,46 @@
       "s_m": 3012.8
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0547-0548-s006046",
-      "junction_group": 0,
       "lat": -14.916631476082497,
       "line": "line-1",
       "lon": 13.49188163473717,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6046.4
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0547-0551-s006146",
-      "junction_group": 0,
       "lat": -14.916631476082497,
       "line": "line-1",
       "lon": 13.492439419430355,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6146.4
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0545-0553-s006215",
-      "junction_group": 0,
       "lat": -14.916271543749774,
       "line": "line-1",
       "lon": 13.492811275892477,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6214.7
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0547-0558-s006355",
-      "junction_group": 0,
       "lat": -14.916631476082497,
       "line": "line-1",
       "lon": 13.493740917047784,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6354.7
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Centro Urbano",
-      "archetype": "interchange",
       "id": "line-1-0553-0562-s006588",
-      "junction_group": 0,
       "lat": -14.917711273080661,
       "line": "line-1",
       "lon": 13.49448462997203,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6587.8
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Patrice Lumumba",
-      "archetype": "major",
       "id": "line-1-0591-0688-s010313",
       "lat": -14.924549987402369,
       "line": "line-1",
@@ -922,9 +984,6 @@
       "s_m": 10313.2
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Tchioco",
-      "archetype": "standard",
       "id": "line-1-0593-0834-s013333",
       "lat": -14.92490991973509,
       "line": "line-1",
@@ -933,9 +992,6 @@
       "s_m": 13332.6
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Praça dos Burros",
-      "archetype": "terminal",
       "id": "line-1-0647-0895-s015808",
       "lat": -14.934628092718569,
       "line": "line-1",
@@ -944,9 +1000,6 @@
       "s_m": 15808.0
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "Colégio",
-      "archetype": "terminal",
       "id": "line-2-0818-0385-s000000",
       "lat": -14.965402307166253,
       "line": "line-2",
@@ -955,7 +1008,6 @@
       "s_m": 0.0
     },
     {
-      "archetype": "standard",
       "id": "line-2-0733-0481-s003007",
       "lat": -14.95010518302559,
       "line": "line-2",
@@ -964,9 +1016,6 @@
       "s_m": 3006.8
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Senhora do Monte",
-      "archetype": "standard",
       "id": "line-2-0643-0446-s006016",
       "lat": -14.933908228053125,
       "line": "line-2",
@@ -975,125 +1024,86 @@
       "s_m": 6015.9
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Centro Cívico",
-      "archetype": "interchange",
       "id": "line-2-0556-0535-s010448",
-      "junction_group": 0,
       "lat": -14.918251171579742,
       "line": "line-2",
       "lon": 13.489464567733371,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 10447.8
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Centro Cívico",
-      "archetype": "interchange",
       "id": "line-2-0554-0535-s010528",
-      "junction_group": 0,
       "lat": -14.917891239247021,
       "line": "line-2",
       "lon": 13.489464567733371,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 10527.8
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0552-0537-s010608",
-      "junction_group": 0,
       "lat": -14.917531306914299,
       "line": "line-2",
       "lon": 13.489836424195495,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 10607.8
     },
     {
-      "anchor_kind": "shop:mall",
-      "anchor_name": "Tenda da Maravilha",
-      "archetype": "interchange",
       "id": "line-2-0551-0540-s010688",
-      "junction_group": 0,
       "lat": -14.917351340747938,
       "line": "line-2",
       "lon": 13.490394208888679,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 10687.8
     },
     {
-      "anchor_kind": "shop:mall",
-      "anchor_name": "Tenda da Maravilha",
-      "archetype": "interchange",
       "id": "line-2-0550-0543-s010768",
-      "junction_group": 0,
       "lat": -14.917171374581578,
       "line": "line-2",
       "lon": 13.490951993581863,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 10767.8
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0547-0548-s010928",
-      "junction_group": 0,
       "lat": -14.916631476082497,
       "line": "line-2",
       "lon": 13.49188163473717,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 10927.8
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0546-0552-s011028",
-      "junction_group": 0,
       "lat": -14.916451509916135,
       "line": "line-2",
       "lon": 13.492625347661415,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 11027.8
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0546-0555-s011128",
-      "junction_group": 0,
       "lat": -14.916451509916135,
       "line": "line-2",
       "lon": 13.4931831323546,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 11127.8
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0546-0559-s011208",
-      "junction_group": 0,
       "lat": -14.916451509916135,
       "line": "line-2",
       "lon": 13.493926845278844,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 11207.8
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0544-0559-s011288",
-      "junction_group": 0,
       "lat": -14.916091577583414,
       "line": "line-2",
       "lon": 13.493926845278844,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 11287.8
     },
     {
-      "archetype": "major",
       "id": "line-2-0467-0604-s013640",
       "lat": -14.902234182773638,
       "line": "line-2",
@@ -1102,33 +1112,22 @@
       "s_m": 13639.8
     },
     {
-      "anchor_kind": "amenity:bus_station",
-      "anchor_name": "TGL - Lubango",
-      "archetype": "interchange",
       "id": "line-2-0388-0704-s017055",
-      "junction_group": 1,
       "lat": -14.888016855631141,
       "line": "line-2",
       "lon": 13.520886438782746,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 17054.6
     },
     {
-      "anchor_kind": "amenity:bus_station",
-      "anchor_name": "Angoreal - Terminal Provincial da Huíla",
-      "archetype": "interchange",
       "id": "line-2-0382-0716-s017415",
-      "junction_group": 1,
       "lat": -14.886937058632977,
       "line": "line-2",
       "lon": 13.523117577555482,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 17414.6
     },
     {
-      "archetype": "standard",
       "id": "line-2-0270-0879-s022662",
       "lat": -14.866780848000575,
       "line": "line-2",
@@ -1137,9 +1136,6 @@
       "s_m": 22661.7
     },
     {
-      "anchor_kind": "amenity:university",
-      "anchor_name": "Faculdade de Medicina da Universidade Mandume ya Ndemufayo",
-      "archetype": "depot-terminal",
       "id": "line-2-0145-0992-s026168",
       "lat": -14.844285077205484,
       "line": "line-2",
@@ -1148,9 +1144,6 @@
       "s_m": 26168.1
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Pedreira",
-      "archetype": "terminal",
       "id": "line-3-0533-0317-s000000",
       "lat": -14.914111949753446,
       "line": "line-3",
@@ -1159,8 +1152,6 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "public_transport:station",
-      "archetype": "standard",
       "id": "line-3-0574-0441-s003009",
       "lat": -14.921490562574235,
       "line": "line-3",
@@ -1169,127 +1160,86 @@
       "s_m": 3008.8
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Centro Cívico",
-      "archetype": "interchange",
       "id": "line-3-0556-0535-s005215",
-      "junction_group": 0,
       "lat": -14.918251171579742,
       "line": "line-3",
       "lon": 13.489464567733371,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5215.3
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Centro Cívico",
-      "archetype": "interchange",
       "id": "line-3-0553-0536-s005284",
-      "junction_group": 0,
       "lat": -14.917711273080661,
       "line": "line-3",
       "lon": 13.489650495964433,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5283.6
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0551-0539-s005360",
-      "junction_group": 0,
       "lat": -14.917351340747938,
       "line": "line-3",
       "lon": 13.490208280657617,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5360.1
     },
     {
-      "anchor_kind": "shop:mall",
-      "anchor_name": "Tenda da Maravilha",
-      "archetype": "interchange",
       "id": "line-3-0550-0543-s005448",
-      "junction_group": 0,
       "lat": -14.917171374581578,
       "line": "line-3",
       "lon": 13.490951993581863,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5448.4
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0547-0548-s005573",
-      "junction_group": 0,
       "lat": -14.916631476082497,
       "line": "line-3",
       "lon": 13.49188163473717,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5573.3
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0547-0552-s005670",
-      "junction_group": 0,
       "lat": -14.916631476082497,
       "line": "line-3",
       "lon": 13.492625347661415,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5669.8
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0546-0555-s005750",
-      "junction_group": 0,
       "lat": -14.916451509916135,
       "line": "line-3",
       "lon": 13.4931831323546,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5749.8
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0545-0560-s005898",
-      "junction_group": 0,
       "lat": -14.916271543749774,
       "line": "line-3",
       "lon": 13.494112773509906,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5898.1
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0547-0558-s005966",
-      "junction_group": 0,
       "lat": -14.916631476082497,
       "line": "line-3",
       "lon": 13.493740917047784,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5966.4
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Centro Urbano",
-      "archetype": "interchange",
       "id": "line-3-0553-0562-s006200",
-      "junction_group": 0,
       "lat": -14.917711273080661,
       "line": "line-3",
       "lon": 13.49448462997203,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6199.6
     },
     {
-      "anchor_kind": "public_transport:station",
-      "anchor_name": "Lubango (Km 246)",
-      "archetype": "major",
       "id": "line-3-0637-0639-s009436",
       "lat": -14.932828431054961,
       "line": "line-3",
@@ -1298,9 +1248,6 @@
       "s_m": 9435.8
     },
     {
-      "anchor_kind": "public_transport:station",
-      "anchor_name": "Rio Capitão (Km 248)",
-      "archetype": "standard",
       "id": "line-3-0669-0726-s011703",
       "lat": -14.938587348378505,
       "line": "line-3",
@@ -1309,9 +1256,6 @@
       "s_m": 11703.1
     },
     {
-      "anchor_kind": "leisure:stadium",
-      "anchor_name": "Estádio Nacional da Tundavala",
-      "archetype": "terminal",
       "id": "line-3-0725-0794-s013976",
       "lat": -14.948665453694705,
       "line": "line-3",
@@ -1320,7 +1264,6 @@
       "s_m": 13975.9
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0432-0733-s000000",
       "lat": -14.895935366951013,
       "line": "line-4",
@@ -1329,35 +1272,22 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "amenity:bus_station",
-      "anchor_name": "Angoreal - Terminal Provincial da Huíla",
-      "archetype": "interchange",
       "id": "line-4-0382-0716-s002191",
-      "junction_group": 1,
       "lat": -14.886937058632977,
       "line": "line-4",
       "lon": 13.523117577555482,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 2191.4
     },
     {
-      "anchor_kind": "amenity:bus_station",
-      "anchor_name": "TGL - Lubango",
-      "archetype": "interchange",
       "id": "line-4-0388-0704-s002481",
-      "junction_group": 1,
       "lat": -14.888016855631141,
       "line": "line-4",
       "lon": 13.520886438782746,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 2481.1
     },
     {
-      "anchor_kind": "planning:residential-priority",
-      "anchor_name": "Residential planning stop; site release open",
-      "archetype": "standard",
       "id": "line-4-0362-0587-s006315",
       "lat": -14.883337735305762,
       "line": "line-4",
@@ -1366,9 +1296,6 @@
       "s_m": 6315.3
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Banco de Urgência",
-      "archetype": "terminal",
       "id": "line-4-0438-0587-s008414",
       "lat": -14.897015163949177,
       "line": "line-4",

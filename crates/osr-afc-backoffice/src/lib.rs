@@ -12,7 +12,7 @@
 //!    `max_denies_per_window` rate, which is a cheap proxy for a
 //!    stolen token being probed against multiple gates.
 //!
-//! Phase 2e crate of [RFC 0005 §4.8](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2e crate of [RFC 0005 §4.8](../../../docs/ARCHITECTURE.md).
 //! SIL-0 — a wrong settlement is a revenue/billing issue; no safety
 //! impact. The MaaS API surface mentioned in RFC 0005 is out of
 //! scope for this crate (that's a web-server concern, built on top

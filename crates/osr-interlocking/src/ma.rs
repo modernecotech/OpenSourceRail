@@ -578,7 +578,7 @@ mod tests {
                 100,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(7),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1000, 0),
                 }),
             ),
@@ -617,7 +617,7 @@ mod tests {
                 100,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(7),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1000, 0),
                 }),
             ),
@@ -626,7 +626,7 @@ mod tests {
                 150,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(9),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1001, 0),
                 }),
             ),
@@ -679,7 +679,7 @@ mod tests {
                 100,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(7),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1000, 0),
                 }),
             ),
@@ -688,7 +688,7 @@ mod tests {
                 150,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(9),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1002, 0),
                 }),
             ),
@@ -796,7 +796,7 @@ mod tests {
                 100,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(7),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1000, 0),
                 }),
             ),
@@ -846,7 +846,7 @@ mod tests {
                 100,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(7),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1000, 0),
                 }),
             ),
@@ -868,7 +868,7 @@ mod tests {
                 100,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(7),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1000, 0),
                 }),
             ),
@@ -889,7 +889,7 @@ mod tests {
                 100,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(7),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1000, 0),
                 }),
             ),
@@ -911,7 +911,7 @@ mod tests {
             100,
             EntryPayload::TrainRegistration(TrainRegistration {
                 train_id: TrainId::new(7),
-                consist: ConsistDescriptor::reference_3car(),
+                consist: ConsistDescriptor::synthetic_analysis_fixture(),
                 initial_position: pos(1000, 0),
             }),
         )];
@@ -932,7 +932,7 @@ mod tests {
                 100,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(7),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1000, 0),
                 }),
             ),
@@ -953,7 +953,7 @@ mod tests {
                 100,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(7),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1000, 0),
                 }),
             ),
@@ -983,7 +983,7 @@ mod tests {
             for (id, section, offset) in [(7, 1000, head), (8, 1001, second)] {
                 if id == 8 && !second_train { continue; }
                 log.push(entry(id*2, 100, EntryPayload::TrainRegistration(TrainRegistration {
-                    train_id: TrainId::new(id), consist: ConsistDescriptor::reference_3car(),
+                    train_id: TrainId::new(id), consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(section, 0),
                 })));
                 log.push(entry(id*2+1, 200, EntryPayload::TrainPositionReport(TrainPositionReport {
@@ -1017,7 +1017,7 @@ mod tests {
                             500_000_000,
                             EntryPayload::TrainRegistration(TrainRegistration {
                                 train_id: TrainId::new(train),
-                                consist: ConsistDescriptor::reference_3car(),
+                                consist: ConsistDescriptor::synthetic_analysis_fixture(),
                                 initial_position: pos(section, 0),
                             }),
                         ));

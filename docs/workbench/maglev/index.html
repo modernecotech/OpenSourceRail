@@ -21,6 +21,10 @@
       <p id="city-status" role="status">Loading current maglev catalogue…</p>
       <dl id="city-metrics"></dl>
       <p id="city-links"></p>
+      <p class="cost-scope">USD planning assumptions from current quantities and process routes, without supplier quotations. The subtotal covers repeat fleet and ordinary elevated guideway allowances. Stations, power/charging, factory investment, special crossings, land, assurance, evacuation, financing and other unpriced work remain outside it.</p>
+      <figure><img id="city-map" hidden alt=""><figcaption>Mapped planning geography, reinterpreted as proposed maglev routes. Line shapes and station positions remain subject to route and site validation.</figcaption></figure>
+      <details><summary>Manufacturing and erection processes</summary><ul id="city-processes"></ul></details>
+      <details><summary>UK industry equipment candidates and origin</summary><p>Priority is equipment made in Britain. A UK supplier, distributor or integrator does not establish UK manufacturing origin. The statements below distinguish verified capability claims and configuration-specific origin still to confirm. Prices and process qualification remain open.</p><ul id="city-equipment"></ul></details>
       <p>Route geography and demand are retained planning inputs. Ordinary at-grade sections are proposed for elevation. Complete installed cost, local-content percentage, land rights and site acceptance remain unresolved.</p>
     </section>
     <section aria-labelledby="design-title">
@@ -32,7 +36,7 @@
         <article><img src="../../design-engine/ferrite-maglev/system-development/compact-support/overview.png" alt="Native compact pier cap column and foundation envelope"><h3>Manufacture and erection</h3><p>576 support/load-stage sensitivity cases. Demand estimates guide comparisons; no foundation capacity, installed cost or erection time is accepted.</p></article>
       </div>
     </section>
-    <section><h2>Replay and reproduce</h2><p>The report links actual Rust control replays, native-derived guideway coupling, source receipts, STEP/FreeCAD files and four assembly visibility videos. Visibility sequences show assembly order; they are not collision or motion simulations.</p><pre>./osr build
+    <section><h2>Replay and reproduce</h2><p>The report links actual Rust control replays, native-derived guideway coupling, source receipts, STEP/FreeCAD files and five assembly visibility videos. Visibility sequences show assembly order; they are not collision or motion simulations.</p><pre>./osr build
 ./osr design check
 ./osr sim baghdad
 ./osr book</pre><p>The restartable build refreshes implemented studies after source changes and stops on failure. It cannot generate missing physical evidence or grant a manufacturing release.</p></section>

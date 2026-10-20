@@ -37,7 +37,7 @@ def test_pareto_research_set_has_no_dominating_other_screen_pass(context):
             for other in rows.values() if other['numerical_screen_pass'] and other['id']!=key)
 
 
-def test_reference_cost_reproduces_workbook_without_double_credit(context):
+def test_reference_cost_reconciles_current_quantity_bill(context):
     _,c,k=context;a=optimisation.load();_,v=optimisation.vehicle(c,k,a['vehicle_profiles'][0])
     result=optimisation.civil(c,k,v,.8,1.6,.15,.18,25,a)
     ref=model.cost_case(c,k,'base',3000,225)
@@ -56,8 +56,10 @@ def test_longer_spans_reduce_support_count_but_increase_lift_and_deflection(cont
     assert long['shared_supports_per_route_km']/short['shared_supports_per_route_km']==pytest.approx(2/3)
     assert long['maximum_bare_beam_lift_kg']/short['maximum_bare_beam_lift_kg']==pytest.approx(1.5)
     assert long['section']['total_elastic_deflection_m']/short['section']['total_elastic_deflection_m']==pytest.approx(1.5**4)
-    for key in a['civil']['unchanged_cost_rows']:
+    for key in ('walkway_brackets','installation','night','qa','relocation','traffic'):
         assert short['indexed_rows_usd_dual_km'][key]==long['indexed_rows_usd_dual_km'][key]
+    for key in ('supports','temporary','transport','erection'):
+        assert long['indexed_rows_usd_dual_km'][key]/short['indexed_rows_usd_dual_km'][key]==pytest.approx(2/3)
     assert not long['crane_capacity_at_radius_verified']
 
 
@@ -70,7 +72,6 @@ def test_vehicle_targets_preserve_payload_storage_ferrite_capture_and_reserve(co
         assert r['gross_storage_kwh_per_car']==225
         assert r['fixed_allocations_kg']=={'ferrite_base':3000,'capture_landing_emergency_braking':600,'battery_150kwh_installed':1500,'growth_reserve':1800}
         assert r['mass']['tare_kg']==baseline['tare_kg']-r['assumed_mass_saving_kg']
-        assert r['removed_wheel_gear_credit_usd_train']==206600
         assert r['imported_input_usd'] is r['local_value_added_fraction'] is None
         assert r['total_moving_parts_count'] is None
         assert 'passenger doors' in r['required_systems_retained']
@@ -82,7 +83,7 @@ def test_mass_allocation_alone_does_not_invent_procurement_savings(context):
     _,c,k=context;a=optimisation.load();ref=optimisation.vehicle(c,k,a['vehicle_profiles'][0])[1]
     target=optimisation.vehicle(c,k,a['vehicle_profiles'][1])[1]
     assert target['mass']['tare_kg']<ref['mass']['tare_kg']
-    assert target['repeat_three_car_train_allowance_usd']==ref['repeat_three_car_train_allowance_usd']
+    assert target['repeat_reference_train_allowance_usd']==ref['repeat_reference_train_allowance_usd']
 
 
 def test_vehicle_mass_changes_civil_loads_in_same_geometry(context):
@@ -120,7 +121,8 @@ def test_baghdad_elevated_cost_scope_includes_191km_conversion(context,tmp_path)
     for row in r['costs']['scenarios']:
         assert row['ordinary_viaduct_proposal_km']==pytest.approx(482.2381)
         assert row['complete_city_programme_usd'] is None
-    assert r['costs']['scenarios'][-1]['scenario']=='indexed-joint-optimisation-target'
+    assert {row['scenario'] for row in r['costs']['scenarios']}==set(context[2]['scenario_multipliers'])
+    assert all(bill['cars']==6 for row in r['costs']['scenarios'] for bill in row['formation_bills'])
     assert all(g['state']=='open' for g in r['gates'])
 
 
@@ -159,7 +161,7 @@ def test_actual_retained_rail_mass_cannot_be_replaced_by_lighter_allowance(conte
 
 def test_scorecards_preserve_whole_system_unknowns_and_do_not_relabel_allowances(context):
     r=optimisation.study(context[1],context[2])
-    unknown=('installed_cost_usd_dual_route_km','factory_gate_cost_usd_three_car_train',
+    unknown=('installed_cost_usd_dual_route_km','factory_gate_cost_usd_reference_train',
         'total_installed_mass_kg_dual_route_km','maximum_transported_assembly_mass_kg',
         'factory_labour_hours_per_route_km','onsite_labour_hours_per_route_km',
         'construction_working_days_per_route_km','unique_parts_count','moving_assemblies_count',
@@ -187,7 +189,7 @@ def test_matched_profile_duty_changes_with_mass_but_not_budget_alone(context):
     assert not duty['actual_magnetic_loss_map_used'] and not duty['route_accepted']
 
 
-def test_new_chute_mass_holds_candidate_energy_instead_of_using_comparator_duty(context):
+def test_new_chute_mass_holds_candidate_energy_until_vehicle_mass_is_closed(context):
     r=optimisation.study(context[1],context[2])
     for row in r['beam_only_candidates']:
         s=row['system_scorecard']
@@ -222,3 +224,24 @@ def test_route_directness_defines_endpoints_and_does_not_score_rings_as_bad_radi
     assert metrics['radial']['minimum_horizontal_radius_m'] is None
     assert metrics['radial']['station_walking_catchment_population'] is None
     assert not metrics['radial']['interchange_access_accepted']
+
+
+
+def test_process_rate_changes_invalidate_optimisation_and_city_replay(context):
+    from engineering.ferrite_maglev import manufacturing
+    from engineering.analysis.tests.test_ferrite_maglev_cities import replay_fixture
+    original=manufacturing.INPUT
+    assert original in cities.calculation_dependencies()
+    _,c,k=context;a=optimisation.load()
+    changed=deepcopy(k);changed['rates']['reaction_steel_finished_per_kg']*=2
+    before=optimisation.canonical_inputs(c,k,a);after=optimisation.canonical_inputs(c,changed,a)
+    assert before!=after
+    _,v=optimisation.vehicle(c,k,a['vehicle_profiles'][0])
+    old=optimisation.civil(c,k,v,.8,1.6,.15,.18,25,a)
+    new=optimisation.civil(c,changed,v,.8,1.6,.15,.18,25,a)
+    assert new['indexed_rows_usd_dual_km']['passive_rail_supply']==pytest.approx(2*old['indexed_rows_usd_dual_km']['passive_rail_supply'])
+    plan=replay_fixture(context,tomllib.loads(cities.ASSUMPTIONS.read_text()))
+    key=original.relative_to(ROOT).as_posix()
+    assert key in plan['source_sha256']
+    plan['source_sha256'][key]='0'*64
+    with pytest.raises(ValueError,match='source'):cities.replay_city(plan)

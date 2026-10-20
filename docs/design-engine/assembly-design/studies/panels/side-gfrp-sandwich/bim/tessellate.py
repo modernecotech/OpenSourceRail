@@ -1,2 +1,0 @@
-import runpy
-runpy.run_path('/home/hayder/Documents/OpenSourceRail/engineering/design_delivery/visuals.py')["export_mesh"]('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/01825e46f50c03880b426ab2dcefc5bf7c8a0f969c25320251aee1f02aee75d2/closure-studies-attempt/panels/side-gfrp-sandwich/native/candidate.FCStd','/home/hayder/.local/state/opensourcerail/assembly-design/epochs/01825e46f50c03880b426ab2dcefc5bf7c8a0f969c25320251aee1f02aee75d2/closure-studies-attempt/panels/side-gfrp-sandwich/bim/native-mesh.json')

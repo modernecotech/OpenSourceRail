@@ -94,50 +94,180 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 17755.6,
       "name": "line-1",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 210,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 16692.8,
       "name": "line-2",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 240,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 24012.8,
       "name": "line-3",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 270,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 12232.8,
       "name": "line-4",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0603-0820-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0516-0125-s017756"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -170,22 +300,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 58
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0724-0790-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0605-0103-s016693"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -218,22 +335,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 52
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0754-0339-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0249-1022-s024013"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -266,22 +370,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 78
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-4-0576-0231-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-4-1004-0108-s012233"
-        }
-      ],
       "line": "line-4",
       "schedule": [
         {
@@ -314,10 +405,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 41
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -703,8 +791,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "amenity:hospital",
-      "archetype": "terminal",
       "id": "line-1-0603-0820-s000000",
       "lat": 34.25149041860131,
       "line": "line-1",
@@ -713,9 +799,6 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Hopital",
-      "archetype": "standard",
       "id": "line-1-0573-0701-s003022",
       "lat": 34.256889403592126,
       "line": "line-1",
@@ -724,9 +807,6 @@
       "s_m": 3022.5
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "Collège Oum El Banin",
-      "archetype": "major",
       "id": "line-1-0555-0614-s005084",
       "lat": 34.26012879458662,
       "line": "line-1",
@@ -735,77 +815,54 @@
       "s_m": 5084.2
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0549-0548-s006843",
-      "junction_group": 0,
       "lat": 34.26120859158478,
       "line": "line-1",
       "lon": -6.580865977140234,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6843.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0551-0545-s006920",
-      "junction_group": 0,
       "lat": 34.26084865925206,
       "line": "line-1",
       "lon": -6.581518123117589,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6919.6
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0556-0544-s007028",
-      "junction_group": 0,
       "lat": 34.25994882842026,
       "line": "line-1",
       "lon": -6.58173550511004,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 7027.8
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0555-0541-s007096",
-      "junction_group": 0,
       "lat": 34.26012879458662,
       "line": "line-1",
       "lon": -6.582387651087395,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 7096.1
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0553-0539-s007176",
-      "junction_group": 0,
       "lat": 34.26048872691934,
       "line": "line-1",
       "lon": -6.5828224150722985,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 7176.1
     },
     {
-      "anchor_kind": "shop:mall",
-      "anchor_name": "Kenitra Mall",
-      "archetype": "interchange",
       "id": "line-1-0555-0536-s007253",
-      "junction_group": 0,
       "lat": 34.26012879458662,
       "line": "line-1",
       "lon": -6.583474561049654,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 7252.7
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Al Houzia",
-      "archetype": "standard",
       "id": "line-1-0522-0387-s011103",
       "lat": 34.266067678076524,
       "line": "line-1",
@@ -814,7 +871,6 @@
       "s_m": 11102.9
     },
     {
-      "archetype": "standard",
       "id": "line-1-0492-0308-s013315",
       "lat": 34.27146666306734,
       "line": "line-1",
@@ -823,9 +879,6 @@
       "s_m": 13314.8
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Poissonneries Port de Mehdia سوق سمك بتقسيط ميناء مهدية",
-      "archetype": "standard",
       "id": "line-1-0519-0209-s015535",
       "lat": 34.26660757657561,
       "line": "line-1",
@@ -834,9 +887,6 @@
       "s_m": 15535.1
     },
     {
-      "anchor_kind": "tourism:attraction",
-      "anchor_name": "Plage Chelihate",
-      "archetype": "terminal",
       "id": "line-1-0516-0125-s017756",
       "lat": 34.26714747507469,
       "line": "line-1",
@@ -845,9 +895,6 @@
       "s_m": 17755.6
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Ain Sebaa",
-      "archetype": "terminal",
       "id": "line-2-0724-0790-s000000",
       "lat": 34.22971451247166,
       "line": "line-2",
@@ -856,7 +903,6 @@
       "s_m": 0.0
     },
     {
-      "archetype": "standard",
       "id": "line-2-0682-0631-s003551",
       "lat": 34.23727309145881,
       "line": "line-2",
@@ -865,52 +911,38 @@
       "s_m": 3551.4
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0641-0476-s007003",
-      "junction_group": 1,
       "lat": 34.2446517042796,
       "line": "line-2",
       "lon": -6.5965174805967575,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 7002.7
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0576-0231-s012476",
-      "junction_group": 2,
       "lat": 34.25634950509305,
       "line": "line-2",
       "lon": -6.649776068747427,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 12476.4
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0575-0228-s012545",
-      "junction_group": 2,
       "lat": 34.256529471259405,
       "line": "line-2",
       "lon": -6.650428214724783,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 12544.7
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0572-0218-s012770",
-      "junction_group": 2,
       "lat": 34.25706936975849,
       "line": "line-2",
       "lon": -6.6526020346493,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 12769.5
     },
     {
-      "anchor_kind": "amenity:college",
-      "archetype": "terminal",
       "id": "line-2-0605-0103-s016693",
       "lat": 34.251130486268586,
       "line": "line-2",
@@ -919,8 +951,6 @@
       "s_m": 16692.8
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "archetype": "terminal",
       "id": "line-3-0754-0339-s000000",
       "lat": 34.22431552748083,
       "line": "line-3",
@@ -929,75 +959,54 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0641-0476-s005614",
-      "junction_group": 1,
       "lat": 34.2446517042796,
       "line": "line-3",
       "lon": -6.5965174805967575,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5614.2
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0554-0538-s009003",
-      "junction_group": 0,
       "lat": 34.260308760752984,
       "line": "line-3",
       "lon": -6.5830397970647505,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 9002.7
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0555-0541-s009099",
-      "junction_group": 0,
       "lat": 34.26012879458662,
       "line": "line-3",
       "lon": -6.582387651087395,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 9099.3
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0556-0544-s009179",
-      "junction_group": 0,
       "lat": 34.25994882842026,
       "line": "line-3",
       "lon": -6.58173550511004,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 9179.3
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0551-0545-s009299",
-      "junction_group": 0,
       "lat": 34.26084865925206,
       "line": "line-3",
       "lon": -6.581518123117589,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 9299.3
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0549-0548-s009399",
-      "junction_group": 0,
       "lat": 34.26120859158478,
       "line": "line-3",
       "lon": -6.580865977140234,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 9399.3
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Fruits et légumes en gros سوق الخضر و الفواكه بالجملة القنيطرة",
-      "archetype": "standard",
       "id": "line-3-0452-0669-s013428",
       "lat": 34.278665309721774,
       "line": "line-3",
@@ -1006,7 +1015,6 @@
       "s_m": 13428.1
     },
     {
-      "archetype": "halt",
       "id": "line-3-0352-0856-s018728",
       "lat": 34.29666192635785,
       "line": "line-3",
@@ -1015,9 +1023,6 @@
       "s_m": 18727.7
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Souq",
-      "archetype": "depot-terminal",
       "id": "line-3-0249-1022-s024013",
       "lat": 34.315198441493,
       "line": "line-3",
@@ -1026,40 +1031,30 @@
       "s_m": 24012.8
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0576-0231-s000000",
-      "junction_group": 2,
       "lat": 34.25634950509305,
       "line": "line-4",
       "lon": -6.649776068747427,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-4-0575-0228-s000068",
-      "junction_group": 2,
       "lat": 34.256529471259405,
       "line": "line-4",
       "lon": -6.650428214724783,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 68.3
     },
     {
-      "archetype": "interchange",
       "id": "line-4-0572-0218-s000373",
-      "junction_group": 2,
       "lat": 34.25706936975849,
       "line": "line-4",
       "lon": -6.6526020346493,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 373.1
     },
     {
-      "archetype": "halt",
       "id": "line-4-0784-0138-s005987",
       "lat": 34.218916542490014,
       "line": "line-4",
@@ -1068,9 +1063,6 @@
       "s_m": 5987.0
     },
     {
-      "anchor_kind": "planning:residential-priority",
-      "anchor_name": "Residential planning stop; site release open",
-      "archetype": "halt",
       "id": "line-4-0938-0064-s010123",
       "lat": 34.19120175287046,
       "line": "line-4",
@@ -1079,7 +1071,6 @@
       "s_m": 10122.9
     },
     {
-      "archetype": "terminal",
       "id": "line-4-1004-0108-s012233",
       "lat": 34.179323985890655,
       "line": "line-4",

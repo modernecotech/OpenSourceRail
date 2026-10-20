@@ -1,6 +1,6 @@
 //! Topology synthesis — pick line endpoints + waypoints from anchors.
 //!
-//! Given a topology archetype (see lib/recipes/city-to-design.toml
+//! Given a topology archetype (from explicit planning inputs
 //! Step 4), plus the anchor set, produce one or more lines. A line is a
 //! sequence of anchor indices that the solver will then wire together
 //! in order, calling `solver::solve_path` for each adjacent pair.
@@ -359,7 +359,7 @@ pub fn budget_for_population(pop: u64) -> GreedyBudget {
             max_lines: 3,
             // Bumped 60 → 100 km 2026-04-26 alongside the
             // served-catchment bbox widening: a ~20 × 20 km bbox
-            // for a Cuenca-class light-metro city has a ~28 km
+            // for a representative urban network has a ~28 km
             // diagonal — three radials at ~25 km each + ring
             // exceed the old 60 km cap.
             max_total_route_m: 100_000.0,

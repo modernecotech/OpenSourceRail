@@ -1,6 +1,6 @@
 //! Civil-class assignment per polyline segment.
 //!
-//! Per [RFC 0011](../../../docs/rfcs/0011-civil-infrastructure-design-standard.md),
+//! Per [RFC 0011](../../../docs/ARCHITECTURE.md),
 //! the catalogue has **three classes only — at-grade, elevated, and
 //! bridge (for water crossings)**. No tunnels. Dense built-up cells
 //! that a previous version of this inference classified as

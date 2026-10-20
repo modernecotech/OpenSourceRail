@@ -11,7 +11,7 @@
 //! - [`afc_evaluate`] — the gate state machine (scanner → validation →
 //!   gate command → event).
 //!
-//! Phase 2e crate 1 of [RFC 0005 §4.7](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2e crate 1 of [RFC 0005 §4.7](../../../docs/ARCHITECTURE.md).
 //! SIL-0 — fare evasion is a revenue issue, not a safety hazard. The
 //! integrity story is cryptographic (HMAC) and operational
 //! (blacklisting), not safety-rated.

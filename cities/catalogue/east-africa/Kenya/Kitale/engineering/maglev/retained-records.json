@@ -87,50 +87,180 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 14612.7,
       "name": "line-1",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 150,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 13430.7,
       "name": "line-2",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 11353.8,
       "name": "line-3",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 210,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 7077.5,
       "name": "line-4",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0406-0246-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0729-0702-s014613"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -163,22 +293,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 31
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0608-0115-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0216-0565-s013431"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -211,22 +328,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 27
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0529-0442-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0068-0325-s011354"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -259,22 +363,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 25
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-4-0516-0216-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-4-0287-0262-s007078"
-        }
-      ],
       "line": "line-4",
       "schedule": [
         {
@@ -307,10 +398,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 16
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -528,9 +616,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "shop:mall",
-      "anchor_name": "Kipsongo Centre",
-      "archetype": "terminal",
       "id": "line-1-0406-0246-s000000",
       "lat": 1.0101437533743656,
       "line": "line-1",
@@ -539,46 +624,30 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Garden hospital",
-      "archetype": "interchange",
       "id": "line-1-0376-0372-s003076",
-      "junction_group": 0,
       "lat": 1.0155427383651872,
       "line": "line-1",
       "lon": 35.00553469962682,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 3075.6
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Garden hospital",
-      "archetype": "interchange",
       "id": "line-1-0383-0371-s003240",
-      "junction_group": 0,
       "lat": 1.0142829752006621,
       "line": "line-1",
       "lon": 35.00535500915802,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 3240.5
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "Jomo Kenyatta University(Robinson's)",
-      "archetype": "interchange",
       "id": "line-1-0526-0447-s006954",
-      "junction_group": 1,
       "lat": 0.9885478134110787,
       "line": "line-1",
       "lon": 35.01901148478658,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 6954.4
     },
     {
-      "archetype": "halt",
       "id": "line-1-0587-0599-s010774",
       "lat": 0.9775698772630744,
       "line": "line-1",
@@ -587,9 +656,6 @@
       "s_m": 10774.0
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Maili Saba, Mois' Bridge",
-      "archetype": "depot-terminal",
       "id": "line-1-0729-0702-s014613",
       "lat": 0.9520146816398516,
       "line": "line-1",
@@ -598,9 +664,6 @@
       "s_m": 14612.7
     },
     {
-      "anchor_kind": "aeroway:aerodrome",
-      "anchor_name": "Kitale Airport",
-      "archetype": "terminal",
       "id": "line-2-0608-0115-s000000",
       "lat": 0.9737905877694992,
       "line": "line-2",
@@ -609,44 +672,30 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0516-0216-s003145",
-      "junction_group": 2,
       "lat": 0.9903474750746859,
       "line": "line-2",
       "lon": 34.977502986494514,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 3145.3
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Garden hospital",
-      "archetype": "interchange",
       "id": "line-2-0383-0371-s007710",
-      "junction_group": 0,
       "lat": 1.0142829752006621,
       "line": "line-2",
       "lon": 35.00535500915802,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 7710.3
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0376-0379-s007940",
-      "junction_group": 0,
       "lat": 1.0155427383651872,
       "line": "line-2",
       "lon": 35.0067925329084,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 7940.0
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Kambi ya chura centre",
-      "archetype": "terminal",
       "id": "line-2-0216-0565-s013431",
       "lat": 1.044337324982903,
       "line": "line-2",
@@ -655,11 +704,7 @@
       "s_m": 13430.7
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "Jomo Kenyatta University(Robinson's)",
-      "archetype": "terminal",
       "id": "line-3-0529-0442-s000000",
-      "junction_group": 1,
       "lat": 0.9880079149119965,
       "line": "line-3",
       "lon": 35.01811303244259,
@@ -667,42 +712,30 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "Jomo Kenyatta University(Robinson's)",
-      "archetype": "interchange",
       "id": "line-3-0526-0447-s000137",
-      "junction_group": 1,
       "lat": 0.9885478134110787,
       "line": "line-3",
       "lon": 35.01901148478658,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 136.6
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0376-0379-s004148",
-      "junction_group": 0,
       "lat": 1.0155427383651872,
       "line": "line-3",
       "lon": 35.0067925329084,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4147.6
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0376-0373-s004312",
-      "junction_group": 0,
       "lat": 1.0155427383651872,
       "line": "line-3",
       "lon": 35.00571439009561,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4312.4
     },
     {
-      "archetype": "standard",
       "id": "line-3-0231-0325-s007841",
       "lat": 1.0416378324874922,
       "line": "line-3",
@@ -711,9 +744,6 @@
       "s_m": 7841.2
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Namanjalala Market",
-      "archetype": "terminal",
       "id": "line-3-0068-0325-s011354",
       "lat": 1.0709723176042902,
       "line": "line-3",
@@ -722,20 +752,14 @@
       "s_m": 11353.8
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0516-0216-s000000",
-      "junction_group": 2,
       "lat": 0.9903474750746859,
       "line": "line-4",
       "lon": 34.977502986494514,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 0.0
     },
     {
-      "anchor_kind": "planning:residential-priority",
-      "anchor_name": "Residential planning stop; site release open",
-      "archetype": "halt",
       "id": "line-4-0486-0187-s001226",
       "lat": 0.9957464600655076,
       "line": "line-4",
@@ -744,7 +768,6 @@
       "s_m": 1225.7
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0287-0262-s007078",
       "lat": 1.0315597271712917,
       "line": "line-4",

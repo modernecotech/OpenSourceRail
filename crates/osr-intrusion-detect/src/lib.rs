@@ -1,6 +1,6 @@
 //! OpenSourceRail wayside track-intrusion detection (SIL-4).
 //!
-//! Per [RFC 0016](../../docs/rfcs/0016-wayside-track-intrusion.md),
+//! Per [RFC 0016](../../../docs/ARCHITECTURE.md),
 //! GoA 4 deployments need a proactive wayside check on every ROW
 //! section: if intrusion (person, animal, debris, vehicle) is
 //! detected between trains, the interlocking withholds MA so the

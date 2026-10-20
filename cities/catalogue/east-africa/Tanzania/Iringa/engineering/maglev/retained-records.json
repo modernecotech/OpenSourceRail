@@ -93,50 +93,180 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 11366.0,
       "name": "line-1",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 9718.0,
       "name": "line-2",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 6049.0,
       "name": "line-3",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 4284.2,
       "name": "line-4",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0252-0535-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0446-0235-s011366"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -169,22 +299,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 30
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0525-0434-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0305-0177-s009718"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -217,22 +334,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 25
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0269-0312-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0370-0499-s006049"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -265,22 +369,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 19
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-4-0240-0499-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-4-0115-0514-s004284"
-        }
-      ],
       "line": "line-4",
       "schedule": [
         {
@@ -313,10 +404,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 12
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -590,9 +678,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Semtema",
-      "archetype": "terminal",
       "id": "line-1-0252-0535-s000000",
       "lat": -7.748441457006083,
       "line": "line-1",
@@ -601,90 +686,62 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Kihesa",
-      "archetype": "interchange",
       "id": "line-1-0240-0499-s001705",
-      "junction_group": 0,
       "lat": -7.746281863009754,
       "line": "line-1",
       "lon": 35.71237298647616,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 1705.1
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "MNYAKUGULA MNYAKUGUSA",
-      "archetype": "interchange",
       "id": "line-1-0246-0489-s001961",
-      "junction_group": 0,
       "lat": -7.747361660007919,
       "line": "line-1",
       "lon": 35.710559713473636,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 1960.7
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0376-0433-s005384",
-      "junction_group": 1,
       "lat": -7.770757261634813,
       "line": "line-1",
       "lon": 35.7004053846595,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 5383.6
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0385-0384-s006927",
-      "junction_group": 2,
       "lat": -7.772376957132059,
       "line": "line-1",
       "lon": 35.691520346947115,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 6926.7
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0379-0381-s007072",
-      "junction_group": 2,
       "lat": -7.771297160133895,
       "line": "line-1",
       "lon": 35.69097636504636,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 7071.5
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0376-0380-s007156",
-      "junction_group": 2,
       "lat": -7.770757261634813,
       "line": "line-1",
       "lon": 35.690795037746106,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 7156.4
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0374-0379-s007233",
-      "junction_group": 2,
       "lat": -7.770397329302091,
       "line": "line-1",
       "lon": 35.69061371044585,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 7232.9
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Zizi la Ng'ombe",
-      "archetype": "depot-terminal",
       "id": "line-1-0446-0235-s011366",
       "lat": -7.783354893280063,
       "line": "line-1",
@@ -693,9 +750,6 @@
       "s_m": 11366.0
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Ipogolo RC",
-      "archetype": "terminal",
       "id": "line-2-0525-0434-s000000",
       "lat": -7.797572220422561,
       "line": "line-2",
@@ -704,9 +758,6 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Kitanzini Medical Center",
-      "archetype": "major",
       "id": "line-2-0448-0389-s002213",
       "lat": -7.783714825612785,
       "line": "line-2",
@@ -715,53 +766,38 @@
       "s_m": 2213.4
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0385-0384-s004218",
-      "junction_group": 2,
       "lat": -7.772376957132059,
       "line": "line-2",
       "lon": 35.691520346947115,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4217.9
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0379-0381-s004363",
-      "junction_group": 2,
       "lat": -7.771297160133895,
       "line": "line-2",
       "lon": 35.69097636504636,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4362.7
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0376-0380-s004431",
-      "junction_group": 2,
       "lat": -7.770757261634813,
       "line": "line-2",
       "lon": 35.690795037746106,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4431.0
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0373-0378-s004519",
-      "junction_group": 2,
       "lat": -7.770217363135731,
       "line": "line-2",
       "lon": 35.690432383145605,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4519.3
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Mawelewele",
-      "archetype": "terminal",
       "id": "line-2-0305-0177-s009718",
       "lat": -7.7579796638232015,
       "line": "line-2",
@@ -770,9 +806,6 @@
       "s_m": 9718.0
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Itamba",
-      "archetype": "terminal",
       "id": "line-3-0269-0312-s000000",
       "lat": -7.7515008818342155,
       "line": "line-3",
@@ -781,53 +814,38 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0373-0378-s003358",
-      "junction_group": 2,
       "lat": -7.770217363135731,
       "line": "line-3",
       "lon": 35.690432383145605,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 3358.5
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0376-0380-s003458",
-      "junction_group": 2,
       "lat": -7.770757261634813,
       "line": "line-3",
       "lon": 35.690795037746106,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 3458.5
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0378-0382-s003527",
-      "junction_group": 2,
       "lat": -7.771117193967535,
       "line": "line-3",
       "lon": 35.691157692346614,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 3526.8
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0376-0433-s004663",
-      "junction_group": 1,
       "lat": -7.770757261634813,
       "line": "line-3",
       "lon": 35.7004053846595,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4662.7
     },
     {
-      "anchor_kind": "tourism:attraction",
-      "anchor_name": "Gangilonga Rock",
-      "archetype": "terminal",
       "id": "line-3-0370-0499-s006049",
       "lat": -7.769677464636649,
       "line": "line-3",
@@ -836,35 +854,22 @@
       "s_m": 6049.0
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Kihesa",
-      "archetype": "terminal",
       "id": "line-4-0240-0499-s000000",
-      "junction_group": 0,
       "lat": -7.746281863009754,
       "line": "line-4",
       "lon": 35.71237298647616,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 0.0
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "MNYAKUGULA MNYAKUGUSA",
-      "archetype": "interchange",
       "id": "line-4-0246-0489-s000322",
-      "junction_group": 0,
       "lat": -7.747361660007919,
       "line": "line-4",
       "lon": 35.710559713473636,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 322.4
     },
     {
-      "anchor_kind": "tourism:attraction",
-      "anchor_name": "Iringa Rock Art",
-      "archetype": "terminal",
       "id": "line-4-0115-0514-s004284",
       "lat": -7.723786092214664,
       "line": "line-4",

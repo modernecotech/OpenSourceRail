@@ -18,7 +18,7 @@ use osr_interlocking::log::{
     Entry, EntryPayload, PositionSource, TrainPositionReport, TrainRegistration,
 };
 
-const REFERENCE_3CAR_LENGTH_MM: i64 = 51_000;
+const FIXTURE_LENGTH_MM: i64 = 51_000;
 
 fn registration_entry(id: u64, train: u64) -> Entry {
     Entry {
@@ -27,7 +27,7 @@ fn registration_entry(id: u64, train: u64) -> Entry {
         timestamp_ns: 1_000_000_000 * id,
         payload: EntryPayload::TrainRegistration(TrainRegistration {
             train_id: TrainId::new(train),
-            consist: ConsistDescriptor::reference_3car(),
+            consist: ConsistDescriptor::synthetic_analysis_fixture(),
             initial_position: Position::certain(TrackRef {
                 section: SectionId::new(1000),
                 offset_mm: 0,
@@ -51,7 +51,7 @@ fn position_report_entry(id: u64, train: u64, offset: i64) -> Entry {
             }),
             tail_position: Position::certain(TrackRef {
                 section: SectionId::new(1000),
-                offset_mm: (offset - REFERENCE_3CAR_LENGTH_MM).max(0),
+                offset_mm: (offset - FIXTURE_LENGTH_MM).max(0),
                 direction: Direction::Forward,
             }),
             speed_mmps: 15_000,

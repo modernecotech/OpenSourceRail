@@ -4,7 +4,7 @@ use osr_lighting::{lighting_evaluate, Heading, LightingInputs, LightingMode, Lig
 use proptest::prelude::*;
 
 fn params() -> LightingParams {
-    LightingParams::light_metro_default()
+    LightingParams::research_default()
 }
 
 fn arb_mode() -> impl Strategy<Value = LightingMode> {

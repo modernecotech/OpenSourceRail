@@ -95,50 +95,180 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 240,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 17512.0,
       "name": "line-1",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 210,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 12174.8,
       "name": "line-2",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 270,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 14973.0,
       "name": "line-3",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 240,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 7793.8,
       "name": "line-4",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0726-0492-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0096-0402-s017512"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -171,22 +301,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 52
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0637-0296-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0473-0714-s012175"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -219,22 +336,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 38
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0027-0206-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0432-0677-s014973"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -267,22 +371,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 48
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-4-0378-0629-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-4-0537-0312-s007794"
-        }
-      ],
       "line": "line-4",
       "schedule": [
         {
@@ -315,10 +406,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 26
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -523,9 +611,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Beira Central Hospital",
-      "archetype": "terminal",
       "id": "line-1-0726-0492-s000000",
       "lat": -19.850745419861067,
       "line": "line-1",
@@ -534,29 +619,22 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0542-0554-s005313",
-      "junction_group": 0,
       "lat": -19.817631645250692,
       "line": "line-1",
       "lon": 34.88589570960271,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5313.3
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0461-0477-s007780",
-      "junction_group": 1,
       "lat": -19.80305438577547,
       "line": "line-1",
       "lon": 34.87119062459025,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 7780.0
     },
     {
-      "archetype": "standard",
       "id": "line-1-0318-0458-s012053",
       "lat": -19.777319223985888,
       "line": "line-1",
@@ -565,22 +643,14 @@
       "s_m": 12053.3
     },
     {
-      "anchor_kind": "amenity:bus_station",
-      "anchor_name": "Terminal de Transportes Semicolectivos de Passageiros",
-      "archetype": "interchange-elevated",
       "id": "line-1-0177-0408-s015382",
-      "junction_group": 2,
       "lat": -19.75194399452903,
       "line": "line-1",
       "lon": 34.858013340618044,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 15382.1
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Manga Mungaza",
-      "archetype": "depot-terminal",
       "id": "line-1-0096-0402-s017512",
       "lat": -19.737366735053808,
       "line": "line-1",
@@ -589,8 +659,6 @@
       "s_m": 17512.0
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "archetype": "terminal",
       "id": "line-2-0637-0296-s000000",
       "lat": -19.83472843105496,
       "line": "line-2",
@@ -599,9 +667,6 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Maquinino",
-      "archetype": "major",
       "id": "line-2-0610-0337-s001620",
       "lat": -19.82986934456322,
       "line": "line-2",
@@ -610,7 +675,6 @@
       "s_m": 1620.2
     },
     {
-      "archetype": "major",
       "id": "line-2-0603-0444-s004632",
       "lat": -19.828609581398695,
       "line": "line-2",
@@ -619,20 +683,14 @@
       "s_m": 4632.4
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0542-0554-s007646",
-      "junction_group": 0,
       "lat": -19.817631645250692,
       "line": "line-2",
       "lon": 34.88589570960271,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 7646.1
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "Muave",
-      "archetype": "terminal",
       "id": "line-2-0473-0714-s012175",
       "lat": -19.805213979771803,
       "line": "line-2",
@@ -641,8 +699,6 @@
       "s_m": 12174.8
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "archetype": "terminal",
       "id": "line-3-0027-0206-s000000",
       "lat": -19.72494906957492,
       "line": "line-3",
@@ -651,20 +707,14 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "amenity:bus_station",
-      "anchor_name": "Terminal de Transportes Semicolectivos de Passageiros",
-      "archetype": "interchange-elevated",
       "id": "line-3-0177-0408-s006162",
-      "junction_group": 2,
       "lat": -19.75194399452903,
       "line": "line-3",
       "lon": 34.858013340618044,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6161.8
     },
     {
-      "archetype": "standard",
       "id": "line-3-0313-0573-s011439",
       "lat": -19.776419393154086,
       "line": "line-3",
@@ -673,20 +723,14 @@
       "s_m": 11438.5
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0378-0629-s013355",
-      "junction_group": 3,
       "lat": -19.788117193967533,
       "line": "line-3",
       "lon": 34.9002188443551,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 13354.7
     },
     {
-      "anchor_kind": "aeroway:aerodrome",
-      "anchor_name": "Aeroporto Internacional da Beira",
-      "archetype": "terminal",
       "id": "line-3-0432-0677-s014973",
       "lat": -19.797835366951013,
       "line": "line-3",
@@ -695,29 +739,22 @@
       "s_m": 14973.0
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0378-0629-s000000",
-      "junction_group": 3,
       "lat": -19.788117193967533,
       "line": "line-4",
       "lon": 34.9002188443551,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-4-0461-0477-s003852",
-      "junction_group": 1,
       "lat": -19.80305438577547,
       "line": "line-4",
       "lon": 34.87119062459025,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 3852.4
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0537-0312-s007794",
       "lat": -19.816731814418887,
       "line": "line-4",

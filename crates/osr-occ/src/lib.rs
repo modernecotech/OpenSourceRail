@@ -9,7 +9,7 @@
 //! enforced downstream by [`osr_interlocking`] and the SIL-4
 //! partition.
 //!
-//! Phase 2e crate of [RFC 0005 §4.8](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2e crate of [RFC 0005 §4.8](../../../docs/ARCHITECTURE.md).
 //! SIL-2: a bad dispatch decision here can degrade service or
 //! strand passengers but will not cause motion onto occupied
 //! track — the interlocking has final say on every movement.

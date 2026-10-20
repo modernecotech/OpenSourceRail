@@ -68,42 +68,137 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 210,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 6962.7,
       "name": "line-1",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 240,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 8007.4,
       "name": "line-2",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 210,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 9519.2,
       "name": "line-3",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0582-0451-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0665-0763-s006963"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -136,22 +231,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 24
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0512-0478-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0458-0856-s008007"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -184,22 +266,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 26
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0860-0665-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0493-0543-s009519"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -232,10 +301,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 30
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -347,9 +413,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Marché Moderne de Nkolbikon",
-      "archetype": "terminal",
       "id": "line-1-0582-0451-s000000",
       "lat": 4.571569708094878,
       "line": "line-1",
@@ -358,20 +421,14 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0609-0551-s002221",
-      "junction_group": 0,
       "lat": 4.566710621603138,
       "line": "line-1",
       "lon": 13.684600753929034,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 2221.2
     },
     {
-      "anchor_kind": "aeroway:aerodrome",
-      "anchor_name": "Aéroport de Bertoua",
-      "archetype": "terminal",
       "id": "line-1-0665-0763-s006963",
       "lat": 4.556632516286938,
       "line": "line-1",
@@ -380,9 +437,6 @@
       "s_m": 6962.7
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Centre Hospitalier Régional de Bertoua",
-      "archetype": "terminal",
       "id": "line-2-0512-0478-s000000",
       "lat": 4.584167339740129,
       "line": "line-2",
@@ -391,20 +445,14 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0504-0537-s001246",
-      "junction_group": 1,
       "lat": 4.585607069071015,
       "line": "line-2",
       "lon": 13.682077434699648,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 1246.3
     },
     {
-      "anchor_kind": "place:town",
-      "anchor_name": "Mandjou",
-      "archetype": "terminal",
       "id": "line-2-0458-0856-s008007",
       "lat": 4.593885512723608,
       "line": "line-2",
@@ -413,9 +461,6 @@
       "s_m": 8007.4
     },
     {
-      "anchor_kind": "tourism:attraction",
-      "anchor_name": "Carrière Kuete Bedell client bertoua",
-      "archetype": "terminal",
       "id": "line-3-0860-0665-s000000",
       "lat": 4.521539113846597,
       "line": "line-3",
@@ -424,33 +469,23 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0609-0551-s006572",
-      "junction_group": 0,
       "lat": 4.566710621603138,
       "line": "line-3",
       "lon": 13.684600753929034,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6572.3
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0504-0537-s009250",
-      "junction_group": 1,
       "lat": 4.585607069071015,
       "line": "line-3",
       "lon": 13.682077434699648,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 9249.5
     },
     {
-      "anchor_kind": "leisure:stadium",
-      "anchor_name": "Stade",
-      "archetype": "depot-terminal",
       "id": "line-3-0493-0543-s009519",
-      "junction_group": 1,
       "lat": 4.587586696900983,
       "line": "line-3",
       "lon": 13.683158857226527,

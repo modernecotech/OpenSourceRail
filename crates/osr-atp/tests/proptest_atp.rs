@@ -70,7 +70,7 @@ fn net() -> Network {
 }
 
 fn consist() -> ConsistDescriptor {
-    ConsistDescriptor::reference_3car()
+    ConsistDescriptor::synthetic_analysis_fixture()
 }
 
 fn state_in_sec0(offset_mm: i64, speed_mmps: i32, speed_unc: u32, pos_unc: u32) -> TrainState {

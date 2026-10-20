@@ -121,37 +121,42 @@ def test_packet_recovery_preserves_unowned_files(tmp_path):
     assert (output/'personal-notes.txt').read_text() == 'preserve'
 
 
-def test_install_retires_only_this_checkouts_design_units(monkeypatch):
-    from types import SimpleNamespace
+def test_scheduler_has_exact_current_units_and_source_change_build_profile(tmp_path):
     spec = importlib.util.spec_from_file_location('primary_cli', model.ROOT/'tools/automation/ferrite-maglev-study.py')
     cli = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(cli)
-    mutations = []
-    def run(args, **kwargs):
-        if args[2] == 'cat':
-            # A second checkout's unit must never be stopped.
-            source = '/other/checkout' if args[-1] == 'osr-design-progress.service' else str(model.ROOT)
-            return SimpleNamespace(returncode=0, stdout=source)
-        if args[2] == 'show':
-            return SimpleNamespace(returncode=0, stdout='loaded\n')
-        if args[2] == 'is-enabled':
-            return SimpleNamespace(returncode=0, stdout='enabled\n')
-        mutations.append(args)
-        return SimpleNamespace(returncode=0, stdout='')
-    monkeypatch.setattr(cli.subprocess, 'run', run)
-    retired = cli.retire_legacy_units()
-    assert 'osr-assembly-verification.timer' in retired
-    assert 'osr-design-coverage.timer' in retired
-    assert not any('design-progress' in name for name in retired)
-    assert all(not any(word in ' '.join(args) for word in ('erp','supervision','primary-infrastructure')) for args in mutations)
+    output=tmp_path/'report with spaces%'
+    units=cli.units(output)
+    assert set(units)=={'osr-primary-infrastructure.service','osr-primary-infrastructure.timer'}
+    service=units['osr-primary-infrastructure.service']
+    assert 'Type=oneshot\n' in service and 'TimeoutStartSec=3600\n' in service
+    assert 'WorkingDirectory='+str(model.ROOT) in service
+    assert '"'+str(model.ROOT/'tools/automation/ferrite-maglev-study.py')+'" cycle --output' in service
+    assert '"'+str(output).replace('%','%%')+'"' in service
+    assert 'UMask=0077\n' in service
+    timer=units['osr-primary-infrastructure.timer']
+    assert 'OnBootSec=2min\n' in timer and 'OnUnitActiveSec=15min\n' in timer
+    assert 'Persistent=true\n' in timer and 'Unit=osr-primary-infrastructure.service\n' in timer
 
 
-def test_primary_reader_source_manifest_excludes_legacy_product_model():
+
+def test_primary_reader_and_evidence_sources_bind_current_requirements_and_process_inputs():
     result = subprocess.run([str(model.ROOT/'osr'), 'book', '--list-sources'],
         cwd=model.ROOT, capture_output=True, text=True, check=True, timeout=30)
-    assert 'engineering/ferrite_maglev/README.md' in result.stdout
-    assert 'crates/osr-maglev-control/README.md' in result.stdout
-    assert 'rolling-stock/light-metro-3car' not in result.stdout
+    rows=[line.split('\t',1) for line in result.stdout.splitlines() if line.strip()]
+    assert all(len(row)==2 and row[0]=='primary' for row in rows)
+    paths={row[1] for row in rows}
+    assert {'engineering/ferrite_maglev/README.md','crates/osr-maglev-control/README.md'}<=paths
+    assert all((model.ROOT/path).is_file() for path in paths)
+    receipt=model.sources()
+    for path in ('engineering/ferrite_maglev/data/requirements.json',
+        'engineering/ferrite_maglev/data/systems-inventory.json',
+        'engineering/ferrite_maglev/data/cost-rates.json',
+        'engineering/ferrite_maglev/manufacturing.py'):
+        assert path in receipt
+        from hashlib import sha256
+        assert receipt[path]==sha256((model.ROOT/path).read_bytes()).hexdigest()
+
 
 
 @pytest.fixture

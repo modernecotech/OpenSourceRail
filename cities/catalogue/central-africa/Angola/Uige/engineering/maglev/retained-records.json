@@ -38,26 +38,51 @@
   "retained_interchanges": [],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 12024.8,
       "name": "line-1",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0510-0252-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0674-0519-s012025"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -90,10 +115,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 39
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -160,9 +182,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "amenity:university",
-      "anchor_name": "Universidade Kimpa Vita",
-      "archetype": "terminal",
       "id": "line-1-0510-0252-s000000",
       "lat": -7.60147272792715,
       "line": "line-1",
@@ -171,7 +190,6 @@
       "s_m": 0.0
     },
     {
-      "archetype": "standard",
       "id": "line-1-0544-0356-s003018",
       "lat": -7.607591577583414,
       "line": "line-1",
@@ -180,7 +198,6 @@
       "s_m": 3017.9
     },
     {
-      "archetype": "major",
       "id": "line-1-0484-0474-s006033",
       "lat": -7.596793607601771,
       "line": "line-1",
@@ -189,7 +206,6 @@
       "s_m": 6032.9
     },
     {
-      "archetype": "major",
       "id": "line-1-0542-0531-s007864",
       "lat": -7.6072316452506925,
       "line": "line-1",
@@ -198,7 +214,6 @@
       "s_m": 7864.3
     },
     {
-      "archetype": "major",
       "id": "line-1-0596-0542-s009943",
       "lat": -7.616949818234172,
       "line": "line-1",
@@ -207,8 +222,6 @@
       "s_m": 9942.5
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "archetype": "depot-terminal",
       "id": "line-1-0674-0519-s012025",
       "lat": -7.630987179210308,
       "line": "line-1",

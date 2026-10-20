@@ -7,7 +7,7 @@
 //! controller makes it structurally impossible under the
 //! `commanded = Open` path.
 //!
-//! Phase 2c crate 1 of [RFC 0005 §4.2](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2c crate 1 of [RFC 0005 §4.2](../../../docs/ARCHITECTURE.md).
 //!
 //! # What the controller decides each tick
 //!
@@ -148,7 +148,7 @@ pub struct DoorParams {
 
 impl DoorParams {
     #[must_use]
-    pub fn light_metro_default() -> Self {
+    pub fn research_default() -> Self {
         Self {
             stop_speed_threshold_mmps: 1_400, // ≈ 5 km/h
             obstruction_current_trip_ma: 5_000,
@@ -424,7 +424,7 @@ mod tests {
 
     #[test]
     fn closed_at_station_open_drives_open() {
-        let p = DoorParams::light_metro_default();
+        let p = DoorParams::research_default();
         let out = door_evaluate(
             &DoorState::default(),
             &at_station_stopped(DoorAction::Open, closed_sensors()),
@@ -437,7 +437,7 @@ mod tests {
 
     #[test]
     fn open_above_threshold_refused() {
-        let p = DoorParams::light_metro_default();
+        let p = DoorParams::research_default();
         let mut i = at_station_stopped(DoorAction::Open, closed_sensors());
         i.speed_mmps = 2_000; // > 1400 threshold
         let out = door_evaluate(&DoorState::default(), &i, &p);
@@ -446,7 +446,7 @@ mod tests {
 
     #[test]
     fn open_off_platform_refused() {
-        let p = DoorParams::light_metro_default();
+        let p = DoorParams::research_default();
         let mut i = at_station_stopped(DoorAction::Open, closed_sensors());
         i.at_station = false;
         let out = door_evaluate(&DoorState::default(), &i, &p);
@@ -455,7 +455,7 @@ mod tests {
 
     #[test]
     fn emergency_unlock_opens_at_speed() {
-        let p = DoorParams::light_metro_default();
+        let p = DoorParams::research_default();
         let mut i = at_station_stopped(DoorAction::Close, closed_sensors());
         i.speed_mmps = 15_000;
         i.at_station = false;
@@ -467,7 +467,7 @@ mod tests {
 
     #[test]
     fn close_when_open_drives_close() {
-        let p = DoorParams::light_metro_default();
+        let p = DoorParams::research_default();
         let i = at_station_stopped(DoorAction::Close, open_sensors());
         let out = door_evaluate(&DoorState::default(), &i, &p);
         assert_eq!(out.motor, MotorCommand::DriveClose);
@@ -476,7 +476,7 @@ mod tests {
 
     #[test]
     fn obstruction_stops_close() {
-        let p = DoorParams::light_metro_default();
+        let p = DoorParams::research_default();
         let mut s = open_sensors();
         s.obstruction_detected = true;
         let i = at_station_stopped(DoorAction::Close, s);
@@ -487,7 +487,7 @@ mod tests {
 
     #[test]
     fn high_motor_current_counts_as_obstruction() {
-        let p = DoorParams::light_metro_default();
+        let p = DoorParams::research_default();
         let mut s = open_sensors();
         s.motor_current_ma = 6_000; // above 5_000 trip
         let i = at_station_stopped(DoorAction::Close, s);
@@ -498,7 +498,7 @@ mod tests {
 
     #[test]
     fn interlock_is_2oo2() {
-        let p = DoorParams::light_metro_default();
+        let p = DoorParams::research_default();
         let mut s = closed_sensors();
         s.lock_sensor = false; // limit OK but lock missing
         let i = at_station_stopped(DoorAction::Hold, s);
@@ -508,7 +508,7 @@ mod tests {
 
     #[test]
     fn motor_timeout_faults() {
-        let p = DoorParams::light_metro_default();
+        let p = DoorParams::research_default();
         // Motor started at t=0, running open; still running at t=9s > 8s timeout.
         let prev = DoorState {
             motor: MotorCommand::DriveOpen,
@@ -534,7 +534,7 @@ mod tests {
 
     #[test]
     fn consist_interlock_and_reduction() {
-        let p = DoorParams::light_metro_default();
+        let p = DoorParams::research_default();
         let closed = door_evaluate(
             &DoorState::default(),
             &at_station_stopped(DoorAction::Hold, closed_sensors()),
@@ -552,7 +552,7 @@ mod tests {
 
     #[test]
     fn determinism() {
-        let p = DoorParams::light_metro_default();
+        let p = DoorParams::research_default();
         let i = at_station_stopped(DoorAction::Open, closed_sensors());
         let a = door_evaluate(&DoorState::default(), &i, &p);
         let b = door_evaluate(&DoorState::default(), &i, &p);

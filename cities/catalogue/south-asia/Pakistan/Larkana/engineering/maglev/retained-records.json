@@ -67,42 +67,137 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 360,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 21266.3,
       "name": "line-1",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 360,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 12814.4,
       "name": "line-2",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 5696.7,
       "name": "line-3",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0944-0310-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0223-0854-s021266"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -135,22 +230,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 67
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0599-0582-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0029-0740-s012814"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -183,22 +265,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 40
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0635-0493-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0563-0661-s005697"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -231,10 +300,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 20
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -385,9 +451,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "public_transport:station",
-      "anchor_name": "مشوری شریف",
-      "archetype": "terminal",
       "id": "line-1-0944-0310-s000000",
       "lat": 27.4881219558723,
       "line": "line-1",
@@ -396,7 +459,6 @@
       "s_m": 0.0
     },
     {
-      "archetype": "halt",
       "id": "line-1-0780-0383-s004018",
       "lat": 27.517636407155457,
       "line": "line-1",
@@ -405,18 +467,14 @@
       "s_m": 4018.5
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0635-0493-s008064",
-      "junction_group": 0,
       "lat": 27.54373150127776,
       "line": "line-1",
       "lon": 68.20051108244252,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 8064.1
     },
     {
-      "archetype": "major",
       "id": "line-1-0552-0554-s010464",
       "lat": 27.5586686930857,
       "line": "line-1",
@@ -425,18 +483,14 @@
       "s_m": 10463.7
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0481-0608-s012530",
-      "junction_group": 1,
       "lat": 27.571446290897313,
       "line": "line-1",
       "lon": 68.22381660317382,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 12530.2
     },
     {
-      "archetype": "halt",
       "id": "line-1-0326-0725-s016904",
       "lat": 27.599341046683225,
       "line": "line-1",
@@ -445,9 +499,6 @@
       "s_m": 16904.1
     },
     {
-      "anchor_kind": "public_transport:station",
-      "anchor_name": "مہوتا",
-      "archetype": "depot-terminal",
       "id": "line-1-0223-0854-s021266",
       "lat": 27.61787756181838,
       "line": "line-1",
@@ -456,9 +507,6 @@
       "s_m": 21266.3
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "New Sindh Science College",
-      "archetype": "terminal",
       "id": "line-2-0599-0582-s000000",
       "lat": 27.550210283266747,
       "line": "line-2",
@@ -467,18 +515,14 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0481-0608-s002587",
-      "junction_group": 1,
       "lat": 27.571446290897313,
       "line": "line-2",
       "lon": 68.22381660317382,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 2587.1
     },
     {
-      "archetype": "halt",
       "id": "line-2-0247-0660-s007710",
       "lat": 27.61355837382572,
       "line": "line-2",
@@ -487,9 +531,6 @@
       "s_m": 7709.6
     },
     {
-      "anchor_kind": "place:town",
-      "anchor_name": "دھامراہ",
-      "archetype": "terminal",
       "id": "line-2-0029-0740-s012814",
       "lat": 27.65279099809236,
       "line": "line-2",
@@ -498,20 +539,14 @@
       "s_m": 12814.4
     },
     {
-      "archetype": "terminal",
       "id": "line-3-0635-0493-s000000",
-      "junction_group": 0,
       "lat": 27.54373150127776,
       "line": "line-3",
       "lon": 68.20051108244252,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 0.0
     },
     {
-      "anchor_kind": "planning:residential-priority",
-      "anchor_name": "Residential planning stop; site release open",
-      "archetype": "standard",
       "id": "line-3-0663-0636-s003490",
       "lat": 27.53869244861966,
       "line": "line-3",
@@ -520,7 +555,6 @@
       "s_m": 3489.6
     },
     {
-      "archetype": "terminal",
       "id": "line-3-0563-0661-s005697",
       "lat": 27.556689065255732,
       "line": "line-3",

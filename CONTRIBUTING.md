@@ -36,7 +36,7 @@ safety case for a real railway.
 
 ## Development Workflow
 
-Use the root [one-command setup](README.md#run-it). Installation
+Use the root [one-command setup](README.md). Installation
 behaviour is documented there only so it cannot drift between guides.
 
 1. Open or reference an issue for behavioral changes, safety claims,
@@ -48,36 +48,21 @@ behaviour is documented there only so it cannot drift between guides.
 4. Regenerate derived artifacts when sources change.
 5. Include the checks you ran in the PR description.
 
-Useful checks:
-
-GitHub Actions are disabled. Run checks on your machine before pushing; the
-[local validation guide](docs/local-validation.md) explains profiles, recorded
-results and software-release gates.
+Useful checks for the current maglev design:
 
 ```bash
-./osr validate run --profile quick
-python3 tools/automation/repo-health.py --quiet
-python3 tools/automation/check-markdown-links.py
-python3 tools/automation/generate-doc-index.py
-cargo test --workspace
-pytest design/city-generation/tests -q
-PYTHONPATH=design/component-catalogue/src pytest design/component-catalogue/tests -q
-pytest tools/automation/tests -q
-python3 tools/automation/audit-project-twins.py
-npm run test:frontend:unit
+./osr build
+./osr test
+cargo test --locked -p osr-maglev-control --all-targets
+./osr design check
+./osr design verify
+./osr book
 ```
 
-For Samawah/RFC consistency:
-
-```bash
-PYTHONPATH=design/city-generation/src pytest -q design/city-generation/tests/test_rfc_drift.py
-```
-
-For the reader edition:
-
-```bash
-python3 tools/automation/build-doc-book.py
-```
+The [engineering workflow](engineering/ferrite_maglev/README.md) describes
+source-bound native geometry, provisional city compilation, cost/process inputs
+and open physical acceptance gates. Record exact commands and their results;
+passing digital checks does not qualify physical hardware or manufacturing.
 
 ## Generated Artifacts
 

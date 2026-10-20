@@ -60,42 +60,137 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 8892.3,
       "name": "line-1",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 5703.6,
       "name": "line-2",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 4192.2,
       "name": "line-3",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0558-0329-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0341-0544-s008892"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -128,22 +223,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 24
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0302-0386-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0494-0268-s005704"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -176,22 +258,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 17
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0310-0321-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0463-0383-s004192"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -224,10 +293,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 15
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -412,8 +478,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "amenity:marketplace",
-      "archetype": "terminal",
       "id": "line-1-0558-0329-s000000",
       "lat": 32.853088896087534,
       "line": "line-1",
@@ -422,9 +486,6 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "Lycee Ibn Yassine",
-      "archetype": "major",
       "id": "line-1-0447-0347-s003008",
       "lat": 32.87306514055358,
       "line": "line-1",
@@ -433,42 +494,30 @@
       "s_m": 3007.6
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0385-0372-s004775",
-      "junction_group": 0,
       "lat": 32.884223042867944,
       "line": "line-1",
       "lon": -6.9071048784090525,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4774.7
     },
     {
-      "anchor_kind": "amenity:bus_station",
-      "anchor_name": "Gare routière de Khouribga",
-      "archetype": "interchange",
       "id": "line-1-0378-0372-s004915",
-      "junction_group": 0,
       "lat": 32.88548280603247,
       "line": "line-1",
       "lon": -6.9071048784090525,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4914.7
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0376-0374-s004983",
-      "junction_group": 0,
       "lat": 32.88584273836519,
       "line": "line-1",
       "lon": -6.906676985138765,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4983.0
     },
     {
-      "archetype": "standard",
       "id": "line-1-0368-0457-s006929",
       "lat": 32.887282467696075,
       "line": "line-1",
@@ -477,9 +526,6 @@
       "s_m": 6928.7
     },
     {
-      "anchor_kind": "public_transport:station",
-      "anchor_name": "Sidi El Ghazouani",
-      "archetype": "depot-terminal",
       "id": "line-1-0341-0544-s008892",
       "lat": 32.892141554187816,
       "line": "line-1",
@@ -488,9 +534,6 @@
       "s_m": 8892.3
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Quartier Orange",
-      "archetype": "terminal",
       "id": "line-2-0302-0386-s000000",
       "lat": 32.89916023467588,
       "line": "line-2",
@@ -499,29 +542,22 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0376-0373-s001633",
-      "junction_group": 0,
       "lat": 32.88584273836519,
       "line": "line-2",
       "lon": -6.906890931773909,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 1632.5
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0376-0371-s001701",
-      "junction_group": 0,
       "lat": 32.88584273836519,
       "line": "line-2",
       "lon": -6.907318825044196,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 1700.8
     },
     {
-      "archetype": "major",
       "id": "line-2-0414-0308-s003706",
       "lat": 32.87900402404348,
       "line": "line-2",
@@ -530,9 +566,6 @@
       "s_m": 3705.9
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Hay Faraj",
-      "archetype": "terminal",
       "id": "line-2-0494-0268-s005704",
       "lat": 32.86460673073462,
       "line": "line-2",
@@ -541,9 +574,6 @@
       "s_m": 5703.6
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Marché Régional Hebdomadaire ( Dimanche )",
-      "archetype": "terminal",
       "id": "line-3-0310-0321-s000000",
       "lat": 32.897720505345,
       "line": "line-3",
@@ -552,42 +582,30 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0375-0369-s001972",
-      "junction_group": 0,
       "lat": 32.88602270453155,
       "line": "line-3",
       "lon": -6.907746718314483,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 1972.0
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0377-0373-s002069",
-      "junction_group": 0,
       "lat": 32.88566277219883,
       "line": "line-3",
       "lon": -6.906890931773909,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 2068.5
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0385-0372-s002237",
-      "junction_group": 0,
       "lat": 32.884223042867944,
       "line": "line-3",
       "lon": -6.9071048784090525,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 2236.8
     },
     {
-      "anchor_kind": "amenity:university",
-      "anchor_name": "Faculté polydisciplinaires de Khouribga - Université Hassan 1er",
-      "archetype": "terminal",
       "id": "line-3-0463-0383-s004192",
       "lat": 32.870185681891805,
       "line": "line-3",

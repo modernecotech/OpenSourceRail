@@ -3,7 +3,6 @@
 
 use osr_alignment::{
     alignment::{Alignment, HorizontalElement, TurnDirection, VerticalElement},
-    cant::cant_design,
     chainage::{sample_every, station_at},
     landxml, railml,
 };
@@ -87,25 +86,6 @@ fn stake_out_samples_include_endpoints() {
         "last chainage = {}",
         pts.last().unwrap().chainage_m
     );
-}
-
-#[test]
-fn cant_schedule_nonzero_on_arc_segment() {
-    let a = l_shape();
-    let s = cant_design(&a, 150.0, 130.0);
-    // 80 km/h on 300 m → 11.8·6400/300 ≈ 251.7 mm equilibrium.
-    // Applied cant = 150 (capped), deficiency ≈ 101.7 mm.
-    let arc = s
-        .applied_cant_mm
-        .iter()
-        .find(|seg| seg.start_cant_mm > 0.0)
-        .expect("expected at least one cant segment");
-    assert!(
-        (arc.start_cant_mm - 150.0).abs() < 1e-6,
-        "cant = {}",
-        arc.start_cant_mm
-    );
-    assert!(arc.max_deficiency_mm > 100.0);
 }
 
 #[test]

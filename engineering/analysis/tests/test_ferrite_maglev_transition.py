@@ -1,8 +1,10 @@
-"""Coverage cannot stand in for physical design, material or release evidence."""
+"""Current system coverage is source-bound and never substitutes for acceptance."""
 from copy import deepcopy
+from hashlib import sha256
 import json
 from pathlib import Path
 import sys
+import zipfile
 
 import pytest
 
@@ -16,55 +18,52 @@ def register():
     return transition.build()
 
 
-def test_exhaustive_source_identities_packages_and_requirements(register):
-    assert register['inventory_counts']==dict(canonical_items=345,additional_baghdad_items=69,
-        total_source_items=414,legacy_work_packages=63,requirements=72,
-        primary_work_packages=11,planned_ebom_objects=23)
-    graph=transition._read(transition.GRAPH)
-    reference=transition._read(transition.REFERENCE)
-    assert {i['id'] for i in register['items']}=={i['id'] for i in graph['items']}|{
-        'baghdad:'+p['id'] for p in reference['parts']}
-    assert {p['id'] for p in register['legacy_packages']}=={p['id'] for p in graph['packages']}
-    assert all(p['legacy_item_ids'] and p['requirement_ids'] for p in register['work_packages'])
-    assert len(register['industrialisation'])==414+23
-    assert sum(register['disposition_counts'].values())==414
-    # Multiple canonical records with a common catalogue label keep their IDs.
-    common=[i for i in register['items'] if i['catalogue_id']=='LM3-BDY-P020']
-    assert len(common)==2 and len({i['id'] for i in common})==2
-    assert all(i['source_records'] and i['source_sha256'] for i in register['items'])
+def test_current_systems_have_explicit_identity_process_and_reverse_coverage(register):
+    inputs=transition.inventory_inputs()
+    assert {r['id'] for r in register['items']}=={r['id'] for r in inputs}
+    assert len(inputs)==45
+    assert register['inventory_counts']==dict(canonical_items=45,system_items=45,total_source_items=45,
+        requirements=72,work_packages=11,primary_work_packages=11,planned_ebom_objects=45)
+    for collection in ('items','planned_ebom','industrialisation'):
+        assert len(register[collection])==len(inputs)
+    for package in register['work_packages']:
+        assert package['item_ids'] and package['requirement_ids']
+        assert set(package['item_ids'])=={r['id'] for r in inputs if package['id'] in r['work_package_ids']}
+        assert package['new_deliverables'] and package['evidence_needed']
+    assert all(r['source'].startswith('engineering/ferrite_maglev/') and r['process_route'] for r in inputs)
+    assert {r['id'] for r in inputs}>={'FM-FERRITE','FM-CAPTURE','FM-FOUNDATION','FM-STATION',
+        'FM-CHARGING','FM-CONTROL-SOFTWARE','FM-EGRESS-SOFTWARE','FM-FACTORY','FM-ASSURANCE'}
 
 
-def test_retired_wheel_functions_have_replacements_and_depot_exception(register):
-    rows=register['items']
-    for row in rows:
-        if row['catalogue_id'].startswith('LM3-BOG-'):
-            assert row['disposition']=='retire-wheel-specific'
-            assert 'MAG-054' in row['requirement_ids']
-            assert 'rig-and-demonstrator' in row['work_package_ids']
-    rotary=next(i for i in rows if i['catalogue_id']=='LM3-TRC-P010')
-    assert rotary['disposition']=='replace' and 'MAG-042' in rotary['requirement_ids']
-    depot=next(i for i in rows if i['catalogue_id']=='STN-DEP-P030')
-    assert depot['profile_id']=='depot-routing'
-    assert any('depot-only' in d for d in depot['new_deliverables'])
-    assert next(i for i in rows if i['id']=='baghdad:ME-16')['profile_id']=='capture-redesign'
-    assert next(i for i in rows if i['id']=='baghdad:CI-08')['profile_id']=='depot-maintenance'
+def test_only_current_sources_bind_inventory(register):
+    for path,digest in register['source_sha256'].items():
+        assert digest==sha256((ROOT/path).read_bytes()).hexdigest()
+        assert path.startswith(('engineering/ferrite_maglev/','engineering/factory_examples/',
+            'engineering/analysis/tests/test_ferrite_maglev_','crates/osr-maglev-control/'))
+    assert transition.DATA.as_posix().endswith('/data/systems-inventory.json')
+    assert 'legacy_packages' not in register
+    assert all('legacy_item_ids' not in p for p in register['work_packages'])
 
 
-def test_local_make_does_not_invent_origin_material_geometry_or_acceptance(register):
+def test_local_manufacture_planning_does_not_invent_origin_or_release(register):
     assert register['accepted_item_count']==register['accepted_physical_release_count']==0
     for row in register['items']:
-        assert row['candidate_id'] is None
-        assert row['new_geometry_created'] is False
-        assert row['legacy_evidence_transferred'] is False
-        assert row['accepted'] is False and row['physical_release'] is False
+        assert row['candidate_id'] is None and row['accepted'] is False
     for row in register['industrialisation']:
         assert row['local_value_added_fraction'] is None
         assert all(v is None for v in row['actual_records'].values())
-        assert len(row['evidence_needed'])>=6
+        assert len(row['evidence_needed'])>=6 and row['process_route']
     for row in register['planned_ebom']:
         assert row['quantity'] is row['material_grade'] is row['mass_kg'] is row['unit_cost_usd'] is None
-    capture=next(i for i in register['industrialisation'] if i['transition_id']=='FM-CAPTURE')
-    assert capture['routing_state']=='new-or-revalidated-routing-required'
+        assert row['country_of_origin'] is None
+    def holds(value):
+        if isinstance(value,dict):
+            for k,v in value.items():
+                if k in {*transition.FLAGS,'accepted'}:assert v is False
+                holds(v)
+        elif isinstance(value,list):
+            for item in value:holds(item)
+    holds(register)
 
 
 def test_erp_and_supervision_preserve_physical_commissioning_holds(register):
@@ -79,74 +78,58 @@ def test_erp_and_supervision_preserve_physical_commissioning_holds(register):
         assert {'timestamp','quality','uncertainty','provenance'}<=set(tag['common_fields'])
 
 
-@pytest.mark.parametrize('collection', ['items','legacy_packages','requirements','work_packages','industrialisation','planned_ebom'])
+@pytest.mark.parametrize('collection',['items','requirements','work_packages','industrialisation','planned_ebom'])
 def test_missing_output_identity_fails_closed(register,collection):
     bad=deepcopy(register);bad[collection].pop()
-    with pytest.raises(ValueError,match='inventory|coverage|objects'):
-        transition.validate(bad)
+    with pytest.raises(ValueError,match='inventory|coverage'):transition.validate(bad)
 
 
-def test_new_source_item_has_no_automatic_profile(monkeypatch):
-    original=transition._read
-    def changed(path):
-        value=original(path)
-        if path==transition.GRAPH:
-            extra=deepcopy(value['items'][0]);extra['id']='item:new-unassigned'
-            value['items'].append(extra)
-        return value
-    monkeypatch.setattr(transition,'_read',changed)
-    with pytest.raises(ValueError,match='disposition coverage'):
-        transition.build()
-
-
-def test_new_spec_requirement_requires_allocation():
-    from engineering.ferrite_maglev.model import requirement_register
-    reqs=requirement_register()+[dict(id='MAG-999',accepted=False,state='open')]
-    with pytest.raises(ValueError,match='requirement allocation'):
-        transition.build(requirements=reqs)
-
-
-def test_missing_primary_work_package_is_rejected():
-    with pytest.raises(ValueError,match='primary work packages'):
-        transition.build(work_packages=[dict(id=i) for i in transition.WORK_PACKAGES[:-1]])
-
-
-@pytest.mark.parametrize('mutation', ['duplicate','rename-source','unknown-requirement','false-release',
-    'fake-origin','binding','reverse-missing','profile-change','receipt'])
-def test_adverse_false_or_untraced_claims_rejected(register,mutation):
+@pytest.mark.parametrize('mutation',['duplicate','rename','unknown-requirement','false-release',
+    'fake-origin','binding','reverse-missing','receipt','fake-quantity','process-route'])
+def test_untraced_claims_and_changed_mappings_are_rejected(register,mutation):
     bad=deepcopy(register)
     if mutation=='duplicate':bad['items'].append(deepcopy(bad['items'][0]))
-    elif mutation=='rename-source':bad['items'][0]['title']='Renamed to imply magnetic geometry'
+    elif mutation=='rename':bad['items'][0]['title']='New unsupported part definition'
     elif mutation=='unknown-requirement':bad['items'][0]['requirement_ids'].append('MAG-999')
     elif mutation=='false-release':bad['items'][0]['physical_release']=True
     elif mutation=='fake-origin':bad['industrialisation'][0]['actual_records']['country_of_origin']='IQ'
     elif mutation=='binding':bad['interfaces']['supervision']['tags'][0]['source_binding']='fake-live-device'
-    elif mutation=='reverse-missing':bad['work_packages'][0]['legacy_item_ids'].pop()
-    elif mutation=='profile-change':bad['items'][0]['disposition']='replace'
+    elif mutation=='reverse-missing':bad['work_packages'][0]['item_ids'].pop()
     elif mutation=='receipt':bad['source_sha256'].pop(next(iter(bad['source_sha256'])))
+    elif mutation=='fake-quantity':bad['planned_ebom'][0]['quantity']=1
+    elif mutation=='process-route':bad['items'][0]['process_route']='Unqualified replacement routing'
     with pytest.raises(ValueError):transition.validate(bad)
 
 
-def test_live_authoritative_collection_removed_item_fails(monkeypatch):
+def test_new_requirement_requires_explicit_input_allocation():
+    with pytest.raises(ValueError,match='requirement allocation'):
+        transition.build(requirements=transition.requirement_inputs()+[dict(id='MAG-999',accepted=False,state='open')])
+
+
+def test_missing_work_package_rejected():
+    with pytest.raises(ValueError,match='primary work packages'):
+        transition.build(work_packages=[dict(id=i) for i in transition.WORK_PACKAGES[:-1]])
+
+
+@pytest.mark.parametrize('mutation',['duplicate','unknown-requirement','unknown-package','source-escape','source-traversal','missing-route'])
+def test_current_input_changes_require_valid_explicit_allocation(monkeypatch,mutation):
     original=transition._read
-    target=ROOT/'design/component-catalogue/catalog/buildable-trainset/buildable-trainset-manifest.json'
     def changed(path):
         value=original(path)
-        if path==target:value['product_items'].pop()
+        if path==transition.DATA:
+            if mutation=='duplicate':value['items'].append(deepcopy(value['items'][0]))
+            elif mutation=='unknown-requirement':value['items'][0]['requirement_ids']=['MAG-999']
+            elif mutation=='unknown-package':value['items'][0]['work_package_ids']=['undeclared']
+            elif mutation=='source-escape':value['items'][0]['source']='Cargo.toml'
+            elif mutation=='source-traversal':value['items'][0]['source']='engineering/ferrite_maglev/../ferrite_maglev/geometry.py'
+            else:value['items'][0]['process_route']=''
         return value
     monkeypatch.setattr(transition,'_read',changed)
-    with pytest.raises(ValueError,match='authoritative collection'):
-        transition.build()
+    with pytest.raises(ValueError):transition.build()
 
 
 def test_json_roundtrip_is_auditable(register):
-    assert transition.validate(json.loads(json.dumps(register)))['schema']=='osr-ferrite-maglev-transition/1'
-
-
-def test_each_requirement_and_package_has_concrete_outputs_and_actions(register):
-    for row in register['requirements']+register['work_packages']:
-        assert row['new_deliverables'] and row['evidence_needed']
-        assert all(isinstance(v,str) and len(v)>20 for v in row['new_deliverables']+row['evidence_needed'])
+    assert transition.validate(json.loads(json.dumps(register)))['schema']==transition.SCHEMA
 
 
 def test_g0_g5_protocol_limits_and_traveller_prerequisites_remain_holds(register):
@@ -167,14 +150,13 @@ def test_g0_g5_protocol_limits_and_traveller_prerequisites_remain_holds(register
     assert programme['traveller']['actual_traveller'] is None
 
 
-def test_supplier_questions_separate_uk_manufacture_from_supply_and_quotes(register):
-    questions=register['supplier_questions']
-    location=next(q for q in questions if q['id']=='RFQ-manufacturing-location')
+def test_supplier_questions_distinguish_manufacture_from_supply(register):
+    location=next(q for q in register['supplier_questions'] if q['id']=='RFQ-manufacturing-location')
     assert 'UK distributor' in location['question']
     assert 'does not prove UK manufacture' in location['evidence_requested']
-    for question in questions:
-        assert question['response'] is question['quote'] is question['manufacture_country'] is question['supply_country'] is None
-        assert not question['uk_manufacture_verified'] and not question['accepted']
+    for row in register['supplier_questions']:
+        assert row['response'] is row['quote'] is row['manufacture_country'] is row['supply_country'] is None
+        assert not row['uk_manufacture_verified'] and not row['accepted']
 
 
 @pytest.mark.parametrize('mutation',['threshold','performed','origin','missing-output'])
@@ -187,8 +169,7 @@ def test_protocol_cannot_invent_limits_tests_or_supplier_evidence(register,mutat
     with pytest.raises(ValueError):transition.validate(bad)
 
 
-def test_native_field_rust_and_coupled_availability_is_source_bound_without_acceptance(register):
-    from hashlib import sha256
+def test_native_field_rust_and_coupled_availability_need_execution_and_physical_evidence(register):
     capabilities={r['id']:r for r in register['capability_availability']}
     assert set(capabilities)=={'native-development-solids','two-dimensional-field-hypothesis',
         'rust-multimodule-study','two-way-beam-control-demonstrator','beam-only-evacuation-research'}
@@ -206,17 +187,45 @@ def test_native_field_rust_and_coupled_availability_is_source_bound_without_acce
     assert variants['flat-retainer']['nominal_fastener_head_gap_m']==pytest.approx(.002)
     assert variants['recessed-retainer']['nominal_fastener_head_gap_m']==pytest.approx(.008)
     assert all(not r['full_error_budget_accepted'] for r in variants.values())
-    assert any('no adopted supplier/material grade' in s for s in capabilities['two-dimensional-field-hypothesis']['evidence_needed'])
-    assert any('No torsion' in s for s in capabilities['two-way-beam-control-demonstrator']['evidence_needed'])
     assert all('crates/osr-maglev-control' in p for p in capabilities['rust-multimodule-study']['source_sha256'])
 
 
 @pytest.mark.parametrize('mutation',['qualified-force','stale-source','missing-mapping','export-receipt'])
-def test_capability_availability_cannot_be_promoted_to_acceptance(register,mutation):
+def test_available_capability_cannot_be_promoted_to_acceptance(register,mutation):
     bad=deepcopy(register)
     if mutation=='qualified-force':bad['capability_availability'][1]['physical_validation']=True
     elif mutation=='stale-source':bad['capability_availability'][1]['source_sha256']['engineering/ferrite_maglev/field.py']='0'*64
     elif mutation=='missing-mapping':
-        row=next(r for r in bad['work_packages'] if r['id']=='coupled-dynamics');row['capability_ids']=[]
+        next(r for r in bad['work_packages'] if r['id']=='coupled-dynamics')['capability_ids']=[]
     else:bad['capability_availability'][0]['execution_receipt']='invented-export'
     with pytest.raises(ValueError):transition.validate(bad)
+
+
+def test_selected_requirements_use_current_data_and_keep_egress_hold():
+    from engineering.ferrite_maglev import requirements
+    register=requirements.register()
+    assert len(register['requirements'])==79
+    core=next(r for r in register['requirements'] if r['id']=='CIV-004')
+    assert not core['alternative_selected'] and core['alternative_requirement_ids']
+    assert not register['walkway_removal_approved'] and not register['accepted_requirements']
+    assert next(r for r in register['requirements'] if r['id']=='SYS-001')['requirement'].find('six cars')>=0
+
+
+def test_native_geometry_helpers_are_standalone_and_fcstd_metadata_is_reproducible(tmp_path):
+    from engineering.factory_examples.models import part,volume,global_size
+    from engineering.factory_examples.native import _canonicalise_fcstd
+    import math
+    tube=part('tube',[2.,3.,4.],[0.,0.,0.],kind='tube',axis=2,wall_m=.1)
+    assert volume(tube)==pytest.approx(24.-1.8*2.8*4.)
+    cylinder=part('cylinder',[2.,2.,4.],[0.,0.,0.],kind='cylinder',cylinder_axis='x')
+    assert global_size(cylinder)==[4.,2.,2.] and volume(cylinder)==pytest.approx(4*math.pi)
+    output=tmp_path/'model.FCStd'
+    xml=b'<Property name="CreationDate"><String value="2026-10-20"/></Property><Property name="Uid"><Uuid value="random"/></Property><Object type="Part::Feature" name="Part" id="91"/>'
+    with zipfile.ZipFile(output,'w') as z:z.writestr('Document.xml',xml)
+    _canonicalise_fcstd(output);first=output.read_bytes()
+    _canonicalise_fcstd(output)
+    assert output.read_bytes()==first
+    with zipfile.ZipFile(output) as z:
+        result=z.read('Document.xml')
+        assert b'2000-01-01T00:00:00Z' in result and b'id="1"' in result
+        assert b'random' not in result and z.getinfo('Document.xml').date_time==(2000,1,1,0,0,0)

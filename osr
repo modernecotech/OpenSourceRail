@@ -13,35 +13,18 @@ usage() {
     cat <<'EOF'
 Usage: ./osr [COMMAND] [arguments]
 
-  (no command)       Show the v0.5 primary ferrite-maglev development status
-  workbench          Open the primary maglev design UI at 127.0.0.1:8090
-  workbench legacy   Build/run the retained wheel/rail platform GUI
-  infrastructure ... Run/check the primary ferrite-maglev infrastructure study
-  design [action]    Primary maglev build, run, check, verify, status or release-check
-  design legacy ...  Explicit v0.4 wheel/rail compiler and engineering workflows
-  sim [city] ...     Replay primary maglev city energy/charging (Baghdad default)
-  sim legacy ...     Run the retained wheel/rail simulator
-  city <slug>        Compile primary maglev formation/service/charging/cost planning
-  city legacy <slug> Regenerate an explicit wheel/rail comparator city
-  build              Rebuild stale native kits, replays, all cities and primary report
-  build legacy       Build the retained full wheel/rail comparator payload
-  book [arguments]   Rebuild the primary maglev OpenSourceRail-Book.pdf
-  book legacy ...    Build the retained wheel/rail reader edition
-  test               Verify the primary maglev Rust/Python/UI/configuration
-  test legacy        Run the retained whole-platform comparison checks
-  validate ...       Run/plan/verify local checks with source-bound receipts
-  doctor ...         Inspect a named local toolchain profile without installing
-  capabilities ...   Generate/check the primary maglev capability directory
-  capabilities legacy ...  Retained platform/source capability inventory
-  catalogue ...      Index/plan/rebuild selected primary maglev city packages
-  catalogue legacy ...  Explicit retained wheel/rail city generation
-  check --scope ...  Run selected local verification tiers or plan source impact
-  engineering ...    Run an engineering-toolchain command
-  example-city legacy ...  Retained isolated wheel/rail platform scenario
-  readiness [...]    Source-bound primary maglev readiness and open gates
-  readiness legacy ...  Retained city ERP/component/supervision audit
-  supervision ...    Generate and operate FUXA, telemetry and lifecycle integration
-  erp ...            Manage ERPNext business operations (init/build/up/setup/status/bench)
+  (no command)       Show ferrite-PM maglev development status
+  workbench          Open the design UI at 127.0.0.1:8090
+  infrastructure ... Run/check the primary infrastructure study
+  design [action]    Build, run, check, verify, status or release-check
+  sim [city] ...     Replay city energy/charging (Baghdad default)
+  city <slug>        Generate formation, service, charging and cost planning
+  build              Rebuild native kits, replays, cities and design report
+  book [arguments]   Rebuild OpenSourceRail-Book.pdf
+  test               Verify Rust, Python, configuration and browser results
+  capabilities ...   Generate/check the capability directory
+  catalogue ...      Index, plan or regenerate selected cities
+  readiness [...]    Show source-bound readiness and outstanding gates
 EOF
 }
 
@@ -52,136 +35,36 @@ fi
 (( $# == 0 )) || shift
 
 case "$command_name" in
-    infrastructure)
+    infrastructure|design)
         exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py "$@"
         ;;
-    example-city)
-        [[ "${1:-}" == legacy ]] || { printf 'This is a retained wheel/rail scenario. Use: ./osr example-city legacy <action>\n' >&2; exit 2; }
-        shift
-        exec python3 tools/automation/city-e2e.py "$@"
-        ;;
     readiness)
-        if [[ "${1:-}" != legacy ]]; then
-            exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py readiness "$@"
-        fi
-        shift
-        exec python3 tools/automation/operating-readiness.py "$@"
-        ;;
-    supervision)
-        exec python3 tools/automation/supervision.py "$@"
-        ;;
-    erp)
-        if [[ "${1:-}" == "components" ]]; then
-            shift
-            exec python3 tools/automation/erp-components.py "$@"
-        fi
-        if [[ "${1:-}" == "city" ]]; then
-            shift
-            exec python3 tools/automation/erpnext-city.py "$@"
-        fi
-        exec python3 tools/automation/erp-platform.py "$@"
+        exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py readiness "$@"
         ;;
     workbench)
-        if [[ "${1:-}" == legacy ]]; then
-            shift
-            exec npm run workbench:legacy -- "$@"
-        fi
         exec npm run workbench -- "$@"
         ;;
     sim)
-        if [[ "${1:-}" != legacy ]]; then
-            if (( $# == 0 )); then set -- baghdad; fi
-            exec tools/automation/osr-python -m engineering.ferrite_maglev.cities --simulate "$@"
-        fi
-        shift
-        exec cargo run --release --bin osr-sim -- "$@"
-        ;;
-    design)
-        if [[ "${1:-}" != legacy ]]; then
-            exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py "$@"
-        fi
-        shift
-        case "${1:-}" in
-            twin)
-                shift
-                exec tools/automation/osr-python tools/automation/design-digital-thread.py "$@"
-                ;;
-            campaign)
-                shift
-                exec tools/automation/osr-python tools/automation/generative-design-campaign.py "$@"
-                ;;
-            problems|run|search|iterate|compare|refine|verify|export|jobs|show|cancel|resume)
-                exec tools/automation/osr-python tools/automation/design-engine.py "$@"
-                ;;
-        esac
-        exec cargo run --release --bin osr-design -- "$@"
+        if (( $# == 0 )); then set -- baghdad; fi
+        exec tools/automation/osr-python -m engineering.ferrite_maglev.cities --simulate "$@"
         ;;
     city)
-        if [[ "${1:-}" != legacy ]]; then
-            exec tools/automation/osr-python -m engineering.ferrite_maglev.cities "$@"
-        fi
-        shift
-        (( $# == 1 )) || { printf 'usage: ./osr city legacy <slug>\n' >&2; exit 2; }
-        exec tools/automation/regenerate-city.sh "$1"
+        exec tools/automation/osr-python -m engineering.ferrite_maglev.cities "$@"
         ;;
     build)
-        if [[ "${1:-}" == legacy && $# == 1 ]]; then
-            exec tools/automation/build-all.sh
-        fi
-        (( $# == 0 )) || { printf 'usage: ./osr build [legacy]\n' >&2; exit 2; }
-        cargo build -p osr-maglev-control --examples
+        (( $# == 0 )) || { printf 'usage: ./osr build\n' >&2; exit 2; }
+        cargo build --locked -p osr-maglev-control --examples
         exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py build
         ;;
     book)
-        if [[ "${1:-}" == legacy ]]; then
-            shift
-            exec tools/automation/osr-python tools/automation/build-doc-book.py --legacy "$@"
-        fi
         exec tools/automation/osr-python tools/automation/build-doc-book.py "$@"
         ;;
-    validate)
-        exec tools/automation/osr-python tools/automation/local-validation.py "$@"
-        ;;
-    doctor)
-        exec tools/automation/osr-python tools/automation/doctor.py "$@"
-        ;;
-    capabilities)
-        if [[ "${1:-}" == legacy ]]; then shift; set -- --legacy "$@"; fi
-        exec tools/automation/osr-python tools/automation/capabilities.py "$@"
-        ;;
-    catalogue)
-        if [[ "${1:-}" == legacy ]]; then shift; set -- --legacy "$@"; fi
-        exec tools/automation/osr-python tools/automation/catalogue.py "$@"
-        ;;
-    check)
-        exec tools/automation/osr-python tools/automation/check.py "$@"
+    capabilities|catalogue)
+        exec tools/automation/osr-python "tools/automation/$command_name.py" "$@"
         ;;
     test)
-        if (( $# == 0 )); then exec bash tools/automation/test-maglev.sh; fi
-        [[ "$1" == legacy && $# == 1 ]] || { printf 'usage: ./osr test [legacy]\n' >&2; exit 2; }
-        cargo fmt --all -- --check
-        cargo clippy --workspace --all-targets -- -D warnings
-        cargo test --workspace --all-targets
-        tools/automation/osr-python -m pytest -q design/city-generation/tests design/component-catalogue/tests \
-            engineering/analysis/tests tools/osr-aln-convert/tests tools/reference-ma/tests tools/automation/tests
-        tools/automation/osr-python engineering/subsystem_control_register.py --check
-        tools/automation/osr-python engineering/toolchain/baseline_assurance.py --check
-        cargo run --quiet -p osr-consensus --bin osr-resilience-evidence -- --check
-        cargo run --quiet --release -p osr-sim --bin osr-soak-evidence -- --check
-        tools/automation/osr-python tools/automation/component_rfc_readiness.py --check
-        tools/automation/osr-python tools/automation/operating-readiness.py --check
-        tools/automation/osr-python tools/automation/validate-commercial-partnership.py --check
-        tools/automation/osr-python tools/automation/validate-supplier-technical-support.py --check
-        tools/automation/osr-python tools/automation/digital-assurance.py --check
-        tools/automation/osr-python tools/automation/component_assurance.py --check
-        npm run test:frontend
-        tools/automation/osr-python tools/automation/audit-project-twins.py
-        tools/automation/osr-python tools/automation/validate-host-manifests.py
-        tools/automation/osr-python tools/automation/repo-health.py --quiet
-        tools/automation/osr-python tools/automation/check-markdown-links.py
-        ;;
-    engineering)
-        exec tools/automation/engineering-toolchain.sh "$@"
+        (( $# == 0 )) || { printf 'usage: ./osr test\n' >&2; exit 2; }
+        exec bash tools/automation/test-maglev.sh
         ;;
     -h|--help|help)
         usage

@@ -1,6 +1,6 @@
 {
   "schema": "osr-supervision-profile/1",
-  "template_revision": "station-vehicle-wayside-factory/4",
+  "template_revision": "maglev-shared-observations/1",
   "historian": {
     "owner": "osr-integration",
     "retention_days": 7,
@@ -366,93 +366,6 @@
         }
       ],
       "commands": {}
-    },
-    "points": {
-      "label": "Points status",
-      "component_type_id": "wayside-points",
-      "asset_types": [
-        "switch"
-      ],
-      "source_crates": [
-        "osr-wayside-points"
-      ],
-      "measurements": {
-        "detected_position": {
-          "unit": "position",
-          "min": 0,
-          "max": 2,
-          "stale_seconds": 5
-        },
-        "detection_unknown": {
-          "unit": "bool",
-          "min": 0,
-          "max": 1,
-          "stale_seconds": 5
-        },
-        "motor_active": {
-          "unit": "bool",
-          "min": 0,
-          "max": 1,
-          "stale_seconds": 5
-        }
-      },
-      "alarms": [
-        {
-          "id": "position-unknown",
-          "measurement": "detection_unknown",
-          "high": 0.5,
-          "clear_below": 0.5,
-          "delay_seconds": 2,
-          "repeat_seconds": 300,
-          "priority": "high",
-          "response": "Inspect dual point-position detection locally; the interlocking and consensus log remain authoritative",
-          "maintenance": true
-        }
-      ],
-      "commands": {}
-    },
-    "vehicle-cbm": {
-      "label": "Vehicle condition monitoring",
-      "component_type_id": "vehicle-cbm",
-      "asset_types": [
-        "rolling-stock"
-      ],
-      "source_crates": [
-        "osr-cbm-onboard"
-      ],
-      "measurements": {
-        "health": {
-          "unit": "severity",
-          "min": 0,
-          "max": 2,
-          "stale_seconds": 10
-        },
-        "brake_remaining_pct": {
-          "unit": "%",
-          "min": 0,
-          "max": 100,
-          "stale_seconds": 10
-        },
-        "bearing_vibration_mm_s": {
-          "unit": "mm/s",
-          "min": 0,
-          "max": 1000,
-          "stale_seconds": 10
-        }
-      },
-      "alarms": [
-        {
-          "id": "component-service",
-          "measurement": "health",
-          "high": 1.5,
-          "clear_below": 1.5,
-          "delay_seconds": 6,
-          "repeat_seconds": 300,
-          "priority": "high",
-          "response": "Review native condition-monitoring service flag and arrange inspection; this case is not a railway release",
-          "maintenance": true
-        }
-      ]
     }
   },
   "fuxa_polling_scope": "asset"

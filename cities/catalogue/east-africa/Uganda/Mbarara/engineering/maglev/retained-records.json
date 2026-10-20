@@ -114,50 +114,180 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 12871.4,
       "name": "line-1",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 13032.7,
       "name": "line-2",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 330,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 26718.6,
       "name": "line-3",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 210,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 11952.2,
       "name": "line-4",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0522-0784-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0696-0354-s012871"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -190,22 +320,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 40
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0262-0243-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0626-0697-s013033"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -238,22 +355,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 40
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0954-0263-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0129-0892-s026719"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -286,22 +390,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 84
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-4-0689-0491-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-4-0538-0688-s011952"
-        }
-      ],
       "line": "line-4",
       "schedule": [
         {
@@ -334,10 +425,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 38
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -618,9 +706,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "amenity:university",
-      "anchor_name": "Bishop Stuart University",
-      "archetype": "terminal",
       "id": "line-1-0522-0784-s000000",
       "lat": -0.6021323219234784,
       "line": "line-1",
@@ -629,40 +714,30 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0542-0690-s002263",
-      "junction_group": 0,
       "lat": -0.6057316452506929,
       "line": "line-1",
       "lon": 30.679463739997708,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 2263.1
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0558-0613-s004072",
-      "junction_group": 1,
       "lat": -0.6086111039124644,
       "line": "line-1",
       "lon": 30.66562897101896,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 4072.2
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0543-0574-s005664",
-      "junction_group": 2,
       "lat": -0.6059116114170536,
       "line": "line-1",
       "lon": 30.65862175036739,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5664.2
     },
     {
-      "archetype": "standard",
       "id": "line-1-0647-0429-s010465",
       "lat": -0.6246280927185689,
       "line": "line-1",
@@ -671,9 +746,6 @@
       "s_m": 10464.9
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "RUTI HEALTH CENTRE II",
-      "archetype": "terminal",
       "id": "line-1-0696-0354-s012871",
       "lat": -0.6334464348702444,
       "line": "line-1",
@@ -682,9 +754,6 @@
       "s_m": 12871.4
     },
     {
-      "anchor_kind": "aeroway:aerodrome",
-      "anchor_name": "Mbarara Airfield",
-      "archetype": "terminal",
       "id": "line-2-0262-0243-s000000",
       "lat": -0.55534111866969,
       "line": "line-2",
@@ -693,7 +762,6 @@
       "s_m": 0.0
     },
     {
-      "archetype": "standard",
       "id": "line-2-0360-0365-s003510",
       "lat": -0.572977802973041,
       "line": "line-2",
@@ -702,46 +770,31 @@
       "s_m": 3509.6
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Biafra",
-      "archetype": "interchange",
       "id": "line-2-0537-0585-s009833",
-      "junction_group": 2,
       "lat": -0.6048318144188892,
       "line": "line-2",
       "lon": 30.660598145935783,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 9832.8
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0558-0613-s010625",
-      "junction_group": 1,
       "lat": -0.6086111039124644,
       "line": "line-2",
       "lon": 30.66562897101896,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 10625.4
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0611-0678-s012493",
-      "junction_group": 3,
       "lat": -0.6181493107295828,
       "line": "line-2",
       "lon": 30.677307672104916,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 12493.3
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "KATETE HEALTH CENTRE III",
-      "archetype": "terminal",
       "id": "line-2-0626-0697-s013033",
-      "junction_group": 3,
       "lat": -0.6208488032249937,
       "line": "line-2",
       "lon": 30.680721446268503,
@@ -749,9 +802,6 @@
       "s_m": 13032.7
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "NYAKAYOJO H/C III",
-      "archetype": "terminal",
       "id": "line-3-0954-0263-s000000",
       "lat": -0.6798777057913112,
       "line": "line-3",
@@ -760,7 +810,6 @@
       "s_m": 0.0
     },
     {
-      "archetype": "standard",
       "id": "line-3-0734-0445-s007008",
       "lat": -0.6402851491919519,
       "line": "line-3",
@@ -769,44 +818,30 @@
       "s_m": 7007.8
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0689-0491-s008526",
-      "junction_group": 4,
       "lat": -0.6321866717057193,
       "line": "line-3",
       "lon": 30.64370894744225,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 8526.1
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0543-0574-s012983",
-      "junction_group": 2,
       "lat": -0.6059116114170536,
       "line": "line-3",
       "lon": 30.65862175036739,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 12983.4
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Biafra",
-      "archetype": "interchange",
       "id": "line-3-0537-0585-s013300",
-      "junction_group": 2,
       "lat": -0.6048318144188892,
       "line": "line-3",
       "lon": 30.660598145935783,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 13299.9
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "MAYANJA MEMORIAL HOSP.",
-      "archetype": "standard",
       "id": "line-3-0456-0638-s016054",
       "lat": -0.5902545549436706,
       "line": "line-3",
@@ -815,7 +850,6 @@
       "s_m": 16053.9
     },
     {
-      "archetype": "halt",
       "id": "line-3-0318-0818-s021383",
       "lat": -0.5654192239858906,
       "line": "line-3",
@@ -824,9 +858,6 @@
       "s_m": 21382.9
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "ST JOHN COMMUNITY HEALTH CENTRE II",
-      "archetype": "depot-terminal",
       "id": "line-3-0129-0892-s026719",
       "lat": -0.5314056185437138,
       "line": "line-3",
@@ -835,20 +866,14 @@
       "s_m": 26718.6
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0689-0491-s000000",
-      "junction_group": 4,
       "lat": -0.6321866717057193,
       "line": "line-4",
       "lon": 30.64370894744225,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 0.0
     },
     {
-      "anchor_kind": "planning:residential-priority",
-      "anchor_name": "Residential planning stop; site release open",
-      "archetype": "standard",
       "id": "line-4-0662-0613-s006867",
       "lat": -0.6273275852139798,
       "line": "line-4",
@@ -857,33 +882,23 @@
       "s_m": 6866.7
     },
     {
-      "archetype": "interchange",
       "id": "line-4-0611-0678-s009250",
-      "junction_group": 3,
       "lat": -0.6181493107295828,
       "line": "line-4",
       "lon": 30.677307672104916,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 9249.7
     },
     {
-      "archetype": "interchange",
       "id": "line-4-0542-0690-s011856",
-      "junction_group": 0,
       "lat": -0.6057316452506929,
       "line": "line-4",
       "lon": 30.679463739997708,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 11855.7
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "KAKOOBA DIVISION HC III",
-      "archetype": "terminal",
       "id": "line-4-0538-0688-s011952",
-      "junction_group": 0,
       "lat": -0.60501178058525,
       "line": "line-4",
       "lon": 30.679104395348908,
@@ -891,7 +906,6 @@
       "s_m": 11952.2
     },
     {
-      "archetype": "halt",
       "id": "line-3-0829-0313-s003511",
       "lat": -0.6573819349962207,
       "line": "line-3",

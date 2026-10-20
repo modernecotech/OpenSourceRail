@@ -8,6 +8,67 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import re
+import tempfile
+import uuid
+import zipfile
+
+FCSTD_NAMESPACE = uuid.UUID("f42effa5-2414-5f3f-a53c-1198e907e5e2")
+
+
+def _canonicalise_fcstd(path: Path) -> None:
+    """Remove FreeCAD save-time/UUID/ZIP metadata from a tracked review file."""
+
+    with zipfile.ZipFile(path, "r") as source:
+        entries = [(info, source.read(info.filename)) for info in source.infolist()]
+        comment = source.comment
+    canonical_entries: list[tuple[zipfile.ZipInfo, bytes]] = []
+    document_uid = str(uuid.uuid5(FCSTD_NAMESPACE, path.name))
+    for info, data in entries:
+        if info.filename == "Document.xml":
+            text = data.decode("utf-8")
+            text = re.sub(
+                r'(<Property name="(?:CreationDate|LastModifiedDate)"[^>]*>\s*<String value=")[^"]+',
+                r"\g<1>2000-01-01T00:00:00Z",
+                text,
+            )
+            text = re.sub(
+                r'(<Property name="Uid"[^>]*>\s*<Uuid value=")[^"]+',
+                rf"\g<1>{document_uid}",
+                text,
+            )
+            object_id = 0
+
+            def canonical_object_id(match: re.Match[str]) -> str:
+                nonlocal object_id
+                object_id += 1
+                return f'{match.group(1)}{object_id}{match.group(2)}'
+
+            text = re.sub(
+                r'(<Object type="[^"]+" name="[^"]+" id=")\d+("\s*/>)',
+                canonical_object_id,
+                text,
+            )
+            data = text.encode("utf-8")
+        canonical = zipfile.ZipInfo(info.filename, date_time=(2000, 1, 1, 0, 0, 0))
+        canonical.compress_type = info.compress_type
+        canonical.external_attr = info.external_attr
+        canonical.internal_attr = info.internal_attr
+        canonical.create_system = info.create_system
+        canonical_entries.append((canonical, data))
+    with tempfile.NamedTemporaryFile(
+        "wb", dir=path.parent, prefix=f".{path.name}.", delete=False
+    ) as handle:
+        temporary = Path(handle.name)
+    try:
+        with zipfile.ZipFile(temporary, "w") as target:
+            target.comment = comment
+            for info, data in canonical_entries:
+                target.writestr(info, data)
+        temporary.replace(path)
+    finally:
+        if temporary.exists():
+            temporary.unlink()
 
 
 def digest(path):
@@ -18,7 +79,6 @@ def export_native(model_path, output):
     import FreeCAD as App
     import Part
     from engineering.factory_examples.models import volume, global_size
-    from osr_mech.freecad_assembly_review import _canonicalise_fcstd
 
     model_path, output = Path(model_path), Path(output)
     model = json.loads(model_path.read_text())
@@ -129,14 +189,10 @@ def export_native(model_path, output):
                 ],
             )
         )
-    # Tooling fixture contains separate materials: check actual positive common volume.
+    # Check positive shared volume only for the explicitly selected physical roles.
     collisions = []
     interference_roles = model.get("interference_roles", [])
-    check_objects = (
-        objects
-        if model["id"] == "OSR-FIX-500"
-        else [o for o in objects if o.Role in interference_roles]
-    )
+    check_objects = [o for o in objects if o.Role in interference_roles]
     if check_objects:
         for i, obj in enumerate(check_objects):
             for other in check_objects[i + 1 :]:
@@ -147,7 +203,7 @@ def export_native(model_path, output):
                             dict(left=obj.DesignId, right=other.DesignId, mm3=overlap)
                         )
         if collisions:
-            raise ValueError("fixture solid interference: " + str(collisions))
+            raise ValueError("selected-role solid interference: " + str(collisions))
     interference_ids = [o.DesignId for o in check_objects]
     mesh_path = None
     if model.get("retain_native_tessellation"):
@@ -213,9 +269,9 @@ def export_native(model_path, output):
         fcstd_reopened=True,
         step_reopened=True,
         volume_sum_m3=expected_volume,
-        fixture_interferences_checked=model["id"] == "OSR-FIX-500",
+        checked_interference_roles=interference_roles,
         interference_checked_ids=interference_ids,
-        note="Other scenes intentionally overlay strand, concrete and manufacturing-state envelopes; no interference acceptance implied",
+        note="Only declared role pairs receive positive-volume checks; other roles and envelopes have no interference acceptance",
         physical_release=False,
         files_sha256={p.name: digest(p) for p in (fcstd, step)},
     )
@@ -234,7 +290,7 @@ def generate(model_path, output, root):
     script.write_text(
         "import sys\nfrom pathlib import Path\n"
         "sys.path[:0]="
-        + repr([str(root), str(root / "design/component-catalogue/src")])
+        + repr([str(root)])
         + "\n"
         "from engineering.factory_examples.native import export_native\n"
         "export_native("

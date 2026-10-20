@@ -8,7 +8,7 @@
 //! various agents that log events.
 //!
 //! Phase 2f infrastructure crate per
-//! [RFC 0005 §4.9](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! [RFC 0005 §4.9](../../../docs/ARCHITECTURE.md).
 //! No SIL tier — this is a data-model crate; encoding errors surface
 //! as `DecodeError` rather than silent misinterpretation.
 //!

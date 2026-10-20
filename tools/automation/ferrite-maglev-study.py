@@ -10,31 +10,6 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 from engineering.ferrite_maglev import model,delivery
 
 
-LEGACY_DESIGN_UNITS = (
-    'osr-continuous-design', 'osr-assembly-capability', 'osr-assembly-design',
-    'osr-assembly-verification', 'osr-design-coverage', 'osr-design-progress', 'osr-design-publication',
-)
-
-
-def retire_legacy_units():
-    """Retire only this checkout's obsolete automatic physical-design services."""
-    retired = []
-    for base in LEGACY_DESIGN_UNITS:
-        service_name = base+'.service'
-        record = subprocess.run(['systemctl','--user','cat',service_name],capture_output=True,text=True)
-        if record.returncode or str(model.ROOT) not in record.stdout:
-            continue
-        for name in (base+'.timer', service_name):
-            loaded = subprocess.run(['systemctl','--user','show',name,'--property=LoadState','--value'],capture_output=True,text=True)
-            if loaded.returncode or loaded.stdout.strip() != 'loaded':
-                continue
-            enabled = subprocess.run(['systemctl','--user','is-enabled',name],capture_output=True,text=True)
-            action = ['disable','--now'] if enabled.returncode == 0 else ['stop']
-            subprocess.run(['systemctl','--user',*action,name],check=True,capture_output=True,text=True)
-            retired.append(name)
-    return retired
-
-
 def units(output):
     def arg(value):
         return '"'+str(value).replace('\\','\\\\').replace('"','\\"').replace('%','%%')+'"'
@@ -58,7 +33,6 @@ def main():
     args=parser.parse_args()
     if args.action=='install':
         model.load()
-        retired = retire_legacy_units()
         output=Path.home()/'.local/state/opensourcerail/ferrite-maglev/latest'
         folder=Path.home()/'.config/systemd/user';folder.mkdir(parents=True,exist_ok=True)
         for name,text in units(output).items():
@@ -70,7 +44,6 @@ def main():
         subprocess.run(['systemctl','--user','enable','--now','osr-primary-infrastructure.timer'],check=True)
         subprocess.run(['systemctl','--user','start','osr-primary-infrastructure.service'],check=True)
         result=dict(timer='osr-primary-infrastructure.timer',report=str(output/'index.html'),
-                    retired_legacy_design_units=retired,
                     mode='restartable dependency build on source change; missing evaluators and physical acceptance remain open')
     elif args.action in {'cycle','build'}:
         from engineering.ferrite_maglev import workflow
@@ -99,15 +72,19 @@ def main():
         retained=json.loads((args.output/'result.json').read_text())
         result=dict(family=retained['family'],source_current=True,scope='Primary maglev digital studies; no engineering/physical release',
             accepted_physical_releases=0,open_requirements=len(retained['applicable_requirements']['requirements']),
-            handoff_open_requirements=len(retained['requirements']),
+            core_open_requirements=len(retained['requirements']),
             evacuation_open_requirements=len(retained['applicable_requirements']['requirements'])-len(retained['requirements']),gates=retained['gates'],
             transition_inventory=retained['transition_inventory'],**model.FLAGS)
     elif args.action=='status':
-        policy,c,_=model.load()
+        from engineering.ferrite_maglev import transition,requirements,cities
+        _,c,_=model.load()
+        register=transition.build()
         result=dict(version='0.5.0',family=c['metadata']['family'],primary_development=True,
-                    legacy=policy['development']['legacy_use'],gates='G0–G5 open',
-                    city_migration='266 primary maglev city packages; legacy geometry/demand retained, fleet/duty/charging/partial costs recomputed',
-                    inventory='414 items and 63 legacy packages have explicit dispositions; 72 handoff plus 7 evacuation requirements / 11 new packages; accepted completion 0',**model.FLAGS)
+                    gates='G0–G5 open',city_packages=len(list((cities.ROOT/'cities/catalogue').glob('*/*/*/city.json'))),
+                    city_method='Current maglev configurations and quantity/process cost inputs; geography and passenger targets remain provisional.',
+                    system_inventory=register['inventory_counts'],
+                    open_requirements=len(requirements.register()['requirements']),
+                    accepted_engineering_items=register['accepted_item_count'],**model.FLAGS)
     elif args.action=='release-check':
         model.load()
         print(json.dumps(dict(release_allowed=False,reason='No authenticated magnetic/vehicle/civil/hardware acceptance adapter',

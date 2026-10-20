@@ -1,9 +1,9 @@
 //! OpenSourceRail SIL-4 Interlocking.
 //!
 //! This crate implements the rail state machine described in
-//! [RFC 0001 §7](../../docs/rfcs/0001-track-state-consensus.md), per the
+//! [RFC 0001 §7](../../../docs/ARCHITECTURE.md), per the
 //! implementation plan in
-//! [RFC 0004](../../docs/rfcs/0004-osr-interlocking-plan.md).
+//! [RFC 0004](../../../docs/ARCHITECTURE.md).
 //!
 //! **Current milestone: M1 — types, log, and `derive_state`.**
 //!

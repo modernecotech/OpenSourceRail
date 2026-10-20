@@ -8,11 +8,11 @@
 //! - **One shared 500 kW DC/DC cabinet** — interlocked between up to two
 //!   platform contacts
 //!
-//! per [RFC 0002](../../../docs/rfcs/0002-energy-sizing.md). This is
+//! per [RFC 0002](../../../docs/ARCHITECTURE.md). This is
 //! the Rust implementation of the site controller described in
 //! RFC 0002 §4.
 //!
-//! Phase 2d crate of [RFC 0005 §4.6](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2d crate of [RFC 0005 §4.6](../../../docs/ARCHITECTURE.md).
 //! SIL-2: mis-dispatching energy degrades service (a train arriving
 //! with too little SoC) or wastes solar generation; it is not a
 //! direct safety hazard.

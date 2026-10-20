@@ -1,6 +1,6 @@
 //! OpenSourceRail message-authentication bus (SIL-2).
 //!
-//! Per [RFC 0017](../../docs/rfcs/0017-cybersecurity-message-authentication.md)
+//! Per [RFC 0017](../../../docs/ARCHITECTURE.md)
 //! every entry on the consensus log is signed by the originating
 //! entity and verified by every consumer before it reaches derived
 //! state.

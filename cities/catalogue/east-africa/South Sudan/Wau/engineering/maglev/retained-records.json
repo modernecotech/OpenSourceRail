@@ -79,42 +79,137 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 8162.4,
       "name": "line-1",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 7884.7,
       "name": "line-2",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 2301.1,
       "name": "line-3",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0239-0231-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0486-0395-s008162"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -147,22 +242,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 24
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0075-0290-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0376-0351-s007885"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -195,22 +277,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 25
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0368-0370-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0301-0309-s002301"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -243,10 +312,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 15
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -478,9 +544,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "aeroway:aerodrome",
-      "anchor_name": "مطار واو",
-      "archetype": "terminal",
       "id": "line-1-0239-0231-s000000",
       "lat": 7.7244981031566065,
       "line": "line-1",
@@ -489,67 +552,46 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0318-0334-s003409",
-      "junction_group": 0,
       "lat": 7.710280776014109,
       "line": "line-1",
       "lon": 27.99244383091882,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 3409.4
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0353-0348-s004225",
-      "junction_group": 1,
       "lat": 7.703981960191483,
       "line": "line-1",
       "lon": 27.994981988266694,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4225.3
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0359-0370-s004767",
-      "junction_group": 1,
       "lat": 7.702902163193319,
       "line": "line-1",
       "lon": 27.998970521241922,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4766.8
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "St. Mary's Minor Seminary",
-      "archetype": "interchange",
       "id": "line-1-0368-0371-s004955",
-      "junction_group": 1,
       "lat": 7.701282467696073,
       "line": "line-1",
       "lon": 27.99915181819534,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4955.0
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "St. Mary's Minor Seminary",
-      "archetype": "interchange",
       "id": "line-1-0370-0372-s005032",
-      "junction_group": 1,
       "lat": 7.700922535363351,
       "line": "line-1",
       "lon": 27.99933311514876,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 5031.6
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "archetype": "depot-terminal",
       "id": "line-1-0486-0395-s008162",
       "lat": 7.680046460065507,
       "line": "line-1",
@@ -558,9 +600,6 @@
       "s_m": 8162.4
     },
     {
-      "anchor_kind": "amenity:bus_station",
-      "anchor_name": "Zagallona, Wau",
-      "archetype": "terminal",
       "id": "line-2-0075-0290-s000000",
       "lat": 7.754012554439766,
       "line": "line-2",
@@ -569,7 +608,6 @@
       "s_m": 0.0
     },
     {
-      "archetype": "standard",
       "id": "line-2-0199-0314-s003009",
       "lat": 7.731696749811035,
       "line": "line-2",
@@ -578,7 +616,6 @@
       "s_m": 3009.4
     },
     {
-      "archetype": "major",
       "id": "line-2-0276-0362-s005102",
       "lat": 7.717839355001259,
       "line": "line-2",
@@ -587,61 +624,39 @@
       "s_m": 5102.2
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0359-0370-s007190",
-      "junction_group": 1,
       "lat": 7.702902163193319,
       "line": "line-2",
       "lon": 27.998970521241922,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 7190.1
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "St. Mary's Minor Seminary",
-      "archetype": "interchange",
       "id": "line-2-0368-0371-s007378",
-      "junction_group": 1,
       "lat": 7.701282467696073,
       "line": "line-2",
       "lon": 27.99915181819534,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 7378.4
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "St. Mary's Minor Seminary",
-      "archetype": "interchange",
       "id": "line-2-0369-0370-s007447",
-      "junction_group": 1,
       "lat": 7.7011025015297125,
       "line": "line-2",
       "lon": 27.998970521241922,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 7446.7
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "St. Mary's Minor Seminary",
-      "archetype": "interchange",
       "id": "line-2-0370-0363-s007595",
-      "junction_group": 1,
       "lat": 7.700922535363351,
       "line": "line-2",
       "lon": 27.997701442567987,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 7594.9
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Comboni Hospital",
-      "archetype": "terminal",
       "id": "line-2-0376-0351-s007885",
-      "junction_group": 1,
       "lat": 7.699842738365187,
       "line": "line-2",
       "lon": 27.99552587912695,
@@ -649,70 +664,46 @@
       "s_m": 7884.7
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "St. Mary's Minor Seminary",
-      "archetype": "terminal",
       "id": "line-3-0368-0370-s000000",
-      "junction_group": 1,
       "lat": 7.701282467696073,
       "line": "line-3",
       "lon": 27.998970521241922,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 0.0
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "St. Mary's Minor Seminary",
-      "archetype": "interchange",
       "id": "line-3-0369-0370-s000140",
-      "junction_group": 1,
       "lat": 7.7011025015297125,
       "line": "line-3",
       "lon": 27.998970521241922,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 140.0
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "St. Mary's Minor Seminary",
-      "archetype": "interchange",
       "id": "line-3-0370-0363-s000288",
-      "junction_group": 1,
       "lat": 7.700922535363351,
       "line": "line-3",
       "lon": 27.997701442567987,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 288.3
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0353-0348-s000799",
-      "junction_group": 1,
       "lat": 7.703981960191483,
       "line": "line-3",
       "lon": 27.994981988266694,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 799.4
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0318-0334-s001615",
-      "junction_group": 0,
       "lat": 7.710280776014109,
       "line": "line-3",
       "lon": 27.99244383091882,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 1615.4
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "Saint Joseph Basic School",
-      "archetype": "terminal",
       "id": "line-3-0301-0309-s002301",
       "lat": 7.713340200842241,
       "line": "line-3",

@@ -103,7 +103,7 @@ fn arb_payload() -> BoxedStrategy<EntryPayload> {
         (arb_train_id(), arb_position()).prop_map(|(train_id, initial_position)| {
             EntryPayload::TrainRegistration(TrainRegistration {
                 train_id,
-                consist: ConsistDescriptor::reference_3car(),
+                consist: ConsistDescriptor::synthetic_analysis_fixture(),
                 initial_position,
             })
         }),

@@ -4,7 +4,7 @@ use osr_hvac::{hvac_evaluate, HvacInputs, HvacMode, HvacParams, HvacState};
 use proptest::prelude::*;
 
 fn params() -> HvacParams {
-    HvacParams::light_metro_default()
+    HvacParams::research_default()
 }
 
 fn arb_inputs() -> impl Strategy<Value = HvacInputs> {

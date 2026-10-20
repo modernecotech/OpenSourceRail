@@ -12,7 +12,7 @@
 //! 3. Latches an alarm state that only clears after a full
 //!    cooldown AND an explicit ground-crew reset.
 //!
-//! Phase 2c crate of [RFC 0005 §4.3](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2c crate of [RFC 0005 §4.3](../../../docs/ARCHITECTURE.md).
 //!
 //! # Detection rule (conservative)
 //!

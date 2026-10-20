@@ -121,10 +121,9 @@ try {
   assert.equal(data.civil_section_candidates.length, 27);
   assert.equal(data.localisation.local_fraction, null);
   assert.ok(data.gates.every((g) => g.accepted === false));
-  assert.equal(data.transition_inventory.total_source_items, 414);
-  assert.equal(data.transition_inventory.legacy_work_packages, 63);
-  assert.equal(data.requirements.length, 72);
-  assert.equal(data.work_packages.length, 11);
+  assert.ok(data.transition_inventory.total_source_items > 0);
+  assert.equal(data.requirements.length, data.transition_inventory.requirements);
+  assert.equal(data.work_packages.length, data.transition_inventory.primary_work_packages);
   assert.equal(data.city_catalogue.city_count, 266);
   assert.equal(data.city_catalogue.catalogue_complete, true);
   assert.equal(data.city_catalogue.planning_acceptance, false);
@@ -146,7 +145,7 @@ try {
   const score =
     optimisation.minimum_indexed_allowance_candidate.system_scorecard;
   assert.equal(score.installed_cost_usd_dual_route_km, null);
-  assert.equal(score.factory_gate_cost_usd_three_car_train, null);
+  assert.equal(score.factory_gate_cost_usd_reference_train, null);
   assert.equal(score.moving_assemblies_count, null);
   assert.ok(score.hot_aw3_no_regen_cycle_kwh_per_car > 0);
   assert.equal(
@@ -229,13 +228,14 @@ try {
   assert.ok(evacuation.landing_cases.every((c) => c.accepted === false));
 
   const transition = JSON.parse(
-    gunzipSync((await asset("transition-register.json.gz")).body).toString(
+    gunzipSync((await asset("systems-register.json.gz")).body).toString(
       "utf8",
     ),
   );
-  assert.equal(transition.items.length, 414);
-  assert.equal(new Set(transition.items.map((item) => item.id)).size, 414);
-  assert.equal(transition.legacy_packages.length, 63);
+  assert.equal(transition.schema, "osr-ferrite-maglev-systems/1");
+  assert.equal(transition.items.length, data.transition_inventory.total_source_items);
+  assert.equal(new Set(transition.items.map((item) => item.id)).size, transition.items.length);
+  assert.equal(transition.work_packages.length, data.work_packages.length);
   assert.equal(transition.accepted_item_count, 0);
   assert.equal(transition.accepted_physical_release_count, 0);
   assert.ok(
@@ -408,7 +408,7 @@ try {
     videos,
     links,
     source_item_count: transition.items.length,
-    legacy_package_count: transition.legacy_packages.length,
+    work_package_count: transition.work_packages.length,
     city_count: data.city_catalogue.city_count,
     accepted_item_count: transition.accepted_item_count,
     native_receipts: nativeReceipts,

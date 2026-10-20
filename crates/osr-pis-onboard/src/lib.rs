@@ -7,7 +7,7 @@
 //! - whether an audio announcement should play this tick,
 //! - whether CCTV recording is enabled.
 //!
-//! Phase 2c crate 6 of [RFC 0005 §4.2](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2c crate 6 of [RFC 0005 §4.2](../../../docs/ARCHITECTURE.md).
 //!
 //! The crate does **not** render or transmit anything — it produces
 //! a compact decision that downstream display / audio agents
@@ -92,7 +92,7 @@ pub struct PisParams {
 
 impl PisParams {
     #[must_use]
-    pub fn light_metro_default() -> Self {
+    pub fn research_default() -> Self {
         Self {
             approach_distance_mm: 500_000, // 500 m
             announce_cooldown_ms: 15_000,
@@ -270,7 +270,7 @@ mod tests {
         let out = pis_evaluate(
             &PisState::default(),
             &nominal(42, 2_000_000, 15_000),
-            &PisParams::light_metro_default(),
+            &PisParams::research_default(),
         );
         assert_eq!(out.mode, PisMode::Normal);
         assert!(matches!(
@@ -282,7 +282,7 @@ mod tests {
 
     #[test]
     fn approach_within_threshold_announces() {
-        let p = PisParams::light_metro_default();
+        let p = PisParams::research_default();
         let out = pis_evaluate(&PisState::default(), &nominal(42, 400_000, 15_000), &p);
         assert!(matches!(
             out.display_message,
@@ -293,7 +293,7 @@ mod tests {
 
     #[test]
     fn arrived_announces_once() {
-        let p = PisParams::light_metro_default();
+        let p = PisParams::research_default();
         let mut i = nominal(42, 0, 0);
         i.at_station = true;
         let first = pis_evaluate(&PisState::default(), &i, &p);
@@ -312,7 +312,7 @@ mod tests {
 
     #[test]
     fn emergency_broadcast_dominates() {
-        let p = PisParams::light_metro_default();
+        let p = PisParams::research_default();
         let mut i = nominal(42, 2_000_000, 15_000);
         i.emergency_broadcast = Some(7);
         let out = pis_evaluate(&PisState::default(), &i, &p);
@@ -323,7 +323,7 @@ mod tests {
 
     #[test]
     fn v110_down_blanks_displays_keeps_cctv() {
-        let p = PisParams::light_metro_default();
+        let p = PisParams::research_default();
         let mut i = nominal(42, 1_000_000, 15_000);
         i.v110_rail_enabled = false;
         let out = pis_evaluate(&PisState::default(), &i, &p);
@@ -334,7 +334,7 @@ mod tests {
 
     #[test]
     fn v24_down_disables_cctv() {
-        let p = PisParams::light_metro_default();
+        let p = PisParams::research_default();
         let mut i = nominal(42, 1_000_000, 15_000);
         i.v24_rail_enabled = false;
         let out = pis_evaluate(&PisState::default(), &i, &p);
@@ -343,7 +343,7 @@ mod tests {
 
     #[test]
     fn determinism() {
-        let p = PisParams::light_metro_default();
+        let p = PisParams::research_default();
         let i = nominal(42, 800_000, 15_000);
         let a = pis_evaluate(&PisState::default(), &i, &p);
         let b = pis_evaluate(&PisState::default(), &i, &p);

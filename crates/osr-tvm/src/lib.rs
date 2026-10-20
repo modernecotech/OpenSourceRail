@@ -7,7 +7,7 @@
 //! machine (token signing + inventory + revenue tracking) is
 //! identical regardless of payment rail.
 //!
-//! Phase 2e crate 2 of [RFC 0005 §4.7](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2e crate 2 of [RFC 0005 §4.7](../../../docs/ARCHITECTURE.md).
 //! SIL-0. The integrity of the token lives in [`osr_afc`]'s
 //! signing; a TVM issuing over-budget tickets is a revenue bug,
 //! not a safety one.

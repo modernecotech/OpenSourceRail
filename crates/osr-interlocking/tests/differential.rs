@@ -24,8 +24,8 @@ use std::path::{Path, PathBuf};
 use std::process::{Command, Stdio};
 
 use osr_core::{
-    BrakingCurve, ConsistDescriptor, Direction, EntityId, EntryId, Line, Network, Position,
-    RouteId, Section, SectionId, Station, StationId, SwitchId, TrackRef, TrainClass, TrainId,
+    ConsistDescriptor, Direction, EntityId, EntryId, Line, Network, Position, RouteId, Section,
+    SectionId, Station, StationId, SwitchId, TrackRef, TrainId,
 };
 use osr_interlocking::log::{
     Confidence, Entry, EntryPayload, PositionSource, RestrictionReason, RouteGrant,
@@ -112,22 +112,8 @@ fn run_python(src: &Path, case_json: &str) -> MovementAuthority {
     })
 }
 
-fn reference_3car() -> ConsistDescriptor {
-    ConsistDescriptor {
-        train_class: TrainClass::LightMetro,
-        car_count: 3,
-        length_mm: 51_000,
-        mass_kg: 195_000,
-        max_speed_mps: 22.0,
-        braking: BrakingCurve {
-            service: vec![(0.0, 1.1), (20.0, 1.0), (28.0, 0.9)],
-            emergency: vec![(0.0, 1.5), (20.0, 1.4), (28.0, 1.2)],
-            reaction_time_ms: 400,
-        },
-        service_accel_mps2: 1.0,
-        has_pantograph: false,
-        battery_capacity_wh: 450_000,
-    }
+fn synthetic_analysis_fixture() -> ConsistDescriptor {
+    ConsistDescriptor::synthetic_analysis_fixture()
 }
 
 fn simple_linear_network() -> Network {
@@ -198,7 +184,7 @@ fn registration_entry(
         timestamp_ns: ts_ns,
         payload: EntryPayload::TrainRegistration(TrainRegistration {
             train_id: TrainId::new(train_id),
-            consist: reference_3car(),
+            consist: synthetic_analysis_fixture(),
             initial_position: Position {
                 track_ref: TrackRef {
                     section: SectionId::new(section),

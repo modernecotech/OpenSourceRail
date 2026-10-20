@@ -1,19 +1,10 @@
-//! CI gate per RFC 0005 §4.9: the starter safety case under
-//! `docs/safety-case/gsn/` must compile, every goal must trace to
-//! evidence, and every non-"cite" evidence path must exist.
-//!
-//! Every evidence path in the starter case is expected to be a real
-//! artefact in-tree — if you add a new goal, you must link it to
-//! real evidence before committing, or this test fails.
-
+//! Source traceability must not grant current maglev engineering acceptance.
 use std::path::{Path, PathBuf};
 
-use osr_safety_case::Case;
+use osr_safety_case::{results::Results, Case};
 
 fn workspace_root() -> PathBuf {
-    // CARGO_MANIFEST_DIR → crates/osr-safety-case/. Go up twice.
-    let manifest = std::env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR set by cargo");
-    Path::new(&manifest)
+    Path::new(env!("CARGO_MANIFEST_DIR"))
         .parent()
         .and_then(|p| p.parent())
         .expect("workspace root")
@@ -21,37 +12,44 @@ fn workspace_root() -> PathBuf {
 }
 
 #[test]
-fn starter_case_closes() {
+fn current_maglev_source_traceability_is_distinct_from_execution_acceptance() {
     let root = workspace_root();
-    let gsn_dir = root.join("docs/safety-case/gsn");
-    assert!(
-        gsn_dir.is_dir(),
-        "missing starter GSN directory at {}",
-        gsn_dir.display()
-    );
+    let fixture = tempfile::tempdir().unwrap();
+    std::fs::write(
+        fixture.path().join("current.toml"),
+        r#"
+[[goal]]
+id = "MAGLEV-CONTROL"
+description = "An exact control source can be traced; physical acceptance remains separate"
 
-    let case = Case::load_dir(&gsn_dir, &root).unwrap_or_else(|e| {
-        panic!("starter safety case failed to compile: {e}");
-    });
-
-    // Sanity: the three root claims from RFC 0004 §7 must be present.
-    let roots: Vec<_> = case.root_goals().iter().map(|g| g.id.clone()).collect();
-    for expected in ["G1", "G2", "G3"] {
-        assert!(
-            roots.iter().any(|r| r == expected),
-            "missing root goal {expected}; got {roots:?}"
-        );
-    }
-
-    // The closure check is already inside Case::load_dir; this
-    // duplicate call exists as a regression safety net in case the
-    // gate is ever removed from the loader.
-    let closed = case.closed_goals();
-    for g in case.goals.values() {
-        assert!(
-            closed.contains(&g.id),
-            "goal {} did not close against evidence",
-            g.id
-        );
+[[solution]]
+id = "MAGLEV-SOURCE"
+parent = "MAGLEV-CONTROL"
+description = "Current control implementation source"
+[solution.evidence]
+kind = "proptest"
+path = "crates/osr-maglev-control/src/lib.rs"
+"#,
+    )
+    .unwrap();
+    let case = Case::load_dir(fixture.path(), &root).unwrap();
+    assert!(case.closed_goals().contains("MAGLEV-CONTROL"));
+    let records = Results {
+        schema: "osr-evidence-results/1".into(),
+        result: vec![],
+    };
+    let states = case.assess_results(&records, &root).unwrap();
+    assert_eq!(states.len(), 1);
+    assert!(!states[0].verified && !states[0].accepted);
+    let profile: toml::Value =
+        toml::from_str(&std::fs::read_to_string(root.join("deployment/maglev.toml")).unwrap())
+            .unwrap();
+    for field in [
+        "design_complete",
+        "physical_validation",
+        "manufacturing_release",
+        "physical_release",
+    ] {
+        assert_eq!(profile["release"][field].as_bool(), Some(false));
     }
 }

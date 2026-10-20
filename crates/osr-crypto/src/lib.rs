@@ -6,7 +6,7 @@
 //! single place to change (and a single place to review).
 //!
 //! Phase 2f infrastructure crate per
-//! [RFC 0005 §4.9](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! [RFC 0005 §4.9](../../../docs/ARCHITECTURE.md).
 //! SIL-2 — a MAC forgery enables fare fraud and (once ed25519 lands)
 //! entry spoofing. Not SIL-4: none of these primitives is on the
 //! safety-critical brake path.

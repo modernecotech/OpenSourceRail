@@ -78,50 +78,180 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 9959.9,
       "name": "line-1",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 14800.5,
       "name": "line-2",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 12864.0,
       "name": "line-3",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 5881.6,
       "name": "line-4",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0252-0247-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0550-0499-s009960"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -154,22 +284,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 25
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0405-0744-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0388-0126-s014801"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -202,22 +319,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 30
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0109-0523-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0549-0386-s012864"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -250,22 +354,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 30
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-4-0237-0388-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-4-0338-0536-s005882"
-        }
-      ],
       "line": "line-4",
       "schedule": [
         {
@@ -298,10 +389,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 13
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -542,9 +630,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "leisure:stadium",
-      "anchor_name": "Greenlight Stadium",
-      "archetype": "terminal",
       "id": "line-1-0252-0247-s000000",
       "lat": 3.042258542993917,
       "line": "line-1",
@@ -553,68 +638,46 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0368-0385-s004647",
-      "junction_group": 0,
       "lat": 3.021382467696073,
       "line": "line-1",
       "lon": 30.91275611938591,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4647.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0372-0379-s004800",
-      "junction_group": 0,
       "lat": 3.02066260303063,
       "line": "line-1",
       "lon": 30.911676646710642,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4800.1
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0374-0378-s004877",
-      "junction_group": 0,
       "lat": 3.020302670697909,
       "line": "line-1",
       "lon": 30.911496734598096,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4876.7
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "ARUA DISPENSARY",
-      "archetype": "interchange",
       "id": "line-1-0379-0381-s005002",
-      "junction_group": 0,
       "lat": 3.019402839866105,
       "line": "line-1",
       "lon": 30.912036470935732,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 5001.6
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "ARUA DISPENSARY",
-      "archetype": "interchange",
       "id": "line-1-0385-0384-s005198",
-      "junction_group": 0,
       "lat": 3.018323042867941,
       "line": "line-1",
       "lon": 30.912576207273364,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 5198.1
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Peace Drug Shop Muni",
-      "archetype": "terminal",
       "id": "line-1-0550-0499-s009960",
       "lat": 2.9886286254184213,
       "line": "line-1",
@@ -623,9 +686,6 @@
       "s_m": 9959.9
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Oluko Solidale III",
-      "archetype": "terminal",
       "id": "line-2-0405-0744-s000000",
       "lat": 3.014723719540726,
       "line": "line-2",
@@ -634,8 +694,6 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "archetype": "standard",
       "id": "line-2-0421-0544-s004738",
       "lat": 3.011844260878955,
       "line": "line-2",
@@ -644,35 +702,22 @@
       "s_m": 4737.9
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "ARUA DISPENSARY",
-      "archetype": "interchange",
       "id": "line-2-0384-0384-s008544",
-      "junction_group": 0,
       "lat": 3.0185030090343012,
       "line": "line-2",
       "lon": 30.912576207273364,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 8543.8
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "ARUA DISPENSARY",
-      "archetype": "interchange",
       "id": "line-2-0388-0383-s008632",
-      "junction_group": 0,
       "lat": 3.0177831443688587,
       "line": "line-2",
       "lon": 30.91239629516082,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 8632.1
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Ojovu",
-      "archetype": "depot-terminal",
       "id": "line-2-0388-0126-s014801",
       "lat": 3.0177831443688587,
       "line": "line-2",
@@ -681,9 +726,6 @@
       "s_m": 14800.5
     },
     {
-      "anchor_kind": "amenity:university",
-      "anchor_name": "Nile University",
-      "archetype": "terminal",
       "id": "line-3-0109-0523-s000000",
       "lat": 3.0679937047835004,
       "line": "line-3",
@@ -692,81 +734,54 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0237-0388-s004328",
-      "junction_group": 1,
       "lat": 3.0449580354893278,
       "line": "line-3",
       "lon": 30.913295855723543,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4328.4
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0368-0385-s007867",
-      "junction_group": 0,
       "lat": 3.021382467696073,
       "line": "line-3",
       "lon": 30.91275611938591,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 7867.5
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0372-0379-s008021",
-      "junction_group": 0,
       "lat": 3.02066260303063,
       "line": "line-3",
       "lon": 30.911676646710642,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 8020.6
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "ARUA DISPENSARY",
-      "archetype": "interchange",
       "id": "line-3-0379-0381-s008194",
-      "junction_group": 0,
       "lat": 3.019402839866105,
       "line": "line-3",
       "lon": 30.912036470935732,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 8193.8
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "ARUA DISPENSARY",
-      "archetype": "interchange",
       "id": "line-3-0383-0383-s008290",
-      "junction_group": 0,
       "lat": 3.018682975200662,
       "line": "line-3",
       "lon": 30.91239629516082,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 8290.3
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "ARUA DISPENSARY",
-      "archetype": "interchange",
       "id": "line-3-0386-0384-s008399",
-      "junction_group": 0,
       "lat": 3.01814307670158,
       "line": "line-3",
       "lon": 30.912576207273364,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 8398.6
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "AIDS INFORMATION.CENTRE A",
-      "archetype": "terminal",
       "id": "line-3-0549-0386-s012864",
       "lat": 2.9888085915847817,
       "line": "line-3",
@@ -775,18 +790,14 @@
       "s_m": 12864.0
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0237-0388-s000000",
-      "junction_group": 1,
       "lat": 3.0449580354893278,
       "line": "line-4",
       "lon": 30.913295855723543,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 0.0
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0338-0536-s005882",
       "lat": 3.026781452686895,
       "line": "line-4",

@@ -66,7 +66,7 @@ Milestones use tags such as `v0.2.0`. A release should include:
 - verification commands and results.
 
 The current release checklist is
-[`docs/releases.md`](docs/releases.md).
+[`docs/ROADMAP.md`](docs/ROADMAP.md).
 
 ## Conduct
 

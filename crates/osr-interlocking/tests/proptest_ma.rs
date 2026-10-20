@@ -135,7 +135,7 @@ fn arb_log_for_trains(num_trains: u64, num_reports: usize) -> impl Strategy<Valu
                 timestamp_ns: i * 10,
                 payload: EntryPayload::TrainRegistration(TrainRegistration {
                     train_id,
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: Position {
                         track_ref: TrackRef {
                             section: SectionId::new(1000),

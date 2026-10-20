@@ -1,10 +1,10 @@
 //! OpenSourceRail onboard Battery Management System (BMS).
 //!
 //! `osr-bms` is the SIL-4 controller for the traction pack. Per
-//! [RFC 0002](../../../docs/rfcs/0002-energy-sizing.md) the reference
+//! [RFC 0002](../../../docs/ARCHITECTURE.md) the reference
 //! chemistry is LFP on an 800 V-class per-car DC link.
 //! This crate is **Phase 2b, crate 1** of
-//! [RFC 0005 §11](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! [RFC 0005 §11](../../../docs/ARCHITECTURE.md).
 //!
 //! # What the BMS decides each tick
 //!
@@ -16,7 +16,7 @@
 //!   to `OpenFault` (latched, cooldown-gated) on any hard fault.
 //! - **Charge / discharge current limits** — derated from the pack
 //!   maximum by the worst-cell margin to the voltage and temperature
-//!   windows. Consumers ([`osr-traction`], the charge controller at
+//!   windows. Consumers (a qualified propulsion converter, the charge controller at
 //!   station pads) must clamp their requests to these.
 //! - **Faults** (over-voltage, under-voltage, over-temperature,
 //!   under-temperature, imbalance) — latched and exposed via a

@@ -1,6 +1,6 @@
 //! Real-time train state input to the ATP.
 //!
-//! `osr-odometry` (Phase 2a, crate 2) is the producer of this type.
+//! A separately qualified position-estimation interface must produce this type.
 //! For now it is constructed directly in tests and in the simulator
 //! shim.
 

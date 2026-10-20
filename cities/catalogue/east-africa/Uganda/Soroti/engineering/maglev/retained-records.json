@@ -70,34 +70,94 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 5757.9,
       "name": "line-1",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 2101.9,
       "name": "line-2",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0223-0404-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0333-0345-s005758"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -130,22 +190,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 17
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0377-0360-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0313-0432-s002102"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -178,10 +225,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 13
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -295,9 +339,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "KAMOD HC II",
-      "archetype": "terminal",
       "id": "line-1-0223-0404-s000000",
       "lat": 1.7419775618183782,
       "line": "line-1",
@@ -306,44 +347,30 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0349-0399-s003262",
-      "junction_group": 0,
       "lat": 1.719301824856927,
       "line": "line-1",
       "lon": 33.6153072132566,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 3261.7
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0369-0382-s004353",
-      "junction_group": 1,
       "lat": 1.7157025015297125,
       "line": "line-1",
       "lon": 33.61225158716057,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4352.8
     },
     {
-      "anchor_kind": "place:town",
-      "anchor_name": "Soroti",
-      "archetype": "interchange",
       "id": "line-1-0372-0377-s004478",
-      "junction_group": 1,
       "lat": 1.7151626030306302,
       "line": "line-1",
       "lon": 33.61135287360292,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4477.6
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "nakatunya mortury",
-      "archetype": "depot-terminal",
       "id": "line-1-0333-0345-s005758",
       "lat": 1.7221812835186985,
       "line": "line-1",
@@ -352,11 +379,7 @@
       "s_m": 5757.9
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "DR. OPIO HC II",
-      "archetype": "terminal",
       "id": "line-2-0377-0360-s000000",
-      "junction_group": 1,
       "lat": 1.7142627721988266,
       "line": "line-2",
       "lon": 33.6082972475069,
@@ -364,44 +387,30 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "place:town",
-      "anchor_name": "Soroti",
-      "archetype": "interchange",
       "id": "line-2-0372-0377-s000431",
-      "junction_group": 1,
       "lat": 1.7151626030306302,
       "line": "line-2",
       "lon": 33.61135287360292,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 431.1
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0369-0382-s000556",
-      "junction_group": 1,
       "lat": 1.7157025015297125,
       "line": "line-2",
       "lon": 33.61225158716057,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 556.0
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0349-0399-s001109",
-      "junction_group": 0,
       "lat": 1.719301824856927,
       "line": "line-2",
       "lon": 33.6153072132566,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 1108.5
     },
     {
-      "anchor_kind": "aeroway:aerodrome",
-      "anchor_name": "Soroti Airfield",
-      "archetype": "terminal",
       "id": "line-2-0313-0432-s002102",
       "lat": 1.725780606845913,
       "line": "line-2",

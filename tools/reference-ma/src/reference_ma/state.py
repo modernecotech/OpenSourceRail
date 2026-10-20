@@ -148,17 +148,12 @@ def _apply_entry(s: DerivedState, entry: Entry) -> None:
 def _apply_position(s: DerivedState, r: TrainPositionReport, log_time_ns: int) -> None:
     awareness = s.trains.get(r.train_id)
     if awareness is None:
-        awareness = TrainAwareness(
-            consist=ConsistDescriptor.reference_3car(),
-            last_head_position=None,
-            last_tail_position=None,
-            last_position_onboard_ns=0,
-            last_position_log_ns=0,
-            speed_mmps=0,
-            speed_uncertainty_mmps=0,
-            pack_soc_ppt=1000,
-        )
-        s.trains[r.train_id] = awareness
+        # Occupancy remains restrictive, but a position alone cannot invent
+        # car count, mass, braking capability or an eligible registered train.
+        _clear_occupancy_by(s, r.train_id)
+        s.section_occupancy[r.head_position.track_ref.section] = r.train_id
+        s.section_occupancy[r.tail_position.track_ref.section] = r.train_id
+        return
 
     awareness.last_head_position = r.head_position
     awareness.last_tail_position = r.tail_position

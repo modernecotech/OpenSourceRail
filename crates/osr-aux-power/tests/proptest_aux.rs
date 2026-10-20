@@ -4,7 +4,7 @@ use osr_aux_power::{aux_evaluate, AuxInputs, AuxParams, AuxState, Rail};
 use proptest::prelude::*;
 
 fn params() -> AuxParams {
-    AuxParams::light_metro_default()
+    AuxParams::research_default()
 }
 
 fn arb_inputs() -> impl Strategy<Value = AuxInputs> {

@@ -7,7 +7,7 @@
 //! is primarily a *monitor* that watches status flags and issues
 //! permissive commands (start/stop, call-floor, setpoint).
 //!
-//! Phase 2e crate of [RFC 0005 §4.7](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2e crate of [RFC 0005 §4.7](../../../docs/ARCHITECTURE.md).
 //! SIL-2: a bad command from here can trap passengers in a lift or
 //! stop an escalator unexpectedly; safety interlocks live in the
 //! vendor equipment. This crate enforces the commanded-only-when-

@@ -7,7 +7,7 @@ use osr_door_control::{
 use proptest::prelude::*;
 
 fn params() -> DoorParams {
-    DoorParams::light_metro_default()
+    DoorParams::research_default()
 }
 
 fn arb_action() -> impl Strategy<Value = DoorAction> {

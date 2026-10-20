@@ -7,7 +7,7 @@
 //! panels may open and handles per-panel actuation including
 //! obstruction detection and fault latching.
 //!
-//! Phase 2e crate 1 of [RFC 0005 §4.7](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2e crate 1 of [RFC 0005 §4.7](../../../docs/ARCHITECTURE.md).
 //! SIL-2 — failure-to-open is a service failure; failure-to-close in
 //! the presence of a passenger is an injury risk, but that interlock
 //! lives in the hardware-level light curtain (per RFC 0005 §4.7);

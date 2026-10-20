@@ -16,5 +16,4 @@ Implemented digital capabilities for v0.5. Every engineering/physical acceptance
 | [primary-ui](../../tools/automation/maglev-workbench.py) | `./osr workbench` | Read-only primary design UI, city plans, images and visibility videos; no hardware commands. |
 | [development-host](../../deployment/maglev.toml) | `tools/automation/osr-python tools/automation/validate-host-manifests.py` | Offline SBC development profile; no deployed host image or physical timing qualification. |
 
-Wheel/rail and shared-platform inventory: `./osr capabilities legacy`.
-Selected legacy city rebuilds require `./osr catalogue legacy run --city <slug>`.
+Selected city rebuild: `./osr catalogue run --city <slug>`.

@@ -1,4 +1,4 @@
-"""Equal-capacity migration, fixed topology, energy accounting and provenance."""
+"""Current city inputs, fixed topology, energy accounting and provenance."""
 from copy import deepcopy
 import json
 import math
@@ -91,9 +91,8 @@ def test_radial_fleet_is_recomputed_with_explicit_slow_loops(context, assumption
     assert result['topology']['loop_lateral_acceleration_screen_m_s2'] == pytest.approx((20/3.6)**2/100)
     assert result['duty']['conservative_cycle_seconds'] == pytest.approx(400+40*math.pi+4*60)
     assert result['fleet']['peak'] == 5 and result['fleet']['total'] == 7
-    assert result['fleet']['retained_comparator_trainsets'] == 809
     assert result['depot']['storage_slots'] == 7
-    assert result['depot']['minimum_total_storage_track_m'] == 7*61
+    assert result['depot']['minimum_total_storage_track_m'] == 7*62
     assert result['fleet']['source_fleet_inherited'] is False
     assert result['topology']['exclusive_shuttle_alternative']['minimum_independent_lanes'] == 4
     assert result['duty']['hot_aw3_no_regen_cycle_kwh'] == pytest.approx((4+0.4*math.pi+60*240/3600)*3)
@@ -134,12 +133,12 @@ def test_long_gap_extends_charging_and_exposes_berth_pressure(context, assumptio
 
 def test_real_city_package_preserves_demand_and_binds_sources(context, tmp_path):
     city=ROOT/'cities/catalogue/central-africa/Angola/Benguela'
-    design_hash=cities.digest(city/'design.toml')
+    design_hash=cities.digest(city/'city.json')
     r=cities.generate(city, context=context, output_dir=tmp_path)
     records=json.loads((tmp_path/'retained-records.json').read_text())
     assert records['retained_station_demand_records']==json.loads((city/'benguela.stations.json').read_text())
-    assert records['city']==tomllib.loads((city/'design.toml').read_text())['city']
-    assert cities.digest(city/'design.toml')==design_hash
+    assert records['city']==json.loads((city/'city.json').read_text())['city']
+    assert cities.digest(city/'city.json')==design_hash
     assert all(cities.digest(ROOT/p)==value for p,value in r['source_sha256'].items())
     assert r['retained_records_sha256']==cities.digest(tmp_path/'retained-records.json')
     assert r['costs']['city_total_usd'] is None and not r['costs']['old_city_costs_inherited']
@@ -210,14 +209,16 @@ def test_replay_rejects_changed_compiled_sources(context,assumptions):
         cities.replay_city(plan)
 
 
-def test_primary_entry_notice_is_idempotent_and_preserves_legacy_bytes(tmp_path):
-    original=b'# Retained city\r\n\r\nFleet 809; total $12345.\r\n'
+def test_primary_entry_notice_is_idempotent_and_replaces_stale_content(tmp_path):
+    original=b'# Stale city output\r\n\r\nFleet 809; total $12345.\r\n'
     path=tmp_path/'README.md';path.write_bytes(original)
+    (tmp_path/'city.json').write_text(json.dumps(dict(name='Example',city=dict(slug='example'))))
     cities.promote_city_readme(tmp_path)
     first=path.read_bytes()
-    assert first.split(cities.NOTICE_END,1)[1]==original
+    assert original not in first and b'$12345' not in first
+    assert first.startswith(cities.NOTICE_START)
     assert b'engineering/maglev/README.md' in first
-    assert b'retained v0.4 wheel/rail comparator' in first
+    assert b'Example' in first
     cities.promote_city_readme(tmp_path)
     assert path.read_bytes()==first
     assert first.count(cities.NOTICE_START)==1
@@ -228,15 +229,16 @@ def test_city_source_inventory_is_unique_complete_and_read_only():
     paths=cities.source_paths()
     assert paths==sorted(set(paths))
     assert cities.INDEX in paths and cities.ASSUMPTIONS in paths and Path(cities.__file__) in paths
-    for design in (ROOT/'cities/catalogue').glob('*/*/*/design.toml'):
+    for design in (ROOT/'cities/catalogue').glob('*/*/*/city.json'):
         assert design in paths
-        assert design.parent/'engineering/maglev/summary.json' in paths
+        for filename in ('summary.json','manufacturing.json','network.svg'):
+            assert design.parent/'engineering/maglev'/filename in paths
         assert design.parent/'README.md' in paths
     assert cities.digest(cities.INDEX)==index_hash
 
 
 def test_slug_cache_invalidates_same_size_edit_with_restored_mtime(tmp_path):
-    path=tmp_path/'design.toml';path.write_text('[city]\nslug = "alpha"\n[climate]\npreset = "hot"\n')
+    path=tmp_path/'city.json';path.write_text(json.dumps(dict(city=dict(slug='alpha'),climate=dict(preset='hot'))))
     assert cities.city_slug(path)=='alpha'
     previous=path.stat();hits=cities._cached_city_slug.cache_info().hits
     assert cities.city_slug(path)=='alpha'
@@ -248,7 +250,7 @@ def test_slug_cache_invalidates_same_size_edit_with_restored_mtime(tmp_path):
 
 
 def test_cli_unknown_city_and_missing_design_exit_cleanly(capsys,tmp_path):
-    for arguments in (['not-a-retained-city'],['--design',str(tmp_path/'missing/design.toml')]):
+    for arguments in (['not-an-existing-city'],['--design',str(tmp_path/'missing/city.json')]):
         with pytest.raises(SystemExit) as result:
             cities.main(arguments)
         assert result.value.code==2
@@ -270,9 +272,9 @@ def test_index_preflight_rejects_changed_output_binding_and_missing_index(tmp_pa
 def test_generated_index_covers_every_retained_city_and_package_bytes():
     preflight=cities.verify_index()
     assert preflight['current'],preflight['errors']
-    assert preflight['checked_outputs']==3*preflight['expected_city_count']
+    assert preflight['checked_outputs']==5*preflight['expected_city_count']
     index=json.loads(cities.INDEX.read_text())
-    designs=sorted(p.relative_to(ROOT).as_posix() for p in (ROOT/'cities/catalogue').glob('*/*/*/design.toml'))
+    designs=sorted(p.relative_to(ROOT).as_posix() for p in (ROOT/'cities/catalogue').glob('*/*/*/city.json'))
     assert index['catalogue_design_paths']==designs
     assert index['city_count']==len(designs)==len(index['cities'])
     assert len({r['catalogue_path'] for r in index['cities']})==len(designs)
@@ -287,6 +289,48 @@ def test_generated_index_covers_every_retained_city_and_package_bytes():
             assert current[path]==expected, (city['city'],path)
         assert cities.digest(output/'retained-records.json')==city['retained_records_sha256']
         assert cities.digest(output/'README.md')==city['readme_sha256']
+        for filename,key in (('manufacturing.json','manufacturing_sha256'),('network.svg','network_sha256')):
+            assert cities.digest(output/filename)==city[key]==report[key]
+        assert report['manufacturing_file']=='manufacturing.json' and report['network_file']=='network.svg'
         entry=(ROOT/city['catalogue_path']/'README.md').read_bytes()
         assert entry.startswith(cities.NOTICE_START) and b'engineering/maglev/README.md' in entry
         assert city['complete_city_programme_usd'] is None and not city['physical_release']
+
+
+@pytest.mark.parametrize('filename,key', [('manufacturing.json','manufacturing_sha256'),('network.svg','network_sha256')])
+def test_index_preflight_rejects_changed_manufacturing_or_map_receipt(tmp_path,filename,key):
+    index=json.loads(cities.INDEX.read_text())
+    index['cities'][0][key]='0'*64
+    copied=tmp_path/'index.json';copied.write_text(json.dumps(index))
+    result=cities.verify_index(copied)
+    assert not result['current']
+    assert any('SHA-256 differs' in error and filename in error for error in result['errors'])
+
+
+@pytest.mark.parametrize('filename,key', [('manufacturing.json','manufacturing_sha256'),('network.svg','network_sha256')])
+def test_index_preflight_rejects_missing_manufacturing_or_map_receipt(tmp_path,filename,key):
+    index=json.loads(cities.INDEX.read_text())
+    del index['cities'][0][key]
+    copied=tmp_path/'index.json';copied.write_text(json.dumps(index))
+    result=cities.verify_index(copied)
+    assert not result['current']
+    assert any('SHA-256 differs' in error and filename in error for error in result['errors'])
+
+
+def test_city_platform_and_storage_follow_shared_coupling_configuration(context,assumptions,monkeypatch):
+    from engineering.ferrite_maglev import configuration
+    original=configuration.document
+    def changed(path):
+        result=original(path)
+        if Path(path)==configuration.INPUT:result['formation']['coupling_gap_assumption_m']=.75
+        return result
+    baseline=cities.formation(context[1],source_consist(360,480),[])
+    monkeypatch.setattr(configuration,'document',changed)
+    f=cities.formation(context[1],source_consist(360,480),[])
+    assert f['overall_length_assumption_m']-baseline['overall_length_assumption_m']==.5
+    r=cities.line_plan(context[1],assumptions,f,dict(name='x',shape='radial',length_m=2000),
+        stations(0,1000,2000),dict(schedule=[dict(headway_min=3)]),simple_duty)
+    expected=51+2*.75+assumptions['formation']['platform_end_allowance_m']
+    assert r['stations'][0]['provisional_platform_body_plus_allowance_m']==expected
+    assert r['depot']['minimum_total_storage_track_m']==r['fleet']['total']*expected
+    assert f['overall_length_m'] is None and f['formation_qualified'] is False

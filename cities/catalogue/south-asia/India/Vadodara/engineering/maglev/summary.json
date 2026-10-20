@@ -6,8 +6,8 @@
     "beam_only_conditional_option": {
       "added_vehicle_mass_kg": null,
       "door_configuration_approved": false,
-      "gross_avoided_viaduct_scope_allowance_usd": 106830383.8542769,
-      "minimum_gross_only_candidate_id": "onboard-evacuation-no-walkway/local-integration-target-60000/0.6/2.2/0.08/0.08/25",
+      "gross_avoided_viaduct_scope_allowance_usd": 28767176.704000007,
+      "minimum_gross_only_candidate_id": "onboard-evacuation-no-walkway/local-integration-target-60000/1/2.2/0.08/0.15/30",
       "net_system_saving_usd": null,
       "onboard_pack_count_hypothesis": 4752,
       "procurement_and_lifetime_cost_usd": null,
@@ -20,83 +20,2283 @@
     "pilot_and_repeat_fleet_automatically_added": false,
     "scenarios": [
       {
-        "civil_basis": "All ordinary mainline sections proposed elevated, including retained at-grade lengths; special crossings stay separately unpriced. New indexed rate; old curve multipliers/products and costs are not inherited.",
+        "civil_basis": "Native reaction steel and section concrete; explicit reinforcement, support, delivery, lift and site-work allowances.",
         "complete_city_programme_usd": null,
         "epc_included": false,
-        "fleet_scaling_basis": "Linear per-car extrapolation of supplied three-car allowance; formation engineering and economies of scale unpriced.",
+        "fleet_scaling_basis": "Each formation priced by car quantities, coupling interfaces and one shared control/protection set per train.",
+        "formation_bills": [
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 192000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 48000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 21000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 1.75
+              },
+              {
+                "accepted": false,
+                "amount_usd": 135000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 33750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 81000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 90.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 27000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 6750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 54000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 13500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 14625.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 4875.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 10500.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 10500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 28800.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 6.0
+              }
+            ],
+            "train_allowance_usd": 676710.0,
+            "trainsets": 29
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 192000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 48000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 21000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 1.75
+              },
+              {
+                "accepted": false,
+                "amount_usd": 135000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 33750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 81000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 90.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 27000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 6750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 54000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 13500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 14625.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 4875.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 10500.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 10500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 28800.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 6.0
+              }
+            ],
+            "train_allowance_usd": 676710.0,
+            "trainsets": 19
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 192000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 48000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 21000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 1.75
+              },
+              {
+                "accepted": false,
+                "amount_usd": 135000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 33750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 81000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 90.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 27000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 6750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 54000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 13500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 14625.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 4875.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 10500.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 10500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 28800.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 6.0
+              }
+            ],
+            "train_allowance_usd": 676710.0,
+            "trainsets": 33
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 192000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 48000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 21000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 1.75
+              },
+              {
+                "accepted": false,
+                "amount_usd": 135000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 33750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 81000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 90.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 27000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 6750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 54000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 13500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 14625.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 4875.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 10500.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 10500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 28800.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 6.0
+              }
+            ],
+            "train_allowance_usd": 676710.0,
+            "trainsets": 43
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 192000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 48000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 21000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 1.75
+              },
+              {
+                "accepted": false,
+                "amount_usd": 135000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 33750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 81000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 90.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 27000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 6750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 54000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 13500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 14625.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 4875.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 10500.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 10500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 28800.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 6.0
+              }
+            ],
+            "train_allowance_usd": 676710.0,
+            "trainsets": 40
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 192000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 48000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 21000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 1.75
+              },
+              {
+                "accepted": false,
+                "amount_usd": 135000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 33750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 81000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 90.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 27000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 6750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 54000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 13500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 14625.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 4875.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 10500.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 10500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 28800.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 6.0
+              }
+            ],
+            "train_allowance_usd": 676710.0,
+            "trainsets": 34
+          }
+        ],
         "nre_included": false,
-        "ordinary_elevated_allowance_usd": 1048968278.1200002,
+        "ordinary_elevated_allowance_usd": 496548248.6280961,
         "ordinary_viaduct_proposal_km": 148.83680000000004,
-        "priced_scope_subtotal_usd": 1250716395.9440002,
-        "repeat_fleet_allowance_usd": 201748117.82400003,
+        "ordinary_viaduct_unit_allowance_usd_dual_km": 3336192.7199999997,
+        "priced_scope_subtotal_usd": 630536828.6280961,
+        "repeat_fleet_allowance_usd": 133988580.0,
         "scenario": "low",
         "supplier_quotes": false
       },
       {
-        "civil_basis": "All ordinary mainline sections proposed elevated, including retained at-grade lengths; special crossings stay separately unpriced. New indexed rate; old curve multipliers/products and costs are not inherited.",
+        "civil_basis": "Native reaction steel and section concrete; explicit reinforcement, support, delivery, lift and site-work allowances.",
         "complete_city_programme_usd": null,
         "epc_included": false,
-        "fleet_scaling_basis": "Linear per-car extrapolation of supplied three-car allowance; formation engineering and economies of scale unpriced.",
+        "fleet_scaling_basis": "Each formation priced by car quantities, coupling interfaces and one shared control/protection set per train.",
+        "formation_bills": [
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 256000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 64000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 28000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 2.3333333333333335
+              },
+              {
+                "accepted": false,
+                "amount_usd": 180000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 45000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 108000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 120.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 36000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 9000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 72000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 18000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 19500.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 6500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 14000.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 14000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 38400.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 8.0
+              }
+            ],
+            "train_allowance_usd": 902280.0,
+            "trainsets": 29
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 256000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 64000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 28000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 2.3333333333333335
+              },
+              {
+                "accepted": false,
+                "amount_usd": 180000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 45000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 108000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 120.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 36000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 9000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 72000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 18000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 19500.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 6500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 14000.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 14000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 38400.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 8.0
+              }
+            ],
+            "train_allowance_usd": 902280.0,
+            "trainsets": 19
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 256000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 64000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 28000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 2.3333333333333335
+              },
+              {
+                "accepted": false,
+                "amount_usd": 180000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 45000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 108000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 120.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 36000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 9000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 72000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 18000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 19500.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 6500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 14000.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 14000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 38400.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 8.0
+              }
+            ],
+            "train_allowance_usd": 902280.0,
+            "trainsets": 33
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 256000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 64000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 28000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 2.3333333333333335
+              },
+              {
+                "accepted": false,
+                "amount_usd": 180000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 45000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 108000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 120.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 36000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 9000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 72000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 18000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 19500.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 6500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 14000.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 14000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 38400.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 8.0
+              }
+            ],
+            "train_allowance_usd": 902280.0,
+            "trainsets": 43
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 256000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 64000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 28000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 2.3333333333333335
+              },
+              {
+                "accepted": false,
+                "amount_usd": 180000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 45000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 108000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 120.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 36000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 9000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 72000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 18000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 19500.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 6500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 14000.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 14000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 38400.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 8.0
+              }
+            ],
+            "train_allowance_usd": 902280.0,
+            "trainsets": 40
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 256000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 64000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 28000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 2.3333333333333335
+              },
+              {
+                "accepted": false,
+                "amount_usd": 180000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 45000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 108000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 120.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 36000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 9000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 72000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 18000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 19500.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 6500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 14000.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 14000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 38400.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 8.0
+              }
+            ],
+            "train_allowance_usd": 902280.0,
+            "trainsets": 34
+          }
+        ],
         "nre_included": false,
-        "ordinary_elevated_allowance_usd": 1242173477.0368004,
+        "ordinary_elevated_allowance_usd": 662064331.5041282,
         "ordinary_viaduct_proposal_km": 148.83680000000004,
-        "priced_scope_subtotal_usd": 1472433594.8608005,
-        "repeat_fleet_allowance_usd": 230260117.82400003,
+        "ordinary_viaduct_unit_allowance_usd_dual_km": 4448256.96,
+        "priced_scope_subtotal_usd": 840715771.5041282,
+        "repeat_fleet_allowance_usd": 178651440.0,
         "scenario": "base",
         "supplier_quotes": false
       },
       {
-        "civil_basis": "All ordinary mainline sections proposed elevated, including retained at-grade lengths; special crossings stay separately unpriced. New indexed rate; old curve multipliers/products and costs are not inherited.",
+        "civil_basis": "Native reaction steel and section concrete; explicit reinforcement, support, delivery, lift and site-work allowances.",
         "complete_city_programme_usd": null,
         "epc_included": false,
-        "fleet_scaling_basis": "Linear per-car extrapolation of supplied three-car allowance; formation engineering and economies of scale unpriced.",
+        "fleet_scaling_basis": "Each formation priced by car quantities, coupling interfaces and one shared control/protection set per train.",
+        "formation_bills": [
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 384000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 96000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 42000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 3.5
+              },
+              {
+                "accepted": false,
+                "amount_usd": 270000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 67500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 162000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 180.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 54000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 13500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 108000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 27000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 29250.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 9750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 21000.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 21000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 57600.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 12.0
+              }
+            ],
+            "train_allowance_usd": 1353420.0,
+            "trainsets": 29
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 384000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 96000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 42000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 3.5
+              },
+              {
+                "accepted": false,
+                "amount_usd": 270000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 67500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 162000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 180.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 54000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 13500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 108000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 27000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 29250.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 9750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 21000.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 21000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 57600.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 12.0
+              }
+            ],
+            "train_allowance_usd": 1353420.0,
+            "trainsets": 19
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 384000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 96000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 42000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 3.5
+              },
+              {
+                "accepted": false,
+                "amount_usd": 270000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 67500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 162000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 180.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 54000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 13500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 108000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 27000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 29250.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 9750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 21000.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 21000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 57600.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 12.0
+              }
+            ],
+            "train_allowance_usd": 1353420.0,
+            "trainsets": 33
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 384000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 96000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 42000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 3.5
+              },
+              {
+                "accepted": false,
+                "amount_usd": 270000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 67500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 162000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 180.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 54000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 13500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 108000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 27000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 29250.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 9750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 21000.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 21000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 57600.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 12.0
+              }
+            ],
+            "train_allowance_usd": 1353420.0,
+            "trainsets": 43
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 384000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 96000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 42000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 3.5
+              },
+              {
+                "accepted": false,
+                "amount_usd": 270000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 67500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 162000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 180.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 54000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 13500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 108000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 27000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 29250.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 9750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 21000.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 21000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 57600.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 12.0
+              }
+            ],
+            "train_allowance_usd": 1353420.0,
+            "trainsets": 40
+          },
+          {
+            "cars": 4,
+            "rows": [
+              {
+                "accepted": false,
+                "amount_usd": 384000.0,
+                "id": "body-and-passenger-systems",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 96000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 42000.0,
+                "id": "ferrite",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "qualify stock blocks; retain in replaceable cartridges",
+                "quantity": 12000.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kg",
+                "unit_rate_usd": 3.5
+              },
+              {
+                "accepted": false,
+                "amount_usd": 270000.0,
+                "id": "magnetic-modules",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 67500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 162000.0,
+                "id": "battery-pack",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "cell receipt; protected pack integration and electrical test",
+                "quantity": 900.0,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "kWh",
+                "unit_rate_usd": 180.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 54000.0,
+                "id": "capture-and-brake",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fabricate and verify capture, landing and emergency brake hardware",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 13500.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 108000.0,
+                "id": "hvac-and-auxiliary",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "install cooling, ventilation and low-voltage services",
+                "quantity": 4,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "car",
+                "unit_rate_usd": 27000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 29250.0,
+                "id": "coupling-and-gangway",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "fit structural coupling and accessible passenger gangway",
+                "quantity": 3,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "interface",
+                "unit_rate_usd": 9750.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 21000.0,
+                "id": "train-control-and-protection",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "integrate SBCs, independent protection, isolated I/O and software tests",
+                "quantity": 1,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "train",
+                "unit_rate_usd": 21000.0
+              },
+              {
+                "accepted": false,
+                "amount_usd": 57600.0,
+                "id": "assembly-and-test",
+                "imported_input_usd": null,
+                "input_origin": "unverified",
+                "local_operation_candidate": true,
+                "process": "controlled assembly, dimensional survey, static and functional tests",
+                "quantity": 4800,
+                "rate_evidence": "project planning assumption; unquoted",
+                "unit": "labour-hour",
+                "unit_rate_usd": 12.0
+              }
+            ],
+            "train_allowance_usd": 1353420.0,
+            "trainsets": 34
+          }
+        ],
         "nre_included": false,
-        "ordinary_elevated_allowance_usd": 1567030332.5152004,
+        "ordinary_elevated_allowance_usd": 993096497.2561922,
         "ordinary_viaduct_proposal_km": 148.83680000000004,
-        "priced_scope_subtotal_usd": 1865402450.3392005,
-        "repeat_fleet_allowance_usd": 298372117.824,
+        "ordinary_viaduct_unit_allowance_usd_dual_km": 6672385.4399999995,
+        "priced_scope_subtotal_usd": 1261073657.2561922,
+        "repeat_fleet_allowance_usd": 267977160.0,
         "scenario": "high",
-        "supplier_quotes": false
-      },
-      {
-        "civil_basis": "All ordinary mainline sections proposed elevated, including retained at-grade lengths; special crossings stay separately unpriced. New indexed rate; old curve multipliers/products and costs are not inherited.",
-        "complete_city_programme_usd": null,
-        "epc_included": false,
-        "fleet_scaling_basis": "Linear per-car extrapolation of supplied three-car allowance; formation engineering and economies of scale unpriced.",
-        "nre_included": false,
-        "ordinary_elevated_allowance_usd": 1242173477.0368004,
-        "ordinary_viaduct_proposal_km": 148.83680000000004,
-        "priced_scope_subtotal_usd": 1458177594.8608005,
-        "repeat_fleet_allowance_usd": 216004117.82400003,
-        "scenario": "target-90000",
-        "supplier_quotes": false
-      },
-      {
-        "civil_basis": "All ordinary mainline sections proposed elevated, including retained at-grade lengths; special crossings stay separately unpriced. New indexed rate; old curve multipliers/products and costs are not inherited.",
-        "complete_city_programme_usd": null,
-        "epc_included": false,
-        "fleet_scaling_basis": "Linear per-car extrapolation of supplied three-car allowance; formation engineering and economies of scale unpriced.",
-        "nre_included": false,
-        "ordinary_elevated_allowance_usd": 1242173477.0368004,
-        "ordinary_viaduct_proposal_km": 148.83680000000004,
-        "priced_scope_subtotal_usd": 1448673594.8608005,
-        "repeat_fleet_allowance_usd": 206500117.82400003,
-        "scenario": "target-60000",
-        "supplier_quotes": false
-      },
-      {
-        "candidate_id": "local-integration-target-60000/0.8/2.2/0.08/0.08/25",
-        "civil_basis": "Provisional lowest indexed civil allowance passing gross stiffness/lift screens; all ordinary sections proposed elevated. No engineering acceptance or full project price.",
-        "complete_city_programme_usd": null,
-        "epc_included": false,
-        "fleet_scaling_basis": "Baseline conservative fleet quantities retained; lighter mass and hardware costs are unqualified targets. No fleet reduction credited.",
-        "nre_included": false,
-        "ordinary_elevated_allowance_usd": 1140739675.5798059,
-        "ordinary_viaduct_proposal_km": 148.83680000000004,
-        "ordinary_viaduct_unit_allowance_usd_dual_km": 7664365.772307692,
-        "priced_scope_subtotal_usd": 1347239793.403806,
-        "repeat_fleet_allowance_usd": 206500117.82400003,
-        "scenario": "indexed-joint-optimisation-target",
         "supplier_quotes": false
       }
     ],
@@ -222,11 +2422,11 @@
         "station_count": 9
       },
       "depot": {
-        "access": "A moving transfer device or engineered depot-only connection is required; no old wheel/rail turnout is inherited.",
+        "access": "A moving transfer device or engineered depot-only connection is required and unqualified.",
         "depot_cost_usd": null,
         "entry_exit_without_mainline_points_qualified": false,
         "inspection_bays_screen": 3,
-        "minimum_total_storage_track_m": 2262.0,
+        "minimum_total_storage_track_m": 2305.5,
         "placement_accepted": false,
         "simultaneous_depot_charge_kw_upper_bound": 69600.0,
         "storage_lanes_screen": 10,
@@ -406,7 +2606,6 @@
         "cold_reserve": 1,
         "conflict_and_recovery_validated": false,
         "peak": 25,
-        "retained_comparator_trainsets": 37,
         "rule": "ceil(hot/no-regen circuit time / retained peak headway), two directions for rings, 10% spare rounded up plus one cold reserve/line",
         "source_fleet_inherited": false,
         "spare": 3,
@@ -419,6 +2618,7 @@
         "aw3_passengers": 640,
         "cabin_width_m": 2.65,
         "cars": 4,
+        "coupling_gap_assumption_m": 0.5,
         "envelope_basis": "Cabin width does not bound magnetic lifting faces, guidance arms or below-floor gear. Revalidate full route/platform swept envelope against native geometry.",
         "eol_capacity_kwh": 720.0,
         "eol_normal_window_kwh": 432.00000000000006,
@@ -430,6 +2630,7 @@
         "nominal_body_length_m": 68.0,
         "normal_soc_high": 0.8,
         "normal_soc_low": 0.2,
+        "overall_length_assumption_m": 69.5,
         "overall_length_m": null,
         "protected_emergency_energy_kwh": null,
         "retained_aw2_required": 480,
@@ -478,7 +2679,7 @@
           "lat": 22.29193995968758,
           "length_shortfall_screen_m": 0,
           "lon": 73.32242190572762,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -486,7 +2687,7 @@
           "lat": 22.293739621351186,
           "length_shortfall_screen_m": 0,
           "lon": 73.29348678709185,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 81.0
         },
         {
@@ -494,7 +2695,7 @@
           "lat": 22.29247985818666,
           "length_shortfall_screen_m": 0,
           "lon": 73.2616387370498,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 81.0
         },
         {
@@ -502,7 +2703,7 @@
           "lat": 22.29247985818666,
           "length_shortfall_screen_m": 0,
           "lon": 73.23250942298692,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -510,7 +2711,7 @@
           "lat": 22.29265982435302,
           "length_shortfall_screen_m": 0,
           "lon": 73.18959223360099,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -518,7 +2719,7 @@
           "lat": 22.29265982435302,
           "length_shortfall_screen_m": 0,
           "lon": 73.17075527717367,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -526,7 +2727,7 @@
           "lat": 22.29265982435302,
           "length_shortfall_screen_m": 0,
           "lon": 73.15250090702762,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -534,7 +2735,7 @@
           "lat": 22.29265982435302,
           "length_shortfall_screen_m": 0,
           "lon": 73.12744969693355,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -542,7 +2743,7 @@
           "lat": 22.29265982435302,
           "length_shortfall_screen_m": 0,
           "lon": 73.12220642040224,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         }
       ],
@@ -586,11 +2787,11 @@
         "station_count": 5
       },
       "depot": {
-        "access": "A moving transfer device or engineered depot-only connection is required; no old wheel/rail turnout is inherited.",
+        "access": "A moving transfer device or engineered depot-only connection is required and unqualified.",
         "depot_cost_usd": null,
         "entry_exit_without_mainline_points_qualified": false,
         "inspection_bays_screen": 2,
-        "minimum_total_storage_track_m": 1482.0,
+        "minimum_total_storage_track_m": 1510.5,
         "placement_accepted": false,
         "simultaneous_depot_charge_kw_upper_bound": 45600.0,
         "storage_lanes_screen": 7,
@@ -698,7 +2899,6 @@
         "cold_reserve": 1,
         "conflict_and_recovery_validated": false,
         "peak": 16,
-        "retained_comparator_trainsets": 25,
         "rule": "ceil(hot/no-regen circuit time / retained peak headway), two directions for rings, 10% spare rounded up plus one cold reserve/line",
         "source_fleet_inherited": false,
         "spare": 2,
@@ -711,6 +2911,7 @@
         "aw3_passengers": 640,
         "cabin_width_m": 2.65,
         "cars": 4,
+        "coupling_gap_assumption_m": 0.5,
         "envelope_basis": "Cabin width does not bound magnetic lifting faces, guidance arms or below-floor gear. Revalidate full route/platform swept envelope against native geometry.",
         "eol_capacity_kwh": 720.0,
         "eol_normal_window_kwh": 432.00000000000006,
@@ -722,6 +2923,7 @@
         "nominal_body_length_m": 68.0,
         "normal_soc_high": 0.8,
         "normal_soc_low": 0.2,
+        "overall_length_assumption_m": 69.5,
         "overall_length_m": null,
         "protected_emergency_energy_kwh": null,
         "retained_aw2_required": 480,
@@ -770,7 +2972,7 @@
           "lat": 22.371305039052658,
           "length_shortfall_screen_m": 0,
           "lon": 73.16570619606944,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -778,7 +2980,7 @@
           "lat": 22.32739329446064,
           "length_shortfall_screen_m": 0,
           "lon": 73.17910568053836,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -786,7 +2988,7 @@
           "lat": 22.322894140301624,
           "length_shortfall_screen_m": 0,
           "lon": 73.18027085310086,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -794,7 +2996,7 @@
           "lat": 22.29265982435302,
           "length_shortfall_screen_m": 0,
           "lon": 73.18959223360099,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -802,7 +3004,7 @@
           "lat": 22.251447572256417,
           "length_shortfall_screen_m": 0,
           "lon": 73.20202074093447,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         }
       ],
@@ -846,11 +3048,11 @@
         "station_count": 13
       },
       "depot": {
-        "access": "A moving transfer device or engineered depot-only connection is required; no old wheel/rail turnout is inherited.",
+        "access": "A moving transfer device or engineered depot-only connection is required and unqualified.",
         "depot_cost_usd": null,
         "entry_exit_without_mainline_points_qualified": false,
         "inspection_bays_screen": 4,
-        "minimum_total_storage_track_m": 2574.0,
+        "minimum_total_storage_track_m": 2623.5,
         "placement_accepted": false,
         "simultaneous_depot_charge_kw_upper_bound": 79200.0,
         "storage_lanes_screen": 11,
@@ -1102,7 +3304,6 @@
         "cold_reserve": 1,
         "conflict_and_recovery_validated": false,
         "peak": 29,
-        "retained_comparator_trainsets": 43,
         "rule": "ceil(hot/no-regen circuit time / retained peak headway), two directions for rings, 10% spare rounded up plus one cold reserve/line",
         "source_fleet_inherited": false,
         "spare": 3,
@@ -1115,6 +3316,7 @@
         "aw3_passengers": 640,
         "cabin_width_m": 2.65,
         "cars": 4,
+        "coupling_gap_assumption_m": 0.5,
         "envelope_basis": "Cabin width does not bound magnetic lifting faces, guidance arms or below-floor gear. Revalidate full route/platform swept envelope against native geometry.",
         "eol_capacity_kwh": 720.0,
         "eol_normal_window_kwh": 432.00000000000006,
@@ -1126,6 +3328,7 @@
         "nominal_body_length_m": 68.0,
         "normal_soc_high": 0.8,
         "normal_soc_low": 0.2,
+        "overall_length_assumption_m": 69.5,
         "overall_length_m": null,
         "protected_emergency_energy_kwh": null,
         "retained_aw2_required": 480,
@@ -1174,7 +3377,7 @@
           "lat": 22.316055425979915,
           "length_shortfall_screen_m": 0,
           "lon": 73.13191619175653,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1182,7 +3385,7 @@
           "lat": 22.31893488464169,
           "length_shortfall_screen_m": 0,
           "lon": 73.14201435396498,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1190,7 +3393,7 @@
           "lat": 22.321094478638017,
           "length_shortfall_screen_m": 0,
           "lon": 73.15017056190258,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1198,7 +3401,7 @@
           "lat": 22.32217427563618,
           "length_shortfall_screen_m": 0,
           "lon": 73.16026872411103,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1206,7 +3409,7 @@
           "lat": 22.321094478638017,
           "length_shortfall_screen_m": 0,
           "lon": 73.16026872411103,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1214,7 +3417,7 @@
           "lat": 22.318754918475328,
           "length_shortfall_screen_m": 0,
           "lon": 73.17075527717367,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1222,7 +3425,7 @@
           "lat": 22.31947478314077,
           "length_shortfall_screen_m": 0,
           "lon": 73.17153205888201,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1230,7 +3433,7 @@
           "lat": 22.32001468163985,
           "length_shortfall_screen_m": 0,
           "lon": 73.17192044973618,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1238,7 +3441,7 @@
           "lat": 22.320914512471656,
           "length_shortfall_screen_m": 0,
           "lon": 73.17289142687162,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1246,7 +3449,7 @@
           "lat": 22.322894140301624,
           "length_shortfall_screen_m": 0,
           "lon": 73.18027085310086,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1254,7 +3457,7 @@
           "lat": 22.32019464780621,
           "length_shortfall_screen_m": 0,
           "lon": 73.22590677846601,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1262,7 +3465,7 @@
           "lat": 22.315515527480834,
           "length_shortfall_screen_m": 0,
           "lon": 73.24454953946625,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1270,7 +3473,7 @@
           "lat": 22.32739329446064,
           "length_shortfall_screen_m": 0,
           "lon": 73.26319230046647,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         }
       ],
@@ -1314,11 +3517,11 @@
         "station_count": 15
       },
       "depot": {
-        "access": "A moving transfer device or engineered depot-only connection is required; no old wheel/rail turnout is inherited.",
+        "access": "A moving transfer device or engineered depot-only connection is required and unqualified.",
         "depot_cost_usd": null,
         "entry_exit_without_mainline_points_qualified": false,
         "inspection_bays_screen": 5,
-        "minimum_total_storage_track_m": 3354.0,
+        "minimum_total_storage_track_m": 3418.5,
         "placement_accepted": false,
         "simultaneous_depot_charge_kw_upper_bound": 103200.0,
         "storage_lanes_screen": 15,
@@ -1606,7 +3809,6 @@
         "cold_reserve": 1,
         "conflict_and_recovery_validated": false,
         "peak": 38,
-        "retained_comparator_trainsets": 54,
         "rule": "ceil(hot/no-regen circuit time / retained peak headway), two directions for rings, 10% spare rounded up plus one cold reserve/line",
         "source_fleet_inherited": false,
         "spare": 4,
@@ -1619,6 +3821,7 @@
         "aw3_passengers": 640,
         "cabin_width_m": 2.65,
         "cars": 4,
+        "coupling_gap_assumption_m": 0.5,
         "envelope_basis": "Cabin width does not bound magnetic lifting faces, guidance arms or below-floor gear. Revalidate full route/platform swept envelope against native geometry.",
         "eol_capacity_kwh": 720.0,
         "eol_normal_window_kwh": 432.00000000000006,
@@ -1630,6 +3833,7 @@
         "nominal_body_length_m": 68.0,
         "normal_soc_high": 0.8,
         "normal_soc_low": 0.2,
+        "overall_length_assumption_m": 69.5,
         "overall_length_m": null,
         "protected_emergency_energy_kwh": null,
         "retained_aw2_required": 480,
@@ -1678,7 +3882,7 @@
           "lat": 22.405498610661194,
           "length_shortfall_screen_m": 0,
           "lon": 73.11288503990212,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1686,7 +3890,7 @@
           "lat": 22.367525749559082,
           "length_shortfall_screen_m": 0,
           "lon": 73.1429853311004,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1694,7 +3898,7 @@
           "lat": 22.338011298275923,
           "length_shortfall_screen_m": 0,
           "lon": 73.15463705672555,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1702,7 +3906,7 @@
           "lat": 22.331712482453298,
           "length_shortfall_screen_m": 0,
           "lon": 73.14745182592338,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1710,7 +3914,7 @@
           "lat": 22.321094478638017,
           "length_shortfall_screen_m": 0,
           "lon": 73.15017056190258,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1718,7 +3922,7 @@
           "lat": 22.303457794334665,
           "length_shortfall_screen_m": 0,
           "lon": 73.15191832074635,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1726,7 +3930,7 @@
           "lat": 22.30273792966922,
           "length_shortfall_screen_m": 0,
           "lon": 73.15191832074635,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1734,7 +3938,7 @@
           "lat": 22.29697901234568,
           "length_shortfall_screen_m": 0,
           "lon": 73.15211251617345,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1742,7 +3946,7 @@
           "lat": 22.295179350682073,
           "length_shortfall_screen_m": 0,
           "lon": 73.15230671160053,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1750,7 +3954,7 @@
           "lat": 22.294279519850267,
           "length_shortfall_screen_m": 0,
           "lon": 73.15230671160053,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1758,7 +3962,7 @@
           "lat": 22.29265982435302,
           "length_shortfall_screen_m": 0,
           "lon": 73.15250090702762,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1766,7 +3970,7 @@
           "lat": 22.290860162689413,
           "length_shortfall_screen_m": 0,
           "lon": 73.15250090702762,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1774,7 +3978,7 @@
           "lat": 22.275203106216033,
           "length_shortfall_screen_m": 0,
           "lon": 73.16376424179859,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1782,7 +3986,7 @@
           "lat": 22.274483241550588,
           "length_shortfall_screen_m": 0,
           "lon": 73.17599855370499,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -1790,7 +3994,7 @@
           "lat": 22.259006151243565,
           "length_shortfall_screen_m": 0,
           "lon": 73.18551412963218,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         }
       ],
@@ -1834,11 +4038,11 @@
         "station_count": 14
       },
       "depot": {
-        "access": "A moving transfer device or engineered depot-only connection is required; no old wheel/rail turnout is inherited.",
+        "access": "A moving transfer device or engineered depot-only connection is required and unqualified.",
         "depot_cost_usd": null,
         "entry_exit_without_mainline_points_qualified": false,
         "inspection_bays_screen": 4,
-        "minimum_total_storage_track_m": 3120.0,
+        "minimum_total_storage_track_m": 3180.0,
         "placement_accepted": false,
         "simultaneous_depot_charge_kw_upper_bound": 96000.0,
         "storage_lanes_screen": 14,
@@ -2108,7 +4312,6 @@
         "cold_reserve": 1,
         "conflict_and_recovery_validated": false,
         "peak": 35,
-        "retained_comparator_trainsets": 51,
         "rule": "ceil(hot/no-regen circuit time / retained peak headway), two directions for rings, 10% spare rounded up plus one cold reserve/line",
         "source_fleet_inherited": false,
         "spare": 4,
@@ -2121,6 +4324,7 @@
         "aw3_passengers": 640,
         "cabin_width_m": 2.65,
         "cars": 4,
+        "coupling_gap_assumption_m": 0.5,
         "envelope_basis": "Cabin width does not bound magnetic lifting faces, guidance arms or below-floor gear. Revalidate full route/platform swept envelope against native geometry.",
         "eol_capacity_kwh": 720.0,
         "eol_normal_window_kwh": 432.00000000000006,
@@ -2132,6 +4336,7 @@
         "nominal_body_length_m": 68.0,
         "normal_soc_high": 0.8,
         "normal_soc_low": 0.2,
+        "overall_length_assumption_m": 69.5,
         "overall_length_m": null,
         "protected_emergency_energy_kwh": null,
         "retained_aw2_required": 480,
@@ -2180,7 +4385,7 @@
           "lat": 22.351328794586617,
           "length_shortfall_screen_m": 0,
           "lon": 73.20124395922613,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2188,7 +4393,7 @@
           "lat": 22.32739329446064,
           "length_shortfall_screen_m": 0,
           "lon": 73.17910568053836,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2196,7 +4401,7 @@
           "lat": 22.320914512471656,
           "length_shortfall_screen_m": 0,
           "lon": 73.17289142687162,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2204,7 +4409,7 @@
           "lat": 22.32001468163985,
           "length_shortfall_screen_m": 0,
           "lon": 73.17192044973618,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2212,7 +4417,7 @@
           "lat": 22.31947478314077,
           "length_shortfall_screen_m": 0,
           "lon": 73.17153205888201,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2220,7 +4425,7 @@
           "lat": 22.318754918475328,
           "length_shortfall_screen_m": 0,
           "lon": 73.17075527717367,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2228,7 +4433,7 @@
           "lat": 22.312816034985424,
           "length_shortfall_screen_m": 0,
           "lon": 73.16473521893401,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2236,7 +4441,7 @@
           "lat": 22.31209617031998,
           "length_shortfall_screen_m": 0,
           "lon": 73.1649294143611,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2244,7 +4449,7 @@
           "lat": 22.311376305654537,
           "length_shortfall_screen_m": 0,
           "lon": 73.16512360978818,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2252,7 +4457,7 @@
           "lat": 22.303457794334665,
           "length_shortfall_screen_m": 0,
           "lon": 73.15191832074635,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2260,7 +4465,7 @@
           "lat": 22.29265982435302,
           "length_shortfall_screen_m": 0,
           "lon": 73.12744969693355,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2268,7 +4473,7 @@
           "lat": 22.28294165136954,
           "length_shortfall_screen_m": 0,
           "lon": 73.10744756794372,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2276,7 +4481,7 @@
           "lat": 22.25738645574632,
           "length_shortfall_screen_m": 0,
           "lon": 73.10336946397493,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 81.0
         },
         {
@@ -2284,7 +4489,7 @@
           "lat": 22.246588485764676,
           "length_shortfall_screen_m": 0,
           "lon": 73.0833673349851,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         }
       ],
@@ -2328,11 +4533,11 @@
         "station_count": 23
       },
       "depot": {
-        "access": "A moving transfer device or engineered depot-only connection is required; no old wheel/rail turnout is inherited.",
+        "access": "A moving transfer device or engineered depot-only connection is required and unqualified.",
         "depot_cost_usd": null,
         "entry_exit_without_mainline_points_qualified": false,
         "inspection_bays_screen": 4,
-        "minimum_total_storage_track_m": 2652.0,
+        "minimum_total_storage_track_m": 2703.0,
         "placement_accepted": false,
         "simultaneous_depot_charge_kw_upper_bound": 81600.0,
         "storage_lanes_screen": 12,
@@ -2575,7 +4780,6 @@
         "cold_reserve": 1,
         "conflict_and_recovery_validated": false,
         "peak": 30,
-        "retained_comparator_trainsets": 23,
         "rule": "ceil(hot/no-regen circuit time / retained peak headway), two directions for rings, 10% spare rounded up plus one cold reserve/line",
         "source_fleet_inherited": false,
         "spare": 3,
@@ -2588,6 +4792,7 @@
         "aw3_passengers": 640,
         "cabin_width_m": 2.65,
         "cars": 4,
+        "coupling_gap_assumption_m": 0.5,
         "envelope_basis": "Cabin width does not bound magnetic lifting faces, guidance arms or below-floor gear. Revalidate full route/platform swept envelope against native geometry.",
         "eol_capacity_kwh": 720.0,
         "eol_normal_window_kwh": 432.00000000000006,
@@ -2599,6 +4804,7 @@
         "nominal_body_length_m": 68.0,
         "normal_soc_high": 0.8,
         "normal_soc_low": 0.2,
+        "overall_length_assumption_m": 69.5,
         "overall_length_m": null,
         "protected_emergency_energy_kwh": null,
         "retained_aw2_required": 480,
@@ -2647,7 +4853,7 @@
           "lat": 22.367525749559082,
           "length_shortfall_screen_m": 0,
           "lon": 73.1429853311004,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2655,7 +4861,7 @@
           "lat": 22.338731162941368,
           "length_shortfall_screen_m": 0,
           "lon": 73.15852096526727,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2663,7 +4869,7 @@
           "lat": 22.32217427563618,
           "length_shortfall_screen_m": 0,
           "lon": 73.16026872411103,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2671,7 +4877,7 @@
           "lat": 22.321094478638017,
           "length_shortfall_screen_m": 0,
           "lon": 73.16026872411103,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2679,7 +4885,7 @@
           "lat": 22.312816034985424,
           "length_shortfall_screen_m": 0,
           "lon": 73.16473521893401,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2687,7 +4893,7 @@
           "lat": 22.31209617031998,
           "length_shortfall_screen_m": 0,
           "lon": 73.1649294143611,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2695,7 +4901,7 @@
           "lat": 22.311376305654537,
           "length_shortfall_screen_m": 0,
           "lon": 73.16512360978818,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2703,7 +4909,7 @@
           "lat": 22.305617388330994,
           "length_shortfall_screen_m": 0,
           "lon": 73.17347401315287,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2711,7 +4917,7 @@
           "lat": 22.29265982435302,
           "length_shortfall_screen_m": 0,
           "lon": 73.17075527717367,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2719,7 +4925,7 @@
           "lat": 22.278622463376884,
           "length_shortfall_screen_m": 0,
           "lon": 73.17677533541332,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2727,7 +4933,7 @@
           "lat": 22.259186117409925,
           "length_shortfall_screen_m": 0,
           "lon": 73.18551412963218,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2735,7 +4941,7 @@
           "lat": 22.236330414282115,
           "length_shortfall_screen_m": 0,
           "lon": 73.18687349762179,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2743,7 +4949,7 @@
           "lat": 22.271243850556097,
           "length_shortfall_screen_m": 0,
           "lon": 73.16162809210064,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2751,7 +4957,7 @@
           "lat": 22.290860162689413,
           "length_shortfall_screen_m": 0,
           "lon": 73.15250090702762,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2759,7 +4965,7 @@
           "lat": 22.29265982435302,
           "length_shortfall_screen_m": 0,
           "lon": 73.15250090702762,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2767,7 +4973,7 @@
           "lat": 22.294099553683907,
           "length_shortfall_screen_m": 0,
           "lon": 73.15250090702762,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2775,7 +4981,7 @@
           "lat": 22.294639452182988,
           "length_shortfall_screen_m": 0,
           "lon": 73.15230671160053,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2783,7 +4989,7 @@
           "lat": 22.295179350682073,
           "length_shortfall_screen_m": 0,
           "lon": 73.15230671160053,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2791,7 +4997,7 @@
           "lat": 22.29697901234568,
           "length_shortfall_screen_m": 0,
           "lon": 73.15211251617345,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2799,7 +5005,7 @@
           "lat": 22.30273792966922,
           "length_shortfall_screen_m": 0,
           "lon": 73.15191832074635,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2807,7 +5013,7 @@
           "lat": 22.303457794334665,
           "length_shortfall_screen_m": 0,
           "lon": 73.15133573446509,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2815,7 +5021,7 @@
           "lat": 22.31893488464169,
           "length_shortfall_screen_m": 0,
           "lon": 73.14201435396498,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         },
         {
@@ -2823,7 +5029,7 @@
           "lat": 22.335491771946874,
           "length_shortfall_screen_m": 0,
           "lon": 73.14434469909001,
-          "provisional_platform_body_plus_allowance_m": 78.0,
+          "provisional_platform_body_plus_allowance_m": 79.5,
           "retained_platform_length_m": 85.0
         }
       ],
@@ -2846,8 +5052,12 @@
       }
     }
   ],
+  "manufacturing_file": "manufacturing.json",
   "manufacturing_release": false,
+  "manufacturing_sha256": "5abf28567088a2a52e12969903a673440e84ebcd4faa90eca086aa154c76855f",
   "name": "Vadodara",
+  "network_file": "network.svg",
+  "network_sha256": "a6830d93d2da88d5ee39ed6127d18a827e078fa5bde9b622e36bf4acbbe70344",
   "physical_release": false,
   "physical_validation": false,
   "planning_assumptions": {
@@ -2884,7 +5094,7 @@
   },
   "publication_role": "primary-provisional-design",
   "retained_records_file": "retained-records.json",
-  "retained_records_sha256": "db6eec63963c1b0c7c69c883a50c7eac0f12852bea81640cde277a2522be56db",
+  "retained_records_sha256": "86586bbfc6abfe03404879bdd283b45f1bf10bccdb879794cc3730db3f883d7a",
   "routing_strategy": {
     "alignment_comparison_metrics": [
       {
@@ -3091,30 +5301,28 @@
   },
   "schema": "osr-maglev-city-planning/1",
   "source_sha256": {
-    "OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx": "7c179a50f0773d7007991c4d831ebd944636adfd46cf2e9e4e5f55165202c661",
     "VERSION": "8d5c1b5a87c51f970807fc0c2057b3ab3aaf11638ab667dc5956edc8f5bcf138",
     "cities/catalogue/south-asia/India/Vadodara/alignment-policy.toml": "ebd91473df0e9485f691d96180f5b047eab64be03df0536f2057ef02cc4b6181",
+    "cities/catalogue/south-asia/India/Vadodara/city.json": "b85803e7076ffaa78a477ed640f7bf016ffb53b91ed41e37a2ace1bdd5ad0943",
     "cities/catalogue/south-asia/India/Vadodara/corridors.json": "20b13e721d541630bb0499b7465fde46cc2291fb9226c5acb609bd65497231a8",
-    "cities/catalogue/south-asia/India/Vadodara/design.toml": "02fc360ccaa4553cc4cc2497faa96efe67e0446faa8990a24ed11ca5e66501e2",
+    "cities/catalogue/south-asia/India/Vadodara/site-context.json": "b59f78af4dd69ace10462c5b37a7a181a3082696f949ddf63207bd6e596f5baa",
     "cities/catalogue/south-asia/India/Vadodara/vadodara.corridor.geojson": "0b8eba5b7a9cbbc1fd7799962b04e24534b73dc92e274ace5604f011de18b99d",
     "cities/catalogue/south-asia/India/Vadodara/vadodara.stations.json": "4e3524bfd22546873b60c97703f78bcae32601b91c8a36801143552fb3790c60",
-    "cities/catalogue/south-asia/India/Vadodara/vadodara.toml": "2fcdee4d5121719a603258dc8f5c49e467e487f9d49d431816203578cf409c8f",
-    "design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json": "8d0c389cc39883ab8526c438c337f1cbb53a89faf06438a37b75b750e0f8a056",
-    "engineering/ferrite_maglev/cities.py": "895d10c7b2dd1ee276f15a435f085201922a8b53466a571418f714d66a8848b2",
+    "engineering/ferrite_maglev/cartography.py": "0ec95da146701013ce073d814e50fd58531b2f2a5b7687a7668b19f3b5432ffe",
+    "engineering/ferrite_maglev/cities.py": "aebcb61533fada8decade59870dbc96e7c71d94eaf5e48b2f28b32acd253f2c4",
     "engineering/ferrite_maglev/city-planning.toml": "2f6de06a54967665e1cccf255ec4b9bb75a7e83d22dd7098d9fc6f2fbbb34b76",
     "engineering/ferrite_maglev/configuration.py": "6dac8703a30a5acf3e3bd86b654a12122efd94a4719fbdc9229fbae11cd7a013",
+    "engineering/ferrite_maglev/data/cost-rates.json": "1e663886bcb99044bf31390d03eecd94ca6a92271ab74653e5b8e32e37fc50b1",
     "engineering/ferrite_maglev/evacuation.py": "8b75e342c3fe10154b790c24882c84bcfebd588f49cf82d9bf38f0c8fb353dc6",
     "engineering/ferrite_maglev/evacuation.toml": "58c46bc9cd0d3bd4a28d4a9f0dfc46a1126959dfd3d5d594ae671fc8ba3a02aa",
-    "engineering/ferrite_maglev/geometry.py": "ff1ca00e77b18a5a1d97624a4445c6a572ef0c651dc6eb658c70c7de0d18d1bc",
-    "engineering/ferrite_maglev/model.py": "0b108becb39e3c885b9f7f760d042900f36bf396c11d1089149e4a8ef936ce47",
-    "engineering/ferrite_maglev/optimisation.py": "d0f2ed1fc5ba9c50987504d1c51101da99b98e4ff663ec5f0bf9b30a8e283f72",
-    "engineering/ferrite_maglev/optimisation.toml": "1073a7999b6de7bf7476f0c1e13d36595bd435ce39718182cf6b80b8fd6676f2",
+    "engineering/ferrite_maglev/geometry.py": "7f5fbd0fdb0e40527f68db84cf9bf9d4598494014e800768cfa43924deb012ab",
+    "engineering/ferrite_maglev/manufacturing.py": "fae530a83ec9f011ea0507c296619c4de9f8a167e0112fea8e83d14a71775425",
+    "engineering/ferrite_maglev/model.py": "b9ccadaa97664cd0a3db4af8c23a72f295eaac69796e72f09942efbd90d82af0",
+    "engineering/ferrite_maglev/optimisation.py": "3473e4008d44152641e011fe772cd418fb22af325c98c56d4f870d907a51b7ec",
+    "engineering/ferrite_maglev/optimisation.toml": "e1416d2adeb4505ff6d45ff747aec78559832f2f5d1b02a71a46d5d9ddf48b12",
     "engineering/ferrite_maglev/reference-configuration.toml": "e571015e1e7b0fc8611a9bec49e4b74d56120cf3cd74d7f856ccfb3c6fb0f549",
-    "engineering/ferrite_maglev/workbook.py": "855d8293eaa27f6060da73dbbb95c9533e21ec46bae11c6e4d5f55a0d5af3c89",
-    "ferrite-maglev-study.toml": "030dbd2563dd473d9f825fd3895edfaaa7b031a7e9700d0c7793bfe0ae396fc8",
-    "lib/templates/civil-cost-model.toml": "bfe9b81fc8b2bb78fc80477ddc21d9a8494f9426b00c9083db4e39115927eb88",
-    "lib/templates/infrastructure.toml": "21c738ec8730684ea4be6ff4bc2787c9a475b18e2463b27c0c65d962efc9bb2d",
-    "lib/templates/rolling-stock.toml": "ea156712da23ca2fcdf12fd48fbb94e2ce1119fc9ebf80d294751c5c0144a754"
+    "ferrite-maglev-study.toml": "19f66f7449f9e90fcadc3f37c7620b3604b4a4f204716bbe86ea84440d4cb4a8",
+    "lib/templates/infrastructure.toml": "930117dd6379415103c02095a984ebf4c4474ae71caf9714cee53aadfb7c79d8"
   },
   "status": "provisional-planning; physical-acceptance-open",
   "totals": {

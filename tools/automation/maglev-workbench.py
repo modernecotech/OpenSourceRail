@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Loopback, read-only primary v0.5 design UI; no legacy plant or command adapter."""
+"""Loopback, read-only primary v0.5 design review UI."""
 import argparse
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -24,15 +24,14 @@ class Handler(SimpleHTTPRequestHandler):
         allowed = ('/docs/workbench/maglev/', '/docs/design-engine/ferrite-maglev/')
         exact = {'/engineering/ferrite_maglev/city-index.json', '/engineering/ferrite_maglev/city-index.md',
                  '/OpenSourceRail-Book.pdf', '/OpenSourceRail maglev station concept.png',
-                 '/Vertical spiral escape chute concept.png',
-                 '/OpenSourceRail_Ferrite_Maglev_Rework_Specification.md'}
+                 '/Vertical spiral escape chute concept.png'}
         lexical = ROOT/name.lstrip('/')
         path = lexical.resolve()
         roots = [ROOT/p.lstrip('/') for p in allowed]
         is_city = (name.startswith('/cities/catalogue/') and '/engineering/maglev/' in name
                    and path.is_relative_to(ROOT/'cities/catalogue')
                    and path.parent.name == 'maglev'
-                   and path.name in {'summary.json', 'README.md', 'retained-records.json'})
+                   and path.name in {'summary.json', 'README.md', 'retained-records.json', 'manufacturing.json', 'network.svg'})
         if (path != lexical or not path.is_relative_to(ROOT) or any(part in {'.', '..'} for part in name.split('/'))
                 or not (name in exact or is_city or any(path.is_relative_to(p) for p in roots))):
             self.send_error(404)

@@ -1,4 +1,4 @@
-"""Independent numerical controls, migration boundaries and adverse-case regressions."""
+"""Independent physical controls, quantity cost reconciliation and adverse cases."""
 from copy import deepcopy
 import json
 import math
@@ -17,13 +17,16 @@ from engineering.ferrite_maglev import model,delivery
 def context():return model.load()
 
 
-def test_primary_policy_version_and_comparator_are_explicit(context):
+def test_primary_policy_configuration_and_release_boundary_are_explicit(context):
     policy,c,_=context
     assert (ROOT/'VERSION').read_text().strip()=='0.5'
     assert policy['development']['primary_family']==c['metadata']['family']=='ferrite-pm-maglev-study'
-    assert policy['development']['automatic_legacy_fallback'] is False
-    assert policy['development']['inherit_legacy_acceptance'] is False
+    assert c['vehicle']['cars_per_train']==6
     assert c['controls']['preferred_host']=='off-the-shelf-SBC'
+    assert policy['objectives']['linear_electromagnetic_propulsion_required']
+    assert not policy['objectives']['all_vehicle_moving_parts_eliminated']
+    assert all(policy['release'][flag] is False for flag in model.FLAGS)
+
 
 
 @pytest.mark.parametrize('ferrite,battery,tare',[(3000,150,18000),(4000,150,19000),(3000,225,18750),(4000,225,19750)])
@@ -34,30 +37,69 @@ def test_mass_contains_magnets_once_and_retains_equal_payload(context,ferrite,ba
     assert r['cg_m'] is None and r['inertia_kg_m2'] is None
 
 
-@pytest.mark.parametrize('scenario,train,civil,pilot',[
-    ('low',764197.416,7047775,9000000),('base',872197.416,8345876,23220000),('high',1130197.416,10528514,55200000)])
-def test_costs_reconcile_independent_supplied_totals_and_nonoverlap(context,scenario,train,civil,pilot):
+@pytest.mark.parametrize('scenario',['low','base','high'])
+def test_quantity_costs_reconcile_line_items_scenarios_and_reserve(context,scenario):
     _,c,costs=context;r=model.cost_case(c,costs,scenario,3000,225)
-    assert r['train_usd']==pytest.approx(train)
-    assert r['civil_usd_dual_km']==pytest.approx(civil)
-    assert r['pilot_usd']==pytest.approx(pilot)
-    assert r['removed_direct_usd_train']==206600 and r['battery_credit_usd_train']==0
+    rates=costs['rates'];factor=costs['scenario_multipliers'][scenario];cars=c['vehicle']['cars_per_train']
+    expected=(cars*(rates['body_and_passenger_systems_per_car']+3000*rates['ferrite_per_kg']+
+        rates['magnetic_equipment_per_car']+225*rates['battery_pack_per_kwh']+
+        rates['capture_brake_per_car']+rates['hvac_auxiliary_per_car']+
+        rates['assembly_test_hours_per_car']*rates['labour_per_hour'])+
+        (cars-1)*rates['coupling_gangway_per_interface']+rates['train_control_per_train'])*factor
+    bill=r['vehicle_bill']
+    assert bill['priced_scope_subtotal_usd']==pytest.approx(expected)
+    assert bill['integration_reserve_usd']==pytest.approx(expected*rates['vehicle_integration_reserve_fraction'])
+    assert r['train_usd']==pytest.approx(expected*(1+rates['vehicle_integration_reserve_fraction']))
+    assert sum(x['quantity']*x['unit_rate_usd'] for x in bill['rows'])==pytest.approx(expected)
+    civil=r['civil_bill'];q=civil['quantities']
+    # Independently count native 20 mm reaction faces: two faces per beam,
+    # ten 2.49 m cassettes in 25 m, two directional kilometres per route-km.
+    reaction_kg=2*10*2.49*.96*.02*7850/25*2000
+    concrete_m3=(.8*1.6-(.8-.3)*(1.6-.36)+.12)*2000
+    assert q['reaction_steel_kg_dual_km']==pytest.approx(reaction_kg)
+    assert q['concrete_m3_dual_km']==pytest.approx(concrete_m3)
+    assert q['reinforcement_kg_dual_km']==pytest.approx(concrete_m3*rates['reinforcement_kg_per_m3'])
+    assert q['shared_supports_per_route_km']==40 and q['beam_lifts_per_route_km']==80
+    assert r['civil_usd_dual_km']==pytest.approx(sum(x['quantity']*x['unit_rate_usd'] for x in civil['rows']))
+    assert r['pilot_usd'] is r['city_total_usd'] is bill['complete_factory_gate_price_usd'] is None
+    assert not r['epc_included'] and not r['costs_are_quotes']
     reduced=model.cost_case(c,costs,scenario,3000,150)
-    assert r['train_usd']-reduced['train_usd']==pytest.approx(30000)
+    reserve=1+rates['vehicle_integration_reserve_fraction']
+    assert r['train_usd']-reduced['train_usd']==pytest.approx(cars*75*rates['battery_pack_per_kwh']*factor*reserve)
     more=model.cost_case(c,costs,scenario,4000,225)
-    assert more['train_usd']-r['train_usd']==pytest.approx(8400)
-    assert more['civil_usd_dual_km']==r['civil_usd_dual_km']  # budget sensitivity, not an automatic load-cost conversion
-    assert r['city_total_usd'] is None and not r['epc_included']
+    assert more['train_usd']-r['train_usd']==pytest.approx(cars*1000*rates['ferrite_per_kg']*factor*reserve)
+    assert more['civil_usd_dual_km']==r['civil_usd_dual_km']
+
+
+def test_formation_bills_price_shared_controls_once_and_interfaces_per_connection(context):
+    _,c,costs=context
+    three=model.cost_case(c,costs,'base',3000,225,cars=3)['vehicle_bill']
+    six=model.cost_case(c,costs,'base',3000,225,cars=6)['vehicle_bill']
+    small={r['id']:r for r in three['rows']};large={r['id']:r for r in six['rows']}
+    assert small['train-control-and-protection']['quantity']==large['train-control-and-protection']['quantity']==1
+    assert small['coupling-and-gangway']['quantity']==2 and large['coupling-and-gangway']['quantity']==5
+    for ident in small.keys()-{'train-control-and-protection','coupling-and-gangway'}:
+        assert large[ident]['quantity']==pytest.approx(2*small[ident]['quantity'])
+    rates=costs['rates']
+    assert six['total_allowance_usd']-2*three['total_allowance_usd']==pytest.approx(
+        (rates['coupling_gangway_per_interface']-rates['train_control_per_train'])*(1+rates['vehicle_integration_reserve_fraction']))
+
 
 
 def test_lower_cost_and_localisation_are_targets_with_imported_inputs_visible(context):
     _,c,costs=context
-    r=model.cost_case(c,costs,'base',3000,225,hardware_target=90000)
-    assert r['train_usd']==pytest.approx(818197.416)
-    assert r['costs_are_quotes'] is False
+    base=model.cost_case(c,costs,'base',3000,225)
+    target=model.cost_case(c,costs,'base',3000,225,hardware_target=90000)
+    before=base['magnetic_bundle_usd_train'];reserve=1+costs['rates']['vehicle_integration_reserve_fraction']
+    assert target['magnetic_bundle_usd_train']==90000
+    assert base['train_usd']-target['train_usd']==pytest.approx((before-90000)*reserve)
+    other=lambda r:{x['id']:x for x in r['vehicle_bill']['rows'] if x['id']!='magnetic-modules'}
+    assert other(base)==other(target)
+    assert target['costs_are_quotes'] is False
     assert model.localisation([dict(id='coil',cost_usd=10000,imported_input_usd=4000)])['local_fraction']==.6
     assert model.localisation([dict(id='coil',cost_usd=10000,imported_input_usd=None)])['local_fraction'] is None
     with pytest.raises(ValueError):model.localisation([dict(id='coil',cost_usd=100,imported_input_usd=101)])
+
 
 
 def test_section_matches_parallel_axis_and_retains_lateral_issue(context):
@@ -161,14 +203,14 @@ def test_primary_publication_tamper_stale_and_source_binding(tmp_path):
     with pytest.raises(ValueError,match='differs'):delivery.verify(out)
 
 
-def test_cli_primary_and_legacy_boundaries():
+def test_cli_primary_and_unsupported_commands_fail_closed():
     for command in [['./osr'],['./osr','design','status']]:
         r=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=180)
         assert r.returncode==0 and json.loads(r.stdout)['family']=='ferrite-pm-maglev-study'
-    for command in [['./osr','city','unknown-maglev-city'],['./osr','sim','unknown-maglev-city'],['./osr','design','release-check']]:
+    for command in [['./osr','city','unknown-maglev-city'],['./osr','sim','unknown-maglev-city'],['./osr','design','release-check'],['./osr','design','unsupported-family']]:
         r=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=180)
         assert r.returncode in (2,3)
-    assert subprocess.run(['./osr','design','legacy','twin','--help'],cwd=ROOT,capture_output=True,timeout=90).returncode==0
+
 
 
 def test_scheduled_cycle_idles_without_rewriting_unchanged_results(tmp_path):

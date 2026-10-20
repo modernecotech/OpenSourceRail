@@ -116,50 +116,180 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 15830.1,
       "name": "line-1",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 150,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 8623.2,
       "name": "line-2",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 6552.9,
       "name": "line-3",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 150,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 4721.3,
       "name": "line-4",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0723-0394-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0549-0917-s015830"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -192,22 +322,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 51
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0451-0393-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0671-0611-s008623"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -240,22 +357,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 28
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0527-0619-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0720-0400-s006553"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -288,22 +392,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 28
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-4-0618-0615-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-4-0762-0737-s004721"
-        }
-      ],
       "line": "line-4",
       "schedule": [
         {
@@ -336,10 +427,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 17
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -592,11 +680,7 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "leisure:stadium",
-      "anchor_name": "Godswill Akpabio International Stadium",
-      "archetype": "terminal",
       "id": "line-1-0723-0394-s000000",
-      "junction_group": 0,
       "lat": 5.006594478638016,
       "line": "line-1",
       "lon": 7.884451600741134,
@@ -604,62 +688,46 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0608-0527-s004802",
-      "junction_group": 1,
       "lat": 5.0272905877694996,
       "line": "line-1",
       "lon": 7.908439339394038,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 4802.2
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0605-0530-s004887",
-      "junction_group": 1,
       "lat": 5.027830486268582,
       "line": "line-1",
       "lon": 7.9089804162057575,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 4887.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0577-0563-s006004",
-      "junction_group": 2,
       "lat": 5.032869538926682,
       "line": "line-1",
       "lon": 7.914932261134674,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6004.4
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0550-0571-s006832",
-      "junction_group": 3,
       "lat": 5.0377286254184215,
       "line": "line-1",
       "lon": 7.916375132632593,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6832.1
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0551-0592-s007378",
-      "junction_group": 3,
       "lat": 5.037548659252061,
       "line": "line-1",
       "lon": 7.920162670314631,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 7378.4
     },
     {
-      "archetype": "standard",
       "id": "line-1-0606-0747-s011609",
       "lat": 5.027650520102221,
       "line": "line-1",
@@ -668,9 +736,6 @@
       "s_m": 11608.8
     },
     {
-      "anchor_kind": "amenity:university",
-      "anchor_name": "University of Uyo",
-      "archetype": "depot-terminal",
       "id": "line-1-0549-0917-s015830",
       "lat": 5.037908591584782,
       "line": "line-1",
@@ -679,9 +744,6 @@
       "s_m": 15830.1
     },
     {
-      "anchor_kind": "amenity:bus_station",
-      "anchor_name": "AKTC Park",
-      "archetype": "terminal",
       "id": "line-2-0451-0393-s000000",
       "lat": 5.055545275888133,
       "line": "line-2",
@@ -690,42 +752,30 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0550-0571-s005056",
-      "junction_group": 3,
       "lat": 5.0377286254184215,
       "line": "line-2",
       "lon": 7.916375132632593,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5056.5
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0555-0587-s005446",
-      "junction_group": 3,
       "lat": 5.036828794586618,
       "line": "line-2",
       "lon": 7.919260875628431,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5446.2
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0618-0615-s007369",
-      "junction_group": 4,
       "lat": 5.025490926105892,
       "line": "line-2",
       "lon": 7.924310925871148,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 7369.3
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Market",
-      "archetype": "terminal",
       "id": "line-2-0671-0611-s008623",
       "lat": 5.015952719288774,
       "line": "line-2",
@@ -734,9 +784,6 @@
       "s_m": 8623.2
     },
     {
-      "anchor_kind": "amenity:university",
-      "anchor_name": "University of Uyo",
-      "archetype": "terminal",
       "id": "line-3-0527-0619-s000000",
       "lat": 5.041867847244718,
       "line": "line-3",
@@ -745,66 +792,47 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0551-0592-s000786",
-      "junction_group": 3,
       "lat": 5.037548659252061,
       "line": "line-3",
       "lon": 7.920162670314631,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 785.7
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0555-0587-s000942",
-      "junction_group": 3,
       "lat": 5.036828794586618,
       "line": "line-3",
       "lon": 7.919260875628431,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 942.3
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0577-0563-s001675",
-      "junction_group": 2,
       "lat": 5.032869538926682,
       "line": "line-3",
       "lon": 7.914932261134674,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 1674.8
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0606-0529-s002665",
-      "junction_group": 1,
       "lat": 5.027650520102221,
       "line": "line-3",
       "lon": 7.908800057268518,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 2665.3
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0608-0527-s002734",
-      "junction_group": 1,
       "lat": 5.0272905877694996,
       "line": "line-3",
       "lon": 7.908439339394038,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 2733.6
     },
     {
-      "anchor_kind": "leisure:stadium",
-      "anchor_name": "Godswill Akpabio International Stadium",
-      "archetype": "terminal",
       "id": "line-3-0720-0400-s006553",
-      "junction_group": 0,
       "lat": 5.007134377137098,
       "line": "line-3",
       "lon": 7.885533754364573,
@@ -812,20 +840,14 @@
       "s_m": 6552.9
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0618-0615-s000000",
-      "junction_group": 4,
       "lat": 5.025490926105892,
       "line": "line-4",
       "lon": 7.924310925871148,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 0.0
     },
     {
-      "anchor_kind": "planning:residential-priority",
-      "anchor_name": "Residential planning stop; site release open",
-      "archetype": "standard",
       "id": "line-4-0688-0711-s003002",
       "lat": 5.012893294460642,
       "line": "line-4",
@@ -834,7 +856,6 @@
       "s_m": 3002.5
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0762-0737-s004721",
       "lat": 4.999575798149948,
       "line": "line-4",

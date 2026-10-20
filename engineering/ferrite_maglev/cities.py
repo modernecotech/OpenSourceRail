@@ -15,7 +15,7 @@ import os
 from pathlib import Path
 import tomllib
 
-from . import model,optimisation,evacuation
+from . import model,optimisation,evacuation,manufacturing,cartography,configuration
 
 ROOT = model.ROOT
 ASSUMPTIONS = Path(__file__).with_name('city-planning.toml')
@@ -25,20 +25,13 @@ NOTICE_END=b'<!-- osr-maglev-primary:end -->\n\n'
 
 
 def promote_city_readme(city_dir):
-    """Prepend a controlled entry notice, preserving every legacy body byte."""
+    """Replace the city front door with its sole current primary package."""
     path=Path(city_dir)/'README.md'
-    original=path.read_bytes() if path.is_file() else b''
-    body=original
-    if body.startswith(NOTICE_START):
-        if NOTICE_END not in body:
-            raise ValueError('incomplete controlled primary notice: '+str(path))
-        body=body.split(NOTICE_END,1)[1]
-    notice=(NOTICE_START+b'> **Primary v0.5 ferrite-maglev planning:** [Open the current city planning package](engineering/maglev/README.md). '
-            b'Formation, duty, fleet, charging, depot quantities and partial cost allowances are recomputed; physical acceptance remains open.\n>\n'
-            b'> The material below this notice is the retained v0.4 wheel/rail comparator. Its costs, fleet, geometry and acceptance do not transfer to maglev.\n'+NOTICE_END)
-    replacement=notice+body
-    if replacement!=original:
-        path.write_bytes(replacement)
+    data=json.loads((Path(city_dir)/'city.json').read_text())
+    text=(NOTICE_START.decode()+f"# {data['name']} — ferrite-PM maglev\n\n"
+        "[Current city plan, costs and manufacturing routes](engineering/maglev/README.md).\n\n"
+        "Mapped geography and passenger targets are planning inputs. Physical route, vehicle, manufacturing and operational acceptance remain open.\n"+NOTICE_END.decode())
+    path.write_text(text)
     return path
 
 
@@ -50,17 +43,7 @@ def digest(path):
 def _cached_city_slug(path, size, mtime_ns, ctime_ns):
     # Catalogue metadata is the first city table. Read only that table for this
     # inventory operation; full compilation still parses the complete design.
-    block=[]
-    with Path(path).open() as stream:
-        for line in stream:
-            if line.strip()=='[city]':
-                block.append(line)
-            elif block:
-                if line.lstrip().startswith('['):
-                    break
-                block.append(line)
-    document=tomllib.loads(''.join(block)) if block else tomllib.loads(Path(path).read_text())
-    slug=document['city']['slug']
+    slug=json.loads(Path(path).read_text())['city']['slug']
     if not isinstance(slug,str) or not slug:
         raise ValueError('nonempty city slug required: '+path)
     return slug
@@ -87,10 +70,12 @@ def formation(c, source_consist, profiles):
               [count(p['crush_capacity'], 'profile AW3') for p in profiles])
     cars = max(math.ceil(aw2 / v['aw2_passengers_per_car']),
                math.ceil(aw3 / v['aw3_passengers_per_car']))
+    cfg=configuration.selected(c,city='planning',cars=cars).formation
     m = model.mass(c, c['mass']['ferrite_base'], c['power']['gross_battery_matched_kwh_per_car'])
     return dict(cars=cars, retained_aw2_required=aw2, retained_aw3_required=aw3,
                 aw2_passengers=cars*v['aw2_passengers_per_car'], aw3_passengers=cars*v['aw3_passengers_per_car'],
                 nominal_body_length_m=cars*v['nominal_car_length_m'], overall_length_m=None,
+                overall_length_assumption_m=cfg.assumed_overall_length_m,coupling_gap_assumption_m=cfg.coupling_gap_assumption_m,
                 length_basis='Sum of nominal 17 m bodies; coupling pitch and overhang unresolved.',
                 tare_mass_kg=cars*m['tare_kg'], aw2_mass_kg=cars*m['aw2_kg'], aw3_mass_kg=cars*m['aw3_kg'],
                 gross_storage_kwh=cars*c['power']['gross_battery_matched_kwh_per_car'],
@@ -191,7 +176,7 @@ def line_plan(c, a, f, line, stations, source_fleet, evaluate):
     peak = 2*per_direction if ring else per_direction
     spare = math.ceil(peak*a['formation']['spare_fraction'])
     total = peak+spare+a['formation']['cold_reserve_per_line']
-    nominal_slot = f['nominal_body_length_m']+a['formation']['platform_end_allowance_m']
+    nominal_slot = f['overall_length_assumption_m']+a['formation']['platform_end_allowance_m']
     hot_cycle = sum(r['moving_energy_kwh'] for r in hot)*(1 if ring else 2)+loop_energy+hotel*stops*dwell/3600
     normal_cycle = sum(r['moving_energy_kwh'] for r in normal)*(1 if ring else 2)
     normal_cycle += c['power']['normal_hotel_kw_per_car']*stops*dwell/3600
@@ -231,7 +216,7 @@ def line_plan(c, a, f, line, stations, source_fleet, evaluate):
                  simultaneous_depot_charge_kw_upper_bound=total*charger*f['cars'],
                  switch_policy=a['depot']['switches'], placement_accepted=False,
                  entry_exit_without_mainline_points_qualified=False, depot_cost_usd=None,
-                 access='A moving transfer device or engineered depot-only connection is required; no old wheel/rail turnout is inherited.')
+                 access='A moving transfer device or engineered depot-only connection is required and unqualified.')
     arrivals=[]
     sequence=[(i,i+1) for i in range(len(ordered)-1)]
     if ring:
@@ -264,7 +249,6 @@ def line_plan(c, a, f, line, stations, source_fleet, evaluate):
                                       'loop lateral force and physical geometry', 'emergency reserve', 'missed charge',
                                       'full SOC and low voltage', 'charger taper/grid and battery internal losses']),
                 fleet=dict(peak=peak, spare=spare, cold_reserve=a['formation']['cold_reserve_per_line'], total=total,
-                           retained_comparator_trainsets=source_fleet['trainset_count'],
                            source_fleet_inherited=False, conflict_and_recovery_validated=False,
                            rule='ceil(hot/no-regen circuit time / retained peak headway), two directions for rings, 10% spare rounded up plus one cold reserve/line'),
                 charging=charging, depot=depot)
@@ -300,26 +284,19 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
         for name, value in a[group].items():
             if type(value) in (int, float):
                 model.positive(value, group+'.'+name)
-    design_path = city_dir/'design.toml'
-    design = tomllib.loads(design_path.read_text())
+    design_path = city_dir/'city.json'
+    design = json.loads(design_path.read_text())
+    if design.get('schema')!='osr-maglev-city-input/1':raise ValueError('current city input schema required')
     slug = design['city']['slug']
-    scenario_path = city_dir/(slug+'.toml')
-    scenario = tomllib.loads(scenario_path.read_text())
-    profiles_path = ROOT/'lib/templates/rolling-stock.toml'
-    profiles = tomllib.loads(profiles_path.read_text())['profiles']
     evaluate = evaluate or duty_evaluator(c)
-    fleets = {s['line']: s for s in scenario['fleets']}
     lines = []
     for line in design['lines']:
-        f = formation(c, scenario['consist'], [profiles[line['rolling_stock']]])
+        f = formation(c, line['capacity'], [])
         stations = [s for s in design['stations'] if s['line'] == line['name']]
-        lines.append(line_plan(c, a, f, line, stations, fleets[line['name']], evaluate))
-    source_paths = [*calculation_dependencies(),design_path, scenario_path, profiles_path, ASSUMPTIONS, Path(__file__),
-                    model.INPUT, model.POLICY, Path(model.__file__), ROOT/'engineering/ferrite_maglev/workbook.py',
-                    ROOT/c['cost']['cost_input_file'], ROOT/'VERSION']
-    source_paths += [ROOT/'design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json',
-                     ROOT/'lib/templates/civil-cost-model.toml',Path(optimisation.__file__),optimisation.INPUT,Path(evacuation.__file__),evacuation.INPUT]
-    for name in ('corridors.json', slug+'.stations.json', slug+'.corridor.geojson', 'alignment-policy.toml'):
+        lines.append(line_plan(c, a, f, line, stations, line['service'], evaluate))
+    source_paths = [*calculation_dependencies(),design_path,ASSUMPTIONS,Path(__file__),
+                    model.INPUT,model.POLICY,Path(model.__file__),manufacturing.INPUT,Path(manufacturing.__file__),ROOT/'VERSION']
+    for name in ('corridors.json', slug+'.stations.json', slug+'.corridor.geojson', 'alignment-policy.toml','site-context.json'):
         path = city_dir/name
         if path.is_file(): source_paths.append(path)
     sources = {p.relative_to(ROOT).as_posix(): digest(p) for p in source_paths}
@@ -329,7 +306,7 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
     corridor = json.loads(corridor_path.read_text()) if corridor_path.is_file() else {}
     records = dict(city=design['city'], climate=design['climate'], retained_station_demand_records=retained_stations,
                    retained_station_design_records=design['stations'], retained_interchanges=design.get('interchanges', []),
-                   retained_lines=design['lines'], retained_service_schedules=scenario['fleets'],
+                   retained_lines=design['lines'], retained_service_schedules=[dict(line=l['name'],**l['service']) for l in design['lines']],
                    retained_demand_metadata={k:v for k,v in corridor.items() if k != 'lines'},
                    full_route_geometry_sources=[p for p in sources if p.endswith(('.corridor.geojson', '/corridors.json'))],
                    use='Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers.')
@@ -340,30 +317,9 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
         by_class[s['class']] = by_class.get(s['class'], 0)+s['to_station_m']-s['from_station_m']
     strategy=optimisation.route_strategy(design,corridor)
     elevated=strategy['ordinary_viaduct_proposal_length_m']/1000
-    cost_rows = []
-    for name in ('low', 'base', 'high', 'target-90000', 'target-60000'):
-        target = int(name.split('-')[1]) if name.startswith('target-') else None
-        case = model.cost_case(c, costs, 'base' if target else name, c['mass']['ferrite_base'],
-                               c['power']['gross_battery_matched_kwh_per_car'], hardware_target=target)
-        trains = case['train_usd']*cars/c['vehicle']['cars_per_train']
-        civil = case['civil_usd_dual_km']*elevated
-        cost_rows.append(dict(scenario=name, repeat_fleet_allowance_usd=trains,
-                              ordinary_elevated_allowance_usd=civil, priced_scope_subtotal_usd=trains+civil,
-                              complete_city_programme_usd=None, epc_included=False, nre_included=False,
-                              supplier_quotes=False, fleet_scaling_basis='Linear per-car extrapolation of supplied three-car allowance; formation engineering and economies of scale unpriced.',
-                              ordinary_viaduct_proposal_km=elevated,
-                              civil_basis='All ordinary mainline sections proposed elevated, including retained at-grade lengths; special crossings stay separately unpriced. New indexed rate; old curve multipliers/products and costs are not inherited.'))
+    programme=manufacturing.city_programme(c,costs,lines,elevated)
+    cost_rows=programme['scenarios']
     search=optimisation.study(c,costs)
-    candidate=search['minimum_indexed_allowance_candidate']
-    if candidate is not None:
-        unit=candidate['civil']['indexed_allowance_usd_dual_km']
-        trains=candidate['vehicle']['repeat_three_car_train_allowance_usd']*cars/c['vehicle']['cars_per_train']
-        cost_rows.append(dict(scenario='indexed-joint-optimisation-target',repeat_fleet_allowance_usd=trains,
-            ordinary_elevated_allowance_usd=unit*elevated,priced_scope_subtotal_usd=trains+unit*elevated,
-            ordinary_viaduct_proposal_km=elevated,ordinary_viaduct_unit_allowance_usd_dual_km=unit,
-            candidate_id=candidate['id'],complete_city_programme_usd=None,epc_included=False,nre_included=False,supplier_quotes=False,
-            fleet_scaling_basis='Baseline conservative fleet quantities retained; lighter mass and hardware costs are unqualified targets. No fleet reduction credited.',
-            civil_basis='Provisional lowest indexed civil allowance passing gross stiffness/lift screens; all ordinary sections proposed elevated. No engineering acceptance or full project price.'))
     evac=evacuation.load();bare=search['beam_only_minimum_gross_allowance_candidate']
     packs=cars*evac['train']['doors_per_side_per_car_screen']*evac['train']['sides']
     beam_only=dict(target=evac['architecture']['target'],walkway_removal_approved=False,
@@ -377,7 +333,7 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
     report = dict(configuration_revision=configuration.selected(c).revision,publication_role='primary-provisional-design',
                   financial_scope='Partial fleet and ordinary elevated civil allowances; complete installed programme unknown',
                   schema='osr-maglev-city-planning/1', architecture=c['metadata']['family'], version='0.5',
-                  city=slug, name=scenario['scenario']['name'], status='provisional-planning; physical-acceptance-open',
+                  city=slug, name=design['name'], status='provisional-planning; physical-acceptance-open',
                   source_sha256=sources, planning_assumptions=a, routing_strategy=strategy, retained_records_file='retained-records.json', lines=lines,
                   diagnostics=dict(ring_closure_discrepancies=[dict(line=l['line'], discrepancy_m=l['topology']['ring_wrap_discrepancy_m'])
                                     for l in lines if l['topology']['ring_wrap_discrepancy_m'] not in (None, 0)],
@@ -399,6 +355,11 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
                   design_complete=False, physical_validation=False, manufacturing_release=False, physical_release=False)
     output = Path(output_dir) if output_dir else city_dir/'engineering/maglev'
     output.mkdir(parents=True, exist_ok=True)
+    cartography.render(design,city_dir/(slug+'.corridor.geojson'),output/'network.svg')
+    report.update(network_file='network.svg',network_sha256=digest(output/'network.svg'))
+    (output/'manufacturing.json').write_text(json.dumps(programme,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
+    report['manufacturing_file']='manufacturing.json'
+    report['manufacturing_sha256']=digest(output/'manufacturing.json')
     (output/'retained-records.json').write_text(json.dumps(records, ensure_ascii=False, sort_keys=True, indent=2)+'\n')
     report['retained_records_sha256'] = digest(output/'retained-records.json')
     (output/'summary.json').write_text(json.dumps(report, ensure_ascii=False, sort_keys=True, indent=2)+'\n')
@@ -410,7 +371,7 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
 
 def write_readme(output, report):
     t = report['totals']
-    rows = [f"# {report['name']} — v0.5 maglev city planning", '',
+    rows = [f"# {report['name']} — v0.5 maglev city planning", '', '![Geographic corridor planning map](network.svg)', '',
             'Provisional planning from retained geography, station demand and service schedules. All physical and manufacturing release flags remain false.', '',
             f"{t['lines']} lines; {t['trainsets']} provisional trainsets / {t['cars']} cars; {t['gross_onboard_storage_kwh']:,.0f} kWh gross onboard storage.", '',
             '| Line | Cars | AW2 / AW3 | Body length m | Topology | Peak / total trains | Dwell s |',
@@ -420,7 +381,7 @@ def write_readme(output, report):
         rows.append(f"| {l['line']} | {f['cars']} | {f['aw2_passengers']} / {f['aw3_passengers']} | {f['nominal_body_length_m']:g} | {l['topology']['selected']} | {l['fleet']['peak']} / {l['fleet']['total']} | {l['charging']['dwell_seconds']:g} |")
     diagnostics=report['diagnostics']
     if diagnostics['ring_closure_discrepancies']:
-        rows += ['', 'Retained ring wrap distances do not close the complete geographic route. Recomputed closure adds the following distances to the old wrap values; actual closure alignment remains open: '+
+        rows += ['', 'Retained ring wrap distances do not close the complete geographic route. Recomputed closure adds the following distances to the input wrap values; actual closure alignment remains open: '+
                  '; '.join(f"{r['line']} {r['discrepancy_m']:,.1f} m" for r in diagnostics['ring_closure_discrepancies'])+'.']
     if diagnostics['platform_body_allowance_shortfalls']:
         rows += ['', f"{diagnostics['platform_body_allowance_shortfalls']} retained station platforms are shorter than the new body-length-plus-10 m screen. Final coupling/overhang and platform design remain open."]
@@ -436,11 +397,16 @@ def write_readme(output, report):
              '|---|---:|---:|---:|']
     for c in report['costs']['scenarios']:
         rows.append(f"| {c['scenario']} | {c['repeat_fleet_allowance_usd']:,.0f} | {c['ordinary_elevated_allowance_usd']:,.0f} | {c['priced_scope_subtotal_usd']:,.0f} |")
-    rows += ['', '**Complete city programme cost remains unknown.** Partial allowances extrapolate the supplied three-car cost per car and ordinary elevated route km. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, stations, depots, energy, controls, land, NRE/plant, EPC and other scope listed in the structured report. The joint optimisation row uses unqualified mass/hardware targets and indexed civil quantities; it retains conservative baseline fleet counts. Targets are unquoted hypotheses; old city totals are not reused.', '',
+    rows += ['', '**Complete city programme cost remains unknown.** Partial allowances price each formation by car, coupling and shared train systems, plus measured section/reaction-steel quantities and explicit process assumptions per ordinary elevated route km. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, stations, depots, energy, controls, land, NRE/plant, EPC and other scope listed in the structured report. Rates and productivity assumptions require supplier and site validation. Complete project costs and localisation remain unknown.', '',
              'Open acceptance work:', '']
     rows += ['- '+g['id']+': '+g['closure'] for g in report['gates']]
-    rows += ['', '[Structured plan](summary.json) · [Preserved geography/demand records](retained-records.json)', '',
-             'The structured plan binds source bytes with SHA-256. Retained old designs remain separate wheel/rail comparators.', '',
+    programme=json.loads((output/'manufacturing.json').read_text())
+    rows += ['', '## Manufacture and erection', '', 'Local work is proposed for repeated frames, cartridges, coils, concrete units and system integration. Input origins and local value added remain unverified. Factory capacity and programme duration require measured cycle times, cure/release criteria and site access.', '']
+    for process in programme['process_routes']:
+        rows += ['- **'+process['id']+'**: '+' → '.join(process['operations'])+'.']
+    rows += ['', 'UK equipment candidates are capability leads, not prices or approved purchases. Rotary coil winding and CCL prestressing have explicit UK-manufacture statements; complete configuration, ratings and origin schedules remain open. See the linked manufacturing bill for dated primary sources.', '']
+    rows += ['', '[Structured plan](summary.json) · [Preserved geography/demand records](retained-records.json) · [Quantity bills, manufacturing routes and factory equipment](manufacturing.json)', '',
+             'The structured plan binds current source bytes and manufacturing bills with SHA-256.', '',
              '[Primary planning method]('+Path(os.path.relpath(ROOT/'engineering/ferrite_maglev/README.md',output)).as_posix().replace(' ','%20')+')', '',
              '<!-- Generated by engineering.ferrite_maglev.cities; primary planning only. -->', '']
     (output/'README.md').write_text('\n'.join(rows))
@@ -450,7 +416,7 @@ def generate_all(output_root=None):
     context = model.load()
     assumptions = tomllib.loads(ASSUMPTIONS.read_text())
     evaluate = duty_evaluator(context[1])
-    designs = sorted((ROOT/'cities/catalogue').glob('*/*/*/design.toml'))
+    designs = sorted((ROOT/'cities/catalogue').glob('*/*/*/city.json'),key=lambda p:(city_slug(p)!='baghdad',str(p)))
     if not designs:
         raise ValueError('retained catalogue is empty')
     rows = []
@@ -461,11 +427,11 @@ def generate_all(output_root=None):
         rows.append(dict(city=report['city'], name=report['name'], catalogue_path=design.parent.relative_to(ROOT).as_posix(),
                          package_path=package.relative_to(ROOT).as_posix() if package.is_relative_to(ROOT) else str(package),
                          summary_sha256=digest(package/'summary.json'), retained_records_sha256=report['retained_records_sha256'],
-                         readme_sha256=digest(package/'README.md'), diagnostics=report['diagnostics'],
+                         network_sha256=report['network_sha256'], readme_sha256=digest(package/'README.md'), manufacturing_sha256=report['manufacturing_sha256'], diagnostics=report['diagnostics'],
                          trainsets=report['totals']['trainsets'], cars=report['totals']['cars'],
                          open_gate_count=len(report['gates']), complete_city_programme_usd=None, physical_release=False))
     index = dict(schema='osr-maglev-city-index/1', architecture=context[1]['metadata']['family'],
-                 city_count=len(rows), catalogue_design_paths=[p.relative_to(ROOT).as_posix() for p in designs],
+                 city_count=len(rows), catalogue_design_paths=sorted(p.relative_to(ROOT).as_posix() for p in designs),
                  catalogue_complete=True, cities=rows, physical_release=False,
                  source_sha256={str(p.relative_to(ROOT)):digest(p) for p in (Path(__file__),ASSUMPTIONS,model.INPUT,model.POLICY)})
     destination = INDEX if output_root is None else Path(output_root)/'city-index.json'
@@ -484,7 +450,7 @@ def generate_all(output_root=None):
 
 def calculation_dependencies():
     """Transitive shared computational inputs used by generation and replay."""
-    return optimisation.calculation_dependencies()
+    return [*optimisation.calculation_dependencies(),Path(cartography.__file__)]
 
 
 def source_paths():
@@ -494,16 +460,14 @@ def source_paths():
     Missing generated output is reported by verify_index(), not manufactured.
     """
     paths={*calculation_dependencies(),Path(__file__),ASSUMPTIONS,model.POLICY,model.INPUT,Path(model.__file__),
-           ROOT/'engineering/ferrite_maglev/workbook.py',Path(optimisation.__file__),optimisation.INPUT,Path(evacuation.__file__),evacuation.INPUT,ROOT/'VERSION',
-           ROOT/'OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx',ROOT/'lib/templates/rolling-stock.toml',
-           ROOT/'lib/templates/civil-cost-model.toml',
-           ROOT/'design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json'}
-    for design in sorted((ROOT/'cities/catalogue').glob('*/*/*/design.toml')):
+           Path(manufacturing.__file__),Path(optimisation.__file__),optimisation.INPUT,Path(evacuation.__file__),evacuation.INPUT,ROOT/'VERSION',
+           manufacturing.INPUT}
+    for design in sorted((ROOT/'cities/catalogue').glob('*/*/*/city.json')):
         directory=design.parent
         slug=city_slug(design)
-        paths.update((design,directory/(slug+'.toml'),directory/'README.md'))
+        paths.update((design,directory/'README.md'))
         for name in ('corridors.json',slug+'.stations.json',slug+'.corridor.geojson','alignment-policy.toml',
-                     'engineering/maglev/summary.json','engineering/maglev/retained-records.json','engineering/maglev/README.md'):
+                     'engineering/maglev/summary.json','engineering/maglev/retained-records.json','engineering/maglev/manufacturing.json','engineering/maglev/network.svg','engineering/maglev/README.md'):
             candidate=directory/name
             if candidate.is_file():
                 paths.add(candidate)
@@ -546,7 +510,7 @@ def verify_index(index_path=INDEX):
                 check_hash(path,expected,label)
 
     index=read_json(index_path)
-    designs=sorted(p.relative_to(ROOT).as_posix() for p in (ROOT/'cities/catalogue').glob('*/*/*/design.toml'))
+    designs=sorted(p.relative_to(ROOT).as_posix() for p in (ROOT/'cities/catalogue').glob('*/*/*/city.json'))
     entries=index.get('cities',[])
     if not isinstance(entries,list) or any(not isinstance(r,dict) for r in entries):
         errors.append('city entry objects missing')
@@ -566,7 +530,7 @@ def verify_index(index_path=INDEX):
         if not package.resolve().is_relative_to(ROOT):
             errors.append(label+': output package outside repository')
             continue
-        for filename,key in (('summary.json','summary_sha256'),('retained-records.json','retained_records_sha256'),('README.md','readme_sha256')):
+        for filename,key in (('summary.json','summary_sha256'),('retained-records.json','retained_records_sha256'),('README.md','readme_sha256'),('manufacturing.json','manufacturing_sha256'),('network.svg','network_sha256')):
             check_hash(package/filename,row.get(key),label)
             checked_outputs+=1
         report=read_json(package/'summary.json')
@@ -577,6 +541,8 @@ def verify_index(index_path=INDEX):
         if not {p.relative_to(ROOT).as_posix() for p in [Path(__file__),*calculation_dependencies()]}<=set(report.get('source_sha256',{})):errors.append(label+': required geometry/configuration source bindings missing')
         check_sources(report.get('source_sha256',{}),label)
         check_hash(package/'retained-records.json',report.get('retained_records_sha256'),label+' retained records')
+        check_hash(package/'manufacturing.json',report.get('manufacturing_sha256'),label+' manufacturing')
+        check_hash(package/'network.svg',report.get('network_sha256'),label+' map')
         entry=ROOT/row.get('catalogue_path','missing-city')/'README.md'
         try:
             body=entry.read_bytes()
@@ -690,7 +656,7 @@ def replay_city(report, *, cycles=2, start_soc=None, charger_efficiency=0.90,
 
 def find_city(slug):
     matches=[]
-    for path in sorted((ROOT/'cities/catalogue').glob('*/*/*/design.toml')):
+    for path in sorted((ROOT/'cities/catalogue').glob('*/*/*/city.json')):
         if city_slug(path)==slug:
             matches.append(path.parent)
     if len(matches)!=1:

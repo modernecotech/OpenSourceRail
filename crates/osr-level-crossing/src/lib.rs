@@ -7,7 +7,7 @@
 //! back so the interlocking can refuse MAs that would allow a
 //! train to enter an unclosed crossing section.
 //!
-//! Phase 2d crate of [RFC 0005 §4.6](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2d crate of [RFC 0005 §4.6](../../../docs/ARCHITECTURE.md).
 //! SIL-4 — a mis-timed barrier raises the risk of a grade-crossing
 //! collision, historically one of the most common causes of rail
 //! fatality.

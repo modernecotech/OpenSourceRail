@@ -1,9 +1,0 @@
-# Task-derived maintenance and reserve cash
-
-[Task workload](maintenance-tasks.csv) covers daily/weekly/monthly inspections, every-roundtrip safety/diagnostic checks, wheel reprofile at 150,000km, bogie overhaul at 600,000km and body overhaul at ten years. Six-car quantities are 24 wheelsets and 12 bogies/train. Reference workload is 418,696 mechanical and 217,395 electrical person-hours/year, compared with existing workload allowances 388,320 / 258,880. Durations, defects, access queues, equipment, parts and non-fleet tasks remain unmeasured; lower reference hours do not authorise staff reductions.
-
-Battery replacement stays on the existing **12-year** cycle. Reference annual reserve is USD 18.203m within the existing USD 54.365m rolling maintenance envelope. [Monthly reserve ledger](battery-reserve-monthly.csv) separates indexed contributions, replacement withdrawals, required top-ups and closing restricted cash. At 5% inflation/zero reserve interest, reference top-ups total USD 327.476m nominal; terminal restricted cash is USD 670.268m. It cannot repay loans/bonds or become terminal sale income. The replacement bill is not added to annual reserve spending a second time.
-
-Initial 2% battery-spare stock is USD 4.369m reference; existing allowance inclusion is unknown. Serial-specific service/mileage/cell-health dates must replace line-opening proxies. Native Asset Maintenance/Asset Repair, calibration/parts and independent handback records remain required. No actual asset, spare, Work Order or accepted Job Card is invented.
-
-[All 26 controlled interval records](maintenance-interval-register.json) also retain station, civil/track/structures, energy, wayside, tooling, finish/joint/wash and soiling work. Condition-based tasks have no invented frequency or labour cost. [Opening-fleet reserve cash](opening-battery-reserve-monthly.csv) uses 445 trainsets and adds its own indexed shortfalls to the reduced-supply financing case.

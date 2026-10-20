@@ -38,26 +38,51 @@
   "retained_interchanges": [],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 9420.5,
       "name": "line-1",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0373-0716-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0423-0452-s009421"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -90,10 +115,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 32
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -150,9 +172,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "place:town",
-      "anchor_name": "Uachave",
-      "archetype": "terminal",
       "id": "line-1-0373-0716-s000000",
       "lat": -17.846717363135728,
       "line": "line-1",
@@ -161,7 +180,6 @@
       "s_m": 0.0
     },
     {
-      "archetype": "standard",
       "id": "line-1-0433-0610-s003011",
       "lat": -17.857515333117373,
       "line": "line-1",
@@ -170,7 +188,6 @@
       "s_m": 3011.0
     },
     {
-      "archetype": "major",
       "id": "line-1-0533-0563-s005665",
       "lat": -17.875511949753445,
       "line": "line-1",
@@ -179,7 +196,6 @@
       "s_m": 5664.7
     },
     {
-      "archetype": "standard",
       "id": "line-1-0484-0500-s007531",
       "lat": -17.86669360760177,
       "line": "line-1",
@@ -188,9 +204,6 @@
       "s_m": 7530.6
     },
     {
-      "anchor_kind": "aeroway:aerodrome",
-      "anchor_name": "Aeroporto de Quelimane",
-      "archetype": "depot-terminal",
       "id": "line-1-0423-0452-s009421",
       "lat": -17.855715671453765,
       "line": "line-1",

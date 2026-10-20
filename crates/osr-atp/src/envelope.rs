@@ -241,7 +241,7 @@ mod tests {
     fn compiled_profile_tracks_configuration_and_preserves_envelope() {
         assert!(BrakeProfile::try_new(0, 400).is_none());
         assert!(BrakeProfile::try_new(-1, 400).is_none());
-        let mut consist = ConsistDescriptor::reference_3car();
+        let mut consist = ConsistDescriptor::synthetic_analysis_fixture();
         let original = BrakeProfile::from_consist(&consist);
         assert_eq!(Some(original), BrakeProfile::try_new(1200, 400));
         for curve in [
@@ -312,8 +312,8 @@ mod tests {
 
     #[test]
     fn decel_table_rounds_safe_side() {
-        let consist = ConsistDescriptor::reference_3car();
-        // reference_3car has emergency: [(0,1.5),(20,1.4),(28,1.2)]
+        let consist = ConsistDescriptor::synthetic_analysis_fixture();
+        // synthetic_analysis_fixture has emergency: [(0,1.5),(20,1.4),(28,1.2)]
         let t = DecelTable::from_emergency(&consist);
         assert_eq!(t.points.len(), 3);
         // Speed rounds up, decel rounds down.
@@ -326,7 +326,7 @@ mod tests {
 
     #[test]
     fn envelope_zero_distance_is_zero_speed() {
-        let consist = ConsistDescriptor::reference_3car();
+        let consist = ConsistDescriptor::synthetic_analysis_fixture();
         let t = DecelTable::from_emergency(&consist);
         assert_eq!(max_safe_speed_mmps(0, &t), 0);
         assert_eq!(max_safe_speed_mmps(-1, &t), 0);
@@ -334,7 +334,7 @@ mod tests {
 
     #[test]
     fn envelope_grows_with_distance() {
-        let consist = ConsistDescriptor::reference_3car();
+        let consist = ConsistDescriptor::synthetic_analysis_fixture();
         let t = DecelTable::from_emergency(&consist);
         // 100 m ahead.
         let v100 = max_safe_speed_mmps(100_000, &t);
@@ -354,7 +354,7 @@ mod tests {
 
     #[test]
     fn envelope_reaction_time_tightens_envelope() {
-        let mut consist = ConsistDescriptor::reference_3car();
+        let mut consist = ConsistDescriptor::synthetic_analysis_fixture();
         consist.braking.reaction_time_ms = 0;
         let no_reaction = DecelTable::from_emergency(&consist);
         consist.braking.reaction_time_ms = 2_000; // 2 seconds

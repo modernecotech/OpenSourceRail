@@ -32,24 +32,64 @@ try {
   await page.waitForFunction(() => document.querySelector('#city-status').textContent.includes('Baghdad'));
   assert.equal(await page.locator('#city option').count(),266);
   await page.waitForFunction(() => [...document.images].every(image => image.complete && image.naturalWidth>0));
-  assert.equal(await page.locator('img').count(),4);
+  assert.equal(await page.locator('img').count(),5);
+  await page.getByText('Manufacturing and erection processes',{exact:true}).click();
+  await page.getByText('UK industry equipment candidates and origin',{exact:true}).click();
   await page.screenshot({path:output+'/desktop.png',fullPage:true});
   const exercised=[];
   for (const city of ['kisangani','lubumbashi','garissa','baghdad']) {
     await page.selectOption('#city',city);
     await page.waitForFunction(city => new URL(location.href).searchParams.get('city') === city,city);
-    const link = await page.locator('#city-links a').last().getAttribute('href');
+    const link = await page.locator('#city-links a[data-kind="summary"]').getAttribute('href');
     const response = await page.request.get(new URL(link, origin).href);
     const summary = await response.json();
     assert.equal(summary.city,city);
     assert.equal(summary.architecture,'ferrite-pm-maglev-study');
     assert.equal(summary.physical_release,false);
-    exercised.push(city);
+    const manufacturingLink = await page.locator('#city-links a[data-kind="manufacturing"]').getAttribute('href');
+    const billResponse = await page.request.get(new URL(manufacturingLink, origin).href);
+    assert.equal(billResponse.status(),200);
+    const bill = await billResponse.json();
+    const base = bill.scenarios.find(row => row.scenario === 'base');
+    const dollars = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
+    assert.equal(await page.locator('[data-metric="fleet"]').innerText(),dollars.format(base.repeat_fleet_allowance_usd));
+    assert.equal(await page.locator('[data-metric="civil"]').innerText(),dollars.format(base.ordinary_elevated_allowance_usd));
+    assert.equal(await page.locator('[data-metric="partial-subtotal"]').innerText(),dollars.format(base.priced_scope_subtotal_usd));
+    assert.match(await page.locator('[data-metric="complete-cost"]').innerText(),/Unknown.*unpriced/);
+    assert.equal(bill.complete_city_programme_usd,null);
+    assert.equal(await page.locator('#city-processes li').count(),bill.process_routes.length);
+    assert.equal(await page.locator('#city-equipment li').count(),bill.equipment_candidates.length);
+    assert.match(await page.locator('#city-equipment').innerText(),/UK manufacture/);
+    const networkLink = await page.locator('#city-links a[data-kind="network"]').getAttribute('href');
+    assert.equal(await page.locator('#city-map').getAttribute('src'),networkLink);
+    const network = await page.request.get(new URL(networkLink, origin).href);
+    assert.equal(network.status(),200);
+    assert.match(await network.text(),/<svg/);
+    await page.waitForFunction(() => document.querySelector('#city-map').complete && document.querySelector('#city-map').naturalWidth>0);
+    exercised.push({city,base_partial_subtotal_usd:base.priced_scope_subtotal_usd,complete_city_programme_usd:null,process_routes:bill.process_routes.length});
   }
   for (const href of await page.locator('a').evaluateAll(nodes => nodes.map(node => node.href))) {
     const response = await page.request.get(href);
     assert.equal(response.status(),200,href);
   }
+  // Corrupt a delivered bill while retaining its summary receipt. The UI must hold,
+  // not show the injected cost or any previous city's result.
+  const corruptedBill = '**/Kisangani/engineering/maglev/manufacturing.json';
+  await page.route(corruptedBill, async route => {
+    const response = await route.fetch();
+    const body = await response.json();
+    body.scenarios.find(row => row.scenario === 'base').priced_scope_subtotal_usd = 1;
+    await route.fulfill({response,json:body});
+  });
+  await page.selectOption('#city','kisangani');
+  await page.waitForFunction(() => document.querySelector('#city-status').textContent.includes('differ from their receipt'));
+  assert.equal(await page.locator('#city-metrics dd').count(),0);
+  assert.equal(await page.locator('#city-links a').count(),0);
+  assert.equal(await page.locator('#city-map').isHidden(),true);
+  await page.unroute(corruptedBill);
+  await page.selectOption('#city','baghdad');
+  await page.waitForFunction(() => document.querySelector('#city-status').textContent.includes('Baghdad'));
+  await page.waitForFunction(() => document.querySelector('#city-map').complete && document.querySelector('#city-map').naturalWidth>0);
   await page.setViewportSize({width:390,height:844});
   assert.ok(await page.evaluate(() => document.documentElement.scrollWidth<=innerWidth),'mobile horizontal overflow');
   await page.screenshot({path:output+'/mobile.png',fullPage:true});
@@ -57,7 +97,7 @@ try {
     assert.equal((await page.request.get(origin+path)).status(),404);
   }
   assert.deepEqual(errors,[]); assert.deepEqual(failures,[]); assert.deepEqual(external,[]);
-  const result={primary_ui:true,cities:266,exercised,images:4,links:true,mobile:true,private_paths_rejected:true,errors,external,physical_release:false};
+  const result={primary_ui:true,cities:266,exercised,images:5,quantity_costs:true,complete_cost_unknown:true,manufacturing_and_map_links:true,receipt_tampering_held:true,links:true,mobile:true,private_paths_rejected:true,errors,external,physical_release:false};
   await writeFile(output+'/checks.json',JSON.stringify(result,null,2)+'\n');
   console.log(JSON.stringify(result));
 } finally {

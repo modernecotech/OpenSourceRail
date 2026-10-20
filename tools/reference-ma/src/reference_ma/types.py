@@ -66,14 +66,13 @@ class BrakingCurve:
 
 @dataclass
 class ConsistDescriptor:
-    train_class: str  # "LightMetro" | "Metro" | "Engineering" | "Yard"
+    train_class: str  # "UrbanMaglev" | "Engineering" | "Yard"
     car_count: int
     length_mm: int
     mass_kg: int
     max_speed_mps: float
     braking: BrakingCurve
     service_accel_mps2: float
-    has_pantograph: bool
     battery_capacity_wh: int
 
     @classmethod
@@ -86,20 +85,17 @@ class ConsistDescriptor:
             max_speed_mps=float(d["max_speed_mps"]),
             braking=BrakingCurve.from_json(d["braking"]),
             service_accel_mps2=float(d["service_accel_mps2"]),
-            has_pantograph=bool(d["has_pantograph"]),
             battery_capacity_wh=int(d["battery_capacity_wh"]),
         )
 
     @staticmethod
-    def reference_3car() -> "ConsistDescriptor":
-        """Mirror of osr-core `ConsistDescriptor::reference_3car`. Used by
-        `apply_position` when a position report arrives before a
-        registration (the fallback record)."""
+    def synthetic_analysis_fixture() -> "ConsistDescriptor":
+        """Synthetic two-car arithmetic fixture, not an operating configuration."""
         return ConsistDescriptor(
-            train_class="LightMetro",
-            car_count=3,
-            length_mm=51_000,
-            mass_kg=195_000,
+            train_class="UrbanMaglev",
+            car_count=2,
+            length_mm=40_000,
+            mass_kg=40_000,
             max_speed_mps=22.0,
             braking=BrakingCurve(
                 service=[(0.0, 1.1), (20.0, 1.0), (28.0, 0.9)],
@@ -107,8 +103,7 @@ class ConsistDescriptor:
                 reaction_time_ms=400,
             ),
             service_accel_mps2=1.0,
-            has_pantograph=False,
-            battery_capacity_wh=900_000,
+            battery_capacity_wh=100_000,
         )
 
 

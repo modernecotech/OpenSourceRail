@@ -6,7 +6,7 @@ use osr_pis_onboard::{
 use proptest::prelude::*;
 
 fn params() -> PisParams {
-    PisParams::light_metro_default()
+    PisParams::research_default()
 }
 
 fn arb_inputs() -> impl Strategy<Value = PisInputs> {

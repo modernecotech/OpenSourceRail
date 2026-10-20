@@ -4,28 +4,19 @@ members = [
     "crates/osr-afc-backoffice",
     "crates/osr-alignment",
     "crates/osr-analytics",
-    "crates/osr-ato",
     "crates/osr-atp",
     "crates/osr-aux-power",
     "crates/osr-balise",
     "crates/osr-bms",
-    "crates/osr-brake",
-    "crates/osr-cbm-backend",
-    "crates/osr-cbm-onboard",
-    "crates/osr-city-studio",
     "crates/osr-consensus",
     "crates/osr-core",
     "crates/osr-crypto",
     "crates/osr-derailment",
-    "crates/osr-design",
     "crates/osr-door-control",
     "crates/osr-energy-site",
     "crates/osr-event-recorder",
     "crates/osr-fire-safety",
-    "crates/osr-gui-shared",
     "crates/osr-historian",
-    "crates/osr-hot-axle",
-    "crates/osr-hot-axle-wayside",
     "crates/osr-hvac",
     "crates/osr-interlocking",
     "crates/osr-intrusion-detect",
@@ -37,7 +28,6 @@ members = [
     "crates/osr-onboard-routing",
     "crates/osr-passenger-assist",
     "crates/osr-occ",
-    "crates/osr-odometry",
     "crates/osr-pis-onboard",
     "crates/osr-pis-station",
     "crates/osr-proto",
@@ -46,21 +36,13 @@ members = [
     "crates/osr-regen",
     "crates/osr-routing",
     "crates/osr-safety-case",
-    "crates/osr-occ-gui",
     "crates/osr-secbus",
-    "crates/osr-selftest",
-    "crates/osr-sim",
-    "crates/osr-sim-gui",
     "crates/osr-station-scada",
     "crates/osr-supervision-contract",
     "crates/osr-t2g",
-    "crates/osr-runtime",
     "crates/osr-tcms",
     "crates/osr-tcn",
-    "crates/osr-traction",
-    "crates/osr-trainset-image",
     "crates/osr-tvm",
-    "crates/osr-wayside-points",
 ]
 resolver = "2"
 
@@ -108,11 +90,6 @@ similar_names = "allow"
 [profile.release]
 overflow-checks = true
 
-# City Studio uses the full planning rasters during interactive editing.
-# Optimise its routing and GIS work while retaining development checks and
-# debug information. Release settings and numerical rules are unchanged.
+# Route search retains optimisation for large city geography inputs.
 [profile.dev.package.osr-routing]
 opt-level = 2
-
-[profile.dev.package.osr-city-studio]
-opt-level = 1

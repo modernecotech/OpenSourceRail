@@ -38,26 +38,51 @@
   "retained_interchanges": [],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 7419.6,
       "name": "line-1",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0355-0117-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0442-0432-s007420"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -90,10 +115,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 17
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -140,9 +162,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "place:town",
-      "anchor_name": "Ekité",
-      "archetype": "terminal",
       "id": "line-1-0355-0117-s000000",
       "lat": 3.8036220278587627,
       "line": "line-1",
@@ -151,7 +170,6 @@
       "s_m": 0.0
     },
     {
-      "archetype": "standard",
       "id": "line-1-0371-0236-s002876",
       "lat": 3.800742569196991,
       "line": "line-1",
@@ -160,9 +178,6 @@
       "s_m": 2876.2
     },
     {
-      "anchor_kind": "leisure:stadium",
-      "anchor_name": "Stade Municipal",
-      "archetype": "major",
       "id": "line-1-0408-0337-s005226",
       "lat": 3.794083821041644,
       "line": "line-1",
@@ -171,9 +186,6 @@
       "s_m": 5226.2
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Ntoumba",
-      "archetype": "depot-terminal",
       "id": "line-1-0442-0432-s007420",
       "lat": 3.7879649713853794,
       "line": "line-1",

@@ -1,4 +1,4 @@
-"""Validated read-only factory supervision derived from LM3 manufacturing methods."""
+"""Read-only factory metadata; planning routes cannot become production instructions."""
 import copy
 import hashlib
 import json
@@ -7,10 +7,10 @@ from pathlib import Path
 import re
 
 
-METHOD_SCHEMA = 'org.opensourcerail.trainset-manufacturing-methods.v1'
-FACTORY_METHOD_SCHEMA = 'osr-manufacturing-method/1'
-METHOD_FAMILY = 'light-metro-3car'
-DEFAULT_SIMULATION_METHOD = 'LM3-MFG-020'
+METHOD_SCHEMA = 'osr-maglev-manufacturing-methods/1'
+FACTORY_METHOD_SCHEMA = 'osr-maglev-manufacturing-method/1'
+METHOD_FAMILY = 'ferrite-pm-maglev-study'
+
 
 
 def _identity(value, label='identity'):
@@ -38,6 +38,18 @@ def validate_method_document(document):
     """Reject incomplete or internally inconsistent generated method coverage."""
     if not isinstance(document, dict) or document.get('schema') != METHOD_SCHEMA:
         raise ValueError('Manufacturing-method schema mismatch')
+    if document.get('family') != METHOD_FAMILY:
+        raise ValueError('Manufacturing methods require the current maglev family')
+    if document.get('qualified') is not True or document.get('production_instruction_released') is not True:
+        raise ValueError('Explicit qualified production instructions required; planning routes cannot qualify')
+    qualification = document.get('qualification_record')
+    if (not isinstance(qualification, dict)
+            or not re.fullmatch(r'[0-9a-f]{64}',str(qualification.get('evidence_sha256','')))
+            or not isinstance(qualification.get('review_reference'),str)
+            or not qualification['review_reference'].strip()):
+        raise ValueError('Exact production qualification evidence and accountable review required')
+    # This validates supplied claims and receipts, not reviewer authentication
+    # or the physical adequacy of the production instructions.
     methods = document.get('method')
     coverage = document.get('coverage')
     if not isinstance(methods, list) or not methods or not isinstance(coverage, dict):
@@ -203,7 +215,9 @@ def factory_templates(document):
 def factory_control_state(controls, method_ids):
     """Validate explicit simulation fixtures once for a city's deployed methods."""
     method_ids = set(method_ids)
-    target = controls.get('factory_method', DEFAULT_SIMULATION_METHOD)
+    target = controls.get('factory_method')
+    if target is None:
+        raise ValueError('Choose an explicitly deployed factory method for simulation')
     _identity(target, 'factory simulation method')
     if target not in method_ids:
         raise ValueError('Factory simulation method is not deployed')
@@ -229,3 +243,35 @@ def factory_measurements(equipment, state):
         (equipment['equipment_type'], 'cell_unavailable'): int(selected and state['factory_cell_unavailable']),
         (equipment['equipment_type'], 'quality_hold'): int(selected and state['factory_process_excursion']),
     }
+
+
+def planning_process_status(document):
+    """Expose current process routes as unqualified planning information only.
+
+    This adapter never invents cycle times, crew sizes, evidence hashes or
+    production qualification from the city manufacturing process plan.
+    """
+    if not isinstance(document,dict) or document.get('schema')!='osr-maglev-city-manufacturing/1':
+        raise ValueError('Unsupported maglev manufacturing planning schema')
+    routes=document.get('process_routes')
+    if not isinstance(routes,list) or not routes:
+        raise ValueError('Manufacturing planning process routes required')
+    seen=set()
+    for route in routes:
+        if not isinstance(route,dict):raise ValueError('Process route must be an object')
+        name=_identity(route.get('id'),'process route identity')
+        if name in seen:raise ValueError('Duplicate process route identity')
+        seen.add(name)
+        for field in ('operations','plant','acceptance_holds'):
+            values=route.get(field)
+            if not isinstance(values,list) or not values or any(not isinstance(v,str) or not v.strip() for v in values):
+                raise ValueError('Process route requires explicit '+field)
+        if route.get('qualified') is not False or route.get('production_instruction_released') is not False:
+            raise ValueError('Planning process routes cannot claim production qualification')
+    return dict(schema='osr-maglev-process-planning-status/1',
+        process_routes=copy.deepcopy(routes), qualified=False,
+        production_instruction_released=False, manufacturing_release=False,
+        physical_release=False,deployable_factory_methods=[],
+        required_before_production=['released drawings and tolerances','qualified materials and process instructions',
+            'actual step timing and capacity evidence','exact product and process revision receipts',
+            'authenticated accountable review','unit-specific QA and physical acceptance'])

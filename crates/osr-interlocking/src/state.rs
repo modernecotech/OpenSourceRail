@@ -236,22 +236,18 @@ pub fn section_intrusion_permits(state: &DerivedState, section: SectionId) -> bo
 }
 
 fn apply_position(state: &mut DerivedState, r: &TrainPositionReport, log_time_ns: u64) {
-    // Update or create the train awareness record. Protocol-wise a
-    // position report should follow a registration, but derive_state is
-    // tolerant: we create a minimal record if we haven't seen one. This
-    // keeps the function total (never panics) and deterministic.
-    let awareness = state
-        .trains
-        .get_or_insert_with(r.train_id, || TrainAwareness {
-            consist: ConsistDescriptor::reference_3car(),
-            last_head_position: None,
-            last_tail_position: None,
-            last_position_onboard_ns: 0,
-            last_position_log_ns: 0,
-            speed_mmps: 0,
-            speed_uncertainty_mmps: 0,
-            pack_soc_ppt: 1000,
-        });
+    // A position report cannot invent vehicle parameters or registration.
+    // Preserve restrictive occupancy for an unidentified consist.
+    let Some(awareness) = state.trains.get_mut(&r.train_id) else {
+        clear_occupancy_by(state, r.train_id);
+        state
+            .section_occupancy
+            .insert(r.head_position.track_ref.section, r.train_id);
+        state
+            .section_occupancy
+            .insert(r.tail_position.track_ref.section, r.train_id);
+        return;
+    };
     awareness.last_head_position = Some(r.head_position);
     awareness.last_tail_position = Some(r.tail_position);
     awareness.last_position_onboard_ns = r.onboard_time_ns;
@@ -350,7 +346,7 @@ mod tests {
                 100,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(7),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1, 0),
                 }),
             ),
@@ -381,6 +377,28 @@ mod tests {
     }
 
     #[test]
+    fn unregistered_position_blocks_occupancy_without_inventing_a_consist() {
+        let report = TrainPositionReport {
+            train_id: TrainId::new(7),
+            head_position: pos(2, 50_000),
+            tail_position: pos(1, 900_000),
+            speed_mmps: 10_000,
+            speed_uncertainty_mmps: 500,
+            heading: Direction::Forward,
+            contributing_sources: vec![PositionSource::Gnss],
+            onboard_time_ns: 100,
+            pack_soc_ppt: 850,
+        };
+        let log = vec![entry(1, 100, EntryPayload::TrainPositionReport(report))];
+        let state = derive_state(&log);
+        assert!(state.trains.is_empty());
+        assert_eq!(state.section_occupancy[&SectionId::new(1)], TrainId::new(7));
+        assert_eq!(state.section_occupancy[&SectionId::new(2)], TrainId::new(7));
+        let ma = crate::compute_self_ma(TrainId::new(7), &log, &osr_core::Network::default(), 100);
+        assert!(!ma.has_known_position);
+    }
+
+    #[test]
     fn departure_clears_train_and_occupancy() {
         let log = vec![
             entry(
@@ -388,7 +406,7 @@ mod tests {
                 100,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(7),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1, 0),
                 }),
             ),
@@ -489,7 +507,7 @@ mod tests {
                 100,
                 EntryPayload::TrainRegistration(TrainRegistration {
                     train_id: TrainId::new(1),
-                    consist: ConsistDescriptor::reference_3car(),
+                    consist: ConsistDescriptor::synthetic_analysis_fixture(),
                     initial_position: pos(1, 0),
                 }),
             ),

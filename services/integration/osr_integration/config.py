@@ -49,8 +49,7 @@ def build_package(generic, city, assets, revision, environment='simulation'):
         selected = set(requested)
         if len(selected) != len(requested) or not selected.issubset({a['asset_id'] for a in stations}):
             raise ValueError('Unknown or repeated supervised asset identity')
-        # A bounded station pilot still needs real child assets such as its point
-        # machines. Walk the existing parent links instead of inventing or copying
+        # A bounded station pilot still needs real child assets and their declared parent identities. Walk the existing parent links instead of inventing or copying
         # those identities into a city-specific supervision profile.
         while True:
             children = {a['asset_id'] for a in stations if a.get('parent_asset') in selected}

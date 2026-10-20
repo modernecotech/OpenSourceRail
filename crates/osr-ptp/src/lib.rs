@@ -29,7 +29,7 @@
 //! common epoch (TAI is intended but the math is epoch-agnostic).
 //!
 //! Phase 2f infrastructure crate per
-//! [RFC 0005 §4.5](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! [RFC 0005 §4.5](../../../docs/ARCHITECTURE.md).
 //! SIL-2 — loss of time sync degrades TSN determinism and trips the
 //! `grace_ns` watchdog in consumers (like `osr-tcn`), but does not
 //! directly command the brake.

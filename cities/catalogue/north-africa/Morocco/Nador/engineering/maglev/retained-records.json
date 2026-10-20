@@ -76,50 +76,180 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 10064.3,
       "name": "line-1",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 15367.9,
       "name": "line-2",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 8540.0,
       "name": "line-3",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 150,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 6874.1,
       "name": "line-4",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0328-0422-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0440-0045-s010064"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -152,22 +282,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 27
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0034-0117-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0479-0445-s015368"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -200,22 +317,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 31
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0619-0416-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0313-0282-s008540"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -248,22 +352,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 19
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-4-0459-0131-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-4-0663-0137-s006874"
-        }
-      ],
       "line": "line-4",
       "schedule": [
         {
@@ -296,10 +387,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 15
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -538,9 +626,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Souq el morakab",
-      "archetype": "terminal",
       "id": "line-1-0328-0422-s000000",
       "lat": 35.17728111435051,
       "line": "line-1",
@@ -549,77 +634,54 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0376-0368-s001997",
-      "junction_group": 0,
       "lat": 35.16864273836519,
       "line": "line-1",
       "lon": -2.9352105431724533,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 1996.8
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0379-0365-s002122",
-      "junction_group": 0,
       "lat": 35.16810283986611,
       "line": "line-1",
       "lon": -2.9358698874614158,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 2121.7
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "College Al Massira",
-      "archetype": "interchange",
       "id": "line-1-0384-0361-s002307",
-      "junction_group": 0,
       "lat": 35.1672030090343,
       "line": "line-1",
       "lon": -2.936749013180032,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 2306.5
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0367-0344-s002834",
-      "junction_group": 0,
       "lat": 35.17026243386244,
       "line": "line-1",
       "lon": -2.940485297484152,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 2834.2
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0457-0143-s007814",
-      "junction_group": 1,
       "lat": 35.15406547888997,
       "line": "line-1",
       "lon": -2.9846613648446323,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 7814.4
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0459-0131-s008071",
-      "junction_group": 1,
       "lat": 35.15370554655725,
       "line": "line-1",
       "lon": -2.987298742000482,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 8070.9
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "College Mohamed Al Fassi",
-      "archetype": "terminal",
       "id": "line-1-0440-0045-s010064",
       "lat": 35.157124903718106,
       "line": "line-1",
@@ -628,9 +690,6 @@
       "s_m": 10064.3
     },
     {
-      "anchor_kind": "tourism:attraction",
-      "anchor_name": "جنة الڤالهالا",
-      "archetype": "terminal",
       "id": "line-2-0034-0117-s000000",
       "lat": 35.23019116726056,
       "line": "line-2",
@@ -639,7 +698,6 @@
       "s_m": 0.0
     },
     {
-      "archetype": "halt",
       "id": "line-2-0183-0173-s003510",
       "lat": 35.20337620847281,
       "line": "line-2",
@@ -648,7 +706,6 @@
       "s_m": 3510.2
     },
     {
-      "archetype": "standard",
       "id": "line-2-0243-0279-s007024",
       "lat": 35.192578238491166,
       "line": "line-2",
@@ -657,31 +714,22 @@
       "s_m": 7023.8
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0376-0367-s011599",
-      "junction_group": 0,
       "lat": 35.16864273836519,
       "line": "line-2",
       "lon": -2.935430324602107,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 11599.1
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0379-0365-s011676",
-      "junction_group": 0,
       "lat": 35.16810283986611,
       "line": "line-2",
       "lon": -2.9358698874614158,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 11675.7
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Hay al Matar حي المطار",
-      "archetype": "depot-terminal",
       "id": "line-2-0479-0445-s015368",
       "lat": 35.15010622323003,
       "line": "line-2",
@@ -690,9 +738,6 @@
       "s_m": 15367.9
     },
     {
-      "anchor_kind": "amenity:bus_station",
-      "anchor_name": "Gare Routière de Nador محطة حافلة الناظور",
-      "archetype": "terminal",
       "id": "line-3-0619-0416-s000000",
       "lat": 35.124910959939534,
       "line": "line-3",
@@ -701,9 +746,6 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "سوق الخضر بالجملة",
-      "archetype": "standard",
       "id": "line-3-0493-0392-s003016",
       "lat": 35.14758669690099,
       "line": "line-3",
@@ -712,31 +754,22 @@
       "s_m": 3016.2
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0384-0361-s006325",
-      "junction_group": 0,
       "lat": 35.1672030090343,
       "line": "line-3",
       "lon": -2.936749013180032,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 6325.0
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0367-0344-s006853",
-      "junction_group": 0,
       "lat": 35.17026243386244,
       "line": "line-3",
       "lon": -2.940485297484152,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 6852.7
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "souk jjoutya",
-      "archetype": "terminal",
       "id": "line-3-0313-0282-s008540",
       "lat": 35.179980606845916,
       "line": "line-3",
@@ -745,29 +778,22 @@
       "s_m": 8540.0
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0459-0131-s000000",
-      "junction_group": 1,
       "lat": 35.15370554655725,
       "line": "line-4",
       "lon": -2.987298742000482,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-4-0457-0143-s000563",
-      "junction_group": 1,
       "lat": 35.15406547888997,
       "line": "line-4",
       "lon": -2.9846613648446323,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 562.8
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0663-0137-s006874",
       "lat": 35.11699244861966,
       "line": "line-4",

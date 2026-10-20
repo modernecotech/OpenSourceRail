@@ -97,50 +97,180 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 15172.8,
       "name": "line-1",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 150,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 11082.2,
       "name": "line-2",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 8109.8,
       "name": "line-3",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 6455.3,
       "name": "line-4",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0362-0552-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0902-0530-s015173"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -173,22 +303,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 51
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0443-0413-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0782-0522-s011082"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -221,22 +338,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 35
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0489-0673-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0761-0556-s008110"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -269,22 +373,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 27
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-4-0638-0504-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-4-0812-0413-s006455"
-        }
-      ],
       "line": "line-4",
       "schedule": [
         {
@@ -317,10 +408,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 20
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -547,9 +635,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "كلية بورتسودان التقنية",
-      "archetype": "terminal",
       "id": "line-1-0362-0552-s000000",
       "lat": 19.64966226469424,
       "line": "line-1",
@@ -558,9 +643,6 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "مستشفى المواني",
-      "archetype": "major",
       "id": "line-1-0457-0581-s003006",
       "lat": 19.63256547888997,
       "line": "line-1",
@@ -569,9 +651,6 @@
       "s_m": 3006.2
     },
     {
-      "anchor_kind": "railway:station",
-      "anchor_name": "هيئة سكك حديد السودان",
-      "archetype": "major",
       "id": "line-1-0506-0545-s004625",
       "lat": 19.62374713673829,
       "line": "line-1",
@@ -580,21 +659,15 @@
       "s_m": 4625.0
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "archetype": "interchange",
       "id": "line-1-0543-0571-s006237",
-      "junction_group": 0,
       "lat": 19.617088388582946,
       "line": "line-1",
       "lon": 37.22020296388467,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6237.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0640-0564-s009252",
-      "junction_group": 1,
       "lat": 19.599631670445955,
       "line": "line-1",
       "lon": 37.218867844467006,
@@ -602,30 +675,22 @@
       "s_m": 9251.5
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0776-0523-s012401",
-      "junction_group": 2,
       "lat": 19.575156271820898,
       "line": "line-1",
       "lon": 37.211047859306426,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 12400.9
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0782-0522-s012529",
-      "junction_group": 2,
       "lat": 19.574076474822732,
       "line": "line-1",
       "lon": 37.21085712796105,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 12529.2
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "archetype": "depot-terminal",
       "id": "line-1-0902-0530-s015173",
       "lat": 19.552480534859445,
       "line": "line-1",
@@ -634,9 +699,6 @@
       "s_m": 15172.8
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "سلالاب",
-      "archetype": "terminal",
       "id": "line-2-0443-0413-s000000",
       "lat": 19.63508500521902,
       "line": "line-2",
@@ -645,9 +707,6 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "السكة حديد",
-      "archetype": "major",
       "id": "line-2-0515-0479-s003009",
       "lat": 19.622127441241048,
       "line": "line-2",
@@ -656,9 +715,6 @@
       "s_m": 3008.5
     },
     {
-      "anchor_kind": "leisure:stadium",
-      "anchor_name": "استاد بورتسودان الدولي",
-      "archetype": "major",
       "id": "line-2-0552-0522-s004626",
       "lat": 19.6154686930857,
       "line": "line-2",
@@ -667,43 +723,30 @@
       "s_m": 4625.9
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0638-0504-s007413",
-      "junction_group": 3,
       "lat": 19.599991602778676,
       "line": "line-2",
       "lon": 37.207423963744205,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 7413.0
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0776-0523-s010954",
-      "junction_group": 2,
       "lat": 19.575156271820898,
       "line": "line-2",
       "lon": 37.211047859306426,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 10953.9
     },
     {
-      "anchor_kind": "place:suburb",
-      "anchor_name": "حي المطار",
-      "archetype": "terminal",
       "id": "line-2-0782-0522-s011082",
-      "junction_group": 2,
       "lat": 19.574076474822732,
       "line": "line-2",
       "lon": 37.21085712796105,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 11082.2
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "archetype": "terminal",
       "id": "line-3-0489-0673-s000000",
       "lat": 19.626806561566426,
       "line": "line-3",
@@ -712,20 +755,15 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0543-0570-s002923",
-      "junction_group": 0,
       "lat": 19.617088388582946,
       "line": "line-3",
       "lon": 37.22001223253929,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 2923.1
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0644-0593-s005329",
-      "junction_group": 1,
       "lat": 19.598911805780514,
       "line": "line-3",
       "lon": 37.224399053483026,
@@ -733,9 +771,6 @@
       "s_m": 5328.8
     },
     {
-      "anchor_kind": "aeroway:aerodrome",
-      "anchor_name": "قاعدة بورتسودان‎ الجوية",
-      "archetype": "terminal",
       "id": "line-3-0761-0556-s008110",
       "lat": 19.577855764316308,
       "line": "line-3",
@@ -744,20 +779,14 @@
       "s_m": 8109.8
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0638-0504-s000000",
-      "junction_group": 3,
       "lat": 19.599991602778676,
       "line": "line-4",
       "lon": 37.207423963744205,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 0.0
     },
     {
-      "anchor_kind": "planning:residential-priority",
-      "anchor_name": "Residential planning stop; site release open",
-      "archetype": "standard",
       "id": "line-4-0737-0413-s004618",
       "lat": 19.582174952308964,
       "line": "line-4",
@@ -766,7 +795,6 @@
       "s_m": 4617.9
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0812-0413-s006455",
       "lat": 19.568677489831913,
       "line": "line-4",

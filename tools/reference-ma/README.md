@@ -1,12 +1,11 @@
 # reference-ma — Python reference interpreter for `osr-interlocking`
 
 Independent implementation of the Movement Authority state machine
-specified in
-[RFC 0001 §7](../../docs/rfcs/0001-track-state-consensus.md) and
-[RFC 0004 §M4](../../docs/rfcs/0004-osr-interlocking-plan.md). The
-Rust crate [`osr-interlocking`](../../crates/osr-interlocking/) is the
-production code; this Python twin exists so that differential fuzzing
-against both implementations can catch bugs in either one.
+used by the current [control architecture](../../docs/ARCHITECTURE.md).
+The [Rust implementation](../../crates/osr-interlocking/) and this independent
+Python oracle are unqualified research software. Differential fuzzing
+compares the same committed-log cases across both implementations.
+Synthetic regression fixtures are not accepted vehicle configurations.
 
 The public surface mirrors `osr-interlocking`:
 

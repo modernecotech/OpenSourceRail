@@ -1531,7 +1531,7 @@ pub fn force_ring_radial_group_ids(
 /// would make a generated network ambiguous or disconnected.
 ///
 /// This is deliberately kept in the routing crate rather than delegated only
-/// to repository scripts: `osr-design` must never emit a design which it
+/// to repository scripts: a city planner must never emit a design which it
 /// already knows has duplicate/too-close platforms or a missing walkable
 /// transfer. Site validation can add stricter rules later, but these are hard
 /// generator invariants.

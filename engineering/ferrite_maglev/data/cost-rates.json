@@ -1,0 +1,49 @@
+{
+  "schema": "osr-maglev-process-rates/1",
+  "revision": "V05-QUANTITY-1",
+  "price_basis": "2026-10-20 USD project assumptions; budget sensitivities, no supplier or Iraqi market price validation",
+  "costs_are_quotes": false,
+  "scenario_multipliers": {"low": 0.75, "base": 1.0, "high": 1.5},
+  "rates": {
+    "body_and_passenger_systems_per_car": 64000,
+    "ferrite_per_kg": 2.3333333333333335,
+    "magnetic_equipment_per_car": 45000,
+    "battery_pack_per_kwh": 120,
+    "capture_brake_per_car": 9000,
+    "hvac_auxiliary_per_car": 18000,
+    "coupling_gangway_per_interface": 6500,
+    "train_control_per_train": 14000,
+    "assembly_test_hours_per_car": 1200,
+    "labour_per_hour": 8,
+    "vehicle_integration_reserve_fraction": 0.2,
+    "concrete_cast_cure_per_m3": 220,
+    "reinforcement_kg_per_m3": 180,
+    "reinforcement_fabricated_per_kg": 1.4,
+    "reaction_steel_finished_per_kg": 2.0,
+    "support_foundation_per_unit": 35000,
+    "walkway_attachment_per_m": 40,
+    "delivery_per_beam": 2200,
+    "erection_per_beam": 3500,
+    "temporary_per_support": 2500,
+    "alignment_joint_per_m": 45,
+    "access_allowance_per_km": 60000,
+    "qa_per_km": 90000,
+    "utility_allowance_per_km": 150000,
+    "traffic_allowance_per_km": 85000
+  },
+  "process_routes": [
+    {"id":"beam","operations":["qualify concrete and reinforcement","assemble reusable mould and cage","stress approved tendons","cast and monitor cure","verify release strength","demould and survey","install reaction faces","proof/inspect serialised element"],"plant":["batch plant","reusable mould beds","cage fabrication","stressing jacks","curing control","cranes","survey and test equipment"],"acceptance_holds":["prestress/rebar/connection design","durability and minimum wall cover","release/lift strengths","measured mould and cure cycle"]},
+    {"id":"supports","operations":["investigate utilities and ground","qualify foundation type","prefabricate cage/pier where feasible","construct foundation","erect and temporarily stabilise pier/cap","survey bearing seats"],"plant":["site-specific piling/excavation equipment","pier moulds","crane","grout and survey equipment"],"acceptance_holds":["boreholes and groundwater","flood/scour/seismic design","temporary stability","crane radius and bearing ground"]},
+    {"id":"vehicle","operations":["cut and form simple repeat panels/members","join on dimensional fixtures","inspect joints","install doors, glazing and interior","integrate batteries, HVAC and safety systems","weigh and survey finished car"],"plant":["panel cutting/forming","joining fixtures","machining","electrical test","mass and dimensional metrology"],"acceptance_holds":["material and joint qualification","fatigue/fire/crash requirements","complete mass, CG and inertia"]},
+    {"id":"magnetics","operations":["qualify ferrite and core steel","machine carriers and reaction faces","wind and insulate coils","impregnate and cure","assemble replaceable cartridges","map force/loss/temperature","calibrate independent sensing"],"plant":["coil winder","insulation and impregnation plant","carrier machining fixtures","force/thermal rigs","isolated electrical test"],"acceptance_holds":["supplier grade and demagnetisation","measured force/loss maps","winding insulation and cooling","module fault containment"]},
+    {"id":"erection","operations":["survey delivery corridor","verify lift plan and crane at radius","deliver and lift beam","locate and positively lock engineered joint","survey reaction faces","complete serial QA traveller","test integrated route section"],"plant":["beam transporter","crane selected at working radius","survey instruments","temporary supports"],"acceptance_holds":["ground and access","connection completion and curing","route clearances","evacuation and recovery"]},
+    {"id":"software","operations":["build reproducible Rust control","execute oracle/fault/deadline tests","bind exact geometry and force-map revision","test isolated SBC I/O and independent trips","measure worst-case timing","perform integrated rig and route tests"],"plant":["off-the-shelf SBC","isolated I/O","independent protection","hardware-in-loop rig"],"acceptance_holds":["physical output adapter","qualified control plant","host timing","independent safety assessment"]}
+  ],
+  "equipment_candidates": [
+    {"process":"coil winding","supplier":"Rotary Engineering","model":"custom coil winding machine; final envelope/configuration to be specified","manufacture":"UK manufacture explicitly stated: Sheffield","source":"https://www.rotary.co.uk/equipment-details/coil-winding-machines/","checked":"2026-10-20","price_usd":null,"selection":"candidate; no purchase or OSR capability qualification"},
+    {"process":"prestressing","supplier":"CCL Precast","model":"stressing jacks/pumps and strand cutting equipment; rating selection open","manufacture":"UK-manufactured range explicitly stated","source":"https://www.cclprecast.com/","checked":"2026-10-20","price_usd":null,"selection":"candidate; required force/stroke/anchorage qualification open"},
+    {"process":"punch/die tooling","supplier":"Haco Kingsland","model":"in-house punches and dies; machine model/configuration open","manufacture":"UK manufacture stated for punches/dies at Sheringham; machine origin unconfirmed","source":"https://www.kingsland.com/en","checked":"2026-10-20","price_usd":null,"selection":"tooling candidate; no whole-machine UK origin inferred"},
+    {"process":"panel/member forming","supplier":"Bradbury International UK","model":"custom coil-processing/roll-forming system","manufacture":"UK design/manufacturing capability described; exact machine/component origins to verify","source":"https://www.bradburygroup.com/bradbury-international-uk-ltd","checked":"2026-10-20","price_usd":null,"selection":"candidate; final sections, tolerances, tooling and origin schedule open"},
+    {"process":"concrete batching","supplier":"ConSpare","model":"batch-plant equipment and integration; configuration open","manufacture":"UK supply/integration of worldwide equipment; UK manufacture not established","source":"https://conspare.com/","checked":"2026-10-20","price_usd":null,"selection":"integration alternative; lower priority than evidenced UK-made equipment"}
+  ]
+}

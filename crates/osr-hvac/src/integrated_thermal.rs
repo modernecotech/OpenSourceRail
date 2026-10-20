@@ -41,7 +41,7 @@ pub struct IntegratedThermalParams {
 
 impl IntegratedThermalParams {
     #[must_use]
-    pub fn light_metro_hot_climate() -> Self {
+    pub fn hot_climate_research_fixture() -> Self {
         Self {
             battery_target_dc: 280,
             battery_derate_dc: 450,
@@ -172,7 +172,7 @@ mod tests {
     fn battery_cooling_has_priority_over_cabin_comfort() {
         let out = thermal_evaluate(
             &nominal(470),
-            &IntegratedThermalParams::light_metro_hot_climate(),
+            &IntegratedThermalParams::hot_climate_research_fixture(),
         );
         assert_eq!(out.battery_mode, BatteryThermalMode::Derate);
         assert_eq!(out.battery_chiller_ppt, 1000);
@@ -184,7 +184,10 @@ mod tests {
     fn battery_loop_leak_requests_isolation() {
         let mut inputs = nominal(300);
         inputs.battery_circuit_pressure_ok = false;
-        let out = thermal_evaluate(&inputs, &IntegratedThermalParams::light_metro_hot_climate());
+        let out = thermal_evaluate(
+            &inputs,
+            &IntegratedThermalParams::hot_climate_research_fixture(),
+        );
         assert_eq!(out.battery_mode, BatteryThermalMode::Protect);
         assert!(out.battery_isolation_request);
         assert_eq!(out.battery_pump_ppt, 0);
@@ -194,7 +197,7 @@ mod tests {
     fn nominal_battery_leaves_capacity_for_cabin() {
         let out = thermal_evaluate(
             &nominal(280),
-            &IntegratedThermalParams::light_metro_hot_climate(),
+            &IntegratedThermalParams::hot_climate_research_fixture(),
         );
         assert_eq!(out.battery_mode, BatteryThermalMode::Nominal);
         assert!(out.cabin_compressor_ppt > 0);

@@ -1,0 +1,751 @@
+{
+  "schema": "osr-maglev-systems-inputs/1",
+  "revision": "V05-SYSTEMS-3",
+  "scope": "Explicit current vehicle, guideway, station, manufacturing, software and assurance responsibilities; not a claim of detail completeness",
+  "items": [
+    {
+      "id": "FM-BODY-FRAME",
+      "title": "Structural body and floor frame",
+      "source": "engineering/ferrite_maglev/geometry.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "vehicle-mass"
+      ],
+      "requirement_ids": [
+        "SYS-001",
+        "SYS-007",
+        "GEO-003",
+        "MASS-001"
+      ],
+      "process_route": "section fabrication; join; inspect datums and retention loads",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-BODY-PANELS",
+      "title": "Roof and body enclosure panels",
+      "source": "engineering/ferrite_maglev/system_development.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "vehicle-mass",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "MFG-001",
+        "MASS-001"
+      ],
+      "process_route": "cut/form panels; join; seal; inspect and leak test",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-DOORS",
+      "title": "Passenger doors and threshold interfaces",
+      "source": "engineering/ferrite_maglev/reference_assembly.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "vehicle-mass",
+        "switch-free-city"
+      ],
+      "requirement_ids": [
+        "OPS-005",
+        "MFG-001"
+      ],
+      "process_route": "assemble door modules; align; obstruction and boarding tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-GLAZING",
+      "title": "Glazing and retained seals",
+      "source": "engineering/ferrite_maglev/system_development.py",
+      "work_package_ids": [
+        "vehicle-mass",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "MFG-001",
+        "MASS-001"
+      ],
+      "process_route": "procure qualified glazing; install seals and retention; inspect",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-INTERIOR",
+      "title": "Passenger interior and accessible accommodation",
+      "source": "engineering/ferrite_maglev/reference_assembly.py",
+      "work_package_ids": [
+        "vehicle-mass",
+        "switch-free-city"
+      ],
+      "requirement_ids": [
+        "SYS-001",
+        "OPS-005",
+        "MASS-001"
+      ],
+      "process_route": "panel and seat assembly; accessible envelope and fire inspection",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-COUPLER",
+      "title": "Couplers, gangways and trainline connections",
+      "source": "engineering/ferrite_maglev/reference_assembly.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "vehicle-mass",
+        "coupled-dynamics"
+      ],
+      "requirement_ids": [
+        "SYS-001",
+        "GEO-001",
+        "MASS-001"
+      ],
+      "process_route": "machine interfaces; assemble; proof load and articulation tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-FERRITE",
+      "title": "Grade-controlled hard-ferrite blocks",
+      "source": "engineering/ferrite_maglev/geometry.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "magnetic-force-loss",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "SYS-002",
+        "MFG-002",
+        "MAG-030",
+        "MAG-031",
+        "MAG-032"
+      ],
+      "process_route": "supplier sintering/magnetisation; grade and axis acceptance",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-CARTRIDGE",
+      "title": "Keyed replaceable magnet cartridge",
+      "source": "engineering/ferrite_maglev/geometry.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "vehicle-mass",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "GEO-003",
+        "MAG-033",
+        "MAG-034",
+        "MFG-004"
+      ],
+      "process_route": "machine/form carrier; controlled magnet insertion; positive retention inspection",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-CORE",
+      "title": "Lift, guidance and propulsion magnetic cores",
+      "source": "engineering/ferrite_maglev/field.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "magnetic-force-loss",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "MAG-010",
+        "MAG-041",
+        "MAG-042",
+        "MAG-050"
+      ],
+      "process_route": "cut/stack or machine magnetic material; qualify material and field response",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-LIFT-WINDING",
+      "title": "Lift stabilisation windings",
+      "source": "engineering/ferrite_maglev/geometry.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "magnetic-force-loss",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "SYS-003",
+        "MFG-003",
+        "MAG-051"
+      ],
+      "process_route": "wind conductor; insulate; impregnate; electrical and thermal tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-GUIDANCE-WINDING",
+      "title": "Guidance windings",
+      "source": "engineering/ferrite_maglev/geometry.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "magnetic-force-loss",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "SYS-003",
+        "MFG-003",
+        "MAG-023"
+      ],
+      "process_route": "wind; insulate; impregnate; current and guidance-force tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-THRUST-WINDING",
+      "title": "Linear propulsion windings",
+      "source": "engineering/ferrite_maglev/geometry.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "magnetic-force-loss",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "SYS-003",
+        "MAG-040",
+        "MAG-042",
+        "MAG-043"
+      ],
+      "process_route": "wind and impregnate; verify commutation, thrust and loss maps",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-INVERTER",
+      "title": "Solid-state module drives and DC link",
+      "source": "engineering/ferrite_maglev/coupled.py",
+      "work_package_ids": [
+        "rust-support-control",
+        "sbc-io-timing",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "CTL-002",
+        "CTL-005",
+        "MAG-053"
+      ],
+      "process_route": "procure electronic inputs; PCB and power assembly; isolation and fault tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-SENSOR",
+      "title": "Gap, current, thermal and inertial sensing",
+      "source": "engineering/ferrite_maglev/coupled.py",
+      "work_package_ids": [
+        "rust-support-control",
+        "sbc-io-timing"
+      ],
+      "requirement_ids": [
+        "CTL-003",
+        "CTL-007"
+      ],
+      "process_route": "assemble isolated harnesses; calibrate; inject bias and stale-data faults",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-PROTECTION",
+      "title": "Independent support-aware protection",
+      "source": "engineering/ferrite_maglev/coupled.py",
+      "work_package_ids": [
+        "rust-support-control",
+        "sbc-io-timing",
+        "rig-and-demonstrator"
+      ],
+      "requirement_ids": [
+        "CTL-005",
+        "PWR-004"
+      ],
+      "process_route": "isolate power and I/O; implement independent monitoring; fault test",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-SUPPORT-POWER",
+      "title": "Protected support and control supply",
+      "source": "engineering/ferrite_maglev/system_development.py",
+      "work_package_ids": [
+        "sbc-io-timing",
+        "vehicle-mass",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "PWR-004",
+        "CTL-005"
+      ],
+      "process_route": "assemble protection power domain; reserve, discharge and isolation test",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-BATTERY",
+      "title": "Battery pack, BMS and containment",
+      "source": "engineering/ferrite_maglev/system_development.py",
+      "work_package_ids": [
+        "vehicle-mass",
+        "switch-free-city",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "SYS-010",
+        "PWR-001",
+        "PWR-004"
+      ],
+      "process_route": "procure cells/BMS; assemble protected pack; thermal and electrical qualification",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-CHARGING",
+      "title": "Station and vehicle charging interfaces",
+      "source": "engineering/ferrite_maglev/cities.py",
+      "work_package_ids": [
+        "switch-free-city",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "SYS-010",
+        "PWR-002"
+      ],
+      "process_route": "configure charger and contacts; grid protection and concurrent duty tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-COOLING",
+      "title": "Magnetic and battery cooling circuits",
+      "source": "engineering/ferrite_maglev/system_development.py",
+      "work_package_ids": [
+        "vehicle-mass",
+        "magnetic-force-loss",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "MAG-044",
+        "MFG-003",
+        "PWR-001"
+      ],
+      "process_route": "fabricate cooling manifolds; assemble; pressure, leak and hot-duty tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-HVAC",
+      "title": "Passenger HVAC and ducts",
+      "source": "engineering/ferrite_maglev/system_development.py",
+      "work_package_ids": [
+        "vehicle-mass",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "MASS-001",
+        "PWR-001"
+      ],
+      "process_route": "procure HVAC; fabricate ducts; air balancing and thermal test",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-AUXILIARIES",
+      "title": "Lighting, passenger information and low-voltage services",
+      "source": "engineering/ferrite_maglev/system_development.py",
+      "work_package_ids": [
+        "vehicle-mass",
+        "sbc-io-timing",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "MASS-001",
+        "MFG-005"
+      ],
+      "process_route": "assemble harnesses and electronics; continuity, EMC and function tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-CAPTURE",
+      "title": "Fixed capture, landing and emergency braking surfaces",
+      "source": "engineering/ferrite_maglev/system_development.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "coupled-dynamics",
+        "rig-and-demonstrator"
+      ],
+      "requirement_ids": [
+        "SYS-004",
+        "PWR-003",
+        "MAG-054"
+      ],
+      "process_route": "machine surfaces and attachments; proof load, friction and energy tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-ODOMETRY",
+      "title": "Contactless odometry and guideway markers",
+      "source": "engineering/ferrite_maglev/coupled.py",
+      "work_package_ids": [
+        "rust-support-control",
+        "sbc-io-timing",
+        "switch-free-city"
+      ],
+      "requirement_ids": [
+        "CTL-006",
+        "CTL-007"
+      ],
+      "process_route": "assemble and survey markers; sensor fusion; low-speed/fault validation",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-REACTION-RAIL",
+      "title": "Passive magnetic reaction surfaces",
+      "source": "engineering/ferrite_maglev/geometry.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "magnetic-force-loss",
+        "civil-kit"
+      ],
+      "requirement_ids": [
+        "CIV-003",
+        "MAG-043",
+        "MAG-044"
+      ],
+      "process_route": "qualify magnetic steel; cut/form/machine; finish; field/loss and dimensional test",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-RAIL-MOUNT",
+      "title": "Adjustable reaction-surface attachments",
+      "source": "engineering/ferrite_maglev/geometry.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "civil-kit",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "CIV-006",
+        "GEO-002"
+      ],
+      "process_route": "machine datums; assemble fasteners and shims; survey and retention tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-GUIDEBOX",
+      "title": "Single-direction concrete guidebeam",
+      "source": "engineering/ferrite_maglev/geometry.py",
+      "work_package_ids": [
+        "civil-kit",
+        "coupled-dynamics",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "CIV-001",
+        "CIV-002",
+        "CIV-005"
+      ],
+      "process_route": "fabricate reusable mould; place reinforcement/prestress; cast; cure; inspect; erect",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-PIER",
+      "title": "Pier columns and bearing caps",
+      "source": "engineering/ferrite_maglev/system_development.py",
+      "work_package_ids": [
+        "civil-kit",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "CIV-001",
+        "CIV-002",
+        "CIV-005"
+      ],
+      "process_route": "form reinforcement/cages; cast and cure; survey and erect engineered joints",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-FOUNDATION",
+      "title": "Site-dependent foundations",
+      "source": "engineering/ferrite_maglev/system_development.py",
+      "work_package_ids": [
+        "civil-kit",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "CIV-001",
+        "CIV-002",
+        "CIV-005"
+      ],
+      "process_route": "investigate ground; select piling/footings; construct; integrity and load tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-BEARING-JOINT",
+      "title": "Guidebeam bearings and expansion joints",
+      "source": "engineering/ferrite_maglev/system_development.py",
+      "work_package_ids": [
+        "civil-kit",
+        "coupled-dynamics"
+      ],
+      "requirement_ids": [
+        "CIV-001",
+        "CIV-005",
+        "GEO-002"
+      ],
+      "process_route": "machine/procure bearings; set datums; inspect restraint and expansion range",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-DRAINAGE",
+      "title": "Guideway drainage and environmental protection",
+      "source": "engineering/ferrite_maglev/system_development.py",
+      "work_package_ids": [
+        "civil-kit",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "CIV-001",
+        "CIV-007"
+      ],
+      "process_route": "form drainage paths; install; leak/fall, sand and contamination tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-EVACUATION",
+      "title": "Onboard spiral-chute evacuation candidate",
+      "source": "engineering/ferrite_maglev/evacuation.py",
+      "work_package_ids": [
+        "civil-kit",
+        "vehicle-mass",
+        "switch-free-city",
+        "rig-and-demonstrator"
+      ],
+      "requirement_ids": [
+        "CIV-004",
+        "OPS-003",
+        "OPS-005"
+      ],
+      "process_route": "qualify textile device and entry frame; variable-height deployment and assisted egress tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-EGRESS-ACCESS",
+      "title": "Route-specific evacuation and maintenance access",
+      "source": "engineering/ferrite_maglev/evacuation.py",
+      "work_package_ids": [
+        "civil-kit",
+        "switch-free-city",
+        "rig-and-demonstrator"
+      ],
+      "requirement_ids": [
+        "CIV-004",
+        "OPS-003"
+      ],
+      "process_route": "survey every stop position; design safe access/landing and assisted alternatives; demonstrate",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-STATION",
+      "title": "Platform, access, canopy and station structures",
+      "source": "engineering/ferrite_maglev/reference_assembly.py",
+      "work_package_ids": [
+        "civil-kit",
+        "switch-free-city",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "CIV-001",
+        "OPS-005",
+        "MFG-005"
+      ],
+      "process_route": "prefabricate structural/access modules; erect; survey and accessibility tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-STATION-SERVICES",
+      "title": "Station utilities, passenger systems and protection",
+      "source": "engineering/ferrite_maglev/cities.py",
+      "work_package_ids": [
+        "civil-kit",
+        "switch-free-city",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "PWR-002",
+        "CIV-001",
+        "MFG-005"
+      ],
+      "process_route": "install electrical, drainage and passenger systems; integrated commissioning",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-DEPOT",
+      "title": "Depot, safe support and cartridge maintenance",
+      "source": "engineering/ferrite_maglev/cities.py",
+      "work_package_ids": [
+        "switch-free-city",
+        "civil-kit",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "OPS-003",
+        "OPS-004",
+        "MFG-005"
+      ],
+      "process_route": "build service bays and safe stands; qualify lifting, removal and calibration routes",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-DEPOT-ROUTING",
+      "title": "Depot guidance, detection and interlocking",
+      "source": "engineering/ferrite_maglev/cities.py",
+      "work_package_ids": [
+        "switch-free-city",
+        "rust-support-control",
+        "rig-and-demonstrator"
+      ],
+      "requirement_ids": [
+        "SYS-008",
+        "OPS-001",
+        "OPS-003"
+      ],
+      "process_route": "design depot-only routing; verify detection, locking and recovery operations",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-FACTORY",
+      "title": "Vehicle and guidebeam manufacturing facilities",
+      "source": "engineering/ferrite_maglev/optimisation.py",
+      "work_package_ids": [
+        "local-mbom-cost",
+        "civil-kit",
+        "magnetic-cad"
+      ],
+      "requirement_ids": [
+        "SYS-009",
+        "MFG-001",
+        "MFG-005"
+      ],
+      "process_route": "size process cells, moulds, utilities, cranes and QA stations from throughput",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-MAGNET-FIXTURE",
+      "title": "Controlled magnet assembly fixture",
+      "source": "engineering/ferrite_maglev/geometry.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "local-mbom-cost",
+        "rig-and-demonstrator"
+      ],
+      "requirement_ids": [
+        "MFG-002",
+        "MAG-034"
+      ],
+      "process_route": "fabricate restrained assembly fixtures; calibrate; qualify safe insertion and release",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-WINDING-FIXTURE",
+      "title": "Winding, impregnation and insulation tooling",
+      "source": "engineering/ferrite_maglev/field.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "MFG-003"
+      ],
+      "process_route": "configure winding/forming fixtures; qualify impregnation and electrical test process",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-FIELD-RIG",
+      "title": "Force, gap and thermal end-of-line rig",
+      "source": "engineering/ferrite_maglev/field.py",
+      "work_package_ids": [
+        "magnetic-force-loss",
+        "local-mbom-cost",
+        "rig-and-demonstrator"
+      ],
+      "requirement_ids": [
+        "MFG-003",
+        "MAG-050",
+        "MAG-055"
+      ],
+      "process_route": "fabricate load frame; calibrate sensors; qualify measurement uncertainty",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-METROLOGY",
+      "title": "Guideway and installed-datum metrology",
+      "source": "engineering/ferrite_maglev/geometry.py",
+      "work_package_ids": [
+        "civil-kit",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "CIV-006",
+        "GEO-002",
+        "MFG-005"
+      ],
+      "process_route": "survey and calibrate gauges; inspect casts, installed surfaces and serial locations",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-CONTROL-SOFTWARE",
+      "title": "Rust module control and train supervision",
+      "source": "engineering/ferrite_maglev/coupled.py",
+      "work_package_ids": [
+        "rust-support-control",
+        "sbc-io-timing",
+        "coupled-dynamics"
+      ],
+      "requirement_ids": [
+        "CTL-001",
+        "CTL-002",
+        "CTL-004",
+        "CTL-005",
+        "CTL-007"
+      ],
+      "process_route": "build reproducible Rust; offline replay; hardware timing and independent protection tests",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-EGRESS-SOFTWARE",
+      "title": "Door and emergency evacuation sequencing",
+      "source": "engineering/ferrite_maglev/system_development.py",
+      "work_package_ids": [
+        "rust-support-control",
+        "sbc-io-timing",
+        "rig-and-demonstrator"
+      ],
+      "requirement_ids": [
+        "CIV-004",
+        "OPS-005",
+        "CTL-005"
+      ],
+      "process_route": "verify held states and inventory; hardware fault injection; supervised full-scale trials",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-OPERATIONS",
+      "title": "Switch-free city service and recovery plan",
+      "source": "engineering/ferrite_maglev/cities.py",
+      "work_package_ids": [
+        "switch-free-city",
+        "rig-and-demonstrator"
+      ],
+      "requirement_ids": [
+        "SYS-008",
+        "OPS-001",
+        "OPS-002",
+        "OPS-003"
+      ],
+      "process_route": "survey route; model fleet and charging; rehearse failures and recovery",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-ASSURANCE",
+      "title": "Configuration, hazards and independent acceptance",
+      "source": "engineering/ferrite_maglev/requirements.py",
+      "work_package_ids": [
+        "requirements-profile",
+        "rig-and-demonstrator"
+      ],
+      "requirement_ids": [
+        "MFG-005",
+        "MAG-055"
+      ],
+      "process_route": "maintain exact-revision requirements, raw evidence, NCRs and independent gate decisions",
+      "state": "provisional-design-responsibility; acceptance-open"
+    }
+  ]
+}

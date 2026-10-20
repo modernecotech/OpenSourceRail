@@ -1,79 +1,36 @@
-# Rust build artifacts
+# Local toolchains, dependencies and computational caches.
 /target/
 **/target/
-
-# Node test dependencies (versions are pinned in package-lock.json).
 /node_modules/
-
-# Python build/cache artifacts
+/.venv/
 __pycache__/
 **/__pycache__/
 *.py[cod]
 *.egg-info/
 .pytest_cache/
 **/.pytest_cache/
-# All build, simulation, book, BOM, and generated deployment outputs.
 /build/
-
-# Retired generated city output tree; canonical packages live in cities/catalogue/.
-/designs/
-
-# Every city publishes a compact engineering and operations review package.
-# Keep high-volume raw solver and manufacturing outputs local: they are
-# reproducible from the tracked design, summaries, manifests, and scripts.
-/cities/catalogue/*/*/*/engineering/**/*.log
-/cities/catalogue/*/*/*/engineering/**/*.gpkg
-/cities/catalogue/*/*/*/engineering/energy/coordinated-daylight.json
-/cities/catalogue/*/*/*/engineering/energy/peak-charge-grid-only.json
-/cities/catalogue/*/*/*/engineering/sumo/*.xml
-/cities/catalogue/*/*/*/operations/*-acceptance-evidence-matrix.csv
-/cities/catalogue/*/*/*/operations/*-maintenance-schedule.csv
-/cities/catalogue/*/*/*/operations/*-manufacturing-materials.csv
-/cities/catalogue/*/*/*/operations/*-manufacturing-schedule.csv
-/cities/catalogue/*/*/*/operations/*-manufacturing-verification.csv
-/cities/catalogue/*/*/*/operations/*-procurement-plan.csv
-/cities/catalogue/*/*/*/operations/*-budget-work-packages.csv
-/cities/catalogue/*/*/*/operations/*-cashflow-requirements.csv
-/cities/catalogue/*/*/*/operations/*-construction-timeline.json
-/cities/catalogue/*/*/*/operations/*-operations.json.gz
-/cities/catalogue/*/*/*/operations/*-qa-register.csv
-# Corridor inputs are retained sources for the primary maglev city receipts.
-/cities/catalogue/*/*/*/diagnose.png
-
-# Mosul and Samawah retain their previously tracked full acceptance payloads.
-# Ignore rules do not remove files already tracked by Git.
-
-# Local operational state created by small demo servers.
 /var/
+/.cache/
+/target_kani/
 
-# Kani build artifacts
-target_kani/
-
-# Editor / OS cruft
+# Local operational and editor state.
 .DS_Store
 *.swp
 *.swo
 *~
-
-# Claude Code runtime state (not useful in git history)
 .claude/scheduled_tasks.lock
 .claude/todos.json
 
-# OSR pipeline cache: OSM pulls, rasters, WorldPop tiles. Re-derivable.
-.cache/
+# High-volume geographic caches remain local; retained source receipts and
+# current city inputs are versioned explicitly.
+/cities/catalogue/*/*/*/engineering/**/*.log
+/cities/catalogue/*/*/*/engineering/**/*.gpkg
 
-# Neutral CAD interchange exports are local-only except sealed review packets.
-# A published manifest requires its STEP assets in a clean Git checkout.
+# Canonical neutral CAD is compressed and sealed in published packets.
 *.step
 *.stp
-!docs/design-engine/generative-detail-*/models/**/model.step
 *.FCBak
 *.blend1
-design/component-catalogue/catalog/render-meshes/
-
-# CalculiX/SPOOLES creates an empty solver scratch file in each run folder.
 **/spooles.out
-# Disposable browser acceptance workspaces contain generated documentation.
-cities/workspaces/.city-studio-e2e-*/
-# Incomplete atomic publications are local recovery records, never active source.
 .osr-publication-stage-*/

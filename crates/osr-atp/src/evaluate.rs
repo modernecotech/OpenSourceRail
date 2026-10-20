@@ -41,7 +41,7 @@ pub const SERVICE_BRAKE_MARGIN_MMPS: i32 = 1_500;
 /// prevents it.
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum BrakeCommand {
-    /// No brake application. Motor torque may be requested by `osr-ato`.
+    /// No brake demand. An independently qualified propulsion controller may request force.
     Release,
     /// Service brake, scaled 0..=1000 in parts-per-thousand of
     /// maximum service effort.
@@ -362,7 +362,7 @@ mod tests {
     #[test]
     fn a2_expired_ma_trips_emergency() {
         let net = net_3_sections();
-        let consist = ConsistDescriptor::reference_3car();
+        let consist = ConsistDescriptor::synthetic_analysis_fixture();
         let state = state_stopped_at(1000, 0);
         let mut ma = nominal_ma(1001, 1_000_000, 0);
         ma.valid_until_ns = 1_000;
@@ -374,7 +374,7 @@ mod tests {
     #[test]
     fn a3_unknown_position_trips_emergency() {
         let net = net_3_sections();
-        let consist = ConsistDescriptor::reference_3car();
+        let consist = ConsistDescriptor::synthetic_analysis_fixture();
         let state = state_stopped_at(1000, 0);
         let mut ma = nominal_ma(1001, 1_000_000, 0);
         ma.has_known_position = false;
@@ -386,7 +386,7 @@ mod tests {
     #[test]
     fn a4_train_mismatch_trips_emergency() {
         let net = net_3_sections();
-        let consist = ConsistDescriptor::reference_3car();
+        let consist = ConsistDescriptor::synthetic_analysis_fixture();
         let state = state_stopped_at(1000, 0);
         let mut ma = nominal_ma(1001, 1_000_000, 0);
         ma.train_id = TrainId::new(9);
@@ -398,7 +398,7 @@ mod tests {
     #[test]
     fn a5_head_past_ma_end_trips_emergency() {
         let net = net_3_sections();
-        let consist = ConsistDescriptor::reference_3car();
+        let consist = ConsistDescriptor::synthetic_analysis_fixture();
         // Head at 900 m into section 1000, MA end at 500 m into section 1000.
         let state = state_stopped_at(1000, 900_000);
         let ma = nominal_ma(1000, 500_000, 0);
@@ -410,7 +410,7 @@ mod tests {
     #[test]
     fn a6_overspeed_trips_emergency() {
         let net = net_3_sections();
-        let consist = ConsistDescriptor::reference_3car();
+        let consist = ConsistDescriptor::synthetic_analysis_fixture();
         // Head at 0 into section 1000, MA end at 100 m into section 1000.
         // Very short distance, so envelope speed is low. Measured 30 m/s.
         let mut state = state_stopped_at(1000, 0);
@@ -424,7 +424,7 @@ mod tests {
     #[test]
     fn nominal_release_within_envelope() {
         let net = net_3_sections();
-        let consist = ConsistDescriptor::reference_3car();
+        let consist = ConsistDescriptor::synthetic_analysis_fixture();
         // Head at 0, MA end 2 km ahead. Train moving at 10 m/s.
         let mut state = state_stopped_at(1000, 0);
         state.speed_mmps = 10_000;
@@ -437,7 +437,7 @@ mod tests {
     #[test]
     fn service_brake_in_approach_band() {
         let net = net_3_sections();
-        let consist = ConsistDescriptor::reference_3car();
+        let consist = ConsistDescriptor::synthetic_analysis_fixture();
         // Short remaining distance; pick speed just below envelope
         // so we're in the approach band but not emergency.
         let mut state = state_stopped_at(1000, 0);
@@ -453,7 +453,7 @@ mod tests {
     #[test]
     fn speed_restriction_caps_envelope() {
         let net = net_3_sections();
-        let consist = ConsistDescriptor::reference_3car();
+        let consist = ConsistDescriptor::synthetic_analysis_fixture();
         let mut state = state_stopped_at(1000, 0);
         state.speed_mmps = 10_000;
         let mut ma = nominal_ma(1001, 1_000_000, 0);
@@ -477,7 +477,7 @@ mod tests {
     #[test]
     fn a1_determinism() {
         let net = net_3_sections();
-        let consist = ConsistDescriptor::reference_3car();
+        let consist = ConsistDescriptor::synthetic_analysis_fixture();
         let mut state = state_stopped_at(1000, 100_000);
         state.speed_mmps = 15_000;
         let ma = nominal_ma(1001, 500_000, 0);
@@ -505,7 +505,7 @@ mod tests {
             state.position_uncertainty_mm = uncertainty;
             let mut ma = nominal_ma(ids[end_slot], end_offset, 0);
             ma.end.direction = state.head.direction;
-            let consist = ConsistDescriptor::reference_3car();
+            let consist = ConsistDescriptor::synthetic_analysis_fixture();
             proptest::prop_assert_eq!(atp_evaluate(&state, &ma, &consist, &network, now),
                 atp_evaluate(&state, &ma, &consist, &compact, now));
         }

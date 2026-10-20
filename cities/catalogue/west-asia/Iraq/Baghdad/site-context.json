@@ -1,0 +1,467 @@
+{
+  "context": {
+    "mapping": {
+      "as_of": "2026-10-11",
+      "city": "baghdad",
+      "datasets": {
+        "ghsl-2025": {
+          "access": {
+            "basis": "Spherical native pixel-centre union; each resident counted at most once per sector",
+            "missing_pixels": 0,
+            "radius_m": 1000,
+            "sectors": [
+              {
+                "population": 7347247.087,
+                "radial_covered_population": 2256834.303,
+                "radial_fraction": 0.30716733,
+                "radial_unserved_population": 5090412.785,
+                "sector": "city"
+              },
+              {
+                "population": 1159005.44,
+                "radial_covered_population": 413117.141,
+                "radial_fraction": 0.35644107,
+                "radial_unserved_population": 745888.299,
+                "sector": "northeast"
+              },
+              {
+                "population": 1908544.778,
+                "radial_covered_population": 634343.023,
+                "radial_fraction": 0.33237,
+                "radial_unserved_population": 1274201.755,
+                "sector": "west"
+              }
+            ],
+            "valid_pixels": 356400,
+            "validated_walking_access": false
+          },
+          "source": {
+            "attribution": "European Commission, Joint Research Centre (JRC), GHS-POP R2023A, Schiavina et al. (2023), DOI:10.2905/2FF68A52-5B5B-4A22-8F40-C41DA8332CFE",
+            "bbox": {
+              "east": 44.75,
+              "north": 33.5,
+              "south": 33.05,
+              "west": 44.2
+            },
+            "dataset": "European Commission JRC GHS-POP R2023A V1.0 3 arc-second population counts",
+            "documentation": "https://human-settlement.emergency.copernicus.eu/downloadWizard.php",
+            "download_sha256": "40e00f8d139f6c6ca9e99857a41c0b1580d985d4f67bcb68bb9b3b08bc6d5cf1",
+            "id": "ghsl-2025",
+            "license": "European Commission reuse with attribution",
+            "nodata": "Excluded explicitly; never filled with people",
+            "release": "R2023A_V1_0",
+            "retained_sha256": "320f40fd3a6e4bd5b47a5e919d373ee08c9f44ee9ab469bdabac069f0c67c991",
+            "retainer_sha256": "3b7c78e12a5ff7fdb0bef6baf2e9a08ae69acbb37e06e7626b0c569739a6fbe8",
+            "selection": "Native pixel centres inside city bbox; no count resampling, scaling or dataset averaging",
+            "source_resolution_degrees": [
+              0.0008333333300326924,
+              0.000833333329979504
+            ],
+            "source_sha256": "8684a1c0ccd96dd27ecd815dc4604432819f5005d47dd1268c02969f13be511b",
+            "status": "modelled short-range projection; not census",
+            "units": "persons per native pixel",
+            "url": "https://jeodpp.jrc.ec.europa.eu/ftp/jrc-opendata/GHSL/GHS_POP_GLOBE_R2023A/GHS_POP_E2025_GLOBE_R2023A_4326_3ss/V1-0/tiles/GHS_POP_E2025_GLOBE_R2023A_4326_3ss_V1_0_R6_C23.zip",
+            "year": 2025
+          }
+        },
+        "worldpop-2020": {
+          "access": {
+            "basis": "Spherical native pixel-centre union; each resident counted at most once per sector",
+            "missing_pixels": 248597,
+            "radius_m": 1000,
+            "sectors": [
+              {
+                "population": 5985974.441,
+                "radial_covered_population": 1660587.825,
+                "radial_fraction": 0.27741312,
+                "radial_unserved_population": 4325386.616,
+                "sector": "city"
+              },
+              {
+                "population": 665396.213,
+                "radial_covered_population": 234784.253,
+                "radial_fraction": 0.3528488,
+                "radial_unserved_population": 430611.959,
+                "sector": "northeast"
+              },
+              {
+                "population": 1673741.416,
+                "radial_covered_population": 420805.782,
+                "radial_fraction": 0.25141624,
+                "radial_unserved_population": 1252935.635,
+                "sector": "west"
+              }
+            ],
+            "valid_pixels": 107803,
+            "validated_walking_access": false
+          },
+          "source": {
+            "attribution": "WorldPop, University of Southampton, 2020; CC BY 4.0",
+            "bbox": {
+              "east": 44.75,
+              "north": 33.5,
+              "south": 33.05,
+              "west": 44.2
+            },
+            "dataset": "WorldPop 2020 native gridded population counts",
+            "nodata": "Source nodata/out-of-extent and invalid values excluded and reported; never filled with people.",
+            "pixel_selection": "Native pixel centres inside the city bbox; no resampling.",
+            "retained_sha256": "2a5a94aec63edb90d7cb8980a1c440c5aaa53c6021053ed3b39fae538aaaf1c2",
+            "source_documentation": "https://www.worldpop.org/sdi/introapi/",
+            "source_resolution_degrees": [
+              0.0008333333300358177,
+              0.0008333333300228421
+            ],
+            "source_sha256": "f5cab141422e0f047f84d37f481a7be273e6c7ad4a115860f71596bc6ed85cda",
+            "source_url": "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/IRQ/irq_ppp_2020_constrained.tif",
+            "units": "persons per native source pixel",
+            "year": 2020
+          }
+        },
+        "worldpop-2026": {
+          "access": {
+            "basis": "Spherical native pixel-centre union; each resident counted at most once per sector",
+            "missing_pixels": 128196,
+            "radius_m": 1000,
+            "sectors": [
+              {
+                "population": 8597980.041,
+                "radial_covered_population": 2583182.663,
+                "radial_fraction": 0.30044064,
+                "radial_unserved_population": 6014797.378,
+                "sector": "city"
+              },
+              {
+                "population": 2197149.626,
+                "radial_covered_population": 843827.83,
+                "radial_fraction": 0.3840557,
+                "radial_unserved_population": 1353321.796,
+                "sector": "northeast"
+              },
+              {
+                "population": 1459449.324,
+                "radial_covered_population": 432019.015,
+                "radial_fraction": 0.29601508,
+                "radial_unserved_population": 1027430.309,
+                "sector": "west"
+              }
+            ],
+            "valid_pixels": 228204,
+            "validated_walking_access": false
+          },
+          "source": {
+            "attribution": "WorldPop, University of Southampton, 2025, DOI:10.5258/SOTON/WP00839; CC BY 4.0",
+            "bbox": {
+              "east": 44.75,
+              "north": 33.5,
+              "south": 33.05,
+              "west": 44.2
+            },
+            "dataset": "WorldPop Global2 R2025A v1 constrained 100m population counts",
+            "documentation": "https://hub.worldpop.org/geodata/summary?id=73856",
+            "download_sha256": "5c9d06066d49e03aa262383b86f10da63ea254690c2ea00d94178ab62f7e8114",
+            "id": "worldpop-2026",
+            "license": "CC-BY-4.0",
+            "nodata": "Excluded explicitly; never filled with people",
+            "release": "R2025A_v1",
+            "retained_sha256": "bf23aa16ba1135dbd4da7b0f6191bc8b31e000b5d1ae6b6977197661ae222849",
+            "retainer_sha256": "3b7c78e12a5ff7fdb0bef6baf2e9a08ae69acbb37e06e7626b0c569739a6fbe8",
+            "selection": "Native pixel centres inside city bbox; no count resampling, scaling or dataset averaging",
+            "source_resolution_degrees": [
+              0.00083333333,
+              0.00083333333
+            ],
+            "source_sha256": "5c9d06066d49e03aa262383b86f10da63ea254690c2ea00d94178ab62f7e8114",
+            "status": "alpha modelled estimate; projected epoch, not census",
+            "units": "persons per native pixel",
+            "url": "https://data.worldpop.org/GIS/Population/Global_2015_2030/R2025A/2026/IRQ/v1/100m/constrained/irq_pop_2026_CN_100m_R2025A_v1.tif",
+            "year": 2026
+          }
+        }
+      },
+      "limitations": [
+        "Population sources and epochs differ; disagreement is not a measured growth rate",
+        "GHSL and WorldPop are different models with potentially shared census inputs, not independent ground truth",
+        "OSM roads and buildings are geometry, never measured traffic or dwelling occupancy",
+        "No source raises paid trips, fares or release acceptance automatically"
+      ],
+      "selected_population": "worldpop-2026",
+      "streets": {
+        "attribution": "© OpenStreetMap contributors; extract by Geofabrik",
+        "bbox": {
+          "east": 44.75,
+          "north": 33.5,
+          "south": 33.05,
+          "west": 44.2
+        },
+        "building_way_count": 53174,
+        "construction_accepted": false,
+        "dataset": "Geofabrik Iraq dated OpenStreetMap extract",
+        "documentation": "https://download.geofabrik.de/asia/iraq.html",
+        "edge_count": 362348,
+        "extractor_sha256": "3b7c78e12a5ff7fdb0bef6baf2e9a08ae69acbb37e06e7626b0c569739a6fbe8",
+        "geometry_sha256": "08e1b63c95ac8163b1d9245cd087b7c578317e823a7d8c0eab8790b413b27da0",
+        "graph_sha256": "22d4ea8214f1bb58e9288a6bfcf9aeac6964420dcab6b6c9308f578553e52857",
+        "highway_way_counts": {
+          "bridleway": 11,
+          "bus_stop": 1,
+          "construction": 781,
+          "corridor": 15,
+          "cycleway": 3,
+          "footway": 4119,
+          "living_street": 275,
+          "motorway": 412,
+          "motorway_link": 691,
+          "no": 1,
+          "path": 113,
+          "pedestrian": 279,
+          "primary": 1279,
+          "primary_link": 1037,
+          "proposed": 67,
+          "raceway": 1,
+          "residential": 50110,
+          "road": 10,
+          "secondary": 592,
+          "secondary_link": 373,
+          "service": 11254,
+          "steps": 353,
+          "tertiary": 1785,
+          "tertiary_link": 604,
+          "track": 1368,
+          "trunk": 224,
+          "trunk_link": 250,
+          "unclassified": 2659
+        },
+        "license": "ODbL-1.0",
+        "limitations": [
+          "OSM completeness, sidewalks, gates, accessibility and station entrances unverified",
+          "Graph clipped to city bbox; paths outside boundary unavailable",
+          "Only shared OSM node IDs connect roads; geometric crossings alone never connect",
+          "OSM building inventory is incomplete; absence does not imply no residents"
+        ],
+        "node_count": 308905,
+        "osmium_version": "4.3.1",
+        "snapshot": "2026-10-09",
+        "source_sha256": "7459b5815d8014c5a1f78a826b02b144e5908121e7d5572af80298c9784b4841",
+        "traffic_counts_measured": false,
+        "url": "https://download.geofabrik.de/asia/iraq-261009.osm.pbf",
+        "walking_pixel_snap_limit_m": 150,
+        "walking_station_snap_limit_m": 150
+      },
+      "traffic": {
+        "coverage_documentation": "https://docs.tomtom.com/traffic-api/documentation/tomtom-orbis-maps/v2/product-information/market-coverage",
+        "measured_counts": null,
+        "measured_speeds": null,
+        "origin_destination": null,
+        "required_evidence": "Licensed road-specific speed/count observations with dates, time intervals, units, direction and sample quality; OD survey and transit mode-share evidence separately required",
+        "status": "unavailable",
+        "tomtom_iraq": "Iraq absent from both current classic and Orbis Traffic API market-coverage tables; no Baghdad traffic ingestion enabled"
+      }
+    },
+    "soil": {
+      "city": "baghdad",
+      "complete_profile_count": 5653,
+      "density_unit_reconciliation": "TIFF/filename g/cm3 × 1000 = kg/m3; upstream catalogue unit label differs",
+      "depth_intervals": [
+        "0..30cm",
+        "30..60cm",
+        "60..100cm"
+      ],
+      "limitations": [
+        "No bearing capacity, CBR, friction angle, cohesion, groundwater, contamination, sulfate/chloride or deep stratigraphy is inferred from these maps.",
+        "Desert, water, urban fill and other nodata remain unknown; no nearest-pixel or climate-based substitution.",
+        "Texture fractions are independent predictions; they are not renormalised or converted to a geotechnical soil class.",
+        "Prioritisation thresholds are editable OSR screening rules, not statutory limits or evidence of a hazard.",
+        "No excavation depths, foundation dimensions, treatment quantities or civil costs are changed from pedological predictions."
+      ],
+      "missing_profile_count": 16,
+      "prediction_interval": "p16-p84; nominal 68% prediction interval; not engineering design characteristic values",
+      "property_sample_ranges": [
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "0..30cm",
+          "mean_max": 32.0,
+          "mean_min": 16.0,
+          "p16_min": 2.0,
+          "p84_max": 42.0,
+          "property": "clay",
+          "unit": "%"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "0..30cm",
+          "mean_max": 58.0,
+          "mean_min": 24.0,
+          "p16_min": 5.0,
+          "p84_max": 84.0,
+          "property": "sand",
+          "unit": "%"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "0..30cm",
+          "mean_max": 45.0,
+          "mean_min": 26.0,
+          "p16_min": 8.0,
+          "p84_max": 59.0,
+          "property": "silt",
+          "unit": "%"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "0..30cm",
+          "mean_max": 1510.0,
+          "mean_min": 1410.0,
+          "p16_min": 1210.0,
+          "p84_max": 1730.0,
+          "property": "bd.core",
+          "unit": "kg/m3"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "0..30cm",
+          "mean_max": 6.4,
+          "mean_min": 2.3,
+          "p16_min": 0.5,
+          "p84_max": 14.8,
+          "property": "soc",
+          "unit": "g/kg"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "0..30cm",
+          "mean_max": 8.4,
+          "mean_min": 7.5,
+          "p16_min": 6.6,
+          "p84_max": 9.2,
+          "property": "ph.h2o",
+          "unit": "pH"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "30..60cm",
+          "mean_max": 33.0,
+          "mean_min": 17.0,
+          "p16_min": 1.0,
+          "p84_max": 43.0,
+          "property": "clay",
+          "unit": "%"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "30..60cm",
+          "mean_max": 57.0,
+          "mean_min": 26.0,
+          "p16_min": 5.0,
+          "p84_max": 92.0,
+          "property": "sand",
+          "unit": "%"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "30..60cm",
+          "mean_max": 42.0,
+          "mean_min": 24.0,
+          "p16_min": 5.0,
+          "p84_max": 60.0,
+          "property": "silt",
+          "unit": "%"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "30..60cm",
+          "mean_max": 1580.0,
+          "mean_min": 1410.0,
+          "p16_min": 1170.0,
+          "p84_max": 1810.0,
+          "property": "bd.core",
+          "unit": "kg/m3"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "30..60cm",
+          "mean_max": 3.9,
+          "mean_min": 1.6,
+          "p16_min": 0.0,
+          "p84_max": 13.1,
+          "property": "soc",
+          "unit": "g/kg"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "30..60cm",
+          "mean_max": 8.7,
+          "mean_min": 7.5,
+          "p16_min": 6.2,
+          "p84_max": 10.2,
+          "property": "ph.h2o",
+          "unit": "pH"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "60..100cm",
+          "mean_max": 34.0,
+          "mean_min": 17.0,
+          "p16_min": 2.0,
+          "p84_max": 44.0,
+          "property": "clay",
+          "unit": "%"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "60..100cm",
+          "mean_max": 58.0,
+          "mean_min": 27.0,
+          "p16_min": 7.0,
+          "p84_max": 92.0,
+          "property": "sand",
+          "unit": "%"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "60..100cm",
+          "mean_max": 41.0,
+          "mean_min": 22.0,
+          "p16_min": 2.0,
+          "p84_max": 58.0,
+          "property": "silt",
+          "unit": "%"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "60..100cm",
+          "mean_max": 1630.0,
+          "mean_min": 1400.0,
+          "p16_min": 1200.0,
+          "p84_max": 1940.0,
+          "property": "bd.core",
+          "unit": "kg/m3"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "60..100cm",
+          "mean_max": 3.2,
+          "mean_min": 1.5,
+          "p16_min": 0.0,
+          "p84_max": 8.1,
+          "property": "soc",
+          "unit": "g/kg"
+        },
+        {
+          "available_mean_count": 5653,
+          "depth_interval": "60..100cm",
+          "mean_max": 8.8,
+          "mean_min": 7.5,
+          "p16_min": 5.1,
+          "p84_max": 10.3,
+          "property": "ph.h2o",
+          "unit": "pH"
+        }
+      ]
+    }
+  },
+  "ground_design_validated": false,
+  "route_clearances_validated": false,
+  "schema": "osr-maglev-desktop-context/1",
+  "use": "Desktop investigation planning only; vehicle loads and foundation design require new site-specific assessment."
+}

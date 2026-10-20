@@ -83,50 +83,180 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 150,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 9350.6,
       "name": "line-1",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 150,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 14355.3,
       "name": "line-2",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 210,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 11185.4,
       "name": "line-3",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 320,
+        "passenger_capacity": 240
+      },
       "length_m": 5099.3,
       "name": "line-4",
-      "rolling_stock": "tram-2car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0476-0588-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0341-0217-s009351"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -159,22 +289,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 20
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0096-0563-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0689-0283-s014355"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -207,22 +324,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 30
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0525-0111-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0218-0436-s011185"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -255,22 +359,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 23
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-4-0603-0352-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-4-0512-0486-s005099"
-        }
-      ],
       "line": "line-4",
       "schedule": [
         {
@@ -303,10 +394,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 13
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -481,9 +569,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Thunguma Medical Clinic",
-      "archetype": "terminal",
       "id": "line-1-0476-0588-s000000",
       "lat": -0.438253878270885,
       "line": "line-1",
@@ -492,31 +577,22 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0420-0420-s004146",
-      "junction_group": 0,
       "lat": -0.4281757729546845,
       "line": "line-1",
       "lon": 36.955550000595586,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 4145.6
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0392-0373-s005436",
-      "junction_group": 1,
       "lat": -0.4231367202965842,
       "line": "line-1",
       "lon": 36.94710564856707,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 5435.5
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "mathari hospital",
-      "archetype": "terminal",
       "id": "line-1-0341-0217-s009351",
       "lat": -0.41395844581218727,
       "line": "line-1",
@@ -525,9 +601,6 @@
       "s_m": 9350.6
     },
     {
-      "anchor_kind": "aeroway:aerodrome",
-      "anchor_name": "Nyeri Airport",
-      "archetype": "terminal",
       "id": "line-2-0096-0563-s000000",
       "lat": -0.36986673505380985,
       "line": "line-2",
@@ -536,7 +609,6 @@
       "s_m": 0.0
     },
     {
-      "archetype": "standard",
       "id": "line-2-0295-0464-s004824",
       "lat": -0.405680002159594,
       "line": "line-2",
@@ -545,42 +617,30 @@
       "s_m": 4823.6
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0420-0420-s007723",
-      "junction_group": 0,
       "lat": -0.4281757729546845,
       "line": "line-2",
       "lon": 36.955550000595586,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 7723.2
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0603-0352-s012005",
-      "junction_group": 2,
       "lat": -0.461109581398697,
       "line": "line-2",
       "lon": 36.943332640213896,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 12005.1
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0606-0349-s012102",
-      "junction_group": 2,
       "lat": -0.4616494798977792,
       "line": "line-2",
       "lon": 36.942793639020586,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 12101.7
     },
     {
-      "anchor_kind": "place:town",
-      "anchor_name": "Wamagana",
-      "archetype": "depot-terminal",
       "id": "line-2-0689-0283-s014355",
       "lat": -0.47658667170571933,
       "line": "line-2",
@@ -589,9 +649,6 @@
       "s_m": 14355.3
     },
     {
-      "anchor_kind": "amenity:bus_station",
-      "anchor_name": "kagundu-ini",
-      "archetype": "terminal",
       "id": "line-3-0525-0111-s000000",
       "lat": -0.44707222042256056,
       "line": "line-3",
@@ -600,20 +657,14 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-3-0392-0373-s006783",
-      "junction_group": 1,
       "lat": -0.4231367202965842,
       "line": "line-3",
       "lon": 36.94710564856707,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 6782.6
     },
     {
-      "anchor_kind": "amenity:university",
-      "anchor_name": "Kimathi University",
-      "archetype": "terminal",
       "id": "line-3-0218-0436-s011185",
       "lat": -0.3918226073498182,
       "line": "line-3",
@@ -622,29 +673,22 @@
       "s_m": 11185.4
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0603-0352-s000000",
-      "junction_group": 2,
       "lat": -0.461109581398697,
       "line": "line-4",
       "lon": 36.943332640213896,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-4-0606-0349-s000165",
-      "junction_group": 2,
       "lat": -0.4616494798977792,
       "line": "line-4",
       "lon": 36.942793639020586,
-      "mandatory_crossing": true,
       "platform_length_m": 49.0,
       "s_m": 164.9
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0512-0486-s005099",
       "lat": -0.4447326602598711,
       "line": "line-4",

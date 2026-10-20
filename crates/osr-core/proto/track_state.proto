@@ -63,8 +63,7 @@ enum PositionSource {
   POSITION_SOURCE_IMU = 2;
   POSITION_SOURCE_ODOMETRY = 3;
   POSITION_SOURCE_BEACON = 4;
-  POSITION_SOURCE_LEGACY_TRACK_CIRCUIT = 5;  // migration use only; see ARCHITECTURE §10
-  POSITION_SOURCE_LEGACY_AXLE_COUNTER = 6;
+  reserved 5, 6;
 }
 
 // ============================================================================
@@ -73,8 +72,8 @@ enum PositionSource {
 
 enum TrainClass {
   TRAIN_CLASS_UNSPECIFIED = 0;
-  TRAIN_CLASS_LIGHT_METRO = 1;   // LRT / light rail transit
-  TRAIN_CLASS_METRO = 2;          // heavy urban rail
+  TRAIN_CLASS_URBAN_MAGLEV = 7;
+  reserved 1, 2;
   TRAIN_CLASS_ENGINEERING = 5;    // track machines, work trains — depot/yard use only
   TRAIN_CLASS_YARD = 6;           // yard movements at yard speeds
 
@@ -104,10 +103,7 @@ message ConsistDescriptor {
   float max_speed_mps = 4;
   BrakingCurve braking = 5;
   uint32 car_count = 6;
-  // True only for deployments selecting the pantograph-down opportunity
-  // charger alternate. The OSR default is side-pin charging and no
-  // continuous catenary.
-  bool has_pantograph = 7;
+  reserved 7;
   uint32 battery_capacity_wh = 8;
 }
 
@@ -115,7 +111,7 @@ message ConsistDescriptor {
 // a TrainId to specific attested hardware.
 message CertChain {
   repeated bytes cert_der = 1;            // x.509 chain
-  bytes attestation_quote = 2;             // TPM/OpenTitan quote of the T-ECU boot measurement
+  bytes attestation_quote = 2;             // attestation of the selected controller boot measurement
   bytes attestation_nonce = 3;
 }
 

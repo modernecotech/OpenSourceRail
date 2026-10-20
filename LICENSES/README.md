@@ -11,10 +11,10 @@ OpenSourceRail:
 
 | Paths/material | SPDX identifier |
 |---|---|
-| `crates/`, `design/city-generation/src/`, `design/component-catalogue/src/`, `tools/automation/`, `tools/`, tests, and executable portal code | `Apache-2.0` |
-| `control-electronics/`, `design/component-catalogue/catalog/`, generated CAD, fabrication definitions, travelers, and control-electronics/mechanical drawings | `CERN-OHL-S-2.0` |
+| `crates/`, Python implementations in `engineering/`, `tools/`, tests, and executable portal code | `Apache-2.0` |
+| Hardware specifications, generated CAD, fabrication definitions, travelers, and electrical/mechanical drawings | `CERN-OHL-S-2.0` |
 | `docs/`, repository Markdown, original diagrams, and original documentation media | `CC-BY-SA-4.0` |
-| `engineering/assurance/formal/` model source | `Apache-2.0` |
+| Executable formal model source | `Apache-2.0` |
 
 Generated files follow the license of the source material unless their
 manifest or embedded notice states otherwise. Third-party data, maps,

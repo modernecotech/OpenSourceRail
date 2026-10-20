@@ -1,14 +1,17 @@
-# Tools
+# OpenSourceRail tools
 
-| Area | Kind | Purpose |
+Start with the [project launcher](../osr) and [current engineering workflow](../engineering/ferrite_maglev/README.md).
+
+| Workflow | Command | Purpose |
 |---|---|---|
-| [`automation/`](automation/README.md) | Internal orchestration | Build, regeneration, publishing, validation and repository health |
-| [`osr-aln-convert/`](osr-aln-convert/README.md) | Installable utility | OSR-ALN/LandXML conversion and validation |
-| [`reference-ma/`](reference-ma/README.md) | Installable reference utility | Independent movement-authority reference model |
+| Rebuild current evidence | `./osr build` | Rebuild stale prerequisites and publish source-bound studies |
+| Inspect current studies | `./osr design status` | Show architecture, requirements, responsibilities and open gates |
+| Regenerate a city | `./osr city baghdad` | Compile formations, quantities, partial costs and manufacturing routes |
+| Replay city charging | `./osr sim baghdad --cycles 2` | Test the compiled offline energy ledger |
+| Open design UI | `./osr workbench` | Inspect city plans, native geometry and provisional cost scope |
+| Verify | `./osr test` | Run current Rust, Python, publication and browser checks |
+| Refresh in background | `./osr design install` | Install the user-local source-change build timer |
 
-User workflows start with [`../osr`](../osr); domain rules stay in their owning
-Rust or Python packages rather than accumulating in automation scripts.
-
-## Shared local design workflows
-
-`./osr design problems/run/refine/search/jobs/verify/compare/cancel/resume/export` delegates to the [shared package](../engineering/design_engine/README.md); the original Rust design compiler remains available for its legacy arguments. `./osr doctor`, `./osr capabilities`, `./osr catalogue` and `./osr check` provide preflight, the generated directory, selected-city generation and local test tiers. See [acceptance limits](../docs/design-engine/plan-status.md).
+[Automation scripts](automation/) provide the current pipeline. The generic
+[movement-authority reference utility](reference-ma/README.md) remains a separate
+development helper; it does not qualify control hardware or railway operation.

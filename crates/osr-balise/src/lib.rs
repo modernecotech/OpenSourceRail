@@ -12,7 +12,7 @@
 //!   and the expected-sightings list, flagging missed or extra
 //!   balises for maintenance.
 //!
-//! Phase 2d crate of [RFC 0005 §4.6](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2d crate of [RFC 0005 §4.6](../../../docs/ARCHITECTURE.md).
 //! SIL-2: the primary position fix is still the onboard odometry;
 //! a missing balise degrades confidence and triggers a maintenance
 //! work order but does not directly endanger passengers.

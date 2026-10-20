@@ -7,12 +7,12 @@ from pathlib import Path
 import re
 import tomllib
 
-from . import workbook
+from . import manufacturing
 
 ROOT = Path(__file__).resolve().parents[2]
 POLICY = ROOT / 'lib/templates/infrastructure.toml'
 INPUT = ROOT / 'ferrite-maglev-study.toml'
-SPEC = ROOT / 'OpenSourceRail_Ferrite_Maglev_Rework_Specification.md'
+SPEC = ROOT / 'engineering/ferrite_maglev/data/requirements.json'
 FLAGS = dict(design_complete=False, physical_validation=False, manufacturing_release=False, physical_release=False)
 
 
@@ -90,7 +90,7 @@ def validate(c):
 
 def load():
     policy = tomllib.loads(POLICY.read_text())
-    if policy['development']['primary_family'] != 'ferrite-pm-maglev-study' or policy['development']['automatic_legacy_fallback'] is not False:
+    if policy['development']['primary_family'] != 'ferrite-pm-maglev-study':
         raise ValueError('primary architecture policy differs')
     if policy['development']['primary_input']!='ferrite-maglev-study.toml' or policy['development']['primary_runner']!='tools/automation/ferrite-maglev-study.py':
         raise ValueError('selected input/adapter differs from the installed primary adapter')
@@ -109,25 +109,9 @@ def load():
         raise ValueError('primary policy and elevated optimisation target differ')
     if policy['controls']['language']!=c['controls']['implementation_language'] or policy['controls']['preferred_host']!=c['controls']['preferred_host']:
         raise ValueError('primary control policy and input differ')
-    cost_path = ROOT / c['cost']['cost_input_file']
-    if cost_path.resolve() != (ROOT / 'OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx').resolve():
-        raise ValueError('controlled supplied workbook required')
-    costs = workbook.read(cost_path)
-    f = costs['fixed']; v = c['vehicle']; p = c['power']
-    agreement = [(f['cars'], v['cars_per_train']), (f['aw2_passengers'], v['aw2_passengers_per_car']),
-                 (f['aw3_passengers'], v['aw3_passengers_per_car']), (f['passenger_kg'], v['passenger_mass_screen_kg']),
-                 (f['pack_wh_kg'], p['installed_pack_specific_energy_wh_kg']),
-                 (f['base_ferrite_kg'], c['mass']['ferrite_base']),
-                 (f['base_tare_kg'], c['mass']['base_tare_target_150kwh_3t_ferrite']),
-                 (f['base_battery_kwh'], p['gross_battery_reduced_option_kwh_per_car']),
-                 (f['battery_kwh_train'], p['gross_battery_matched_kwh_per_car']*v['cars_per_train'])]
-    if any(a != b for a, b in agreement): raise ValueError('workbook and physical profile disagree')
-    # Check the live comparator; never silently read a different old cost revision.
-    import json
-    ref = json.loads((ROOT / 'design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json').read_text())
-    civil = tomllib.loads((ROOT / 'lib/templates/civil-cost-model.toml').read_text())
-    if f['direct_usd'] != ref['direct_material_and_supplier_cost_usd'] or f['elevated_usd_km'] != civil['civil_usd_per_km']['elevated']:
-        raise ValueError('comparator changed; reconcile supplied workbook before comparison')
+    if c['cost']['cost_input_file'] != manufacturing.INPUT.relative_to(ROOT).as_posix():
+        raise ValueError('controlled process rate input required')
+    costs = manufacturing.load()
     return policy, c, costs
 
 
@@ -142,35 +126,19 @@ def mass(c, ferrite, battery):
                 cg_m=None, inertia_kg_m2=None, actual_mass_verified=False)
 
 
-def cost_case(c, costs, scenario, ferrite, battery, *, hardware_target=None):
-    f, s = costs['fixed'], costs['scenarios'][scenario]
-    removed = sum(f[k] for k in ('remove_bogies_usd', 'remove_motors_usd', 'remove_gears_usd', 'remove_drives_usd', 'remove_cooling_usd'))
-    bundle = sum(s[k] for k in ('iron_carriers_usd', 'windings_usd', 'drives_usd', 'sensing_usd', 'cooling_usd', 'finished_array_usd'))
-    if hardware_target is not None:
-        bundle = positive(hardware_target, 'magnetic hardware target')
-    raw = ferrite*f['cars']*f['ferrite_usd_kg']
-    credit = (f['battery_kwh_train']-battery*f['cars'])*f['battery_pack_usd_train']/f['battery_kwh_train']
-    labour = s['integration_hours']*f['labour_usd_h']
-    direct = f['direct_usd']-removed-credit+raw+bundle+s['capture_usd']
-    ref = (f['direct_usd']+f['labour_hours']*f['labour_usd_h'])*(1+f['premium'])
-    train = (direct+labour)*(1+f['premium'])
-    old_structure = f['supplied_components_usd_km']-f['rail_supply_usd_km']
-    rows = dict(structural_supply=old_structure*s['structure_factor'], conventional_rail=0,
-                passive_rail_supply=s['rail_supply_usd_km'], walkway_brackets=s['brackets_usd_km'])
-    for scope in ('erection', 'transport', 'temporary', 'installation', 'night', 'qa', 'relocation', 'traffic', 'supports'):
-        rows[scope] = f[scope+'_usd_km']*s[scope+'_factor']
-    pilot_subtotal = s['engineering_fte_years']*f['fte_usd_year']+sum(s[k] for k in (
-        'independent_testing_usd', 'rigs_usd', 'fixtures_usd', 'first_article_usd', 'pilot_guideway_usd', 'site_power_recovery_usd'))
-    return dict(scenario=scenario, ferrite_kg_car=ferrite, battery_kwh_car=battery,
-                hardware_target_usd_train=hardware_target, magnetic_bundle_usd_train=bundle,
-                raw_ferrite_usd_train=raw, removed_direct_usd_train=removed,
-                battery_credit_usd_train=credit, train_usd=train, reference_train_usd=ref,
-                train_saving_fraction=1-train/ref, civil_usd_dual_km=sum(rows.values()), civil_rows_usd_dual_km=rows,
-                lower_rail_350_usd_beam_m_sensitivity=sum(rows.values())-s['rail_supply_usd_km']+350*f['beam_m_km'],
-                pilot_subtotal_usd=pilot_subtotal, pilot_usd=pilot_subtotal*(1+s['pilot_reserve']),
-                city_total_usd=None, epc_included=False, costs_are_quotes=False,
-                scope='Repeat train and ordinary dual-direction elevated guideway separately; pilot includes first train once',
-                limits='Target cases change bundle allowance only; hardware quantities, origin, costs and feasibility remain open')
+def cost_case(c, costs, scenario, ferrite, battery, *, hardware_target=None, cars=None):
+    vehicle=manufacturing.vehicle(c,costs,ferrite,battery,cars=cars,hardware_target=hardware_target,scenario=scenario)
+    civil=manufacturing.civil(c,costs,scenario=scenario)
+    rows={r['id']:r['amount_usd'] for r in civil['rows']}
+    return dict(scenario=scenario,cars=vehicle['cars'],ferrite_kg_car=ferrite,battery_kwh_car=battery,
+        hardware_target_usd_train=hardware_target,
+        magnetic_bundle_usd_train=next(r['amount_usd'] for r in vehicle['rows'] if r['id']=='magnetic-modules'),
+        raw_ferrite_usd_train=next(r['amount_usd'] for r in vehicle['rows'] if r['id']=='ferrite'),
+        train_usd=vehicle['total_allowance_usd'],vehicle_bill=vehicle,
+        civil_usd_dual_km=civil['total_allowance_usd_dual_km'],civil_rows_usd_dual_km=rows,civil_bill=civil,
+        pilot_subtotal_usd=None,pilot_usd=None,city_total_usd=None,epc_included=False,costs_are_quotes=False,
+        scope='Independent maglev formation and ordinary dual-direction elevated guideway allowances; pilot/NRE and complete programme unpriced',
+        limits='Quantity/process assumptions; site ground, force maps, manufacturing cycle times, prices and origins require qualification')
 
 
 def section(width, depth, web, flange):
@@ -280,20 +248,16 @@ def localisation(rows):
 
 
 def requirement_register():
-    text=SPEC.read_text();records={}
-    for number,line in enumerate(text.splitlines(),1):
-        match=re.match(r'(?:\| )?((?:SYS|MASS|GEO|PWR|CIV|OPS|CTL|MFG|MAG)-\d{3})(?:[.: ]| \|)',line)
-        if match:
-            identity=match.group(1)
-            if identity in records:raise ValueError('duplicate requirement '+identity)
-            records[identity]=dict(id=identity,source_line=number,requirement=line,state='open',accepted=False)
-    return list(records.values())
+    import json
+    data=json.loads(SPEC.read_text())
+    records=data['requirements']
+    if len({r['id'] for r in records})!=len(records):raise ValueError('duplicate requirement')
+    return deepcopy(records)
 
 
 def sources():
-    paths=[ROOT/'OpenSourceRail maglev station concept.png',ROOT/'Vertical spiral escape chute concept.png',POLICY,INPUT,SPEC,ROOT/'OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx',ROOT/'VERSION',ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'osr',ROOT/'package.json',ROOT/'package-lock.json',
-           ROOT/'tools/automation/ferrite-maglev-study.py',ROOT/'engineering/analysis/tests/test_ferrite_maglev.py',
-           ROOT/'design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json',ROOT/'lib/templates/civil-cost-model.toml']
+    paths=[ROOT/'OpenSourceRail maglev station concept.png',ROOT/'Vertical spiral escape chute concept.png',POLICY,INPUT,SPEC,manufacturing.INPUT,ROOT/'VERSION',ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'osr',ROOT/'package.json',ROOT/'package-lock.json',
+           ROOT/'tools/automation/ferrite-maglev-study.py',ROOT/'engineering/analysis/tests/test_ferrite_maglev.py']
     paths+=list(Path(__file__).parent.glob('*.py'))
     paths+=list(Path(__file__).parent.glob('*.txt'))
     paths+=list(Path(__file__).parent.glob('*.toml'))
@@ -321,7 +285,7 @@ def build():
     for ferrite,battery in itertools.product((c['mass']['ferrite_base'],c['mass']['ferrite_sensitivity']),
                   (c['power']['gross_battery_matched_kwh_per_car'],c['power']['gross_battery_reduced_option_kwh_per_car'])):
         m=mass(c,ferrite,battery);masses.append(dict(ferrite_kg_car=ferrite,battery_kwh_car=battery,**m))
-        for scenario in costs['scenarios']:cost_cases.append(cost_case(c,costs,scenario,ferrite,battery))
+        for scenario in costs['scenario_multipliers']:cost_cases.append(cost_case(c,costs,scenario,ferrite,battery))
         for load_case,hot in itertools.product(('aw2_kg','aw3_kg'),(False,True)):
             energies.append(dict(ferrite_kg_car=ferrite,battery_kwh_car=battery,load=load_case,**cycle(c,m[load_case],hot=hot)))
     targets=[cost_case(c,costs,'base',c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'],hardware_target=h) for h in (90000,60000)]
@@ -358,18 +322,18 @@ def build():
         'rust-support-control':'24-station five-mode study; actual actuation open',
         'coupled-dynamics':'two-way rigid-car/vertical-beam numerical study; full dynamics open',
         'switch-free-city':'all-catalogue provisional compiler and charging replay',
-        'local-mbom-cost':'complete migration obligations; priced production MBOM open'}
+        'local-mbom-cost':'quantity/process planning; supplier-validated production MBOM open'}
     catalogue_path=Path(__file__).parent/'city-index.json'
     import json
     catalogue=json.loads(catalogue_path.read_text()) if catalogue_path.is_file() else None
     return dict(schema='osr-primary-infrastructure-study/1',version='0.5.0',family=policy['development']['primary_family'],
                 architecture=policy['development']['primary_family'],configuration_revision=configuration.selected().revision,
-                publication_role='primary-provisional-design',city='Baghdad reference; generic three-car cost comparators retained',
-                formation=dict(baghdad_cars=6,nominal_body_length_m=102.,three_car_cost_comparator_only=True),
+                publication_role='primary-provisional-design',city='Baghdad six-car reference',
+                formation=dict(baghdad_cars=6,nominal_body_length_m=102.),
                 financial_scope='Partial maglev repeat fleet and ordinary civil planning allowances; total installed programme and localisation unknown',
                 selected_configuration=configuration.selected().record(),applicable_requirements=requirements.register(),
                 primary_development=True,controller_state='migration and numerical studies implemented; physical design/acceptance closure remains open',
-                policy=policy,inputs=c,workbook_inputs=costs,mass_variants=masses,cost_cases=cost_cases,
+                policy=policy,inputs=c,process_cost_inputs=costs,mass_variants=masses,cost_cases=cost_cases,
                 local_manufacture_cost_targets=targets,energy_cases=energies,adverse_energy_cases=adverse,
                 hot_5percent_grade_steady_speed_kmh=grade_speed,geometry=geometry(c),civil_section_candidates=boxes,
                 localisation=dict(local_fraction=None,method='(finished value - imported inputs) / finished value; origin/cost evidence required',
@@ -385,8 +349,6 @@ def build():
                 city_catalogue=dict(city_count=catalogue['city_count'],catalogue_complete=catalogue['catalogue_complete'],
                     planning_acceptance=False) if catalogue else dict(city_count=0,catalogue_complete=False),
                 work_packages=[dict(id=i,scope=s,state=capability_states.get(i,state),depends_on=deps,accepted=False) for i,s,state,deps in packages],migration=dict(
-                    legacy='wheel-rail-reference',legacy_baseline=policy['development']['legacy_baseline_commit'],
-                    retained_city_outputs='v0.4 wheel/rail comparators; no maglev fleet, cost or acceptance transfer',
                     maglev_city_compiler='implemented provisional formation/service/charging compiler; route/physical acceptance open',
                     native_magnetic_cad_and_force_solver='native geometry and 2D nonlinear-hypothesis backend; 3D/material/force validation open',
                     rust_control='24-module five-mode and flexible-guideway offline coupling; physical adapter/timing open'),**FLAGS)

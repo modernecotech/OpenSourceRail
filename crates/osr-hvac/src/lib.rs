@@ -7,7 +7,7 @@
 //! - `heater_ppt` — electric or heat-pump reverse cycle, 0..=1000
 //! - `fan_ppt` — ventilation / recirculation, 0..=1000
 //!
-//! Phase 2c crate 4 of [RFC 0005 §4.2](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2c crate 4 of [RFC 0005 §4.2](../../../docs/ARCHITECTURE.md).
 //!
 //! # Control law
 //!
@@ -21,7 +21,7 @@
 //! ventilation, no active heating or cooling.
 //!
 //! Under the Samawah reference climate (42 °C ambient, 25 °C
-//! setpoint, [RFC 0003 §4.2](../../../docs/rfcs/0003-samawah-reference-deployment.md))
+//! setpoint, [RFC 0003 §4.2](../../../docs/ARCHITECTURE.md))
 //! the controller spends most of its time commanding full compressor
 //! and high fan; the load-shed gate is what actually drops
 //! passenger-car HVAC when the pack's SoC runs low.
@@ -78,7 +78,7 @@ pub struct HvacParams {
 
 impl HvacParams {
     #[must_use]
-    pub fn light_metro_default() -> Self {
+    pub fn research_default() -> Self {
         Self {
             kp_ppt_per_dc: 40, // 40 ppt per 0.1 °C = 400 ppt per °C
             ki_ppt_per_dc_s: 2,
@@ -226,11 +226,7 @@ mod tests {
     fn disabled_outputs_zero() {
         let mut i = nominal(300, 230);
         i.hvac_enable_request = false;
-        let out = hvac_evaluate(
-            &HvacState::default(),
-            &i,
-            &HvacParams::light_metro_default(),
-        );
+        let out = hvac_evaluate(&HvacState::default(), &i, &HvacParams::research_default());
         assert_eq!(out.mode, HvacMode::Off);
         assert_eq!(out.compressor_ppt, 0);
     }
@@ -239,11 +235,7 @@ mod tests {
     fn rail_down_is_reduced() {
         let mut i = nominal(400, 230);
         i.direct_hv_enabled = false;
-        let out = hvac_evaluate(
-            &HvacState::default(),
-            &i,
-            &HvacParams::light_metro_default(),
-        );
+        let out = hvac_evaluate(&HvacState::default(), &i, &HvacParams::research_default());
         assert_eq!(out.mode, HvacMode::Reduced);
         assert_eq!(out.compressor_ppt, 0);
         assert_eq!(out.heater_ppt, 0);
@@ -255,7 +247,7 @@ mod tests {
         let out = hvac_evaluate(
             &HvacState::default(),
             &nominal(400, 230), // 40 °C cabin, 23 °C target
-            &HvacParams::light_metro_default(),
+            &HvacParams::research_default(),
         );
         assert_eq!(out.mode, HvacMode::Cooling);
         assert!(out.compressor_ppt > 0);
@@ -267,7 +259,7 @@ mod tests {
         let out = hvac_evaluate(
             &HvacState::default(),
             &nominal(100, 230), // 10 °C cabin
-            &HvacParams::light_metro_default(),
+            &HvacParams::research_default(),
         );
         assert_eq!(out.mode, HvacMode::Heating);
         assert!(out.heater_ppt > 0);
@@ -276,7 +268,7 @@ mod tests {
 
     #[test]
     fn in_deadband_ventilates() {
-        let p = HvacParams::light_metro_default();
+        let p = HvacParams::research_default();
         // cabin = setpoint: within deadband
         let out = hvac_evaluate(&HvacState::default(), &nominal(230, 230), &p);
         assert_eq!(out.mode, HvacMode::Ventilating);
@@ -287,7 +279,7 @@ mod tests {
 
     #[test]
     fn determinism() {
-        let p = HvacParams::light_metro_default();
+        let p = HvacParams::research_default();
         let i = nominal(400, 230);
         let a = hvac_evaluate(&HvacState::default(), &i, &p);
         let b = hvac_evaluate(&HvacState::default(), &i, &p);

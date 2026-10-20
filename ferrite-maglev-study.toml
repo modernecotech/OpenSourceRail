@@ -1,5 +1,4 @@
 # Primary development input, accepted by the dedicated maglev study adapter.
-# Legacy wheel/rail generators do not accept this architecture.
 # All dimensions and allocations below are concept-study inputs, not released hardware.
 
 [metadata]
@@ -8,7 +7,6 @@ revision = "B-primary-development"
 date = "2026-10-20"
 family = "ferrite-pm-maglev-study"
 repository = "https://github.com/modernecotech/OpenSourceRail"
-baseline_commit = "50010ce56370cf6b22dc383c12eebbc224800007"
 status = "engineering-study"
 fabrication_release_allowed = false
 operational_authorisation = false
@@ -35,7 +33,7 @@ unpowered_all_axis_contactless_stability_claimed = false
 shared_magnetic_volume_demonstrated = false
 
 [vehicle]
-cars_per_train = 3
+cars_per_train = 6
 nominal_car_length_m = 17.0
 nominal_car_width_m = 2.65
 coupling_pitch_and_overall_length_resolved = false
@@ -155,21 +153,19 @@ current_pwm_study_hz = [10000, 20000]
 gap_sampling_study_hz = [1000, 2000]
 control_bandwidth_validated = false
 local_stabilisation_independent_of_supervision = true
-wheel_odometry_reused_without_rework = false
 traction_trip_must_preserve_required_support_until_secure = true
 sensor_redundancy_and_common_cause_analysis = "TBD"
 contact_capture_parking_and_towing_design = "TBD"
 
 [cost]
 currency = "USD"
-price_basis = "retained-OpenSourceRail-local-planning-basis; new allowances unquoted"
+price_basis = "independent-maglev-quantity-and-process-assumptions; unquoted"
 scenario = "base"
-cost_input_file = "OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx"
+cost_input_file = "engineering/ferrite_maglev/data/cost-rates.json"
 raw_ferrite_usd_per_3000kg = 7000.0
 repeat_train_excludes_nre_plant_warranty_initial_spares = true
 programme_epc_fraction_reference = 0.07
 epc_must_be_added_once_at_programme_layer = true
-baghdad_three_car_one_for_one_substitution_allowed = false
 
 [industrialisation]
 make_local_candidates = ["structural-carriers", "magnet-cartridge-assembly", "coil-winding", "module-integration", "guidebeam-fabrication", "passive-rail-installation", "controller-board-integration", "battery-pack-integration"]
@@ -201,15 +197,9 @@ derived_gross_vertical_i_m4 = 0.193624
 derived_gross_lateral_i_m4 = 0.055350
 walkway_bracket_pitch_m = 2.5
 walkway_brackets_per_dual_route_km = 800
-historical_magnetic_hardware_allowance_kg_m_per_direction = 100 # comparator only; current quantities derive from native geometry
 magnetic_hardware_mass_is_validated = false
 gross_uncracked_concrete_e_pa = 30000000000.0
-current_beam_concrete_area_m2 = 1.199
-current_gross_vertical_i_m4 = 0.14299949
-current_gross_lateral_i_m4 = 0.740145
-current_listed_concrete_m3_per_dual_route_km = 3097.2
 candidate_listed_concrete_m3_per_dual_route_km = 1560.0
 listed_concrete_excludes_end_details_rebar_magnetic_rail_and_brackets = true
-current_shared_piers_per_route_km = 40
 candidate_shared_piers_per_route_km_at_25m_spans = 40
 column_foundation_sizes_released = false

@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
-# Primary development checks; no hardware commands or legacy city synthesis.
+# Current maglev development checks; all physical release gates remain open.
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
-cargo fmt --package osr-maglev-control -- --check
-cargo clippy --locked -p osr-maglev-control --all-targets -- -D warnings
-cargo test --locked -p osr-maglev-control --all-targets
+cargo fmt --all -- --check
+cargo clippy --locked --workspace --all-targets -- -D warnings
+cargo test --locked --workspace --all-targets
 cargo check --locked -p osr-maglev-control --no-default-features
 tools/automation/osr-python -m pytest -q engineering/analysis/tests/test_ferrite_maglev*.py
 tools/automation/osr-python tools/automation/validate-host-manifests.py
 tools/automation/osr-python tools/automation/capabilities.py --check
+tools/automation/osr-python tools/automation/catalogue.py index --check
+tools/automation/osr-python tools/automation/generate-design-index.py --check
+tools/automation/osr-python tools/automation/generate-doc-index.py --check
 tools/automation/osr-python tools/automation/check-readmes.py
 tools/automation/osr-python tools/automation/generate-public-overview.py --check
 tools/automation/osr-python tools/automation/build-doc-book.py --check

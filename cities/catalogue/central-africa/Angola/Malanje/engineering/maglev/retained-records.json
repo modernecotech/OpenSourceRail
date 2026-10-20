@@ -83,34 +83,94 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 150,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 9142.1,
       "name": "line-1",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 120,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 5678.7,
       "name": "line-2",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0464-0332-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0582-0682-s009142"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -143,22 +203,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 32
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-0612-0583-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0471-0405-s005679"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -191,10 +238,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 21
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -319,8 +363,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "amenity:college",
-      "archetype": "terminal",
       "id": "line-1-0464-0332-s000000",
       "lat": -9.524694284274556,
       "line": "line-1",
@@ -329,55 +371,38 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "aeroway:aerodrome",
-      "anchor_name": "Aeroporto de Malanje",
-      "archetype": "interchange",
       "id": "line-1-0472-0405-s001770",
-      "junction_group": 0,
       "lat": -9.526134013605443,
       "line": "line-1",
       "lon": 16.314374756854257,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 1769.9
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0543-0527-s005170",
-      "junction_group": 1,
       "lat": -9.538911611417054,
       "line": "line-1",
       "lon": 16.336600947572432,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5169.8
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0547-0533-s005556",
-      "junction_group": 1,
       "lat": -9.539631476082498,
       "line": "line-1",
       "lon": 16.337694038919228,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5556.1
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0571-0578-s006667",
-      "junction_group": 2,
       "lat": -9.543950664075155,
       "line": "line-1",
       "lon": 16.345892224020194,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 6666.7
     },
     {
-      "anchor_kind": "place:neighbourhood",
-      "anchor_name": "Condominio Sonangol",
-      "archetype": "depot-terminal",
       "id": "line-1-0582-0682-s009142",
       "lat": -9.545930291905123,
       "line": "line-1",
@@ -386,9 +411,6 @@
       "s_m": 9142.1
     },
     {
-      "anchor_kind": "amenity:university",
-      "anchor_name": "Faculdade de Medicina",
-      "archetype": "terminal",
       "id": "line-2-0612-0583-s000000",
       "lat": -9.551329276895943,
       "line": "line-2",
@@ -397,48 +419,34 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0571-0578-s001013",
-      "junction_group": 2,
       "lat": -9.543950664075155,
       "line": "line-2",
       "lon": 16.345892224020194,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 1012.5
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0547-0533-s002123",
-      "junction_group": 1,
       "lat": -9.539631476082498,
       "line": "line-2",
       "lon": 16.337694038919228,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 2123.1
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0543-0527-s002276",
-      "junction_group": 1,
       "lat": -9.538911611417054,
       "line": "line-2",
       "lon": 16.336600947572432,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 2276.2
     },
     {
-      "anchor_kind": "aeroway:aerodrome",
-      "anchor_name": "Aeroporto de Malanje",
-      "archetype": "terminal",
       "id": "line-2-0471-0405-s005679",
-      "junction_group": 0,
       "lat": -9.525954047439082,
       "line": "line-2",
       "lon": 16.314374756854257,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 5678.7
     }

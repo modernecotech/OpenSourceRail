@@ -4,6 +4,7 @@
 
 | City | Cars | Trainsets | Ring closure discrepancies | Open gates | Planning package |
 |---|---:|---:|---:|---:|---|
+| Baghdad | 3300 | 550 | 0 | 12 | [plan](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/maglev/README.md) |
 | Benguela | 345 | 115 | 0 | 12 | [plan](../../cities/catalogue/central-africa/Angola/Benguela/engineering/maglev/README.md) |
 | Huambo | 273 | 91 | 0 | 12 | [plan](../../cities/catalogue/central-africa/Angola/Huambo/engineering/maglev/README.md) |
 | Lobito | 192 | 64 | 0 | 12 | [plan](../../cities/catalogue/central-africa/Angola/Lobito/engineering/maglev/README.md) |
@@ -211,7 +212,6 @@
 | Tanta | 321 | 107 | 0 | 12 | [plan](../../cities/catalogue/west-asia/Egypt/Tanta/engineering/maglev/README.md) |
 | Zagazig | 192 | 64 | 0 | 12 | [plan](../../cities/catalogue/west-asia/Egypt/Zagazig/engineering/maglev/README.md) |
 | Amarah | 228 | 76 | 0 | 12 | [plan](../../cities/catalogue/west-asia/Iraq/Amarah/engineering/maglev/README.md) |
-| Baghdad | 3300 | 550 | 1 | 12 | [plan](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/maglev/README.md) |
 | Baqubah | 330 | 110 | 0 | 12 | [plan](../../cities/catalogue/west-asia/Iraq/Baqubah/engineering/maglev/README.md) |
 | Basra | 2394 | 399 | 1 | 12 | [plan](../../cities/catalogue/west-asia/Iraq/Basra/engineering/maglev/README.md) |
 | Diwaniyah | 264 | 88 | 0 | 12 | [plan](../../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/maglev/README.md) |

@@ -1,6 +1,6 @@
 //! OpenSourceRail auxiliary power controller.
 //!
-//! Manages the isolated DC auxiliary domains a light-metro car runs from
+//! Manages the isolated DC auxiliary domains an urban passenger car runs from
 //! its 650–700 V nominal traction pack. There is no central auxiliary AC
 //! inverter or train-wide 400 V AC bus.
 //!
@@ -10,7 +10,7 @@
 //! | **110 V DC** | Primary interior lighting, door actuators, PIS displays | Medium |
 //! | **direct HV DC** | HVAC internal drive, coolant pumps, other high-power comfort loads | Lowest |
 //!
-//! Phase 2c crate 2 of [RFC 0005 §4.2](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2c crate 2 of [RFC 0005 §4.2](../../../docs/ARCHITECTURE.md).
 //! SIL-2 because failure degrades ride quality (HVAC off, lights dim)
 //! but does not directly endanger passengers — emergency lighting on
 //! the 24 V rail is independently battery-backed at the fixture
@@ -120,7 +120,7 @@ pub struct AuxParams {
 
 impl AuxParams {
     #[must_use]
-    pub fn light_metro_default() -> Self {
+    pub fn research_default() -> Self {
         Self {
             shed_direct_hv_ppt: 300,
             shed_110v_ppt: 150,
@@ -273,7 +273,7 @@ mod tests {
         let out = aux_evaluate(
             &AuxState::default(),
             &nominal_inputs(800),
-            &AuxParams::light_metro_default(),
+            &AuxParams::research_default(),
         );
         assert!(out.v24_enabled);
         assert!(out.v110_enabled);
@@ -286,7 +286,7 @@ mod tests {
         let out = aux_evaluate(
             &AuxState::default(),
             &nominal_inputs(250), // below 300 shed_direct_hv
-            &AuxParams::light_metro_default(),
+            &AuxParams::research_default(),
         );
         assert!(out.v24_enabled);
         assert!(out.v110_enabled);
@@ -299,7 +299,7 @@ mod tests {
         let out = aux_evaluate(
             &AuxState::default(),
             &nominal_inputs(100),
-            &AuxParams::light_metro_default(),
+            &AuxParams::research_default(),
         );
         assert!(out.v24_enabled);
         assert!(!out.v110_enabled);
@@ -311,7 +311,7 @@ mod tests {
     fn contactor_open_disables_all_rails() {
         let mut i = nominal_inputs(800);
         i.pack_contactor_closed = false;
-        let out = aux_evaluate(&AuxState::default(), &i, &AuxParams::light_metro_default());
+        let out = aux_evaluate(&AuxState::default(), &i, &AuxParams::research_default());
         assert!(!out.v24_enabled);
         assert!(!out.v110_enabled);
         assert!(!out.direct_hv_enabled);
@@ -321,7 +321,7 @@ mod tests {
     fn rail_fault_disables_only_that_rail() {
         let mut i = nominal_inputs(800);
         i.v110_over_temp = true;
-        let out = aux_evaluate(&AuxState::default(), &i, &AuxParams::light_metro_default());
+        let out = aux_evaluate(&AuxState::default(), &i, &AuxParams::research_default());
         assert!(out.v24_enabled);
         assert!(!out.v110_enabled);
         assert!(out.direct_hv_enabled);
@@ -330,7 +330,7 @@ mod tests {
 
     #[test]
     fn fault_cooldown_latches() {
-        let p = AuxParams::light_metro_default();
+        let p = AuxParams::research_default();
         let mut i = nominal_inputs(800);
         i.direct_hv_drive_fault = true;
         let state = aux_evaluate(&AuxState::default(), &i, &p).state;
@@ -353,7 +353,7 @@ mod tests {
     fn disable_request_respected() {
         let mut i = nominal_inputs(800);
         i.direct_hv_enable_request = false;
-        let out = aux_evaluate(&AuxState::default(), &i, &AuxParams::light_metro_default());
+        let out = aux_evaluate(&AuxState::default(), &i, &AuxParams::research_default());
         assert!(!out.direct_hv_enabled);
         assert!(out.v24_enabled);
     }
@@ -361,7 +361,7 @@ mod tests {
     #[test]
     fn determinism() {
         let i = nominal_inputs(500);
-        let p = AuxParams::light_metro_default();
+        let p = AuxParams::research_default();
         let a = aux_evaluate(&AuxState::default(), &i, &p);
         let b = aux_evaluate(&AuxState::default(), &i, &p);
         assert_eq!(a, b);

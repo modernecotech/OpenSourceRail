@@ -9,7 +9,7 @@
 //!   but unconditional for emergency priority),
 //! - how many payload records remain queued.
 //!
-//! Phase 2c crate 10 of [RFC 0005 §4.1](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2c crate 10 of [RFC 0005 §4.1](../../../docs/ARCHITECTURE.md).
 //! SIL-2 because losing comms degrades observability and operator
 //! coordination but is not a safety hazard — the SIL-4 signalling
 //! partition is unaffected.

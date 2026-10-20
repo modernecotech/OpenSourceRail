@@ -7,7 +7,7 @@
 //! fixture level. This crate coordinates the *commanded* brightness
 //! but is not load-bearing for fail-safe egress.
 //!
-//! Phase 2c crate 5 of [RFC 0005 §4.2](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2c crate 5 of [RFC 0005 §4.2](../../../docs/ARCHITECTURE.md).
 //!
 //! # Controlled fixture groups
 //!
@@ -81,7 +81,7 @@ pub struct LightingParams {
 
 impl LightingParams {
     #[must_use]
-    pub fn light_metro_default() -> Self {
+    pub fn research_default() -> Self {
         Self {
             interior_normal_ppt: 1000,
             interior_dimmed_ppt: 400,
@@ -217,7 +217,7 @@ mod tests {
 
     #[test]
     fn normal_mode_full_interior() {
-        let out = lighting_evaluate(&nominal(), &LightingParams::light_metro_default());
+        let out = lighting_evaluate(&nominal(), &LightingParams::research_default());
         assert_eq!(out.mode, LightingMode::Normal);
         assert!(out.interior_ppt > 0);
         assert!(out.headlight_front_ppt > 0);
@@ -226,7 +226,7 @@ mod tests {
 
     #[test]
     fn dimmed_mode_reduces_interior() {
-        let p = LightingParams::light_metro_default();
+        let p = LightingParams::research_default();
         let mut i = nominal();
         i.mode_request = LightingMode::Dimmed;
         let out = lighting_evaluate(&i, &p);
@@ -237,7 +237,7 @@ mod tests {
     fn v110_down_forces_emergency() {
         let mut i = nominal();
         i.v110_rail_enabled = false;
-        let out = lighting_evaluate(&i, &LightingParams::light_metro_default());
+        let out = lighting_evaluate(&i, &LightingParams::research_default());
         assert_eq!(out.mode, LightingMode::Emergency);
         assert_eq!(out.interior_ppt, 0);
         assert!(out.emergency_egress_ppt > 0);
@@ -247,13 +247,13 @@ mod tests {
     fn emergency_unlock_forces_emergency() {
         let mut i = nominal();
         i.emergency_unlock = true;
-        let out = lighting_evaluate(&i, &LightingParams::light_metro_default());
+        let out = lighting_evaluate(&i, &LightingParams::research_default());
         assert_eq!(out.mode, LightingMode::Emergency);
     }
 
     #[test]
     fn night_auto_dim_uses_high_beam() {
-        let p = LightingParams::light_metro_default();
+        let p = LightingParams::research_default();
         let mut i = nominal();
         i.ambient_lux = Some(50); // below threshold
         let out = lighting_evaluate(&i, &p);
@@ -262,7 +262,7 @@ mod tests {
 
     #[test]
     fn daylight_uses_low_beam() {
-        let p = LightingParams::light_metro_default();
+        let p = LightingParams::research_default();
         let i = nominal();
         let out = lighting_evaluate(&i, &p);
         assert_eq!(out.headlight_front_ppt, p.headlight_low_ppt);
@@ -270,7 +270,7 @@ mod tests {
 
     #[test]
     fn reverse_heading_swaps_leading_end() {
-        let p = LightingParams::light_metro_default();
+        let p = LightingParams::research_default();
         let mut i = nominal();
         i.heading = Heading::Reverse;
         let out = lighting_evaluate(&i, &p);
@@ -279,7 +279,7 @@ mod tests {
 
     #[test]
     fn v24_down_in_emergency_degrades_egress() {
-        let p = LightingParams::light_metro_default();
+        let p = LightingParams::research_default();
         let mut i = nominal();
         i.v110_rail_enabled = false;
         i.v24_rail_enabled = false;
@@ -291,14 +291,14 @@ mod tests {
     fn off_mode_is_all_zero() {
         let mut i = nominal();
         i.mode_request = LightingMode::Off;
-        let out = lighting_evaluate(&i, &LightingParams::light_metro_default());
+        let out = lighting_evaluate(&i, &LightingParams::research_default());
         assert_eq!(out.interior_ppt, 0);
         assert_eq!(out.headlight_front_ppt, 0);
     }
 
     #[test]
     fn determinism() {
-        let p = LightingParams::light_metro_default();
+        let p = LightingParams::research_default();
         let i = nominal();
         let a = lighting_evaluate(&i, &p);
         let b = lighting_evaluate(&i, &p);

@@ -1,108 +1,32 @@
-# ERPNext operating deployment
+# ERPNext business deployment
 
-ERPNext remains a shared business platform. The primary [maglev transition and industrialisation register](../../engineering/ferrite_maglev/README.md) has no released, priced maglev MBOM. Existing LM3/city templates are comparator planning packages; do not import them as approved maglev manufacturing or procurement records.
+This [composition](compose.yaml) retains ERPNext, Frappe HR, the OSR integration
+app, MariaDB, Redis, workers, scheduler, websocket server and nginx. It supports
+business records and accountable review; it does not establish engineering or
+physical acceptance.
 
-This composition runs ERPNext, Frappe HR, the OSR reference integration,
-MariaDB, Redis, workers, scheduler, websocket server and nginx frontend.
+The current [maglev design programme](../../engineering/ferrite_maglev/README.md)
+has provisional quantities and process routes. The
+[Baghdad manufacturing plan](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/maglev/manufacturing.json)
+is not a released or fully priced MBOM. Procurement and production need approved
+materials, drawings, tolerances, process instructions, supplier configurations,
+quotations, company/warehouse masters and authenticated acceptance evidence.
+Planning rows must not become approved Items, submitted BOMs or Work Orders
+through an automatic design refresh.
 
-Use the root `./osr erp` launcher. Setup, ownership, import and backup procedures
-are in the [operating platform guide](../../docs/operating/README.md).
-Secrets and local configuration live under `var/erpnext/`, outside this tree.
+Private configuration and secrets remain under `var/erpnext/`. Existing databases
+and persistent volumes are retained. The declared images and native app can be
+reviewed independently through this directory; current primary design commands
+do not provision a business site or import city assets.
 
-MariaDB stores its data in the persistent `db-data` volume and temporary InnoDB
-files in a separate bounded 512 MiB `/tmp` filesystem (mode 1777). A healthy
-container and a successful `/api/method/ping` response are separate checks from
-the city planning validators. If MariaDB reports missing temporary files, retain
-the data volume and restore temporary storage; do not reinitialise the database.
+The app retains draft planning, procurement, engineering identity, revision
+review, workforce, qualification and maintenance functions. Native document
+permissions and accountable review apply. Alarm clearance, stock movement,
+repair completion and ERP case closure do not release a railway or manufactured
+unit. Current city identities, drawing revisions, product definitions and signed
+acceptance records must be configured before deployment-specific workflows run.
 
-The [Baghdad detailed engineering register](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/detail/README.md)
-lists reference parts and ERP handover requirements. These rows are not live
-Items, submitted BOMs or approved Work Orders; import only a released, priced
-family MBOM with real company, warehouse, operator and supplier inputs.
-The generated [catalogue readiness report](../../docs/operating/readiness.md)
-validates all city profiles and component packages and identifies which full
-task payloads still need on-demand materialisation before import.
-
-The local Workbench embeds native ERP screens with native authentication. The proxy
-allows framing only by the explicitly listed Workbench origins; see the
-[Workbench integration guide](../../docs/workbench/README.md#integrated-lifecycle-workspace).
-
-A condition-created Issue with a reviewed ERP Asset exposes **OpenSourceRail →
-Prepare repair**. Preview validates the Issue/project/Asset identity, technician,
-city warehouse, stock Item, optional serial/batch bundle and current availability.
-Apply creates one unsubmitted native Asset Repair and ToDo assignment; it never
-submits stock consumption, closes the Issue or grants railway handback. Repeating
-the same reviewed request returns the existing record and preserves operator edits.
-The native repair form remains responsible for actions performed, completion,
-actual downtime, parts consumption and accounting. Its OSR provenance fields link
-back to condition history and the existing lifecycle/serial evidence.
-
-The private city feedback export also carries [engineering revision
-exposure](../../docs/lifecycle/README.md#engineering-revision-exposure): explicit
-nested BOMs, draft/unfinished production, potential purchases and linked stock
-movements. It uses native document permissions and preserves coverage warnings.
-Workbench displays and downloads these observations. The native Project's
-**OpenSourceRail → Revision dispositions** workflow adds assigned, immutable
-proposals and independent endorsement/rejection records. Stale or incomplete
-exposure cannot receive an endorsement. Recording never executes the proposed
-ERP action or grants railway release. Independent native-outcome verification
-covers retention, cancellation, direct amendments, production stops, corrective
-Job Cards with accepted inspections, performed stock inspections and native
-movement traces. Evidence remains immutable and later changes make it stale;
-see the [verification workflow and upgrade limits](../../docs/lifecycle/README.md#independent-native-outcome-verification).
-
-After a backup, rebuild/restart the app, run `./osr erp bench migrate` to install
-the three disposition record types, then `./osr erp snapshot` to refresh feedback.
-Manufacturing Manager, Projects Manager and System Manager roles can use the
-workflow subject to project/exposure access; reviewer, proposer and responsible
-person must satisfy the independent-review checks. Inspection and trace readers
-also need native Quality Manager and Stock User access, respectively.
-
-The [complete example-city test](../example-city/README.md) installs a separate
-site and checks actual planning, purchasing, manufacturing, serial movements,
-maintenance and Workbench/FUXA behavior. Native regression scripts accept
-`OSR_TEST_SITE` (default `osr.localhost`) so the same checks can run in that site.
-
-Condition routing maps `low`, `medium` and `high` alarm priority to native Issue
-priority when creating a case. Later events preserve operator triage changes.
-Rules without a priority use `medium`; display-only rules do not create cases
-on activation or clearance unless an earlier enabled rule already routed the
-same incident.
-
-The [Baghdad qualification package](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/qualification/README.md)
-provides ten source-bound evidence Tasks, including the independently operated
-first-section option. Preview with `bench --site SITE execute
-osr_erpnext.qualification.import_tasks --kwargs '{"package_path":"/path/to/erpnext-tasks.json"}'`;
-set `"apply": True` for a reviewed local import; this installed Bench CLI parses Python literals in `--kwargs`. The importer
-creates open native Tasks and refreshes descriptions by stable subject. It
-preserves actual assignment, project, dates, priority and status when repeating
-an import; it never completes an evidence task or grants acceptance. Assign a
-named accountable person through ERP; role labels are not user assignments.
-Physical result verification uses independently supplied reviewer keys and signed
-source/criteria-bound results. Generated templates contain no measurements,
-quotations, signatures or operating release. Local task mappings belong in
-`var/erpnext/`, rather than the public proposal archive.
-
-The [Baghdad workforce pilot](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/delivery-baseline/WORKFORCE-COMPETENCE.md)
-maps workload, recruitment and practical assessment to native HR records. Run
-`bench --site SITE execute osr_erpnext.workforce.administration_readiness`
-to inspect local schemas and the caller's read permissions. This does not prove
-that anyone has been appointed or authorised. The bench-only
-`osr_erpnext.workforce.preview_assignment` accepts `project`, `task`, `employee`
-and `authorisation_file`; the private File must belong to that active Employee
-and its controlled JSON packet must match the Project baseline and Task.
-HR Manager or System Manager plus native read permissions are required. This
-validates the attached snapshot: `snapshot_eligible` describes those assertions,
-while `eligible` and `live_start_check` remain false. Timestamp rechecks detect
-expiry; they do not resolve subsequent revocation of authoritative records.
-Before task start, the human work-release process must resolve current permits,
-competence, availability, calibration and stock release. The preview creates
-no assignment, permit, competence record or railway release. Keep native worker
-records and private attachments out of public exports. The six delivery evidence
-drafts use the existing Task importer and preserve actual owners/status.
-
-## Local administrative and recovery probes
-
-`bench --site SITE execute osr_erpnext.delivery_admin.read_probe` performs bounded permission-aware native schema/record reads and reports elapsed times; it does not prove city-scale throughput or staffing. `osr_erpnext.delivery_admin.recovery_fingerprint` hashes the evidence Task, DocType, role membership, permission and File inventories for comparison with an isolated SQL restore. Both require System Manager, are bench-only and create no assignments or work-release authority. Rebuild the local image to retain these modules across container recreation.
-
-Use [the isolated restore tool](../../tools/automation/verify_baghdad_erp_restore.py) with a trusted private SQL backup and matching private native fingerprint. Its temporary database has no network or published ports and is deleted after verification. SQL inventory checks complement the existing [full platform recovery procedure](../../tools/automation/platform-recovery.py); they do not prove encrypted file recovery, production RTO/RPO or field acceptance. Keep backups and receipts in ignored `var/erpnext/`.
+Native regression scripts under [tests](tests/) require a configured site and
+private credentials. They were not executed as part of the offline code migration.
+The current design runner never manufactures credentials, measurements, supplier
+quotations, signatures or physical release evidence.

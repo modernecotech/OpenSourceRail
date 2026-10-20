@@ -1,5 +1,5 @@
 //! Kani bounded-model-checker harnesses for the five safety
-//! properties of [RFC 0004 §4](../../docs/rfcs/0004-osr-interlocking-plan.md):
+//! properties of [RFC 0004 §4](../../../docs/ARCHITECTURE.md):
 //!
 //! - **P1 (determinism):** same log prefix → byte-identical MA.
 //! - **P2 (non-overlap):** two registered trains' MAs do not share a
@@ -48,7 +48,7 @@ use osr_core::{
 use crate::log::{Entry, EntryPayload, PositionSource, TrainPositionReport, TrainRegistration};
 use crate::ma::{compute_self_ma, MA_VALIDITY_WINDOW_NS};
 
-const REFERENCE_3CAR_LENGTH_MM: i64 = 51_000;
+const FIXTURE_LENGTH_MM: i64 = 40_000;
 
 // ---------------------------------------------------------------------------
 // Scaffolding: tiny networks Kani can reason about.
@@ -183,7 +183,7 @@ fn train_entries(train_id: u64, head_offset_mm: i64, ts_ns: u64) -> (Entry, Entr
             timestamp_ns: ts_ns.saturating_sub(1_000_000),
             payload: EntryPayload::TrainRegistration(TrainRegistration {
                 train_id: TrainId::new(train_id),
-                consist: ConsistDescriptor::reference_3car(),
+                consist: ConsistDescriptor::synthetic_analysis_fixture(),
                 initial_position: Position::certain(TrackRef {
                     section: SectionId::new(1000),
                     offset_mm: 0,
@@ -204,7 +204,7 @@ fn train_entries(train_id: u64, head_offset_mm: i64, ts_ns: u64) -> (Entry, Entr
                 }),
                 tail_position: Position::certain(TrackRef {
                     section: SectionId::new(1000),
-                    offset_mm: (head_offset_mm - REFERENCE_3CAR_LENGTH_MM).max(0),
+                    offset_mm: (head_offset_mm - FIXTURE_LENGTH_MM).max(0),
                     direction: Direction::Forward,
                 }),
                 speed_mmps: 10_000,
@@ -430,7 +430,7 @@ fn check_two_train_non_overlap<const GATE: u8, const FIRST: bool>() {
             timestamp_ns: 500_000_001,
             payload: EntryPayload::TrainRegistration(TrainRegistration {
                 train_id: TrainId::new(2),
-                consist: ConsistDescriptor::reference_3car(),
+                consist: ConsistDescriptor::synthetic_analysis_fixture(),
                 initial_position: Position::certain(TrackRef {
                     section: SectionId::new(1001),
                     offset_mm: 0,
@@ -451,7 +451,7 @@ fn check_two_train_non_overlap<const GATE: u8, const FIRST: bool>() {
                 }),
                 tail_position: Position::certain(TrackRef {
                     section: SectionId::new(1001),
-                    offset_mm: (h2 - REFERENCE_3CAR_LENGTH_MM).max(0),
+                    offset_mm: (h2 - FIXTURE_LENGTH_MM).max(0),
                     direction: Direction::Forward,
                 }),
                 speed_mmps: 10_000,
@@ -579,7 +579,7 @@ fn kani_p4_conservatism_extra_occupant() {
         timestamp_ns: 500_000_001,
         payload: EntryPayload::TrainRegistration(TrainRegistration {
             train_id: TrainId::new(2),
-            consist: ConsistDescriptor::reference_3car(),
+            consist: ConsistDescriptor::synthetic_analysis_fixture(),
             initial_position: Position::certain(TrackRef {
                 section: SectionId::new(1001),
                 offset_mm: 0,

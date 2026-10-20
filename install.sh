@@ -10,15 +10,7 @@ readonly NODE_ROOT="$TOOL_ROOT/node-v$NODE_VERSION"
 readonly RUST_VERSION="1.92.0"
 readonly UV_VERSION="0.11.20"
 readonly PYTHON_VERSION="3.11.13"
-readonly TRUNK_VERSION="0.21.8"
 readonly PLAYWRIGHT_ROOT="$TOOL_ROOT/playwright"
-readonly ENGINEERING_NATIVE_ROOT="${HOME}/.local/share/opensource-rail/native"
-readonly RTKLIB_COMMIT="180043ee24b6d2b168f98b64be15f69d50046b1a"
-readonly RTKLIB_ARCHIVE_SHA="e8231a6931b0c5d12fb26368572cd3fc515fbd09d4a1c7597ed4955f15a10113"
-readonly ENERGYPLUS_RELEASE="EnergyPlus-26.1.0-6f2e40d102-Linux-Ubuntu24.04-x86_64"
-readonly ENERGYPLUS_ARCHIVE_SHA="b651f4197bfc147a0f66dc92c58895d1748bdadb7a0288145fa9d50375edfbca"
-readonly FDS_RELEASE="FDS-6.11.1_SMV-6.11.2"
-readonly FDS_INSTALLER_SHA="ba8793b974150fdb778b3db0b69ab8db4e4668d5c52987a317e7f5ed58102ea0"
 readonly FLATHUB_URL="https://dl.flathub.org/repo/flathub.flatpakrepo"
 
 INSTALL_TEMP=""
@@ -106,7 +98,6 @@ detect_host() {
             UV_TARGET="x86_64-unknown-linux-gnu"
             NODE_SHA="d60acfe00a2932254bb0ad20e01b0d74397a0875595de719654b214f4b03f307"
             UV_SHA="5de211d9278af365497d387e25316907b3b4a9f25b4476dd6dbf238d6f85cff3"
-            TRUNK_SHA="cd9fb2822c9f0ae111737500c179226cb080241ac55002c1db7344aa51a97fec"
             ;;
         aarch64|arm64)
             ARCH="aarch64"
@@ -114,7 +105,6 @@ detect_host() {
             UV_TARGET="aarch64-unknown-linux-gnu"
             NODE_SHA="fff4078c5def658577f92c88db7db3bc0072924bfb93fe52c1e744a54e94abb8"
             UV_SHA="c8b5b7f9c804b640da0bb66cddddf0a00ce971f64d8076622d70bd141bc80857"
-            TRUNK_SHA="1d78218d20a9eff834136c406c9e7612a644c4bec47d85fda9d1c31f7bc8331f"
             ;;
         *)
             fail "supported CPU architectures are x86_64 and aarch64"
@@ -146,7 +136,7 @@ command_version_is() {
 
 native_ready() {
     local command_name
-    for command_name in curl git tar xz sha256sum cc c++ make pkg-config; do
+    for command_name in curl git tar xz sha256sum cc c++ make pkg-config ffmpeg; do
         command -v "$command_name" >/dev/null 2>&1 || return 1
     done
     pkg-config --exists cairo || return 1
@@ -155,15 +145,13 @@ native_ready() {
 python_ready() {
     [[ -x "$ROOT/.venv/bin/python" ]] \
         && "$ROOT/.venv/bin/python" -c \
-            'import cairosvg, mistune, numpy, scipy, matplotlib, PIL, reportlab, requests, osr_planner, osr_mech, osr_aln, reference_ma' \
+            'import cairosvg, mistune, numpy, scipy, matplotlib, PIL, reportlab, pytest' \
             >/dev/null 2>&1
 }
 
 rust_ready() {
     command -v rustup >/dev/null 2>&1 \
-        && rustup toolchain list | grep -q "^$RUST_VERSION" \
-        && rustup target list --installed --toolchain "$RUST_VERSION" \
-            | grep -qx wasm32-unknown-unknown
+        && rustup toolchain list | grep -q "^$RUST_VERSION"
 }
 
 node_packages_ready() {
@@ -191,10 +179,8 @@ show_core_status() {
         || status_line "Node.js $NODE_VERSION" no
     command_version_is uv "$UV_VERSION" && status_line "uv $UV_VERSION" yes \
         || status_line "uv $UV_VERSION" no
-    rust_ready && status_line "Rust $RUST_VERSION + WebAssembly" yes \
-        || status_line "Rust $RUST_VERSION + WebAssembly" no
-    command_version_is trunk "$TRUNK_VERSION" && status_line "Trunk $TRUNK_VERSION" yes \
-        || status_line "Trunk $TRUNK_VERSION" no
+    rust_ready && status_line "Rust $RUST_VERSION" yes \
+        || status_line "Rust $RUST_VERSION" no
     python_ready && status_line "Python design packages" yes \
         || status_line "Python design packages" no
     node_packages_ready && status_line "JavaScript packages" yes \
@@ -221,19 +207,19 @@ install_native_packages() {
         debian)
             run_root apt-get update
             run_root env DEBIAN_FRONTEND=noninteractive apt-get install -y \
-                ca-certificates curl git build-essential pkg-config libcairo2-dev libssl-dev tar xz-utils
+                ca-certificates curl git build-essential pkg-config libcairo2-dev libssl-dev tar xz-utils ffmpeg
             ;;
         redhat)
             run_root "$PACKAGE_MANAGER" install -y \
-                ca-certificates cairo-devel curl git gcc gcc-c++ make pkgconf-pkg-config openssl-devel tar xz
+                ca-certificates cairo-devel curl git gcc gcc-c++ make pkgconf-pkg-config openssl-devel tar xz ffmpeg
             ;;
         suse)
             run_root zypper --non-interactive install \
-                ca-certificates cairo-devel curl git gcc gcc-c++ make pkg-config libopenssl-devel tar xz
+                ca-certificates cairo-devel curl git gcc gcc-c++ make pkg-config libopenssl-devel tar xz ffmpeg
             ;;
         arch)
             run_root pacman --sync --refresh --needed --noconfirm \
-                ca-certificates cairo curl git base-devel pkgconf openssl tar xz
+                ca-certificates cairo curl git base-devel pkgconf openssl tar xz ffmpeg
             ;;
     esac
 }
@@ -289,21 +275,7 @@ install_rust() {
         export PATH="${HOME}/.cargo/bin:$PATH"
     fi
     rustup toolchain install "$RUST_VERSION" --profile minimal \
-        --component clippy --component rustfmt --target wasm32-unknown-unknown
-}
-
-install_trunk() {
-    command_version_is trunk "$TRUNK_VERSION" && return
-    section "Installing Trunk $TRUNK_VERSION in your home folder"
-    temporary_directory
-    mkdir -p "$TOOL_BIN"
-    local archive_name="trunk-$UV_TARGET.tar.gz"
-    local archive="$INSTALL_TEMP/$archive_name"
-    download_checked \
-        "https://github.com/trunk-rs/trunk/releases/download/v$TRUNK_VERSION/$archive_name" \
-        "$TRUNK_SHA" "$archive"
-    tar -xzf "$archive" -C "$INSTALL_TEMP"
-    install -m 0755 "$INSTALL_TEMP/trunk" "$TOOL_BIN/trunk"
+        --component clippy --component rustfmt
 }
 
 install_python() {
@@ -316,11 +288,8 @@ install_python() {
         'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)'; then
         fail "$ROOT/.venv uses Python older than 3.11; move it aside and rerun setup"
     fi
-    uv pip install --python "$ROOT/.venv/bin/python" pytest --requirement "$ROOT/engineering/ferrite_maglev/requirements.txt" \
-        --editable "$ROOT/design/city-generation[geotiff,batch]" \
-        --editable "$ROOT/design/component-catalogue[test]" \
-        --editable "$ROOT/tools/osr-aln-convert[test]" \
-        --editable "$ROOT/tools/reference-ma"
+    uv pip install --python "$ROOT/.venv/bin/python" pytest \
+        --requirement "$ROOT/engineering/ferrite_maglev/requirements.txt"
 }
 
 install_node_packages() {
@@ -349,107 +318,16 @@ build_platform() {
 
 engineering_ready() {
     command -v flatpak >/dev/null 2>&1 || return 1
-    local app_id
-    for app_id in org.freecad.FreeCAD org.blender.Blender org.qgis.qgis \
-        org.cloudcompare.CloudCompare org.eclipse.sumo; do
-        flatpak info --user "$app_id" >/dev/null 2>&1 \
-            || flatpak info --system "$app_id" >/dev/null 2>&1 \
-            || return 1
-    done
-    "$ROOT/.venv/bin/python" -c \
-        'import _pytest, ifcopenshell, jupedsim, networkx, openseespy, pandapower, pvlib, pybamm, pyswmm' \
-        >/dev/null 2>&1 || return 1
-    [[ -x "$TOOL_BIN/rnx2rtkp" ]] || return 1
-    if [[ "$ARCH" == "x86_64" ]]; then
-        [[ -x "$ENGINEERING_NATIVE_ROOT/$ENERGYPLUS_RELEASE/energyplus-26.1.0" ]] \
-            || return 1
-        [[ -x "$ENGINEERING_NATIVE_ROOT/$FDS_RELEASE/bin/fds" ]] || return 1
-        [[ -x "$TOOL_BIN/energyplus" && -x "$TOOL_BIN/fds" ]] || return 1
-    fi
-    flatpak run org.blender.Blender -b --python-expr \
-        'import importlib.metadata; print(importlib.metadata.version("bonsai"))' \
-        >/dev/null 2>&1
-}
-
-install_engineering_native() {
-    temporary_directory
-    mkdir -p "$ENGINEERING_NATIVE_ROOT" "$TOOL_BIN"
-
-    local rtklib_dir="$ENGINEERING_NATIVE_ROOT/RTKLIB-$RTKLIB_COMMIT"
-    if [[ ! -x "$rtklib_dir/app/consapp/rnx2rtkp/gcc/rnx2rtkp" ]]; then
-        section "Installing RTKLIB 2.4.3-b34 in your home folder"
-        local rtklib_archive="$INSTALL_TEMP/rtklib-$RTKLIB_COMMIT.tar.gz"
-        download_checked \
-            "https://codeload.github.com/tomojitakasu/RTKLIB/tar.gz/$RTKLIB_COMMIT" \
-            "$RTKLIB_ARCHIVE_SHA" "$rtklib_archive"
-        tar -xzf "$rtklib_archive" -C "$ENGINEERING_NATIVE_ROOT"
-        make -C "$rtklib_dir/app/consapp/rnx2rtkp/gcc" \
-            LDLIBS='-lm -lrt'
-    fi
-    ln -sfn "$rtklib_dir/app/consapp/rnx2rtkp/gcc/rnx2rtkp" "$TOOL_BIN/rnx2rtkp"
-
-    if [[ "$ARCH" != "x86_64" ]]; then
-        printf 'EnergyPlus/FDS official Linux bundles are skipped on %s; the Python engineering stack remains available.\n' "$ARCH"
-        return
-    fi
-
-    local energy_dir="$ENGINEERING_NATIVE_ROOT/$ENERGYPLUS_RELEASE"
-    if [[ ! -x "$energy_dir/energyplus-26.1.0" ]]; then
-        section "Installing EnergyPlus 26.1.0 in your home folder"
-        local energy_archive="$INSTALL_TEMP/$ENERGYPLUS_RELEASE.tar.gz"
-        download_checked \
-            "https://github.com/NatLabRockies/EnergyPlus/releases/download/v26.1.0/$ENERGYPLUS_RELEASE.tar.gz" \
-            "$ENERGYPLUS_ARCHIVE_SHA" "$energy_archive"
-        tar -xzf "$energy_archive" -C "$ENGINEERING_NATIVE_ROOT"
-    fi
-    ln -sfn "$energy_dir/energyplus-26.1.0" "$TOOL_BIN/energyplus"
-
-    local fds_dir="$ENGINEERING_NATIVE_ROOT/$FDS_RELEASE"
-    if [[ ! -x "$fds_dir/bin/fds" ]]; then
-        section "Installing FDS 6.11.1 in your home folder"
-        local fds_installer="$INSTALL_TEMP/${FDS_RELEASE}_lnx.sh"
-        download_checked \
-            "https://github.com/firemodels/fds/releases/download/FDS-6.11.1/${FDS_RELEASE}_lnx.sh" \
-            "$FDS_INSTALLER_SHA" "$fds_installer"
-        local archive_line
-        archive_line="$(awk '/^__TARFILE_FOLLOWS__/ { print NR + 1; exit }' "$fds_installer")"
-        [[ "$archive_line" =~ ^[0-9]+$ ]] || fail "could not locate the FDS embedded archive"
-        mkdir -p "$fds_dir"
-        tail -n +"$archive_line" "$fds_installer" \
-            | tar -xzf - --strip-components=1 -C "$fds_dir"
-    fi
-    ln -sfn "$ROOT/engineering/toolchain/fds-wrapper.sh" "$TOOL_BIN/fds"
-}
-
-install_flatpak() {
-    command -v flatpak >/dev/null 2>&1 && return
-    case "$DISTRO_FAMILY" in
-        debian) run_root env DEBIAN_FRONTEND=noninteractive apt-get install -y flatpak ;;
-        redhat) run_root "$PACKAGE_MANAGER" install -y flatpak ;;
-        suse) run_root zypper --non-interactive install flatpak ;;
-        arch) run_root pacman --sync --needed --noconfirm flatpak ;;
-    esac
+    flatpak info --user org.freecad.FreeCAD >/dev/null 2>&1 \
+        || flatpak info --system org.freecad.FreeCAD >/dev/null 2>&1
 }
 
 install_engineering() {
     engineering_ready && return
-    section "Installing optional engineering applications"
-    install_flatpak
+    section "Installing FreeCAD for native geometry generation"
+    command -v flatpak >/dev/null 2>&1 || fail "install Flatpak using your distribution package manager first"
     flatpak remote-add --user --if-not-exists flathub "$FLATHUB_URL"
-    flatpak install --user --noninteractive -y flathub \
-        org.freecad.FreeCAD org.blender.Blender org.qgis.qgis \
-        org.cloudcompare.CloudCompare org.eclipse.sumo
-    if ! flatpak run org.blender.Blender -b --python-expr \
-        'import importlib.metadata; print(importlib.metadata.version("bonsai"))' \
-        >/dev/null 2>&1; then
-        flatpak run org.blender.Blender --command extension install --sync --enable bonsai
-    fi
-    uv pip install --python "$ROOT/.venv/bin/python" \
-        --requirement "$ROOT/engineering/toolchain/python-requirements.txt"
-    install_engineering_native
-    mkdir -p "$ROOT/build/engineering/toolchain"
-    uv pip freeze --python "$ROOT/.venv/bin/python" \
-        > "$ROOT/build/engineering/toolchain/pip-freeze.txt"
+    flatpak install --user --noninteractive -y flathub org.freecad.FreeCAD
 }
 
 verify_core() {
@@ -458,7 +336,6 @@ verify_core() {
     command_version_is node "v$NODE_VERSION" || fail "Node.js installation failed"
     command_version_is uv "$UV_VERSION" || fail "uv installation failed"
     rust_ready || fail "Rust installation failed"
-    command_version_is trunk "$TRUNK_VERSION" || fail "Trunk installation failed"
     python_ready || fail "Python package installation failed"
     node_packages_ready || fail "JavaScript package installation failed"
     playwright_ready || fail "Playwright browser installation failed"
@@ -485,7 +362,6 @@ main() {
     install_uv
     install_node
     install_rust
-    install_trunk
     activate_toolchain
     install_python
     install_node_packages
@@ -495,7 +371,7 @@ main() {
 
     if engineering_ready; then
         printf '\nEngineering applications are already available.\n'
-    elif confirm "Also install the large CAD, BIM, GIS, and SUMO applications?" no no; then
+    elif confirm "Also install FreeCAD for native geometry?" no no; then
         install_engineering
         engineering_ready || fail "engineering application installation failed"
     else

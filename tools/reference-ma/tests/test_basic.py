@@ -81,7 +81,7 @@ def simple_linear_network() -> Network:
 def register(train_id: int, section: int, offset: int, ts_ns: int, entry_id: int) -> Entry:
     payload = TrainRegistration(
         train_id=train_id,
-        consist=ConsistDescriptor.reference_3car(),
+        consist=ConsistDescriptor.synthetic_analysis_fixture(),
         initial_position=Position(
             track_ref=TrackRef(
                 section=section, offset_mm=offset, direction=Direction.Forward
@@ -160,6 +160,14 @@ class MaTests(unittest.TestCase):
         self.assertFalse(ma.has_known_position)
         self.assertEqual(ma.valid_until_ns, MA_VALIDITY_WINDOW_NS)
         self.assertEqual(ma.derived_from_entry_id, None)
+
+    def test_unregistered_position_does_not_invent_vehicle_configuration(self):
+        entries = [position(7, 1001, 100_000, 0, 1)]
+        state = derive_state(entries)
+        self.assertNotIn(7, state.trains)
+        self.assertEqual(state.section_occupancy[1001], 7)
+        ma = compute_self_ma(7, entries, simple_linear_network(), 0)
+        self.assertFalse(ma.has_known_position)
 
     def test_single_train_full_extension(self):
         net = simple_linear_network()

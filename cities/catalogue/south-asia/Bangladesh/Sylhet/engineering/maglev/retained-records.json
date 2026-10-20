@@ -98,50 +98,180 @@
   ],
   "retained_lines": [
     {
-      "charging_dwell_seconds": 180,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 14228.5,
       "name": "line-1",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 360,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 26629.2,
       "name": "line-2",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 210,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 9670.0,
       "name": "line-3",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     },
     {
-      "charging_dwell_seconds": 300,
-      "geometry": "standard-urban",
+      "capacity": {
+        "crush_capacity": 480,
+        "passenger_capacity": 360
+      },
       "length_m": 10360.5,
       "name": "line-4",
-      "rolling_stock": "light-metro-3car",
+      "service": {
+        "schedule": [
+          {
+            "from": "05:30",
+            "headway_min": 6,
+            "to": "07:00"
+          },
+          {
+            "from": "07:00",
+            "headway_min": 3,
+            "to": "09:00"
+          },
+          {
+            "from": "09:00",
+            "headway_min": 6,
+            "to": "15:00"
+          },
+          {
+            "from": "15:00",
+            "headway_min": 3,
+            "to": "17:00"
+          },
+          {
+            "from": "17:00",
+            "headway_min": 6,
+            "to": "23:30"
+          },
+          {
+            "from": "23:30",
+            "headway_min": 12,
+            "to": "02:00"
+          }
+        ]
+      },
       "shape": "radial"
     }
   ],
   "retained_service_schedules": [
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-1-0479-0844-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-1-0393-0371-s014228"
-        }
-      ],
       "line": "line-1",
       "schedule": [
         {
@@ -174,22 +304,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 46
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-2-1084-0152-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-2-0274-0567-s026629"
-        }
-      ],
       "line": "line-2",
       "schedule": [
         {
@@ -222,22 +339,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 81
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-3-0676-0728-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-3-0454-0347-s009670"
-        }
-      ],
       "line": "line-3",
       "schedule": [
         {
@@ -270,22 +374,9 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 31
+      ]
     },
     {
-      "dispatch_points": [
-        {
-          "heading": "forward",
-          "station": "line-4-0513-0606-s000000"
-        },
-        {
-          "heading": "reverse",
-          "station": "line-4-0794-0964-s010361"
-        }
-      ],
       "line": "line-4",
       "schedule": [
         {
@@ -318,10 +409,7 @@
           "headway_min": 12,
           "to": "02:00"
         }
-      ],
-      "service_end": "02:00",
-      "service_start": "05:30",
-      "trainset_count": 34
+      ]
     }
   ],
   "retained_station_demand_records": [
@@ -568,9 +656,6 @@
   ],
   "retained_station_design_records": [
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Khandaker Super Market",
-      "archetype": "terminal",
       "id": "line-1-0479-0844-s000000",
       "lat": 24.907706223230033,
       "line": "line-1",
@@ -579,22 +664,15 @@
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-1-0567-0700-s003971",
-      "junction_group": 0,
       "lat": 24.89186920059029,
       "line": "line-1",
       "lon": 91.89814541295569,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 3971.0
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Oyesis Hospital",
-      "archetype": "interchange",
       "id": "line-1-0582-0615-s006020",
-      "junction_group": 1,
       "lat": 24.88916970809488,
       "line": "line-1",
       "lon": 91.88130978111951,
@@ -602,22 +680,14 @@
       "s_m": 6019.6
     },
     {
-      "anchor_kind": "shop:mall",
-      "anchor_name": "Baitul Aman Masjid Market",
-      "archetype": "interchange",
       "id": "line-1-0551-0552-s007713",
-      "junction_group": 2,
       "lat": 24.89474865925206,
       "line": "line-1",
       "lon": 91.86883160693506,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 7712.9
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Sylhet Pet Care",
-      "archetype": "standard",
       "id": "line-1-0485-0509-s009893",
       "lat": 24.906626426231867,
       "line": "line-1",
@@ -626,9 +696,6 @@
       "s_m": 9892.6
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "জালালাবাদ রাগিব-রাবেয়া মেডিকেল কলেজ এন্ড হাসপাতাল",
-      "archetype": "standard",
       "id": "line-1-0431-0448-s012056",
       "lat": 24.916344599215346,
       "line": "line-1",
@@ -637,9 +704,6 @@
       "s_m": 12055.7
     },
     {
-      "anchor_kind": "amenity:university",
-      "anchor_name": "শাহজালাল বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয়",
-      "archetype": "terminal",
       "id": "line-1-0393-0371-s014228",
       "lat": 24.923183313537056,
       "line": "line-1",
@@ -648,9 +712,6 @@
       "s_m": 14228.5
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Nazir Bazar",
-      "archetype": "terminal",
       "id": "line-2-1084-0152-s000000",
       "lat": 24.798826692581795,
       "line": "line-2",
@@ -659,7 +720,6 @@
       "s_m": 0.0
     },
     {
-      "archetype": "halt",
       "id": "line-2-0965-0216-s003511",
       "lat": 24.82024266637872,
       "line": "line-2",
@@ -668,7 +728,6 @@
       "s_m": 3511.4
     },
     {
-      "archetype": "halt",
       "id": "line-2-0866-0311-s007010",
       "lat": 24.838059316848433,
       "line": "line-2",
@@ -677,9 +736,6 @@
       "s_m": 7009.6
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "North East Medical College Hospital",
-      "archetype": "standard",
       "id": "line-2-0716-0477-s012908",
       "lat": 24.86505424180254,
       "line": "line-2",
@@ -688,46 +744,30 @@
       "s_m": 12907.8
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Kudratullah Market",
-      "archetype": "interchange",
       "id": "line-2-0573-0551-s017315",
-      "junction_group": 2,
       "lat": 24.890789403592123,
       "line": "line-2",
       "lon": 91.86863354067818,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 17314.9
     },
     {
-      "anchor_kind": "shop:mall",
-      "anchor_name": "Baitul Aman Masjid Market",
-      "archetype": "interchange",
       "id": "line-2-0551-0551-s018108",
-      "junction_group": 2,
       "lat": 24.89474865925206,
       "line": "line-2",
       "lon": 91.86863354067818,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 18108.1
     },
     {
-      "archetype": "interchange",
       "id": "line-2-0513-0606-s019797",
-      "junction_group": 3,
       "lat": 24.90158737357377,
       "line": "line-2",
       "lon": 91.87952718480744,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 19797.2
     },
     {
-      "anchor_kind": "amenity:college",
-      "anchor_name": "Sylhet Cadet College Dairy Farm",
-      "archetype": "depot-terminal",
       "id": "line-2-0274-0567-s026629",
       "lat": 24.944599287333983,
       "line": "line-2",
@@ -736,8 +776,6 @@
       "s_m": 26629.2
     },
     {
-      "anchor_kind": "amenity:college",
-      "archetype": "terminal",
       "id": "line-3-0676-0728-s000000",
       "lat": 24.87225288845697,
       "line": "line-3",
@@ -746,11 +784,7 @@
       "s_m": 0.0
     },
     {
-      "anchor_kind": "amenity:hospital",
-      "anchor_name": "Oyesis Hospital",
-      "archetype": "interchange",
       "id": "line-3-0607-0610-s003002",
-      "junction_group": 1,
       "lat": 24.88467055393586,
       "line": "line-3",
       "lon": 91.88031944983503,
@@ -758,22 +792,14 @@
       "s_m": 3001.9
     },
     {
-      "anchor_kind": "amenity:marketplace",
-      "anchor_name": "Kudratullah Market",
-      "archetype": "interchange",
       "id": "line-3-0573-0551-s004487",
-      "junction_group": 2,
       "lat": 24.890789403592123,
       "line": "line-3",
       "lon": 91.86863354067818,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 4487.0
     },
     {
-      "anchor_kind": "amenity:bus_station",
-      "anchor_name": "Kumargoan Bus Stand",
-      "archetype": "terminal",
       "id": "line-3-0454-0347-s009670",
       "lat": 24.91220537738905,
       "line": "line-3",
@@ -782,30 +808,22 @@
       "s_m": 9670.0
     },
     {
-      "anchor_kind": "amenity:college",
-      "archetype": "terminal",
       "id": "line-4-0513-0606-s000000",
-      "junction_group": 3,
       "lat": 24.90158737357377,
       "line": "line-4",
       "lon": 91.87952718480744,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 0.0
     },
     {
-      "archetype": "interchange",
       "id": "line-4-0567-0700-s002525",
-      "junction_group": 0,
       "lat": 24.89186920059029,
       "line": "line-4",
       "lon": 91.89814541295569,
-      "mandatory_crossing": true,
       "platform_length_m": 59.5,
       "s_m": 2524.5
     },
     {
-      "archetype": "halt",
       "id": "line-4-0660-0852-s006438",
       "lat": 24.87513234711874,
       "line": "line-4",
@@ -814,7 +832,6 @@
       "s_m": 6438.4
     },
     {
-      "archetype": "terminal",
       "id": "line-4-0794-0964-s010361",
       "lat": 24.851016880826403,
       "line": "line-4",

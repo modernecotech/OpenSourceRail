@@ -9,7 +9,7 @@ permissions:
 jobs:
   primary-study:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -26,13 +26,18 @@ jobs:
           python tools/automation/validate-host-manifests.py
           python tools/automation/capabilities.py --check
           python tools/automation/catalogue.py index --check
+          python tools/automation/generate-design-index.py --check
+          python tools/automation/generate-doc-index.py --check
+          python tools/automation/check-readmes.py
+      - name: Shared research software unit tests
+        run: cargo test --locked --workspace --all-targets
       - run: cargo test --locked -p osr-maglev-control --all-targets
       - run: cargo check --locked -p osr-maglev-control --no-default-features
       - run: cargo fmt --package osr-maglev-control -- --check
       - run: cargo clippy -p osr-maglev-control --all-targets -- -D warnings
       - name: All primary maglev Python suites
         run: python -m pytest engineering/analysis/tests/test_ferrite_maglev*.py -q
-      - name: Verify retained native packet without FreeCAD
+      - name: Verify source-bound native packet without FreeCAD
         run: |
           python - <<'PY'
           from engineering.ferrite_maglev import geometry,evacuation,system_development

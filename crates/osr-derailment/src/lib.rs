@@ -5,7 +5,7 @@
 //! derailment-consistent signature (per the safe-state envelopes of
 //! EN 50159 and common rail-vehicle practice).
 //!
-//! Phase 2c crate of [RFC 0005 §4.3](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2c crate of [RFC 0005 §4.3](../../../docs/ARCHITECTURE.md).
 //!
 //! # Detection rules
 //!
@@ -19,7 +19,7 @@
 //! - **Tilt angle** beyond `tilt_trip_mdeg` on both channels.
 //!   A car body rolled past ±15 ° (15 000 mdeg) is on its side.
 //! - **Vertical shock** above `vertical_trip_mg` on both channels
-//!   (wheel drop off rail → sudden vertical acceleration).
+//!   (loss of guidance or support may cause sudden vertical acceleration).
 //!
 //! A **single-channel** anomaly within the same envelope only raises
 //! the alarm to `Warning` — the sensor may be faulty and the brake

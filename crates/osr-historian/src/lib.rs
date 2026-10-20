@@ -8,7 +8,7 @@
 //!
 //! Queries return a `Vec<Sample>` filtered by timestamp range.
 //!
-//! Phase 2e crate of [RFC 0005 §4.8](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2e crate of [RFC 0005 §4.8](../../../docs/ARCHITECTURE.md).
 //! SIL-0: historian loss is a diagnostic inconvenience, not safety.
 //! Real deployments pair this with upstream back-pressure so a
 //! full ring doesn't silently drop the sample the operator

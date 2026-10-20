@@ -11,7 +11,7 @@
 //! - a station-wide **alert broadcast** channel (operator messages,
 //!   delays, emergencies).
 //!
-//! Phase 2e crate of [RFC 0005 §4.7](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2e crate of [RFC 0005 §4.7](../../../docs/ARCHITECTURE.md).
 //! SIL-0: failure degrades passenger experience but does not
 //! directly endanger anyone; PA amplifier and CCTV are on the
 //! 24 V station rail and have independent hardware backup.

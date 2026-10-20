@@ -7,7 +7,7 @@
 //! consumers ([`osr_pis_onboard`], [`osr_t2g`],
 //! [`osr_event_recorder`]) read from.
 //!
-//! Phase 2c crate 8 of [RFC 0005 §4.1](../../../docs/rfcs/0005-sbc-software-architecture.md).
+//! Phase 2c crate 8 of [RFC 0005 §4.1](../../../docs/ARCHITECTURE.md).
 //! SIL-2: failure here degrades coordination and status accuracy but
 //! does not directly endanger passengers — the SIL-4 partition
 //! runs independently.
@@ -79,7 +79,7 @@ pub struct TcmsInputs {
     pub traction_alarm: AlarmLevel,
     pub fire_alarm: AlarmLevel,
     pub derailment_alarm: AlarmLevel,
-    pub hot_axle_alarm: AlarmLevel,
+    pub support_temperature_alarm: AlarmLevel,
     pub hvac_alarm: AlarmLevel,
     pub comfort_alarm: AlarmLevel,
     pub door_alarm: AlarmLevel,
@@ -165,7 +165,7 @@ pub fn tcms_evaluate(inputs: &TcmsInputs) -> ConsistStatus {
         inputs.traction_alarm,
         inputs.fire_alarm,
         inputs.derailment_alarm,
-        inputs.hot_axle_alarm,
+        inputs.support_temperature_alarm,
         inputs.hvac_alarm,
         inputs.comfort_alarm,
         inputs.door_alarm,
@@ -236,7 +236,7 @@ mod tests {
             traction_alarm: AlarmLevel::Nominal,
             fire_alarm: AlarmLevel::Nominal,
             derailment_alarm: AlarmLevel::Nominal,
-            hot_axle_alarm: AlarmLevel::Nominal,
+            support_temperature_alarm: AlarmLevel::Nominal,
             hvac_alarm: AlarmLevel::Nominal,
             comfort_alarm: AlarmLevel::Nominal,
             door_alarm: AlarmLevel::Nominal,

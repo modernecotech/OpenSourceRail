@@ -1,5 +1,7 @@
 # Dhamar — v0.5 maglev city planning
 
+![Geographic corridor planning map](network.svg)
+
 Provisional planning from retained geography, station demand and service schedules. All physical and manufacturing release flags remain false.
 
 4 lines; 58 provisional trainsets / 116 cars; 26,100 kWh gross onboard storage.
@@ -27,14 +29,11 @@ Station charging is screened at 600 kW per car, with dwell extended to cover the
 
 | Scenario | Repeat fleet allowance USD | Ordinary elevated allowance USD | Partial subtotal USD |
 |---|---:|---:|---:|
-| low | 29,548,967 | 243,817,071 | 273,366,038 |
-| base | 33,724,967 | 288,724,746 | 322,449,712 |
-| high | 43,700,967 | 364,232,889 | 407,933,856 |
-| target-90000 | 31,636,967 | 288,724,746 | 320,361,712 |
-| target-60000 | 30,244,967 | 288,724,746 | 318,969,712 |
-| indexed-joint-optimisation-target | 30,244,967 | 265,147,967 | 295,392,934 |
+| low | 19,820,340 | 115,415,254 | 135,235,594 |
+| base | 26,427,120 | 153,887,005 | 180,314,125 |
+| high | 39,640,680 | 230,830,507 | 270,471,187 |
 
-**Complete city programme cost remains unknown.** Partial allowances extrapolate the supplied three-car cost per car and ordinary elevated route km. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, stations, depots, energy, controls, land, NRE/plant, EPC and other scope listed in the structured report. The joint optimisation row uses unqualified mass/hardware targets and indexed civil quantities; it retains conservative baseline fleet counts. Targets are unquoted hypotheses; old city totals are not reused.
+**Complete city programme cost remains unknown.** Partial allowances price each formation by car, coupling and shared train systems, plus measured section/reaction-steel quantities and explicit process assumptions per ordinary elevated route km. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, stations, depots, energy, controls, land, NRE/plant, EPC and other scope listed in the structured report. Rates and productivity assumptions require supplier and site validation. Complete project costs and localisation remain unknown.
 
 Open acceptance work:
 
@@ -51,9 +50,23 @@ Open acceptance work:
 - programme-cost: Price all station/land/loop/bridge/at-grade/depot/energy/control/production/QA/NRE/spares/OPEX scope, origin-trace MBOM and apply EPC once.
 - physical-release: Close G0–G5 through authenticated independent physical acceptance; planning arithmetic is insufficient.
 
-[Structured plan](summary.json) · [Preserved geography/demand records](retained-records.json)
+## Manufacture and erection
 
-The structured plan binds source bytes with SHA-256. Retained old designs remain separate wheel/rail comparators.
+Local work is proposed for repeated frames, cartridges, coils, concrete units and system integration. Input origins and local value added remain unverified. Factory capacity and programme duration require measured cycle times, cure/release criteria and site access.
+
+- **beam**: qualify concrete and reinforcement → assemble reusable mould and cage → stress approved tendons → cast and monitor cure → verify release strength → demould and survey → install reaction faces → proof/inspect serialised element.
+- **supports**: investigate utilities and ground → qualify foundation type → prefabricate cage/pier where feasible → construct foundation → erect and temporarily stabilise pier/cap → survey bearing seats.
+- **vehicle**: cut and form simple repeat panels/members → join on dimensional fixtures → inspect joints → install doors, glazing and interior → integrate batteries, HVAC and safety systems → weigh and survey finished car.
+- **magnetics**: qualify ferrite and core steel → machine carriers and reaction faces → wind and insulate coils → impregnate and cure → assemble replaceable cartridges → map force/loss/temperature → calibrate independent sensing.
+- **erection**: survey delivery corridor → verify lift plan and crane at radius → deliver and lift beam → locate and positively lock engineered joint → survey reaction faces → complete serial QA traveller → test integrated route section.
+- **software**: build reproducible Rust control → execute oracle/fault/deadline tests → bind exact geometry and force-map revision → test isolated SBC I/O and independent trips → measure worst-case timing → perform integrated rig and route tests.
+
+UK equipment candidates are capability leads, not prices or approved purchases. Rotary coil winding and CCL prestressing have explicit UK-manufacture statements; complete configuration, ratings and origin schedules remain open. See the linked manufacturing bill for dated primary sources.
+
+
+[Structured plan](summary.json) · [Preserved geography/demand records](retained-records.json) · [Quantity bills, manufacturing routes and factory equipment](manufacturing.json)
+
+The structured plan binds current source bytes and manufacturing bills with SHA-256.
 
 [Primary planning method](../../../../../../../engineering/ferrite_maglev/README.md)
 
