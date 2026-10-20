@@ -65,7 +65,12 @@ def test_compressed_records_preserve_values_reject_ambiguity_and_bound_expansion
 
 @pytest.fixture
 def package(tmp_path,monkeypatch):
-    from engineering.assembly_design import civil_detail
+    from engineering.assembly_design import civil_detail,complete_systems
+    # Connected-system reconstruction/media have their own full adverse suite;
+    # keep these existing detailed-cassette/ledger fixtures scoped to those paths.
+    connected=dict(schema='explicitly-isolated-connected-system-fixture',engineering_complete=False)
+    monkeypatch.setattr(complete_systems,'build',lambda *args,**kwargs:connected)
+    monkeypatch.setattr(complete_systems,'verify',lambda *args,**kwargs:connected)
     policy=baseline.validate(core.read(baseline.DATA));prepared=dict(policy=policy,prototype=contracts.prototype_configuration(),
         source_sha256={'fixture.py':'f'*64})
     monkeypatch.setattr(baseline,'sources',lambda:prepared['source_sha256'])

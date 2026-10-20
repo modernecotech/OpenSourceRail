@@ -12,6 +12,21 @@ import subprocess
 import shutil
 
 
+def bbox_overlap_volume(left, right):
+    """Intersection-box volume bounds the possible material overlap, in mm³.
+
+    Face/edge contact has no positive volume. Avoid a Boolean for boxes whose
+    entire overlap cannot exceed the existing material-collision tolerance;
+    some OCC versions return a null shape for exact touching faces. Positive
+    volume cases still execute the original Boolean and retain its failures.
+    """
+    volume = 1.
+    for axis in 'XYZ':
+        extent = min(getattr(left, axis+'Max'), getattr(right, axis+'Max')) - max(getattr(left, axis+'Min'), getattr(right, axis+'Min'))
+        volume *= max(0., extent)
+    return volume
+
+
 def native(input_path, output):
     import FreeCAD as App
     import Part
@@ -102,7 +117,7 @@ def native(input_path, output):
     collisions = []
     for i, obj in enumerate(objects):
         for other in objects[i + 1 :]:
-            if obj.Shape.BoundBox.intersect(other.Shape.BoundBox):
+            if bbox_overlap_volume(obj.Shape.BoundBox, other.Shape.BoundBox) > 1e-3:
                 volume = obj.Shape.common(other.Shape).Volume
                 if volume > 1e-3:
                     collisions.append(

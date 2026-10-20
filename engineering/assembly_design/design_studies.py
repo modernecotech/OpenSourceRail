@@ -20,7 +20,7 @@ from engineering.twin_workflow import core
 from engineering.continuous_design import study_confirmation,civil_kit
 from . import baseline, models, system_design
 
-MAX_BYTES=20*1024**2
+MAX_BYTES=32*1024**2
 MAX_EXCHANGE_RAW=64*1024**2
 
 
@@ -168,6 +168,11 @@ def _model(candidate,assessment,folder):
     if 'structural-detail' in assessment.get('supplemental_evidence',{}):
         detail=assessment['supplemental_evidence']['structural-detail'];core.write(folder/'structural-detail.json',detail)
         core.write(folder/'manufacturing-pack.json',detail['manufacturing_pack'])
+    if 'carbody-frame' in assessment.get('supplemental_evidence',{}):
+        from . import carbody_frame
+        frame=assessment['supplemental_evidence']['carbody-frame']
+        write_record(folder,'carbody-frame.json',frame)
+        carbody_frame.plot(frame,folder/'frame-response.png')
     workflow.tables(candidate,folder)
     proof,state,error=study_confirmation.native(folder/'definition.json',folder/'native')
     if state=='passed':
@@ -180,6 +185,7 @@ def _model(candidate,assessment,folder):
         failed_checks=assessment.get('failed_checks',[]),held_checks=assessment.get('held_checks',[]),
         scope=candidate.get('source_scope','Provisional manufactured detail; complete pilot and physical exits remain open'),
         eligible_for_research=state=='passed' and not assessment.get('failed_checks'),**core.FLAGS)
+    if (folder/'frame-response.png').exists():result['frame_response_sha256']=core.sha(folder/'frame-response.png')
     # Preserve the exact STEP bytes compressed, together with their raw hash.
     if state=='passed':
         (folder/'native/candidate.step').unlink()
@@ -253,7 +259,7 @@ def report_html(value):
         '<style>body{font:16px system-ui;max-width:1100px;margin:2rem auto;padding:1rem}table{border-collapse:collapse;width:100%}td,th{border:1px solid #bbb;padding:.5rem;text-align:left}img,video{max-width:100%}code{overflow-wrap:anywhere}</style>',
         '<h1>Full design closure plan — additional executed work</h1><p>Provisional digital design and numerical evidence. Complete railway design, manufacturing and physical acceptance remain open.</p>',
         '<p lang="ar" dir="rtl">تنفيذ إضافي لمهام خطة استكمال التصميم: نماذج تفصيلية ودراسات رقمية أولية. لا تمثل هذه النتائج قبولاً هندسياً نهائياً أو إذناً للتصنيع. تبقى اختبارات النماذج الأولية وتحريات التربة ومراجعة الجهات المختصة مطلوبة.</p>',
-        '<p><a href="../index.html">All 88 plan tasks, requirements, source registers and external requests</a> | <a href="system-design.json.gz">Electrical architecture and full coupled duty data (compressed)</a> | <a href="parts.csv">Part-to-analysis/QA handoff</a></p>',
+        '<p><a href="../index.html">All 88 plan tasks, requirements, source registers and external requests</a> | <a href="systems/index.html">Interactive carbody and connected civil assembly explorer / عارض التجميع</a> | <a href="system-design.json.gz">Electrical architecture and full coupled duty data (compressed)</a> | <a href="parts.csv">Part-to-analysis/QA handoff</a></p>',
         '<h2>New manufactured detail</h2><table><tr><th>Family</th><th>Native state</th><th>Parts</th><th>Failed / held checks</th></tr>']
     for model in value['models']:
         kind=model['kind'];lines.append('<tr><td><a href="'+h(kind)+'/assessment.json.gz">'+h(kind)+'</a></td><td>'+h(model['native_state'])+'</td><td>'+h(model['parts'])+'</td><td>'+h(', '.join(model['failed_checks']+model['held_checks']))+'</td></tr>')
@@ -271,7 +277,8 @@ def report_html(value):
     for case in value['duty_cases']:lines+=['<tr><td>'+h(case['fault'])+'</td><td>'+h(round(case['final']['cabin_c'],3))+'</td><td>'+h(round(case['final']['soc'],5))+'</td><td>'+h(case['elapsed_s'])+' s</td><td>'+h(', '.join(case['failed_checks']))+'</td></tr>']
     lines+=['</table><p>Conservation passing does not establish passenger comfort or equipment fitness. Cooling-loss and hot-start temperatures remain visible in the retained results.</p>']
     gap=value['integration_context_gap']
-    lines+=['<h2>Registered panel research companion</h2><p><a href="panels/index.html">Six material/location representatives, analytical inventory, independent metal bending controls and native owned-section exhibits</a>. Complete core/potting, fastenings, formed roofs and installed manufacturing qualification remain open.</p>',
+    lines+=['<h2>Connected carbody and civil assemblies</h2><p><a href="systems/index.html">Open the English/Arabic design explorer</a> for connected native models, construction-stage videos, part schedules and every retained alternative. <a href="systems/installed-geometry/result.json">Exact cassette/carbody interference results</a> are scoped to the declared coordinates; frame alignment, headroom, access and engineering admission remain open.</p>',
+        '<h2>Registered panel research companion</h2><p><a href="panels/index.html">Six material/location representatives, analytical inventory, independent metal bending controls and native owned-section exhibits</a>. Complete core/potting, fastenings, formed roofs and installed manufacturing qualification remain open.</p>',
         '<p><a href="reinforcement-alternatives.json.gz">Bent round-link and coupler schedules</a>: bend radii, hook/coupler reservations, congestion checks, assembly sequence and unexecuted inspections. These alternatives have no curved native confirmation and are excluded from cap selection.</p>']
     lines+=['<p>Controlled equipment quantity: thermal and gross installed-mass sensitivities both use '+h(gap['thermal_ducts_per_car'])+' complete LV/ventilation cassettes per car. <a href="installed-context.json.gz">Exact instance locations, mass/inertia, harness and known duty schedules</a>. Full equipment selection, refrigeration mass, host packaging and vehicle BOM remain open before system admission.</p></html>']
     return '\n'.join(lines)
@@ -328,9 +335,12 @@ def build(prepared,folder):
     core.write(folder/'prototype-test-requests.json',requests(prepared['prototype'],pairs))
     media=_duty_media(system,folder)
     panels=panel_adapter.campaign(prepared,folder/'panels')
+    from . import complete_systems
+    systems=complete_systems.build(prepared,folder/'systems',installed=(pairs[0][0],folder/pairs[0][0]['kind'],final_context['equipment_definition']))
     value=dict(schema='osr-closure-companion-studies/1',epoch=core.digest(prepared),sources_sha256=prepared['source_sha256'],
         system_revision=system['revision'],models=models_out,native_diagnostics=native_diagnostics,media=media,detail_variants=search['variant_count'],
         panel_companion_revision=core.digest(panels),
+        connected_systems_revision=core.digest(systems),
         integration_context_gap=dict(thermal_ducts_per_car=transient['thermal'][0]['result']['hypotheses']['number_of_duct_cassettes'],
             mass_cassettes_per_car=len(final_context['allocations'])/prepared['prototype']['values']['car_count']['value'],equipment_definition_revision=final_context['equipment_definition']['revision'],state='quantities-reconciled; installation-and-complete-equipment-held'),
         duty_cases=[{k:c[k] for k in ('fault','elapsed_s','final','failed_checks','held_checks','revision')} for c in system['duty_cases']],
@@ -354,6 +364,11 @@ def verify(folder,prepared):
     from . import panel_adapter
     panels=panel_adapter.verify(prepared,folder/'panels')
     if value['panel_companion_revision']!=core.digest(panels):raise ValueError('panel companion revision differs')
+    from . import complete_systems
+    systems=complete_systems.verify(prepared,folder/'systems',installed=(
+        read_record(folder/'service-cassette-detail','candidate.json'),folder/'service-cassette-detail',
+        read_record(folder,'installed-context.json')['equipment_definition']))
+    if value['connected_systems_revision']!=core.digest(systems):raise ValueError('connected-system companion revision differs')
     system=read_record(folder,'system-design.json')
     if system['revision']!=core.digest({k:v for k,v in system.items() if k!='revision'}) or system['revision']!=value['system_revision']:
         raise ValueError('coupled study revision differs')

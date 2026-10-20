@@ -1,9 +1,11 @@
 # Baghdad assembly development
 
 This programme enriches source requirements and executes provisional assembly
-experiments. Its supported scope is one LV/ventilation cassette, one
-replaceable bearing seat, a provisional 1.2 m structural floor bay and an executable cassette interlock. It does not
-complete the train, civil works or all remaining component generators.
+experiments. Its supported scope includes an LV/ventilation cassette,
+replaceable bearing seat, a provisional 1.2 m structural floor bay, connected
+whole-carbody and representative civil-bay geometry, and an executable cassette
+interlock. Connected geometry expands the available packaging/manufacturing
+definition; it does not complete the train's engineering or physical acceptance.
 
 The input registry separates published supplier/reference facts, repository
 planning values and proposed pilot assumptions. Every fact has a source,
@@ -65,6 +67,39 @@ crossmembers nearer the equipment feet; it counts both feet on each loaded
 strip and independently checks the added support beams. Replayed structural variants are not additional
 unique designs. A registered companion also compares 172 aluminium/GFRP panel
 hypotheses and confirms six explicitly scoped owned-section CAD exhibits.
+Two further registered companions compare six complete carbody stock recipes
+and nine connected civil-bay recipes. They retain all alternatives and known
+failures, rather than counting repeated runs as new designs. Carbody studies use
+the controlled 18.5 m length, with historical transverse dimensions and a new
+1.0 m floor datum explicitly unadopted. Their actual door/window voids, frame,
+floor, cladding, glazing and door-leaf envelopes have individual part identities.
+Missing bogie/crash details, sheet fasteners, service equipment and qualified
+welds remain visible. The original sill-only independent beam diagnostic remains
+available. A connected 3D Timoshenko frame adapter additionally uses the actual
+RHS members and explicit eccentric rigid-joint assumptions, with refinement,
+equilibrium, independent element controls and adverse loading. Its original
+slender alternatives fail the elastic research filters and remain rejected.
+The nominal S355 stress and length/1000 displacement filters are explicitly
+provisional comparisons, not adopted railway design acceptance. Sheets add mass
+without unverified shell stiffness; joint/local-buckling, crash/fatigue and
+physical correlation remain open even for a passing elastic frame screen.
+
+The connected civil model preserves its source material/allowance ledger,
+redistributes track plinth material into gauge-spaced rail supports and adds
+physical walkway/service support frames. Its crane checks reject some large
+lifts under the same provisional chart. Concrete reinforcement/prestress,
+embedded anchorage, real ground, rail fastening and temporary-works resistance
+remain mandatory open requirements.
+
+`studies/systems/index.html` provides an offline English/Arabic explorer with
+searchable part/material/process schedules, native-derived images, original
+CAD/STEP/IFC downloads and a construction-stage slider. The fast slider displays
+projected outer envelopes: holes and depth occlusion are not represented. The
+assembly videos use retained native triangles at final coordinates, appearing in
+the explicit dependency order. These are construction-stage illustrations;
+they do not prove insertion motion, collisions or stage strength. The separate
+cassette fixture video retains its existing rigid insertion/withdrawal scope.
+
 Full installed panels, formed roofs and qualification remain open. It confirms the best analytical alternatives in native CAD,
 retaining failed confirmations and trying up to three alternatives per family.
 Tool unavailability holds the family instead of spending this fallback budget.
@@ -78,8 +113,10 @@ improvement. Reviewed proposals are not automatically imported into the runner;
 independent numerical benchmarks and adapter/interface registration remain
 required before a new evaluator becomes trusted research infrastructure. Resource limits are 2 GiB of programme output, a 20 GiB
 free-space reserve, 2 GiB service memory and a 15-minute service timeout.
-Portable assembly publication has a 48 MiB cap, including retained site inputs
-and the six additional panel-section CAD/IFC/image exhibits. Raw evidence is
+Portable assembly publication has a 64 MiB cap, including retained site inputs
+and the panel, carbody and civil CAD/IFC/image/video exhibits. The companion's
+share is bounded at 32 MiB, including full frame load-case evidence for every
+alternative. Raw evidence is
 preserved; no result gains engineering acceptance through publication.
 
 Exports contain exact original receipts/evidence, the requirements and fact

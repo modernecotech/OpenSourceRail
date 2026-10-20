@@ -37,7 +37,10 @@ def test_scope_snapshot_never_converts_implemented_code_to_accepted_design():
     assert all(t['engineering_exit']=='open' for t in snapshot['tasks'])
     assert any(t['implementation']=='partial-provisional' for t in snapshot['tasks'])
     assert len(snapshot['requests'])==3 and all(not r['issued'] for r in snapshot['requests'])
-    assert len(families.registry(prepared['policy']))==11
+    registry=families.registry(prepared['policy'])
+    assert len(registry)==13
+    assert all(next(r for r in registry if r['id']==name)['registered_for_bounded_design']
+               for name in ('carbody-assembly','civil-assembly'))
 
 
 def test_pareto_never_wins_by_omitted_cost_relaxed_constraint_or_different_context():

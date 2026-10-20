@@ -15,7 +15,7 @@ from . import workflow
 # Six additional native section exhibits and their raw numerical evidence are
 # retained alongside the14-route desktop source bundle. Keep the complete
 # portable package below48MiB rather than discarding evidence to fit32MiB.
-MAX_BYTES=48*1024**2
+MAX_BYTES=64*1024**2
 
 
 def exhibits(data):

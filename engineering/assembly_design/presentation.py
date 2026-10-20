@@ -30,6 +30,8 @@ def preview(cad,output,kind):
         normals=np.cross(faces[:,1]-faces[:,0],faces[:,2]-faces[:,0]);normals/=np.maximum(np.linalg.norm(normals,axis=1)[:,None],1e-12)
         shade=.6+.4*np.abs(normals@np.array([-.3,-.4,.866]))
         color='#d69b55' if 'connector' in part['id'] or 'procurement' in part['id'] else '#a36b48' if 'conductor' in part['id'] else '#86a6b8'
+        if 'glass' in part['id']:color='#376c83'
+        elif 'door-' in part['id'] and '-leaf-' in part['id']:color='#9bacb7'
         polygons.extend(np.stack([faces@right,faces@up],axis=2));depth.extend(faces@camera);colors.extend(shade[:,None]*np.array(to_rgb(color)))
     rasterize=runpy.run_path(str(core.ROOT/'tools/automation/design-progress.py'))['rasterize']
     fig=plt.figure(figsize=(10,6),dpi=110,facecolor='#f5f7fa');ax=fig.add_axes([.03,.18,.94,.66]);ax.axis('off');ax.imshow(rasterize(polygons,depth,colors,width=1000,height=440))

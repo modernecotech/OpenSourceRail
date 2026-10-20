@@ -33,7 +33,7 @@ def qualify(workspace):
     folder.mkdir(parents=True,exist_ok=True)
     tests=[TEST,*sorted(str(p.relative_to(core.ROOT)) for p in (core.ROOT/'engineering/analysis/tests').glob('test_closure_*.py'))]
     command=[sys.executable,'-m','pytest',*tests,'-q']
-    call=subprocess.run(command,cwd=core.ROOT,capture_output=True,text=True,timeout=600,
+    call=subprocess.run(command,cwd=core.ROOT,capture_output=True,text=True,timeout=900,
         env={**os.environ,'OPENBLAS_NUM_THREADS':'1','OMP_NUM_THREADS':'1','PYTHONPATH':str(core.ROOT)+':'+str(core.ROOT/'design/component-catalogue/src')})
     (folder/'tests.log').write_text(call.stdout+call.stderr)
     receipt=dict(schema='osr-assembly-qualification/1',sources=before,runtime_identity=identity,command=command,returncode=call.returncode,
