@@ -1,0 +1,44 @@
+name: v0.5 primary maglev development
+on:
+  push:
+    branches: [main]
+    tags: ['v0.5.*']
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  primary-study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: dtolnay/rust-toolchain@1.92.0
+        with:
+          components: rustfmt,clippy
+      - run: python -m pip install pytest -r engineering/ferrite_maglev/requirements.txt
+      - run: cargo test -p osr-maglev-control --all-targets
+      - run: cargo fmt --package osr-maglev-control -- --check
+      - run: cargo clippy -p osr-maglev-control --all-targets -- -D warnings
+      - run: python -m pytest engineering/analysis/tests/test_ferrite_maglev.py -q
+      - run: |
+          python tools/automation/ferrite-maglev-study.py run --output build/maglev-ci
+          python tools/automation/ferrite-maglev-study.py check --output build/maglev-ci
+          cargo run -p osr-maglev-control --example sbc_replay
+      - name: Confirm physical release remains gated
+        shell: bash
+        run: |
+          code=0
+          python tools/automation/ferrite-maglev-study.py release-check || code=$?
+          test "$code" = 3
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Browser report, images and mobile layout
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+          python tools/automation/ferrite-maglev-study.py run
+          node tools/automation/tests/verify-maglev-v05.mjs build/maglev-browser

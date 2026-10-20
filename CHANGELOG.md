@@ -1,6 +1,22 @@
 # OpenSourceRail changelog
 
-## Unreleased
+## 0.5.0 — 20 October 2026 — primary architecture transition
+
+- Select ferrite PM-biased active maglev as primary physical development:
+  fixed onboard modules, passive guidebeams, local manufacturing and Rust/SBC control.
+- Add controlled primary policy/profile, reproducible cost/mass/geometry/energy
+  study, source-bound report and generated section/duty images. Localisation and
+  lower-cost targets remain conditional on priced, origin-traced manufacturing.
+- Add `osr-maglev-control`: portable `no_std` study core, support-aware stop/fault
+  policy and offline SBC replay. Physical I/O, field maps, target timing and
+  engineering acceptance remain open.
+- Switch launcher defaults to the primary study. Wheel/rail workflows require
+  explicit `legacy` selection. Retained cities, CAD, media and book are comparator
+  evidence; maglev city compilation is held pending its own physics and costing.
+- This release identifies an architectural development milestone, not a complete
+  railway design, manufacturing release or operational authorisation.
+
+## Retained platform work preceding v0.5
 
 - Added possession-aware physical-resource planning, energy/maintenance fleet diagrams,
   combined service/fleet/staff recovery and bounded competence/rest/travel/break-aware

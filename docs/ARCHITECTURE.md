@@ -1,6 +1,10 @@
 # OpenSourceRail — Scope & Architecture
 
-**Status:** Current development baseline (2026-09-27)
+**Status:** v0.5 primary architecture transition (20 October 2026)
+
+The primary physical development architecture is now **ferrite PM-biased active maglev**, with passive guidebeams, onboard magnetic modules and Rust controls on off-the-shelf SBCs. The controlled [infrastructure policy](../lib/templates/infrastructure.toml), [executable study](design-engine/ferrite-maglev/reference/index.html) and [RFC 0035](rfcs/0035-v05-primary-ferrite-maglev.md) govern the transition. Local cartridge/carrier/coil/guideway manufacture and repair are core objectives. Native magnetic design, multimodule dynamics, hardware timing and physical acceptance remain open.
+
+Physical wheel/rail details below describe the retained v0.4 comparator. Shared owner/operator platform functions remain reusable where their interfaces apply. No old axle, braking, fleet, civil-cost or assurance result transfers automatically to maglev.
 **Audience:** Engineers, operators, policymakers, and funders evaluating the project.
 **Purpose:** Define what OpenSourceRail is, what it is not, and the architectural stance that distinguishes it from existing rail vendor offerings.
 

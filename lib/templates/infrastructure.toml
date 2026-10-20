@@ -1,0 +1,43 @@
+# Project development choice, distinct from physical engineering acceptance.
+[schema]
+version = 1
+
+[development]
+primary_family = "ferrite-pm-maglev-study"
+primary_input = "ferrite-maglev-study.toml"
+primary_runner = "tools/automation/ferrite-maglev-study.py"
+status = "primary-development; engineering-acceptance-open"
+selected_by = "User architecture direction, 20 October 2026"
+legacy_family = "wheel-rail-reference"
+legacy_profiles = "lib/templates/rolling-stock.toml"
+legacy_baseline_commit = "50010ce56370cf6b22dc383c12eebbc224800007"
+legacy_use = "explicit-comparator-only"
+automatic_legacy_fallback = false
+inherit_legacy_acceptance = false
+inherit_legacy_city_costs_or_fleet = false
+
+[objectives]
+local_design_and_repair_authority = true
+minimise_imported_finished_subsystems = true
+local_cartridge_carrier_coil_and_guidebeam_manufacture = true
+optimise_complete_manufactured_and_erected_system = true
+localisation_basis = "costed-local-value-added; imported-input-origin-retained"
+localisation_percentage = "unknown-until-origin-traced-MBOM"
+cost_scenarios = ["supplied-low", "supplied-base", "supplied-high", "local-manufacture-targets"]
+cost_targets_are_quotes = false
+
+[controls]
+language = "Rust"
+preferred_host = "off-the-shelf-SBC"
+core_package = "osr-maglev-control"
+host_example = "sbc_replay"
+local_control_independent_of_occ = true
+power_stage_and_isolated_io_required = true
+target_timing_measured = false
+physical_output_adapter_implemented = false
+
+[release]
+design_complete = false
+physical_validation = false
+manufacturing_release = false
+physical_release = false

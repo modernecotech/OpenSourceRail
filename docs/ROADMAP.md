@@ -1,7 +1,9 @@
 # Roadmap
 
-This page tracks remaining validation and hardening work beyond the v0.4.0
-software baseline. It is a planning map, not a release contract.
+The primary v0.5 development is the [ferrite-maglev transition](rfcs/0035-v05-primary-ferrite-maglev.md). First priorities are dimensioned magnetic/guideway geometry, qualified field/loss maps, multimodule Rust control and SBC timing, coupled civil response, origin-traced manufacturing and equal-capacity city migration. The [study report](design-engine/ferrite-maglev/reference/index.html) retains all open gates.
+
+The remaining entries also track validation and hardening of the retained v0.4.0
+software/platform baseline. It is a planning map, not a release contract.
 The open-source CAD, survey, analysis, and simulation selections and the
 evidence-producing work packages for the remaining engineering items are in
 the [engineering design and simulation plan](engineering-design-simulation-plan.md).

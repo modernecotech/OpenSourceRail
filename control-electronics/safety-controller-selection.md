@@ -1,5 +1,7 @@
 # Safety-controller selection gate
 
+**v0.5 maglev amendment:** Rust controls on off-the-shelf SBCs are the preferred development architecture under [RFC 0035](../docs/rfcs/0035-v05-primary-ferrite-maglev.md). Qualify the selected SBC, deterministic I/O, power stages, independent protection and support-energy path as a complete system. The MCU shortlist below describes retained wheel/rail/pilot alternatives; it does not mandate purchasing a proprietary maglev controller or replacing the Rust/SBC objective. No physical maglev output is authorised by this selection.
+
 OSR has not frozen a revenue-service safety MCU. Raspberry Pi and Radxa hosts
 remain the inexpensive pilot and non-safety application baseline; they are not
 the certification rationale for a SIL-4-target function.

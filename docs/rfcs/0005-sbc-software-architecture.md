@@ -5,6 +5,10 @@
 **Depends on:** [RFC 0001 Track State Consensus](0001-track-state-consensus.md), [RFC 0004 `osr-interlocking` Plan](0004-osr-interlocking-plan.md)
 **Supersedes for repo layout:** [ARCHITECTURE.md §6.3](../ARCHITECTURE.md#63-repository-layout-proposed)
 
+## v0.5 maglev development amendment
+
+[RFC 0035](0035-v05-primary-ferrite-maglev.md) selects the primary physical architecture and Rust/SBC maglev control direction. The new `osr-maglev-control` study core and offline SBC replay do not reuse wheel-slip, wheel odometry or EP-brake support assumptions. Physical interface allocation, target timing and independent protection remain open. The crate inventory below remains the retained platform/wheel-rail baseline where its interfaces apply.
+
 ## Current development amendment
 
 Processor selections follow control-electronics/README.md and its safety-controller-selection gate: commodity CM5 application hosts and separately qualified safety channels; RP2350 rigs are pilot hardware. Earlier processor examples below are historical design alternatives. Functional safety allocations derive from hazards and physical interfaces, not blanket crate labels; unintended door opening and failure to open require distinct analyses. Thin train/wayside hosts do not qualify safety-output hardware. See [RFC 0033](0033-tacs-runtime-and-resource-control.md) for the proposed responsibility map, evidence boundaries and release gates.

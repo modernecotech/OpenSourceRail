@@ -2,6 +2,8 @@
 
 **nobody should be priced out of dignity**
 
+**v0.5 — primary ferrite-maglev development architecture.** OpenSourceRail now develops locally manufactured fixed magnetic modules, passive narrow guidebeams and Rust controls on off-the-shelf SBCs. [Review the executable study and images](docs/design-engine/ferrite-maglev/reference/index.html) · [architecture transition and remaining work](docs/rfcs/0035-v05-primary-ferrite-maglev.md). Engineering and physical acceptance remain open. Existing wheel/rail city packages, CAD, assembly videos, book and brochure are retained v0.4 comparators.
+
 ## Give your city a railway it can own
 
 OpenSourceRail is an open urban-rail reference platform for countries that want to retain design authority, software, fabrication, integration, operations and maintenance capability in-country. It connects city planning, GIS, CAD/IFC, simulation, project controls, local manufacturing, ERP, equipment supervision and assurance around the same city, asset and engineering-revision identities.
@@ -9,7 +11,7 @@ OpenSourceRail is an open urban-rail reference platform for countries that want 
 > [!IMPORTANT]
 > Repository outputs are planning and engineering-screening evidence—not bids, construction releases, safety certificates, approvals or endorsements. Open topography and water data do not replace survey, geotechnical or hydraulic evidence. Simulation and formal checks do not authorize live railway command.
 
-![OpenSourceRail light-metro reference trainset](docs/assets/solar-metro-trainset.png)
+![Primary maglev concrete guidebeam section study; magnetic interfaces remain open](docs/design-engine/ferrite-maglev/reference/guidebeam-sections.svg)
 
 **Start here:** [two-page brochure](OpenSourceRail-Brochure.pdf) · [complete PDF book](OpenSourceRail-Book.pdf) · [one-page overview](docs/open-source-rail-overview.md) · [architecture](docs/ARCHITECTURE.md) · [current roadmap and open work](docs/ROADMAP.md#reviewed-open-work)
 
@@ -49,7 +51,7 @@ OpenSourceRail is an open urban-rail reference platform for countries that want 
 
 **Why use OSR?** A corridor or component change can be reviewed alongside its asset quantities, manufacturing work, procurement, cash needs and maintenance consequences, with inspectable source and retained evidence. Start with the [owner/operator platform](docs/first-adoptable-product.md); use the [competitive position and proof roadmap](docs/competitive-position-and-proof-roadmap.md) to judge maturity. The [six-item operations implementation](engineering/operations/README.md) adds bounded resource/fleet/staff planning, offline evidence, reliability validation and operational exchange; measured/operator commissioning remains separate.
 
-The physical reference is a 49.5 m, three-car driverless light metro with **360 AW2 / 480 AW3** capacity and **675 kWh gross / 540 kWh usable** LFP storage, integrated battery/cabin thermal control, seven station archetypes and reusable civil families. A welded steel safety frame, non-structural GFRP cladding and supplier-neutral COTS subsystem interfaces support local fabrication, assembly and repair. Its **120 LM3 product rows, 26 assembly nodes, 30 tooling/mould families and 146 native FreeCAD models with matching split IFC4.3 files** connect that make/buy strategy to BOMs, tooling and qualification gates.
+The retained v0.4 wheel/rail physical comparator is a 49.5 m, three-car driverless light metro with **360 AW2 / 480 AW3** capacity and **675 kWh gross / 540 kWh usable** LFP storage, integrated battery/cabin thermal control, seven station archetypes and reusable civil families. A welded steel safety frame, non-structural GFRP cladding and supplier-neutral COTS subsystem interfaces support local fabrication, assembly and repair. Its **120 LM3 product rows, 26 assembly nodes, 30 tooling/mould families and 146 native FreeCAD models with matching split IFC4.3 files** connect that make/buy strategy to BOMs, tooling and qualification gates.
 
 The city catalogue uses **elevated land sections in its controlled central study areas**, radial tangents and curved ring connections where terrain and water permit; retained shore detours and priced bridge candidates replace long lake crossings. Outer approaches retain their actual at-grade, elevated and special-crossing mix, with no tunnels. Each city reports its current civil quantities, one full-fleet planning depot per line, graded staffing and an 18-month factory-readiness plan. These are planning concepts: property, survey, supplier, structural and operational releases remain open. [Catalogue design review](docs/catalogue-current-design-review.md) · [Water and interchange checks](engineering/assurance/catalogue-geography/README.md) · [Baghdad’s dedicated proposal and funding](cities/catalogue/west-asia/Iraq/Baghdad/README.md).
 
@@ -156,6 +158,8 @@ These are captures of the installed simulation platform and generated engineerin
 
 ## The economic case
 
+The primary v0.5 study retains explicit low/base/high budgets and adds local-manufacture optimisation targets. Its base repeat three-car train is $872,197 and ordinary elevated dual-route-km is $8,345,876, conditional on unresolved design and procurement inputs. [Review scopes, targets, localisation and open gates](docs/design-engine/ferrite-maglev/reference/index.html). The existing economics below describe retained wheel/rail comparators; they are not maglev project budgets.
+
 The platform is designed to let a public owner competitively procure ordinary civil works, vehicle structures, GFRP panels, interiors, wiring, installation and maintenance locally, importing specialist components where local suppliers are not yet qualified. The reference model uses about **$0.9M per 3-car light-metro trainset** (current build record: $885k), a **factory-gate planning target** whose [BOM, labour and contingency basis](docs/cost-model.md#rolling-stock) remains subject to supplier/process qualification. Delivered procurement must separately price engineering, homologation, commissioning, warranty and spares. The **$60k per supported vehicle/car module** country factory allowance scales with fleet size; national capital uses the larger of that allowance and the physical city-order factory envelope. Workshop budgets must account for the actual buildings, equipment, tooling, test paths and production-readiness work. The [Iraq strategy](cities/catalogue/west-asia/Iraq/NATIONAL-BRIEF.md) publishes conditional city studies; a consolidated national budget, funded deployment and realised national saving remain unestablished. Transparent code and COTS choices expose assumptions for review; independently calibrated demand, risk and comparable bids are still needed to control [optimism bias](https://ppp.worldbank.org/poor-planning-and-project-selection).
 
 <!-- GENERATED: portfolio economics -->
@@ -172,18 +176,19 @@ In that scenario, the external-capital requirement is **$159.1M (88.4%)** lower 
 
 ## Run it
 
-On Debian, Ubuntu, Mint, Fedora, RHEL, Rocky, AlmaLinux, CentOS, openSUSE or Arch Linux, install, build and launch the Workbench; or run the deterministic simulator and test harness:
+Install the toolchain, build the primary v0.5 study and run its control replay:
 
 ```bash
 ./install.sh
 ./osr build
-./osr book
+./osr design check
 ./osr
-./osr sim --duration 3600 --status-every 300
-./osr test
+cargo run -p osr-maglev-control --example sbc_replay
+# Explicit retained wheel/rail comparator:
+./osr sim legacy --duration 3600 --status-every 300
 ```
 
-Open <http://127.0.0.1:8090/>. The [shared design workflow](docs/design-engine/README.md) adds local jobs, validated installed BOMs, guided manufacturing/site/foundation inputs, independently reviewed revisions, broader civil/vehicle alternatives and scoped evidence verification; see the [36-package acceptance status](docs/design-engine/plan-status.md) and [capability directory](docs/capabilities/README.md). The local server is not an authenticated public deployment. The installer reports existing tools before changing anything and offers larger engineering applications separately. Disposable output goes under `build/` and `target/release/`; public review artifacts remain tracked outside those trees.
+The primary review is [generated here](docs/design-engine/ferrite-maglev/reference/index.html). Use `./osr workbench` for the retained platform GUI at <http://127.0.0.1:8090/>. The [shared design workflow](docs/design-engine/README.md) adds local jobs, validated installed BOMs, guided manufacturing/site/foundation inputs, independently reviewed revisions, broader civil/vehicle alternatives and scoped evidence verification; see the [36-package acceptance status](docs/design-engine/plan-status.md) and [capability directory](docs/capabilities/README.md). The local server is not an authenticated public deployment. The installer reports existing tools before changing anything and offers larger engineering applications separately. Disposable output goes under `build/` and `target/release/`; public review artifacts remain tracked outside those trees.
 
 ## Find Your Way
 

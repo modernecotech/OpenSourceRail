@@ -2247,11 +2247,35 @@ mod tests {
     #[test]
     fn shared_run_exit_remains_a_geometric_crossing() {
         let routes = vec![
-            line("A", LineShape::Radial, vec![(420,123),(419,122),(418,121),(417,121),(416,121),(415,122),(414,123)]),
-            line("B", LineShape::Radial, vec![(420,122),(419,122),(418,121),(417,121),(416,121),(415,121),(414,120)]),
+            line(
+                "A",
+                LineShape::Radial,
+                vec![
+                    (420, 123),
+                    (419, 122),
+                    (418, 121),
+                    (417, 121),
+                    (416, 121),
+                    (415, 122),
+                    (414, 123),
+                ],
+            ),
+            line(
+                "B",
+                LineShape::Radial,
+                vec![
+                    (420, 122),
+                    (419, 122),
+                    (418, 121),
+                    (417, 121),
+                    (416, 121),
+                    (415, 121),
+                    (414, 120),
+                ],
+            ),
         ];
         let sites = geometric_crossings(&routes, 20.0);
-        assert!(sites.iter().any(|site| site.cell == (416,121)));
+        assert!(sites.iter().any(|site| site.cell == (416, 121)));
     }
 
     #[test]
@@ -2996,13 +3020,26 @@ mod tests {
             line("L1", LineShape::Radial, original.clone()),
             line("R1", LineShape::Ring, vec![(10, 4)]),
         ];
-        assert_eq!(connect_radial_termini_to_rings(&mut lines, &grid, 3, 8, DemandWeight(0.0)), 0);
+        assert_eq!(
+            connect_radial_termini_to_rings(&mut lines, &grid, 3, 8, DemandWeight(0.0)),
+            0
+        );
         assert_eq!(lines[0].cells, original);
     }
 
     #[test]
     fn opposite_raster_diagonals_are_a_self_crossing_without_duplicate_cells() {
-        assert!(raster_route_retraces_or_crosses(&[(0, 0), (1, 1), (0, 1), (1, 0)]));
-        assert!(!raster_route_retraces_or_crosses(&[(0, 0), (1, 1), (2, 1), (3, 2)]));
+        assert!(raster_route_retraces_or_crosses(&[
+            (0, 0),
+            (1, 1),
+            (0, 1),
+            (1, 0)
+        ]));
+        assert!(!raster_route_retraces_or_crosses(&[
+            (0, 0),
+            (1, 1),
+            (2, 1),
+            (3, 2)
+        ]));
     }
 }

@@ -13,13 +13,15 @@ usage() {
     cat <<'EOF'
 Usage: ./osr [COMMAND] [arguments]
 
-  (no command)       Build and run the integrated GUI at 127.0.0.1:8090
-  workbench          Same as no command
-  sim [arguments]    Run the deterministic railway simulator
-  design [arguments] Run the deterministic city-design compiler
-  design twin ...    Generate and verify federated engineering design twins
-  city <slug>        Regenerate one complete city and its project digital twin
-  build              Build applications, shared data, BIM, BOMs, and the PDF book
+  (no command)       Show the v0.5 primary ferrite-maglev development status
+  workbench          Build/run the retained platform GUI at 127.0.0.1:8090
+  infrastructure ... Run/check the primary ferrite-maglev infrastructure study
+  design [action]    Primary maglev run, check, verify, status or release-check
+  design legacy ...  Explicit v0.4 wheel/rail compiler and engineering workflows
+  sim legacy ...     Run the retained wheel/rail simulator
+  city legacy <slug> Regenerate an explicit wheel/rail comparator city
+  build              Build the v0.5 study and Rust maglev package
+  build legacy       Build the retained full wheel/rail comparator payload
   book [arguments]   Rebuild OpenSourceRail-Book.pdf
   test               Run Rust, Python, browser, and repository checks
   validate ...       Run/plan/verify local checks with source-bound receipts
@@ -35,10 +37,16 @@ Usage: ./osr [COMMAND] [arguments]
 EOF
 }
 
-command_name="${1:-workbench}"
+command_name="${1:-infrastructure}"
+if (( $# == 0 )); then
+    set -- infrastructure status
+fi
 (( $# == 0 )) || shift
 
 case "$command_name" in
+    infrastructure)
+        exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py "$@"
+        ;;
     example-city)
         exec python3 tools/automation/city-e2e.py "$@"
         ;;
@@ -63,9 +71,18 @@ case "$command_name" in
         exec npm run workbench -- "$@"
         ;;
     sim)
+        if [[ "${1:-}" != legacy ]]; then
+            printf 'v0.5 primary maglev route simulation awaits qualified force/route models. Retained comparator: ./osr sim legacy ...\n' >&2
+            exit 2
+        fi
+        shift
         exec cargo run --release --bin osr-sim -- "$@"
         ;;
     design)
+        if [[ "${1:-}" != legacy ]]; then
+            exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py "$@"
+        fi
+        shift
         case "${1:-}" in
             twin)
                 shift
@@ -82,12 +99,21 @@ case "$command_name" in
         exec cargo run --release --bin osr-design -- "$@"
         ;;
     city)
-        (( $# == 1 )) || { printf 'usage: ./osr city <slug>\n' >&2; exit 2; }
+        if [[ "${1:-}" != legacy ]]; then
+            printf 'v0.5 city migration is open: maglev fleet, geometry, guideway and costs require their own compiler. Retained comparator: ./osr city legacy <slug>\n' >&2
+            exit 2
+        fi
+        shift
+        (( $# == 1 )) || { printf 'usage: ./osr city legacy <slug>\n' >&2; exit 2; }
         exec tools/automation/regenerate-city.sh "$1"
         ;;
     build)
-        (( $# == 0 )) || { printf 'osr build does not take options\n' >&2; exit 2; }
-        exec tools/automation/build-all.sh
+        if [[ "${1:-}" == legacy && $# == 1 ]]; then
+            exec tools/automation/build-all.sh
+        fi
+        (( $# == 0 )) || { printf 'usage: ./osr build [legacy]\n' >&2; exit 2; }
+        cargo build -p osr-maglev-control --examples
+        exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py run
         ;;
     book)
         exec tools/automation/osr-python tools/automation/build-doc-book.py "$@"

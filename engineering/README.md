@@ -1,5 +1,7 @@
 # Engineering Integration and Assurance
 
+v0.5 primary physical development: [ferrite-maglev adapter](ferrite_maglev/README.md), [Rust control package](../crates/osr-maglev-control/README.md) and [architecture transition](../docs/rfcs/0035-v05-primary-ferrite-maglev.md). Older physical studies remain explicit wheel/rail comparators.
+
 This domain combines reusable design sources with city alignment and accepted
 engineering inputs. It owns analysis and exchange evidence, not the canonical
 component geometry.

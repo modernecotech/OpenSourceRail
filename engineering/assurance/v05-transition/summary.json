@@ -1,0 +1,117 @@
+{
+  "background_mode": "15-minute bounded source-change refresh; unchanged sources idle",
+  "comparator_baseline": "50010ce56370cf6b22dc383c12eebbc224800007",
+  "compressed_raw_logs": {
+    "engineering/assurance/v05-transition/routing-format-regression.log.gz": {
+      "raw_bytes": 4273,
+      "raw_sha256": "0bc3313f379dd8a53fe185f4eeca541021ee02f7e275e2e8ebe61bfecfe32751"
+    },
+    "engineering/assurance/v05-transition/rust-tests.log.gz": {
+      "raw_bytes": 1487,
+      "raw_sha256": "7d1ae66bbb02592076e2d0e2dc71575e506303093eb037c64389b143661851b8"
+    }
+  },
+  "date": "2026-10-20",
+  "design_complete": false,
+  "manufacturing_release": false,
+  "milestone": "Primary architecture transition; engineering and physical acceptance open",
+  "numerical_domain": {
+    "adverse_duty_cases": 3,
+    "cost_configurations": 12,
+    "duty_cases": 16,
+    "guidebeam_section_span_screens": 27,
+    "manufacturing_budget_targets": 2,
+    "mass_variants": 4,
+    "open_work_packages": 11,
+    "specification_requirements": 72
+  },
+  "physical_release": false,
+  "physical_validation": false,
+  "primary_family": "ferrite-pm-maglev-study",
+  "proofs_sha256": {
+    ".github/workflows/maglev-v05.yml": "ca2a1c25e3646844735e6d5a907d5d3c8ee499da9fd395d1f0fa678c76030fb9",
+    "engineering/assurance/v05-transition/browser-check.json": "e7a55db7e89d70893d4a4a9184e3cb7abd267db6bf7f106ab4409e1d922db5d2",
+    "engineering/assurance/v05-transition/clippy.log": "2bc683fb4e4f4f21ee9ee39e2b8ecce2efe20d3b1be57bda5316aa519ab3d30a",
+    "engineering/assurance/v05-transition/primary-study-desktop.png": "9272da9393501e3f8f8f538f29c001d39d8b795d7110d9cba47e53e18bb93f93",
+    "engineering/assurance/v05-transition/primary-study-mobile.png": "d4670a8e5e9a42bad4b8419233eb82001f6142e1aeb7ba0e00e0c1b0c93d38d3",
+    "engineering/assurance/v05-transition/python-tests.log": "0f931ec51bf56aef9cd31747a4e4549202b0190181c5d16c5cceb8811fa626ab",
+    "engineering/assurance/v05-transition/release-gate.json": "95b5ad702a0fdbb4d45d3b3914409cb424297bdd1a5642eb8ffbf7a53f0ad6ee",
+    "engineering/assurance/v05-transition/reproduction-check.log": "65c82e34103e84c9ab514fea0a1d8b15089e57c6e2e43b01b1edc5f6958d8db6",
+    "engineering/assurance/v05-transition/routing-format-regression.log.gz": "261ac8cf2a8dd72a80d9482d8b647e696b54c55226fd02b907d805628be10fab",
+    "engineering/assurance/v05-transition/rust-tests.log.gz": "a2d0d16618f584927ed814ebf3f82d9e09eacdb0590df4549cb791b0e37cffb9",
+    "engineering/assurance/v05-transition/sbc-replay.log": "92c2b88a3ef8beffbc0a7a76fb61de6e36ccb0669ceb6989249b9a0cb248179e",
+    "tools/automation/tests/verify-maglev-v05.mjs": "ff2fc440896510b1580cbaa08a97f3a21824fd24b9f2f4738aad571b59b01c31"
+  },
+  "runtime_services": {
+    "osr-assembly-capability.timer": {
+      "ActiveState": "inactive",
+      "Result": "success",
+      "UnitFileState": "disabled"
+    },
+    "osr-assembly-design.timer": {
+      "ActiveState": "inactive",
+      "Result": "success",
+      "UnitFileState": "disabled"
+    },
+    "osr-continuous-design.service": {
+      "ActiveState": "inactive",
+      "Result": "success",
+      "UnitFileState": "disabled"
+    },
+    "osr-design-progress.timer": {
+      "ActiveState": "inactive",
+      "Result": "success",
+      "UnitFileState": "disabled"
+    },
+    "osr-design-publication.timer": {
+      "ActiveState": "inactive",
+      "Result": "success",
+      "UnitFileState": "disabled"
+    },
+    "osr-primary-infrastructure.service": {
+      "ActiveState": "inactive",
+      "Result": "success",
+      "UnitFileState": "static"
+    },
+    "osr-primary-infrastructure.timer": {
+      "ActiveState": "active",
+      "Result": "success",
+      "UnitFileState": "enabled"
+    }
+  },
+  "source_sha256": {
+    "Cargo.lock": "7a21661fa92a30fba098881ff451bcf307d5c2dfb228971760e5e81e358e5aad",
+    "Cargo.toml": "744717c5d4c9b166438aeb121d8d3a6ba85a589f8cfee8286d5b570f26b71483",
+    "OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx": "7c179a50f0773d7007991c4d831ebd944636adfd46cf2e9e4e5f55165202c661",
+    "OpenSourceRail_Ferrite_Maglev_Rework_Specification.md": "1e57540910e283eb14df1aecf8b45784c1524aa089248852a7c9e3ae6e5b4358",
+    "VERSION": "8d5c1b5a87c51f970807fc0c2057b3ab3aaf11638ab667dc5956edc8f5bcf138",
+    "crates/osr-maglev-control/Cargo.toml": "ee59ea85affddbc8436aa4bca2ebb85ce17575cd1c0e95219695081f83919fad",
+    "crates/osr-maglev-control/examples/sbc_replay.rs": "d3c51043b651ed3a9ad9c11d01672ec54c1d346c1d64f56a6d16f3564b6b51de",
+    "crates/osr-maglev-control/src/lib.rs": "f39fb138c0ff307856e65fef4ad9edea8fc55d31976b3a1e551a110e24537fed",
+    "crates/osr-maglev-control/tests/control.rs": "e40324013b46a60c85536bbb7f417777e46984eb2825e420affb3c6b0eced414",
+    "design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json": "8d0c389cc39883ab8526c438c337f1cbb53a89faf06438a37b75b750e0f8a056",
+    "engineering/analysis/tests/test_ferrite_maglev.py": "23f96b42ea9671413c98bd68d4904cc1fca7680db161a99e6b3a5576e22f0d29",
+    "engineering/ferrite_maglev/__init__.py": "36e9b52182de6f8fa4e5fed9a4875392d21cdee6ddd4d7b68892f8462076c2ec",
+    "engineering/ferrite_maglev/delivery.py": "148025d6feedeeae9638209920bebc5d9118ebd2ac95fe794075ceaa7c2af928",
+    "engineering/ferrite_maglev/model.py": "ebc08f62c880a39dfd2c38ad7f67503480bc36e841eca0cc388c87cae8dc521b",
+    "engineering/ferrite_maglev/requirements.txt": "3ce037424bfd1521c9f8f9d71507834869e21de70182ccc897c13a8a158d47c3",
+    "engineering/ferrite_maglev/workbook.py": "855d8293eaa27f6060da73dbbb95c9533e21ec46bae11c6e4d5f55a0d5af3c89",
+    "ferrite-maglev-study.toml": "9d831bb3932aa6d22239ea79a686300dfd7ab3ee453e9f9e834b1cb3bbde22b8",
+    "lib/templates/civil-cost-model.toml": "bfe9b81fc8b2bb78fc80477ddc21d9a8494f9426b00c9083db4e39115927eb88",
+    "lib/templates/infrastructure.toml": "639898203b43b47915aa242e0058054b2e1d6ba0865e9dc61e9b2bf0734213f9",
+    "osr": "d05a8e0699758b721cbc5ff4a431cf333765117c58fe74a89735429c0506d075",
+    "package-lock.json": "bd453c16dbb5efb7c354a7213509d99451621ee60eeb240a65b001db8b31e616",
+    "package.json": "1f968363b903e1a497807cb8b504247fff600def90a19d48bc0e8268ef024cd0",
+    "tools/automation/ferrite-maglev-study.py": "30a9ec76d203f5cf76c6f3e7172e2ad72dad07e74780d556752c601d4caddf05"
+  },
+  "tests": {
+    "browser": "desktop/mobile images, local links, no errors/external requests",
+    "clippy_primary": "passed",
+    "full_repository_suite": "not rerun",
+    "primary_python_passed": 38,
+    "primary_rust_passed": 12,
+    "retained_routing_regressions_passed": 49,
+    "workspace_format_check": "passed; pre-existing routing test formatting normalised"
+  },
+  "version": "0.5.0"
+}
