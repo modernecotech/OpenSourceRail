@@ -1,5 +1,9 @@
 # Design, Jobs And Evidence Workflows
 
+The v0.5 primary development is the [ferrite-maglev implementation](../../engineering/ferrite_maglev/README.md): 414 source-item dispositions across 63 legacy packages, provisional planning for 266 cities / 1,565 lines, a partial 624-solid native magnetic interface and two-direction 25 m civil bay, 2D field equation controls, and two-way flexible vertical-beam replay with the 24-module Rust controller. Coupon force mesh convergence, full material/force/loss models and physical acceptance remain open; accepted engineering/physical releases are zero. See [RFC 0035](../rfcs/0035-v05-primary-ferrite-maglev.md) for the architecture and closure contract.
+
+The wheel/rail geometry, campaigns and city design-system outputs below remain retained comparator evidence. Their inventory coverage, solver checks and old release obligations do not transfer automatically to maglev.
+
 The [current Baghdad design index](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/design-system/index.html)
 joins the city component register, software allocations, generated models, images
 and open engineering gates. Its [station federation](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/federation/index.html)

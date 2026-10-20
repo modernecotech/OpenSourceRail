@@ -1,0 +1,928 @@
+{
+  "city": {
+    "bbox": {
+      "east": 10.2587,
+      "north": 6.0622,
+      "south": 5.864,
+      "west": 10.0595
+    },
+    "centroid_lat": 5.964028456250225,
+    "centroid_lon": 10.160387258372827,
+    "country": "CM",
+    "population": 600000,
+    "slug": "bamenda"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-africa/Cameroon/Bamenda/corridors.json",
+    "cities/catalogue/west-africa/Cameroon/Bamenda/bamenda.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-africa/Cameroon/Bamenda/bamenda.corridor.geojson",
+      "geometry_sha256": "8b2e7572856f864a02fd80e5efe20758e85d09184be8447d3503021f8fba9fd5",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1103,
+    "population": 600000,
+    "schema_version": 1,
+    "slug": "bamenda"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 5.9770460089503175,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 10.138770710622397,
+      "platforms": [
+        "line-1-0470-0439-s015302",
+        "line-1-0472-0435-s015405",
+        "line-2-0472-0435-s009166",
+        "line-2-0476-0441-s008999",
+        "line-3-0470-0439-s007779",
+        "line-3-0476-0441-s007915"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 5.938893181681844,
+      "lines": [
+        "line-2",
+        "line-5"
+      ],
+      "lon": 10.188928326990386,
+      "platforms": [
+        "line-2-0677-0706-s001518",
+        "line-2-0687-0719-s001175",
+        "line-2-0690-0723-s001071",
+        "line-5-0677-0706-s000000",
+        "line-5-0687-0719-s000401",
+        "line-5-0690-0723-s000535"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 5.953230486268581,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 10.169780521462151,
+      "platforms": [
+        "line-2-0605-0610-s004246",
+        "line-4-0605-0610-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 16696.3,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 14396.4,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 10479.0,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 5324.5,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 4342.7,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0276-1068-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0492-0379-s016696"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 53
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0719-0761-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0330-0248-s014396"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 45
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0132-0345-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0593-0468-s010479"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 34
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0605-0610-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0687-0464-s005325"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0677-0706-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0563-0712-s004343"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Block 17 (Down Campus)",
+      "demand": 0.80024236,
+      "id": "line-1-0276-1068-s000000",
+      "lat": 6.012439355001259,
+      "line": "line-1",
+      "lon": 10.252513492518114,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22916694,
+      "id": "line-1-0278-0933-s003515",
+      "lat": 6.012079422668538,
+      "line": "line-1",
+      "lon": 10.22812713642083,
+      "s_m": 3515.3910524340095
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.31138998,
+      "id": "line-1-0340-0795-s007012",
+      "lat": 6.000921520354173,
+      "line": "line-1",
+      "lon": 10.203198861299166,
+      "s_m": 7011.614716074881
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5137111,
+      "id": "line-1-0387-0665-s010024",
+      "lat": 5.992463110535219,
+      "line": "line-1",
+      "lon": 10.179715703575859,
+      "s_m": 10024.406922210652
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4715843,
+      "id": "line-1-0470-0439-s015302",
+      "junction_group": 0,
+      "lat": 5.977525918727279,
+      "line": "line-1",
+      "lon": 10.13889113707226,
+      "s_m": 15302.295808265166
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.47411346,
+      "id": "line-1-0472-0435-s015405",
+      "junction_group": 0,
+      "lat": 5.977165986394557,
+      "line": "line-1",
+      "lon": 10.138168578373081,
+      "s_m": 15404.722215136358
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Nchoubu Junction",
+      "demand": 0.47706226,
+      "id": "line-1-0492-0379-s016696",
+      "lat": 5.973566663067343,
+      "line": "line-1",
+      "lon": 10.12805275658458,
+      "s_m": 16696.265504461862
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bamendankwe",
+      "demand": 0.40313783,
+      "id": "line-2-0719-0761-s000000",
+      "lat": 5.932714343303458,
+      "line": "line-2",
+      "lon": 10.197057112356147,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.39494273,
+      "id": "line-2-0690-0723-s001071",
+      "junction_group": 1,
+      "lat": 5.93793336212792,
+      "line": "line-2",
+      "lon": 10.190192804713949,
+      "s_m": 1070.5382386916237
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.39448512,
+      "id": "line-2-0687-0719-s001175",
+      "junction_group": 1,
+      "lat": 5.938473260627002,
+      "line": "line-2",
+      "lon": 10.189470246014771,
+      "s_m": 1175.3910524340095
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3978422,
+      "id": "line-2-0677-0706-s001518",
+      "junction_group": 1,
+      "lat": 5.940272922290609,
+      "line": "line-2",
+      "lon": 10.187121930242439,
+      "s_m": 1518.2337649086285
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5600098,
+      "id": "line-2-0605-0610-s004246",
+      "junction_group": 2,
+      "lat": 5.953230486268581,
+      "line": "line-2",
+      "lon": 10.169780521462151,
+      "s_m": 4245.584412271581
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.48438057,
+      "id": "line-2-0476-0441-s008999",
+      "junction_group": 0,
+      "lat": 5.976446121729115,
+      "line": "line-2",
+      "lon": 10.13925241642185,
+      "s_m": 8998.864350760163
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.47411346,
+      "id": "line-2-0472-0435-s009166",
+      "junction_group": 0,
+      "lat": 5.977165986394557,
+      "line": "line-2",
+      "lon": 10.138168578373081,
+      "s_m": 9166.14357137374
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Mankon Palace",
+      "demand": 0.29881224,
+      "id": "line-2-0330-0248-s014396",
+      "lat": 6.002721182017781,
+      "line": "line-2",
+      "lon": 10.104388959186478,
+      "s_m": 14396.408357960587
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Bamenda Airport",
+      "demand": 0.29300472,
+      "id": "line-3-0132-0345-s000000",
+      "lat": 6.038354482957204,
+      "line": "line-3",
+      "lon": 10.121911007641561,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35028803,
+      "id": "line-3-0331-0406-s004690",
+      "lat": 6.002541215851419,
+      "line": "line-3",
+      "lon": 10.132930027804036,
+      "s_m": 4690.193359837568
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4715843,
+      "id": "line-3-0470-0439-s007779",
+      "junction_group": 0,
+      "lat": 5.977525918727279,
+      "line": "line-3",
+      "lon": 10.13889113707226,
+      "s_m": 7778.721497261432
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.48438057,
+      "id": "line-3-0476-0441-s007915",
+      "junction_group": 0,
+      "lat": 5.976446121729115,
+      "line": "line-3",
+      "lon": 10.13925241642185,
+      "s_m": 7915.290039756356
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Bamenda Regional Hospital",
+      "demand": 0.6489059,
+      "id": "line-3-0593-0468-s010479",
+      "lat": 5.95539008026491,
+      "line": "line-3",
+      "lon": 10.144129687641307,
+      "s_m": 10478.965363437812
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5600098,
+      "id": "line-4-0605-0610-s000000",
+      "junction_group": 2,
+      "lat": 5.953230486268581,
+      "line": "line-4",
+      "lon": 10.169780521462151,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.42060876,
+      "id": "line-4-0687-0464-s005325",
+      "lat": 5.938473260627002,
+      "line": "line-4",
+      "lon": 10.143407128942128,
+      "s_m": 5324.507934888333
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3978422,
+      "id": "line-5-0677-0706-s000000",
+      "junction_group": 1,
+      "lat": 5.940272922290609,
+      "line": "line-5",
+      "lon": 10.187121930242439,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.39448512,
+      "id": "line-5-0687-0719-s000401",
+      "junction_group": 1,
+      "lat": 5.938473260627002,
+      "line": "line-5",
+      "lon": 10.189470246014771,
+      "s_m": 401.4213562373095
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.39494273,
+      "id": "line-5-0690-0723-s000535",
+      "junction_group": 1,
+      "lat": 5.93793336212792,
+      "line": "line-5",
+      "lon": 10.190192804713949,
+      "s_m": 534.5584412271571
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.42016295,
+      "id": "line-5-0563-0712-s004343",
+      "lat": 5.960789065255732,
+      "line": "line-5",
+      "lon": 10.188205768291208,
+      "s_m": 4342.741699796962
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Block 17 (Down Campus)",
+      "archetype": "terminal",
+      "id": "line-1-0276-1068-s000000",
+      "lat": 6.012439355001259,
+      "line": "line-1",
+      "lon": 10.252513492518114,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0278-0933-s003515",
+      "lat": 6.012079422668538,
+      "line": "line-1",
+      "lon": 10.22812713642083,
+      "platform_length_m": 55.5,
+      "s_m": 3515.4
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0340-0795-s007012",
+      "lat": 6.000921520354173,
+      "line": "line-1",
+      "lon": 10.203198861299166,
+      "platform_length_m": 59.5,
+      "s_m": 7011.6
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0387-0665-s010024",
+      "lat": 5.992463110535219,
+      "line": "line-1",
+      "lon": 10.179715703575859,
+      "platform_length_m": 59.5,
+      "s_m": 10024.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0470-0439-s015302",
+      "junction_group": 0,
+      "lat": 5.977525918727279,
+      "line": "line-1",
+      "lon": 10.13889113707226,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 15302.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0472-0435-s015405",
+      "junction_group": 0,
+      "lat": 5.977165986394557,
+      "line": "line-1",
+      "lon": 10.138168578373081,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 15404.7
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Nchoubu Junction",
+      "archetype": "depot-terminal",
+      "id": "line-1-0492-0379-s016696",
+      "lat": 5.973566663067343,
+      "line": "line-1",
+      "lon": 10.12805275658458,
+      "platform_length_m": 59.5,
+      "s_m": 16696.3
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bamendankwe",
+      "archetype": "terminal",
+      "id": "line-2-0719-0761-s000000",
+      "lat": 5.932714343303458,
+      "line": "line-2",
+      "lon": 10.197057112356147,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0690-0723-s001071",
+      "junction_group": 1,
+      "lat": 5.93793336212792,
+      "line": "line-2",
+      "lon": 10.190192804713949,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1070.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0687-0719-s001175",
+      "junction_group": 1,
+      "lat": 5.938473260627002,
+      "line": "line-2",
+      "lon": 10.189470246014771,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1175.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0677-0706-s001518",
+      "junction_group": 1,
+      "lat": 5.940272922290609,
+      "line": "line-2",
+      "lon": 10.187121930242439,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1518.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0605-0610-s004246",
+      "junction_group": 2,
+      "lat": 5.953230486268581,
+      "line": "line-2",
+      "lon": 10.169780521462151,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4245.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0476-0441-s008999",
+      "junction_group": 0,
+      "lat": 5.976446121729115,
+      "line": "line-2",
+      "lon": 10.13925241642185,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8998.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0472-0435-s009166",
+      "junction_group": 0,
+      "lat": 5.977165986394557,
+      "line": "line-2",
+      "lon": 10.138168578373081,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9166.1
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Mankon Palace",
+      "archetype": "terminal",
+      "id": "line-2-0330-0248-s014396",
+      "lat": 6.002721182017781,
+      "line": "line-2",
+      "lon": 10.104388959186478,
+      "platform_length_m": 59.5,
+      "s_m": 14396.4
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Bamenda Airport",
+      "archetype": "terminal",
+      "id": "line-3-0132-0345-s000000",
+      "lat": 6.038354482957204,
+      "line": "line-3",
+      "lon": 10.121911007641561,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0331-0406-s004690",
+      "lat": 6.002541215851419,
+      "line": "line-3",
+      "lon": 10.132930027804036,
+      "platform_length_m": 59.5,
+      "s_m": 4690.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0470-0439-s007779",
+      "junction_group": 0,
+      "lat": 5.977525918727279,
+      "line": "line-3",
+      "lon": 10.13889113707226,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7778.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0476-0441-s007915",
+      "junction_group": 0,
+      "lat": 5.976446121729115,
+      "line": "line-3",
+      "lon": 10.13925241642185,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7915.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Bamenda Regional Hospital",
+      "archetype": "terminal",
+      "id": "line-3-0593-0468-s010479",
+      "lat": 5.95539008026491,
+      "line": "line-3",
+      "lon": 10.144129687641307,
+      "platform_length_m": 59.5,
+      "s_m": 10479.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0605-0610-s000000",
+      "junction_group": 2,
+      "lat": 5.953230486268581,
+      "line": "line-4",
+      "lon": 10.169780521462151,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0687-0464-s005325",
+      "lat": 5.938473260627002,
+      "line": "line-4",
+      "lon": 10.143407128942128,
+      "platform_length_m": 59.5,
+      "s_m": 5324.5
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0677-0706-s000000",
+      "junction_group": 1,
+      "lat": 5.940272922290609,
+      "line": "line-5",
+      "lon": 10.187121930242439,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-5-0687-0719-s000401",
+      "junction_group": 1,
+      "lat": 5.938473260627002,
+      "line": "line-5",
+      "lon": 10.189470246014771,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 401.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-5-0690-0723-s000535",
+      "junction_group": 1,
+      "lat": 5.93793336212792,
+      "line": "line-5",
+      "lon": 10.190192804713949,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 534.6
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0563-0712-s004343",
+      "lat": 5.960789065255732,
+      "line": "line-5",
+      "lon": 10.188205768291208,
+      "platform_length_m": 59.5,
+      "s_m": 4342.7
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

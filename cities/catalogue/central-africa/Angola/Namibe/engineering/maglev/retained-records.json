@@ -1,0 +1,949 @@
+{
+  "city": {
+    "bbox": {
+      "east": 12.2222,
+      "north": -15.1285,
+      "south": -15.2637,
+      "west": 12.0822
+    },
+    "centroid_lat": -15.199676618795667,
+    "centroid_lon": 12.158065031752269,
+    "country": "AO",
+    "population": 300000,
+    "slug": "namibe"
+  },
+  "climate": {
+    "preset": "tropical-arid"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/central-africa/Angola/Namibe/corridors.json",
+    "cities/catalogue/central-africa/Angola/Namibe/namibe.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Angola/Namibe/namibe.corridor.geojson",
+      "geometry_sha256": "97c72d5be49f894b24f4cf991868e1c1d81480e24410526ce002abbfa55b2637",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 752,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "namibe"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -15.198176900742661,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 12.149066725327664,
+      "platforms": [
+        "line-1-0381-0367-s008367",
+        "line-1-0384-0361-s008219",
+        "line-1-0391-0344-s007821",
+        "line-2-0381-0367-s007347",
+        "line-2-0384-0364-s007438",
+        "line-2-0392-0360-s007647",
+        "line-3-0384-0361-s007510",
+        "line-3-0391-0344-s007112",
+        "line-3-0392-0360-s007779"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -15.147486430551057,
+      "lines": [
+        "line-2",
+        "line-5"
+      ],
+      "lon": 12.174820498887739,
+      "platforms": [
+        "line-2-0105-0497-s000000",
+        "line-5-0105-0497-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -15.187528902566317,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 12.151828274540733,
+      "platforms": [
+        "line-2-0336-0374-s006036",
+        "line-3-0319-0373-s005146"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -15.209934690278228,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 12.134048862191428,
+      "platforms": [
+        "line-3-0452-0278-s010307",
+        "line-4-0452-0278-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 14978.4,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 12021.6,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 13484.8,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 4726.8,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 4802.7,
+      "name": "line-5",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0535-0039-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0392-0605-s014978"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 30
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0105-0497-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0545-0386-s012022"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 27
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0133-0467-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0484-0136-s013485"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 29
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0452-0278-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0563-0188-s004727"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 12
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0105-0497-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0037-0388-s004803"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 11
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Faculdade de Engenharia e Tecnologias da Universidade do Namibe (FET-UNINBE)",
+      "demand": 0.46650323,
+      "id": "line-1-0535-0039-s000000",
+      "lat": -15.224871882086168,
+      "line": "line-1",
+      "lon": 12.089553788353902,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": null,
+      "demand": 0.61953247,
+      "id": "line-1-0429-0142-s003002",
+      "lat": -15.205795468451932,
+      "line": "line-1",
+      "lon": 12.10872948963116,
+      "s_m": 3001.564209736045
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8999796,
+      "id": "line-1-0391-0344-s007821",
+      "junction_group": 0,
+      "lat": -15.198956754130224,
+      "line": "line-1",
+      "lon": 12.14633620475744,
+      "s_m": 7821.463197058394
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8623492,
+      "id": "line-1-0384-0361-s008219",
+      "junction_group": 0,
+      "lat": -15.1976969909657,
+      "line": "line-1",
+      "lon": 12.149501126327474,
+      "s_m": 8219.453095790628
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8514406,
+      "id": "line-1-0381-0367-s008367",
+      "junction_group": 0,
+      "lat": -15.197157092466616,
+      "line": "line-1",
+      "lon": 12.150618157469838,
+      "s_m": 8366.732316404205
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6765424,
+      "id": "line-1-0358-0512-s012825",
+      "lat": -15.19301787064032,
+      "line": "line-1",
+      "lon": 12.17761307674365,
+      "s_m": 12825.037508062138
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Posto de Saúde Boa Esperança",
+      "demand": 0.58402157,
+      "id": "line-1-0392-0605-s014978",
+      "lat": -15.199136720296584,
+      "line": "line-1",
+      "lon": 12.194927059450304,
+      "s_m": 14978.418459228358
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Cambongue",
+      "demand": 0.5324892,
+      "id": "line-2-0105-0497-s000000",
+      "junction_group": 1,
+      "lat": -15.147486430551057,
+      "line": "line-2",
+      "lon": 12.174820498887739,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.53844357,
+      "id": "line-2-0224-0459-s003010",
+      "lat": -15.168902404347984,
+      "line": "line-2",
+      "lon": 12.16774596831943,
+      "s_m": 3009.949493661168
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Moçâmedes (Km 0)",
+      "demand": 0.69981223,
+      "id": "line-2-0336-0374-s006036",
+      "junction_group": 2,
+      "lat": -15.189058614980384,
+      "line": "line-2",
+      "lon": 12.151921360469263,
+      "s_m": 6036.122650963214
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8514406,
+      "id": "line-2-0381-0367-s007347",
+      "junction_group": 0,
+      "lat": -15.197157092466616,
+      "line": "line-2",
+      "lon": 12.150618157469838,
+      "s_m": 7347.077195258271
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8588722,
+      "id": "line-2-0384-0364-s007438",
+      "junction_group": 0,
+      "lat": -15.1976969909657,
+      "line": "line-2",
+      "lon": 12.150059641898656,
+      "s_m": 7437.787873376927
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.87819266,
+      "id": "line-2-0392-0360-s007647",
+      "junction_group": 0,
+      "lat": -15.199136720296584,
+      "line": "line-2",
+      "lon": 12.149314954470412,
+      "s_m": 7647.493500861699
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Faculdade de Ciências Sociais e Humanidades da Universidade do Namibe",
+      "demand": 0.71085715,
+      "id": "line-2-0545-0386-s012022",
+      "lat": -15.226671543749775,
+      "line": "line-2",
+      "lon": 12.154155422753993,
+      "s_m": 12021.606050557055
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Cambongue (Km 6)",
+      "demand": 0.57795376,
+      "id": "line-3-0133-0467-s000000",
+      "lat": -15.152525483209157,
+      "line": "line-3",
+      "lon": 12.169235343175915,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.58944005,
+      "id": "line-3-0319-0373-s005146",
+      "junction_group": 2,
+      "lat": -15.185999190152252,
+      "line": "line-3",
+      "lon": 12.151735188612202,
+      "s_m": 5145.584412271578
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8999796,
+      "id": "line-3-0391-0344-s007112",
+      "junction_group": 0,
+      "lat": -15.198956754130224,
+      "line": "line-3",
+      "lon": 12.14633620475744,
+      "s_m": 7111.513703397222
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8623492,
+      "id": "line-3-0384-0361-s007510",
+      "junction_group": 0,
+      "lat": -15.1976969909657,
+      "line": "line-3",
+      "lon": 12.149501126327474,
+      "s_m": 7509.503602129457
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.87819266,
+      "id": "line-3-0392-0360-s007779",
+      "junction_group": 0,
+      "lat": -15.199136720296584,
+      "line": "line-3",
+      "lon": 12.149314954470412,
+      "s_m": 7779.20922961423
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.82265013,
+      "id": "line-3-0452-0278-s010307",
+      "junction_group": 3,
+      "lat": -15.209934690278228,
+      "line": "line-3",
+      "lon": 12.134048862191428,
+      "s_m": 10306.559876977148
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "O Nosso Zimbo",
+      "demand": 0.47876498,
+      "id": "line-3-0484-0136-s013485",
+      "lat": -15.215693607601771,
+      "line": "line-3",
+      "lon": 12.107612458488797,
+      "s_m": 13484.793641885752
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.82265013,
+      "id": "line-4-0452-0278-s000000",
+      "junction_group": 3,
+      "lat": -15.209934690278228,
+      "line": "line-4",
+      "lon": 12.134048862191428,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.43539315,
+      "id": "line-4-0585-0263-s003045",
+      "lat": -15.233870190404204,
+      "line": "line-4",
+      "lon": 12.131256284335516,
+      "s_m": 3044.5079348883282
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.38515988,
+      "id": "line-4-0563-0188-s004727",
+      "lat": -15.229910934744268,
+      "line": "line-4",
+      "lon": 12.117293395055958,
+      "s_m": 4726.761902332495
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Cambongue",
+      "demand": 0.5324892,
+      "id": "line-5-0105-0497-s000000",
+      "junction_group": 1,
+      "lat": -15.147486430551057,
+      "line": "line-5",
+      "lon": 12.174820498887739,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.40777004,
+      "id": "line-5-0037-0388-s004803",
+      "lat": -15.135248731238528,
+      "line": "line-5",
+      "lon": 12.154527766468114,
+      "s_m": 4802.741699796963
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Faculdade de Engenharia e Tecnologias da Universidade do Namibe (FET-UNINBE)",
+      "archetype": "terminal",
+      "id": "line-1-0535-0039-s000000",
+      "lat": -15.224871882086168,
+      "line": "line-1",
+      "lon": 12.089553788353902,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "archetype": "major",
+      "id": "line-1-0429-0142-s003002",
+      "lat": -15.205795468451932,
+      "line": "line-1",
+      "lon": 12.10872948963116,
+      "platform_length_m": 49.0,
+      "s_m": 3001.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0391-0344-s007821",
+      "junction_group": 0,
+      "lat": -15.198956754130224,
+      "line": "line-1",
+      "lon": 12.14633620475744,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7821.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0384-0361-s008219",
+      "junction_group": 0,
+      "lat": -15.1976969909657,
+      "line": "line-1",
+      "lon": 12.149501126327474,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8219.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0381-0367-s008367",
+      "junction_group": 0,
+      "lat": -15.197157092466616,
+      "line": "line-1",
+      "lon": 12.150618157469838,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8366.7
+    },
+    {
+      "archetype": "major",
+      "id": "line-1-0358-0512-s012825",
+      "lat": -15.19301787064032,
+      "line": "line-1",
+      "lon": 12.17761307674365,
+      "platform_length_m": 49.0,
+      "s_m": 12825.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Posto de Saúde Boa Esperança",
+      "archetype": "depot-terminal",
+      "id": "line-1-0392-0605-s014978",
+      "lat": -15.199136720296584,
+      "line": "line-1",
+      "lon": 12.194927059450304,
+      "platform_length_m": 49.0,
+      "s_m": 14978.4
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Cambongue",
+      "archetype": "terminal",
+      "id": "line-2-0105-0497-s000000",
+      "junction_group": 1,
+      "lat": -15.147486430551057,
+      "line": "line-2",
+      "lon": 12.174820498887739,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0224-0459-s003010",
+      "lat": -15.168902404347984,
+      "line": "line-2",
+      "lon": 12.16774596831943,
+      "platform_length_m": 49.0,
+      "s_m": 3009.9
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Moçâmedes (Km 0)",
+      "archetype": "interchange",
+      "id": "line-2-0336-0374-s006036",
+      "junction_group": 2,
+      "lat": -15.189058614980384,
+      "line": "line-2",
+      "lon": 12.151921360469263,
+      "platform_length_m": 49.0,
+      "s_m": 6036.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0381-0367-s007347",
+      "junction_group": 0,
+      "lat": -15.197157092466616,
+      "line": "line-2",
+      "lon": 12.150618157469838,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7347.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0384-0364-s007438",
+      "junction_group": 0,
+      "lat": -15.1976969909657,
+      "line": "line-2",
+      "lon": 12.150059641898656,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7437.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0392-0360-s007647",
+      "junction_group": 0,
+      "lat": -15.199136720296584,
+      "line": "line-2",
+      "lon": 12.149314954470412,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7647.5
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Faculdade de Ciências Sociais e Humanidades da Universidade do Namibe",
+      "archetype": "terminal",
+      "id": "line-2-0545-0386-s012022",
+      "lat": -15.226671543749775,
+      "line": "line-2",
+      "lon": 12.154155422753993,
+      "platform_length_m": 49.0,
+      "s_m": 12021.6
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Cambongue (Km 6)",
+      "archetype": "terminal",
+      "id": "line-3-0133-0467-s000000",
+      "lat": -15.152525483209157,
+      "line": "line-3",
+      "lon": 12.169235343175915,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0319-0373-s005146",
+      "junction_group": 2,
+      "lat": -15.185999190152252,
+      "line": "line-3",
+      "lon": 12.151735188612202,
+      "platform_length_m": 49.0,
+      "s_m": 5145.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0391-0344-s007112",
+      "junction_group": 0,
+      "lat": -15.198956754130224,
+      "line": "line-3",
+      "lon": 12.14633620475744,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7111.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0384-0361-s007510",
+      "junction_group": 0,
+      "lat": -15.1976969909657,
+      "line": "line-3",
+      "lon": 12.149501126327474,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7509.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0392-0360-s007779",
+      "junction_group": 0,
+      "lat": -15.199136720296584,
+      "line": "line-3",
+      "lon": 12.149314954470412,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7779.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0452-0278-s010307",
+      "junction_group": 3,
+      "lat": -15.209934690278228,
+      "line": "line-3",
+      "lon": 12.134048862191428,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 10306.6
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "O Nosso Zimbo",
+      "archetype": "terminal",
+      "id": "line-3-0484-0136-s013485",
+      "lat": -15.215693607601771,
+      "line": "line-3",
+      "lon": 12.107612458488797,
+      "platform_length_m": 49.0,
+      "s_m": 13484.8
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0452-0278-s000000",
+      "junction_group": 3,
+      "lat": -15.209934690278228,
+      "line": "line-4",
+      "lon": 12.134048862191428,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-4-0585-0263-s003045",
+      "lat": -15.233870190404204,
+      "line": "line-4",
+      "lon": 12.131256284335516,
+      "platform_length_m": 49.0,
+      "s_m": 3044.5
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0563-0188-s004727",
+      "lat": -15.229910934744268,
+      "line": "line-4",
+      "lon": 12.117293395055958,
+      "platform_length_m": 49.0,
+      "s_m": 4726.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Cambongue",
+      "archetype": "terminal",
+      "id": "line-5-0105-0497-s000000",
+      "junction_group": 1,
+      "lat": -15.147486430551057,
+      "line": "line-5",
+      "lon": 12.174820498887739,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0037-0388-s004803",
+      "lat": -15.135248731238528,
+      "line": "line-5",
+      "lon": 12.154527766468114,
+      "platform_length_m": 49.0,
+      "s_m": 4802.7
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

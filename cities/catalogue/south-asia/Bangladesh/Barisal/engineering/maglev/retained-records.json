@@ -1,0 +1,1134 @@
+{
+  "city": {
+    "bbox": {
+      "east": 90.4609,
+      "north": 22.8001,
+      "south": 22.6019,
+      "west": 90.2461
+    },
+    "centroid_lat": 22.700128794586618,
+    "centroid_lon": 90.35233568377183,
+    "country": "BD",
+    "population": 550000,
+    "slug": "barisal"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/south-asia/Bangladesh/Barisal/corridors.json",
+    "cities/catalogue/south-asia/Bangladesh/Barisal/barisal.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/south-asia/Bangladesh/Barisal/barisal.corridor.geojson",
+      "geometry_sha256": "2b41dc830c2bd358cebaa0a3545128e6c9d8e3e3f6f7196b196f0790be280a6f",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1103,
+    "population": 550000,
+    "schema_version": 1,
+    "slug": "barisal"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 22.704627948745635,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 90.3379242436268,
+      "platforms": [
+        "line-1-0530-0471-s005734",
+        "line-3-0530-0471-s015919"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 22.69023065543678,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 90.34318247178783,
+      "platforms": [
+        "line-1-0610-0498-s007567",
+        "line-2-0610-0498-s009532"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 22.656217049994602,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": 90.35525692163907,
+      "platforms": [
+        "line-1-0799-0560-s011899",
+        "line-4-0799-0560-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 22.701388557751145,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 90.35915190546206,
+      "platforms": [
+        "line-2-0548-0580-s007110",
+        "line-3-0548-0580-s018840"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": 22.70015129035741,
+      "lines": [
+        "line-2",
+        "line-3",
+        "line-4"
+      ],
+      "lon": 90.35228699647405,
+      "platforms": [
+        "line-2-0550-0549-s007810",
+        "line-2-0553-0546-s007918",
+        "line-2-0555-0544-s007986",
+        "line-2-0563-0539-s008199",
+        "line-3-0550-0549-s018140",
+        "line-3-0551-0547-s018040",
+        "line-3-0554-0545-s017940",
+        "line-4-0563-0539-s006371"
+      ]
+    },
+    {
+      "id": "interchange-005",
+      "junction_group": 5,
+      "lat": 22.756098272324802,
+      "lines": [
+        "line-3",
+        "line-5"
+      ],
+      "lon": 90.30676437304294,
+      "platforms": [
+        "line-3-0244-0311-s008060",
+        "line-5-0244-0311-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 13725.7,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 21401.1,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 28101.4,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 6371.3,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 5856.1,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0279-0389-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0879-0586-s013726"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 43
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0445-0721-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-1084-0450-s021401"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 70
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0078-0053-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0761-0860-s028101"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 87
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0799-0560-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0563-0539-s006371"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 23
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0244-0311-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0030-0266-s005856"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Bangladesh Krira Shiksha Protisthan (BKSP, Barisal)",
+      "demand": 0.3508289,
+      "id": "line-1-0279-0389-s000000",
+      "lat": 22.749799456502178,
+      "line": "line-1",
+      "lon": 90.32195480995257,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3653653,
+      "id": "line-1-0530-0471-s005734",
+      "junction_group": 0,
+      "lat": 22.704627948745635,
+      "line": "line-1",
+      "lon": 90.3379242436268,
+      "s_m": 5734.457428549502
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.41628972,
+      "id": "line-1-0610-0498-s007567",
+      "junction_group": 1,
+      "lat": 22.69023065543678,
+      "line": "line-1",
+      "lon": 90.34318247178783,
+      "s_m": 7567.422074112324
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.38957343,
+      "id": "line-1-0799-0560-s011899",
+      "junction_group": 2,
+      "lat": 22.656217049994602,
+      "line": "line-1",
+      "lon": 90.35525692163907,
+      "s_m": 11898.620484583736
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "চৌমাথা বাজার",
+      "demand": 0.26696205,
+      "id": "line-1-0879-0586-s013726",
+      "lat": 22.641819756685745,
+      "line": "line-1",
+      "lon": 90.36032040060894,
+      "s_m": 13725.727265770267
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": null,
+      "demand": 0.33332056,
+      "id": "line-2-0445-0721-s000000",
+      "lat": 22.719925072886298,
+      "line": "line-2",
+      "lon": 90.38661154141407,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.44137207,
+      "id": "line-2-0469-0638-s002982",
+      "lat": 22.71560588489364,
+      "line": "line-2",
+      "lon": 90.3704473585487,
+      "s_m": 2981.665222413706
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": null,
+      "demand": 0.64167905,
+      "id": "line-2-0480-0585-s005051",
+      "lat": 22.713626257063673,
+      "line": "line-2",
+      "lon": 90.3601256514178,
+      "s_m": 5050.782104868024
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.91018146,
+      "id": "line-2-0548-0580-s007110",
+      "junction_group": 3,
+      "lat": 22.701388557751145,
+      "line": "line-2",
+      "lon": 90.35915190546206,
+      "s_m": 7109.6046148071155
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "demand": 0.9623763,
+      "id": "line-2-0550-0549-s007810",
+      "junction_group": 4,
+      "lat": 22.70102862541842,
+      "line": "line-2",
+      "lon": 90.35311468053644,
+      "s_m": 7809.6046148071155
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "demand": 0.9357872,
+      "id": "line-2-0553-0546-s007918",
+      "junction_group": 4,
+      "lat": 22.70048872691934,
+      "line": "line-2",
+      "lon": 90.35253043296298,
+      "s_m": 7917.888886054578
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "demand": 0.9147373,
+      "id": "line-2-0555-0544-s007986",
+      "junction_group": 4,
+      "lat": 22.700128794586618,
+      "line": "line-2",
+      "lon": 90.35214093458069,
+      "s_m": 7986.17315730204
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.83929163,
+      "id": "line-2-0563-0539-s008199",
+      "junction_group": 4,
+      "lat": 22.69868906525573,
+      "line": "line-2",
+      "lon": 90.35116718862494,
+      "s_m": 8199.31024229189
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.41628972,
+      "id": "line-2-0610-0498-s009532",
+      "junction_group": 1,
+      "lat": 22.69023065543678,
+      "line": "line-2",
+      "lon": 90.34318247178783,
+      "s_m": 9531.686142824225
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "দপদপিয়া খেয়া ঘাট উত্তর",
+      "demand": 0.35278684,
+      "id": "line-2-0840-0489-s015177",
+      "lat": 22.64883843717381,
+      "line": "line-2",
+      "lon": 90.34142972906749,
+      "s_m": 15177.442994522778
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "খেজুরতলা বাজার",
+      "demand": 0.26355073,
+      "id": "line-2-1084-0450-s021401",
+      "lat": 22.604926692581795,
+      "line": "line-2",
+      "lon": 90.33383451061266,
+      "s_m": 21401.11831820424
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Guthia Bazar",
+      "demand": 0.11855734,
+      "id": "line-3-0078-0053-s000000",
+      "lat": 22.785972655940682,
+      "line": "line-3",
+      "lon": 90.25651908172648,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.1247065,
+      "id": "line-3-0191-0172-s004031",
+      "lat": 22.76563647914192,
+      "line": "line-3",
+      "lon": 90.27969423547322,
+      "s_m": 4030.782104868029
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.19259632,
+      "id": "line-3-0244-0311-s008060",
+      "junction_group": 5,
+      "lat": 22.756098272324802,
+      "line": "line-3",
+      "lon": 90.30676437304294,
+      "s_m": 8059.898987322347
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.30340093,
+      "id": "line-3-0481-0412-s014047",
+      "lat": 22.713446290897313,
+      "line": "line-3",
+      "lon": 90.326434041349,
+      "s_m": 14046.66088965479
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3653653,
+      "id": "line-3-0530-0471-s015919",
+      "junction_group": 0,
+      "lat": 22.704627948745635,
+      "line": "line-3",
+      "lon": 90.3379242436268,
+      "s_m": 15918.620484583704
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "demand": 0.9255538,
+      "id": "line-3-0554-0545-s017940",
+      "junction_group": 4,
+      "lat": 22.70030876075298,
+      "line": "line-3",
+      "lon": 90.35233568377183,
+      "s_m": 17940.041840821017
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "demand": 0.94901353,
+      "id": "line-3-0551-0547-s018040",
+      "junction_group": 4,
+      "lat": 22.70084865925206,
+      "line": "line-3",
+      "lon": 90.35272518215413,
+      "s_m": 18040.041840821017
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "demand": 0.9623763,
+      "id": "line-3-0550-0549-s018140",
+      "junction_group": 4,
+      "lat": 22.70102862541842,
+      "line": "line-3",
+      "lon": 90.35311468053644,
+      "s_m": 18140.041840821017
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.91018146,
+      "id": "line-3-0548-0580-s018840",
+      "junction_group": 3,
+      "lat": 22.701388557751145,
+      "line": "line-3",
+      "lon": 90.35915190546206,
+      "s_m": 18840.041840821017
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": null,
+      "demand": 0.43813044,
+      "id": "line-3-0584-0698-s021679",
+      "lat": 22.694909775762156,
+      "line": "line-3",
+      "lon": 90.38213231001764,
+      "s_m": 21678.86435076013
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Talikder Hat Bazar",
+      "demand": 0.2423684,
+      "id": "line-3-0761-0860-s028101",
+      "lat": 22.663055764316308,
+      "line": "line-3",
+      "lon": 90.41368167898379,
+      "s_m": 28101.362184380745
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.38957343,
+      "id": "line-4-0799-0560-s000000",
+      "junction_group": 2,
+      "lat": 22.656217049994602,
+      "line": "line-4",
+      "lon": 90.35525692163907,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.37339142,
+      "id": "line-4-0691-0600-s003271",
+      "lat": 22.67565339596156,
+      "line": "line-4",
+      "lon": 90.36304688928503,
+      "s_m": 3270.7821048680244
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "A.R.S. Secondary Girl's School",
+      "demand": 0.90154934,
+      "id": "line-4-0629-0570-s004759",
+      "lat": 22.686811298275924,
+      "line": "line-4",
+      "lon": 90.35720441355056,
+      "s_m": 4759.310242291888
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "demand": 0.83929163,
+      "id": "line-4-0563-0539-s006371",
+      "junction_group": 4,
+      "lat": 22.69868906525573,
+      "line": "line-4",
+      "lon": 90.35116718862494,
+      "s_m": 6371.269837220828
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.19259632,
+      "id": "line-5-0244-0311-s000000",
+      "junction_group": 5,
+      "lat": 22.756098272324802,
+      "line": "line-5",
+      "lon": 90.30676437304294,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Agriculture Training Institute Rahmatpur",
+      "demand": 0.23399557,
+      "id": "line-5-0030-0266-s005856",
+      "lat": 22.794611031926,
+      "line": "line-5",
+      "lon": 90.29800065944123,
+      "s_m": 5856.122650963211
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Bangladesh Krira Shiksha Protisthan (BKSP, Barisal)",
+      "archetype": "terminal",
+      "id": "line-1-0279-0389-s000000",
+      "lat": 22.749799456502178,
+      "line": "line-1",
+      "lon": 90.32195480995257,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0530-0471-s005734",
+      "junction_group": 0,
+      "lat": 22.704627948745635,
+      "line": "line-1",
+      "lon": 90.3379242436268,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5734.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0610-0498-s007567",
+      "junction_group": 1,
+      "lat": 22.69023065543678,
+      "line": "line-1",
+      "lon": 90.34318247178783,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7567.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0799-0560-s011899",
+      "junction_group": 2,
+      "lat": 22.656217049994602,
+      "line": "line-1",
+      "lon": 90.35525692163907,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11898.6
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "চৌমাথা বাজার",
+      "archetype": "terminal",
+      "id": "line-1-0879-0586-s013726",
+      "lat": 22.641819756685745,
+      "line": "line-1",
+      "lon": 90.36032040060894,
+      "platform_length_m": 59.5,
+      "s_m": 13725.7
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "archetype": "terminal",
+      "id": "line-2-0445-0721-s000000",
+      "lat": 22.719925072886298,
+      "line": "line-2",
+      "lon": 90.38661154141407,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0469-0638-s002982",
+      "lat": 22.71560588489364,
+      "line": "line-2",
+      "lon": 90.3704473585487,
+      "platform_length_m": 59.5,
+      "s_m": 2981.7
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "archetype": "major",
+      "id": "line-2-0480-0585-s005051",
+      "lat": 22.713626257063673,
+      "line": "line-2",
+      "lon": 90.3601256514178,
+      "platform_length_m": 59.5,
+      "s_m": 5050.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0548-0580-s007110",
+      "junction_group": 3,
+      "lat": 22.701388557751145,
+      "line": "line-2",
+      "lon": 90.35915190546206,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7109.6
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "archetype": "interchange",
+      "id": "line-2-0550-0549-s007810",
+      "junction_group": 4,
+      "lat": 22.70102862541842,
+      "line": "line-2",
+      "lon": 90.35311468053644,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7809.6
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "archetype": "interchange",
+      "id": "line-2-0553-0546-s007918",
+      "junction_group": 4,
+      "lat": 22.70048872691934,
+      "line": "line-2",
+      "lon": 90.35253043296298,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7917.9
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "archetype": "interchange",
+      "id": "line-2-0555-0544-s007986",
+      "junction_group": 4,
+      "lat": 22.700128794586618,
+      "line": "line-2",
+      "lon": 90.35214093458069,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7986.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0563-0539-s008199",
+      "junction_group": 4,
+      "lat": 22.69868906525573,
+      "line": "line-2",
+      "lon": 90.35116718862494,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8199.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0610-0498-s009532",
+      "junction_group": 1,
+      "lat": 22.69023065543678,
+      "line": "line-2",
+      "lon": 90.34318247178783,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9531.7
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "দপদপিয়া খেয়া ঘাট উত্তর",
+      "archetype": "standard",
+      "id": "line-2-0840-0489-s015177",
+      "lat": 22.64883843717381,
+      "line": "line-2",
+      "lon": 90.34142972906749,
+      "platform_length_m": 59.5,
+      "s_m": 15177.4
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "খেজুরতলা বাজার",
+      "archetype": "terminal",
+      "id": "line-2-1084-0450-s021401",
+      "lat": 22.604926692581795,
+      "line": "line-2",
+      "lon": 90.33383451061266,
+      "platform_length_m": 59.5,
+      "s_m": 21401.1
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Guthia Bazar",
+      "archetype": "terminal",
+      "id": "line-3-0078-0053-s000000",
+      "lat": 22.785972655940682,
+      "line": "line-3",
+      "lon": 90.25651908172648,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0191-0172-s004031",
+      "lat": 22.76563647914192,
+      "line": "line-3",
+      "lon": 90.27969423547322,
+      "platform_length_m": 55.5,
+      "s_m": 4030.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0244-0311-s008060",
+      "junction_group": 5,
+      "lat": 22.756098272324802,
+      "line": "line-3",
+      "lon": 90.30676437304294,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8059.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0481-0412-s014047",
+      "lat": 22.713446290897313,
+      "line": "line-3",
+      "lon": 90.326434041349,
+      "platform_length_m": 59.5,
+      "s_m": 14046.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0530-0471-s015919",
+      "junction_group": 0,
+      "lat": 22.704627948745635,
+      "line": "line-3",
+      "lon": 90.3379242436268,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 15918.6
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "archetype": "interchange",
+      "id": "line-3-0554-0545-s017940",
+      "junction_group": 4,
+      "lat": 22.70030876075298,
+      "line": "line-3",
+      "lon": 90.35233568377183,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 17940.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "archetype": "interchange",
+      "id": "line-3-0551-0547-s018040",
+      "junction_group": 4,
+      "lat": 22.70084865925206,
+      "line": "line-3",
+      "lon": 90.35272518215413,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 18040.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "archetype": "interchange",
+      "id": "line-3-0550-0549-s018140",
+      "junction_group": 4,
+      "lat": 22.70102862541842,
+      "line": "line-3",
+      "lon": 90.35311468053644,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 18140.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0548-0580-s018840",
+      "junction_group": 3,
+      "lat": 22.701388557751145,
+      "line": "line-3",
+      "lon": 90.35915190546206,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 18840.0
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "archetype": "standard",
+      "id": "line-3-0584-0698-s021679",
+      "lat": 22.694909775762156,
+      "line": "line-3",
+      "lon": 90.38213231001764,
+      "platform_length_m": 59.5,
+      "s_m": 21678.9
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Talikder Hat Bazar",
+      "archetype": "depot-terminal",
+      "id": "line-3-0761-0860-s028101",
+      "lat": 22.663055764316308,
+      "line": "line-3",
+      "lon": 90.41368167898379,
+      "platform_length_m": 59.5,
+      "s_m": 28101.4
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0799-0560-s000000",
+      "junction_group": 2,
+      "lat": 22.656217049994602,
+      "line": "line-4",
+      "lon": 90.35525692163907,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-4-0691-0600-s003271",
+      "lat": 22.67565339596156,
+      "line": "line-4",
+      "lon": 90.36304688928503,
+      "platform_length_m": 59.5,
+      "s_m": 3270.8
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "A.R.S. Secondary Girl's School",
+      "archetype": "major",
+      "id": "line-4-0629-0570-s004759",
+      "lat": 22.686811298275924,
+      "line": "line-4",
+      "lon": 90.35720441355056,
+      "platform_length_m": 59.5,
+      "s_m": 4759.3
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "BITC - Barisal Information Technology College",
+      "archetype": "terminal",
+      "id": "line-4-0563-0539-s006371",
+      "junction_group": 4,
+      "lat": 22.69868906525573,
+      "line": "line-4",
+      "lon": 90.35116718862494,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6371.3
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0244-0311-s000000",
+      "junction_group": 5,
+      "lat": 22.756098272324802,
+      "line": "line-5",
+      "lon": 90.30676437304294,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Agriculture Training Institute Rahmatpur",
+      "archetype": "terminal",
+      "id": "line-5-0030-0266-s005856",
+      "lat": 22.794611031926,
+      "line": "line-5",
+      "lon": 90.29800065944123,
+      "platform_length_m": 59.5,
+      "s_m": 5856.1
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

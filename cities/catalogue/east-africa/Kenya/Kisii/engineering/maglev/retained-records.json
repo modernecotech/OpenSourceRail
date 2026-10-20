@@ -1,0 +1,658 @@
+{
+  "city": {
+    "bbox": {
+      "east": 34.8343,
+      "north": -0.6141,
+      "south": -0.7493,
+      "west": 34.6991
+    },
+    "centroid_lat": -0.680957430803009,
+    "centroid_lon": 34.76584924476602,
+    "country": "KE",
+    "population": 300000,
+    "slug": "kisii"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Kenya/Kisii/corridors.json",
+    "cities/catalogue/east-africa/Kenya/Kisii/kisii.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Kenya/Kisii/kisii.corridor.geojson",
+      "geometry_sha256": "bb163f994ad92db8e314a9207553cb218cb451a5073e60e455a71c00edd7fcaa",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "kisii"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -0.6807414714033762,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 34.76610078969918,
+      "platforms": [
+        "line-1-0371-0371-s002960",
+        "line-2-0368-0374-s004597",
+        "line-2-0371-0371-s004682",
+        "line-3-0368-0374-s010093",
+        "line-3-0371-0372-s010169"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -0.6715991901522513,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 34.77375494266562,
+      "platforms": [
+        "line-3-0319-0415-s008449",
+        "line-4-0319-0415-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 7109.3,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 6258.7,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 10882.3,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 5912.4,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0433-0474-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0274-0217-s007109"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 16
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0226-0282-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0369-0293-s006259"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 15
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0027-0326-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0375-0406-s010882"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 24
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0319-0415-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0188-0512-s005912"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 14
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Kisii University",
+      "demand": 0.363897,
+      "id": "line-1-0433-0474-s000000",
+      "lat": -0.6921153331173739,
+      "line": "line-1",
+      "lon": 34.78435576484919,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nyanchwa Adventist Mission Hospital",
+      "demand": 0.6114713,
+      "id": "line-1-0371-0371-s002960",
+      "junction_group": 0,
+      "lat": -0.680957430803009,
+      "line": "line-1",
+      "lon": 34.76584924476602,
+      "s_m": 2960.2438661763954
+    },
+    {
+      "anchor_kind": "shop:mall",
+      "anchor_name": "River Point Shop",
+      "demand": 0.34182045,
+      "id": "line-1-0274-0217-s007109",
+      "lat": -0.6635007126660187,
+      "line": "line-1",
+      "lon": 34.73817930211738,
+      "s_m": 7109.259735953063
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Nyamataro",
+      "demand": 0.34849164,
+      "id": "line-2-0226-0282-s000000",
+      "lat": -0.654862336680704,
+      "line": "line-2",
+      "lon": 34.749858174014534,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nyanchwa Adventist Mission Hospital",
+      "demand": 0.6484508,
+      "id": "line-2-0368-0374-s004597",
+      "junction_group": 0,
+      "lat": -0.6804175323039269,
+      "line": "line-2",
+      "lon": 34.7663882696228,
+      "s_m": 4597.30014102412
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nyanchwa Adventist Mission Hospital",
+      "demand": 0.6114713,
+      "id": "line-2-0371-0371-s004682",
+      "junction_group": 0,
+      "lat": -0.680957430803009,
+      "line": "line-2",
+      "lon": 34.76584924476602,
+      "s_m": 4682.152954766507
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Nyanchwa",
+      "demand": 0.34781355,
+      "id": "line-2-0369-0293-s006259",
+      "lat": -0.6805974984702876,
+      "line": "line-2",
+      "lon": 34.75183459848943,
+      "s_m": 6258.721497261431
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Nyakoe Market",
+      "demand": 0.17076762,
+      "id": "line-3-0027-0326-s000000",
+      "lat": -0.6190490695749199,
+      "line": "line-3",
+      "lon": 34.75776387191414,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35137385,
+      "id": "line-3-0252-0359-s006340",
+      "lat": -0.6595414570060828,
+      "line": "line-3",
+      "lon": 34.76369314533885,
+      "s_m": 6339.554108468289
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Guardian",
+      "demand": 0.91576725,
+      "id": "line-3-0319-0415-s008449",
+      "junction_group": 1,
+      "lat": -0.6715991901522513,
+      "line": "line-3",
+      "lon": 34.77375494266562,
+      "s_m": 8448.914857099006
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nyanchwa Adventist Mission Hospital",
+      "demand": 0.6484508,
+      "id": "line-3-0368-0374-s010093",
+      "junction_group": 0,
+      "lat": -0.6804175323039269,
+      "line": "line-3",
+      "lon": 34.7663882696228,
+      "s_m": 10092.590180780458
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nyanchwa Adventist Mission Hospital",
+      "demand": 0.6180647,
+      "id": "line-3-0371-0372-s010169",
+      "junction_group": 0,
+      "lat": -0.680957430803009,
+      "line": "line-3",
+      "lon": 34.76602891971827,
+      "s_m": 10169.15872327538
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Christamariane Hospital",
+      "demand": 0.6689027,
+      "id": "line-3-0375-0406-s010882",
+      "lat": -0.6816772954684519,
+      "line": "line-3",
+      "lon": 34.77213786809525,
+      "s_m": 10882.295808265226
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kisii Teaching and Referral Hospital",
+      "demand": 0.91576725,
+      "id": "line-4-0319-0415-s000000",
+      "junction_group": 1,
+      "lat": -0.6715991901522513,
+      "line": "line-4",
+      "lon": 34.77375494266562,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.24553972,
+      "id": "line-4-0264-0538-s003918",
+      "lat": -0.6617010510024115,
+      "line": "line-4",
+      "lon": 34.79585496179407,
+      "s_m": 3917.6450198781768
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.21982835,
+      "id": "line-4-0188-0512-s005912",
+      "lat": -0.6480236223589965,
+      "line": "line-4",
+      "lon": 34.79118341303521,
+      "s_m": 5912.447327281738
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Kisii University",
+      "archetype": "terminal",
+      "id": "line-1-0433-0474-s000000",
+      "lat": -0.6921153331173739,
+      "line": "line-1",
+      "lon": 34.78435576484919,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nyanchwa Adventist Mission Hospital",
+      "archetype": "interchange",
+      "id": "line-1-0371-0371-s002960",
+      "junction_group": 0,
+      "lat": -0.680957430803009,
+      "line": "line-1",
+      "lon": 34.76584924476602,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2960.2
+    },
+    {
+      "anchor_kind": "shop:mall",
+      "anchor_name": "River Point Shop",
+      "archetype": "terminal",
+      "id": "line-1-0274-0217-s007109",
+      "lat": -0.6635007126660187,
+      "line": "line-1",
+      "lon": 34.73817930211738,
+      "platform_length_m": 49.0,
+      "s_m": 7109.3
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Nyamataro",
+      "archetype": "terminal",
+      "id": "line-2-0226-0282-s000000",
+      "lat": -0.654862336680704,
+      "line": "line-2",
+      "lon": 34.749858174014534,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nyanchwa Adventist Mission Hospital",
+      "archetype": "interchange",
+      "id": "line-2-0368-0374-s004597",
+      "junction_group": 0,
+      "lat": -0.6804175323039269,
+      "line": "line-2",
+      "lon": 34.7663882696228,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4597.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nyanchwa Adventist Mission Hospital",
+      "archetype": "interchange",
+      "id": "line-2-0371-0371-s004682",
+      "junction_group": 0,
+      "lat": -0.680957430803009,
+      "line": "line-2",
+      "lon": 34.76584924476602,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4682.2
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Nyanchwa",
+      "archetype": "terminal",
+      "id": "line-2-0369-0293-s006259",
+      "lat": -0.6805974984702876,
+      "line": "line-2",
+      "lon": 34.75183459848943,
+      "platform_length_m": 49.0,
+      "s_m": 6258.7
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Nyakoe Market",
+      "archetype": "terminal",
+      "id": "line-3-0027-0326-s000000",
+      "lat": -0.6190490695749199,
+      "line": "line-3",
+      "lon": 34.75776387191414,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0252-0359-s006340",
+      "lat": -0.6595414570060828,
+      "line": "line-3",
+      "lon": 34.76369314533885,
+      "platform_length_m": 49.0,
+      "s_m": 6339.6
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Guardian",
+      "archetype": "interchange",
+      "id": "line-3-0319-0415-s008449",
+      "junction_group": 1,
+      "lat": -0.6715991901522513,
+      "line": "line-3",
+      "lon": 34.77375494266562,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8448.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nyanchwa Adventist Mission Hospital",
+      "archetype": "interchange",
+      "id": "line-3-0368-0374-s010093",
+      "junction_group": 0,
+      "lat": -0.6804175323039269,
+      "line": "line-3",
+      "lon": 34.7663882696228,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 10092.6
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nyanchwa Adventist Mission Hospital",
+      "archetype": "interchange",
+      "id": "line-3-0371-0372-s010169",
+      "junction_group": 0,
+      "lat": -0.680957430803009,
+      "line": "line-3",
+      "lon": 34.76602891971827,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 10169.2
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Christamariane Hospital",
+      "archetype": "depot-terminal",
+      "id": "line-3-0375-0406-s010882",
+      "lat": -0.6816772954684519,
+      "line": "line-3",
+      "lon": 34.77213786809525,
+      "platform_length_m": 49.0,
+      "s_m": 10882.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kisii Teaching and Referral Hospital",
+      "archetype": "terminal",
+      "id": "line-4-0319-0415-s000000",
+      "junction_group": 1,
+      "lat": -0.6715991901522513,
+      "line": "line-4",
+      "lon": 34.77375494266562,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "halt",
+      "id": "line-4-0264-0538-s003918",
+      "lat": -0.6617010510024115,
+      "line": "line-4",
+      "lon": 34.79585496179407,
+      "platform_length_m": 45.0,
+      "s_m": 3917.6
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0188-0512-s005912",
+      "lat": -0.6480236223589965,
+      "line": "line-4",
+      "lon": 34.79118341303521,
+      "platform_length_m": 49.0,
+      "s_m": 5912.4
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

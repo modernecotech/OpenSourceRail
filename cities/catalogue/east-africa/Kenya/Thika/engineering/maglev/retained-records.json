@@ -1,0 +1,922 @@
+{
+  "city": {
+    "bbox": {
+      "east": 37.1684,
+      "north": -0.9342,
+      "south": -1.1324,
+      "west": 36.9702
+    },
+    "centroid_lat": -1.0352510024115467,
+    "centroid_lon": 37.06786230626848,
+    "country": "KE",
+    "population": 350000,
+    "slug": "thika"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Kenya/Thika/corridors.json",
+    "cities/catalogue/east-africa/Kenya/Thika/thika.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Kenya/Thika/thika.corridor.geojson",
+      "geometry_sha256": "d3dc0fc4b0b1de42762179c81b93c6ee670afa988a37b625bb14ac233369dc79",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 350000,
+    "schema_version": 1,
+    "slug": "thika"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -1.0338112730806608,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 37.06354971132747,
+      "platforms": [
+        "line-1-0553-0519-s011157",
+        "line-2-0553-0519-s012556"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -1.057446829596036,
+      "lines": [
+        "line-2",
+        "line-5"
+      ],
+      "lon": 37.13704351678066,
+      "platforms": [
+        "line-2-0665-0928-s000000",
+        "line-2-0694-0928-s000580",
+        "line-5-0694-0928-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -1.0521678220494548,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 37.098948928134995,
+      "platforms": [
+        "line-2-0655-0716-s005617",
+        "line-4-0655-0716-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -1.041549818234172,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 37.09499571610573,
+      "platforms": [
+        "line-2-0596-0694-s007849",
+        "line-3-0596-0694-s015134"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": -1.0560370946262103,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 37.07936255944453,
+      "platforms": [
+        "line-3-0677-0606-s012481",
+        "line-4-0676-0608-s005717"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 450,
+      "geometry": "standard-urban",
+      "length_m": 26108.8,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 22917.2,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 510,
+      "geometry": "standard-urban",
+      "length_m": 23755.4,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 5716.7,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 4214.5,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0901-0237-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0016-0869-s026109"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 81
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0665-0928-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0586-0120-s022917"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 68
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-1020-0216-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0341-0923-s023755"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 75
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0655-0716-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0676-0608-s005717"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0694-0928-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0837-0938-s004214"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 14
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "JKUAT Hospital",
+      "demand": 0.7763572,
+      "id": "line-1-0901-0237-s000000",
+      "lat": -1.0964394989741928,
+      "line": "line-1",
+      "lon": 37.01287672077049,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35201168,
+      "id": "line-1-0748-0409-s006170",
+      "lat": -1.068904675521002,
+      "line": "line-1",
+      "lon": 37.04378365118113,
+      "s_m": 6170.0923471599135
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.43599758,
+      "id": "line-1-0553-0519-s011157",
+      "junction_group": 0,
+      "lat": -1.0338112730806608,
+      "line": "line-1",
+      "lon": 37.06354971132747,
+      "s_m": 11157.098115668765
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "KARI(Kenya Agricultural Research Institute",
+      "demand": 0.36523855,
+      "id": "line-1-0394-0608-s015215",
+      "lat": -1.0051966526293057,
+      "line": "line-1",
+      "lon": 37.07954225090041,
+      "s_m": 15214.987001723279
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.23104462,
+      "id": "line-1-0255-0686-s018723",
+      "lat": -0.980181355505165,
+      "line": "line-1",
+      "lon": 37.09355818445872,
+      "s_m": 18723.17026029311
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2065611,
+      "id": "line-1-0126-0754-s022218",
+      "lat": -0.9569657200446317,
+      "line": "line-1",
+      "lon": 37.105777203458274,
+      "s_m": 22217.972567696706
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kenol Hospital",
+      "demand": 0.35805255,
+      "id": "line-1-0016-0869-s026109",
+      "lat": -0.937169441744952,
+      "line": "line-1",
+      "lon": 37.12644172088399,
+      "s_m": 26108.754672564784
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Mt. Kenya University Graduation Pavilion",
+      "demand": 0.31640285,
+      "id": "line-2-0665-0928-s000000",
+      "junction_group": 1,
+      "lat": -1.053967483713062,
+      "line": "line-2",
+      "lon": 37.13704351678066,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.26689798,
+      "id": "line-2-0694-0928-s000580",
+      "junction_group": 1,
+      "lat": -1.059186502537523,
+      "line": "line-2",
+      "lon": 37.13704351678066,
+      "s_m": 580.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5717441,
+      "id": "line-2-0655-0716-s005617",
+      "junction_group": 2,
+      "lat": -1.0521678220494548,
+      "line": "line-2",
+      "lon": 37.098948928134995,
+      "s_m": 5616.568542494924
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.46309796,
+      "id": "line-2-0596-0694-s007849",
+      "junction_group": 3,
+      "lat": -1.041549818234172,
+      "line": "line-2",
+      "lon": 37.09499571610573,
+      "s_m": 7849.116882454318
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.43599758,
+      "id": "line-2-0553-0519-s012556",
+      "junction_group": 0,
+      "lat": -1.0338112730806608,
+      "line": "line-2",
+      "lon": 37.06354971132747,
+      "s_m": 12556.223663640849
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.28116372,
+      "id": "line-2-0561-0326-s017726",
+      "lat": -1.0352510024115467,
+      "line": "line-2",
+      "lon": 37.02886926034344,
+      "s_m": 17726.173157302008
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": null,
+      "demand": 0.29583144,
+      "id": "line-2-0586-0120-s022917",
+      "lat": -1.0397501565705647,
+      "line": "line-2",
+      "lon": 36.99185282043303,
+      "s_m": 22917.199128346514
+    },
+    {
+      "anchor_kind": "shop:mall",
+      "anchor_name": "Juja City Mall",
+      "demand": 0.29804727,
+      "id": "line-3-1020-0216-s000000",
+      "lat": -1.117855472771119,
+      "line": "line-3",
+      "lon": 37.0091032001971,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22190782,
+      "id": "line-3-0938-0314-s003508",
+      "lat": -1.1030982471295396,
+      "line": "line-3",
+      "lon": 37.02671296287293,
+      "s_m": 3507.9393923934067
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2365532,
+      "id": "line-3-0842-0428-s007015",
+      "lat": -1.0858214951589102,
+      "line": "line-3",
+      "lon": 37.047197788842766,
+      "s_m": 7014.701294725907
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35160974,
+      "id": "line-3-0677-0606-s012481",
+      "junction_group": 4,
+      "lat": -1.0561270777093907,
+      "line": "line-3",
+      "lon": 37.079182867988656,
+      "s_m": 12480.529573173815
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.46309796,
+      "id": "line-3-0596-0694-s015134",
+      "junction_group": 3,
+      "lat": -1.041549818234172,
+      "line": "line-3",
+      "lon": 37.09499571610573,
+      "s_m": 15134.15439051641
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.24661952,
+      "id": "line-3-0467-0834-s019436",
+      "lat": -1.0183341827736385,
+      "line": "line-3",
+      "lon": 37.12015251992833,
+      "s_m": 19436.307345282963
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Mitubiri",
+      "demand": 0.27546328,
+      "id": "line-3-0341-0923-s023755",
+      "lat": -0.9956584458121873,
+      "line": "line-3",
+      "lon": 37.13614505950128,
+      "s_m": 23755.373721398504
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "St. Mulumba Hospital",
+      "demand": 0.5717441,
+      "id": "line-4-0655-0716-s000000",
+      "junction_group": 2,
+      "lat": -1.0521678220494548,
+      "line": "line-4",
+      "lon": 37.098948928134995,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35525364,
+      "id": "line-4-0676-0608-s005717",
+      "junction_group": 4,
+      "lat": -1.05594711154303,
+      "line": "line-4",
+      "lon": 37.07954225090041,
+      "s_m": 5716.711395993668
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.26689798,
+      "id": "line-5-0694-0928-s000000",
+      "junction_group": 1,
+      "lat": -1.059186502537523,
+      "line": "line-5",
+      "lon": 37.13704351678066,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.1520918,
+      "id": "line-5-0837-0938-s004214",
+      "lat": -1.0849216643271065,
+      "line": "line-5",
+      "lon": 37.13884043133942,
+      "s_m": 4214.457428549498
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "JKUAT Hospital",
+      "archetype": "terminal",
+      "id": "line-1-0901-0237-s000000",
+      "lat": -1.0964394989741928,
+      "line": "line-1",
+      "lon": 37.01287672077049,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0748-0409-s006170",
+      "lat": -1.068904675521002,
+      "line": "line-1",
+      "lon": 37.04378365118113,
+      "platform_length_m": 59.5,
+      "s_m": 6170.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0553-0519-s011157",
+      "junction_group": 0,
+      "lat": -1.0338112730806608,
+      "line": "line-1",
+      "lon": 37.06354971132747,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11157.1
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "KARI(Kenya Agricultural Research Institute",
+      "archetype": "standard",
+      "id": "line-1-0394-0608-s015215",
+      "lat": -1.0051966526293057,
+      "line": "line-1",
+      "lon": 37.07954225090041,
+      "platform_length_m": 59.5,
+      "s_m": 15215.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0255-0686-s018723",
+      "lat": -0.980181355505165,
+      "line": "line-1",
+      "lon": 37.09355818445872,
+      "platform_length_m": 55.5,
+      "s_m": 18723.2
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0126-0754-s022218",
+      "lat": -0.9569657200446317,
+      "line": "line-1",
+      "lon": 37.105777203458274,
+      "platform_length_m": 55.5,
+      "s_m": 22218.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kenol Hospital",
+      "archetype": "depot-terminal",
+      "id": "line-1-0016-0869-s026109",
+      "lat": -0.937169441744952,
+      "line": "line-1",
+      "lon": 37.12644172088399,
+      "platform_length_m": 59.5,
+      "s_m": 26108.8
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Mt. Kenya University Graduation Pavilion",
+      "archetype": "terminal",
+      "id": "line-2-0665-0928-s000000",
+      "junction_group": 1,
+      "lat": -1.053967483713062,
+      "line": "line-2",
+      "lon": 37.13704351678066,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0694-0928-s000580",
+      "junction_group": 1,
+      "lat": -1.059186502537523,
+      "line": "line-2",
+      "lon": 37.13704351678066,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 580.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0655-0716-s005617",
+      "junction_group": 2,
+      "lat": -1.0521678220494548,
+      "line": "line-2",
+      "lon": 37.098948928134995,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5616.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0596-0694-s007849",
+      "junction_group": 3,
+      "lat": -1.041549818234172,
+      "line": "line-2",
+      "lon": 37.09499571610573,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7849.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0553-0519-s012556",
+      "junction_group": 0,
+      "lat": -1.0338112730806608,
+      "line": "line-2",
+      "lon": 37.06354971132747,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12556.2
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0561-0326-s017726",
+      "lat": -1.0352510024115467,
+      "line": "line-2",
+      "lon": 37.02886926034344,
+      "platform_length_m": 59.5,
+      "s_m": 17726.2
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "archetype": "terminal",
+      "id": "line-2-0586-0120-s022917",
+      "lat": -1.0397501565705647,
+      "line": "line-2",
+      "lon": 36.99185282043303,
+      "platform_length_m": 59.5,
+      "s_m": 22917.2
+    },
+    {
+      "anchor_kind": "shop:mall",
+      "anchor_name": "Juja City Mall",
+      "archetype": "terminal",
+      "id": "line-3-1020-0216-s000000",
+      "lat": -1.117855472771119,
+      "line": "line-3",
+      "lon": 37.0091032001971,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0938-0314-s003508",
+      "lat": -1.1030982471295396,
+      "line": "line-3",
+      "lon": 37.02671296287293,
+      "platform_length_m": 55.5,
+      "s_m": 3507.9
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0842-0428-s007015",
+      "lat": -1.0858214951589102,
+      "line": "line-3",
+      "lon": 37.047197788842766,
+      "platform_length_m": 55.5,
+      "s_m": 7014.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0677-0606-s012481",
+      "junction_group": 4,
+      "lat": -1.0561270777093907,
+      "line": "line-3",
+      "lon": 37.079182867988656,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12480.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0596-0694-s015134",
+      "junction_group": 3,
+      "lat": -1.041549818234172,
+      "line": "line-3",
+      "lon": 37.09499571610573,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 15134.2
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0467-0834-s019436",
+      "lat": -1.0183341827736385,
+      "line": "line-3",
+      "lon": 37.12015251992833,
+      "platform_length_m": 55.5,
+      "s_m": 19436.3
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Mitubiri",
+      "archetype": "terminal",
+      "id": "line-3-0341-0923-s023755",
+      "lat": -0.9956584458121873,
+      "line": "line-3",
+      "lon": 37.13614505950128,
+      "platform_length_m": 59.5,
+      "s_m": 23755.4
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "St. Mulumba Hospital",
+      "archetype": "terminal",
+      "id": "line-4-0655-0716-s000000",
+      "junction_group": 2,
+      "lat": -1.0521678220494548,
+      "line": "line-4",
+      "lon": 37.098948928134995,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0676-0608-s005717",
+      "junction_group": 4,
+      "lat": -1.05594711154303,
+      "line": "line-4",
+      "lon": 37.07954225090041,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5716.7
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0694-0928-s000000",
+      "junction_group": 1,
+      "lat": -1.059186502537523,
+      "line": "line-5",
+      "lon": 37.13704351678066,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0837-0938-s004214",
+      "lat": -1.0849216643271065,
+      "line": "line-5",
+      "lon": 37.13884043133942,
+      "platform_length_m": 59.5,
+      "s_m": 4214.5
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

@@ -1,0 +1,814 @@
+{
+  "city": {
+    "bbox": {
+      "east": 31.2951,
+      "north": 27.28,
+      "south": 27.0818,
+      "west": 31.0723
+    },
+    "centroid_lat": 27.18290825324839,
+    "centroid_lon": 31.185299727127056,
+    "country": "EG",
+    "population": 600000,
+    "slug": "asyut"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-asia/Egypt/Asyut/corridors.json",
+    "cities/catalogue/west-asia/Egypt/Asyut/asyut.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-asia/Egypt/Asyut/asyut.corridor.geojson",
+      "geometry_sha256": "7b956d81e43ed20f274226f270e471344d3f3302c17a700f75a901421efcd650",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 600000,
+    "schema_version": 1,
+    "slug": "asyut"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 27.18290825324839,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 31.187117417107654,
+      "platforms": [
+        "line-1-0539-0568-s003500",
+        "line-3-0539-0568-s016484"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 27.18794730590649,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 31.182472209379462,
+      "platforms": [
+        "line-1-0511-0545-s004295",
+        "line-2-0511-0545-s002213"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 27.183808084080194,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 31.175605380563876,
+      "platforms": [
+        "line-2-0534-0511-s001284",
+        "line-3-0534-0511-s018018"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 27.201624734549906,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 31.20610217912721,
+      "platforms": [
+        "line-2-0435-0662-s005335",
+        "line-4-0435-0662-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 7048.9,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 300,
+      "geometry": "standard-urban",
+      "length_m": 17867.8,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 360,
+      "geometry": "standard-urban",
+      "length_m": 26355.5,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 300,
+      "geometry": "standard-urban",
+      "length_m": 10419.9,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0660-0667-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0415-0467-s007049"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 24
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0565-0462-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0070-1066-s017868"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 57
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-1023-1006-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0480-0214-s026355"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 80
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0435-0662-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0062-0386-s010420"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 35
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "مساكن النزله الجديدة",
+      "demand": 0.34932098,
+      "id": "line-1-0660-0667-s000000",
+      "lat": 27.16113234711874,
+      "line": "line-1",
+      "lon": 31.20711200689421,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Arc Angle Mikhael Hospital",
+      "demand": 0.9478345,
+      "id": "line-1-0539-0568-s003500",
+      "junction_group": 0,
+      "lat": 27.18290825324839,
+      "line": "line-1",
+      "lon": 31.187117417107654,
+      "s_m": 3500.3152929257662
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "El Reda Hospital",
+      "demand": 0.9385882,
+      "id": "line-1-0511-0545-s004295",
+      "junction_group": 1,
+      "lat": 27.18794730590649,
+      "line": "line-1",
+      "lon": 31.182472209379462,
+      "s_m": 4295.2900397563535
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "جامعة الازهر باسيوط",
+      "demand": 0.36870477,
+      "id": "line-1-0415-0467-s007049",
+      "lat": 27.20522405787712,
+      "line": "line-1",
+      "lon": 31.166718896214295,
+      "s_m": 7048.9148570990055
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "قطعة 1",
+      "demand": 0.43935218,
+      "id": "line-2-0565-0462-s000000",
+      "lat": 27.17822913292301,
+      "line": "line-2",
+      "lon": 31.1657090684473,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.782604,
+      "id": "line-2-0534-0511-s001284",
+      "junction_group": 2,
+      "lat": 27.183808084080194,
+      "line": "line-2",
+      "lon": 31.175605380563876,
+      "s_m": 1283.6753236814714
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "El Reda Hospital",
+      "demand": 0.9385882,
+      "id": "line-2-0511-0545-s002213",
+      "junction_group": 1,
+      "lat": 27.18794730590649,
+      "line": "line-2",
+      "lon": 31.182472209379462,
+      "s_m": 2212.792206135786
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.30610776,
+      "id": "line-2-0435-0662-s005335",
+      "junction_group": 3,
+      "lat": 27.201624734549906,
+      "line": "line-2",
+      "lon": 31.20610217912721,
+      "s_m": 5334.7012947259
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22847523,
+      "id": "line-2-0354-0788-s008690",
+      "lat": 27.216201994025123,
+      "line": "line-2",
+      "lon": 31.231549838855557,
+      "s_m": 8689.747468305854
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.12739483,
+      "id": "line-2-0228-0955-s013284",
+      "lat": 27.238877730986577,
+      "line": "line-2",
+      "lon": 31.265278086273284,
+      "s_m": 13284.448763031665
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "المجاورة 2",
+      "demand": 0.1386581,
+      "id": "line-2-0070-1066-s017868",
+      "lat": 27.26731238527157,
+      "line": "line-2",
+      "lon": 31.287696262700635,
+      "s_m": 17867.779207859036
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.06061354,
+      "id": "line-3-1023-1006-s000000",
+      "lat": 27.0958046287298,
+      "line": "line-3",
+      "lon": 31.275578329496664,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.14522684,
+      "id": "line-3-0899-0882-s003507",
+      "lat": 27.11812043335853,
+      "line": "line-3",
+      "lon": 31.250534600875117,
+      "s_m": 3507.2496346852877
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.21668622,
+      "id": "line-3-0768-0803-s007004",
+      "lat": 27.141696001151786,
+      "line": "line-3",
+      "lon": 31.23457932215655,
+      "s_m": 7004.305909533015
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.36702296,
+      "id": "line-3-0615-0671-s012963",
+      "lat": 27.169230824604977,
+      "line": "line-3",
+      "lon": 31.20791986910781,
+      "s_m": 12963.372285648467
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Arc Angle Mikhael Hospital",
+      "demand": 0.9478345,
+      "id": "line-3-0539-0568-s016484",
+      "junction_group": 0,
+      "lat": 27.18290825324839,
+      "line": "line-3",
+      "lon": 31.187117417107654,
+      "s_m": 16484.276323604645
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.782604,
+      "id": "line-3-0534-0511-s018018",
+      "junction_group": 2,
+      "lat": 27.183808084080194,
+      "line": "line-3",
+      "lon": 31.175605380563876,
+      "s_m": 18017.829714197935
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3995873,
+      "id": "line-3-0510-0431-s020367",
+      "lat": 27.18812727207285,
+      "line": "line-3",
+      "lon": 31.15944813629191,
+      "s_m": 20366.94659665227
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "محطة قطار منقباد",
+      "demand": 0.2306529,
+      "id": "line-3-0480-0214-s026355",
+      "lat": 27.193526257063674,
+      "line": "line-3",
+      "lon": 31.115621611204205,
+      "s_m": 26355.47473407616
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.30610776,
+      "id": "line-4-0435-0662-s000000",
+      "junction_group": 3,
+      "lat": 27.201624734549906,
+      "line": "line-4",
+      "lon": 31.20610217912721,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.28383029,
+      "id": "line-4-0364-0611-s001882",
+      "lat": 27.214402332361516,
+      "line": "line-4",
+      "lon": 31.195801935903834,
+      "s_m": 1882.497833620557
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.16677544,
+      "id": "line-4-0090-0461-s008605",
+      "lat": 27.263713061944355,
+      "line": "line-4",
+      "lon": 31.165507102893898,
+      "s_m": 8605.138520739865
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "أبنوب",
+      "demand": 0.18683696,
+      "id": "line-4-0062-0386-s010420",
+      "lat": 27.268752114602457,
+      "line": "line-4",
+      "lon": 31.15035968638893,
+      "s_m": 10419.940828143392
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "مساكن النزله الجديدة",
+      "archetype": "terminal",
+      "id": "line-1-0660-0667-s000000",
+      "lat": 27.16113234711874,
+      "line": "line-1",
+      "lon": 31.20711200689421,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Arc Angle Mikhael Hospital",
+      "archetype": "interchange",
+      "id": "line-1-0539-0568-s003500",
+      "junction_group": 0,
+      "lat": 27.18290825324839,
+      "line": "line-1",
+      "lon": 31.187117417107654,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3500.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "El Reda Hospital",
+      "archetype": "interchange",
+      "id": "line-1-0511-0545-s004295",
+      "junction_group": 1,
+      "lat": 27.18794730590649,
+      "line": "line-1",
+      "lon": 31.182472209379462,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4295.3
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "جامعة الازهر باسيوط",
+      "archetype": "terminal",
+      "id": "line-1-0415-0467-s007049",
+      "lat": 27.20522405787712,
+      "line": "line-1",
+      "lon": 31.166718896214295,
+      "platform_length_m": 59.5,
+      "s_m": 7048.9
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "قطعة 1",
+      "archetype": "terminal",
+      "id": "line-2-0565-0462-s000000",
+      "lat": 27.17822913292301,
+      "line": "line-2",
+      "lon": 31.1657090684473,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0534-0511-s001284",
+      "junction_group": 2,
+      "lat": 27.183808084080194,
+      "line": "line-2",
+      "lon": 31.175605380563876,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1283.7
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "El Reda Hospital",
+      "archetype": "interchange",
+      "id": "line-2-0511-0545-s002213",
+      "junction_group": 1,
+      "lat": 27.18794730590649,
+      "line": "line-2",
+      "lon": 31.182472209379462,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2212.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0435-0662-s005335",
+      "junction_group": 3,
+      "lat": 27.201624734549906,
+      "line": "line-2",
+      "lon": 31.20610217912721,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5334.7
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0354-0788-s008690",
+      "lat": 27.216201994025123,
+      "line": "line-2",
+      "lon": 31.231549838855557,
+      "platform_length_m": 55.5,
+      "s_m": 8689.7
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0228-0955-s013284",
+      "lat": 27.238877730986577,
+      "line": "line-2",
+      "lon": 31.265278086273284,
+      "platform_length_m": 55.5,
+      "s_m": 13284.4
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "المجاورة 2",
+      "archetype": "terminal",
+      "id": "line-2-0070-1066-s017868",
+      "lat": 27.26731238527157,
+      "line": "line-2",
+      "lon": 31.287696262700635,
+      "platform_length_m": 59.5,
+      "s_m": 17867.8
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-3-1023-1006-s000000",
+      "lat": 27.0958046287298,
+      "line": "line-3",
+      "lon": 31.275578329496664,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0899-0882-s003507",
+      "lat": 27.11812043335853,
+      "line": "line-3",
+      "lon": 31.250534600875117,
+      "platform_length_m": 55.5,
+      "s_m": 3507.2
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0768-0803-s007004",
+      "lat": 27.141696001151786,
+      "line": "line-3",
+      "lon": 31.23457932215655,
+      "platform_length_m": 55.5,
+      "s_m": 7004.3
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0615-0671-s012963",
+      "lat": 27.169230824604977,
+      "line": "line-3",
+      "lon": 31.20791986910781,
+      "platform_length_m": 59.5,
+      "s_m": 12963.4
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Arc Angle Mikhael Hospital",
+      "archetype": "interchange",
+      "id": "line-3-0539-0568-s016484",
+      "junction_group": 0,
+      "lat": 27.18290825324839,
+      "line": "line-3",
+      "lon": 31.187117417107654,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 16484.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0534-0511-s018018",
+      "junction_group": 2,
+      "lat": 27.183808084080194,
+      "line": "line-3",
+      "lon": 31.175605380563876,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 18017.8
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0510-0431-s020367",
+      "lat": 27.18812727207285,
+      "line": "line-3",
+      "lon": 31.15944813629191,
+      "platform_length_m": 59.5,
+      "s_m": 20366.9
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "محطة قطار منقباد",
+      "archetype": "depot-terminal",
+      "id": "line-3-0480-0214-s026355",
+      "lat": 27.193526257063674,
+      "line": "line-3",
+      "lon": 31.115621611204205,
+      "platform_length_m": 59.5,
+      "s_m": 26355.5
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0435-0662-s000000",
+      "junction_group": 3,
+      "lat": 27.201624734549906,
+      "line": "line-4",
+      "lon": 31.20610217912721,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-4-0364-0611-s001882",
+      "lat": 27.214402332361516,
+      "line": "line-4",
+      "lon": 31.195801935903834,
+      "platform_length_m": 59.5,
+      "s_m": 1882.5
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "halt",
+      "id": "line-4-0090-0461-s008605",
+      "lat": 27.263713061944355,
+      "line": "line-4",
+      "lon": 31.165507102893898,
+      "platform_length_m": 55.5,
+      "s_m": 8605.1
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "أبنوب",
+      "archetype": "terminal",
+      "id": "line-4-0062-0386-s010420",
+      "lat": 27.268752114602457,
+      "line": "line-4",
+      "lon": 31.15035968638893,
+      "platform_length_m": 59.5,
+      "s_m": 10419.9
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

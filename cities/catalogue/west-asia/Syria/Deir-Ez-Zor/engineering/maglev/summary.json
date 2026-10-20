@@ -1,0 +1,1537 @@
+{
+  "architecture": "ferrite-pm-maglev-study",
+  "city": "deir-ez-zor",
+  "costs": {
+    "city_total_usd": null,
+    "old_city_costs_inherited": false,
+    "pilot_and_repeat_fleet_automatically_added": false,
+    "scenarios": [
+      {
+        "civil_basis": "New maglev dual-direction ordinary elevated unit multiplied by retained elevated route km; old curve multipliers/products and costs are not inherited.",
+        "complete_city_programme_usd": null,
+        "epc_included": false,
+        "fleet_scaling_basis": "Linear per-car extrapolation of supplied three-car allowance; formation engineering and economies of scale unpriced.",
+        "nre_included": false,
+        "ordinary_elevated_allowance_usd": 314597875.6725002,
+        "priced_scope_subtotal_usd": 383375643.1125002,
+        "repeat_fleet_allowance_usd": 68777767.44000001,
+        "scenario": "low",
+        "supplier_quotes": false
+      },
+      {
+        "civil_basis": "New maglev dual-direction ordinary elevated unit multiplied by retained elevated route km; old curve multipliers/products and costs are not inherited.",
+        "complete_city_programme_usd": null,
+        "epc_included": false,
+        "fleet_scaling_basis": "Linear per-car extrapolation of supplied three-car allowance; formation engineering and economies of scale unpriced.",
+        "nre_included": false,
+        "ordinary_elevated_allowance_usd": 372542378.3004002,
+        "priced_scope_subtotal_usd": 451040145.7404002,
+        "repeat_fleet_allowance_usd": 78497767.44000001,
+        "scenario": "base",
+        "supplier_quotes": false
+      },
+      {
+        "civil_basis": "New maglev dual-direction ordinary elevated unit multiplied by retained elevated route km; old curve multipliers/products and costs are not inherited.",
+        "complete_city_programme_usd": null,
+        "epc_included": false,
+        "fleet_scaling_basis": "Linear per-car extrapolation of supplied three-car allowance; formation engineering and economies of scale unpriced.",
+        "nre_included": false,
+        "ordinary_elevated_allowance_usd": 469970755.08060026,
+        "priced_scope_subtotal_usd": 571688522.5206003,
+        "repeat_fleet_allowance_usd": 101717767.44,
+        "scenario": "high",
+        "supplier_quotes": false
+      },
+      {
+        "civil_basis": "New maglev dual-direction ordinary elevated unit multiplied by retained elevated route km; old curve multipliers/products and costs are not inherited.",
+        "complete_city_programme_usd": null,
+        "epc_included": false,
+        "fleet_scaling_basis": "Linear per-car extrapolation of supplied three-car allowance; formation engineering and economies of scale unpriced.",
+        "nre_included": false,
+        "ordinary_elevated_allowance_usd": 372542378.3004002,
+        "priced_scope_subtotal_usd": 446180145.7404002,
+        "repeat_fleet_allowance_usd": 73637767.44000001,
+        "scenario": "target-90000",
+        "supplier_quotes": false
+      },
+      {
+        "civil_basis": "New maglev dual-direction ordinary elevated unit multiplied by retained elevated route km; old curve multipliers/products and costs are not inherited.",
+        "complete_city_programme_usd": null,
+        "epc_included": false,
+        "fleet_scaling_basis": "Linear per-car extrapolation of supplied three-car allowance; formation engineering and economies of scale unpriced.",
+        "nre_included": false,
+        "ordinary_elevated_allowance_usd": 372542378.3004002,
+        "priced_scope_subtotal_usd": 442940145.7404002,
+        "repeat_fleet_allowance_usd": 70397767.44000001,
+        "scenario": "target-60000",
+        "supplier_quotes": false
+      }
+    ],
+    "unpriced": [
+      "at-grade guideway",
+      "bridges and special structures",
+      "curve/site premiums",
+      "terminal loops and land",
+      "stations/platform alterations",
+      "depot/transfer/recovery equipment",
+      "charging/PV/storage/grid",
+      "signalling/control/supervision",
+      "surveys/design/qualification",
+      "national production plant",
+      "NRE and first article",
+      "EPC",
+      "initial spares/warranty/renewals/OPEX"
+    ]
+  },
+  "design_complete": false,
+  "diagnostics": {
+    "dwell_headway_conflicts": [],
+    "excessive_charging_dwell": [],
+    "platform_body_allowance_shortfalls": 25,
+    "ring_closure_discrepancies": []
+  },
+  "gates": [
+    {
+      "accepted": false,
+      "closure": "Survey, utilities, land, water crossings, terrain, ground investigation and alignment reconciliation; retained mapping is geographic evidence only.",
+      "id": "retained-geography",
+      "state": "open"
+    },
+    {
+      "accepted": false,
+      "closure": "Close coupling pitch, full magnetic lifting-face/guidance-arm/below-floor swept envelope, door/egress layouts, actual mass and equal AW2/AW3 qualification. The 2.65 m cabin width does not bound running gear or platform clearance.",
+      "id": "formation-platform",
+      "state": "open"
+    },
+    {
+      "accepted": false,
+      "closure": "Obtain force/loss maps and rig correlation, six-axis stability, target timing and independent support/capture/braking protection.",
+      "id": "field-control",
+      "state": "open"
+    },
+    {
+      "accepted": false,
+      "closure": "Locate fixed loops/ring closure, qualify curvature, clearance and land, and provide switch-free failure recovery.",
+      "id": "terminal-topology",
+      "state": "open"
+    },
+    {
+      "accepted": false,
+      "closure": "Redesign guidebeam/passive rail, supports/foundations, joints/tolerances, movement, gap dynamics, evacuation and erection.",
+      "id": "civil-release",
+      "state": "open"
+    },
+    {
+      "accepted": false,
+      "closure": "Run approved grade, curve, wind, hot, low-voltage, full-SOC, no-regen, missed-charge, failed-channel and rescue duty.",
+      "id": "route-duty",
+      "state": "open"
+    },
+    {
+      "accepted": false,
+      "closure": "Validate headway/conflicts, station berth throughput, dispatch, maintenance rotation, degraded service and reserve.",
+      "id": "fleet-timetable",
+      "state": "open"
+    },
+    {
+      "accepted": false,
+      "closure": "Place charging interfaces and prove taper, power quality, PV/storage/backup sizing and adverse-weather replenishment.",
+      "id": "charging-microgrid",
+      "state": "open"
+    },
+    {
+      "accepted": false,
+      "closure": "Locate line-local storage/workshops and qualify depot-only connection/transfer, isolation, inspection, towing and recovery.",
+      "id": "depot-access",
+      "state": "open"
+    },
+    {
+      "accepted": false,
+      "closure": "Price all station/land/loop/bridge/at-grade/depot/energy/control/production/QA/NRE/spares/OPEX scope, origin-trace MBOM and apply EPC once.",
+      "id": "programme-cost",
+      "state": "open"
+    },
+    {
+      "accepted": false,
+      "closure": "Close G0–G5 through authenticated independent physical acceptance; planning arithmetic is insufficient.",
+      "id": "physical-release",
+      "state": "open"
+    }
+  ],
+  "lines": [
+    {
+      "aw2_capacity_per_direction_hour": 7200.0,
+      "charging": {
+        "all_sites_simultaneous_dc_upper_bound_kw": 28800.0,
+        "candidate_kw_per_car": 600.0,
+        "candidate_kw_per_train": 1800.0,
+        "conversion_losses_and_taper_included": false,
+        "diversity_applied": false,
+        "dwell_exceeds_peak_headway": false,
+        "dwell_seconds": 110,
+        "effective_charge_seconds": 95.0,
+        "grid_pv_storage_sizing_accepted": false,
+        "minimum_parallel_platform_berths_per_direction": 1,
+        "minimum_screen_passed": true,
+        "rating_selected": false,
+        "station_count": 8
+      },
+      "depot": {
+        "access": "A moving transfer device or engineered depot-only connection is required; no old wheel/rail turnout is inherited.",
+        "depot_cost_usd": null,
+        "entry_exit_without_mainline_points_qualified": false,
+        "inspection_bays_screen": 3,
+        "minimum_total_storage_track_m": 1708.0,
+        "placement_accepted": false,
+        "simultaneous_depot_charge_kw_upper_bound": 50400.0,
+        "storage_lanes_screen": 10,
+        "storage_slots": 28,
+        "switch_policy": "depot-only; independent access/recovery hardware unqualified"
+      },
+      "duty": {
+        "arrival_events_per_circuit": [
+          {
+            "destination_station": "line-1-0427-0403-s004313",
+            "distance_m": 4312.5,
+            "hot_no_regen_motion_kwh": 33.81228553489761,
+            "hot_regen_motion_kwh": 31.701803138921385,
+            "moving_seconds": 218.21355669354296,
+            "origin_station": "line-1-0317-0298-s000000",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-1-0519-0503-s007332",
+            "distance_m": 3019.8999999999996,
+            "hot_no_regen_motion_kwh": 27.204575265537336,
+            "hot_regen_motion_kwh": 25.094092869561116,
+            "moving_seconds": 160.04655669354298,
+            "origin_station": "line-1-0427-0403-s004313",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-1-0548-0546-s008597",
+            "distance_m": 1264.300000000001,
+            "hot_no_regen_motion_kwh": 18.230030821092896,
+            "hot_regen_motion_kwh": 16.119548425116676,
+            "moving_seconds": 81.04455669354297,
+            "origin_station": "line-1-0519-0503-s007332",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-1-0641-0631-s011946",
+            "distance_m": 3349.0999999999985,
+            "hot_no_regen_motion_kwh": 28.88743014769223,
+            "hot_regen_motion_kwh": 26.776947751716,
+            "moving_seconds": 174.86055669354297,
+            "origin_station": "line-1-0548-0546-s008597",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-1-0734-0695-s014946",
+            "distance_m": 3000.300000000001,
+            "hot_no_regen_motion_kwh": 27.104380989443065,
+            "hot_regen_motion_kwh": 24.993898593466838,
+            "moving_seconds": 159.16455669354298,
+            "origin_station": "line-1-0641-0631-s011946",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-1-0838-0818-s019360",
+            "distance_m": 4413.6,
+            "hot_no_regen_motion_kwh": 34.32910396924105,
+            "hot_regen_motion_kwh": 32.21862157326483,
+            "moving_seconds": 222.76305669354304,
+            "origin_station": "line-1-0734-0695-s014946",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-1-0910-0952-s023778",
+            "distance_m": 5046.218530717956,
+            "hot_no_regen_motion_kwh": 41.982281508320234,
+            "hot_regen_motion_kwh": 39.73801853392609,
+            "moving_seconds": 341.6094478290986,
+            "origin_station": "line-1-0838-0818-s019360",
+            "terminal_loop_allowance": true
+          },
+          {
+            "destination_station": "line-1-0838-0818-s019360",
+            "distance_m": 4417.899999999998,
+            "hot_no_regen_motion_kwh": 34.35108536654744,
+            "hot_regen_motion_kwh": 32.24060297057122,
+            "moving_seconds": 222.956556693543,
+            "origin_station": "line-1-0910-0952-s023778",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-1-0734-0695-s014946",
+            "distance_m": 4413.6,
+            "hot_no_regen_motion_kwh": 34.32910396924105,
+            "hot_regen_motion_kwh": 32.21862157326483,
+            "moving_seconds": 222.76305669354304,
+            "origin_station": "line-1-0838-0818-s019360",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-1-0641-0631-s011946",
+            "distance_m": 3000.300000000001,
+            "hot_no_regen_motion_kwh": 27.104380989443065,
+            "hot_regen_motion_kwh": 24.993898593466838,
+            "moving_seconds": 159.16455669354298,
+            "origin_station": "line-1-0734-0695-s014946",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-1-0548-0546-s008597",
+            "distance_m": 3349.0999999999985,
+            "hot_no_regen_motion_kwh": 28.88743014769223,
+            "hot_regen_motion_kwh": 26.776947751716,
+            "moving_seconds": 174.86055669354297,
+            "origin_station": "line-1-0641-0631-s011946",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-1-0519-0503-s007332",
+            "distance_m": 1264.300000000001,
+            "hot_no_regen_motion_kwh": 18.230030821092896,
+            "hot_regen_motion_kwh": 16.119548425116676,
+            "moving_seconds": 81.04455669354297,
+            "origin_station": "line-1-0548-0546-s008597",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-1-0427-0403-s004313",
+            "distance_m": 3019.8999999999996,
+            "hot_no_regen_motion_kwh": 27.204575265537336,
+            "hot_regen_motion_kwh": 25.094092869561116,
+            "moving_seconds": 160.04655669354298,
+            "origin_station": "line-1-0519-0503-s007332",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-1-0317-0298-s000000",
+            "distance_m": 4940.818530717958,
+            "hot_no_regen_motion_kwh": 41.4434816766704,
+            "hot_regen_motion_kwh": 39.19921870227625,
+            "moving_seconds": 336.86644782909855,
+            "origin_station": "line-1-0427-0403-s004313",
+            "terminal_loop_allowance": true
+          }
+        ],
+        "conservative_cycle_seconds": 4255.404575980713,
+        "cycle_distance_m": 48811.837061435916,
+        "eol_window_divided_by_cycle_energy": 0.6478701972980601,
+        "exclusions": [
+          "grade/curves/wind",
+          "jerk and coupled dynamics",
+          "shared-train aerodynamic effects",
+          "loop lateral force and physical geometry",
+          "emergency reserve",
+          "missed charge",
+          "full SOC and low voltage",
+          "charger taper/grid and battery internal losses"
+        ],
+        "hot_aw3_no_regen_cycle_kwh": 500.10017647244877,
+        "hot_hotel_kw": 180.0,
+        "largest_leg_m": 4417.899999999998,
+        "minimum_leg_m": 1264.300000000001,
+        "moving_seconds": 2715.404575980713,
+        "normal_aw2_regen_cycle_kwh": 312.9757550941179,
+        "route_acceptance": false,
+        "worst_incoming_leg_hot_no_regen_kwh": 34.35108536654744
+      },
+      "fleet": {
+        "cold_reserve": 1,
+        "conflict_and_recovery_validated": false,
+        "peak": 24,
+        "retained_comparator_trainsets": 75,
+        "rule": "ceil(hot/no-regen circuit time / retained peak headway), two directions for rings, 10% spare rounded up plus one cold reserve/line",
+        "source_fleet_inherited": false,
+        "spare": 3,
+        "total": 28
+      },
+      "formation": {
+        "aw2_mass_kg": 83250.0,
+        "aw2_passengers": 360,
+        "aw3_mass_kg": 92250.0,
+        "aw3_passengers": 480,
+        "cabin_width_m": 2.65,
+        "cars": 3,
+        "envelope_basis": "Cabin width does not bound magnetic lifting faces, guidance arms or below-floor gear. Revalidate full route/platform swept envelope against native geometry.",
+        "eol_capacity_kwh": 540.0,
+        "eol_normal_window_kwh": 324.00000000000006,
+        "formation_qualified": false,
+        "full_running_gear_envelope_width_m": null,
+        "gross_storage_kwh": 675.0,
+        "length_basis": "Sum of nominal 17 m bodies; coupling pitch and overhang unresolved.",
+        "measured_mass": false,
+        "nominal_body_length_m": 51.0,
+        "normal_soc_high": 0.8,
+        "normal_soc_low": 0.2,
+        "overall_length_m": null,
+        "protected_emergency_energy_kwh": null,
+        "retained_aw2_required": 360,
+        "retained_aw3_required": 480,
+        "tare_mass_kg": 56250.0
+      },
+      "line": "line-1",
+      "retained_length_m": 23777.6,
+      "retained_peak_headway_seconds": 180,
+      "retained_schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "retained_shape": "radial",
+      "stations": [
+        {
+          "id": "line-1-0317-0298-s000000",
+          "lat": 35.377860742180474,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.085040128704456,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-1-0427-0403-s004313",
+          "lat": 35.358064463880794,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.108164797092954,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-1-0519-0503-s007332",
+          "lat": 35.34150757657561,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.13018829079629,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-1-0548-0546-s008597",
+          "lat": 35.336288557751146,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.13965839308872,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-1-0641-0631-s011946",
+          "lat": 35.3195517042796,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.158378362736556,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-1-0734-0695-s014946",
+          "lat": 35.30281485080805,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.17247339870669,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-1-0838-0818-s019360",
+          "lat": 35.28409836950654,
+          "length_shortfall_screen_m": 5.5,
+          "lon": 40.1995622959618,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 55.5
+        },
+        {
+          "id": "line-1-0910-0952-s023778",
+          "lat": 35.27114080552856,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.22907377752426,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        }
+      ],
+      "topology": {
+        "added_single_direction_loop_beam_m": 1256.6370614359173,
+        "complete_ring_closure_m": null,
+        "depot_access_accepted": false,
+        "exclusive_shuttle_alternative": {
+          "minimum_independent_lanes": 23,
+          "reversal_allowance_seconds": 0,
+          "rule": "One train per isolated bidirectional lane; no passing or crossover. This lane count is a capacity screen, not a selected civil plan."
+        },
+        "loop_land_and_swept_envelope_accepted": false,
+        "loop_lateral_acceleration_limit_screen_m_s2": 0.5,
+        "loop_lateral_acceleration_screen_m_s2": 0.30864197530864196,
+        "loop_length_basis": "Two full-circumference budgeting allowances per radial roundtrip; connection geometry and actual added length unresolved.",
+        "loop_radius_screen_m": 100.0,
+        "loop_speed_screen_kmh": 20.0,
+        "mainline_switches": 0,
+        "ring_wrap_discrepancy_m": null,
+        "selected": "fixed-terminal-loops",
+        "source_ring_wrap_m": null,
+        "terminal_loop_count": 2
+      }
+    },
+    {
+      "aw2_capacity_per_direction_hour": 7200.0,
+      "charging": {
+        "all_sites_simultaneous_dc_upper_bound_kw": 18000.0,
+        "candidate_kw_per_car": 600.0,
+        "candidate_kw_per_train": 1800.0,
+        "conversion_losses_and_taper_included": false,
+        "diversity_applied": false,
+        "dwell_exceeds_peak_headway": false,
+        "dwell_seconds": 129,
+        "effective_charge_seconds": 114.0,
+        "grid_pv_storage_sizing_accepted": false,
+        "minimum_parallel_platform_berths_per_direction": 1,
+        "minimum_screen_passed": true,
+        "rating_selected": false,
+        "station_count": 5
+      },
+      "depot": {
+        "access": "A moving transfer device or engineered depot-only connection is required; no old wheel/rail turnout is inherited.",
+        "depot_cost_usd": null,
+        "entry_exit_without_mainline_points_qualified": false,
+        "inspection_bays_screen": 2,
+        "minimum_total_storage_track_m": 1098.0,
+        "placement_accepted": false,
+        "simultaneous_depot_charge_kw_upper_bound": 32400.0,
+        "storage_lanes_screen": 6,
+        "storage_slots": 18,
+        "switch_policy": "depot-only; independent access/recovery hardware unqualified"
+      },
+      "duty": {
+        "arrival_events_per_circuit": [
+          {
+            "destination_station": "line-2-0300-0661-s003546",
+            "distance_m": 3545.6,
+            "hot_no_regen_motion_kwh": 29.891928885065965,
+            "hot_regen_motion_kwh": 27.78144648908974,
+            "moving_seconds": 183.70305669354298,
+            "origin_station": "line-2-0173-0684-s000000",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-2-0520-0504-s009621",
+            "distance_m": 6075.5,
+            "hot_no_regen_motion_kwh": 42.82465843052051,
+            "hot_regen_motion_kwh": 40.71417603454429,
+            "moving_seconds": 297.548556693543,
+            "origin_station": "line-2-0300-0661-s003546",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-2-0581-0461-s011279",
+            "distance_m": 1658.2999999999993,
+            "hot_no_regen_motion_kwh": 20.244140248702323,
+            "hot_regen_motion_kwh": 18.133657852726103,
+            "moving_seconds": 98.77455669354296,
+            "origin_station": "line-2-0520-0504-s009621",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-2-0636-0421-s012804",
+            "distance_m": 2153.3185307179588,
+            "hot_no_regen_motion_kwh": 27.193913073976802,
+            "hot_regen_motion_kwh": 24.949650099582648,
+            "moving_seconds": 211.42894782909855,
+            "origin_station": "line-2-0581-0461-s011279",
+            "terminal_loop_allowance": true
+          },
+          {
+            "destination_station": "line-2-0581-0461-s011279",
+            "distance_m": 1525.0,
+            "hot_no_regen_motion_kwh": 19.56271693220401,
+            "hot_regen_motion_kwh": 17.452234536227785,
+            "moving_seconds": 92.77605669354298,
+            "origin_station": "line-2-0636-0421-s012804",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-2-0520-0504-s009621",
+            "distance_m": 1658.2999999999993,
+            "hot_no_regen_motion_kwh": 20.244140248702323,
+            "hot_regen_motion_kwh": 18.133657852726103,
+            "moving_seconds": 98.77455669354296,
+            "origin_station": "line-2-0581-0461-s011279",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-2-0300-0661-s003546",
+            "distance_m": 6075.5,
+            "hot_no_regen_motion_kwh": 42.82465843052051,
+            "hot_regen_motion_kwh": 40.71417603454429,
+            "moving_seconds": 297.548556693543,
+            "origin_station": "line-2-0520-0504-s009621",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-2-0173-0684-s000000",
+            "distance_m": 4173.918530717959,
+            "hot_no_regen_motion_kwh": 37.523125026838756,
+            "hot_regen_motion_kwh": 35.2788620524446,
+            "moving_seconds": 302.35594782909857,
+            "origin_station": "line-2-0300-0661-s003546",
+            "terminal_loop_allowance": true
+          }
+        ],
+        "conservative_cycle_seconds": 2614.910235819455,
+        "cycle_distance_m": 26865.437061435918,
+        "eol_window_divided_by_cycle_energy": 1.1099338759738462,
+        "exclusions": [
+          "grade/curves/wind",
+          "jerk and coupled dynamics",
+          "shared-train aerodynamic effects",
+          "loop lateral force and physical geometry",
+          "emergency reserve",
+          "missed charge",
+          "full SOC and low voltage",
+          "charger taper/grid and battery internal losses"
+        ],
+        "hot_aw3_no_regen_cycle_kwh": 291.90928127653126,
+        "hot_hotel_kw": 180.0,
+        "largest_leg_m": 6075.5,
+        "minimum_leg_m": 1525.0,
+        "moving_seconds": 1582.910235819455,
+        "normal_aw2_regen_cycle_kwh": 182.36578375477475,
+        "route_acceptance": false,
+        "worst_incoming_leg_hot_no_regen_kwh": 42.82465843052051
+      },
+      "fleet": {
+        "cold_reserve": 1,
+        "conflict_and_recovery_validated": false,
+        "peak": 15,
+        "retained_comparator_trainsets": 39,
+        "rule": "ceil(hot/no-regen circuit time / retained peak headway), two directions for rings, 10% spare rounded up plus one cold reserve/line",
+        "source_fleet_inherited": false,
+        "spare": 2,
+        "total": 18
+      },
+      "formation": {
+        "aw2_mass_kg": 83250.0,
+        "aw2_passengers": 360,
+        "aw3_mass_kg": 92250.0,
+        "aw3_passengers": 480,
+        "cabin_width_m": 2.65,
+        "cars": 3,
+        "envelope_basis": "Cabin width does not bound magnetic lifting faces, guidance arms or below-floor gear. Revalidate full route/platform swept envelope against native geometry.",
+        "eol_capacity_kwh": 540.0,
+        "eol_normal_window_kwh": 324.00000000000006,
+        "formation_qualified": false,
+        "full_running_gear_envelope_width_m": null,
+        "gross_storage_kwh": 675.0,
+        "length_basis": "Sum of nominal 17 m bodies; coupling pitch and overhang unresolved.",
+        "measured_mass": false,
+        "nominal_body_length_m": 51.0,
+        "normal_soc_high": 0.8,
+        "normal_soc_low": 0.2,
+        "overall_length_m": null,
+        "protected_emergency_energy_kwh": null,
+        "retained_aw2_required": 360,
+        "retained_aw3_required": 480,
+        "tare_mass_kg": 56250.0
+      },
+      "line": "line-2",
+      "retained_length_m": 12804.4,
+      "retained_peak_headway_seconds": 180,
+      "retained_schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "retained_shape": "radial",
+      "stations": [
+        {
+          "id": "line-2-0173-0684-s000000",
+          "lat": 35.403775870136414,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.170050814399325,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-2-0300-0661-s003546",
+          "lat": 35.380920167008604,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.16498541084756,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-2-0520-0504-s009621",
+          "lat": 35.341327610409245,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.13040852573332,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-2-0581-0461-s011279",
+          "lat": 35.33034967426124,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.12093842344089,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-2-0636-0421-s012804",
+          "lat": 35.3204515351114,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.112129025959554,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        }
+      ],
+      "topology": {
+        "added_single_direction_loop_beam_m": 1256.6370614359173,
+        "complete_ring_closure_m": null,
+        "depot_access_accepted": false,
+        "exclusive_shuttle_alternative": {
+          "minimum_independent_lanes": 14,
+          "reversal_allowance_seconds": 0,
+          "rule": "One train per isolated bidirectional lane; no passing or crossover. This lane count is a capacity screen, not a selected civil plan."
+        },
+        "loop_land_and_swept_envelope_accepted": false,
+        "loop_lateral_acceleration_limit_screen_m_s2": 0.5,
+        "loop_lateral_acceleration_screen_m_s2": 0.30864197530864196,
+        "loop_length_basis": "Two full-circumference budgeting allowances per radial roundtrip; connection geometry and actual added length unresolved.",
+        "loop_radius_screen_m": 100.0,
+        "loop_speed_screen_kmh": 20.0,
+        "mainline_switches": 0,
+        "ring_wrap_discrepancy_m": null,
+        "selected": "fixed-terminal-loops",
+        "source_ring_wrap_m": null,
+        "terminal_loop_count": 2
+      }
+    },
+    {
+      "aw2_capacity_per_direction_hour": 7200.0,
+      "charging": {
+        "all_sites_simultaneous_dc_upper_bound_kw": 25200.0,
+        "candidate_kw_per_car": 600.0,
+        "candidate_kw_per_train": 1800.0,
+        "conversion_losses_and_taper_included": false,
+        "diversity_applied": false,
+        "dwell_exceeds_peak_headway": false,
+        "dwell_seconds": 138,
+        "effective_charge_seconds": 123.0,
+        "grid_pv_storage_sizing_accepted": false,
+        "minimum_parallel_platform_berths_per_direction": 1,
+        "minimum_screen_passed": true,
+        "rating_selected": false,
+        "station_count": 7
+      },
+      "depot": {
+        "access": "A moving transfer device or engineered depot-only connection is required; no old wheel/rail turnout is inherited.",
+        "depot_cost_usd": null,
+        "entry_exit_without_mainline_points_qualified": false,
+        "inspection_bays_screen": 3,
+        "minimum_total_storage_track_m": 1525.0,
+        "placement_accepted": false,
+        "simultaneous_depot_charge_kw_upper_bound": 45000.0,
+        "storage_lanes_screen": 9,
+        "storage_slots": 25,
+        "switch_policy": "depot-only; independent access/recovery hardware unqualified"
+      },
+      "duty": {
+        "arrival_events_per_circuit": [
+          {
+            "destination_station": "line-3-0405-0792-s006861",
+            "distance_m": 6861.5,
+            "hot_no_regen_motion_kwh": 46.84265338001546,
+            "hot_regen_motion_kwh": 44.732170984039236,
+            "moving_seconds": 332.918556693543,
+            "origin_station": "line-3-0230-1062-s000000",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-3-0479-0670-s010030",
+            "distance_m": 3169.0,
+            "hot_no_regen_motion_kwh": 27.96676743725451,
+            "hot_regen_motion_kwh": 25.85628504127829,
+            "moving_seconds": 166.75605669354297,
+            "origin_station": "line-3-0405-0792-s006861",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-3-0549-0547-s013409",
+            "distance_m": 3378.1000000000004,
+            "hot_no_regen_motion_kwh": 29.035676780688853,
+            "hot_regen_motion_kwh": 26.925194384712633,
+            "moving_seconds": 176.16555669354298,
+            "origin_station": "line-3-0479-0670-s010030",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-3-0547-0544-s013485",
+            "distance_m": 76.60000000000036,
+            "hot_no_regen_motion_kwh": 2.721676989784673,
+            "hot_regen_motion_kwh": 2.3901148153680065,
+            "moving_seconds": 17.504285189632853,
+            "origin_station": "line-3-0549-0547-s013409",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-3-0581-0461-s015460",
+            "distance_m": 1974.7999999999993,
+            "hot_no_regen_motion_kwh": 21.8620733295104,
+            "hot_regen_motion_kwh": 19.75159093353418,
+            "moving_seconds": 113.01705669354297,
+            "origin_station": "line-3-0547-0544-s013485",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-3-0586-0425-s016333",
+            "distance_m": 1500.8185307179588,
+            "hot_no_regen_motion_kwh": 23.85836383155256,
+            "hot_regen_motion_kwh": 21.614100857158412,
+            "moving_seconds": 182.06644782909854,
+            "origin_station": "line-3-0581-0461-s015460",
+            "terminal_loop_allowance": true
+          },
+          {
+            "destination_station": "line-3-0581-0461-s015460",
+            "distance_m": 872.5,
+            "hot_no_regen_motion_kwh": 16.22716768977977,
+            "hot_regen_motion_kwh": 14.116685293803545,
+            "moving_seconds": 63.41355669354297,
+            "origin_station": "line-3-0586-0425-s016333",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-3-0547-0544-s013485",
+            "distance_m": 1974.7999999999993,
+            "hot_no_regen_motion_kwh": 21.8620733295104,
+            "hot_regen_motion_kwh": 19.75159093353418,
+            "moving_seconds": 113.01705669354297,
+            "origin_station": "line-3-0581-0461-s015460",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-3-0549-0547-s013409",
+            "distance_m": 76.60000000000036,
+            "hot_no_regen_motion_kwh": 2.721676989784673,
+            "hot_regen_motion_kwh": 2.3901148153680065,
+            "moving_seconds": 17.504285189632853,
+            "origin_station": "line-3-0547-0544-s013485",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-3-0479-0670-s010030",
+            "distance_m": 3378.1000000000004,
+            "hot_no_regen_motion_kwh": 29.035676780688853,
+            "hot_regen_motion_kwh": 26.925194384712633,
+            "moving_seconds": 176.16555669354298,
+            "origin_station": "line-3-0549-0547-s013409",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-3-0405-0792-s006861",
+            "distance_m": 3169.0,
+            "hot_no_regen_motion_kwh": 27.96676743725451,
+            "hot_regen_motion_kwh": 25.85628504127829,
+            "moving_seconds": 166.75605669354297,
+            "origin_station": "line-3-0479-0670-s010030",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-3-0230-1062-s000000",
+            "distance_m": 7489.818530717958,
+            "hot_no_regen_motion_kwh": 54.473849521788246,
+            "hot_regen_motion_kwh": 52.2295865473941,
+            "moving_seconds": 451.5714478290986,
+            "origin_station": "line-3-0405-0792-s006861",
+            "terminal_loop_allowance": true
+          }
+        ],
+        "conservative_cycle_seconds": 3632.855919585807,
+        "cycle_distance_m": 33921.63706143592,
+        "eol_window_divided_by_cycle_energy": 0.8364000830891113,
+        "exclusions": [
+          "grade/curves/wind",
+          "jerk and coupled dynamics",
+          "shared-train aerodynamic effects",
+          "loop lateral force and physical geometry",
+          "emergency reserve",
+          "missed charge",
+          "full SOC and low voltage",
+          "charger taper/grid and battery internal losses"
+        ],
+        "hot_aw3_no_regen_cycle_kwh": 387.37442349761295,
+        "hot_hotel_kw": 180.0,
+        "largest_leg_m": 6861.5,
+        "minimum_leg_m": 76.60000000000036,
+        "moving_seconds": 1976.8559195858068,
+        "normal_aw2_regen_cycle_kwh": 242.3700296739875,
+        "route_acceptance": false,
+        "worst_incoming_leg_hot_no_regen_kwh": 46.84265338001546
+      },
+      "fleet": {
+        "cold_reserve": 1,
+        "conflict_and_recovery_validated": false,
+        "peak": 21,
+        "retained_comparator_trainsets": 52,
+        "rule": "ceil(hot/no-regen circuit time / retained peak headway), two directions for rings, 10% spare rounded up plus one cold reserve/line",
+        "source_fleet_inherited": false,
+        "spare": 3,
+        "total": 25
+      },
+      "formation": {
+        "aw2_mass_kg": 83250.0,
+        "aw2_passengers": 360,
+        "aw3_mass_kg": 92250.0,
+        "aw3_passengers": 480,
+        "cabin_width_m": 2.65,
+        "cars": 3,
+        "envelope_basis": "Cabin width does not bound magnetic lifting faces, guidance arms or below-floor gear. Revalidate full route/platform swept envelope against native geometry.",
+        "eol_capacity_kwh": 540.0,
+        "eol_normal_window_kwh": 324.00000000000006,
+        "formation_qualified": false,
+        "full_running_gear_envelope_width_m": null,
+        "gross_storage_kwh": 675.0,
+        "length_basis": "Sum of nominal 17 m bodies; coupling pitch and overhang unresolved.",
+        "measured_mass": false,
+        "nominal_body_length_m": 51.0,
+        "normal_soc_high": 0.8,
+        "normal_soc_low": 0.2,
+        "overall_length_m": null,
+        "protected_emergency_energy_kwh": null,
+        "retained_aw2_required": 360,
+        "retained_aw3_required": 480,
+        "tare_mass_kg": 56250.0
+      },
+      "line": "line-3",
+      "retained_length_m": 16332.5,
+      "retained_peak_headway_seconds": 180,
+      "retained_schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "retained_shape": "radial",
+      "stations": [
+        {
+          "id": "line-3-0230-1062-s000000",
+          "lat": 35.39351779865385,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.25329962059793,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-3-0405-0792-s006861",
+          "lat": 35.36202371954073,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.193836187598926,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-3-0479-0670-s010030",
+          "lat": 35.34870622323003,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.16696752528086,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-3-0549-0547-s013409",
+          "lat": 35.33610859158478,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.139878628025755,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-3-0547-0544-s013485",
+          "lat": 35.3364685239175,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.13921792321466,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-3-0581-0461-s015460",
+          "lat": 35.33034967426124,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.12093842344089,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-3-0586-0425-s016333",
+          "lat": 35.32944984342944,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.11300996570769,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        }
+      ],
+      "topology": {
+        "added_single_direction_loop_beam_m": 1256.6370614359173,
+        "complete_ring_closure_m": null,
+        "depot_access_accepted": false,
+        "exclusive_shuttle_alternative": {
+          "minimum_independent_lanes": 19,
+          "reversal_allowance_seconds": 0,
+          "rule": "One train per isolated bidirectional lane; no passing or crossover. This lane count is a capacity screen, not a selected civil plan."
+        },
+        "loop_land_and_swept_envelope_accepted": false,
+        "loop_lateral_acceleration_limit_screen_m_s2": 0.5,
+        "loop_lateral_acceleration_screen_m_s2": 0.30864197530864196,
+        "loop_length_basis": "Two full-circumference budgeting allowances per radial roundtrip; connection geometry and actual added length unresolved.",
+        "loop_radius_screen_m": 100.0,
+        "loop_speed_screen_kmh": 20.0,
+        "mainline_switches": 0,
+        "ring_wrap_discrepancy_m": null,
+        "selected": "fixed-terminal-loops",
+        "source_ring_wrap_m": null,
+        "terminal_loop_count": 2
+      }
+    },
+    {
+      "aw2_capacity_per_direction_hour": 7200.0,
+      "charging": {
+        "all_sites_simultaneous_dc_upper_bound_kw": 10800.0,
+        "candidate_kw_per_car": 600.0,
+        "candidate_kw_per_train": 1800.0,
+        "conversion_losses_and_taper_included": false,
+        "diversity_applied": false,
+        "dwell_exceeds_peak_headway": false,
+        "dwell_seconds": 112,
+        "effective_charge_seconds": 97.0,
+        "grid_pv_storage_sizing_accepted": false,
+        "minimum_parallel_platform_berths_per_direction": 1,
+        "minimum_screen_passed": true,
+        "rating_selected": false,
+        "station_count": 3
+      },
+      "depot": {
+        "access": "A moving transfer device or engineered depot-only connection is required; no old wheel/rail turnout is inherited.",
+        "depot_cost_usd": null,
+        "entry_exit_without_mainline_points_qualified": false,
+        "inspection_bays_screen": 2,
+        "minimum_total_storage_track_m": 671.0,
+        "placement_accepted": false,
+        "simultaneous_depot_charge_kw_upper_bound": 19800.0,
+        "storage_lanes_screen": 4,
+        "storage_slots": 11,
+        "switch_policy": "depot-only; independent access/recovery hardware unqualified"
+      },
+      "duty": {
+        "arrival_events_per_circuit": [
+          {
+            "destination_station": "line-4-0164-0537-s003876",
+            "distance_m": 3876.1,
+            "hot_no_regen_motion_kwh": 31.58142930594138,
+            "hot_regen_motion_kwh": 29.47094690996516,
+            "moving_seconds": 198.57555669354298,
+            "origin_station": "line-4-0300-0661-s000000",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-4-0054-0356-s008407",
+            "distance_m": 5159.618530717958,
+            "hot_no_regen_motion_kwh": 42.56197696286569,
+            "hot_regen_motion_kwh": 40.31771398847154,
+            "moving_seconds": 346.71244782909855,
+            "origin_station": "line-4-0164-0537-s003876",
+            "terminal_loop_allowance": true
+          },
+          {
+            "destination_station": "line-4-0164-0537-s003876",
+            "distance_m": 4531.299999999999,
+            "hot_no_regen_motion_kwh": 34.9307808210929,
+            "hot_regen_motion_kwh": 32.820298425116675,
+            "moving_seconds": 228.05955669354302,
+            "origin_station": "line-4-0054-0356-s008407",
+            "terminal_loop_allowance": false
+          },
+          {
+            "destination_station": "line-4-0300-0661-s000000",
+            "distance_m": 4504.418530717959,
+            "hot_no_regen_motion_kwh": 39.212625447714174,
+            "hot_regen_motion_kwh": 36.96836247332003,
+            "moving_seconds": 317.2284478290985,
+            "origin_station": "line-4-0164-0537-s003876",
+            "terminal_loop_allowance": true
+          }
+        ],
+        "conservative_cycle_seconds": 1538.5760090452832,
+        "cycle_distance_m": 18071.437061435918,
+        "eol_window_divided_by_cycle_energy": 1.8982134306866876,
+        "exclusions": [
+          "grade/curves/wind",
+          "jerk and coupled dynamics",
+          "shared-train aerodynamic effects",
+          "loop lateral force and physical geometry",
+          "emergency reserve",
+          "missed charge",
+          "full SOC and low voltage",
+          "charger taper/grid and battery internal losses"
+        ],
+        "hot_aw3_no_regen_cycle_kwh": 170.68681253761414,
+        "hot_hotel_kw": 180.0,
+        "largest_leg_m": 4531.299999999999,
+        "minimum_leg_m": 3876.1,
+        "moving_seconds": 1090.5760090452832,
+        "normal_aw2_regen_cycle_kwh": 108.99547093948068,
+        "route_acceptance": false,
+        "worst_incoming_leg_hot_no_regen_kwh": 34.9307808210929
+      },
+      "fleet": {
+        "cold_reserve": 1,
+        "conflict_and_recovery_validated": false,
+        "peak": 9,
+        "retained_comparator_trainsets": 28,
+        "rule": "ceil(hot/no-regen circuit time / retained peak headway), two directions for rings, 10% spare rounded up plus one cold reserve/line",
+        "source_fleet_inherited": false,
+        "spare": 1,
+        "total": 11
+      },
+      "formation": {
+        "aw2_mass_kg": 83250.0,
+        "aw2_passengers": 360,
+        "aw3_mass_kg": 92250.0,
+        "aw3_passengers": 480,
+        "cabin_width_m": 2.65,
+        "cars": 3,
+        "envelope_basis": "Cabin width does not bound magnetic lifting faces, guidance arms or below-floor gear. Revalidate full route/platform swept envelope against native geometry.",
+        "eol_capacity_kwh": 540.0,
+        "eol_normal_window_kwh": 324.00000000000006,
+        "formation_qualified": false,
+        "full_running_gear_envelope_width_m": null,
+        "gross_storage_kwh": 675.0,
+        "length_basis": "Sum of nominal 17 m bodies; coupling pitch and overhang unresolved.",
+        "measured_mass": false,
+        "nominal_body_length_m": 51.0,
+        "normal_soc_high": 0.8,
+        "normal_soc_low": 0.2,
+        "overall_length_m": null,
+        "protected_emergency_energy_kwh": null,
+        "retained_aw2_required": 360,
+        "retained_aw3_required": 480,
+        "tare_mass_kg": 56250.0
+      },
+      "line": "line-4",
+      "retained_length_m": 8407.4,
+      "retained_peak_headway_seconds": 180,
+      "retained_schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "retained_shape": "radial",
+      "stations": [
+        {
+          "id": "line-4-0300-0661-s000000",
+          "lat": 35.380920167008604,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.16498541084756,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-4-0164-0537-s003876",
+          "lat": 35.40539556563366,
+          "length_shortfall_screen_m": 5.5,
+          "lon": 40.13767627865543,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 55.5
+        },
+        {
+          "id": "line-4-0054-0356-s008407",
+          "lat": 35.42519184393334,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.097813755052385,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        }
+      ],
+      "topology": {
+        "added_single_direction_loop_beam_m": 1256.6370614359173,
+        "complete_ring_closure_m": null,
+        "depot_access_accepted": false,
+        "exclusive_shuttle_alternative": {
+          "minimum_independent_lanes": 8,
+          "reversal_allowance_seconds": 0,
+          "rule": "One train per isolated bidirectional lane; no passing or crossover. This lane count is a capacity screen, not a selected civil plan."
+        },
+        "loop_land_and_swept_envelope_accepted": false,
+        "loop_lateral_acceleration_limit_screen_m_s2": 0.5,
+        "loop_lateral_acceleration_screen_m_s2": 0.30864197530864196,
+        "loop_length_basis": "Two full-circumference budgeting allowances per radial roundtrip; connection geometry and actual added length unresolved.",
+        "loop_radius_screen_m": 100.0,
+        "loop_speed_screen_kmh": 20.0,
+        "mainline_switches": 0,
+        "ring_wrap_discrepancy_m": null,
+        "selected": "fixed-terminal-loops",
+        "source_ring_wrap_m": null,
+        "terminal_loop_count": 2
+      }
+    },
+    {
+      "aw2_capacity_per_direction_hour": 7200.0,
+      "charging": {
+        "all_sites_simultaneous_dc_upper_bound_kw": 7200.0,
+        "candidate_kw_per_car": 600.0,
+        "candidate_kw_per_train": 1800.0,
+        "conversion_losses_and_taper_included": false,
+        "diversity_applied": false,
+        "dwell_exceeds_peak_headway": false,
+        "dwell_seconds": 115,
+        "effective_charge_seconds": 100.0,
+        "grid_pv_storage_sizing_accepted": false,
+        "minimum_parallel_platform_berths_per_direction": 1,
+        "minimum_screen_passed": true,
+        "rating_selected": false,
+        "station_count": 2
+      },
+      "depot": {
+        "access": "A moving transfer device or engineered depot-only connection is required; no old wheel/rail turnout is inherited.",
+        "depot_cost_usd": null,
+        "entry_exit_without_mainline_points_qualified": false,
+        "inspection_bays_screen": 1,
+        "minimum_total_storage_track_m": 488.0,
+        "placement_accepted": false,
+        "simultaneous_depot_charge_kw_upper_bound": 14400.0,
+        "storage_lanes_screen": 3,
+        "storage_slots": 8,
+        "switch_policy": "depot-only; independent access/recovery hardware unqualified"
+      },
+      "duty": {
+        "arrival_events_per_circuit": [
+          {
+            "destination_station": "line-5-0561-0944-s004778",
+            "distance_m": 5405.818530717958,
+            "hot_no_regen_motion_kwh": 43.820539757478485,
+            "hot_regen_motion_kwh": 41.57627678308433,
+            "moving_seconds": 357.7914478290986,
+            "origin_station": "line-5-0405-0792-s000000",
+            "terminal_loop_allowance": true
+          },
+          {
+            "destination_station": "line-5-0405-0792-s000000",
+            "distance_m": 5405.818530717958,
+            "hot_no_regen_motion_kwh": 43.820539757478485,
+            "hot_regen_motion_kwh": 41.57627678308433,
+            "moving_seconds": 357.7914478290986,
+            "origin_station": "line-5-0561-0944-s004778",
+            "terminal_loop_allowance": true
+          }
+        ],
+        "conservative_cycle_seconds": 945.5828956581972,
+        "cycle_distance_m": 10811.637061435917,
+        "eol_window_divided_by_cycle_energy": 3.268070123758534,
+        "exclusions": [
+          "grade/curves/wind",
+          "jerk and coupled dynamics",
+          "shared-train aerodynamic effects",
+          "loop lateral force and physical geometry",
+          "emergency reserve",
+          "missed charge",
+          "full SOC and low voltage",
+          "charger taper/grid and battery internal losses"
+        ],
+        "hot_aw3_no_regen_cycle_kwh": 99.14107951495697,
+        "hot_hotel_kw": 180.0,
+        "largest_leg_m": 4777.5,
+        "minimum_leg_m": 4777.5,
+        "moving_seconds": 715.5828956581972,
+        "normal_aw2_regen_cycle_kwh": 64.04526797098711,
+        "route_acceptance": false,
+        "worst_incoming_leg_hot_no_regen_kwh": 36.189343615705695
+      },
+      "fleet": {
+        "cold_reserve": 1,
+        "conflict_and_recovery_validated": false,
+        "peak": 6,
+        "retained_comparator_trainsets": 16,
+        "rule": "ceil(hot/no-regen circuit time / retained peak headway), two directions for rings, 10% spare rounded up plus one cold reserve/line",
+        "source_fleet_inherited": false,
+        "spare": 1,
+        "total": 8
+      },
+      "formation": {
+        "aw2_mass_kg": 83250.0,
+        "aw2_passengers": 360,
+        "aw3_mass_kg": 92250.0,
+        "aw3_passengers": 480,
+        "cabin_width_m": 2.65,
+        "cars": 3,
+        "envelope_basis": "Cabin width does not bound magnetic lifting faces, guidance arms or below-floor gear. Revalidate full route/platform swept envelope against native geometry.",
+        "eol_capacity_kwh": 540.0,
+        "eol_normal_window_kwh": 324.00000000000006,
+        "formation_qualified": false,
+        "full_running_gear_envelope_width_m": null,
+        "gross_storage_kwh": 675.0,
+        "length_basis": "Sum of nominal 17 m bodies; coupling pitch and overhang unresolved.",
+        "measured_mass": false,
+        "nominal_body_length_m": 51.0,
+        "normal_soc_high": 0.8,
+        "normal_soc_low": 0.2,
+        "overall_length_m": null,
+        "protected_emergency_energy_kwh": null,
+        "retained_aw2_required": 360,
+        "retained_aw3_required": 480,
+        "tare_mass_kg": 56250.0
+      },
+      "line": "line-5",
+      "retained_length_m": 4777.5,
+      "retained_peak_headway_seconds": 180,
+      "retained_schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "retained_shape": "radial",
+      "stations": [
+        {
+          "id": "line-5-0405-0792-s000000",
+          "lat": 35.36202371954073,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.193836187598926,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        },
+        {
+          "id": "line-5-0561-0944-s004778",
+          "lat": 35.33394899758846,
+          "length_shortfall_screen_m": 1.5,
+          "lon": 40.227311898028,
+          "provisional_platform_body_plus_allowance_m": 61.0,
+          "retained_platform_length_m": 59.5
+        }
+      ],
+      "topology": {
+        "added_single_direction_loop_beam_m": 1256.6370614359173,
+        "complete_ring_closure_m": null,
+        "depot_access_accepted": false,
+        "exclusive_shuttle_alternative": {
+          "minimum_independent_lanes": 4,
+          "reversal_allowance_seconds": 0,
+          "rule": "One train per isolated bidirectional lane; no passing or crossover. This lane count is a capacity screen, not a selected civil plan."
+        },
+        "loop_land_and_swept_envelope_accepted": false,
+        "loop_lateral_acceleration_limit_screen_m_s2": 0.5,
+        "loop_lateral_acceleration_screen_m_s2": 0.30864197530864196,
+        "loop_length_basis": "Two full-circumference budgeting allowances per radial roundtrip; connection geometry and actual added length unresolved.",
+        "loop_radius_screen_m": 100.0,
+        "loop_speed_screen_kmh": 20.0,
+        "mainline_switches": 0,
+        "ring_wrap_discrepancy_m": null,
+        "selected": "fixed-terminal-loops",
+        "source_ring_wrap_m": null,
+        "terminal_loop_count": 2
+      }
+    }
+  ],
+  "manufacturing_release": false,
+  "name": "Deir Ez Zor",
+  "physical_release": false,
+  "physical_validation": false,
+  "planning_assumptions": {
+    "charging": {
+      "candidate_kw_per_car": 600.0,
+      "connection_overhead_seconds": 15.0,
+      "maximum_dwell_screen_seconds": 600.0,
+      "minimum_dwell_seconds": 60.0,
+      "rating_selected": false
+    },
+    "depot": {
+      "inspection_bay_fraction_screen": 0.1,
+      "switches": "depot-only; independent access/recovery hardware unqualified",
+      "trains_per_storage_lane_screen": 3
+    },
+    "formation": {
+      "cold_reserve_per_line": 1,
+      "platform_end_allowance_m": 10.0,
+      "spare_fraction": 0.1
+    },
+    "schema": {
+      "family": "ferrite-pm-maglev-study",
+      "version": 1
+    },
+    "topology": {
+      "loop_geometry_accepted": false,
+      "radial": "fixed-terminal-loops",
+      "ring": "two-independent-directed-circuits",
+      "terminal_loop_circumferences_per_roundtrip": 2,
+      "terminal_loop_lateral_acceleration_limit_screen_m_s2": 0.5,
+      "terminal_loop_radius_screen_m": 100.0,
+      "terminal_loop_speed_screen_kmh": 20.0
+    }
+  },
+  "retained_records_file": "retained-records.json",
+  "retained_records_sha256": "3efd9d08a7f9c118653ffb8169f521f1c981e5068375b2aec90b08c4d2501020",
+  "schema": "osr-maglev-city-planning/1",
+  "source_sha256": {
+    "OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx": "7c179a50f0773d7007991c4d831ebd944636adfd46cf2e9e4e5f55165202c661",
+    "VERSION": "8d5c1b5a87c51f970807fc0c2057b3ab3aaf11638ab667dc5956edc8f5bcf138",
+    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/alignment-policy.toml": "306de675312137d00ac06a8ea5b852393e986ca13837e1be1893b38ea2f248c7",
+    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/corridors.json": "278c497783385f5e2adb150215ac560c9c6bcc94790a9e15160532228ab761c7",
+    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/deir-ez-zor.corridor.geojson": "0fa5abb0dc554710c33b5d34280335219585ef50cb34b99568777fda17f129d6",
+    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/deir-ez-zor.stations.json": "c1cfcb8b265d350f0a5d3c8d531e75e7d6258318ff8ccd1f0f6b2a4b01e30e7c",
+    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/deir-ez-zor.toml": "bfe7531d7902915131711cd26c625101fa690679a90acd02c74daa10c43dcf1a",
+    "cities/catalogue/west-asia/Syria/Deir-Ez-Zor/design.toml": "e961060ab8ded9d90ed4d006b4c9f4a990919daefc32957d824166a06e02824f",
+    "design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json": "8d0c389cc39883ab8526c438c337f1cbb53a89faf06438a37b75b750e0f8a056",
+    "engineering/ferrite_maglev/cities.py": "a4b424f9d527781f6c4883d358d704dea1cc64515d90ebd6935b11badd40773e",
+    "engineering/ferrite_maglev/city-planning.toml": "2f6de06a54967665e1cccf255ec4b9bb75a7e83d22dd7098d9fc6f2fbbb34b76",
+    "engineering/ferrite_maglev/model.py": "6600740402e734a3996146d87f8aee796527948fe17fccf5faec585359c189f6",
+    "engineering/ferrite_maglev/workbook.py": "855d8293eaa27f6060da73dbbb95c9533e21ec46bae11c6e4d5f55a0d5af3c89",
+    "ferrite-maglev-study.toml": "9d831bb3932aa6d22239ea79a686300dfd7ab3ee453e9f9e834b1cb3bbde22b8",
+    "lib/templates/civil-cost-model.toml": "bfe9b81fc8b2bb78fc80477ddc21d9a8494f9426b00c9083db4e39115927eb88",
+    "lib/templates/infrastructure.toml": "639898203b43b47915aa242e0058054b2e1d6ba0865e9dc61e9b2bf0734213f9",
+    "lib/templates/rolling-stock.toml": "90e84bf70c388e1675f52d659d4e8827fadc011ed28a7bff17ca712d7dd1ba03"
+  },
+  "status": "provisional-planning; physical-acceptance-open",
+  "totals": {
+    "added_single_direction_loop_beam_m": 6283.185307179587,
+    "cars": 270,
+    "gross_onboard_storage_kwh": 60750.0,
+    "lines": 5,
+    "retained_civil_class_length_m": {
+      "at-grade": 14441.800000000001,
+      "bridge": 7019.699999999999,
+      "elevated": 44637.90000000002
+    },
+    "retained_route_length_m": 66099.4,
+    "station_records": 25,
+    "trainsets": 90
+  },
+  "version": "0.5"
+}

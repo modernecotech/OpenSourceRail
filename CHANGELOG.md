@@ -1,5 +1,18 @@
 # OpenSourceRail changelog
 
+## 0.5 development — whole-catalogue transition and executable studies
+
+- Assign explicit maglev dispositions to all 414 authoritative items and 63 legacy
+  packages, with 72 requirements, 11 primary packages, production obligations and
+  supplier/test plans. Accepted engineering items remain zero.
+- Compile 266 primary city packages covering 1,565 lines; recompute formations,
+  fleet, charging and partial costs. Default city/simulation commands use maglev.
+- Retain native 624-part magnetic-interface and 74-part civil-bay CAD, export/
+  reopening receipts, geometry images and assembly visibility videos.
+- Add 24-module Rust allocation/fault studies, actual two-way flexible-beam
+  co-simulation and independently controlled 2D field equations. Coupon force
+  convergence, complete physical designs and manufacturing acceptance remain open.
+
 ## 0.5.0 — 20 October 2026 — primary architecture transition
 
 - Select ferrite PM-biased active maglev as primary physical development:

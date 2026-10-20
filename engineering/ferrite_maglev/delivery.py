@@ -2,14 +2,16 @@
 from hashlib import sha256
 from html import escape
 import json
+import gzip
 import os
 from pathlib import Path
 import platform
 import tempfile
 
-from . import model
+from . import model,transition,geometry,field,media
 
 OUTPUT = model.ROOT / 'docs/design-engine/ferrite-maglev/reference'
+EXPECTED={'result.json','index.html','guidebeam-sections.svg','duty-energy.svg','transition-register.json.gz','interface-definition.json.gz','civil-bay-definition.json.gz','field-study.json.gz','field-study.png'}
 
 
 def encoded(value):
@@ -60,19 +62,47 @@ def render(result):
 +<table><tr><th>Bundle/train target</th><th>Repeat train</th><th>Saving against comparator</th></tr>{targets}</table><p>Local value-added percentage: <strong>unknown</strong>. Local assembly does not change imported material origin.</p>
 +<h2>Guidebeam and duty calculations</h2><img src="guidebeam-sections.svg" alt="Concrete section comparison at equal scale"><img src="duty-energy.svg" alt="Calculated charging needs with regeneration available and unavailable">
 +<p>Calculated hot 5% grade steady-speed ceiling under the stated 600 kW cap: {result['hot_5percent_grade_steady_speed_kmh']:.1f} km/h. Actual force/loss maps and route validation are open.</p>
-+<h2>Rust / SBC control development</h2><p><code>cargo run -p osr-maglev-control --example sbc_replay</code> executes a portable, deterministic single-module current-control hypothesis and support-aware stop logic. No physical output adapter, measured plant gains or target timing is supplied.</p>
-+<h2>Acceptance gates</h2><ul>{gates}</ul><h2>Migration status</h2><p>Wheel/rail sources and existing city packages are retained as v0.4 comparators. Maglev city fleet/cost compilation, native magnetic CAD, nonlinear field maps, coupled structural dynamics, hardware I/O and physical qualification remain open. Legacy tests are not transferred to this family.</p>
++<h2>Whole-inventory transition</h2><p>{result['transition_inventory']['total_source_items']} authoritative items and 63 legacy packages have explicit dispositions, linked to 72 ferrite requirements and 11 new work packages. This completes migration coverage; accepted engineering items remain zero. <a href="transition-register.json.gz">Complete transition register, production obligations, gate plans and supplier requests</a>.</p>
++<h2>Native geometry and actual exported views</h2><p>The provisional interface contains {result['geometric_interface']['parts']} material solids, 24 cartridges and 4,560 stock block records. This partial model excludes cabin equipment, functional propulsion and capture details. The twin 25 m civil kit has unqualified foundation envelopes. CAD reopening and selected-role interferences are checked separately from strength, motion and production acceptance.</p>
++<p><a href="../native/interface/model.FCStd">Interface FreeCAD</a> · <a href="../native/interface/model.step.gz">Compressed STEP</a> · <a href="../native/civil-bay/model.FCStd">Civil FreeCAD</a> · <a href="../native/civil-bay/model.step.gz">Civil STEP</a> · <a href="../native/interface/native-cad.json">Native receipt</a></p>
++<img src="../native/interface/overview.png" alt="Actual native interface material-region geometry"><img src="../native/interface/cartridge-detail.png" alt="Recessed retainer cartridge with stock ferrite regions and unqualified fasteners"><img src="../native/civil-bay/overview.png" alt="Twin beam civil bay with unqualified support and foundation envelopes">
++<p><a href="../native/interface/assembly-visibility.mp4">Interface assembly visibility video</a> · <a href="../native/civil-bay/assembly-visibility.mp4">Civil assembly visibility video</a>. Final-position visibility illustrations; no motion trajectory, crane or installation safety simulation.</p>
++<h2>Field equations and materials</h2><img src="field-study.png" alt="Calculated two-dimensional magnetic coupon flux field"><p><a href="field-study.json.gz">Full grids, nonlinear iterations, residuals and sensitivities</a>. The independent sine-solution refinement control passes. Coupon force mesh refinement does <strong>not</strong> converge; no lift-capacity credit is allowed. Material laws are explicit hypotheses, with no supplier grade adopted.</p>
++<h2>Rust / SBC and two-way coupled development</h2><p><code>cargo run -p osr-maglev-control --example multimodule_replay</code> exercises 24 support modules and five controlled rigid-body modes, with faults and support-preserving stop. Longitudinal propulsion is unactuated. <code>./osr design coupled</code> runs actual Rust forces into a flexible beam and returns local deflections to the controller. This virtual study excludes torsion, moving trains, actual electromagnetic maps, contact and hardware timing. <a href="../coupled/result.json">Retained coupled results</a> · <a href="../coupled/receipt.json">Execution receipt</a>. Physical I/O, measured plant gains and target timing remain open.</p>
++<h2>City defaults</h2><p><a href="../../../../engineering/ferrite_maglev/city-index.md">All 266 primary maglev city packages</a> recompute formation, duty, fleet, charging and partial costs. <code>./osr city baghdad</code> and <code>./osr sim baghdad</code> use the new compiler and charging replay. Terminal loops are unlocated assumptions, and project totals remain unknown.</p>
++<h2>Acceptance gates</h2><ul>{gates}</ul><h2>Migration status</h2><p>Wheel/rail sources and existing city packages are retained as v0.4 comparators. City fleet/charging planning, partial native CAD, a nonlinear 2D coupon and 24-module flexible-beam co-simulation now execute. Complete vehicle/civil detail, measured field maps, hardware I/O and physical qualification remain open. Legacy tests are not transferred to this family.</p>
 +<details><summary>{len(result['requirements'])} traced specification requirements — all acceptance remains open</summary><table>{requirements}</table></details></html>'''.replace('\n+','\n').encode()
 
 
 def payload():
     before=model.sources();result=model.build()
-    import scipy
     result['source_sha256']=before
-    result['runtime']=dict(python=platform.python_version(),scipy=scipy.__version__)
+    result['runtime']=runtime()
+    result['retained_evidence']=external_evidence()
+    numerical=field.study()
+    files={'result.json':encoded(result),'index.html':render(result),
+            'guidebeam-sections.svg':section_svg(result),'duty-energy.svg':energy_svg(result),
+            'transition-register.json.gz':gzip.compress(encoded(transition.build()),mtime=0),
+            'interface-definition.json.gz':gzip.compress(encoded(geometry.interface()),mtime=0),
+            'civil-bay-definition.json.gz':gzip.compress(encoded(geometry.civil_bay()),mtime=0),
+            'field-study.json.gz':gzip.compress(encoded(numerical),mtime=0),'field-study.png':media.field_image(numerical)}
     if before!=model.sources():raise ValueError('sources changed while calculating')
-    return {'result.json':encoded(result),'index.html':render(result),
-            'guidebeam-sections.svg':section_svg(result),'duty-energy.svg':energy_svg(result)}
+    return files
+
+
+def runtime():
+    import scipy,numpy,matplotlib
+    return dict(python=platform.python_version(),scipy=scipy.__version__,numpy=numpy.__version__,matplotlib=matplotlib.__version__)
+
+
+def external_evidence():
+    from . import coupled,cities
+    base=model.ROOT/'docs/design-engine/ferrite-maglev'
+    geometry.verify_native(base/'native');coupled.verify(base/'coupled')
+    catalogue=cities.verify_index()
+    if not catalogue['current']:raise ValueError('city catalogue inputs/outputs changed: '+str(catalogue['errors'][:3]))
+    return {p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest()
+            for p in (base/'native/manifest.json',base/'coupled/receipt.json')}
 
 
 def publish(output=OUTPUT, *, check=False):
@@ -103,11 +133,12 @@ def verify(output=OUTPUT):
     if m['schema']!='osr-primary-infrastructure-publication/1' or m['family']!='ferrite-pm-maglev-study':
         raise ValueError('not a primary maglev publication')
     if m['source_sha256']!=model.sources():raise ValueError('primary study sources changed')
-    expected={'result.json','index.html','guidebeam-sections.svg','duty-energy.svg'}
+    expected=EXPECTED
     if set(m['files_sha256'])!=expected:raise ValueError('exact bounded publication inventory required')
     for name,digest in m['files_sha256'].items():
         if (output/name).is_symlink() or sha256((output/name).read_bytes()).hexdigest()!=digest:raise ValueError('publication file differs: '+name)
     r=json.loads((output/'result.json').read_text())
     if r['source_sha256']!=m['source_sha256'] or r['family']!=m['family']:raise ValueError('result identity differs')
     if any(o.get(k) is not False for o in (m,r) for k in model.FLAGS):raise ValueError('study asserted a release')
+    if r.get('retained_evidence')!=external_evidence():raise ValueError('retained native/coupled evidence differs')
     return m

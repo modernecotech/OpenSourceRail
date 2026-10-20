@@ -1,6 +1,8 @@
 # Roadmap
 
-The primary v0.5 development is the [ferrite-maglev transition](rfcs/0035-v05-primary-ferrite-maglev.md). First priorities are dimensioned magnetic/guideway geometry, qualified field/loss maps, multimodule Rust control and SBC timing, coupled civil response, origin-traced manufacturing and equal-capacity city migration. The [study report](design-engine/ferrite-maglev/reference/index.html) retains all open gates.
+The primary v0.5 development is the [ferrite-maglev transition](rfcs/0035-v05-primary-ferrite-maglev.md). Implemented work includes 414 item dispositions across 63 old packages, separate city compilation for 266 cities / 1,565 lines, a partial 624-solid native interface and two-direction 25 m civil bay, 2D field equation controls, and 24-module Rust control with actual two-way flexible vertical-beam replay. These are bounded development capabilities; accepted engineering/physical releases remain zero. [Implementation and closure status](../engineering/ferrite_maglev/README.md).
+
+Next priorities are complete engineered geometry and gap/load budgets, coupon-force mesh convergence and qualified material/3D/force/loss maps, broader vehicle/guideway dynamics, isolated I/O and measured SBC timing, origin-traced manufacturing, and located city topology/route/charging/recovery validation. The transition register provides G0–G5 procedures, traveller prerequisites and unresolved acceptance thresholds. The [study report](design-engine/ferrite-maglev/reference/index.html) retains the open gates; inventory coverage and successful numerical checks do not close them.
 
 The remaining entries also track validation and hardening of the retained v0.4.0
 software/platform baseline. It is a planning map, not a release contract.

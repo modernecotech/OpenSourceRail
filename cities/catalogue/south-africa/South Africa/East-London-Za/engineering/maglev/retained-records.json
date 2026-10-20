@@ -1,0 +1,953 @@
+{
+  "city": {
+    "bbox": {
+      "east": 27.9728,
+      "north": -32.9301,
+      "south": -33.1283,
+      "west": 27.7364
+    },
+    "centroid_lat": -33.02197272792715,
+    "centroid_lon": 27.858011620778974,
+    "country": "ZA",
+    "population": 800000,
+    "slug": "east-london-za"
+  },
+  "climate": {
+    "preset": "temperate-continental"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/south-africa/South Africa/East-London-Za/corridors.json",
+    "cities/catalogue/south-africa/South Africa/East-London-Za/east-london-za.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/south-africa/South Africa/East-London-Za/east-london-za.corridor.geojson",
+      "geometry_sha256": "4f22bfcc8479df5304250f8069e2ae8467a495c77a0334830719b66176885d30",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 800000,
+    "schema_version": 1,
+    "slug": "east-london-za"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -32.983879889380795,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 27.9177995365452,
+      "platforms": [
+        "line-1-0297-0847-s003023",
+        "line-1-0299-0845-s003091",
+        "line-3-0299-0846-s017718"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -33.01891330309902,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 27.882441091737217,
+      "platforms": [
+        "line-1-0493-0681-s008904",
+        "line-2-0493-0681-s003203"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -32.99803722780118,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 27.847511234139027,
+      "platforms": [
+        "line-2-0377-0518-s007682",
+        "line-4-0377-0518-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -32.95088609221467,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 27.781080216620996,
+      "platforms": [
+        "line-2-0115-0208-s016995",
+        "line-3-0115-0208-s002726"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": -32.98202023899507,
+      "lines": [
+        "line-3",
+        "line-5"
+      ],
+      "lon": 27.90815632432484,
+      "platforms": [
+        "line-3-0288-0801-s016715",
+        "line-5-0288-0801-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 17460.7,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 300,
+      "geometry": "standard-urban",
+      "length_m": 20744.6,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 20966.3,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 7217.5,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 4441.3,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0250-0950-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0778-0438-s017461"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 52
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0576-0798-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0000-0177-s020745"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 63
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0139-0104-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0308-0981-s020966"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 67
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0377-0518-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0392-0689-s007218"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 24
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0288-0801-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0156-0865-s004441"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 15
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Beaconhurst",
+      "demand": 0.31462562,
+      "id": "line-1-0250-0950-s000000",
+      "lat": -32.97518152467337,
+      "line": "line-1",
+      "lon": 27.940086071454473,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.38157085,
+      "id": "line-1-0297-0847-s003023",
+      "junction_group": 0,
+      "lat": -32.98363993449232,
+      "line": "line-1",
+      "lon": 27.918013830150095,
+      "s_m": 3023.0865786510185
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.38749126,
+      "id": "line-1-0299-0845-s003091",
+      "junction_group": 0,
+      "lat": -32.98399986682504,
+      "line": "line-1",
+      "lon": 27.9175852429403,
+      "s_m": 3091.3708498984806
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4632298,
+      "id": "line-1-0493-0681-s008904",
+      "junction_group": 1,
+      "lat": -33.01891330309902,
+      "line": "line-1",
+      "lon": 27.882441091737217,
+      "s_m": 8904.062043356615
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5204599,
+      "id": "line-1-0598-0591-s012066",
+      "lat": -33.03780975056689,
+      "line": "line-1",
+      "lon": 27.8631546672965,
+      "s_m": 12065.971131946671
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Cove Rock Country Estate",
+      "demand": 0.36490634,
+      "id": "line-1-0778-0438-s017461",
+      "lat": -33.07020366051183,
+      "line": "line-1",
+      "lon": 27.830367745747278,
+      "s_m": 17460.67242667252
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "West Bank",
+      "demand": 0.36954546,
+      "id": "line-2-0576-0798-s000000",
+      "lat": -33.03385049490696,
+      "line": "line-2",
+      "lon": 27.90751344351015,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4632298,
+      "id": "line-2-0493-0681-s003203",
+      "junction_group": 1,
+      "lat": -33.01891330309902,
+      "line": "line-2",
+      "lon": 27.882441091737217,
+      "s_m": 3203.330444827415
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3873259,
+      "id": "line-2-0377-0518-s007682",
+      "junction_group": 2,
+      "lat": -32.99803722780118,
+      "line": "line-2",
+      "lon": 27.847511234139027,
+      "s_m": 7682.051942088855
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.29052934,
+      "id": "line-2-0239-0322-s013038",
+      "lat": -32.9732018968434,
+      "line": "line-2",
+      "lon": 27.80550968757924,
+      "s_m": 13038.174593051983
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.23953597,
+      "id": "line-2-0115-0208-s016995",
+      "junction_group": 3,
+      "lat": -32.95088609221467,
+      "line": "line-2",
+      "lon": 27.781080216620996,
+      "s_m": 16994.64212286919
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Velwano",
+      "demand": 0.19914423,
+      "id": "line-2-0000-0177-s020745",
+      "lat": -32.93018998308318,
+      "line": "line-2",
+      "lon": 27.774437114869194,
+      "s_m": 20744.591616530397
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Ethembeni",
+      "demand": 0.20227447,
+      "id": "line-3-0139-0104-s000000",
+      "lat": -32.95520528020732,
+      "line": "line-3",
+      "lon": 27.758793681711722,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.23953597,
+      "id": "line-3-0115-0208-s002726",
+      "junction_group": 3,
+      "lat": -32.95088609221467,
+      "line": "line-3",
+      "lon": 27.781080216620996,
+      "s_m": 2725.685424949239
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Eureka",
+      "demand": 0.3123661,
+      "id": "line-3-0185-0361-s007027",
+      "lat": -32.963483723859916,
+      "line": "line-3",
+      "lon": 27.813867138170217,
+      "s_m": 7026.518036156095
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Horseshoe",
+      "demand": 0.45261773,
+      "id": "line-3-0216-0497-s010027",
+      "lat": -32.9690626750171,
+      "line": "line-3",
+      "lon": 27.84301106843619,
+      "s_m": 10026.761902332482
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Cambridge West",
+      "demand": 0.40661696,
+      "id": "line-3-0249-0634-s013040",
+      "lat": -32.975001558507,
+      "line": "line-3",
+      "lon": 27.872369292307063,
+      "s_m": 13040.142853498703
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.51991314,
+      "id": "line-3-0288-0801-s016715",
+      "junction_group": 4,
+      "lat": -32.98202023899507,
+      "line": "line-3",
+      "lon": 27.90815632432484,
+      "s_m": 16714.945160902233
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3840578,
+      "id": "line-3-0299-0846-s017718",
+      "junction_group": 0,
+      "lat": -32.98399986682504,
+      "line": "line-3",
+      "lon": 27.9177995365452,
+      "s_m": 17717.787873376863
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Nahoon Mouth",
+      "demand": 0.32217777,
+      "id": "line-3-0308-0981-s020966",
+      "lat": -32.985619562322285,
+      "line": "line-3",
+      "lon": 27.946729173206275,
+      "s_m": 20966.316010800754
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3873259,
+      "id": "line-4-0377-0518-s000000",
+      "junction_group": 2,
+      "lat": -32.99803722780118,
+      "line": "line-4",
+      "lon": 27.847511234139027,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.39315346,
+      "id": "line-4-0313-0562-s003127",
+      "lat": -32.98651939315409,
+      "line": "line-4",
+      "lon": 27.85694015275449,
+      "s_m": 3127.350647362947
+    },
+    {
+      "anchor_kind": "shop:mall",
+      "anchor_name": "Amalinda Square",
+      "demand": 0.40831196,
+      "id": "line-4-0366-0615-s005169",
+      "lat": -32.99605759997121,
+      "line": "line-4",
+      "lon": 27.868297713814023,
+      "s_m": 5169.015869776659
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Panmure",
+      "demand": 0.68183446,
+      "id": "line-4-0392-0689-s007218",
+      "lat": -33.00073672029659,
+      "line": "line-4",
+      "lon": 27.88415544057639,
+      "s_m": 7217.544007200523
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.51991314,
+      "id": "line-5-0288-0801-s000000",
+      "junction_group": 4,
+      "lat": -32.98202023899507,
+      "line": "line-5",
+      "lon": 27.90815632432484,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Nompumelelo",
+      "demand": 0.31802768,
+      "id": "line-5-0156-0865-s004441",
+      "lat": -32.958264705035454,
+      "line": "line-5",
+      "lon": 27.92187111503824,
+      "s_m": 4441.3203435596515
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Beaconhurst",
+      "archetype": "terminal",
+      "id": "line-1-0250-0950-s000000",
+      "lat": -32.97518152467337,
+      "line": "line-1",
+      "lon": 27.940086071454473,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0297-0847-s003023",
+      "junction_group": 0,
+      "lat": -32.98363993449232,
+      "line": "line-1",
+      "lon": 27.918013830150095,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3023.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0299-0845-s003091",
+      "junction_group": 0,
+      "lat": -32.98399986682504,
+      "line": "line-1",
+      "lon": 27.9175852429403,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3091.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0493-0681-s008904",
+      "junction_group": 1,
+      "lat": -33.01891330309902,
+      "line": "line-1",
+      "lon": 27.882441091737217,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8904.1
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0598-0591-s012066",
+      "lat": -33.03780975056689,
+      "line": "line-1",
+      "lon": 27.8631546672965,
+      "platform_length_m": 59.5,
+      "s_m": 12066.0
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Cove Rock Country Estate",
+      "archetype": "terminal",
+      "id": "line-1-0778-0438-s017461",
+      "lat": -33.07020366051183,
+      "line": "line-1",
+      "lon": 27.830367745747278,
+      "platform_length_m": 59.5,
+      "s_m": 17460.7
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "West Bank",
+      "archetype": "terminal",
+      "id": "line-2-0576-0798-s000000",
+      "lat": -33.03385049490696,
+      "line": "line-2",
+      "lon": 27.90751344351015,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0493-0681-s003203",
+      "junction_group": 1,
+      "lat": -33.01891330309902,
+      "line": "line-2",
+      "lon": 27.882441091737217,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3203.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0377-0518-s007682",
+      "junction_group": 2,
+      "lat": -32.99803722780118,
+      "line": "line-2",
+      "lon": 27.847511234139027,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7682.1
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0239-0322-s013038",
+      "lat": -32.9732018968434,
+      "line": "line-2",
+      "lon": 27.80550968757924,
+      "platform_length_m": 59.5,
+      "s_m": 13038.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0115-0208-s016995",
+      "junction_group": 3,
+      "lat": -32.95088609221467,
+      "line": "line-2",
+      "lon": 27.781080216620996,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 16994.6
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Velwano",
+      "archetype": "terminal",
+      "id": "line-2-0000-0177-s020745",
+      "lat": -32.93018998308318,
+      "line": "line-2",
+      "lon": 27.774437114869194,
+      "platform_length_m": 59.5,
+      "s_m": 20744.6
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Ethembeni",
+      "archetype": "terminal",
+      "id": "line-3-0139-0104-s000000",
+      "lat": -32.95520528020732,
+      "line": "line-3",
+      "lon": 27.758793681711722,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0115-0208-s002726",
+      "junction_group": 3,
+      "lat": -32.95088609221467,
+      "line": "line-3",
+      "lon": 27.781080216620996,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2725.7
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Eureka",
+      "archetype": "standard",
+      "id": "line-3-0185-0361-s007027",
+      "lat": -32.963483723859916,
+      "line": "line-3",
+      "lon": 27.813867138170217,
+      "platform_length_m": 59.5,
+      "s_m": 7026.5
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Horseshoe",
+      "archetype": "standard",
+      "id": "line-3-0216-0497-s010027",
+      "lat": -32.9690626750171,
+      "line": "line-3",
+      "lon": 27.84301106843619,
+      "platform_length_m": 59.5,
+      "s_m": 10026.8
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Cambridge West",
+      "archetype": "standard",
+      "id": "line-3-0249-0634-s013040",
+      "lat": -32.975001558507,
+      "line": "line-3",
+      "lon": 27.872369292307063,
+      "platform_length_m": 59.5,
+      "s_m": 13040.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0288-0801-s016715",
+      "junction_group": 4,
+      "lat": -32.98202023899507,
+      "line": "line-3",
+      "lon": 27.90815632432484,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 16714.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0299-0846-s017718",
+      "junction_group": 0,
+      "lat": -32.98399986682504,
+      "line": "line-3",
+      "lon": 27.9177995365452,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 17717.8
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Nahoon Mouth",
+      "archetype": "depot-terminal",
+      "id": "line-3-0308-0981-s020966",
+      "lat": -32.985619562322285,
+      "line": "line-3",
+      "lon": 27.946729173206275,
+      "platform_length_m": 59.5,
+      "s_m": 20966.3
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0377-0518-s000000",
+      "junction_group": 2,
+      "lat": -32.99803722780118,
+      "line": "line-4",
+      "lon": 27.847511234139027,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-4-0313-0562-s003127",
+      "lat": -32.98651939315409,
+      "line": "line-4",
+      "lon": 27.85694015275449,
+      "platform_length_m": 59.5,
+      "s_m": 3127.4
+    },
+    {
+      "anchor_kind": "shop:mall",
+      "anchor_name": "Amalinda Square",
+      "archetype": "standard",
+      "id": "line-4-0366-0615-s005169",
+      "lat": -32.99605759997121,
+      "line": "line-4",
+      "lon": 27.868297713814023,
+      "platform_length_m": 59.5,
+      "s_m": 5169.0
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Panmure",
+      "archetype": "terminal",
+      "id": "line-4-0392-0689-s007218",
+      "lat": -33.00073672029659,
+      "line": "line-4",
+      "lon": 27.88415544057639,
+      "platform_length_m": 59.5,
+      "s_m": 7217.5
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0288-0801-s000000",
+      "junction_group": 4,
+      "lat": -32.98202023899507,
+      "line": "line-5",
+      "lon": 27.90815632432484,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Nompumelelo",
+      "archetype": "terminal",
+      "id": "line-5-0156-0865-s004441",
+      "lat": -32.958264705035454,
+      "line": "line-5",
+      "lon": 27.92187111503824,
+      "platform_length_m": 59.5,
+      "s_m": 4441.3
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

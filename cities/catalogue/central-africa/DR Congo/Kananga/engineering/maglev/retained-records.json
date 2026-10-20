@@ -1,0 +1,731 @@
+{
+  "city": {
+    "bbox": {
+      "east": 22.5615,
+      "north": -5.7521,
+      "south": -6.0403,
+      "west": 22.2717
+    },
+    "centroid_lat": -5.896522848504482,
+    "centroid_lon": 22.41664575993984,
+    "country": "CD",
+    "population": 1200000,
+    "slug": "kananga"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/central-africa/DR Congo/Kananga/corridors.json",
+    "cities/catalogue/central-africa/DR Congo/Kananga/kananga.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/central-africa/DR Congo/Kananga/kananga.corridor.geojson",
+      "geometry_sha256": "ffc931749180e9ae988d9f8159b205bc89d9fd168833be5863ff821cca36d96f",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1602,
+    "grid_width": 1605,
+    "population": 1200000,
+    "schema_version": 1,
+    "slug": "kananga"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -5.9060610553216,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 22.40743425370067,
+      "platforms": [
+        "line-1-0855-0751-s012170",
+        "line-2-0855-0751-s018085"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -5.89377836446748,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 22.4023769561576,
+      "platforms": [
+        "line-1-0786-0727-s013947",
+        "line-1-0786-0733-s013827",
+        "line-1-0787-0719-s014115",
+        "line-1-0788-0713-s014243",
+        "line-2-0786-0727-s022250",
+        "line-2-0786-0733-s022370",
+        "line-2-0787-0719-s022070",
+        "line-2-0788-0713-s021930"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -5.9010220026635,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 22.391539889993872,
+      "platforms": [
+        "line-2-0827-0663-s020123",
+        "line-3-0827-0663-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-metro",
+      "length_m": 14243.4,
+      "name": "line-1",
+      "rolling_stock": "metro-4car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-metro",
+      "length_m": 24058.0,
+      "name": "line-2",
+      "ring_wrap_length_m": 1688,
+      "rolling_stock": "metro-4car",
+      "shape": "ring"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-metro",
+      "length_m": 6203.6,
+      "name": "line-3",
+      "rolling_stock": "metro-4car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-1244-1036-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0788-0713-s014243"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 30
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0816-0916-s003019"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0786-0733-s022370"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 12,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 6,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 12,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 6,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 12,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 24,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 12
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0827-0663-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0786-0537-s006204"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 13
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Tshikaji airport",
+      "demand": 0.49868187,
+      "id": "line-1-1244-1036-s000000",
+      "lat": -5.976067894035921,
+      "line": "line-1",
+      "lon": 22.458910317978372,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.27514887,
+      "id": "line-1-1101-0959-s003498",
+      "lat": -5.950332732246338,
+      "line": "line-1",
+      "lon": 22.445002749734922,
+      "s_m": 3497.888886054573
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3226054,
+      "id": "line-1-0992-0866-s007016",
+      "lat": -5.930716420113019,
+      "line": "line-1",
+      "lon": 22.428205297181147,
+      "s_m": 7015.533905932755
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Bâtiment de Licence UPKAN",
+      "demand": 0.7441715,
+      "id": "line-1-0855-0751-s012170",
+      "junction_group": 0,
+      "lat": -5.9060610553216,
+      "line": "line-1",
+      "lon": 22.40743425370067,
+      "s_m": 12169.991334482203
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5096973,
+      "id": "line-1-0786-0733-s013827",
+      "junction_group": 1,
+      "lat": -5.89364338984271,
+      "line": "line-1",
+      "lon": 22.404183133851554,
+      "s_m": 13826.803743153501
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5319271,
+      "id": "line-1-0786-0727-s013947",
+      "junction_group": 1,
+      "lat": -5.89364338984271,
+      "line": "line-1",
+      "lon": 22.40309942723518,
+      "s_m": 13946.803743153501
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5835231,
+      "id": "line-1-0787-0719-s014115",
+      "junction_group": 1,
+      "lat": -5.8938233560090705,
+      "line": "line-1",
+      "lon": 22.40165448508002,
+      "s_m": 14115.088014400962
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6355557,
+      "id": "line-1-0788-0713-s014243",
+      "junction_group": 1,
+      "lat": -5.894003322175432,
+      "line": "line-1",
+      "lon": 22.400570778463646,
+      "s_m": 14243.372285648424
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35364863,
+      "id": "line-2-0816-0916-s003019",
+      "lat": -5.899042374833532,
+      "line": "line-2",
+      "lon": 22.43723618565092,
+      "s_m": 3019.411254969543
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": null,
+      "demand": 0.49268967,
+      "id": "line-2-0798-1029-s006033",
+      "lat": -5.8958029838390384,
+      "line": "line-2",
+      "lon": 22.457645993592603,
+      "s_m": 6032.548339959391
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.42879805,
+      "id": "line-2-0849-1090-s009038",
+      "lat": -5.904981258323436,
+      "line": "line-2",
+      "lon": 22.468663677525726,
+      "s_m": 9038.233764908633
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.43474156,
+      "id": "line-2-0825-0986-s012051",
+      "lat": -5.900662070330778,
+      "line": "line-2",
+      "lon": 22.4498794295086,
+      "s_m": 12050.782104868013
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35172755,
+      "id": "line-2-0898-0870-s015079",
+      "lat": -5.913799600475111,
+      "line": "line-2",
+      "lon": 22.428927768258728,
+      "s_m": 15078.96536343776
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Bâtiment de Licence UPKAN",
+      "demand": 0.7441715,
+      "id": "line-2-0855-0751-s018085",
+      "junction_group": 0,
+      "lat": -5.9060610553216,
+      "line": "line-2",
+      "lon": 22.40743425370067,
+      "s_m": 18084.650788387004
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.80809426,
+      "id": "line-2-0827-0663-s020123",
+      "junction_group": 2,
+      "lat": -5.9010220026635,
+      "line": "line-2",
+      "lon": 22.391539889993872,
+      "s_m": 20123.473298326116
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6355557,
+      "id": "line-2-0788-0713-s021930",
+      "junction_group": 1,
+      "lat": -5.894003322175432,
+      "line": "line-2",
+      "lon": 22.400570778463646,
+      "s_m": 21929.74746830582
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5835231,
+      "id": "line-2-0787-0719-s022070",
+      "junction_group": 1,
+      "lat": -5.8938233560090705,
+      "line": "line-2",
+      "lon": 22.40165448508002,
+      "s_m": 22069.74746830582
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5319271,
+      "id": "line-2-0786-0727-s022250",
+      "junction_group": 1,
+      "lat": -5.89364338984271,
+      "line": "line-2",
+      "lon": 22.40309942723518,
+      "s_m": 22249.74746830582
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5096973,
+      "id": "line-2-0786-0733-s022370",
+      "junction_group": 1,
+      "lat": -5.89364338984271,
+      "line": "line-2",
+      "lon": 22.404183133851554,
+      "s_m": 22369.74746830582
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Polyclinique Saint Georges",
+      "demand": 0.80809426,
+      "id": "line-3-0827-0663-s000000",
+      "junction_group": 2,
+      "lat": -5.9010220026635,
+      "line": "line-3",
+      "lon": 22.391539889993872,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.32594025,
+      "id": "line-3-0862-0587-s003185",
+      "lat": -5.9073208184861254,
+      "line": "line-3",
+      "lon": 22.37781293951982,
+      "s_m": 3185.34054609518
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.30125728,
+      "id": "line-3-0786-0537-s006204",
+      "lat": -5.89364338984271,
+      "line": "line-3",
+      "lon": 22.368782051050047,
+      "s_m": 6203.574311003817
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Tshikaji airport",
+      "archetype": "terminal",
+      "id": "line-1-1244-1036-s000000",
+      "lat": -5.976067894035921,
+      "line": "line-1",
+      "lon": 22.458910317978372,
+      "platform_length_m": 85.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-1101-0959-s003498",
+      "lat": -5.950332732246338,
+      "line": "line-1",
+      "lon": 22.445002749734922,
+      "platform_length_m": 85.0,
+      "s_m": 3497.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0992-0866-s007016",
+      "lat": -5.930716420113019,
+      "line": "line-1",
+      "lon": 22.428205297181147,
+      "platform_length_m": 85.0,
+      "s_m": 7015.5
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Bâtiment de Licence UPKAN",
+      "archetype": "interchange",
+      "id": "line-1-0855-0751-s012170",
+      "junction_group": 0,
+      "lat": -5.9060610553216,
+      "line": "line-1",
+      "lon": 22.40743425370067,
+      "mandatory_crossing": true,
+      "platform_length_m": 85.0,
+      "s_m": 12170.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0786-0733-s013827",
+      "junction_group": 1,
+      "lat": -5.89364338984271,
+      "line": "line-1",
+      "lon": 22.404183133851554,
+      "mandatory_crossing": true,
+      "platform_length_m": 85.0,
+      "s_m": 13826.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0786-0727-s013947",
+      "junction_group": 1,
+      "lat": -5.89364338984271,
+      "line": "line-1",
+      "lon": 22.40309942723518,
+      "mandatory_crossing": true,
+      "platform_length_m": 85.0,
+      "s_m": 13946.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0787-0719-s014115",
+      "junction_group": 1,
+      "lat": -5.8938233560090705,
+      "line": "line-1",
+      "lon": 22.40165448508002,
+      "mandatory_crossing": true,
+      "platform_length_m": 85.0,
+      "s_m": 14115.1
+    },
+    {
+      "archetype": "depot-terminal",
+      "id": "line-1-0788-0713-s014243",
+      "junction_group": 1,
+      "lat": -5.894003322175432,
+      "line": "line-1",
+      "lon": 22.400570778463646,
+      "mandatory_crossing": true,
+      "platform_length_m": 85.0,
+      "s_m": 14243.4
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0816-0916-s003019",
+      "lat": -5.899042374833532,
+      "line": "line-2",
+      "lon": 22.43723618565092,
+      "platform_length_m": 85.0,
+      "s_m": 3019.4
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "archetype": "standard",
+      "id": "line-2-0798-1029-s006033",
+      "lat": -5.8958029838390384,
+      "line": "line-2",
+      "lon": 22.457645993592603,
+      "platform_length_m": 85.0,
+      "s_m": 6032.5
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0849-1090-s009038",
+      "lat": -5.904981258323436,
+      "line": "line-2",
+      "lon": 22.468663677525726,
+      "platform_length_m": 85.0,
+      "s_m": 9038.2
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0825-0986-s012051",
+      "lat": -5.900662070330778,
+      "line": "line-2",
+      "lon": 22.4498794295086,
+      "platform_length_m": 85.0,
+      "s_m": 12050.8
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0898-0870-s015079",
+      "lat": -5.913799600475111,
+      "line": "line-2",
+      "lon": 22.428927768258728,
+      "platform_length_m": 85.0,
+      "s_m": 15079.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Bâtiment de Licence UPKAN",
+      "archetype": "interchange",
+      "id": "line-2-0855-0751-s018085",
+      "junction_group": 0,
+      "lat": -5.9060610553216,
+      "line": "line-2",
+      "lon": 22.40743425370067,
+      "mandatory_crossing": true,
+      "platform_length_m": 85.0,
+      "s_m": 18084.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0827-0663-s020123",
+      "junction_group": 2,
+      "lat": -5.9010220026635,
+      "line": "line-2",
+      "lon": 22.391539889993872,
+      "mandatory_crossing": true,
+      "platform_length_m": 85.0,
+      "s_m": 20123.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0788-0713-s021930",
+      "junction_group": 1,
+      "lat": -5.894003322175432,
+      "line": "line-2",
+      "lon": 22.400570778463646,
+      "mandatory_crossing": true,
+      "platform_length_m": 85.0,
+      "s_m": 21929.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0787-0719-s022070",
+      "junction_group": 1,
+      "lat": -5.8938233560090705,
+      "line": "line-2",
+      "lon": 22.40165448508002,
+      "mandatory_crossing": true,
+      "platform_length_m": 85.0,
+      "s_m": 22069.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0786-0727-s022250",
+      "junction_group": 1,
+      "lat": -5.89364338984271,
+      "line": "line-2",
+      "lon": 22.40309942723518,
+      "mandatory_crossing": true,
+      "platform_length_m": 85.0,
+      "s_m": 22249.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0786-0733-s022370",
+      "junction_group": 1,
+      "lat": -5.89364338984271,
+      "line": "line-2",
+      "lon": 22.404183133851554,
+      "mandatory_crossing": true,
+      "platform_length_m": 85.0,
+      "s_m": 22369.7
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Polyclinique Saint Georges",
+      "archetype": "terminal",
+      "id": "line-3-0827-0663-s000000",
+      "junction_group": 2,
+      "lat": -5.9010220026635,
+      "line": "line-3",
+      "lon": 22.391539889993872,
+      "mandatory_crossing": true,
+      "platform_length_m": 85.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-3-0862-0587-s003185",
+      "lat": -5.9073208184861254,
+      "line": "line-3",
+      "lon": 22.37781293951982,
+      "platform_length_m": 85.0,
+      "s_m": 3185.3
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-3-0786-0537-s006204",
+      "lat": -5.89364338984271,
+      "line": "line-3",
+      "lon": 22.368782051050047,
+      "platform_length_m": 85.0,
+      "s_m": 6203.6
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

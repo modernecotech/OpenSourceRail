@@ -1,0 +1,186 @@
+{
+  "city": {
+    "bbox": {
+      "east": 10.201,
+      "north": 3.8676,
+      "south": 3.7324,
+      "west": 10.0656
+    },
+    "centroid_lat": 3.7996627721988268,
+    "centroid_lon": 10.132131467372432,
+    "country": "CM",
+    "population": 250000,
+    "slug": "edea"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-africa/Cameroon/Edea/corridors.json",
+    "cities/catalogue/west-africa/Cameroon/Edea/edea.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-africa/Cameroon/Edea/edea.corridor.geojson",
+      "geometry_sha256": "111e86cba863ef28072f5f8cf839208c190e3afb95ce41bc4a644cf5359515d1",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 752,
+    "population": 250000,
+    "schema_version": 1,
+    "slug": "edea"
+  },
+  "retained_interchanges": [],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 7419.6,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0355-0117-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0442-0432-s007420"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 17
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Ekité",
+      "demand": 0.48890823,
+      "id": "line-1-0355-0117-s000000",
+      "lat": 3.8036220278587627,
+      "line": "line-1",
+      "lon": 10.086756826566335,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3292345,
+      "id": "line-1-0371-0236-s002876",
+      "lat": 3.800742569196991,
+      "line": "line-1",
+      "lon": 10.108183740280325,
+      "s_m": 2876.2236636408643
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Stade Municipal",
+      "demand": 0.89611953,
+      "id": "line-1-0408-0337-s005226",
+      "lat": 3.794083821041644,
+      "line": "line-1",
+      "lon": 10.12636960822245,
+      "s_m": 5226.173157302039
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Ntoumba",
+      "demand": 0.55155444,
+      "id": "line-1-0442-0432-s007420",
+      "lat": 3.7879649713853794,
+      "line": "line-1",
+      "lon": 10.143475127573955,
+      "s_m": 7419.554108468289
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Ekité",
+      "archetype": "terminal",
+      "id": "line-1-0355-0117-s000000",
+      "lat": 3.8036220278587627,
+      "line": "line-1",
+      "lon": 10.086756826566335,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0371-0236-s002876",
+      "lat": 3.800742569196991,
+      "line": "line-1",
+      "lon": 10.108183740280325,
+      "platform_length_m": 49.0,
+      "s_m": 2876.2
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Stade Municipal",
+      "archetype": "major",
+      "id": "line-1-0408-0337-s005226",
+      "lat": 3.794083821041644,
+      "line": "line-1",
+      "lon": 10.12636960822245,
+      "platform_length_m": 49.0,
+      "s_m": 5226.2
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Ntoumba",
+      "archetype": "depot-terminal",
+      "id": "line-1-0442-0432-s007420",
+      "lat": 3.7879649713853794,
+      "line": "line-1",
+      "lon": 10.143475127573955,
+      "platform_length_m": 49.0,
+      "s_m": 7419.6
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

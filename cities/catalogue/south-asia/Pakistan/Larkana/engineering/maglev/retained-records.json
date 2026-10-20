@@ -1,0 +1,533 @@
+{
+  "city": {
+    "bbox": {
+      "east": 68.3241,
+      "north": 27.6581,
+      "south": 27.4599,
+      "west": 68.1005
+    },
+    "centroid_lat": 27.559388557751145,
+    "centroid_lon": 68.21246782786119,
+    "country": "PK",
+    "population": 500000,
+    "slug": "larkana"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/south-asia/Pakistan/Larkana/corridors.json",
+    "cities/catalogue/south-asia/Pakistan/Larkana/larkana.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/south-asia/Pakistan/Larkana/larkana.corridor.geojson",
+      "geometry_sha256": "e0f09baa8e4ac3ee4544a4067438c6e05340e97e9c7ef430d412ab3950fadf2d",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 500000,
+    "schema_version": 1,
+    "slug": "larkana"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 27.54373150127776,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 68.20051108244252,
+      "platforms": [
+        "line-1-0635-0493-s008064",
+        "line-3-0635-0493-s000000"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 27.571446290897313,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 68.22381660317382,
+      "platforms": [
+        "line-1-0481-0608-s012530",
+        "line-2-0481-0608-s002587"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 360,
+      "geometry": "standard-urban",
+      "length_m": 21266.3,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 360,
+      "geometry": "standard-urban",
+      "length_m": 12814.4,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 5696.7,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0944-0310-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0223-0854-s021266"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 67
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0599-0582-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0029-0740-s012814"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 40
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0635-0493-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0563-0661-s005697"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "مشوری شریف",
+      "demand": 0.28390542,
+      "id": "line-1-0944-0310-s000000",
+      "lat": 27.4881219558723,
+      "line": "line-1",
+      "lon": 68.16342490597447,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.24040602,
+      "id": "line-1-0780-0383-s004018",
+      "lat": 27.517636407155457,
+      "line": "line-1",
+      "lon": 68.1782188452213,
+      "s_m": 4018.4776310850357
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35990044,
+      "id": "line-1-0635-0493-s008064",
+      "junction_group": 0,
+      "lat": 27.54373150127776,
+      "line": "line-1",
+      "lon": 68.20051108244252,
+      "s_m": 8064.062043356627
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9263158,
+      "id": "line-1-0552-0554-s010464",
+      "lat": 27.5586686930857,
+      "line": "line-1",
+      "lon": 68.2128731412652,
+      "s_m": 10463.71716450254
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3819565,
+      "id": "line-1-0481-0608-s012530",
+      "junction_group": 1,
+      "lat": 27.571446290897313,
+      "line": "line-1",
+      "lon": 68.22381660317382,
+      "s_m": 12530.235200658604
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.24078867,
+      "id": "line-1-0326-0725-s016904",
+      "lat": 27.599341046683225,
+      "line": "line-1",
+      "lon": 68.24752743730912,
+      "s_m": 16904.10388417759
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "مہوتا",
+      "demand": 0.29151407,
+      "id": "line-1-0223-0854-s021266",
+      "lat": 27.61787756181838,
+      "line": "line-1",
+      "lon": 68.27367015186856,
+      "s_m": 21266.25683894419
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "New Sindh Science College",
+      "demand": 0.6792057,
+      "id": "line-2-0599-0582-s000000",
+      "lat": 27.550210283266747,
+      "line": "line-2",
+      "lon": 68.21854752892152,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3819565,
+      "id": "line-2-0481-0608-s002587",
+      "junction_group": 1,
+      "lat": 27.571446290897313,
+      "line": "line-2",
+      "lon": 68.22381660317382,
+      "s_m": 2587.1067811865487
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22196011,
+      "id": "line-2-0247-0660-s007710",
+      "lat": 27.61355837382572,
+      "line": "line-2",
+      "lon": 68.2343547516784,
+      "s_m": 7709.604614807117
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "دھامراہ",
+      "demand": 0.238628,
+      "id": "line-2-0029-0740-s012814",
+      "lat": 27.65279099809236,
+      "line": "line-2",
+      "lon": 68.25056728783929,
+      "s_m": 12814.35641587179
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35990044,
+      "id": "line-3-0635-0493-s000000",
+      "junction_group": 0,
+      "lat": 27.54373150127776,
+      "line": "line-3",
+      "lon": 68.20051108244252,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.3134055,
+      "id": "line-3-0663-0636-s003490",
+      "lat": 27.53869244861966,
+      "line": "line-3",
+      "lon": 68.22949099083013,
+      "s_m": 3489.604614807108
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.33812755,
+      "id": "line-3-0563-0661-s005697",
+      "lat": 27.556689065255732,
+      "line": "line-3",
+      "lon": 68.2345574083804,
+      "s_m": 5696.711395993661
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "مشوری شریف",
+      "archetype": "terminal",
+      "id": "line-1-0944-0310-s000000",
+      "lat": 27.4881219558723,
+      "line": "line-1",
+      "lon": 68.16342490597447,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0780-0383-s004018",
+      "lat": 27.517636407155457,
+      "line": "line-1",
+      "lon": 68.1782188452213,
+      "platform_length_m": 55.5,
+      "s_m": 4018.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0635-0493-s008064",
+      "junction_group": 0,
+      "lat": 27.54373150127776,
+      "line": "line-1",
+      "lon": 68.20051108244252,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8064.1
+    },
+    {
+      "archetype": "major",
+      "id": "line-1-0552-0554-s010464",
+      "lat": 27.5586686930857,
+      "line": "line-1",
+      "lon": 68.2128731412652,
+      "platform_length_m": 59.5,
+      "s_m": 10463.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0481-0608-s012530",
+      "junction_group": 1,
+      "lat": 27.571446290897313,
+      "line": "line-1",
+      "lon": 68.22381660317382,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12530.2
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0326-0725-s016904",
+      "lat": 27.599341046683225,
+      "line": "line-1",
+      "lon": 68.24752743730912,
+      "platform_length_m": 55.5,
+      "s_m": 16904.1
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "مہوتا",
+      "archetype": "depot-terminal",
+      "id": "line-1-0223-0854-s021266",
+      "lat": 27.61787756181838,
+      "line": "line-1",
+      "lon": 68.27367015186856,
+      "platform_length_m": 59.5,
+      "s_m": 21266.3
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "New Sindh Science College",
+      "archetype": "terminal",
+      "id": "line-2-0599-0582-s000000",
+      "lat": 27.550210283266747,
+      "line": "line-2",
+      "lon": 68.21854752892152,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0481-0608-s002587",
+      "junction_group": 1,
+      "lat": 27.571446290897313,
+      "line": "line-2",
+      "lon": 68.22381660317382,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2587.1
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0247-0660-s007710",
+      "lat": 27.61355837382572,
+      "line": "line-2",
+      "lon": 68.2343547516784,
+      "platform_length_m": 55.5,
+      "s_m": 7709.6
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "دھامراہ",
+      "archetype": "terminal",
+      "id": "line-2-0029-0740-s012814",
+      "lat": 27.65279099809236,
+      "line": "line-2",
+      "lon": 68.25056728783929,
+      "platform_length_m": 59.5,
+      "s_m": 12814.4
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-3-0635-0493-s000000",
+      "junction_group": 0,
+      "lat": 27.54373150127776,
+      "line": "line-3",
+      "lon": 68.20051108244252,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-3-0663-0636-s003490",
+      "lat": 27.53869244861966,
+      "line": "line-3",
+      "lon": 68.22949099083013,
+      "platform_length_m": 59.5,
+      "s_m": 3489.6
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-3-0563-0661-s005697",
+      "lat": 27.556689065255732,
+      "line": "line-3",
+      "lon": 68.2345574083804,
+      "platform_length_m": 59.5,
+      "s_m": 5696.7
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

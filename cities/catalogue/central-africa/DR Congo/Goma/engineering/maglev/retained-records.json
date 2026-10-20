@@ -1,0 +1,959 @@
+{
+  "city": {
+    "bbox": {
+      "east": 29.3219,
+      "north": -1.5801,
+      "south": -1.7783,
+      "west": 29.1237
+    },
+    "centroid_lat": -1.6779116114170536,
+    "centroid_lon": 29.223724988112803,
+    "country": "CD",
+    "population": 1000000,
+    "slug": "goma"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/central-africa/DR Congo/Goma/corridors.json",
+    "cities/catalogue/central-africa/DR Congo/Goma/goma.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/central-africa/DR Congo/Goma/goma.corridor.geojson",
+      "geometry_sha256": "d7f3305a41b17ce7b9146dcc87c9c102bd272ab4fbe4406e2c66af2d1ed8cbab",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1103,
+    "population": 1000000,
+    "schema_version": 1,
+    "slug": "goma"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -1.6304005434978224,
+      "lines": [
+        "line-1",
+        "line-5"
+      ],
+      "lon": 29.16872472510738,
+      "platforms": [
+        "line-1-0279-0250-s004697",
+        "line-5-0279-0250-s000000"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -1.6525363819601915,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 29.19730329313961,
+      "platforms": [
+        "line-1-0402-0409-s009212",
+        "line-3-0402-0409-s008352"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -1.6559557391210453,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 29.24637215523268,
+      "platforms": [
+        "line-2-0421-0682-s013665",
+        "line-3-0421-0682-s002735"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -1.6549359308450013,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 29.232352480348947,
+      "platforms": [
+        "line-3-0415-0597-s004484",
+        "line-3-0415-0603-s004364",
+        "line-3-0416-0612-s004176",
+        "line-4-0415-0597-s000405",
+        "line-4-0415-0603-s000285",
+        "line-4-0416-0612-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 19434.9,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 16084.8,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 11394.8,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5773.3,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 4529.0,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0237-0086-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0681-0770-s019435"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 60
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0948-0862-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0319-0639-s016085"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 49
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0430-0815-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0392-0261-s011395"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 38
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0416-0612-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0314-0461-s005773"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 23
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0279-0250-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0163-0338-s004529"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 16
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": null,
+      "demand": 0.18199523,
+      "id": "line-1-0237-0086-s000000",
+      "lat": -1.622841964510672,
+      "line": "line-1",
+      "lon": 29.13924745996722,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.20360553,
+      "id": "line-1-0279-0250-s004697",
+      "junction_group": 0,
+      "lat": -1.6304005434978224,
+      "line": "line-1",
+      "lon": 29.16872472510738,
+      "s_m": 4697.0562748477205
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4569242,
+      "id": "line-1-0402-0409-s009212",
+      "junction_group": 1,
+      "lat": -1.6525363819601915,
+      "line": "line-1",
+      "lon": 29.19730329313961,
+      "s_m": 9212.346314604065
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hôpital Militaire Régional",
+      "demand": 0.90328646,
+      "id": "line-1-0484-0515-s012211",
+      "lat": -1.667293607601771,
+      "line": "line-1",
+      "lon": 29.216355671827763,
+      "s_m": 12210.823945689044
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hôpital Général de Référence du Nord Kivu",
+      "demand": 0.8387641,
+      "id": "line-1-0527-0570-s013772",
+      "lat": -1.675032152755282,
+      "line": "line-1",
+      "lon": 29.22624134001501,
+      "s_m": 13772.489168102726
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Gare routière de goma",
+      "demand": 0.7966023,
+      "id": "line-1-0566-0621-s015221",
+      "lat": -1.6820508332433504,
+      "line": "line-1",
+      "lon": 29.235408050515915,
+      "s_m": 15221.017305526562
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.74276835,
+      "id": "line-1-0648-0727-s018231",
+      "lat": -1.6968080588849297,
+      "line": "line-1",
+      "lon": 29.25446042920407,
+      "s_m": 18231.21066536415
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Gisenyi Dialysis Center - Africa Healthcare Network",
+      "demand": 0.9068901,
+      "id": "line-1-0681-0770-s019435",
+      "lat": -1.7027469423748336,
+      "line": "line-1",
+      "lon": 29.262189224332282,
+      "s_m": 19434.88598904565
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kigufi Health Centre",
+      "demand": 0.25652808,
+      "id": "line-2-0948-0862-s000000",
+      "lat": -1.750797908793147,
+      "line": "line-2",
+      "lon": 29.278725251118225,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35022745,
+      "id": "line-2-0717-0806-s006589",
+      "lat": -1.7092257243638196,
+      "line": "line-2",
+      "lon": 29.26865984350939,
+      "s_m": 6589.015869776665
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6799082,
+      "id": "line-2-0591-0753-s009607",
+      "lat": -1.6865499874023684,
+      "line": "line-2",
+      "lon": 29.259133654165314,
+      "s_m": 9606.660889654826
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.36693728,
+      "id": "line-2-0421-0682-s013665",
+      "junction_group": 2,
+      "lat": -1.6559557391210453,
+      "line": "line-2",
+      "lon": 29.24637215523268,
+      "s_m": 13665.138520739805
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Buhene",
+      "demand": 0.35985726,
+      "id": "line-2-0319-0639-s016085",
+      "lat": -1.6375991901522515,
+      "line": "line-2",
+      "lon": 29.23864336010447,
+      "s_m": 16084.793641885715
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Ndengera Health Post",
+      "demand": 0.39881667,
+      "id": "line-3-0430-0815-s000000",
+      "lat": -1.6575754346182918,
+      "line": "line-3",
+      "lon": 29.270277498303667,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.36693728,
+      "id": "line-3-0421-0682-s002735",
+      "junction_group": 2,
+      "lat": -1.6559557391210453,
+      "line": "line-3",
+      "lon": 29.24637215523268,
+      "s_m": 2734.5584412271573
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6652499,
+      "id": "line-3-0416-0612-s004176",
+      "junction_group": 3,
+      "lat": -1.6550559082892418,
+      "line": "line-3",
+      "lon": 29.233790395721638,
+      "s_m": 4175.979797464468
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6751768,
+      "id": "line-3-0415-0603-s004364",
+      "junction_group": 3,
+      "lat": -1.654875942122881,
+      "line": "line-3",
+      "lon": 29.23217274092736,
+      "s_m": 4364.26406871193
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.67839223,
+      "id": "line-3-0415-0597-s004484",
+      "junction_group": 3,
+      "lat": -1.654875942122881,
+      "line": "line-3",
+      "lon": 29.231094304397843,
+      "s_m": 4484.26406871193
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4569242,
+      "id": "line-3-0402-0409-s008352",
+      "junction_group": 1,
+      "lat": -1.6525363819601915,
+      "line": "line-3",
+      "lon": 29.19730329313961,
+      "s_m": 8351.959594928938
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Université Catholique La Sapientia",
+      "demand": 0.36901954,
+      "id": "line-3-0392-0261-s011395",
+      "lat": -1.6507367202965844,
+      "line": "line-3",
+      "lon": 29.17070185874483,
+      "s_m": 11394.80230740355
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centre hospitalier grand samaritain",
+      "demand": 0.6652499,
+      "id": "line-4-0416-0612-s000000",
+      "junction_group": 3,
+      "lat": -1.6550559082892418,
+      "line": "line-4",
+      "lon": 29.233790395721638,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6751768,
+      "id": "line-4-0415-0603-s000285",
+      "junction_group": 3,
+      "lat": -1.654875942122881,
+      "line": "line-4",
+      "lon": 29.23217274092736,
+      "s_m": 284.8528137423857
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.67839223,
+      "id": "line-4-0415-0597-s000405",
+      "junction_group": 3,
+      "lat": -1.654875942122881,
+      "line": "line-4",
+      "lon": 29.231094304397843,
+      "s_m": 404.8528137423857
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.2963014,
+      "id": "line-4-0314-0537-s003667",
+      "lat": -1.6366993593204477,
+      "line": "line-4",
+      "lon": 29.220309939102663,
+      "s_m": 3667.350647362947
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.28701755,
+      "id": "line-4-0314-0461-s005773",
+      "lat": -1.6366993593204477,
+      "line": "line-4",
+      "lon": 29.206649743062098,
+      "s_m": 5773.279938488591
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.20360553,
+      "id": "line-5-0279-0250-s000000",
+      "junction_group": 0,
+      "lat": -1.6304005434978224,
+      "line": "line-5",
+      "lon": 29.16872472510738,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.18337722,
+      "id": "line-5-0163-0338-s004529",
+      "lat": -1.6095244681999785,
+      "line": "line-5",
+      "lon": 29.18454179420698,
+      "s_m": 4529.015869776659
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "leisure:stadium",
+      "archetype": "terminal",
+      "id": "line-1-0237-0086-s000000",
+      "lat": -1.622841964510672,
+      "line": "line-1",
+      "lon": 29.13924745996722,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0279-0250-s004697",
+      "junction_group": 0,
+      "lat": -1.6304005434978224,
+      "line": "line-1",
+      "lon": 29.16872472510738,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4697.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0402-0409-s009212",
+      "junction_group": 1,
+      "lat": -1.6525363819601915,
+      "line": "line-1",
+      "lon": 29.19730329313961,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9212.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hôpital Militaire Régional",
+      "archetype": "major",
+      "id": "line-1-0484-0515-s012211",
+      "lat": -1.667293607601771,
+      "line": "line-1",
+      "lon": 29.216355671827763,
+      "platform_length_m": 59.5,
+      "s_m": 12210.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hôpital Général de Référence du Nord Kivu",
+      "archetype": "major",
+      "id": "line-1-0527-0570-s013772",
+      "lat": -1.675032152755282,
+      "line": "line-1",
+      "lon": 29.22624134001501,
+      "platform_length_m": 59.5,
+      "s_m": 13772.5
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Gare routière de goma",
+      "archetype": "major",
+      "id": "line-1-0566-0621-s015221",
+      "lat": -1.6820508332433504,
+      "line": "line-1",
+      "lon": 29.235408050515915,
+      "platform_length_m": 59.5,
+      "s_m": 15221.0
+    },
+    {
+      "archetype": "major",
+      "id": "line-1-0648-0727-s018231",
+      "lat": -1.6968080588849297,
+      "line": "line-1",
+      "lon": 29.25446042920407,
+      "platform_length_m": 59.5,
+      "s_m": 18231.2
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Gisenyi Dialysis Center - Africa Healthcare Network",
+      "archetype": "depot-terminal",
+      "id": "line-1-0681-0770-s019435",
+      "lat": -1.7027469423748336,
+      "line": "line-1",
+      "lon": 29.262189224332282,
+      "platform_length_m": 59.5,
+      "s_m": 19434.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kigufi Health Centre",
+      "archetype": "terminal",
+      "id": "line-2-0948-0862-s000000",
+      "lat": -1.750797908793147,
+      "line": "line-2",
+      "lon": 29.278725251118225,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0717-0806-s006589",
+      "lat": -1.7092257243638196,
+      "line": "line-2",
+      "lon": 29.26865984350939,
+      "platform_length_m": 59.5,
+      "s_m": 6589.0
+    },
+    {
+      "archetype": "major",
+      "id": "line-2-0591-0753-s009607",
+      "lat": -1.6865499874023684,
+      "line": "line-2",
+      "lon": 29.259133654165314,
+      "platform_length_m": 59.5,
+      "s_m": 9606.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0421-0682-s013665",
+      "junction_group": 2,
+      "lat": -1.6559557391210453,
+      "line": "line-2",
+      "lon": 29.24637215523268,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 13665.1
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Buhene",
+      "archetype": "terminal",
+      "id": "line-2-0319-0639-s016085",
+      "lat": -1.6375991901522515,
+      "line": "line-2",
+      "lon": 29.23864336010447,
+      "platform_length_m": 59.5,
+      "s_m": 16084.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Ndengera Health Post",
+      "archetype": "terminal",
+      "id": "line-3-0430-0815-s000000",
+      "lat": -1.6575754346182918,
+      "line": "line-3",
+      "lon": 29.270277498303667,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0421-0682-s002735",
+      "junction_group": 2,
+      "lat": -1.6559557391210453,
+      "line": "line-3",
+      "lon": 29.24637215523268,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2734.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0416-0612-s004176",
+      "junction_group": 3,
+      "lat": -1.6550559082892418,
+      "line": "line-3",
+      "lon": 29.233790395721638,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4176.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0415-0603-s004364",
+      "junction_group": 3,
+      "lat": -1.654875942122881,
+      "line": "line-3",
+      "lon": 29.23217274092736,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4364.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0415-0597-s004484",
+      "junction_group": 3,
+      "lat": -1.654875942122881,
+      "line": "line-3",
+      "lon": 29.231094304397843,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4484.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0402-0409-s008352",
+      "junction_group": 1,
+      "lat": -1.6525363819601915,
+      "line": "line-3",
+      "lon": 29.19730329313961,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8352.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Université Catholique La Sapientia",
+      "archetype": "terminal",
+      "id": "line-3-0392-0261-s011395",
+      "lat": -1.6507367202965844,
+      "line": "line-3",
+      "lon": 29.17070185874483,
+      "platform_length_m": 59.5,
+      "s_m": 11394.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centre hospitalier grand samaritain",
+      "archetype": "terminal",
+      "id": "line-4-0416-0612-s000000",
+      "junction_group": 3,
+      "lat": -1.6550559082892418,
+      "line": "line-4",
+      "lon": 29.233790395721638,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0415-0603-s000285",
+      "junction_group": 3,
+      "lat": -1.654875942122881,
+      "line": "line-4",
+      "lon": 29.23217274092736,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 284.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0415-0597-s000405",
+      "junction_group": 3,
+      "lat": -1.654875942122881,
+      "line": "line-4",
+      "lon": 29.231094304397843,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 404.9
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-4-0314-0537-s003667",
+      "lat": -1.6366993593204477,
+      "line": "line-4",
+      "lon": 29.220309939102663,
+      "platform_length_m": 59.5,
+      "s_m": 3667.4
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0314-0461-s005773",
+      "lat": -1.6366993593204477,
+      "line": "line-4",
+      "lon": 29.206649743062098,
+      "platform_length_m": 59.5,
+      "s_m": 5773.3
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0279-0250-s000000",
+      "junction_group": 0,
+      "lat": -1.6304005434978224,
+      "line": "line-5",
+      "lon": 29.16872472510738,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0163-0338-s004529",
+      "lat": -1.6095244681999785,
+      "line": "line-5",
+      "lon": 29.18454179420698,
+      "platform_length_m": 59.5,
+      "s_m": 4529.0
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

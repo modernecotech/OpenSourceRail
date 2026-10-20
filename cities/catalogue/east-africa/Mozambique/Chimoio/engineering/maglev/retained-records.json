@@ -1,0 +1,560 @@
+{
+  "city": {
+    "bbox": {
+      "east": 33.5882,
+      "north": -19.0173,
+      "south": -19.2155,
+      "west": 33.3784
+    },
+    "centroid_lat": -19.11637137458158,
+    "centroid_lon": 33.48326656715674,
+    "country": "MZ",
+    "population": 400000,
+    "slug": "chimoio"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Mozambique/Chimoio/corridors.json",
+    "cities/catalogue/east-africa/Mozambique/Chimoio/chimoio.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Mozambique/Chimoio/chimoio.corridor.geojson",
+      "geometry_sha256": "87aeb44ad1dc010d72e925ee6a23d2430f84fbfc824e7c3943a923b7892904dc",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 400000,
+    "schema_version": 1,
+    "slug": "chimoio"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -19.103233844437245,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 33.56764469802855,
+      "platforms": [
+        "line-1-0469-1000-s000000",
+        "line-1-0476-0990-s000270",
+        "line-2-0476-0990-s000295",
+        "line-2-0487-0999-s000000"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -19.10989259259259,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 33.46691384770891,
+      "platforms": [
+        "line-2-0514-0465-s012792",
+        "line-3-0514-0465-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 17599.9,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 14181.5,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 6326.4,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0469-1000-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0756-0267-s017600"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 53
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0487-0999-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0538-0417-s014181"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 43
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0514-0465-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0362-0588-s006326"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Cafumpe",
+      "demand": 0.29823813,
+      "id": "line-1-0469-1000-s000000",
+      "junction_group": 0,
+      "lat": -19.101794115106358,
+      "line": "line-1",
+      "lon": 33.568642974506474,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.30213523,
+      "id": "line-1-0476-0990-s000270",
+      "junction_group": 0,
+      "lat": -19.103053878270885,
+      "line": "line-1",
+      "lon": 33.56674149550091,
+      "s_m": 269.7056274847714
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3028595,
+      "id": "line-1-0575-0714-s007020",
+      "lat": -19.120870528740596,
+      "line": "line-1",
+      "lon": 33.5142606749474,
+      "s_m": 7019.898987322347
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.373083,
+      "id": "line-1-0627-0587-s010026",
+      "lat": -19.130228769391355,
+      "line": "line-1",
+      "lon": 33.49011189157676,
+      "s_m": 10025.828278447963
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35380402,
+      "id": "line-1-0659-0507-s011914",
+      "lat": -19.135987686714895,
+      "line": "line-1",
+      "lon": 33.47490005953227,
+      "s_m": 11914.3564158718
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2906091,
+      "id": "line-1-0692-0426-s013819",
+      "lat": -19.1419265702048,
+      "line": "line-1",
+      "lon": 33.45949807958721,
+      "s_m": 13819.453095790559
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Aeroporto Chimoio",
+      "demand": 0.30531818,
+      "id": "line-1-0756-0267-s017600",
+      "lat": -19.153444404851886,
+      "line": "line-1",
+      "lon": 33.42926456339878,
+      "s_m": 17599.940828143343
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Cafumpe",
+      "demand": 0.30014732,
+      "id": "line-2-0487-0999-s000000",
+      "junction_group": 0,
+      "lat": -19.105033506100852,
+      "line": "line-2",
+      "lon": 33.56845282660591,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.30213523,
+      "id": "line-2-0476-0990-s000295",
+      "junction_group": 0,
+      "lat": -19.103053878270885,
+      "line": "line-2",
+      "lon": 33.56674149550091,
+      "s_m": 294.5584412271571
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3158675,
+      "id": "line-2-0488-0674-s007012",
+      "lat": -19.105213472267213,
+      "line": "line-2",
+      "lon": 33.50665475892515,
+      "s_m": 7012.203461105333
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6024872,
+      "id": "line-2-0514-0465-s012792",
+      "junction_group": 1,
+      "lat": -19.10989259259259,
+      "line": "line-2",
+      "lon": 33.46691384770891,
+      "s_m": 12792.346314604003
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro de Saude Primero de Maio",
+      "demand": 0.41222253,
+      "id": "line-2-0538-0417-s014181",
+      "lat": -19.114211780585247,
+      "line": "line-2",
+      "lon": 33.457786748482214,
+      "s_m": 14181.463197058305
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Clínica Privada PAF",
+      "demand": 0.6024872,
+      "id": "line-3-0514-0465-s000000",
+      "junction_group": 1,
+      "lat": -19.10989259259259,
+      "line": "line-3",
+      "lon": 33.46691384770891,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.30099478,
+      "id": "line-3-0388-0512-s004343",
+      "lat": -19.08721685563114,
+      "line": "line-3",
+      "lon": 33.47585079903505,
+      "s_m": 4343.330444827419
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2887875,
+      "id": "line-3-0362-0588-s006326",
+      "lat": -19.08253773530576,
+      "line": "line-3",
+      "lon": 33.49030203947732,
+      "s_m": 6326.417023478442
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Cafumpe",
+      "archetype": "terminal",
+      "id": "line-1-0469-1000-s000000",
+      "junction_group": 0,
+      "lat": -19.101794115106358,
+      "line": "line-1",
+      "lon": 33.568642974506474,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0476-0990-s000270",
+      "junction_group": 0,
+      "lat": -19.103053878270885,
+      "line": "line-1",
+      "lon": 33.56674149550091,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 269.7
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0575-0714-s007020",
+      "lat": -19.120870528740596,
+      "line": "line-1",
+      "lon": 33.5142606749474,
+      "platform_length_m": 59.5,
+      "s_m": 7019.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0627-0587-s010026",
+      "lat": -19.130228769391355,
+      "line": "line-1",
+      "lon": 33.49011189157676,
+      "platform_length_m": 59.5,
+      "s_m": 10025.8
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0659-0507-s011914",
+      "lat": -19.135987686714895,
+      "line": "line-1",
+      "lon": 33.47490005953227,
+      "platform_length_m": 59.5,
+      "s_m": 11914.4
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0692-0426-s013819",
+      "lat": -19.1419265702048,
+      "line": "line-1",
+      "lon": 33.45949807958721,
+      "platform_length_m": 59.5,
+      "s_m": 13819.5
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Aeroporto Chimoio",
+      "archetype": "depot-terminal",
+      "id": "line-1-0756-0267-s017600",
+      "lat": -19.153444404851886,
+      "line": "line-1",
+      "lon": 33.42926456339878,
+      "platform_length_m": 59.5,
+      "s_m": 17599.9
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Cafumpe",
+      "archetype": "terminal",
+      "id": "line-2-0487-0999-s000000",
+      "junction_group": 0,
+      "lat": -19.105033506100852,
+      "line": "line-2",
+      "lon": 33.56845282660591,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0476-0990-s000295",
+      "junction_group": 0,
+      "lat": -19.103053878270885,
+      "line": "line-2",
+      "lon": 33.56674149550091,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 294.6
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0488-0674-s007012",
+      "lat": -19.105213472267213,
+      "line": "line-2",
+      "lon": 33.50665475892515,
+      "platform_length_m": 59.5,
+      "s_m": 7012.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0514-0465-s012792",
+      "junction_group": 1,
+      "lat": -19.10989259259259,
+      "line": "line-2",
+      "lon": 33.46691384770891,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12792.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro de Saude Primero de Maio",
+      "archetype": "terminal",
+      "id": "line-2-0538-0417-s014181",
+      "lat": -19.114211780585247,
+      "line": "line-2",
+      "lon": 33.457786748482214,
+      "platform_length_m": 59.5,
+      "s_m": 14181.5
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Clínica Privada PAF",
+      "archetype": "terminal",
+      "id": "line-3-0514-0465-s000000",
+      "junction_group": 1,
+      "lat": -19.10989259259259,
+      "line": "line-3",
+      "lon": 33.46691384770891,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-3-0388-0512-s004343",
+      "lat": -19.08721685563114,
+      "line": "line-3",
+      "lon": 33.47585079903505,
+      "platform_length_m": 59.5,
+      "s_m": 4343.3
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-3-0362-0588-s006326",
+      "lat": -19.08253773530576,
+      "line": "line-3",
+      "lon": 33.49030203947732,
+      "platform_length_m": 59.5,
+      "s_m": 6326.4
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

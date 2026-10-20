@@ -1,0 +1,715 @@
+{
+  "city": {
+    "bbox": {
+      "east": 7.4728,
+      "north": 5.2207,
+      "south": 5.0225,
+      "west": 7.2738
+    },
+    "centroid_lat": 5.1201888960875355,
+    "centroid_lon": 7.372559372205919,
+    "country": "NG",
+    "population": 900000,
+    "slug": "aba-ng"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-africa/Nigeria/Aba-Ng/corridors.json",
+    "cities/catalogue/west-africa/Nigeria/Aba-Ng/aba-ng.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-africa/Nigeria/Aba-Ng/aba-ng.corridor.geojson",
+      "geometry_sha256": "d7bd9c95b8b630c4a38b9b5d12e9488ad3927f2bfec9a456e5acee674d8e635f",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 900000,
+    "schema_version": 1,
+    "slug": "aba-ng"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 5.118029302091207,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 7.372559372205919,
+      "platforms": [
+        "line-1-0559-0547-s004356",
+        "line-1-0581-0547-s003693",
+        "line-3-0559-0547-s009905",
+        "line-3-0581-0547-s009465"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 5.107591264442285,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 7.360112985571749,
+      "platforms": [
+        "line-1-0628-0478-s006552",
+        "line-2-0628-0478-s003432"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 5.113170215599467,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 7.3447804802977705,
+      "platforms": [
+        "line-2-0597-0393-s001454",
+        "line-4-0597-0393-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 5.105611636612317,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 7.366065605266352,
+      "platforms": [
+        "line-2-0639-0511-s004209",
+        "line-3-0639-0511-s007974"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 12368.2,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5357.9,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 11521.1,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 4823.3,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0615-0713-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0723-0266-s012368"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 39
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0575-0330-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0657-0561-s005358"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 21
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0879-0306-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0541-0610-s011521"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 39
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0597-0393-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0439-0314-s004823"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 16
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Market",
+      "demand": 0.6129734,
+      "id": "line-1-0615-0713-s000000",
+      "lat": 5.109930824604974,
+      "line": "line-1",
+      "lon": 7.4025028530939245,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5837227,
+      "id": "line-1-0581-0547-s003693",
+      "junction_group": 0,
+      "lat": 5.116049674261239,
+      "line": "line-1",
+      "lon": 7.372559372205919,
+      "s_m": 3693.3809511662466
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.51640964,
+      "id": "line-1-0559-0547-s004356",
+      "junction_group": 0,
+      "lat": 5.120008929921175,
+      "line": "line-1",
+      "lon": 7.372559372205919,
+      "s_m": 4355.6349186104135
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6487722,
+      "id": "line-1-0628-0478-s006552",
+      "junction_group": 1,
+      "lat": 5.107591264442285,
+      "line": "line-1",
+      "lon": 7.360112985571749,
+      "s_m": 6552.274887854713
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Market",
+      "demand": 0.53188336,
+      "id": "line-1-0723-0266-s012368",
+      "lat": 5.090494478638016,
+      "line": "line-1",
+      "lon": 7.321871913594297,
+      "s_m": 12368.225099390833
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Ariaria International Market",
+      "demand": 0.58763224,
+      "id": "line-2-0575-0330-s000000",
+      "lat": 5.117129471259403,
+      "line": "line-2",
+      "lon": 7.333416388153528,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.33738098,
+      "id": "line-2-0597-0393-s001454",
+      "junction_group": 2,
+      "lat": 5.113170215599467,
+      "line": "line-2",
+      "lon": 7.3447804802977705,
+      "s_m": 1453.9696961967
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6487722,
+      "id": "line-2-0628-0478-s003432",
+      "junction_group": 1,
+      "lat": 5.107591264442285,
+      "line": "line-2",
+      "lon": 7.360112985571749,
+      "s_m": 3431.787155501906
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8427169,
+      "id": "line-2-0639-0511-s004209",
+      "junction_group": 3,
+      "lat": 5.105611636612317,
+      "line": "line-2",
+      "lon": 7.366065605266352,
+      "s_m": 4208.772003600258
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Market",
+      "demand": 0.9735829,
+      "id": "line-2-0657-0561-s005358",
+      "lat": 5.102372245617824,
+      "line": "line-2",
+      "lon": 7.375084726015751,
+      "s_m": 5357.888886054577
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Market",
+      "demand": 0.49338725,
+      "id": "line-3-0879-0306-s000000",
+      "lat": 5.062419756685743,
+      "line": "line-3",
+      "lon": 7.329087210193816,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.351081,
+      "id": "line-3-0715-0482-s006214",
+      "lat": 5.091934207968902,
+      "line": "line-3",
+      "lon": 7.3608345152317005,
+      "s_m": 6213.523804664992
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8427169,
+      "id": "line-3-0639-0511-s007974",
+      "junction_group": 3,
+      "lat": 5.105611636612317,
+      "line": "line-3",
+      "lon": 7.366065605266352,
+      "s_m": 7973.767670841394
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5837227,
+      "id": "line-3-0581-0547-s009465",
+      "junction_group": 0,
+      "lat": 5.116049674261239,
+      "line": "line-3",
+      "lon": 7.372559372205919,
+      "s_m": 9465.138520739849
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.51640964,
+      "id": "line-3-0559-0547-s009905",
+      "junction_group": 0,
+      "lat": 5.120008929921175,
+      "line": "line-3",
+      "lon": 7.372559372205919,
+      "s_m": 9905.138520739849
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Seventh-day Adventist Hospital and Motherless Babies' Home, ABA",
+      "demand": 0.82539576,
+      "id": "line-3-0541-0610-s011521",
+      "lat": 5.123248320915668,
+      "line": "line-3",
+      "lon": 7.383923464350162,
+      "s_m": 11521.118318204306
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.33738098,
+      "id": "line-4-0597-0393-s000000",
+      "junction_group": 2,
+      "lat": 5.113170215599467,
+      "line": "line-4",
+      "lon": 7.3447804802977705,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.26092914,
+      "id": "line-4-0439-0314-s004823",
+      "lat": 5.141604869884461,
+      "line": "line-4",
+      "lon": 7.330530269513719,
+      "s_m": 4823.330444827418
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Market",
+      "archetype": "terminal",
+      "id": "line-1-0615-0713-s000000",
+      "lat": 5.109930824604974,
+      "line": "line-1",
+      "lon": 7.4025028530939245,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0581-0547-s003693",
+      "junction_group": 0,
+      "lat": 5.116049674261239,
+      "line": "line-1",
+      "lon": 7.372559372205919,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3693.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0559-0547-s004356",
+      "junction_group": 0,
+      "lat": 5.120008929921175,
+      "line": "line-1",
+      "lon": 7.372559372205919,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4355.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0628-0478-s006552",
+      "junction_group": 1,
+      "lat": 5.107591264442285,
+      "line": "line-1",
+      "lon": 7.360112985571749,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6552.3
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Market",
+      "archetype": "depot-terminal",
+      "id": "line-1-0723-0266-s012368",
+      "lat": 5.090494478638016,
+      "line": "line-1",
+      "lon": 7.321871913594297,
+      "platform_length_m": 59.5,
+      "s_m": 12368.2
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Ariaria International Market",
+      "archetype": "terminal",
+      "id": "line-2-0575-0330-s000000",
+      "lat": 5.117129471259403,
+      "line": "line-2",
+      "lon": 7.333416388153528,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0597-0393-s001454",
+      "junction_group": 2,
+      "lat": 5.113170215599467,
+      "line": "line-2",
+      "lon": 7.3447804802977705,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1454.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0628-0478-s003432",
+      "junction_group": 1,
+      "lat": 5.107591264442285,
+      "line": "line-2",
+      "lon": 7.360112985571749,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3431.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0639-0511-s004209",
+      "junction_group": 3,
+      "lat": 5.105611636612317,
+      "line": "line-2",
+      "lon": 7.366065605266352,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4208.8
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Market",
+      "archetype": "terminal",
+      "id": "line-2-0657-0561-s005358",
+      "lat": 5.102372245617824,
+      "line": "line-2",
+      "lon": 7.375084726015751,
+      "platform_length_m": 59.5,
+      "s_m": 5357.9
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Market",
+      "archetype": "terminal",
+      "id": "line-3-0879-0306-s000000",
+      "lat": 5.062419756685743,
+      "line": "line-3",
+      "lon": 7.329087210193816,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0715-0482-s006214",
+      "lat": 5.091934207968902,
+      "line": "line-3",
+      "lon": 7.3608345152317005,
+      "platform_length_m": 59.5,
+      "s_m": 6213.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0639-0511-s007974",
+      "junction_group": 3,
+      "lat": 5.105611636612317,
+      "line": "line-3",
+      "lon": 7.366065605266352,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7973.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0581-0547-s009465",
+      "junction_group": 0,
+      "lat": 5.116049674261239,
+      "line": "line-3",
+      "lon": 7.372559372205919,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9465.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0559-0547-s009905",
+      "junction_group": 0,
+      "lat": 5.120008929921175,
+      "line": "line-3",
+      "lon": 7.372559372205919,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9905.1
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Seventh-day Adventist Hospital and Motherless Babies' Home, ABA",
+      "archetype": "terminal",
+      "id": "line-3-0541-0610-s011521",
+      "lat": 5.123248320915668,
+      "line": "line-3",
+      "lon": 7.383923464350162,
+      "platform_length_m": 59.5,
+      "s_m": 11521.1
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0597-0393-s000000",
+      "junction_group": 2,
+      "lat": 5.113170215599467,
+      "line": "line-4",
+      "lon": 7.3447804802977705,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0439-0314-s004823",
+      "lat": 5.141604869884461,
+      "line": "line-4",
+      "lon": 7.330530269513719,
+      "platform_length_m": 59.5,
+      "s_m": 4823.3
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

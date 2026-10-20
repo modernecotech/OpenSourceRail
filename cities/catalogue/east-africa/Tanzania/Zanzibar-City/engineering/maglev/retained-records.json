@@ -1,0 +1,958 @@
+{
+  "city": {
+    "bbox": {
+      "east": 39.3023,
+      "north": -6.0668,
+      "south": -6.265,
+      "west": 39.1029
+    },
+    "centroid_lat": -6.166051340747939,
+    "centroid_lon": 39.203463788808335,
+    "country": "TZ",
+    "population": 500000,
+    "slug": "zanzibar-city"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Tanzania/Zanzibar-City/corridors.json",
+    "cities/catalogue/east-africa/Tanzania/Zanzibar-City/zanzibar-city.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Tanzania/Zanzibar-City/zanzibar-city.corridor.geojson",
+      "geometry_sha256": "051a94567b11c6ea4e1ed09af1ab8aced280923242e2c743094ffedc4ca7dc29",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 500000,
+    "schema_version": 1,
+    "slug": "zanzibar-city"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -6.164431645250693,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 39.193795931303846,
+      "platforms": [
+        "line-1-0541-0500-s011045",
+        "line-1-0543-0505-s011185",
+        "line-2-0541-0500-s001046",
+        "line-2-0543-0505-s001162"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -6.166771205413382,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 39.19876539076877,
+      "platforms": [
+        "line-1-0555-0530-s012158",
+        "line-2-0555-0530-s001773"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -6.181528431054962,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 39.23093134657808,
+      "platforms": [
+        "line-2-0637-0708-s006095",
+        "line-3-0637-0708-s011312"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -6.187107382212144,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 39.24321946452771,
+      "platforms": [
+        "line-2-0668-0776-s007735",
+        "line-4-0668-0776-s001866"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": -6.195205859698376,
+      "lines": [
+        "line-2",
+        "line-5"
+      ],
+      "lon": 39.269602776596024,
+      "platforms": [
+        "line-2-0712-0922-s011297",
+        "line-5-0714-0922-s000000"
+      ]
+    },
+    {
+      "id": "interchange-005",
+      "junction_group": 5,
+      "lat": -6.196285656696541,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 39.23382266844858,
+      "platforms": [
+        "line-3-0719-0724-s009540",
+        "line-4-0719-0724-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 19849.8,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 11297.4,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 330,
+      "geometry": "standard-urban",
+      "length_m": 15687.2,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 7523.0,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 4083.3,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0178-0650-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0826-0578-s019850"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 60
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0531-0458-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0712-0922-s011297"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 38
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-1069-0872-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0434-0670-s015687"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 50
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0719-0724-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0462-0763-s007523"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 24
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0714-0922-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0712-1062-s004083"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 14
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Bububu",
+      "demand": 0.22100495,
+      "id": "line-1-0178-0650-s000000",
+      "lat": -6.098923960695389,
+      "line": "line-1",
+      "lon": 39.220450304797524,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Maruhubi Historical Site",
+      "demand": 0.35080114,
+      "id": "line-1-0415-0602-s006507",
+      "lat": -6.141575942122881,
+      "line": "line-1",
+      "lon": 39.211776339186024,
+      "s_m": 6506.518036156095
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "ICB Dispensary",
+      "demand": 0.9853639,
+      "id": "line-1-0541-0500-s011045",
+      "junction_group": 0,
+      "lat": -6.164251679084332,
+      "line": "line-1",
+      "lon": 39.19334416226158,
+      "s_m": 11044.751801064709
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Vikokotoni",
+      "demand": 0.97810966,
+      "id": "line-1-0543-0505-s011185",
+      "junction_group": 0,
+      "lat": -6.164611611417054,
+      "line": "line-1",
+      "lon": 39.19424770034611,
+      "s_m": 11184.751801064709
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.84096956,
+      "id": "line-1-0555-0530-s012158",
+      "junction_group": 1,
+      "lat": -6.166771205413382,
+      "line": "line-1",
+      "lon": 39.19876539076877,
+      "s_m": 12157.888886054554
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hospital",
+      "demand": 0.39440402,
+      "id": "line-1-0728-0596-s016990",
+      "lat": -6.1979053521937875,
+      "line": "line-1",
+      "lon": 39.21069209348458,
+      "s_m": 16990.437226013935
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "SCHOOL OF HEALTH",
+      "demand": 0.34276345,
+      "id": "line-1-0826-0578-s019850",
+      "lat": -6.215542036497138,
+      "line": "line-1",
+      "lon": 39.20743935638027,
+      "s_m": 19849.84848098349
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Shangani",
+      "demand": 0.6909266,
+      "id": "line-2-0531-0458-s000000",
+      "lat": -6.1624520174207245,
+      "line": "line-2",
+      "lon": 39.18575444235152,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "ICB Dispensary",
+      "demand": 0.9853639,
+      "id": "line-2-0541-0500-s001046",
+      "junction_group": 0,
+      "lat": -6.164251679084332,
+      "line": "line-2",
+      "lon": 39.19334416226158,
+      "s_m": 1045.685424949238
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Vikokotoni",
+      "demand": 0.97810966,
+      "id": "line-2-0543-0505-s001162",
+      "junction_group": 0,
+      "lat": -6.164611611417054,
+      "line": "line-2",
+      "lon": 39.19424770034611,
+      "s_m": 1162.2539674441618
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.84096956,
+      "id": "line-2-0555-0530-s001773",
+      "junction_group": 1,
+      "lat": -6.166771205413382,
+      "line": "line-2",
+      "lon": 39.19876539076877,
+      "s_m": 1773.3809511662428
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.33578572,
+      "id": "line-2-0637-0708-s006095",
+      "junction_group": 2,
+      "lat": -6.181528431054962,
+      "line": "line-2",
+      "lon": 39.23093134657808,
+      "s_m": 6094.701294725901
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2633382,
+      "id": "line-2-0668-0776-s007735",
+      "junction_group": 3,
+      "lat": -6.187107382212144,
+      "line": "line-2",
+      "lon": 39.24321946452771,
+      "s_m": 7734.945160902303
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Tabasam Dispensary",
+      "demand": 0.21566959,
+      "id": "line-2-0712-0922-s011297",
+      "junction_group": 4,
+      "lat": -6.195025893532016,
+      "line": "line-2",
+      "lon": 39.269602776596024,
+      "s_m": 11297.442994522831
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kombeni Primary Health Care Unit",
+      "demand": 0.113157615,
+      "id": "line-3-1069-0872-s000000",
+      "lat": -6.259273814922794,
+      "line": "line-3",
+      "lon": 39.26056739575071,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22105978,
+      "id": "line-3-0836-0746-s007018",
+      "lat": -6.2173416981607454,
+      "line": "line-3",
+      "lon": 39.237798236020524,
+      "s_m": 7017.645019878181
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2670214,
+      "id": "line-3-0719-0724-s009540",
+      "junction_group": 5,
+      "lat": -6.196285656696541,
+      "line": "line-3",
+      "lon": 39.23382266844858,
+      "s_m": 9539.898987322338
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.33578572,
+      "id": "line-3-0637-0708-s011312",
+      "junction_group": 2,
+      "lat": -6.181528431054962,
+      "line": "line-3",
+      "lon": 39.23093134657808,
+      "s_m": 11312.447327281718
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Ifa dispensary",
+      "demand": 0.3536438,
+      "id": "line-3-0434-0670-s015687",
+      "lat": -6.1449952992837344,
+      "line": "line-3",
+      "lon": 39.22406445713565,
+      "s_m": 15687.249634685244
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2670214,
+      "id": "line-4-0719-0724-s000000",
+      "junction_group": 5,
+      "lat": -6.196285656696541,
+      "line": "line-4",
+      "lon": 39.23382266844858,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2633382,
+      "id": "line-4-0668-0776-s001866",
+      "junction_group": 3,
+      "lat": -6.187107382212144,
+      "line": "line-4",
+      "lon": 39.24321946452771,
+      "s_m": 1865.685424949238
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.28447774,
+      "id": "line-4-0462-0763-s007523",
+      "lat": -6.150034351941835,
+      "line": "line-4",
+      "lon": 39.24087026550793,
+      "s_m": 7522.985565973367
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Tabasam Dispensary",
+      "demand": 0.21518475,
+      "id": "line-5-0714-0922-s000000",
+      "junction_group": 4,
+      "lat": -6.195385825864737,
+      "line": "line-5",
+      "lon": 39.269602776596024,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.120937265,
+      "id": "line-5-0712-1062-s004083",
+      "lat": -6.195025893532016,
+      "line": "line-5",
+      "lon": 39.2949018429629,
+      "s_m": 4083.3304448274166
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.14809859,
+      "id": "line-3-0949-0821-s003521",
+      "lat": -6.237677874959507,
+      "line": "line-3",
+      "lon": 39.251351307288495,
+      "s_m": 3521.4213562373097
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Bububu",
+      "archetype": "terminal",
+      "id": "line-1-0178-0650-s000000",
+      "lat": -6.098923960695389,
+      "line": "line-1",
+      "lon": 39.220450304797524,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Maruhubi Historical Site",
+      "archetype": "standard",
+      "id": "line-1-0415-0602-s006507",
+      "lat": -6.141575942122881,
+      "line": "line-1",
+      "lon": 39.211776339186024,
+      "platform_length_m": 59.5,
+      "s_m": 6506.5
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "ICB Dispensary",
+      "archetype": "interchange",
+      "id": "line-1-0541-0500-s011045",
+      "junction_group": 0,
+      "lat": -6.164251679084332,
+      "line": "line-1",
+      "lon": 39.19334416226158,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11044.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Vikokotoni",
+      "archetype": "interchange",
+      "id": "line-1-0543-0505-s011185",
+      "junction_group": 0,
+      "lat": -6.164611611417054,
+      "line": "line-1",
+      "lon": 39.19424770034611,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11184.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0555-0530-s012158",
+      "junction_group": 1,
+      "lat": -6.166771205413382,
+      "line": "line-1",
+      "lon": 39.19876539076877,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12157.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hospital",
+      "archetype": "standard",
+      "id": "line-1-0728-0596-s016990",
+      "lat": -6.1979053521937875,
+      "line": "line-1",
+      "lon": 39.21069209348458,
+      "platform_length_m": 59.5,
+      "s_m": 16990.4
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "SCHOOL OF HEALTH",
+      "archetype": "depot-terminal",
+      "id": "line-1-0826-0578-s019850",
+      "lat": -6.215542036497138,
+      "line": "line-1",
+      "lon": 39.20743935638027,
+      "platform_length_m": 59.5,
+      "s_m": 19849.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Shangani",
+      "archetype": "terminal",
+      "id": "line-2-0531-0458-s000000",
+      "lat": -6.1624520174207245,
+      "line": "line-2",
+      "lon": 39.18575444235152,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "ICB Dispensary",
+      "archetype": "interchange",
+      "id": "line-2-0541-0500-s001046",
+      "junction_group": 0,
+      "lat": -6.164251679084332,
+      "line": "line-2",
+      "lon": 39.19334416226158,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1045.7
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Vikokotoni",
+      "archetype": "interchange",
+      "id": "line-2-0543-0505-s001162",
+      "junction_group": 0,
+      "lat": -6.164611611417054,
+      "line": "line-2",
+      "lon": 39.19424770034611,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1162.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0555-0530-s001773",
+      "junction_group": 1,
+      "lat": -6.166771205413382,
+      "line": "line-2",
+      "lon": 39.19876539076877,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1773.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0637-0708-s006095",
+      "junction_group": 2,
+      "lat": -6.181528431054962,
+      "line": "line-2",
+      "lon": 39.23093134657808,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6094.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0668-0776-s007735",
+      "junction_group": 3,
+      "lat": -6.187107382212144,
+      "line": "line-2",
+      "lon": 39.24321946452771,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7734.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Tabasam Dispensary",
+      "archetype": "terminal",
+      "id": "line-2-0712-0922-s011297",
+      "junction_group": 4,
+      "lat": -6.195025893532016,
+      "line": "line-2",
+      "lon": 39.269602776596024,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11297.4
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kombeni Primary Health Care Unit",
+      "archetype": "terminal",
+      "id": "line-3-1069-0872-s000000",
+      "lat": -6.259273814922794,
+      "line": "line-3",
+      "lon": 39.26056739575071,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0836-0746-s007018",
+      "lat": -6.2173416981607454,
+      "line": "line-3",
+      "lon": 39.237798236020524,
+      "platform_length_m": 55.5,
+      "s_m": 7017.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0719-0724-s009540",
+      "junction_group": 5,
+      "lat": -6.196285656696541,
+      "line": "line-3",
+      "lon": 39.23382266844858,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9539.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0637-0708-s011312",
+      "junction_group": 2,
+      "lat": -6.181528431054962,
+      "line": "line-3",
+      "lon": 39.23093134657808,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11312.4
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Ifa dispensary",
+      "archetype": "terminal",
+      "id": "line-3-0434-0670-s015687",
+      "lat": -6.1449952992837344,
+      "line": "line-3",
+      "lon": 39.22406445713565,
+      "platform_length_m": 59.5,
+      "s_m": 15687.2
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0719-0724-s000000",
+      "junction_group": 5,
+      "lat": -6.196285656696541,
+      "line": "line-4",
+      "lon": 39.23382266844858,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0668-0776-s001866",
+      "junction_group": 3,
+      "lat": -6.187107382212144,
+      "line": "line-4",
+      "lon": 39.24321946452771,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1865.7
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0462-0763-s007523",
+      "lat": -6.150034351941835,
+      "line": "line-4",
+      "lon": 39.24087026550793,
+      "platform_length_m": 59.5,
+      "s_m": 7523.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Tabasam Dispensary",
+      "archetype": "terminal",
+      "id": "line-5-0714-0922-s000000",
+      "junction_group": 4,
+      "lat": -6.195385825864737,
+      "line": "line-5",
+      "lon": 39.269602776596024,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0712-1062-s004083",
+      "lat": -6.195025893532016,
+      "line": "line-5",
+      "lon": 39.2949018429629,
+      "platform_length_m": 59.5,
+      "s_m": 4083.3
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0949-0821-s003521",
+      "lat": -6.237677874959507,
+      "line": "line-3",
+      "lon": 39.251351307288495,
+      "platform_length_m": 55.5,
+      "s_m": 3521.4
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

@@ -1,0 +1,1159 @@
+{
+  "city": {
+    "bbox": {
+      "east": 90.6082,
+      "north": 23.7229,
+      "south": 23.5247,
+      "west": 90.3918
+    },
+    "centroid_lat": 23.63876581722636,
+    "centroid_lon": 90.49092641517699,
+    "country": "BD",
+    "population": 950000,
+    "slug": "narayanganj"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/south-asia/Bangladesh/Narayanganj/corridors.json",
+    "cities/catalogue/south-asia/Bangladesh/Narayanganj/narayanganj.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/south-asia/Bangladesh/Narayanganj/narayanganj.corridor.geojson",
+      "geometry_sha256": "1f520353e73a5fb1bd4ee0271d36fcadf8c9f0a1fd784a5d72c0de0f8e6363f8",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 950000,
+    "schema_version": 1,
+    "slug": "narayanganj"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 23.62776788483765,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 90.49284379610577,
+      "platforms": [
+        "line-1-0523-0523-s011748",
+        "line-1-0525-0518-s011865",
+        "line-1-0533-0506-s012211",
+        "line-1-0534-0509-s012143",
+        "line-3-0523-0521-s014602",
+        "line-3-0523-0523-s014670",
+        "line-3-0525-0518-s014525",
+        "line-3-0533-0506-s013972",
+        "line-3-0534-0509-s014052"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 23.717411031925998,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 90.41395882277942,
+      "platforms": [
+        "line-1-0033-0102-s030091",
+        "line-2-0027-0123-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 23.70085414462081,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 90.45504088802093,
+      "platforms": [
+        "line-2-0122-0322-s005527",
+        "line-4-0122-0322-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 23.68123783248749,
+      "lines": [
+        "line-2",
+        "line-5"
+      ],
+      "lon": 90.48229820099739,
+      "platforms": [
+        "line-2-0231-0461-s010426",
+        "line-5-0231-0461-s000000"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": 23.663601148184142,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 90.50602578999128,
+      "platforms": [
+        "line-2-0329-0582-s014727",
+        "line-3-0329-0582-s020601"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 30091.3,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 24965.7,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 25170.1,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 4791.6,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 5316.1,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0937-0722-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0033-0102-s030091"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 91
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0027-0123-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0551-0928-s024966"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 76
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0976-0350-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0196-0662-s025170"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 81
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0122-0322-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0087-0511-s004792"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 17
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0231-0461-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0063-0587-s005316"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Lab Aid Hospital",
+      "demand": 0.47324175,
+      "id": "line-1-0937-0722-s000000",
+      "lat": 23.55418171903682,
+      "line": "line-1",
+      "lon": 90.53347919874456,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Muktarpur Launch Ghat",
+      "demand": 0.3966677,
+      "id": "line-1-0855-0642-s003028",
+      "lat": 23.5689389446784,
+      "line": "line-1",
+      "lon": 90.51779153659983,
+      "s_m": 3027.939392393402
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4508,
+      "id": "line-1-0742-0611-s005683",
+      "lat": 23.58927512147716,
+      "line": "line-1",
+      "lon": 90.51171256751874,
+      "s_m": 5683.3304448274175
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7396216,
+      "id": "line-1-0523-0523-s011748",
+      "junction_group": 0,
+      "lat": 23.62868771191016,
+      "line": "line-1",
+      "lon": 90.49445613915955,
+      "s_m": 11748.326112068513
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7347776,
+      "id": "line-1-0525-0518-s011865",
+      "junction_group": 0,
+      "lat": 23.62832777957744,
+      "line": "line-1",
+      "lon": 90.49347566027551,
+      "s_m": 11864.894654563435
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.727409,
+      "id": "line-1-0534-0509-s012143",
+      "junction_group": 0,
+      "lat": 23.626708084080192,
+      "line": "line-1",
+      "lon": 90.49171079828422,
+      "s_m": 12142.884553295664
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7198526,
+      "id": "line-1-0533-0506-s012211",
+      "junction_group": 0,
+      "lat": 23.626888050246553,
+      "line": "line-1",
+      "lon": 90.4911225109538,
+      "s_m": 12211.168824543125
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5390615,
+      "id": "line-1-0355-0388-s018086",
+      "lat": 23.65892202785876,
+      "line": "line-1",
+      "lon": 90.46798320929032,
+      "s_m": 18085.626253092614
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.47758725,
+      "id": "line-1-0258-0298-s021109",
+      "lat": 23.676378745995752,
+      "line": "line-1",
+      "lon": 90.4503345893775,
+      "s_m": 21108.9566979201
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": null,
+      "demand": 0.48933485,
+      "id": "line-1-0200-0190-s024131",
+      "lat": 23.686816783644673,
+      "line": "line-1",
+      "lon": 90.42915624548213,
+      "s_m": 24130.865786510272
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "সদরঘাট",
+      "demand": 0.84224033,
+      "id": "line-1-0094-0090-s027150",
+      "lat": 23.70589319727891,
+      "line": "line-1",
+      "lon": 90.40954666780122,
+      "s_m": 27149.587283771798
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "নবাবপুর",
+      "demand": 0.9177985,
+      "id": "line-1-0033-0102-s030091",
+      "junction_group": 1,
+      "lat": 23.716871133426913,
+      "line": "line-1",
+      "lon": 90.41189981712293,
+      "s_m": 30091.25250618554
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nibedita General Hospital",
+      "demand": 0.86935395,
+      "id": "line-2-0027-0123-s000000",
+      "junction_group": 1,
+      "lat": 23.71795093042508,
+      "line": "line-2",
+      "lon": 90.41601782843593,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6671005,
+      "id": "line-2-0122-0322-s005527",
+      "junction_group": 2,
+      "lat": 23.70085414462081,
+      "line": "line-2",
+      "lon": 90.45504088802093,
+      "s_m": 5526.518036156094
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.51016223,
+      "id": "line-2-0231-0461-s010426",
+      "junction_group": 3,
+      "lat": 23.68123783248749,
+      "line": "line-2",
+      "lon": 90.48229820099739,
+      "s_m": 10425.929291125638
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5043099,
+      "id": "line-2-0329-0582-s014727",
+      "junction_group": 4,
+      "lat": 23.663601148184142,
+      "line": "line-2",
+      "lon": 90.50602578999128,
+      "s_m": 14726.761902332479
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.48751825,
+      "id": "line-2-0397-0696-s018072",
+      "lat": 23.65136344887161,
+      "line": "line-2",
+      "lon": 90.52838070854752,
+      "s_m": 18071.858582251283
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.43435118,
+      "id": "line-2-0476-0759-s020373",
+      "lat": 23.637146121729113,
+      "line": "line-2",
+      "lon": 90.54073474248649,
+      "s_m": 20372.935059634583
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.27668828,
+      "id": "line-2-0515-0840-s022675",
+      "lat": 23.630127441241047,
+      "line": "line-2",
+      "lon": 90.55661850040802,
+      "s_m": 22675.18902707877
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Chowdhurygaon Bazar",
+      "demand": 0.23237014,
+      "id": "line-2-0551-0928-s024966",
+      "lat": 23.62364865925206,
+      "line": "line-2",
+      "lon": 90.57387492876722,
+      "s_m": 24965.72726577042
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": null,
+      "demand": 0.26788464,
+      "id": "line-3-0976-0350-s000000",
+      "lat": 23.547163038548753,
+      "line": "line-3",
+      "lon": 90.46053156977158,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3176186,
+      "id": "line-3-0870-0454-s003497",
+      "lat": 23.566239452182987,
+      "line": "line-3",
+      "lon": 90.48092553055973,
+      "s_m": 3497.0562748477187
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.33932403,
+      "id": "line-3-0727-0411-s007012",
+      "lat": 23.59197461397257,
+      "line": "line-3",
+      "lon": 90.47249341215694,
+      "s_m": 7011.85858225128
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.48693308,
+      "id": "line-3-0648-0429-s010024",
+      "lat": 23.60619194111507,
+      "line": "line-3",
+      "lon": 90.4760231361395,
+      "s_m": 10024.305909532977
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7198526,
+      "id": "line-3-0533-0506-s013972",
+      "junction_group": 0,
+      "lat": 23.626888050246553,
+      "line": "line-3",
+      "lon": 90.4911225109538,
+      "s_m": 13972.245301926348
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.727409,
+      "id": "line-3-0534-0509-s014052",
+      "junction_group": 0,
+      "lat": 23.626708084080192,
+      "line": "line-3",
+      "lon": 90.49171079828422,
+      "s_m": 14052.245301926348
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7347776,
+      "id": "line-3-0525-0518-s014525",
+      "junction_group": 0,
+      "lat": 23.62832777957744,
+      "line": "line-3",
+      "lon": 90.49347566027551,
+      "s_m": 14525.382386916193
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.73659015,
+      "id": "line-3-0523-0521-s014602",
+      "junction_group": 0,
+      "lat": 23.62868771191016,
+      "line": "line-3",
+      "lon": 90.49406394760594,
+      "s_m": 14601.950929411116
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7396216,
+      "id": "line-3-0523-0523-s014670",
+      "junction_group": 0,
+      "lat": 23.62868771191016,
+      "line": "line-3",
+      "lon": 90.49445613915955,
+      "s_m": 14670.235200658577
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5043099,
+      "id": "line-3-0329-0582-s020601",
+      "junction_group": 4,
+      "lat": 23.663601148184142,
+      "line": "line-3",
+      "lon": 90.50602578999128,
+      "s_m": 20601.01730552664
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Siddhirganj Reboti Mohan Pilot School and College",
+      "demand": 0.49569207,
+      "id": "line-3-0196-0662-s025170",
+      "lat": 23.687536648310118,
+      "line": "line-3",
+      "lon": 90.52171345213601,
+      "s_m": 25170.134187980973
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "রশিদবাগ",
+      "demand": 0.6671005,
+      "id": "line-4-0122-0322-s000000",
+      "junction_group": 2,
+      "lat": 23.70085414462081,
+      "line": "line-4",
+      "lon": 90.45504088802093,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.551061,
+      "id": "line-4-0062-0439-s003121",
+      "lat": 23.711652114602455,
+      "line": "line-4",
+      "lon": 90.4779840939076,
+      "s_m": 3121.0764773832475
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5661635,
+      "id": "line-4-0087-0511-s004792",
+      "lat": 23.707152960443437,
+      "line": "line-4",
+      "lon": 90.49210298983785,
+      "s_m": 4791.614716074876
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.51016223,
+      "id": "line-5-0231-0461-s000000",
+      "junction_group": 3,
+      "lat": 23.68123783248749,
+      "line": "line-5",
+      "lon": 90.48229820099739,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.46190032,
+      "id": "line-5-0063-0587-s005316",
+      "lat": 23.711472148436094,
+      "line": "line-5",
+      "lon": 90.50700626887533,
+      "s_m": 5316.122650963211
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Lab Aid Hospital",
+      "archetype": "terminal",
+      "id": "line-1-0937-0722-s000000",
+      "lat": 23.55418171903682,
+      "line": "line-1",
+      "lon": 90.53347919874456,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Muktarpur Launch Ghat",
+      "archetype": "standard",
+      "id": "line-1-0855-0642-s003028",
+      "lat": 23.5689389446784,
+      "line": "line-1",
+      "lon": 90.51779153659983,
+      "platform_length_m": 59.5,
+      "s_m": 3027.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0742-0611-s005683",
+      "lat": 23.58927512147716,
+      "line": "line-1",
+      "lon": 90.51171256751874,
+      "platform_length_m": 59.5,
+      "s_m": 5683.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0523-0523-s011748",
+      "junction_group": 0,
+      "lat": 23.62868771191016,
+      "line": "line-1",
+      "lon": 90.49445613915955,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11748.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0525-0518-s011865",
+      "junction_group": 0,
+      "lat": 23.62832777957744,
+      "line": "line-1",
+      "lon": 90.49347566027551,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11864.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0534-0509-s012143",
+      "junction_group": 0,
+      "lat": 23.626708084080192,
+      "line": "line-1",
+      "lon": 90.49171079828422,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12142.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0533-0506-s012211",
+      "junction_group": 0,
+      "lat": 23.626888050246553,
+      "line": "line-1",
+      "lon": 90.4911225109538,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12211.2
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0355-0388-s018086",
+      "lat": 23.65892202785876,
+      "line": "line-1",
+      "lon": 90.46798320929032,
+      "platform_length_m": 59.5,
+      "s_m": 18085.6
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0258-0298-s021109",
+      "lat": 23.676378745995752,
+      "line": "line-1",
+      "lon": 90.4503345893775,
+      "platform_length_m": 59.5,
+      "s_m": 21109.0
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "archetype": "standard",
+      "id": "line-1-0200-0190-s024131",
+      "lat": 23.686816783644673,
+      "line": "line-1",
+      "lon": 90.42915624548213,
+      "platform_length_m": 59.5,
+      "s_m": 24130.9
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "সদরঘাট",
+      "archetype": "major",
+      "id": "line-1-0094-0090-s027150",
+      "lat": 23.70589319727891,
+      "line": "line-1",
+      "lon": 90.40954666780122,
+      "platform_length_m": 59.5,
+      "s_m": 27149.6
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "নবাবপুর",
+      "archetype": "depot-terminal",
+      "id": "line-1-0033-0102-s030091",
+      "junction_group": 1,
+      "lat": 23.716871133426913,
+      "line": "line-1",
+      "lon": 90.41189981712293,
+      "platform_length_m": 59.5,
+      "s_m": 30091.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nibedita General Hospital",
+      "archetype": "terminal",
+      "id": "line-2-0027-0123-s000000",
+      "junction_group": 1,
+      "lat": 23.71795093042508,
+      "line": "line-2",
+      "lon": 90.41601782843593,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange-elevated",
+      "id": "line-2-0122-0322-s005527",
+      "junction_group": 2,
+      "lat": 23.70085414462081,
+      "line": "line-2",
+      "lon": 90.45504088802093,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5526.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0231-0461-s010426",
+      "junction_group": 3,
+      "lat": 23.68123783248749,
+      "line": "line-2",
+      "lon": 90.48229820099739,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 10425.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0329-0582-s014727",
+      "junction_group": 4,
+      "lat": 23.663601148184142,
+      "line": "line-2",
+      "lon": 90.50602578999128,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 14726.8
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0397-0696-s018072",
+      "lat": 23.65136344887161,
+      "line": "line-2",
+      "lon": 90.52838070854752,
+      "platform_length_m": 59.5,
+      "s_m": 18071.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0476-0759-s020373",
+      "lat": 23.637146121729113,
+      "line": "line-2",
+      "lon": 90.54073474248649,
+      "platform_length_m": 59.5,
+      "s_m": 20372.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0515-0840-s022675",
+      "lat": 23.630127441241047,
+      "line": "line-2",
+      "lon": 90.55661850040802,
+      "platform_length_m": 59.5,
+      "s_m": 22675.2
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Chowdhurygaon Bazar",
+      "archetype": "terminal",
+      "id": "line-2-0551-0928-s024966",
+      "lat": 23.62364865925206,
+      "line": "line-2",
+      "lon": 90.57387492876722,
+      "platform_length_m": 59.5,
+      "s_m": 24965.7
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "archetype": "terminal",
+      "id": "line-3-0976-0350-s000000",
+      "lat": 23.547163038548753,
+      "line": "line-3",
+      "lon": 90.46053156977158,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0870-0454-s003497",
+      "lat": 23.566239452182987,
+      "line": "line-3",
+      "lon": 90.48092553055973,
+      "platform_length_m": 59.5,
+      "s_m": 3497.1
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0727-0411-s007012",
+      "lat": 23.59197461397257,
+      "line": "line-3",
+      "lon": 90.47249341215694,
+      "platform_length_m": 59.5,
+      "s_m": 7011.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0648-0429-s010024",
+      "lat": 23.60619194111507,
+      "line": "line-3",
+      "lon": 90.4760231361395,
+      "platform_length_m": 59.5,
+      "s_m": 10024.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0533-0506-s013972",
+      "junction_group": 0,
+      "lat": 23.626888050246553,
+      "line": "line-3",
+      "lon": 90.4911225109538,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 13972.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0534-0509-s014052",
+      "junction_group": 0,
+      "lat": 23.626708084080192,
+      "line": "line-3",
+      "lon": 90.49171079828422,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 14052.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0525-0518-s014525",
+      "junction_group": 0,
+      "lat": 23.62832777957744,
+      "line": "line-3",
+      "lon": 90.49347566027551,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 14525.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0523-0521-s014602",
+      "junction_group": 0,
+      "lat": 23.62868771191016,
+      "line": "line-3",
+      "lon": 90.49406394760594,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 14602.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0523-0523-s014670",
+      "junction_group": 0,
+      "lat": 23.62868771191016,
+      "line": "line-3",
+      "lon": 90.49445613915955,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 14670.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0329-0582-s020601",
+      "junction_group": 4,
+      "lat": 23.663601148184142,
+      "line": "line-3",
+      "lon": 90.50602578999128,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 20601.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Siddhirganj Reboti Mohan Pilot School and College",
+      "archetype": "terminal",
+      "id": "line-3-0196-0662-s025170",
+      "lat": 23.687536648310118,
+      "line": "line-3",
+      "lon": 90.52171345213601,
+      "platform_length_m": 59.5,
+      "s_m": 25170.1
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "রশিদবাগ",
+      "archetype": "terminal",
+      "id": "line-4-0122-0322-s000000",
+      "junction_group": 2,
+      "lat": 23.70085414462081,
+      "line": "line-4",
+      "lon": 90.45504088802093,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-4-0062-0439-s003121",
+      "lat": 23.711652114602455,
+      "line": "line-4",
+      "lon": 90.4779840939076,
+      "platform_length_m": 59.5,
+      "s_m": 3121.1
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0087-0511-s004792",
+      "lat": 23.707152960443437,
+      "line": "line-4",
+      "lon": 90.49210298983785,
+      "platform_length_m": 59.5,
+      "s_m": 4791.6
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0231-0461-s000000",
+      "junction_group": 3,
+      "lat": 23.68123783248749,
+      "line": "line-5",
+      "lon": 90.48229820099739,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0063-0587-s005316",
+      "lat": 23.711472148436094,
+      "line": "line-5",
+      "lon": 90.50700626887533,
+      "platform_length_m": 59.5,
+      "s_m": 5316.1
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

@@ -283,11 +283,22 @@ def sources():
            ROOT/'design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json',ROOT/'lib/templates/civil-cost-model.toml']
     paths+=list(Path(__file__).parent.glob('*.py'))
     paths+=list(Path(__file__).parent.glob('*.txt'))
+    paths+=list(Path(__file__).parent.glob('*.toml'))
+    paths+=list((Path(__file__).parent/'data').glob('*.json'))
+    paths+=list((ROOT/'engineering/analysis/tests').glob('test_ferrite_maglev_*.py'))
+    from . import transition,cities
+    extra=transition.sources()
+    paths += [ROOT/name for name in extra]
+    paths += cities.source_paths()
+    index=Path(__file__).parent/'city-index.json'
+    if index.exists():paths.append(index)
     paths+=list((ROOT/'crates/osr-maglev-control').rglob('*.rs'))+[ROOT/'crates/osr-maglev-control/Cargo.toml']
-    return {p.relative_to(ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in sorted(paths)}
+    return {p.relative_to(ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in sorted(set(paths))}
 
 
 def build():
+    from . import transition,coupled
+    from . import geometry as native_geometry
     policy,c,costs=load();cost_cases=[];energies=[];masses=[]
     for ferrite,battery in itertools.product((c['mass']['ferrite_base'],c['mass']['ferrite_sensitivity']),
                   (c['power']['gross_battery_matched_kwh_per_car'],c['power']['gross_battery_reduced_option_kwh_per_car'])):
@@ -320,16 +331,36 @@ def build():
         ('local-mbom-cost','priced origin-traced processes, tooling, yield, test and repair','supplier/process-evidence-required',['magnetic-cad','civil-kit']),
         ('rig-and-demonstrator','G1–G5 physical tests with preset limits and authenticated evidence','physical-evidence-required',['coupled-dynamics','sbc-io-timing','local-mbom-cost']),
     ]
+    transition_register=transition.build(work_packages=[dict(id=p[0]) for p in packages])
+    native=native_geometry.interface()
+    capability_states={'magnetic-cad':'dimensioned-native-study',
+        'magnetic-force-loss':'2D-numerical-hypothesis; 3D/material/loss validation open',
+        'vehicle-mass':'partial-interface-material-ledger; whole-vehicle closure open',
+        'civil-kit':'dimensioned-bay study; reinforcement/ground/connections open',
+        'rust-support-control':'24-station five-mode study; actual actuation open',
+        'coupled-dynamics':'two-way rigid-car/vertical-beam numerical study; full dynamics open',
+        'switch-free-city':'all-catalogue provisional compiler and charging replay',
+        'local-mbom-cost':'complete migration obligations; priced production MBOM open'}
+    catalogue_path=Path(__file__).parent/'city-index.json'
+    import json
+    catalogue=json.loads(catalogue_path.read_text()) if catalogue_path.is_file() else None
     return dict(schema='osr-primary-infrastructure-study/1',version='0.5.0',family=policy['development']['primary_family'],
-                primary_development=True,controller_state='bounded-study-complete; magnetic/CAD/route capabilities and physical evidence required',
+                primary_development=True,controller_state='migration and numerical studies implemented; physical design/acceptance closure remains open',
                 policy=policy,inputs=c,workbook_inputs=costs,mass_variants=masses,cost_cases=cost_cases,
                 local_manufacture_cost_targets=targets,energy_cases=energies,adverse_energy_cases=adverse,
                 hot_5percent_grade_steady_speed_kmh=grade_speed,geometry=geometry(c),civil_section_candidates=boxes,
                 localisation=dict(local_fraction=None,method='(finished value - imported inputs) / finished value; origin/cost evidence required',
                                   operations=manufacturing,bought_inputs=c['industrialisation']['bought_input_categories']),
                 requirements=requirement_register(),gates=gates,
-                work_packages=[dict(id=i,scope=s,state=state,depends_on=deps,accepted=False) for i,s,state,deps in packages],migration=dict(
+                transition_inventory=transition_register['inventory_counts'],transition_dispositions=transition_register['disposition_counts'],
+                geometric_interface=dict(parts=len(native['parts']),modelled_material_mass_kg=native['modelled_material_mass_kg'],
+                    magnet_budget=native['magnet_budget'],clearances=native['clearances'],holds=native['holds']),
+                flexible_guideway_benchmark=coupled.static_benchmark(),
+                city_catalogue=dict(city_count=catalogue['city_count'],catalogue_complete=catalogue['catalogue_complete'],
+                    planning_acceptance=False) if catalogue else dict(city_count=0,catalogue_complete=False),
+                work_packages=[dict(id=i,scope=s,state=capability_states.get(i,state),depends_on=deps,accepted=False) for i,s,state,deps in packages],migration=dict(
                     legacy='wheel-rail-reference',legacy_baseline=policy['development']['legacy_baseline_commit'],
                     retained_city_outputs='v0.4 wheel/rail comparators; no maglev fleet, cost or acceptance transfer',
-                    maglev_city_compiler='open',native_magnetic_cad_and_force_solver='open',
-                    rust_control='implemented study core and SBC offline replay; physical adapter/timing open'),**FLAGS)
+                    maglev_city_compiler='implemented provisional formation/service/charging compiler; route/physical acceptance open',
+                    native_magnetic_cad_and_force_solver='native geometry and 2D nonlinear-hypothesis backend; 3D/material/force validation open',
+                    rust_control='24-module five-mode and flexible-guideway offline coupling; physical adapter/timing open'),**FLAGS)

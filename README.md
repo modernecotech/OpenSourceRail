@@ -2,7 +2,19 @@
 
 **nobody should be priced out of dignity**
 
-**v0.5 — primary ferrite-maglev development architecture.** OpenSourceRail now develops locally manufactured fixed magnetic modules, passive narrow guidebeams and Rust controls on off-the-shelf SBCs. [Review the executable study and images](docs/design-engine/ferrite-maglev/reference/index.html) · [architecture transition and remaining work](docs/rfcs/0035-v05-primary-ferrite-maglev.md). Engineering and physical acceptance remain open. Existing wheel/rail city packages, CAD, assembly videos, book and brochure are retained v0.4 comparators.
+**v0.5 — primary ferrite-maglev development architecture.** OpenSourceRail now develops fixed magnetic modules for local manufacture, passive narrow guidebeams and Rust controls on off-the-shelf SBCs. [Review the executable study and images](docs/design-engine/ferrite-maglev/reference/index.html) · [architecture transition and remaining work](docs/rfcs/0035-v05-primary-ferrite-maglev.md). Engineering and physical acceptance remain open. Existing wheel/rail city packages, CAD, assembly videos, book and brochure are retained v0.4 comparators.
+
+The implemented v0.5 development tools now cover:
+
+| Area | Available work | Acceptance still needed |
+|---|---|---|
+| Full transition inventory | 414 explicit item dispositions, including 69 additional Baghdad records; 63 legacy packages and 72 requirements mapped to 11 maglev packages | Configuration-specific engineering, manufactured parts and independent acceptance; allocation is not completion |
+| City planning | Separate provisional maglev packages for [266 cities / 1,565 lines](engineering/ferrite_maglev/city-index.md), with formation, fleet, charging and partial cost recalculation | Surveyed topology, platforms, route duty, recovery, complete programme cost and physical qualification |
+| Native geometry | A partial 624-solid magnetic interface and a two-direction 25 m civil bay; FreeCAD solids, FCStd/STEP export and reopening checks | Complete vehicle/rail design, material/process qualification, loads and the full gap/tolerance budget |
+| Magnetic field | 2D variable-reluctivity solver with manufactured-equation/refinement controls and artificial nonlinear material hypotheses | Coupon force mesh convergence, actual material grades, 3D force/loss maps and rig correlation |
+| Control and guideway | 24-module Rust control and an actual two-way replay with a flexible vertical beam | Actual electromagnetic plant, torsion/lateral/soil/moving-load dynamics, physical I/O and measured SBC timing |
+
+**Accepted engineering/physical releases: 0.** The [implementation and closure details](engineering/ferrite_maglev/README.md) keep numerical, native-model, manufacturing and physical evidence separate.
 
 ## Give your city a railway it can own
 
@@ -183,7 +195,9 @@ Install the toolchain, build the primary v0.5 study and run its control replay:
 ./osr build
 ./osr design check
 ./osr
-cargo run -p osr-maglev-control --example sbc_replay
+cargo run -p osr-maglev-control --release --example multimodule_replay
+./osr city baghdad
+./osr sim baghdad --cycles 2
 # Explicit retained wheel/rail comparator:
 ./osr sim legacy --duration 3600 --status-every 300
 ```
@@ -196,7 +210,7 @@ The primary review is [generated here](docs/design-engine/ferrite-maglev/referen
 |---|---|
 | A city or transport planner | [City Studio](docs/city-studio.md), [city catalogue](cities/catalogue/README.md), [cost model](docs/cost-model.md) and [portfolio](docs/portfolio-summary.md) |
 | A civil/BIM engineer | [Civil system](docs/civil/README.md), [Bonsai IFC workflow](docs/civil/bonsai-ifc-workflow.md), [BIM reference package](engineering/models/bim/reference/README.md) and [survey gates](cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/field-evidence-brief.md) |
-| A rolling-stock, supplier or manufacturing engineer | [LM3 reference](docs/rolling-stock/light-metro-3car/README.md), [buildable trainset](design/component-catalogue/catalog/buildable-trainset/README.md), [supplier technical-support package](docs/commercial/supplier-technical-support-package.md), [CAD models](design/component-catalogue/models/cad/README.md) and [factory readiness](design/component-catalogue/catalog/buildable-trainset/factory-release-readiness.md) |
+| A rolling-stock, supplier or manufacturing engineer | [Primary maglev implementation and closure](engineering/ferrite_maglev/README.md), retained [LM3 reference](docs/rolling-stock/light-metro-3car/README.md), [buildable trainset](design/component-catalogue/catalog/buildable-trainset/README.md), [supplier technical-support package](docs/commercial/supplier-technical-support-package.md), [CAD models](design/component-catalogue/models/cad/README.md) and [factory readiness](design/component-catalogue/catalog/buildable-trainset/factory-release-readiness.md) |
 | Researching component and system best practice | [Source-backed handbook](docs/best-practice/handbook.md), [installed design twin](engineering/models/digital-twins/best-practice/index.html), [design expansion review](docs/best-practice/digital-twin-design-expansion.md), [component mapping](engineering/best_practice/component-guidance.csv) and [OSR-BP-001](docs/standards/OSR-BP-001.md) |
 | An operator or maintainer | [Operations](docs/operations/README.md), [Workbench](docs/workbench/README.md), [connected lifecycle](docs/lifecycle/README.md) and [example-city deployment](deployment/example-city/README.md) |
 | An ERP/SCADA integrator | [Operating platform](docs/operating/README.md), [ERPNext setup](deployment/erpnext/README.md), [supervision gateway](deployment/supervision/README.md) and [embedded contract](docs/lifecycle/embedded-integration.md) |

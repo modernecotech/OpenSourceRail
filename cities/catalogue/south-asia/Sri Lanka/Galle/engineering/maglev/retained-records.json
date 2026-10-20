@@ -1,0 +1,946 @@
+{
+  "city": {
+    "bbox": {
+      "east": 80.3207,
+      "north": 6.1526,
+      "south": 5.9544,
+      "west": 80.1213
+    },
+    "centroid_lat": 6.053528625418421,
+    "centroid_lon": 80.22093932560473,
+    "country": "LK",
+    "population": 500000,
+    "slug": "galle"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/south-asia/Sri Lanka/Galle/corridors.json",
+    "cities/catalogue/south-asia/Sri Lanka/Galle/galle.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/south-asia/Sri Lanka/Galle/galle.corridor.geojson",
+      "geometry_sha256": "499ca3a647d450cd78a099fa96dcf300ccd365cc3364e3d463ae1bf730d30fd3",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 500000,
+    "schema_version": 1,
+    "slug": "galle"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 6.055268298359908,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 80.2219631204281,
+      "platforms": [
+        "line-1-0544-0553-s015012",
+        "line-2-0537-0559-s009622",
+        "line-2-0540-0558-s009702",
+        "line-3-0537-0559-s014308",
+        "line-3-0540-0558-s014376",
+        "line-3-0544-0553-s014509"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 6.073864802217183,
+      "lines": [
+        "line-1",
+        "line-5"
+      ],
+      "lon": 80.16113766327443,
+      "platforms": [
+        "line-1-0437-0220-s024366",
+        "line-5-0437-0220-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 6.075124565381708,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 80.2411743291727,
+      "platforms": [
+        "line-3-0430-0663-s010281",
+        "line-4-0430-0663-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 330,
+      "geometry": "standard-urban",
+      "length_m": 24365.6,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 330,
+      "geometry": "standard-urban",
+      "length_m": 23934.2,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 18641.5,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 6171.9,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 4370.4,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0880-1029-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0437-0220-s024366"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 73
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0346-0285-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0784-1025-s023934"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 72
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0306-1057-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0621-0427-s018642"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 62
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0430-0663-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0280-0695-s006172"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0437-0220-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0311-0129-s004370"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 15
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Habaraduwa",
+      "demand": 0.16031575,
+      "id": "line-1-0880-1029-s000000",
+      "lat": 5.994139790519382,
+      "line": "line-1",
+      "lon": 80.307299430118,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.1692712,
+      "id": "line-1-0848-0881-s003499",
+      "lat": 5.999898707842926,
+      "line": "line-1",
+      "lon": 80.28056031826033,
+      "s_m": 3499.4112549695446
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.28002554,
+      "id": "line-1-0755-0756-s007004",
+      "lat": 6.016635561314472,
+      "line": "line-1",
+      "lon": 80.25797660892108,
+      "s_m": 7004.16305603428
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Uswathun Hasana Maha Vidyalaya",
+      "demand": 0.5164994,
+      "id": "line-1-0678-0663-s010011",
+      "lat": 6.030492956124248,
+      "line": "line-1",
+      "lon": 80.2411743291727,
+      "s_m": 10010.681092190353
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5511235,
+      "id": "line-1-0544-0553-s015012",
+      "junction_group": 0,
+      "lat": 6.054608422416585,
+      "line": "line-1",
+      "lon": 80.22130066495416,
+      "s_m": 15012.346314604034
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Piyadigama",
+      "demand": 0.43101436,
+      "id": "line-1-0547-0400-s019035",
+      "lat": 6.054068523917503,
+      "line": "line-1",
+      "lon": 80.19365820472294,
+      "s_m": 19035.43289325504
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Boossa",
+      "demand": 0.26338905,
+      "id": "line-1-0437-0220-s024366",
+      "junction_group": 1,
+      "lat": 6.073864802217183,
+      "line": "line-1",
+      "lon": 80.16113766327443,
+      "s_m": 24365.626253092676
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": null,
+      "demand": 0.24054168,
+      "id": "line-2-0346-0285-s000000",
+      "lat": 6.090241723356009,
+      "line": "line-2",
+      "lon": 80.17288119213083,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35079888,
+      "id": "line-2-0443-0488-s006657",
+      "lat": 6.072785005219019,
+      "line": "line-2",
+      "lon": 80.20955713609776,
+      "s_m": 6657.0562748477205
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Richmond City",
+      "demand": 0.56209755,
+      "id": "line-2-0537-0559-s009622",
+      "junction_group": 0,
+      "lat": 6.055868185581111,
+      "line": "line-2",
+      "lon": 80.22238468300245,
+      "s_m": 9622.15295476649
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Richmond City",
+      "demand": 0.5542393,
+      "id": "line-2-0540-0558-s009702",
+      "junction_group": 0,
+      "lat": 6.055328287082029,
+      "line": "line-2",
+      "lon": 80.22220401332773,
+      "s_m": 9702.15295476649
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35418174,
+      "id": "line-2-0566-0667-s012671",
+      "lat": 6.050649166756649,
+      "line": "line-2",
+      "lon": 80.24189700787154,
+      "s_m": 12671.269837220792
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.24702263,
+      "id": "line-2-0648-0823-s018299",
+      "lat": 6.03589194111507,
+      "line": "line-2",
+      "lon": 80.27008147712692,
+      "s_m": 18299.209229614167
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.18134196,
+      "id": "line-2-0784-1025-s023934",
+      "lat": 6.011416542490012,
+      "line": "line-2",
+      "lon": 80.30657675141913,
+      "s_m": 23934.154390516604
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": null,
+      "demand": 0.12770346,
+      "id": "line-3-0306-1057-s000000",
+      "lat": 6.097440370010438,
+      "line": "line-3",
+      "lon": 80.31235818100998,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.17427446,
+      "id": "line-3-0386-0954-s003500",
+      "lat": 6.08304307670158,
+      "line": "line-3",
+      "lon": 80.29374920451444,
+      "s_m": 3500.4877323527953
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2492217,
+      "id": "line-3-0414-0802-s007002",
+      "lat": 6.078004024043479,
+      "line": "line-3",
+      "lon": 80.26628741395793,
+      "s_m": 7001.564209736053
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.46923426,
+      "id": "line-3-0430-0663-s010281",
+      "junction_group": 2,
+      "lat": 6.075124565381708,
+      "line": "line-3",
+      "lon": 80.2411743291727,
+      "s_m": 10280.63058585152
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Ruhunu Hospital",
+      "demand": 0.90157974,
+      "id": "line-3-0466-0604-s011931",
+      "lat": 6.068645783392721,
+      "line": "line-3",
+      "lon": 80.23051481836457,
+      "s_m": 11930.580079512663
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Richmond City",
+      "demand": 0.56209755,
+      "id": "line-3-0537-0559-s014308",
+      "junction_group": 0,
+      "lat": 6.055868185581111,
+      "line": "line-3",
+      "lon": 80.22238468300245,
+      "s_m": 14307.636354360337
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Richmond City",
+      "demand": 0.5542393,
+      "id": "line-3-0540-0558-s014376",
+      "junction_group": 0,
+      "lat": 6.055328287082029,
+      "line": "line-3",
+      "lon": 80.22220401332773,
+      "s_m": 14375.920625607798
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5511235,
+      "id": "line-3-0544-0553-s014509",
+      "junction_group": 0,
+      "lat": 6.054608422416585,
+      "line": "line-3",
+      "lon": 80.22130066495416,
+      "s_m": 14509.057710597643
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Mahamodara",
+      "demand": 0.40770337,
+      "id": "line-3-0621-0427-s018642",
+      "lat": 6.0407510276068095,
+      "line": "line-3",
+      "lon": 80.19853628594021,
+      "s_m": 18641.505037879408
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "sin dinero",
+      "demand": 0.46923426,
+      "id": "line-4-0430-0663-s000000",
+      "junction_group": 2,
+      "lat": 6.075124565381708,
+      "line": "line-4",
+      "lon": 80.2411743291727,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.23769501,
+      "id": "line-4-0280-0695-s006172",
+      "lat": 6.1021194903358165,
+      "line": "line-4",
+      "lon": 80.24695575876353,
+      "s_m": 6171.858582251281
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Boossa",
+      "demand": 0.26338905,
+      "id": "line-5-0437-0220-s000000",
+      "junction_group": 1,
+      "lat": 6.073864802217183,
+      "line": "line-5",
+      "lon": 80.16113766327443,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.20523587,
+      "id": "line-5-0311-0129-s004370",
+      "lat": 6.096540539178634,
+      "line": "line-5",
+      "lon": 80.14469672287545,
+      "s_m": 4370.437226013968
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Habaraduwa",
+      "archetype": "terminal",
+      "id": "line-1-0880-1029-s000000",
+      "lat": 5.994139790519382,
+      "line": "line-1",
+      "lon": 80.307299430118,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0848-0881-s003499",
+      "lat": 5.999898707842926,
+      "line": "line-1",
+      "lon": 80.28056031826033,
+      "platform_length_m": 55.5,
+      "s_m": 3499.4
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0755-0756-s007004",
+      "lat": 6.016635561314472,
+      "line": "line-1",
+      "lon": 80.25797660892108,
+      "platform_length_m": 59.5,
+      "s_m": 7004.2
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Uswathun Hasana Maha Vidyalaya",
+      "archetype": "standard",
+      "id": "line-1-0678-0663-s010011",
+      "lat": 6.030492956124248,
+      "line": "line-1",
+      "lon": 80.2411743291727,
+      "platform_length_m": 59.5,
+      "s_m": 10010.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0544-0553-s015012",
+      "junction_group": 0,
+      "lat": 6.054608422416585,
+      "line": "line-1",
+      "lon": 80.22130066495416,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 15012.3
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Piyadigama",
+      "archetype": "standard",
+      "id": "line-1-0547-0400-s019035",
+      "lat": 6.054068523917503,
+      "line": "line-1",
+      "lon": 80.19365820472294,
+      "platform_length_m": 59.5,
+      "s_m": 19035.4
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Boossa",
+      "archetype": "depot-terminal",
+      "id": "line-1-0437-0220-s024366",
+      "junction_group": 1,
+      "lat": 6.073864802217183,
+      "line": "line-1",
+      "lon": 80.16113766327443,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 24365.6
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "archetype": "terminal",
+      "id": "line-2-0346-0285-s000000",
+      "lat": 6.090241723356009,
+      "line": "line-2",
+      "lon": 80.17288119213083,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0443-0488-s006657",
+      "lat": 6.072785005219019,
+      "line": "line-2",
+      "lon": 80.20955713609776,
+      "platform_length_m": 59.5,
+      "s_m": 6657.1
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Richmond City",
+      "archetype": "interchange",
+      "id": "line-2-0537-0559-s009622",
+      "junction_group": 0,
+      "lat": 6.055868185581111,
+      "line": "line-2",
+      "lon": 80.22238468300245,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9622.2
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Richmond City",
+      "archetype": "interchange",
+      "id": "line-2-0540-0558-s009702",
+      "junction_group": 0,
+      "lat": 6.055328287082029,
+      "line": "line-2",
+      "lon": 80.22220401332773,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9702.2
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0566-0667-s012671",
+      "lat": 6.050649166756649,
+      "line": "line-2",
+      "lon": 80.24189700787154,
+      "platform_length_m": 59.5,
+      "s_m": 12671.3
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0648-0823-s018299",
+      "lat": 6.03589194111507,
+      "line": "line-2",
+      "lon": 80.27008147712692,
+      "platform_length_m": 55.5,
+      "s_m": 18299.2
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "terminal",
+      "id": "line-2-0784-1025-s023934",
+      "lat": 6.011416542490012,
+      "line": "line-2",
+      "lon": 80.30657675141913,
+      "platform_length_m": 59.5,
+      "s_m": 23934.2
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "archetype": "terminal",
+      "id": "line-3-0306-1057-s000000",
+      "lat": 6.097440370010438,
+      "line": "line-3",
+      "lon": 80.31235818100998,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0386-0954-s003500",
+      "lat": 6.08304307670158,
+      "line": "line-3",
+      "lon": 80.29374920451444,
+      "platform_length_m": 55.5,
+      "s_m": 3500.5
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0414-0802-s007002",
+      "lat": 6.078004024043479,
+      "line": "line-3",
+      "lon": 80.26628741395793,
+      "platform_length_m": 55.5,
+      "s_m": 7001.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0430-0663-s010281",
+      "junction_group": 2,
+      "lat": 6.075124565381708,
+      "line": "line-3",
+      "lon": 80.2411743291727,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 10280.6
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Ruhunu Hospital",
+      "archetype": "major",
+      "id": "line-3-0466-0604-s011931",
+      "lat": 6.068645783392721,
+      "line": "line-3",
+      "lon": 80.23051481836457,
+      "platform_length_m": 59.5,
+      "s_m": 11930.6
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Richmond City",
+      "archetype": "interchange",
+      "id": "line-3-0537-0559-s014308",
+      "junction_group": 0,
+      "lat": 6.055868185581111,
+      "line": "line-3",
+      "lon": 80.22238468300245,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 14307.6
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Richmond City",
+      "archetype": "interchange",
+      "id": "line-3-0540-0558-s014376",
+      "junction_group": 0,
+      "lat": 6.055328287082029,
+      "line": "line-3",
+      "lon": 80.22220401332773,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 14375.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0544-0553-s014509",
+      "junction_group": 0,
+      "lat": 6.054608422416585,
+      "line": "line-3",
+      "lon": 80.22130066495416,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 14509.1
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Mahamodara",
+      "archetype": "terminal",
+      "id": "line-3-0621-0427-s018642",
+      "lat": 6.0407510276068095,
+      "line": "line-3",
+      "lon": 80.19853628594021,
+      "platform_length_m": 59.5,
+      "s_m": 18641.5
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "sin dinero",
+      "archetype": "terminal",
+      "id": "line-4-0430-0663-s000000",
+      "junction_group": 2,
+      "lat": 6.075124565381708,
+      "line": "line-4",
+      "lon": 80.2411743291727,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0280-0695-s006172",
+      "lat": 6.1021194903358165,
+      "line": "line-4",
+      "lon": 80.24695575876353,
+      "platform_length_m": 59.5,
+      "s_m": 6171.9
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Boossa",
+      "archetype": "terminal",
+      "id": "line-5-0437-0220-s000000",
+      "junction_group": 1,
+      "lat": 6.073864802217183,
+      "line": "line-5",
+      "lon": 80.16113766327443,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0311-0129-s004370",
+      "lat": 6.096540539178634,
+      "line": "line-5",
+      "lon": 80.14469672287545,
+      "platform_length_m": 59.5,
+      "s_m": 4370.4
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

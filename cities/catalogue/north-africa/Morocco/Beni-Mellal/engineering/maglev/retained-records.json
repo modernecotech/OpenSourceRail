@@ -1,0 +1,595 @@
+{
+  "city": {
+    "bbox": {
+      "east": -6.2698,
+      "north": 32.4049,
+      "south": 32.2697,
+      "west": -6.4298
+    },
+    "centroid_lat": 32.337682636864265,
+    "centroid_lon": -6.350166423088708,
+    "country": "MA",
+    "population": 300000,
+    "slug": "beni-mellal"
+  },
+  "climate": {
+    "preset": "mediterranean"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/north-africa/Morocco/Beni-Mellal/corridors.json",
+    "cities/catalogue/north-africa/Morocco/Beni-Mellal/beni-mellal.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/north-africa/Morocco/Beni-Mellal/beni-mellal.corridor.geojson",
+      "geometry_sha256": "ffc3fd9543ce62b5dffa2260baee75e1da3468a9c24f259e7bb75005ce9ef768",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "beni-mellal"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 32.34362152035417,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": -6.34846530529087,
+      "platforms": [
+        "line-1-0340-0382-s004955",
+        "line-3-0340-0382-s001794"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 32.33588297520066,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": -6.369941917488575,
+      "platforms": [
+        "line-2-0383-0281-s000000",
+        "line-4-0383-0281-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 32.367377054313785,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": -6.341235554650058,
+      "platforms": [
+        "line-2-0208-0416-s004935",
+        "line-3-0208-0416-s004716"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 8527.7,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 9671.4,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 8825.0,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 5991.3,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0164-0517-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0466-0286-s008528"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0383-0281-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0027-0511-s009671"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 19
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0421-0361-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0045-0480-s008825"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0383-0281-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0532-0086-s005991"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 14
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "faculté polydisciplinaire Beni Mellal",
+      "demand": 0.3087667,
+      "id": "line-1-0164-0517-s000000",
+      "lat": 32.37529556563366,
+      "line": "line-1",
+      "lon": -6.319758942452353,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.49910396,
+      "id": "line-1-0340-0382-s004955",
+      "junction_group": 0,
+      "lat": 32.34362152035417,
+      "line": "line-1",
+      "lon": -6.34846530529087,
+      "s_m": 4954.7012947259
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Pharmacie Achorouk صيدلية الشروق",
+      "demand": 0.43105376,
+      "id": "line-1-0466-0286-s008528",
+      "lat": 32.32094578339272,
+      "line": "line-1",
+      "lon": -6.368878718864926,
+      "s_m": 8527.737367038093
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Université Sultan Moulay Slimane",
+      "demand": 0.757224,
+      "id": "line-2-0383-0281-s000000",
+      "junction_group": 1,
+      "lat": 32.33588297520066,
+      "line": "line-2",
+      "lon": -6.369941917488575,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2664277,
+      "id": "line-2-0208-0416-s004935",
+      "junction_group": 2,
+      "lat": 32.367377054313785,
+      "line": "line-2",
+      "lon": -6.341235554650058,
+      "s_m": 4934.7012947259
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Aéroport Beni Mellal ⴰⵣⴰⴳⵯⵣ ⵏ ⴰⵢⵜ ⵎⵍⵍⴰⵍ مطار بني ملال",
+      "demand": 0.21209027,
+      "id": "line-2-0027-0511-s009671",
+      "lat": 32.39995093042508,
+      "line": "line-2",
+      "lon": -6.321034780800732,
+      "s_m": 9671.412690719531
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.595827,
+      "id": "line-3-0421-0361-s000000",
+      "lat": 32.32904426087895,
+      "line": "line-3",
+      "lon": -6.352930739510194,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.49910396,
+      "id": "line-3-0340-0382-s001794",
+      "junction_group": 0,
+      "lat": 32.34362152035417,
+      "line": "line-3",
+      "lon": -6.34846530529087,
+      "s_m": 1793.9696961967
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2664277,
+      "id": "line-3-0208-0416-s004716",
+      "junction_group": 2,
+      "lat": 32.367377054313785,
+      "line": "line-3",
+      "lon": -6.341235554650058,
+      "s_m": 4715.634918610412
+    },
+    {
+      "anchor_kind": "aeroway:terminal",
+      "anchor_name": "New terminal",
+      "demand": 0.22891328,
+      "id": "line-3-0045-0480-s008825",
+      "lat": 32.396711539430584,
+      "line": "line-3",
+      "lon": -6.327626612267354,
+      "s_m": 8824.995667241124
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Université Sultan Moulay Slimane",
+      "demand": 0.757224,
+      "id": "line-4-0383-0281-s000000",
+      "junction_group": 1,
+      "lat": 32.33588297520066,
+      "line": "line-4",
+      "lon": -6.369941917488575,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.24677211,
+      "id": "line-4-0465-0195-s003160",
+      "lat": 32.32112574955908,
+      "line": "line-4",
+      "lon": -6.388228933815333,
+      "s_m": 3159.6551211459428
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.15007593,
+      "id": "line-4-0532-0086-s005991",
+      "lat": 32.309068016412915,
+      "line": "line-4",
+      "lon": -6.411406663810877,
+      "s_m": 5991.26983722083
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "faculté polydisciplinaire Beni Mellal",
+      "archetype": "terminal",
+      "id": "line-1-0164-0517-s000000",
+      "lat": 32.37529556563366,
+      "line": "line-1",
+      "lon": -6.319758942452353,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0340-0382-s004955",
+      "junction_group": 0,
+      "lat": 32.34362152035417,
+      "line": "line-1",
+      "lon": -6.34846530529087,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4954.7
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Pharmacie Achorouk صيدلية الشروق",
+      "archetype": "terminal",
+      "id": "line-1-0466-0286-s008528",
+      "lat": 32.32094578339272,
+      "line": "line-1",
+      "lon": -6.368878718864926,
+      "platform_length_m": 49.0,
+      "s_m": 8527.7
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Université Sultan Moulay Slimane",
+      "archetype": "terminal",
+      "id": "line-2-0383-0281-s000000",
+      "junction_group": 1,
+      "lat": 32.33588297520066,
+      "line": "line-2",
+      "lon": -6.369941917488575,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0208-0416-s004935",
+      "junction_group": 2,
+      "lat": 32.367377054313785,
+      "line": "line-2",
+      "lon": -6.341235554650058,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4934.7
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Aéroport Beni Mellal ⴰⵣⴰⴳⵯⵣ ⵏ ⴰⵢⵜ ⵎⵍⵍⴰⵍ مطار بني ملال",
+      "archetype": "depot-terminal",
+      "id": "line-2-0027-0511-s009671",
+      "lat": 32.39995093042508,
+      "line": "line-2",
+      "lon": -6.321034780800732,
+      "platform_length_m": 49.0,
+      "s_m": 9671.4
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "terminal",
+      "id": "line-3-0421-0361-s000000",
+      "lat": 32.32904426087895,
+      "line": "line-3",
+      "lon": -6.352930739510194,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0340-0382-s001794",
+      "junction_group": 0,
+      "lat": 32.34362152035417,
+      "line": "line-3",
+      "lon": -6.34846530529087,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1794.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0208-0416-s004716",
+      "junction_group": 2,
+      "lat": 32.367377054313785,
+      "line": "line-3",
+      "lon": -6.341235554650058,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4715.6
+    },
+    {
+      "anchor_kind": "aeroway:terminal",
+      "anchor_name": "New terminal",
+      "archetype": "terminal",
+      "id": "line-3-0045-0480-s008825",
+      "lat": 32.396711539430584,
+      "line": "line-3",
+      "lon": -6.327626612267354,
+      "platform_length_m": 49.0,
+      "s_m": 8825.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Université Sultan Moulay Slimane",
+      "archetype": "terminal",
+      "id": "line-4-0383-0281-s000000",
+      "junction_group": 1,
+      "lat": 32.33588297520066,
+      "line": "line-4",
+      "lon": -6.369941917488575,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "halt",
+      "id": "line-4-0465-0195-s003160",
+      "lat": 32.32112574955908,
+      "line": "line-4",
+      "lon": -6.388228933815333,
+      "platform_length_m": 45.0,
+      "s_m": 3159.7
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0532-0086-s005991",
+      "lat": 32.309068016412915,
+      "line": "line-4",
+      "lon": -6.411406663810877,
+      "platform_length_m": 49.0,
+      "s_m": 5991.3
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

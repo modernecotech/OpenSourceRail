@@ -1,0 +1,757 @@
+{
+  "city": {
+    "bbox": {
+      "east": 35.0738,
+      "north": 1.0833,
+      "south": 0.9481,
+      "west": 34.9386
+    },
+    "centroid_lat": 1.0155427383651872,
+    "centroid_lon": 35.00571439009561,
+    "country": "KE",
+    "population": 300000,
+    "slug": "kitale"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Kenya/Kitale/corridors.json",
+    "cities/catalogue/east-africa/Kenya/Kitale/kitale.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Kenya/Kitale/kitale.corridor.geojson",
+      "geometry_sha256": "763f69cad6cc42142107ef97b74611575669d5dfd023a2e4ac90b01010786ffd",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "kitale"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 1.0151228173103455,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 35.00592402897588,
+      "platforms": [
+        "line-1-0376-0372-s003076",
+        "line-1-0383-0371-s003240",
+        "line-2-0376-0379-s007940",
+        "line-2-0383-0371-s007710",
+        "line-3-0376-0373-s004312",
+        "line-3-0376-0379-s004148"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 0.9883678472447178,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 35.01871200067192,
+      "platforms": [
+        "line-1-0526-0447-s006954",
+        "line-3-0526-0447-s000137",
+        "line-3-0529-0442-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 0.9903474750746859,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 34.977502986494514,
+      "platforms": [
+        "line-2-0516-0216-s003145",
+        "line-4-0516-0216-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 14612.7,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 13430.7,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 11353.8,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 7077.5,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0406-0246-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0729-0702-s014613"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 31
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0608-0115-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0216-0565-s013431"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 27
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0529-0442-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0068-0325-s011354"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 25
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0516-0216-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0287-0262-s007078"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 16
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "shop:mall",
+      "anchor_name": "Kipsongo Centre",
+      "demand": 0.3507996,
+      "id": "line-1-0406-0246-s000000",
+      "lat": 1.0101437533743656,
+      "line": "line-1",
+      "lon": 34.98289370055842,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Garden hospital",
+      "demand": 0.9364037,
+      "id": "line-1-0376-0372-s003076",
+      "junction_group": 0,
+      "lat": 1.0155427383651872,
+      "line": "line-1",
+      "lon": 35.00553469962682,
+      "s_m": 3075.634918610409
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Garden hospital",
+      "demand": 0.90209466,
+      "id": "line-1-0383-0371-s003240",
+      "junction_group": 0,
+      "lat": 1.0142829752006621,
+      "line": "line-1",
+      "lon": 35.00535500915802,
+      "s_m": 3240.4877323527953
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Jomo Kenyatta University(Robinson's)",
+      "demand": 0.32858405,
+      "id": "line-1-0526-0447-s006954",
+      "junction_group": 1,
+      "lat": 0.9885478134110787,
+      "line": "line-1",
+      "lon": 35.01901148478658,
+      "s_m": 6954.356415871849
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.16111061,
+      "id": "line-1-0587-0599-s010774",
+      "lat": 0.9775698772630744,
+      "line": "line-1",
+      "lon": 35.0463244360437,
+      "s_m": 10774.01153701778
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Maili Saba, Mois' Bridge",
+      "demand": 0.087207705,
+      "id": "line-1-0729-0702-s014613",
+      "lat": 0.9520146816398516,
+      "line": "line-1",
+      "lon": 35.06483255432977,
+      "s_m": 14612.733034279134
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Kitale Airport",
+      "demand": 0.2027323,
+      "id": "line-2-0608-0115-s000000",
+      "lat": 0.9737905877694992,
+      "line": "line-2",
+      "lon": 34.95935424914603,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22871429,
+      "id": "line-2-0516-0216-s003145",
+      "junction_group": 2,
+      "lat": 0.9903474750746859,
+      "line": "line-2",
+      "lon": 34.977502986494514,
+      "s_m": 3145.3405460951817
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Garden hospital",
+      "demand": 0.90209466,
+      "id": "line-2-0383-0371-s007710",
+      "junction_group": 0,
+      "lat": 1.0142829752006621,
+      "line": "line-2",
+      "lon": 35.00535500915802,
+      "s_m": 7710.336213336319
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8854544,
+      "id": "line-2-0376-0379-s007940",
+      "junction_group": 0,
+      "lat": 1.0155427383651872,
+      "line": "line-2",
+      "lon": 35.0067925329084,
+      "s_m": 7940.041840821092
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kambi ya chura centre",
+      "demand": 0.25398576,
+      "id": "line-2-0216-0565-s013431",
+      "lat": 1.044337324982903,
+      "line": "line-2",
+      "lon": 35.040214960104606,
+      "s_m": 13430.722933011366
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Jomo Kenyatta University(Robinson's)",
+      "demand": 0.3318923,
+      "id": "line-3-0529-0442-s000000",
+      "junction_group": 1,
+      "lat": 0.9880079149119965,
+      "line": "line-3",
+      "lon": 35.01811303244259,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Jomo Kenyatta University(Robinson's)",
+      "demand": 0.32858405,
+      "id": "line-3-0526-0447-s000137",
+      "junction_group": 1,
+      "lat": 0.9885478134110787,
+      "line": "line-3",
+      "lon": 35.01901148478658,
+      "s_m": 136.5685424949238
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8854544,
+      "id": "line-3-0376-0379-s004148",
+      "junction_group": 0,
+      "lat": 1.0155427383651872,
+      "line": "line-3",
+      "lon": 35.0067925329084,
+      "s_m": 4147.594513539347
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.930607,
+      "id": "line-3-0376-0373-s004312",
+      "junction_group": 0,
+      "lat": 1.0155427383651872,
+      "line": "line-3",
+      "lon": 35.00571439009561,
+      "s_m": 4312.447327281733
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.28658867,
+      "id": "line-3-0231-0325-s007841",
+      "lat": 1.0416378324874922,
+      "line": "line-3",
+      "lon": 34.997089247593365,
+      "s_m": 7841.219330881999
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Namanjalala Market",
+      "demand": 0.20767479,
+      "id": "line-3-0068-0325-s011354",
+      "lat": 1.0709723176042902,
+      "line": "line-3",
+      "lon": 34.997089247593365,
+      "s_m": 11353.76767084138
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22871429,
+      "id": "line-4-0516-0216-s000000",
+      "junction_group": 2,
+      "lat": 0.9903474750746859,
+      "line": "line-4",
+      "lon": 34.977502986494514,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.22450678,
+      "id": "line-4-0486-0187-s001226",
+      "lat": 0.9957464600655076,
+      "line": "line-4",
+      "lon": 34.972291962899405,
+      "s_m": 1225.685424949238
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.33173677,
+      "id": "line-4-0287-0262-s007078",
+      "lat": 1.0315597271712917,
+      "line": "line-4",
+      "lon": 34.985768748059165,
+      "s_m": 7077.544007200522
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "shop:mall",
+      "anchor_name": "Kipsongo Centre",
+      "archetype": "terminal",
+      "id": "line-1-0406-0246-s000000",
+      "lat": 1.0101437533743656,
+      "line": "line-1",
+      "lon": 34.98289370055842,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Garden hospital",
+      "archetype": "interchange",
+      "id": "line-1-0376-0372-s003076",
+      "junction_group": 0,
+      "lat": 1.0155427383651872,
+      "line": "line-1",
+      "lon": 35.00553469962682,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3075.6
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Garden hospital",
+      "archetype": "interchange",
+      "id": "line-1-0383-0371-s003240",
+      "junction_group": 0,
+      "lat": 1.0142829752006621,
+      "line": "line-1",
+      "lon": 35.00535500915802,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3240.5
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Jomo Kenyatta University(Robinson's)",
+      "archetype": "interchange",
+      "id": "line-1-0526-0447-s006954",
+      "junction_group": 1,
+      "lat": 0.9885478134110787,
+      "line": "line-1",
+      "lon": 35.01901148478658,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 6954.4
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0587-0599-s010774",
+      "lat": 0.9775698772630744,
+      "line": "line-1",
+      "lon": 35.0463244360437,
+      "platform_length_m": 45.0,
+      "s_m": 10774.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Maili Saba, Mois' Bridge",
+      "archetype": "depot-terminal",
+      "id": "line-1-0729-0702-s014613",
+      "lat": 0.9520146816398516,
+      "line": "line-1",
+      "lon": 35.06483255432977,
+      "platform_length_m": 49.0,
+      "s_m": 14612.7
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Kitale Airport",
+      "archetype": "terminal",
+      "id": "line-2-0608-0115-s000000",
+      "lat": 0.9737905877694992,
+      "line": "line-2",
+      "lon": 34.95935424914603,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0516-0216-s003145",
+      "junction_group": 2,
+      "lat": 0.9903474750746859,
+      "line": "line-2",
+      "lon": 34.977502986494514,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3145.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Garden hospital",
+      "archetype": "interchange",
+      "id": "line-2-0383-0371-s007710",
+      "junction_group": 0,
+      "lat": 1.0142829752006621,
+      "line": "line-2",
+      "lon": 35.00535500915802,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7710.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0376-0379-s007940",
+      "junction_group": 0,
+      "lat": 1.0155427383651872,
+      "line": "line-2",
+      "lon": 35.0067925329084,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7940.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kambi ya chura centre",
+      "archetype": "terminal",
+      "id": "line-2-0216-0565-s013431",
+      "lat": 1.044337324982903,
+      "line": "line-2",
+      "lon": 35.040214960104606,
+      "platform_length_m": 49.0,
+      "s_m": 13430.7
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Jomo Kenyatta University(Robinson's)",
+      "archetype": "terminal",
+      "id": "line-3-0529-0442-s000000",
+      "junction_group": 1,
+      "lat": 0.9880079149119965,
+      "line": "line-3",
+      "lon": 35.01811303244259,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Jomo Kenyatta University(Robinson's)",
+      "archetype": "interchange",
+      "id": "line-3-0526-0447-s000137",
+      "junction_group": 1,
+      "lat": 0.9885478134110787,
+      "line": "line-3",
+      "lon": 35.01901148478658,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 136.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0376-0379-s004148",
+      "junction_group": 0,
+      "lat": 1.0155427383651872,
+      "line": "line-3",
+      "lon": 35.0067925329084,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4147.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0376-0373-s004312",
+      "junction_group": 0,
+      "lat": 1.0155427383651872,
+      "line": "line-3",
+      "lon": 35.00571439009561,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4312.4
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0231-0325-s007841",
+      "lat": 1.0416378324874922,
+      "line": "line-3",
+      "lon": 34.997089247593365,
+      "platform_length_m": 49.0,
+      "s_m": 7841.2
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Namanjalala Market",
+      "archetype": "terminal",
+      "id": "line-3-0068-0325-s011354",
+      "lat": 1.0709723176042902,
+      "line": "line-3",
+      "lon": 34.997089247593365,
+      "platform_length_m": 49.0,
+      "s_m": 11353.8
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0516-0216-s000000",
+      "junction_group": 2,
+      "lat": 0.9903474750746859,
+      "line": "line-4",
+      "lon": 34.977502986494514,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "halt",
+      "id": "line-4-0486-0187-s001226",
+      "lat": 0.9957464600655076,
+      "line": "line-4",
+      "lon": 34.972291962899405,
+      "platform_length_m": 45.0,
+      "s_m": 1225.7
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0287-0262-s007078",
+      "lat": 1.0315597271712917,
+      "line": "line-4",
+      "lon": 34.985768748059165,
+      "platform_length_m": 49.0,
+      "s_m": 7077.5
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

@@ -1,0 +1,715 @@
+{
+  "city": {
+    "bbox": {
+      "east": 40.1846,
+      "north": -3.1516,
+      "south": -3.2868,
+      "west": 40.0492
+    },
+    "centroid_lat": -3.217917532303927,
+    "centroid_lon": 40.10183426048649,
+    "country": "KE",
+    "population": 300000,
+    "slug": "malindi"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Kenya/Malindi/corridors.json",
+    "cities/catalogue/east-africa/Kenya/Malindi/malindi.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Kenya/Malindi/malindi.corridor.geojson",
+      "geometry_sha256": "f34bdb660513935b2c76bbbbc02c3db1b068a9cd3f1edbd72e674f3c3ad0540a",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "malindi"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -3.2132384119785486,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 40.11757955208502,
+      "platforms": [
+        "line-1-0335-0370-s006995",
+        "line-1-0349-0389-s007538",
+        "line-2-0335-0370-s003298",
+        "line-3-0349-0389-s006599"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -3.228265586869669,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 40.09886514835648,
+      "platforms": [
+        "line-2-0427-0275-s000000",
+        "line-4-0424-0276-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -3.2279956376201278,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 40.10597302284953,
+      "platforms": [
+        "line-2-0424-0315-s000825",
+        "line-4-0424-0315-s000903"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 9537.8,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 10363.2,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 7149.9,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5173.9,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0117-0168-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0412-0420-s009538"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 23
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0427-0275-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0021-0316-s010363"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 24
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0033-0391-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0360-0410-s007150"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 16
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0424-0276-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0588-0412-s005174"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 13
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Sabaki shell",
+      "demand": 0.33959112,
+      "id": "line-1-0117-0168-s000000",
+      "lat": -3.172746024547385,
+      "line": "line-1",
+      "lon": 40.079520932964016,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.41445196,
+      "id": "line-1-0237-0242-s003013",
+      "lat": -3.1943419645106723,
+      "line": "line-1",
+      "lon": 40.09283695100162,
+      "s_m": 3013.036072312184
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.58305836,
+      "id": "line-1-0320-0281-s005008",
+      "lat": -3.2092791563186123,
+      "line": "line-1",
+      "lon": 40.09985485239982,
+      "s_m": 5007.838379715745
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9145082,
+      "id": "line-1-0335-0370-s006995",
+      "junction_group": 0,
+      "lat": -3.211978648814023,
+      "line": "line-1",
+      "lon": 40.11587006328289,
+      "s_m": 6994.945160902298
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9452403,
+      "id": "line-1-0349-0389-s007538",
+      "junction_group": 0,
+      "lat": -3.2144981751430732,
+      "line": "line-1",
+      "lon": 40.11928904088714,
+      "s_m": 7537.787873376919
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Malindi Sub-County Hospital",
+      "demand": 0.6870922,
+      "id": "line-1-0412-0420-s009538",
+      "lat": -3.225836043623799,
+      "line": "line-1",
+      "lon": 40.12486737276776,
+      "s_m": 9537.78787337692
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Malindi Airport",
+      "demand": 0.66552496,
+      "id": "line-2-0427-0275-s000000",
+      "junction_group": 1,
+      "lat": -3.22853553611921,
+      "line": "line-2",
+      "lon": 40.098775175261636,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.65020996,
+      "id": "line-2-0424-0315-s000825",
+      "junction_group": 2,
+      "lat": -3.2279956376201278,
+      "line": "line-2",
+      "lon": 40.10597302284953,
+      "s_m": 824.8528137423857
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9145082,
+      "id": "line-2-0335-0370-s003298",
+      "junction_group": 0,
+      "lat": -3.211978648814023,
+      "line": "line-2",
+      "lon": 40.11587006328289,
+      "s_m": 3297.645019878174
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.42723408,
+      "id": "line-2-0246-0369-s005280",
+      "lat": -3.1959616600079186,
+      "line": "line-2",
+      "lon": 40.115690117093195,
+      "s_m": 5279.898987322341
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35569453,
+      "id": "line-2-0133-0340-s007830",
+      "lat": -3.175625483209157,
+      "line": "line-2",
+      "lon": 40.11047167759197,
+      "s_m": 7829.848480983515
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Maboromokoni Center",
+      "demand": 0.39758673,
+      "id": "line-2-0021-0316-s010363",
+      "lat": -3.155469272576756,
+      "line": "line-2",
+      "lon": 40.10615296903923,
+      "s_m": 10363.229432149736
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Moi Center",
+      "demand": 0.29632625,
+      "id": "line-3-0033-0391-s000000",
+      "lat": -3.1576288665730843,
+      "line": "line-3",
+      "lon": 40.11964893326654,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.39227214,
+      "id": "line-3-0183-0393-s003017",
+      "lat": -3.184623791527193,
+      "line": "line-3",
+      "lon": 40.12000882564593,
+      "s_m": 3016.5685424949243
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9452403,
+      "id": "line-3-0349-0389-s006599",
+      "junction_group": 0,
+      "lat": -3.2144981751430732,
+      "line": "line-3",
+      "lon": 40.11928904088714,
+      "s_m": 6598.822509939091
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Malindi Curio Market",
+      "demand": 0.8061404,
+      "id": "line-3-0360-0410-s007150",
+      "lat": -3.216477802973041,
+      "line": "line-3",
+      "lon": 40.12306791087079,
+      "s_m": 7149.9494936611745
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Malindi Airport",
+      "demand": 0.6683672,
+      "id": "line-4-0424-0276-s000000",
+      "junction_group": 1,
+      "lat": -3.2279956376201278,
+      "line": "line-4",
+      "lon": 40.09895512145133,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.65020996,
+      "id": "line-4-0424-0315-s000903",
+      "junction_group": 2,
+      "lat": -3.2279956376201278,
+      "line": "line-4",
+      "lon": 40.10597302284953,
+      "s_m": 902.842712474619
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.413566,
+      "id": "line-4-0588-0412-s005174",
+      "lat": -3.2575100889032864,
+      "line": "line-4",
+      "lon": 40.12342780325018,
+      "s_m": 5173.868683519047
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Sabaki shell",
+      "archetype": "terminal",
+      "id": "line-1-0117-0168-s000000",
+      "lat": -3.172746024547385,
+      "line": "line-1",
+      "lon": 40.079520932964016,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0237-0242-s003013",
+      "lat": -3.1943419645106723,
+      "line": "line-1",
+      "lon": 40.09283695100162,
+      "platform_length_m": 49.0,
+      "s_m": 3013.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0320-0281-s005008",
+      "lat": -3.2092791563186123,
+      "line": "line-1",
+      "lon": 40.09985485239982,
+      "platform_length_m": 49.0,
+      "s_m": 5007.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0335-0370-s006995",
+      "junction_group": 0,
+      "lat": -3.211978648814023,
+      "line": "line-1",
+      "lon": 40.11587006328289,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 6994.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0349-0389-s007538",
+      "junction_group": 0,
+      "lat": -3.2144981751430732,
+      "line": "line-1",
+      "lon": 40.11928904088714,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7537.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Malindi Sub-County Hospital",
+      "archetype": "terminal",
+      "id": "line-1-0412-0420-s009538",
+      "lat": -3.225836043623799,
+      "line": "line-1",
+      "lon": 40.12486737276776,
+      "platform_length_m": 49.0,
+      "s_m": 9537.8
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Malindi Airport",
+      "archetype": "terminal",
+      "id": "line-2-0427-0275-s000000",
+      "junction_group": 1,
+      "lat": -3.22853553611921,
+      "line": "line-2",
+      "lon": 40.098775175261636,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0424-0315-s000825",
+      "junction_group": 2,
+      "lat": -3.2279956376201278,
+      "line": "line-2",
+      "lon": 40.10597302284953,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 824.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0335-0370-s003298",
+      "junction_group": 0,
+      "lat": -3.211978648814023,
+      "line": "line-2",
+      "lon": 40.11587006328289,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3297.6
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0246-0369-s005280",
+      "lat": -3.1959616600079186,
+      "line": "line-2",
+      "lon": 40.115690117093195,
+      "platform_length_m": 49.0,
+      "s_m": 5279.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0133-0340-s007830",
+      "lat": -3.175625483209157,
+      "line": "line-2",
+      "lon": 40.11047167759197,
+      "platform_length_m": 49.0,
+      "s_m": 7829.8
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Maboromokoni Center",
+      "archetype": "depot-terminal",
+      "id": "line-2-0021-0316-s010363",
+      "lat": -3.155469272576756,
+      "line": "line-2",
+      "lon": 40.10615296903923,
+      "platform_length_m": 49.0,
+      "s_m": 10363.2
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Moi Center",
+      "archetype": "terminal",
+      "id": "line-3-0033-0391-s000000",
+      "lat": -3.1576288665730843,
+      "line": "line-3",
+      "lon": 40.11964893326654,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0183-0393-s003017",
+      "lat": -3.184623791527193,
+      "line": "line-3",
+      "lon": 40.12000882564593,
+      "platform_length_m": 49.0,
+      "s_m": 3016.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0349-0389-s006599",
+      "junction_group": 0,
+      "lat": -3.2144981751430732,
+      "line": "line-3",
+      "lon": 40.11928904088714,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 6598.8
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Malindi Curio Market",
+      "archetype": "terminal",
+      "id": "line-3-0360-0410-s007150",
+      "lat": -3.216477802973041,
+      "line": "line-3",
+      "lon": 40.12306791087079,
+      "platform_length_m": 49.0,
+      "s_m": 7149.9
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Malindi Airport",
+      "archetype": "terminal",
+      "id": "line-4-0424-0276-s000000",
+      "junction_group": 1,
+      "lat": -3.2279956376201278,
+      "line": "line-4",
+      "lon": 40.09895512145133,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0424-0315-s000903",
+      "junction_group": 2,
+      "lat": -3.2279956376201278,
+      "line": "line-4",
+      "lon": 40.10597302284953,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 902.8
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0588-0412-s005174",
+      "lat": -3.2575100889032864,
+      "line": "line-4",
+      "lon": 40.12342780325018,
+      "platform_length_m": 49.0,
+      "s_m": 5173.9
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

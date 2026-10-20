@@ -1,0 +1,888 @@
+{
+  "city": {
+    "bbox": {
+      "east": 37.331,
+      "north": -1.4501,
+      "south": -1.5853,
+      "west": 37.1958
+    },
+    "centroid_lat": -1.5128182089767124,
+    "centroid_lon": 37.26849887750589,
+    "country": "KE",
+    "population": 300000,
+    "slug": "machakos"
+  },
+  "climate": {
+    "preset": "tropical-arid"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Kenya/Machakos/corridors.json",
+    "cities/catalogue/east-africa/Kenya/Machakos/machakos.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Kenya/Machakos/machakos.corridor.geojson",
+      "geometry_sha256": "4a5f53d1cb0750adcd3cfd0cd7e4e8892a278e7d2f4ce1cef7bd55a1c5eaac09",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "machakos"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -1.5027401036605117,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": 37.26436519596662,
+      "platforms": [
+        "line-1-0292-0381-s006318",
+        "line-4-0292-0381-s000000"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -1.518667109383436,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 37.26448501282283,
+      "platforms": [
+        "line-1-0379-0380-s008199",
+        "line-1-0381-0383-s008276",
+        "line-1-0383-0387-s008372",
+        "line-1-0390-0395-s008642",
+        "line-2-0374-0370-s001800",
+        "line-2-0376-0375-s001672",
+        "line-2-0379-0380-s001547",
+        "line-2-0381-0383-s001459",
+        "line-2-0383-0387-s001362",
+        "line-2-0390-0395-s001133",
+        "line-3-0374-0370-s003978",
+        "line-3-0376-0375-s004146"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -1.5208566977408247,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 37.225304900841905,
+      "platforms": [
+        "line-2-0394-0165-s006066",
+        "line-3-0390-0161-s009095",
+        "line-3-0394-0165-s008982"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 11988.6,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 7506.8,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 9094.7,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5306.2,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0020-0297-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0528-0329-s011989"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 29
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0431-0420-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0413-0102-s007507"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 27
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0208-0369-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0390-0161-s009095"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0292-0381-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0263-0563-s005306"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 13
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Mutituni",
+      "demand": 0.37012774,
+      "id": "line-1-0020-0297-s000000",
+      "lat": -1.4537893064103948,
+      "line": "line-1",
+      "lon": 37.24926827208406,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.41045505,
+      "id": "line-1-0151-0337-s003018",
+      "lat": -1.4773648742036496,
+      "line": "line-1",
+      "lon": 37.25645728345671,
+      "s_m": 3017.645019878175
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5684623,
+      "id": "line-1-0292-0381-s006318",
+      "junction_group": 0,
+      "lat": -1.5027401036605117,
+      "line": "line-1",
+      "lon": 37.26436519596662,
+      "s_m": 6318.132752230978
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos Town",
+      "demand": 0.8537619,
+      "id": "line-1-0379-0380-s008199",
+      "junction_group": 1,
+      "lat": -1.5183971601338948,
+      "line": "line-1",
+      "lon": 37.26418547068231,
+      "s_m": 8198.965363437834
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8759092,
+      "id": "line-1-0381-0383-s008276",
+      "junction_group": 1,
+      "lat": -1.5187570924666163,
+      "line": "line-1",
+      "lon": 37.26472464653525,
+      "s_m": 8275.533905932756
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Kenyatta Stadium",
+      "demand": 0.8994939,
+      "id": "line-1-0383-0387-s008372",
+      "junction_group": 1,
+      "lat": -1.5191170247993377,
+      "line": "line-1",
+      "lon": 37.26544354767252,
+      "s_m": 8372.102448427679
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos",
+      "demand": 0.9498648,
+      "id": "line-1-0390-0395-s008642",
+      "junction_group": 1,
+      "lat": -1.5203767879638628,
+      "line": "line-1",
+      "lon": 37.26688134994705,
+      "s_m": 8641.808075912446
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Katoloni",
+      "demand": 0.45692715,
+      "id": "line-1-0528-0329-s011989",
+      "lat": -1.5452121189216426,
+      "line": "line-1",
+      "lon": 37.25501948118218,
+      "s_m": 11988.569978244886
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Five Fields",
+      "demand": 0.8342091,
+      "id": "line-2-0431-0420-s000000",
+      "lat": -1.5277554007846523,
+      "line": "line-2",
+      "lon": 37.27137448205495,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos",
+      "demand": 0.9498648,
+      "id": "line-2-0390-0395-s001133",
+      "junction_group": 1,
+      "lat": -1.5203767879638628,
+      "line": "line-2",
+      "lon": 37.26688134994705,
+      "s_m": 1132.5483399593904
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Kenyatta Stadium",
+      "demand": 0.8994939,
+      "id": "line-2-0383-0387-s001362",
+      "junction_group": 1,
+      "lat": -1.5191170247993377,
+      "line": "line-2",
+      "lon": 37.26544354767252,
+      "s_m": 1362.2539674441618
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8759092,
+      "id": "line-2-0381-0383-s001459",
+      "junction_group": 1,
+      "lat": -1.5187570924666163,
+      "line": "line-2",
+      "lon": 37.26472464653525,
+      "s_m": 1458.8225099390856
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos Town",
+      "demand": 0.8537619,
+      "id": "line-2-0379-0380-s001547",
+      "junction_group": 1,
+      "lat": -1.5183971601338948,
+      "line": "line-2",
+      "lon": 37.26418547068231,
+      "s_m": 1547.1067811865476
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos Town",
+      "demand": 0.81611776,
+      "id": "line-2-0376-0375-s001672",
+      "junction_group": 1,
+      "lat": -1.5178572616348127,
+      "line": "line-2",
+      "lon": 37.263286844260726,
+      "s_m": 1671.9595949289333
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos Town",
+      "demand": 0.77891594,
+      "id": "line-2-0374-0370-s001800",
+      "junction_group": 1,
+      "lat": -1.5174973293020912,
+      "line": "line-2",
+      "lon": 37.262388217839145,
+      "s_m": 1800.2438661763952
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kanaani Market",
+      "demand": 0.3743309,
+      "id": "line-2-0394-0165-s006066",
+      "junction_group": 2,
+      "lat": -1.5210966526293057,
+      "line": "line-2",
+      "lon": 37.225544534554324,
+      "s_m": 6065.929291125637
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kimangu Shopping Centre",
+      "demand": 0.315781,
+      "id": "line-2-0413-0102-s007507",
+      "lat": -1.5245160097901593,
+      "line": "line-2",
+      "lon": 37.214221841642406,
+      "s_m": 7506.761902332493
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Kwa Musyoka",
+      "demand": 0.534168,
+      "id": "line-3-0208-0369-s000000",
+      "lat": -1.487622945686211,
+      "line": "line-3",
+      "lon": 37.26220849255483,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos Town",
+      "demand": 0.77891594,
+      "id": "line-3-0374-0370-s003978",
+      "junction_group": 1,
+      "lat": -1.5174973293020912,
+      "line": "line-3",
+      "lon": 37.262388217839145,
+      "s_m": 3977.6450198781786
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos Town",
+      "demand": 0.81611776,
+      "id": "line-3-0376-0375-s004146",
+      "junction_group": 1,
+      "lat": -1.5178572616348127,
+      "line": "line-3",
+      "lon": 37.263286844260726,
+      "s_m": 4145.929291125641
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kanaani Market",
+      "demand": 0.3743309,
+      "id": "line-3-0394-0165-s008982",
+      "junction_group": 2,
+      "lat": -1.5210966526293057,
+      "line": "line-3",
+      "lon": 37.225544534554324,
+      "s_m": 8981.564209736041
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kanaani Market",
+      "demand": 0.37744755,
+      "id": "line-3-0390-0161-s009095",
+      "junction_group": 2,
+      "lat": -1.5203767879638628,
+      "line": "line-3",
+      "lon": 37.22482563341706,
+      "s_m": 9094.701294725886
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5684623,
+      "id": "line-4-0292-0381-s000000",
+      "junction_group": 0,
+      "lat": -1.5027401036605117,
+      "line": "line-4",
+      "lon": 37.26436519596662,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.43800744,
+      "id": "line-4-0275-0471-s003013",
+      "lat": -1.4996806788323795,
+      "line": "line-4",
+      "lon": 37.28054047155508,
+      "s_m": 3012.7922061357885
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3636187,
+      "id": "line-4-0263-0563-s005306",
+      "lat": -1.4975210848360507,
+      "line": "line-4",
+      "lon": 37.29707519771217,
+      "s_m": 5306.173157302039
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Mutituni",
+      "archetype": "terminal",
+      "id": "line-1-0020-0297-s000000",
+      "lat": -1.4537893064103948,
+      "line": "line-1",
+      "lon": 37.24926827208406,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0151-0337-s003018",
+      "lat": -1.4773648742036496,
+      "line": "line-1",
+      "lon": 37.25645728345671,
+      "platform_length_m": 49.0,
+      "s_m": 3017.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0292-0381-s006318",
+      "junction_group": 0,
+      "lat": -1.5027401036605117,
+      "line": "line-1",
+      "lon": 37.26436519596662,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 6318.1
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos Town",
+      "archetype": "interchange",
+      "id": "line-1-0379-0380-s008199",
+      "junction_group": 1,
+      "lat": -1.5183971601338948,
+      "line": "line-1",
+      "lon": 37.26418547068231,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8199.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0381-0383-s008276",
+      "junction_group": 1,
+      "lat": -1.5187570924666163,
+      "line": "line-1",
+      "lon": 37.26472464653525,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8275.5
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Kenyatta Stadium",
+      "archetype": "interchange",
+      "id": "line-1-0383-0387-s008372",
+      "junction_group": 1,
+      "lat": -1.5191170247993377,
+      "line": "line-1",
+      "lon": 37.26544354767252,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8372.1
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos",
+      "archetype": "interchange",
+      "id": "line-1-0390-0395-s008642",
+      "junction_group": 1,
+      "lat": -1.5203767879638628,
+      "line": "line-1",
+      "lon": 37.26688134994705,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8641.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Katoloni",
+      "archetype": "depot-terminal",
+      "id": "line-1-0528-0329-s011989",
+      "lat": -1.5452121189216426,
+      "line": "line-1",
+      "lon": 37.25501948118218,
+      "platform_length_m": 49.0,
+      "s_m": 11988.6
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Five Fields",
+      "archetype": "terminal",
+      "id": "line-2-0431-0420-s000000",
+      "lat": -1.5277554007846523,
+      "line": "line-2",
+      "lon": 37.27137448205495,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos",
+      "archetype": "interchange",
+      "id": "line-2-0390-0395-s001133",
+      "junction_group": 1,
+      "lat": -1.5203767879638628,
+      "line": "line-2",
+      "lon": 37.26688134994705,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1132.5
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Kenyatta Stadium",
+      "archetype": "interchange",
+      "id": "line-2-0383-0387-s001362",
+      "junction_group": 1,
+      "lat": -1.5191170247993377,
+      "line": "line-2",
+      "lon": 37.26544354767252,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1362.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0381-0383-s001459",
+      "junction_group": 1,
+      "lat": -1.5187570924666163,
+      "line": "line-2",
+      "lon": 37.26472464653525,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1458.8
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos Town",
+      "archetype": "interchange",
+      "id": "line-2-0379-0380-s001547",
+      "junction_group": 1,
+      "lat": -1.5183971601338948,
+      "line": "line-2",
+      "lon": 37.26418547068231,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1547.1
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos Town",
+      "archetype": "interchange",
+      "id": "line-2-0376-0375-s001672",
+      "junction_group": 1,
+      "lat": -1.5178572616348127,
+      "line": "line-2",
+      "lon": 37.263286844260726,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1672.0
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos Town",
+      "archetype": "interchange",
+      "id": "line-2-0374-0370-s001800",
+      "junction_group": 1,
+      "lat": -1.5174973293020912,
+      "line": "line-2",
+      "lon": 37.262388217839145,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1800.2
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kanaani Market",
+      "archetype": "interchange",
+      "id": "line-2-0394-0165-s006066",
+      "junction_group": 2,
+      "lat": -1.5210966526293057,
+      "line": "line-2",
+      "lon": 37.225544534554324,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 6065.9
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kimangu Shopping Centre",
+      "archetype": "terminal",
+      "id": "line-2-0413-0102-s007507",
+      "lat": -1.5245160097901593,
+      "line": "line-2",
+      "lon": 37.214221841642406,
+      "platform_length_m": 49.0,
+      "s_m": 7506.8
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Kwa Musyoka",
+      "archetype": "terminal",
+      "id": "line-3-0208-0369-s000000",
+      "lat": -1.487622945686211,
+      "line": "line-3",
+      "lon": 37.26220849255483,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos Town",
+      "archetype": "interchange",
+      "id": "line-3-0374-0370-s003978",
+      "junction_group": 1,
+      "lat": -1.5174973293020912,
+      "line": "line-3",
+      "lon": 37.262388217839145,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3977.6
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Machakos Town",
+      "archetype": "interchange",
+      "id": "line-3-0376-0375-s004146",
+      "junction_group": 1,
+      "lat": -1.5178572616348127,
+      "line": "line-3",
+      "lon": 37.263286844260726,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4145.9
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kanaani Market",
+      "archetype": "interchange",
+      "id": "line-3-0394-0165-s008982",
+      "junction_group": 2,
+      "lat": -1.5210966526293057,
+      "line": "line-3",
+      "lon": 37.225544534554324,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8981.6
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kanaani Market",
+      "archetype": "terminal",
+      "id": "line-3-0390-0161-s009095",
+      "junction_group": 2,
+      "lat": -1.5203767879638628,
+      "line": "line-3",
+      "lon": 37.22482563341706,
+      "platform_length_m": 49.0,
+      "s_m": 9094.7
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0292-0381-s000000",
+      "junction_group": 0,
+      "lat": -1.5027401036605117,
+      "line": "line-4",
+      "lon": 37.26436519596662,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-4-0275-0471-s003013",
+      "lat": -1.4996806788323795,
+      "line": "line-4",
+      "lon": 37.28054047155508,
+      "platform_length_m": 49.0,
+      "s_m": 3012.8
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0263-0563-s005306",
+      "lat": -1.4975210848360507,
+      "line": "line-4",
+      "lon": 37.29707519771217,
+      "platform_length_m": 49.0,
+      "s_m": 5306.2
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

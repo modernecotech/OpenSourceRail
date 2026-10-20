@@ -1,0 +1,221 @@
+{
+  "city": {
+    "bbox": {
+      "east": 15.1613,
+      "north": -7.5096,
+      "south": -7.7078,
+      "west": 14.9613
+    },
+    "centroid_lat": -7.607051679084332,
+    "centroid_lon": 15.058001213375096,
+    "country": "AO",
+    "population": 400000,
+    "slug": "uige"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/central-africa/Angola/Uige/corridors.json",
+    "cities/catalogue/central-africa/Angola/Uige/uige.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Angola/Uige/uige.corridor.geojson",
+      "geometry_sha256": "8bcbb78ac0ec384821a4ca42f54ef05ba5352c73fad9938aae480b7201ce89d9",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 400000,
+    "schema_version": 1,
+    "slug": "uige"
+  },
+  "retained_interchanges": [],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 12024.8,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0510-0252-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0674-0519-s012025"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 39
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Universidade Kimpa Vita",
+      "demand": 0.5778087,
+      "id": "line-1-0510-0252-s000000",
+      "lat": -7.60147272792715,
+      "line": "line-1",
+      "lon": 15.0070676783078,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.58841217,
+      "id": "line-1-0544-0356-s003018",
+      "lat": -7.607591577583414,
+      "line": "line-1",
+      "lon": 15.025918524026658,
+      "s_m": 3017.888886054574
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.62825435,
+      "id": "line-1-0484-0474-s006033",
+      "lat": -7.596793607601771,
+      "line": "line-1",
+      "lon": 15.047306983592282,
+      "s_m": 6032.935059634537
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7780467,
+      "id": "line-1-0542-0531-s007864",
+      "lat": -7.6072316452506925,
+      "line": "line-1",
+      "lon": 15.05763869711127,
+      "s_m": 7864.305909533022
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7277272,
+      "id": "line-1-0596-0542-s009943",
+      "lat": -7.616949818234172,
+      "line": "line-1",
+      "lon": 15.059632536562304,
+      "s_m": 9942.539674441632
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": null,
+      "demand": 0.7207977,
+      "id": "line-1-0674-0519-s012025",
+      "lat": -7.630987179210308,
+      "line": "line-1",
+      "lon": 15.055463599528327,
+      "s_m": 12024.793641885779
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Universidade Kimpa Vita",
+      "archetype": "terminal",
+      "id": "line-1-0510-0252-s000000",
+      "lat": -7.60147272792715,
+      "line": "line-1",
+      "lon": 15.0070676783078,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0544-0356-s003018",
+      "lat": -7.607591577583414,
+      "line": "line-1",
+      "lon": 15.025918524026658,
+      "platform_length_m": 59.5,
+      "s_m": 3017.9
+    },
+    {
+      "archetype": "major",
+      "id": "line-1-0484-0474-s006033",
+      "lat": -7.596793607601771,
+      "line": "line-1",
+      "lon": 15.047306983592282,
+      "platform_length_m": 59.5,
+      "s_m": 6032.9
+    },
+    {
+      "archetype": "major",
+      "id": "line-1-0542-0531-s007864",
+      "lat": -7.6072316452506925,
+      "line": "line-1",
+      "lon": 15.05763869711127,
+      "platform_length_m": 59.5,
+      "s_m": 7864.3
+    },
+    {
+      "archetype": "major",
+      "id": "line-1-0596-0542-s009943",
+      "lat": -7.616949818234172,
+      "line": "line-1",
+      "lon": 15.059632536562304,
+      "platform_length_m": 59.5,
+      "s_m": 9942.5
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "archetype": "depot-terminal",
+      "id": "line-1-0674-0519-s012025",
+      "lat": -7.630987179210308,
+      "line": "line-1",
+      "lon": 15.055463599528327,
+      "platform_length_m": 59.5,
+      "s_m": 12024.8
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

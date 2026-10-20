@@ -1,0 +1,878 @@
+{
+  "city": {
+    "bbox": {
+      "east": 36.1791,
+      "north": -0.204,
+      "south": -0.4022,
+      "west": 35.9809
+    },
+    "centroid_lat": -0.30163164525069286,
+    "centroid_lon": 36.07980544430184,
+    "country": "KE",
+    "population": 700000,
+    "slug": "nakuru"
+  },
+  "climate": {
+    "preset": "tropical-arid"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Kenya/Nakuru/corridors.json",
+    "cities/catalogue/east-africa/Kenya/Nakuru/nakuru.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Kenya/Nakuru/nakuru.corridor.geojson",
+      "geometry_sha256": "be7791655bccb5d25c570198c61387e1620f3345b337ad78ebd4af637683d0aa",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 700000,
+    "schema_version": 1,
+    "slug": "nakuru"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -0.28435489328006336,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 36.08627337526436,
+      "platforms": [
+        "line-1-0446-0586-s004437",
+        "line-2-0446-0586-s004478"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -0.29515286326170675,
+      "lines": [
+        "line-1",
+        "line-5"
+      ],
+      "lon": 36.11987068331967,
+      "platforms": [
+        "line-1-0506-0773-s008721",
+        "line-5-0506-0773-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -0.30001194975344636,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 36.07890712055705,
+      "platforms": [
+        "line-2-0533-0545-s007496",
+        "line-4-0533-0545-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -0.30604081632653063,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 36.08124276229351,
+      "platforms": [
+        "line-2-0556-0555-s008090",
+        "line-2-0577-0561-s008618",
+        "line-3-0556-0555-s009325",
+        "line-3-0577-0561-s009854"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 11455.8,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 22548.9,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 18467.8,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 5985.6,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 5795.5,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0383-0392-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0531-0881-s011456"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 36
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0381-0736-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-1065-0208-s022549"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 70
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0651-0932-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0564-0202-s018468"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 58
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0533-0545-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0559-0339-s005986"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0506-0773-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0289-0715-s005796"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Zawadi Food Market",
+      "demand": 0.35598266,
+      "id": "line-1-0383-0392-s000000",
+      "lat": -0.2730170247993377,
+      "line": "line-1",
+      "lon": 36.051418413966346,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.60570896,
+      "id": "line-1-0446-0586-s004437",
+      "junction_group": 0,
+      "lat": -0.28435489328006336,
+      "line": "line-1",
+      "lon": 36.08627337526436,
+      "s_m": 4437.056274847721
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3302443,
+      "id": "line-1-0506-0773-s008721",
+      "junction_group": 1,
+      "lat": -0.29515286326170675,
+      "line": "line-1",
+      "lon": 36.11987068331967,
+      "s_m": 8720.975464705594
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kiundu",
+      "demand": 0.3187508,
+      "id": "line-1-0531-0881-s011456",
+      "lat": -0.2996520174207249,
+      "line": "line-1",
+      "lon": 36.13927447620722,
+      "s_m": 11455.77777210912
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Mawanga",
+      "demand": 0.3334809,
+      "id": "line-2-0381-0736-s000000",
+      "lat": -0.2726570924666163,
+      "line": "line-2",
+      "lon": 36.11322308760819,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.60570896,
+      "id": "line-2-0446-0586-s004478",
+      "junction_group": 0,
+      "lat": -0.28435489328006336,
+      "line": "line-2",
+      "lon": 36.08627337526436,
+      "s_m": 4478.233764908632
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Flamingo",
+      "demand": 0.6974338,
+      "id": "line-2-0533-0545-s007496",
+      "junction_group": 2,
+      "lat": -0.30001194975344636,
+      "line": "line-2",
+      "lon": 36.07890712055705,
+      "s_m": 7495.634918610413
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5608531,
+      "id": "line-2-0556-0555-s008090",
+      "junction_group": 3,
+      "lat": -0.30415117157974303,
+      "line": "line-2",
+      "lon": 36.08070376804664,
+      "s_m": 8090.193359837572
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.45078832,
+      "id": "line-2-0577-0561-s008618",
+      "junction_group": 3,
+      "lat": -0.30793046107331823,
+      "line": "line-2",
+      "lon": 36.08178175654039,
+      "s_m": 8618.477631085034
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.29804415,
+      "id": "line-2-0716-0452-s012337",
+      "lat": -0.33294575819745886,
+      "line": "line-2",
+      "lon": 36.06219829890388,
+      "s_m": 12336.610383315923
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.20948078,
+      "id": "line-2-0848-0336-s016043",
+      "lat": -0.35670129215707447,
+      "line": "line-2",
+      "lon": 36.04135718802465,
+      "s_m": 16043.027406794274
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Pwani Shopping Center",
+      "demand": 0.13246688,
+      "id": "line-2-1065-0208-s022549",
+      "lat": -0.3957539502573516,
+      "line": "line-2",
+      "lon": 36.01836010015792,
+      "s_m": 22548.855685242357
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Barnabas Highway Market",
+      "demand": 0.29824597,
+      "id": "line-3-0651-0932-s000000",
+      "lat": -0.3212479573840118,
+      "line": "line-3",
+      "lon": 36.148437378404125,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.28296053,
+      "id": "line-3-0562-0826-s003513",
+      "lat": -0.3052309685779073,
+      "line": "line-3",
+      "lon": 36.129392915014485,
+      "s_m": 3513.3809511662457
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mwariki Shopping Cener",
+      "demand": 0.5608531,
+      "id": "line-3-0556-0555-s009325",
+      "junction_group": 3,
+      "lat": -0.30415117157974303,
+      "line": "line-3",
+      "lon": 36.08070376804664,
+      "s_m": 9325.34054609517
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.45078832,
+      "id": "line-3-0577-0561-s009854",
+      "junction_group": 3,
+      "lat": -0.30793046107331823,
+      "line": "line-3",
+      "lon": 36.08178175654039,
+      "s_m": 9853.624817342632
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Rhonda Modern Market",
+      "demand": 0.447499,
+      "id": "line-3-0607-0435-s013019",
+      "lat": -0.3133294460641399,
+      "line": "line-3",
+      "lon": 36.05914399817158,
+      "s_m": 13019.310242291856
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Ingobor Dispensary",
+      "demand": 0.28306106,
+      "id": "line-3-0564-0202-s018468",
+      "lat": -0.3055909009106288,
+      "line": "line-3",
+      "lon": 36.017282111664166,
+      "s_m": 18467.838379715715
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mwariki Shopping Cener",
+      "demand": 0.6974338,
+      "id": "line-4-0533-0545-s000000",
+      "junction_group": 2,
+      "lat": -0.30001194975344636,
+      "line": "line-4",
+      "lon": 36.07890712055705,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Soko Mjinga",
+      "demand": 0.50719863,
+      "id": "line-4-0506-0390-s003682",
+      "lat": -0.29515286326170675,
+      "line": "line-4",
+      "lon": 36.05105908446843,
+      "s_m": 3682.4978336205622
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.29953465,
+      "id": "line-4-0559-0339-s005986",
+      "lat": -0.3046910700788252,
+      "line": "line-4",
+      "lon": 36.04189618227153,
+      "s_m": 5985.584412271585
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Free Area",
+      "demand": 0.3302443,
+      "id": "line-5-0506-0773-s000000",
+      "junction_group": 1,
+      "lat": -0.29515286326170675,
+      "line": "line-5",
+      "lon": 36.11987068331967,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.24280338,
+      "id": "line-5-0289-0715-s005796",
+      "lat": -0.2561002051614296,
+      "line": "line-5",
+      "lon": 36.10945012788005,
+      "s_m": 5795.533905932758
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Zawadi Food Market",
+      "archetype": "terminal",
+      "id": "line-1-0383-0392-s000000",
+      "lat": -0.2730170247993377,
+      "line": "line-1",
+      "lon": 36.051418413966346,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0446-0586-s004437",
+      "junction_group": 0,
+      "lat": -0.28435489328006336,
+      "line": "line-1",
+      "lon": 36.08627337526436,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4437.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0506-0773-s008721",
+      "junction_group": 1,
+      "lat": -0.29515286326170675,
+      "line": "line-1",
+      "lon": 36.11987068331967,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8721.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kiundu",
+      "archetype": "terminal",
+      "id": "line-1-0531-0881-s011456",
+      "lat": -0.2996520174207249,
+      "line": "line-1",
+      "lon": 36.13927447620722,
+      "platform_length_m": 59.5,
+      "s_m": 11455.8
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Mawanga",
+      "archetype": "terminal",
+      "id": "line-2-0381-0736-s000000",
+      "lat": -0.2726570924666163,
+      "line": "line-2",
+      "lon": 36.11322308760819,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0446-0586-s004478",
+      "junction_group": 0,
+      "lat": -0.28435489328006336,
+      "line": "line-2",
+      "lon": 36.08627337526436,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4478.2
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Flamingo",
+      "archetype": "interchange",
+      "id": "line-2-0533-0545-s007496",
+      "junction_group": 2,
+      "lat": -0.30001194975344636,
+      "line": "line-2",
+      "lon": 36.07890712055705,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7495.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0556-0555-s008090",
+      "junction_group": 3,
+      "lat": -0.30415117157974303,
+      "line": "line-2",
+      "lon": 36.08070376804664,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8090.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0577-0561-s008618",
+      "junction_group": 3,
+      "lat": -0.30793046107331823,
+      "line": "line-2",
+      "lon": 36.08178175654039,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8618.5
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0716-0452-s012337",
+      "lat": -0.33294575819745886,
+      "line": "line-2",
+      "lon": 36.06219829890388,
+      "platform_length_m": 59.5,
+      "s_m": 12336.6
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0848-0336-s016043",
+      "lat": -0.35670129215707447,
+      "line": "line-2",
+      "lon": 36.04135718802465,
+      "platform_length_m": 55.5,
+      "s_m": 16043.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Pwani Shopping Center",
+      "archetype": "depot-terminal",
+      "id": "line-2-1065-0208-s022549",
+      "lat": -0.3957539502573516,
+      "line": "line-2",
+      "lon": 36.01836010015792,
+      "platform_length_m": 59.5,
+      "s_m": 22548.9
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Barnabas Highway Market",
+      "archetype": "terminal",
+      "id": "line-3-0651-0932-s000000",
+      "lat": -0.3212479573840118,
+      "line": "line-3",
+      "lon": 36.148437378404125,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0562-0826-s003513",
+      "lat": -0.3052309685779073,
+      "line": "line-3",
+      "lon": 36.129392915014485,
+      "platform_length_m": 59.5,
+      "s_m": 3513.4
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mwariki Shopping Cener",
+      "archetype": "interchange",
+      "id": "line-3-0556-0555-s009325",
+      "junction_group": 3,
+      "lat": -0.30415117157974303,
+      "line": "line-3",
+      "lon": 36.08070376804664,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9325.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0577-0561-s009854",
+      "junction_group": 3,
+      "lat": -0.30793046107331823,
+      "line": "line-3",
+      "lon": 36.08178175654039,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9853.6
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Rhonda Modern Market",
+      "archetype": "standard",
+      "id": "line-3-0607-0435-s013019",
+      "lat": -0.3133294460641399,
+      "line": "line-3",
+      "lon": 36.05914399817158,
+      "platform_length_m": 59.5,
+      "s_m": 13019.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Ingobor Dispensary",
+      "archetype": "terminal",
+      "id": "line-3-0564-0202-s018468",
+      "lat": -0.3055909009106288,
+      "line": "line-3",
+      "lon": 36.017282111664166,
+      "platform_length_m": 59.5,
+      "s_m": 18467.8
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mwariki Shopping Cener",
+      "archetype": "terminal",
+      "id": "line-4-0533-0545-s000000",
+      "junction_group": 2,
+      "lat": -0.30001194975344636,
+      "line": "line-4",
+      "lon": 36.07890712055705,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Soko Mjinga",
+      "archetype": "standard",
+      "id": "line-4-0506-0390-s003682",
+      "lat": -0.29515286326170675,
+      "line": "line-4",
+      "lon": 36.05105908446843,
+      "platform_length_m": 59.5,
+      "s_m": 3682.5
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0559-0339-s005986",
+      "lat": -0.3046910700788252,
+      "line": "line-4",
+      "lon": 36.04189618227153,
+      "platform_length_m": 59.5,
+      "s_m": 5985.6
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Free Area",
+      "archetype": "terminal",
+      "id": "line-5-0506-0773-s000000",
+      "junction_group": 1,
+      "lat": -0.29515286326170675,
+      "line": "line-5",
+      "lon": 36.11987068331967,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0289-0715-s005796",
+      "lat": -0.2561002051614296,
+      "line": "line-5",
+      "lon": 36.10945012788005,
+      "platform_length_m": 59.5,
+      "s_m": 5795.5
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

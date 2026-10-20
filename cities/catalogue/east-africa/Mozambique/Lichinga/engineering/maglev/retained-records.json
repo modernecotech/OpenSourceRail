@@ -1,0 +1,413 @@
+{
+  "city": {
+    "bbox": {
+      "east": 35.31,
+      "north": -13.2452,
+      "south": -13.3804,
+      "west": 35.1712
+    },
+    "centroid_lat": -13.306478479645827,
+    "centroid_lon": 35.24938806893132,
+    "country": "MZ",
+    "population": 250000,
+    "slug": "lichinga"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Mozambique/Lichinga/corridors.json",
+    "cities/catalogue/east-africa/Mozambique/Lichinga/lichinga.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Mozambique/Lichinga/lichinga.corridor.geojson",
+      "geometry_sha256": "ee59b4ba1070e6f488793ba56c299e5e34ad9ca0d83e3f43a45f8bebf686b7df",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 752,
+    "population": 250000,
+    "schema_version": 1,
+    "slug": "lichinga"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -13.299567778857575,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 35.25252666910093,
+      "platforms": [
+        "line-1-0300-0442-s003510",
+        "line-1-0301-0430-s003758",
+        "line-2-0300-0442-s005884",
+        "line-2-0301-0430-s005635",
+        "line-2-0306-0456-s006213"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -13.303778987150416,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 35.2462494687617,
+      "platforms": [
+        "line-1-0325-0406-s004705",
+        "line-2-0325-0406-s004881"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 8203.2,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 6213.3,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0159-0472-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0373-0475-s008203"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 19
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0227-0358-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0306-0456-s006213"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 17
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Aeroporto do Lichinga",
+      "demand": 0.69210774,
+      "id": "line-1-0159-0472-s000000",
+      "lat": -13.273904603534536,
+      "line": "line-1",
+      "lon": 35.258434622361385,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.87180257,
+      "id": "line-1-0300-0442-s003510",
+      "junction_group": 0,
+      "lat": -13.299279832991399,
+      "line": "line-1",
+      "lon": 35.25289591617971,
+      "s_m": 3510.193359837568
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.90640974,
+      "id": "line-1-0301-0430-s003758",
+      "junction_group": 0,
+      "lat": -13.29945979915776,
+      "line": "line-1",
+      "lon": 35.25068043370704,
+      "s_m": 3758.47763108503
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Estacaõ",
+      "demand": 0.9428027,
+      "id": "line-1-0325-0406-s004705",
+      "junction_group": 1,
+      "lat": -13.303778987150416,
+      "line": "line-1",
+      "lon": 35.2462494687617,
+      "s_m": 4704.751801064727
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Chiuaula",
+      "demand": 0.8159018,
+      "id": "line-1-0373-0475-s008203",
+      "lat": -13.312417363135731,
+      "line": "line-1",
+      "lon": 35.258988492979555,
+      "s_m": 8203.229432149765
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Sanjala market",
+      "demand": 0.70436484,
+      "id": "line-2-0227-0358-s000000",
+      "lat": -13.286142302847065,
+      "line": "line-2",
+      "lon": 35.23738753887102,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Estacaõ",
+      "demand": 0.9428027,
+      "id": "line-2-0325-0406-s004881",
+      "junction_group": 1,
+      "lat": -13.303778987150416,
+      "line": "line-2",
+      "lon": 35.2462494687617,
+      "s_m": 4881.320343559653
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.90640974,
+      "id": "line-2-0301-0430-s005635",
+      "junction_group": 0,
+      "lat": -13.29945979915776,
+      "line": "line-2",
+      "lon": 35.25068043370704,
+      "s_m": 5635.290039756358
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.87180257,
+      "id": "line-2-0300-0442-s005884",
+      "junction_group": 0,
+      "lat": -13.299279832991399,
+      "line": "line-2",
+      "lon": 35.25289591617971,
+      "s_m": 5883.57431100382
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": null,
+      "demand": 0.8386917,
+      "id": "line-2-0306-0456-s006213",
+      "junction_group": 0,
+      "lat": -13.300359629989563,
+      "line": "line-2",
+      "lon": 35.25548064573116,
+      "s_m": 6213.279938488593
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Aeroporto do Lichinga",
+      "archetype": "terminal",
+      "id": "line-1-0159-0472-s000000",
+      "lat": -13.273904603534536,
+      "line": "line-1",
+      "lon": 35.258434622361385,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0300-0442-s003510",
+      "junction_group": 0,
+      "lat": -13.299279832991399,
+      "line": "line-1",
+      "lon": 35.25289591617971,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3510.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0301-0430-s003758",
+      "junction_group": 0,
+      "lat": -13.29945979915776,
+      "line": "line-1",
+      "lon": 35.25068043370704,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3758.5
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Estacaõ",
+      "archetype": "interchange",
+      "id": "line-1-0325-0406-s004705",
+      "junction_group": 1,
+      "lat": -13.303778987150416,
+      "line": "line-1",
+      "lon": 35.2462494687617,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4704.8
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Chiuaula",
+      "archetype": "depot-terminal",
+      "id": "line-1-0373-0475-s008203",
+      "lat": -13.312417363135731,
+      "line": "line-1",
+      "lon": 35.258988492979555,
+      "platform_length_m": 49.0,
+      "s_m": 8203.2
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Sanjala market",
+      "archetype": "terminal",
+      "id": "line-2-0227-0358-s000000",
+      "lat": -13.286142302847065,
+      "line": "line-2",
+      "lon": 35.23738753887102,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Estacaõ",
+      "archetype": "interchange",
+      "id": "line-2-0325-0406-s004881",
+      "junction_group": 1,
+      "lat": -13.303778987150416,
+      "line": "line-2",
+      "lon": 35.2462494687617,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4881.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0301-0430-s005635",
+      "junction_group": 0,
+      "lat": -13.29945979915776,
+      "line": "line-2",
+      "lon": 35.25068043370704,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 5635.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0300-0442-s005884",
+      "junction_group": 0,
+      "lat": -13.299279832991399,
+      "line": "line-2",
+      "lon": 35.25289591617971,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 5883.6
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "archetype": "terminal",
+      "id": "line-2-0306-0456-s006213",
+      "junction_group": 0,
+      "lat": -13.300359629989563,
+      "line": "line-2",
+      "lon": 35.25548064573116,
+      "platform_length_m": 49.0,
+      "s_m": 6213.3
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

@@ -1,0 +1,602 @@
+{
+  "city": {
+    "bbox": {
+      "east": 36.5028,
+      "north": 15.5501,
+      "south": 15.3519,
+      "west": 36.2972
+    },
+    "centroid_lat": 15.450668693085701,
+    "centroid_lon": 36.399253422524154,
+    "country": "SD",
+    "population": 500000,
+    "slug": "kassala"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/north-africa/Sudan/Kassala/corridors.json",
+    "cities/catalogue/north-africa/Sudan/Kassala/kassala.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/north-africa/Sudan/Kassala/kassala.corridor.geojson",
+      "geometry_sha256": "c3948f72597b7d3c1c94144ab9ad2f852c3789c73fe97a4750f9bfd964c7110a",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 500000,
+    "schema_version": 1,
+    "slug": "kassala"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 15.452288388582947,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 36.38229111850644,
+      "platforms": [
+        "line-1-0543-0456-s003267",
+        "line-2-0543-0456-s003609"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 15.449168975032693,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 36.413916806217124,
+      "platforms": [
+        "line-2-0560-0624-s000108",
+        "line-2-0561-0629-s000000",
+        "line-4-0560-0624-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 15.451868467528106,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 36.40037181619565,
+      "platforms": [
+        "line-2-0552-0547-s001715",
+        "line-3-0533-0566-s000000",
+        "line-3-0551-0546-s000608"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 8852.6,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5652.0,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 6308.1,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 5189.0,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0422-0537-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0752-0316-s008853"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 27
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0561-0629-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0533-0358-s005652"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 21
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0533-0566-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0718-0353-s006308"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0560-0624-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0339-0562-s005189"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Kassala University - College of Education",
+      "demand": 0.48151362,
+      "id": "line-1-0422-0537-s000000",
+      "lat": 15.474064294712594,
+      "line": "line-1",
+      "lon": 36.39738943307166,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5064249,
+      "id": "line-1-0543-0456-s003267",
+      "junction_group": 0,
+      "lat": 15.452288388582947,
+      "line": "line-1",
+      "lon": 36.38229111850644,
+      "s_m": 3266.7619023324905
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "حي الروضه",
+      "demand": 0.31199786,
+      "id": "line-1-0752-0316-s008853",
+      "lat": 15.414675459813555,
+      "line": "line-1",
+      "lon": 36.3561952661715,
+      "s_m": 8852.590180780473
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Live Stock Market",
+      "demand": 0.41461924,
+      "id": "line-2-0561-0629-s000000",
+      "junction_group": 1,
+      "lat": 15.449048997588454,
+      "line": "line-2",
+      "lon": 36.41453813603462,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Live Stock Market",
+      "demand": 0.41893423,
+      "id": "line-2-0560-0624-s000108",
+      "junction_group": 1,
+      "lat": 15.449228963754814,
+      "line": "line-2",
+      "lon": 36.41360614130837,
+      "s_m": 108.2842712474619
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7947134,
+      "id": "line-2-0552-0547-s001715",
+      "junction_group": 2,
+      "lat": 15.450668693085701,
+      "line": "line-2",
+      "lon": 36.399253422524154,
+      "s_m": 1714.5584412271571
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5064249,
+      "id": "line-2-0543-0456-s003609",
+      "junction_group": 0,
+      "lat": 15.452288388582947,
+      "line": "line-2",
+      "lon": 36.38229111850644,
+      "s_m": 3609.1168824543156
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفي الكويتي للاطفال",
+      "demand": 0.37708446,
+      "id": "line-2-0533-0358-s005652",
+      "lat": 15.454088050246554,
+      "line": "line-2",
+      "lon": 36.36402402187198,
+      "s_m": 5651.959594928937
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "استاد كسلا",
+      "demand": 0.7056062,
+      "id": "line-3-0533-0566-s000000",
+      "junction_group": 2,
+      "lat": 15.454088050246554,
+      "line": "line-3",
+      "lon": 36.40279500248389,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8110597,
+      "id": "line-3-0551-0546-s000608",
+      "junction_group": 2,
+      "lat": 15.450848659252062,
+      "line": "line-3",
+      "lon": 36.3990670235789,
+      "s_m": 607.6955262170047
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Souq ash-sha'abi",
+      "demand": 0.38157484,
+      "id": "line-3-0718-0353-s006308",
+      "lat": 15.42079430946982,
+      "line": "line-3",
+      "lon": 36.36309202714573,
+      "s_m": 6308.082245892149
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Live Stock Market",
+      "demand": 0.41893423,
+      "id": "line-4-0560-0624-s000000",
+      "junction_group": 1,
+      "lat": 15.449228963754814,
+      "line": "line-4",
+      "lon": 36.41360614130837,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2821769,
+      "id": "line-4-0339-0562-s005189",
+      "lat": 15.489001486520534,
+      "line": "line-4",
+      "lon": 36.40204940670289,
+      "s_m": 5189.015869776664
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Kassala University - College of Education",
+      "archetype": "terminal",
+      "id": "line-1-0422-0537-s000000",
+      "lat": 15.474064294712594,
+      "line": "line-1",
+      "lon": 36.39738943307166,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0543-0456-s003267",
+      "junction_group": 0,
+      "lat": 15.452288388582947,
+      "line": "line-1",
+      "lon": 36.38229111850644,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3266.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "حي الروضه",
+      "archetype": "depot-terminal",
+      "id": "line-1-0752-0316-s008853",
+      "lat": 15.414675459813555,
+      "line": "line-1",
+      "lon": 36.3561952661715,
+      "platform_length_m": 59.5,
+      "s_m": 8852.6
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Live Stock Market",
+      "archetype": "terminal",
+      "id": "line-2-0561-0629-s000000",
+      "junction_group": 1,
+      "lat": 15.449048997588454,
+      "line": "line-2",
+      "lon": 36.41453813603462,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Live Stock Market",
+      "archetype": "interchange",
+      "id": "line-2-0560-0624-s000108",
+      "junction_group": 1,
+      "lat": 15.449228963754814,
+      "line": "line-2",
+      "lon": 36.41360614130837,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 108.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0552-0547-s001715",
+      "junction_group": 2,
+      "lat": 15.450668693085701,
+      "line": "line-2",
+      "lon": 36.399253422524154,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1714.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0543-0456-s003609",
+      "junction_group": 0,
+      "lat": 15.452288388582947,
+      "line": "line-2",
+      "lon": 36.38229111850644,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3609.1
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفي الكويتي للاطفال",
+      "archetype": "terminal",
+      "id": "line-2-0533-0358-s005652",
+      "lat": 15.454088050246554,
+      "line": "line-2",
+      "lon": 36.36402402187198,
+      "platform_length_m": 59.5,
+      "s_m": 5652.0
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "استاد كسلا",
+      "archetype": "terminal",
+      "id": "line-3-0533-0566-s000000",
+      "junction_group": 2,
+      "lat": 15.454088050246554,
+      "line": "line-3",
+      "lon": 36.40279500248389,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0551-0546-s000608",
+      "junction_group": 2,
+      "lat": 15.450848659252062,
+      "line": "line-3",
+      "lon": 36.3990670235789,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 607.7
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Souq ash-sha'abi",
+      "archetype": "terminal",
+      "id": "line-3-0718-0353-s006308",
+      "lat": 15.42079430946982,
+      "line": "line-3",
+      "lon": 36.36309202714573,
+      "platform_length_m": 59.5,
+      "s_m": 6308.1
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Live Stock Market",
+      "archetype": "terminal",
+      "id": "line-4-0560-0624-s000000",
+      "junction_group": 1,
+      "lat": 15.449228963754814,
+      "line": "line-4",
+      "lon": 36.41360614130837,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0339-0562-s005189",
+      "lat": 15.489001486520534,
+      "line": "line-4",
+      "lon": 36.40204940670289,
+      "platform_length_m": 59.5,
+      "s_m": 5189.0
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

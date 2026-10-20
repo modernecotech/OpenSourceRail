@@ -1,0 +1,756 @@
+{
+  "city": {
+    "bbox": {
+      "east": 36.85,
+      "north": 34.84,
+      "south": 34.62,
+      "west": 36.6
+    },
+    "centroid_lat": 34.72941079077134,
+    "centroid_lon": 36.72362293167476,
+    "country": "SY",
+    "population": 775000,
+    "slug": "homs"
+  },
+  "climate": {
+    "preset": "mediterranean"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-asia/Syria/Homs/corridors.json",
+    "cities/catalogue/west-asia/Syria/Homs/homs.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-asia/Syria/Homs/homs.corridor.geojson",
+      "geometry_sha256": "50b559ec5a2ec114a36b01543e8d25959694ae0c90af0cafcde6df0c48f77413",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1223,
+    "grid_width": 1144,
+    "population": 775000,
+    "schema_version": 1,
+    "slug": "homs"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 34.723471907281436,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-4"
+      ],
+      "lon": 36.72034380881867,
+      "platforms": [
+        "line-1-0647-0540-s005380",
+        "line-1-0660-0561-s005919",
+        "line-2-0634-0549-s006922",
+        "line-2-0647-0540-s006489",
+        "line-4-0634-0549-s001895",
+        "line-4-0660-0561-s002514"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 34.72950077385452,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 36.723732235769965,
+      "platforms": [
+        "line-2-0614-0566-s007486",
+        "line-3-0613-0565-s009701"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 34.739488896087536,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 36.718157726914605,
+      "platforms": [
+        "line-3-0558-0540-s008269",
+        "line-4-0558-0540-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 10103.1,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 11759.9,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 14802.9,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 8777.0,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0517-0336-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0761-0719-s010103"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 31
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0863-0415-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0476-0688-s011760"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 39
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0276-0370-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0643-0792-s014803"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 45
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0558-0540-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0937-0536-s008777"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 27
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "المعهد الصحي",
+      "demand": 0.41922897,
+      "id": "line-1-0517-0336-s000000",
+      "lat": 34.74686750890833,
+      "line": "line-1",
+      "lon": 36.67356165607172,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "حي باب السباع",
+      "demand": 0.6018868,
+      "id": "line-1-0647-0540-s005380",
+      "junction_group": 0,
+      "lat": 34.723471907281436,
+      "line": "line-1",
+      "lon": 36.718157726914605,
+      "s_m": 5379.554108468286
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.58082354,
+      "id": "line-1-0660-0561-s005919",
+      "junction_group": 0,
+      "lat": 34.72113234711875,
+      "line": "line-1",
+      "lon": 36.72274849891314,
+      "s_m": 5918.965363437832
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "فيروزة",
+      "demand": 0.32767633,
+      "id": "line-1-0761-0719-s010103",
+      "lat": 34.702955764316314,
+      "line": "line-1",
+      "lon": 36.757288592997334,
+      "s_m": 10103.12841947208
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "كفر عايا",
+      "demand": 0.3102669,
+      "id": "line-2-0863-0415-s000000",
+      "lat": 34.68459921534752,
+      "line": "line-2",
+      "lon": 36.690831703113815,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "المساكن الغربية",
+      "demand": 0.47040704,
+      "id": "line-2-0734-0429-s003018",
+      "lat": 34.70781485080805,
+      "line": "line-2",
+      "lon": 36.693892217779506,
+      "s_m": 3017.6450198781777
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "كلية العلوم",
+      "demand": 0.92992073,
+      "id": "line-2-0691-0483-s004630",
+      "lat": 34.715553395961564,
+      "line": "line-2",
+      "lon": 36.705697060061446,
+      "s_m": 4630.4372260139735
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "حي باب السباع",
+      "demand": 0.6018868,
+      "id": "line-2-0647-0540-s006489",
+      "junction_group": 0,
+      "lat": 34.723471907281436,
+      "line": "line-2",
+      "lon": 36.718157726914605,
+      "s_m": 6489.259735953065
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5547139,
+      "id": "line-2-0634-0549-s006922",
+      "junction_group": 0,
+      "lat": 34.725811467444125,
+      "line": "line-2",
+      "lon": 36.72012520062826,
+      "s_m": 6922.396820942913
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.49683318,
+      "id": "line-2-0614-0566-s007486",
+      "junction_group": 1,
+      "lat": 34.72941079077134,
+      "line": "line-2",
+      "lon": 36.72384153986517,
+      "s_m": 7485.655839020962
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "جامعة البعث كلية الهندسة البتروكيماوية",
+      "demand": 0.41849765,
+      "id": "line-2-0476-0688-s011760",
+      "lat": 34.75424612172912,
+      "line": "line-2",
+      "lon": 36.75051173909474,
+      "s_m": 11759.940828143373
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "الدار الكبيرة",
+      "demand": 0.24172133,
+      "id": "line-3-0276-0370-s000000",
+      "lat": 34.79023935500126,
+      "line": "line-3",
+      "lon": 36.68099433454554,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "prot visit",
+      "demand": 0.35034078,
+      "id": "line-3-0473-0484-s005686",
+      "lat": 34.7547860202282,
+      "line": "line-3",
+      "lon": 36.705915668251855,
+      "s_m": 5685.584412271581
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "حي الخالدية",
+      "demand": 0.45404863,
+      "id": "line-3-0558-0540-s008269",
+      "junction_group": 2,
+      "lat": 34.739488896087536,
+      "line": "line-3",
+      "lon": 36.718157726914605,
+      "s_m": 8269.259735953055
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4958724,
+      "id": "line-3-0613-0565-s009701",
+      "junction_group": 1,
+      "lat": 34.7295907569377,
+      "line": "line-3",
+      "lon": 36.72362293167476,
+      "s_m": 9701.21933088197
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "زيدل",
+      "demand": 0.3217514,
+      "id": "line-3-0643-0792-s014803",
+      "lat": 34.72419177194688,
+      "line": "line-3",
+      "lon": 36.77324699089699,
+      "s_m": 14802.884553295651
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "حي الخالدية",
+      "demand": 0.45404863,
+      "id": "line-4-0558-0540-s000000",
+      "junction_group": 2,
+      "lat": 34.739488896087536,
+      "line": "line-4",
+      "lon": 36.718157726914605,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5547139,
+      "id": "line-4-0634-0549-s001895",
+      "junction_group": 0,
+      "lat": 34.725811467444125,
+      "line": "line-4",
+      "lon": 36.72012520062826,
+      "s_m": 1894.8023074035523
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.58082354,
+      "id": "line-4-0660-0561-s002514",
+      "junction_group": 0,
+      "lat": 34.72113234711875,
+      "line": "line-4",
+      "lon": 36.72274849891314,
+      "s_m": 2514.2135623730965
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2413919,
+      "id": "line-4-0937-0536-s008777",
+      "lat": 34.67128171903683,
+      "line": "line-4",
+      "lon": 36.71728329415298,
+      "s_m": 8776.955262170064
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "المعهد الصحي",
+      "archetype": "terminal",
+      "id": "line-1-0517-0336-s000000",
+      "lat": 34.74686750890833,
+      "line": "line-1",
+      "lon": 36.67356165607172,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "حي باب السباع",
+      "archetype": "interchange",
+      "id": "line-1-0647-0540-s005380",
+      "junction_group": 0,
+      "lat": 34.723471907281436,
+      "line": "line-1",
+      "lon": 36.718157726914605,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5379.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0660-0561-s005919",
+      "junction_group": 0,
+      "lat": 34.72113234711875,
+      "line": "line-1",
+      "lon": 36.72274849891314,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5919.0
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "فيروزة",
+      "archetype": "terminal",
+      "id": "line-1-0761-0719-s010103",
+      "lat": 34.702955764316314,
+      "line": "line-1",
+      "lon": 36.757288592997334,
+      "platform_length_m": 59.5,
+      "s_m": 10103.1
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "كفر عايا",
+      "archetype": "terminal",
+      "id": "line-2-0863-0415-s000000",
+      "lat": 34.68459921534752,
+      "line": "line-2",
+      "lon": 36.690831703113815,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "المساكن الغربية",
+      "archetype": "standard",
+      "id": "line-2-0734-0429-s003018",
+      "lat": 34.70781485080805,
+      "line": "line-2",
+      "lon": 36.693892217779506,
+      "platform_length_m": 59.5,
+      "s_m": 3017.6
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "كلية العلوم",
+      "archetype": "major",
+      "id": "line-2-0691-0483-s004630",
+      "lat": 34.715553395961564,
+      "line": "line-2",
+      "lon": 36.705697060061446,
+      "platform_length_m": 59.5,
+      "s_m": 4630.4
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "حي باب السباع",
+      "archetype": "interchange",
+      "id": "line-2-0647-0540-s006489",
+      "junction_group": 0,
+      "lat": 34.723471907281436,
+      "line": "line-2",
+      "lon": 36.718157726914605,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6489.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0634-0549-s006922",
+      "junction_group": 0,
+      "lat": 34.725811467444125,
+      "line": "line-2",
+      "lon": 36.72012520062826,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6922.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0614-0566-s007486",
+      "junction_group": 1,
+      "lat": 34.72941079077134,
+      "line": "line-2",
+      "lon": 36.72384153986517,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7485.7
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "جامعة البعث كلية الهندسة البتروكيماوية",
+      "archetype": "terminal",
+      "id": "line-2-0476-0688-s011760",
+      "lat": 34.75424612172912,
+      "line": "line-2",
+      "lon": 36.75051173909474,
+      "platform_length_m": 59.5,
+      "s_m": 11759.9
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "الدار الكبيرة",
+      "archetype": "terminal",
+      "id": "line-3-0276-0370-s000000",
+      "lat": 34.79023935500126,
+      "line": "line-3",
+      "lon": 36.68099433454554,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "prot visit",
+      "archetype": "standard",
+      "id": "line-3-0473-0484-s005686",
+      "lat": 34.7547860202282,
+      "line": "line-3",
+      "lon": 36.705915668251855,
+      "platform_length_m": 59.5,
+      "s_m": 5685.6
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "حي الخالدية",
+      "archetype": "interchange",
+      "id": "line-3-0558-0540-s008269",
+      "junction_group": 2,
+      "lat": 34.739488896087536,
+      "line": "line-3",
+      "lon": 36.718157726914605,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8269.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0613-0565-s009701",
+      "junction_group": 1,
+      "lat": 34.7295907569377,
+      "line": "line-3",
+      "lon": 36.72362293167476,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9701.2
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "زيدل",
+      "archetype": "depot-terminal",
+      "id": "line-3-0643-0792-s014803",
+      "lat": 34.72419177194688,
+      "line": "line-3",
+      "lon": 36.77324699089699,
+      "platform_length_m": 59.5,
+      "s_m": 14802.9
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "حي الخالدية",
+      "archetype": "terminal",
+      "id": "line-4-0558-0540-s000000",
+      "junction_group": 2,
+      "lat": 34.739488896087536,
+      "line": "line-4",
+      "lon": 36.718157726914605,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0634-0549-s001895",
+      "junction_group": 0,
+      "lat": 34.725811467444125,
+      "line": "line-4",
+      "lon": 36.72012520062826,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1894.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0660-0561-s002514",
+      "junction_group": 0,
+      "lat": 34.72113234711875,
+      "line": "line-4",
+      "lon": 36.72274849891314,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2514.2
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0937-0536-s008777",
+      "lat": 34.67128171903683,
+      "line": "line-4",
+      "lon": 36.71728329415298,
+      "platform_length_m": 59.5,
+      "s_m": 8777.0
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

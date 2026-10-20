@@ -1,0 +1,715 @@
+{
+  "city": {
+    "bbox": {
+      "east": 35.084,
+      "north": 29.5997,
+      "south": 29.4645,
+      "west": 34.9286
+    },
+    "centroid_lat": 29.53536209552604,
+    "centroid_lon": 35.001800494005884,
+    "country": "JO",
+    "population": 250000,
+    "slug": "aqaba"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-asia/Jordan/Aqaba/corridors.json",
+    "cities/catalogue/west-asia/Jordan/Aqaba/aqaba.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-asia/Jordan/Aqaba/aqaba.corridor.geojson",
+      "geometry_sha256": "651e2cd4adcdd441b7bcc05e5d6c02b3c188f125bd1281bb5d52314be60b948c",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 250000,
+    "schema_version": 1,
+    "slug": "aqaba"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 29.555608289241622,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 34.95947016601941,
+      "platforms": [
+        "line-1-0237-0149-s003017",
+        "line-3-0252-0149-s007621"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 29.54274070834683,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 34.98280346876317,
+      "platforms": [
+        "line-1-0306-0271-s006029",
+        "line-3-0326-0253-s004659"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 29.539861249685057,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 35.007788686745435,
+      "platforms": [
+        "line-1-0332-0383-s009750",
+        "line-2-0332-0383-s002054"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 29.558577730986574,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": 35.03649071401431,
+      "platforms": [
+        "line-1-0228-0522-s013488",
+        "line-4-0228-0522-s000000"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": 29.53266260303063,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 35.00593028210213,
+      "platforms": [
+        "line-2-0372-0374-s001179",
+        "line-3-0372-0374-s001518"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 14977.8,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 7549.6,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 11220.5,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 5489.3,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0240-0026-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0215-0575-s014978"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 30
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0425-0361-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0099-0457-s007550"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 17
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0371-0432-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0289-0034-s011221"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 25
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0228-0522-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0037-0638-s005489"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 12
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "מצפה ים",
+      "demand": 0.52650887,
+      "id": "line-1-0240-0026-s000000",
+      "lat": 29.556418136990246,
+      "line": "line-1",
+      "lon": 34.934071969227524,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.47906998,
+      "id": "line-1-0237-0149-s003017",
+      "junction_group": 0,
+      "lat": 29.556958035489327,
+      "line": "line-1",
+      "lon": 34.95947016601941,
+      "s_m": 3017.0562748477178
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.38028878,
+      "id": "line-1-0306-0271-s006029",
+      "junction_group": 1,
+      "lat": 29.544540370010438,
+      "line": "line-1",
+      "lon": 34.98466187340648,
+      "s_m": 6028.670990922605
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Big Label 3",
+      "demand": 0.8198321,
+      "id": "line-1-0332-0383-s009750",
+      "junction_group": 2,
+      "lat": 29.539861249685057,
+      "line": "line-1",
+      "lon": 35.007788686745435,
+      "s_m": 9750.33621333631
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "مركز التنين السريع التجاري",
+      "demand": 0.40597725,
+      "id": "line-1-0228-0522-s013488",
+      "junction_group": 3,
+      "lat": 29.558577730986574,
+      "line": "line-1",
+      "lon": 35.03649071401431,
+      "s_m": 13488.4689655672
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": null,
+      "demand": 0.3793387,
+      "id": "line-1-0215-0575-s014978",
+      "lat": 29.560917291149263,
+      "line": "line-1",
+      "lon": 35.047434652469356,
+      "s_m": 14977.829714197876
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "كتاكيت",
+      "demand": 0.8078833,
+      "id": "line-2-0425-0361-s000000",
+      "lat": 29.52312439621351,
+      "line": "line-2",
+      "lon": 35.00324591983957,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Aqaba Trail",
+      "demand": 0.9557666,
+      "id": "line-2-0372-0374-s001179",
+      "junction_group": 4,
+      "lat": 29.53266260303063,
+      "line": "line-2",
+      "lon": 35.00593028210213,
+      "s_m": 1179.4112549695428
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Big Label 3",
+      "demand": 0.8198321,
+      "id": "line-2-0332-0383-s002054",
+      "junction_group": 2,
+      "lat": 29.539861249685057,
+      "line": "line-2",
+      "lon": 35.007788686745435,
+      "s_m": 2053.9696961967
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "الجامعة الأردنية - فرع العقبة",
+      "demand": 0.35740504,
+      "id": "line-2-0099-0457-s007550",
+      "lat": 29.581793366447105,
+      "line": "line-2",
+      "lon": 35.02306890270153,
+      "s_m": 7549.604614807117
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "العقبة",
+      "demand": 0.6642826,
+      "id": "line-3-0371-0432-s000000",
+      "lat": 29.53284256919699,
+      "line": "line-3",
+      "lon": 35.01790666758123,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Aqaba Trail",
+      "demand": 0.9557666,
+      "id": "line-3-0372-0374-s001518",
+      "junction_group": 4,
+      "lat": 29.53266260303063,
+      "line": "line-3",
+      "lon": 35.00593028210213,
+      "s_m": 1518.2337649086285
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35722238,
+      "id": "line-3-0326-0253-s004659",
+      "junction_group": 1,
+      "lat": 29.540941046683223,
+      "line": "line-3",
+      "lon": 34.980945064119865,
+      "s_m": 4658.721497261431
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.42521346,
+      "id": "line-3-0252-0149-s007621",
+      "junction_group": 0,
+      "lat": 29.554258542993917,
+      "line": "line-3",
+      "lon": 34.95947016601941,
+      "s_m": 7621.219330882
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "שחמון",
+      "demand": 0.5172084,
+      "id": "line-3-0289-0034-s011221",
+      "lat": 29.54759979483857,
+      "line": "line-3",
+      "lon": 34.93572388446602,
+      "s_m": 11220.529573173835
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "مركز التنين السريع التجاري",
+      "demand": 0.40597725,
+      "id": "line-4-0228-0522-s000000",
+      "junction_group": 3,
+      "lat": 29.558577730986574,
+      "line": "line-4",
+      "lon": 35.03649071401431,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.09156835,
+      "id": "line-4-0037-0638-s005489",
+      "lat": 29.59295126876147,
+      "line": "line-4",
+      "lon": 35.06044348497252,
+      "s_m": 5489.259735953061
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "מצפה ים",
+      "archetype": "terminal",
+      "id": "line-1-0240-0026-s000000",
+      "lat": 29.556418136990246,
+      "line": "line-1",
+      "lon": 34.934071969227524,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0237-0149-s003017",
+      "junction_group": 0,
+      "lat": 29.556958035489327,
+      "line": "line-1",
+      "lon": 34.95947016601941,
+      "platform_length_m": 49.0,
+      "s_m": 3017.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0306-0271-s006029",
+      "junction_group": 1,
+      "lat": 29.544540370010438,
+      "line": "line-1",
+      "lon": 34.98466187340648,
+      "platform_length_m": 49.0,
+      "s_m": 6028.7
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Big Label 3",
+      "archetype": "interchange",
+      "id": "line-1-0332-0383-s009750",
+      "junction_group": 2,
+      "lat": 29.539861249685057,
+      "line": "line-1",
+      "lon": 35.007788686745435,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 9750.3
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "مركز التنين السريع التجاري",
+      "archetype": "interchange",
+      "id": "line-1-0228-0522-s013488",
+      "junction_group": 3,
+      "lat": 29.558577730986574,
+      "line": "line-1",
+      "lon": 35.03649071401431,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 13488.5
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "archetype": "depot-terminal",
+      "id": "line-1-0215-0575-s014978",
+      "lat": 29.560917291149263,
+      "line": "line-1",
+      "lon": 35.047434652469356,
+      "platform_length_m": 49.0,
+      "s_m": 14977.8
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "كتاكيت",
+      "archetype": "terminal",
+      "id": "line-2-0425-0361-s000000",
+      "lat": 29.52312439621351,
+      "line": "line-2",
+      "lon": 35.00324591983957,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Aqaba Trail",
+      "archetype": "interchange",
+      "id": "line-2-0372-0374-s001179",
+      "junction_group": 4,
+      "lat": 29.53266260303063,
+      "line": "line-2",
+      "lon": 35.00593028210213,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1179.4
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Big Label 3",
+      "archetype": "interchange",
+      "id": "line-2-0332-0383-s002054",
+      "junction_group": 2,
+      "lat": 29.539861249685057,
+      "line": "line-2",
+      "lon": 35.007788686745435,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2054.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "الجامعة الأردنية - فرع العقبة",
+      "archetype": "terminal",
+      "id": "line-2-0099-0457-s007550",
+      "lat": 29.581793366447105,
+      "line": "line-2",
+      "lon": 35.02306890270153,
+      "platform_length_m": 49.0,
+      "s_m": 7549.6
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "العقبة",
+      "archetype": "terminal",
+      "id": "line-3-0371-0432-s000000",
+      "lat": 29.53284256919699,
+      "line": "line-3",
+      "lon": 35.01790666758123,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Aqaba Trail",
+      "archetype": "interchange",
+      "id": "line-3-0372-0374-s001518",
+      "junction_group": 4,
+      "lat": 29.53266260303063,
+      "line": "line-3",
+      "lon": 35.00593028210213,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1518.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0326-0253-s004659",
+      "junction_group": 1,
+      "lat": 29.540941046683223,
+      "line": "line-3",
+      "lon": 34.980945064119865,
+      "platform_length_m": 49.0,
+      "s_m": 4658.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0252-0149-s007621",
+      "junction_group": 0,
+      "lat": 29.554258542993917,
+      "line": "line-3",
+      "lon": 34.95947016601941,
+      "platform_length_m": 49.0,
+      "s_m": 7621.2
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "שחמון",
+      "archetype": "terminal",
+      "id": "line-3-0289-0034-s011221",
+      "lat": 29.54759979483857,
+      "line": "line-3",
+      "lon": 34.93572388446602,
+      "platform_length_m": 49.0,
+      "s_m": 11220.5
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "مركز التنين السريع التجاري",
+      "archetype": "terminal",
+      "id": "line-4-0228-0522-s000000",
+      "junction_group": 3,
+      "lat": 29.558577730986574,
+      "line": "line-4",
+      "lon": 35.03649071401431,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0037-0638-s005489",
+      "lat": 29.59295126876147,
+      "line": "line-4",
+      "lon": 35.06044348497252,
+      "platform_length_m": 49.0,
+      "s_m": 5489.3
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

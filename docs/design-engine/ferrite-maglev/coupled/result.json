@@ -1,0 +1,102 @@
+{
+  "coupled_replay": {
+    "beam_assumptions": {
+      "damping_ratio": 0.02,
+      "elements": 50,
+      "line_mass_kg_m": 1750.0,
+      "retained_modes": 6,
+      "second_moment_m4": 0.193624,
+      "span_m": 25.0,
+      "young_pa": 30000000000.0
+    },
+    "final_fitted_relative_heave_error_m": 2.746102546746787e-10,
+    "final_pitch_rad": -2.225246387679022e-09,
+    "final_roll_rad": 1.571399380879937e-15,
+    "limitations": [
+      "synthetic instantaneous force channels and controller gains; no field/current/thermal map",
+      "linear simply-supported beam with assumed line mass and modal damping",
+      "single stationary rigid car; no moving loads, train coupling, torsion/corbels or flexible body",
+      "no dead-load camber, soil, joints, fatigue, contact, braking or independent protection",
+      "offline held-force partitioned integration; no measured timing or stability certificate"
+    ],
+    "maximum_relative_gap_m": 0.010888801918609197,
+    "minimum_relative_gap_m": 0.00674075789258949,
+    "peak_fitted_relative_heave_error_m": 0.0009011632164743905,
+    "peak_global_car_down_m": 0.01349704515701857,
+    "peak_global_incremental_beam_displacement_m": 0.013998839574165348,
+    "peak_station_force_n": 11665.34482443,
+    "physical_output_authorised": false,
+    "retained_vertical_beam_modes": 6,
+    "schema": "osr-coupled-guideway-numerical/1",
+    "status": "hypothetical-two-way-offline-cosimulation",
+    "stop_seen_in_study": false,
+    "structural_acceptance": false,
+    "virtual_duration_s": 3.0,
+    "virtual_step_s": 0.001
+  },
+  "execution": {
+    "bridge_sha256": "e29abc0f3e99306a7c976c66933f6894be964f86e6cbf408aa2c0c5cb95a3da5",
+    "build_command": [
+      "cargo",
+      "build",
+      "--locked",
+      "--release",
+      "-p",
+      "osr-maglev-control",
+      "--example",
+      "coupled_bridge",
+      "--message-format=json"
+    ],
+    "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+  },
+  "physical_output_authorised": false,
+  "runtime": {
+    "numpy": "2.3.5",
+    "python": "3.13.15",
+    "scipy": "1.16.3"
+  },
+  "schema": "osr-coupled-guideway-result/1",
+  "source_sha256": {
+    "Cargo.lock": "7a21661fa92a30fba098881ff451bcf307d5c2dfb228971760e5e81e358e5aad",
+    "Cargo.toml": "744717c5d4c9b166438aeb121d8d3a6ba85a589f8cfee8286d5b570f26b71483",
+    "crates/osr-maglev-control/Cargo.toml": "ee59ea85affddbc8436aa4bca2ebb85ce17575cd1c0e95219695081f83919fad",
+    "crates/osr-maglev-control/examples/coupled_bridge.rs": "a0f54f6458a3ed1b7d3e81d539b717356f5f134a6d429f0d48b1d95b8a24a748",
+    "crates/osr-maglev-control/examples/support/mod.rs": "5b89fd9714f2638c83ef401979ce189a06874ff468c2d803d8c6d13326006868",
+    "crates/osr-maglev-control/src/array.rs": "99a38fca3891c65156b91b84a7acd435e0ddbc988b0176d6cd92bf34a74a3801",
+    "crates/osr-maglev-control/src/ideal.rs": "9d423fdd6c260f1235e87f85ad26d4aba5b3d52ec3abf2bf6bc8cdc487058663",
+    "crates/osr-maglev-control/src/io.rs": "dc30aa01ebb446b9581c1b87333cf640bdb18bc04103e5850685e63727aebec3",
+    "crates/osr-maglev-control/src/lib.rs": "882656d187799afc6576a23db877ea077a278e0920a6b783526d8f76e63e80c1",
+    "engineering/ferrite_maglev/coupled.py": "37b4841e3fd5aecca883b4f2f60de8ca6717247d564a030dd2dde7595a5e6a0b",
+    "engineering/ferrite_maglev/requirements.txt": "b91058326e128173e4eb68429a25b9ae11f16e309f0ebb65a10b906cad03d72e",
+    "ferrite-maglev-study.toml": "9d831bb3932aa6d22239ea79a686300dfd7ab3ee453e9f9e834b1cb3bbde22b8",
+    "rust-toolchain.toml": "1d76a06616a42a984bad672eeb24ca39a0496e95a8b624e21df0d420d1557734"
+  },
+  "static_benchmark": {
+    "assumptions": {
+      "damping_ratio": 0.02,
+      "elements": 50,
+      "line_mass_kg_m": 1750.0,
+      "retained_modes": 6,
+      "second_moment_m4": 0.193624,
+      "span_m": 25.0,
+      "young_pa": 30000000000.0
+    },
+    "centre_closed_form_m": 0.005604002832523057,
+    "centre_fe_m": 0.005604002832587415,
+    "centre_point_load_n": 100000.0,
+    "centre_relative_error": 1.148433412367922e-11,
+    "distributed_point_load_max_error_m": 1.5821371990298871e-13,
+    "modal_frequency_hz": [
+      4.578898970504903,
+      18.31559885893064,
+      41.210126382361395,
+      73.2625853628261,
+      114.47324519875527,
+      164.8426640056099
+    ],
+    "modal_frequency_max_relative_error": 1.3970183303513295e-05,
+    "modal_static_truncation_max_m": 8.913488445342482e-07,
+    "module_load_static_max_m": 0.01369053051936038
+  },
+  "structural_acceptance": false
+}

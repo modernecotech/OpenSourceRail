@@ -1,0 +1,706 @@
+{
+  "city": {
+    "bbox": {
+      "east": 37.4081,
+      "north": -3.2673,
+      "south": -3.4025,
+      "west": 37.2727
+    },
+    "centroid_lat": -3.3352372278011733,
+    "centroid_lon": 37.341177442307846,
+    "country": "TZ",
+    "population": 300000,
+    "slug": "moshi"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Tanzania/Moshi/corridors.json",
+    "cities/catalogue/east-africa/Tanzania/Moshi/moshi.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Tanzania/Moshi/moshi.corridor.geojson",
+      "geometry_sha256": "608fb23e28401bf317583ed1918c4f63f65626f2720cce2da5d94bbffbe335d2",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "moshi"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -3.3271387503149406,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 37.38658911451725,
+      "platforms": [
+        "line-1-0331-0631-s003156",
+        "line-3-0331-0631-s009665",
+        "line-3-0334-0635-s009770"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -3.348014825612785,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 37.33469863042063,
+      "platforms": [
+        "line-1-0448-0344-s009935",
+        "line-2-0448-0344-s006386"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -3.319580171327791,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 37.329119653517765,
+      "platforms": [
+        "line-2-0293-0315-s003011",
+        "line-3-0286-0309-s000000",
+        "line-3-0291-0315-s000161"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -3.3643917467516107,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 37.337758069367375,
+      "platforms": [
+        "line-2-0539-0361-s008358",
+        "line-4-0539-0361-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 12200.3,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 9119.9,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 9769.5,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5931.3,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0261-0745-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0486-0250-s012200"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 25
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0154-0290-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0574-0367-s009120"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0286-0309-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0334-0635-s009770"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 21
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0539-0361-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0463-0536-s005931"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 13
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Kwa Kirungu",
+      "demand": 0.3529178,
+      "id": "line-1-0261-0745-s000000",
+      "lat": -3.3143611525033294,
+      "line": "line-1",
+      "lon": 37.40686539616425,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kilemapunda dispensary",
+      "demand": 0.3172635,
+      "id": "line-1-0331-0631-s003156",
+      "junction_group": 0,
+      "lat": -3.32695878414858,
+      "line": "line-1",
+      "lon": 37.386349158521426,
+      "s_m": 3155.634918610409
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5636263,
+      "id": "line-1-0448-0344-s009935",
+      "junction_group": 1,
+      "lat": -3.348014825612785,
+      "line": "line-1",
+      "lon": 37.33469863042063,
+      "s_m": 9935.189027078677
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "St. Joseph Hospital",
+      "demand": 0.49037358,
+      "id": "line-1-0486-0250-s012200",
+      "lat": -3.3548535399344925,
+      "line": "line-1",
+      "lon": 37.31778173271515,
+      "s_m": 12200.285706997436
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": null,
+      "demand": 0.32078514,
+      "id": "line-2-0154-0290-s000000",
+      "lat": -3.295104772702732,
+      "line": "line-2",
+      "lon": 37.324980412589824,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Kilimanjaro Chrisitian Medical College Univerisity",
+      "demand": 0.4553256,
+      "id": "line-2-0293-0315-s003011",
+      "junction_group": 2,
+      "lat": -3.3201200698268725,
+      "line": "line-2",
+      "lon": 37.3294795875115,
+      "s_m": 3010.5382386916253
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5636263,
+      "id": "line-2-0448-0344-s006386",
+      "junction_group": 1,
+      "lat": -3.348014825612785,
+      "line": "line-2",
+      "lon": 37.33469863042063,
+      "s_m": 6385.929291125641
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.50808394,
+      "id": "line-2-0539-0361-s008358",
+      "junction_group": 3,
+      "lat": -3.3643917467516107,
+      "line": "line-2",
+      "lon": 37.337758069367375,
+      "s_m": 8358.477631085032
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Pasua Hospital",
+      "demand": 0.3927755,
+      "id": "line-2-0574-0367-s009120",
+      "lat": -3.3706905625742363,
+      "line": "line-2",
+      "lon": 37.338837871348574,
+      "s_m": 9119.898987322338
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Kilimanjaro Chrisitian Medical College Univerisity",
+      "demand": 0.44728044,
+      "id": "line-3-0286-0309-s000000",
+      "junction_group": 2,
+      "lat": -3.3188603066623474,
+      "line": "line-3",
+      "lon": 37.328399785530294,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Kilimanjaro Chrisitian Medical College Univerisity",
+      "demand": 0.4541661,
+      "id": "line-3-0291-0315-s000161",
+      "junction_group": 2,
+      "lat": -3.319760137494151,
+      "line": "line-3",
+      "lon": 37.3294795875115,
+      "s_m": 161.4213562373095
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": null,
+      "demand": 0.6181903,
+      "id": "line-3-0377-0379-s003402",
+      "lat": -3.3352372278011733,
+      "line": "line-3",
+      "lon": 37.34099747531098,
+      "s_m": 3401.909088590105
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kilemapunda dispensary",
+      "demand": 0.3172635,
+      "id": "line-3-0331-0631-s009665",
+      "junction_group": 0,
+      "lat": -3.32695878414858,
+      "line": "line-3",
+      "lon": 37.386349158521426,
+      "s_m": 9664.650788387056
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kilemapunda dispensary",
+      "demand": 0.31605023,
+      "id": "line-3-0334-0635-s009770",
+      "junction_group": 0,
+      "lat": -3.3274986826476622,
+      "line": "line-3",
+      "lon": 37.3870690265089,
+      "s_m": 9769.50360212944
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mbuyuni Market",
+      "demand": 0.50808394,
+      "id": "line-4-0539-0361-s000000",
+      "junction_group": 3,
+      "lat": -3.3643917467516107,
+      "line": "line-4",
+      "lon": 37.337758069367375,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.3337074,
+      "id": "line-4-0487-0462-s003856",
+      "lat": -3.355033506100853,
+      "line": "line-4",
+      "lon": 37.355934736050926,
+      "s_m": 3856.467529817264
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.26524836,
+      "id": "line-4-0463-0536-s005931",
+      "lat": -3.3507143181081958,
+      "line": "line-4",
+      "lon": 37.36925229381907,
+      "s_m": 5931.269837220825
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Kwa Kirungu",
+      "archetype": "terminal",
+      "id": "line-1-0261-0745-s000000",
+      "lat": -3.3143611525033294,
+      "line": "line-1",
+      "lon": 37.40686539616425,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kilemapunda dispensary",
+      "archetype": "interchange",
+      "id": "line-1-0331-0631-s003156",
+      "junction_group": 0,
+      "lat": -3.32695878414858,
+      "line": "line-1",
+      "lon": 37.386349158521426,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3155.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0448-0344-s009935",
+      "junction_group": 1,
+      "lat": -3.348014825612785,
+      "line": "line-1",
+      "lon": 37.33469863042063,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 9935.2
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "St. Joseph Hospital",
+      "archetype": "depot-terminal",
+      "id": "line-1-0486-0250-s012200",
+      "lat": -3.3548535399344925,
+      "line": "line-1",
+      "lon": 37.31778173271515,
+      "platform_length_m": 49.0,
+      "s_m": 12200.3
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "archetype": "terminal",
+      "id": "line-2-0154-0290-s000000",
+      "lat": -3.295104772702732,
+      "line": "line-2",
+      "lon": 37.324980412589824,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Kilimanjaro Chrisitian Medical College Univerisity",
+      "archetype": "interchange",
+      "id": "line-2-0293-0315-s003011",
+      "junction_group": 2,
+      "lat": -3.3201200698268725,
+      "line": "line-2",
+      "lon": 37.3294795875115,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3010.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0448-0344-s006386",
+      "junction_group": 1,
+      "lat": -3.348014825612785,
+      "line": "line-2",
+      "lon": 37.33469863042063,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 6385.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0539-0361-s008358",
+      "junction_group": 3,
+      "lat": -3.3643917467516107,
+      "line": "line-2",
+      "lon": 37.337758069367375,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8358.5
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Pasua Hospital",
+      "archetype": "terminal",
+      "id": "line-2-0574-0367-s009120",
+      "lat": -3.3706905625742363,
+      "line": "line-2",
+      "lon": 37.338837871348574,
+      "platform_length_m": 49.0,
+      "s_m": 9119.9
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Kilimanjaro Chrisitian Medical College Univerisity",
+      "archetype": "terminal",
+      "id": "line-3-0286-0309-s000000",
+      "junction_group": 2,
+      "lat": -3.3188603066623474,
+      "line": "line-3",
+      "lon": 37.328399785530294,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Kilimanjaro Chrisitian Medical College Univerisity",
+      "archetype": "interchange",
+      "id": "line-3-0291-0315-s000161",
+      "junction_group": 2,
+      "lat": -3.319760137494151,
+      "line": "line-3",
+      "lon": 37.3294795875115,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 161.4
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "archetype": "major",
+      "id": "line-3-0377-0379-s003402",
+      "lat": -3.3352372278011733,
+      "line": "line-3",
+      "lon": 37.34099747531098,
+      "platform_length_m": 49.0,
+      "s_m": 3401.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kilemapunda dispensary",
+      "archetype": "interchange",
+      "id": "line-3-0331-0631-s009665",
+      "junction_group": 0,
+      "lat": -3.32695878414858,
+      "line": "line-3",
+      "lon": 37.386349158521426,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 9664.7
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kilemapunda dispensary",
+      "archetype": "terminal",
+      "id": "line-3-0334-0635-s009770",
+      "junction_group": 0,
+      "lat": -3.3274986826476622,
+      "line": "line-3",
+      "lon": 37.3870690265089,
+      "platform_length_m": 49.0,
+      "s_m": 9769.5
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mbuyuni Market",
+      "archetype": "terminal",
+      "id": "line-4-0539-0361-s000000",
+      "junction_group": 3,
+      "lat": -3.3643917467516107,
+      "line": "line-4",
+      "lon": 37.337758069367375,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-4-0487-0462-s003856",
+      "lat": -3.355033506100853,
+      "line": "line-4",
+      "lon": 37.355934736050926,
+      "platform_length_m": 49.0,
+      "s_m": 3856.5
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0463-0536-s005931",
+      "lat": -3.3507143181081958,
+      "line": "line-4",
+      "lon": 37.36925229381907,
+      "platform_length_m": 49.0,
+      "s_m": 5931.3
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

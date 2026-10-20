@@ -1,0 +1,825 @@
+{
+  "city": {
+    "bbox": {
+      "east": 13.647,
+      "north": -12.249,
+      "south": -12.4472,
+      "west": 13.4442
+    },
+    "centroid_lat": -12.36534812655221,
+    "centroid_lon": 13.566412777842794,
+    "country": "AO",
+    "population": 500000,
+    "slug": "lobito"
+  },
+  "climate": {
+    "preset": "tropical-arid"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/central-africa/Angola/Lobito/corridors.json",
+    "cities/catalogue/central-africa/Angola/Lobito/lobito.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Angola/Lobito/lobito.corridor.geojson",
+      "geometry_sha256": "c4793f1939da8674ba5bf1613ba7a0654c71af8207cdd5c0c1cfada68ef946ca",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1103,
+    "population": 500000,
+    "schema_version": 1,
+    "slug": "lobito"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -12.349691070078826,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 13.54158399679121,
+      "platforms": [
+        "line-1-0559-0529-s010959",
+        "line-3-0559-0529-s006236"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -12.366427923550374,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 13.551883343005201,
+      "platforms": [
+        "line-2-0652-0585-s000963",
+        "line-3-0652-0585-s003569"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -12.36534812655221,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 13.591793309584412,
+      "platforms": [
+        "line-2-0646-0802-s009227",
+        "line-4-0646-0802-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -12.368827472435184,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 13.596207315104694,
+      "platforms": [
+        "line-2-0664-0825-s009859",
+        "line-2-0668-0828-s009976",
+        "line-4-0664-0825-s000696"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 17499.0,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 9975.8,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 7701.0,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 6651.3,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-1075-0511-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0386-0735-s017499"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 53
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0695-0574-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0668-0828-s009976"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 32
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0722-0711-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0595-0487-s007701"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 26
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0646-0802-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0464-0887-s006651"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 23
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hospital São Pedro",
+      "demand": 0.4933465,
+      "id": "line-1-1075-0511-s000000",
+      "lat": -12.442553611920959,
+      "line": "line-1",
+      "lon": 13.538273492651,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.53650624,
+      "id": "line-1-0938-0519-s003009",
+      "lat": -12.417898247129541,
+      "line": "line-1",
+      "lon": 13.539744827824427,
+      "s_m": 3009.1168824543142
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.55276203,
+      "id": "line-1-0790-0521-s006009",
+      "lat": -12.391263254508154,
+      "line": "line-1",
+      "lon": 13.540112661617783,
+      "s_m": 6009.116882454315
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Cassai",
+      "demand": 0.8143754,
+      "id": "line-1-0648-0517-s009009",
+      "lat": -12.36570805888493,
+      "line": "line-1",
+      "lon": 13.53937699403107,
+      "s_m": 9009.116882454315
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": "Lobito",
+      "demand": 0.9067485,
+      "id": "line-1-0559-0529-s010959",
+      "junction_group": 0,
+      "lat": -12.349691070078826,
+      "line": "line-1",
+      "lon": 13.54158399679121,
+      "s_m": 10958.822509939082
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Maternidade da Restinga",
+      "demand": 0.49905735,
+      "id": "line-1-0503-0595-s013127",
+      "lat": -12.339612964762626,
+      "line": "line-1",
+      "lon": 13.553722511971985,
+      "s_m": 13127.350647362919
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.30748993,
+      "id": "line-1-0444-0665-s015326",
+      "lat": -12.328994960947343,
+      "line": "line-1",
+      "lon": 13.566596694739472,
+      "s_m": 15325.584412271523
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Zaire Barco",
+      "demand": 0.2842457,
+      "id": "line-1-0386-0735-s017499",
+      "lat": -12.31855692329842,
+      "line": "line-1",
+      "lon": 13.57947087750696,
+      "s_m": 17498.965363437772
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hospital Pediatrico do Lobito",
+      "demand": 0.83092344,
+      "id": "line-2-0695-0574-s000000",
+      "lat": -12.374166468703883,
+      "line": "line-2",
+      "lon": 13.549860257141738,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Rotunda Sumbe Luanda",
+      "demand": 0.9232055,
+      "id": "line-2-0652-0585-s000963",
+      "junction_group": 1,
+      "lat": -12.366427923550374,
+      "line": "line-2",
+      "lon": 13.551883343005201,
+      "s_m": 962.842712474619
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Clínica Medicrisal",
+      "demand": 0.77690655,
+      "id": "line-2-0568-0582-s003005",
+      "lat": -12.351310765576072,
+      "line": "line-2",
+      "lon": 13.551331592315165,
+      "s_m": 3005.0966799187845
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6742543,
+      "id": "line-2-0591-0691-s006012",
+      "lat": -12.35544998740237,
+      "line": "line-2",
+      "lon": 13.57137853405311,
+      "s_m": 6011.614716074883
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.78477454,
+      "id": "line-2-0646-0802-s009227",
+      "junction_group": 2,
+      "lat": -12.36534812655221,
+      "line": "line-2",
+      "lon": 13.591793309584412,
+      "s_m": 9226.660889654831
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro de Saúde Gaspar Domingos Matias Lopes",
+      "demand": 0.809727,
+      "id": "line-2-0664-0825-s009859",
+      "junction_group": 3,
+      "lat": -12.368587517546702,
+      "line": "line-2",
+      "lon": 13.596023398208017,
+      "s_m": 9859.209229614211
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro de Saúde Gaspar Domingos Matias Lopes",
+      "demand": 0.8077107,
+      "id": "line-2-0668-0828-s009976",
+      "junction_group": 3,
+      "lat": -12.369307382212146,
+      "line": "line-2",
+      "lon": 13.59657514889805,
+      "s_m": 9975.777772109133
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "macon",
+      "demand": 0.656798,
+      "id": "line-3-0722-0711-s000000",
+      "lat": -12.379025555195623,
+      "line": "line-3",
+      "lon": 13.575056871986678,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Rotunda Sumbe Luanda",
+      "demand": 0.9232055,
+      "id": "line-3-0652-0585-s003569",
+      "junction_group": 1,
+      "lat": -12.366427923550374,
+      "line": "line-3",
+      "lon": 13.551883343005201,
+      "s_m": 3569.360748630713
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": "Lobito",
+      "demand": 0.9067485,
+      "id": "line-3-0559-0529-s006236",
+      "junction_group": 0,
+      "lat": -12.349691070078826,
+      "line": "line-3",
+      "lon": 13.54158399679121,
+      "s_m": 6235.878784786812
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Universidade Católica de Angola",
+      "demand": 0.89462787,
+      "id": "line-3-0595-0487-s007701",
+      "lat": -12.356169852067811,
+      "line": "line-3",
+      "lon": 13.533859487130718,
+      "s_m": 7700.9754647056
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.78477454,
+      "id": "line-4-0646-0802-s000000",
+      "junction_group": 2,
+      "lat": -12.36534812655221,
+      "line": "line-4",
+      "lon": 13.591793309584412,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro de Saúde Gaspar Domingos Matias Lopes",
+      "demand": 0.809727,
+      "id": "line-4-0664-0825-s000696",
+      "junction_group": 3,
+      "lat": -12.368587517546702,
+      "line": "line-4",
+      "lon": 13.596023398208017,
+      "s_m": 695.9797974644666
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.65976566,
+      "id": "line-4-0538-0862-s004625",
+      "lat": -12.34591178058525,
+      "line": "line-4",
+      "lon": 13.602828323385117,
+      "s_m": 4624.751801064729
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6096093,
+      "id": "line-4-0464-0887-s006651",
+      "lat": -12.332594284274556,
+      "line": "line-4",
+      "lon": 13.607426245802076,
+      "s_m": 6651.269837220828
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hospital São Pedro",
+      "archetype": "terminal",
+      "id": "line-1-1075-0511-s000000",
+      "lat": -12.442553611920959,
+      "line": "line-1",
+      "lon": 13.538273492651,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0938-0519-s003009",
+      "lat": -12.417898247129541,
+      "line": "line-1",
+      "lon": 13.539744827824427,
+      "platform_length_m": 59.5,
+      "s_m": 3009.1
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0790-0521-s006009",
+      "lat": -12.391263254508154,
+      "line": "line-1",
+      "lon": 13.540112661617783,
+      "platform_length_m": 59.5,
+      "s_m": 6009.1
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Cassai",
+      "archetype": "major",
+      "id": "line-1-0648-0517-s009009",
+      "lat": -12.36570805888493,
+      "line": "line-1",
+      "lon": 13.53937699403107,
+      "platform_length_m": 59.5,
+      "s_m": 9009.1
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": "Lobito",
+      "archetype": "interchange",
+      "id": "line-1-0559-0529-s010959",
+      "junction_group": 0,
+      "lat": -12.349691070078826,
+      "line": "line-1",
+      "lon": 13.54158399679121,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 10958.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Maternidade da Restinga",
+      "archetype": "standard",
+      "id": "line-1-0503-0595-s013127",
+      "lat": -12.339612964762626,
+      "line": "line-1",
+      "lon": 13.553722511971985,
+      "platform_length_m": 59.5,
+      "s_m": 13127.4
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0444-0665-s015326",
+      "lat": -12.328994960947343,
+      "line": "line-1",
+      "lon": 13.566596694739472,
+      "platform_length_m": 59.5,
+      "s_m": 15325.6
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Zaire Barco",
+      "archetype": "depot-terminal",
+      "id": "line-1-0386-0735-s017499",
+      "lat": -12.31855692329842,
+      "line": "line-1",
+      "lon": 13.57947087750696,
+      "platform_length_m": 59.5,
+      "s_m": 17499.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hospital Pediatrico do Lobito",
+      "archetype": "terminal",
+      "id": "line-2-0695-0574-s000000",
+      "lat": -12.374166468703883,
+      "line": "line-2",
+      "lon": 13.549860257141738,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Rotunda Sumbe Luanda",
+      "archetype": "interchange",
+      "id": "line-2-0652-0585-s000963",
+      "junction_group": 1,
+      "lat": -12.366427923550374,
+      "line": "line-2",
+      "lon": 13.551883343005201,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 962.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Clínica Medicrisal",
+      "archetype": "major",
+      "id": "line-2-0568-0582-s003005",
+      "lat": -12.351310765576072,
+      "line": "line-2",
+      "lon": 13.551331592315165,
+      "platform_length_m": 59.5,
+      "s_m": 3005.1
+    },
+    {
+      "archetype": "major",
+      "id": "line-2-0591-0691-s006012",
+      "lat": -12.35544998740237,
+      "line": "line-2",
+      "lon": 13.57137853405311,
+      "platform_length_m": 59.5,
+      "s_m": 6011.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0646-0802-s009227",
+      "junction_group": 2,
+      "lat": -12.36534812655221,
+      "line": "line-2",
+      "lon": 13.591793309584412,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9226.7
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro de Saúde Gaspar Domingos Matias Lopes",
+      "archetype": "interchange",
+      "id": "line-2-0664-0825-s009859",
+      "junction_group": 3,
+      "lat": -12.368587517546702,
+      "line": "line-2",
+      "lon": 13.596023398208017,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9859.2
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro de Saúde Gaspar Domingos Matias Lopes",
+      "archetype": "terminal",
+      "id": "line-2-0668-0828-s009976",
+      "junction_group": 3,
+      "lat": -12.369307382212146,
+      "line": "line-2",
+      "lon": 13.59657514889805,
+      "platform_length_m": 59.5,
+      "s_m": 9975.8
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "macon",
+      "archetype": "terminal",
+      "id": "line-3-0722-0711-s000000",
+      "lat": -12.379025555195623,
+      "line": "line-3",
+      "lon": 13.575056871986678,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Rotunda Sumbe Luanda",
+      "archetype": "interchange",
+      "id": "line-3-0652-0585-s003569",
+      "junction_group": 1,
+      "lat": -12.366427923550374,
+      "line": "line-3",
+      "lon": 13.551883343005201,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3569.4
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": "Lobito",
+      "archetype": "interchange",
+      "id": "line-3-0559-0529-s006236",
+      "junction_group": 0,
+      "lat": -12.349691070078826,
+      "line": "line-3",
+      "lon": 13.54158399679121,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6235.9
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Universidade Católica de Angola",
+      "archetype": "terminal",
+      "id": "line-3-0595-0487-s007701",
+      "lat": -12.356169852067811,
+      "line": "line-3",
+      "lon": 13.533859487130718,
+      "platform_length_m": 59.5,
+      "s_m": 7701.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0646-0802-s000000",
+      "junction_group": 2,
+      "lat": -12.36534812655221,
+      "line": "line-4",
+      "lon": 13.591793309584412,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro de Saúde Gaspar Domingos Matias Lopes",
+      "archetype": "interchange",
+      "id": "line-4-0664-0825-s000696",
+      "junction_group": 3,
+      "lat": -12.368587517546702,
+      "line": "line-4",
+      "lon": 13.596023398208017,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 696.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "major",
+      "id": "line-4-0538-0862-s004625",
+      "lat": -12.34591178058525,
+      "line": "line-4",
+      "lon": 13.602828323385117,
+      "platform_length_m": 59.5,
+      "s_m": 4624.8
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0464-0887-s006651",
+      "lat": -12.332594284274556,
+      "line": "line-4",
+      "lon": 13.607426245802076,
+      "platform_length_m": 59.5,
+      "s_m": 6651.3
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

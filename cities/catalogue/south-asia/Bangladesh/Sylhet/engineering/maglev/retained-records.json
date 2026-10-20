@@ -1,0 +1,827 @@
+{
+  "city": {
+    "bbox": {
+      "east": 91.978,
+      "north": 24.994,
+      "south": 24.7958,
+      "west": 91.7594
+    },
+    "centroid_lat": 24.89474865925206,
+    "centroid_lon": 91.86883160693506,
+    "country": "BD",
+    "population": 900000,
+    "slug": "sylhet"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/south-asia/Bangladesh/Sylhet/corridors.json",
+    "cities/catalogue/south-asia/Bangladesh/Sylhet/sylhet.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/south-asia/Bangladesh/Sylhet/sylhet.corridor.geojson",
+      "geometry_sha256": "6951ad568ba13f29ac5072715ede10893fdb1a0e365866473bcdb6a82962c773",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 900000,
+    "schema_version": 1,
+    "slug": "sylhet"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 24.89186920059029,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": 91.89814541295569,
+      "platforms": [
+        "line-1-0567-0700-s003971",
+        "line-4-0567-0700-s002525"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 24.88692013101537,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 91.88081461547728,
+      "platforms": [
+        "line-1-0582-0615-s006020",
+        "line-3-0607-0610-s003002"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 24.89276903142209,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 91.8686830572424,
+      "platforms": [
+        "line-1-0551-0552-s007713",
+        "line-2-0551-0551-s018108",
+        "line-2-0573-0551-s017315",
+        "line-3-0573-0551-s004487"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 24.90158737357377,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 91.87952718480744,
+      "platforms": [
+        "line-2-0513-0606-s019797",
+        "line-4-0513-0606-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 14228.5,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 360,
+      "geometry": "standard-urban",
+      "length_m": 26629.2,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 9670.0,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 300,
+      "geometry": "standard-urban",
+      "length_m": 10360.5,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0479-0844-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0393-0371-s014228"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 46
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-1084-0152-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0274-0567-s026629"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 81
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0676-0728-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0454-0347-s009670"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 31
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0513-0606-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0794-0964-s010361"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 34
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Khandaker Super Market",
+      "demand": 0.33104873,
+      "id": "line-1-0479-0844-s000000",
+      "lat": 24.907706223230033,
+      "line": "line-1",
+      "lon": 91.92666695394871,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.41746342,
+      "id": "line-1-0567-0700-s003971",
+      "junction_group": 0,
+      "lat": 24.89186920059029,
+      "line": "line-1",
+      "lon": 91.89814541295569,
+      "s_m": 3971.0259710444216
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Oyesis Hospital",
+      "demand": 0.63400656,
+      "id": "line-1-0582-0615-s006020",
+      "junction_group": 1,
+      "lat": 24.88916970809488,
+      "line": "line-1",
+      "lon": 91.88130978111951,
+      "s_m": 6019.554108468285
+    },
+    {
+      "anchor_kind": "shop:mall",
+      "anchor_name": "Baitul Aman Masjid Market",
+      "demand": 0.97668886,
+      "id": "line-1-0551-0552-s007713",
+      "junction_group": 2,
+      "lat": 24.89474865925206,
+      "line": "line-1",
+      "lon": 91.86883160693506,
+      "s_m": 7712.935059634536
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Sylhet Pet Care",
+      "demand": 0.58153653,
+      "id": "line-1-0485-0509-s009893",
+      "lat": 24.906626426231867,
+      "line": "line-1",
+      "lon": 91.86031475788853,
+      "s_m": 9892.590180780451
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "জালালাবাদ রাগিব-রাবেয়া মেডিকেল কলেজ এন্ড হাসপাতাল",
+      "demand": 0.38264024,
+      "id": "line-1-0431-0448-s012056",
+      "lat": 24.916344599215346,
+      "line": "line-1",
+      "lon": 91.84823271621788,
+      "s_m": 12055.676759431439
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "শাহজালাল বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয়",
+      "demand": 0.3249787,
+      "id": "line-1-0393-0371-s014228",
+      "lat": 24.923183313537056,
+      "line": "line-1",
+      "lon": 91.83298161443687,
+      "s_m": 14228.468965567194
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Nazir Bazar",
+      "demand": 0.13558361,
+      "id": "line-2-1084-0152-s000000",
+      "lat": 24.798826692581795,
+      "line": "line-2",
+      "lon": 91.78960510417664,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.12036089,
+      "id": "line-2-0965-0216-s003511",
+      "lat": 24.82024266637872,
+      "line": "line-2",
+      "lon": 91.802281344618,
+      "s_m": 3511.3708498984834
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.18526949,
+      "id": "line-2-0866-0311-s007010",
+      "lat": 24.838059316848433,
+      "line": "line-2",
+      "lon": 91.82109763902312,
+      "s_m": 7009.60461480712
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "North East Medical College Hospital",
+      "demand": 0.35085276,
+      "id": "line-2-0716-0477-s012908",
+      "lat": 24.86505424180254,
+      "line": "line-2",
+      "lon": 91.85397663766786,
+      "s_m": 12907.838379715724
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kudratullah Market",
+      "demand": 0.8026806,
+      "id": "line-2-0573-0551-s017315",
+      "junction_group": 2,
+      "lat": 24.890789403592123,
+      "line": "line-2",
+      "lon": 91.86863354067818,
+      "s_m": 17314.945160902258
+    },
+    {
+      "anchor_kind": "shop:mall",
+      "anchor_name": "Baitul Aman Masjid Market",
+      "demand": 0.9749606,
+      "id": "line-2-0551-0551-s018108",
+      "junction_group": 2,
+      "lat": 24.89474865925206,
+      "line": "line-2",
+      "lon": 91.86863354067818,
+      "s_m": 18108.08224589211
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.56845254,
+      "id": "line-2-0513-0606-s019797",
+      "junction_group": 3,
+      "lat": 24.90158737357377,
+      "line": "line-2",
+      "lon": 91.87952718480744,
+      "s_m": 19797.199128346445
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Sylhet Cadet College Dairy Farm",
+      "demand": 0.33520645,
+      "id": "line-2-0274-0567-s026629",
+      "lat": 24.944599287333983,
+      "line": "line-2",
+      "lon": 91.8718026007885,
+      "s_m": 26629.15872327541
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": null,
+      "demand": 0.30586624,
+      "id": "line-3-0676-0728-s000000",
+      "lat": 24.87225288845697,
+      "line": "line-3",
+      "lon": 91.90369126814876,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Oyesis Hospital",
+      "demand": 0.51574725,
+      "id": "line-3-0607-0610-s003002",
+      "junction_group": 1,
+      "lat": 24.88467055393586,
+      "line": "line-3",
+      "lon": 91.88031944983503,
+      "s_m": 3001.909088590104
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kudratullah Market",
+      "demand": 0.8026806,
+      "id": "line-3-0573-0551-s004487",
+      "junction_group": 2,
+      "lat": 24.890789403592123,
+      "line": "line-3",
+      "lon": 91.86863354067818,
+      "s_m": 4487.005768508892
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Kumargoan Bus Stand",
+      "demand": 0.2977179,
+      "id": "line-3-0454-0347-s009670",
+      "lat": 24.91220537738905,
+      "line": "line-3",
+      "lon": 91.82822802427137,
+      "s_m": 9669.991334482236
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": null,
+      "demand": 0.56845254,
+      "id": "line-4-0513-0606-s000000",
+      "junction_group": 3,
+      "lat": 24.90158737357377,
+      "line": "line-4",
+      "lon": 91.87952718480744,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.41746342,
+      "id": "line-4-0567-0700-s002525",
+      "junction_group": 0,
+      "lat": 24.89186920059029,
+      "line": "line-4",
+      "lon": 91.89814541295569,
+      "s_m": 2524.5079348883264
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22269931,
+      "id": "line-4-0660-0852-s006438",
+      "lat": 24.87513234711874,
+      "line": "line-4",
+      "lon": 91.92825148400388,
+      "s_m": 6438.37661840738
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.14577925,
+      "id": "line-4-0794-0964-s010361",
+      "lat": 24.851016880826403,
+      "line": "line-4",
+      "lon": 91.95043490477623,
+      "s_m": 10360.529573173857
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Khandaker Super Market",
+      "archetype": "terminal",
+      "id": "line-1-0479-0844-s000000",
+      "lat": 24.907706223230033,
+      "line": "line-1",
+      "lon": 91.92666695394871,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0567-0700-s003971",
+      "junction_group": 0,
+      "lat": 24.89186920059029,
+      "line": "line-1",
+      "lon": 91.89814541295569,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3971.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Oyesis Hospital",
+      "archetype": "interchange",
+      "id": "line-1-0582-0615-s006020",
+      "junction_group": 1,
+      "lat": 24.88916970809488,
+      "line": "line-1",
+      "lon": 91.88130978111951,
+      "platform_length_m": 59.5,
+      "s_m": 6019.6
+    },
+    {
+      "anchor_kind": "shop:mall",
+      "anchor_name": "Baitul Aman Masjid Market",
+      "archetype": "interchange",
+      "id": "line-1-0551-0552-s007713",
+      "junction_group": 2,
+      "lat": 24.89474865925206,
+      "line": "line-1",
+      "lon": 91.86883160693506,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7712.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Sylhet Pet Care",
+      "archetype": "standard",
+      "id": "line-1-0485-0509-s009893",
+      "lat": 24.906626426231867,
+      "line": "line-1",
+      "lon": 91.86031475788853,
+      "platform_length_m": 59.5,
+      "s_m": 9892.6
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "জালালাবাদ রাগিব-রাবেয়া মেডিকেল কলেজ এন্ড হাসপাতাল",
+      "archetype": "standard",
+      "id": "line-1-0431-0448-s012056",
+      "lat": 24.916344599215346,
+      "line": "line-1",
+      "lon": 91.84823271621788,
+      "platform_length_m": 59.5,
+      "s_m": 12055.7
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "শাহজালাল বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয়",
+      "archetype": "terminal",
+      "id": "line-1-0393-0371-s014228",
+      "lat": 24.923183313537056,
+      "line": "line-1",
+      "lon": 91.83298161443687,
+      "platform_length_m": 59.5,
+      "s_m": 14228.5
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Nazir Bazar",
+      "archetype": "terminal",
+      "id": "line-2-1084-0152-s000000",
+      "lat": 24.798826692581795,
+      "line": "line-2",
+      "lon": 91.78960510417664,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0965-0216-s003511",
+      "lat": 24.82024266637872,
+      "line": "line-2",
+      "lon": 91.802281344618,
+      "platform_length_m": 55.5,
+      "s_m": 3511.4
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0866-0311-s007010",
+      "lat": 24.838059316848433,
+      "line": "line-2",
+      "lon": 91.82109763902312,
+      "platform_length_m": 55.5,
+      "s_m": 7009.6
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "North East Medical College Hospital",
+      "archetype": "standard",
+      "id": "line-2-0716-0477-s012908",
+      "lat": 24.86505424180254,
+      "line": "line-2",
+      "lon": 91.85397663766786,
+      "platform_length_m": 59.5,
+      "s_m": 12907.8
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kudratullah Market",
+      "archetype": "interchange",
+      "id": "line-2-0573-0551-s017315",
+      "junction_group": 2,
+      "lat": 24.890789403592123,
+      "line": "line-2",
+      "lon": 91.86863354067818,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 17314.9
+    },
+    {
+      "anchor_kind": "shop:mall",
+      "anchor_name": "Baitul Aman Masjid Market",
+      "archetype": "interchange",
+      "id": "line-2-0551-0551-s018108",
+      "junction_group": 2,
+      "lat": 24.89474865925206,
+      "line": "line-2",
+      "lon": 91.86863354067818,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 18108.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0513-0606-s019797",
+      "junction_group": 3,
+      "lat": 24.90158737357377,
+      "line": "line-2",
+      "lon": 91.87952718480744,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 19797.2
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Sylhet Cadet College Dairy Farm",
+      "archetype": "depot-terminal",
+      "id": "line-2-0274-0567-s026629",
+      "lat": 24.944599287333983,
+      "line": "line-2",
+      "lon": 91.8718026007885,
+      "platform_length_m": 59.5,
+      "s_m": 26629.2
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "archetype": "terminal",
+      "id": "line-3-0676-0728-s000000",
+      "lat": 24.87225288845697,
+      "line": "line-3",
+      "lon": 91.90369126814876,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Oyesis Hospital",
+      "archetype": "interchange",
+      "id": "line-3-0607-0610-s003002",
+      "junction_group": 1,
+      "lat": 24.88467055393586,
+      "line": "line-3",
+      "lon": 91.88031944983503,
+      "platform_length_m": 59.5,
+      "s_m": 3001.9
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Kudratullah Market",
+      "archetype": "interchange",
+      "id": "line-3-0573-0551-s004487",
+      "junction_group": 2,
+      "lat": 24.890789403592123,
+      "line": "line-3",
+      "lon": 91.86863354067818,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4487.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Kumargoan Bus Stand",
+      "archetype": "terminal",
+      "id": "line-3-0454-0347-s009670",
+      "lat": 24.91220537738905,
+      "line": "line-3",
+      "lon": 91.82822802427137,
+      "platform_length_m": 59.5,
+      "s_m": 9670.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "archetype": "terminal",
+      "id": "line-4-0513-0606-s000000",
+      "junction_group": 3,
+      "lat": 24.90158737357377,
+      "line": "line-4",
+      "lon": 91.87952718480744,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0567-0700-s002525",
+      "junction_group": 0,
+      "lat": 24.89186920059029,
+      "line": "line-4",
+      "lon": 91.89814541295569,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2524.5
+    },
+    {
+      "archetype": "halt",
+      "id": "line-4-0660-0852-s006438",
+      "lat": 24.87513234711874,
+      "line": "line-4",
+      "lon": 91.92825148400388,
+      "platform_length_m": 55.5,
+      "s_m": 6438.4
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0794-0964-s010361",
+      "lat": 24.851016880826403,
+      "line": "line-4",
+      "lon": 91.95043490477623,
+      "platform_length_m": 59.5,
+      "s_m": 10360.5
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

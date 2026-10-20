@@ -1,0 +1,867 @@
+{
+  "city": {
+    "bbox": {
+      "east": 40.5871,
+      "north": -12.9054,
+      "south": -13.0406,
+      "west": 40.4485
+    },
+    "centroid_lat": -12.985754893280063,
+    "centroid_lon": 40.529345390852235,
+    "country": "MZ",
+    "population": 250000,
+    "slug": "pemba-mz"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/corridors.json",
+    "cities/catalogue/east-africa/Mozambique/Pemba-Mz/pemba-mz.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Mozambique/Pemba-Mz/pemba-mz.corridor.geojson",
+      "geometry_sha256": "b2302547aee7ef2c63563f101f57b4910d255a9df6e218cf7331b8b39af44056",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 752,
+    "population": 250000,
+    "schema_version": 1,
+    "slug": "pemba-mz"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -12.96757831047763,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": 40.511277321745006,
+      "platforms": [
+        "line-1-0345-0340-s004158",
+        "line-4-0345-0340-s001146"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -12.973397216523294,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 40.519819708159645,
+      "platforms": [
+        "line-1-0376-0382-s005410",
+        "line-1-0377-0384-s005498",
+        "line-1-0379-0393-s005695",
+        "line-3-0376-0382-s002337",
+        "line-3-0377-0384-s002425",
+        "line-3-0379-0393-s002695"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -12.978916178958356,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 40.5238143492888,
+      "platforms": [
+        "line-1-0408-0408-s006399",
+        "line-3-0408-0408-s003399"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -12.969287989058056,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 40.55856772711239,
+      "platforms": [
+        "line-1-0344-0596-s011648",
+        "line-2-0365-0597-s007781"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": -12.99736271101033,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 40.53340148799875,
+      "platforms": [
+        "line-2-0510-0460-s003013",
+        "line-3-0511-0460-s005923"
+      ]
+    },
+    {
+      "id": "interchange-005",
+      "junction_group": 5,
+      "lat": -12.988094453442754,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 40.527808990417945,
+      "platforms": [
+        "line-3-0457-0426-s004528",
+        "line-4-0457-0426-s005292",
+        "line-4-0463-0437-s005562"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 14019.9,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 7780.6,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 10613.9,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5562.2,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0316-0192-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0354-0699-s014020"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 31
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0634-0455-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0365-0597-s007781"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 16
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0353-0455-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0645-0634-s010614"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 28
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0327-0375-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0463-0437-s005562"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 15
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Paquitequete",
+      "demand": 0.43687272,
+      "id": "line-1-0316-0192-s000000",
+      "lat": -12.96235929165317,
+      "line": "line-1",
+      "lon": 40.48399085003206,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.84093434,
+      "id": "line-1-0345-0340-s004158",
+      "junction_group": 0,
+      "lat": -12.96757831047763,
+      "line": "line-1",
+      "lon": 40.511277321745006,
+      "s_m": 4157.888886054574
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.83894813,
+      "id": "line-1-0376-0382-s005410",
+      "junction_group": 1,
+      "lat": -12.973157261634812,
+      "line": "line-1",
+      "lon": 40.51902077993382,
+      "s_m": 5409.848480983514
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.83651036,
+      "id": "line-1-0377-0384-s005498",
+      "junction_group": 1,
+      "lat": -12.973337227801174,
+      "line": "line-1",
+      "lon": 40.519389516038046,
+      "s_m": 5498.132752230976
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8363816,
+      "id": "line-1-0379-0393-s005695",
+      "junction_group": 1,
+      "lat": -12.973697160133895,
+      "line": "line-1",
+      "lon": 40.52104882850708,
+      "s_m": 5694.7012947259
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7632653,
+      "id": "line-1-0408-0408-s006399",
+      "junction_group": 2,
+      "lat": -12.978916178958356,
+      "line": "line-1",
+      "lon": 40.5238143492888,
+      "s_m": 6398.965363437832
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Maringanha",
+      "demand": 0.41529998,
+      "id": "line-1-0344-0596-s011648",
+      "junction_group": 3,
+      "lat": -12.96739834431127,
+      "line": "line-1",
+      "lon": 40.55847554308633,
+      "s_m": 11647.981233214445
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Eduardo Mondlane",
+      "demand": 0.41035968,
+      "id": "line-1-0354-0699-s014020",
+      "lat": -12.969198005974876,
+      "line": "line-1",
+      "lon": 40.577465452454135,
+      "s_m": 14019.940828143359
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Mahate",
+      "demand": 0.56263727,
+      "id": "line-2-0634-0455-s000000",
+      "lat": -13.01958853255588,
+      "line": "line-2",
+      "lon": 40.532479647738185,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mercado Comercial da China",
+      "demand": 0.68604624,
+      "id": "line-2-0510-0460-s003013",
+      "junction_group": 4,
+      "lat": -12.99727272792715,
+      "line": "line-2",
+      "lon": 40.53340148799875,
+      "s_m": 3012.7922061357895
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Maringanha",
+      "demand": 0.51591647,
+      "id": "line-2-0365-0597-s007781",
+      "junction_group": 3,
+      "lat": -12.971177633804844,
+      "line": "line-2",
+      "lon": 40.55865991113845,
+      "s_m": 7780.630585851548
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Arco Iris",
+      "demand": 0.67029643,
+      "id": "line-3-0353-0455-s000000",
+      "lat": -12.969018039808516,
+      "line": "line-3",
+      "lon": 40.532479647738185,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.83894813,
+      "id": "line-3-0376-0382-s002337",
+      "junction_group": 1,
+      "lat": -12.973157261634812,
+      "line": "line-3",
+      "lon": 40.51902077993382,
+      "s_m": 2337.056274847716
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.83651036,
+      "id": "line-3-0377-0384-s002425",
+      "junction_group": 1,
+      "lat": -12.973337227801174,
+      "line": "line-3",
+      "lon": 40.519389516038046,
+      "s_m": 2425.340546095178
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8363816,
+      "id": "line-3-0379-0393-s002695",
+      "junction_group": 1,
+      "lat": -12.973697160133895,
+      "line": "line-3",
+      "lon": 40.52104882850708,
+      "s_m": 2695.046173579951
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7632653,
+      "id": "line-3-0408-0408-s003399",
+      "junction_group": 2,
+      "lat": -12.978916178958356,
+      "line": "line-3",
+      "lon": 40.5238143492888,
+      "s_m": 3399.310242291883
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8255696,
+      "id": "line-3-0457-0426-s004528",
+      "junction_group": 5,
+      "lat": -12.987734521110031,
+      "line": "line-3",
+      "lon": 40.52713297422686,
+      "s_m": 4528.427124746201
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.68448585,
+      "id": "line-3-0511-0460-s005923",
+      "junction_group": 4,
+      "lat": -12.99745269409351,
+      "line": "line-3",
+      "lon": 40.53340148799875,
+      "s_m": 5922.8131265463335
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Chuíba",
+      "demand": 0.38425612,
+      "id": "line-3-0645-0634-s010614",
+      "lat": -13.021568160385847,
+      "line": "line-3",
+      "lon": 40.56548152906669,
+      "s_m": 10613.910524340074
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Cariacó",
+      "demand": 0.81829447,
+      "id": "line-4-0327-0375-s000000",
+      "lat": -12.964338919483138,
+      "line": "line-4",
+      "lon": 40.517730203569016,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.84093434,
+      "id": "line-4-0345-0340-s001146",
+      "junction_group": 0,
+      "lat": -12.96757831047763,
+      "line": "line-4",
+      "lon": 40.511277321745006,
+      "s_m": 1145.685424949238
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8255696,
+      "id": "line-4-0457-0426-s005292",
+      "junction_group": 5,
+      "lat": -12.987734521110031,
+      "line": "line-4",
+      "lon": 40.52713297422686,
+      "s_m": 5292.447327281735
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Alto Gingone",
+      "demand": 0.827502,
+      "id": "line-4-0463-0437-s005562",
+      "junction_group": 5,
+      "lat": -12.988814318108195,
+      "line": "line-4",
+      "lon": 40.52916102280012,
+      "s_m": 5562.152954766508
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Paquitequete",
+      "archetype": "terminal",
+      "id": "line-1-0316-0192-s000000",
+      "lat": -12.96235929165317,
+      "line": "line-1",
+      "lon": 40.48399085003206,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0345-0340-s004158",
+      "junction_group": 0,
+      "lat": -12.96757831047763,
+      "line": "line-1",
+      "lon": 40.511277321745006,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4157.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0376-0382-s005410",
+      "junction_group": 1,
+      "lat": -12.973157261634812,
+      "line": "line-1",
+      "lon": 40.51902077993382,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 5409.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0377-0384-s005498",
+      "junction_group": 1,
+      "lat": -12.973337227801174,
+      "line": "line-1",
+      "lon": 40.519389516038046,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 5498.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0379-0393-s005695",
+      "junction_group": 1,
+      "lat": -12.973697160133895,
+      "line": "line-1",
+      "lon": 40.52104882850708,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 5694.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0408-0408-s006399",
+      "junction_group": 2,
+      "lat": -12.978916178958356,
+      "line": "line-1",
+      "lon": 40.5238143492888,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 6399.0
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Maringanha",
+      "archetype": "interchange",
+      "id": "line-1-0344-0596-s011648",
+      "junction_group": 3,
+      "lat": -12.96739834431127,
+      "line": "line-1",
+      "lon": 40.55847554308633,
+      "platform_length_m": 49.0,
+      "s_m": 11648.0
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Eduardo Mondlane",
+      "archetype": "depot-terminal",
+      "id": "line-1-0354-0699-s014020",
+      "lat": -12.969198005974876,
+      "line": "line-1",
+      "lon": 40.577465452454135,
+      "platform_length_m": 49.0,
+      "s_m": 14019.9
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Mahate",
+      "archetype": "terminal",
+      "id": "line-2-0634-0455-s000000",
+      "lat": -13.01958853255588,
+      "line": "line-2",
+      "lon": 40.532479647738185,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mercado Comercial da China",
+      "archetype": "interchange",
+      "id": "line-2-0510-0460-s003013",
+      "junction_group": 4,
+      "lat": -12.99727272792715,
+      "line": "line-2",
+      "lon": 40.53340148799875,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3012.8
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Maringanha",
+      "archetype": "terminal",
+      "id": "line-2-0365-0597-s007781",
+      "junction_group": 3,
+      "lat": -12.971177633804844,
+      "line": "line-2",
+      "lon": 40.55865991113845,
+      "platform_length_m": 49.0,
+      "s_m": 7780.6
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Arco Iris",
+      "archetype": "terminal",
+      "id": "line-3-0353-0455-s000000",
+      "lat": -12.969018039808516,
+      "line": "line-3",
+      "lon": 40.532479647738185,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0376-0382-s002337",
+      "junction_group": 1,
+      "lat": -12.973157261634812,
+      "line": "line-3",
+      "lon": 40.51902077993382,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2337.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0377-0384-s002425",
+      "junction_group": 1,
+      "lat": -12.973337227801174,
+      "line": "line-3",
+      "lon": 40.519389516038046,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2425.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0379-0393-s002695",
+      "junction_group": 1,
+      "lat": -12.973697160133895,
+      "line": "line-3",
+      "lon": 40.52104882850708,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2695.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0408-0408-s003399",
+      "junction_group": 2,
+      "lat": -12.978916178958356,
+      "line": "line-3",
+      "lon": 40.5238143492888,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3399.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0457-0426-s004528",
+      "junction_group": 5,
+      "lat": -12.987734521110031,
+      "line": "line-3",
+      "lon": 40.52713297422686,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4528.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0511-0460-s005923",
+      "junction_group": 4,
+      "lat": -12.99745269409351,
+      "line": "line-3",
+      "lon": 40.53340148799875,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 5922.8
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Chuíba",
+      "archetype": "terminal",
+      "id": "line-3-0645-0634-s010614",
+      "lat": -13.021568160385847,
+      "line": "line-3",
+      "lon": 40.56548152906669,
+      "platform_length_m": 49.0,
+      "s_m": 10613.9
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Cariacó",
+      "archetype": "terminal",
+      "id": "line-4-0327-0375-s000000",
+      "lat": -12.964338919483138,
+      "line": "line-4",
+      "lon": 40.517730203569016,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0345-0340-s001146",
+      "junction_group": 0,
+      "lat": -12.96757831047763,
+      "line": "line-4",
+      "lon": 40.511277321745006,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1145.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0457-0426-s005292",
+      "junction_group": 5,
+      "lat": -12.987734521110031,
+      "line": "line-4",
+      "lon": 40.52713297422686,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 5292.4
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Bairro Alto Gingone",
+      "archetype": "terminal",
+      "id": "line-4-0463-0437-s005562",
+      "junction_group": 5,
+      "lat": -12.988814318108195,
+      "line": "line-4",
+      "lon": 40.52916102280012,
+      "platform_length_m": 49.0,
+      "s_m": 5562.2
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

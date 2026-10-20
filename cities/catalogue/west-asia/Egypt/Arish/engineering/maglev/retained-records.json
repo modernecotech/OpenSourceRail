@@ -1,0 +1,325 @@
+{
+  "city": {
+    "bbox": {
+      "east": 33.8773,
+      "north": 31.1992,
+      "south": 31.064,
+      "west": 33.7195
+    },
+    "centroid_lat": 31.130542907533385,
+    "centroid_lon": 33.80125222667718,
+    "country": "EG",
+    "population": 300000,
+    "slug": "arish"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-asia/Egypt/Arish/corridors.json",
+    "cities/catalogue/west-asia/Egypt/Arish/arish.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-asia/Egypt/Arish/arish.corridor.geojson",
+      "geometry_sha256": "f2c7eb1d46db6ac562b9ecb1ae6bfeab42ae594ab639cfdd4ccb638858b019d4",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 752,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "arish"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 31.135701937635726,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 33.8124463698251,
+      "platforms": [
+        "line-1-0354-0450-s010904",
+        "line-2-0349-0427-s001957",
+        "line-2-0354-0450-s001456"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 12876.3,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 1957.4,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0697-0528-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0307-0518-s012876"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 29
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0368-0517-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0349-0427-s001957"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 10
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "مطار العريش الدولى",
+      "demand": 0.6588203,
+      "id": "line-1-0697-0528-s000000",
+      "lat": 31.073673598963396,
+      "line": "line-1",
+      "lon": 33.83042696225646,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35016766,
+      "id": "line-1-0437-0446-s006727",
+      "lat": 31.120464802217185,
+      "line": "line-1",
+      "lon": 33.81321596716653,
+      "s_m": 6726.66088965484
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8965352,
+      "id": "line-1-0354-0450-s010904",
+      "junction_group": 0,
+      "lat": 31.135401994025123,
+      "line": "line-1",
+      "lon": 33.81405552790262,
+      "s_m": 10904.305909532994
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Arish Military Hospital",
+      "demand": 0.885215,
+      "id": "line-1-0307-0518-s012876",
+      "lat": 31.14386040384408,
+      "line": "line-1",
+      "lon": 33.82832806041622,
+      "s_m": 12876.265504461908
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Arish University",
+      "demand": 0.9253491,
+      "id": "line-2-0368-0517-s000000",
+      "lat": 31.132882467696074,
+      "line": "line-2",
+      "lon": 33.8281181702322,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8965352,
+      "id": "line-2-0354-0450-s001456",
+      "junction_group": 0,
+      "lat": 31.135401994025123,
+      "line": "line-2",
+      "lon": 33.81405552790262,
+      "s_m": 1455.9797974644666
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفي العريش العام",
+      "demand": 0.9180038,
+      "id": "line-2-0349-0427-s001957",
+      "junction_group": 0,
+      "lat": 31.13630182485693,
+      "line": "line-2",
+      "lon": 33.809228053670076,
+      "s_m": 1957.4011537017761
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "مطار العريش الدولى",
+      "archetype": "terminal",
+      "id": "line-1-0697-0528-s000000",
+      "lat": 31.073673598963396,
+      "line": "line-1",
+      "lon": 33.83042696225646,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0437-0446-s006727",
+      "lat": 31.120464802217185,
+      "line": "line-1",
+      "lon": 33.81321596716653,
+      "platform_length_m": 49.0,
+      "s_m": 6726.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0354-0450-s010904",
+      "junction_group": 0,
+      "lat": 31.135401994025123,
+      "line": "line-1",
+      "lon": 33.81405552790262,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 10904.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Arish Military Hospital",
+      "archetype": "depot-terminal",
+      "id": "line-1-0307-0518-s012876",
+      "lat": 31.14386040384408,
+      "line": "line-1",
+      "lon": 33.82832806041622,
+      "platform_length_m": 49.0,
+      "s_m": 12876.3
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Arish University",
+      "archetype": "terminal",
+      "id": "line-2-0368-0517-s000000",
+      "lat": 31.132882467696074,
+      "line": "line-2",
+      "lon": 33.8281181702322,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0354-0450-s001456",
+      "junction_group": 0,
+      "lat": 31.135401994025123,
+      "line": "line-2",
+      "lon": 33.81405552790262,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1456.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفي العريش العام",
+      "archetype": "terminal",
+      "id": "line-2-0349-0427-s001957",
+      "junction_group": 0,
+      "lat": 31.13630182485693,
+      "line": "line-2",
+      "lon": 33.809228053670076,
+      "platform_length_m": 49.0,
+      "s_m": 1957.4
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

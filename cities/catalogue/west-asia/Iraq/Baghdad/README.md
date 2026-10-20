@@ -1,3 +1,9 @@
+<!-- osr-maglev-primary:start -->
+> **Primary v0.5 ferrite-maglev planning:** [Open the current city planning package](engineering/maglev/README.md). Formation, duty, fleet, charging, depot quantities and partial cost allowances are recomputed; physical acceptance remains open.
+>
+> The material below this notice is the retained v0.4 wheel/rail comparator. Its costs, fleet, geometry and acceptance do not transfer to maglev.
+<!-- osr-maglev-primary:end -->
+
 # Baghdad — Urban Rail Network
 
 [Current design coverage, geometry and open gates](engineering/design-system/index.html) · [Placed station IFC and map](engineering/federation/index.html).

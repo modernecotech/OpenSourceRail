@@ -1,0 +1,780 @@
+{
+  "city": {
+    "bbox": {
+      "east": -2.8508,
+      "north": 35.2364,
+      "south": 35.1012,
+      "west": -3.0162
+    },
+    "centroid_lat": 35.16864273836519,
+    "centroid_lon": -2.935430324602107,
+    "country": "MA",
+    "population": 250000,
+    "slug": "nador"
+  },
+  "climate": {
+    "preset": "mediterranean"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/north-africa/Morocco/Nador/corridors.json",
+    "cities/catalogue/north-africa/Morocco/Nador/nador.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/north-africa/Morocco/Nador/nador.corridor.geojson",
+      "geometry_sha256": "a35d838ba063d450233a3524a546fa8d0e7eb4b365f6ee0dd8ca5ccdb44a2ffa",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 250000,
+    "schema_version": 1,
+    "slug": "nador"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 35.16855275528201,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": -2.9371061580032203,
+      "platforms": [
+        "line-1-0367-0344-s002834",
+        "line-1-0376-0368-s001997",
+        "line-1-0379-0365-s002122",
+        "line-1-0384-0361-s002307",
+        "line-2-0376-0367-s011599",
+        "line-2-0379-0365-s011676",
+        "line-3-0367-0344-s006853",
+        "line-3-0384-0361-s006325"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 35.153885512723605,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": -2.985980053422557,
+      "platforms": [
+        "line-1-0457-0143-s007814",
+        "line-1-0459-0131-s008071",
+        "line-4-0457-0143-s000563",
+        "line-4-0459-0131-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 10064.3,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 15367.9,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 8540.0,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 6874.1,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0328-0422-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0440-0045-s010064"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 27
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0034-0117-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0479-0445-s015368"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 31
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0619-0416-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0313-0282-s008540"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 19
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0459-0131-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0663-0137-s006874"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 15
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Souq el morakab",
+      "demand": 0.9521397,
+      "id": "line-1-0328-0422-s000000",
+      "lat": 35.17728111435051,
+      "line": "line-1",
+      "lon": -2.9233423459711303,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.82565725,
+      "id": "line-1-0376-0368-s001997",
+      "junction_group": 0,
+      "lat": 35.16864273836519,
+      "line": "line-1",
+      "lon": -2.9352105431724533,
+      "s_m": 1996.812408671319
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8138634,
+      "id": "line-1-0379-0365-s002122",
+      "junction_group": 0,
+      "lat": 35.16810283986611,
+      "line": "line-1",
+      "lon": -2.9358698874614158,
+      "s_m": 2121.665222413705
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "College Al Massira",
+      "demand": 0.79258025,
+      "id": "line-1-0384-0361-s002307",
+      "junction_group": 0,
+      "lat": 35.1672030090343,
+      "line": "line-1",
+      "lon": -2.936749013180032,
+      "s_m": 2306.5180361560915
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7970729,
+      "id": "line-1-0367-0344-s002834",
+      "junction_group": 0,
+      "lat": 35.17026243386244,
+      "line": "line-1",
+      "lon": -2.940485297484152,
+      "s_m": 2834.213562373099
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2180454,
+      "id": "line-1-0457-0143-s007814",
+      "junction_group": 1,
+      "lat": 35.15406547888997,
+      "line": "line-1",
+      "lon": -2.9846613648446323,
+      "s_m": 7814.35641587185
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22230554,
+      "id": "line-1-0459-0131-s008071",
+      "junction_group": 1,
+      "lat": 35.15370554655725,
+      "line": "line-1",
+      "lon": -2.987298742000482,
+      "s_m": 8070.924958366774
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "College Mohamed Al Fassi",
+      "demand": 0.4554777,
+      "id": "line-1-0440-0045-s010064",
+      "lat": 35.157124903718106,
+      "line": "line-1",
+      "lon": -3.0061999449507373,
+      "s_m": 10064.305909532995
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "جنة الڤالهالا",
+      "demand": 0.11609733,
+      "id": "line-2-0034-0117-s000000",
+      "lat": 35.23019116726056,
+      "line": "line-2",
+      "lon": -2.9903756820156397,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.18437059,
+      "id": "line-2-0183-0173-s003510",
+      "lat": 35.20337620847281,
+      "line": "line-2",
+      "lon": -2.9780679219550086,
+      "s_m": 3510.1933598375645
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.28227118,
+      "id": "line-2-0243-0279-s007024",
+      "lat": 35.192578238491166,
+      "line": "line-2",
+      "lon": -2.9547710904116706,
+      "s_m": 7023.8181771802165
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8251487,
+      "id": "line-2-0376-0367-s011599",
+      "junction_group": 0,
+      "lat": 35.16864273836519,
+      "line": "line-2",
+      "lon": -2.935430324602107,
+      "s_m": 11599.108216936524
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8138634,
+      "id": "line-2-0379-0365-s011676",
+      "junction_group": 0,
+      "lat": 35.16810283986611,
+      "line": "line-2",
+      "lon": -2.9358698874614158,
+      "s_m": 11675.676759431446
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Hay al Matar حي المطار",
+      "demand": 0.4727831,
+      "id": "line-2-0479-0445-s015368",
+      "lat": 35.15010622323003,
+      "line": "line-2",
+      "lon": -2.9182873730890853,
+      "s_m": 15367.880220536736
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Gare Routière de Nador محطة حافلة الناظور",
+      "demand": 0.29048356,
+      "id": "line-3-0619-0416-s000000",
+      "lat": 35.124910959939534,
+      "line": "line-3",
+      "lon": -2.9246610345490547,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق الخضر بالجملة",
+      "demand": 0.4831935,
+      "id": "line-3-0493-0392-s003016",
+      "lat": 35.14758669690099,
+      "line": "line-3",
+      "lon": -2.929935788860754,
+      "s_m": 3016.223663640866
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.79258025,
+      "id": "line-3-0384-0361-s006325",
+      "junction_group": 0,
+      "lat": 35.1672030090343,
+      "line": "line-3",
+      "lon": -2.936749013180032,
+      "s_m": 6324.995667241132
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7970729,
+      "id": "line-3-0367-0344-s006853",
+      "junction_group": 0,
+      "lat": 35.17026243386244,
+      "line": "line-3",
+      "lon": -2.940485297484152,
+      "s_m": 6852.691193458139
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "souk jjoutya",
+      "demand": 0.5155143,
+      "id": "line-3-0313-0282-s008540",
+      "lat": 35.179980606845916,
+      "line": "line-3",
+      "lon": -2.954111746122708,
+      "s_m": 8540.041840821083
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22230554,
+      "id": "line-4-0459-0131-s000000",
+      "junction_group": 1,
+      "lat": 35.15370554655725,
+      "line": "line-4",
+      "lon": -2.987298742000482,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2180454,
+      "id": "line-4-0457-0143-s000563",
+      "junction_group": 1,
+      "lat": 35.15406547888997,
+      "line": "line-4",
+      "lon": -2.9846613648446323,
+      "s_m": 562.842712474619
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.11607794,
+      "id": "line-4-0663-0137-s006874",
+      "lat": 35.11699244861966,
+      "line": "line-4",
+      "lon": -2.985980053422557,
+      "s_m": 6874.112549695445
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Souq el morakab",
+      "archetype": "terminal",
+      "id": "line-1-0328-0422-s000000",
+      "lat": 35.17728111435051,
+      "line": "line-1",
+      "lon": -2.9233423459711303,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0376-0368-s001997",
+      "junction_group": 0,
+      "lat": 35.16864273836519,
+      "line": "line-1",
+      "lon": -2.9352105431724533,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1996.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0379-0365-s002122",
+      "junction_group": 0,
+      "lat": 35.16810283986611,
+      "line": "line-1",
+      "lon": -2.9358698874614158,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2121.7
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "College Al Massira",
+      "archetype": "interchange",
+      "id": "line-1-0384-0361-s002307",
+      "junction_group": 0,
+      "lat": 35.1672030090343,
+      "line": "line-1",
+      "lon": -2.936749013180032,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2306.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0367-0344-s002834",
+      "junction_group": 0,
+      "lat": 35.17026243386244,
+      "line": "line-1",
+      "lon": -2.940485297484152,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2834.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0457-0143-s007814",
+      "junction_group": 1,
+      "lat": 35.15406547888997,
+      "line": "line-1",
+      "lon": -2.9846613648446323,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7814.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0459-0131-s008071",
+      "junction_group": 1,
+      "lat": 35.15370554655725,
+      "line": "line-1",
+      "lon": -2.987298742000482,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8070.9
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "College Mohamed Al Fassi",
+      "archetype": "terminal",
+      "id": "line-1-0440-0045-s010064",
+      "lat": 35.157124903718106,
+      "line": "line-1",
+      "lon": -3.0061999449507373,
+      "platform_length_m": 49.0,
+      "s_m": 10064.3
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "جنة الڤالهالا",
+      "archetype": "terminal",
+      "id": "line-2-0034-0117-s000000",
+      "lat": 35.23019116726056,
+      "line": "line-2",
+      "lon": -2.9903756820156397,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0183-0173-s003510",
+      "lat": 35.20337620847281,
+      "line": "line-2",
+      "lon": -2.9780679219550086,
+      "platform_length_m": 45.0,
+      "s_m": 3510.2
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0243-0279-s007024",
+      "lat": 35.192578238491166,
+      "line": "line-2",
+      "lon": -2.9547710904116706,
+      "platform_length_m": 49.0,
+      "s_m": 7023.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0376-0367-s011599",
+      "junction_group": 0,
+      "lat": 35.16864273836519,
+      "line": "line-2",
+      "lon": -2.935430324602107,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 11599.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0379-0365-s011676",
+      "junction_group": 0,
+      "lat": 35.16810283986611,
+      "line": "line-2",
+      "lon": -2.9358698874614158,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 11675.7
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Hay al Matar حي المطار",
+      "archetype": "depot-terminal",
+      "id": "line-2-0479-0445-s015368",
+      "lat": 35.15010622323003,
+      "line": "line-2",
+      "lon": -2.9182873730890853,
+      "platform_length_m": 49.0,
+      "s_m": 15367.9
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Gare Routière de Nador محطة حافلة الناظور",
+      "archetype": "terminal",
+      "id": "line-3-0619-0416-s000000",
+      "lat": 35.124910959939534,
+      "line": "line-3",
+      "lon": -2.9246610345490547,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق الخضر بالجملة",
+      "archetype": "standard",
+      "id": "line-3-0493-0392-s003016",
+      "lat": 35.14758669690099,
+      "line": "line-3",
+      "lon": -2.929935788860754,
+      "platform_length_m": 49.0,
+      "s_m": 3016.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0384-0361-s006325",
+      "junction_group": 0,
+      "lat": 35.1672030090343,
+      "line": "line-3",
+      "lon": -2.936749013180032,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 6325.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0367-0344-s006853",
+      "junction_group": 0,
+      "lat": 35.17026243386244,
+      "line": "line-3",
+      "lon": -2.940485297484152,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 6852.7
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "souk jjoutya",
+      "archetype": "terminal",
+      "id": "line-3-0313-0282-s008540",
+      "lat": 35.179980606845916,
+      "line": "line-3",
+      "lon": -2.954111746122708,
+      "platform_length_m": 49.0,
+      "s_m": 8540.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0459-0131-s000000",
+      "junction_group": 1,
+      "lat": 35.15370554655725,
+      "line": "line-4",
+      "lon": -2.987298742000482,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0457-0143-s000563",
+      "junction_group": 1,
+      "lat": 35.15406547888997,
+      "line": "line-4",
+      "lon": -2.9846613648446323,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 562.8
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0663-0137-s006874",
+      "lat": 35.11699244861966,
+      "line": "line-4",
+      "lon": -2.985980053422557,
+      "platform_length_m": 49.0,
+      "s_m": 6874.1
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

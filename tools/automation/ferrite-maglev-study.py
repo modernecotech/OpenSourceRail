@@ -19,7 +19,7 @@ def units(output):
             '[Unit]\nDescription=OpenSourceRail v0.5 primary infrastructure study refresh\n'
             '[Service]\nType=oneshot\nWorkingDirectory='+str(model.ROOT).replace('%','%%')+'\n'
             'ExecStart='+arg(sys.executable)+' '+arg(entry)+' cycle --output '+arg(output)+'\n'
-            'TimeoutStartSec=120\nUMask=0077\n',
+            'TimeoutStartSec=600\nUMask=0077\n',
         'osr-primary-infrastructure.timer':
             '[Unit]\nDescription=OpenSourceRail v0.5 source-change study refresh\n'
             '[Timer]\nOnBootSec=2min\nOnUnitActiveSec=15min\nPersistent=true\n'
@@ -28,7 +28,7 @@ def units(output):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','release-check','cycle','install'))
+    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','release-check','cycle','install','native','coupled','catalogue'))
     parser.add_argument('--output',type=Path,default=delivery.OUTPUT)
     args=parser.parse_args()
     if args.action=='install':
@@ -45,22 +45,38 @@ def main():
         subprocess.run(['systemctl','--user','start','osr-primary-infrastructure.service'],check=True)
         result=dict(timer='osr-primary-infrastructure.timer',report=str(output/'index.html'),
                     mode='finite source-change refresh; missing capabilities remain open')
+    elif args.action=='catalogue':
+        from engineering.ferrite_maglev import cities
+        result=cities.generate_all()
+        result=cities.verify_index()
+    elif args.action=='native':
+        from engineering.ferrite_maglev import geometry,media
+        output=model.ROOT/'docs/design-engine/ferrite-maglev/native'
+        geometry.publish_native(output)
+        for folder in ('interface','civil-bay'):media.native_views(output/folder)
+        result=geometry.seal_native(output)
+    elif args.action=='coupled':
+        from engineering.ferrite_maglev import coupled
+        result=coupled.publish(model.ROOT/'docs/design-engine/ferrite-maglev/coupled')
     elif args.action=='status':
         policy,c,_=model.load()
         result=dict(version='0.5.0',family=c['metadata']['family'],primary_development=True,
                     legacy=policy['development']['legacy_use'],gates='G0–G5 open',
-                    city_migration='pending configuration-specific maglev compiler; retained cities are wheel/rail comparators',**model.FLAGS)
+                    city_migration='266 primary maglev city packages; legacy geometry/demand retained, fleet/duty/charging/partial costs recomputed',
+                    inventory='414 items and63 legacy packages have explicit dispositions;72 requirements/11 new packages; accepted completion0',**model.FLAGS)
     elif args.action=='release-check':
         model.load()
         print(json.dumps(dict(release_allowed=False,reason='No authenticated magnetic/vehicle/civil/hardware acceptance adapter',
                               required_gates=['G'+str(i) for i in range(6)]),indent=2));return 3
     else:
+        if args.action=='cycle':
+            from engineering.ferrite_maglev import cities
+            if not cities.verify_index()['current']:cities.generate_all()
         if args.action=='cycle' and (args.output/'manifest.json').is_file():
             try:
                 delivery.verify(args.output)
                 retained=json.loads((args.output/'result.json').read_text())
-                import scipy,platform
-                if retained['runtime']==dict(python=platform.python_version(),scipy=scipy.__version__):
+                if retained['runtime']==delivery.runtime():
                     print(json.dumps(dict(state='idle; sources unchanged',family=retained['family'],**model.FLAGS),indent=2));return 0
             except (ValueError,KeyError,FileNotFoundError):pass
         manifest=delivery.verify(args.output) if args.action=='verify' else delivery.publish(args.output,check=args.action=='check')

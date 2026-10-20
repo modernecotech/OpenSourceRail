@@ -1,0 +1,887 @@
+{
+  "city": {
+    "bbox": {
+      "east": 40.7426,
+      "north": -14.4752,
+      "south": -14.6104,
+      "west": 40.603
+    },
+    "centroid_lat": -14.54277729546845,
+    "centroid_lon": 40.67455230333596,
+    "country": "MZ",
+    "population": 300000,
+    "slug": "nacala"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Mozambique/Nacala/corridors.json",
+    "cities/catalogue/east-africa/Mozambique/Nacala/nacala.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Mozambique/Nacala/nacala.corridor.geojson",
+      "geometry_sha256": "845e7f015ecb16fac643764993924e3d1295475e2f9066017c1bc3ed7307e067",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "nacala"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -14.571211949753446,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 40.68420397590008,
+      "platforms": [
+        "line-1-0533-0436-s000000",
+        "line-3-0533-0438-s006025"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -14.553215333117373,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 40.6880089621994,
+      "platforms": [
+        "line-1-0433-0454-s002149",
+        "line-2-0433-0454-s001962",
+        "line-2-0433-0461-s001822",
+        "line-3-0433-0461-s003835"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -14.53728832739445,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 40.691349925779285,
+      "platforms": [
+        "line-1-0343-0471-s004090",
+        "line-3-0346-0480-s001926"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -14.521271338588345,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 40.69469088935918,
+      "platforms": [
+        "line-1-0253-0487-s006022",
+        "line-3-0258-0500-s000000"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": -14.55501499478098,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 40.70072318471175,
+      "platforms": [
+        "line-2-0450-0518-s000000",
+        "line-4-0436-0534-s005930"
+      ]
+    },
+    {
+      "id": "interchange-005",
+      "junction_group": 5,
+      "lat": -14.585429276895942,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 40.68160544867128,
+      "platforms": [
+        "line-3-0612-0423-s007730",
+        "line-4-0612-0423-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 10809.3,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 26633.9,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 9667.6,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 8105.0,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0533-0436-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0069-0563-s010809"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 21
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0450-0518-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0394-0018-s026634"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 53
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0258-0500-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0685-0451-s009668"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 23
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0612-0423-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0362-0562-s008105"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 16
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mercado Juma",
+      "demand": 0.49484646,
+      "id": "line-1-0533-0436-s000000",
+      "junction_group": 0,
+      "lat": -14.571211949753446,
+      "line": "line-1",
+      "lon": 40.68401836681231,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.59599704,
+      "id": "line-1-0433-0454-s002149",
+      "junction_group": 1,
+      "lat": -14.553215333117373,
+      "line": "line-1",
+      "lon": 40.6873593303922,
+      "s_m": 2149.1168824543142
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.41148025,
+      "id": "line-1-0343-0471-s004090",
+      "junction_group": 2,
+      "lat": -14.537018378144907,
+      "line": "line-1",
+      "lon": 40.69051468488431,
+      "s_m": 4089.94949366117
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": null,
+      "demand": 0.68374664,
+      "id": "line-1-0253-0487-s006022",
+      "junction_group": 3,
+      "lat": -14.520821423172443,
+      "line": "line-1",
+      "lon": 40.69348443028866,
+      "s_m": 6022.497833620564
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Aeroporto International de Nacala",
+      "demand": 0.45416754,
+      "id": "line-1-0069-0563-s010809",
+      "lat": -14.48770764856207,
+      "line": "line-1",
+      "lon": 40.7075907209593,
+      "s_m": 10809.259735953021
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Mathapue",
+      "demand": 0.7305401,
+      "id": "line-2-0450-0518-s000000",
+      "junction_group": 4,
+      "lat": -14.556274757945506,
+      "line": "line-2",
+      "lon": 40.69923831200958,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6125503,
+      "id": "line-2-0433-0461-s001822",
+      "junction_group": 1,
+      "lat": -14.553215333117373,
+      "line": "line-2",
+      "lon": 40.6886585940066,
+      "s_m": 1822.2539674441618
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.59599704,
+      "id": "line-2-0433-0454-s001962",
+      "junction_group": 1,
+      "lat": -14.553215333117373,
+      "line": "line-2",
+      "lon": 40.6873593303922,
+      "s_m": 1962.2539674441618
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5700376,
+      "id": "line-2-0398-0359-s006017",
+      "lat": -14.546916517294747,
+      "line": "line-2",
+      "lon": 40.66972646705389,
+      "s_m": 6017.300141024124
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.25556526,
+      "id": "line-2-0542-0310-s009519",
+      "lat": -14.572831645250693,
+      "line": "line-2",
+      "lon": 40.66063162175308,
+      "s_m": 9518.620484583753
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.13741976,
+      "id": "line-2-0668-0198-s013025",
+      "lat": -14.595507382212144,
+      "line": "line-2",
+      "lon": 40.63984340392267,
+      "s_m": 13025.037508062103
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.07374602,
+      "id": "line-2-0688-0080-s016544",
+      "lat": -14.599106705539358,
+      "line": "line-2",
+      "lon": 40.61794153156561,
+      "s_m": 16544.347750353925
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.16659252,
+      "id": "line-2-0529-0116-s020039",
+      "lat": -14.570492085088002,
+      "line": "line-2",
+      "lon": 40.624623458725395,
+      "s_m": 20039.15005775752
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.34019578,
+      "id": "line-2-0437-0123-s022235",
+      "lat": -14.553935197782817,
+      "line": "line-2",
+      "lon": 40.625922722339794,
+      "s_m": 22235.37372139843
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Nacala-a-Velha",
+      "demand": 0.4321551,
+      "id": "line-2-0390-0117-s024427",
+      "lat": -14.545476787963862,
+      "line": "line-2",
+      "lon": 40.62480906781317,
+      "s_m": 24426.744571296953
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Utacone",
+      "demand": 0.32379276,
+      "id": "line-2-0394-0018-s026634",
+      "lat": -14.546196652629305,
+      "line": "line-2",
+      "lon": 40.60643376812378,
+      "s_m": 26633.85135248353
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": null,
+      "demand": 0.72613794,
+      "id": "line-3-0258-0500-s000000",
+      "junction_group": 3,
+      "lat": -14.521721254004246,
+      "line": "line-3",
+      "lon": 40.69589734842969,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.37213373,
+      "id": "line-3-0346-0480-s001926",
+      "junction_group": 2,
+      "lat": -14.53755827664399,
+      "line": "line-3",
+      "lon": 40.69218516667426,
+      "s_m": 1925.685424949238
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6125503,
+      "id": "line-3-0433-0461-s003835",
+      "junction_group": 1,
+      "lat": -14.553215333117373,
+      "line": "line-3",
+      "lon": 40.6886585940066,
+      "s_m": 3834.8023074035564
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mercado Juma",
+      "demand": 0.49382794,
+      "id": "line-3-0533-0438-s006025",
+      "junction_group": 0,
+      "lat": -14.571211949753446,
+      "line": "line-3",
+      "lon": 40.684389584987855,
+      "s_m": 6025.340546095185
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22825193,
+      "id": "line-3-0612-0423-s007730",
+      "junction_group": 5,
+      "lat": -14.585429276895942,
+      "line": "line-3",
+      "lon": 40.68160544867128,
+      "s_m": 7729.604614807117
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Apolitecnica ISPUNA",
+      "demand": 0.48409548,
+      "id": "line-3-0685-0451-s009668",
+      "lat": -14.598566807040276,
+      "line": "line-3",
+      "lon": 40.68680250312888,
+      "s_m": 9667.594513539347
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22825193,
+      "id": "line-4-0612-0423-s000000",
+      "junction_group": 5,
+      "lat": -14.585429276895942,
+      "line": "line-4",
+      "lon": 40.68160544867128,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Máchecute",
+      "demand": 0.6641799,
+      "id": "line-4-0436-0534-s005930",
+      "junction_group": 4,
+      "lat": -14.553755231616455,
+      "line": "line-4",
+      "lon": 40.70220805741393,
+      "s_m": 5929.604614807115
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.26575667,
+      "id": "line-4-0362-0562-s008105",
+      "lat": -14.540437735305762,
+      "line": "line-4",
+      "lon": 40.70740511187153,
+      "s_m": 8104.99566724113
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mercado Juma",
+      "archetype": "terminal",
+      "id": "line-1-0533-0436-s000000",
+      "junction_group": 0,
+      "lat": -14.571211949753446,
+      "line": "line-1",
+      "lon": 40.68401836681231,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0433-0454-s002149",
+      "junction_group": 1,
+      "lat": -14.553215333117373,
+      "line": "line-1",
+      "lon": 40.6873593303922,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2149.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0343-0471-s004090",
+      "junction_group": 2,
+      "lat": -14.537018378144907,
+      "line": "line-1",
+      "lon": 40.69051468488431,
+      "platform_length_m": 49.0,
+      "s_m": 4089.9
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "archetype": "interchange",
+      "id": "line-1-0253-0487-s006022",
+      "junction_group": 3,
+      "lat": -14.520821423172443,
+      "line": "line-1",
+      "lon": 40.69348443028866,
+      "platform_length_m": 49.0,
+      "s_m": 6022.5
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Aeroporto International de Nacala",
+      "archetype": "terminal",
+      "id": "line-1-0069-0563-s010809",
+      "lat": -14.48770764856207,
+      "line": "line-1",
+      "lon": 40.7075907209593,
+      "platform_length_m": 49.0,
+      "s_m": 10809.3
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Mathapue",
+      "archetype": "terminal",
+      "id": "line-2-0450-0518-s000000",
+      "junction_group": 4,
+      "lat": -14.556274757945506,
+      "line": "line-2",
+      "lon": 40.69923831200958,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0433-0461-s001822",
+      "junction_group": 1,
+      "lat": -14.553215333117373,
+      "line": "line-2",
+      "lon": 40.6886585940066,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1822.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0433-0454-s001962",
+      "junction_group": 1,
+      "lat": -14.553215333117373,
+      "line": "line-2",
+      "lon": 40.6873593303922,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1962.3
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0398-0359-s006017",
+      "lat": -14.546916517294747,
+      "line": "line-2",
+      "lon": 40.66972646705389,
+      "platform_length_m": 49.0,
+      "s_m": 6017.3
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0542-0310-s009519",
+      "lat": -14.572831645250693,
+      "line": "line-2",
+      "lon": 40.66063162175308,
+      "platform_length_m": 49.0,
+      "s_m": 9518.6
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0668-0198-s013025",
+      "lat": -14.595507382212144,
+      "line": "line-2",
+      "lon": 40.63984340392267,
+      "platform_length_m": 45.0,
+      "s_m": 13025.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0688-0080-s016544",
+      "lat": -14.599106705539358,
+      "line": "line-2",
+      "lon": 40.61794153156561,
+      "platform_length_m": 45.0,
+      "s_m": 16544.3
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0529-0116-s020039",
+      "lat": -14.570492085088002,
+      "line": "line-2",
+      "lon": 40.624623458725395,
+      "platform_length_m": 45.0,
+      "s_m": 20039.2
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0437-0123-s022235",
+      "lat": -14.553935197782817,
+      "line": "line-2",
+      "lon": 40.625922722339794,
+      "platform_length_m": 49.0,
+      "s_m": 22235.4
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Nacala-a-Velha",
+      "archetype": "standard",
+      "id": "line-2-0390-0117-s024427",
+      "lat": -14.545476787963862,
+      "line": "line-2",
+      "lon": 40.62480906781317,
+      "platform_length_m": 49.0,
+      "s_m": 24426.7
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Utacone",
+      "archetype": "depot-terminal",
+      "id": "line-2-0394-0018-s026634",
+      "lat": -14.546196652629305,
+      "line": "line-2",
+      "lon": 40.60643376812378,
+      "platform_length_m": 49.0,
+      "s_m": 26633.9
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "archetype": "terminal",
+      "id": "line-3-0258-0500-s000000",
+      "junction_group": 3,
+      "lat": -14.521721254004246,
+      "line": "line-3",
+      "lon": 40.69589734842969,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0346-0480-s001926",
+      "junction_group": 2,
+      "lat": -14.53755827664399,
+      "line": "line-3",
+      "lon": 40.69218516667426,
+      "platform_length_m": 49.0,
+      "s_m": 1925.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0433-0461-s003835",
+      "junction_group": 1,
+      "lat": -14.553215333117373,
+      "line": "line-3",
+      "lon": 40.6886585940066,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3834.8
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mercado Juma",
+      "archetype": "interchange",
+      "id": "line-3-0533-0438-s006025",
+      "junction_group": 0,
+      "lat": -14.571211949753446,
+      "line": "line-3",
+      "lon": 40.684389584987855,
+      "platform_length_m": 49.0,
+      "s_m": 6025.3
+    },
+    {
+      "archetype": "interchange-elevated",
+      "id": "line-3-0612-0423-s007730",
+      "junction_group": 5,
+      "lat": -14.585429276895942,
+      "line": "line-3",
+      "lon": 40.68160544867128,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7729.6
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Apolitecnica ISPUNA",
+      "archetype": "terminal",
+      "id": "line-3-0685-0451-s009668",
+      "lat": -14.598566807040276,
+      "line": "line-3",
+      "lon": 40.68680250312888,
+      "platform_length_m": 49.0,
+      "s_m": 9667.6
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0612-0423-s000000",
+      "junction_group": 5,
+      "lat": -14.585429276895942,
+      "line": "line-4",
+      "lon": 40.68160544867128,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Máchecute",
+      "archetype": "interchange",
+      "id": "line-4-0436-0534-s005930",
+      "junction_group": 4,
+      "lat": -14.553755231616455,
+      "line": "line-4",
+      "lon": 40.70220805741393,
+      "platform_length_m": 49.0,
+      "s_m": 5929.6
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0362-0562-s008105",
+      "lat": -14.540437735305762,
+      "line": "line-4",
+      "lon": 40.70740511187153,
+      "platform_length_m": 49.0,
+      "s_m": 8105.0
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

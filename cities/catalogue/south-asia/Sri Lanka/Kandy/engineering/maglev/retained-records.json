@@ -1,0 +1,1016 @@
+{
+  "city": {
+    "bbox": {
+      "east": 80.7336,
+      "north": 7.3897,
+      "south": 7.1915,
+      "west": 80.5338
+    },
+    "centroid_lat": 7.290808591584782,
+    "centroid_lon": 80.63441582274051,
+    "country": "LK",
+    "population": 650000,
+    "slug": "kandy"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/south-asia/Sri Lanka/Kandy/corridors.json",
+    "cities/catalogue/south-asia/Sri Lanka/Kandy/kandy.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/south-asia/Sri Lanka/Kandy/kandy.corridor.geojson",
+      "geometry_sha256": "7e7315775a4cc7f5f45d7e8e3e76c873a07b77031459ce99e50a2fbcf9e73e88",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 650000,
+    "schema_version": 1,
+    "slug": "kandy"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 7.288289065255732,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": 80.7099456122685,
+      "platforms": [
+        "line-1-0563-0972-s002026",
+        "line-4-0563-0972-s012591"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 7.28253014793219,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 80.67462592651799,
+      "platforms": [
+        "line-1-0595-0777-s006836",
+        "line-3-0595-0777-s002222"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 7.275511467444121,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 80.62807639196478,
+      "platforms": [
+        "line-1-0634-0520-s012299",
+        "line-2-0634-0520-s013332"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 7.312044599215348,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 80.64781919066634,
+      "platforms": [
+        "line-2-0430-0628-s019985",
+        "line-2-0432-0630-s019905",
+        "line-3-0430-0628-s007225",
+        "line-3-0432-0630-s007157"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": 7.340299287333981,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 80.66665635639994,
+      "platforms": [
+        "line-2-0274-0733-s025562",
+        "line-4-0274-0733-s000000"
+      ]
+    },
+    {
+      "id": "interchange-005",
+      "junction_group": 5,
+      "lat": 7.342638847496671,
+      "lines": [
+        "line-3",
+        "line-5"
+      ],
+      "lon": 80.61992569525313,
+      "platforms": [
+        "line-3-0261-0475-s012365",
+        "line-5-0261-0475-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 300,
+      "geometry": "standard-urban",
+      "length_m": 22168.3,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 28177.7,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 19373.2,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 360,
+      "geometry": "standard-urban",
+      "length_m": 12591.4,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 4259.9,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0600-1040-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0689-0101-s022168"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 65
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0897-0226-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0216-0821-s028178"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 85
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0669-0844-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0048-0314-s019373"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 60
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0274-0733-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0563-0972-s012591"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 40
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0261-0475-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0361-0367-s004260"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 15
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Pallekele International Cricket Stadium",
+      "demand": 0.1952687,
+      "id": "line-1-0600-1040-s000000",
+      "lat": 7.281630317100386,
+      "line": "line-1",
+      "lon": 80.72226222063277,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.24686816,
+      "id": "line-1-0563-0972-s002026",
+      "junction_group": 0,
+      "lat": 7.288289065255732,
+      "line": "line-1",
+      "lon": 80.7099456122685,
+      "s_m": 2025.685424949238
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35068157,
+      "id": "line-1-0595-0777-s006836",
+      "junction_group": 1,
+      "lat": 7.28253014793219,
+      "line": "line-1",
+      "lon": 80.67462592651799,
+      "s_m": 6835.634918610413
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.48738015,
+      "id": "line-1-0634-0520-s012299",
+      "junction_group": 2,
+      "lat": 7.275511467444121,
+      "line": "line-1",
+      "lon": 80.62807639196478,
+      "s_m": 12298.72149726141
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Getambe",
+      "demand": 0.47305644,
+      "id": "line-1-0658-0370-s015498",
+      "lat": 7.271192279451464,
+      "line": "line-1",
+      "lon": 80.60090740292594,
+      "s_m": 15497.544007200479
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Pilimatalawa",
+      "demand": 0.3194046,
+      "id": "line-1-0689-0101-s022168",
+      "lat": 7.265613328294281,
+      "line": "line-1",
+      "lon": 80.55218434924961,
+      "s_m": 22168.326112068546
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Bogaha Junction",
+      "demand": 0.22891603,
+      "id": "line-2-0897-0226-s000000",
+      "lat": 7.228180365691251,
+      "line": "line-2",
+      "lon": 80.57482517344864,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Faculty of Engineering, University of Peradeniya",
+      "demand": 0.35442525,
+      "id": "line-2-0773-0315-s005509",
+      "lat": 7.25049617031998,
+      "line": "line-2",
+      "lon": 80.59094544027836,
+      "s_m": 5508.528137423862
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35756236,
+      "id": "line-2-0749-0382-s008515",
+      "lat": 7.254815358312638,
+      "line": "line-2",
+      "lon": 80.60308092204905,
+      "s_m": 8514.80230740356
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.48738015,
+      "id": "line-2-0634-0520-s013332",
+      "junction_group": 2,
+      "lat": 7.275511467444121,
+      "line": "line-2",
+      "lon": 80.62807639196478,
+      "s_m": 13331.614716074857
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": null,
+      "demand": 0.93925095,
+      "id": "line-2-0549-0555-s015875",
+      "lat": 7.290808591584782,
+      "line": "line-2",
+      "lon": 80.63441582274051,
+      "s_m": 15874.701294725844
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.45057058,
+      "id": "line-2-0432-0630-s019905",
+      "junction_group": 3,
+      "lat": 7.311864633048987,
+      "line": "line-2",
+      "lon": 80.64800031725993,
+      "s_m": 19905.48339959392
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.45077237,
+      "id": "line-2-0430-0628-s019985",
+      "junction_group": 3,
+      "lat": 7.312224565381708,
+      "line": "line-2",
+      "lon": 80.64763806407275,
+      "s_m": 19985.48339959392
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": "Meegammana",
+      "demand": 0.28050193,
+      "id": "line-2-0274-0733-s025562",
+      "junction_group": 4,
+      "lat": 7.340299287333981,
+      "line": "line-2",
+      "lon": 80.66665635639994,
+      "s_m": 25562.295808265273
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": "Wattegama",
+      "demand": 0.31197378,
+      "id": "line-2-0216-0821-s028178",
+      "lat": 7.350737324982903,
+      "line": "line-2",
+      "lon": 80.68259549663605,
+      "s_m": 28177.686860699312
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Gurudeniya",
+      "demand": 0.288398,
+      "id": "line-3-0669-0844-s000000",
+      "lat": 7.269212651621496,
+      "line": "line-3",
+      "lon": 80.68676140828867,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35068157,
+      "id": "line-3-0595-0777-s002222",
+      "junction_group": 1,
+      "lat": 7.28253014793219,
+      "line": "line-3",
+      "lon": 80.67462592651799,
+      "s_m": 2222.4978336205577
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.45057058,
+      "id": "line-3-0432-0630-s007157",
+      "junction_group": 3,
+      "lat": 7.311864633048987,
+      "line": "line-3",
+      "lon": 80.64800031725993,
+      "s_m": 7157.199128346468
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.45077237,
+      "id": "line-3-0430-0628-s007225",
+      "junction_group": 3,
+      "lat": 7.312224565381708,
+      "line": "line-3",
+      "lon": 80.64763806407275,
+      "s_m": 7225.48339959393
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.23832816,
+      "id": "line-3-0261-0475-s012365",
+      "junction_group": 5,
+      "lat": 7.342638847496671,
+      "line": "line-3",
+      "lon": 80.61992569525313,
+      "s_m": 12365.037508062145
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "MOH Office - Pujapitiya",
+      "demand": 0.16531233,
+      "id": "line-3-0048-0314-s019373",
+      "lat": 7.380971640931505,
+      "line": "line-3",
+      "lon": 80.59076431368477,
+      "s_m": 19373.220766631937
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": "Meegammana",
+      "demand": 0.28050193,
+      "id": "line-4-0274-0733-s000000",
+      "junction_group": 4,
+      "lat": 7.340299287333981,
+      "line": "line-4",
+      "lon": 80.66665635639994,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.28048876,
+      "id": "line-4-0339-0739-s001885",
+      "lat": 7.328601486520535,
+      "line": "line-4",
+      "lon": 80.66774311596149,
+      "s_m": 1885.0966799187809
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.23582579,
+      "id": "line-4-0428-0876-s007179",
+      "lat": 7.31258449771443,
+      "line": "line-4",
+      "lon": 80.69255745928363,
+      "s_m": 7178.965363437834
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.24686816,
+      "id": "line-4-0563-0972-s012591",
+      "junction_group": 0,
+      "lat": 7.288289065255732,
+      "line": "line-4",
+      "lon": 80.7099456122685,
+      "s_m": 12591.412690719513
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.23832816,
+      "id": "line-5-0261-0475-s000000",
+      "junction_group": 5,
+      "lat": 7.342638847496671,
+      "line": "line-5",
+      "lon": 80.61992569525313,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.25542557,
+      "id": "line-5-0361-0367-s004260",
+      "lat": 7.324642230860599,
+      "line": "line-5",
+      "lon": 80.60036402314516,
+      "s_m": 4259.898987322341
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Akurana",
+      "demand": 0.20697446,
+      "id": "line-3-0155-0388-s015881",
+      "lat": 7.361715261130907,
+      "line": "line-3",
+      "lon": 80.6041676816106,
+      "s_m": 15881.261171702978
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Pallekele International Cricket Stadium",
+      "archetype": "terminal",
+      "id": "line-1-0600-1040-s000000",
+      "lat": 7.281630317100386,
+      "line": "line-1",
+      "lon": 80.72226222063277,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange-elevated",
+      "id": "line-1-0563-0972-s002026",
+      "junction_group": 0,
+      "lat": 7.288289065255732,
+      "line": "line-1",
+      "lon": 80.7099456122685,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2025.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0595-0777-s006836",
+      "junction_group": 1,
+      "lat": 7.28253014793219,
+      "line": "line-1",
+      "lon": 80.67462592651799,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6835.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0634-0520-s012299",
+      "junction_group": 2,
+      "lat": 7.275511467444121,
+      "line": "line-1",
+      "lon": 80.62807639196478,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12298.7
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Getambe",
+      "archetype": "standard",
+      "id": "line-1-0658-0370-s015498",
+      "lat": 7.271192279451464,
+      "line": "line-1",
+      "lon": 80.60090740292594,
+      "platform_length_m": 59.5,
+      "s_m": 15497.5
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Pilimatalawa",
+      "archetype": "terminal",
+      "id": "line-1-0689-0101-s022168",
+      "lat": 7.265613328294281,
+      "line": "line-1",
+      "lon": 80.55218434924961,
+      "platform_length_m": 59.5,
+      "s_m": 22168.3
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Bogaha Junction",
+      "archetype": "terminal",
+      "id": "line-2-0897-0226-s000000",
+      "lat": 7.228180365691251,
+      "line": "line-2",
+      "lon": 80.57482517344864,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Faculty of Engineering, University of Peradeniya",
+      "archetype": "standard",
+      "id": "line-2-0773-0315-s005509",
+      "lat": 7.25049617031998,
+      "line": "line-2",
+      "lon": 80.59094544027836,
+      "platform_length_m": 59.5,
+      "s_m": 5508.5
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0749-0382-s008515",
+      "lat": 7.254815358312638,
+      "line": "line-2",
+      "lon": 80.60308092204905,
+      "platform_length_m": 59.5,
+      "s_m": 8514.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0634-0520-s013332",
+      "junction_group": 2,
+      "lat": 7.275511467444121,
+      "line": "line-2",
+      "lon": 80.62807639196478,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 13331.6
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "archetype": "major",
+      "id": "line-2-0549-0555-s015875",
+      "lat": 7.290808591584782,
+      "line": "line-2",
+      "lon": 80.63441582274051,
+      "platform_length_m": 59.5,
+      "s_m": 15874.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0432-0630-s019905",
+      "junction_group": 3,
+      "lat": 7.311864633048987,
+      "line": "line-2",
+      "lon": 80.64800031725993,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 19905.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0430-0628-s019985",
+      "junction_group": 3,
+      "lat": 7.312224565381708,
+      "line": "line-2",
+      "lon": 80.64763806407275,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 19985.5
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": "Meegammana",
+      "archetype": "interchange",
+      "id": "line-2-0274-0733-s025562",
+      "junction_group": 4,
+      "lat": 7.340299287333981,
+      "line": "line-2",
+      "lon": 80.66665635639994,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 25562.3
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": "Wattegama",
+      "archetype": "depot-terminal",
+      "id": "line-2-0216-0821-s028178",
+      "lat": 7.350737324982903,
+      "line": "line-2",
+      "lon": 80.68259549663605,
+      "platform_length_m": 59.5,
+      "s_m": 28177.7
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Gurudeniya",
+      "archetype": "terminal",
+      "id": "line-3-0669-0844-s000000",
+      "lat": 7.269212651621496,
+      "line": "line-3",
+      "lon": 80.68676140828867,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0595-0777-s002222",
+      "junction_group": 1,
+      "lat": 7.28253014793219,
+      "line": "line-3",
+      "lon": 80.67462592651799,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2222.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0432-0630-s007157",
+      "junction_group": 3,
+      "lat": 7.311864633048987,
+      "line": "line-3",
+      "lon": 80.64800031725993,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7157.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0430-0628-s007225",
+      "junction_group": 3,
+      "lat": 7.312224565381708,
+      "line": "line-3",
+      "lon": 80.64763806407275,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7225.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0261-0475-s012365",
+      "junction_group": 5,
+      "lat": 7.342638847496671,
+      "line": "line-3",
+      "lon": 80.61992569525313,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12365.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "MOH Office - Pujapitiya",
+      "archetype": "terminal",
+      "id": "line-3-0048-0314-s019373",
+      "lat": 7.380971640931505,
+      "line": "line-3",
+      "lon": 80.59076431368477,
+      "platform_length_m": 59.5,
+      "s_m": 19373.2
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": "Meegammana",
+      "archetype": "terminal",
+      "id": "line-4-0274-0733-s000000",
+      "junction_group": 4,
+      "lat": 7.340299287333981,
+      "line": "line-4",
+      "lon": 80.66665635639994,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-4-0339-0739-s001885",
+      "lat": 7.328601486520535,
+      "line": "line-4",
+      "lon": 80.66774311596149,
+      "platform_length_m": 59.5,
+      "s_m": 1885.1
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "halt",
+      "id": "line-4-0428-0876-s007179",
+      "lat": 7.31258449771443,
+      "line": "line-4",
+      "lon": 80.69255745928363,
+      "platform_length_m": 55.5,
+      "s_m": 7179.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0563-0972-s012591",
+      "junction_group": 0,
+      "lat": 7.288289065255732,
+      "line": "line-4",
+      "lon": 80.7099456122685,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12591.4
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0261-0475-s000000",
+      "junction_group": 5,
+      "lat": 7.342638847496671,
+      "line": "line-5",
+      "lon": 80.61992569525313,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0361-0367-s004260",
+      "lat": 7.324642230860599,
+      "line": "line-5",
+      "lon": 80.60036402314516,
+      "platform_length_m": 59.5,
+      "s_m": 4259.9
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Akurana",
+      "archetype": "halt",
+      "id": "line-3-0155-0388-s015881",
+      "lat": 7.361715261130907,
+      "line": "line-3",
+      "lon": 80.6041676816106,
+      "platform_length_m": 55.5,
+      "s_m": 15881.3
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

@@ -1,0 +1,972 @@
+{
+  "city": {
+    "bbox": {
+      "east": 10.5172,
+      "north": 5.5772,
+      "south": 5.379,
+      "west": 10.318
+    },
+    "centroid_lat": 5.477228794586618,
+    "centroid_lon": 10.416996878349845,
+    "country": "CM",
+    "population": 600000,
+    "slug": "bafoussam"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-africa/Cameroon/Bafoussam/corridors.json",
+    "cities/catalogue/west-africa/Cameroon/Bafoussam/bafoussam.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-africa/Cameroon/Bafoussam/bafoussam.corridor.geojson",
+      "geometry_sha256": "21b66bdb387aebac53da49777171e2ad346c440dc5636524cefbffb5eb8baafc",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 600000,
+    "schema_version": 1,
+    "slug": "bafoussam"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 5.501344260878955,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 10.408694496573924,
+      "platforms": [
+        "line-1-0421-0502-s001846",
+        "line-2-0421-0502-s010733"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 5.4655309937731715,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": 10.405265251927348,
+      "platforms": [
+        "line-1-0621-0483-s006027",
+        "line-4-0619-0483-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 5.449154072634345,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 10.403821359444578,
+      "platforms": [
+        "line-1-0711-0475-s007893",
+        "line-3-0711-0475-s009322"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 5.524559896339489,
+      "lines": [
+        "line-2",
+        "line-5"
+      ],
+      "lon": 10.344712010931225,
+      "platforms": [
+        "line-2-0292-0143-s002240",
+        "line-2-0292-0152-s002420",
+        "line-5-0292-0143-s000281",
+        "line-5-0292-0152-s000000"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": 5.481547982579276,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 10.454718569462184,
+      "platforms": [
+        "line-2-0531-0757-s016814",
+        "line-3-0531-0757-s001910"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 300,
+      "geometry": "standard-urban",
+      "length_m": 17015.3,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 19623.9,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 390,
+      "geometry": "standard-urban",
+      "length_m": 22665.4,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 6493.9,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 7661.8,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0332-0510-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-1086-0483-s017015"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 54
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0249-0063-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0581-0875-s019624"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 60
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0486-0828-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-1046-0061-s022665"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 71
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0619-0483-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0438-0412-s006494"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0292-0152-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0137-0138-s007662"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 26
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Baleng",
+      "demand": 0.35237446,
+      "id": "line-1-0332-0510-s000000",
+      "lat": 5.5173612496850595,
+      "line": "line-1",
+      "lon": 10.410138389056693,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.41552493,
+      "id": "line-1-0421-0502-s001846",
+      "junction_group": 0,
+      "lat": 5.501344260878955,
+      "line": "line-1",
+      "lon": 10.408694496573924,
+      "s_m": 1846.2741699796952
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Marché SOCADA",
+      "demand": 0.50225776,
+      "id": "line-1-0621-0483-s006027",
+      "junction_group": 1,
+      "lat": 5.46535102760681,
+      "line": "line-1",
+      "lon": 10.405265251927348,
+      "s_m": 6027.106781186551
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.31366023,
+      "id": "line-1-0711-0475-s007893",
+      "junction_group": 2,
+      "lat": 5.449154072634345,
+      "line": "line-1",
+      "lon": 10.403821359444578,
+      "s_m": 7893.380951166248
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.20616327,
+      "id": "line-1-0917-0451-s012447",
+      "lat": 5.4120810423640355,
+      "line": "line-1",
+      "lon": 10.399489681996272,
+      "s_m": 12447.350647362935
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Stade Municipal Fotso Victor",
+      "demand": 0.16430755,
+      "id": "line-1-1086-0483-s017015",
+      "lat": 5.3816667602490735,
+      "line": "line-1",
+      "lon": 10.405265251927348,
+      "s_m": 17015.290039756313
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Chutes de la Metchié",
+      "demand": 0.13016626,
+      "id": "line-2-0249-0063-s000000",
+      "lat": 5.532298441492999,
+      "line": "line-2",
+      "lon": 10.329460896581978,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.18965441,
+      "id": "line-2-0292-0143-s002240",
+      "junction_group": 3,
+      "lat": 5.524559896339489,
+      "line": "line-2",
+      "lon": 10.343899821409668,
+      "s_m": 2240.2438661763954
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.19050588,
+      "id": "line-2-0292-0152-s002420",
+      "junction_group": 3,
+      "lat": 5.524559896339489,
+      "line": "line-2",
+      "lon": 10.345524200452783,
+      "s_m": 2420.2438661763954
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2578428,
+      "id": "line-2-0354-0346-s007011",
+      "lat": 5.5134019940251235,
+      "line": "line-2",
+      "lon": 10.38053859315993,
+      "s_m": 7011.025971044426
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.41552493,
+      "id": "line-2-0421-0502-s010733",
+      "junction_group": 0,
+      "lat": 5.501344260878955,
+      "line": "line-2",
+      "lon": 10.408694496573924,
+      "s_m": 10732.935059634501
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.37451097,
+      "id": "line-2-0531-0757-s016814",
+      "junction_group": 4,
+      "lat": 5.481547982579276,
+      "line": "line-2",
+      "lon": 10.454718569462184,
+      "s_m": 16814.499269370484
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Marché",
+      "demand": 0.29135185,
+      "id": "line-2-0581-0875-s019624",
+      "lat": 5.47254967426124,
+      "line": "line-2",
+      "lon": 10.476015983583025,
+      "s_m": 19623.860018001247
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Marché de Famleng",
+      "demand": 0.31245017,
+      "id": "line-3-0486-0828-s000000",
+      "lat": 5.489646460065508,
+      "line": "line-3",
+      "lon": 10.467533115246757,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.37451097,
+      "id": "line-3-0531-0757-s001910",
+      "junction_group": 4,
+      "lat": 5.481547982579276,
+      "line": "line-3",
+      "lon": 10.454718569462184,
+      "s_m": 1909.9494936611666
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Tresor Voyages",
+      "demand": 0.6893706,
+      "id": "line-3-0631-0601-s006034",
+      "lat": 5.463551365943203,
+      "line": "line-3",
+      "lon": 10.42656266604819,
+      "s_m": 6034.112549695446
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.31366023,
+      "id": "line-3-0711-0475-s009322",
+      "junction_group": 2,
+      "lat": 5.449154072634345,
+      "line": "line-3",
+      "lon": 10.403821359444578,
+      "s_m": 9322.295808265235
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.23210694,
+      "id": "line-3-0801-0334-s013040",
+      "lat": 5.43295711766188,
+      "line": "line-3",
+      "lon": 10.378372754435777,
+      "s_m": 13040.184694319749
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.13443685,
+      "id": "line-3-0884-0154-s017859",
+      "lat": 5.418019925853939,
+      "line": "line-3",
+      "lon": 10.345885173573475,
+      "s_m": 17858.662325404737
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hôptial de District",
+      "demand": 0.22080667,
+      "id": "line-3-1046-0061-s022665",
+      "lat": 5.388865406903503,
+      "line": "line-3",
+      "lon": 10.329099923461285,
+      "s_m": 22665.424227737298
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Marché SOCADA",
+      "demand": 0.50437534,
+      "id": "line-4-0619-0483-s000000",
+      "junction_group": 1,
+      "lat": 5.465710959939532,
+      "line": "line-4",
+      "lon": 10.405265251927348,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3615032,
+      "id": "line-4-0557-0423-s003007",
+      "lat": 5.476868862253896,
+      "line": "line-4",
+      "lon": 10.39443605830658,
+      "s_m": 3006.5180361560924
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centre Medical la Trinite",
+      "demand": 0.41874793,
+      "id": "line-4-0438-0412-s006494",
+      "lat": 5.498284836050823,
+      "line": "line-4",
+      "lon": 10.392450706142773,
+      "s_m": 6493.868683519047
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.19050588,
+      "id": "line-5-0292-0152-s000000",
+      "junction_group": 3,
+      "lat": 5.524559896339489,
+      "line": "line-5",
+      "lon": 10.345524200452783,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.18965441,
+      "id": "line-5-0292-0143-s000281",
+      "junction_group": 3,
+      "lat": 5.524559896339489,
+      "line": "line-5",
+      "lon": 10.343899821409668,
+      "s_m": 281.4213562373095
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.16276659,
+      "id": "line-5-0213-0163-s003414",
+      "lat": 5.538777223481985,
+      "line": "line-5",
+      "lon": 10.34750955261659,
+      "s_m": 3414.2135623730983
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.1002205,
+      "id": "line-5-0137-0138-s007662",
+      "lat": 5.552454652125401,
+      "line": "line-5",
+      "lon": 10.342997388607937,
+      "s_m": 7661.808075912455
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Baleng",
+      "archetype": "terminal",
+      "id": "line-1-0332-0510-s000000",
+      "lat": 5.5173612496850595,
+      "line": "line-1",
+      "lon": 10.410138389056693,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0421-0502-s001846",
+      "junction_group": 0,
+      "lat": 5.501344260878955,
+      "line": "line-1",
+      "lon": 10.408694496573924,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1846.3
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Marché SOCADA",
+      "archetype": "interchange",
+      "id": "line-1-0621-0483-s006027",
+      "junction_group": 1,
+      "lat": 5.46535102760681,
+      "line": "line-1",
+      "lon": 10.405265251927348,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6027.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0711-0475-s007893",
+      "junction_group": 2,
+      "lat": 5.449154072634345,
+      "line": "line-1",
+      "lon": 10.403821359444578,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7893.4
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0917-0451-s012447",
+      "lat": 5.4120810423640355,
+      "line": "line-1",
+      "lon": 10.399489681996272,
+      "platform_length_m": 55.5,
+      "s_m": 12447.4
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Stade Municipal Fotso Victor",
+      "archetype": "terminal",
+      "id": "line-1-1086-0483-s017015",
+      "lat": 5.3816667602490735,
+      "line": "line-1",
+      "lon": 10.405265251927348,
+      "platform_length_m": 59.5,
+      "s_m": 17015.3
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Chutes de la Metchié",
+      "archetype": "terminal",
+      "id": "line-2-0249-0063-s000000",
+      "lat": 5.532298441492999,
+      "line": "line-2",
+      "lon": 10.329460896581978,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange-elevated",
+      "id": "line-2-0292-0143-s002240",
+      "junction_group": 3,
+      "lat": 5.524559896339489,
+      "line": "line-2",
+      "lon": 10.343899821409668,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2240.2
+    },
+    {
+      "archetype": "interchange-elevated",
+      "id": "line-2-0292-0152-s002420",
+      "junction_group": 3,
+      "lat": 5.524559896339489,
+      "line": "line-2",
+      "lon": 10.345524200452783,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2420.2
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0354-0346-s007011",
+      "lat": 5.5134019940251235,
+      "line": "line-2",
+      "lon": 10.38053859315993,
+      "platform_length_m": 59.5,
+      "s_m": 7011.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0421-0502-s010733",
+      "junction_group": 0,
+      "lat": 5.501344260878955,
+      "line": "line-2",
+      "lon": 10.408694496573924,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 10732.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0531-0757-s016814",
+      "junction_group": 4,
+      "lat": 5.481547982579276,
+      "line": "line-2",
+      "lon": 10.454718569462184,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 16814.5
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Marché",
+      "archetype": "terminal",
+      "id": "line-2-0581-0875-s019624",
+      "lat": 5.47254967426124,
+      "line": "line-2",
+      "lon": 10.476015983583025,
+      "platform_length_m": 59.5,
+      "s_m": 19623.9
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Marché de Famleng",
+      "archetype": "terminal",
+      "id": "line-3-0486-0828-s000000",
+      "lat": 5.489646460065508,
+      "line": "line-3",
+      "lon": 10.467533115246757,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0531-0757-s001910",
+      "junction_group": 4,
+      "lat": 5.481547982579276,
+      "line": "line-3",
+      "lon": 10.454718569462184,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1909.9
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Tresor Voyages",
+      "archetype": "major",
+      "id": "line-3-0631-0601-s006034",
+      "lat": 5.463551365943203,
+      "line": "line-3",
+      "lon": 10.42656266604819,
+      "platform_length_m": 59.5,
+      "s_m": 6034.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0711-0475-s009322",
+      "junction_group": 2,
+      "lat": 5.449154072634345,
+      "line": "line-3",
+      "lon": 10.403821359444578,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9322.3
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0801-0334-s013040",
+      "lat": 5.43295711766188,
+      "line": "line-3",
+      "lon": 10.378372754435777,
+      "platform_length_m": 55.5,
+      "s_m": 13040.2
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0884-0154-s017859",
+      "lat": 5.418019925853939,
+      "line": "line-3",
+      "lon": 10.345885173573475,
+      "platform_length_m": 55.5,
+      "s_m": 17858.7
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hôptial de District",
+      "archetype": "depot-terminal",
+      "id": "line-3-1046-0061-s022665",
+      "lat": 5.388865406903503,
+      "line": "line-3",
+      "lon": 10.329099923461285,
+      "platform_length_m": 59.5,
+      "s_m": 22665.4
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Marché SOCADA",
+      "archetype": "terminal",
+      "id": "line-4-0619-0483-s000000",
+      "junction_group": 1,
+      "lat": 5.465710959939532,
+      "line": "line-4",
+      "lon": 10.405265251927348,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-4-0557-0423-s003007",
+      "lat": 5.476868862253896,
+      "line": "line-4",
+      "lon": 10.39443605830658,
+      "platform_length_m": 59.5,
+      "s_m": 3006.5
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centre Medical la Trinite",
+      "archetype": "terminal",
+      "id": "line-4-0438-0412-s006494",
+      "lat": 5.498284836050823,
+      "line": "line-4",
+      "lon": 10.392450706142773,
+      "platform_length_m": 59.5,
+      "s_m": 6493.9
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0292-0152-s000000",
+      "junction_group": 3,
+      "lat": 5.524559896339489,
+      "line": "line-5",
+      "lon": 10.345524200452783,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange-elevated",
+      "id": "line-5-0292-0143-s000281",
+      "junction_group": 3,
+      "lat": 5.524559896339489,
+      "line": "line-5",
+      "lon": 10.343899821409668,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 281.4
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "halt",
+      "id": "line-5-0213-0163-s003414",
+      "lat": 5.538777223481985,
+      "line": "line-5",
+      "lon": 10.34750955261659,
+      "platform_length_m": 55.5,
+      "s_m": 3414.2
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0137-0138-s007662",
+      "lat": 5.552454652125401,
+      "line": "line-5",
+      "lon": 10.342997388607937,
+      "platform_length_m": 59.5,
+      "s_m": 7661.8
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

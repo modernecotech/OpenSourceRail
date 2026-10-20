@@ -1,0 +1,590 @@
+{
+  "city": {
+    "bbox": {
+      "east": 33.7188,
+      "north": -24.9843,
+      "south": -25.1195,
+      "west": 33.5696
+    },
+    "centroid_lat": -25.053137058632977,
+    "centroid_lon": 33.64783692166478,
+    "country": "MZ",
+    "population": 250000,
+    "slug": "xai-xai"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Mozambique/Xai-Xai/corridors.json",
+    "cities/catalogue/east-africa/Mozambique/Xai-Xai/xai-xai.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Mozambique/Xai-Xai/xai-xai.corridor.geojson",
+      "geometry_sha256": "ae6ab0de90851da35cbbf7dfdc70dd459c8f5f08031bc9af48ebd100975cfa3b",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 250000,
+    "schema_version": 1,
+    "slug": "xai-xai"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -25.059615840621966,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 33.67540328950104,
+      "platforms": [
+        "line-1-0418-0533-s004231",
+        "line-2-0418-0533-s002716"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -25.063395130115538,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 33.679964630941576,
+      "platforms": [
+        "line-2-0439-0556-s002084",
+        "line-3-0439-0556-s001892"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -25.052417193967536,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 33.64843187924398,
+      "platforms": [
+        "line-2-0378-0397-s006689",
+        "line-4-0378-0397-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5972.7,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 8191.8,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 4332.4,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 4018.1,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0580-0436-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0351-0573-s005973"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 13
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0455-0642-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0325-0372-s008192"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 19
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0508-0509-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0348-0616-s004332"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 12
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0378-0397-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0413-0265-s004018"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 10
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "HEAL CENTRE HOSPITAL",
+      "demand": 0.74556404,
+      "id": "line-1-0580-0436-s000000",
+      "lat": -25.0887703595724,
+      "line": "line-1",
+      "lon": 33.656166327773576,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.32876876,
+      "id": "line-1-0418-0533-s004231",
+      "junction_group": 0,
+      "lat": -25.059615840621966,
+      "line": "line-1",
+      "lon": 33.67540328950104,
+      "s_m": 4231.025971044423
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "KHOZA HOSPITAL",
+      "demand": 0.9266353,
+      "id": "line-1-0351-0573-s005973",
+      "lat": -25.047558107475794,
+      "line": "line-1",
+      "lon": 33.683336057223705,
+      "s_m": 5972.691193458136
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Xai-Xai",
+      "demand": 0.63795996,
+      "id": "line-2-0455-0642-s000000",
+      "lat": -25.06627458877731,
+      "line": "line-2",
+      "lon": 33.697020081545304,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.304493,
+      "id": "line-2-0439-0556-s002084",
+      "junction_group": 1,
+      "lat": -25.063395130115538,
+      "line": "line-2",
+      "lon": 33.679964630941576,
+      "s_m": 2084.0916292848974
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.32876876,
+      "id": "line-2-0418-0533-s002716",
+      "junction_group": 0,
+      "lat": -25.059615840621966,
+      "line": "line-2",
+      "lon": 33.67540328950104,
+      "s_m": 2715.634918610409
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6082745,
+      "id": "line-2-0378-0397-s006689",
+      "junction_group": 2,
+      "lat": -25.052417193967536,
+      "line": "line-2",
+      "lon": 33.64843187924398,
+      "s_m": 6688.6709909226065
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": null,
+      "demand": 0.8797583,
+      "id": "line-2-0325-0372-s008192",
+      "lat": -25.042878987150416,
+      "line": "line-2",
+      "lon": 33.643473899417316,
+      "s_m": 8191.75756957363
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mercado de Patrice Lumumba",
+      "demand": 0.66074115,
+      "id": "line-3-0508-0509-s000000",
+      "lat": -25.07581279559443,
+      "line": "line-3",
+      "lon": 33.670643628867445,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.304493,
+      "id": "line-3-0439-0556-s001892",
+      "junction_group": 1,
+      "lat": -25.063395130115538,
+      "line": "line-3",
+      "lon": 33.679964630941576,
+      "s_m": 1892.3759005323595
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.8911904,
+      "id": "line-3-0348-0616-s004332",
+      "lat": -25.047018208976713,
+      "line": "line-3",
+      "lon": 33.69186378252557,
+      "s_m": 4332.447327281734
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6082745,
+      "id": "line-4-0378-0397-s000000",
+      "junction_group": 2,
+      "lat": -25.052417193967536,
+      "line": "line-4",
+      "lon": 33.64843187924398,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3459418,
+      "id": "line-4-0413-0265-s004018",
+      "lat": -25.05871600979016,
+      "line": "line-4",
+      "lon": 33.62225374575919,
+      "s_m": 4018.132752230973
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "HEAL CENTRE HOSPITAL",
+      "archetype": "terminal",
+      "id": "line-1-0580-0436-s000000",
+      "lat": -25.0887703595724,
+      "line": "line-1",
+      "lon": 33.656166327773576,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0418-0533-s004231",
+      "junction_group": 0,
+      "lat": -25.059615840621966,
+      "line": "line-1",
+      "lon": 33.67540328950104,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4231.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "KHOZA HOSPITAL",
+      "archetype": "terminal",
+      "id": "line-1-0351-0573-s005973",
+      "lat": -25.047558107475794,
+      "line": "line-1",
+      "lon": 33.683336057223705,
+      "platform_length_m": 49.0,
+      "s_m": 5972.7
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Xai-Xai",
+      "archetype": "terminal",
+      "id": "line-2-0455-0642-s000000",
+      "lat": -25.06627458877731,
+      "line": "line-2",
+      "lon": 33.697020081545304,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0439-0556-s002084",
+      "junction_group": 1,
+      "lat": -25.063395130115538,
+      "line": "line-2",
+      "lon": 33.679964630941576,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2084.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0418-0533-s002716",
+      "junction_group": 0,
+      "lat": -25.059615840621966,
+      "line": "line-2",
+      "lon": 33.67540328950104,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2715.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0378-0397-s006689",
+      "junction_group": 2,
+      "lat": -25.052417193967536,
+      "line": "line-2",
+      "lon": 33.64843187924398,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 6688.7
+    },
+    {
+      "anchor_kind": "railway:station",
+      "archetype": "depot-terminal",
+      "id": "line-2-0325-0372-s008192",
+      "lat": -25.042878987150416,
+      "line": "line-2",
+      "lon": 33.643473899417316,
+      "platform_length_m": 49.0,
+      "s_m": 8191.8
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mercado de Patrice Lumumba",
+      "archetype": "terminal",
+      "id": "line-3-0508-0509-s000000",
+      "lat": -25.07581279559443,
+      "line": "line-3",
+      "lon": 33.670643628867445,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0439-0556-s001892",
+      "junction_group": 1,
+      "lat": -25.063395130115538,
+      "line": "line-3",
+      "lon": 33.679964630941576,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1892.4
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "terminal",
+      "id": "line-3-0348-0616-s004332",
+      "lat": -25.047018208976713,
+      "line": "line-3",
+      "lon": 33.69186378252557,
+      "platform_length_m": 49.0,
+      "s_m": 4332.4
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0378-0397-s000000",
+      "junction_group": 2,
+      "lat": -25.052417193967536,
+      "line": "line-4",
+      "lon": 33.64843187924398,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0413-0265-s004018",
+      "lat": -25.05871600979016,
+      "line": "line-4",
+      "lon": 33.62225374575919,
+      "platform_length_m": 49.0,
+      "s_m": 4018.1
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

@@ -1,0 +1,682 @@
+{
+  "city": {
+    "bbox": {
+      "east": 39.7259,
+      "north": -0.3893,
+      "south": -0.5245,
+      "west": 39.5907
+    },
+    "centroid_lat": -0.45579749847028755,
+    "centroid_lon": 39.65493129127362,
+    "country": "KE",
+    "population": 300000,
+    "slug": "garissa"
+  },
+  "climate": {
+    "preset": "tropical-arid"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Kenya/Garissa/corridors.json",
+    "cities/catalogue/east-africa/Kenya/Garissa/garissa.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Kenya/Garissa/garissa.corridor.geojson",
+      "geometry_sha256": "776b48a84af836a3890149b0dac8d6b911de5c5a81172fe1b6e4760a78fee976",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "garissa"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -0.45645737441361023,
+      "lines": [
+        "line-1",
+        "line-3",
+        "line-4"
+      ],
+      "lon": 39.65816531433076,
+      "platforms": [
+        "line-1-0373-0375-s004146",
+        "line-3-0373-0375-s001395",
+        "line-4-0372-0375-s000000"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -0.450938411978548,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 39.65433239811489,
+      "platforms": [
+        "line-1-0348-0359-s004928",
+        "line-3-0330-0343-s000000",
+        "line-3-0348-0359-s000613"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -0.4402304250800849,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 39.66068066559742,
+      "platforms": [
+        "line-2-0278-0389-s009094",
+        "line-2-0287-0389-s008914",
+        "line-4-0278-0389-s002123",
+        "line-4-0287-0389-s001943"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 8262.1,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 11615.7,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 4721.6,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 4106.5,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0530-0342-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0318-0258-s008262"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 17
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0644-0475-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0210-0463-s011616"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 25
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0330-0343-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0454-0260-s004722"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 14
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0372-0375-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0239-0313-s004107"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 14
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Baitul tiba",
+      "demand": 0.60332423,
+      "id": "line-1-0530-0342-s000000",
+      "lat": -0.4847720512543642,
+      "line": "line-1",
+      "lon": 39.65223627205935,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7520838,
+      "id": "line-1-0373-0375-s004146",
+      "junction_group": 0,
+      "lat": -0.45651736313573044,
+      "line": "line-1",
+      "lon": 39.65816531433076,
+      "s_m": 4145.584412271581
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.81279755,
+      "id": "line-1-0348-0359-s004928",
+      "junction_group": 1,
+      "lat": -0.45201820897671235,
+      "line": "line-1",
+      "lon": 39.65529062716886,
+      "s_m": 4928.427124746202
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Lamus market",
+      "demand": 0.6947373,
+      "id": "line-1-0318-0258-s008262",
+      "lat": -0.4466192239858906,
+      "line": "line-1",
+      "lon": 39.637144164459386,
+      "s_m": 8262.051942088854
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Bouralgy market",
+      "demand": 0.1867499,
+      "id": "line-2-0644-0475-s000000",
+      "lat": -0.5052881942194867,
+      "line": "line-2",
+      "lon": 39.67613210909261,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.44961265,
+      "id": "line-2-0525-0424-s003010",
+      "lat": -0.4838722204225605,
+      "line": "line-2",
+      "lon": 39.66696904376406,
+      "s_m": 3010.1933598375645
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7181018,
+      "id": "line-2-0287-0389-s008914",
+      "junction_group": 2,
+      "lat": -0.44104027282870817,
+      "line": "line-2",
+      "lon": 39.66068066559742,
+      "s_m": 8914.356415871835
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.66298676,
+      "id": "line-2-0278-0389-s009094",
+      "junction_group": 2,
+      "lat": -0.43942057733146167,
+      "line": "line-2",
+      "lon": 39.66068066559742,
+      "s_m": 9094.356415871835
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.4156018,
+      "id": "line-2-0210-0463-s011616",
+      "lat": -0.4271828780189324,
+      "line": "line-2",
+      "lon": 39.67397609372119,
+      "s_m": 11615.676759431426
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Geospatial Innovation Center",
+      "demand": 0.7679331,
+      "id": "line-3-0330-0343-s000000",
+      "junction_group": 1,
+      "lat": -0.4487788179822193,
+      "line": "line-3",
+      "lon": 39.65241594000696,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.81279755,
+      "id": "line-3-0348-0359-s000613",
+      "junction_group": 1,
+      "lat": -0.45201820897671235,
+      "line": "line-3",
+      "lon": 39.65529062716886,
+      "s_m": 612.5483399593904
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7520838,
+      "id": "line-3-0373-0375-s001395",
+      "junction_group": 0,
+      "lat": -0.45651736313573044,
+      "line": "line-3",
+      "lon": 39.65816531433076,
+      "s_m": 1395.3910524340095
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": null,
+      "demand": 0.5135657,
+      "id": "line-3-0454-0260-s004722",
+      "lat": -0.47109462261094914,
+      "line": "line-3",
+      "lon": 39.637503500354626,
+      "s_m": 4721.564209736052
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.757567,
+      "id": "line-4-0372-0375-s000000",
+      "junction_group": 0,
+      "lat": -0.45633739696936976,
+      "line": "line-4",
+      "lon": 39.65816531433076,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7181018,
+      "id": "line-4-0287-0389-s001943",
+      "junction_group": 2,
+      "lat": -0.44104027282870817,
+      "line": "line-4",
+      "lon": 39.66068066559742,
+      "s_m": 1942.842712474619
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.66298676,
+      "id": "line-4-0278-0389-s002123",
+      "junction_group": 2,
+      "lat": -0.43942057733146167,
+      "line": "line-4",
+      "lon": 39.66068066559742,
+      "s_m": 2122.842712474619
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.582538,
+      "id": "line-4-0239-0313-s004107",
+      "lat": -0.4324018968433934,
+      "line": "line-4",
+      "lon": 39.64702590157841,
+      "s_m": 4106.518036156096
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Baitul tiba",
+      "archetype": "terminal",
+      "id": "line-1-0530-0342-s000000",
+      "lat": -0.4847720512543642,
+      "line": "line-1",
+      "lon": 39.65223627205935,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0373-0375-s004146",
+      "junction_group": 0,
+      "lat": -0.45651736313573044,
+      "line": "line-1",
+      "lon": 39.65816531433076,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4145.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0348-0359-s004928",
+      "junction_group": 1,
+      "lat": -0.45201820897671235,
+      "line": "line-1",
+      "lon": 39.65529062716886,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4928.4
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Lamus market",
+      "archetype": "terminal",
+      "id": "line-1-0318-0258-s008262",
+      "lat": -0.4466192239858906,
+      "line": "line-1",
+      "lon": 39.637144164459386,
+      "platform_length_m": 49.0,
+      "s_m": 8262.1
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Bouralgy market",
+      "archetype": "terminal",
+      "id": "line-2-0644-0475-s000000",
+      "lat": -0.5052881942194867,
+      "line": "line-2",
+      "lon": 39.67613210909261,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0525-0424-s003010",
+      "lat": -0.4838722204225605,
+      "line": "line-2",
+      "lon": 39.66696904376406,
+      "platform_length_m": 49.0,
+      "s_m": 3010.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0287-0389-s008914",
+      "junction_group": 2,
+      "lat": -0.44104027282870817,
+      "line": "line-2",
+      "lon": 39.66068066559742,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8914.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0278-0389-s009094",
+      "junction_group": 2,
+      "lat": -0.43942057733146167,
+      "line": "line-2",
+      "lon": 39.66068066559742,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 9094.4
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "depot-terminal",
+      "id": "line-2-0210-0463-s011616",
+      "lat": -0.4271828780189324,
+      "line": "line-2",
+      "lon": 39.67397609372119,
+      "platform_length_m": 49.0,
+      "s_m": 11615.7
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Geospatial Innovation Center",
+      "archetype": "terminal",
+      "id": "line-3-0330-0343-s000000",
+      "junction_group": 1,
+      "lat": -0.4487788179822193,
+      "line": "line-3",
+      "lon": 39.65241594000696,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0348-0359-s000613",
+      "junction_group": 1,
+      "lat": -0.45201820897671235,
+      "line": "line-3",
+      "lon": 39.65529062716886,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 612.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0373-0375-s001395",
+      "junction_group": 0,
+      "lat": -0.45651736313573044,
+      "line": "line-3",
+      "lon": 39.65816531433076,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1395.4
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "archetype": "terminal",
+      "id": "line-3-0454-0260-s004722",
+      "lat": -0.47109462261094914,
+      "line": "line-3",
+      "lon": 39.637503500354626,
+      "platform_length_m": 49.0,
+      "s_m": 4721.6
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0372-0375-s000000",
+      "junction_group": 0,
+      "lat": -0.45633739696936976,
+      "line": "line-4",
+      "lon": 39.65816531433076,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0287-0389-s001943",
+      "junction_group": 2,
+      "lat": -0.44104027282870817,
+      "line": "line-4",
+      "lon": 39.66068066559742,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1942.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0278-0389-s002123",
+      "junction_group": 2,
+      "lat": -0.43942057733146167,
+      "line": "line-4",
+      "lon": 39.66068066559742,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2122.8
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0239-0313-s004107",
+      "lat": -0.4324018968433934,
+      "line": "line-4",
+      "lon": 39.64702590157841,
+      "platform_length_m": 49.0,
+      "s_m": 4106.5
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

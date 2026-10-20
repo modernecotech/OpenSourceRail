@@ -1,0 +1,1153 @@
+{
+  "city": {
+    "bbox": {
+      "east": 33.4889,
+      "north": -3.5963,
+      "south": -3.7315,
+      "west": 33.3535
+    },
+    "centroid_lat": -3.662437566137566,
+    "centroid_lon": 33.421281371199534,
+    "country": "TZ",
+    "population": 250000,
+    "slug": "shinyanga"
+  },
+  "climate": {
+    "preset": "tropical-arid"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Tanzania/Shinyanga/corridors.json",
+    "cities/catalogue/east-africa/Tanzania/Shinyanga/shinyanga.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Tanzania/Shinyanga/shinyanga.corridor.geojson",
+      "geometry_sha256": "29fb79108a7e60352f93210663decc7b22bd09d597b9d8f401775d016fa8dc55",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 250000,
+    "schema_version": 1,
+    "slug": "shinyanga"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -3.6653957599971196,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 33.42041497585053,
+      "platforms": [
+        "line-1-0377-0369-s012373",
+        "line-1-0377-0372-s012450",
+        "line-1-0382-0373-s012570",
+        "line-1-0383-0370-s012638",
+        "line-1-0387-0369-s012743",
+        "line-1-0390-0372-s012828",
+        "line-2-0377-0372-s006788",
+        "line-2-0382-0373-s006925",
+        "line-2-0384-0370-s007001",
+        "line-2-0387-0369-s007070",
+        "line-2-0390-0372-s007154",
+        "line-3-0378-0373-s002206",
+        "line-3-0381-0373-s002129",
+        "line-3-0383-0371-s002016",
+        "line-3-0387-0369-s001868",
+        "line-3-0390-0372-s001771"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -3.6699961451247165,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 33.41880595591668,
+      "platforms": [
+        "line-1-0399-0369-s013066",
+        "line-1-0405-0362-s013296",
+        "line-1-0410-0359-s013449",
+        "line-1-0422-0359-s013767",
+        "line-2-0399-0369-s007392",
+        "line-2-0405-0362-s007594",
+        "line-2-0410-0359-s007735",
+        "line-2-0422-0359-s007975"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -3.6873628801785263,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 33.41164975537171,
+      "platforms": [
+        "line-1-0494-0328-s015942",
+        "line-3-0517-0317-s006839"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -3.649839934492315,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 33.40867925703229,
+      "platforms": [
+        "line-2-0297-0306-s004196",
+        "line-4-0297-0306-s001686"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 15941.6,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 9583.2,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 11338.6,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5266.4,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0031-0708-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0494-0328-s015942"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 45
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0254-0114-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0468-0382-s009583"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 35
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0422-0428-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0661-0272-s011339"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 28
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0358-0254-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0337-0461-s005266"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 13
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.12916942,
+      "id": "line-1-0031-0708-s000000",
+      "lat": -3.6019689342403627,
+      "line": "line-1",
+      "lon": 33.481051398392744,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.15102085,
+      "id": "line-1-0095-0564-s003504",
+      "lat": -3.613486768887449,
+      "line": "line-1",
+      "lon": 33.4551270492487,
+      "s_m": 3503.9191898578756
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.32558805,
+      "id": "line-1-0244-0502-s007009",
+      "lat": -3.640301727675197,
+      "line": "line-1",
+      "lon": 33.44396517670057,
+      "s_m": 7009.2597359530655
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.89336264,
+      "id": "line-1-0377-0369-s012373",
+      "junction_group": 0,
+      "lat": -3.664237227801173,
+      "line": "line-1",
+      "lon": 33.420021159782806,
+      "s_m": 12373.422791987281
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.905634,
+      "id": "line-1-0377-0372-s012450",
+      "junction_group": 0,
+      "lat": -3.664237227801173,
+      "line": "line-1",
+      "lon": 33.42056125038997,
+      "s_m": 12449.991334482203
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Old bus station",
+      "demand": 0.93062806,
+      "id": "line-1-0382-0373-s012570",
+      "junction_group": 0,
+      "lat": -3.665137058632977,
+      "line": "line-1",
+      "lon": 33.42074128059237,
+      "s_m": 12569.991334482203
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.92178756,
+      "id": "line-1-0383-0370-s012638",
+      "junction_group": 0,
+      "lat": -3.6653170247993376,
+      "line": "line-1",
+      "lon": 33.42020118998519,
+      "s_m": 12638.275605729665
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9292143,
+      "id": "line-1-0387-0369-s012743",
+      "junction_group": 0,
+      "lat": -3.6660368894647806,
+      "line": "line-1",
+      "lon": 33.420021159782806,
+      "s_m": 12743.128419472048
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.95010644,
+      "id": "line-1-0390-0372-s012828",
+      "junction_group": 0,
+      "lat": -3.6665767879638627,
+      "line": "line-1",
+      "lon": 33.42056125038997,
+      "s_m": 12827.981233214432
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9441438,
+      "id": "line-1-0399-0369-s013066",
+      "junction_group": 1,
+      "lat": -3.668196483461109,
+      "line": "line-1",
+      "lon": 33.420021159782806,
+      "s_m": 13065.97113194666
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.89864093,
+      "id": "line-1-0405-0362-s013296",
+      "junction_group": 1,
+      "lat": -3.6692762804592736,
+      "line": "line-1",
+      "lon": 33.418760948366085,
+      "s_m": 13295.676759431428
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.87090653,
+      "id": "line-1-0410-0359-s013449",
+      "junction_group": 1,
+      "lat": -3.670176111291077,
+      "line": "line-1",
+      "lon": 33.41822085775892,
+      "s_m": 13448.813844421273
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8379946,
+      "id": "line-1-0422-0359-s013767",
+      "junction_group": 1,
+      "lat": -3.6723357052874057,
+      "line": "line-1",
+      "lon": 33.41822085775892,
+      "s_m": 13766.803743153501
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "buhangija dispensary",
+      "demand": 0.6701203,
+      "id": "line-1-0494-0328-s015942",
+      "junction_group": 2,
+      "lat": -3.685293269265378,
+      "line": "line-1",
+      "lon": 33.412639921484846,
+      "s_m": 15941.606050557028
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": null,
+      "demand": 0.21909909,
+      "id": "line-2-0254-0114-s000000",
+      "lat": -3.642101389338804,
+      "line": "line-2",
+      "lon": 33.37411345817356,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5134566,
+      "id": "line-2-0297-0306-s004196",
+      "junction_group": 3,
+      "lat": -3.649839934492315,
+      "line": "line-2",
+      "lon": 33.40867925703229,
+      "s_m": 4196.223663640862
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.905634,
+      "id": "line-2-0377-0372-s006788",
+      "junction_group": 0,
+      "lat": -3.664237227801173,
+      "line": "line-2",
+      "lon": 33.42056125038997,
+      "s_m": 6788.183258569801
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Old bus station",
+      "demand": 0.93062806,
+      "id": "line-2-0382-0373-s006925",
+      "junction_group": 0,
+      "lat": -3.665137058632977,
+      "line": "line-2",
+      "lon": 33.42074128059237,
+      "s_m": 6924.751801064725
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.92513865,
+      "id": "line-2-0384-0370-s007001",
+      "junction_group": 0,
+      "lat": -3.6654969909656985,
+      "line": "line-2",
+      "lon": 33.42020118998519,
+      "s_m": 7001.32034355965
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9292143,
+      "id": "line-2-0387-0369-s007070",
+      "junction_group": 0,
+      "lat": -3.6660368894647806,
+      "line": "line-2",
+      "lon": 33.420021159782806,
+      "s_m": 7069.604614807112
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.95010644,
+      "id": "line-2-0390-0372-s007154",
+      "junction_group": 0,
+      "lat": -3.6665767879638627,
+      "line": "line-2",
+      "lon": 33.42056125038997,
+      "s_m": 7154.457428549498
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9441438,
+      "id": "line-2-0399-0369-s007392",
+      "junction_group": 1,
+      "lat": -3.668196483461109,
+      "line": "line-2",
+      "lon": 33.420021159782806,
+      "s_m": 7392.447327281733
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.89864093,
+      "id": "line-2-0405-0362-s007594",
+      "junction_group": 1,
+      "lat": -3.6692762804592736,
+      "line": "line-2",
+      "lon": 33.418760948366085,
+      "s_m": 7593.868683519044
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.87090653,
+      "id": "line-2-0410-0359-s007735",
+      "junction_group": 1,
+      "lat": -3.670176111291077,
+      "line": "line-2",
+      "lon": 33.41822085775892,
+      "s_m": 7735.290039756354
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8379946,
+      "id": "line-2-0422-0359-s007975",
+      "junction_group": 1,
+      "lat": -3.6723357052874057,
+      "line": "line-2",
+      "lon": 33.41822085775892,
+      "s_m": 7975.290039756354
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Makula Transport",
+      "demand": 0.77274776,
+      "id": "line-2-0468-0382-s009583",
+      "lat": -3.6806141489399993,
+      "line": "line-2",
+      "lon": 33.42236155241387,
+      "s_m": 9583.229432149728
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Shinyanga",
+      "demand": 0.77096105,
+      "id": "line-3-0422-0428-s000000",
+      "lat": -3.6723357052874057,
+      "line": "line-3",
+      "lon": 33.43064294172377,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.95010644,
+      "id": "line-3-0390-0372-s001771",
+      "junction_group": 0,
+      "lat": -3.6665767879638627,
+      "line": "line-3",
+      "lon": 33.42056125038997,
+      "s_m": 1771.370849898476
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9292143,
+      "id": "line-3-0387-0369-s001868",
+      "junction_group": 0,
+      "lat": -3.6660368894647806,
+      "line": "line-3",
+      "lon": 33.420021159782806,
+      "s_m": 1867.9393923933999
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9261713,
+      "id": "line-3-0383-0371-s002016",
+      "junction_group": 0,
+      "lat": -3.6653170247993376,
+      "line": "line-3",
+      "lon": 33.420381220187586,
+      "s_m": 2016.2236636408618
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Old bus station",
+      "demand": 0.92676336,
+      "id": "line-3-0381-0373-s002129",
+      "junction_group": 0,
+      "lat": -3.664957092466616,
+      "line": "line-3",
+      "lon": 33.42074128059237,
+      "s_m": 2129.36074863071
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.91404027,
+      "id": "line-3-0378-0373-s002206",
+      "junction_group": 0,
+      "lat": -3.664417193967534,
+      "line": "line-3",
+      "lon": 33.42074128059237,
+      "s_m": 2205.9292911256343
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Mwanuala Clothes Shop",
+      "demand": 0.548562,
+      "id": "line-3-0517-0317-s006839",
+      "junction_group": 2,
+      "lat": -3.6894324910916745,
+      "line": "line-3",
+      "lon": 33.41065958925857,
+      "s_m": 6838.965363437832
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Shinyanga Referral Hospital",
+      "demand": 0.28291222,
+      "id": "line-3-0661-0272-s011339",
+      "lat": -3.715347619047619,
+      "line": "line-3",
+      "lon": 33.40255823015105,
+      "s_m": 11338.62048458375
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.47346228,
+      "id": "line-4-0358-0254-s000000",
+      "lat": -3.6608178706403196,
+      "line": "line-4",
+      "lon": 33.39931768650805,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5134566,
+      "id": "line-4-0297-0306-s001686",
+      "junction_group": 3,
+      "lat": -3.649839934492315,
+      "line": "line-4",
+      "lon": 33.40867925703229,
+      "s_m": 1685.9292911256332
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.56547695,
+      "id": "line-4-0337-0461-s005266",
+      "lat": -3.657038581146744,
+      "line": "line-4",
+      "lon": 33.43658393840261,
+      "s_m": 5266.417023478434
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "terminal",
+      "id": "line-1-0031-0708-s000000",
+      "lat": -3.6019689342403627,
+      "line": "line-1",
+      "lon": 33.481051398392744,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0095-0564-s003504",
+      "lat": -3.613486768887449,
+      "line": "line-1",
+      "lon": 33.4551270492487,
+      "platform_length_m": 45.0,
+      "s_m": 3503.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0244-0502-s007009",
+      "lat": -3.640301727675197,
+      "line": "line-1",
+      "lon": 33.44396517670057,
+      "platform_length_m": 49.0,
+      "s_m": 7009.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0377-0369-s012373",
+      "junction_group": 0,
+      "lat": -3.664237227801173,
+      "line": "line-1",
+      "lon": 33.420021159782806,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 12373.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0377-0372-s012450",
+      "junction_group": 0,
+      "lat": -3.664237227801173,
+      "line": "line-1",
+      "lon": 33.42056125038997,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 12450.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Old bus station",
+      "archetype": "interchange",
+      "id": "line-1-0382-0373-s012570",
+      "junction_group": 0,
+      "lat": -3.665137058632977,
+      "line": "line-1",
+      "lon": 33.42074128059237,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 12570.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0383-0370-s012638",
+      "junction_group": 0,
+      "lat": -3.6653170247993376,
+      "line": "line-1",
+      "lon": 33.42020118998519,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 12638.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0387-0369-s012743",
+      "junction_group": 0,
+      "lat": -3.6660368894647806,
+      "line": "line-1",
+      "lon": 33.420021159782806,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 12743.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0390-0372-s012828",
+      "junction_group": 0,
+      "lat": -3.6665767879638627,
+      "line": "line-1",
+      "lon": 33.42056125038997,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 12828.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0399-0369-s013066",
+      "junction_group": 1,
+      "lat": -3.668196483461109,
+      "line": "line-1",
+      "lon": 33.420021159782806,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 13066.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0405-0362-s013296",
+      "junction_group": 1,
+      "lat": -3.6692762804592736,
+      "line": "line-1",
+      "lon": 33.418760948366085,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 13295.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0410-0359-s013449",
+      "junction_group": 1,
+      "lat": -3.670176111291077,
+      "line": "line-1",
+      "lon": 33.41822085775892,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 13448.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0422-0359-s013767",
+      "junction_group": 1,
+      "lat": -3.6723357052874057,
+      "line": "line-1",
+      "lon": 33.41822085775892,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 13766.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "buhangija dispensary",
+      "archetype": "depot-terminal",
+      "id": "line-1-0494-0328-s015942",
+      "junction_group": 2,
+      "lat": -3.685293269265378,
+      "line": "line-1",
+      "lon": 33.412639921484846,
+      "platform_length_m": 49.0,
+      "s_m": 15941.6
+    },
+    {
+      "anchor_kind": "railway:station",
+      "archetype": "terminal",
+      "id": "line-2-0254-0114-s000000",
+      "lat": -3.642101389338804,
+      "line": "line-2",
+      "lon": 33.37411345817356,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0297-0306-s004196",
+      "junction_group": 3,
+      "lat": -3.649839934492315,
+      "line": "line-2",
+      "lon": 33.40867925703229,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4196.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0377-0372-s006788",
+      "junction_group": 0,
+      "lat": -3.664237227801173,
+      "line": "line-2",
+      "lon": 33.42056125038997,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 6788.2
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Old bus station",
+      "archetype": "interchange",
+      "id": "line-2-0382-0373-s006925",
+      "junction_group": 0,
+      "lat": -3.665137058632977,
+      "line": "line-2",
+      "lon": 33.42074128059237,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 6924.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0384-0370-s007001",
+      "junction_group": 0,
+      "lat": -3.6654969909656985,
+      "line": "line-2",
+      "lon": 33.42020118998519,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7001.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0387-0369-s007070",
+      "junction_group": 0,
+      "lat": -3.6660368894647806,
+      "line": "line-2",
+      "lon": 33.420021159782806,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7069.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0390-0372-s007154",
+      "junction_group": 0,
+      "lat": -3.6665767879638627,
+      "line": "line-2",
+      "lon": 33.42056125038997,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7154.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0399-0369-s007392",
+      "junction_group": 1,
+      "lat": -3.668196483461109,
+      "line": "line-2",
+      "lon": 33.420021159782806,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7392.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0405-0362-s007594",
+      "junction_group": 1,
+      "lat": -3.6692762804592736,
+      "line": "line-2",
+      "lon": 33.418760948366085,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7593.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0410-0359-s007735",
+      "junction_group": 1,
+      "lat": -3.670176111291077,
+      "line": "line-2",
+      "lon": 33.41822085775892,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7735.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0422-0359-s007975",
+      "junction_group": 1,
+      "lat": -3.6723357052874057,
+      "line": "line-2",
+      "lon": 33.41822085775892,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7975.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Makula Transport",
+      "archetype": "terminal",
+      "id": "line-2-0468-0382-s009583",
+      "lat": -3.6806141489399993,
+      "line": "line-2",
+      "lon": 33.42236155241387,
+      "platform_length_m": 49.0,
+      "s_m": 9583.2
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Shinyanga",
+      "archetype": "terminal",
+      "id": "line-3-0422-0428-s000000",
+      "lat": -3.6723357052874057,
+      "line": "line-3",
+      "lon": 33.43064294172377,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0390-0372-s001771",
+      "junction_group": 0,
+      "lat": -3.6665767879638627,
+      "line": "line-3",
+      "lon": 33.42056125038997,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1771.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0387-0369-s001868",
+      "junction_group": 0,
+      "lat": -3.6660368894647806,
+      "line": "line-3",
+      "lon": 33.420021159782806,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1867.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0383-0371-s002016",
+      "junction_group": 0,
+      "lat": -3.6653170247993376,
+      "line": "line-3",
+      "lon": 33.420381220187586,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2016.2
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Old bus station",
+      "archetype": "interchange",
+      "id": "line-3-0381-0373-s002129",
+      "junction_group": 0,
+      "lat": -3.664957092466616,
+      "line": "line-3",
+      "lon": 33.42074128059237,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2129.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0378-0373-s002206",
+      "junction_group": 0,
+      "lat": -3.664417193967534,
+      "line": "line-3",
+      "lon": 33.42074128059237,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2205.9
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Mwanuala Clothes Shop",
+      "archetype": "interchange",
+      "id": "line-3-0517-0317-s006839",
+      "junction_group": 2,
+      "lat": -3.6894324910916745,
+      "line": "line-3",
+      "lon": 33.41065958925857,
+      "platform_length_m": 49.0,
+      "s_m": 6839.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Shinyanga Referral Hospital",
+      "archetype": "terminal",
+      "id": "line-3-0661-0272-s011339",
+      "lat": -3.715347619047619,
+      "line": "line-3",
+      "lon": 33.40255823015105,
+      "platform_length_m": 49.0,
+      "s_m": 11338.6
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0358-0254-s000000",
+      "lat": -3.6608178706403196,
+      "line": "line-4",
+      "lon": 33.39931768650805,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0297-0306-s001686",
+      "junction_group": 3,
+      "lat": -3.649839934492315,
+      "line": "line-4",
+      "lon": 33.40867925703229,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1685.9
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0337-0461-s005266",
+      "lat": -3.657038581146744,
+      "line": "line-4",
+      "lon": 33.43658393840261,
+      "platform_length_m": 49.0,
+      "s_m": 5266.4
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

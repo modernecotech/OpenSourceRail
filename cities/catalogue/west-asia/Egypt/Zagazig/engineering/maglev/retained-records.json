@@ -1,0 +1,691 @@
+{
+  "city": {
+    "bbox": {
+      "east": 31.6171,
+      "north": 30.6868,
+      "south": 30.4886,
+      "west": 31.3869
+    },
+    "centroid_lat": 30.588808422416587,
+    "centroid_lon": 31.504086727376908,
+    "country": "EG",
+    "population": 700000,
+    "slug": "zagazig"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-asia/Egypt/Zagazig/corridors.json",
+    "cities/catalogue/west-asia/Egypt/Zagazig/zagazig.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-asia/Egypt/Zagazig/zagazig.corridor.geojson",
+      "geometry_sha256": "e552021ac51a1fb7e55b85f2e3efbc97dba2a04b48b584820d3bf02fd4e3c1f7",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 700000,
+    "schema_version": 1,
+    "slug": "zagazig"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 30.60716497138538,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 31.501999697503766,
+      "platforms": [
+        "line-1-0442-0551-s009081",
+        "line-3-0442-0551-s007949"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 30.5864688622539,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 31.50429543036422,
+      "platforms": [
+        "line-1-0557-0562-s012100",
+        "line-2-0557-0562-s002892"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 30.615443415037973,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 31.446484702878195,
+      "platforms": [
+        "line-3-0396-0285-s002248",
+        "line-4-0396-0285-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 300,
+      "geometry": "standard-urban",
+      "length_m": 16985.2,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 8552.4,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 12159.0,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 8849.3,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0078-0386-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0747-0629-s016985"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 54
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0527-0431-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0617-0819-s008552"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 27
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0354-0190-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0477-0747-s012159"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 38
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0396-0285-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0588-0488-s008849"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 28
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفى فرسيس",
+      "demand": 0.20527391,
+      "id": "line-1-0078-0386-s000000",
+      "lat": 30.672672655940683,
+      "line": "line-1",
+      "lon": 31.467563704596927,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.20692311,
+      "id": "line-1-0212-0452-s003512",
+      "lat": 30.648557189648347,
+      "line": "line-1",
+      "lon": 31.48133810175966,
+      "s_m": 3512.447327281733
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.375432,
+      "id": "line-1-0442-0551-s009081",
+      "junction_group": 0,
+      "lat": 30.60716497138538,
+      "line": "line-1",
+      "lon": 31.501999697503766,
+      "s_m": 9080.874452027925
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.98688173,
+      "id": "line-1-0557-0562-s012100",
+      "junction_group": 1,
+      "lat": 30.5864688622539,
+      "line": "line-1",
+      "lon": 31.50429543036422,
+      "s_m": 12099.94082814337
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.364707,
+      "id": "line-1-0653-0589-s014542",
+      "lat": 30.569192110283268,
+      "line": "line-1",
+      "lon": 31.509930411021703,
+      "s_m": 14541.849916733427
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "قريه العصلوجى",
+      "demand": 0.3229835,
+      "id": "line-1-0747-0629-s016985",
+      "lat": 30.552275290645362,
+      "line": "line-1",
+      "lon": 31.51827853051427,
+      "s_m": 16985.180361560822
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Zagazig Stadium",
+      "demand": 0.42527875,
+      "id": "line-2-0527-0431-s000000",
+      "lat": 30.59186784724472,
+      "line": "line-2",
+      "lon": 31.476955339026066,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.98688173,
+      "id": "line-2-0557-0562-s002892",
+      "junction_group": 1,
+      "lat": 30.5864688622539,
+      "line": "line-2",
+      "lon": 31.50429543036422,
+      "s_m": 2891.959594928935
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": null,
+      "demand": 0.44136092,
+      "id": "line-2-0587-0691-s005720",
+      "lat": 30.581069877263076,
+      "line": "line-2",
+      "lon": 31.53121811572775,
+      "s_m": 5720.487732352799
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "طاهرة",
+      "demand": 0.3013004,
+      "id": "line-2-0617-0819-s008552",
+      "lat": 30.575670892272253,
+      "line": "line-2",
+      "lon": 31.55793209810396,
+      "s_m": 8552.447327281734
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": null,
+      "demand": 0.24074058,
+      "id": "line-3-0354-0190-s000000",
+      "lat": 30.623001994025124,
+      "line": "line-3",
+      "lon": 31.42665791908335,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22890149,
+      "id": "line-3-0396-0285-s002248",
+      "junction_group": 2,
+      "lat": 30.615443415037973,
+      "line": "line-3",
+      "lon": 31.446484702878195,
+      "s_m": 2247.9393923934003
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.375432,
+      "id": "line-3-0442-0551-s007949",
+      "junction_group": 0,
+      "lat": 30.60716497138538,
+      "line": "line-3",
+      "lon": 31.501999697503766,
+      "s_m": 7949.015869776658
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "قريه هريه رزنه",
+      "demand": 0.32419297,
+      "id": "line-3-0477-0747-s012159",
+      "lat": 30.600866155562755,
+      "line": "line-3",
+      "lon": 31.542905483017343,
+      "s_m": 12158.965363437803
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22890149,
+      "id": "line-4-0396-0285-s000000",
+      "junction_group": 2,
+      "lat": 30.615443415037973,
+      "line": "line-4",
+      "lon": 31.446484702878195,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35022992,
+      "id": "line-4-0554-0406-s005722",
+      "lat": 30.58700876075298,
+      "line": "line-4",
+      "lon": 31.47173776434321,
+      "s_m": 5721.909088590112
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.31322044,
+      "id": "line-4-0613-0416-s007030",
+      "lat": 30.5763907569377,
+      "line": "line-4",
+      "lon": 31.473824794216352,
+      "s_m": 7029.60461480712
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "منشاه أباظة",
+      "demand": 0.66858643,
+      "id": "line-4-0588-0488-s008849",
+      "lat": 30.580889911096715,
+      "line": "line-4",
+      "lon": 31.488851409302974,
+      "s_m": 8849.259735953054
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفى فرسيس",
+      "archetype": "terminal",
+      "id": "line-1-0078-0386-s000000",
+      "lat": 30.672672655940683,
+      "line": "line-1",
+      "lon": 31.467563704596927,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0212-0452-s003512",
+      "lat": 30.648557189648347,
+      "line": "line-1",
+      "lon": 31.48133810175966,
+      "platform_length_m": 55.5,
+      "s_m": 3512.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0442-0551-s009081",
+      "junction_group": 0,
+      "lat": 30.60716497138538,
+      "line": "line-1",
+      "lon": 31.501999697503766,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9080.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0557-0562-s012100",
+      "junction_group": 1,
+      "lat": 30.5864688622539,
+      "line": "line-1",
+      "lon": 31.50429543036422,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12099.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0653-0589-s014542",
+      "lat": 30.569192110283268,
+      "line": "line-1",
+      "lon": 31.509930411021703,
+      "platform_length_m": 59.5,
+      "s_m": 14541.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "قريه العصلوجى",
+      "archetype": "depot-terminal",
+      "id": "line-1-0747-0629-s016985",
+      "lat": 30.552275290645362,
+      "line": "line-1",
+      "lon": 31.51827853051427,
+      "platform_length_m": 59.5,
+      "s_m": 16985.2
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Zagazig Stadium",
+      "archetype": "terminal",
+      "id": "line-2-0527-0431-s000000",
+      "lat": 30.59186784724472,
+      "line": "line-2",
+      "lon": 31.476955339026066,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0557-0562-s002892",
+      "junction_group": 1,
+      "lat": 30.5864688622539,
+      "line": "line-2",
+      "lon": 31.50429543036422,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2892.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "archetype": "standard",
+      "id": "line-2-0587-0691-s005720",
+      "lat": 30.581069877263076,
+      "line": "line-2",
+      "lon": 31.53121811572775,
+      "platform_length_m": 59.5,
+      "s_m": 5720.5
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "طاهرة",
+      "archetype": "terminal",
+      "id": "line-2-0617-0819-s008552",
+      "lat": 30.575670892272253,
+      "line": "line-2",
+      "lon": 31.55793209810396,
+      "platform_length_m": 59.5,
+      "s_m": 8552.4
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "archetype": "terminal",
+      "id": "line-3-0354-0190-s000000",
+      "lat": 30.623001994025124,
+      "line": "line-3",
+      "lon": 31.42665791908335,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0396-0285-s002248",
+      "junction_group": 2,
+      "lat": 30.615443415037973,
+      "line": "line-3",
+      "lon": 31.446484702878195,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2247.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0442-0551-s007949",
+      "junction_group": 0,
+      "lat": 30.60716497138538,
+      "line": "line-3",
+      "lon": 31.501999697503766,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7949.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "قريه هريه رزنه",
+      "archetype": "terminal",
+      "id": "line-3-0477-0747-s012159",
+      "lat": 30.600866155562755,
+      "line": "line-3",
+      "lon": 31.542905483017343,
+      "platform_length_m": 59.5,
+      "s_m": 12159.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0396-0285-s000000",
+      "junction_group": 2,
+      "lat": 30.615443415037973,
+      "line": "line-4",
+      "lon": 31.446484702878195,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-4-0554-0406-s005722",
+      "lat": 30.58700876075298,
+      "line": "line-4",
+      "lon": 31.47173776434321,
+      "platform_length_m": 59.5,
+      "s_m": 5721.9
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-4-0613-0416-s007030",
+      "lat": 30.5763907569377,
+      "line": "line-4",
+      "lon": 31.473824794216352,
+      "platform_length_m": 59.5,
+      "s_m": 7029.6
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "منشاه أباظة",
+      "archetype": "terminal",
+      "id": "line-4-0588-0488-s008849",
+      "lat": 30.580889911096715,
+      "line": "line-4",
+      "lon": 31.488851409302974,
+      "platform_length_m": 59.5,
+      "s_m": 8849.3
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

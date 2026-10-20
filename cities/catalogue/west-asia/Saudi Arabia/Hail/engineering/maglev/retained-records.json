@@ -1,0 +1,1153 @@
+{
+  "city": {
+    "bbox": {
+      "east": 41.8325,
+      "north": 27.6105,
+      "south": 27.4123,
+      "west": 41.6091
+    },
+    "centroid_lat": 27.511968523917503,
+    "centroid_lon": 41.717373101396284,
+    "country": "SA",
+    "population": 500000,
+    "slug": "hail"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-asia/Saudi Arabia/Hail/corridors.json",
+    "cities/catalogue/west-asia/Saudi Arabia/Hail/hail.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-asia/Saudi Arabia/Hail/hail.corridor.geojson",
+      "geometry_sha256": "c553e1a6efb47b406e56994ed6bfa8da570636f03da127022d3678395c6b5d15",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1103,
+    "population": 500000,
+    "schema_version": 1,
+    "slug": "hail"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 27.511968523917503,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 41.717373101396284,
+      "platforms": [
+        "line-1-0547-0534-s014606",
+        "line-2-0547-0534-s015462"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 27.46175796350286,
+      "lines": [
+        "line-2",
+        "line-5"
+      ],
+      "lon": 41.64313158285234,
+      "platforms": [
+        "line-2-0825-0169-s002525",
+        "line-2-0827-0166-s002448",
+        "line-5-0825-0169-s000077",
+        "line-5-0827-0166-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 27.49919092610589,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 41.68131582908845,
+      "platforms": [
+        "line-2-0618-0356-s009301",
+        "line-4-0618-0356-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 27.530073120253387,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 41.736171499543296,
+      "platforms": [
+        "line-2-0438-0621-s018634",
+        "line-2-0444-0625-s018481",
+        "line-2-0447-0627-s018381",
+        "line-2-0450-0630-s018284",
+        "line-2-0453-0631-s018204",
+        "line-3-0438-0621-s008408",
+        "line-3-0444-0625-s008562",
+        "line-3-0447-0627-s008638",
+        "line-3-0450-0630-s008723",
+        "line-3-0453-0631-s008791"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 28308.8,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 23595.5,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 15926.2,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 5885.0,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 4617.9,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-1040-0603-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0155-0354-s028309"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 87
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0832-0082-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0391-0788-s023595"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 72
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0156-0494-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0701-0794-s015926"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 50
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0618-0356-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0511-0187-s005885"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0827-0166-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0938-0039-s004618"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 17
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مجمع الأمل للصحة النفسية بحائل",
+      "demand": 0.3740495,
+      "id": "line-1-1040-0603-s000000",
+      "lat": 27.423245203901665,
+      "line": "line-1",
+      "lon": 41.73135035863921,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.21109477,
+      "id": "line-1-0915-0589-s003517",
+      "lat": 27.445740974696754,
+      "line": "line-1",
+      "lon": 41.72851439340152,
+      "s_m": 3516.568542494924
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.27304766,
+      "id": "line-1-0778-0627-s007017",
+      "lat": 27.470396339488175,
+      "line": "line-1",
+      "lon": 41.736212013332405,
+      "s_m": 7016.568542494924
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.37361166,
+      "id": "line-1-0690-0578-s010023",
+      "lat": 27.48623336212792,
+      "line": "line-1",
+      "lon": 41.72628613500047,
+      "s_m": 10022.842712474621
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5011235,
+      "id": "line-1-0547-0534-s014606",
+      "junction_group": 0,
+      "lat": 27.511968523917503,
+      "line": "line-1",
+      "lon": 41.717373101396284,
+      "s_m": 14605.685424949233
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4186687,
+      "id": "line-1-0434-0431-s019072",
+      "lat": 27.532304700716264,
+      "line": "line-1",
+      "lon": 41.696508500004676,
+      "s_m": 19071.959594928925
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.36187187,
+      "id": "line-1-0322-0456-s022078",
+      "lat": 27.552460911348664,
+      "line": "line-1",
+      "lon": 41.701572723643416,
+      "s_m": 22078.23376490863
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "حائل كليات البنات",
+      "demand": 0.486574,
+      "id": "line-1-0243-0452-s024165",
+      "lat": 27.56667823849116,
+      "line": "line-1",
+      "lon": 41.700762447861216,
+      "s_m": 24164.507934888334
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4059042,
+      "id": "line-1-0223-0369-s026225",
+      "lat": 27.570277561818376,
+      "line": "line-1",
+      "lon": 41.683949225380594,
+      "s_m": 26224.507934888334
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "المصيف",
+      "demand": 0.27766845,
+      "id": "line-1-0155-0354-s028309",
+      "lat": 27.582515261130904,
+      "line": "line-1",
+      "lon": 41.68091069119735,
+      "s_m": 28308.77200360028
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "الشفاء",
+      "demand": 0.2573906,
+      "id": "line-2-0832-0082-s000000",
+      "lat": 27.460678166504696,
+      "line": "line-2",
+      "lon": 41.62581193800784,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.18164496,
+      "id": "line-2-0827-0166-s002448",
+      "junction_group": 1,
+      "lat": 27.461577997336498,
+      "line": "line-2",
+      "lon": 41.64282772943402,
+      "s_m": 2447.9393923934003
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.18101093,
+      "id": "line-2-0825-0169-s002525",
+      "junction_group": 1,
+      "lat": 27.46193792966922,
+      "line": "line-2",
+      "lon": 41.643435436270664,
+      "s_m": 2524.5079348883246
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4082044,
+      "id": "line-2-0618-0356-s009301",
+      "junction_group": 2,
+      "lat": 27.49919092610589,
+      "line": "line-2",
+      "lon": 41.68131582908845,
+      "s_m": 9300.874452027938
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5011235,
+      "id": "line-2-0547-0534-s015462",
+      "junction_group": 0,
+      "lat": 27.511968523917503,
+      "line": "line-2",
+      "lon": 41.717373101396284,
+      "s_m": 15461.950929411154
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.34433728,
+      "id": "line-2-0453-0631-s018204",
+      "junction_group": 3,
+      "lat": 27.52888534355541,
+      "line": "line-2",
+      "lon": 41.737022289114606,
+      "s_m": 18204.1038841777
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3451201,
+      "id": "line-2-0450-0630-s018284",
+      "junction_group": 3,
+      "lat": 27.529425242054494,
+      "line": "line-2",
+      "lon": 41.73681972016905,
+      "s_m": 18284.1038841777
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.34842268,
+      "id": "line-2-0447-0627-s018381",
+      "junction_group": 3,
+      "lat": 27.529965140553575,
+      "line": "line-2",
+      "lon": 41.736212013332405,
+      "s_m": 18380.672426672627
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35104677,
+      "id": "line-2-0444-0625-s018481",
+      "junction_group": 3,
+      "lat": 27.530505039052656,
+      "line": "line-2",
+      "lon": 41.735806875441305,
+      "s_m": 18480.672426672627
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35725808,
+      "id": "line-2-0438-0621-s018634",
+      "junction_group": 3,
+      "lat": 27.531584836050822,
+      "line": "line-2",
+      "lon": 41.734996599659105,
+      "s_m": 18633.80951166248
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "قرطبة",
+      "demand": 0.3513993,
+      "id": "line-2-0391-0788-s023595",
+      "lat": 27.540043245869775,
+      "line": "line-2",
+      "lon": 41.768825613565895,
+      "s_m": 23595.474734076222
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفي السعودي الالماني حائل",
+      "demand": 0.35030517,
+      "id": "line-3-0156-0494-s000000",
+      "lat": 27.582335294964544,
+      "line": "line-3",
+      "lon": 41.7092703435743,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35060304,
+      "id": "line-3-0361-0574-s006444",
+      "lat": 27.545442230860598,
+      "line": "line-3",
+      "lon": 41.72547585921827,
+      "s_m": 6443.919189857876
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35725808,
+      "id": "line-3-0438-0621-s008408",
+      "junction_group": 3,
+      "lat": 27.531584836050822,
+      "line": "line-3",
+      "lon": 41.734996599659105,
+      "s_m": 8408.427124746204
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35104677,
+      "id": "line-3-0444-0625-s008562",
+      "junction_group": 3,
+      "lat": 27.530505039052656,
+      "line": "line-3",
+      "lon": 41.735806875441305,
+      "s_m": 8561.564209736049
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.34842268,
+      "id": "line-3-0447-0627-s008638",
+      "junction_group": 3,
+      "lat": 27.529965140553575,
+      "line": "line-3",
+      "lon": 41.736212013332405,
+      "s_m": 8638.132752230971
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3451201,
+      "id": "line-3-0450-0630-s008723",
+      "junction_group": 3,
+      "lat": 27.529425242054494,
+      "line": "line-3",
+      "lon": 41.73681972016905,
+      "s_m": 8722.985565973355
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.34433728,
+      "id": "line-3-0453-0631-s008791",
+      "junction_group": 3,
+      "lat": 27.52888534355541,
+      "line": "line-3",
+      "lon": 41.737022289114606,
+      "s_m": 8791.269837220816
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.30487004,
+      "id": "line-3-0615-0723-s013545",
+      "lat": 27.499730824604974,
+      "line": "line-3",
+      "lon": 41.755658632105174,
+      "s_m": 13544.894654563412
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "صناعية التقدم",
+      "demand": 0.35077575,
+      "id": "line-3-0701-0794-s015926",
+      "lat": 27.48425373429795,
+      "line": "line-3",
+      "lon": 41.770041027239195,
+      "s_m": 15926.214998123003
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4082044,
+      "id": "line-4-0618-0356-s000000",
+      "junction_group": 2,
+      "lat": 27.49919092610589,
+      "line": "line-4",
+      "lon": 41.68131582908845,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.4216014,
+      "id": "line-4-0487-0285-s003658",
+      "lat": 27.522766493899145,
+      "line": "line-4",
+      "lon": 41.666933433954426,
+      "s_m": 3657.8888860545767
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "صبابة",
+      "demand": 0.28573883,
+      "id": "line-4-0511-0187-s005885",
+      "lat": 27.518447305906488,
+      "line": "line-4",
+      "lon": 41.64708167729056,
+      "s_m": 5884.99566724113
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.18164496,
+      "id": "line-5-0827-0166-s000000",
+      "junction_group": 1,
+      "lat": 27.461577997336498,
+      "line": "line-5",
+      "lon": 41.64282772943402,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.18101093,
+      "id": "line-5-0825-0169-s000077",
+      "junction_group": 1,
+      "lat": 27.46193792966922,
+      "line": "line-5",
+      "lon": 41.643435436270664,
+      "s_m": 76.5685424949238
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "الرصف",
+      "demand": 0.16131085,
+      "id": "line-5-0938-0039-s004618",
+      "lat": 27.441601752870458,
+      "line": "line-5",
+      "lon": 41.61710147334921,
+      "s_m": 4617.888886054577
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مجمع الأمل للصحة النفسية بحائل",
+      "archetype": "terminal",
+      "id": "line-1-1040-0603-s000000",
+      "lat": 27.423245203901665,
+      "line": "line-1",
+      "lon": 41.73135035863921,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0915-0589-s003517",
+      "lat": 27.445740974696754,
+      "line": "line-1",
+      "lon": 41.72851439340152,
+      "platform_length_m": 55.5,
+      "s_m": 3516.6
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0778-0627-s007017",
+      "lat": 27.470396339488175,
+      "line": "line-1",
+      "lon": 41.736212013332405,
+      "platform_length_m": 59.5,
+      "s_m": 7016.6
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0690-0578-s010023",
+      "lat": 27.48623336212792,
+      "line": "line-1",
+      "lon": 41.72628613500047,
+      "platform_length_m": 59.5,
+      "s_m": 10022.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0547-0534-s014606",
+      "junction_group": 0,
+      "lat": 27.511968523917503,
+      "line": "line-1",
+      "lon": 41.717373101396284,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 14605.7
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0434-0431-s019072",
+      "lat": 27.532304700716264,
+      "line": "line-1",
+      "lon": 41.696508500004676,
+      "platform_length_m": 59.5,
+      "s_m": 19072.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0322-0456-s022078",
+      "lat": 27.552460911348664,
+      "line": "line-1",
+      "lon": 41.701572723643416,
+      "platform_length_m": 59.5,
+      "s_m": 22078.2
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "حائل كليات البنات",
+      "archetype": "standard",
+      "id": "line-1-0243-0452-s024165",
+      "lat": 27.56667823849116,
+      "line": "line-1",
+      "lon": 41.700762447861216,
+      "platform_length_m": 59.5,
+      "s_m": 24164.5
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0223-0369-s026225",
+      "lat": 27.570277561818376,
+      "line": "line-1",
+      "lon": 41.683949225380594,
+      "platform_length_m": 59.5,
+      "s_m": 26224.5
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "المصيف",
+      "archetype": "depot-terminal",
+      "id": "line-1-0155-0354-s028309",
+      "lat": 27.582515261130904,
+      "line": "line-1",
+      "lon": 41.68091069119735,
+      "platform_length_m": 59.5,
+      "s_m": 28308.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "الشفاء",
+      "archetype": "terminal",
+      "id": "line-2-0832-0082-s000000",
+      "lat": 27.460678166504696,
+      "line": "line-2",
+      "lon": 41.62581193800784,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange-elevated",
+      "id": "line-2-0827-0166-s002448",
+      "junction_group": 1,
+      "lat": 27.461577997336498,
+      "line": "line-2",
+      "lon": 41.64282772943402,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2447.9
+    },
+    {
+      "archetype": "interchange-elevated",
+      "id": "line-2-0825-0169-s002525",
+      "junction_group": 1,
+      "lat": 27.46193792966922,
+      "line": "line-2",
+      "lon": 41.643435436270664,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2524.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0618-0356-s009301",
+      "junction_group": 2,
+      "lat": 27.49919092610589,
+      "line": "line-2",
+      "lon": 41.68131582908845,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9300.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0547-0534-s015462",
+      "junction_group": 0,
+      "lat": 27.511968523917503,
+      "line": "line-2",
+      "lon": 41.717373101396284,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 15462.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0453-0631-s018204",
+      "junction_group": 3,
+      "lat": 27.52888534355541,
+      "line": "line-2",
+      "lon": 41.737022289114606,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 18204.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0450-0630-s018284",
+      "junction_group": 3,
+      "lat": 27.529425242054494,
+      "line": "line-2",
+      "lon": 41.73681972016905,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 18284.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0447-0627-s018381",
+      "junction_group": 3,
+      "lat": 27.529965140553575,
+      "line": "line-2",
+      "lon": 41.736212013332405,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 18380.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0444-0625-s018481",
+      "junction_group": 3,
+      "lat": 27.530505039052656,
+      "line": "line-2",
+      "lon": 41.735806875441305,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 18480.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0438-0621-s018634",
+      "junction_group": 3,
+      "lat": 27.531584836050822,
+      "line": "line-2",
+      "lon": 41.734996599659105,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 18633.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "قرطبة",
+      "archetype": "terminal",
+      "id": "line-2-0391-0788-s023595",
+      "lat": 27.540043245869775,
+      "line": "line-2",
+      "lon": 41.768825613565895,
+      "platform_length_m": 59.5,
+      "s_m": 23595.5
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفي السعودي الالماني حائل",
+      "archetype": "terminal",
+      "id": "line-3-0156-0494-s000000",
+      "lat": 27.582335294964544,
+      "line": "line-3",
+      "lon": 41.7092703435743,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0361-0574-s006444",
+      "lat": 27.545442230860598,
+      "line": "line-3",
+      "lon": 41.72547585921827,
+      "platform_length_m": 59.5,
+      "s_m": 6443.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0438-0621-s008408",
+      "junction_group": 3,
+      "lat": 27.531584836050822,
+      "line": "line-3",
+      "lon": 41.734996599659105,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8408.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0444-0625-s008562",
+      "junction_group": 3,
+      "lat": 27.530505039052656,
+      "line": "line-3",
+      "lon": 41.735806875441305,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8561.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0447-0627-s008638",
+      "junction_group": 3,
+      "lat": 27.529965140553575,
+      "line": "line-3",
+      "lon": 41.736212013332405,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8638.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0450-0630-s008723",
+      "junction_group": 3,
+      "lat": 27.529425242054494,
+      "line": "line-3",
+      "lon": 41.73681972016905,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8723.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0453-0631-s008791",
+      "junction_group": 3,
+      "lat": 27.52888534355541,
+      "line": "line-3",
+      "lon": 41.737022289114606,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8791.3
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0615-0723-s013545",
+      "lat": 27.499730824604974,
+      "line": "line-3",
+      "lon": 41.755658632105174,
+      "platform_length_m": 59.5,
+      "s_m": 13544.9
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "صناعية التقدم",
+      "archetype": "terminal",
+      "id": "line-3-0701-0794-s015926",
+      "lat": 27.48425373429795,
+      "line": "line-3",
+      "lon": 41.770041027239195,
+      "platform_length_m": 59.5,
+      "s_m": 15926.2
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0618-0356-s000000",
+      "junction_group": 2,
+      "lat": 27.49919092610589,
+      "line": "line-4",
+      "lon": 41.68131582908845,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-4-0487-0285-s003658",
+      "lat": 27.522766493899145,
+      "line": "line-4",
+      "lon": 41.666933433954426,
+      "platform_length_m": 59.5,
+      "s_m": 3657.9
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "صبابة",
+      "archetype": "terminal",
+      "id": "line-4-0511-0187-s005885",
+      "lat": 27.518447305906488,
+      "line": "line-4",
+      "lon": 41.64708167729056,
+      "platform_length_m": 59.5,
+      "s_m": 5885.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0827-0166-s000000",
+      "junction_group": 1,
+      "lat": 27.461577997336498,
+      "line": "line-5",
+      "lon": 41.64282772943402,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange-elevated",
+      "id": "line-5-0825-0169-s000077",
+      "junction_group": 1,
+      "lat": 27.46193792966922,
+      "line": "line-5",
+      "lon": 41.643435436270664,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 76.6
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "الرصف",
+      "archetype": "terminal",
+      "id": "line-5-0938-0039-s004618",
+      "lat": 27.441601752870458,
+      "line": "line-5",
+      "lon": 41.61710147334921,
+      "platform_length_m": 59.5,
+      "s_m": 4617.9
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

@@ -1,0 +1,765 @@
+{
+  "city": {
+    "bbox": {
+      "east": 34.8195,
+      "north": 0.3503,
+      "south": 0.2151,
+      "west": 34.6843
+    },
+    "centroid_lat": 0.2832626030306302,
+    "centroid_lon": 34.75050633948551,
+    "country": "KE",
+    "population": 300000,
+    "slug": "kakamega"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Kenya/Kakamega/corridors.json",
+    "cities/catalogue/east-africa/Kenya/Kakamega/kakamega.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Kenya/Kakamega/kakamega.corridor.geojson",
+      "geometry_sha256": "7741d597b8d9ee6f114c21aa089c9e3d72ee1b0140f17c19ac5c5920105e7b6d",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "kakamega"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 0.281462941367023,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 34.732539897291346,
+      "platforms": [
+        "line-1-0382-0268-s003572",
+        "line-2-0382-0268-s012245"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 0.28290267069790875,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 34.750416507274544,
+      "platforms": [
+        "line-1-0373-0371-s006062",
+        "line-1-0375-0364-s005849",
+        "line-3-0373-0371-s005154",
+        "line-3-0375-0364-s005367"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 0.26994510671993666,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": 34.78356459312278,
+      "platforms": [
+        "line-1-0446-0552-s011906",
+        "line-4-0446-0552-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 0.2942405391786344,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 34.749158856320946,
+      "platforms": [
+        "line-2-0311-0360-s009641",
+        "line-3-0311-0361-s003540"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 13611.1,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 14743.9,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 13176.9,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 5941.0,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0296-0125-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0477-0623-s013611"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 29
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0086-0716-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0450-0180-s014744"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 30
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0181-0288-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0702-0427-s013177"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 26
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0446-0552-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0312-0443-s005941"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 13
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Wetayi Market",
+      "demand": 0.355434,
+      "id": "line-1-0296-0125-s000000",
+      "lat": 0.29694003167404526,
+      "line": "line-1",
+      "lon": 34.70684788495368,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.42373994,
+      "id": "line-1-0382-0268-s003572",
+      "junction_group": 0,
+      "lat": 0.281462941367023,
+      "line": "line-1",
+      "lon": 34.732539897291346,
+      "s_m": 3572.4473272817313
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nala Hospital",
+      "demand": 0.974756,
+      "id": "line-1-0375-0364-s005849",
+      "junction_group": 1,
+      "lat": 0.2827227045315481,
+      "line": "line-1",
+      "lon": 34.74978768179775,
+      "s_m": 5848.670990922603
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.99289435,
+      "id": "line-1-0373-0371-s006062",
+      "junction_group": 1,
+      "lat": 0.2830826368642695,
+      "line": "line-1",
+      "lon": 34.75104533275134,
+      "s_m": 6061.808075912451
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3406178,
+      "id": "line-1-0446-0552-s011906",
+      "junction_group": 2,
+      "lat": 0.26994510671993666,
+      "line": "line-1",
+      "lon": 34.78356459312278,
+      "s_m": 11905.97113194667
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Murhanda Market",
+      "demand": 0.26924634,
+      "id": "line-1-0477-0623-s013611",
+      "lat": 0.2643661555627542,
+      "line": "line-1",
+      "lon": 34.796320767080644,
+      "s_m": 13611.067811865429
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Lubao Market",
+      "demand": 0.13491091,
+      "id": "line-2-0086-0716-s000000",
+      "lat": 0.33473292660979737,
+      "line": "line-2",
+      "lon": 34.81302955832122,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Stend Mboga Market",
+      "demand": 0.3502607,
+      "id": "line-2-0147-0574-s003616",
+      "lat": 0.3237549904617932,
+      "line": "line-2",
+      "lon": 34.7875172104055,
+      "s_m": 3615.6349186104135
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.38475126,
+      "id": "line-2-0229-0467-s006634",
+      "lat": 0.3089977648202138,
+      "line": "line-2",
+      "lon": 34.76829311725774,
+      "s_m": 6634.112549695452
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.53360426,
+      "id": "line-2-0311-0360-s009641",
+      "junction_group": 3,
+      "lat": 0.2942405391786344,
+      "line": "line-2",
+      "lon": 34.74906902410998,
+      "s_m": 9640.874452027923
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.42373994,
+      "id": "line-2-0382-0268-s012245",
+      "junction_group": 0,
+      "lat": 0.281462941367023,
+      "line": "line-2",
+      "lon": 34.732539897291346,
+      "s_m": 12244.793641885752
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Elwesero Shopping Centre",
+      "demand": 0.30823594,
+      "id": "line-2-0450-0180-s014744",
+      "lat": 0.2692252420544938,
+      "line": "line-2",
+      "lon": 34.71672942816048,
+      "s_m": 14743.860018001196
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Shikoti Market",
+      "demand": 0.32625908,
+      "id": "line-3-0181-0288-s000000",
+      "lat": 0.31763614080552854,
+      "line": "line-3",
+      "lon": 34.736133185730175,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.53528386,
+      "id": "line-3-0311-0361-s003540",
+      "junction_group": 3,
+      "lat": 0.2942405391786344,
+      "line": "line-3",
+      "lon": 34.74924868853192,
+      "s_m": 3540.4877323527944
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.99289435,
+      "id": "line-3-0373-0371-s005154",
+      "junction_group": 1,
+      "lat": 0.2830826368642695,
+      "line": "line-3",
+      "lon": 34.75104533275134,
+      "s_m": 5153.868683519045
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nala Hospital",
+      "demand": 0.974756,
+      "id": "line-3-0375-0364-s005367",
+      "junction_group": 1,
+      "lat": 0.2827227045315481,
+      "line": "line-3",
+      "lon": 34.74978768179775,
+      "s_m": 5367.005768508893
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Amalemba Market",
+      "demand": 0.44128272,
+      "id": "line-3-0475-0362-s007627",
+      "lat": 0.26472608789547564,
+      "line": "line-3",
+      "lon": 34.74942835295386,
+      "s_m": 7627.249634685295
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Ilala Market",
+      "demand": 0.23560093,
+      "id": "line-3-0702-0427-s013177",
+      "lat": 0.22387376813159127,
+      "line": "line-3",
+      "lon": 34.76110654038007,
+      "s_m": 13176.854249492359
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Kakamega Airport",
+      "demand": 0.3406178,
+      "id": "line-4-0446-0552-s000000",
+      "junction_group": 2,
+      "lat": 0.26994510671993666,
+      "line": "line-4",
+      "lon": 34.78356459312278,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Lurambi Market",
+      "demand": 0.50350976,
+      "id": "line-4-0312-0443-s005941",
+      "lat": 0.2940605730122737,
+      "line": "line-4",
+      "lon": 34.763981171131135,
+      "s_m": 5940.975464705598
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Wetayi Market",
+      "archetype": "terminal",
+      "id": "line-1-0296-0125-s000000",
+      "lat": 0.29694003167404526,
+      "line": "line-1",
+      "lon": 34.70684788495368,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0382-0268-s003572",
+      "junction_group": 0,
+      "lat": 0.281462941367023,
+      "line": "line-1",
+      "lon": 34.732539897291346,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3572.4
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nala Hospital",
+      "archetype": "interchange",
+      "id": "line-1-0375-0364-s005849",
+      "junction_group": 1,
+      "lat": 0.2827227045315481,
+      "line": "line-1",
+      "lon": 34.74978768179775,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 5848.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0373-0371-s006062",
+      "junction_group": 1,
+      "lat": 0.2830826368642695,
+      "line": "line-1",
+      "lon": 34.75104533275134,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 6061.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0446-0552-s011906",
+      "junction_group": 2,
+      "lat": 0.26994510671993666,
+      "line": "line-1",
+      "lon": 34.78356459312278,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 11906.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Murhanda Market",
+      "archetype": "terminal",
+      "id": "line-1-0477-0623-s013611",
+      "lat": 0.2643661555627542,
+      "line": "line-1",
+      "lon": 34.796320767080644,
+      "platform_length_m": 49.0,
+      "s_m": 13611.1
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Lubao Market",
+      "archetype": "terminal",
+      "id": "line-2-0086-0716-s000000",
+      "lat": 0.33473292660979737,
+      "line": "line-2",
+      "lon": 34.81302955832122,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Stend Mboga Market",
+      "archetype": "standard",
+      "id": "line-2-0147-0574-s003616",
+      "lat": 0.3237549904617932,
+      "line": "line-2",
+      "lon": 34.7875172104055,
+      "platform_length_m": 49.0,
+      "s_m": 3615.6
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0229-0467-s006634",
+      "lat": 0.3089977648202138,
+      "line": "line-2",
+      "lon": 34.76829311725774,
+      "platform_length_m": 49.0,
+      "s_m": 6634.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0311-0360-s009641",
+      "junction_group": 3,
+      "lat": 0.2942405391786344,
+      "line": "line-2",
+      "lon": 34.74906902410998,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 9640.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0382-0268-s012245",
+      "junction_group": 0,
+      "lat": 0.281462941367023,
+      "line": "line-2",
+      "lon": 34.732539897291346,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 12244.8
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Elwesero Shopping Centre",
+      "archetype": "depot-terminal",
+      "id": "line-2-0450-0180-s014744",
+      "lat": 0.2692252420544938,
+      "line": "line-2",
+      "lon": 34.71672942816048,
+      "platform_length_m": 49.0,
+      "s_m": 14743.9
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Shikoti Market",
+      "archetype": "terminal",
+      "id": "line-3-0181-0288-s000000",
+      "lat": 0.31763614080552854,
+      "line": "line-3",
+      "lon": 34.736133185730175,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0311-0361-s003540",
+      "junction_group": 3,
+      "lat": 0.2942405391786344,
+      "line": "line-3",
+      "lon": 34.74924868853192,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3540.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0373-0371-s005154",
+      "junction_group": 1,
+      "lat": 0.2830826368642695,
+      "line": "line-3",
+      "lon": 34.75104533275134,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 5153.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nala Hospital",
+      "archetype": "interchange",
+      "id": "line-3-0375-0364-s005367",
+      "junction_group": 1,
+      "lat": 0.2827227045315481,
+      "line": "line-3",
+      "lon": 34.74978768179775,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 5367.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Amalemba Market",
+      "archetype": "standard",
+      "id": "line-3-0475-0362-s007627",
+      "lat": 0.26472608789547564,
+      "line": "line-3",
+      "lon": 34.74942835295386,
+      "platform_length_m": 49.0,
+      "s_m": 7627.2
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Ilala Market",
+      "archetype": "terminal",
+      "id": "line-3-0702-0427-s013177",
+      "lat": 0.22387376813159127,
+      "line": "line-3",
+      "lon": 34.76110654038007,
+      "platform_length_m": 49.0,
+      "s_m": 13176.9
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Kakamega Airport",
+      "archetype": "terminal",
+      "id": "line-4-0446-0552-s000000",
+      "junction_group": 2,
+      "lat": 0.26994510671993666,
+      "line": "line-4",
+      "lon": 34.78356459312278,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Lurambi Market",
+      "archetype": "terminal",
+      "id": "line-4-0312-0443-s005941",
+      "lat": 0.2940605730122737,
+      "line": "line-4",
+      "lon": 34.763981171131135,
+      "platform_length_m": 49.0,
+      "s_m": 5941.0
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

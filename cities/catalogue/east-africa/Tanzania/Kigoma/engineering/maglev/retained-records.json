@@ -1,0 +1,697 @@
+{
+  "city": {
+    "bbox": {
+      "east": 29.6945,
+      "north": -4.8093,
+      "south": -4.9445,
+      "west": 29.5589
+    },
+    "centroid_lat": -4.878496990965699,
+    "centroid_lon": 29.63039491258016,
+    "country": "TZ",
+    "population": 300000,
+    "slug": "kigoma"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Tanzania/Kigoma/corridors.json",
+    "cities/catalogue/east-africa/Tanzania/Kigoma/kigoma.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Tanzania/Kigoma/kigoma.corridor.geojson",
+      "geometry_sha256": "b9a912f450de9dcb08f21f41cc6018f307b35acb7165a541acdc02310cfb3b3f",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "kigoma"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -4.888575096281899,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 29.64716421111725,
+      "platforms": [
+        "line-1-0440-0489-s007581",
+        "line-3-0440-0489-s003587"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -4.88875506244826,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 29.65798311339924,
+      "platforms": [
+        "line-1-0441-0549-s008856",
+        "line-2-0441-0549-s005494"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -4.908011442248857,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 29.686653204446518,
+      "platforms": [
+        "line-2-0548-0708-s000617",
+        "line-4-0548-0708-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -4.875797498470288,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 29.649147676535616,
+      "platforms": [
+        "line-2-0369-0500-s007457",
+        "line-3-0369-0500-s002076"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 11598.9,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 11549.4,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 6067.9,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 4001.9,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0538-0267-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0406-0668-s011599"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 25
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0550-0738-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0217-0397-s011549"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 25
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0271-0514-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0557-0472-s006068"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 15
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0548-0708-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0681-0718-s004002"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 10
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Mwenge",
+      "demand": 0.39869764,
+      "id": "line-1-0538-0267-s000000",
+      "lat": -4.9062117805852505,
+      "line": "line-1",
+      "lon": 29.607134272673882,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.38278612,
+      "id": "line-1-0456-0328-s003020",
+      "lat": -4.891454554943671,
+      "line": "line-1",
+      "lon": 29.618133489993905,
+      "s_m": 3019.655121145939
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "KIGOMA  BUS STATION",
+      "demand": 0.98157644,
+      "id": "line-1-0396-0390-s005039",
+      "lat": -4.880656584962027,
+      "line": "line-1",
+      "lon": 29.629313022351962,
+      "s_m": 5038.721497261432
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "MWANGA HARDWARE SHOPS",
+      "demand": 0.7599435,
+      "id": "line-1-0440-0489-s007581",
+      "junction_group": 0,
+      "lat": -4.888575096281899,
+      "line": "line-1",
+      "lon": 29.64716421111725,
+      "s_m": 7581.219330882001
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Katubuka",
+      "demand": 0.49054068,
+      "id": "line-1-0441-0549-s008856",
+      "junction_group": 1,
+      "lat": -4.88875506244826,
+      "line": "line-1",
+      "lon": 29.65798311339924,
+      "s_m": 8855.777772109157
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Mungonya",
+      "demand": 0.26918125,
+      "id": "line-1-0406-0668-s011599",
+      "lat": -4.882456246625635,
+      "line": "line-1",
+      "lon": 29.67944060292519,
+      "s_m": 11598.864350760145
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Ujiji",
+      "demand": 0.20185798,
+      "id": "line-2-0550-0738-s000000",
+      "lat": -4.908371374581579,
+      "line": "line-2",
+      "lon": 29.692062655587517,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.26990512,
+      "id": "line-2-0548-0708-s000617",
+      "junction_group": 2,
+      "lat": -4.908011442248857,
+      "line": "line-2",
+      "lon": 29.686653204446518,
+      "s_m": 616.5685424949238
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Katubuka",
+      "demand": 0.49054068,
+      "id": "line-2-0441-0549-s005494",
+      "junction_group": 1,
+      "lat": -4.88875506244826,
+      "line": "line-2",
+      "lon": 29.65798311339924,
+      "s_m": 5493.868683519049
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4337244,
+      "id": "line-2-0369-0500-s007457",
+      "junction_group": 3,
+      "lat": -4.875797498470288,
+      "line": "line-2",
+      "lon": 29.649147676535616,
+      "s_m": 7456.955262170072
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Bushabane, Kibirizi",
+      "demand": 0.42000222,
+      "id": "line-2-0217-0397-s011549",
+      "lat": -4.848442641183458,
+      "line": "line-2",
+      "lon": 29.630575227618195,
+      "s_m": 11549.40258945175
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.44021526,
+      "id": "line-3-0271-0514-s000000",
+      "lat": -4.858160814166937,
+      "line": "line-3",
+      "lon": 29.65167208706808,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4337244,
+      "id": "line-3-0369-0500-s002076",
+      "junction_group": 3,
+      "lat": -4.875797498470288,
+      "line": "line-3",
+      "lon": 29.649147676535616,
+      "s_m": 2075.9797974644666
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "MWANGA HARDWARE SHOPS",
+      "demand": 0.7599435,
+      "id": "line-3-0440-0489-s003587",
+      "junction_group": 0,
+      "lat": -4.888575096281899,
+      "line": "line-3",
+      "lon": 29.64716421111725,
+      "s_m": 3587.1067811865496
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Lutale",
+      "demand": 0.32931975,
+      "id": "line-3-0557-0472-s006068",
+      "lat": -4.909631137746104,
+      "line": "line-3",
+      "lon": 29.644098855470684,
+      "s_m": 6067.939392393406
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.26990512,
+      "id": "line-4-0548-0708-s000000",
+      "junction_group": 2,
+      "lat": -4.908011442248857,
+      "line": "line-4",
+      "lon": 29.686653204446518,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.052948877,
+      "id": "line-4-0681-0718-s004002",
+      "lat": -4.931946942374834,
+      "line": "line-4",
+      "lon": 29.68845635482685,
+      "s_m": 4001.909088590107
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Mwenge",
+      "archetype": "terminal",
+      "id": "line-1-0538-0267-s000000",
+      "lat": -4.9062117805852505,
+      "line": "line-1",
+      "lon": 29.607134272673882,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0456-0328-s003020",
+      "lat": -4.891454554943671,
+      "line": "line-1",
+      "lon": 29.618133489993905,
+      "platform_length_m": 49.0,
+      "s_m": 3019.7
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "KIGOMA  BUS STATION",
+      "archetype": "major",
+      "id": "line-1-0396-0390-s005039",
+      "lat": -4.880656584962027,
+      "line": "line-1",
+      "lon": 29.629313022351962,
+      "platform_length_m": 49.0,
+      "s_m": 5038.7
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "MWANGA HARDWARE SHOPS",
+      "archetype": "interchange",
+      "id": "line-1-0440-0489-s007581",
+      "junction_group": 0,
+      "lat": -4.888575096281899,
+      "line": "line-1",
+      "lon": 29.64716421111725,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7581.2
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Katubuka",
+      "archetype": "interchange",
+      "id": "line-1-0441-0549-s008856",
+      "junction_group": 1,
+      "lat": -4.88875506244826,
+      "line": "line-1",
+      "lon": 29.65798311339924,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8855.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Mungonya",
+      "archetype": "depot-terminal",
+      "id": "line-1-0406-0668-s011599",
+      "lat": -4.882456246625635,
+      "line": "line-1",
+      "lon": 29.67944060292519,
+      "platform_length_m": 49.0,
+      "s_m": 11598.9
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Ujiji",
+      "archetype": "terminal",
+      "id": "line-2-0550-0738-s000000",
+      "lat": -4.908371374581579,
+      "line": "line-2",
+      "lon": 29.692062655587517,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0548-0708-s000617",
+      "junction_group": 2,
+      "lat": -4.908011442248857,
+      "line": "line-2",
+      "lon": 29.686653204446518,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 616.6
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Katubuka",
+      "archetype": "interchange",
+      "id": "line-2-0441-0549-s005494",
+      "junction_group": 1,
+      "lat": -4.88875506244826,
+      "line": "line-2",
+      "lon": 29.65798311339924,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 5493.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0369-0500-s007457",
+      "junction_group": 3,
+      "lat": -4.875797498470288,
+      "line": "line-2",
+      "lon": 29.649147676535616,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7457.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Bushabane, Kibirizi",
+      "archetype": "terminal",
+      "id": "line-2-0217-0397-s011549",
+      "lat": -4.848442641183458,
+      "line": "line-2",
+      "lon": 29.630575227618195,
+      "platform_length_m": 49.0,
+      "s_m": 11549.4
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "terminal",
+      "id": "line-3-0271-0514-s000000",
+      "lat": -4.858160814166937,
+      "line": "line-3",
+      "lon": 29.65167208706808,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0369-0500-s002076",
+      "junction_group": 3,
+      "lat": -4.875797498470288,
+      "line": "line-3",
+      "lon": 29.649147676535616,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2076.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "MWANGA HARDWARE SHOPS",
+      "archetype": "interchange",
+      "id": "line-3-0440-0489-s003587",
+      "junction_group": 0,
+      "lat": -4.888575096281899,
+      "line": "line-3",
+      "lon": 29.64716421111725,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3587.1
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Lutale",
+      "archetype": "terminal",
+      "id": "line-3-0557-0472-s006068",
+      "lat": -4.909631137746104,
+      "line": "line-3",
+      "lon": 29.644098855470684,
+      "platform_length_m": 49.0,
+      "s_m": 6067.9
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0548-0708-s000000",
+      "junction_group": 2,
+      "lat": -4.908011442248857,
+      "line": "line-4",
+      "lon": 29.686653204446518,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0681-0718-s004002",
+      "lat": -4.931946942374834,
+      "line": "line-4",
+      "lon": 29.68845635482685,
+      "platform_length_m": 49.0,
+      "s_m": 4001.9
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

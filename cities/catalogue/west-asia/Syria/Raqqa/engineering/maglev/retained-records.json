@@ -1,0 +1,768 @@
+{
+  "city": {
+    "bbox": {
+      "east": 39.1391,
+      "north": 36.0491,
+      "south": 35.8509,
+      "west": 38.8943
+    },
+    "centroid_lat": 35.95020859158478,
+    "centroid_lon": 39.01647472620142,
+    "country": "SY",
+    "population": 350000,
+    "slug": "raqqa"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-asia/Syria/Raqqa/corridors.json",
+    "cities/catalogue/west-asia/Syria/Raqqa/raqqa.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-asia/Syria/Raqqa/raqqa.corridor.geojson",
+      "geometry_sha256": "2a0e61f27b167f060f96a1b9219aa860a3a05c35b013d2337d0fb2e60359c22b",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 350000,
+    "schema_version": 1,
+    "slug": "raqqa"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 35.95038855775115,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 39.003602547964036,
+      "platforms": [
+        "line-1-0548-0492-s008657",
+        "line-2-0548-0492-s002854"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 35.947419116006195,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 39.038779104009315,
+      "platforms": [
+        "line-1-0564-0648-s011921",
+        "line-1-0565-0653-s012029",
+        "line-3-0564-0648-s009310",
+        "line-3-0565-0653-s009201"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 35.95452777957744,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 39.00981670297519,
+      "platforms": [
+        "line-2-0525-0520-s003674",
+        "line-3-0525-0520-s012228"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 35.9579471367383,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 38.995612920092555,
+      "platforms": [
+        "line-3-0506-0456-s013665",
+        "line-4-0506-0456-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 13339.1,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 11917.3,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 15672.3,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 300,
+      "geometry": "standard-urban",
+      "length_m": 6766.4,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0529-0080-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0571-0716-s013339"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 45
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0628-0393-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0294-0806-s011917"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 38
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0591-1029-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0480-0367-s015672"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 52
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0506-0456-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0212-0561-s006766"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 21
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "بيت اهل ابواسماعيل الرقة",
+      "demand": 0.16252053,
+      "id": "line-1-0529-0080-s000000",
+      "lat": 35.953807914912,
+      "line": "line-1",
+      "lon": 38.912165695657066,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "بيت خليل الحاج عيسى الرقة",
+      "demand": 0.35104346,
+      "id": "line-1-0532-0339-s005453",
+      "lat": 35.95326801641292,
+      "line": "line-1",
+      "lon": 38.96964662951024,
+      "s_m": 5452.548339959393
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "المشفى الوطني",
+      "demand": 0.6516872,
+      "id": "line-1-0548-0492-s008657",
+      "junction_group": 0,
+      "lat": 35.95038855775115,
+      "line": "line-1",
+      "lon": 39.003602547964036,
+      "s_m": 8656.812408671323
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4366354,
+      "id": "line-1-0564-0648-s011921",
+      "junction_group": 1,
+      "lat": 35.94750909908937,
+      "line": "line-1",
+      "lon": 39.038224268740464,
+      "s_m": 11921.076477383242
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.43112063,
+      "id": "line-1-0565-0653-s012029",
+      "junction_group": 1,
+      "lat": 35.94732913292302,
+      "line": "line-1",
+      "lon": 39.039333939278166,
+      "s_m": 12029.360748630703
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "مدرسة الانتفاضة القطاع السادس",
+      "demand": 0.32393453,
+      "id": "line-1-0571-0716-s013339",
+      "lat": 35.94624933592485,
+      "line": "line-1",
+      "lon": 39.05331578805326,
+      "s_m": 13339.06637611547
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": null,
+      "demand": 0.35163713,
+      "id": "line-2-0628-0393-s000000",
+      "lat": 35.935991264442286,
+      "line": "line-2",
+      "lon": 38.98163107131746,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "المشفى الوطني",
+      "demand": 0.6516872,
+      "id": "line-2-0548-0492-s002854",
+      "junction_group": 0,
+      "lat": 35.95038855775115,
+      "line": "line-2",
+      "lon": 39.003602547964036,
+      "s_m": 2853.624817342642
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "مستودع الحطاب",
+      "demand": 0.86620945,
+      "id": "line-2-0525-0520-s003674",
+      "junction_group": 2,
+      "lat": 35.95452777957744,
+      "line": "line-2",
+      "lon": 39.00981670297519,
+      "s_m": 3674.457428549498
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "البعث",
+      "demand": 0.4338276,
+      "id": "line-2-0458-0603-s006054",
+      "lat": 35.96658551272361,
+      "line": "line-2",
+      "lon": 39.02823723390111,
+      "s_m": 6053.523804664991
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "معمل السكر",
+      "demand": 0.21630737,
+      "id": "line-2-0294-0806-s011917",
+      "lat": 35.99609996400677,
+      "line": "line-2",
+      "lon": 39.07328985773197,
+      "s_m": 11917.341981845146
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "معمل السيراميك و القرميض",
+      "demand": 0.15953942,
+      "id": "line-3-0591-1029-s000000",
+      "lat": 35.94265001259763,
+      "line": "line-3",
+      "lon": 39.122781163713654,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.20167473,
+      "id": "line-3-0636-0905-s003503",
+      "lat": 35.9345515351114,
+      "line": "line-3",
+      "lon": 39.09526133437855,
+      "s_m": 3502.842712474619
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.43112063,
+      "id": "line-3-0565-0653-s009201",
+      "junction_group": 1,
+      "lat": 35.94732913292302,
+      "line": "line-3",
+      "lon": 39.039333939278166,
+      "s_m": 9201.320343559646
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4366354,
+      "id": "line-3-0564-0648-s009310",
+      "junction_group": 1,
+      "lat": 35.94750909908937,
+      "line": "line-3",
+      "lon": 39.038224268740464,
+      "s_m": 9309.604614807107
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "مستودع الحطاب",
+      "demand": 0.86620945,
+      "id": "line-3-0525-0520-s012228",
+      "junction_group": 2,
+      "lat": 35.95452777957744,
+      "line": "line-3",
+      "lon": 39.00981670297519,
+      "s_m": 12227.838379715711
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "النهضة",
+      "demand": 0.45257583,
+      "id": "line-3-0506-0456-s013665",
+      "junction_group": 3,
+      "lat": 35.9579471367383,
+      "line": "line-3",
+      "lon": 38.995612920092555,
+      "s_m": 13665.239533417474
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "الرومانية",
+      "demand": 0.37593967,
+      "id": "line-3-0480-0367-s015672",
+      "lat": 35.962626257063675,
+      "line": "line-3",
+      "lon": 38.97586078452139,
+      "s_m": 15672.346314604005
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "النهضة",
+      "demand": 0.45257583,
+      "id": "line-4-0506-0456-s000000",
+      "junction_group": 3,
+      "lat": 35.9579471367383,
+      "line": "line-4",
+      "lon": 38.995612920092555,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2132707,
+      "id": "line-4-0212-0561-s006766",
+      "lat": 36.01085718964835,
+      "line": "line-4",
+      "lon": 39.018916001384376,
+      "s_m": 6766.417023478443
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "بيت اهل ابواسماعيل الرقة",
+      "archetype": "terminal",
+      "id": "line-1-0529-0080-s000000",
+      "lat": 35.953807914912,
+      "line": "line-1",
+      "lon": 38.912165695657066,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "بيت خليل الحاج عيسى الرقة",
+      "archetype": "standard",
+      "id": "line-1-0532-0339-s005453",
+      "lat": 35.95326801641292,
+      "line": "line-1",
+      "lon": 38.96964662951024,
+      "platform_length_m": 59.5,
+      "s_m": 5452.5
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "المشفى الوطني",
+      "archetype": "interchange",
+      "id": "line-1-0548-0492-s008657",
+      "junction_group": 0,
+      "lat": 35.95038855775115,
+      "line": "line-1",
+      "lon": 39.003602547964036,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8656.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0564-0648-s011921",
+      "junction_group": 1,
+      "lat": 35.94750909908937,
+      "line": "line-1",
+      "lon": 39.038224268740464,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11921.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0565-0653-s012029",
+      "junction_group": 1,
+      "lat": 35.94732913292302,
+      "line": "line-1",
+      "lon": 39.039333939278166,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12029.4
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "مدرسة الانتفاضة القطاع السادس",
+      "archetype": "terminal",
+      "id": "line-1-0571-0716-s013339",
+      "lat": 35.94624933592485,
+      "line": "line-1",
+      "lon": 39.05331578805326,
+      "platform_length_m": 59.5,
+      "s_m": 13339.1
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "archetype": "terminal",
+      "id": "line-2-0628-0393-s000000",
+      "lat": 35.935991264442286,
+      "line": "line-2",
+      "lon": 38.98163107131746,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "المشفى الوطني",
+      "archetype": "interchange",
+      "id": "line-2-0548-0492-s002854",
+      "junction_group": 0,
+      "lat": 35.95038855775115,
+      "line": "line-2",
+      "lon": 39.003602547964036,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2853.6
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "مستودع الحطاب",
+      "archetype": "interchange",
+      "id": "line-2-0525-0520-s003674",
+      "junction_group": 2,
+      "lat": 35.95452777957744,
+      "line": "line-2",
+      "lon": 39.00981670297519,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3674.5
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "البعث",
+      "archetype": "standard",
+      "id": "line-2-0458-0603-s006054",
+      "lat": 35.96658551272361,
+      "line": "line-2",
+      "lon": 39.02823723390111,
+      "platform_length_m": 59.5,
+      "s_m": 6053.5
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "معمل السكر",
+      "archetype": "terminal",
+      "id": "line-2-0294-0806-s011917",
+      "lat": 35.99609996400677,
+      "line": "line-2",
+      "lon": 39.07328985773197,
+      "platform_length_m": 59.5,
+      "s_m": 11917.3
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "معمل السيراميك و القرميض",
+      "archetype": "terminal",
+      "id": "line-3-0591-1029-s000000",
+      "lat": 35.94265001259763,
+      "line": "line-3",
+      "lon": 39.122781163713654,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0636-0905-s003503",
+      "lat": 35.9345515351114,
+      "line": "line-3",
+      "lon": 39.09526133437855,
+      "platform_length_m": 55.5,
+      "s_m": 3502.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0565-0653-s009201",
+      "junction_group": 1,
+      "lat": 35.94732913292302,
+      "line": "line-3",
+      "lon": 39.039333939278166,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9201.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0564-0648-s009310",
+      "junction_group": 1,
+      "lat": 35.94750909908937,
+      "line": "line-3",
+      "lon": 39.038224268740464,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9309.6
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "مستودع الحطاب",
+      "archetype": "interchange",
+      "id": "line-3-0525-0520-s012228",
+      "junction_group": 2,
+      "lat": 35.95452777957744,
+      "line": "line-3",
+      "lon": 39.00981670297519,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12227.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "النهضة",
+      "archetype": "interchange",
+      "id": "line-3-0506-0456-s013665",
+      "junction_group": 3,
+      "lat": 35.9579471367383,
+      "line": "line-3",
+      "lon": 38.995612920092555,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 13665.2
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "الرومانية",
+      "archetype": "depot-terminal",
+      "id": "line-3-0480-0367-s015672",
+      "lat": 35.962626257063675,
+      "line": "line-3",
+      "lon": 38.97586078452139,
+      "platform_length_m": 59.5,
+      "s_m": 15672.3
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "النهضة",
+      "archetype": "terminal",
+      "id": "line-4-0506-0456-s000000",
+      "junction_group": 3,
+      "lat": 35.9579471367383,
+      "line": "line-4",
+      "lon": 38.995612920092555,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0212-0561-s006766",
+      "lat": 36.01085718964835,
+      "line": "line-4",
+      "lon": 39.018916001384376,
+      "platform_length_m": 59.5,
+      "s_m": 6766.4
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

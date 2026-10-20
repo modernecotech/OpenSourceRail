@@ -1,0 +1,891 @@
+{
+  "city": {
+    "bbox": {
+      "east": 70.568,
+      "north": 34.5333,
+      "south": 34.3351,
+      "west": 70.3276
+    },
+    "centroid_lat": 34.4338686930857,
+    "centroid_lon": 70.44816974557789,
+    "country": "AF",
+    "population": 350000,
+    "slug": "jalalabad-af"
+  },
+  "climate": {
+    "preset": "hot-arid-mountain"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/corridors.json",
+    "cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/jalalabad-af.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/jalalabad-af.corridor.geojson",
+      "geometry_sha256": "f34e2dcc31f42d78b2d70a3df4f6eb3ce1e1706eea4bbe949b2aa6519550b251",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 350000,
+    "schema_version": 1,
+    "slug": "jalalabad-af"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 34.41497224561782,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 70.44838757709654,
+      "platforms": [
+        "line-1-0657-0554-s002911",
+        "line-3-0657-0554-s009066"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 34.436028287082024,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 70.44620926190994,
+      "platforms": [
+        "line-1-0540-0544-s005334",
+        "line-2-0540-0544-s010430"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 34.43080926825756,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 70.46134855245677,
+      "platforms": [
+        "line-2-0569-0614-s008511",
+        "line-3-0569-0613-s006712"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 34.44916581722636,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 70.3978506647676,
+      "platforms": [
+        "line-2-0467-0322-s016298",
+        "line-4-0467-0322-s000000"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": 34.46905207860922,
+      "lines": [
+        "line-3",
+        "line-5"
+      ],
+      "lon": 70.49249845962504,
+      "platforms": [
+        "line-3-0355-0758-s000926",
+        "line-3-0358-0755-s001022",
+        "line-5-0355-0758-s000000",
+        "line-5-0358-0755-s000108"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 8245.1,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 22988.0,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 11942.8,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 6420.4,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 4240.1,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0798-0565-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0399-0533-s008245"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 27
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0782-0878-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0286-0151-s022988"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 69
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0320-0781-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0764-0482-s011943"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 39
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0467-0322-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0636-0465-s006420"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0355-0758-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0456-0917-s004240"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 15
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "JAA-Wheat Stock",
+      "demand": 0.32373276,
+      "id": "line-1-0798-0565-s000000",
+      "lat": 34.389597016160955,
+      "line": "line-1",
+      "lon": 70.45078372380179,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.36722437,
+      "id": "line-1-0657-0554-s002911",
+      "junction_group": 0,
+      "lat": 34.41497224561782,
+      "line": "line-1",
+      "lon": 70.44838757709654,
+      "s_m": 2911.1269837220816
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Jalalabad University Hospital",
+      "demand": 0.9332519,
+      "id": "line-1-0540-0544-s005334",
+      "junction_group": 1,
+      "lat": 34.436028287082024,
+      "line": "line-1",
+      "lon": 70.44620926190994,
+      "s_m": 5333.969696196703
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": null,
+      "demand": 0.39546365,
+      "id": "line-1-0399-0533-s008245",
+      "lat": 34.46140351653889,
+      "line": "line-1",
+      "lon": 70.44381311520469,
+      "s_m": 8245.096679918786
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Jalalabad to Toorkham Bus Station",
+      "demand": 0.2394884,
+      "id": "line-2-0782-0878-s000000",
+      "lat": 34.39247647482273,
+      "line": "line-2",
+      "lon": 70.51896498914213,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35062388,
+      "id": "line-2-0673-0733-s004537",
+      "lat": 34.41209278695605,
+      "line": "line-2",
+      "lon": 70.48737941893654,
+      "s_m": 4537.056274847724
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8995997,
+      "id": "line-2-0569-0614-s008511",
+      "junction_group": 2,
+      "lat": 34.43080926825756,
+      "line": "line-2",
+      "lon": 70.4614574682161,
+      "s_m": 8510.681092190376
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Jalalabad University Hospital",
+      "demand": 0.9332519,
+      "id": "line-2-0540-0544-s010430",
+      "junction_group": 1,
+      "lat": 34.436028287082024,
+      "line": "line-2",
+      "lon": 70.44620926190994,
+      "s_m": 10430.09234715991
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3554198,
+      "id": "line-2-0513-0435-s013178",
+      "lat": 34.440887373573766,
+      "line": "line-2",
+      "lon": 70.4224656263761,
+      "s_m": 13178.376618407372
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2620737,
+      "id": "line-2-0467-0322-s016298",
+      "junction_group": 3,
+      "lat": 34.44916581722636,
+      "line": "line-2",
+      "lon": 70.3978506647676,
+      "s_m": 16297.787873376907
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": null,
+      "demand": 0.22468165,
+      "id": "line-2-0286-0151-s022988",
+      "lat": 34.48173969333765,
+      "line": "line-2",
+      "lon": 70.36060147507688,
+      "s_m": 22987.981233214537
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": null,
+      "demand": 0.28714752,
+      "id": "line-3-0320-0781-s000000",
+      "lat": 34.475620843681384,
+      "line": "line-3",
+      "lon": 70.49783533183218,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.26648155,
+      "id": "line-3-0355-0758-s000926",
+      "junction_group": 4,
+      "lat": 34.46932202785876,
+      "line": "line-3",
+      "lon": 70.49282520690302,
+      "s_m": 925.685424949238
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2641421,
+      "id": "line-3-0358-0755-s001022",
+      "junction_group": 4,
+      "lat": 34.468782129359674,
+      "line": "line-3",
+      "lon": 70.49217171234704,
+      "s_m": 1022.2539674441618
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35178334,
+      "id": "line-3-0495-0663-s004688",
+      "lat": 34.44412676456826,
+      "line": "line-3",
+      "lon": 70.4721312126304,
+      "s_m": 4688.427124746203
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Zia Institute of Computer Science",
+      "demand": 0.9027088,
+      "id": "line-3-0569-0613-s006712",
+      "junction_group": 2,
+      "lat": 34.43080926825756,
+      "line": "line-3",
+      "lon": 70.46123963669743,
+      "s_m": 6711.513703397226
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.36722437,
+      "id": "line-3-0657-0554-s009066",
+      "junction_group": 0,
+      "lat": 34.41497224561782,
+      "line": "line-3",
+      "lon": 70.44838757709654,
+      "s_m": 9065.727265770316
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Nangarhar Agriculture and Veterinary Institute",
+      "demand": 0.36129436,
+      "id": "line-3-0764-0482-s011943",
+      "lat": 34.39571586581722,
+      "line": "line-3",
+      "lon": 70.43270370775308,
+      "s_m": 11942.78354061799
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2620737,
+      "id": "line-4-0467-0322-s000000",
+      "junction_group": 3,
+      "lat": 34.44916581722636,
+      "line": "line-4",
+      "lon": 70.3978506647676,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nangarhar Nishtar Kidny Hospital",
+      "demand": 0.60024,
+      "id": "line-4-0636-0465-s006420",
+      "lat": 34.4187515351114,
+      "line": "line-4",
+      "lon": 70.42900057193587,
+      "s_m": 6420.386719675143
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.26648155,
+      "id": "line-5-0355-0758-s000000",
+      "junction_group": 4,
+      "lat": 34.46932202785876,
+      "line": "line-5",
+      "lon": 70.49282520690302,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2641421,
+      "id": "line-5-0358-0755-s000108",
+      "junction_group": 4,
+      "lat": 34.468782129359674,
+      "line": "line-5",
+      "lon": 70.49217171234704,
+      "s_m": 108.2842712474619
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.1972866,
+      "id": "line-5-0456-0917-s004240",
+      "lat": 34.451145445056326,
+      "line": "line-5",
+      "lon": 70.52746041836984,
+      "s_m": 4240.142853498743
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "JAA-Wheat Stock",
+      "archetype": "terminal",
+      "id": "line-1-0798-0565-s000000",
+      "lat": 34.389597016160955,
+      "line": "line-1",
+      "lon": 70.45078372380179,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0657-0554-s002911",
+      "junction_group": 0,
+      "lat": 34.41497224561782,
+      "line": "line-1",
+      "lon": 70.44838757709654,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2911.1
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Jalalabad University Hospital",
+      "archetype": "interchange",
+      "id": "line-1-0540-0544-s005334",
+      "junction_group": 1,
+      "lat": 34.436028287082024,
+      "line": "line-1",
+      "lon": 70.44620926190994,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5334.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "archetype": "terminal",
+      "id": "line-1-0399-0533-s008245",
+      "lat": 34.46140351653889,
+      "line": "line-1",
+      "lon": 70.44381311520469,
+      "platform_length_m": 59.5,
+      "s_m": 8245.1
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Jalalabad to Toorkham Bus Station",
+      "archetype": "terminal",
+      "id": "line-2-0782-0878-s000000",
+      "lat": 34.39247647482273,
+      "line": "line-2",
+      "lon": 70.51896498914213,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0673-0733-s004537",
+      "lat": 34.41209278695605,
+      "line": "line-2",
+      "lon": 70.48737941893654,
+      "platform_length_m": 59.5,
+      "s_m": 4537.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0569-0614-s008511",
+      "junction_group": 2,
+      "lat": 34.43080926825756,
+      "line": "line-2",
+      "lon": 70.4614574682161,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8510.7
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Jalalabad University Hospital",
+      "archetype": "interchange",
+      "id": "line-2-0540-0544-s010430",
+      "junction_group": 1,
+      "lat": 34.436028287082024,
+      "line": "line-2",
+      "lon": 70.44620926190994,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 10430.1
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0513-0435-s013178",
+      "lat": 34.440887373573766,
+      "line": "line-2",
+      "lon": 70.4224656263761,
+      "platform_length_m": 59.5,
+      "s_m": 13178.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0467-0322-s016298",
+      "junction_group": 3,
+      "lat": 34.44916581722636,
+      "line": "line-2",
+      "lon": 70.3978506647676,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 16297.8
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "archetype": "depot-terminal",
+      "id": "line-2-0286-0151-s022988",
+      "lat": 34.48173969333765,
+      "line": "line-2",
+      "lon": 70.36060147507688,
+      "platform_length_m": 59.5,
+      "s_m": 22988.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "archetype": "terminal",
+      "id": "line-3-0320-0781-s000000",
+      "lat": 34.475620843681384,
+      "line": "line-3",
+      "lon": 70.49783533183218,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0355-0758-s000926",
+      "junction_group": 4,
+      "lat": 34.46932202785876,
+      "line": "line-3",
+      "lon": 70.49282520690302,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 925.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0358-0755-s001022",
+      "junction_group": 4,
+      "lat": 34.468782129359674,
+      "line": "line-3",
+      "lon": 70.49217171234704,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1022.3
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0495-0663-s004688",
+      "lat": 34.44412676456826,
+      "line": "line-3",
+      "lon": 70.4721312126304,
+      "platform_length_m": 59.5,
+      "s_m": 4688.4
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Zia Institute of Computer Science",
+      "archetype": "interchange",
+      "id": "line-3-0569-0613-s006712",
+      "junction_group": 2,
+      "lat": 34.43080926825756,
+      "line": "line-3",
+      "lon": 70.46123963669743,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6711.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0657-0554-s009066",
+      "junction_group": 0,
+      "lat": 34.41497224561782,
+      "line": "line-3",
+      "lon": 70.44838757709654,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9065.7
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Nangarhar Agriculture and Veterinary Institute",
+      "archetype": "terminal",
+      "id": "line-3-0764-0482-s011943",
+      "lat": 34.39571586581722,
+      "line": "line-3",
+      "lon": 70.43270370775308,
+      "platform_length_m": 59.5,
+      "s_m": 11942.8
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0467-0322-s000000",
+      "junction_group": 3,
+      "lat": 34.44916581722636,
+      "line": "line-4",
+      "lon": 70.3978506647676,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Nangarhar Nishtar Kidny Hospital",
+      "archetype": "terminal",
+      "id": "line-4-0636-0465-s006420",
+      "lat": 34.4187515351114,
+      "line": "line-4",
+      "lon": 70.42900057193587,
+      "platform_length_m": 59.5,
+      "s_m": 6420.4
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0355-0758-s000000",
+      "junction_group": 4,
+      "lat": 34.46932202785876,
+      "line": "line-5",
+      "lon": 70.49282520690302,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-5-0358-0755-s000108",
+      "junction_group": 4,
+      "lat": 34.468782129359674,
+      "line": "line-5",
+      "lon": 70.49217171234704,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 108.3
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0456-0917-s004240",
+      "lat": 34.451145445056326,
+      "line": "line-5",
+      "lon": 70.52746041836984,
+      "platform_length_m": 59.5,
+      "s_m": 4240.1
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

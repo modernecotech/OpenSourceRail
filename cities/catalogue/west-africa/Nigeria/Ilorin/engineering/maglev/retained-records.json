@@ -1,0 +1,838 @@
+{
+  "city": {
+    "bbox": {
+      "east": 4.6423,
+      "north": 8.5957,
+      "south": 8.3975,
+      "west": 4.4419
+    },
+    "centroid_lat": 8.494289065255733,
+    "centroid_lon": 4.544081486521328,
+    "country": "NG",
+    "population": 1000000,
+    "slug": "ilorin"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-africa/Nigeria/Ilorin/corridors.json",
+    "cities/catalogue/west-africa/Nigeria/Ilorin/ilorin.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-africa/Nigeria/Ilorin/ilorin.corridor.geojson",
+      "geometry_sha256": "366e97a0cfaffa21aa69254823d19651d9b5c4e28f9eae265b2b04d6cc634374",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 1000000,
+    "schema_version": 1,
+    "slug": "ilorin"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 8.475452606509977,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 4.508174155257834,
+      "platforms": [
+        "line-1-0667-0371-s000417",
+        "line-1-0669-0351-s000000",
+        "line-3-0667-0371-s006396"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 8.480371681723836,
+      "lines": [
+        "line-1",
+        "line-4",
+        "line-5"
+      ],
+      "lon": 4.571027122966952,
+      "platforms": [
+        "line-1-0640-0711-s007440",
+        "line-4-0640-0711-s000000",
+        "line-5-0641-0709-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 8.4912296404276,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 4.5142899064511095,
+      "platforms": [
+        "line-2-0580-0398-s002643",
+        "line-3-0580-0398-s004420"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 8.496808591584783,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 4.544081486521328,
+      "platforms": [
+        "line-2-0549-0562-s008393",
+        "line-4-0549-0562-s005736"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 13109.4,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 330,
+      "geometry": "standard-urban",
+      "length_m": 22750.6,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 11845.5,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 5735.9,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 4395.9,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0669-0351-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0628-0925-s013109"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 40
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0559-0305-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0332-0976-s022751"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 71
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0384-0457-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0890-0291-s011845"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 36
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0640-0711-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0549-0562-s005736"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0641-0709-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0788-0763-s004396"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 15
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mandate Market, Western Reservoir Road, Ilorin, Nigeria",
+      "demand": 0.4993214,
+      "id": "line-1-0669-0351-s000000",
+      "junction_group": 0,
+      "lat": 8.475212651621495,
+      "line": "line-1",
+      "lon": 4.505752075577328,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.49014524,
+      "id": "line-1-0667-0371-s000417",
+      "junction_group": 0,
+      "lat": 8.475572583954218,
+      "line": "line-1",
+      "lon": 4.509385195098086,
+      "s_m": 416.5685424949238
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Sadiku Hospital, Unity Road, Ilorin, Nigeria",
+      "demand": 0.82809925,
+      "id": "line-1-0646-0643-s006031",
+      "lat": 8.479351873447792,
+      "line": "line-1",
+      "lon": 4.558795620580399,
+      "s_m": 6030.538238691627
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5163362,
+      "id": "line-1-0640-0711-s007440",
+      "junction_group": 1,
+      "lat": 8.480431670445958,
+      "line": "line-1",
+      "lon": 4.571148226950977,
+      "s_m": 7440.2438661764
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Anchormed Hospital, Tanke Tipper Garage, Ilorin, Kwara State, Nigeria",
+      "demand": 0.56124055,
+      "id": "line-1-0626-0887-s011076",
+      "lat": 8.482951196775007,
+      "line": "line-1",
+      "lon": 4.60311967873365,
+      "s_m": 11076.22366364086
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Crescent Gc Hospital, Olufunmilayo Street, Tanke, Ilorin, Kwara, Nigeria",
+      "demand": 0.44046083,
+      "id": "line-1-0628-0925-s013109",
+      "lat": 8.482591264442286,
+      "line": "line-1",
+      "lon": 4.610022605823091,
+      "s_m": 13109.360748630705
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Gaa saka Zone D, Unnamed Road, Oko Erin, Nigeria",
+      "demand": 0.38578603,
+      "id": "line-2-0559-0305-s000000",
+      "lat": 8.495008929921175,
+      "line": "line-2",
+      "lon": 4.497395900679583,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.38712105,
+      "id": "line-2-0580-0398-s002643",
+      "junction_group": 2,
+      "lat": 8.4912296404276,
+      "line": "line-2",
+      "lon": 4.5142899064511095,
+      "s_m": 2642.8427124746204
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "FGVV+JQH, Omu-Aran-Oja Oba, Ilorin 240101, Kwara, Nigeria",
+      "demand": 0.7476115,
+      "id": "line-2-0549-0562-s008393",
+      "junction_group": 3,
+      "lat": 8.496808591584783,
+      "line": "line-2",
+      "lon": 4.544081486521328,
+      "s_m": 8393.38095116625
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.351169,
+      "id": "line-2-0431-0750-s014371",
+      "lat": 8.518044599215349,
+      "line": "line-2",
+      "lon": 4.578232810016456,
+      "s_m": 14371.269837220763
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Khadijat Memorial Hospital, Sango Road, Oko Erin, Nigeria",
+      "demand": 0.47456336,
+      "id": "line-2-0462-0806-s016467",
+      "lat": 8.512465648058166,
+      "line": "line-2",
+      "lon": 4.588405544674579,
+      "s_m": 16467.24963468522
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22659636,
+      "id": "line-2-0390-0856-s018567",
+      "lat": 8.525423212036138,
+      "line": "line-2",
+      "lon": 4.597488343476475,
+      "s_m": 18567.49350086165
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Eleko, Orelope Hospital, Jebba Road, Ilorin, Nigeria",
+      "demand": 0.24396424,
+      "id": "line-2-0332-0976-s022751",
+      "lat": 8.53586124968506,
+      "line": "line-2",
+      "lon": 4.619287060601025,
+      "s_m": 22750.580079512707
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Gbagba Alagbado Behind Sobi Specialist Hospital, Illorin, Nigeria",
+      "demand": 0.39022505,
+      "id": "line-3-0384-0457-s000000",
+      "lat": 8.526503009034302,
+      "line": "line-3",
+      "lon": 4.525007609037347,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.38712105,
+      "id": "line-3-0580-0398-s004420",
+      "junction_group": 2,
+      "lat": 8.4912296404276,
+      "line": "line-3",
+      "lon": 4.5142899064511095,
+      "s_m": 4420.487732352797
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.49014524,
+      "id": "line-3-0667-0371-s006396",
+      "junction_group": 0,
+      "lat": 8.475572583954218,
+      "line": "line-3",
+      "lon": 4.509385195098086,
+      "s_m": 6395.8787847868125
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "General Tunde Idiagbon International Airport, Ilorin, Ilorin, Nigeria",
+      "demand": 0.37310073,
+      "id": "line-3-0890-0291-s011845",
+      "lat": 8.435440128855776,
+      "line": "line-3",
+      "lon": 4.4948527170150525,
+      "s_m": 11845.483399593886
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5163362,
+      "id": "line-4-0640-0711-s000000",
+      "junction_group": 1,
+      "lat": 8.480431670445958,
+      "line": "line-4",
+      "lon": 4.571148226950977,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7476115,
+      "id": "line-4-0549-0562-s005736",
+      "junction_group": 3,
+      "lat": 8.496808591584783,
+      "line": "line-4",
+      "lon": 4.544081486521328,
+      "s_m": 5735.8787847868125
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5301261,
+      "id": "line-5-0641-0709-s000000",
+      "junction_group": 1,
+      "lat": 8.480251704279596,
+      "line": "line-5",
+      "lon": 4.570784914998901,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "FH3J+98J, OFFA GARAGE RAILWAY LINE, Offa Garage, Oko Erin 240101, Kwara, Nigeria",
+      "demand": 0.42591882,
+      "id": "line-5-0788-0763-s004396",
+      "lat": 8.45379667782457,
+      "line": "line-5",
+      "lon": 4.580594337704949,
+      "s_m": 4395.87878478681
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Mandate Market, Western Reservoir Road, Ilorin, Nigeria",
+      "archetype": "terminal",
+      "id": "line-1-0669-0351-s000000",
+      "junction_group": 0,
+      "lat": 8.475212651621495,
+      "line": "line-1",
+      "lon": 4.505752075577328,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0667-0371-s000417",
+      "junction_group": 0,
+      "lat": 8.475572583954218,
+      "line": "line-1",
+      "lon": 4.509385195098086,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 416.6
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Sadiku Hospital, Unity Road, Ilorin, Nigeria",
+      "archetype": "major",
+      "id": "line-1-0646-0643-s006031",
+      "lat": 8.479351873447792,
+      "line": "line-1",
+      "lon": 4.558795620580399,
+      "platform_length_m": 59.5,
+      "s_m": 6030.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0640-0711-s007440",
+      "junction_group": 1,
+      "lat": 8.480431670445958,
+      "line": "line-1",
+      "lon": 4.571148226950977,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7440.2
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Anchormed Hospital, Tanke Tipper Garage, Ilorin, Kwara State, Nigeria",
+      "archetype": "standard",
+      "id": "line-1-0626-0887-s011076",
+      "lat": 8.482951196775007,
+      "line": "line-1",
+      "lon": 4.60311967873365,
+      "platform_length_m": 59.5,
+      "s_m": 11076.2
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Crescent Gc Hospital, Olufunmilayo Street, Tanke, Ilorin, Kwara, Nigeria",
+      "archetype": "terminal",
+      "id": "line-1-0628-0925-s013109",
+      "lat": 8.482591264442286,
+      "line": "line-1",
+      "lon": 4.610022605823091,
+      "platform_length_m": 59.5,
+      "s_m": 13109.4
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Gaa saka Zone D, Unnamed Road, Oko Erin, Nigeria",
+      "archetype": "terminal",
+      "id": "line-2-0559-0305-s000000",
+      "lat": 8.495008929921175,
+      "line": "line-2",
+      "lon": 4.497395900679583,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0580-0398-s002643",
+      "junction_group": 2,
+      "lat": 8.4912296404276,
+      "line": "line-2",
+      "lon": 4.5142899064511095,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2642.8
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "FGVV+JQH, Omu-Aran-Oja Oba, Ilorin 240101, Kwara, Nigeria",
+      "archetype": "interchange",
+      "id": "line-2-0549-0562-s008393",
+      "junction_group": 3,
+      "lat": 8.496808591584783,
+      "line": "line-2",
+      "lon": 4.544081486521328,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8393.4
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0431-0750-s014371",
+      "lat": 8.518044599215349,
+      "line": "line-2",
+      "lon": 4.578232810016456,
+      "platform_length_m": 59.5,
+      "s_m": 14371.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Khadijat Memorial Hospital, Sango Road, Oko Erin, Nigeria",
+      "archetype": "standard",
+      "id": "line-2-0462-0806-s016467",
+      "lat": 8.512465648058166,
+      "line": "line-2",
+      "lon": 4.588405544674579,
+      "platform_length_m": 59.5,
+      "s_m": 16467.2
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0390-0856-s018567",
+      "lat": 8.525423212036138,
+      "line": "line-2",
+      "lon": 4.597488343476475,
+      "platform_length_m": 55.5,
+      "s_m": 18567.5
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Eleko, Orelope Hospital, Jebba Road, Ilorin, Nigeria",
+      "archetype": "depot-terminal",
+      "id": "line-2-0332-0976-s022751",
+      "lat": 8.53586124968506,
+      "line": "line-2",
+      "lon": 4.619287060601025,
+      "platform_length_m": 59.5,
+      "s_m": 22750.6
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Gbagba Alagbado Behind Sobi Specialist Hospital, Illorin, Nigeria",
+      "archetype": "terminal",
+      "id": "line-3-0384-0457-s000000",
+      "lat": 8.526503009034302,
+      "line": "line-3",
+      "lon": 4.525007609037347,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0580-0398-s004420",
+      "junction_group": 2,
+      "lat": 8.4912296404276,
+      "line": "line-3",
+      "lon": 4.5142899064511095,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4420.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0667-0371-s006396",
+      "junction_group": 0,
+      "lat": 8.475572583954218,
+      "line": "line-3",
+      "lon": 4.509385195098086,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6395.9
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "General Tunde Idiagbon International Airport, Ilorin, Ilorin, Nigeria",
+      "archetype": "terminal",
+      "id": "line-3-0890-0291-s011845",
+      "lat": 8.435440128855776,
+      "line": "line-3",
+      "lon": 4.4948527170150525,
+      "platform_length_m": 59.5,
+      "s_m": 11845.5
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0640-0711-s000000",
+      "junction_group": 1,
+      "lat": 8.480431670445958,
+      "line": "line-4",
+      "lon": 4.571148226950977,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0549-0562-s005736",
+      "junction_group": 3,
+      "lat": 8.496808591584783,
+      "line": "line-4",
+      "lon": 4.544081486521328,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5735.9
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0641-0709-s000000",
+      "junction_group": 1,
+      "lat": 8.480251704279596,
+      "line": "line-5",
+      "lon": 4.570784914998901,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "FH3J+98J, OFFA GARAGE RAILWAY LINE, Offa Garage, Oko Erin 240101, Kwara, Nigeria",
+      "archetype": "terminal",
+      "id": "line-5-0788-0763-s004396",
+      "lat": 8.45379667782457,
+      "line": "line-5",
+      "lon": 4.580594337704949,
+      "platform_length_m": 59.5,
+      "s_m": 4395.9
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

@@ -1,3 +1,9 @@
+<!-- osr-maglev-primary:start -->
+> **Primary v0.5 ferrite-maglev planning:** [Open the current city planning package](engineering/maglev/README.md). Formation, duty, fleet, charging, depot quantities and partial cost allowances are recomputed; physical acceptance remains open.
+>
+> The material below this notice is the retained v0.4 wheel/rail comparator. Its costs, fleet, geometry and acceptance do not transfer to maglev.
+<!-- osr-maglev-primary:end -->
+
 # Uige — provisional network
 
 **Engineering revalidation pending.** Current geometry and planning quantities are published below. The package remains incomplete; no engineering, manufacturing or physical release is claimed.

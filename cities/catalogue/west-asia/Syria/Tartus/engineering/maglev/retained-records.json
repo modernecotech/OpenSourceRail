@@ -1,0 +1,753 @@
+{
+  "city": {
+    "bbox": {
+      "east": 35.969,
+      "north": 34.9566,
+      "south": 34.8214,
+      "west": 35.8042
+    },
+    "centroid_lat": 34.88848280603247,
+    "centroid_lon": 35.88732203017177,
+    "country": "SY",
+    "population": 250000,
+    "slug": "tartus"
+  },
+  "climate": {
+    "preset": "mediterranean"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-asia/Syria/Tartus/corridors.json",
+    "cities/catalogue/west-asia/Syria/Tartus/tartus.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-asia/Syria/Tartus/tartus.corridor.geojson",
+      "geometry_sha256": "e3faa34b164a42cbf3cda1aa1bb2abcb2d3f522f8a6e57431a7c6a240fbf9afc",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 250000,
+    "schema_version": 1,
+    "slug": "tartus"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 34.88935264250321,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 35.888052131446884,
+      "platforms": [
+        "line-1-0379-0377-s007619",
+        "line-2-0368-0387-s007888",
+        "line-2-0373-0382-s008029",
+        "line-3-0368-0387-s003157",
+        "line-3-0373-0382-s003298",
+        "line-3-0378-0379-s003423"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 34.86202777957744,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 35.93112810667863,
+      "platforms": [
+        "line-2-0525-0579-s000803",
+        "line-4-0525-0579-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 34.893341892524205,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 35.892469244161326,
+      "platforms": [
+        "line-2-0350-0406-s007180",
+        "line-2-0352-0399-s007336",
+        "line-3-0350-0406-s002581",
+        "line-3-0352-0399-s002738"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 10568.6,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 10414.1,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 4983.6,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 5768.2,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0690-0486-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0257-0324-s010569"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 21
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0506-0606-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0297-0414-s010414"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 26
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0271-0453-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0428-0348-s004984"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0525-0579-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0662-0688-s005768"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 13
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": null,
+      "demand": 0.17207561,
+      "id": "line-1-0690-0486-s000000",
+      "lat": 34.83233336212792,
+      "line": "line-1",
+      "lon": 35.910758281102936,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35329756,
+      "id": "line-1-0512-0434-s004452",
+      "lat": 34.86436733974013,
+      "line": "line-1",
+      "lon": 35.89936870121115,
+      "s_m": 4451.858582251275
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9838529,
+      "id": "line-1-0379-0377-s007619",
+      "junction_group": 0,
+      "lat": 34.88830283986611,
+      "line": "line-1",
+      "lon": 35.8868839694067,
+      "s_m": 7619.20922961423
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق طرطوس الحرة",
+      "demand": 0.3555341,
+      "id": "line-1-0257-0324-s010569",
+      "lat": 34.91025871216212,
+      "line": "line-1",
+      "lon": 35.87527535913238,
+      "s_m": 10568.569978244916
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "كلية الهندسة",
+      "demand": 0.23608929,
+      "id": "line-2-0506-0606-s000000",
+      "lat": 34.8654471367383,
+      "line": "line-2",
+      "lon": 35.93704192700705,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22402471,
+      "id": "line-2-0525-0579-s000803",
+      "junction_group": 1,
+      "lat": 34.86202777957744,
+      "line": "line-2",
+      "lon": 35.93112810667863,
+      "s_m": 802.842712474619
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.78227943,
+      "id": "line-2-0350-0406-s007180",
+      "junction_group": 2,
+      "lat": 34.89352185869057,
+      "line": "line-2",
+      "lon": 35.8932358505002,
+      "s_m": 7179.898987322339
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.84557056,
+      "id": "line-2-0352-0399-s007336",
+      "junction_group": 2,
+      "lat": 34.89316192635785,
+      "line": "line-2",
+      "lon": 35.891702637822455,
+      "s_m": 7336.467529817263
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق خضار الكراج القديم",
+      "demand": 0.9636736,
+      "id": "line-2-0368-0387-s007888",
+      "junction_group": 0,
+      "lat": 34.890282467696075,
+      "line": "line-2",
+      "lon": 35.88907427323204,
+      "s_m": 7887.594513539347
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9842094,
+      "id": "line-2-0373-0382-s008029",
+      "junction_group": 0,
+      "lat": 34.88938263686427,
+      "line": "line-2",
+      "lon": 35.88797912131937,
+      "s_m": 8029.015869776657
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "الهلال الاحمر",
+      "demand": 0.48745495,
+      "id": "line-2-0297-0414-s010414",
+      "lat": 34.90306006550769,
+      "line": "line-2",
+      "lon": 35.89498809356047,
+      "s_m": 10414.11254969542
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق الهال طرطوس",
+      "demand": 0.3746132,
+      "id": "line-3-0271-0453-s000000",
+      "lat": 34.907739185833066,
+      "line": "line-3",
+      "lon": 35.90353027847931,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.78227943,
+      "id": "line-3-0350-0406-s002581",
+      "junction_group": 2,
+      "lat": 34.89352185869057,
+      "line": "line-3",
+      "lon": 35.8932358505002,
+      "s_m": 2581.076477383249
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.84557056,
+      "id": "line-3-0352-0399-s002738",
+      "junction_group": 2,
+      "lat": 34.89316192635785,
+      "line": "line-3",
+      "lon": 35.891702637822455,
+      "s_m": 2737.645019878173
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق خضار الكراج القديم",
+      "demand": 0.9636736,
+      "id": "line-3-0368-0387-s003157",
+      "junction_group": 0,
+      "lat": 34.890282467696075,
+      "line": "line-3",
+      "lon": 35.88907427323204,
+      "s_m": 3157.0562748477187
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9842094,
+      "id": "line-3-0373-0382-s003298",
+      "junction_group": 0,
+      "lat": 34.88938263686427,
+      "line": "line-3",
+      "lon": 35.88797912131937,
+      "s_m": 3298.4776310850293
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.98370755,
+      "id": "line-3-0378-0379-s003423",
+      "junction_group": 0,
+      "lat": 34.88848280603247,
+      "line": "line-3",
+      "lon": 35.88732203017177,
+      "s_m": 3423.3304448274157
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مركز الكورنيش الاسعافي",
+      "demand": 0.57060677,
+      "id": "line-3-0428-0348-s004984",
+      "lat": 34.87948449771443,
+      "line": "line-3",
+      "lon": 35.8805320883132,
+      "s_m": 4983.5743110038175
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22402471,
+      "id": "line-4-0525-0579-s000000",
+      "junction_group": 1,
+      "lat": 34.86202777957744,
+      "line": "line-4",
+      "lon": 35.93112810667863,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.07724192,
+      "id": "line-4-0662-0688-s005768",
+      "lat": 34.837372414786024,
+      "line": "line-4",
+      "lon": 35.95500241837487,
+      "s_m": 5768.183258569808
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "tourism:attraction",
+      "archetype": "terminal",
+      "id": "line-1-0690-0486-s000000",
+      "lat": 34.83233336212792,
+      "line": "line-1",
+      "lon": 35.910758281102936,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0512-0434-s004452",
+      "lat": 34.86436733974013,
+      "line": "line-1",
+      "lon": 35.89936870121115,
+      "platform_length_m": 49.0,
+      "s_m": 4451.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0379-0377-s007619",
+      "junction_group": 0,
+      "lat": 34.88830283986611,
+      "line": "line-1",
+      "lon": 35.8868839694067,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7619.2
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق طرطوس الحرة",
+      "archetype": "depot-terminal",
+      "id": "line-1-0257-0324-s010569",
+      "lat": 34.91025871216212,
+      "line": "line-1",
+      "lon": 35.87527535913238,
+      "platform_length_m": 49.0,
+      "s_m": 10568.6
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "كلية الهندسة",
+      "archetype": "terminal",
+      "id": "line-2-0506-0606-s000000",
+      "lat": 34.8654471367383,
+      "line": "line-2",
+      "lon": 35.93704192700705,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0525-0579-s000803",
+      "junction_group": 1,
+      "lat": 34.86202777957744,
+      "line": "line-2",
+      "lon": 35.93112810667863,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 802.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0350-0406-s007180",
+      "junction_group": 2,
+      "lat": 34.89352185869057,
+      "line": "line-2",
+      "lon": 35.8932358505002,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7179.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0352-0399-s007336",
+      "junction_group": 2,
+      "lat": 34.89316192635785,
+      "line": "line-2",
+      "lon": 35.891702637822455,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7336.5
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق خضار الكراج القديم",
+      "archetype": "interchange",
+      "id": "line-2-0368-0387-s007888",
+      "junction_group": 0,
+      "lat": 34.890282467696075,
+      "line": "line-2",
+      "lon": 35.88907427323204,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7887.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0373-0382-s008029",
+      "junction_group": 0,
+      "lat": 34.88938263686427,
+      "line": "line-2",
+      "lon": 35.88797912131937,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8029.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "الهلال الاحمر",
+      "archetype": "terminal",
+      "id": "line-2-0297-0414-s010414",
+      "lat": 34.90306006550769,
+      "line": "line-2",
+      "lon": 35.89498809356047,
+      "platform_length_m": 49.0,
+      "s_m": 10414.1
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق الهال طرطوس",
+      "archetype": "terminal",
+      "id": "line-3-0271-0453-s000000",
+      "lat": 34.907739185833066,
+      "line": "line-3",
+      "lon": 35.90353027847931,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0350-0406-s002581",
+      "junction_group": 2,
+      "lat": 34.89352185869057,
+      "line": "line-3",
+      "lon": 35.8932358505002,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2581.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0352-0399-s002738",
+      "junction_group": 2,
+      "lat": 34.89316192635785,
+      "line": "line-3",
+      "lon": 35.891702637822455,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2737.6
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق خضار الكراج القديم",
+      "archetype": "interchange",
+      "id": "line-3-0368-0387-s003157",
+      "junction_group": 0,
+      "lat": 34.890282467696075,
+      "line": "line-3",
+      "lon": 35.88907427323204,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3157.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0373-0382-s003298",
+      "junction_group": 0,
+      "lat": 34.88938263686427,
+      "line": "line-3",
+      "lon": 35.88797912131937,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3298.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0378-0379-s003423",
+      "junction_group": 0,
+      "lat": 34.88848280603247,
+      "line": "line-3",
+      "lon": 35.88732203017177,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3423.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مركز الكورنيش الاسعافي",
+      "archetype": "terminal",
+      "id": "line-3-0428-0348-s004984",
+      "lat": 34.87948449771443,
+      "line": "line-3",
+      "lon": 35.8805320883132,
+      "platform_length_m": 49.0,
+      "s_m": 4983.6
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0525-0579-s000000",
+      "junction_group": 1,
+      "lat": 34.86202777957744,
+      "line": "line-4",
+      "lon": 35.93112810667863,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0662-0688-s005768",
+      "lat": 34.837372414786024,
+      "line": "line-4",
+      "lon": 35.95500241837487,
+      "platform_length_m": 49.0,
+      "s_m": 5768.2
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

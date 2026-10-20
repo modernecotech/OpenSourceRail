@@ -1,0 +1,884 @@
+{
+  "city": {
+    "bbox": {
+      "east": 35.8513,
+      "north": -6.0639,
+      "south": -6.2621,
+      "west": 35.6519
+    },
+    "centroid_lat": -6.163871205413383,
+    "centroid_lon": 35.75318606557122,
+    "country": "TZ",
+    "population": 800000,
+    "slug": "dodoma"
+  },
+  "climate": {
+    "preset": "tropical-arid"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Tanzania/Dodoma/corridors.json",
+    "cities/catalogue/east-africa/Tanzania/Dodoma/dodoma.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Tanzania/Dodoma/dodoma.corridor.geojson",
+      "geometry_sha256": "e683acd7bfa98b1a60fbddc1496ce536d43be2d1f5274cb6bd2c6763ba608658",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 800000,
+    "schema_version": 1,
+    "slug": "dodoma"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -6.184927246877587,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 35.75517383849055,
+      "platforms": [
+        "line-1-0672-0571-s005104",
+        "line-2-0672-0571-s003923"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -6.171249818234172,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 35.75463171860346,
+      "platforms": [
+        "line-1-0596-0568-s007165",
+        "line-3-0596-0568-s014063"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -6.177368667890437,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 35.766919769377495,
+      "platforms": [
+        "line-2-0630-0636-s005659",
+        "line-3-0630-0636-s015737"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -6.162251509916136,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 35.73656105570048,
+      "platforms": [
+        "line-3-0546-0468-s011602",
+        "line-4-0546-0468-s000000"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": -6.166030799409711,
+      "lines": [
+        "line-3",
+        "line-5"
+      ],
+      "lon": 35.743970027490704,
+      "platforms": [
+        "line-3-0567-0509-s012619",
+        "line-5-0567-0509-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 16497.9,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 14602.4,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 16547.2,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 4536.5,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 4447.6,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0835-0580-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0224-0492-s016498"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 51
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0769-0425-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0439-0983-s014602"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 45
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0288-0012-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0646-0668-s016547"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 54
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0546-0468-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0462-0387-s004536"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 16
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0567-0509-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0711-0390-s004448"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 16
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "DCMC Hospital",
+      "demand": 0.3507094,
+      "id": "line-1-0835-0580-s000000",
+      "lat": -6.214261731994386,
+      "line": "line-1",
+      "lon": 35.75680019815182,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6114645,
+      "id": "line-1-0672-0571-s005104",
+      "junction_group": 0,
+      "lat": -6.184927246877587,
+      "line": "line-1",
+      "lon": 35.75517383849055,
+      "s_m": 5103.574311003817
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6148913,
+      "id": "line-1-0596-0568-s007165",
+      "junction_group": 1,
+      "lat": -6.171249818234172,
+      "line": "line-1",
+      "lon": 35.75463171860346,
+      "s_m": 7165.239533417529
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35549027,
+      "id": "line-1-0415-0524-s011861",
+      "lat": -6.138675942122881,
+      "line": "line-1",
+      "lon": 35.74668062692615,
+      "s_m": 11860.529573173819
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Institute of Rural Development Planning (Dodoma)",
+      "demand": 0.6591805,
+      "id": "line-1-0302-0526-s014170",
+      "lat": -6.118339765324119,
+      "line": "line-1",
+      "lon": 35.74704204018421,
+      "s_m": 14170.235200658586
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "JWTZ Dispensary",
+      "demand": 0.32753086,
+      "id": "line-1-0224-0492-s016498",
+      "lat": -6.104302404347983,
+      "line": "line-1",
+      "lon": 35.740898014797196,
+      "s_m": 16497.930726875587
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Imani Dispensary",
+      "demand": 0.42771533,
+      "id": "line-2-0769-0425-s000000",
+      "lat": -6.202383965014578,
+      "line": "line-2",
+      "lon": 35.728790670652195,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6114645,
+      "id": "line-2-0672-0571-s003923",
+      "junction_group": 0,
+      "lat": -6.184927246877587,
+      "line": "line-2",
+      "lon": 35.75517383849055,
+      "s_m": 3922.7416997969603
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.58685696,
+      "id": "line-2-0630-0636-s005659",
+      "junction_group": 2,
+      "lat": -6.177368667890437,
+      "line": "line-2",
+      "lon": 35.766919769377495,
+      "s_m": 5658.549057834403
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.28685462,
+      "id": "line-2-0518-0804-s010140",
+      "lat": -6.157212457258035,
+      "line": "line-2",
+      "lon": 35.797278483054505,
+      "s_m": 10139.696961967
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Nane nane",
+      "demand": 0.3635824,
+      "id": "line-2-0439-0983-s014602",
+      "lat": -6.142995130115539,
+      "line": "line-2",
+      "lon": 35.829624969650844,
+      "s_m": 14602.438661763897
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Ngageya College of Business and Management",
+      "demand": 0.13919617,
+      "id": "line-3-0288-0012-s000000",
+      "lat": -6.115820238995069,
+      "line": "line-3",
+      "lon": 35.65415883286287,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.1682165,
+      "id": "line-3-0364-0145-s003517",
+      "lat": -6.129497667638484,
+      "line": "line-3",
+      "lon": 35.67819281452384,
+      "s_m": 3516.7113959936614
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.26329753,
+      "id": "line-3-0453-0282-s007017",
+      "lat": -6.145514656444589,
+      "line": "line-3",
+      "lon": 35.70294962270093,
+      "s_m": 7017.442994522867
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5473963,
+      "id": "line-3-0546-0468-s011602",
+      "junction_group": 3,
+      "lat": -6.162251509916136,
+      "line": "line-3",
+      "lon": 35.73656105570048,
+      "s_m": 11601.606050557088
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "MACHAME Dodoma Terminal",
+      "demand": 0.8505744,
+      "id": "line-3-0567-0509-s012619",
+      "junction_group": 4,
+      "lat": -6.166030799409711,
+      "line": "line-3",
+      "lon": 35.743970027490704,
+      "s_m": 12619.00720425885
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6148913,
+      "id": "line-3-0596-0568-s014063",
+      "junction_group": 1,
+      "lat": -6.171249818234172,
+      "line": "line-3",
+      "lon": 35.75463171860346,
+      "s_m": 14062.682527940304
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.58685696,
+      "id": "line-3-0630-0636-s015737",
+      "junction_group": 2,
+      "lat": -6.177368667890437,
+      "line": "line-3",
+      "lon": 35.766919769377495,
+      "s_m": 15737.06852974041
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Chimwaga",
+      "demand": 0.49913803,
+      "id": "line-3-0646-0668-s016547",
+      "lat": -6.1802481265522085,
+      "line": "line-3",
+      "lon": 35.77270238150645,
+      "s_m": 16547.190462828603
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5473963,
+      "id": "line-4-0546-0468-s000000",
+      "junction_group": 3,
+      "lat": -6.162251509916136,
+      "line": "line-4",
+      "lon": 35.73656105570048,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.30370468,
+      "id": "line-4-0462-0387-s004536",
+      "lat": -6.147134351941835,
+      "line": "line-4",
+      "lon": 35.72192381874906,
+      "s_m": 4536.467529817264
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Tumaini health center",
+      "demand": 0.8505744,
+      "id": "line-5-0567-0509-s000000",
+      "junction_group": 4,
+      "lat": -6.166030799409711,
+      "line": "line-5",
+      "lon": 35.743970027490704,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.31574747,
+      "id": "line-5-0711-0390-s004448",
+      "lat": -6.191945927365656,
+      "line": "line-5",
+      "lon": 35.72246593863615,
+      "s_m": 4447.594513539349
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "DCMC Hospital",
+      "archetype": "terminal",
+      "id": "line-1-0835-0580-s000000",
+      "lat": -6.214261731994386,
+      "line": "line-1",
+      "lon": 35.75680019815182,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0672-0571-s005104",
+      "junction_group": 0,
+      "lat": -6.184927246877587,
+      "line": "line-1",
+      "lon": 35.75517383849055,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5103.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0596-0568-s007165",
+      "junction_group": 1,
+      "lat": -6.171249818234172,
+      "line": "line-1",
+      "lon": 35.75463171860346,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7165.2
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0415-0524-s011861",
+      "lat": -6.138675942122881,
+      "line": "line-1",
+      "lon": 35.74668062692615,
+      "platform_length_m": 59.5,
+      "s_m": 11860.5
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Institute of Rural Development Planning (Dodoma)",
+      "archetype": "major",
+      "id": "line-1-0302-0526-s014170",
+      "lat": -6.118339765324119,
+      "line": "line-1",
+      "lon": 35.74704204018421,
+      "platform_length_m": 59.5,
+      "s_m": 14170.2
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "JWTZ Dispensary",
+      "archetype": "terminal",
+      "id": "line-1-0224-0492-s016498",
+      "lat": -6.104302404347983,
+      "line": "line-1",
+      "lon": 35.740898014797196,
+      "platform_length_m": 59.5,
+      "s_m": 16497.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Imani Dispensary",
+      "archetype": "terminal",
+      "id": "line-2-0769-0425-s000000",
+      "lat": -6.202383965014578,
+      "line": "line-2",
+      "lon": 35.728790670652195,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0672-0571-s003923",
+      "junction_group": 0,
+      "lat": -6.184927246877587,
+      "line": "line-2",
+      "lon": 35.75517383849055,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3922.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0630-0636-s005659",
+      "junction_group": 2,
+      "lat": -6.177368667890437,
+      "line": "line-2",
+      "lon": 35.766919769377495,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5658.5
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0518-0804-s010140",
+      "lat": -6.157212457258035,
+      "line": "line-2",
+      "lon": 35.797278483054505,
+      "platform_length_m": 59.5,
+      "s_m": 10139.7
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Nane nane",
+      "archetype": "terminal",
+      "id": "line-2-0439-0983-s014602",
+      "lat": -6.142995130115539,
+      "line": "line-2",
+      "lon": 35.829624969650844,
+      "platform_length_m": 59.5,
+      "s_m": 14602.4
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Ngageya College of Business and Management",
+      "archetype": "terminal",
+      "id": "line-3-0288-0012-s000000",
+      "lat": -6.115820238995069,
+      "line": "line-3",
+      "lon": 35.65415883286287,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0364-0145-s003517",
+      "lat": -6.129497667638484,
+      "line": "line-3",
+      "lon": 35.67819281452384,
+      "platform_length_m": 55.5,
+      "s_m": 3516.7
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0453-0282-s007017",
+      "lat": -6.145514656444589,
+      "line": "line-3",
+      "lon": 35.70294962270093,
+      "platform_length_m": 59.5,
+      "s_m": 7017.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0546-0468-s011602",
+      "junction_group": 3,
+      "lat": -6.162251509916136,
+      "line": "line-3",
+      "lon": 35.73656105570048,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11601.6
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "MACHAME Dodoma Terminal",
+      "archetype": "interchange",
+      "id": "line-3-0567-0509-s012619",
+      "junction_group": 4,
+      "lat": -6.166030799409711,
+      "line": "line-3",
+      "lon": 35.743970027490704,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12619.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0596-0568-s014063",
+      "junction_group": 1,
+      "lat": -6.171249818234172,
+      "line": "line-3",
+      "lon": 35.75463171860346,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 14062.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0630-0636-s015737",
+      "junction_group": 2,
+      "lat": -6.177368667890437,
+      "line": "line-3",
+      "lon": 35.766919769377495,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 15737.1
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Chimwaga",
+      "archetype": "depot-terminal",
+      "id": "line-3-0646-0668-s016547",
+      "lat": -6.1802481265522085,
+      "line": "line-3",
+      "lon": 35.77270238150645,
+      "platform_length_m": 59.5,
+      "s_m": 16547.2
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0546-0468-s000000",
+      "junction_group": 3,
+      "lat": -6.162251509916136,
+      "line": "line-4",
+      "lon": 35.73656105570048,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0462-0387-s004536",
+      "lat": -6.147134351941835,
+      "line": "line-4",
+      "lon": 35.72192381874906,
+      "platform_length_m": 59.5,
+      "s_m": 4536.5
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Tumaini health center",
+      "archetype": "terminal",
+      "id": "line-5-0567-0509-s000000",
+      "junction_group": 4,
+      "lat": -6.166030799409711,
+      "line": "line-5",
+      "lon": 35.743970027490704,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0711-0390-s004448",
+      "lat": -6.191945927365656,
+      "line": "line-5",
+      "lon": 35.72246593863615,
+      "platform_length_m": 59.5,
+      "s_m": 4447.6
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

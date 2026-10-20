@@ -1,0 +1,1134 @@
+{
+  "city": {
+    "bbox": {
+      "east": 102.78,
+      "north": 18.1,
+      "south": 17.92,
+      "west": 102.5
+    },
+    "centroid_lat": 18.00722744124105,
+    "centroid_lon": 102.63649381098516,
+    "country": "LA",
+    "population": 948000,
+    "slug": "vientiane"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/southeast-asia/Laos/Vientiane/corridors.json",
+    "cities/catalogue/southeast-asia/Laos/Vientiane/vientiane.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/southeast-asia/Laos/Vientiane/vientiane.corridor.geojson",
+      "geometry_sha256": "ead2c340f1f820984011eeef363b4a97ef674b3c2f3121c71179d719cd4c0ef6",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1001,
+    "grid_width": 1483,
+    "population": 948000,
+    "schema_version": 1,
+    "slug": "vientiane"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 18.00875715365511,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 102.62808692574109,
+      "platforms": [
+        "line-1-0517-0682-s014928",
+        "line-2-0496-0673-s010922"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 17.991930317100387,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 102.6240251721962,
+      "platforms": [
+        "line-1-0600-0656-s017146",
+        "line-3-0600-0656-s014411"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 17.97267393729979,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": 102.63063732912974,
+      "platforms": [
+        "line-1-0707-0691-s020348",
+        "line-4-0707-0691-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 18.025344035321357,
+      "lines": [
+        "line-2",
+        "line-5"
+      ],
+      "lon": 102.6387608362195,
+      "platforms": [
+        "line-2-0408-0739-s008493",
+        "line-2-0416-0733-s008708",
+        "line-2-0419-0730-s008793",
+        "line-5-0408-0739-s000332",
+        "line-5-0416-0733-s000085",
+        "line-5-0419-0730-s000000"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": 17.996969369758485,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 102.61684625895407,
+      "platforms": [
+        "line-2-0572-0618-s013033",
+        "line-3-0572-0618-s013300"
+      ]
+    },
+    {
+      "id": "interchange-005",
+      "junction_group": 5,
+      "lat": 17.9753734297952,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 102.60003248846594,
+      "platforms": [
+        "line-2-0692-0529-s016410",
+        "line-4-0692-0529-s003911"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 25609.3,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 19075.5,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 300,
+      "geometry": "standard-urban",
+      "length_m": 25118.7,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 330,
+      "geometry": "standard-urban",
+      "length_m": 12029.7,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5288.4,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0216-1056-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0890-0663-s025609"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 78
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0101-0902-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0789-0457-s019075"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 59
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0197-0196-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0905-0994-s025119"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 76
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0707-0691-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0681-0163-s012030"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 38
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0419-0730-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0287-0709-s005288"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 19
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": null,
+      "demand": 0.31314105,
+      "id": "line-1-0216-1056-s000000",
+      "lat": 18.061037324982905,
+      "line": "line-1",
+      "lon": 102.69959268000805,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "ວຽງຈັນ 万象",
+      "demand": 0.39022475,
+      "id": "line-1-0292-0997-s003013",
+      "lat": 18.04735989633949,
+      "line": "line-1",
+      "lon": 102.6884464726058,
+      "s_m": 3013.1370849898476
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.40157887,
+      "id": "line-1-0294-0880-s006022",
+      "lat": 18.04699996400677,
+      "line": "line-1",
+      "lon": 102.66634297657085,
+      "s_m": 6022.253967444166
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.44243222,
+      "id": "line-1-0397-0803-s009036",
+      "lat": 18.028463448871612,
+      "line": "line-1",
+      "lon": 102.65179623131706,
+      "s_m": 9036.467529817273
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.47149864,
+      "id": "line-1-0518-0774-s012036",
+      "lat": 18.006687542741965,
+      "line": "line-1",
+      "lon": 102.6463175870007,
+      "s_m": 12036.467529817273
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": null,
+      "demand": 0.90645146,
+      "id": "line-1-0517-0682-s014928",
+      "junction_group": 0,
+      "lat": 18.006867508908325,
+      "line": "line-1",
+      "lon": 102.62893706020397,
+      "s_m": 14927.594513539347
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4377943,
+      "id": "line-1-0600-0656-s017146",
+      "junction_group": 1,
+      "lat": 17.991930317100387,
+      "line": "line-1",
+      "lon": 102.6240251721962,
+      "s_m": 17145.58441227158
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4723147,
+      "id": "line-1-0707-0691-s020348",
+      "junction_group": 2,
+      "lat": 17.97267393729979,
+      "line": "line-1",
+      "lon": 102.63063732912974,
+      "s_m": 20348.42712474621
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "ມຊ - ຄະນະວິສະວະກຳສາດ",
+      "demand": 0.5308452,
+      "id": "line-1-0890-0663-s025609",
+      "lat": 17.939740128855778,
+      "line": "line-1",
+      "lon": 102.62534760358291,
+      "s_m": 25609.25973595308
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "ຕະຫຼາດດົງໝາກຄາຍ",
+      "demand": 0.28659868,
+      "id": "line-2-0101-0902-s000000",
+      "lat": 18.081733434114387,
+      "line": "line-2",
+      "lon": 102.67049918950049,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": null,
+      "demand": 0.35081878,
+      "id": "line-2-0233-0868-s003613",
+      "lat": 18.05797790015477,
+      "line": "line-2",
+      "lon": 102.66407595133649,
+      "s_m": 3613.380951166245
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.47934005,
+      "id": "line-2-0408-0739-s008493",
+      "junction_group": 3,
+      "lat": 18.026483821041644,
+      "line": "line-2",
+      "lon": 102.63970543006717,
+      "s_m": 8492.518754031107
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.48189312,
+      "id": "line-2-0416-0733-s008708",
+      "junction_group": 3,
+      "lat": 18.02504409171076,
+      "line": "line-2",
+      "lon": 102.63857191744998,
+      "s_m": 8708.082245892143
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.48470876,
+      "id": "line-2-0419-0730-s008793",
+      "junction_group": 3,
+      "lat": 18.024504193211676,
+      "line": "line-2",
+      "lon": 102.6380051611414,
+      "s_m": 8792.935059634527
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.74108595,
+      "id": "line-2-0496-0673-s010922",
+      "junction_group": 0,
+      "lat": 18.0106467984019,
+      "line": "line-2",
+      "lon": 102.62723679127821,
+      "s_m": 10922.295808265204
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.45854697,
+      "id": "line-2-0572-0618-s013033",
+      "junction_group": 4,
+      "lat": 17.996969369758485,
+      "line": "line-2",
+      "lon": 102.61684625895407,
+      "s_m": 13032.661607529768
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.56656533,
+      "id": "line-2-0692-0529-s016410",
+      "junction_group": 5,
+      "lat": 17.9753734297952,
+      "line": "line-2",
+      "lon": 102.60003248846594,
+      "s_m": 16410.13418798086
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "ศรีเชียงใหม่",
+      "demand": 0.38026905,
+      "id": "line-2-0789-0457-s019075",
+      "lat": 17.95791671165821,
+      "line": "line-2",
+      "lon": 102.58643033705981,
+      "s_m": 19075.474734076106
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "ໂຮງໝໍເມືອງ ນາຊາຍທອງ",
+      "demand": 0.25977367,
+      "id": "line-3-0197-0196-s000000",
+      "lat": 18.06445668214376,
+      "line": "line-3",
+      "lon": 102.53712253821257,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.1851446,
+      "id": "line-3-0311-0269-s003515",
+      "lat": 18.043940539178635,
+      "line": "line-3",
+      "lon": 102.55091360838824,
+      "s_m": 3515.3910524340117
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": null,
+      "demand": 0.32298672,
+      "id": "line-3-0403-0394-s007012",
+      "lat": 18.02738365187345,
+      "line": "line-3",
+      "lon": 102.57452845457944,
+      "s_m": 7011.858582251285
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.45854697,
+      "id": "line-3-0572-0618-s013300",
+      "junction_group": 4,
+      "lat": 17.996969369758485,
+      "line": "line-3",
+      "lon": 102.61684625895407,
+      "s_m": 13299.524522539929
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4377943,
+      "id": "line-3-0600-0656-s014411",
+      "junction_group": 1,
+      "lat": 17.991930317100387,
+      "line": "line-3",
+      "lon": 102.6240251721962,
+      "s_m": 14411.067811865421
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "ໂຮງໝໍເມືອງ ໄຊເສດຖາ (ນະຄອນຫຼວງວຽງຈັນ)",
+      "demand": 0.51822984,
+      "id": "line-3-0693-0780-s017919",
+      "lat": 17.975193463628838,
+      "line": "line-3",
+      "lon": 102.64745109961788,
+      "s_m": 17919.251070435235
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "ຄໍາສະຫວາດ",
+      "demand": 0.33307627,
+      "id": "line-3-0793-0913-s021525",
+      "lat": 17.957196846992765,
+      "line": "line-3",
+      "lon": 102.67257729596531,
+      "s_m": 21524.83548270691
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "ມະຫາວິທະຍາໄລ ຊູໂຈ ລາວ",
+      "demand": 0.31621978,
+      "id": "line-3-0905-0994-s025119",
+      "lat": 17.937040636360365,
+      "line": "line-3",
+      "lon": 102.68787971629722,
+      "s_m": 25118.704166226045
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Naxay Market",
+      "demand": 0.4723147,
+      "id": "line-4-0707-0691-s000000",
+      "junction_group": 2,
+      "lat": 17.97267393729979,
+      "line": "line-4",
+      "lon": 102.63063732912974,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.56656533,
+      "id": "line-4-0692-0529-s003911",
+      "junction_group": 5,
+      "lat": 17.9753734297952,
+      "line": "line-4",
+      "lon": 102.60003248846594,
+      "s_m": 3911.0259710444225
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.23479584,
+      "id": "line-4-0642-0238-s010195",
+      "lat": 17.984371738113236,
+      "line": "line-4",
+      "lon": 102.54505712653281,
+      "s_m": 10194.94516090228
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": null,
+      "demand": 0.26422688,
+      "id": "line-4-0681-0163-s012030",
+      "lat": 17.97735305762517,
+      "line": "line-4",
+      "lon": 102.53088821881809,
+      "s_m": 12029.747468305806
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.48470876,
+      "id": "line-5-0419-0730-s000000",
+      "junction_group": 3,
+      "lat": 18.024504193211676,
+      "line": "line-5",
+      "lon": 102.6380051611414,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.48189312,
+      "id": "line-5-0416-0733-s000085",
+      "junction_group": 3,
+      "lat": 18.02504409171076,
+      "line": "line-5",
+      "lon": 102.63857191744998,
+      "s_m": 84.8528137423857
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.47934005,
+      "id": "line-5-0408-0739-s000332",
+      "junction_group": 3,
+      "lat": 18.026483821041644,
+      "line": "line-5",
+      "lon": 102.63970543006717,
+      "s_m": 332.13203435596427
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4591543,
+      "id": "line-5-0287-0709-s005288",
+      "lat": 18.048259727171292,
+      "line": "line-5",
+      "lon": 102.63403786698127,
+      "s_m": 5288.427124746203
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "leisure:stadium",
+      "archetype": "terminal",
+      "id": "line-1-0216-1056-s000000",
+      "lat": 18.061037324982905,
+      "line": "line-1",
+      "lon": 102.69959268000805,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "ວຽງຈັນ 万象",
+      "archetype": "standard",
+      "id": "line-1-0292-0997-s003013",
+      "lat": 18.04735989633949,
+      "line": "line-1",
+      "lon": 102.6884464726058,
+      "platform_length_m": 59.5,
+      "s_m": 3013.1
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0294-0880-s006022",
+      "lat": 18.04699996400677,
+      "line": "line-1",
+      "lon": 102.66634297657085,
+      "platform_length_m": 59.5,
+      "s_m": 6022.3
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0397-0803-s009036",
+      "lat": 18.028463448871612,
+      "line": "line-1",
+      "lon": 102.65179623131706,
+      "platform_length_m": 59.5,
+      "s_m": 9036.5
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0518-0774-s012036",
+      "lat": 18.006687542741965,
+      "line": "line-1",
+      "lon": 102.6463175870007,
+      "platform_length_m": 59.5,
+      "s_m": 12036.5
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "archetype": "interchange",
+      "id": "line-1-0517-0682-s014928",
+      "junction_group": 0,
+      "lat": 18.006867508908325,
+      "line": "line-1",
+      "lon": 102.62893706020397,
+      "platform_length_m": 59.5,
+      "s_m": 14927.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0600-0656-s017146",
+      "junction_group": 1,
+      "lat": 17.991930317100387,
+      "line": "line-1",
+      "lon": 102.6240251721962,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 17145.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0707-0691-s020348",
+      "junction_group": 2,
+      "lat": 17.97267393729979,
+      "line": "line-1",
+      "lon": 102.63063732912974,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 20348.4
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "ມຊ - ຄະນະວິສະວະກຳສາດ",
+      "archetype": "depot-terminal",
+      "id": "line-1-0890-0663-s025609",
+      "lat": 17.939740128855778,
+      "line": "line-1",
+      "lon": 102.62534760358291,
+      "platform_length_m": 59.5,
+      "s_m": 25609.3
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "ຕະຫຼາດດົງໝາກຄາຍ",
+      "archetype": "terminal",
+      "id": "line-2-0101-0902-s000000",
+      "lat": 18.081733434114387,
+      "line": "line-2",
+      "lon": 102.67049918950049,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "archetype": "standard",
+      "id": "line-2-0233-0868-s003613",
+      "lat": 18.05797790015477,
+      "line": "line-2",
+      "lon": 102.66407595133649,
+      "platform_length_m": 59.5,
+      "s_m": 3613.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0408-0739-s008493",
+      "junction_group": 3,
+      "lat": 18.026483821041644,
+      "line": "line-2",
+      "lon": 102.63970543006717,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8492.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0416-0733-s008708",
+      "junction_group": 3,
+      "lat": 18.02504409171076,
+      "line": "line-2",
+      "lon": 102.63857191744998,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8708.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0419-0730-s008793",
+      "junction_group": 3,
+      "lat": 18.024504193211676,
+      "line": "line-2",
+      "lon": 102.6380051611414,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8792.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0496-0673-s010922",
+      "junction_group": 0,
+      "lat": 18.0106467984019,
+      "line": "line-2",
+      "lon": 102.62723679127821,
+      "platform_length_m": 59.5,
+      "s_m": 10922.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0572-0618-s013033",
+      "junction_group": 4,
+      "lat": 17.996969369758485,
+      "line": "line-2",
+      "lon": 102.61684625895407,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 13032.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0692-0529-s016410",
+      "junction_group": 5,
+      "lat": 17.9753734297952,
+      "line": "line-2",
+      "lon": 102.60003248846594,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 16410.1
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "ศรีเชียงใหม่",
+      "archetype": "terminal",
+      "id": "line-2-0789-0457-s019075",
+      "lat": 17.95791671165821,
+      "line": "line-2",
+      "lon": 102.58643033705981,
+      "platform_length_m": 59.5,
+      "s_m": 19075.5
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "ໂຮງໝໍເມືອງ ນາຊາຍທອງ",
+      "archetype": "terminal",
+      "id": "line-3-0197-0196-s000000",
+      "lat": 18.06445668214376,
+      "line": "line-3",
+      "lon": 102.53712253821257,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0311-0269-s003515",
+      "lat": 18.043940539178635,
+      "line": "line-3",
+      "lon": 102.55091360838824,
+      "platform_length_m": 55.5,
+      "s_m": 3515.4
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "archetype": "standard",
+      "id": "line-3-0403-0394-s007012",
+      "lat": 18.02738365187345,
+      "line": "line-3",
+      "lon": 102.57452845457944,
+      "platform_length_m": 59.5,
+      "s_m": 7011.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0572-0618-s013300",
+      "junction_group": 4,
+      "lat": 17.996969369758485,
+      "line": "line-3",
+      "lon": 102.61684625895407,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 13299.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0600-0656-s014411",
+      "junction_group": 1,
+      "lat": 17.991930317100387,
+      "line": "line-3",
+      "lon": 102.6240251721962,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 14411.1
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "ໂຮງໝໍເມືອງ ໄຊເສດຖາ (ນະຄອນຫຼວງວຽງຈັນ)",
+      "archetype": "standard",
+      "id": "line-3-0693-0780-s017919",
+      "lat": 17.975193463628838,
+      "line": "line-3",
+      "lon": 102.64745109961788,
+      "platform_length_m": 59.5,
+      "s_m": 17919.3
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "ຄໍາສະຫວາດ",
+      "archetype": "standard",
+      "id": "line-3-0793-0913-s021525",
+      "lat": 17.957196846992765,
+      "line": "line-3",
+      "lon": 102.67257729596531,
+      "platform_length_m": 59.5,
+      "s_m": 21524.8
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "ມະຫາວິທະຍາໄລ ຊູໂຈ ລາວ",
+      "archetype": "terminal",
+      "id": "line-3-0905-0994-s025119",
+      "lat": 17.937040636360365,
+      "line": "line-3",
+      "lon": 102.68787971629722,
+      "platform_length_m": 59.5,
+      "s_m": 25118.7
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Naxay Market",
+      "archetype": "terminal",
+      "id": "line-4-0707-0691-s000000",
+      "junction_group": 2,
+      "lat": 17.97267393729979,
+      "line": "line-4",
+      "lon": 102.63063732912974,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0692-0529-s003911",
+      "junction_group": 5,
+      "lat": 17.9753734297952,
+      "line": "line-4",
+      "lon": 102.60003248846594,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3911.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "halt",
+      "id": "line-4-0642-0238-s010195",
+      "lat": 17.984371738113236,
+      "line": "line-4",
+      "lon": 102.54505712653281,
+      "platform_length_m": 55.5,
+      "s_m": 10194.9
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "archetype": "terminal",
+      "id": "line-4-0681-0163-s012030",
+      "lat": 17.97735305762517,
+      "line": "line-4",
+      "lon": 102.53088821881809,
+      "platform_length_m": 59.5,
+      "s_m": 12029.7
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0419-0730-s000000",
+      "junction_group": 3,
+      "lat": 18.024504193211676,
+      "line": "line-5",
+      "lon": 102.6380051611414,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-5-0416-0733-s000085",
+      "junction_group": 3,
+      "lat": 18.02504409171076,
+      "line": "line-5",
+      "lon": 102.63857191744998,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 84.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-5-0408-0739-s000332",
+      "junction_group": 3,
+      "lat": 18.026483821041644,
+      "line": "line-5",
+      "lon": 102.63970543006717,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 332.1
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0287-0709-s005288",
+      "lat": 18.048259727171292,
+      "line": "line-5",
+      "lon": 102.63403786698127,
+      "platform_length_m": 59.5,
+      "s_m": 5288.4
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

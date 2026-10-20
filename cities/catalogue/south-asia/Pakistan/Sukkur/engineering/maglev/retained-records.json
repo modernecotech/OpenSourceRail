@@ -1,0 +1,803 @@
+{
+  "city": {
+    "bbox": {
+      "east": 68.9693,
+      "north": 27.8043,
+      "south": 27.6061,
+      "west": 68.7455
+    },
+    "centroid_lat": 27.70504865925206,
+    "centroid_lon": 68.85639992924114,
+    "country": "PK",
+    "population": 600000,
+    "slug": "sukkur"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/south-asia/Pakistan/Sukkur/corridors.json",
+    "cities/catalogue/south-asia/Pakistan/Sukkur/sukkur.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/south-asia/Pakistan/Sukkur/sukkur.corridor.geojson",
+      "geometry_sha256": "1f63c476d0f3a7bbd9ae848d8338d185777b0af22a501c2eae8373a0d16c5031",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1103,
+    "population": 600000,
+    "schema_version": 1,
+    "slug": "sukkur"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 27.695716128053643,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 68.88678108878753,
+      "platforms": [
+        "line-1-0602-0691-s017037",
+        "line-1-0606-0695-s017162",
+        "line-1-0607-0698-s017231",
+        "line-3-0590-0702-s009044",
+        "line-3-0602-0691-s008678",
+        "line-3-0606-0695-s008381",
+        "line-3-0607-0698-s008313"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 27.698209944930355,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 68.85680578442592,
+      "platforms": [
+        "line-2-0590-0549-s006025",
+        "line-4-0588-0547-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 27.66491620415362,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 68.85254430498573,
+      "platforms": [
+        "line-2-0774-0527-s010915",
+        "line-3-0774-0527-s002665"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 20751.8,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 12041.1,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 9044.3,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 8421.5,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0151-0084-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0703-0822-s020752"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 68
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0449-0338-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0814-0509-s012041"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 38
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0861-0445-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0590-0702-s009044"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 32
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0588-0547-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0485-0243-s008421"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 27
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "گوسڑجی",
+      "demand": 0.15670514,
+      "id": "line-1-0151-0084-s000000",
+      "lat": 27.777035125796353,
+      "line": "line-1",
+      "lon": 68.76264738155696,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.1543807,
+      "id": "line-1-0231-0208-s003491",
+      "lat": 27.762637832487492,
+      "line": "line-1",
+      "lon": 68.78781040301332,
+      "s_m": 3490.6810921903634
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3017573,
+      "id": "line-1-0327-0332-s007005",
+      "lat": 27.745361080516865,
+      "line": "line-1",
+      "lon": 68.81297342446967,
+      "s_m": 7005.138520739872
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35057288,
+      "id": "line-1-0452-0496-s011578",
+      "lat": 27.722865309721772,
+      "line": "line-1",
+      "lon": 68.84625354962164,
+      "s_m": 11578.418459228402
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4559097,
+      "id": "line-1-0602-0691-s017037",
+      "junction_group": 0,
+      "lat": 27.695870384767666,
+      "line": "line-1",
+      "lon": 68.88582443013769,
+      "s_m": 17037.383822666165
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.44764245,
+      "id": "line-1-0606-0695-s017162",
+      "junction_group": 0,
+      "lat": 27.69515052010222,
+      "line": "line-1",
+      "lon": 68.88663614050725,
+      "s_m": 17162.236636408554
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.44253278,
+      "id": "line-1-0607-0698-s017231",
+      "junction_group": 0,
+      "lat": 27.69497055393586,
+      "line": "line-1",
+      "lon": 68.88724492328441,
+      "s_m": 17230.520907656017
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "روہڑی",
+      "demand": 0.3098917,
+      "id": "line-1-0703-0822-s020752",
+      "lat": 27.677693801965233,
+      "line": "line-1",
+      "lon": 68.91240794474078,
+      "s_m": 20751.841251215745
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Israre Shifa Hospital",
+      "demand": 0.4712292,
+      "id": "line-2-0449-0338-s000000",
+      "lat": 27.723405208220857,
+      "line": "line-2",
+      "lon": 68.81419099002402,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Marie Stopes Regional Office Sukkur",
+      "demand": 0.7239389,
+      "id": "line-2-0527-0456-s003006",
+      "lat": 27.70936784724472,
+      "line": "line-2",
+      "lon": 68.83813644592604,
+      "s_m": 3006.1731573020315
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.74027586,
+      "id": "line-2-0590-0549-s006025",
+      "junction_group": 1,
+      "lat": 27.698029978763994,
+      "line": "line-2",
+      "lon": 68.8570087120183,
+      "s_m": 6025.239533417524
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.37266874,
+      "id": "line-2-0774-0527-s010915",
+      "junction_group": 2,
+      "lat": 27.66491620415362,
+      "line": "line-2",
+      "lon": 68.85254430498573,
+      "s_m": 10915.432893255065
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Daewoo Express Bus Terminal",
+      "demand": 0.44059664,
+      "id": "line-2-0814-0509-s012041",
+      "lat": 27.65771755749919,
+      "line": "line-2",
+      "lon": 68.8488916083227,
+      "s_m": 12041.11831820429
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "ببرلوء",
+      "demand": 0.30340594,
+      "id": "line-3-0861-0445-s000000",
+      "lat": 27.649259147680237,
+      "line": "line-3",
+      "lon": 68.83590424240974,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.37266874,
+      "id": "line-3-0774-0527-s002665",
+      "junction_group": 2,
+      "lat": 27.66491620415362,
+      "line": "line-3",
+      "lon": 68.85254430498573,
+      "s_m": 2665.340546095179
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.44253278,
+      "id": "line-3-0607-0698-s008313",
+      "junction_group": 0,
+      "lat": 27.69497055393586,
+      "line": "line-3",
+      "lon": 68.88724492328441,
+      "s_m": 8313.178925810935
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.44764245,
+      "id": "line-3-0606-0695-s008381",
+      "junction_group": 0,
+      "lat": 27.69515052010222,
+      "line": "line-3",
+      "lon": 68.88663614050725,
+      "s_m": 8381.463197058396
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4559097,
+      "id": "line-3-0602-0691-s008678",
+      "junction_group": 0,
+      "lat": 27.695870384767666,
+      "line": "line-3",
+      "lon": 68.88582443013769,
+      "s_m": 8678.031739553318
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Army Public School & College",
+      "demand": 0.430524,
+      "id": "line-3-0590-0702-s009044",
+      "junction_group": 0,
+      "lat": 27.698029978763994,
+      "line": "line-3",
+      "lon": 68.88805663365397,
+      "s_m": 9044.305909533008
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.72544336,
+      "id": "line-4-0588-0547-s000000",
+      "junction_group": 1,
+      "lat": 27.698389911096715,
+      "line": "line-4",
+      "lon": 68.85660285683352,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4509004,
+      "id": "line-4-0577-0424-s004039",
+      "lat": 27.700369538926683,
+      "line": "line-4",
+      "lon": 68.83164276296955,
+      "s_m": 4039.3102422918837
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.30378726,
+      "id": "line-4-0528-0335-s006225",
+      "lat": 27.709187881078357,
+      "line": "line-4",
+      "lon": 68.81358220724685,
+      "s_m": 6225.239533417528
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.29311752,
+      "id": "line-4-0485-0243-s008421",
+      "lat": 27.71692642623187,
+      "line": "line-4",
+      "lon": 68.79491286874696,
+      "s_m": 8421.4631970584
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "گوسڑجی",
+      "archetype": "terminal",
+      "id": "line-1-0151-0084-s000000",
+      "lat": 27.777035125796353,
+      "line": "line-1",
+      "lon": 68.76264738155696,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0231-0208-s003491",
+      "lat": 27.762637832487492,
+      "line": "line-1",
+      "lon": 68.78781040301332,
+      "platform_length_m": 55.5,
+      "s_m": 3490.7
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0327-0332-s007005",
+      "lat": 27.745361080516865,
+      "line": "line-1",
+      "lon": 68.81297342446967,
+      "platform_length_m": 59.5,
+      "s_m": 7005.1
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0452-0496-s011578",
+      "lat": 27.722865309721772,
+      "line": "line-1",
+      "lon": 68.84625354962164,
+      "platform_length_m": 59.5,
+      "s_m": 11578.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0602-0691-s017037",
+      "junction_group": 0,
+      "lat": 27.695870384767666,
+      "line": "line-1",
+      "lon": 68.88582443013769,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 17037.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0606-0695-s017162",
+      "junction_group": 0,
+      "lat": 27.69515052010222,
+      "line": "line-1",
+      "lon": 68.88663614050725,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 17162.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0607-0698-s017231",
+      "junction_group": 0,
+      "lat": 27.69497055393586,
+      "line": "line-1",
+      "lon": 68.88724492328441,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 17230.5
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "روہڑی",
+      "archetype": "depot-terminal",
+      "id": "line-1-0703-0822-s020752",
+      "lat": 27.677693801965233,
+      "line": "line-1",
+      "lon": 68.91240794474078,
+      "platform_length_m": 59.5,
+      "s_m": 20751.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Israre Shifa Hospital",
+      "archetype": "terminal",
+      "id": "line-2-0449-0338-s000000",
+      "lat": 27.723405208220857,
+      "line": "line-2",
+      "lon": 68.81419099002402,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Marie Stopes Regional Office Sukkur",
+      "archetype": "major",
+      "id": "line-2-0527-0456-s003006",
+      "lat": 27.70936784724472,
+      "line": "line-2",
+      "lon": 68.83813644592604,
+      "platform_length_m": 59.5,
+      "s_m": 3006.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0590-0549-s006025",
+      "junction_group": 1,
+      "lat": 27.698029978763994,
+      "line": "line-2",
+      "lon": 68.8570087120183,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6025.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0774-0527-s010915",
+      "junction_group": 2,
+      "lat": 27.66491620415362,
+      "line": "line-2",
+      "lon": 68.85254430498573,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 10915.4
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Daewoo Express Bus Terminal",
+      "archetype": "terminal",
+      "id": "line-2-0814-0509-s012041",
+      "lat": 27.65771755749919,
+      "line": "line-2",
+      "lon": 68.8488916083227,
+      "platform_length_m": 59.5,
+      "s_m": 12041.1
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "ببرلوء",
+      "archetype": "terminal",
+      "id": "line-3-0861-0445-s000000",
+      "lat": 27.649259147680237,
+      "line": "line-3",
+      "lon": 68.83590424240974,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0774-0527-s002665",
+      "junction_group": 2,
+      "lat": 27.66491620415362,
+      "line": "line-3",
+      "lon": 68.85254430498573,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2665.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0607-0698-s008313",
+      "junction_group": 0,
+      "lat": 27.69497055393586,
+      "line": "line-3",
+      "lon": 68.88724492328441,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8313.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0606-0695-s008381",
+      "junction_group": 0,
+      "lat": 27.69515052010222,
+      "line": "line-3",
+      "lon": 68.88663614050725,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8381.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0602-0691-s008678",
+      "junction_group": 0,
+      "lat": 27.695870384767666,
+      "line": "line-3",
+      "lon": 68.88582443013769,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8678.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Army Public School & College",
+      "archetype": "terminal",
+      "id": "line-3-0590-0702-s009044",
+      "junction_group": 0,
+      "lat": 27.698029978763994,
+      "line": "line-3",
+      "lon": 68.88805663365397,
+      "platform_length_m": 59.5,
+      "s_m": 9044.3
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0588-0547-s000000",
+      "junction_group": 1,
+      "lat": 27.698389911096715,
+      "line": "line-4",
+      "lon": 68.85660285683352,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-4-0577-0424-s004039",
+      "lat": 27.700369538926683,
+      "line": "line-4",
+      "lon": 68.83164276296955,
+      "platform_length_m": 59.5,
+      "s_m": 4039.3
+    },
+    {
+      "archetype": "standard",
+      "id": "line-4-0528-0335-s006225",
+      "lat": 27.709187881078357,
+      "line": "line-4",
+      "lon": 68.81358220724685,
+      "platform_length_m": 59.5,
+      "s_m": 6225.2
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0485-0243-s008421",
+      "lat": 27.71692642623187,
+      "line": "line-4",
+      "lon": 68.79491286874696,
+      "platform_length_m": 59.5,
+      "s_m": 8421.5
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

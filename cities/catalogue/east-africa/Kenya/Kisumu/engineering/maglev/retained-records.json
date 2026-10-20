@@ -1,0 +1,855 @@
+{
+  "city": {
+    "bbox": {
+      "east": 34.8608,
+      "north": -0.0031,
+      "south": -0.2013,
+      "west": 34.6626
+    },
+    "centroid_lat": -0.1009116114170536,
+    "centroid_lon": 34.762582192832134,
+    "country": "KE",
+    "population": 600000,
+    "slug": "kisumu"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Kenya/Kisumu/corridors.json",
+    "cities/catalogue/east-africa/Kenya/Kisumu/kisumu.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Kenya/Kisumu/kisumu.corridor.geojson",
+      "geometry_sha256": "cbaec9fca2ccad73d202e472cd47b585e3ac3d0485a044f0350823c02e6550d6",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 600000,
+    "schema_version": 1,
+    "slug": "kisumu"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -0.10028172983479106,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 34.762043205269705,
+      "platforms": [
+        "line-1-0540-0554-s007154",
+        "line-2-0539-0552-s016908"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -0.07571634812655222,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 34.762582192832134,
+      "platforms": [
+        "line-1-0403-0556-s011927",
+        "line-3-0403-0556-s004263"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -0.12124778821581543,
+      "lines": [
+        "line-2",
+        "line-5"
+      ],
+      "lon": 34.779829794830135,
+      "platforms": [
+        "line-2-0656-0652-s012818",
+        "line-5-0656-0652-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -0.10919005506964691,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 34.77228396895601,
+      "platforms": [
+        "line-2-0589-0610-s014569",
+        "line-4-0589-0610-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 16909.8,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 330,
+      "geometry": "standard-urban",
+      "length_m": 27716.8,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 7929.1,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 4135.0,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 4062.7,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0784-0410-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0232-0603-s016910"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 52
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0906-1035-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0449-0306-s027717"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 85
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0393-0347-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0411-0736-s007929"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 26
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0589-0610-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0468-0735-s004135"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 14
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0656-0652-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0735-0485-s004063"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 14
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Dunga Market",
+      "demand": 0.27665612,
+      "id": "line-1-0784-0410-s000000",
+      "lat": -0.1442834575099881,
+      "line": "line-1",
+      "lon": 34.736351464793515,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3511722,
+      "id": "line-1-0655-0460-s003378",
+      "lat": -0.12106782204945471,
+      "line": "line-1",
+      "lon": 34.74533459083414,
+      "s_m": 3378.4776310850284
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Samper Travel & Tours",
+      "demand": 0.90713537,
+      "id": "line-1-0540-0554-s007154",
+      "junction_group": 0,
+      "lat": -0.10037171291797142,
+      "line": "line-1",
+      "lon": 34.76222286779051,
+      "s_m": 7153.767670841393
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kanikka hospital",
+      "demand": 0.880267,
+      "id": "line-1-0479-0595-s008860",
+      "lat": -0.08939377676996725,
+      "line": "line-1",
+      "lon": 34.76958903114382,
+      "s_m": 8859.696961967018
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Obunga-kasarani",
+      "demand": 0.46236104,
+      "id": "line-1-0403-0556-s011927",
+      "junction_group": 1,
+      "lat": -0.07571634812655222,
+      "line": "line-1",
+      "lon": 34.762582192832134,
+      "s_m": 11927.047609329924
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "St. Monica Hospital",
+      "demand": 0.31835923,
+      "id": "line-1-0232-0603-s016910",
+      "lat": -0.04494213367886837,
+      "line": "line-1",
+      "lon": 34.771026331310324,
+      "s_m": 16909.789309126838
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Kadhiambo A",
+      "demand": 0.11290642,
+      "id": "line-2-0906-1035-s000000",
+      "lat": -0.16623932980599646,
+      "line": "line-2",
+      "lon": 34.84864054030131,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.17939276,
+      "id": "line-2-0836-0930-s003500",
+      "lat": -0.15364169816074577,
+      "line": "line-2",
+      "lon": 34.829775975616,
+      "s_m": 3500.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2311264,
+      "id": "line-2-0795-0788-s007019",
+      "lat": -0.14626308533995608,
+      "line": "line-2",
+      "lon": 34.80426389766063,
+      "s_m": 7019.411254969546
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3257884,
+      "id": "line-2-0656-0652-s012818",
+      "junction_group": 2,
+      "lat": -0.12124778821581543,
+      "line": "line-2",
+      "lon": 34.779829794830135,
+      "s_m": 12817.645019878164
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4726106,
+      "id": "line-2-0589-0610-s014569",
+      "junction_group": 3,
+      "lat": -0.10919005506964691,
+      "line": "line-2",
+      "lon": 34.77228396895601,
+      "s_m": 14569.015869776613
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Samper Travel & Tours",
+      "demand": 0.9165022,
+      "id": "line-2-0539-0552-s016908",
+      "junction_group": 0,
+      "lat": -0.1001917467516107,
+      "line": "line-2",
+      "lon": 34.76186354274889,
+      "s_m": 16908.427124746155
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Manyatta Arabs",
+      "demand": 0.52787507,
+      "id": "line-2-0485-0520-s019349",
+      "lat": -0.0904735737681316,
+      "line": "line-2",
+      "lon": 34.75611434208289,
+      "s_m": 19349.259735953026
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.40219986,
+      "id": "line-2-0468-0495-s022359",
+      "lat": -0.08741414893999928,
+      "line": "line-2",
+      "lon": 34.75162277906258,
+      "s_m": 22359.45309579066
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Kogony' B",
+      "demand": 0.30473864,
+      "id": "line-2-0449-0306-s027717",
+      "lat": -0.08399479177914553,
+      "line": "line-2",
+      "lon": 34.71766656262902,
+      "s_m": 27716.75323681487
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Kogony'",
+      "demand": 0.36349633,
+      "id": "line-3-0393-0347-s000000",
+      "lat": -0.07391668646294497,
+      "line": "line-3",
+      "lon": 34.72503272598233,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Obunga-kasarani",
+      "demand": 0.46236104,
+      "id": "line-3-0403-0556-s004263",
+      "junction_group": 1,
+      "lat": -0.07571634812655222,
+      "line": "line-3",
+      "lon": 34.762582192832134,
+      "s_m": 4262.84271247462
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Elgon",
+      "demand": 0.34586996,
+      "id": "line-3-0411-0736-s007929",
+      "lat": -0.07715607745743801,
+      "line": "line-3",
+      "lon": 34.794921446578385,
+      "s_m": 7929.116882454317
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Kachok",
+      "demand": 0.4726106,
+      "id": "line-4-0589-0610-s000000",
+      "junction_group": 3,
+      "lat": -0.10919005506964691,
+      "line": "line-4",
+      "lon": 34.77228396895601,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Kasule",
+      "demand": 0.36489835,
+      "id": "line-4-0468-0735-s004135",
+      "lat": -0.08741414893999928,
+      "line": "line-4",
+      "lon": 34.79474178405757,
+      "s_m": 4135.046173579953
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3257884,
+      "id": "line-5-0656-0652-s000000",
+      "junction_group": 2,
+      "lat": -0.12124778821581543,
+      "line": "line-5",
+      "lon": 34.779829794830135,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.30227575,
+      "id": "line-5-0735-0485-s004063",
+      "lat": -0.13546511535831263,
+      "line": "line-5",
+      "lon": 34.74982615385445,
+      "s_m": 4062.7416997969585
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Dunga Market",
+      "archetype": "terminal",
+      "id": "line-1-0784-0410-s000000",
+      "lat": -0.1442834575099881,
+      "line": "line-1",
+      "lon": 34.736351464793515,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0655-0460-s003378",
+      "lat": -0.12106782204945471,
+      "line": "line-1",
+      "lon": 34.74533459083414,
+      "platform_length_m": 59.5,
+      "s_m": 3378.5
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Samper Travel & Tours",
+      "archetype": "interchange",
+      "id": "line-1-0540-0554-s007154",
+      "junction_group": 0,
+      "lat": -0.10037171291797142,
+      "line": "line-1",
+      "lon": 34.76222286779051,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7153.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kanikka hospital",
+      "archetype": "major",
+      "id": "line-1-0479-0595-s008860",
+      "lat": -0.08939377676996725,
+      "line": "line-1",
+      "lon": 34.76958903114382,
+      "platform_length_m": 59.5,
+      "s_m": 8859.7
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Obunga-kasarani",
+      "archetype": "interchange",
+      "id": "line-1-0403-0556-s011927",
+      "junction_group": 1,
+      "lat": -0.07571634812655222,
+      "line": "line-1",
+      "lon": 34.762582192832134,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11927.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "St. Monica Hospital",
+      "archetype": "terminal",
+      "id": "line-1-0232-0603-s016910",
+      "lat": -0.04494213367886837,
+      "line": "line-1",
+      "lon": 34.771026331310324,
+      "platform_length_m": 59.5,
+      "s_m": 16909.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Kadhiambo A",
+      "archetype": "terminal",
+      "id": "line-2-0906-1035-s000000",
+      "lat": -0.16623932980599646,
+      "line": "line-2",
+      "lon": 34.84864054030131,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0836-0930-s003500",
+      "lat": -0.15364169816074577,
+      "line": "line-2",
+      "lon": 34.829775975616,
+      "platform_length_m": 55.5,
+      "s_m": 3500.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0795-0788-s007019",
+      "lat": -0.14626308533995608,
+      "line": "line-2",
+      "lon": 34.80426389766063,
+      "platform_length_m": 55.5,
+      "s_m": 7019.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0656-0652-s012818",
+      "junction_group": 2,
+      "lat": -0.12124778821581543,
+      "line": "line-2",
+      "lon": 34.779829794830135,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12817.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0589-0610-s014569",
+      "junction_group": 3,
+      "lat": -0.10919005506964691,
+      "line": "line-2",
+      "lon": 34.77228396895601,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 14569.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Samper Travel & Tours",
+      "archetype": "interchange",
+      "id": "line-2-0539-0552-s016908",
+      "junction_group": 0,
+      "lat": -0.1001917467516107,
+      "line": "line-2",
+      "lon": 34.76186354274889,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 16908.4
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Manyatta Arabs",
+      "archetype": "standard",
+      "id": "line-2-0485-0520-s019349",
+      "lat": -0.0904735737681316,
+      "line": "line-2",
+      "lon": 34.75611434208289,
+      "platform_length_m": 59.5,
+      "s_m": 19349.3
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0468-0495-s022359",
+      "lat": -0.08741414893999928,
+      "line": "line-2",
+      "lon": 34.75162277906258,
+      "platform_length_m": 59.5,
+      "s_m": 22359.5
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Kogony' B",
+      "archetype": "depot-terminal",
+      "id": "line-2-0449-0306-s027717",
+      "lat": -0.08399479177914553,
+      "line": "line-2",
+      "lon": 34.71766656262902,
+      "platform_length_m": 59.5,
+      "s_m": 27716.8
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Kogony'",
+      "archetype": "terminal",
+      "id": "line-3-0393-0347-s000000",
+      "lat": -0.07391668646294497,
+      "line": "line-3",
+      "lon": 34.72503272598233,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Obunga-kasarani",
+      "archetype": "interchange",
+      "id": "line-3-0403-0556-s004263",
+      "junction_group": 1,
+      "lat": -0.07571634812655222,
+      "line": "line-3",
+      "lon": 34.762582192832134,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4262.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Elgon",
+      "archetype": "terminal",
+      "id": "line-3-0411-0736-s007929",
+      "lat": -0.07715607745743801,
+      "line": "line-3",
+      "lon": 34.794921446578385,
+      "platform_length_m": 59.5,
+      "s_m": 7929.1
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Kachok",
+      "archetype": "terminal",
+      "id": "line-4-0589-0610-s000000",
+      "junction_group": 3,
+      "lat": -0.10919005506964691,
+      "line": "line-4",
+      "lon": 34.77228396895601,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Kasule",
+      "archetype": "terminal",
+      "id": "line-4-0468-0735-s004135",
+      "lat": -0.08741414893999928,
+      "line": "line-4",
+      "lon": 34.79474178405757,
+      "platform_length_m": 59.5,
+      "s_m": 4135.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0656-0652-s000000",
+      "junction_group": 2,
+      "lat": -0.12124778821581543,
+      "line": "line-5",
+      "lon": 34.779829794830135,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0735-0485-s004063",
+      "lat": -0.13546511535831263,
+      "line": "line-5",
+      "lon": 34.74982615385445,
+      "platform_length_m": 59.5,
+      "s_m": 4062.7
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

@@ -1,0 +1,653 @@
+{
+  "city": {
+    "bbox": {
+      "east": 31.2128,
+      "north": 29.1652,
+      "south": 28.967,
+      "west": 30.986
+    },
+    "centroid_lat": 29.06378906525573,
+    "centroid_lon": 31.100593639809293,
+    "country": "EG",
+    "population": 350000,
+    "slug": "beni-suef"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-asia/Egypt/Beni-Suef/corridors.json",
+    "cities/catalogue/west-asia/Egypt/Beni-Suef/beni-suef.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-asia/Egypt/Beni-Suef/beni-suef.corridor.geojson",
+      "geometry_sha256": "8ad8b83595a3739b2090fb13163da4c174ba9310b2b491e4abe98de9143a9551",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 350000,
+    "schema_version": 1,
+    "slug": "beni-suef"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 29.04885187344779,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 31.126081731892434,
+      "platforms": [
+        "line-1-0646-0681-s006456",
+        "line-3-0646-0681-s007830"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 29.072787373573767,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 31.099976992420185,
+      "platforms": [
+        "line-2-0513-0554-s003607",
+        "line-4-0513-0554-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 29.065948659252058,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 31.09812705025286,
+      "platforms": [
+        "line-2-0551-0545-s004696",
+        "line-3-0551-0545-s003116"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 11237.9,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 12478.8,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 9502.3,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 5195.9,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0863-0492-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0485-0820-s011238"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 35
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0365-0585-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0815-0443-s012479"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 40
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0514-0433-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0667-0751-s009502"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 30
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0513-0554-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0359-0705-s005196"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "مساكن إبني بيتك 1",
+      "demand": 0.58212775,
+      "id": "line-1-0863-0492-s000000",
+      "lat": 29.009799215347513,
+      "line": "line-1",
+      "lon": 31.087232946378613,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "المجاورة 1",
+      "demand": 0.71612996,
+      "id": "line-1-0762-0580-s003018",
+      "lat": 29.027975798149946,
+      "line": "line-1",
+      "lon": 31.105321269792455,
+      "s_m": 3018.4776310850284
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5714195,
+      "id": "line-1-0646-0681-s006456",
+      "junction_group": 0,
+      "lat": 29.04885187344779,
+      "line": "line-1",
+      "lon": 31.126081731892434,
+      "s_m": 6456.366517139612
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "104 عماره",
+      "demand": 0.5173636,
+      "id": "line-1-0485-0820-s011238",
+      "lat": 29.077826426231866,
+      "line": "line-1",
+      "lon": 31.15465306092112,
+      "s_m": 11237.930726875615
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "موقف عدلي منصور الجديد",
+      "demand": 0.3458274,
+      "id": "line-2-0365-0585-s000000",
+      "lat": 29.099422366195153,
+      "line": "line-2",
+      "lon": 31.10634901544097,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.79760563,
+      "id": "line-2-0513-0554-s003607",
+      "junction_group": 1,
+      "lat": 29.072787373573767,
+      "line": "line-2",
+      "lon": 31.099976992420185,
+      "s_m": 3606.7619023324924
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.68643755,
+      "id": "line-2-0551-0545-s004696",
+      "junction_group": 2,
+      "lat": 29.065948659252058,
+      "line": "line-2",
+      "lon": 31.09812705025286,
+      "s_m": 4695.878784786811
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3509378,
+      "id": "line-2-0673-0525-s008186",
+      "lat": 29.04399278695605,
+      "line": "line-2",
+      "lon": 31.094016067658803,
+      "s_m": 8186.072144624387
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "المجاورة 4",
+      "demand": 0.56904304,
+      "id": "line-2-0754-0468-s010328",
+      "lat": 29.029415527480833,
+      "line": "line-2",
+      "lon": 31.082299767265745,
+      "s_m": 10327.981233214445
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "المجاورة 7",
+      "demand": 0.5955517,
+      "id": "line-2-0815-0443-s012479",
+      "lat": 29.018437591332827,
+      "line": "line-2",
+      "lon": 31.077161039023178,
+      "s_m": 12478.763338082428
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "مساكن المحافظه",
+      "demand": 0.43147606,
+      "id": "line-3-0514-0433-s000000",
+      "lat": 29.072607407407407,
+      "line": "line-3",
+      "lon": 31.07510554772615,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.68643755,
+      "id": "line-3-0551-0545-s003116",
+      "junction_group": 2,
+      "lat": 29.065948659252058,
+      "line": "line-3",
+      "lon": 31.09812705025286,
+      "s_m": 3116.223663640867
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5714195,
+      "id": "line-3-0646-0681-s007830",
+      "junction_group": 0,
+      "lat": 29.04885187344779,
+      "line": "line-3",
+      "lon": 31.126081731892434,
+      "s_m": 7829.747468305868
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "منطقة ورش الشباب",
+      "demand": 0.3648611,
+      "id": "line-3-0667-0751-s009502",
+      "lat": 29.045072583954216,
+      "line": "line-3",
+      "lon": 31.14047017097163,
+      "s_m": 9502.295808265257
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.79760563,
+      "id": "line-4-0513-0554-s000000",
+      "junction_group": 1,
+      "lat": 29.072787373573767,
+      "line": "line-4",
+      "lon": 31.099976992420185,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2673541,
+      "id": "line-4-0359-0705-s005196",
+      "lat": 29.10050216319332,
+      "line": "line-4",
+      "lon": 31.131014911005302,
+      "s_m": 5195.878784786812
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "مساكن إبني بيتك 1",
+      "archetype": "terminal",
+      "id": "line-1-0863-0492-s000000",
+      "lat": 29.009799215347513,
+      "line": "line-1",
+      "lon": 31.087232946378613,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "المجاورة 1",
+      "archetype": "major",
+      "id": "line-1-0762-0580-s003018",
+      "lat": 29.027975798149946,
+      "line": "line-1",
+      "lon": 31.105321269792455,
+      "platform_length_m": 59.5,
+      "s_m": 3018.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0646-0681-s006456",
+      "junction_group": 0,
+      "lat": 29.04885187344779,
+      "line": "line-1",
+      "lon": 31.126081731892434,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6456.4
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "104 عماره",
+      "archetype": "terminal",
+      "id": "line-1-0485-0820-s011238",
+      "lat": 29.077826426231866,
+      "line": "line-1",
+      "lon": 31.15465306092112,
+      "platform_length_m": 59.5,
+      "s_m": 11237.9
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "موقف عدلي منصور الجديد",
+      "archetype": "terminal",
+      "id": "line-2-0365-0585-s000000",
+      "lat": 29.099422366195153,
+      "line": "line-2",
+      "lon": 31.10634901544097,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0513-0554-s003607",
+      "junction_group": 1,
+      "lat": 29.072787373573767,
+      "line": "line-2",
+      "lon": 31.099976992420185,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3606.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0551-0545-s004696",
+      "junction_group": 2,
+      "lat": 29.065948659252058,
+      "line": "line-2",
+      "lon": 31.09812705025286,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4695.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0673-0525-s008186",
+      "lat": 29.04399278695605,
+      "line": "line-2",
+      "lon": 31.094016067658803,
+      "platform_length_m": 59.5,
+      "s_m": 8186.1
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "المجاورة 4",
+      "archetype": "standard",
+      "id": "line-2-0754-0468-s010328",
+      "lat": 29.029415527480833,
+      "line": "line-2",
+      "lon": 31.082299767265745,
+      "platform_length_m": 59.5,
+      "s_m": 10328.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "المجاورة 7",
+      "archetype": "depot-terminal",
+      "id": "line-2-0815-0443-s012479",
+      "lat": 29.018437591332827,
+      "line": "line-2",
+      "lon": 31.077161039023178,
+      "platform_length_m": 59.5,
+      "s_m": 12478.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "مساكن المحافظه",
+      "archetype": "terminal",
+      "id": "line-3-0514-0433-s000000",
+      "lat": 29.072607407407407,
+      "line": "line-3",
+      "lon": 31.07510554772615,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0551-0545-s003116",
+      "junction_group": 2,
+      "lat": 29.065948659252058,
+      "line": "line-3",
+      "lon": 31.09812705025286,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3116.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0646-0681-s007830",
+      "junction_group": 0,
+      "lat": 29.04885187344779,
+      "line": "line-3",
+      "lon": 31.126081731892434,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7829.7
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "منطقة ورش الشباب",
+      "archetype": "terminal",
+      "id": "line-3-0667-0751-s009502",
+      "lat": 29.045072583954216,
+      "line": "line-3",
+      "lon": 31.14047017097163,
+      "platform_length_m": 59.5,
+      "s_m": 9502.3
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0513-0554-s000000",
+      "junction_group": 1,
+      "lat": 29.072787373573767,
+      "line": "line-4",
+      "lon": 31.099976992420185,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0359-0705-s005196",
+      "lat": 29.10050216319332,
+      "line": "line-4",
+      "lon": 31.131014911005302,
+      "platform_length_m": 59.5,
+      "s_m": 5195.9
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

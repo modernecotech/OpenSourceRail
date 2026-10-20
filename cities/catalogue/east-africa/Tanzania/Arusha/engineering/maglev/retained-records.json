@@ -1,0 +1,812 @@
+{
+  "city": {
+    "bbox": {
+      "east": 36.7823,
+      "north": -3.2878,
+      "south": -3.486,
+      "west": 36.5837
+    },
+    "centroid_lat": -3.385791577583414,
+    "centroid_lon": 36.68403694838547,
+    "country": "TZ",
+    "population": 700000,
+    "slug": "arusha"
+  },
+  "climate": {
+    "preset": "tropical-arid"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Tanzania/Arusha/corridors.json",
+    "cities/catalogue/east-africa/Tanzania/Arusha/arusha.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Tanzania/Arusha/arusha.corridor.geojson",
+      "geometry_sha256": "c359ada9dc60c6a8048b39d73abb84bea8d14fe44ea363591369c61b46989e51",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 700000,
+    "schema_version": 1,
+    "slug": "arusha"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -3.3794927617607886,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 36.68907629287837,
+      "platforms": [
+        "line-1-0509-0585-s007165",
+        "line-2-0509-0585-s006562"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -3.403248295720404,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 36.65524069414031,
+      "platforms": [
+        "line-2-0641-0397-s000870",
+        "line-4-0641-0397-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -3.3908306302415143,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 36.67161856374224,
+      "platforms": [
+        "line-2-0572-0488-s003665",
+        "line-3-0572-0488-s009552"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -3.3731939459381635,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 36.65992008545515,
+      "platforms": [
+        "line-3-0474-0423-s012191",
+        "line-4-0474-0423-s009973"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 14281.4,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 21576.5,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 390,
+      "geometry": "standard-urban",
+      "length_m": 22907.6,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 10880.3,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0216-0447-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0799-0721-s014281"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 46
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0674-0383-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0418-1069-s021577"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 67
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0919-0713-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0085-0118-s022908"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 70
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0641-0397-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0463-0463-s010880"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 35
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Tarakwa, Olorieni",
+      "demand": 0.25495094,
+      "id": "line-1-0216-0447-s000000",
+      "lat": -3.3267626750170964,
+      "line": "line-1",
+      "lon": 36.664239523591924,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Ilkiurei",
+      "demand": 0.35243484,
+      "id": "line-1-0370-0519-s003805",
+      "lat": -3.354477464636648,
+      "line": "line-1",
+      "lon": 36.67719783800224,
+      "s_m": 3805.3405460951826
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Arusha Lutheran Medical Centre",
+      "demand": 0.9258289,
+      "id": "line-1-0436-0550-s005417",
+      "lat": -3.366355231616456,
+      "line": "line-1",
+      "lon": 36.682777112262244,
+      "s_m": 5417.300141024122
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6210806,
+      "id": "line-1-0509-0585-s007165",
+      "junction_group": 0,
+      "lat": -3.3794927617607886,
+      "line": "line-1",
+      "lon": 36.68907629287837,
+      "s_m": 7164.823227814103
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "IAA main Get",
+      "demand": 0.50467986,
+      "id": "line-1-0684-0667-s011440",
+      "lat": -3.4109868408739157,
+      "line": "line-1",
+      "lon": 36.70383437317901,
+      "s_m": 11440.285706997443
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Methodist college",
+      "demand": 0.3530121,
+      "id": "line-1-0799-0721-s014281",
+      "lat": -3.4316829500053987,
+      "line": "line-1",
+      "lon": 36.71355310898675,
+      "s_m": 14281.36218438066
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Olasiti, Olasiti",
+      "demand": 0.31971785,
+      "id": "line-2-0674-0383-s000000",
+      "lat": -3.409187179210308,
+      "line": "line-2",
+      "lon": 36.65272102189386,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.31854248,
+      "id": "line-2-0641-0397-s000870",
+      "junction_group": 1,
+      "lat": -3.403248295720404,
+      "line": "line-2",
+      "lon": 36.65524069414031,
+      "s_m": 869.7056274847714
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.36344516,
+      "id": "line-2-0572-0488-s003665",
+      "junction_group": 2,
+      "lat": -3.3908306302415143,
+      "line": "line-2",
+      "lon": 36.67161856374224,
+      "s_m": 3664.507934888329
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6210806,
+      "id": "line-2-0509-0585-s006562",
+      "junction_group": 0,
+      "lat": -3.3794927617607886,
+      "line": "line-2",
+      "lon": 36.68907629287837,
+      "s_m": 6561.736649163083
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2970344,
+      "id": "line-2-0542-0801-s012727",
+      "lat": -3.3854316452506925,
+      "line": "line-2",
+      "lon": 36.727951236109334,
+      "s_m": 12726.660889654813
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Kwa Mrefu, Baraa",
+      "demand": 0.2712039,
+      "id": "line-2-0454-0858-s016219",
+      "lat": -3.3695946226109488,
+      "line": "line-2",
+      "lon": 36.73820990168417,
+      "s_m": 16218.620484583727
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Patandi, AKheri",
+      "demand": 0.15588695,
+      "id": "line-2-0418-1069-s021577",
+      "lat": -3.363115840621963,
+      "line": "line-2",
+      "lon": 36.77618496196997,
+      "s_m": 21576.50937063837
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "ST.JOSHUA COLLAGE",
+      "demand": 0.264845,
+      "id": "line-3-0919-0713-s000000",
+      "lat": -3.453278889968686,
+      "line": "line-3",
+      "lon": 36.712113296274495,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.27940953,
+      "id": "line-3-0798-0638-s003496",
+      "lat": -3.4315029838390383,
+      "line": "line-3",
+      "lon": 36.69861505209708,
+      "s_m": 3496.223663640869
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.36344516,
+      "id": "line-3-0572-0488-s009552",
+      "junction_group": 2,
+      "lat": -3.3908306302415143,
+      "line": "line-3",
+      "lon": 36.67161856374224,
+      "s_m": 9551.75756957361
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.36044586,
+      "id": "line-3-0474-0423-s012191",
+      "junction_group": 3,
+      "lat": -3.3731939459381635,
+      "line": "line-3",
+      "lon": 36.65992008545515,
+      "s_m": 12190.823945689055
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.21300523,
+      "id": "line-3-0294-0303-s017019",
+      "lat": -3.340800035993233,
+      "line": "line-3",
+      "lon": 36.638322894771285,
+      "s_m": 17019.2510704352
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Oltrument Hospital",
+      "demand": 0.119825885,
+      "id": "line-3-0085-0118-s022908",
+      "lat": -3.3031871072238417,
+      "line": "line-3",
+      "lon": 36.60502722580032,
+      "s_m": 22907.577182503916
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.31854248,
+      "id": "line-4-0641-0397-s000000",
+      "junction_group": 1,
+      "lat": -3.403248295720404,
+      "line": "line-4",
+      "lon": 36.65524069414031,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.25779623,
+      "id": "line-4-0463-0287-s006293",
+      "lat": -3.3712143181081955,
+      "line": "line-4",
+      "lon": 36.635443269346766,
+      "s_m": 6292.691193458135
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.36044586,
+      "id": "line-4-0474-0423-s009973",
+      "junction_group": 3,
+      "lat": -3.3731939459381635,
+      "line": "line-4",
+      "lon": 36.65992008545515,
+      "s_m": 9972.590180780457
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.40661108,
+      "id": "line-4-0463-0463-s010880",
+      "lat": -3.3712143181081955,
+      "line": "line-4",
+      "lon": 36.667119149016436,
+      "s_m": 10880.285706997453
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Tarakwa, Olorieni",
+      "archetype": "terminal",
+      "id": "line-1-0216-0447-s000000",
+      "lat": -3.3267626750170964,
+      "line": "line-1",
+      "lon": 36.664239523591924,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Ilkiurei",
+      "archetype": "standard",
+      "id": "line-1-0370-0519-s003805",
+      "lat": -3.354477464636648,
+      "line": "line-1",
+      "lon": 36.67719783800224,
+      "platform_length_m": 59.5,
+      "s_m": 3805.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Arusha Lutheran Medical Centre",
+      "archetype": "major",
+      "id": "line-1-0436-0550-s005417",
+      "lat": -3.366355231616456,
+      "line": "line-1",
+      "lon": 36.682777112262244,
+      "platform_length_m": 59.5,
+      "s_m": 5417.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0509-0585-s007165",
+      "junction_group": 0,
+      "lat": -3.3794927617607886,
+      "line": "line-1",
+      "lon": 36.68907629287837,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7164.8
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "IAA main Get",
+      "archetype": "standard",
+      "id": "line-1-0684-0667-s011440",
+      "lat": -3.4109868408739157,
+      "line": "line-1",
+      "lon": 36.70383437317901,
+      "platform_length_m": 59.5,
+      "s_m": 11440.3
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Methodist college",
+      "archetype": "terminal",
+      "id": "line-1-0799-0721-s014281",
+      "lat": -3.4316829500053987,
+      "line": "line-1",
+      "lon": 36.71355310898675,
+      "platform_length_m": 59.5,
+      "s_m": 14281.4
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Olasiti, Olasiti",
+      "archetype": "terminal",
+      "id": "line-2-0674-0383-s000000",
+      "lat": -3.409187179210308,
+      "line": "line-2",
+      "lon": 36.65272102189386,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0641-0397-s000870",
+      "junction_group": 1,
+      "lat": -3.403248295720404,
+      "line": "line-2",
+      "lon": 36.65524069414031,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 869.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0572-0488-s003665",
+      "junction_group": 2,
+      "lat": -3.3908306302415143,
+      "line": "line-2",
+      "lon": 36.67161856374224,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3664.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0509-0585-s006562",
+      "junction_group": 0,
+      "lat": -3.3794927617607886,
+      "line": "line-2",
+      "lon": 36.68907629287837,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6561.7
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0542-0801-s012727",
+      "lat": -3.3854316452506925,
+      "line": "line-2",
+      "lon": 36.727951236109334,
+      "platform_length_m": 59.5,
+      "s_m": 12726.7
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Kwa Mrefu, Baraa",
+      "archetype": "standard",
+      "id": "line-2-0454-0858-s016219",
+      "lat": -3.3695946226109488,
+      "line": "line-2",
+      "lon": 36.73820990168417,
+      "platform_length_m": 59.5,
+      "s_m": 16218.6
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Patandi, AKheri",
+      "archetype": "terminal",
+      "id": "line-2-0418-1069-s021577",
+      "lat": -3.363115840621963,
+      "line": "line-2",
+      "lon": 36.77618496196997,
+      "platform_length_m": 59.5,
+      "s_m": 21576.5
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "ST.JOSHUA COLLAGE",
+      "archetype": "terminal",
+      "id": "line-3-0919-0713-s000000",
+      "lat": -3.453278889968686,
+      "line": "line-3",
+      "lon": 36.712113296274495,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0798-0638-s003496",
+      "lat": -3.4315029838390383,
+      "line": "line-3",
+      "lon": 36.69861505209708,
+      "platform_length_m": 59.5,
+      "s_m": 3496.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0572-0488-s009552",
+      "junction_group": 2,
+      "lat": -3.3908306302415143,
+      "line": "line-3",
+      "lon": 36.67161856374224,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9551.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0474-0423-s012191",
+      "junction_group": 3,
+      "lat": -3.3731939459381635,
+      "line": "line-3",
+      "lon": 36.65992008545515,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12190.8
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0294-0303-s017019",
+      "lat": -3.340800035993233,
+      "line": "line-3",
+      "lon": 36.638322894771285,
+      "platform_length_m": 55.5,
+      "s_m": 17019.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Oltrument Hospital",
+      "archetype": "depot-terminal",
+      "id": "line-3-0085-0118-s022908",
+      "lat": -3.3031871072238417,
+      "line": "line-3",
+      "lon": 36.60502722580032,
+      "platform_length_m": 59.5,
+      "s_m": 22907.6
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0641-0397-s000000",
+      "junction_group": 1,
+      "lat": -3.403248295720404,
+      "line": "line-4",
+      "lon": 36.65524069414031,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-4-0463-0287-s006293",
+      "lat": -3.3712143181081955,
+      "line": "line-4",
+      "lon": 36.635443269346766,
+      "platform_length_m": 59.5,
+      "s_m": 6292.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0474-0423-s009973",
+      "junction_group": 3,
+      "lat": -3.3731939459381635,
+      "line": "line-4",
+      "lon": 36.65992008545515,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9972.6
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0463-0463-s010880",
+      "lat": -3.3712143181081955,
+      "line": "line-4",
+      "lon": 36.667119149016436,
+      "platform_length_m": 59.5,
+      "s_m": 10880.3
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

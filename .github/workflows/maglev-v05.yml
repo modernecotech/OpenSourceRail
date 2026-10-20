@@ -2,7 +2,7 @@ name: v0.5 primary maglev development
 on:
   push:
     branches: [main]
-    tags: ['v0.5.*']
+    tags: ["v0.5.*"]
   pull_request:
 permissions:
   contents: read
@@ -14,19 +14,32 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: "3.13"
       - uses: dtolnay/rust-toolchain@1.92.0
         with:
           components: rustfmt,clippy
       - run: python -m pip install pytest -r engineering/ferrite_maglev/requirements.txt
-      - run: cargo test -p osr-maglev-control --all-targets
+      - run: cargo test --locked -p osr-maglev-control --all-targets
+      - run: cargo check --locked -p osr-maglev-control --no-default-features
       - run: cargo fmt --package osr-maglev-control -- --check
       - run: cargo clippy -p osr-maglev-control --all-targets -- -D warnings
-      - run: python -m pytest engineering/analysis/tests/test_ferrite_maglev.py -q
+      - name: All primary maglev Python suites
+        run: python -m pytest engineering/analysis/tests/test_ferrite_maglev*.py -q
+      - name: Verify retained native packet without FreeCAD
+        run: |
+          python - <<'PY'
+          from engineering.ferrite_maglev import geometry
+          geometry.verify_native('docs/design-engine/ferrite-maglev/native')
+          PY
+      - name: Build Rust bridge and publish actual two-way numerical replay
+        run: |
+          python -m engineering.ferrite_maglev.coupled --output build/maglev-ci-coupled
+          python -m engineering.ferrite_maglev.coupled --verify build/maglev-ci-coupled
+          python -m engineering.ferrite_maglev.coupled --verify docs/design-engine/ferrite-maglev/coupled
       - run: |
           python tools/automation/ferrite-maglev-study.py run --output build/maglev-ci
           python tools/automation/ferrite-maglev-study.py check --output build/maglev-ci
-          cargo run -p osr-maglev-control --example sbc_replay
+          cargo run --locked -p osr-maglev-control --release --example multimodule_replay
       - name: Confirm physical release remains gated
         shell: bash
         run: |
@@ -35,7 +48,7 @@ jobs:
           test "$code" = 3
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
       - name: Browser report, images and mobile layout
         run: |
           npm ci

@@ -1,0 +1,685 @@
+{
+  "city": {
+    "bbox": {
+      "east": 31.4201,
+      "north": 1.4995,
+      "south": 1.3643,
+      "west": 31.2849
+    },
+    "centroid_lat": 1.4324626030306302,
+    "centroid_lon": 31.35220452405749,
+    "country": "UG",
+    "population": 200000,
+    "slug": "hoima"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Uganda/Hoima/corridors.json",
+    "cities/catalogue/east-africa/Uganda/Hoima/hoima.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Uganda/Hoima/hoima.corridor.geojson",
+      "geometry_sha256": "a052bc3936a4132ea36a32a4a08cf805089bec4aae1fc79c041e61b7d98ce1de",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 200000,
+    "schema_version": 1,
+    "slug": "hoima"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 1.4297631105352195,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 31.350347434386123,
+      "platforms": [
+        "line-1-0386-0371-s001287",
+        "line-3-0386-0371-s000465",
+        "line-3-0389-0349-s000000"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 1.4410109959327646,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": 31.34546508573398,
+      "platforms": [
+        "line-1-0322-0335-s002936",
+        "line-1-0327-0338-s002811",
+        "line-4-0322-0335-s000000",
+        "line-4-0327-0338-s000125"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 1.4308429075333837,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 31.359572976624534,
+      "platforms": [
+        "line-2-0381-0415-s007679",
+        "line-3-0381-0415-s001386"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 10323.7,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 9685.7,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5385.1,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5392.4,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0437-0399-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0091-0118-s010324"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 23
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0521-0676-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0315-0387-s009686"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0389-0349-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0357-0605-s005385"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 15
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0322-0335-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0436-0289-s005392"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 13
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hoima Women’s Family Hospital",
+      "demand": 0.5279979,
+      "id": "line-1-0437-0399-s000000",
+      "lat": 1.4207648022171833,
+      "line": "line-1",
+      "lon": 31.356697482939836,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Hoima Central Market",
+      "demand": 0.98668516,
+      "id": "line-1-0386-0371-s001287",
+      "junction_group": 0,
+      "lat": 1.4299430767015802,
+      "line": "line-1",
+      "lon": 31.35166536899161,
+      "s_m": 1287.1067811865476
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.558113,
+      "id": "line-1-0327-0338-s002811",
+      "junction_group": 1,
+      "lat": 1.440561080516863,
+      "line": "line-1",
+      "lon": 31.34573466326692,
+      "s_m": 2810.7821048680216
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.51883066,
+      "id": "line-1-0322-0335-s002936",
+      "junction_group": 1,
+      "lat": 1.4414609113486665,
+      "line": "line-1",
+      "lon": 31.345195508201037,
+      "s_m": 2935.634918610408
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.21202496,
+      "id": "line-1-0177-0255-s006639",
+      "lat": 1.4675560054709715,
+      "line": "line-1",
+      "lon": 31.330818039777544,
+      "s_m": 6638.965363437833
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Karongo health Centre 3",
+      "demand": 0.28145352,
+      "id": "line-1-0091-0118-s010324",
+      "lat": 1.4830330957779938,
+      "line": "line-1",
+      "lon": 31.306196625102306,
+      "s_m": 10323.71716450254
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "BUHANIKA",
+      "demand": 0.24730344,
+      "id": "line-2-0521-0676-s000000",
+      "lat": 1.4056476442428825,
+      "line": "line-2",
+      "lon": 31.406479467356192,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35165894,
+      "id": "line-2-0433-0448-s006249",
+      "lat": 1.4214846668826262,
+      "line": "line-2",
+      "lon": 31.365503682349228,
+      "s_m": 6248.670990922604
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.60642475,
+      "id": "line-2-0381-0415-s007679",
+      "junction_group": 2,
+      "lat": 1.4308429075333837,
+      "line": "line-2",
+      "lon": 31.359572976624534,
+      "s_m": 7679.209229614233
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "BUJUMBURA HEALTH CENTRE",
+      "demand": 0.49977177,
+      "id": "line-2-0315-0387-s009686",
+      "lat": 1.4427206745131915,
+      "line": "line-2",
+      "lon": 31.354540862676313,
+      "s_m": 9685.727265770305
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "UGANDA MUSLIM SUPREME COUNCIL HEALTH CENTRE 11",
+      "demand": 0.86490273,
+      "id": "line-3-0389-0349-s000000",
+      "junction_group": 0,
+      "lat": 1.429403178202498,
+      "line": "line-3",
+      "lon": 31.34771156517515,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Hoima Central Market",
+      "demand": 0.98668516,
+      "id": "line-3-0386-0371-s000465",
+      "junction_group": 0,
+      "lat": 1.4299430767015802,
+      "line": "line-3",
+      "lon": 31.35166536899161,
+      "s_m": 464.8528137423857
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.60642475,
+      "id": "line-3-0381-0415-s001386",
+      "junction_group": 2,
+      "lat": 1.4308429075333837,
+      "line": "line-3",
+      "lon": 31.359572976624534,
+      "s_m": 1386.2741699796952
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Hoima City Stadium",
+      "demand": 0.27331862,
+      "id": "line-3-0357-0605-s005385",
+      "lat": 1.4351620955260411,
+      "line": "line-3",
+      "lon": 31.39371946413034,
+      "s_m": 5385.096679918785
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "AZURU HEALTH CENTRE 111",
+      "demand": 0.51883066,
+      "id": "line-4-0322-0335-s000000",
+      "junction_group": 1,
+      "lat": 1.4414609113486665,
+      "line": "line-4",
+      "lon": 31.345195508201037,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.558113,
+      "id": "line-4-0327-0338-s000125",
+      "junction_group": 1,
+      "lat": 1.440561080516863,
+      "line": "line-4",
+      "lon": 31.34573466326692,
+      "s_m": 124.8528137423857
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.30921715,
+      "id": "line-4-0436-0289-s005392",
+      "lat": 1.4209447683835439,
+      "line": "line-4",
+      "lon": 31.33692846385753,
+      "s_m": 5392.447327281736
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hoima Women’s Family Hospital",
+      "archetype": "terminal",
+      "id": "line-1-0437-0399-s000000",
+      "lat": 1.4207648022171833,
+      "line": "line-1",
+      "lon": 31.356697482939836,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Hoima Central Market",
+      "archetype": "interchange",
+      "id": "line-1-0386-0371-s001287",
+      "junction_group": 0,
+      "lat": 1.4299430767015802,
+      "line": "line-1",
+      "lon": 31.35166536899161,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1287.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0327-0338-s002811",
+      "junction_group": 1,
+      "lat": 1.440561080516863,
+      "line": "line-1",
+      "lon": 31.34573466326692,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2810.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0322-0335-s002936",
+      "junction_group": 1,
+      "lat": 1.4414609113486665,
+      "line": "line-1",
+      "lon": 31.345195508201037,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2935.6
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0177-0255-s006639",
+      "lat": 1.4675560054709715,
+      "line": "line-1",
+      "lon": 31.330818039777544,
+      "platform_length_m": 45.0,
+      "s_m": 6639.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Karongo health Centre 3",
+      "archetype": "depot-terminal",
+      "id": "line-1-0091-0118-s010324",
+      "lat": 1.4830330957779938,
+      "line": "line-1",
+      "lon": 31.306196625102306,
+      "platform_length_m": 49.0,
+      "s_m": 10323.7
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "BUHANIKA",
+      "archetype": "terminal",
+      "id": "line-2-0521-0676-s000000",
+      "lat": 1.4056476442428825,
+      "line": "line-2",
+      "lon": 31.406479467356192,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0433-0448-s006249",
+      "lat": 1.4214846668826262,
+      "line": "line-2",
+      "lon": 31.365503682349228,
+      "platform_length_m": 49.0,
+      "s_m": 6248.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0381-0415-s007679",
+      "junction_group": 2,
+      "lat": 1.4308429075333837,
+      "line": "line-2",
+      "lon": 31.359572976624534,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7679.2
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "BUJUMBURA HEALTH CENTRE",
+      "archetype": "terminal",
+      "id": "line-2-0315-0387-s009686",
+      "lat": 1.4427206745131915,
+      "line": "line-2",
+      "lon": 31.354540862676313,
+      "platform_length_m": 49.0,
+      "s_m": 9685.7
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "UGANDA MUSLIM SUPREME COUNCIL HEALTH CENTRE 11",
+      "archetype": "terminal",
+      "id": "line-3-0389-0349-s000000",
+      "junction_group": 0,
+      "lat": 1.429403178202498,
+      "line": "line-3",
+      "lon": 31.34771156517515,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Hoima Central Market",
+      "archetype": "interchange",
+      "id": "line-3-0386-0371-s000465",
+      "junction_group": 0,
+      "lat": 1.4299430767015802,
+      "line": "line-3",
+      "lon": 31.35166536899161,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 464.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0381-0415-s001386",
+      "junction_group": 2,
+      "lat": 1.4308429075333837,
+      "line": "line-3",
+      "lon": 31.359572976624534,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1386.3
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Hoima City Stadium",
+      "archetype": "terminal",
+      "id": "line-3-0357-0605-s005385",
+      "lat": 1.4351620955260411,
+      "line": "line-3",
+      "lon": 31.39371946413034,
+      "platform_length_m": 49.0,
+      "s_m": 5385.1
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "AZURU HEALTH CENTRE 111",
+      "archetype": "terminal",
+      "id": "line-4-0322-0335-s000000",
+      "junction_group": 1,
+      "lat": 1.4414609113486665,
+      "line": "line-4",
+      "lon": 31.345195508201037,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0327-0338-s000125",
+      "junction_group": 1,
+      "lat": 1.440561080516863,
+      "line": "line-4",
+      "lon": 31.34573466326692,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 124.9
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0436-0289-s005392",
+      "lat": 1.4209447683835439,
+      "line": "line-4",
+      "lon": 31.33692846385753,
+      "platform_length_m": 49.0,
+      "s_m": 5392.4
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

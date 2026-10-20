@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import gzip
 import json
 from pathlib import Path
 import shutil
@@ -148,6 +149,21 @@ def export_native(model_path, output):
         if collisions:
             raise ValueError("fixture solid interference: " + str(collisions))
     interference_ids = [o.DesignId for o in check_objects]
+    mesh_path = None
+    if model.get("retain_native_tessellation"):
+        mesh = []
+        for obj, definition in zip(objects, model["parts"]):
+            vertices, triangles = obj.Shape.tessellate(10.)
+            mesh.append(dict(id=obj.DesignId, material=definition['material'],
+                             vertices_m=[[v.x/1000, v.y/1000, v.z/1000] for v in vertices],
+                             triangles=[list(t) for t in triangles],
+                             centre_of_volume_m=[sum(s.Volume*tuple(s.CenterOfMass)[i] for s in obj.Shape.Solids)/obj.Shape.Volume/1000 for i in range(3)],
+                             volume_m3=obj.Shape.Volume/1e9))
+        mesh_path=output/'native-mesh.json.gz'
+        mesh_path.write_bytes(gzip.compress(json.dumps(dict(schema='osr-native-tessellation/1',
+            input_sha256=digest(model_path),linear_deflection_mm=10.,parts=mesh,
+            scope='Actual native-solid tessellation for visual review; no motion or strength verification',
+            physical_release=False),sort_keys=True).encode(),mtime=0))
     doc.recompute()
     fcstd, step = output / "model.FCStd", output / "model.step"
     Part.export(objects, str(step))
@@ -203,6 +219,8 @@ def export_native(model_path, output):
         physical_release=False,
         files_sha256={p.name: digest(p) for p in (fcstd, step)},
     )
+    if mesh_path is not None:
+        receipt['files_sha256'][mesh_path.name]=digest(mesh_path)
     (output / "native-cad.json").write_text(
         json.dumps(receipt, indent=2, sort_keys=True) + "\n"
     )

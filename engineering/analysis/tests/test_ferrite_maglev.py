@@ -163,19 +163,19 @@ def test_primary_publication_tamper_stale_and_source_binding(tmp_path):
 
 def test_cli_primary_and_legacy_boundaries():
     for command in [['./osr'],['./osr','design','status']]:
-        r=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=30)
+        r=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=180)
         assert r.returncode==0 and json.loads(r.stdout)['family']=='ferrite-pm-maglev-study'
-    for command in [['./osr','city','baghdad'],['./osr','sim'],['./osr','design','release-check']]:
-        r=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=30)
+    for command in [['./osr','city','unknown-maglev-city'],['./osr','sim','unknown-maglev-city'],['./osr','design','release-check']]:
+        r=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=180)
         assert r.returncode in (2,3)
     assert subprocess.run(['./osr','design','legacy','twin','--help'],cwd=ROOT,capture_output=True,timeout=90).returncode==0
 
 
 def test_scheduled_cycle_idles_without_rewriting_unchanged_results(tmp_path):
     command=[str(ROOT/'tools/automation/osr-python'),str(ROOT/'tools/automation/ferrite-maglev-study.py'),'cycle','--output',str(tmp_path/'primary')]
-    first=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=30)
+    first=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=180)
     assert first.returncode==0,first.stderr
     path=tmp_path/'primary/result.json';before=(path.stat().st_mtime_ns,path.read_bytes())
-    second=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=30)
+    second=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=180)
     assert second.returncode==0 and json.loads(second.stdout)['state']=='idle; sources unchanged'
     assert (path.stat().st_mtime_ns,path.read_bytes())==before

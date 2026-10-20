@@ -1,0 +1,1086 @@
+{
+  "city": {
+    "bbox": {
+      "east": -78.9,
+      "north": -2.8,
+      "south": -3,
+      "west": -79.1
+    },
+    "centroid_lat": -2.8990713745815784,
+    "centroid_lon": -78.99863051247256,
+    "country": "EC",
+    "population": 817100,
+    "slug": "cuenca"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/latin-america/Ecuador/Cuenca/corridors.json",
+    "cities/catalogue/latin-america/Ecuador/Cuenca/cuenca.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/latin-america/Ecuador/Cuenca/cuenca.corridor.geojson",
+      "geometry_sha256": "01079f1ee4842883f1a89cd45487a59c9d77670ef9bfda19a73ce43391a5a594",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1112,
+    "grid_width": 1112,
+    "population": 817100,
+    "schema_version": 1,
+    "slug": "cuenca"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -2.8990713745815784,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": -78.9972813178737,
+      "platforms": [
+        "line-1-0550-0571-s007444",
+        "line-3-0550-0570-s006559"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -2.855699528488644,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": -78.97200640572179,
+      "platforms": [
+        "line-2-0309-0711-s010402",
+        "line-4-0309-0711-s000000"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -2.858129071734514,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": -78.97650372105132,
+      "platforms": [
+        "line-2-0318-0694-s010840",
+        "line-2-0327-0678-s011258",
+        "line-4-0318-0694-s000541",
+        "line-4-0327-0678-s001068"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": -2.8787351977828166,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": -79.01266213630068,
+      "platforms": [
+        "line-2-0437-0485-s016217",
+        "line-3-0437-0485-s002421"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": -2.89199270537139,
+      "lines": [
+        "line-2",
+        "line-5"
+      ],
+      "lon": -79.03568839078783,
+      "platforms": [
+        "line-2-0509-0360-s019419",
+        "line-2-0511-0357-s019507",
+        "line-2-0512-0354-s019575",
+        "line-5-0509-0360-s000145",
+        "line-5-0511-0357-s000068",
+        "line-5-0512-0354-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 360,
+      "geometry": "standard-urban",
+      "length_m": 21088.8,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 19575.5,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 300,
+      "geometry": "standard-urban",
+      "length_m": 21925.2,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5185.0,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 6407.0,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0451-0897-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0708-0006-s021089"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 65
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0080-1074-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0512-0354-s019575"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 63
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0365-0456-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-1025-0987-s021925"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 67
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0309-0711-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0437-0662-s005185"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0512-0354-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0414-0182-s006407"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 23
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "IESS Dispensario San Vicente 2",
+      "demand": 0.30512863,
+      "id": "line-1-0451-0897-s000000",
+      "lat": -2.8812547241118667,
+      "line": "line-1",
+      "lon": -78.93854637967014,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Cruz roja azuay",
+      "demand": 0.43059707,
+      "id": "line-1-0489-0766-s003015",
+      "lat": -2.8880934384335744,
+      "line": "line-1",
+      "lon": -78.96211231199685,
+      "s_m": 3014.8023074035555
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro Médico San Blas",
+      "demand": 0.9360569,
+      "id": "line-1-0550-0571-s007444",
+      "junction_group": 0,
+      "lat": -2.8990713745815784,
+      "line": "line-1",
+      "lon": -78.99719137156711,
+      "s_m": 7443.574311003821
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Escuela de Robótica",
+      "demand": 0.37959814,
+      "id": "line-1-0593-0430-s010643",
+      "lat": -2.90680991973509,
+      "line": "line-1",
+      "lon": -79.02255623002561,
+      "s_m": 10643.229432149741
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.21637218,
+      "id": "line-1-0667-0207-s015857",
+      "lat": -2.920127416045783,
+      "line": "line-1",
+      "lon": -79.06267228276496,
+      "s_m": 15856.854249492337
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Dispensario SSC Barabon",
+      "demand": 0.12051497,
+      "id": "line-1-0708-0006-s021089",
+      "lat": -2.927506028866573,
+      "line": "line-1",
+      "lon": -79.09883069801432,
+      "s_m": 21088.81384442129
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Centro Ocupacional Ayancay",
+      "demand": 0.06588557,
+      "id": "line-2-0080-1074-s000000",
+      "lat": -2.8144872763920383,
+      "line": "line-2",
+      "lon": -78.90670538713712,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Santa Cruz",
+      "demand": 0.19459419,
+      "id": "line-2-0233-0843-s007004",
+      "lat": -2.842022099845229,
+      "line": "line-2",
+      "lon": -78.9482605807819,
+      "s_m": 7003.8181771802265
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.27942976,
+      "id": "line-2-0309-0711-s010402",
+      "junction_group": 1,
+      "lat": -2.855699528488644,
+      "line": "line-2",
+      "lon": -78.97200640572179,
+      "s_m": 10402.295808265226
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2853681,
+      "id": "line-2-0318-0694-s010840",
+      "junction_group": 2,
+      "lat": -2.8573192239858907,
+      "line": "line-2",
+      "lon": -78.97506458014587,
+      "s_m": 10840.285706997454
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Corazon de Jesus",
+      "demand": 0.30205435,
+      "id": "line-2-0327-0678-s011258",
+      "junction_group": 2,
+      "lat": -2.858938919483137,
+      "line": "line-2",
+      "lon": -78.97794286195676,
+      "s_m": 11258.275605729683
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3689603,
+      "id": "line-2-0437-0485-s016217",
+      "junction_group": 3,
+      "lat": -2.8787351977828166,
+      "line": "line-2",
+      "lon": -79.01266213630068,
+      "s_m": 16216.997102991038
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Centro de Estudios Ambientales (CEA)",
+      "demand": 0.33829612,
+      "id": "line-2-0509-0360-s019419",
+      "junction_group": 4,
+      "lat": -2.8916927617607886,
+      "line": "line-2",
+      "lon": -79.03514871294828,
+      "s_m": 19418.9061915812
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Centro de Estudios Ambientales (CEA)",
+      "demand": 0.33621573,
+      "id": "line-2-0511-0357-s019507",
+      "junction_group": 4,
+      "lat": -2.8920526940935103,
+      "line": "line-2",
+      "lon": -79.03568839078783,
+      "s_m": 19507.190462828665
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Centro de Estudios Ambientales (CEA)",
+      "demand": 0.333385,
+      "id": "line-2-0512-0354-s019575",
+      "junction_group": 4,
+      "lat": -2.892232660259871,
+      "line": "line-2",
+      "lon": -79.03622806862737,
+      "s_m": 19575.474734076128
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "San José",
+      "demand": 0.29693195,
+      "id": "line-3-0365-0456-s000000",
+      "lat": -2.8657776338048446,
+      "line": "line-3",
+      "lon": -79.01787902208292,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3689603,
+      "id": "line-3-0437-0485-s002421",
+      "junction_group": 3,
+      "lat": -2.8787351977828166,
+      "line": "line-3",
+      "lon": -79.01266213630068,
+      "s_m": 2420.8326112068526
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro Médico San Blas",
+      "demand": 0.9405969,
+      "id": "line-3-0550-0570-s006559",
+      "junction_group": 0,
+      "lat": -2.8990713745815784,
+      "line": "line-3",
+      "lon": -78.9973712641803,
+      "s_m": 6559.066376115489
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro de Salud Tomebamba - Monay",
+      "demand": 0.5428052,
+      "id": "line-3-0607-0641-s009003",
+      "lat": -2.90932944606414,
+      "line": "line-3",
+      "lon": -78.98459888864446,
+      "s_m": 9002.741699796952
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Chilcapamba",
+      "demand": 0.36435622,
+      "id": "line-3-0700-0696-s012019",
+      "lat": -2.926066299535687,
+      "line": "line-3",
+      "lon": -78.9747047949195,
+      "s_m": 12018.965363437785
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.18919474,
+      "id": "line-3-0854-0812-s016985",
+      "lat": -2.9537810891552385,
+      "line": "line-3",
+      "lon": -78.95383725179052,
+      "s_m": 16985.138520739798
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Campus La Trabana",
+      "demand": 0.090507485,
+      "id": "line-3-1025-0987-s021925",
+      "lat": -2.9845553036029226,
+      "line": "line-3",
+      "lon": -78.92235604448386,
+      "s_m": 21925.18036156105
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.27942976,
+      "id": "line-4-0309-0711-s000000",
+      "junction_group": 1,
+      "lat": -2.855699528488644,
+      "line": "line-4",
+      "lon": -78.97200640572179,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2853681,
+      "id": "line-4-0318-0694-s000541",
+      "junction_group": 2,
+      "lat": -2.8573192239858907,
+      "line": "line-4",
+      "lon": -78.97506458014587,
+      "s_m": 541.4213562373095
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Corazon de Jesus",
+      "demand": 0.30205435,
+      "id": "line-4-0327-0678-s001068",
+      "junction_group": 2,
+      "lat": -2.858938919483137,
+      "line": "line-4",
+      "lon": -78.97794286195676,
+      "s_m": 1067.6955262170047
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Ciudadela Calderón",
+      "demand": 0.35621965,
+      "id": "line-4-0437-0662-s005185",
+      "lat": -2.8787351977828166,
+      "line": "line-4",
+      "lon": -78.98082114376766,
+      "s_m": 5184.995667241129
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Centro de Estudios Ambientales (CEA)",
+      "demand": 0.333385,
+      "id": "line-5-0512-0354-s000000",
+      "junction_group": 4,
+      "lat": -2.892232660259871,
+      "line": "line-5",
+      "lon": -79.03622806862737,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Centro de Estudios Ambientales (CEA)",
+      "demand": 0.33621573,
+      "id": "line-5-0511-0357-s000068",
+      "junction_group": 4,
+      "lat": -2.8920526940935103,
+      "line": "line-5",
+      "lon": -79.03568839078783,
+      "s_m": 68.2842712474619
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Centro de Estudios Ambientales (CEA)",
+      "demand": 0.33829612,
+      "id": "line-5-0509-0360-s000145",
+      "junction_group": 4,
+      "lat": -2.8916927617607886,
+      "line": "line-5",
+      "lon": -79.03514871294828,
+      "s_m": 144.8528137423857
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "La Hermita",
+      "demand": 0.2182701,
+      "id": "line-5-0414-0182-s006407",
+      "lat": -2.87459597595652,
+      "line": "line-5",
+      "lon": -79.06716959809448,
+      "s_m": 6407.005768508894
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.09528488,
+      "id": "line-2-0117-0953-s003505",
+      "lat": -2.8211460245473847,
+      "line": "line-2",
+      "lon": -78.92847239333202,
+      "s_m": 3505.0966799187863
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "IESS Dispensario San Vicente 2",
+      "archetype": "terminal",
+      "id": "line-1-0451-0897-s000000",
+      "lat": -2.8812547241118667,
+      "line": "line-1",
+      "lon": -78.93854637967014,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Cruz roja azuay",
+      "archetype": "standard",
+      "id": "line-1-0489-0766-s003015",
+      "lat": -2.8880934384335744,
+      "line": "line-1",
+      "lon": -78.96211231199685,
+      "platform_length_m": 59.5,
+      "s_m": 3014.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro Médico San Blas",
+      "archetype": "interchange",
+      "id": "line-1-0550-0571-s007444",
+      "junction_group": 0,
+      "lat": -2.8990713745815784,
+      "line": "line-1",
+      "lon": -78.99719137156711,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7443.6
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Escuela de Robótica",
+      "archetype": "standard",
+      "id": "line-1-0593-0430-s010643",
+      "lat": -2.90680991973509,
+      "line": "line-1",
+      "lon": -79.02255623002561,
+      "platform_length_m": 59.5,
+      "s_m": 10643.2
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0667-0207-s015857",
+      "lat": -2.920127416045783,
+      "line": "line-1",
+      "lon": -79.06267228276496,
+      "platform_length_m": 55.5,
+      "s_m": 15856.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Dispensario SSC Barabon",
+      "archetype": "terminal",
+      "id": "line-1-0708-0006-s021089",
+      "lat": -2.927506028866573,
+      "line": "line-1",
+      "lon": -79.09883069801432,
+      "platform_length_m": 59.5,
+      "s_m": 21088.8
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Centro Ocupacional Ayancay",
+      "archetype": "terminal",
+      "id": "line-2-0080-1074-s000000",
+      "lat": -2.8144872763920383,
+      "line": "line-2",
+      "lon": -78.90670538713712,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Santa Cruz",
+      "archetype": "halt",
+      "id": "line-2-0233-0843-s007004",
+      "lat": -2.842022099845229,
+      "line": "line-2",
+      "lon": -78.9482605807819,
+      "platform_length_m": 55.5,
+      "s_m": 7003.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0309-0711-s010402",
+      "junction_group": 1,
+      "lat": -2.855699528488644,
+      "line": "line-2",
+      "lon": -78.97200640572179,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 10402.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0318-0694-s010840",
+      "junction_group": 2,
+      "lat": -2.8573192239858907,
+      "line": "line-2",
+      "lon": -78.97506458014587,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 10840.3
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Corazon de Jesus",
+      "archetype": "interchange",
+      "id": "line-2-0327-0678-s011258",
+      "junction_group": 2,
+      "lat": -2.858938919483137,
+      "line": "line-2",
+      "lon": -78.97794286195676,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11258.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0437-0485-s016217",
+      "junction_group": 3,
+      "lat": -2.8787351977828166,
+      "line": "line-2",
+      "lon": -79.01266213630068,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 16217.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Centro de Estudios Ambientales (CEA)",
+      "archetype": "interchange",
+      "id": "line-2-0509-0360-s019419",
+      "junction_group": 4,
+      "lat": -2.8916927617607886,
+      "line": "line-2",
+      "lon": -79.03514871294828,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 19418.9
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Centro de Estudios Ambientales (CEA)",
+      "archetype": "interchange",
+      "id": "line-2-0511-0357-s019507",
+      "junction_group": 4,
+      "lat": -2.8920526940935103,
+      "line": "line-2",
+      "lon": -79.03568839078783,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 19507.2
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Centro de Estudios Ambientales (CEA)",
+      "archetype": "terminal",
+      "id": "line-2-0512-0354-s019575",
+      "junction_group": 4,
+      "lat": -2.892232660259871,
+      "line": "line-2",
+      "lon": -79.03622806862737,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 19575.5
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "San José",
+      "archetype": "terminal",
+      "id": "line-3-0365-0456-s000000",
+      "lat": -2.8657776338048446,
+      "line": "line-3",
+      "lon": -79.01787902208292,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0437-0485-s002421",
+      "junction_group": 3,
+      "lat": -2.8787351977828166,
+      "line": "line-3",
+      "lon": -79.01266213630068,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2420.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro Médico San Blas",
+      "archetype": "interchange",
+      "id": "line-3-0550-0570-s006559",
+      "junction_group": 0,
+      "lat": -2.8990713745815784,
+      "line": "line-3",
+      "lon": -78.9973712641803,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6559.1
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Centro de Salud Tomebamba - Monay",
+      "archetype": "standard",
+      "id": "line-3-0607-0641-s009003",
+      "lat": -2.90932944606414,
+      "line": "line-3",
+      "lon": -78.98459888864446,
+      "platform_length_m": 59.5,
+      "s_m": 9002.7
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Chilcapamba",
+      "archetype": "standard",
+      "id": "line-3-0700-0696-s012019",
+      "lat": -2.926066299535687,
+      "line": "line-3",
+      "lon": -78.9747047949195,
+      "platform_length_m": 59.5,
+      "s_m": 12019.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0854-0812-s016985",
+      "lat": -2.9537810891552385,
+      "line": "line-3",
+      "lon": -78.95383725179052,
+      "platform_length_m": 55.5,
+      "s_m": 16985.1
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Campus La Trabana",
+      "archetype": "depot-terminal",
+      "id": "line-3-1025-0987-s021925",
+      "lat": -2.9845553036029226,
+      "line": "line-3",
+      "lon": -78.92235604448386,
+      "platform_length_m": 59.5,
+      "s_m": 21925.2
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0309-0711-s000000",
+      "junction_group": 1,
+      "lat": -2.855699528488644,
+      "line": "line-4",
+      "lon": -78.97200640572179,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0318-0694-s000541",
+      "junction_group": 2,
+      "lat": -2.8573192239858907,
+      "line": "line-4",
+      "lon": -78.97506458014587,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 541.4
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Corazon de Jesus",
+      "archetype": "interchange",
+      "id": "line-4-0327-0678-s001068",
+      "junction_group": 2,
+      "lat": -2.858938919483137,
+      "line": "line-4",
+      "lon": -78.97794286195676,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1067.7
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Ciudadela Calderón",
+      "archetype": "terminal",
+      "id": "line-4-0437-0662-s005185",
+      "lat": -2.8787351977828166,
+      "line": "line-4",
+      "lon": -78.98082114376766,
+      "platform_length_m": 59.5,
+      "s_m": 5185.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Centro de Estudios Ambientales (CEA)",
+      "archetype": "terminal",
+      "id": "line-5-0512-0354-s000000",
+      "junction_group": 4,
+      "lat": -2.892232660259871,
+      "line": "line-5",
+      "lon": -79.03622806862737,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Centro de Estudios Ambientales (CEA)",
+      "archetype": "interchange",
+      "id": "line-5-0511-0357-s000068",
+      "junction_group": 4,
+      "lat": -2.8920526940935103,
+      "line": "line-5",
+      "lon": -79.03568839078783,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 68.3
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Centro de Estudios Ambientales (CEA)",
+      "archetype": "interchange",
+      "id": "line-5-0509-0360-s000145",
+      "junction_group": 4,
+      "lat": -2.8916927617607886,
+      "line": "line-5",
+      "lon": -79.03514871294828,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 144.9
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "La Hermita",
+      "archetype": "terminal",
+      "id": "line-5-0414-0182-s006407",
+      "lat": -2.87459597595652,
+      "line": "line-5",
+      "lon": -79.06716959809448,
+      "platform_length_m": 59.5,
+      "s_m": 6407.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0117-0953-s003505",
+      "lat": -2.8211460245473847,
+      "line": "line-2",
+      "lon": -78.92847239333202,
+      "platform_length_m": 55.5,
+      "s_m": 3505.1
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

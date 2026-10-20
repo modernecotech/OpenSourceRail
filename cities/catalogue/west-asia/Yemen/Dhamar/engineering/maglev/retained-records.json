@@ -1,0 +1,774 @@
+{
+  "city": {
+    "bbox": {
+      "east": 44.4749,
+      "north": 14.6103,
+      "south": 14.4751,
+      "west": 44.3353
+    },
+    "centroid_lat": 14.546501994025125,
+    "centroid_lon": 44.40128400082772,
+    "country": "YE",
+    "population": 300000,
+    "slug": "dhamar"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-asia/Yemen/Dhamar/corridors.json",
+    "cities/catalogue/west-asia/Yemen/Dhamar/dhamar.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-asia/Yemen/Dhamar/dhamar.corridor.geojson",
+      "geometry_sha256": "c4fdc218f9c6a1222679dda051c41217855bc5c28bf7c1ae84e254dd46c51b6f",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "dhamar"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 14.541942851143986,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 44.402026436842654,
+      "platforms": [
+        "line-1-0379-0359-s009007",
+        "line-2-0379-0359-s002335",
+        "line-3-0380-0359-s002477"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 14.544252416945614,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 44.41251334555368,
+      "platforms": [
+        "line-2-0366-0420-s001008",
+        "line-2-0367-0411-s001196",
+        "line-3-0366-0420-s001141",
+        "line-3-0367-0411-s001329"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 14.544342400028794,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 44.39645816673062,
+      "platforms": [
+        "line-2-0366-0329-s003220",
+        "line-3-0366-0329-s003369"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 14.54776175718965,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 44.389033806581224,
+      "platforms": [
+        "line-3-0347-0289-s004418",
+        "line-4-0347-0289-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 11118.0,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 11828.0,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5838.7,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 5810.2,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0115-0301-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0445-0352-s011118"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 24
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0381-0463-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0679-0164-s011828"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 27
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0333-0446-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0295-0267-s005839"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 21
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0347-0289-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0361-0037-s005810"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 13
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "كليه القعمي ابو شامخ",
+      "demand": 0.13055104,
+      "id": "line-1-0115-0301-s000000",
+      "lat": 14.589513907785337,
+      "line": "line-1",
+      "lon": 44.39126111462604,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "فرزة صنعاء",
+      "demand": 0.44266832,
+      "id": "line-1-0242-0286-s003012",
+      "lat": 14.566658204657525,
+      "line": "line-1",
+      "lon": 44.388476979570015,
+      "s_m": 3012.2034611053305
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "جامعة العلوم والتكنلوجيا",
+      "demand": 0.89989173,
+      "id": "line-1-0379-0359-s009007",
+      "junction_group": 0,
+      "lat": 14.542002839866106,
+      "line": "line-1",
+      "lon": 44.40202643684266,
+      "s_m": 9006.660889654833
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "جامعة الحكمة",
+      "demand": 0.5729762,
+      "id": "line-1-0445-0352-s011118",
+      "lat": 14.530125072886298,
+      "line": "line-1",
+      "lon": 44.40072717381651,
+      "s_m": 11118.031739553282
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "خط رداع",
+      "demand": 0.4434981,
+      "id": "line-2-0381-0463-s000000",
+      "lat": 14.541642907533385,
+      "line": "line-2",
+      "lon": 44.42132977323108,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.645945,
+      "id": "line-2-0366-0420-s001008",
+      "junction_group": 1,
+      "lat": 14.544342400028794,
+      "line": "line-2",
+      "lon": 44.413348586070484,
+      "s_m": 1007.6955262170047
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6923409,
+      "id": "line-2-0367-0411-s001196",
+      "junction_group": 1,
+      "lat": 14.544162433862434,
+      "line": "line-2",
+      "lon": 44.41167810503687,
+      "s_m": 1195.9797974644666
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "جامعة العلوم والتكنلوجيا",
+      "demand": 0.89989173,
+      "id": "line-2-0379-0359-s002335",
+      "junction_group": 0,
+      "lat": 14.542002839866106,
+      "line": "line-2",
+      "lon": 44.40202643684266,
+      "s_m": 2335.39105243401
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "لقمان",
+      "demand": 0.9118268,
+      "id": "line-2-0366-0329-s003220",
+      "junction_group": 2,
+      "lat": 14.544342400028794,
+      "line": "line-2",
+      "lon": 44.39645816673062,
+      "s_m": 3219.655121145942
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35271063,
+      "id": "line-2-0432-0291-s005372",
+      "lat": 14.532464633048987,
+      "line": "line-2",
+      "lon": 44.38940502458869,
+      "s_m": 5372.447327281738
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "قطاع النور",
+      "demand": 0.13487388,
+      "id": "line-2-0679-0164-s011828",
+      "lat": 14.488012989957888,
+      "line": "line-2",
+      "lon": 44.36583268111437,
+      "s_m": 11827.98123321443
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "المدينة السكنية",
+      "demand": 0.47234103,
+      "id": "line-3-0333-0446-s000000",
+      "lat": 14.550281283518698,
+      "line": "line-3",
+      "lon": 44.41817442016759,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.645945,
+      "id": "line-3-0366-0420-s001141",
+      "junction_group": 1,
+      "lat": 14.544342400028794,
+      "line": "line-3",
+      "lon": 44.413348586070484,
+      "s_m": 1140.8326112068523
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6923409,
+      "id": "line-3-0367-0411-s001329",
+      "junction_group": 1,
+      "lat": 14.544162433862434,
+      "line": "line-3",
+      "lon": 44.41167810503687,
+      "s_m": 1329.1168824543142
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "جامعة العلوم والتكنلوجيا",
+      "demand": 0.8947118,
+      "id": "line-3-0380-0359-s002477",
+      "junction_group": 0,
+      "lat": 14.541822873699745,
+      "line": "line-3",
+      "lon": 44.40202643684266,
+      "s_m": 2476.8124086713196
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "لقمان",
+      "demand": 0.9118268,
+      "id": "line-3-0366-0329-s003369",
+      "junction_group": 2,
+      "lat": 14.544342400028794,
+      "line": "line-3",
+      "lon": 44.39645816673062,
+      "s_m": 3369.3607486307137
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "يعر",
+      "demand": 0.66860247,
+      "id": "line-3-0347-0289-s004418",
+      "junction_group": 3,
+      "lat": 14.54776175718965,
+      "line": "line-3",
+      "lon": 44.389033806581224,
+      "s_m": 4418.477631085032
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفى الدكتور نبيل محمد مياس التخصصي",
+      "demand": 0.5461785,
+      "id": "line-3-0295-0267-s005839",
+      "lat": 14.557119997840406,
+      "line": "line-3",
+      "lon": 44.38495040849906,
+      "s_m": 5838.721497261434
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "يعر",
+      "demand": 0.66860247,
+      "id": "line-4-0347-0289-s000000",
+      "junction_group": 3,
+      "lat": 14.54776175718965,
+      "line": "line-4",
+      "lon": 44.389033806581224,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.25366503,
+      "id": "line-4-0361-0037-s005810",
+      "lat": 14.545242230860598,
+      "line": "line-4",
+      "lon": 44.34226033764005,
+      "s_m": 5810.193359837566
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "كليه القعمي ابو شامخ",
+      "archetype": "terminal",
+      "id": "line-1-0115-0301-s000000",
+      "lat": 14.589513907785337,
+      "line": "line-1",
+      "lon": 44.39126111462604,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "فرزة صنعاء",
+      "archetype": "standard",
+      "id": "line-1-0242-0286-s003012",
+      "lat": 14.566658204657525,
+      "line": "line-1",
+      "lon": 44.388476979570015,
+      "platform_length_m": 49.0,
+      "s_m": 3012.2
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "جامعة العلوم والتكنلوجيا",
+      "archetype": "interchange",
+      "id": "line-1-0379-0359-s009007",
+      "junction_group": 0,
+      "lat": 14.542002839866106,
+      "line": "line-1",
+      "lon": 44.40202643684266,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 9006.7
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "جامعة الحكمة",
+      "archetype": "terminal",
+      "id": "line-1-0445-0352-s011118",
+      "lat": 14.530125072886298,
+      "line": "line-1",
+      "lon": 44.40072717381651,
+      "platform_length_m": 49.0,
+      "s_m": 11118.0
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "خط رداع",
+      "archetype": "terminal",
+      "id": "line-2-0381-0463-s000000",
+      "lat": 14.541642907533385,
+      "line": "line-2",
+      "lon": 44.42132977323108,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0366-0420-s001008",
+      "junction_group": 1,
+      "lat": 14.544342400028794,
+      "line": "line-2",
+      "lon": 44.413348586070484,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1007.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0367-0411-s001196",
+      "junction_group": 1,
+      "lat": 14.544162433862434,
+      "line": "line-2",
+      "lon": 44.41167810503687,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1196.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "جامعة العلوم والتكنلوجيا",
+      "archetype": "interchange",
+      "id": "line-2-0379-0359-s002335",
+      "junction_group": 0,
+      "lat": 14.542002839866106,
+      "line": "line-2",
+      "lon": 44.40202643684266,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2335.4
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "لقمان",
+      "archetype": "interchange",
+      "id": "line-2-0366-0329-s003220",
+      "junction_group": 2,
+      "lat": 14.544342400028794,
+      "line": "line-2",
+      "lon": 44.39645816673062,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3219.7
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0432-0291-s005372",
+      "lat": 14.532464633048987,
+      "line": "line-2",
+      "lon": 44.38940502458869,
+      "platform_length_m": 49.0,
+      "s_m": 5372.4
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "قطاع النور",
+      "archetype": "depot-terminal",
+      "id": "line-2-0679-0164-s011828",
+      "lat": 14.488012989957888,
+      "line": "line-2",
+      "lon": 44.36583268111437,
+      "platform_length_m": 49.0,
+      "s_m": 11828.0
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "المدينة السكنية",
+      "archetype": "terminal",
+      "id": "line-3-0333-0446-s000000",
+      "lat": 14.550281283518698,
+      "line": "line-3",
+      "lon": 44.41817442016759,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0366-0420-s001141",
+      "junction_group": 1,
+      "lat": 14.544342400028794,
+      "line": "line-3",
+      "lon": 44.413348586070484,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1140.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0367-0411-s001329",
+      "junction_group": 1,
+      "lat": 14.544162433862434,
+      "line": "line-3",
+      "lon": 44.41167810503687,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1329.1
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "جامعة العلوم والتكنلوجيا",
+      "archetype": "interchange",
+      "id": "line-3-0380-0359-s002477",
+      "junction_group": 0,
+      "lat": 14.541822873699745,
+      "line": "line-3",
+      "lon": 44.40202643684266,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2476.8
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "لقمان",
+      "archetype": "interchange",
+      "id": "line-3-0366-0329-s003369",
+      "junction_group": 2,
+      "lat": 14.544342400028794,
+      "line": "line-3",
+      "lon": 44.39645816673062,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3369.4
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "يعر",
+      "archetype": "interchange",
+      "id": "line-3-0347-0289-s004418",
+      "junction_group": 3,
+      "lat": 14.54776175718965,
+      "line": "line-3",
+      "lon": 44.389033806581224,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4418.5
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفى الدكتور نبيل محمد مياس التخصصي",
+      "archetype": "terminal",
+      "id": "line-3-0295-0267-s005839",
+      "lat": 14.557119997840406,
+      "line": "line-3",
+      "lon": 44.38495040849906,
+      "platform_length_m": 49.0,
+      "s_m": 5838.7
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "يعر",
+      "archetype": "terminal",
+      "id": "line-4-0347-0289-s000000",
+      "junction_group": 3,
+      "lat": 14.54776175718965,
+      "line": "line-4",
+      "lon": 44.389033806581224,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0361-0037-s005810",
+      "lat": 14.545242230860598,
+      "line": "line-4",
+      "lon": 44.34226033764005,
+      "platform_length_m": 49.0,
+      "s_m": 5810.2
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

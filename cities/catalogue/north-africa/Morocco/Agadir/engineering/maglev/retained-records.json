@@ -1,0 +1,1088 @@
+{
+  "city": {
+    "bbox": {
+      "east": -9.4832,
+      "north": 30.5269,
+      "south": 30.3287,
+      "west": -9.713
+    },
+    "centroid_lat": 30.423329471259404,
+    "centroid_lon": -9.592255335426731,
+    "country": "MA",
+    "population": 900000,
+    "slug": "agadir"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/north-africa/Morocco/Agadir/corridors.json",
+    "cities/catalogue/north-africa/Morocco/Agadir/agadir.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/north-africa/Morocco/Agadir/agadir.corridor.geojson",
+      "geometry_sha256": "2f03ca0e740cfc53f5f2ea0cb09756536d99de18f0bed7328df24c6052eda894",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1103,
+    "population": 900000,
+    "schema_version": 1,
+    "slug": "agadir"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 30.33982517006803,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": -9.495784619814268,
+      "platforms": [
+        "line-1-1039-1042-s001527",
+        "line-4-1039-1042-s000000"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 30.38063249829032,
+      "lines": [
+        "line-1",
+        "line-3",
+        "line-4"
+      ],
+      "lon": -9.527507441524845,
+      "platforms": [
+        "line-1-0809-0887-s009511",
+        "line-1-0815-0893-s009341",
+        "line-3-0809-0887-s008465",
+        "line-4-0816-0892-s010172"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 30.409112144116907,
+      "lines": [
+        "line-1",
+        "line-5"
+      ],
+      "lon": -9.582045691657811,
+      "platforms": [
+        "line-1-0654-0628-s016741",
+        "line-5-0654-0628-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 30.41001197494871,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": -9.548291359197293,
+      "platforms": [
+        "line-2-0649-0790-s019248",
+        "line-3-0649-0790-s013925"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 29282.8,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 300,
+      "geometry": "standard-urban",
+      "length_m": 24469.3,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 28719.2,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 420,
+      "geometry": "standard-urban",
+      "length_m": 10172.1,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 4861.3,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-1093-1079-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0435-0260-s029283"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 90
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0137-0141-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0790-0952-s024469"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 74
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-1061-0928-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0104-0580-s028719"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 86
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-1039-1042-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0816-0892-s010172"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 32
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0654-0628-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0761-0564-s004861"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 16
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Zone industrielle ⵎⵉⵏⵟⴰⵇⴰ ⵚⵉⵏⴰⵄⵉⵢⴰ المنطقة الصناعية",
+      "demand": 0.061000638,
+      "id": "line-1-1093-1079-s000000",
+      "lat": 30.33010699708455,
+      "line": "line-1",
+      "lon": -9.488075296968347,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.15235414,
+      "id": "line-1-1039-1042-s001527",
+      "junction_group": 0,
+      "lat": 30.33982517006803,
+      "line": "line-1",
+      "lon": -9.495784619814268,
+      "s_m": 1527.1067811865476
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق الجملة للخضر والفواكه",
+      "demand": 0.35596102,
+      "id": "line-1-0940-0927-s005116",
+      "lat": 30.35764182053774,
+      "line": "line-1",
+      "lon": -9.519746028659696,
+      "s_m": 5115.87878478681
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Amogay ⴰⵎⵓⴳⴰⵢ أموگي",
+      "demand": 0.90456337,
+      "id": "line-1-0895-0863-s007083",
+      "lat": 30.365740298023972,
+      "line": "line-1",
+      "lon": -9.53308107358237,
+      "s_m": 7082.985565973363
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4762202,
+      "id": "line-1-0815-0893-s009341",
+      "junction_group": 1,
+      "lat": 30.38013759133283,
+      "line": "line-1",
+      "lon": -9.526830271274866,
+      "s_m": 9341.21933088198
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4675776,
+      "id": "line-1-0809-0887-s009511",
+      "junction_group": 1,
+      "lat": 30.381217388330995,
+      "line": "line-1",
+      "lon": -9.528080431736367,
+      "s_m": 9510.924958366748
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Al Wifaq ⵍⵡⵉⴼⴰⵇ الوفاق",
+      "demand": 0.4047971,
+      "id": "line-1-0759-0731-s013115",
+      "lat": 30.39021569664903,
+      "line": "line-1",
+      "lon": -9.560584603735382,
+      "s_m": 13115.432893255042
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Lycée Technique Al Idrissi",
+      "demand": 0.84451056,
+      "id": "line-1-0654-0628-s016741",
+      "junction_group": 2,
+      "lat": 30.409112144116907,
+      "line": "line-1",
+      "lon": -9.582045691657811,
+      "s_m": 16741.362184380654
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.7529415,
+      "id": "line-1-0569-0590-s019808",
+      "lat": 30.42440926825757,
+      "line": "line-1",
+      "lon": -9.589963374580647,
+      "s_m": 19807.880220536787
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Cité Suisse ⵙⵉⵜⵉ ⵙⵡⵉⵙ سيتي سويس",
+      "demand": 0.56456137,
+      "id": "line-1-0541-0531-s021768",
+      "lat": 30.429448320915668,
+      "line": "line-1",
+      "lon": -9.602256619118737,
+      "s_m": 21768.124086713215
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Marina d'Agadir ⵎⴰⵔⵉⵏⴰ ⴰⴳⴰⴷⵉⵔ مارينا أگادير",
+      "demand": 0.45675007,
+      "id": "line-1-0554-0449-s023747",
+      "lat": 30.42710876075298,
+      "line": "line-1",
+      "lon": -9.619342145425911,
+      "s_m": 23746.946596652328
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.43867642,
+      "id": "line-1-0435-0260-s029283",
+      "lat": 30.448524734549906,
+      "line": "line-1",
+      "lon": -9.658722199963181,
+      "s_m": 29282.825381439223
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Banana point",
+      "demand": 0.15338196,
+      "id": "line-2-0137-0141-s000000",
+      "lat": 30.5021546521254,
+      "line": "line-2",
+      "lon": -9.683517049116276,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "College Jamal Eddine Al Afghani",
+      "demand": 0.35040316,
+      "id": "line-2-0354-0291-s006356",
+      "lat": 30.463101994025124,
+      "line": "line-2",
+      "lon": -9.652263037578761,
+      "s_m": 6355.87878478681
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.38410285,
+      "id": "line-2-0423-0408-s009373",
+      "lat": 30.450684328546235,
+      "line": "line-2",
+      "lon": -9.6278849085795,
+      "s_m": 9372.935059634516
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.46679,
+      "id": "line-2-0492-0524-s012382",
+      "lat": 30.438266663067346,
+      "line": "line-2",
+      "lon": -9.603715139657155,
+      "s_m": 12381.707063234728
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Stade Najah Ihchach",
+      "demand": 0.6908635,
+      "id": "line-2-0561-0641-s015399",
+      "lat": 30.425848997588453,
+      "line": "line-2",
+      "lon": -9.579337010657891,
+      "s_m": 15398.7633380824
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Dakhla ⴷⴰⵅⵍⴰ الداخلة",
+      "demand": 0.688563,
+      "id": "line-2-0649-0790-s019248",
+      "junction_group": 3,
+      "lat": 30.41001197494871,
+      "line": "line-2",
+      "lon": -9.548291359197293,
+      "s_m": 19248.367952889555
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Tassila-3 ⵟⴰⵙⵙⵉⵍⴰ-3 3-تاسيلا",
+      "demand": 0.2962363,
+      "id": "line-2-0790-0952-s024469",
+      "lat": 30.38463674549185,
+      "line": "line-2",
+      "lon": -9.514537026736777,
+      "s_m": 24469.343417595268
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "El khattarate ⵍⵅⴰⵜⴰⵔⴰⵜ الخطارات",
+      "demand": 0.14539199,
+      "id": "line-3-1061-0928-s000000",
+      "lat": 30.335865914408092,
+      "line": "line-3",
+      "lon": -9.51953766858278,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق المواشي",
+      "demand": 0.3514665,
+      "id": "line-3-0981-0868-s003189",
+      "lat": 30.35026320771695,
+      "line": "line-3",
+      "lon": -9.532039273197785,
+      "s_m": 3189.1168824543165
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Dcheïra ⴷⵛⴰⵢⵔⴰ الدشيرة",
+      "demand": 0.90343183,
+      "id": "line-3-0879-0836-s006096",
+      "lat": 30.368619756685746,
+      "line": "line-3",
+      "lon": -9.538706795659122,
+      "s_m": 6095.878784786817
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4675776,
+      "id": "line-3-0809-0887-s008465",
+      "junction_group": 1,
+      "lat": 30.381217388330995,
+      "line": "line-3",
+      "lon": -9.528080431736367,
+      "s_m": 8464.995667241135
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Dakhla ⴷⴰⵅⵍⴰ الداخلة",
+      "demand": 0.688563,
+      "id": "line-3-0649-0790-s013925",
+      "junction_group": 3,
+      "lat": 30.41001197494871,
+      "line": "line-3",
+      "lon": -9.548291359197293,
+      "s_m": 13924.650788387045
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Hay Mohammedi ⵃⵉ ⵎⵓⵃⵎⴰⴷⵉ الحي المحمدي",
+      "demand": 0.43133977,
+      "id": "line-3-0504-0730-s018133",
+      "lat": 30.436107069071017,
+      "line": "line-3",
+      "lon": -9.5607929638123,
+      "s_m": 18133.42279198726
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35905305,
+      "id": "line-3-0409-0683-s021144",
+      "lat": 30.453203854875284,
+      "line": "line-3",
+      "lon": -9.570585887427388,
+      "s_m": 21143.616151824895
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.29874364,
+      "id": "line-3-0262-0588-s024917",
+      "lat": 30.479658881330312,
+      "line": "line-3",
+      "lon": -9.590380094734481,
+      "s_m": 24917.484835344032
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Jardin Botanique",
+      "demand": 0.21886496,
+      "id": "line-3-0104-0580-s028719",
+      "lat": 30.508093535615306,
+      "line": "line-3",
+      "lon": -9.592046975349815,
+      "s_m": 28719.150057757775
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.15235414,
+      "id": "line-4-1039-1042-s000000",
+      "junction_group": 0,
+      "lat": 30.33982517006803,
+      "line": "line-4",
+      "lon": -9.495784619814268,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.15053034,
+      "id": "line-4-0810-1061-s006499",
+      "lat": 30.381037422164635,
+      "line": "line-4",
+      "lon": -9.49182577835285,
+      "s_m": 6498.721497261433
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Riad Sidi Faris ⵔⵉⵢⴰⴷ ⵙⵉⴷⵉ ⴼⴰⵔⵉⵙ رياض سيدي فارس",
+      "demand": 0.48545843,
+      "id": "line-4-0816-0892-s010172",
+      "junction_group": 1,
+      "lat": 30.37995762516647,
+      "line": "line-4",
+      "lon": -9.527038631351783,
+      "s_m": 10172.102448427668
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Lycée Technique Al Idrissi",
+      "demand": 0.84451056,
+      "id": "line-5-0654-0628-s000000",
+      "junction_group": 2,
+      "lat": 30.409112144116907,
+      "line": "line-5",
+      "lon": -9.582045691657811,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.372512,
+      "id": "line-5-0761-0564-s004861",
+      "lat": 30.38985576431631,
+      "line": "line-5",
+      "lon": -9.595380736580482,
+      "s_m": 4861.320343559649
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Zone industrielle ⵎⵉⵏⵟⴰⵇⴰ ⵚⵉⵏⴰⵄⵉⵢⴰ المنطقة الصناعية",
+      "archetype": "terminal",
+      "id": "line-1-1093-1079-s000000",
+      "lat": 30.33010699708455,
+      "line": "line-1",
+      "lon": -9.488075296968347,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange-elevated",
+      "id": "line-1-1039-1042-s001527",
+      "junction_group": 0,
+      "lat": 30.33982517006803,
+      "line": "line-1",
+      "lon": -9.495784619814268,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1527.1
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق الجملة للخضر والفواكه",
+      "archetype": "standard",
+      "id": "line-1-0940-0927-s005116",
+      "lat": 30.35764182053774,
+      "line": "line-1",
+      "lon": -9.519746028659696,
+      "platform_length_m": 59.5,
+      "s_m": 5115.9
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Amogay ⴰⵎⵓⴳⴰⵢ أموگي",
+      "archetype": "major",
+      "id": "line-1-0895-0863-s007083",
+      "lat": 30.365740298023972,
+      "line": "line-1",
+      "lon": -9.53308107358237,
+      "platform_length_m": 59.5,
+      "s_m": 7083.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0815-0893-s009341",
+      "junction_group": 1,
+      "lat": 30.38013759133283,
+      "line": "line-1",
+      "lon": -9.526830271274866,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9341.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0809-0887-s009511",
+      "junction_group": 1,
+      "lat": 30.381217388330995,
+      "line": "line-1",
+      "lon": -9.528080431736367,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9510.9
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Al Wifaq ⵍⵡⵉⴼⴰⵇ الوفاق",
+      "archetype": "standard",
+      "id": "line-1-0759-0731-s013115",
+      "lat": 30.39021569664903,
+      "line": "line-1",
+      "lon": -9.560584603735382,
+      "platform_length_m": 59.5,
+      "s_m": 13115.4
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Lycée Technique Al Idrissi",
+      "archetype": "interchange",
+      "id": "line-1-0654-0628-s016741",
+      "junction_group": 2,
+      "lat": 30.409112144116907,
+      "line": "line-1",
+      "lon": -9.582045691657811,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 16741.4
+    },
+    {
+      "archetype": "major",
+      "id": "line-1-0569-0590-s019808",
+      "lat": 30.42440926825757,
+      "line": "line-1",
+      "lon": -9.589963374580647,
+      "platform_length_m": 59.5,
+      "s_m": 19807.9
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Cité Suisse ⵙⵉⵜⵉ ⵙⵡⵉⵙ سيتي سويس",
+      "archetype": "standard",
+      "id": "line-1-0541-0531-s021768",
+      "lat": 30.429448320915668,
+      "line": "line-1",
+      "lon": -9.602256619118737,
+      "platform_length_m": 59.5,
+      "s_m": 21768.1
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Marina d'Agadir ⵎⴰⵔⵉⵏⴰ ⴰⴳⴰⴷⵉⵔ مارينا أگادير",
+      "archetype": "standard",
+      "id": "line-1-0554-0449-s023747",
+      "lat": 30.42710876075298,
+      "line": "line-1",
+      "lon": -9.619342145425911,
+      "platform_length_m": 59.5,
+      "s_m": 23746.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "depot-terminal",
+      "id": "line-1-0435-0260-s029283",
+      "lat": 30.448524734549906,
+      "line": "line-1",
+      "lon": -9.658722199963181,
+      "platform_length_m": 59.5,
+      "s_m": 29282.8
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Banana point",
+      "archetype": "terminal",
+      "id": "line-2-0137-0141-s000000",
+      "lat": 30.5021546521254,
+      "line": "line-2",
+      "lon": -9.683517049116276,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "College Jamal Eddine Al Afghani",
+      "archetype": "standard",
+      "id": "line-2-0354-0291-s006356",
+      "lat": 30.463101994025124,
+      "line": "line-2",
+      "lon": -9.652263037578761,
+      "platform_length_m": 59.5,
+      "s_m": 6355.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0423-0408-s009373",
+      "lat": 30.450684328546235,
+      "line": "line-2",
+      "lon": -9.6278849085795,
+      "platform_length_m": 59.5,
+      "s_m": 9372.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0492-0524-s012382",
+      "lat": 30.438266663067346,
+      "line": "line-2",
+      "lon": -9.603715139657155,
+      "platform_length_m": 59.5,
+      "s_m": 12381.7
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Stade Najah Ihchach",
+      "archetype": "major",
+      "id": "line-2-0561-0641-s015399",
+      "lat": 30.425848997588453,
+      "line": "line-2",
+      "lon": -9.579337010657891,
+      "platform_length_m": 59.5,
+      "s_m": 15398.8
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Dakhla ⴷⴰⵅⵍⴰ الداخلة",
+      "archetype": "interchange",
+      "id": "line-2-0649-0790-s019248",
+      "junction_group": 3,
+      "lat": 30.41001197494871,
+      "line": "line-2",
+      "lon": -9.548291359197293,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 19248.4
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Tassila-3 ⵟⴰⵙⵙⵉⵍⴰ-3 3-تاسيلا",
+      "archetype": "terminal",
+      "id": "line-2-0790-0952-s024469",
+      "lat": 30.38463674549185,
+      "line": "line-2",
+      "lon": -9.514537026736777,
+      "platform_length_m": 59.5,
+      "s_m": 24469.3
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "El khattarate ⵍⵅⴰⵜⴰⵔⴰⵜ الخطارات",
+      "archetype": "terminal",
+      "id": "line-3-1061-0928-s000000",
+      "lat": 30.335865914408092,
+      "line": "line-3",
+      "lon": -9.51953766858278,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "سوق المواشي",
+      "archetype": "standard",
+      "id": "line-3-0981-0868-s003189",
+      "lat": 30.35026320771695,
+      "line": "line-3",
+      "lon": -9.532039273197785,
+      "platform_length_m": 59.5,
+      "s_m": 3189.1
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Dcheïra ⴷⵛⴰⵢⵔⴰ الدشيرة",
+      "archetype": "major",
+      "id": "line-3-0879-0836-s006096",
+      "lat": 30.368619756685746,
+      "line": "line-3",
+      "lon": -9.538706795659122,
+      "platform_length_m": 59.5,
+      "s_m": 6095.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0809-0887-s008465",
+      "junction_group": 1,
+      "lat": 30.381217388330995,
+      "line": "line-3",
+      "lon": -9.528080431736367,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8465.0
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Dakhla ⴷⴰⵅⵍⴰ الداخلة",
+      "archetype": "interchange",
+      "id": "line-3-0649-0790-s013925",
+      "junction_group": 3,
+      "lat": 30.41001197494871,
+      "line": "line-3",
+      "lon": -9.548291359197293,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 13924.7
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Hay Mohammedi ⵃⵉ ⵎⵓⵃⵎⴰⴷⵉ الحي المحمدي",
+      "archetype": "standard",
+      "id": "line-3-0504-0730-s018133",
+      "lat": 30.436107069071017,
+      "line": "line-3",
+      "lon": -9.5607929638123,
+      "platform_length_m": 59.5,
+      "s_m": 18133.4
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0409-0683-s021144",
+      "lat": 30.453203854875284,
+      "line": "line-3",
+      "lon": -9.570585887427388,
+      "platform_length_m": 59.5,
+      "s_m": 21143.6
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0262-0588-s024917",
+      "lat": 30.479658881330312,
+      "line": "line-3",
+      "lon": -9.590380094734481,
+      "platform_length_m": 59.5,
+      "s_m": 24917.5
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Jardin Botanique",
+      "archetype": "terminal",
+      "id": "line-3-0104-0580-s028719",
+      "lat": 30.508093535615306,
+      "line": "line-3",
+      "lon": -9.592046975349815,
+      "platform_length_m": 59.5,
+      "s_m": 28719.2
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-1039-1042-s000000",
+      "junction_group": 0,
+      "lat": 30.33982517006803,
+      "line": "line-4",
+      "lon": -9.495784619814268,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "halt",
+      "id": "line-4-0810-1061-s006499",
+      "lat": 30.381037422164635,
+      "line": "line-4",
+      "lon": -9.49182577835285,
+      "platform_length_m": 55.5,
+      "s_m": 6498.7
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Riad Sidi Faris ⵔⵉⵢⴰⴷ ⵙⵉⴷⵉ ⴼⴰⵔⵉⵙ رياض سيدي فارس",
+      "archetype": "terminal",
+      "id": "line-4-0816-0892-s010172",
+      "junction_group": 1,
+      "lat": 30.37995762516647,
+      "line": "line-4",
+      "lon": -9.527038631351783,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 10172.1
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Lycée Technique Al Idrissi",
+      "archetype": "terminal",
+      "id": "line-5-0654-0628-s000000",
+      "junction_group": 2,
+      "lat": 30.409112144116907,
+      "line": "line-5",
+      "lon": -9.582045691657811,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0761-0564-s004861",
+      "lat": 30.38985576431631,
+      "line": "line-5",
+      "lon": -9.595380736580482,
+      "platform_length_m": 59.5,
+      "s_m": 4861.3
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

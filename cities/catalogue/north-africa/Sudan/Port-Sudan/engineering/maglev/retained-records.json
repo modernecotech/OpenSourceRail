@@ -1,0 +1,779 @@
+{
+  "city": {
+    "bbox": {
+      "east": 37.3216,
+      "north": 19.7149,
+      "south": 19.5167,
+      "west": 37.1112
+    },
+    "centroid_lat": 19.611689403592123,
+    "centroid_lon": 37.19426350091299,
+    "country": "SD",
+    "population": 500000,
+    "slug": "port-sudan"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/corridors.json",
+    "cities/catalogue/north-africa/Sudan/Port-Sudan/port-sudan.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/north-africa/Sudan/Port-Sudan/port-sudan.corridor.geojson",
+      "geometry_sha256": "d226e0bb838f3e5ff40a41f6f045b135bfde16a7d6e3de00c4f7fa4a02d8671d",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 500000,
+    "schema_version": 1,
+    "slug": "port-sudan"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 19.617088388582946,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 37.22010759821198,
+      "platforms": [
+        "line-1-0543-0571-s006237",
+        "line-3-0543-0570-s002923"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 19.599271738113234,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 37.22163344897501,
+      "platforms": [
+        "line-1-0640-0564-s009252",
+        "line-3-0644-0593-s005329"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 19.574616373321817,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 37.21095249363374,
+      "platforms": [
+        "line-1-0776-0523-s012401",
+        "line-1-0782-0522-s012529",
+        "line-2-0776-0523-s010954",
+        "line-2-0782-0522-s011082"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 19.599991602778676,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 37.207423963744205,
+      "platforms": [
+        "line-2-0638-0504-s007413",
+        "line-4-0638-0504-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 15172.8,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 11082.2,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 8109.8,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 6455.3,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0362-0552-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0902-0530-s015173"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 51
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0443-0413-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0782-0522-s011082"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 35
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0489-0673-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0761-0556-s008110"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 27
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0638-0504-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0812-0413-s006455"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "كلية بورتسودان التقنية",
+      "demand": 0.6541041,
+      "id": "line-1-0362-0552-s000000",
+      "lat": 19.64966226469424,
+      "line": "line-1",
+      "lon": 37.216579068322446,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفى المواني",
+      "demand": 0.67277825,
+      "id": "line-1-0457-0581-s003006",
+      "lat": 19.63256547888997,
+      "line": "line-1",
+      "lon": 37.222110277338466,
+      "s_m": 3006.1731573020334
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": "هيئة سكك حديد السودان",
+      "demand": 0.9078112,
+      "id": "line-1-0506-0545-s004625",
+      "lat": 19.62374713673829,
+      "line": "line-1",
+      "lon": 37.215243948904785,
+      "s_m": 4624.9956672411245
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": null,
+      "demand": 0.959058,
+      "id": "line-1-0543-0571-s006237",
+      "junction_group": 0,
+      "lat": 19.617088388582946,
+      "line": "line-1",
+      "lon": 37.22020296388467,
+      "s_m": 6236.955262170064
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6447049,
+      "id": "line-1-0640-0564-s009252",
+      "junction_group": 1,
+      "lat": 19.599631670445955,
+      "line": "line-1",
+      "lon": 37.218867844467006,
+      "s_m": 9251.513703397215
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.64265484,
+      "id": "line-1-0776-0523-s012401",
+      "junction_group": 2,
+      "lat": 19.575156271820898,
+      "line": "line-1",
+      "lon": 37.211047859306426,
+      "s_m": 12400.874452027892
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6376136,
+      "id": "line-1-0782-0522-s012529",
+      "junction_group": 2,
+      "lat": 19.574076474822732,
+      "line": "line-1",
+      "lon": 37.21085712796105,
+      "s_m": 12529.158723275354
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": null,
+      "demand": 0.5452216,
+      "id": "line-1-0902-0530-s015173",
+      "lat": 19.552480534859445,
+      "line": "line-1",
+      "lon": 37.21238297872409,
+      "s_m": 15172.834046956807
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "سلالاب",
+      "demand": 0.6279477,
+      "id": "line-2-0443-0413-s000000",
+      "lat": 19.63508500521902,
+      "line": "line-2",
+      "lon": 37.19006741131463,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "السكة حديد",
+      "demand": 0.76992655,
+      "id": "line-2-0515-0479-s003009",
+      "lat": 19.622127441241048,
+      "line": "line-2",
+      "lon": 37.20265568010971,
+      "s_m": 3008.5281374238584
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "استاد بورتسودان الدولي",
+      "demand": 0.91463375,
+      "id": "line-2-0552-0522-s004626",
+      "lat": 19.6154686930857,
+      "line": "line-2",
+      "lon": 37.21085712796105,
+      "s_m": 4625.929291125639
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.623361,
+      "id": "line-2-0638-0504-s007413",
+      "junction_group": 3,
+      "lat": 19.599991602778676,
+      "line": "line-2",
+      "lon": 37.207423963744205,
+      "s_m": 7413.036072312192
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.64265484,
+      "id": "line-2-0776-0523-s010954",
+      "junction_group": 2,
+      "lat": 19.575156271820898,
+      "line": "line-2",
+      "lon": 37.211047859306426,
+      "s_m": 10953.868683519035
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "حي المطار",
+      "demand": 0.6376136,
+      "id": "line-2-0782-0522-s011082",
+      "junction_group": 2,
+      "lat": 19.574076474822732,
+      "line": "line-2",
+      "lon": 37.21085712796105,
+      "s_m": 11082.152954766496
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": null,
+      "demand": 0.42643723,
+      "id": "line-3-0489-0673-s000000",
+      "lat": 19.626806561566426,
+      "line": "line-3",
+      "lon": 37.239657561113425,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.96294254,
+      "id": "line-3-0543-0570-s002923",
+      "junction_group": 0,
+      "lat": 19.617088388582946,
+      "line": "line-3",
+      "lon": 37.22001223253929,
+      "s_m": 2923.0865786510158
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.60838205,
+      "id": "line-3-0644-0593-s005329",
+      "junction_group": 1,
+      "lat": 19.598911805780514,
+      "line": "line-3",
+      "lon": 37.224399053483026,
+      "s_m": 5328.772003600258
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "قاعدة بورتسودان‎ الجوية",
+      "demand": 0.6083414,
+      "id": "line-3-0761-0556-s008110",
+      "lat": 19.577855764316308,
+      "line": "line-3",
+      "lon": 37.21734199370397,
+      "s_m": 8109.848480983516
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.623361,
+      "id": "line-4-0638-0504-s000000",
+      "junction_group": 3,
+      "lat": 19.599991602778676,
+      "line": "line-4",
+      "lon": 37.207423963744205,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.59689325,
+      "id": "line-4-0737-0413-s004618",
+      "lat": 19.582174952308964,
+      "line": "line-4",
+      "lon": 37.19006741131463,
+      "s_m": 4617.888886054577
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5513926,
+      "id": "line-4-0812-0413-s006455",
+      "lat": 19.568677489831913,
+      "line": "line-4",
+      "lon": 37.19006741131463,
+      "s_m": 6455.290039756357
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "كلية بورتسودان التقنية",
+      "archetype": "terminal",
+      "id": "line-1-0362-0552-s000000",
+      "lat": 19.64966226469424,
+      "line": "line-1",
+      "lon": 37.216579068322446,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفى المواني",
+      "archetype": "major",
+      "id": "line-1-0457-0581-s003006",
+      "lat": 19.63256547888997,
+      "line": "line-1",
+      "lon": 37.222110277338466,
+      "platform_length_m": 59.5,
+      "s_m": 3006.2
+    },
+    {
+      "anchor_kind": "railway:station",
+      "anchor_name": "هيئة سكك حديد السودان",
+      "archetype": "major",
+      "id": "line-1-0506-0545-s004625",
+      "lat": 19.62374713673829,
+      "line": "line-1",
+      "lon": 37.215243948904785,
+      "platform_length_m": 59.5,
+      "s_m": 4625.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "archetype": "interchange",
+      "id": "line-1-0543-0571-s006237",
+      "junction_group": 0,
+      "lat": 19.617088388582946,
+      "line": "line-1",
+      "lon": 37.22020296388467,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6237.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0640-0564-s009252",
+      "junction_group": 1,
+      "lat": 19.599631670445955,
+      "line": "line-1",
+      "lon": 37.218867844467006,
+      "platform_length_m": 59.5,
+      "s_m": 9251.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0776-0523-s012401",
+      "junction_group": 2,
+      "lat": 19.575156271820898,
+      "line": "line-1",
+      "lon": 37.211047859306426,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12400.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0782-0522-s012529",
+      "junction_group": 2,
+      "lat": 19.574076474822732,
+      "line": "line-1",
+      "lon": 37.21085712796105,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12529.2
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "archetype": "depot-terminal",
+      "id": "line-1-0902-0530-s015173",
+      "lat": 19.552480534859445,
+      "line": "line-1",
+      "lon": 37.21238297872409,
+      "platform_length_m": 59.5,
+      "s_m": 15172.8
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "سلالاب",
+      "archetype": "terminal",
+      "id": "line-2-0443-0413-s000000",
+      "lat": 19.63508500521902,
+      "line": "line-2",
+      "lon": 37.19006741131463,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "السكة حديد",
+      "archetype": "major",
+      "id": "line-2-0515-0479-s003009",
+      "lat": 19.622127441241048,
+      "line": "line-2",
+      "lon": 37.20265568010971,
+      "platform_length_m": 59.5,
+      "s_m": 3008.5
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "استاد بورتسودان الدولي",
+      "archetype": "major",
+      "id": "line-2-0552-0522-s004626",
+      "lat": 19.6154686930857,
+      "line": "line-2",
+      "lon": 37.21085712796105,
+      "platform_length_m": 59.5,
+      "s_m": 4625.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0638-0504-s007413",
+      "junction_group": 3,
+      "lat": 19.599991602778676,
+      "line": "line-2",
+      "lon": 37.207423963744205,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7413.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0776-0523-s010954",
+      "junction_group": 2,
+      "lat": 19.575156271820898,
+      "line": "line-2",
+      "lon": 37.211047859306426,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 10953.9
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "حي المطار",
+      "archetype": "terminal",
+      "id": "line-2-0782-0522-s011082",
+      "junction_group": 2,
+      "lat": 19.574076474822732,
+      "line": "line-2",
+      "lon": 37.21085712796105,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11082.2
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "archetype": "terminal",
+      "id": "line-3-0489-0673-s000000",
+      "lat": 19.626806561566426,
+      "line": "line-3",
+      "lon": 37.239657561113425,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0543-0570-s002923",
+      "junction_group": 0,
+      "lat": 19.617088388582946,
+      "line": "line-3",
+      "lon": 37.22001223253929,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2923.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0644-0593-s005329",
+      "junction_group": 1,
+      "lat": 19.598911805780514,
+      "line": "line-3",
+      "lon": 37.224399053483026,
+      "platform_length_m": 59.5,
+      "s_m": 5328.8
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "قاعدة بورتسودان‎ الجوية",
+      "archetype": "terminal",
+      "id": "line-3-0761-0556-s008110",
+      "lat": 19.577855764316308,
+      "line": "line-3",
+      "lon": 37.21734199370397,
+      "platform_length_m": 59.5,
+      "s_m": 8109.8
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0638-0504-s000000",
+      "junction_group": 3,
+      "lat": 19.599991602778676,
+      "line": "line-4",
+      "lon": 37.207423963744205,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-4-0737-0413-s004618",
+      "lat": 19.582174952308964,
+      "line": "line-4",
+      "lon": 37.19006741131463,
+      "platform_length_m": 59.5,
+      "s_m": 4617.9
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0812-0413-s006455",
+      "lat": 19.568677489831913,
+      "line": "line-4",
+      "lon": 37.19006741131463,
+      "platform_length_m": 59.5,
+      "s_m": 6455.3
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

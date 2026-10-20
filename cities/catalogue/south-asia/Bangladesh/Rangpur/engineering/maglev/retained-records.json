@@ -1,0 +1,810 @@
+{
+  "city": {
+    "bbox": {
+      "east": 89.3852,
+      "north": 25.843,
+      "south": 25.6448,
+      "west": 89.1652
+    },
+    "centroid_lat": 25.744288557751144,
+    "centroid_lon": 89.27360635283365,
+    "country": "BD",
+    "population": 800000,
+    "slug": "rangpur"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/south-asia/Bangladesh/Rangpur/corridors.json",
+    "cities/catalogue/south-asia/Bangladesh/Rangpur/rangpur.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/south-asia/Bangladesh/Rangpur/rangpur.corridor.geojson",
+      "geometry_sha256": "4451535b3fabe252d303872fff881def270fe97951720f03edd5e558db7788c0",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1103,
+    "population": 800000,
+    "schema_version": 1,
+    "slug": "rangpur"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 25.733310621603138,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": 89.29694313900025,
+      "platforms": [
+        "line-1-0609-0660-s002124",
+        "line-4-0609-0660-s000000"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 25.745548320915667,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 89.2748031110986,
+      "platforms": [
+        "line-1-0541-0549-s005637",
+        "line-2-0541-0549-s010531"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 25.756346290897312,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 89.2418922588124,
+      "platforms": [
+        "line-1-0481-0384-s009554",
+        "line-3-0481-0384-s004522"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 25.720293068903043,
+      "lines": [
+        "line-3",
+        "line-5"
+      ],
+      "lon": 89.24588145302891,
+      "platforms": [
+        "line-3-0673-0403-s000525",
+        "line-3-0698-0406-s000000",
+        "line-5-0673-0403-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 12992.0,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 17696.4,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 10590.8,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 4495.6,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 5511.4,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0594-0760-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0412-0263-s012992"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 42
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0169-0808-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0785-0507-s017696"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 53
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0698-0406-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0191-0361-s010591"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 35
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0609-0660-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0761-0763-s004496"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 16
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0673-0403-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0488-0315-s005511"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Nabdiganj Bazar নব্দীগনজ বাজার",
+      "demand": 0.32181305,
+      "id": "line-1-0594-0760-s000000",
+      "lat": 25.736010114098548,
+      "line": "line-1",
+      "lon": 89.3168891100828,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3826827,
+      "id": "line-1-0609-0660-s002124",
+      "junction_group": 0,
+      "lat": 25.733310621603138,
+      "line": "line-1",
+      "lon": 89.29694313900025,
+      "s_m": 2124.2640687119283
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.42302045,
+      "id": "line-1-0541-0549-s005637",
+      "junction_group": 1,
+      "lat": 25.745548320915667,
+      "line": "line-1",
+      "lon": 89.2748031110986,
+      "s_m": 5637.300141024126
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.63133174,
+      "id": "line-1-0481-0384-s009554",
+      "junction_group": 2,
+      "lat": 25.756346290897312,
+      "line": "line-1",
+      "lon": 89.2418922588124,
+      "s_m": 9554.356415871833
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "বীর উত্তম শহীদ সামাদ স্কুল এন্ড কলেজ, রংপুর",
+      "demand": 0.32950822,
+      "id": "line-1-0412-0263-s012992",
+      "lat": 25.7687639563762,
+      "line": "line-1",
+      "lon": 89.21775763380252,
+      "s_m": 12992.001435749971
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "হারাগাছ",
+      "demand": 0.19056289,
+      "id": "line-2-0169-0808-s000000",
+      "lat": 25.812495734801857,
+      "line": "line-2",
+      "lon": 89.32646317620241,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.25713187,
+      "id": "line-2-0307-0732-s003510",
+      "lat": 25.78766040384408,
+      "line": "line-2",
+      "lon": 89.31130423817967,
+      "s_m": 3509.604614807111
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.33798006,
+      "id": "line-2-0423-0637-s007025",
+      "lat": 25.766784328546233,
+      "line": "line-2",
+      "lon": 89.29235556565125,
+      "s_m": 7024.650788387074
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.42302045,
+      "id": "line-2-0541-0549-s010531",
+      "junction_group": 1,
+      "lat": 25.745548320915667,
+      "line": "line-2",
+      "lon": 89.2748031110986,
+      "s_m": 10531.412690719546
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Begum Rokeya University Campus",
+      "demand": 0.41570172,
+      "id": "line-2-0699-0487-s015375",
+      "lat": 25.717113666630674,
+      "line": "line-2",
+      "lon": 89.26243660902743,
+      "s_m": 15374.743135546909
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Rangpur Model College, College",
+      "demand": 0.31338015,
+      "id": "line-2-0785-0507-s017696",
+      "lat": 25.70163657632365,
+      "line": "line-2",
+      "lon": 89.26642580324393,
+      "s_m": 17696.408357960623
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Makbul Hosen General Hospital, Hospital",
+      "demand": 0.3657197,
+      "id": "line-3-0698-0406-s000000",
+      "junction_group": 3,
+      "lat": 25.717293632797034,
+      "line": "line-3",
+      "lon": 89.24628037245057,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.36895353,
+      "id": "line-3-0673-0403-s000525",
+      "junction_group": 3,
+      "lat": 25.72179278695605,
+      "line": "line-3",
+      "lon": 89.24568199331809,
+      "s_m": 524.8528137423857
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.63133174,
+      "id": "line-3-0481-0384-s004522",
+      "junction_group": 2,
+      "lat": 25.756346290897312,
+      "line": "line-3",
+      "lon": 89.2418922588124,
+      "s_m": 4522.253967444164
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Abdul Gani Unani Medical College, College",
+      "demand": 0.21939144,
+      "id": "line-3-0191-0361-s010591",
+      "lat": 25.80853647914192,
+      "line": "line-3",
+      "lon": 89.23730468546341,
+      "s_m": 10590.782104868016
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3826827,
+      "id": "line-4-0609-0660-s000000",
+      "junction_group": 0,
+      "lat": 25.733310621603138,
+      "line": "line-4",
+      "lon": 89.29694313900025,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2600513,
+      "id": "line-4-0761-0763-s004496",
+      "lat": 25.705955764316307,
+      "line": "line-4",
+      "lon": 89.31748748921527,
+      "s_m": 4495.634918610413
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.36895353,
+      "id": "line-5-0673-0403-s000000",
+      "junction_group": 3,
+      "lat": 25.72179278695605,
+      "line": "line-5",
+      "lon": 89.24568199331809,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.37442124,
+      "id": "line-5-0588-0314-s003470",
+      "lat": 25.737089911096714,
+      "line": "line-5",
+      "lon": 89.22793007905462,
+      "s_m": 3469.9494936611673
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Asian General Hospital, Hospital",
+      "demand": 0.5581056,
+      "id": "line-5-0488-0315-s005511",
+      "lat": 25.755086527732786,
+      "line": "line-5",
+      "lon": 89.22812953876544,
+      "s_m": 5511.370849898478
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Nabdiganj Bazar নব্দীগনজ বাজার",
+      "archetype": "terminal",
+      "id": "line-1-0594-0760-s000000",
+      "lat": 25.736010114098548,
+      "line": "line-1",
+      "lon": 89.3168891100828,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0609-0660-s002124",
+      "junction_group": 0,
+      "lat": 25.733310621603138,
+      "line": "line-1",
+      "lon": 89.29694313900025,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2124.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0541-0549-s005637",
+      "junction_group": 1,
+      "lat": 25.745548320915667,
+      "line": "line-1",
+      "lon": 89.2748031110986,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5637.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0481-0384-s009554",
+      "junction_group": 2,
+      "lat": 25.756346290897312,
+      "line": "line-1",
+      "lon": 89.2418922588124,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9554.4
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "বীর উত্তম শহীদ সামাদ স্কুল এন্ড কলেজ, রংপুর",
+      "archetype": "terminal",
+      "id": "line-1-0412-0263-s012992",
+      "lat": 25.7687639563762,
+      "line": "line-1",
+      "lon": 89.21775763380252,
+      "platform_length_m": 59.5,
+      "s_m": 12992.0
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "হারাগাছ",
+      "archetype": "terminal",
+      "id": "line-2-0169-0808-s000000",
+      "lat": 25.812495734801857,
+      "line": "line-2",
+      "lon": 89.32646317620241,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0307-0732-s003510",
+      "lat": 25.78766040384408,
+      "line": "line-2",
+      "lon": 89.31130423817967,
+      "platform_length_m": 59.5,
+      "s_m": 3509.6
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0423-0637-s007025",
+      "lat": 25.766784328546233,
+      "line": "line-2",
+      "lon": 89.29235556565125,
+      "platform_length_m": 59.5,
+      "s_m": 7024.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0541-0549-s010531",
+      "junction_group": 1,
+      "lat": 25.745548320915667,
+      "line": "line-2",
+      "lon": 89.2748031110986,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 10531.4
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Begum Rokeya University Campus",
+      "archetype": "standard",
+      "id": "line-2-0699-0487-s015375",
+      "lat": 25.717113666630674,
+      "line": "line-2",
+      "lon": 89.26243660902743,
+      "platform_length_m": 59.5,
+      "s_m": 15374.7
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Rangpur Model College, College",
+      "archetype": "depot-terminal",
+      "id": "line-2-0785-0507-s017696",
+      "lat": 25.70163657632365,
+      "line": "line-2",
+      "lon": 89.26642580324393,
+      "platform_length_m": 59.5,
+      "s_m": 17696.4
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Makbul Hosen General Hospital, Hospital",
+      "archetype": "terminal",
+      "id": "line-3-0698-0406-s000000",
+      "junction_group": 3,
+      "lat": 25.717293632797034,
+      "line": "line-3",
+      "lon": 89.24628037245057,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0673-0403-s000525",
+      "junction_group": 3,
+      "lat": 25.72179278695605,
+      "line": "line-3",
+      "lon": 89.24568199331809,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 524.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0481-0384-s004522",
+      "junction_group": 2,
+      "lat": 25.756346290897312,
+      "line": "line-3",
+      "lon": 89.2418922588124,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4522.3
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Abdul Gani Unani Medical College, College",
+      "archetype": "terminal",
+      "id": "line-3-0191-0361-s010591",
+      "lat": 25.80853647914192,
+      "line": "line-3",
+      "lon": 89.23730468546341,
+      "platform_length_m": 59.5,
+      "s_m": 10590.8
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0609-0660-s000000",
+      "junction_group": 0,
+      "lat": 25.733310621603138,
+      "line": "line-4",
+      "lon": 89.29694313900025,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0761-0763-s004496",
+      "lat": 25.705955764316307,
+      "line": "line-4",
+      "lon": 89.31748748921527,
+      "platform_length_m": 59.5,
+      "s_m": 4495.6
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0673-0403-s000000",
+      "junction_group": 3,
+      "lat": 25.72179278695605,
+      "line": "line-5",
+      "lon": 89.24568199331809,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "standard",
+      "id": "line-5-0588-0314-s003470",
+      "lat": 25.737089911096714,
+      "line": "line-5",
+      "lon": 89.22793007905462,
+      "platform_length_m": 59.5,
+      "s_m": 3469.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Asian General Hospital, Hospital",
+      "archetype": "terminal",
+      "id": "line-5-0488-0315-s005511",
+      "lat": 25.755086527732786,
+      "line": "line-5",
+      "lon": 89.22812953876544,
+      "platform_length_m": 59.5,
+      "s_m": 5511.4
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

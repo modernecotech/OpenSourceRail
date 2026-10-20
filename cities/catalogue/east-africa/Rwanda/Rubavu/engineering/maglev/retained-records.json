@@ -1,0 +1,673 @@
+{
+  "city": {
+    "bbox": {
+      "east": 29.3287,
+      "north": -1.6116,
+      "south": -1.7468,
+      "west": 29.1935
+    },
+    "centroid_lat": -1.6780974984702874,
+    "centroid_lon": 29.255959449001256,
+    "country": "RW",
+    "population": 250000,
+    "slug": "rubavu"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Rwanda/Rubavu/corridors.json",
+    "cities/catalogue/east-africa/Rwanda/Rubavu/rubavu.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Rwanda/Rubavu/rubavu.corridor.geojson",
+      "geometry_sha256": "601d6097b4753508dd0a0d35adcd35a986a5eb57f89b9f072bb8984bfcf55334",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 250000,
+    "schema_version": 1,
+    "slug": "rubavu"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -1.6678394269877261,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 29.24104107700959,
+      "platforms": [
+        "line-1-0312-0264-s007259",
+        "line-2-0312-0264-s012588"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -1.663340272828708,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 29.25434179420698,
+      "platforms": [
+        "line-1-0287-0338-s008964",
+        "line-3-0287-0338-s003361"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": -1.6872757729546843,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 29.291368115053768,
+      "platforms": [
+        "line-3-0420-0544-s008878",
+        "line-4-0420-0544-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 11038.0,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 15447.3,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 13309.1,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 7129.8,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0294-0029-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0255-0427-s011038"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 23
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0710-0450-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0253-0189-s015447"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 30
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0205-0212-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0492-0723-s013309"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 26
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0420-0544-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0139-0613-s007130"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 16
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.5089955,
+      "id": "line-1-0294-0029-s000000",
+      "lat": -1.6646000359932331,
+      "line": "line-1",
+      "lon": 29.1988023129368,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4398541,
+      "id": "line-1-0356-0080-s003014",
+      "lat": -1.675757938307598,
+      "line": "line-1",
+      "lon": 29.207969023437702,
+      "s_m": 3013.624817342641
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6899985,
+      "id": "line-1-0312-0264-s007259",
+      "junction_group": 0,
+      "lat": -1.6678394269877261,
+      "line": "line-1",
+      "lon": 29.24104107700959,
+      "s_m": 7258.965363437831
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.39148062,
+      "id": "line-1-0287-0338-s008964",
+      "junction_group": 1,
+      "lat": -1.663340272828708,
+      "line": "line-1",
+      "lon": 29.25434179420698,
+      "s_m": 8963.645737753182
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Ndengera Health Post",
+      "demand": 0.43372917,
+      "id": "line-1-0255-0427-s011038",
+      "lat": -1.657581355505165,
+      "line": "line-1",
+      "lon": 29.270338602728163,
+      "s_m": 11038.031739553287
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Hot springs",
+      "demand": 0.24671559,
+      "id": "line-2-0710-0450-s000000",
+      "lat": -1.7394659611992944,
+      "line": "line-2",
+      "lon": 29.27447260942465,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35630733,
+      "id": "line-2-0552-0402-s004630",
+      "lat": -1.7110313069143,
+      "line": "line-2",
+      "lon": 29.265845117188505,
+      "s_m": 4630.437226013969
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Iwacu Clinic",
+      "demand": 0.8407681,
+      "id": "line-2-0446-0343-s007640",
+      "lat": -1.6919548932800632,
+      "line": "line-2",
+      "lon": 29.25524049131491,
+      "s_m": 7640.041840821091
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6899985,
+      "id": "line-2-0312-0264-s012588",
+      "junction_group": 0,
+      "lat": -1.6678394269877261,
+      "line": "line-2",
+      "lon": 29.24104107700959,
+      "s_m": 12588.225099390842
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Petit Marché Deux Antennes",
+      "demand": 0.6110875,
+      "id": "line-2-0253-0189-s015447",
+      "lat": -1.6572214231724436,
+      "line": "line-2",
+      "lon": 29.227560620390612,
+      "s_m": 15447.291475506287
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Petit Marché de Ki 30",
+      "demand": 0.36536157,
+      "id": "line-3-0205-0212-s000000",
+      "lat": -1.6485830471871288,
+      "line": "line-3",
+      "lon": 29.231694627087098,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.39148062,
+      "id": "line-3-0287-0338-s003361",
+      "junction_group": 1,
+      "lat": -1.663340272828708,
+      "line": "line-3",
+      "lon": 29.25434179420698,
+      "s_m": 3360.9040379562225
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.27404574,
+      "id": "line-3-0420-0544-s008878",
+      "junction_group": 2,
+      "lat": -1.6872757729546843,
+      "line": "line-3",
+      "lon": 29.291368115053768,
+      "s_m": 8878.031739553315
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Maman Catherine Health Post",
+      "demand": 0.22257276,
+      "id": "line-3-0492-0723-s013309",
+      "lat": -1.7002333369326565,
+      "line": "line-3",
+      "lon": 29.323541471517725,
+      "s_m": 13309.057710597674
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.27404574,
+      "id": "line-4-0420-0544-s000000",
+      "junction_group": 2,
+      "lat": -1.6872757729546843,
+      "line": "line-4",
+      "lon": 29.291368115053768,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.2243269,
+      "id": "line-4-0264-0587-s003816",
+      "lat": -1.6592010510024116,
+      "line": "line-4",
+      "lon": 29.29909691018198,
+      "s_m": 3815.634918610409
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kinyanzove Health Post",
+      "demand": 0.2216056,
+      "id": "line-4-0139-0613-s007130",
+      "lat": -1.636705280207321,
+      "line": "line-4",
+      "lon": 29.303770135143225,
+      "s_m": 7129.848480983515
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "terminal",
+      "id": "line-1-0294-0029-s000000",
+      "lat": -1.6646000359932331,
+      "line": "line-1",
+      "lon": 29.1988023129368,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0356-0080-s003014",
+      "lat": -1.675757938307598,
+      "line": "line-1",
+      "lon": 29.207969023437702,
+      "platform_length_m": 49.0,
+      "s_m": 3013.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0312-0264-s007259",
+      "junction_group": 0,
+      "lat": -1.6678394269877261,
+      "line": "line-1",
+      "lon": 29.24104107700959,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7259.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0287-0338-s008964",
+      "junction_group": 1,
+      "lat": -1.663340272828708,
+      "line": "line-1",
+      "lon": 29.25434179420698,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8963.6
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Ndengera Health Post",
+      "archetype": "terminal",
+      "id": "line-1-0255-0427-s011038",
+      "lat": -1.657581355505165,
+      "line": "line-1",
+      "lon": 29.270338602728163,
+      "platform_length_m": 49.0,
+      "s_m": 11038.0
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Hot springs",
+      "archetype": "terminal",
+      "id": "line-2-0710-0450-s000000",
+      "lat": -1.7394659611992944,
+      "line": "line-2",
+      "lon": 29.27447260942465,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0552-0402-s004630",
+      "lat": -1.7110313069143,
+      "line": "line-2",
+      "lon": 29.265845117188505,
+      "platform_length_m": 49.0,
+      "s_m": 4630.4
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Iwacu Clinic",
+      "archetype": "major",
+      "id": "line-2-0446-0343-s007640",
+      "lat": -1.6919548932800632,
+      "line": "line-2",
+      "lon": 29.25524049131491,
+      "platform_length_m": 49.0,
+      "s_m": 7640.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0312-0264-s012588",
+      "junction_group": 0,
+      "lat": -1.6678394269877261,
+      "line": "line-2",
+      "lon": 29.24104107700959,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 12588.2
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Petit Marché Deux Antennes",
+      "archetype": "depot-terminal",
+      "id": "line-2-0253-0189-s015447",
+      "lat": -1.6572214231724436,
+      "line": "line-2",
+      "lon": 29.227560620390612,
+      "platform_length_m": 49.0,
+      "s_m": 15447.3
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Petit Marché de Ki 30",
+      "archetype": "terminal",
+      "id": "line-3-0205-0212-s000000",
+      "lat": -1.6485830471871288,
+      "line": "line-3",
+      "lon": 29.231694627087098,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0287-0338-s003361",
+      "junction_group": 1,
+      "lat": -1.663340272828708,
+      "line": "line-3",
+      "lon": 29.25434179420698,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3360.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0420-0544-s008878",
+      "junction_group": 2,
+      "lat": -1.6872757729546843,
+      "line": "line-3",
+      "lon": 29.291368115053768,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8878.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Maman Catherine Health Post",
+      "archetype": "terminal",
+      "id": "line-3-0492-0723-s013309",
+      "lat": -1.7002333369326565,
+      "line": "line-3",
+      "lon": 29.323541471517725,
+      "platform_length_m": 49.0,
+      "s_m": 13309.1
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0420-0544-s000000",
+      "junction_group": 2,
+      "lat": -1.6872757729546843,
+      "line": "line-4",
+      "lon": 29.291368115053768,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "halt",
+      "id": "line-4-0264-0587-s003816",
+      "lat": -1.6592010510024116,
+      "line": "line-4",
+      "lon": 29.29909691018198,
+      "platform_length_m": 45.0,
+      "s_m": 3815.6
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Kinyanzove Health Post",
+      "archetype": "terminal",
+      "id": "line-4-0139-0613-s007130",
+      "lat": -1.636705280207321,
+      "line": "line-4",
+      "lon": 29.303770135143225,
+      "platform_length_m": 49.0,
+      "s_m": 7129.8
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

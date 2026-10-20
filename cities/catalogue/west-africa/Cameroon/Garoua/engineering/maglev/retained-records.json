@@ -1,0 +1,749 @@
+{
+  "city": {
+    "bbox": {
+      "east": 13.4981,
+      "north": 9.4005,
+      "south": 9.2023,
+      "west": 13.2973
+    },
+    "centroid_lat": 9.305567847244717,
+    "centroid_lon": 13.39770385585362,
+    "country": "CM",
+    "population": 600000,
+    "slug": "garoua"
+  },
+  "climate": {
+    "preset": "tropical-arid"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-africa/Cameroon/Garoua/corridors.json",
+    "cities/catalogue/west-africa/Cameroon/Garoua/garoua.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-africa/Cameroon/Garoua/garoua.corridor.geojson",
+      "geometry_sha256": "0669714270797b4c9483bdbbba482b62b7c905edd481a938f321ca3af2c92941",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1103,
+    "population": 600000,
+    "schema_version": 1,
+    "slug": "garoua"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 9.304488050246553,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 13.393152457129522,
+      "platforms": [
+        "line-1-0533-0526-s005910",
+        "line-2-0533-0526-s002644"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 9.329083426315853,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": 13.408687898107779,
+      "platforms": [
+        "line-1-0401-0611-s009471",
+        "line-4-0387-0612-s004891",
+        "line-4-0401-0611-s004591"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 9.298369200590288,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 13.399706471292225,
+      "platforms": [
+        "line-2-0567-0562-s001424",
+        "line-4-0567-0562-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 9.334092484612892,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 13.390057505997136,
+      "platforms": [
+        "line-2-0367-0511-s006660",
+        "line-2-0370-0507-s006543",
+        "line-3-0367-0511-s006973",
+        "line-3-0370-0507-s006833"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 13157.9,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 10934.8,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 8631.3,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 4891.0,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0573-0322-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0261-0658-s013158"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 42
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0602-0522-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0224-0478-s010935"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 35
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0518-0259-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0312-0495-s008631"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 28
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0567-0562-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0387-0612-s004891"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 17
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Centre Technique Garoua ( Uebc)",
+      "demand": 0.5405642,
+      "id": "line-1-0573-0322-s000000",
+      "lat": 9.297289403592124,
+      "line": "line-1",
+      "lon": 13.356013043540875,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Petit Marché Camp chinois",
+      "demand": 0.6604045,
+      "id": "line-1-0562-0431-s003002",
+      "lat": 9.299269031422092,
+      "line": "line-1",
+      "lon": 13.375857141977946,
+      "s_m": 3002.4978336205613
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Bolloré",
+      "demand": 0.9955537,
+      "id": "line-1-0533-0526-s005910",
+      "junction_group": 0,
+      "lat": 9.304488050246553,
+      "line": "line-1",
+      "lon": 13.393152457129522,
+      "s_m": 5910.437226013971
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.72567695,
+      "id": "line-1-0401-0611-s009471",
+      "junction_group": 1,
+      "lat": 9.328243584206168,
+      "line": "line-1",
+      "lon": 13.408627212791458,
+      "s_m": 9471.168824543141
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Marche deTakasko",
+      "demand": 0.57667816,
+      "id": "line-1-0261-0658-s013158",
+      "lat": 9.353438847496669,
+      "line": "line-1",
+      "lon": 13.417183842392765,
+      "s_m": 13157.930726875582
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.74745035,
+      "id": "line-2-0602-0522-s000000",
+      "lat": 9.292070384767662,
+      "line": "line-2",
+      "lon": 13.392424233333667,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Touristique Express",
+      "demand": 0.8373421,
+      "id": "line-2-0567-0562-s001424",
+      "junction_group": 2,
+      "lat": 9.298369200590288,
+      "line": "line-2",
+      "lon": 13.399706471292225,
+      "s_m": 1423.6753236814714
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Bolloré",
+      "demand": 0.9955537,
+      "id": "line-2-0533-0526-s002644",
+      "junction_group": 0,
+      "lat": 9.304488050246553,
+      "line": "line-2",
+      "lon": 13.393152457129522,
+      "s_m": 2643.9191898578692
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.62866944,
+      "id": "line-2-0370-0507-s006543",
+      "junction_group": 3,
+      "lat": 9.333822535363351,
+      "line": "line-2",
+      "lon": 13.389693394099208,
+      "s_m": 6542.985565973362
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.62270635,
+      "id": "line-2-0367-0511-s006660",
+      "junction_group": 3,
+      "lat": 9.334362433862433,
+      "line": "line-2",
+      "lon": 13.390421617895063,
+      "s_m": 6659.554108468286
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Institut Superieur Yerima Dewa",
+      "demand": 0.42833322,
+      "id": "line-2-0224-0478-s010935",
+      "lat": 9.360097595652016,
+      "line": "line-2",
+      "lon": 13.384413771579252,
+      "s_m": 10934.844148224585
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "mina hosp",
+      "demand": 0.56817824,
+      "id": "line-3-0518-0259-s000000",
+      "lat": 9.307187542741964,
+      "line": "line-3",
+      "lon": 13.344543518756145,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": null,
+      "demand": 0.6019295,
+      "id": "line-3-0477-0391-s003027",
+      "lat": 9.314566155562753,
+      "line": "line-3",
+      "lon": 13.368574904019388,
+      "s_m": 3026.5180361560924
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.62866944,
+      "id": "line-3-0370-0507-s006833",
+      "junction_group": 3,
+      "lat": 9.333822535363351,
+      "line": "line-3",
+      "lon": 13.389693394099208,
+      "s_m": 6833.279938488593
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.62270635,
+      "id": "line-3-0367-0511-s006973",
+      "junction_group": 3,
+      "lat": 9.334362433862433,
+      "line": "line-3",
+      "lon": 13.390421617895063,
+      "s_m": 6973.279938488593
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Marché De La Base",
+      "demand": 0.51445377,
+      "id": "line-3-0312-0495-s008631",
+      "lat": 9.344260573012273,
+      "line": "line-3",
+      "lon": 13.38750872271164,
+      "s_m": 8631.269837220822
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Touristique Express",
+      "demand": 0.8373421,
+      "id": "line-4-0567-0562-s000000",
+      "junction_group": 2,
+      "lat": 9.298369200590288,
+      "line": "line-4",
+      "lon": 13.399706471292225,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.72567695,
+      "id": "line-4-0401-0611-s004591",
+      "junction_group": 1,
+      "lat": 9.328243584206168,
+      "line": "line-4",
+      "lon": 13.408627212791458,
+      "s_m": 4591.0259710444225
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Poumpoumré",
+      "demand": 0.70565903,
+      "id": "line-4-0387-0612-s004891",
+      "junction_group": 1,
+      "lat": 9.33076311053522,
+      "line": "line-4",
+      "lon": 13.408809268740422,
+      "s_m": 4891.0259710444225
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Centre Technique Garoua ( Uebc)",
+      "archetype": "terminal",
+      "id": "line-1-0573-0322-s000000",
+      "lat": 9.297289403592124,
+      "line": "line-1",
+      "lon": 13.356013043540875,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Petit Marché Camp chinois",
+      "archetype": "major",
+      "id": "line-1-0562-0431-s003002",
+      "lat": 9.299269031422092,
+      "line": "line-1",
+      "lon": 13.375857141977946,
+      "platform_length_m": 59.5,
+      "s_m": 3002.5
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Bolloré",
+      "archetype": "interchange",
+      "id": "line-1-0533-0526-s005910",
+      "junction_group": 0,
+      "lat": 9.304488050246553,
+      "line": "line-1",
+      "lon": 13.393152457129522,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5910.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0401-0611-s009471",
+      "junction_group": 1,
+      "lat": 9.328243584206168,
+      "line": "line-1",
+      "lon": 13.408627212791458,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 9471.2
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Marche deTakasko",
+      "archetype": "depot-terminal",
+      "id": "line-1-0261-0658-s013158",
+      "lat": 9.353438847496669,
+      "line": "line-1",
+      "lon": 13.417183842392765,
+      "platform_length_m": 59.5,
+      "s_m": 13157.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "terminal",
+      "id": "line-2-0602-0522-s000000",
+      "lat": 9.292070384767662,
+      "line": "line-2",
+      "lon": 13.392424233333667,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Touristique Express",
+      "archetype": "interchange",
+      "id": "line-2-0567-0562-s001424",
+      "junction_group": 2,
+      "lat": 9.298369200590288,
+      "line": "line-2",
+      "lon": 13.399706471292225,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1423.7
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Bolloré",
+      "archetype": "interchange",
+      "id": "line-2-0533-0526-s002644",
+      "junction_group": 0,
+      "lat": 9.304488050246553,
+      "line": "line-2",
+      "lon": 13.393152457129522,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2643.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0370-0507-s006543",
+      "junction_group": 3,
+      "lat": 9.333822535363351,
+      "line": "line-2",
+      "lon": 13.389693394099208,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6543.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0367-0511-s006660",
+      "junction_group": 3,
+      "lat": 9.334362433862433,
+      "line": "line-2",
+      "lon": 13.390421617895063,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6659.6
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Institut Superieur Yerima Dewa",
+      "archetype": "terminal",
+      "id": "line-2-0224-0478-s010935",
+      "lat": 9.360097595652016,
+      "line": "line-2",
+      "lon": 13.384413771579252,
+      "platform_length_m": 59.5,
+      "s_m": 10934.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "mina hosp",
+      "archetype": "terminal",
+      "id": "line-3-0518-0259-s000000",
+      "lat": 9.307187542741964,
+      "line": "line-3",
+      "lon": 13.344543518756145,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "archetype": "major",
+      "id": "line-3-0477-0391-s003027",
+      "lat": 9.314566155562753,
+      "line": "line-3",
+      "lon": 13.368574904019388,
+      "platform_length_m": 59.5,
+      "s_m": 3026.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0370-0507-s006833",
+      "junction_group": 3,
+      "lat": 9.333822535363351,
+      "line": "line-3",
+      "lon": 13.389693394099208,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6833.3
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0367-0511-s006973",
+      "junction_group": 3,
+      "lat": 9.334362433862433,
+      "line": "line-3",
+      "lon": 13.390421617895063,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6973.3
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Marché De La Base",
+      "archetype": "terminal",
+      "id": "line-3-0312-0495-s008631",
+      "lat": 9.344260573012273,
+      "line": "line-3",
+      "lon": 13.38750872271164,
+      "platform_length_m": 59.5,
+      "s_m": 8631.3
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Touristique Express",
+      "archetype": "terminal",
+      "id": "line-4-0567-0562-s000000",
+      "junction_group": 2,
+      "lat": 9.298369200590288,
+      "line": "line-4",
+      "lon": 13.399706471292225,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0401-0611-s004591",
+      "junction_group": 1,
+      "lat": 9.328243584206168,
+      "line": "line-4",
+      "lon": 13.408627212791458,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 4591.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Poumpoumré",
+      "archetype": "terminal",
+      "id": "line-4-0387-0612-s004891",
+      "junction_group": 1,
+      "lat": 9.33076311053522,
+      "line": "line-4",
+      "lon": 13.408809268740422,
+      "platform_length_m": 59.5,
+      "s_m": 4891.0
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

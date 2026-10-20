@@ -1,0 +1,646 @@
+{
+  "city": {
+    "bbox": {
+      "east": 87.3473,
+      "north": 26.5201,
+      "south": 26.3849,
+      "west": 87.1963
+    },
+    "centroid_lat": 26.457561757189648,
+    "centroid_lon": 87.27345829704672,
+    "country": "NP",
+    "population": 300000,
+    "slug": "biratnagar"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/south-asia/Nepal/Biratnagar/corridors.json",
+    "cities/catalogue/south-asia/Nepal/Biratnagar/biratnagar.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/south-asia/Nepal/Biratnagar/biratnagar.corridor.geojson",
+      "geometry_sha256": "61d586af32d55f95b66a48894a211611fb7b3d32afbbe583a9f26712029f3496",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 300000,
+    "schema_version": 1,
+    "slug": "biratnagar"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 26.452846643631,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 87.27221413204882,
+      "platforms": [
+        "line-1-0371-0379-s005999",
+        "line-1-0377-0377-s005790",
+        "line-2-0371-0379-s004780",
+        "line-2-0377-0377-s004570",
+        "line-3-0370-0377-s007530"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 26.45324256919699,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 87.22148430761862,
+      "platforms": [
+        "line-3-0371-0125-s001733",
+        "line-4-0371-0125-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 13390.0,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 7434.4,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 10908.3,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 5738.4,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0632-0366-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0059-0424-s013390"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 29
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0547-0484-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0339-0471-s007434"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 17
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0439-0080-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0242-0424-s010908"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 21
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0371-0125-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0183-0197-s005738"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 13
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": null,
+      "demand": 0.40847155,
+      "id": "line-1-0632-0366-s000000",
+      "lat": 26.40627139977684,
+      "line": "line-1",
+      "lon": 87.26984620511735,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "New Gudari Bazaar",
+      "demand": 0.82012945,
+      "id": "line-1-0377-0377-s005790",
+      "junction_group": 0,
+      "lat": 26.452162772198825,
+      "line": "line-1",
+      "lon": 87.27205359462974,
+      "s_m": 5789.6046148071155
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8277523,
+      "id": "line-1-0371-0379-s005999",
+      "junction_group": 0,
+      "lat": 26.45324256919699,
+      "line": "line-1",
+      "lon": 87.27245493817745,
+      "s_m": 5999.310242291888
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Ganesh Chok",
+      "demand": 0.5850059,
+      "id": "line-1-0246-0370-s009042",
+      "lat": 26.47573833999208,
+      "line": "line-1",
+      "lon": 87.27064889221276,
+      "s_m": 9041.80807591244
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.51744187,
+      "id": "line-1-0158-0408-s011211",
+      "lat": 26.491575362631824,
+      "line": "line-1",
+      "lon": 87.27827441961921,
+      "s_m": 11211.168824543118
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "ढाट",
+      "demand": 0.3466262,
+      "id": "line-1-0059-0424-s013390",
+      "lat": 26.509392013101536,
+      "line": "line-1",
+      "lon": 87.28148516800086,
+      "s_m": 13389.991334482187
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Saraswati Chok",
+      "demand": 0.20584561,
+      "id": "line-2-0547-0484-s000000",
+      "lat": 26.421568523917504,
+      "line": "line-2",
+      "lon": 87.29352547443207,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "New Gudari Bazaar",
+      "demand": 0.82012945,
+      "id": "line-2-0377-0377-s004570",
+      "junction_group": 0,
+      "lat": 26.452162772198825,
+      "line": "line-2",
+      "lon": 87.27205359462974,
+      "s_m": 4570.437226013966
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8277523,
+      "id": "line-2-0371-0379-s004780",
+      "junction_group": 0,
+      "lat": 26.45324256919699,
+      "line": "line-2",
+      "lon": 87.27245493817745,
+      "s_m": 4780.142853498739
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "R.K children's hospital",
+      "demand": 0.7406672,
+      "id": "line-2-0339-0471-s007434",
+      "lat": 26.459001486520535,
+      "line": "line-2",
+      "lon": 87.29091674137199,
+      "s_m": 7434.3564158718455
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Tilak katuwal's Home",
+      "demand": 0.11689476,
+      "id": "line-3-0439-0080-s000000",
+      "lat": 26.441004869884463,
+      "line": "line-3",
+      "lon": 87.21245407779521,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.13897032,
+      "id": "line-3-0371-0125-s001733",
+      "junction_group": 1,
+      "lat": 26.45324256919699,
+      "line": "line-3",
+      "lon": 87.22148430761862,
+      "s_m": 1732.7922061357856
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8117164,
+      "id": "line-3-0370-0377-s007530",
+      "junction_group": 0,
+      "lat": 26.45342253536335,
+      "line": "line-3",
+      "lon": 87.27205359462974,
+      "s_m": 7529.848480983511
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": null,
+      "demand": 0.70754826,
+      "id": "line-3-0242-0424-s010908",
+      "lat": 26.476458204657522,
+      "line": "line-3",
+      "lon": 87.28148516800086,
+      "s_m": 10908.3261120685
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.13897032,
+      "id": "line-4-0371-0125-s000000",
+      "junction_group": 1,
+      "lat": 26.45324256919699,
+      "line": "line-4",
+      "lon": 87.22148430761862,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.27086735,
+      "id": "line-4-0183-0197-s005738",
+      "lat": 26.487076208472807,
+      "line": "line-4",
+      "lon": 87.23593267533609,
+      "s_m": 5738.3766184073775
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "tourism:attraction",
+      "archetype": "terminal",
+      "id": "line-1-0632-0366-s000000",
+      "lat": 26.40627139977684,
+      "line": "line-1",
+      "lon": 87.26984620511735,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "New Gudari Bazaar",
+      "archetype": "interchange",
+      "id": "line-1-0377-0377-s005790",
+      "junction_group": 0,
+      "lat": 26.452162772198825,
+      "line": "line-1",
+      "lon": 87.27205359462974,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 5789.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0371-0379-s005999",
+      "junction_group": 0,
+      "lat": 26.45324256919699,
+      "line": "line-1",
+      "lon": 87.27245493817745,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 5999.3
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Ganesh Chok",
+      "archetype": "standard",
+      "id": "line-1-0246-0370-s009042",
+      "lat": 26.47573833999208,
+      "line": "line-1",
+      "lon": 87.27064889221276,
+      "platform_length_m": 49.0,
+      "s_m": 9041.8
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0158-0408-s011211",
+      "lat": 26.491575362631824,
+      "line": "line-1",
+      "lon": 87.27827441961921,
+      "platform_length_m": 49.0,
+      "s_m": 11211.2
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "ढाट",
+      "archetype": "depot-terminal",
+      "id": "line-1-0059-0424-s013390",
+      "lat": 26.509392013101536,
+      "line": "line-1",
+      "lon": 87.28148516800086,
+      "platform_length_m": 49.0,
+      "s_m": 13390.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Saraswati Chok",
+      "archetype": "terminal",
+      "id": "line-2-0547-0484-s000000",
+      "lat": 26.421568523917504,
+      "line": "line-2",
+      "lon": 87.29352547443207,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "New Gudari Bazaar",
+      "archetype": "interchange",
+      "id": "line-2-0377-0377-s004570",
+      "junction_group": 0,
+      "lat": 26.452162772198825,
+      "line": "line-2",
+      "lon": 87.27205359462974,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4570.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0371-0379-s004780",
+      "junction_group": 0,
+      "lat": 26.45324256919699,
+      "line": "line-2",
+      "lon": 87.27245493817745,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 4780.1
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "R.K children's hospital",
+      "archetype": "terminal",
+      "id": "line-2-0339-0471-s007434",
+      "lat": 26.459001486520535,
+      "line": "line-2",
+      "lon": 87.29091674137199,
+      "platform_length_m": 49.0,
+      "s_m": 7434.4
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Tilak katuwal's Home",
+      "archetype": "terminal",
+      "id": "line-3-0439-0080-s000000",
+      "lat": 26.441004869884463,
+      "line": "line-3",
+      "lon": 87.21245407779521,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange-elevated",
+      "id": "line-3-0371-0125-s001733",
+      "junction_group": 1,
+      "lat": 26.45324256919699,
+      "line": "line-3",
+      "lon": 87.22148430761862,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1732.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0370-0377-s007530",
+      "junction_group": 0,
+      "lat": 26.45342253536335,
+      "line": "line-3",
+      "lon": 87.27205359462974,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7529.8
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "archetype": "terminal",
+      "id": "line-3-0242-0424-s010908",
+      "lat": 26.476458204657522,
+      "line": "line-3",
+      "lon": 87.28148516800086,
+      "platform_length_m": 49.0,
+      "s_m": 10908.3
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0371-0125-s000000",
+      "junction_group": 1,
+      "lat": 26.45324256919699,
+      "line": "line-4",
+      "lon": 87.22148430761862,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0183-0197-s005738",
+      "lat": 26.487076208472807,
+      "line": "line-4",
+      "lon": 87.23593267533609,
+      "platform_length_m": 49.0,
+      "s_m": 5738.4
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

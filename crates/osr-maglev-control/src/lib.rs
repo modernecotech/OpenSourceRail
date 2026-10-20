@@ -1,12 +1,15 @@
 //! Provisional, allocation-free maglev controller for simulation and SBC replay.
 //!
-//! This is an upward-attraction, single-module current-command hypothesis.
-//! Increasing gap demands increasing attractive force/current. Shaped-pole
-//! passive vertical suspension requires a different model. No measured magnetic
-//! map, gains, physical output adapter, target timing or railway acceptance is
-//! supplied. Commands are study outputs, never a hardware enable.
+//! The original single-module current hypothesis and the separate 24-module
+//! force-allocation/ideal-plant study use upward attraction and active guidance.
+//! No measured magnetic map, physical current adapter, target timing or railway
+//! acceptance is supplied. Commands are study outputs, never a hardware enable.
 #![no_std]
 #![forbid(unsafe_code)]
+
+pub mod array;
+pub mod ideal;
+pub mod io;
 
 /// Example controller parameters: units are explicit and gains require plant identification.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

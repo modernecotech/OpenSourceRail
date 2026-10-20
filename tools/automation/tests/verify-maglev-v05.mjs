@@ -3,6 +3,8 @@ import { chromium } from "@playwright/test";
 import { spawn } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { gunzipSync } from "node:zlib";
+import { createHash } from "node:crypto";
 import assert from "node:assert/strict";
 
 const root = resolve(import.meta.dirname, "../../..");
@@ -53,32 +55,177 @@ try {
   );
   assert.equal(response.status(), 200);
   await page.locator("img").last().waitFor();
+  await page.waitForFunction(() =>
+    [...document.images].every((image) => image.complete),
+  );
   const images = await page.locator("img").evaluateAll((nodes) =>
     nodes.map((n) => ({
       src: n.getAttribute("src"),
       loaded: n.complete && n.naturalWidth > 0,
     })),
   );
-  assert.equal(images.length, 2);
+  const expectedImages = [
+    "guidebeam-sections.svg",
+    "duty-energy.svg",
+    "../native/interface/overview.png",
+    "../native/interface/cartridge-detail.png",
+    "../native/civil-bay/overview.png",
+    "field-study.png",
+  ];
+  assert.deepEqual(
+    images.map((image) => image.src).sort(),
+    expectedImages.sort(),
+  );
+  assert.equal(images.length, 6);
   assert.ok(images.every((i) => i.loaded));
   assert.match(await page.locator("h1").innerText(), /Ferrite-maglev/);
-  const data = await (
-    await page.request.get(
-      `http://127.0.0.1:${port}/docs/design-engine/ferrite-maglev/reference/result.json`,
-    )
-  ).json();
+  const origin = `http://127.0.0.1:${port}`;
+  const report = `${origin}/docs/design-engine/ferrite-maglev/reference/`;
+  const assets = new Map();
+  async function asset(relative) {
+    const url = new URL(relative, report);
+    assert.equal(url.origin, origin, "report assets must stay local");
+    if (!assets.has(url.href)) {
+      const linked = await page.request.get(url.href);
+      assert.equal(
+        linked.status(),
+        200,
+        `missing report asset: ${url.pathname}`,
+      );
+      assets.set(url.href, {
+        pathname: url.pathname,
+        status: linked.status(),
+        contentType: linked.headers()["content-type"],
+        body: await linked.body(),
+      });
+    }
+    return assets.get(url.href);
+  }
+  async function jsonAsset(relative) {
+    return JSON.parse((await asset(relative)).body.toString("utf8"));
+  }
+  const data = await jsonAsset("result.json");
   assert.equal(data.version, "0.5.0");
-  assert.equal(data.design_complete, false);
+  for (const flag of [
+    "design_complete",
+    "physical_validation",
+    "manufacturing_release",
+    "physical_release",
+  ])
+    assert.equal(data[flag], false);
   assert.equal(data.civil_section_candidates.length, 27);
   assert.equal(data.localisation.local_fraction, null);
   assert.ok(data.gates.every((g) => g.accepted === false));
+  assert.equal(data.transition_inventory.total_source_items, 414);
+  assert.equal(data.transition_inventory.legacy_work_packages, 63);
+  assert.equal(data.requirements.length, 72);
+  assert.equal(data.work_packages.length, 11);
+  assert.equal(data.city_catalogue.city_count, 266);
+  assert.equal(data.city_catalogue.catalogue_complete, true);
+  assert.equal(data.city_catalogue.planning_acceptance, false);
+  const transition = JSON.parse(
+    gunzipSync((await asset("transition-register.json.gz")).body).toString(
+      "utf8",
+    ),
+  );
+  assert.equal(transition.items.length, 414);
+  assert.equal(new Set(transition.items.map((item) => item.id)).size, 414);
+  assert.equal(transition.legacy_packages.length, 63);
+  assert.equal(transition.accepted_item_count, 0);
+  assert.equal(transition.accepted_physical_release_count, 0);
+  assert.ok(
+    transition.items.every((item) => !item.accepted && !item.physical_release),
+  );
+
+  const nativeManifest = await jsonAsset("../native/manifest.json");
+  assert.equal(nativeManifest.schema, "osr-maglev-native-packet/1");
+  assert.equal(nativeManifest.physical_release, false);
+  assert.equal(nativeManifest.manufacturing_release, false);
+  const nativeReceipts = [];
+  for (const name of ["interface", "civil-bay"]) {
+    const receipt = await jsonAsset(`../native/${name}/native-cad.json`);
+    assert.equal(receipt.schema, "osr-factory-native-cad/1");
+    assert.equal(receipt.fcstd_reopened, true);
+    assert.equal(receipt.step_reopened, true);
+    assert.equal(receipt.physical_release, false);
+    assert.match(receipt.input_sha256, /^[a-f0-9]{64}$/);
+    if (name === "interface") assert.equal(receipt.part_count, 624);
+    else assert.ok(receipt.part_count > 0);
+    nativeReceipts.push({
+      name,
+      part_count: receipt.part_count,
+      reopened: true,
+    });
+  }
+  const coupledReceipt = await jsonAsset("../coupled/receipt.json");
+  const coupledAsset = await asset("../coupled/result.json");
+  const coupled = JSON.parse(coupledAsset.body.toString("utf8"));
+  assert.equal(coupledReceipt.schema, "osr-coupled-guideway-publication/1");
+  assert.equal(coupled.schema, "osr-coupled-guideway-result/1");
+  assert.deepEqual(coupled.source_sha256, coupledReceipt.source_sha256);
+  assert.deepEqual(coupled.execution, coupledReceipt.execution);
+  assert.match(coupledReceipt.execution.bridge_sha256, /^[a-f0-9]{64}$/);
+  assert.ok(coupledReceipt.execution.build_command.includes("coupled_bridge"));
+  assert.equal(
+    createHash("sha256").update(coupledAsset.body).digest("hex"),
+    coupledReceipt.files_sha256["result.json"],
+  );
+  assert.equal(coupled.coupled_replay.virtual_duration_s, 3);
+  assert.equal(coupled.coupled_replay.retained_vertical_beam_modes, 6);
+  assert.equal(coupled.coupled_replay.beam_assumptions.elements, 50);
+  assert.equal(
+    coupled.coupled_replay.status,
+    "hypothetical-two-way-offline-cosimulation",
+  );
+  for (const record of [coupledReceipt, coupled, coupled.coupled_replay]) {
+    assert.equal(record.physical_output_authorised, false);
+    assert.equal(record.structural_acceptance, false);
+  }
   const links = [];
   for (const href of await page
     .locator("a")
     .evaluateAll((nodes) => nodes.map((n) => n.href))) {
-    const linked = await page.request.get(href);
-    links.push({ href: new URL(href).pathname, status: linked.status() });
-    assert.equal(linked.status(), 200);
+    const linked = await asset(href);
+    links.push({ href: linked.pathname, status: linked.status });
+  }
+  const expectedVideos = [
+    "../native/interface/assembly-visibility.mp4",
+    "../native/civil-bay/assembly-visibility.mp4",
+  ];
+  const videoLinks = await page
+    .locator('a[href$=".mp4"]')
+    .evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href")));
+  assert.deepEqual(videoLinks.sort(), expectedVideos.sort());
+  const videos = [];
+  for (const href of videoLinks) {
+    const video = await asset(href);
+    assert.match(video.contentType, /^video\/mp4(?:;|$)/);
+    assert.ok(
+      video.body.length > 1024,
+      "assembly video must contain media bytes",
+    );
+    assert.equal(video.body.subarray(4, 8).toString("ascii"), "ftyp");
+    const name = href.replace("../native/", "");
+    assert.equal(
+      createHash("sha256").update(video.body).digest("hex"),
+      nativeManifest.files_sha256[name],
+    );
+    videos.push({
+      href: video.pathname,
+      status: video.status,
+      bytes: video.body.length,
+    });
+  }
+  for (const image of images) {
+    const loaded = await asset(image.src);
+    assert.ok(loaded.body.length > 0);
+    if (image.src.startsWith("../native/")) {
+      const name = image.src.replace("../native/", "");
+      assert.equal(
+        createHash("sha256").update(loaded.body).digest("hex"),
+        nativeManifest.files_sha256[name],
+      );
+    }
   }
   await page.screenshot({
     path: resolve(output, "primary-study-desktop.png"),
@@ -101,7 +248,20 @@ try {
   const proof = {
     version: data.version,
     images,
+    videos,
     links,
+    source_item_count: transition.items.length,
+    legacy_package_count: transition.legacy_packages.length,
+    city_count: data.city_catalogue.city_count,
+    accepted_item_count: transition.accepted_item_count,
+    native_receipts: nativeReceipts,
+    coupled_receipt: {
+      schema: coupledReceipt.schema,
+      bridge_sha256: coupledReceipt.execution.bridge_sha256,
+      virtual_duration_s: coupled.coupled_replay.virtual_duration_s,
+      physical_output_authorised: false,
+      structural_acceptance: false,
+    },
     javascript_errors: errors,
     external_requests: external,
     failed_requests: failures,

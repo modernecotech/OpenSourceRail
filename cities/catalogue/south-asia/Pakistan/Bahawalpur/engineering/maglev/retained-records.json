@@ -1,0 +1,982 @@
+{
+  "city": {
+    "bbox": {
+      "east": 71.7973,
+      "north": 29.4947,
+      "south": 29.2965,
+      "west": 71.5699
+    },
+    "centroid_lat": 29.3952686930857,
+    "centroid_lon": 71.68321331688914,
+    "country": "PK",
+    "population": 900000,
+    "slug": "bahawalpur"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/south-asia/Pakistan/Bahawalpur/corridors.json",
+    "cities/catalogue/south-asia/Pakistan/Bahawalpur/bahawalpur.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/south-asia/Pakistan/Bahawalpur/bahawalpur.corridor.geojson",
+      "geometry_sha256": "963c40b8e0f1b32277d9ec8a57356a6c6b3b82e7fbbb442cf88a4f28f82da556",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1103,
+    "population": 900000,
+    "schema_version": 1,
+    "slug": "bahawalpur"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 29.368453734297955,
+      "lines": [
+        "line-1",
+        "line-4"
+      ],
+      "lon": 71.66259214912041,
+      "platforms": [
+        "line-1-0701-0449-s007845",
+        "line-4-0701-0449-s000000"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 29.39322157794335,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 71.68352263440568,
+      "platforms": [
+        "line-1-0552-0549-s012289",
+        "line-1-0557-0548-s012180",
+        "line-1-0571-0546-s011884",
+        "line-2-0552-0549-s010701",
+        "line-2-0557-0548-s010810",
+        "line-2-0574-0560-s011249",
+        "line-3-0570-0544-s007789",
+        "line-3-0574-0560-s007436"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 29.38986970809488,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 71.69249284238506,
+      "platforms": [
+        "line-2-0582-0594-s012380",
+        "line-3-0582-0594-s006690"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 29.387890080264913,
+      "lines": [
+        "line-2",
+        "line-3"
+      ],
+      "lon": 71.7032158496248,
+      "platforms": [
+        "line-2-0593-0646-s013712",
+        "line-3-0593-0646-s005558"
+      ]
+    },
+    {
+      "id": "interchange-004",
+      "junction_group": 4,
+      "lat": 29.383030993773172,
+      "lines": [
+        "line-3",
+        "line-5"
+      ],
+      "lon": 71.72775503926958,
+      "platforms": [
+        "line-3-0620-0765-s002955",
+        "line-5-0620-0765-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 16690.8,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 14878.8,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 10091.3,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 5668.9,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 4646.4,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0962-0331-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0461-0724-s016691"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 53
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0153-0365-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0611-0693-s014879"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 52
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0662-0893-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0547-0439-s010091"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 32
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0701-0449-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0505-0405-s005669"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0620-0765-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0762-0612-s004646"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 16
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": null,
+      "demand": 0.20660585,
+      "id": "line-1-0962-0331-s000000",
+      "lat": 29.321482564877805,
+      "line": "line-1",
+      "lon": 71.63825917115332,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.22685823,
+      "id": "line-1-0810-0353-s003915",
+      "lat": 29.348837422164635,
+      "line": "line-1",
+      "lon": 71.64279582806243,
+      "s_m": 3914.8023074035555
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.31354225,
+      "id": "line-1-0701-0449-s007845",
+      "junction_group": 0,
+      "lat": 29.368453734297955,
+      "line": "line-1",
+      "lon": 71.66259214912041,
+      "s_m": 7844.75180106473
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.89959574,
+      "id": "line-1-0571-0546-s011884",
+      "junction_group": 1,
+      "lat": 29.39184933592485,
+      "line": "line-1",
+      "lon": 71.68259468185607,
+      "s_m": 11883.818177180186
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8397818,
+      "id": "line-1-0557-0548-s012180",
+      "junction_group": 1,
+      "lat": 29.3943688622539,
+      "line": "line-1",
+      "lon": 71.68300710521144,
+      "s_m": 12180.386719675109
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.80618304,
+      "id": "line-1-0552-0549-s012289",
+      "junction_group": 1,
+      "lat": 29.3952686930857,
+      "line": "line-1",
+      "lon": 71.68321331688914,
+      "s_m": 12288.67099092257
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Sir Sadiq Abbasi (Civil) Hospital",
+      "demand": 0.3671591,
+      "id": "line-1-0461-0724-s016691",
+      "lat": 29.41164561422453,
+      "line": "line-1",
+      "lon": 71.7193003604844,
+      "s_m": 16690.823945689008
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "آدم واہن ریلوے اسٹیشن",
+      "demand": 0.23665705,
+      "id": "line-2-0153-0365-s000000",
+      "lat": 29.467075193463632,
+      "line": "line-2",
+      "lon": 71.64527036819469,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.23485602,
+      "id": "line-2-0270-0420-s003496",
+      "lat": 29.446019151999426,
+      "line": "line-2",
+      "lon": 71.65661201046748,
+      "s_m": 3496.223663640867
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.31744352,
+      "id": "line-2-0412-0470-s007015",
+      "lat": 29.420463956376203,
+      "line": "line-2",
+      "lon": 71.66692259435185,
+      "s_m": 7014.701294725905
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.80618304,
+      "id": "line-2-0552-0549-s010701",
+      "junction_group": 1,
+      "lat": 29.3952686930857,
+      "line": "line-2",
+      "lon": 71.68321331688914,
+      "s_m": 10701.463197058372
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8397818,
+      "id": "line-2-0557-0548-s010810",
+      "junction_group": 1,
+      "lat": 29.3943688622539,
+      "line": "line-2",
+      "lon": 71.68300710521144,
+      "s_m": 10809.747468305834
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Ford Woody Van",
+      "demand": 0.81833553,
+      "id": "line-2-0574-0560-s011249",
+      "junction_group": 1,
+      "lat": 29.391309437425765,
+      "line": "line-2",
+      "lon": 71.6854816453437,
+      "s_m": 11249.158723275368
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.58881474,
+      "id": "line-2-0582-0594-s012380",
+      "junction_group": 2,
+      "lat": 29.38986970809488,
+      "line": "line-2",
+      "lon": 71.69249284238506,
+      "s_m": 12379.696961966976
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.46272388,
+      "id": "line-2-0593-0646-s013712",
+      "junction_group": 3,
+      "lat": 29.387890080264913,
+      "line": "line-2",
+      "lon": 71.7032158496248,
+      "s_m": 13711.65655689589
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Govt College of Technology",
+      "demand": 0.4343715,
+      "id": "line-2-0611-0693-s014879",
+      "lat": 29.38465068927042,
+      "line": "line-2",
+      "lon": 71.7129077984761,
+      "s_m": 14878.76333808242
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "IUB Hospital",
+      "demand": 0.30235437,
+      "id": "line-3-0662-0893-s000000",
+      "lat": 29.37547241478602,
+      "line": "line-3",
+      "lon": 71.75415013401354,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.28132358,
+      "id": "line-3-0620-0765-s002955",
+      "junction_group": 4,
+      "lat": 29.383030993773172,
+      "line": "line-3",
+      "lon": 71.72775503926958,
+      "s_m": 2954.8023074035546
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.46272388,
+      "id": "line-3-0593-0646-s005558",
+      "junction_group": 3,
+      "lat": 29.387890080264913,
+      "line": "line-3",
+      "lon": 71.7032158496248,
+      "s_m": 5558.477631085032
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.58881474,
+      "id": "line-3-0582-0594-s006690",
+      "junction_group": 2,
+      "lat": 29.38986970809488,
+      "line": "line-3",
+      "lon": 71.69249284238506,
+      "s_m": 6689.6046148071155
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Ford Woody Van",
+      "demand": 0.81833553,
+      "id": "line-3-0574-0560-s007436",
+      "junction_group": 1,
+      "lat": 29.391309437425765,
+      "line": "line-3",
+      "lon": 71.6854816453437,
+      "s_m": 7435.8787847868125
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9077335,
+      "id": "line-3-0570-0544-s007789",
+      "junction_group": 1,
+      "lat": 29.39202930209121,
+      "line": "line-3",
+      "lon": 71.6821822585007,
+      "s_m": 7789.015869776661
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Abbasia School",
+      "demand": 0.8512831,
+      "id": "line-3-0547-0439-s010091",
+      "lat": 29.396168523917506,
+      "line": "line-3",
+      "lon": 71.66053003234354,
+      "s_m": 10091.26983722081
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.31354225,
+      "id": "line-4-0701-0449-s000000",
+      "junction_group": 0,
+      "lat": 29.368453734297955,
+      "line": "line-4",
+      "lon": 71.66259214912041,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.39331904,
+      "id": "line-4-0505-0405-s005669",
+      "lat": 29.403727102904657,
+      "line": "line-4",
+      "lon": 71.65351883530218,
+      "s_m": 5668.914857099004
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.28132358,
+      "id": "line-5-0620-0765-s000000",
+      "junction_group": 4,
+      "lat": 29.383030993773172,
+      "line": "line-5",
+      "lon": 71.72775503926958,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.28049263,
+      "id": "line-5-0762-0612-s004646",
+      "lat": 29.35747579814995,
+      "line": "line-5",
+      "lon": 71.69620465258343,
+      "s_m": 4646.417023478437
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "archetype": "terminal",
+      "id": "line-1-0962-0331-s000000",
+      "lat": 29.321482564877805,
+      "line": "line-1",
+      "lon": 71.63825917115332,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-1-0810-0353-s003915",
+      "lat": 29.348837422164635,
+      "line": "line-1",
+      "lon": 71.64279582806243,
+      "platform_length_m": 55.5,
+      "s_m": 3914.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0701-0449-s007845",
+      "junction_group": 0,
+      "lat": 29.368453734297955,
+      "line": "line-1",
+      "lon": 71.66259214912041,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7844.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0571-0546-s011884",
+      "junction_group": 1,
+      "lat": 29.39184933592485,
+      "line": "line-1",
+      "lon": 71.68259468185607,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11883.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0557-0548-s012180",
+      "junction_group": 1,
+      "lat": 29.3943688622539,
+      "line": "line-1",
+      "lon": 71.68300710521144,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12180.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0552-0549-s012289",
+      "junction_group": 1,
+      "lat": 29.3952686930857,
+      "line": "line-1",
+      "lon": 71.68321331688914,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12288.7
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Sir Sadiq Abbasi (Civil) Hospital",
+      "archetype": "depot-terminal",
+      "id": "line-1-0461-0724-s016691",
+      "lat": 29.41164561422453,
+      "line": "line-1",
+      "lon": 71.7193003604844,
+      "platform_length_m": 59.5,
+      "s_m": 16690.8
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "آدم واہن ریلوے اسٹیشن",
+      "archetype": "terminal",
+      "id": "line-2-0153-0365-s000000",
+      "lat": 29.467075193463632,
+      "line": "line-2",
+      "lon": 71.64527036819469,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0270-0420-s003496",
+      "lat": 29.446019151999426,
+      "line": "line-2",
+      "lon": 71.65661201046748,
+      "platform_length_m": 55.5,
+      "s_m": 3496.2
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0412-0470-s007015",
+      "lat": 29.420463956376203,
+      "line": "line-2",
+      "lon": 71.66692259435185,
+      "platform_length_m": 59.5,
+      "s_m": 7014.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0552-0549-s010701",
+      "junction_group": 1,
+      "lat": 29.3952686930857,
+      "line": "line-2",
+      "lon": 71.68321331688914,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 10701.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0557-0548-s010810",
+      "junction_group": 1,
+      "lat": 29.3943688622539,
+      "line": "line-2",
+      "lon": 71.68300710521144,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 10809.7
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Ford Woody Van",
+      "archetype": "interchange",
+      "id": "line-2-0574-0560-s011249",
+      "junction_group": 1,
+      "lat": 29.391309437425765,
+      "line": "line-2",
+      "lon": 71.6854816453437,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 11249.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0582-0594-s012380",
+      "junction_group": 2,
+      "lat": 29.38986970809488,
+      "line": "line-2",
+      "lon": 71.69249284238506,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 12379.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0593-0646-s013712",
+      "junction_group": 3,
+      "lat": 29.387890080264913,
+      "line": "line-2",
+      "lon": 71.7032158496248,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 13711.7
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Govt College of Technology",
+      "archetype": "terminal",
+      "id": "line-2-0611-0693-s014879",
+      "lat": 29.38465068927042,
+      "line": "line-2",
+      "lon": 71.7129077984761,
+      "platform_length_m": 59.5,
+      "s_m": 14878.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "IUB Hospital",
+      "archetype": "terminal",
+      "id": "line-3-0662-0893-s000000",
+      "lat": 29.37547241478602,
+      "line": "line-3",
+      "lon": 71.75415013401354,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0620-0765-s002955",
+      "junction_group": 4,
+      "lat": 29.383030993773172,
+      "line": "line-3",
+      "lon": 71.72775503926958,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2954.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0593-0646-s005558",
+      "junction_group": 3,
+      "lat": 29.387890080264913,
+      "line": "line-3",
+      "lon": 71.7032158496248,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5558.5
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0582-0594-s006690",
+      "junction_group": 2,
+      "lat": 29.38986970809488,
+      "line": "line-3",
+      "lon": 71.69249284238506,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6689.6
+    },
+    {
+      "anchor_kind": "tourism:attraction",
+      "anchor_name": "Ford Woody Van",
+      "archetype": "interchange",
+      "id": "line-3-0574-0560-s007436",
+      "junction_group": 1,
+      "lat": 29.391309437425765,
+      "line": "line-3",
+      "lon": 71.6854816453437,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7435.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0570-0544-s007789",
+      "junction_group": 1,
+      "lat": 29.39202930209121,
+      "line": "line-3",
+      "lon": 71.6821822585007,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 7789.0
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "Abbasia School",
+      "archetype": "terminal",
+      "id": "line-3-0547-0439-s010091",
+      "lat": 29.396168523917506,
+      "line": "line-3",
+      "lon": 71.66053003234354,
+      "platform_length_m": 59.5,
+      "s_m": 10091.3
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0701-0449-s000000",
+      "junction_group": 0,
+      "lat": 29.368453734297955,
+      "line": "line-4",
+      "lon": 71.66259214912041,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0505-0405-s005669",
+      "lat": 29.403727102904657,
+      "line": "line-4",
+      "lon": 71.65351883530218,
+      "platform_length_m": 59.5,
+      "s_m": 5668.9
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0620-0765-s000000",
+      "junction_group": 4,
+      "lat": 29.383030993773172,
+      "line": "line-5",
+      "lon": 71.72775503926958,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-5-0762-0612-s004646",
+      "lat": 29.35747579814995,
+      "line": "line-5",
+      "lon": 71.69620465258343,
+      "platform_length_m": 59.5,
+      "s_m": 4646.4
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

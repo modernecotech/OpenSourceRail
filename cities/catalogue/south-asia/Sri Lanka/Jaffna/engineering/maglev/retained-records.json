@@ -1,0 +1,1013 @@
+{
+  "city": {
+    "bbox": {
+      "east": 80.126,
+      "north": 9.7606,
+      "south": 9.5624,
+      "west": 79.925
+    },
+    "centroid_lat": 9.664768016412914,
+    "centroid_lon": 80.02514480565952,
+    "country": "LK",
+    "population": 600000,
+    "slug": "jaffna"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/south-asia/Sri Lanka/Jaffna/corridors.json",
+    "cities/catalogue/south-asia/Sri Lanka/Jaffna/jaffna.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/south-asia/Sri Lanka/Jaffna/jaffna.corridor.geojson",
+      "geometry_sha256": "19dd08176eda232a1f9249e84d0c85bcc851ac1917c416d46dd7431678f7016e",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1103,
+    "population": 600000,
+    "schema_version": 1,
+    "slug": "jaffna"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 9.659908929921174,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 80.02435506803526,
+      "platforms": [
+        "line-1-0552-0549-s002010",
+        "line-1-0557-0544-s001857",
+        "line-1-0568-0541-s001584",
+        "line-3-0552-0549-s015631",
+        "line-3-0557-0544-s015772",
+        "line-3-0568-0541-s016033"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 9.6639131771227,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 80.0247803113714,
+      "platforms": [
+        "line-1-0537-0546-s002380",
+        "line-2-0536-0549-s008438",
+        "line-2-0537-0546-s008518",
+        "line-3-0537-0547-s015253"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 9.702560911348666,
+      "lines": [
+        "line-1",
+        "line-5"
+      ],
+      "lon": 80.02441581708328,
+      "platforms": [
+        "line-1-0322-0545-s008472",
+        "line-5-0322-0545-s000000"
+      ]
+    },
+    {
+      "id": "interchange-003",
+      "junction_group": 3,
+      "lat": 9.674846121729114,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": 80.00236391265234,
+      "platforms": [
+        "line-2-0476-0424-s013220",
+        "line-4-0476-0424-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 13711.4,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 360,
+      "geometry": "standard-urban",
+      "length_m": 25205.0,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 17052.3,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 5904.8,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 4372.2,
+      "name": "line-5",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0619-0561-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0097-0569-s013711"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 45
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0544-0867-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0216-0107-s025205"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 78
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0089-1001-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0600-0518-s017052"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 54
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0476-0424-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0262-0486-s005905"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-5-0322-0545-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-5-0237-0662-s004372"
+        }
+      ],
+      "line": "line-5",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 15
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Holy Cross Health Centre",
+      "demand": 0.523675,
+      "id": "line-1-0619-0561-s000000",
+      "lat": 9.64911095993953,
+      "line": "line-1",
+      "lon": 80.0273317713882,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Tamil Theological College",
+      "demand": 0.84723234,
+      "id": "line-1-0568-0541-s001584",
+      "junction_group": 0,
+      "lat": 9.658289234423929,
+      "line": "line-1",
+      "lon": 80.02368682850705,
+      "s_m": 1583.6753236814714
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8466227,
+      "id": "line-1-0557-0544-s001857",
+      "junction_group": 0,
+      "lat": 9.660268862253897,
+      "line": "line-1",
+      "lon": 80.02423356993923,
+      "s_m": 1856.812408671319
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8236898,
+      "id": "line-1-0552-0549-s002010",
+      "junction_group": 0,
+      "lat": 9.6611686930857,
+      "line": "line-1",
+      "lon": 80.02514480565952,
+      "s_m": 2009.9494936611666
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.8387671,
+      "id": "line-1-0537-0546-s002380",
+      "junction_group": 1,
+      "lat": 9.66386818558111,
+      "line": "line-1",
+      "lon": 80.02459806422735,
+      "s_m": 2379.655121145939
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "IDM Nations Campus - Jaffna",
+      "demand": 0.9203923,
+      "id": "line-1-0492-0513-s004085",
+      "lat": 9.671966663067343,
+      "line": "line-1",
+      "lon": 80.01858390847345,
+      "s_m": 4084.7518010647273
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Kondavil",
+      "demand": 0.5324991,
+      "id": "line-1-0322-0545-s008472",
+      "junction_group": 2,
+      "lat": 9.702560911348666,
+      "line": "line-1",
+      "lon": 80.02441581708328,
+      "s_m": 8471.513703397224
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Chunnakam",
+      "demand": 0.2763664,
+      "id": "line-1-0097-0569-s013711",
+      "lat": 9.743053298779829,
+      "line": "line-1",
+      "lon": 80.02878974854066,
+      "s_m": 13711.41269071951
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Navatkuli",
+      "demand": 0.30915725,
+      "id": "line-2-0544-0867-s000000",
+      "lat": 9.662608422416586,
+      "line": "line-2",
+      "lon": 80.08309939746975,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35065606,
+      "id": "line-2-0586-0698-s004430",
+      "lat": 9.655049843429435,
+      "line": "line-2",
+      "lon": 80.05229963012407,
+      "s_m": 4429.705627484771
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8210075,
+      "id": "line-2-0536-0549-s008438",
+      "junction_group": 1,
+      "lat": 9.66404815174747,
+      "line": "line-2",
+      "lon": 80.02514480565952,
+      "s_m": 8437.989898732232
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.8387671,
+      "id": "line-2-0537-0546-s008518",
+      "junction_group": 1,
+      "lat": 9.66386818558111,
+      "line": "line-2",
+      "lon": 80.02459806422735,
+      "s_m": 8517.989898732232
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35407898,
+      "id": "line-2-0476-0424-s013220",
+      "junction_group": 3,
+      "lat": 9.674846121729114,
+      "line": "line-2",
+      "lon": 80.00236391265234,
+      "s_m": 13219.655121145914
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.20829663,
+      "id": "line-2-0330-0268-s019070",
+      "lat": 9.701121182017781,
+      "line": "line-2",
+      "lon": 79.9739333581794,
+      "s_m": 19070.193359837533
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.194832,
+      "id": "line-2-0216-0107-s025205",
+      "lat": 9.721637324982904,
+      "line": "line-2",
+      "lon": 79.94459156798617,
+      "s_m": 25204.995667241128
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Primary Medical Care Unit (PMCU) Puttur",
+      "demand": 0.108753875,
+      "id": "line-3-0089-1001-s000000",
+      "lat": 9.744493028110716,
+      "line": "line-3",
+      "lon": 80.10752051477344,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.1598064,
+      "id": "line-3-0201-0901-s003496",
+      "lat": 9.724336817478314,
+      "line": "line-3",
+      "lon": 80.08929580036771,
+      "s_m": 3495.878784786809
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.26868483,
+      "id": "line-3-0305-0798-s007012",
+      "lat": 9.705620336176798,
+      "line": "line-3",
+      "lon": 80.0705243445298,
+      "s_m": 7011.757569573628
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3512081,
+      "id": "line-3-0427-0649-s011230",
+      "lat": 9.68366446388079,
+      "line": "line-3",
+      "lon": 80.04336952006526,
+      "s_m": 11229.89032180454
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.83309174,
+      "id": "line-3-0537-0547-s015253",
+      "junction_group": 1,
+      "lat": 9.66386818558111,
+      "line": "line-3",
+      "lon": 80.0247803113714,
+      "s_m": 15252.632021601437
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8236898,
+      "id": "line-3-0552-0549-s015631",
+      "junction_group": 0,
+      "lat": 9.6611686930857,
+      "line": "line-3",
+      "lon": 80.02514480565952,
+      "s_m": 15630.621920333666
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8466227,
+      "id": "line-3-0557-0544-s015772",
+      "junction_group": 0,
+      "lat": 9.660268862253897,
+      "line": "line-3",
+      "lon": 80.02423356993923,
+      "s_m": 15772.043276570972
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Tamil Theological College",
+      "demand": 0.84723234,
+      "id": "line-3-0568-0541-s016033",
+      "junction_group": 0,
+      "lat": 9.658289234423929,
+      "line": "line-3",
+      "lon": 80.02368682850705,
+      "s_m": 16033.464632808278
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Divisional Hospital Gurunagar",
+      "demand": 0.7704355,
+      "id": "line-3-0600-0518-s017052",
+      "lat": 9.652530317100386,
+      "line": "line-3",
+      "lon": 80.01949514419374,
+      "s_m": 17052.28714274738
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35407898,
+      "id": "line-4-0476-0424-s000000",
+      "junction_group": 3,
+      "lat": 9.674846121729114,
+      "line": "line-4",
+      "lon": 80.00236391265234,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.24893002,
+      "id": "line-4-0288-0413-s004229",
+      "lat": 9.708679761004932,
+      "line": "line-4",
+      "lon": 80.00035919406771,
+      "s_m": 4229.360748630712
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2687117,
+      "id": "line-4-0262-0486-s005905",
+      "lat": 9.71335888133031,
+      "line": "line-4",
+      "lon": 80.0136632355839,
+      "s_m": 5904.751801064727
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Kondavil",
+      "demand": 0.5324991,
+      "id": "line-5-0322-0545-s000000",
+      "junction_group": 2,
+      "lat": 9.702560911348666,
+      "line": "line-5",
+      "lon": 80.02441581708328,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Primary Medical Care Unit (PMCU) Urumpirai",
+      "demand": 0.25982413,
+      "id": "line-5-0237-0662-s004372",
+      "lat": 9.717858035489328,
+      "line": "line-5",
+      "lon": 80.045738732938,
+      "s_m": 4372.203461105331
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Holy Cross Health Centre",
+      "archetype": "terminal",
+      "id": "line-1-0619-0561-s000000",
+      "lat": 9.64911095993953,
+      "line": "line-1",
+      "lon": 80.0273317713882,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Tamil Theological College",
+      "archetype": "interchange",
+      "id": "line-1-0568-0541-s001584",
+      "junction_group": 0,
+      "lat": 9.658289234423929,
+      "line": "line-1",
+      "lon": 80.02368682850705,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1583.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0557-0544-s001857",
+      "junction_group": 0,
+      "lat": 9.660268862253897,
+      "line": "line-1",
+      "lon": 80.02423356993923,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1856.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0552-0549-s002010",
+      "junction_group": 0,
+      "lat": 9.6611686930857,
+      "line": "line-1",
+      "lon": 80.02514480565952,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2009.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "interchange",
+      "id": "line-1-0537-0546-s002380",
+      "junction_group": 1,
+      "lat": 9.66386818558111,
+      "line": "line-1",
+      "lon": 80.02459806422735,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2379.7
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "IDM Nations Campus - Jaffna",
+      "archetype": "major",
+      "id": "line-1-0492-0513-s004085",
+      "lat": 9.671966663067343,
+      "line": "line-1",
+      "lon": 80.01858390847345,
+      "platform_length_m": 59.5,
+      "s_m": 4084.8
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Kondavil",
+      "archetype": "interchange",
+      "id": "line-1-0322-0545-s008472",
+      "junction_group": 2,
+      "lat": 9.702560911348666,
+      "line": "line-1",
+      "lon": 80.02441581708328,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8471.5
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Chunnakam",
+      "archetype": "terminal",
+      "id": "line-1-0097-0569-s013711",
+      "lat": 9.743053298779829,
+      "line": "line-1",
+      "lon": 80.02878974854066,
+      "platform_length_m": 59.5,
+      "s_m": 13711.4
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "Navatkuli",
+      "archetype": "terminal",
+      "id": "line-2-0544-0867-s000000",
+      "lat": 9.662608422416586,
+      "line": "line-2",
+      "lon": 80.08309939746975,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0586-0698-s004430",
+      "lat": 9.655049843429435,
+      "line": "line-2",
+      "lon": 80.05229963012407,
+      "platform_length_m": 59.5,
+      "s_m": 4429.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0536-0549-s008438",
+      "junction_group": 1,
+      "lat": 9.66404815174747,
+      "line": "line-2",
+      "lon": 80.02514480565952,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8438.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "interchange",
+      "id": "line-2-0537-0546-s008518",
+      "junction_group": 1,
+      "lat": 9.66386818558111,
+      "line": "line-2",
+      "lon": 80.02459806422735,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8518.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0476-0424-s013220",
+      "junction_group": 3,
+      "lat": 9.674846121729114,
+      "line": "line-2",
+      "lon": 80.00236391265234,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 13219.7
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0330-0268-s019070",
+      "lat": 9.701121182017781,
+      "line": "line-2",
+      "lon": 79.9739333581794,
+      "platform_length_m": 55.5,
+      "s_m": 19070.2
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "depot-terminal",
+      "id": "line-2-0216-0107-s025205",
+      "lat": 9.721637324982904,
+      "line": "line-2",
+      "lon": 79.94459156798617,
+      "platform_length_m": 59.5,
+      "s_m": 25205.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Primary Medical Care Unit (PMCU) Puttur",
+      "archetype": "terminal",
+      "id": "line-3-0089-1001-s000000",
+      "lat": 9.744493028110716,
+      "line": "line-3",
+      "lon": 80.10752051477344,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-3-0201-0901-s003496",
+      "lat": 9.724336817478314,
+      "line": "line-3",
+      "lon": 80.08929580036771,
+      "platform_length_m": 55.5,
+      "s_m": 3495.9
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0305-0798-s007012",
+      "lat": 9.705620336176798,
+      "line": "line-3",
+      "lon": 80.0705243445298,
+      "platform_length_m": 59.5,
+      "s_m": 7011.8
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0427-0649-s011230",
+      "lat": 9.68366446388079,
+      "line": "line-3",
+      "lon": 80.04336952006526,
+      "platform_length_m": 59.5,
+      "s_m": 11229.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "interchange",
+      "id": "line-3-0537-0547-s015253",
+      "junction_group": 1,
+      "lat": 9.66386818558111,
+      "line": "line-3",
+      "lon": 80.0247803113714,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 15252.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0552-0549-s015631",
+      "junction_group": 0,
+      "lat": 9.6611686930857,
+      "line": "line-3",
+      "lon": 80.02514480565952,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 15630.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0557-0544-s015772",
+      "junction_group": 0,
+      "lat": 9.660268862253897,
+      "line": "line-3",
+      "lon": 80.02423356993923,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 15772.0
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Tamil Theological College",
+      "archetype": "interchange",
+      "id": "line-3-0568-0541-s016033",
+      "junction_group": 0,
+      "lat": 9.658289234423929,
+      "line": "line-3",
+      "lon": 80.02368682850705,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 16033.5
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Divisional Hospital Gurunagar",
+      "archetype": "terminal",
+      "id": "line-3-0600-0518-s017052",
+      "lat": 9.652530317100386,
+      "line": "line-3",
+      "lon": 80.01949514419374,
+      "platform_length_m": 59.5,
+      "s_m": 17052.3
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0476-0424-s000000",
+      "junction_group": 3,
+      "lat": 9.674846121729114,
+      "line": "line-4",
+      "lon": 80.00236391265234,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "halt",
+      "id": "line-4-0288-0413-s004229",
+      "lat": 9.708679761004932,
+      "line": "line-4",
+      "lon": 80.00035919406771,
+      "platform_length_m": 55.5,
+      "s_m": 4229.4
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0262-0486-s005905",
+      "lat": 9.71335888133031,
+      "line": "line-4",
+      "lon": 80.0136632355839,
+      "platform_length_m": 59.5,
+      "s_m": 5904.8
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Kondavil",
+      "archetype": "terminal",
+      "id": "line-5-0322-0545-s000000",
+      "junction_group": 2,
+      "lat": 9.702560911348666,
+      "line": "line-5",
+      "lon": 80.02441581708328,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Primary Medical Care Unit (PMCU) Urumpirai",
+      "archetype": "terminal",
+      "id": "line-5-0237-0662-s004372",
+      "lat": 9.717858035489328,
+      "line": "line-5",
+      "lon": 80.045738732938,
+      "platform_length_m": 59.5,
+      "s_m": 4372.2
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

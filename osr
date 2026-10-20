@@ -18,7 +18,9 @@ Usage: ./osr [COMMAND] [arguments]
   infrastructure ... Run/check the primary ferrite-maglev infrastructure study
   design [action]    Primary maglev run, check, verify, status or release-check
   design legacy ...  Explicit v0.4 wheel/rail compiler and engineering workflows
+  sim [city] ...     Replay primary maglev city energy/charging (Baghdad default)
   sim legacy ...     Run the retained wheel/rail simulator
+  city <slug>        Compile primary maglev formation/service/charging/cost planning
   city legacy <slug> Regenerate an explicit wheel/rail comparator city
   build              Build the v0.5 study and Rust maglev package
   build legacy       Build the retained full wheel/rail comparator payload
@@ -72,8 +74,8 @@ case "$command_name" in
         ;;
     sim)
         if [[ "${1:-}" != legacy ]]; then
-            printf 'v0.5 primary maglev route simulation awaits qualified force/route models. Retained comparator: ./osr sim legacy ...\n' >&2
-            exit 2
+            if (( $# == 0 )); then set -- baghdad; fi
+            exec tools/automation/osr-python -m engineering.ferrite_maglev.cities --simulate "$@"
         fi
         shift
         exec cargo run --release --bin osr-sim -- "$@"
@@ -100,8 +102,7 @@ case "$command_name" in
         ;;
     city)
         if [[ "${1:-}" != legacy ]]; then
-            printf 'v0.5 city migration is open: maglev fleet, geometry, guideway and costs require their own compiler. Retained comparator: ./osr city legacy <slug>\n' >&2
-            exit 2
+            exec tools/automation/osr-python -m engineering.ferrite_maglev.cities "$@"
         fi
         shift
         (( $# == 1 )) || { printf 'usage: ./osr city legacy <slug>\n' >&2; exit 2; }

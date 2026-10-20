@@ -1,0 +1,703 @@
+{
+  "city": {
+    "bbox": {
+      "east": -1.7881,
+      "north": 34.7805,
+      "south": 34.5823,
+      "west": -2.0291
+    },
+    "centroid_lat": 34.68088872691934,
+    "centroid_lon": -1.9081714290522351,
+    "country": "MA",
+    "population": 600000,
+    "slug": "oujda"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/north-africa/Morocco/Oujda/corridors.json",
+    "cities/catalogue/north-africa/Morocco/Oujda/oujda.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/north-africa/Morocco/Oujda/oujda.corridor.geojson",
+      "geometry_sha256": "986576c40ecaa59f152bee20fcab218b9a129e851dceed27461f6104a0d5fd84",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 600000,
+    "schema_version": 1,
+    "slug": "oujda"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 34.6893471367383,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": -1.9361368438332902,
+      "platforms": [
+        "line-1-0506-0425-s002587",
+        "line-3-0506-0425-s003684"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 34.68448805024656,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": -1.9088268684611662,
+      "platforms": [
+        "line-1-0533-0550-s005311",
+        "line-2-0533-0550-s006342"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 34.67288023251629,
+      "lines": [
+        "line-2",
+        "line-4"
+      ],
+      "lon": -1.9119948256043324,
+      "platforms": [
+        "line-2-0596-0533-s008359",
+        "line-2-0599-0538-s008483",
+        "line-4-0596-0533-s000000",
+        "line-4-0599-0538-s000205"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 10425.0,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 12835.3,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 7954.1,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 150,
+      "geometry": "standard-urban",
+      "length_m": 6601.0,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0481-0306-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0583-0785-s010425"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 34
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0321-0576-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0732-0616-s012835"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 40
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0345-0481-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0692-0360-s007954"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 26
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0596-0533-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0725-0400-s006601"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 23
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Hay Sabra",
+      "demand": 0.3245188,
+      "id": "line-1-0481-0306-s000000",
+      "lat": 34.69384629089731,
+      "line": "line-1",
+      "lon": -1.9621359403875522,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.56460726,
+      "id": "line-1-0506-0425-s002587",
+      "junction_group": 0,
+      "lat": 34.6893471367383,
+      "line": "line-1",
+      "lon": -1.9361368438332902,
+      "s_m": 2587.1067811865487
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.949772,
+      "id": "line-1-0533-0550-s005311",
+      "junction_group": 1,
+      "lat": 34.68448805024656,
+      "line": "line-1",
+      "lon": -1.9088268684611662,
+      "s_m": 5310.782104868026
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Lotissement Laaj",
+      "demand": 0.7857531,
+      "id": "line-1-0564-0697-s008508",
+      "lat": 34.678909099089374,
+      "line": "line-1",
+      "lon": -1.8767103374235483,
+      "s_m": 8507.59451353935
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Hay Agdal حي أكدال",
+      "demand": 0.39696792,
+      "id": "line-1-0583-0785-s010425",
+      "lat": 34.67548974192852,
+      "line": "line-1",
+      "lon": -1.857484114761573,
+      "s_m": 10424.995667241114
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Hay Skiker",
+      "demand": 0.36818817,
+      "id": "line-2-0321-0576-s000000",
+      "lat": 34.72264087751503,
+      "line": "line-2",
+      "lon": -1.9031463935837643,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Hay Rjah Fi Allah",
+      "demand": 0.5446636,
+      "id": "line-2-0413-0595-s003006",
+      "lat": 34.70608399020984,
+      "line": "line-2",
+      "lon": -1.8989952773272014,
+      "s_m": 3005.929291125636
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.949772,
+      "id": "line-2-0533-0550-s006342",
+      "junction_group": 1,
+      "lat": 34.68448805024656,
+      "line": "line-2",
+      "lon": -1.9088268684611662,
+      "s_m": 6342.3968209429095
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.80816644,
+      "id": "line-2-0596-0533-s008359",
+      "junction_group": 2,
+      "lat": 34.673150181765834,
+      "line": "line-2",
+      "lon": -1.912541025111775,
+      "s_m": 8358.620484583778
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.792362,
+      "id": "line-2-0599-0538-s008483",
+      "junction_group": 2,
+      "lat": 34.67261028326675,
+      "line": "line-2",
+      "lon": -1.9114486260968901,
+      "s_m": 8483.473298326162
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "ISTA Sidi Maafa",
+      "demand": 0.48326105,
+      "id": "line-2-0732-0616-s012835",
+      "lat": 34.64867478314077,
+      "line": "line-2",
+      "lon": -1.8944072014646847,
+      "s_m": 12835.331880577362
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Lotissement El Wahda - CGI",
+      "demand": 0.35875905,
+      "id": "line-3-0345-0481-s000000",
+      "lat": 34.71832168952238,
+      "line": "line-3",
+      "lon": -1.9239019748665787,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.56460726,
+      "id": "line-3-0506-0425-s003684",
+      "junction_group": 0,
+      "lat": 34.6893471367383,
+      "line": "line-3",
+      "lon": -1.9361368438332902,
+      "s_m": 3683.919189857872
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Hay Gtar حي كطار",
+      "demand": 0.42764738,
+      "id": "line-3-0692-0360-s007954",
+      "lat": 34.6558734297952,
+      "line": "line-3",
+      "lon": -1.9503380310267946,
+      "s_m": 7954.112549695448
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hôpital El Farabi",
+      "demand": 0.80816644,
+      "id": "line-4-0596-0533-s000000",
+      "junction_group": 2,
+      "lat": 34.673150181765834,
+      "line": "line-4",
+      "lon": -1.912541025111775,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.792362,
+      "id": "line-4-0599-0538-s000205",
+      "junction_group": 2,
+      "lat": 34.67261028326675,
+      "line": "line-4",
+      "lon": -1.9114486260968901,
+      "s_m": 204.8528137423857
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.72989684,
+      "id": "line-4-0638-0439-s003527",
+      "lat": 34.66559160277868,
+      "line": "line-4",
+      "lon": -1.9330781265916122,
+      "s_m": 3527.3506473629495
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.3641094,
+      "id": "line-4-0725-0400-s006601",
+      "lat": 34.649934546305296,
+      "line": "line-4",
+      "lon": -1.941598838907715,
+      "s_m": 6600.975464705602
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Hay Sabra",
+      "archetype": "terminal",
+      "id": "line-1-0481-0306-s000000",
+      "lat": 34.69384629089731,
+      "line": "line-1",
+      "lon": -1.9621359403875522,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0506-0425-s002587",
+      "junction_group": 0,
+      "lat": 34.6893471367383,
+      "line": "line-1",
+      "lon": -1.9361368438332902,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 2587.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0533-0550-s005311",
+      "junction_group": 1,
+      "lat": 34.68448805024656,
+      "line": "line-1",
+      "lon": -1.9088268684611662,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 5310.8
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Lotissement Laaj",
+      "archetype": "major",
+      "id": "line-1-0564-0697-s008508",
+      "lat": 34.678909099089374,
+      "line": "line-1",
+      "lon": -1.8767103374235483,
+      "platform_length_m": 59.5,
+      "s_m": 8507.6
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Hay Agdal حي أكدال",
+      "archetype": "terminal",
+      "id": "line-1-0583-0785-s010425",
+      "lat": 34.67548974192852,
+      "line": "line-1",
+      "lon": -1.857484114761573,
+      "platform_length_m": 59.5,
+      "s_m": 10425.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Hay Skiker",
+      "archetype": "terminal",
+      "id": "line-2-0321-0576-s000000",
+      "lat": 34.72264087751503,
+      "line": "line-2",
+      "lon": -1.9031463935837643,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Hay Rjah Fi Allah",
+      "archetype": "standard",
+      "id": "line-2-0413-0595-s003006",
+      "lat": 34.70608399020984,
+      "line": "line-2",
+      "lon": -1.8989952773272014,
+      "platform_length_m": 59.5,
+      "s_m": 3005.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0533-0550-s006342",
+      "junction_group": 1,
+      "lat": 34.68448805024656,
+      "line": "line-2",
+      "lon": -1.9088268684611662,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 6342.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0596-0533-s008359",
+      "junction_group": 2,
+      "lat": 34.673150181765834,
+      "line": "line-2",
+      "lon": -1.912541025111775,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8358.6
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0599-0538-s008483",
+      "junction_group": 2,
+      "lat": 34.67261028326675,
+      "line": "line-2",
+      "lon": -1.9114486260968901,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8483.5
+    },
+    {
+      "anchor_kind": "amenity:university",
+      "anchor_name": "ISTA Sidi Maafa",
+      "archetype": "depot-terminal",
+      "id": "line-2-0732-0616-s012835",
+      "lat": 34.64867478314077,
+      "line": "line-2",
+      "lon": -1.8944072014646847,
+      "platform_length_m": 59.5,
+      "s_m": 12835.3
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "Lotissement El Wahda - CGI",
+      "archetype": "terminal",
+      "id": "line-3-0345-0481-s000000",
+      "lat": 34.71832168952238,
+      "line": "line-3",
+      "lon": -1.9239019748665787,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0506-0425-s003684",
+      "junction_group": 0,
+      "lat": 34.6893471367383,
+      "line": "line-3",
+      "lon": -1.9361368438332902,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3683.9
+    },
+    {
+      "anchor_kind": "place:suburb",
+      "anchor_name": "Hay Gtar حي كطار",
+      "archetype": "terminal",
+      "id": "line-3-0692-0360-s007954",
+      "lat": 34.6558734297952,
+      "line": "line-3",
+      "lon": -1.9503380310267946,
+      "platform_length_m": 59.5,
+      "s_m": 7954.1
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Hôpital El Farabi",
+      "archetype": "terminal",
+      "id": "line-4-0596-0533-s000000",
+      "junction_group": 2,
+      "lat": 34.673150181765834,
+      "line": "line-4",
+      "lon": -1.912541025111775,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0599-0538-s000205",
+      "junction_group": 2,
+      "lat": 34.67261028326675,
+      "line": "line-4",
+      "lon": -1.9114486260968901,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 204.9
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "major",
+      "id": "line-4-0638-0439-s003527",
+      "lat": 34.66559160277868,
+      "line": "line-4",
+      "lon": -1.9330781265916122,
+      "platform_length_m": 59.5,
+      "s_m": 3527.4
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0725-0400-s006601",
+      "lat": 34.649934546305296,
+      "line": "line-4",
+      "lon": -1.941598838907715,
+      "platform_length_m": 59.5,
+      "s_m": 6601.0
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

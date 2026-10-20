@@ -2,7 +2,7 @@
 
 **Status:** v0.5 primary architecture transition (20 October 2026)
 
-The primary physical development architecture is now **ferrite PM-biased active maglev**, with passive guidebeams, onboard magnetic modules and Rust controls on off-the-shelf SBCs. The controlled [infrastructure policy](../lib/templates/infrastructure.toml), [executable study](design-engine/ferrite-maglev/reference/index.html) and [RFC 0035](rfcs/0035-v05-primary-ferrite-maglev.md) govern the transition. Local cartridge/carrier/coil/guideway manufacture and repair are core objectives. Native magnetic design, multimodule dynamics, hardware timing and physical acceptance remain open.
+The primary physical development architecture is now **ferrite PM-biased active maglev**, with passive guidebeams, onboard magnetic modules and Rust controls on off-the-shelf SBCs. The controlled [infrastructure policy](../lib/templates/infrastructure.toml), [executable study](design-engine/ferrite-maglev/reference/index.html) and [RFC 0035](rfcs/0035-v05-primary-ferrite-maglev.md) govern the transition. Local cartridge/carrier/coil/guideway manufacture and repair are core objectives. The implemented subsets include the 414-item transition register across 63 legacy packages, provisional city compilation for 266 cities / 1,565 lines, a partial 624-solid native magnetic interface and two-direction 25 m civil bay, 2D field equation controls, and 24-module Rust control with two-way flexible vertical-beam replay. Coupon force remains unconverged under mesh refinement; complete magnetic/vehicle/civil design, actual material/force/loss qualification, physical I/O, measured hardware timing and G0–G5 acceptance remain open. Accepted engineering/physical releases: zero. [Implementation and closure status](../engineering/ferrite_maglev/README.md).
 
 Physical wheel/rail details below describe the retained v0.4 comparator. Shared owner/operator platform functions remain reusable where their interfaces apply. No old axle, braking, fleet, civil-cost or assurance result transfers automatically to maglev.
 **Audience:** Engineers, operators, policymakers, and funders evaluating the project.
@@ -43,7 +43,7 @@ Target deployment regions — sub-Saharan Africa, MENA, South and Southeast Asia
    simulation and control core; Python carries GIS, engineering and CAD
    automation; browser applications use pinned web toolchains. Schemas and
    deterministic generators control the boundaries.
-3. **Replace and remove.** Superseded reference designs leave the active repository instead of accumulating alternate paths. Every major choice records the concrete advantage of its replacement.
+3. **Replace active defaults and preserve provenance.** New development uses the selected architecture. Retained v0.4 wheel/rail designs have distinct comparator identities and explicit legacy access; their geometry and acceptance evidence do not transfer automatically. Every major choice records the reason for its replacement.
 4. **Simulation-first.** No subsystem is considered designed until it runs end-to-end in a shared digital twin. Hardware pilots come after simulation sign-off.
 5. **Machine-checkable safety.** Safety arguments are structured (GSN-style), version-controlled, and linked to formal proofs, test evidence, and code. Safety cases regenerate on every commit.
 6. **Small, replaceable pieces.** Each subsystem is deployable independently. A country can adopt the dispatching platform without committing to the rolling-stock ECUs, and vice versa.

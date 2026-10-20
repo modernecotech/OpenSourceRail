@@ -1,0 +1,560 @@
+{
+  "city": {
+    "bbox": {
+      "east": 31.6849,
+      "north": -7.8991,
+      "south": -8.0343,
+      "west": 31.5485
+    },
+    "centroid_lat": -7.967217193967534,
+    "centroid_lon": 31.61789050737403,
+    "country": "TZ",
+    "population": 250000,
+    "slug": "sumbawanga"
+  },
+  "climate": {
+    "preset": "tropical-arid"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Tanzania/Sumbawanga/corridors.json",
+    "cities/catalogue/east-africa/Tanzania/Sumbawanga/sumbawanga.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Tanzania/Sumbawanga/sumbawanga.corridor.geojson",
+      "geometry_sha256": "82954efcb0e4e9cf3531f121d9a97e374de89581f60bb26921568a5583309c6f",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 752,
+    "population": 250000,
+    "schema_version": 1,
+    "slug": "sumbawanga"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -7.966008849707683,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 31.615532137188772,
+      "platforms": [
+        "line-1-0369-0365-s002757",
+        "line-1-0370-0374-s002519",
+        "line-1-0373-0371-s002604",
+        "line-2-0370-0374-s002352",
+        "line-2-0373-0371-s002267",
+        "line-3-0369-0365-s002261",
+        "line-3-0375-0363-s002699"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": -7.960918378144909,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 31.611541049182943,
+      "platforms": [
+        "line-1-0343-0347-s003426",
+        "line-3-0343-0347-s001592"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 6637.8,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5678.4,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 2699.1,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0318-0457-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0215-0324-s006638"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 19
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0462-0393-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0270-0428-s005678"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 15
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0277-0363-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0375-0363-s002699"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 12
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "St.maurus college",
+      "demand": 0.6922342,
+      "id": "line-1-0318-0457-s000000",
+      "lat": -7.956419223985891,
+      "line": "line-1",
+      "lon": 31.631496489212076,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.832015,
+      "id": "line-1-0370-0374-s002519",
+      "junction_group": 0,
+      "lat": -7.965777464636648,
+      "line": "line-1",
+      "lon": 31.61643920264464,
+      "s_m": 2519.066376115483
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8287417,
+      "id": "line-1-0373-0371-s002604",
+      "junction_group": 0,
+      "lat": -7.9663173631357305,
+      "line": "line-1",
+      "lon": 31.61589496337112,
+      "s_m": 2603.9191898578692
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Sumbawanga Regional Hospital",
+      "demand": 0.8599565,
+      "id": "line-1-0369-0365-s002757",
+      "junction_group": 0,
+      "lat": -7.965597498470287,
+      "line": "line-1",
+      "lon": 31.614806484824076,
+      "s_m": 2757.0562748477178
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Soko Kuu",
+      "demand": 0.9757503,
+      "id": "line-1-0343-0347-s003426",
+      "junction_group": 1,
+      "lat": -7.960918378144909,
+      "line": "line-1",
+      "lon": 31.611541049182943,
+      "s_m": 3426.173157302036
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": null,
+      "demand": 0.5922963,
+      "id": "line-1-0215-0324-s006638",
+      "lat": -7.9378827088507355,
+      "line": "line-1",
+      "lon": 31.607368548085944,
+      "s_m": 6637.787873376923
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "St. Theresia Health Center",
+      "demand": 0.65400493,
+      "id": "line-2-0462-0393-s000000",
+      "lat": -7.982334351941835,
+      "line": "line-2",
+      "lon": 31.619886051376945,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8287417,
+      "id": "line-2-0373-0371-s002267",
+      "junction_group": 0,
+      "lat": -7.9663173631357305,
+      "line": "line-2",
+      "lon": 31.61589496337112,
+      "s_m": 2267.350647362944
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.832015,
+      "id": "line-2-0370-0374-s002352",
+      "junction_group": 0,
+      "lat": -7.965777464636648,
+      "line": "line-2",
+      "lon": 31.61643920264464,
+      "s_m": 2352.2034611053305
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Majengo Dispensary",
+      "demand": 0.7677685,
+      "id": "line-2-0270-0428-s005678",
+      "lat": -7.947780848000575,
+      "line": "line-2",
+      "lon": 31.626235509568033,
+      "s_m": 5678.376618407377
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Mazwi bus stend",
+      "demand": 0.8564419,
+      "id": "line-3-0277-0363-s000000",
+      "lat": -7.949040611165101,
+      "line": "line-3",
+      "lon": 31.614443658641726,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Soko Kuu",
+      "demand": 0.9757503,
+      "id": "line-3-0343-0347-s001592",
+      "junction_group": 1,
+      "lat": -7.960918378144909,
+      "line": "line-3",
+      "lon": 31.611541049182943,
+      "s_m": 1591.9595949289333
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8599565,
+      "id": "line-3-0369-0365-s002261",
+      "junction_group": 0,
+      "lat": -7.965597498470287,
+      "line": "line-3",
+      "lon": 31.614806484824076,
+      "s_m": 2261.076477383249
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Sumbawanga Regional Hospital",
+      "demand": 0.8318794,
+      "id": "line-3-0375-0363-s002699",
+      "junction_group": 0,
+      "lat": -7.966677295468452,
+      "line": "line-3",
+      "lon": 31.614443658641726,
+      "s_m": 2699.0663761154838
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "St.maurus college",
+      "archetype": "terminal",
+      "id": "line-1-0318-0457-s000000",
+      "lat": -7.956419223985891,
+      "line": "line-1",
+      "lon": 31.631496489212076,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0370-0374-s002519",
+      "junction_group": 0,
+      "lat": -7.965777464636648,
+      "line": "line-1",
+      "lon": 31.61643920264464,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2519.1
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0373-0371-s002604",
+      "junction_group": 0,
+      "lat": -7.9663173631357305,
+      "line": "line-1",
+      "lon": 31.61589496337112,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2603.9
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Sumbawanga Regional Hospital",
+      "archetype": "interchange",
+      "id": "line-1-0369-0365-s002757",
+      "junction_group": 0,
+      "lat": -7.965597498470287,
+      "line": "line-1",
+      "lon": 31.614806484824076,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2757.1
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Soko Kuu",
+      "archetype": "interchange",
+      "id": "line-1-0343-0347-s003426",
+      "junction_group": 1,
+      "lat": -7.960918378144909,
+      "line": "line-1",
+      "lon": 31.611541049182943,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3426.2
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "archetype": "depot-terminal",
+      "id": "line-1-0215-0324-s006638",
+      "lat": -7.9378827088507355,
+      "line": "line-1",
+      "lon": 31.607368548085944,
+      "platform_length_m": 49.0,
+      "s_m": 6637.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "St. Theresia Health Center",
+      "archetype": "terminal",
+      "id": "line-2-0462-0393-s000000",
+      "lat": -7.982334351941835,
+      "line": "line-2",
+      "lon": 31.619886051376945,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0373-0371-s002267",
+      "junction_group": 0,
+      "lat": -7.9663173631357305,
+      "line": "line-2",
+      "lon": 31.61589496337112,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2267.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0370-0374-s002352",
+      "junction_group": 0,
+      "lat": -7.965777464636648,
+      "line": "line-2",
+      "lon": 31.61643920264464,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2352.2
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Majengo Dispensary",
+      "archetype": "terminal",
+      "id": "line-2-0270-0428-s005678",
+      "lat": -7.947780848000575,
+      "line": "line-2",
+      "lon": 31.626235509568033,
+      "platform_length_m": 49.0,
+      "s_m": 5678.4
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Mazwi bus stend",
+      "archetype": "terminal",
+      "id": "line-3-0277-0363-s000000",
+      "lat": -7.949040611165101,
+      "line": "line-3",
+      "lon": 31.614443658641726,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Soko Kuu",
+      "archetype": "interchange",
+      "id": "line-3-0343-0347-s001592",
+      "junction_group": 1,
+      "lat": -7.960918378144909,
+      "line": "line-3",
+      "lon": 31.611541049182943,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 1592.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0369-0365-s002261",
+      "junction_group": 0,
+      "lat": -7.965597498470287,
+      "line": "line-3",
+      "lon": 31.614806484824076,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2261.1
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Sumbawanga Regional Hospital",
+      "archetype": "terminal",
+      "id": "line-3-0375-0363-s002699",
+      "junction_group": 0,
+      "lat": -7.966677295468452,
+      "line": "line-3",
+      "lon": 31.614443658641726,
+      "platform_length_m": 49.0,
+      "s_m": 2699.1
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

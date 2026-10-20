@@ -1,0 +1,30 @@
+# Explicit allowances for provisional catalogue migration, never site acceptance.
+[schema]
+version = 1
+family = "ferrite-pm-maglev-study"
+
+[formation]
+platform_end_allowance_m = 10.0
+spare_fraction = 0.10
+cold_reserve_per_line = 1
+
+[topology]
+radial = "fixed-terminal-loops"
+ring = "two-independent-directed-circuits"
+terminal_loop_radius_screen_m = 100.0
+terminal_loop_speed_screen_kmh = 20.0
+terminal_loop_lateral_acceleration_limit_screen_m_s2 = 0.5
+terminal_loop_circumferences_per_roundtrip = 2
+loop_geometry_accepted = false
+
+[charging]
+candidate_kw_per_car = 600.0
+minimum_dwell_seconds = 60.0
+connection_overhead_seconds = 15.0
+maximum_dwell_screen_seconds = 600.0
+rating_selected = false
+
+[depot]
+trains_per_storage_lane_screen = 3
+inspection_bay_fraction_screen = 0.10
+switches = "depot-only; independent access/recovery hardware unqualified"

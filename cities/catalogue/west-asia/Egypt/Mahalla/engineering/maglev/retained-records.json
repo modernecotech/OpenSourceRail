@@ -1,0 +1,655 @@
+{
+  "city": {
+    "bbox": {
+      "east": 31.2825,
+      "north": 31.0697,
+      "south": 30.8715,
+      "west": 31.0513
+    },
+    "centroid_lat": 30.966309437425764,
+    "centroid_lon": 31.169792261738305,
+    "country": "EG",
+    "population": 600000,
+    "slug": "mahalla"
+  },
+  "climate": {
+    "preset": "hot-desert"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/west-asia/Egypt/Mahalla/corridors.json",
+    "cities/catalogue/west-asia/Egypt/Mahalla/mahalla.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/west-asia/Egypt/Mahalla/mahalla.corridor.geojson",
+      "geometry_sha256": "4bd3b7d619d547b8082130831b47d633dda91c66ce4067d1ba2b68c0304b542b",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 1102,
+    "grid_width": 1104,
+    "population": 600000,
+    "schema_version": 1,
+    "slug": "mahalla"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 30.953351873447794,
+      "lines": [
+        "line-1",
+        "line-3"
+      ],
+      "lon": 31.14988639990782,
+      "platforms": [
+        "line-1-0645-0470-s001607",
+        "line-3-0647-0470-s000000"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 30.966219454342585,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 31.215366208560727,
+      "platforms": [
+        "line-1-0575-0782-s009000",
+        "line-2-0574-0783-s018642"
+      ]
+    },
+    {
+      "id": "interchange-002",
+      "junction_group": 2,
+      "lat": 30.974047982579275,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 31.16560155398452,
+      "platforms": [
+        "line-3-0531-0545-s003121",
+        "line-4-0531-0545-s000000"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 210,
+      "geometry": "standard-urban",
+      "length_m": 12119.5,
+      "name": "line-1",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 390,
+      "geometry": "standard-urban",
+      "length_m": 18641.7,
+      "name": "line-2",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 180,
+      "geometry": "standard-urban",
+      "length_m": 6626.7,
+      "name": "line-3",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 270,
+      "geometry": "standard-urban",
+      "length_m": 6329.3,
+      "name": "line-4",
+      "rolling_stock": "light-metro-3car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0700-0463-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0594-0921-s012119"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 38
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-1091-0156-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0574-0783-s018642"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 59
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0647-0470-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0505-0671-s006627"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 21
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0531-0545-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0312-0387-s006329"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 20
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "منشيه البكري",
+      "demand": 0.7067488,
+      "id": "line-1-0700-0463-s000000",
+      "lat": 30.943633700464314,
+      "line": "line-1",
+      "lon": 31.148419652193994,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفى صدر المحلة",
+      "demand": 0.9729602,
+      "id": "line-1-0645-0470-s001607",
+      "junction_group": 0,
+      "lat": 30.953531839614154,
+      "line": "line-1",
+      "lon": 31.14988639990782,
+      "s_m": 1606.5180361560904
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9193104,
+      "id": "line-1-0563-0557-s004235",
+      "lat": 30.968289065255732,
+      "line": "line-1",
+      "lon": 31.168115978636788,
+      "s_m": 4234.7012947259
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "الراهبين",
+      "demand": 0.40587327,
+      "id": "line-1-0575-0782-s009000",
+      "junction_group": 1,
+      "lat": 30.966129471259404,
+      "line": "line-1",
+      "lon": 31.215261440866882,
+      "s_m": 8999.79797464468
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "صيدلية د / أسماء عبيد",
+      "demand": 0.654153,
+      "id": "line-1-0594-0921-s012119",
+      "lat": 30.96271011409855,
+      "line": "line-1",
+      "lon": 31.244386859755696,
+      "s_m": 12119.45309579059
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "محلة روح",
+      "demand": 0.32583508,
+      "id": "line-2-1091-0156-s000000",
+      "lat": 30.87326692941727,
+      "line": "line-2",
+      "lon": 31.084092288173377,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.19528541,
+      "id": "line-2-0957-0255-s003500",
+      "lat": 30.897382395709606,
+      "line": "line-2",
+      "lon": 31.10483629155462,
+      "s_m": 3500.142853498737
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.1472971,
+      "id": "line-2-0884-0390-s007004",
+      "lat": 30.91051992585394,
+      "line": "line-2",
+      "lon": 31.133123568892675,
+      "s_m": 7004.062043356616
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35259417,
+      "id": "line-2-0754-0471-s010573",
+      "lat": 30.933915527480835,
+      "line": "line-2",
+      "lon": 31.15009593529551,
+      "s_m": 10572.834046956837
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5887323,
+      "id": "line-2-0662-0582-s013578",
+      "lat": 30.95047241478602,
+      "line": "line-2",
+      "lon": 31.17335436332902,
+      "s_m": 13578.418459228347
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "الراهبين",
+      "demand": 0.40965182,
+      "id": "line-2-0574-0783-s018642",
+      "junction_group": 1,
+      "lat": 30.966309437425764,
+      "line": "line-2",
+      "lon": 31.215470976254572,
+      "s_m": 18641.748904055767
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفى صدر المحلة",
+      "demand": 0.9762985,
+      "id": "line-3-0647-0470-s000000",
+      "junction_group": 0,
+      "lat": 30.953171907281433,
+      "line": "line-3",
+      "lon": 31.14988639990782,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.8957059,
+      "id": "line-3-0531-0545-s003121",
+      "junction_group": 2,
+      "lat": 30.974047982579275,
+      "line": "line-3",
+      "lon": 31.16560155398452,
+      "s_m": 3120.7315985291934
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "مساكن مبارك",
+      "demand": 0.82407075,
+      "id": "line-3-0505-0671-s006627",
+      "lat": 30.978727102904656,
+      "line": "line-3",
+      "lon": 31.19200301283337,
+      "s_m": 6626.660889654838
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "المحلة الكبرى",
+      "demand": 0.8957059,
+      "id": "line-4-0531-0545-s000000",
+      "junction_group": 2,
+      "lat": 30.974047982579275,
+      "line": "line-4",
+      "lon": 31.16560155398452,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.37413025,
+      "id": "line-4-0312-0387-s006329",
+      "lat": 31.013460573012274,
+      "line": "line-4",
+      "lon": 31.132494962729606,
+      "s_m": 6329.259735953062
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "منشيه البكري",
+      "archetype": "terminal",
+      "id": "line-1-0700-0463-s000000",
+      "lat": 30.943633700464314,
+      "line": "line-1",
+      "lon": 31.148419652193994,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفى صدر المحلة",
+      "archetype": "interchange",
+      "id": "line-1-0645-0470-s001607",
+      "junction_group": 0,
+      "lat": 30.953531839614154,
+      "line": "line-1",
+      "lon": 31.14988639990782,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 1606.5
+    },
+    {
+      "archetype": "major",
+      "id": "line-1-0563-0557-s004235",
+      "lat": 30.968289065255732,
+      "line": "line-1",
+      "lon": 31.168115978636788,
+      "platform_length_m": 59.5,
+      "s_m": 4234.7
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "الراهبين",
+      "archetype": "interchange",
+      "id": "line-1-0575-0782-s009000",
+      "junction_group": 1,
+      "lat": 30.966129471259404,
+      "line": "line-1",
+      "lon": 31.215261440866882,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 8999.8
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "صيدلية د / أسماء عبيد",
+      "archetype": "terminal",
+      "id": "line-1-0594-0921-s012119",
+      "lat": 30.96271011409855,
+      "line": "line-1",
+      "lon": 31.244386859755696,
+      "platform_length_m": 59.5,
+      "s_m": 12119.5
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "محلة روح",
+      "archetype": "terminal",
+      "id": "line-2-1091-0156-s000000",
+      "lat": 30.87326692941727,
+      "line": "line-2",
+      "lon": 31.084092288173377,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0957-0255-s003500",
+      "lat": 30.897382395709606,
+      "line": "line-2",
+      "lon": 31.10483629155462,
+      "platform_length_m": 55.5,
+      "s_m": 3500.1
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0884-0390-s007004",
+      "lat": 30.91051992585394,
+      "line": "line-2",
+      "lon": 31.133123568892675,
+      "platform_length_m": 55.5,
+      "s_m": 7004.1
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0754-0471-s010573",
+      "lat": 30.933915527480835,
+      "line": "line-2",
+      "lon": 31.15009593529551,
+      "platform_length_m": 59.5,
+      "s_m": 10572.8
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0662-0582-s013578",
+      "lat": 30.95047241478602,
+      "line": "line-2",
+      "lon": 31.17335436332902,
+      "platform_length_m": 59.5,
+      "s_m": 13578.4
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "الراهبين",
+      "archetype": "depot-terminal",
+      "id": "line-2-0574-0783-s018642",
+      "junction_group": 1,
+      "lat": 30.966309437425764,
+      "line": "line-2",
+      "lon": 31.215470976254572,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 18641.7
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "مستشفى صدر المحلة",
+      "archetype": "terminal",
+      "id": "line-3-0647-0470-s000000",
+      "junction_group": 0,
+      "lat": 30.953171907281433,
+      "line": "line-3",
+      "lon": 31.14988639990782,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0531-0545-s003121",
+      "junction_group": 2,
+      "lat": 30.974047982579275,
+      "line": "line-3",
+      "lon": 31.16560155398452,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 3120.7
+    },
+    {
+      "anchor_kind": "place:neighbourhood",
+      "anchor_name": "مساكن مبارك",
+      "archetype": "terminal",
+      "id": "line-3-0505-0671-s006627",
+      "lat": 30.978727102904656,
+      "line": "line-3",
+      "lon": 31.19200301283337,
+      "platform_length_m": 59.5,
+      "s_m": 6626.7
+    },
+    {
+      "anchor_kind": "place:town",
+      "anchor_name": "المحلة الكبرى",
+      "archetype": "terminal",
+      "id": "line-4-0531-0545-s000000",
+      "junction_group": 2,
+      "lat": 30.974047982579275,
+      "line": "line-4",
+      "lon": 31.16560155398452,
+      "mandatory_crossing": true,
+      "platform_length_m": 59.5,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0312-0387-s006329",
+      "lat": 31.013460573012274,
+      "line": "line-4",
+      "lon": 31.132494962729606,
+      "platform_length_m": 59.5,
+      "s_m": 6329.3
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

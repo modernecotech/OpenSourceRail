@@ -1,0 +1,966 @@
+{
+  "city": {
+    "bbox": {
+      "east": 32.9675,
+      "north": 2.3175,
+      "south": 2.1823,
+      "west": 32.8323
+    },
+    "centroid_lat": 2.248662941367023,
+    "centroid_lon": 32.89891621218768,
+    "country": "UG",
+    "population": 250000,
+    "slug": "lira"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Uganda/Lira/corridors.json",
+    "cities/catalogue/east-africa/Uganda/Lira/lira.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Uganda/Lira/lira.corridor.geojson",
+      "geometry_sha256": "dbcee1b856046051265dd7f2a0b81ce6deb86ebac94c659e133d14d6f19614e4",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 752,
+    "population": 250000,
+    "schema_version": 1,
+    "slug": "lira"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": 2.249986978162391,
+      "lines": [
+        "line-1",
+        "line-2",
+        "line-3"
+      ],
+      "lon": 32.900650006027156,
+      "platforms": [
+        "line-1-0365-0378-s003406",
+        "line-1-0372-0379-s003571",
+        "line-1-0375-0377-s003659",
+        "line-1-0376-0380-s003767",
+        "line-1-0376-0385-s003912",
+        "line-2-0376-0380-s009840",
+        "line-2-0376-0385-s009740",
+        "line-2-0378-0378-s009909",
+        "line-2-0381-0380-s009985",
+        "line-3-0365-0378-s007249",
+        "line-3-0372-0379-s007397",
+        "line-3-0375-0378-s007465",
+        "line-3-0377-0378-s007545",
+        "line-3-0381-0380-s007642"
+      ]
+    },
+    {
+      "id": "interchange-001",
+      "junction_group": 1,
+      "lat": 2.2614405391786345,
+      "lines": [
+        "line-3",
+        "line-4"
+      ],
+      "lon": 32.872845090008965,
+      "platforms": [
+        "line-3-0311-0225-s002507",
+        "line-4-0311-0225-s000713"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 14780.3,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 14797.1,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 15723.0,
+      "name": "line-3",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 5786.4,
+      "name": "line-4",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0353-0233-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0146-0738-s014780"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 34
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0456-0751-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0459-0206-s014797"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 32
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-3-0281-0120-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-3-0706-0540-s015723"
+        }
+      ],
+      "line": "line-3",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 35
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-4-0330-0199-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-4-0266-0413-s005786"
+        }
+      ],
+      "line": "line-4",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 15
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Ober Health Centre III",
+      "demand": 0.56860554,
+      "id": "line-1-0353-0233-s000000",
+      "lat": 2.253881960191484,
+      "line": "line-1",
+      "lon": 32.87428349674986,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Lira Regional Referral Hospital",
+      "demand": 0.9739976,
+      "id": "line-1-0365-0378-s003406",
+      "junction_group": 0,
+      "lat": 2.251722366195155,
+      "line": "line-1",
+      "lon": 32.900354618928574,
+      "s_m": 3405.929291125639
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Akii-Bua Stadium",
+      "demand": 0.98841363,
+      "id": "line-1-0372-0379-s003571",
+      "junction_group": 0,
+      "lat": 2.25046260303063,
+      "line": "line-1",
+      "lon": 32.90053441977118,
+      "s_m": 3570.7821048680253
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.99337685,
+      "id": "line-1-0375-0377-s003659",
+      "junction_group": 0,
+      "lat": 2.249922704531548,
+      "line": "line-1",
+      "lon": 32.900174818085965,
+      "s_m": 3659.0663761154874
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Akii-Bua Stadium",
+      "demand": 0.9934081,
+      "id": "line-1-0376-0380-s003767",
+      "junction_group": 0,
+      "lat": 2.249742738365187,
+      "line": "line-1",
+      "lon": 32.9007142206138,
+      "s_m": 3767.3506473629495
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9860547,
+      "id": "line-1-0376-0385-s003912",
+      "junction_group": 0,
+      "lat": 2.249742738365187,
+      "line": "line-1",
+      "lon": 32.90161322482685,
+      "s_m": 3912.203461105336
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Railway Line",
+      "demand": 0.63377655,
+      "id": "line-1-0297-0437-s005991",
+      "lat": 2.2639600655076846,
+      "line": "line-1",
+      "lon": 32.91096286864267,
+      "s_m": 5991.269837220829
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.4023987,
+      "id": "line-1-0325-0533-s008995",
+      "lat": 2.258921012849584,
+      "line": "line-1",
+      "lon": 32.92822374953341,
+      "s_m": 8994.600282048237
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "ONGICA HEALTH CENTRE 3",
+      "demand": 0.23310924,
+      "id": "line-1-0146-0738-s014780",
+      "lat": 2.2911349566281536,
+      "line": "line-1",
+      "lon": 32.965082922268834,
+      "s_m": 14780.327547818408
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "ABONYOTINGERE HC II",
+      "demand": 0.23386571,
+      "id": "line-2-0456-0751-s000000",
+      "lat": 2.2353454450563293,
+      "line": "line-2",
+      "lon": 32.96742033322278,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.35096157,
+      "id": "line-2-0378-0539-s006138",
+      "lat": 2.249382806032466,
+      "line": "line-2",
+      "lon": 32.92930255458908,
+      "s_m": 6137.88888605458
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.9860547,
+      "id": "line-2-0376-0385-s009740",
+      "junction_group": 0,
+      "lat": 2.249742738365187,
+      "line": "line-2",
+      "lon": 32.90161322482685,
+      "s_m": 9740.386719675125
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Akii-Bua Stadium",
+      "demand": 0.9934081,
+      "id": "line-2-0376-0380-s009840",
+      "junction_group": 0,
+      "lat": 2.249742738365187,
+      "line": "line-2",
+      "lon": 32.9007142206138,
+      "s_m": 9840.386719675125
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.99635595,
+      "id": "line-2-0378-0378-s009909",
+      "junction_group": 0,
+      "lat": 2.249382806032466,
+      "line": "line-2",
+      "lon": 32.900354618928574,
+      "s_m": 9908.670990922586
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.99626285,
+      "id": "line-2-0381-0380-s009985",
+      "junction_group": 0,
+      "lat": 2.248842907533384,
+      "line": "line-2",
+      "lon": 32.9007142206138,
+      "s_m": 9985.239533417509
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Market",
+      "demand": 0.87188023,
+      "id": "line-2-0416-0307-s012388",
+      "lat": 2.242544091710758,
+      "line": "line-2",
+      "lon": 32.88758875910313,
+      "s_m": 12387.737367038031
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Kica Rwot Tailoring School",
+      "demand": 0.44096592,
+      "id": "line-2-0459-0206-s014797",
+      "lat": 2.234805546557247,
+      "line": "line-2",
+      "lon": 32.86942887399934,
+      "s_m": 14797.098115668708
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Amuca Health Centre III",
+      "demand": 0.4232099,
+      "id": "line-3-0281-0120-s000000",
+      "lat": 2.266839524169456,
+      "line": "line-3",
+      "lon": 32.85396600153472,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5384069,
+      "id": "line-3-0311-0225-s002507",
+      "junction_group": 1,
+      "lat": 2.2614405391786345,
+      "line": "line-3",
+      "lon": 32.872845090008965,
+      "s_m": 2506.5180361560924
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Lira Regional Referral Hospital",
+      "demand": 0.9739976,
+      "id": "line-3-0365-0378-s007249",
+      "junction_group": 0,
+      "lat": 2.251722366195155,
+      "line": "line-3",
+      "lon": 32.900354618928574,
+      "s_m": 7248.670990922608
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Akii-Bua Stadium",
+      "demand": 0.98841363,
+      "id": "line-3-0372-0379-s007397",
+      "junction_group": 0,
+      "lat": 2.25046260303063,
+      "line": "line-3",
+      "lon": 32.90053441977118,
+      "s_m": 7396.9552621700705
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Akii-Bua Stadium",
+      "demand": 0.9933114,
+      "id": "line-3-0375-0378-s007465",
+      "junction_group": 0,
+      "lat": 2.249922704531548,
+      "line": "line-3",
+      "lon": 32.900354618928574,
+      "s_m": 7465.239533417533
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Akii-Bua Stadium",
+      "demand": 0.99558747,
+      "id": "line-3-0377-0378-s007545",
+      "junction_group": 0,
+      "lat": 2.2495627721988267,
+      "line": "line-3",
+      "lon": 32.900354618928574,
+      "s_m": 7545.239533417533
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.99626285,
+      "id": "line-3-0381-0380-s007642",
+      "junction_group": 0,
+      "lat": 2.248842907533384,
+      "line": "line-3",
+      "lon": 32.9007142206138,
+      "s_m": 7641.808075912457
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.42723748,
+      "id": "line-3-0491-0452-s010666",
+      "lat": 2.229046629233704,
+      "line": "line-3",
+      "lon": 32.91365988128185,
+      "s_m": 10665.727265770294
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Bororboro Health Centre III",
+      "demand": 0.39002314,
+      "id": "line-3-0706-0540-s015723",
+      "lat": 2.190353903466148,
+      "line": "line-3",
+      "lon": 32.92948235543169,
+      "s_m": 15723.027406794343
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.50409716,
+      "id": "line-4-0330-0199-s000000",
+      "lat": 2.2580211820177807,
+      "line": "line-4",
+      "lon": 32.86817026810105,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.5384069,
+      "id": "line-4-0311-0225-s000713",
+      "junction_group": 1,
+      "lat": 2.2614405391786345,
+      "line": "line-4",
+      "lon": 32.872845090008965,
+      "s_m": 712.5483399593904
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "demand": 0.6133606,
+      "id": "line-4-0264-0337-s003985",
+      "lat": 2.2698989489975885,
+      "line": "line-4",
+      "lon": 32.89298278438149,
+      "s_m": 3984.7518010647254
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.6042001,
+      "id": "line-4-0266-0413-s005786",
+      "lat": 2.269539016664867,
+      "line": "line-4",
+      "lon": 32.90664764841999,
+      "s_m": 5786.417023478438
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Ober Health Centre III",
+      "archetype": "terminal",
+      "id": "line-1-0353-0233-s000000",
+      "lat": 2.253881960191484,
+      "line": "line-1",
+      "lon": 32.87428349674986,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Lira Regional Referral Hospital",
+      "archetype": "interchange",
+      "id": "line-1-0365-0378-s003406",
+      "junction_group": 0,
+      "lat": 2.251722366195155,
+      "line": "line-1",
+      "lon": 32.900354618928574,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3405.9
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Akii-Bua Stadium",
+      "archetype": "interchange",
+      "id": "line-1-0372-0379-s003571",
+      "junction_group": 0,
+      "lat": 2.25046260303063,
+      "line": "line-1",
+      "lon": 32.90053441977118,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3570.8
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0375-0377-s003659",
+      "junction_group": 0,
+      "lat": 2.249922704531548,
+      "line": "line-1",
+      "lon": 32.900174818085965,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3659.1
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Akii-Bua Stadium",
+      "archetype": "interchange",
+      "id": "line-1-0376-0380-s003767",
+      "junction_group": 0,
+      "lat": 2.249742738365187,
+      "line": "line-1",
+      "lon": 32.9007142206138,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3767.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-1-0376-0385-s003912",
+      "junction_group": 0,
+      "lat": 2.249742738365187,
+      "line": "line-1",
+      "lon": 32.90161322482685,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 3912.2
+    },
+    {
+      "anchor_kind": "public_transport:station",
+      "anchor_name": "Railway Line",
+      "archetype": "major",
+      "id": "line-1-0297-0437-s005991",
+      "lat": 2.2639600655076846,
+      "line": "line-1",
+      "lon": 32.91096286864267,
+      "platform_length_m": 49.0,
+      "s_m": 5991.3
+    },
+    {
+      "archetype": "standard",
+      "id": "line-1-0325-0533-s008995",
+      "lat": 2.258921012849584,
+      "line": "line-1",
+      "lon": 32.92822374953341,
+      "platform_length_m": 49.0,
+      "s_m": 8994.6
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "ONGICA HEALTH CENTRE 3",
+      "archetype": "terminal",
+      "id": "line-1-0146-0738-s014780",
+      "lat": 2.2911349566281536,
+      "line": "line-1",
+      "lon": 32.965082922268834,
+      "platform_length_m": 49.0,
+      "s_m": 14780.3
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "ABONYOTINGERE HC II",
+      "archetype": "terminal",
+      "id": "line-2-0456-0751-s000000",
+      "lat": 2.2353454450563293,
+      "line": "line-2",
+      "lon": 32.96742033322278,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "standard",
+      "id": "line-2-0378-0539-s006138",
+      "lat": 2.249382806032466,
+      "line": "line-2",
+      "lon": 32.92930255458908,
+      "platform_length_m": 49.0,
+      "s_m": 6137.9
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0376-0385-s009740",
+      "junction_group": 0,
+      "lat": 2.249742738365187,
+      "line": "line-2",
+      "lon": 32.90161322482685,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 9740.4
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Akii-Bua Stadium",
+      "archetype": "interchange",
+      "id": "line-2-0376-0380-s009840",
+      "junction_group": 0,
+      "lat": 2.249742738365187,
+      "line": "line-2",
+      "lon": 32.9007142206138,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 9840.4
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0378-0378-s009909",
+      "junction_group": 0,
+      "lat": 2.249382806032466,
+      "line": "line-2",
+      "lon": 32.900354618928574,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 9908.7
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-2-0381-0380-s009985",
+      "junction_group": 0,
+      "lat": 2.248842907533384,
+      "line": "line-2",
+      "lon": 32.9007142206138,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 9985.2
+    },
+    {
+      "anchor_kind": "amenity:marketplace",
+      "anchor_name": "Market",
+      "archetype": "major",
+      "id": "line-2-0416-0307-s012388",
+      "lat": 2.242544091710758,
+      "line": "line-2",
+      "lon": 32.88758875910313,
+      "platform_length_m": 49.0,
+      "s_m": 12387.7
+    },
+    {
+      "anchor_kind": "amenity:college",
+      "anchor_name": "Kica Rwot Tailoring School",
+      "archetype": "terminal",
+      "id": "line-2-0459-0206-s014797",
+      "lat": 2.234805546557247,
+      "line": "line-2",
+      "lon": 32.86942887399934,
+      "platform_length_m": 49.0,
+      "s_m": 14797.1
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Amuca Health Centre III",
+      "archetype": "terminal",
+      "id": "line-3-0281-0120-s000000",
+      "lat": 2.266839524169456,
+      "line": "line-3",
+      "lon": 32.85396600153472,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0311-0225-s002507",
+      "junction_group": 1,
+      "lat": 2.2614405391786345,
+      "line": "line-3",
+      "lon": 32.872845090008965,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 2506.5
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Lira Regional Referral Hospital",
+      "archetype": "interchange",
+      "id": "line-3-0365-0378-s007249",
+      "junction_group": 0,
+      "lat": 2.251722366195155,
+      "line": "line-3",
+      "lon": 32.900354618928574,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7248.7
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Akii-Bua Stadium",
+      "archetype": "interchange",
+      "id": "line-3-0372-0379-s007397",
+      "junction_group": 0,
+      "lat": 2.25046260303063,
+      "line": "line-3",
+      "lon": 32.90053441977118,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7397.0
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Akii-Bua Stadium",
+      "archetype": "interchange",
+      "id": "line-3-0375-0378-s007465",
+      "junction_group": 0,
+      "lat": 2.249922704531548,
+      "line": "line-3",
+      "lon": 32.900354618928574,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7465.2
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "Akii-Bua Stadium",
+      "archetype": "interchange",
+      "id": "line-3-0377-0378-s007545",
+      "junction_group": 0,
+      "lat": 2.2495627721988267,
+      "line": "line-3",
+      "lon": 32.900354618928574,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7545.2
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-3-0381-0380-s007642",
+      "junction_group": 0,
+      "lat": 2.248842907533384,
+      "line": "line-3",
+      "lon": 32.9007142206138,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 7641.8
+    },
+    {
+      "archetype": "standard",
+      "id": "line-3-0491-0452-s010666",
+      "lat": 2.229046629233704,
+      "line": "line-3",
+      "lon": 32.91365988128185,
+      "platform_length_m": 49.0,
+      "s_m": 10665.7
+    },
+    {
+      "anchor_kind": "amenity:hospital",
+      "anchor_name": "Bororboro Health Centre III",
+      "archetype": "depot-terminal",
+      "id": "line-3-0706-0540-s015723",
+      "lat": 2.190353903466148,
+      "line": "line-3",
+      "lon": 32.92948235543169,
+      "platform_length_m": 49.0,
+      "s_m": 15723.0
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0330-0199-s000000",
+      "lat": 2.2580211820177807,
+      "line": "line-4",
+      "lon": 32.86817026810105,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "interchange",
+      "id": "line-4-0311-0225-s000713",
+      "junction_group": 1,
+      "lat": 2.2614405391786345,
+      "line": "line-4",
+      "lon": 32.872845090008965,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 712.5
+    },
+    {
+      "anchor_kind": "planning:residential-priority",
+      "anchor_name": "Residential planning stop; site release open",
+      "archetype": "major",
+      "id": "line-4-0264-0337-s003985",
+      "lat": 2.2698989489975885,
+      "line": "line-4",
+      "lon": 32.89298278438149,
+      "platform_length_m": 49.0,
+      "s_m": 3984.8
+    },
+    {
+      "archetype": "terminal",
+      "id": "line-4-0266-0413-s005786",
+      "lat": 2.269539016664867,
+      "line": "line-4",
+      "lon": 32.90664764841999,
+      "platform_length_m": 49.0,
+      "s_m": 5786.4
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}

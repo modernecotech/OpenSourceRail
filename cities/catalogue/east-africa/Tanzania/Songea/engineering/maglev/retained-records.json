@@ -1,0 +1,308 @@
+{
+  "city": {
+    "bbox": {
+      "east": 35.7188,
+      "north": -10.6157,
+      "south": -10.7509,
+      "west": 35.5812
+    },
+    "centroid_lat": -10.682917363135731,
+    "centroid_lon": 35.64948748047663,
+    "country": "TZ",
+    "population": 250000,
+    "slug": "songea"
+  },
+  "climate": {
+    "preset": "tropical-wet"
+  },
+  "full_route_geometry_sources": [
+    "cities/catalogue/east-africa/Tanzania/Songea/corridors.json",
+    "cities/catalogue/east-africa/Tanzania/Songea/songea.corridor.geojson"
+  ],
+  "retained_demand_metadata": {
+    "capture_provenance": {
+      "basis": "original controlled geometry before this catalogue regeneration; cell centre offset inverted explicitly",
+      "geometry": "cities/catalogue/east-africa/Tanzania/Songea/songea.corridor.geojson",
+      "geometry_sha256": "ba82d45b12fdc2c56e8d576e24ecca9f946d5a1f83f9dfabf5ab3b11f777cb54",
+      "revision": "23878c15c5b20e42da587764865ae4101f9c56b3"
+    },
+    "coordinate_basis": "cell-centre-index-v1",
+    "demand_weight": 5.0,
+    "grid_cell_m": 20.0,
+    "grid_height": 752,
+    "grid_width": 753,
+    "population": 250000,
+    "schema_version": 1,
+    "slug": "songea"
+  },
+  "retained_interchanges": [
+    {
+      "id": "interchange-000",
+      "junction_group": 0,
+      "lat": -10.675598739037062,
+      "lines": [
+        "line-1",
+        "line-2"
+      ],
+      "lon": 35.64607463004673,
+      "platforms": [
+        "line-1-0325-0355-s000481",
+        "line-1-0347-0350-s000000",
+        "line-2-0325-0358-s008107"
+      ]
+    }
+  ],
+  "retained_lines": [
+    {
+      "charging_dwell_seconds": 120,
+      "geometry": "standard-urban",
+      "length_m": 3826.5,
+      "name": "line-1",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    },
+    {
+      "charging_dwell_seconds": 240,
+      "geometry": "standard-urban",
+      "length_m": 8107.1,
+      "name": "line-2",
+      "rolling_stock": "tram-2car",
+      "shape": "radial"
+    }
+  ],
+  "retained_service_schedules": [
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-1-0347-0350-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-1-0172-0388-s003827"
+        }
+      ],
+      "line": "line-1",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 11
+    },
+    {
+      "dispatch_points": [
+        {
+          "heading": "forward",
+          "station": "line-2-0364-0009-s000000"
+        },
+        {
+          "heading": "reverse",
+          "station": "line-2-0325-0358-s008107"
+        }
+      ],
+      "line": "line-2",
+      "schedule": [
+        {
+          "from": "05:30",
+          "headway_min": 6,
+          "to": "07:00"
+        },
+        {
+          "from": "07:00",
+          "headway_min": 3,
+          "to": "09:00"
+        },
+        {
+          "from": "09:00",
+          "headway_min": 6,
+          "to": "15:00"
+        },
+        {
+          "from": "15:00",
+          "headway_min": 3,
+          "to": "17:00"
+        },
+        {
+          "from": "17:00",
+          "headway_min": 6,
+          "to": "23:30"
+        },
+        {
+          "from": "23:30",
+          "headway_min": 12,
+          "to": "02:00"
+        }
+      ],
+      "service_end": "02:00",
+      "service_start": "05:30",
+      "trainset_count": 18
+    }
+  ],
+  "retained_station_demand_records": [
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Dala Dallas",
+      "demand": 0.94949734,
+      "id": "line-1-0347-0350-s000000",
+      "junction_group": 0,
+      "lat": -10.678238242810352,
+      "line": "line-1",
+      "lon": 35.64528236119694,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "zimamoto stadium",
+      "demand": 0.8611193,
+      "id": "line-1-0325-0355-s000481",
+      "junction_group": 0,
+      "lat": -10.674278987150416,
+      "line": "line-1",
+      "lon": 35.64619651756209,
+      "s_m": 481.4213562373095
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Msamala",
+      "demand": 0.35557336,
+      "id": "line-1-0172-0388-s003827",
+      "lat": -10.646744163697225,
+      "line": "line-1",
+      "lon": 35.652229949572074,
+      "s_m": 3826.5180361560942
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Songea Airport",
+      "demand": 0.31757683,
+      "id": "line-2-0364-0009-s000000",
+      "lat": -10.681297667638484,
+      "line": "line-2",
+      "lon": 35.58293689709379,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": null,
+      "anchor_name": null,
+      "demand": 0.2222572,
+      "id": "line-2-0310-0162-s004063",
+      "lat": -10.671579494655004,
+      "line": "line-2",
+      "lon": 35.610910081867345,
+      "s_m": 4062.8427124746195
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "zimamoto stadium",
+      "demand": 0.86758894,
+      "id": "line-2-0325-0358-s008107",
+      "junction_group": 0,
+      "lat": -10.674278987150416,
+      "line": "line-2",
+      "lon": 35.64674501138118,
+      "s_m": 8107.106781186551
+    }
+  ],
+  "retained_station_design_records": [
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Dala Dallas",
+      "archetype": "terminal",
+      "id": "line-1-0347-0350-s000000",
+      "junction_group": 0,
+      "lat": -10.678238242810352,
+      "line": "line-1",
+      "lon": 35.64528236119694,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "zimamoto stadium",
+      "archetype": "interchange",
+      "id": "line-1-0325-0355-s000481",
+      "junction_group": 0,
+      "lat": -10.674278987150416,
+      "line": "line-1",
+      "lon": 35.64619651756209,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 481.4
+    },
+    {
+      "anchor_kind": "amenity:bus_station",
+      "anchor_name": "Msamala",
+      "archetype": "terminal",
+      "id": "line-1-0172-0388-s003827",
+      "lat": -10.646744163697225,
+      "line": "line-1",
+      "lon": 35.652229949572074,
+      "platform_length_m": 49.0,
+      "s_m": 3826.5
+    },
+    {
+      "anchor_kind": "aeroway:aerodrome",
+      "anchor_name": "Songea Airport",
+      "archetype": "terminal",
+      "id": "line-2-0364-0009-s000000",
+      "lat": -10.681297667638484,
+      "line": "line-2",
+      "lon": 35.58293689709379,
+      "platform_length_m": 49.0,
+      "s_m": 0.0
+    },
+    {
+      "archetype": "halt",
+      "id": "line-2-0310-0162-s004063",
+      "lat": -10.671579494655004,
+      "line": "line-2",
+      "lon": 35.610910081867345,
+      "platform_length_m": 45.0,
+      "s_m": 4062.8
+    },
+    {
+      "anchor_kind": "leisure:stadium",
+      "anchor_name": "zimamoto stadium",
+      "archetype": "depot-terminal",
+      "id": "line-2-0325-0358-s008107",
+      "junction_group": 0,
+      "lat": -10.674278987150416,
+      "line": "line-2",
+      "lon": 35.64674501138118,
+      "mandatory_crossing": true,
+      "platform_length_m": 49.0,
+      "s_m": 8107.1
+    }
+  ],
+  "use": "Retained geography and demand only. No physical geometry, fleet, costs, soil or supplier acceptance transfers."
+}
