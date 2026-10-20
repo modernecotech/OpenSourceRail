@@ -1,14 +1,14 @@
 import sys,runpy
 sys.path[:0]=['/home/hayder/Documents/OpenSourceRail', '/home/hayder/Documents/OpenSourceRail/design/component-catalogue/src']
 module=runpy.run_path('/home/hayder/Documents/OpenSourceRail/engineering/design_engine/native_cad.py')
-module["native"]('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/a31b519b4a3700575ff57cd78c58fcd958d36c3ef8cefadc4da0fbc123e322bb/closure-studies-attempt/structural-bay/definition.json','/home/hayder/.local/state/opensourcerail/assembly-design/epochs/a31b519b4a3700575ff57cd78c58fcd958d36c3ef8cefadc4da0fbc123e322bb/closure-studies-attempt/structural-bay/native')
+module["native"]('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/74469c2e2284bd310b62f66c72c27b159dd6a4bb1a625379753c851c76c1ff49/closure-studies-attempt/structural-bay/definition.json','/home/hayder/.local/state/opensourcerail/assembly-design/epochs/74469c2e2284bd310b62f66c72c27b159dd6a4bb1a625379753c851c76c1ff49/closure-studies-attempt/structural-bay/native')
 import json,hashlib
 from pathlib import Path
 import FreeCAD as App
-definition=json.loads(Path('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/a31b519b4a3700575ff57cd78c58fcd958d36c3ef8cefadc4da0fbc123e322bb/closure-studies-attempt/structural-bay/definition.json').read_text())
+definition=json.loads(Path('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/74469c2e2284bd310b62f66c72c27b159dd6a4bb1a625379753c851c76c1ff49/closure-studies-attempt/structural-bay/definition.json').read_text())
 unit_map={p["id"]:p["manufacturing_unit_id"] for p in definition["parts"] if p.get("manufacturing_unit_id")}
 if unit_map:
-    path=Path('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/a31b519b4a3700575ff57cd78c58fcd958d36c3ef8cefadc4da0fbc123e322bb/closure-studies-attempt/structural-bay/native')
+    path=Path('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/74469c2e2284bd310b62f66c72c27b159dd6a4bb1a625379753c851c76c1ff49/closure-studies-attempt/structural-bay/native')
     doc=App.openDocument(str(path/"candidate.FCStd"))
     for obj in doc.Objects:
         if hasattr(obj,"PhysicalPartId") and obj.PhysicalPartId in unit_map:

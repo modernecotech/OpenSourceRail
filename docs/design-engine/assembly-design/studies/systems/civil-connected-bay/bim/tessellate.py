@@ -1,0 +1,2 @@
+import runpy
+runpy.run_path('/home/hayder/Documents/OpenSourceRail/engineering/design_delivery/visuals.py')["export_mesh"]('/home/hayder/.local/state/opensourcerail/assembly-design/epochs/74469c2e2284bd310b62f66c72c27b159dd6a4bb1a625379753c851c76c1ff49/closure-studies-attempt/systems/civil-connected-bay/native/candidate.FCStd','/home/hayder/.local/state/opensourcerail/assembly-design/epochs/74469c2e2284bd310b62f66c72c27b159dd6a4bb1a625379753c851c76c1ff49/closure-studies-attempt/systems/civil-connected-bay/bim/native-mesh.json')

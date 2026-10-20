@@ -192,6 +192,122 @@
       }
     },
     {
+      "adapter": "engineering.assembly_design.carbody_assembly",
+      "design_complete": false,
+      "execution": "finite companion after registered queue",
+      "id": "carbody-assembly",
+      "limitations": "provisional complete geometric envelope; bogies, crash, fatigue, weld qualification, door adoption and installed equipment remain open",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "connected underframe, door/window frames, roof, end structure and sheet units",
+      "qualification": "exact-source assembly qualification required",
+      "registered_for_bounded_design": true,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {
+        "recipes": [
+          {
+            "floor_m": 0.006,
+            "frame_wall_m": 0.004,
+            "portal_profile": "slender"
+          },
+          {
+            "floor_m": 0.008,
+            "frame_wall_m": 0.005,
+            "portal_profile": "slender"
+          },
+          {
+            "floor_m": 0.01,
+            "frame_wall_m": 0.006,
+            "portal_profile": "slender"
+          },
+          {
+            "floor_m": 0.01,
+            "frame_wall_m": 0.006,
+            "portal_profile": "strengthened-medium"
+          },
+          {
+            "floor_m": 0.01,
+            "frame_wall_m": 0.008,
+            "portal_profile": "strengthened-heavy"
+          },
+          {
+            "floor_m": 0.012,
+            "frame_wall_m": 0.01,
+            "portal_profile": "strengthened-deep"
+          }
+        ]
+      }
+    },
+    {
+      "adapter": "engineering.assembly_design.civil_assembly",
+      "design_complete": false,
+      "execution": "finite companion after registered queue",
+      "id": "civil-assembly",
+      "limitations": "site-specific ground, full reinforcement/prestress, temporary works and connection resistance remain open",
+      "manufacturing_release": false,
+      "physical_release": false,
+      "physical_validation": false,
+      "process_domain": "connected foundation, pier, cap, deck, paired track supports and walkway/service units",
+      "qualification": "exact-source assembly qualification required",
+      "registered_for_bounded_design": true,
+      "required_registration": [
+        "frozen architecture/interface/load/material/process domain",
+        "source/runtime qualification receipt",
+        "independent analytical or numerical controls",
+        "known-invalid adverse controls",
+        "manufactured-CAD reconstruction/native confirmation",
+        "explicit unresolved and applicability bounds"
+      ],
+      "variables": {
+        "recipes": [
+          {
+            "architecture": "large-span",
+            "bracket_wall_m": 0.004
+          },
+          {
+            "architecture": "large-span",
+            "bracket_wall_m": 0.006
+          },
+          {
+            "architecture": "large-span",
+            "bracket_wall_m": 0.008
+          },
+          {
+            "architecture": "segmental",
+            "bracket_wall_m": 0.004
+          },
+          {
+            "architecture": "segmental",
+            "bracket_wall_m": 0.006
+          },
+          {
+            "architecture": "segmental",
+            "bracket_wall_m": 0.008
+          },
+          {
+            "architecture": "light-ribbed",
+            "bracket_wall_m": 0.004
+          },
+          {
+            "architecture": "light-ribbed",
+            "bracket_wall_m": 0.006
+          },
+          {
+            "architecture": "light-ribbed",
+            "bracket_wall_m": 0.008
+          }
+        ]
+      }
+    },
+    {
       "adapter": "engineering.assembly_design.cassette_system",
       "design_complete": false,
       "execution": "unregistered",

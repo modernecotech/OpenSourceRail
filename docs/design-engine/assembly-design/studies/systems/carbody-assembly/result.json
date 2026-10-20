@@ -1,0 +1,1401 @@
+{
+  "assembly_media": {
+    "candidate_revision": "e5eb46dc22fdc288752017c2cdccdd089b220b4b9152d9fa0ca2850623fc3391",
+    "decoded_video": {
+      "codec_name": "h264",
+      "height": 600,
+      "nb_frames": "48",
+      "width": 1000
+    },
+    "design_complete": false,
+    "ffmpeg_sha256": "69f439a5e25894babc003b7891087f72eb3b0e574484926029834aaa93bb8fad",
+    "ffprobe_sha256": "6e4476b8f0242becb9ad618039c529827766f56e7fd93979eb9691929b9598df",
+    "files_sha256": {
+      "assembly-intermediate.png": "046f204bdf4d78cba58d0fbbfb9125c4e9a70f2f47c457a73326ffb56253e461",
+      "assembly-sequence.mp4": "b181a2dc0c25f84670475f08348e98c588139a188905e6df6a93e28e53340bb2",
+      "assembly-stages.png": "1c6cd006b3e25664a478ef1e5e06b92a7e9b05b1c20dfc9336e7a0fb5282dd29"
+    },
+    "frames": 48,
+    "frames_per_second": 6,
+    "manufacturing_release": false,
+    "native_mesh_sha256": "0299886e38aac78d169c2454d8978e60577910c71c2438defa36b5a050978585",
+    "physical_release": false,
+    "physical_validation": false,
+    "scope": "Native CAD construction-stage visibility sequence at final coordinates; not a motion, collision, crane or construction-load simulation",
+    "stages": [
+      {
+        "id": "underframe",
+        "part_ids": [
+          "sill--1-0",
+          "sill--1-1",
+          "sill-1-0",
+          "sill-1-1",
+          "cross-00",
+          "cross-01",
+          "cross-02",
+          "cross-03",
+          "cross-04",
+          "cross-05",
+          "cross-06",
+          "cross-07",
+          "cross-08",
+          "cross-09",
+          "cross-10",
+          "cross-11",
+          "cross-12"
+        ],
+        "requires": [],
+        "title": "Underframe"
+      },
+      {
+        "id": "side-frame",
+        "part_ids": [
+          "right-post-00",
+          "right-post-01",
+          "right-post-02",
+          "right-post-03",
+          "right-post-04",
+          "right-post-05",
+          "right-post-06",
+          "right-post-07",
+          "right-post-08",
+          "right-post-09",
+          "right-post-10",
+          "right-post-11",
+          "right-post-12",
+          "right-post-13",
+          "right-door-header-0",
+          "right-door-header-1",
+          "right-window-sill-0",
+          "right-window-header-0",
+          "right-window-sill-1",
+          "right-window-header-1",
+          "right-window-sill-2",
+          "right-window-header-2",
+          "left-post-00",
+          "left-post-01",
+          "left-post-02",
+          "left-post-03",
+          "left-post-04",
+          "left-post-05",
+          "left-post-06",
+          "left-post-07",
+          "left-post-08",
+          "left-post-09",
+          "left-post-10",
+          "left-post-11",
+          "left-post-12",
+          "left-post-13",
+          "left-door-header-0",
+          "left-door-header-1",
+          "left-window-sill-0",
+          "left-window-header-0",
+          "left-window-sill-1",
+          "left-window-header-1",
+          "left-window-sill-2",
+          "left-window-header-2"
+        ],
+        "requires": [
+          "underframe"
+        ],
+        "title": "Side Frame"
+      },
+      {
+        "id": "end-frame",
+        "part_ids": [
+          "rear-gangway-post--1",
+          "rear-gangway-post-1",
+          "rear-gangway-header",
+          "front-gangway-post--1",
+          "front-gangway-post-1",
+          "front-gangway-header"
+        ],
+        "requires": [
+          "underframe"
+        ],
+        "title": "End Frame"
+      },
+      {
+        "id": "roof-frame",
+        "part_ids": [
+          "roof-rail-right-0",
+          "roof-rail-right-1",
+          "roof-rail-left-0",
+          "roof-rail-left-1",
+          "roof-bow-00",
+          "roof-bow-01",
+          "roof-bow-02",
+          "roof-bow-03",
+          "roof-bow-04",
+          "roof-bow-05",
+          "roof-bow-06",
+          "roof-bow-07",
+          "roof-bow-08",
+          "roof-bow-09",
+          "roof-bow-10",
+          "roof-bow-11",
+          "roof-bow-12",
+          "roof-bow-13"
+        ],
+        "requires": [
+          "side-frame",
+          "end-frame"
+        ],
+        "title": "Roof Frame"
+      },
+      {
+        "id": "floor",
+        "part_ids": [
+          "floor-00",
+          "floor-01",
+          "floor-02",
+          "floor-03",
+          "floor-04",
+          "floor-05",
+          "floor-06",
+          "floor-07",
+          "floor-08",
+          "floor-09",
+          "right-floor-edge-01",
+          "right-floor-edge-03",
+          "right-floor-edge-05",
+          "right-floor-edge-07",
+          "right-floor-edge-09",
+          "right-floor-edge-11",
+          "right-floor-edge-13",
+          "right-floor-edge-15",
+          "right-floor-edge-17",
+          "right-floor-edge-19",
+          "right-floor-edge-21",
+          "right-floor-edge-23",
+          "right-floor-edge-25",
+          "left-floor-edge-01",
+          "left-floor-edge-03",
+          "left-floor-edge-05",
+          "left-floor-edge-07",
+          "left-floor-edge-09",
+          "left-floor-edge-11",
+          "left-floor-edge-13",
+          "left-floor-edge-15",
+          "left-floor-edge-17",
+          "left-floor-edge-19",
+          "left-floor-edge-21",
+          "left-floor-edge-23",
+          "left-floor-edge-25",
+          "rear-gangway-threshold",
+          "front-gangway-threshold"
+        ],
+        "requires": [
+          "underframe",
+          "side-frame",
+          "end-frame"
+        ],
+        "title": "Floor"
+      },
+      {
+        "id": "cladding",
+        "part_ids": [
+          "right-skin-00-0",
+          "right-skin-01-0",
+          "right-skin-02-0",
+          "right-skin-03-0",
+          "right-skin-04-0",
+          "right-skin-05-0",
+          "right-skin-06-0",
+          "right-skin-07-0",
+          "right-skin-08-0",
+          "right-skin-09-0",
+          "left-skin-00-0",
+          "left-skin-01-0",
+          "left-skin-02-0",
+          "left-skin-03-0",
+          "left-skin-04-0",
+          "left-skin-05-0",
+          "left-skin-06-0",
+          "left-skin-07-0",
+          "left-skin-08-0",
+          "left-skin-09-0",
+          "roof-sheet-00",
+          "roof-sheet-01",
+          "roof-sheet-02",
+          "roof-sheet-03",
+          "roof-sheet-04",
+          "roof-sheet-05",
+          "roof-sheet-06",
+          "roof-sheet-07",
+          "roof-sheet-08",
+          "roof-sheet-09",
+          "rear-end-skin-0",
+          "front-end-skin-0"
+        ],
+        "requires": [
+          "roof-frame",
+          "floor"
+        ],
+        "title": "Cladding"
+      },
+      {
+        "id": "glazing",
+        "part_ids": [
+          "right-window-glass-0",
+          "right-window-glass-1",
+          "right-window-glass-2",
+          "left-window-glass-0",
+          "left-window-glass-1",
+          "left-window-glass-2"
+        ],
+        "requires": [
+          "cladding"
+        ],
+        "title": "Glazing"
+      },
+      {
+        "id": "doors",
+        "part_ids": [
+          "right-door-0-leaf-0",
+          "right-door-0-leaf-0-glass",
+          "right-door-0-leaf-1",
+          "right-door-0-leaf-1-glass",
+          "right-door-1-leaf-0",
+          "right-door-1-leaf-0-glass",
+          "right-door-1-leaf-1",
+          "right-door-1-leaf-1-glass",
+          "left-door-0-leaf-0",
+          "left-door-0-leaf-0-glass",
+          "left-door-0-leaf-1",
+          "left-door-0-leaf-1-glass",
+          "left-door-1-leaf-0",
+          "left-door-1-leaf-0-glass",
+          "left-door-1-leaf-1",
+          "left-door-1-leaf-1-glass"
+        ],
+        "requires": [
+          "side-frame",
+          "floor"
+        ],
+        "title": "Doors"
+      }
+    ],
+    "state": "executed"
+  },
+  "candidate_revision": "e5eb46dc22fdc288752017c2cdccdd089b220b4b9152d9fa0ca2850623fc3391",
+  "design_complete": false,
+  "eligible_for_research": true,
+  "failed_checks": [],
+  "frame_response_sha256": "4d5c1d9b7bc3d177cf8a2431d388d4453630c8c3ca8ca06be433c5d3656a9473",
+  "held_checks": [
+    "adopted-door-platform-and-floor-map",
+    "whole-carbody-stress-deflection-and-fatigue",
+    "qualified-primary-joints",
+    "local-floor-wheel-loads",
+    "door-moving-and-fail-safe-tests",
+    "complete-panel-retention-and-weather-fire",
+    "bogie-coupler-crash-and-lifting",
+    "installed-equipment-interference",
+    "physical-independent-acceptance",
+    "frame/joint-stiffness-and-resistance",
+    "frame/shell-local-buckling-and-panel-mounts",
+    "frame/railway-load-adoption-and-fatigue",
+    "frame/actual-bogie-suspension-and-equipment-maps",
+    "frame/nonlinear-imperfections-and-physical-correlation"
+  ],
+  "kind": "carbody-assembly",
+  "manufacturing_release": false,
+  "native_error": null,
+  "native_proof": {
+    "checks": [
+      {
+        "cg_error_m": 1.8444410139024814e-15,
+        "inertia_relative_error": 6.048084929410989e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "sill--1-0"
+      },
+      {
+        "cg_error_m": 1.8444410139024814e-15,
+        "inertia_relative_error": 5.139883856991153e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "sill--1-1"
+      },
+      {
+        "cg_error_m": 1.8444410139024814e-15,
+        "inertia_relative_error": 6.048084929410989e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "sill-1-0"
+      },
+      {
+        "cg_error_m": 1.8444410139024814e-15,
+        "inertia_relative_error": 5.139883856991153e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "sill-1-1"
+      },
+      {
+        "cg_error_m": 1.131827774541598e-16,
+        "inertia_relative_error": 2.0798556046716813e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "cross-00"
+      },
+      {
+        "cg_error_m": 1.131827774541598e-16,
+        "inertia_relative_error": 2.7103373568871334e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "cross-01"
+      },
+      {
+        "cg_error_m": 1.8312687224503535e-15,
+        "inertia_relative_error": 2.1540884314467083e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "cross-02"
+      },
+      {
+        "cg_error_m": 1.131827774541598e-16,
+        "inertia_relative_error": 2.7103373568871334e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "cross-03"
+      },
+      {
+        "cg_error_m": 1.150379444492588e-16,
+        "inertia_relative_error": 2.797941444674242e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "cross-04"
+      },
+      {
+        "cg_error_m": 4.971907385925076e-16,
+        "inertia_relative_error": 3.196723928192227e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "cross-05"
+      },
+      {
+        "cg_error_m": 1.137585377897688e-16,
+        "inertia_relative_error": 3.021987642345462e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "cross-06"
+      },
+      {
+        "cg_error_m": 2.4927243249498187e-16,
+        "inertia_relative_error": 3.193136835755261e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "cross-07"
+      },
+      {
+        "cg_error_m": 8.9558043097964e-16,
+        "inertia_relative_error": 2.3963325946058196e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "cross-08"
+      },
+      {
+        "cg_error_m": 1.131827774541598e-16,
+        "inertia_relative_error": 2.711897445851422e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "cross-09"
+      },
+      {
+        "cg_error_m": 6.280422031461112e-15,
+        "inertia_relative_error": 2.2110745215535717e-16,
+        "mass_relative_error": 8.881784197001252e-16,
+        "physical_id": "cross-10"
+      },
+      {
+        "cg_error_m": 8.953609586827258e-16,
+        "inertia_relative_error": 2.7103373568871334e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "cross-11"
+      },
+      {
+        "cg_error_m": 1.131827774541598e-16,
+        "inertia_relative_error": 2.0798556046716813e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "cross-12"
+      },
+      {
+        "cg_error_m": 2.628251153632262e-17,
+        "inertia_relative_error": 6.55594941970554e-15,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "floor-00"
+      },
+      {
+        "cg_error_m": 8.89588792294138e-16,
+        "inertia_relative_error": 2.9930764171335685e-14,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "floor-01"
+      },
+      {
+        "cg_error_m": 1.790225332592794e-15,
+        "inertia_relative_error": 9.409073778985503e-15,
+        "mass_relative_error": 0.0,
+        "physical_id": "floor-02"
+      },
+      {
+        "cg_error_m": 4.585767333053577e-16,
+        "inertia_relative_error": 3.4696366298080022e-15,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "floor-03"
+      },
+      {
+        "cg_error_m": 2.0492119108699798e-17,
+        "inertia_relative_error": 6.44122559049748e-16,
+        "mass_relative_error": 3.3306690738754696e-16,
+        "physical_id": "floor-04"
+      },
+      {
+        "cg_error_m": 2.482582186403564e-16,
+        "inertia_relative_error": 7.938436694833965e-16,
+        "mass_relative_error": 3.3306690738754696e-16,
+        "physical_id": "floor-05"
+      },
+      {
+        "cg_error_m": 4.440918950029875e-16,
+        "inertia_relative_error": 1.0314685731978917e-15,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "floor-06"
+      },
+      {
+        "cg_error_m": 8.885098005813494e-16,
+        "inertia_relative_error": 8.724327898296161e-15,
+        "mass_relative_error": 0.0,
+        "physical_id": "floor-07"
+      },
+      {
+        "cg_error_m": 2.2240305882099025e-16,
+        "inertia_relative_error": 2.9860943114486973e-15,
+        "mass_relative_error": 0.0,
+        "physical_id": "floor-08"
+      },
+      {
+        "cg_error_m": 2.628251153632262e-17,
+        "inertia_relative_error": 6.555948444251219e-15,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "floor-09"
+      },
+      {
+        "cg_error_m": 3.688882027804963e-15,
+        "inertia_relative_error": 1.408244722275467e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-post-00"
+      },
+      {
+        "cg_error_m": 3.688882027804963e-15,
+        "inertia_relative_error": 1.408244722275467e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-post-01"
+      },
+      {
+        "cg_error_m": 2.8435583831733384e-15,
+        "inertia_relative_error": 1.7789116680552934e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-post-02"
+      },
+      {
+        "cg_error_m": 2.0350724194510405e-15,
+        "inertia_relative_error": 1.7012323514066936e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-post-03"
+      },
+      {
+        "cg_error_m": 2.094764613337708e-15,
+        "inertia_relative_error": 2.4897770383926723e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-post-04"
+      },
+      {
+        "cg_error_m": 1.3322676295501878e-15,
+        "inertia_relative_error": 3.686455370801255e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-post-05"
+      },
+      {
+        "cg_error_m": 1.0877919644084146e-15,
+        "inertia_relative_error": 3.443091000557292e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-post-06"
+      },
+      {
+        "cg_error_m": 4.440892098500626e-16,
+        "inertia_relative_error": 2.79894560381743e-16,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "right-post-07"
+      },
+      {
+        "cg_error_m": 1.3322676295501878e-15,
+        "inertia_relative_error": 3.686455370801235e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-post-08"
+      },
+      {
+        "cg_error_m": 6.661338147750939e-16,
+        "inertia_relative_error": 2.2207379716634007e-16,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "right-post-09"
+      },
+      {
+        "cg_error_m": 2.0350724194510405e-15,
+        "inertia_relative_error": 1.7012323514066393e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-post-10"
+      },
+      {
+        "cg_error_m": 2.8435583831733384e-15,
+        "inertia_relative_error": 1.7789116680552214e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-post-11"
+      },
+      {
+        "cg_error_m": 3.688882027804963e-15,
+        "inertia_relative_error": 1.4082447222753804e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-post-12"
+      },
+      {
+        "cg_error_m": 3.688882027804963e-15,
+        "inertia_relative_error": 1.4082447222753804e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-post-13"
+      },
+      {
+        "cg_error_m": 2.2644195468014703e-15,
+        "inertia_relative_error": 5.641763390814917e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-rail-right-0"
+      },
+      {
+        "cg_error_m": 2.2644195468014703e-15,
+        "inertia_relative_error": 5.641763392121178e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-rail-right-1"
+      },
+      {
+        "cg_error_m": 3.1086244689504383e-15,
+        "inertia_relative_error": 1.412221721984198e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-door-header-0"
+      },
+      {
+        "cg_error_m": 3.1086244689504383e-15,
+        "inertia_relative_error": 1.412221721984198e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-door-header-1"
+      },
+      {
+        "cg_error_m": 2.7822109252321576e-15,
+        "inertia_relative_error": 1.198826438198151e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-window-sill-0"
+      },
+      {
+        "cg_error_m": 3.011959563148489e-15,
+        "inertia_relative_error": 1.2046651481039198e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-window-header-0"
+      },
+      {
+        "cg_error_m": 0.0,
+        "inertia_relative_error": 2.5195448052970696e-14,
+        "mass_relative_error": 0.0,
+        "physical_id": "right-window-glass-0"
+      },
+      {
+        "cg_error_m": 2.220461724850836e-16,
+        "inertia_relative_error": 2.1809363169675185e-16,
+        "mass_relative_error": 3.3306690738754696e-16,
+        "physical_id": "right-window-sill-1"
+      },
+      {
+        "cg_error_m": 4.440899936321637e-16,
+        "inertia_relative_error": 2.187315670476066e-16,
+        "mass_relative_error": 3.3306690738754696e-16,
+        "physical_id": "right-window-header-1"
+      },
+      {
+        "cg_error_m": 2.2204805377525113e-16,
+        "inertia_relative_error": 2.522279891069483e-15,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "right-window-glass-1"
+      },
+      {
+        "cg_error_m": 2.7822109252321576e-15,
+        "inertia_relative_error": 1.198826438198151e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-window-sill-2"
+      },
+      {
+        "cg_error_m": 3.011959563148489e-15,
+        "inertia_relative_error": 1.2046651481039198e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-window-header-2"
+      },
+      {
+        "cg_error_m": 0.0,
+        "inertia_relative_error": 2.5195448052970696e-14,
+        "mass_relative_error": 0.0,
+        "physical_id": "right-window-glass-2"
+      },
+      {
+        "cg_error_m": 3.6687789788066426e-15,
+        "inertia_relative_error": 2.3666440340371256e-15,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "right-skin-00-0"
+      },
+      {
+        "cg_error_m": 9.930136612989092e-16,
+        "inertia_relative_error": 7.977561695372785e-15,
+        "mass_relative_error": 3.3306690738754696e-16,
+        "physical_id": "right-skin-01-0"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 1.7670496215645785e-15,
+        "mass_relative_error": 5.551115123125783e-16,
+        "physical_id": "right-skin-02-0"
+      },
+      {
+        "cg_error_m": 4.440892098500626e-16,
+        "inertia_relative_error": 3.127603299586665e-15,
+        "mass_relative_error": 0.0,
+        "physical_id": "right-skin-03-0"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 1.4718442818798105e-15,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "right-skin-04-0"
+      },
+      {
+        "cg_error_m": 5.438959822042073e-16,
+        "inertia_relative_error": 1.319253911429875e-15,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "right-skin-05-0"
+      },
+      {
+        "cg_error_m": 4.440892098500626e-16,
+        "inertia_relative_error": 2.157545837126418e-15,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "right-skin-06-0"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 3.2459312688933453e-15,
+        "mass_relative_error": 6.661338147750939e-16,
+        "physical_id": "right-skin-07-0"
+      },
+      {
+        "cg_error_m": 4.965068306494546e-16,
+        "inertia_relative_error": 5.096737640643314e-15,
+        "mass_relative_error": 3.3306690738754696e-16,
+        "physical_id": "right-skin-08-0"
+      },
+      {
+        "cg_error_m": 8.881784197001252e-16,
+        "inertia_relative_error": 1.9060011992439034e-14,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "right-skin-09-0"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 2.143485483792041e-13,
+        "mass_relative_error": 7.771561172376096e-16,
+        "physical_id": "right-floor-edge-01"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 1.8834152845912993e-14,
+        "mass_relative_error": 0.0,
+        "physical_id": "right-floor-edge-03"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 1.3382935294891385e-13,
+        "mass_relative_error": 0.0,
+        "physical_id": "right-floor-edge-05"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 2.2595368610748328e-14,
+        "mass_relative_error": 0.0,
+        "physical_id": "right-floor-edge-07"
+      },
+      {
+        "cg_error_m": 4.965068306494546e-16,
+        "inertia_relative_error": 1.55672678128564e-14,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "right-floor-edge-09"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 2.035920236543447e-14,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "right-floor-edge-11"
+      },
+      {
+        "cg_error_m": 1.9539925233402756e-18,
+        "inertia_relative_error": 2.6589922810110223e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "right-floor-edge-13"
+      },
+      {
+        "cg_error_m": 3.1401849173675503e-16,
+        "inertia_relative_error": 1.0477182758035912e-14,
+        "mass_relative_error": 5.551115123125783e-16,
+        "physical_id": "right-floor-edge-15"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 1.55672678128564e-14,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "right-floor-edge-17"
+      },
+      {
+        "cg_error_m": 9.222205069512407e-16,
+        "inertia_relative_error": 3.387819894208697e-14,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "right-floor-edge-19"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 9.408012879658251e-14,
+        "mass_relative_error": 0.0,
+        "physical_id": "right-floor-edge-21"
+      },
+      {
+        "cg_error_m": 1.8209011484034673e-15,
+        "inertia_relative_error": 2.2028907269411173e-14,
+        "mass_relative_error": 5.551115123125783e-16,
+        "physical_id": "right-floor-edge-23"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 2.143485483792041e-13,
+        "mass_relative_error": 7.771561172376096e-16,
+        "physical_id": "right-floor-edge-25"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 6.42337872694594e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "right-door-0-leaf-0"
+      },
+      {
+        "cg_error_m": 0.0,
+        "inertia_relative_error": 2.4512268004538503e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "right-door-0-leaf-0-glass"
+      },
+      {
+        "cg_error_m": 9.930136612989092e-16,
+        "inertia_relative_error": 8.249487164186682e-15,
+        "mass_relative_error": 0.0,
+        "physical_id": "right-door-0-leaf-1"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 6.803775802796138e-14,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "right-door-0-leaf-1-glass"
+      },
+      {
+        "cg_error_m": 9.930136612989092e-16,
+        "inertia_relative_error": 8.249487164186682e-15,
+        "mass_relative_error": 0.0,
+        "physical_id": "right-door-1-leaf-0"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 6.803775802796138e-14,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "right-door-1-leaf-0-glass"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 6.42337872694594e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "right-door-1-leaf-1"
+      },
+      {
+        "cg_error_m": 0.0,
+        "inertia_relative_error": 2.4512268004538503e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "right-door-1-leaf-1-glass"
+      },
+      {
+        "cg_error_m": 3.688882027804963e-15,
+        "inertia_relative_error": 1.408244722275467e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-post-00"
+      },
+      {
+        "cg_error_m": 3.688882027804963e-15,
+        "inertia_relative_error": 1.408244722275467e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-post-01"
+      },
+      {
+        "cg_error_m": 2.8435583831733384e-15,
+        "inertia_relative_error": 1.7789116680552934e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-post-02"
+      },
+      {
+        "cg_error_m": 2.0350724194510405e-15,
+        "inertia_relative_error": 1.7012323514066936e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-post-03"
+      },
+      {
+        "cg_error_m": 2.0350724194510405e-15,
+        "inertia_relative_error": 2.4897770383926723e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-post-04"
+      },
+      {
+        "cg_error_m": 1.3322676295501878e-15,
+        "inertia_relative_error": 3.686455370801255e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-post-05"
+      },
+      {
+        "cg_error_m": 1.0877919644084146e-15,
+        "inertia_relative_error": 3.443091000557292e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-post-06"
+      },
+      {
+        "cg_error_m": 4.440892098500626e-16,
+        "inertia_relative_error": 2.79894560381743e-16,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "left-post-07"
+      },
+      {
+        "cg_error_m": 1.3322676295501878e-15,
+        "inertia_relative_error": 3.686455370801235e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-post-08"
+      },
+      {
+        "cg_error_m": 6.280369834735101e-16,
+        "inertia_relative_error": 2.2207379716634007e-16,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "left-post-09"
+      },
+      {
+        "cg_error_m": 2.0350724194510405e-15,
+        "inertia_relative_error": 1.7012323514066393e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-post-10"
+      },
+      {
+        "cg_error_m": 2.8435583831733384e-15,
+        "inertia_relative_error": 1.7789116680552214e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-post-11"
+      },
+      {
+        "cg_error_m": 3.688882027804963e-15,
+        "inertia_relative_error": 1.4082447222753804e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-post-12"
+      },
+      {
+        "cg_error_m": 3.688882027804963e-15,
+        "inertia_relative_error": 1.4082447222753804e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-post-13"
+      },
+      {
+        "cg_error_m": 2.2644195468014703e-15,
+        "inertia_relative_error": 5.6417660810019195e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-rail-left-0"
+      },
+      {
+        "cg_error_m": 2.2644195468014703e-15,
+        "inertia_relative_error": 5.64176608230818e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-rail-left-1"
+      },
+      {
+        "cg_error_m": 3.052608629176561e-15,
+        "inertia_relative_error": 1.412221721984198e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-door-header-0"
+      },
+      {
+        "cg_error_m": 3.052608629176561e-15,
+        "inertia_relative_error": 1.412221721984198e-16,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-door-header-1"
+      },
+      {
+        "cg_error_m": 2.7822109252321576e-15,
+        "inertia_relative_error": 8.477500376753243e-17,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-window-sill-0"
+      },
+      {
+        "cg_error_m": 3.011959563148489e-15,
+        "inertia_relative_error": 8.559868086085716e-17,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-window-header-0"
+      },
+      {
+        "cg_error_m": 0.0,
+        "inertia_relative_error": 2.5195448052970696e-14,
+        "mass_relative_error": 0.0,
+        "physical_id": "left-window-glass-0"
+      },
+      {
+        "cg_error_m": 3.140196001710542e-16,
+        "inertia_relative_error": 2.1809363169675185e-16,
+        "mass_relative_error": 3.3306690738754696e-16,
+        "physical_id": "left-window-sill-1"
+      },
+      {
+        "cg_error_m": 4.965075316856014e-16,
+        "inertia_relative_error": 2.187315670476066e-16,
+        "mass_relative_error": 3.3306690738754696e-16,
+        "physical_id": "left-window-header-1"
+      },
+      {
+        "cg_error_m": 2.2204805377525113e-16,
+        "inertia_relative_error": 2.522279891069483e-15,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "left-window-glass-1"
+      },
+      {
+        "cg_error_m": 2.7822109252321576e-15,
+        "inertia_relative_error": 8.477500376753243e-17,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-window-sill-2"
+      },
+      {
+        "cg_error_m": 3.011959563148489e-15,
+        "inertia_relative_error": 8.559868086085716e-17,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-window-header-2"
+      },
+      {
+        "cg_error_m": 0.0,
+        "inertia_relative_error": 2.5195448052970696e-14,
+        "mass_relative_error": 0.0,
+        "physical_id": "left-window-glass-2"
+      },
+      {
+        "cg_error_m": 3.6687789788066426e-15,
+        "inertia_relative_error": 2.299089745464114e-15,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "left-skin-00-0"
+      },
+      {
+        "cg_error_m": 9.930136612989092e-16,
+        "inertia_relative_error": 7.97773913757603e-15,
+        "mass_relative_error": 3.3306690738754696e-16,
+        "physical_id": "left-skin-01-0"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 1.7227100169082697e-15,
+        "mass_relative_error": 5.551115123125783e-16,
+        "physical_id": "left-skin-02-0"
+      },
+      {
+        "cg_error_m": 4.440892098500626e-16,
+        "inertia_relative_error": 2.1886510236600898e-15,
+        "mass_relative_error": 0.0,
+        "physical_id": "left-skin-03-0"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 1.4718442818798105e-15,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "left-skin-04-0"
+      },
+      {
+        "cg_error_m": 5.438959822042073e-16,
+        "inertia_relative_error": 1.319253911429875e-15,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "left-skin-05-0"
+      },
+      {
+        "cg_error_m": 4.440892098500626e-16,
+        "inertia_relative_error": 2.157545837126418e-15,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "left-skin-06-0"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 3.2459312688933453e-15,
+        "mass_relative_error": 6.661338147750939e-16,
+        "physical_id": "left-skin-07-0"
+      },
+      {
+        "cg_error_m": 4.965068306494546e-16,
+        "inertia_relative_error": 5.140321458710286e-15,
+        "mass_relative_error": 3.3306690738754696e-16,
+        "physical_id": "left-skin-08-0"
+      },
+      {
+        "cg_error_m": 8.881784197001252e-16,
+        "inertia_relative_error": 1.905999261050038e-14,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "left-skin-09-0"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 2.143485483792041e-13,
+        "mass_relative_error": 7.771561172376096e-16,
+        "physical_id": "left-floor-edge-01"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 1.8834152845912993e-14,
+        "mass_relative_error": 0.0,
+        "physical_id": "left-floor-edge-03"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 1.3174139073001942e-13,
+        "mass_relative_error": 0.0,
+        "physical_id": "left-floor-edge-05"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 2.2595368610748328e-14,
+        "mass_relative_error": 0.0,
+        "physical_id": "left-floor-edge-07"
+      },
+      {
+        "cg_error_m": 4.965068306494546e-16,
+        "inertia_relative_error": 1.7060512138322618e-14,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "left-floor-edge-09"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 2.035920236543447e-14,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "left-floor-edge-11"
+      },
+      {
+        "cg_error_m": 1.9539925233402756e-18,
+        "inertia_relative_error": 2.6589922810110223e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "left-floor-edge-13"
+      },
+      {
+        "cg_error_m": 3.1401849173675503e-16,
+        "inertia_relative_error": 1.0477182758035912e-14,
+        "mass_relative_error": 5.551115123125783e-16,
+        "physical_id": "left-floor-edge-15"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 1.7060512138322618e-14,
+        "mass_relative_error": 1.1102230246251565e-16,
+        "physical_id": "left-floor-edge-17"
+      },
+      {
+        "cg_error_m": 9.222205069512407e-16,
+        "inertia_relative_error": 3.387819894208697e-14,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "left-floor-edge-19"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 9.108550354000491e-14,
+        "mass_relative_error": 0.0,
+        "physical_id": "left-floor-edge-21"
+      },
+      {
+        "cg_error_m": 1.8209011484034673e-15,
+        "inertia_relative_error": 2.1996919031992993e-14,
+        "mass_relative_error": 5.551115123125783e-16,
+        "physical_id": "left-floor-edge-23"
+      },
+      {
+        "cg_error_m": 2.220446049250313e-16,
+        "inertia_relative_error": 2.143485483792041e-13,
+        "mass_relative_error": 7.771561172376096e-16,
+        "physical_id": "left-floor-edge-25"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 6.42337872694594e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "left-door-0-leaf-0"
+      },
+      {
+        "cg_error_m": 0.0,
+        "inertia_relative_error": 2.4512268004538503e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "left-door-0-leaf-0-glass"
+      },
+      {
+        "cg_error_m": 9.930136612989092e-16,
+        "inertia_relative_error": 8.249487164186682e-15,
+        "mass_relative_error": 0.0,
+        "physical_id": "left-door-0-leaf-1"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 6.803775802796138e-14,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "left-door-0-leaf-1-glass"
+      },
+      {
+        "cg_error_m": 9.930136612989092e-16,
+        "inertia_relative_error": 8.249487164186682e-15,
+        "mass_relative_error": 0.0,
+        "physical_id": "left-door-1-leaf-0"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 6.803775802796138e-14,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "left-door-1-leaf-0-glass"
+      },
+      {
+        "cg_error_m": 9.155133597044475e-16,
+        "inertia_relative_error": 6.42337872694594e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "left-door-1-leaf-1"
+      },
+      {
+        "cg_error_m": 0.0,
+        "inertia_relative_error": 2.4512268004538503e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "left-door-1-leaf-1-glass"
+      },
+      {
+        "cg_error_m": 4.442000778947134e-16,
+        "inertia_relative_error": 1.421821329742739e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-bow-00"
+      },
+      {
+        "cg_error_m": 4.442000778947134e-16,
+        "inertia_relative_error": 1.421821329742739e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-bow-01"
+      },
+      {
+        "cg_error_m": 9.93063247946817e-16,
+        "inertia_relative_error": 1.9169665844503483e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-bow-02"
+      },
+      {
+        "cg_error_m": 4.442000778947134e-16,
+        "inertia_relative_error": 1.1463712027813638e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-bow-03"
+      },
+      {
+        "cg_error_m": 4.441374671787446e-16,
+        "inertia_relative_error": 2.363393462396326e-16,
+        "mass_relative_error": 0.0,
+        "physical_id": "roof-bow-04"
+      },
+      {
+        "cg_error_m": 4.441554857959404e-16,
+        "inertia_relative_error": 1.6432460097818633e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-bow-05"
+      },
+      {
+        "cg_error_m": 4.447990800710377e-16,
+        "inertia_relative_error": 2.246761098985311e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-bow-06"
+      },
+      {
+        "cg_error_m": 4.965241430896172e-16,
+        "inertia_relative_error": 2.2402786377775923e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-bow-07"
+      },
+      {
+        "cg_error_m": 4.441554857959404e-16,
+        "inertia_relative_error": 1.6432460097818633e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-bow-08"
+      },
+      {
+        "cg_error_m": 2.5121490106907994e-15,
+        "inertia_relative_error": 2.389457230282308e-16,
+        "mass_relative_error": 6.661338147750939e-16,
+        "physical_id": "roof-bow-09"
+      },
+      {
+        "cg_error_m": 4.442000778947134e-16,
+        "inertia_relative_error": 1.1463712027813638e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-bow-10"
+      },
+      {
+        "cg_error_m": 9.93063247946817e-16,
+        "inertia_relative_error": 1.2385417267193851e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-bow-11"
+      },
+      {
+        "cg_error_m": 4.442000778947134e-16,
+        "inertia_relative_error": 1.421821329742739e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-bow-12"
+      },
+      {
+        "cg_error_m": 4.442000778947134e-16,
+        "inertia_relative_error": 1.421821329742739e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-bow-13"
+      },
+      {
+        "cg_error_m": 1.7763645913462892e-15,
+        "inertia_relative_error": 1.732548708091046e-14,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "roof-sheet-00"
+      },
+      {
+        "cg_error_m": 5.247904803046214e-18,
+        "inertia_relative_error": 8.257124431047302e-15,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "roof-sheet-01"
+      },
+      {
+        "cg_error_m": 9.930136612989092e-16,
+        "inertia_relative_error": 1.2582935338115557e-14,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-sheet-02"
+      },
+      {
+        "cg_error_m": 8.881784197001252e-16,
+        "inertia_relative_error": 6.791072595422791e-15,
+        "mass_relative_error": 0.0,
+        "physical_id": "roof-sheet-03"
+      },
+      {
+        "cg_error_m": 9.485749680535094e-16,
+        "inertia_relative_error": 3.841748069430436e-15,
+        "mass_relative_error": 0.0,
+        "physical_id": "roof-sheet-04"
+      },
+      {
+        "cg_error_m": 8.95090418262362e-16,
+        "inertia_relative_error": 3.989985126069889e-15,
+        "mass_relative_error": 0.0,
+        "physical_id": "roof-sheet-05"
+      },
+      {
+        "cg_error_m": 4.440969617453585e-16,
+        "inertia_relative_error": 5.189144548828241e-15,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "roof-sheet-06"
+      },
+      {
+        "cg_error_m": 5.247904803046214e-18,
+        "inertia_relative_error": 2.6056241776670073e-15,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "roof-sheet-07"
+      },
+      {
+        "cg_error_m": 5.247904803046214e-18,
+        "inertia_relative_error": 6.689113194327662e-15,
+        "mass_relative_error": 4.440892098500626e-16,
+        "physical_id": "roof-sheet-08"
+      },
+      {
+        "cg_error_m": 0.0,
+        "inertia_relative_error": 1.7339979179393198e-14,
+        "mass_relative_error": 0.0,
+        "physical_id": "roof-sheet-09"
+      },
+      {
+        "cg_error_m": 1.8343894894033213e-15,
+        "inertia_relative_error": 1.523465448877555e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "rear-gangway-post--1"
+      },
+      {
+        "cg_error_m": 1.8343894894033213e-15,
+        "inertia_relative_error": 1.5244040414938504e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "rear-gangway-post-1"
+      },
+      {
+        "cg_error_m": 4.442603170174677e-16,
+        "inertia_relative_error": 4.053329458022778e-16,
+        "mass_relative_error": 3.3306690738754696e-16,
+        "physical_id": "rear-gangway-header"
+      },
+      {
+        "cg_error_m": 4.440892098500626e-16,
+        "inertia_relative_error": 4.074417881640863e-15,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "rear-end-skin-0"
+      },
+      {
+        "cg_error_m": 1.7763662680541854e-15,
+        "inertia_relative_error": 1.5637219512121044e-13,
+        "mass_relative_error": 3.219646771412954e-15,
+        "physical_id": "rear-gangway-threshold"
+      },
+      {
+        "cg_error_m": 1.8343894894033213e-15,
+        "inertia_relative_error": 1.5234654488775235e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "front-gangway-post--1"
+      },
+      {
+        "cg_error_m": 1.8343894894033213e-15,
+        "inertia_relative_error": 1.5244040414938188e-16,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "front-gangway-post-1"
+      },
+      {
+        "cg_error_m": 4.442603170174677e-16,
+        "inertia_relative_error": 4.053329458022778e-16,
+        "mass_relative_error": 3.3306690738754696e-16,
+        "physical_id": "front-gangway-header"
+      },
+      {
+        "cg_error_m": 4.440892098500626e-16,
+        "inertia_relative_error": 4.074417881640863e-15,
+        "mass_relative_error": 2.220446049250313e-16,
+        "physical_id": "front-end-skin-0"
+      },
+      {
+        "cg_error_m": 5.787693556736864e-18,
+        "inertia_relative_error": 8.070800863286659e-14,
+        "mass_relative_error": 3.219646771412954e-15,
+        "physical_id": "front-gangway-threshold"
+      }
+    ],
+    "drawing_issued": false,
+    "files_sha256": {
+      "candidate.FCStd": "dba0a82a25904f21dbdf008836107f9e7921becfc4a2982620a07aff1a9a94e5",
+      "candidate.step": "3d869c14b695bbd12ff5c88cd55214a90418b672c6430d17f67d2c39ec7817b9"
+    },
+    "freecad_version": [
+      "1",
+      "1",
+      "4",
+      "45039 (Git)",
+      "https://github.com/FreeCAD/FreeCAD.git",
+      "2026/09/28 13:46:34",
+      "(HEAD detached at 1.1.4)",
+      "4fd3bf320d9566a27e60069fc8387448aaa3a094"
+    ],
+    "input_sha256": "fdae458af94718059c9bae67c2fcb5896eefddc6b12a12124c21572157fdfeb2",
+    "inspection_projection_edges": 192,
+    "manufacturing_unit_ids_preserved": true,
+    "native_reopened": true,
+    "opencascade_version": "7.8.1",
+    "physical_ids_preserved": true,
+    "physical_release": false,
+    "schema": "osr-candidate-native-cad/1",
+    "step_volume_reconciled": true
+  },
+  "native_state": "passed",
+  "native_step_compressed_sha256": "ca987990e467db3b34ed89cfb1a0c8dbc69adf344e89ec3f6caf58ef85506b19",
+  "parts": 177,
+  "physical_release": false,
+  "physical_validation": false,
+  "scope": "One complete repeated primary frame and segmented skin/opening/leaf geometry study; incomplete installed/qualified six-car vehicle"
+}

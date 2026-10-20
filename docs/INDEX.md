@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6255**.
+Indexed Markdown files: **6256**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **6255**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 253 |
-| [engineering](#engineering) | 80 |
+| [engineering](#engineering) | 81 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -6264,6 +6264,7 @@ Indexed Markdown files: **6255**.
 | [`engineering/assurance/civil-reference/drainage/README.md`](../engineering/assurance/civil-reference/drainage/README.md) | Synthetic drainage scenarios |
 | [`engineering/assurance/civil-reference/transport-and-erection.md`](../engineering/assurance/civil-reference/transport-and-erection.md) | Transport and erection mass summary |
 | [`engineering/assurance/closure-review-2026-10-20/README.md`](../engineering/assurance/closure-review-2026-10-20/README.md) | Design-closure review follow-up — 20 October 2026 |
+| [`engineering/assurance/connected-design-2026-10-20/README.md`](../engineering/assurance/connected-design-2026-10-20/README.md) | Baghdad connected design delivery — 20 October 2026 |
 | [`engineering/assurance/formal/README.md`](../engineering/assurance/formal/README.md) | Formal Models |
 | [`engineering/assurance/formal/consensus-refinement.md`](../engineering/assurance/formal/consensus-refinement.md) | SMRaft-to-Rust refinement argument |
 | [`engineering/assurance/formal/results/README.md`](../engineering/assurance/formal/results/README.md) | Bounded control proof results |
