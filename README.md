@@ -38,6 +38,8 @@ The implemented v0.5 development tools now cover:
 | Magnetic field | 2D variable-reluctivity solver with manufactured-equation/refinement controls and artificial nonlinear material hypotheses | Coupon force mesh convergence, actual material grades, 3D force/loss maps and rig correlation |
 | Control and guideway | 24-module Rust control and an actual two-way replay with a flexible vertical beam | Actual electromagnetic plant, torsion/lateral/soil/moving-load dynamics, physical I/O and measured SBC timing |
 
+**Latest linked design increment:** [doorway/entry CAD, compact support variants and Rust egress](engineering/ferrite_maglev/README.md#linked-mechanical-civil-and-software-increment) add 20 physical entry parts, four stand-off alternatives, 576 support-demand cases, negative-control software runs and a beam/control replay using native-derived line mass. [Review the geometry, videos and data](docs/design-engine/ferrite-maglev/reference/index.html). Complete deployment mechanics, structural/ground capacity and physical acceptance remain open. [Executed tests and source evidence](engineering/assurance/v05-linked-system-development/summary.json).
+
 **Accepted engineering/physical releases: 0.** The [implementation and closure details](engineering/ferrite_maglev/README.md) keep numerical, native-model, manufacturing and physical evidence separate.
 
 ## Give your city a railway it can own

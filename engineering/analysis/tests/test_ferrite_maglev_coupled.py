@@ -220,3 +220,17 @@ def test_unexpected_file_and_unowned_destination_are_rejected(publication_copy, 
     with pytest.raises(ValueError, match="not an owned"):
         coupled.publish(directory)
     assert (directory/"keep.txt").read_text() == "user material"
+
+
+def test_declared_car_mass_changes_actual_rust_gravity_trim(bridge):
+    import numpy as np
+    with coupled.RustController(bridge,car_mass_kg=30000.) as controller:
+        upward,_,_=controller.tick(1,np.full(24,.008))
+    assert sum(upward)==pytest.approx(30000*9.81,abs=2)
+    r=coupled.cosimulate(bridge,duration_s=.1,car_mass_kg=30000.)
+    assert r['car_mass_kg']==30000. and not r['physical_output_authorised']
+
+
+@pytest.mark.parametrize('mass',[0.,float('nan'),100001.])
+def test_invalid_car_mass_does_not_start_a_rust_process(mass):
+    with pytest.raises(ValueError):coupled.RustController(Path('/not-a-controller'),car_mass_kg=mass)

@@ -1,0 +1,780 @@
+{
+  "build_command": [
+    "cargo",
+    "build",
+    "--locked",
+    "--release",
+    "-p",
+    "osr-maglev-control",
+    "--example",
+    "egress_replay",
+    "--message-format=json"
+  ],
+  "cases": [
+    {
+      "entry_definition_sha256": "1126a01e3ab7b3113fcfc7742843aef748a35e4ad99d48aeae84de21d59018a8",
+      "height_coverage": {
+        "accepted": false,
+        "all_sampled_heights_match": true,
+        "continuous_route_height_coverage_proved": false,
+        "design_complete": false,
+        "driverless_operation_proved": false,
+        "manufacturing_release": false,
+        "matches": [
+          {
+            "door_sill_to_ground_m": 20.0,
+            "exact_height_match": true,
+            "nearest_exit_drop_m": 20.0,
+            "outlet_height_above_ground_m": 0.0,
+            "state": "hold"
+          }
+        ],
+        "physical_release": false,
+        "physical_validation": false,
+        "scope": "Hypothetical discrete outlet drops at sampled ground levels only. Exact numerical match does not prove outlet opening clearance, anchorage, extension, access, wind, passenger flow or every-stop route coverage.",
+        "state": "hold",
+        "usable_exit_proved": false
+      },
+      "id": "outward-20m",
+      "landing": {
+        "accepted": false,
+        "closure": [
+          {
+            "accepted": false,
+            "id": "door-height-roll-capture-and-landing-survey",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "safe-landing-every-stop-position-or-approved-alternative",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "road-traffic-roof-water-utility-and-adjacent-train-exclusion",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "fire-smoke-tenability-and-available-exits",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "independent-support-immobilisation-and-door-safety",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "wind-heat-dust-puncture-ageing-and-inflation-reliability",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "wheelchair-reduced-mobility-child-and-assisted-alternative",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "crew-rescue-access-communications-and-evacuation-flow",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "module-mass-volume-mount-loads-gas-isolation-and-battery-fault",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "supplier-process-inspection-repack-replacement-and-cost",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "chute-descent-control-blockage-recovery-and-entry-exit-queues",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "chute-variable-height-ground-stabilisation-and-door-body-anchor-loads",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "driverless-deployment-entry-and-assistance-without-assumed-attendant",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "independent-full-scale-tests-and-authority-acceptance",
+            "state": "unknown"
+          }
+        ],
+        "design_complete": false,
+        "geometry_screen_pass": true,
+        "known_failures": [],
+        "manufacturing_release": false,
+        "physical_release": false,
+        "physical_validation": false,
+        "safe_to_deploy": false,
+        "state": "hold",
+        "walkway_removal_approved": false
+      },
+      "replay": {
+        "frames": [
+          {
+            "missing_prerequisites": 7,
+            "phase": "StopRequested",
+            "physical_output_authorised": false,
+            "sequence": 1,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 0,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 2,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 16,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 3,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 0,
+            "phase": "Ready",
+            "physical_output_authorised": false,
+            "sequence": 4,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 0,
+            "phase": "DeploymentStudy",
+            "physical_output_authorised": false,
+            "sequence": 5,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 0,
+            "phase": "FlowStudy",
+            "physical_output_authorised": false,
+            "sequence": 6,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 0,
+            "phase": "FlowStudy",
+            "physical_output_authorised": false,
+            "sequence": 7,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 0,
+            "phase": "CompleteHold",
+            "physical_output_authorised": false,
+            "sequence": 8,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 0,
+            "phase": "CompleteHold",
+            "physical_output_authorised": false,
+            "sequence": 9,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          }
+        ],
+        "physical_output_authorised": false,
+        "schema": "osr-egress-offline-replay/1"
+      },
+      "revision_tag": "1235851199454360337"
+    },
+    {
+      "entry_definition_sha256": "1126a01e3ab7b3113fcfc7742843aef748a35e4ad99d48aeae84de21d59018a8",
+      "height_coverage": {
+        "accepted": false,
+        "all_sampled_heights_match": true,
+        "continuous_route_height_coverage_proved": false,
+        "design_complete": false,
+        "driverless_operation_proved": false,
+        "manufacturing_release": false,
+        "matches": [
+          {
+            "door_sill_to_ground_m": 20.0,
+            "exact_height_match": true,
+            "nearest_exit_drop_m": 20.0,
+            "outlet_height_above_ground_m": 0.0,
+            "state": "hold"
+          }
+        ],
+        "physical_release": false,
+        "physical_validation": false,
+        "scope": "Hypothetical discrete outlet drops at sampled ground levels only. Exact numerical match does not prove outlet opening clearance, anchorage, extension, access, wind, passenger flow or every-stop route coverage.",
+        "state": "hold",
+        "usable_exit_proved": false
+      },
+      "id": "inward-clash",
+      "landing": {
+        "accepted": false,
+        "closure": [
+          {
+            "accepted": false,
+            "id": "door-height-roll-capture-and-landing-survey",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "safe-landing-every-stop-position-or-approved-alternative",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "road-traffic-roof-water-utility-and-adjacent-train-exclusion",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "fire-smoke-tenability-and-available-exits",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "independent-support-immobilisation-and-door-safety",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "wind-heat-dust-puncture-ageing-and-inflation-reliability",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "wheelchair-reduced-mobility-child-and-assisted-alternative",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "crew-rescue-access-communications-and-evacuation-flow",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "module-mass-volume-mount-loads-gas-isolation-and-battery-fault",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "supplier-process-inspection-repack-replacement-and-cost",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "chute-descent-control-blockage-recovery-and-entry-exit-queues",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "chute-variable-height-ground-stabilisation-and-door-body-anchor-loads",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "driverless-deployment-entry-and-assistance-without-assumed-attendant",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "independent-full-scale-tests-and-authority-acceptance",
+            "state": "unknown"
+          }
+        ],
+        "design_complete": false,
+        "geometry_screen_pass": false,
+        "known_failures": [
+          "modelled structure intersects the evacuation envelope: beam-1/top-slab, beam-1/bottom-slab, beam-1/web--1, beam-1/lift-rail--1-4, beam-1/lift-rail--1-5, beam-1/web-1, beam-1/lift-rail-1-4, beam-1/lift-rail-1-5"
+        ],
+        "manufacturing_release": false,
+        "physical_release": false,
+        "physical_validation": false,
+        "safe_to_deploy": false,
+        "state": "rejected",
+        "walkway_removal_approved": false
+      },
+      "replay": {
+        "frames": [
+          {
+            "missing_prerequisites": 15,
+            "phase": "StopRequested",
+            "physical_output_authorised": false,
+            "sequence": 1,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 2,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 24,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 3,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 4,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 5,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "FaultHold",
+            "physical_output_authorised": false,
+            "sequence": 6,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "FaultHold",
+            "physical_output_authorised": false,
+            "sequence": 7,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "FaultHold",
+            "physical_output_authorised": false,
+            "sequence": 8,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "FaultHold",
+            "physical_output_authorised": false,
+            "sequence": 9,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          }
+        ],
+        "physical_output_authorised": false,
+        "schema": "osr-egress-offline-replay/1"
+      },
+      "revision_tag": "1235851199454360337"
+    },
+    {
+      "entry_definition_sha256": "1126a01e3ab7b3113fcfc7742843aef748a35e4ad99d48aeae84de21d59018a8",
+      "height_coverage": {
+        "accepted": false,
+        "all_sampled_heights_match": false,
+        "continuous_route_height_coverage_proved": false,
+        "design_complete": false,
+        "driverless_operation_proved": false,
+        "manufacturing_release": false,
+        "matches": [
+          {
+            "door_sill_to_ground_m": 10.0,
+            "exact_height_match": false,
+            "nearest_exit_drop_m": 8.0,
+            "outlet_height_above_ground_m": 2.0,
+            "state": "rejected"
+          }
+        ],
+        "physical_release": false,
+        "physical_validation": false,
+        "scope": "Hypothetical discrete outlet drops at sampled ground levels only. Exact numerical match does not prove outlet opening clearance, anchorage, extension, access, wind, passenger flow or every-stop route coverage.",
+        "state": "rejected",
+        "usable_exit_proved": false
+      },
+      "id": "height-gap-10m",
+      "landing": {
+        "accepted": false,
+        "closure": [
+          {
+            "accepted": false,
+            "id": "door-height-roll-capture-and-landing-survey",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "safe-landing-every-stop-position-or-approved-alternative",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "road-traffic-roof-water-utility-and-adjacent-train-exclusion",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "fire-smoke-tenability-and-available-exits",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "independent-support-immobilisation-and-door-safety",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "wind-heat-dust-puncture-ageing-and-inflation-reliability",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "wheelchair-reduced-mobility-child-and-assisted-alternative",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "crew-rescue-access-communications-and-evacuation-flow",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "module-mass-volume-mount-loads-gas-isolation-and-battery-fault",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "supplier-process-inspection-repack-replacement-and-cost",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "chute-descent-control-blockage-recovery-and-entry-exit-queues",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "chute-variable-height-ground-stabilisation-and-door-body-anchor-loads",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "driverless-deployment-entry-and-assistance-without-assumed-attendant",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "independent-full-scale-tests-and-authority-acceptance",
+            "state": "unknown"
+          }
+        ],
+        "design_complete": false,
+        "geometry_screen_pass": true,
+        "known_failures": [],
+        "manufacturing_release": false,
+        "physical_release": false,
+        "physical_validation": false,
+        "safe_to_deploy": false,
+        "state": "hold",
+        "walkway_removal_approved": false
+      },
+      "replay": {
+        "frames": [
+          {
+            "missing_prerequisites": 23,
+            "phase": "StopRequested",
+            "physical_output_authorised": false,
+            "sequence": 1,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 16,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 2,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 16,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 3,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 16,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 4,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 16,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 5,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 16,
+            "phase": "FaultHold",
+            "physical_output_authorised": false,
+            "sequence": 6,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 16,
+            "phase": "FaultHold",
+            "physical_output_authorised": false,
+            "sequence": 7,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 16,
+            "phase": "FaultHold",
+            "physical_output_authorised": false,
+            "sequence": 8,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 16,
+            "phase": "FaultHold",
+            "physical_output_authorised": false,
+            "sequence": 9,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          }
+        ],
+        "physical_output_authorised": false,
+        "schema": "osr-egress-offline-replay/1"
+      },
+      "revision_tag": "1235851199454360337"
+    },
+    {
+      "entry_definition_sha256": "1126a01e3ab7b3113fcfc7742843aef748a35e4ad99d48aeae84de21d59018a8",
+      "height_coverage": {
+        "accepted": false,
+        "all_sampled_heights_match": true,
+        "continuous_route_height_coverage_proved": false,
+        "design_complete": false,
+        "driverless_operation_proved": false,
+        "manufacturing_release": false,
+        "matches": [
+          {
+            "door_sill_to_ground_m": 20.0,
+            "exact_height_match": true,
+            "nearest_exit_drop_m": 20.0,
+            "outlet_height_above_ground_m": 0.0,
+            "state": "hold"
+          }
+        ],
+        "physical_release": false,
+        "physical_validation": false,
+        "scope": "Hypothetical discrete outlet drops at sampled ground levels only. Exact numerical match does not prove outlet opening clearance, anchorage, extension, access, wind, passenger flow or every-stop route coverage.",
+        "state": "hold",
+        "usable_exit_proved": false
+      },
+      "id": "road-landing",
+      "landing": {
+        "accepted": false,
+        "closure": [
+          {
+            "accepted": false,
+            "id": "door-height-roll-capture-and-landing-survey",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "safe-landing-every-stop-position-or-approved-alternative",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "road-traffic-roof-water-utility-and-adjacent-train-exclusion",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "fire-smoke-tenability-and-available-exits",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "independent-support-immobilisation-and-door-safety",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "wind-heat-dust-puncture-ageing-and-inflation-reliability",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "wheelchair-reduced-mobility-child-and-assisted-alternative",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "crew-rescue-access-communications-and-evacuation-flow",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "module-mass-volume-mount-loads-gas-isolation-and-battery-fault",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "supplier-process-inspection-repack-replacement-and-cost",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "chute-descent-control-blockage-recovery-and-entry-exit-queues",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "chute-variable-height-ground-stabilisation-and-door-body-anchor-loads",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "driverless-deployment-entry-and-assistance-without-assumed-attendant",
+            "state": "unknown"
+          },
+          {
+            "accepted": false,
+            "id": "independent-full-scale-tests-and-authority-acceptance",
+            "state": "unknown"
+          }
+        ],
+        "design_complete": false,
+        "geometry_screen_pass": false,
+        "known_failures": [
+          "landing is not a controlled safe ground area: live-road"
+        ],
+        "manufacturing_release": false,
+        "physical_release": false,
+        "physical_validation": false,
+        "safe_to_deploy": false,
+        "state": "rejected",
+        "walkway_removal_approved": false
+      },
+      "replay": {
+        "frames": [
+          {
+            "missing_prerequisites": 15,
+            "phase": "StopRequested",
+            "physical_output_authorised": false,
+            "sequence": 1,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 2,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 24,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 3,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 4,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "Assessing",
+            "physical_output_authorised": false,
+            "sequence": 5,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "FaultHold",
+            "physical_output_authorised": false,
+            "sequence": 6,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "FaultHold",
+            "physical_output_authorised": false,
+            "sequence": 7,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "FaultHold",
+            "physical_output_authorised": false,
+            "sequence": 8,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          },
+          {
+            "missing_prerequisites": 8,
+            "phase": "FaultHold",
+            "physical_output_authorised": false,
+            "sequence": 9,
+            "support_must_be_maintained_in_study": true,
+            "traction_inhibit_required_in_study": true
+          }
+        ],
+        "physical_output_authorised": false,
+        "schema": "osr-egress-offline-replay/1"
+      },
+      "revision_tag": "1235851199454360337"
+    }
+  ],
+  "executable_sha256": "f39ba13af9cd37c135c156e56d6f55f70a6a55295dc64570de7059ea9da18b6d",
+  "limits": "Actual Rust execution using calculated hypothetical geometry/height gates. Other readiness/assistance/security inputs are synthetic facts, not verified sensor or safety evidence.",
+  "physical_output_authorised": false,
+  "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "schema": "osr-system-egress-execution/1"
+}

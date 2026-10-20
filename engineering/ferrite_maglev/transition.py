@@ -246,11 +246,12 @@ def _source_inventory(plan):
 
 
 def _capability_paths():
-    paths=[ROOT/'engineering/ferrite_maglev'/name for name in ('geometry.py','field.py','coupled.py','evacuation.py','evacuation.toml','optimisation.py','optimisation.toml')]
+    paths=[ROOT/'engineering/ferrite_maglev'/name for name in ('geometry.py','field.py','coupled.py','evacuation.py','evacuation.toml','optimisation.py','optimisation.toml','system_development.py','system_development.toml')]
     paths += [ROOT/'engineering/factory_examples/native.py',ROOT/'engineering/factory_examples/models.py',
               ROOT/'engineering/analysis/tests/test_ferrite_maglev_geometry_field.py',
               ROOT/'engineering/analysis/tests/test_ferrite_maglev_coupled.py',
               ROOT/'engineering/analysis/tests/test_ferrite_maglev_evacuation.py',
+              ROOT/'engineering/analysis/tests/test_ferrite_maglev_system_development.py',
               ROOT/'crates/osr-maglev-control/Cargo.toml']
     paths += sorted((ROOT/'crates/osr-maglev-control').rglob('*.rs'))
     return paths
@@ -306,11 +307,14 @@ def capability_availability():
     ]
     definitions.append(('beam-only-evacuation-research',
         ['engineering/ferrite_maglev/evacuation.py','engineering/ferrite_maglev/evacuation.toml',
-         'engineering/ferrite_maglev/optimisation.py','engineering/analysis/tests/test_ferrite_maglev_evacuation.py'],
+         'engineering/ferrite_maglev/optimisation.py','engineering/analysis/tests/test_ferrite_maglev_evacuation.py',
+         'engineering/ferrite_maglev/system_development.py','engineering/ferrite_maglev/system_development.toml',
+         'crates/osr-maglev-control/src/egress.rs','engineering/analysis/tests/test_ferrite_maglev_system_development.py'],
         ['CIV-004','OPS-003','OPS-005','GEO-001','GEO-002','MFG-005'],
         ['civil-kit','vehicle-mass','switch-free-city','local-mbom-cost','rig-and-demonstrator'],
         ['Integrated-beam/no-continuous-walkway material alternative, actual native export/reopening adapter and exact part-removal quantities',
          'Slide/chute clearance, discrete-outlet height counterexamples, driverless installation requirements and optimistic flow lower bounds; no pedestrian/device simulation',
+         'Dimensioned doorway/entry material model, cap/pier/foundation demand variants and geometry-gated offline Rust egress sequencing; no production or deployed mechanism acceptance',
          'Gross civil avoidance is separated from unknown added onboard mass/lifetime cost; held alternatives cannot replace reference research champions'],
         ['No approved alternative to CIV-004 reference walkway; constrained-route accessible evacuation and physical tests remain open',
          'Necessary ferromagnetic reaction faces, supports/foundations, connections, rescue and maintenance access remain',

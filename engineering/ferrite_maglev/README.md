@@ -250,3 +250,51 @@ terrain. Even exact sampled height matches remain held for usable outlet, safe
 receiving area, wind, assistance and every-stop coverage. No zippered-port layout
 or mounting design is selected. As a further geometric comparator, a 20 m
 inclined slide at 35 degrees projects about 28.56 m horizontally before landing.
+
+
+## Linked mechanical, civil and software increment
+
+`./osr design system` now generates and reopens two native assemblies, renders
+images/assembly visibility videos, executes Rust egress scenarios and a separate
+native-derived beam/control replay, and publishes a source-bound packet at
+[`system-development`](../../docs/design-engine/ferrite-maglev/system-development/manifest.json).
+This is a linked research increment, not a complete vehicle or accepted railway.
+
+The doorway demonstrator has 20 physical tube/plate/shell/deck parts, eight
+anchor-plate holes, an empty cassette and a 1.34 × 2 m clear opening. Four
+outlet stand-offs (0.8/1.2/1.6/2 m) expose clearance versus partial material mass.
+The illustrative 2 m version weighs about 221 kg before fabric, attachment bolts,
+hinges/locks, full guards or the deployment mechanism. Its extended envelope
+cannot be adopted as the travel configuration. A fold/stow/deploy mechanism,
+vehicle-body attachment load path and full supplier-exact module remain open.
+The partial material CSV gives dimensions and quantities; it is not a released MBOM.
+
+The civil ledger explores 576 combinations of cap width, column dimensions,
+foundation envelope, additional equipment mass and load stage. It transfers two
+adjacent half-spans per direction into an interior support, retaining native
+beam/rail material and support self-weight. Symmetric/asymmetric traffic and
+one-beam erection expose eccentric moments and nominal column/contact demands.
+A negative linear footing pressure invalidates the full-contact assumption;
+it does not select a pile foundation or establish soil capacity. Smaller
+geometry has no automatic cost or acceptance credit. The 800 reference walkway
+unit placements/km are a separate-erection quantity, not crane cycles or days saved.
+
+`egress::evaluate` in `osr-maglev-control` is a pure, allocation-free offline
+state machine with candidate/door context, monotonic/fresh inputs, latched faults,
+secured stop and assistance/landing/height/clearance prerequisites. Completion
+retains a stop until fresh, secured, positively stowed reset. Calculated
+hypothetical clearance and discrete-height results feed four actual Rust runs;
+inward clash, missing 10 m outlet and road landing prevent study deployment.
+Device readiness/security/assistance remain synthetic facts. No physical adapter
+is supplied. A test composes the egress stop with existing support control and
+checks that valid support continues while traction is inhibited.
+
+The additional two-way replay recovers beam line mass from retained native CAD
+volumes (about 1,950 kg/m), then uses it with analytical box inertia in the actual
+Rust/flexible-beam demonstrator. It adds the modelled entry hardware for six hypothetical door units per car
+to the stationary 27,750 kg baseline in both the Rust gravity trim and rigid-car
+plant, retaining assumed inertias and synthetic actuator maps. Complete chute
+mass, centre of mass and inertias remain open. Treating the illustrated frame
+as added hardware is a gross sensitivity; a net MBOM must resolve any overlap
+with the existing body structure and emergency allocations. It does not qualify
+the entry frame, support variants, moving trains or full vehicle dynamics.

@@ -192,8 +192,10 @@ def static_benchmark(assumptions: BeamAssumptions = BeamAssumptions()) -> dict:
 
 class RustController:
     """Synchronous offline IPC, bounded frame sizes, with a 10 s response timeout."""
-    def __init__(self, executable: Path):
-        self.process = subprocess.Popen([str(executable.resolve())], stdin=subprocess.PIPE,
+    def __init__(self, executable: Path, car_mass_kg: float = 27750.):
+        if not math.isfinite(car_mass_kg) or not 1000 <= car_mass_kg <= 100_000:
+            raise ValueError("bounded finite car mass required")
+        self.process = subprocess.Popen([str(executable.resolve()), format(car_mass_kg, '.17g')], stdin=subprocess.PIPE,
                                         stdout=subprocess.PIPE, text=True, bufsize=1)
         self.selector = selectors.DefaultSelector()
         self.selector.register(self.process.stdout, selectors.EVENT_READ)
@@ -235,7 +237,7 @@ class RustController:
 
 
 def cosimulate(executable: Path, duration_s: float = 3.0, *, initial_down_error_m: float = 0.0005,
-               disturbance_n: float = 5000.0, assumptions: BeamAssumptions = BeamAssumptions()) -> dict:
+               disturbance_n: float = 5000.0, car_mass_kg: float = 27750., assumptions: BeamAssumptions = BeamAssumptions()) -> dict:
     """Two-way held-force partitioned co-simulation, fixed virtual 1 ms step.
 
     Beam reaction is downward and equals upward car support force. Sensor gap
@@ -250,7 +252,9 @@ def cosimulate(executable: Path, duration_s: float = 3.0, *, initial_down_error_
             or not math.isfinite(disturbance_n) or abs(disturbance_n) > 100_000):
         raise ValueError("perturbation exceeds bounded numerical study")
     beam = FlexibleGuideway(assumptions)
-    mass, gravity = 27_750.0, 9.81
+    if not math.isfinite(car_mass_kg) or not 1000 <= car_mass_kg <= 100_000:
+        raise ValueError("bounded finite car mass required")
+    mass, gravity = car_mass_kg, 9.81
     beam.initialise_static(np.full(MODULES, mass*gravity/MODULES))
     # Absolute downward car displacement relative to the unloaded beam geometry.
     car = np.array([np.mean(beam.local_displacement_m())+initial_down_error_m, 2e-5, -5e-5])
@@ -261,7 +265,7 @@ def cosimulate(executable: Path, duration_s: float = 3.0, *, initial_down_error_
     stop_seen = False
     relative_heave = []
     target = 0.008
-    with RustController(executable) as controller:
+    with RustController(executable,car_mass_kg=mass) as controller:
         for tick in range(1, round(duration_s/DT_S)+1):
             local = beam.local_displacement_m()
             gaps = target+car[0]-MODULE_Y_M*car[1]+MODULE_X_M*car[2]-local
@@ -285,7 +289,7 @@ def cosimulate(executable: Path, duration_s: float = 3.0, *, initial_down_error_
             relative_heave.append(float(car[0]-np.mean(beam.local_displacement_m())))
     return {"schema": "osr-coupled-guideway-numerical/1", "status": "hypothetical-two-way-offline-cosimulation",
             "physical_output_authorised": False, "structural_acceptance": False,
-            "beam_assumptions": asdict(assumptions),
+            "car_mass_kg": car_mass_kg, "beam_assumptions": asdict(assumptions),
             "virtual_step_s": DT_S, "virtual_duration_s": round(duration_s/DT_S)*DT_S,
             "retained_vertical_beam_modes": assumptions.retained_modes,
             "minimum_relative_gap_m": minimum, "maximum_relative_gap_m": maximum,
@@ -310,7 +314,7 @@ PUBLICATION_SOURCES = (
     "Cargo.toml", "Cargo.lock", "rust-toolchain.toml", "ferrite-maglev-study.toml",
     "crates/osr-maglev-control/Cargo.toml", "crates/osr-maglev-control/src/lib.rs",
     "crates/osr-maglev-control/src/array.rs", "crates/osr-maglev-control/src/ideal.rs",
-    "crates/osr-maglev-control/src/io.rs", "crates/osr-maglev-control/examples/coupled_bridge.rs",
+    "crates/osr-maglev-control/src/io.rs", "crates/osr-maglev-control/src/egress.rs", "crates/osr-maglev-control/examples/coupled_bridge.rs",
     "crates/osr-maglev-control/examples/support/mod.rs", "engineering/ferrite_maglev/coupled.py",
     "engineering/ferrite_maglev/requirements.txt",
 )

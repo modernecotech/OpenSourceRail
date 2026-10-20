@@ -1,0 +1,89 @@
+{
+  "car_mass_kg": 29075.16171028767,
+  "complete_egress_system_included": false,
+  "execution": {
+    "bridge_sha256": "64cfc4a932af0622c586d205262e88693e22baa20e8844b411b5e2a6b8efa67c",
+    "build_command": [
+      "cargo",
+      "build",
+      "--locked",
+      "--release",
+      "-p",
+      "osr-maglev-control",
+      "--example",
+      "coupled_bridge",
+      "--message-format=json"
+    ],
+    "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
+  },
+  "native_beam_line_mass_kg_m": 1950.23424,
+  "native_mesh_sha256": "89752436554bc16fc2c1320d50a509ee4c30305b17a2e2d2b598d5d13411b8ea",
+  "partial_entry_hardware_mass_added_kg": 1325.1617102876703,
+  "physical_output_authorised": false,
+  "replay": {
+    "beam_assumptions": {
+      "damping_ratio": 0.02,
+      "elements": 50,
+      "line_mass_kg_m": 1950.23424,
+      "retained_modes": 6,
+      "second_moment_m4": 0.19362400000000005,
+      "span_m": 25.0,
+      "young_pa": 30000000000.0
+    },
+    "car_mass_kg": 29075.16171028767,
+    "final_fitted_relative_heave_error_m": 1.2398968657345577e-10,
+    "final_pitch_rad": -2.224598754963954e-09,
+    "final_roll_rad": 1.587381495938222e-15,
+    "limitations": [
+      "synthetic instantaneous force channels and controller gains; no field/current/thermal map",
+      "linear simply-supported beam with assumed line mass and modal damping",
+      "single stationary rigid car; no moving loads, train coupling, torsion/corbels or flexible body",
+      "no dead-load camber, soil, joints, fatigue, contact, braking or independent protection",
+      "offline held-force partitioned integration; no measured timing or stability certificate"
+    ],
+    "maximum_relative_gap_m": 0.010967971097458938,
+    "minimum_relative_gap_m": 0.006680623546619606,
+    "peak_fitted_relative_heave_error_m": 0.0008860560818893474,
+    "peak_global_car_down_m": 0.01407608884848147,
+    "peak_global_incremental_beam_displacement_m": 0.014646089079798766,
+    "peak_station_force_n": 12207.004677,
+    "physical_output_authorised": false,
+    "retained_vertical_beam_modes": 6,
+    "schema": "osr-coupled-guideway-numerical/1",
+    "status": "hypothetical-two-way-offline-cosimulation",
+    "stop_seen_in_study": false,
+    "structural_acceptance": false,
+    "virtual_duration_s": 3.0,
+    "virtual_step_s": 0.001
+  },
+  "schema": "osr-native-derived-guideway-coupling/1",
+  "section_basis": "Analytical reference box inertia; line mass recovered from native kernel volumes; no material/force-map validation",
+  "static_controls": {
+    "assumptions": {
+      "damping_ratio": 0.02,
+      "elements": 50,
+      "line_mass_kg_m": 1950.23424,
+      "retained_modes": 6,
+      "second_moment_m4": 0.19362400000000005,
+      "span_m": 25.0,
+      "young_pa": 30000000000.0
+    },
+    "centre_closed_form_m": 0.005604002832523056,
+    "centre_fe_m": 0.00560400283263498,
+    "centre_point_load_n": 100000.0,
+    "centre_relative_error": 1.997221664851168e-11,
+    "distributed_point_load_max_error_m": 2.757342965065135e-13,
+    "modal_frequency_hz": [
+      4.337472125566001,
+      17.349891332805136,
+      39.03728292344952,
+      69.39974524688293,
+      108.43753349742629,
+      156.15117636467681
+    ],
+    "modal_frequency_max_relative_error": 1.3970190900325363e-05,
+    "modal_static_truncation_max_m": 8.913346121776355e-07,
+    "module_load_static_max_m": 0.013690530519477901
+  },
+  "structural_acceptance": false
+}

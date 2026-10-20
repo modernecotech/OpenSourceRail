@@ -73,12 +73,14 @@ try {
     "field-study.png",
     "../beam-only/overview.png",
     "evacuation-envelope.svg",
+    "../system-development/entry/overview.png",
+    "../system-development/compact-support/overview.png",
   ];
   assert.deepEqual(
     images.map((image) => image.src).sort(),
     expectedImages.sort(),
   );
-  assert.equal(images.length, 8);
+  assert.equal(images.length, 10);
   assert.ok(images.every((i) => i.loaded));
   assert.match(await page.locator("h1").innerText(), /Ferrite-maglev/);
   const origin = `http://127.0.0.1:${port}`;
@@ -294,6 +296,40 @@ try {
     "../native/interface/assembly-visibility.mp4",
     "../native/civil-bay/assembly-visibility.mp4",
   ];
+  expectedVideos.push(
+    "../system-development/entry/assembly-visibility.mp4",
+    "../system-development/compact-support/assembly-visibility.mp4",
+  );
+  const systemManifest = await jsonAsset("../system-development/manifest.json");
+  assert.equal(systemManifest.manufacturing_release, false);
+  const development = data.linked_system_development;
+  assert.equal(development.entry_hardware_part_count, 20);
+  assert.equal(development.support_case_count, 576);
+  assert.equal(development.erection_working_days_saved, null);
+  const replay = await jsonAsset("../system-development/software-replay.json");
+  assert.equal(replay.physical_output_authorised, false);
+  assert.equal(replay.cases.length, 4);
+  assert.equal(replay.cases[0].replay.frames.at(-1).phase, "CompleteHold");
+  for (const c of replay.cases.slice(1))
+    assert.ok(
+      c.replay.frames.every(
+        (f) =>
+          !["Ready", "DeploymentStudy", "FlowStudy", "CompleteHold"].includes(
+            f.phase,
+          ),
+      ),
+    );
+  const matched = await jsonAsset(
+    "../system-development/native-derived-coupling.json",
+  );
+  assert.ok(Math.abs(matched.native_beam_line_mass_kg_m - 1950.23424) < 1e-5);
+  assert.equal(
+    matched.replay.beam_assumptions.line_mass_kg_m,
+    matched.native_beam_line_mass_kg_m,
+  );
+  assert.equal(matched.complete_egress_system_included, false);
+  assert.equal(matched.replay.car_mass_kg, matched.car_mass_kg);
+  assert.ok(matched.car_mass_kg > 27750);
   const videoLinks = await page
     .locator('a[href$=".mp4"]')
     .evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href")));
@@ -307,10 +343,14 @@ try {
       "assembly video must contain media bytes",
     );
     assert.equal(video.body.subarray(4, 8).toString("ascii"), "ftyp");
-    const name = href.replace("../native/", "");
+    const systemVideo = href.startsWith("../system-development/");
+    const name = href.replace(
+      systemVideo ? "../system-development/" : "../native/",
+      "",
+    );
     assert.equal(
       createHash("sha256").update(video.body).digest("hex"),
-      nativeManifest.files_sha256[name],
+      (systemVideo ? systemManifest : nativeManifest).files_sha256[name],
     );
     videos.push({
       href: video.pathname,
@@ -321,6 +361,13 @@ try {
   for (const image of images) {
     const loaded = await asset(image.src);
     assert.ok(loaded.body.length > 0);
+    if (image.src.startsWith("../system-development/")) {
+      const name = image.src.replace("../system-development/", "");
+      assert.equal(
+        createHash("sha256").update(loaded.body).digest("hex"),
+        systemManifest.files_sha256[name],
+      );
+    }
     if (image.src.startsWith("../native/")) {
       const name = image.src.replace("../native/", "");
       assert.equal(

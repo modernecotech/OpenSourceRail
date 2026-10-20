@@ -1,0 +1,120 @@
+{
+  "cap_scale": 0.75,
+  "column_scale": 0.8,
+  "construction_stages": [
+    {
+      "id": "foundation-envelope",
+      "parts": [
+        "study-support/foundation-envelope"
+      ]
+    },
+    {
+      "id": "column-and-cap",
+      "parts": [
+        "study-support/cap",
+        "study-support/column"
+      ]
+    }
+  ],
+  "design_complete": false,
+  "foundation_scale": 0.85,
+  "foundation_selected": false,
+  "holds": [
+    "Ground/settlement, reinforcement/prestress, wind/seismic, axial-bending/shear/fatigue and connections unresolved",
+    "Reduced dimensions are alternatives for demand screening, not accepted savings or production designs"
+  ],
+  "id": "OSR-V05-COMPACT-SUPPORT",
+  "interference_roles": [
+    "ferrite",
+    "carrier",
+    "retainer",
+    "fastener",
+    "magnetic-rail"
+  ],
+  "manufacturing_release": false,
+  "material_density_assumptions_kg_m3": {
+    "aluminium": 2700.0,
+    "concrete": 2500.0,
+    "ferrite": 5000.0,
+    "steel": 7850.0,
+    "winding-envelope": 5500.0
+  },
+  "modelled_cg_m": [
+    0.0,
+    0.0,
+    -6.970774707577555
+  ],
+  "modelled_material_mass_kg": 121666.875,
+  "parts": [
+    {
+      "at_m": [
+        -1.25,
+        -2.625,
+        -2.8
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "id": "study-support/cap",
+      "kind": "box",
+      "material": "concrete",
+      "modelled_mass_kg": 39375.0,
+      "production_released": false,
+      "revision": "V05-COMPACT-SUPPORT-1",
+      "role": "concrete",
+      "size_m": [
+        2.5,
+        5.25,
+        1.2
+      ],
+      "volume_m3": 15.75
+    },
+    {
+      "at_m": [
+        -0.6000000000000001,
+        -0.8,
+        -10.8
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "id": "study-support/column",
+      "kind": "box",
+      "material": "concrete",
+      "modelled_mass_kg": 38400.00000000001,
+      "production_released": false,
+      "revision": "V05-COMPACT-SUPPORT-1",
+      "role": "concrete",
+      "size_m": [
+        1.2000000000000002,
+        1.6,
+        8
+      ],
+      "volume_m3": 15.360000000000003
+    },
+    {
+      "at_m": [
+        -1.9124999999999999,
+        -1.9124999999999999,
+        -12
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "id": "study-support/foundation-envelope",
+      "kind": "box",
+      "material": "concrete",
+      "modelled_mass_kg": 43891.87499999999,
+      "production_released": false,
+      "revision": "V05-COMPACT-SUPPORT-1",
+      "role": "ground-assumption",
+      "size_m": [
+        3.8249999999999997,
+        3.8249999999999997,
+        1.2
+      ],
+      "volume_m3": 17.556749999999997
+    }
+  ],
+  "physical_release": false,
+  "retain_native_tessellation": true,
+  "schema": "osr-maglev-development-solids/1",
+  "scope": "One interior shared support: cap transverse width, column and shallow-foundation envelope widths varied independently. No qualified foundation family selected."
+}

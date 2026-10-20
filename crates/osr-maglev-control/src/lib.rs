@@ -8,6 +8,7 @@
 #![forbid(unsafe_code)]
 
 pub mod array;
+pub mod egress;
 pub mod ideal;
 pub mod io;
 

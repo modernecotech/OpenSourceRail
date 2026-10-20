@@ -303,7 +303,7 @@ def sources():
 
 
 def build():
-    from . import transition,coupled,optimisation,evacuation
+    from . import transition,coupled,optimisation,evacuation,system_development
     from . import geometry as native_geometry
     policy,c,costs=load();cost_cases=[];energies=[];masses=[]
     for ferrite,battery in itertools.product((c['mass']['ferrite_base'],c['mass']['ferrite_sensitivity']),
@@ -363,6 +363,7 @@ def build():
                     magnet_budget=native['magnet_budget'],clearances=native['clearances'],holds=native['holds']),
                 flexible_guideway_benchmark=coupled.static_benchmark(),
                 whole_system_optimisation={k:v for k,v in optimisation.study(c,costs).items() if k not in {'candidates','beam_only_candidates'}},
+                linked_system_development={k:v for k,v in system_development.study().items() if k!='support_cases'},
                 onboard_evacuation={k:v for k,v in evacuation.study().items() if k not in {'geometry_envelopes','landing_cases','optimistic_flow_bounds'}},
                 city_catalogue=dict(city_count=catalogue['city_count'],catalogue_complete=catalogue['catalogue_complete'],
                     planning_acceptance=False) if catalogue else dict(city_count=0,catalogue_complete=False),

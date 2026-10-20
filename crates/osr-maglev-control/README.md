@@ -136,3 +136,21 @@ flexible car structure, soil, joints, fatigue, real magnetic/electrical dynamics
 and independent protection. The line protocol accepts at most 20,000 frames,
 8 KiB per frame, and measures no hardware timing. The three-mode car motion and
 vertical beam coupling do not provide a six-degree-of-freedom stability proof.
+
+
+## Offline evacuation sequencing
+
+`egress::evaluate` adds allocation-free doorway sequencing with an exact declared
+candidate/door context, fresh monotonic frames, explicit readiness/assistance
+prerequisites, latched contradiction/context/deadline faults, and secured/stowed
+reset. It reports study traction inhibition and continued-support obligations;
+it supplies no door, restraint, chute or support output adapter. Input assertions
+are unauthenticated study facts, not verified independent sensor or safety evidence.
+
+`cargo run -p osr-maglev-control --release --example egress_replay -- REVISION PATH_CLEAR HEIGHT_COVERED`
+prints a bounded nine-frame synthetic sequence. The linked Python study supplies
+its candidate tag and calculated hypothetical path/height gates, and retains
+negative controls. Loss of prerequisites after deployment begins holds the
+sequence; no automatic retraction is commanded. The egress/support composition
+test preserves fresh support control while inhibiting traction. Physical timing,
+independent protection, accessible passenger evacuation and railway approval remain open.

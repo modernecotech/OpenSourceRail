@@ -2,6 +2,13 @@
 
 ## 0.5 development — whole-catalogue transition and executable studies
 
+- Add native doorway/cassette/extended-entry and compact-support research geometry,
+  four mechanical stand-offs and 576 cap/column/foundation/load-stage demand cases.
+- Execute geometry/height-gated Rust egress sequences and negative controls with
+  support-preserving traction inhibition; retain native-derived beam/control replay,
+  CAD/STEP, partial material list, demand CSV, images and assembly visibility videos.
+  Deployment mechanics, complete installed mass, capacity and physical release remain open.
+
 - Record manufacturer-listed monorail/gondola and variable-height chute applications;
   add seven onboard installation requirements and retain discrete-exit coverage gaps.
   Supplier application claims do not establish an approved or unattended OSR installation.

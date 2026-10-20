@@ -6,7 +6,16 @@ use osr_maglev_control::array::{evaluate_array, ArrayState, ArraySupport, MODULE
 use std::io::{self, BufRead, Read, Write};
 
 fn main() {
-    let p = support::params();
+    let mut p = support::params();
+    if let Some(value) = std::env::args().nth(1) {
+        let Ok(mass) = value.parse::<f64>() else {
+            std::process::exit(2)
+        };
+        if !mass.is_finite() || !(1000.0..=100_000.0).contains(&mass) {
+            std::process::exit(2)
+        }
+        p.mass_kg = mass;
+    }
     let mut state = ArrayState::default();
     let stdin = io::stdin();
     let mut input = stdin.lock();
