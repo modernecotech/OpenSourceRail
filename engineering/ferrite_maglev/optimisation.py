@@ -72,6 +72,7 @@ def vehicle(c,costs,p):
     m=model.mass(target,c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'])
     hardware=None if p['hardware_target']=='retain-workbook' else p['hardware_target']
     cost=model.cost_case(c,costs,'base',c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'],hardware_target=hardware)
+    duty=model.cycle(target,m['aw3_kg'],hot=True,regen=False)
     return target,dict(id=p['id'],mass=m,mass_allocation_changes=changes,assumed_mass_saving_kg=saved,
         repeat_three_car_train_allowance_usd=cost['train_usd'],hardware_target_usd_train=hardware,
         unqualified_change_count=p['unqualified_change_count'],
@@ -82,6 +83,12 @@ def vehicle(c,costs,p):
         required_systems_retained=['passenger doors','HVAC fans/pumps as required','support drives/sensing/cooling',
             'capture/landing/emergency braking','battery protection','independent protection','couplers/gangways','evacuation'],
         normal_running_gear_moving_parts_objective=0,total_moving_parts_count=None,
+        matched_duty=dict(hot_aw3_no_regen_cycle_kwh_per_car=duty['cycle_kwh'],
+            balanced_charger_kw_per_car=duty['balanced_charger_kw'],
+            station_spacing_m=target['power']['station_spacing_study_m'],
+            requested_speed_kmh=duty['requested_speed_kmh'],achieved_speed_kmh=duty['achieved_speed_kmh'],
+            scope='Same straight/level cycle, payload, storage, hotel load, assumed drag and efficiencies. Actual magnetic force/loss, terrain, wind and charger acceptance remain open.',
+            actual_magnetic_loss_map_used=False,route_accepted=False),
         imported_input_usd=None,local_value_added_fraction=None,
         limits='Mass allocations and hardware budgets are targets. No extra body/equipment procurement credit, efficiency gain or import saving inferred.',**model.FLAGS)
 
@@ -141,6 +148,28 @@ def civil(c,costs,v,width,depth,web,flange,span,a,*,guideway_mode='walkway-refer
         scope='Ordinary twin-direction viaduct indexed allowance; support count may vary but support capacity/site feasibility is unproved.',**model.FLAGS)
 
 
+def scorecard(v,civil):
+    """Candidate-specific arithmetic and explicit missing whole-system measures."""
+    held=civil['guideway_mode']=='onboard-evacuation-no-walkway'
+    return dict(
+        installed_cost_usd_dual_route_km=None,
+        indexed_ordinary_viaduct_allowance_usd_dual_route_km=civil['indexed_allowance_usd_dual_km'],
+        factory_gate_cost_usd_three_car_train=None,
+        indexed_repeat_three_car_train_allowance_usd=v['repeat_three_car_train_allowance_usd'],
+        tare_kg_per_car=v['mass']['tare_kg'],aw2_kg_per_car=v['mass']['aw2_kg'],aw3_kg_per_car=v['mass']['aw3_kg'],
+        hot_aw3_no_regen_cycle_kwh_per_car=None if held else v['matched_duty']['hot_aw3_no_regen_cycle_kwh_per_car'],
+        balanced_charger_kw_per_car=None if held else v['matched_duty']['balanced_charger_kw_per_car'],
+        maximum_bare_beam_lift_kg=civil['maximum_bare_beam_lift_kg'],maximum_transported_assembly_mass_kg=None,
+        counted_concrete_mass_kg_dual_route_km=civil['counted_concrete_mass_kg_dual_km'],total_installed_mass_kg_dual_route_km=None,
+        factory_labour_hours_per_route_km=None,onsite_labour_hours_per_route_km=None,
+        construction_working_days_per_route_km=None,unique_parts_count=None,moving_assemblies_count=None,
+        imported_value_usd=None,specialist_supplier_dependency_count=None,
+        module_replacement_time_seconds=None,failed_train_recovery_time_seconds=None,
+        additional_onboard_evacuation_mass_required_but_unknown=held,
+        evidence_scope='Input-bound analytical screens and indexed allowances; null means unmeasured/unpriced. Tare/load allocations exclude unselected additional chute equipment. No supplier quotation, factory routing, complete installed mass or physical performance verified.',
+        accepted=False,**model.FLAGS)
+
+
 def _vector(r):
     return (r['civil']['indexed_allowance_usd_dual_km'],r['civil']['counted_concrete_mass_kg_dual_km'],
             r['civil']['maximum_bare_beam_lift_kg'],r['vehicle']['mass']['tare_kg'],r['vehicle']['repeat_three_car_train_allowance_usd'],
@@ -157,9 +186,9 @@ def _study(canonical):
             try:r=civil(target,costs,v,width,depth,web,flange,span,a)
             except ValueError:continue
             key=f"{p['id']}/{width:g}/{depth:g}/{web:g}/{flange:g}/{span:g}"
-            rows.append(dict(id=key,vehicle=v,civil=r,numerical_screen_pass=r['numerical_screen_pass'],accepted=False))
+            rows.append(dict(id=key,vehicle=v,civil=r,system_scorecard=scorecard(v,r),numerical_screen_pass=r['numerical_screen_pass'],accepted=False))
             bare=civil(target,costs,v,width,depth,web,flange,span,a,guideway_mode='onboard-evacuation-no-walkway')
-            beam_only_rows.append(dict(id='onboard-evacuation-no-walkway/'+key,vehicle=v,civil=bare,
+            beam_only_rows.append(dict(id='onboard-evacuation-no-walkway/'+key,vehicle=v,civil=bare,system_scorecard=scorecard(v,bare),
                 numerical_screen_pass=bare['numerical_screen_pass'],accepted=False,
                 gross_avoided_scope_usd_dual_km=r['indexed_allowance_usd_dual_km']-bare['indexed_allowance_usd_dual_km'],
                 added_vehicle_equipment_mass_and_lifetime_cost_closed=False))
@@ -171,10 +200,24 @@ def _study(canonical):
                    for identity,other in vectors.items() if identity!=r['id']):pareto.append(r['id'])
     best=min(passing,key=lambda r:(r['civil']['indexed_allowance_usd_dual_km'],r['id'])) if passing else None
     base=model.cost_case(c,costs,'base',c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'])
+    lightest=min(passing,key=lambda r:(r['civil']['counted_concrete_mass_kg_dual_km'],r['id'])) if passing else None
+    extrema=dict(lowest_indexed_ordinary_allowance_candidate_id=best['id'] if best else None,
+        lowest_counted_concrete_mass_candidate_id=lightest['id'] if lightest else None,
+        fastest_construction_candidate_id=None,
+        scope='Reference configurations passing gross stiffness/bare-lift screens only. Whole installed cost/mass and construction time not established; held no-walkway variants excluded.',
+        construction_time_hold='No maglev-specific production/erection resource schedule, productivity or curing/connection evidence; legacy wheel/rail schedule winners cannot transfer.')
     fixed=sum(base['civil_rows_usd_dual_km'][k] for k in b['unchanged_cost_rows'])
     eligible_bare=[r for r in beam_only_rows if r['numerical_screen_pass']]
     bare_best=min(eligible_bare,key=lambda r:(r['civil']['indexed_allowance_usd_dual_km'],r['id'])) if eligible_bare else None
     return dict(schema='osr-maglev-whole-system-optimisation/1',candidate_count=len(rows),numerical_screen_pass_count=len(passing),
+        research_extrema=extrema,fully_coupled_optimisation=False,
+        coupling_evidence=[
+            dict(link='vehicle mass to AW3 UDL/beam deflection',state='implemented analytical screen'),
+            dict(link='section/span to support count and indexed transport/erection allowance',state='implemented quantity indexing; capacity unproved'),
+            dict(link='vehicle mass to hot no-regen duty/charging',state='implemented fixed-assumption straight/level screen'),
+            dict(link='actual magnetic force/loss to structural gap/support and energy',state='open; no qualified force/loss map'),
+            dict(link='beam/support changes to actuator spacing/control authority',state='open; no candidate-specific coupled replay'),
+            dict(link='manufacturing/erection schedule, local/import MBOM and lifecycle repair',state='open; supplier/process/site evidence required')],
         pareto_candidate_ids=pareto,minimum_indexed_allowance_candidate=best,vehicle_profiles=profiles,candidates=rows,
         beam_only_candidate_count=len(beam_only_rows),beam_only_candidates=beam_only_rows,
         beam_only_minimum_gross_allowance_candidate=bare_best,
@@ -208,11 +251,23 @@ def route_strategy(design,corridor,a=None):
     ordinary=by_class.get('elevated',0)+by_class.get('at-grade',0)
     special={k:v for k,v in by_class.items() if k not in {'elevated','at-grade'}}
     route=sum(l['length_m'] for l in design['lines']);discrepancy=sum(by_class.values())-route
-    straightness=[]
+    straightness=[];alignment_metrics=[]
     for line in corridor.get('lines',[]):
         cells=line.get('cells',[])
-        if str(line.get('shape','')).lower()!='radial' or len(cells)<2:continue
+        shape=str(line.get('shape','')).lower()
+        if len(cells)<2:
+            alignment_metrics.append(dict(line=line.get('name'),shape=shape,path_to_endpoint_chord_ratio=None,reason='fewer than two retained raster points'))
+            continue
         length=sum(math.dist(p,q) for p,q in zip(cells,cells[1:]));chord=math.dist(cells[0],cells[-1])
+        alignment_metrics.append(dict(line=line['name'],shape=shape,
+            raster_cell_path_length=length,raster_cell_endpoint_chord=chord,
+            path_to_endpoint_chord_ratio=length/chord if shape=='radial' and chord>0 else None,
+            directness_state='raster-observation' if shape=='radial' and chord>0 else 'not-applicable-to-ring-or-zero-chord',
+            standard_straight_span_fraction=None,minimum_horizontal_radius_m=None,minimum_vertical_radius_m=None,
+            affected_buildings_count=None,affected_utilities_count=None,station_walking_catchment_population=None,
+            interchange_access_accepted=False,
+            basis='Retained cell-centre polyline and first/last endpoints; no smoothing, vertical profile, standard-span classification or obstacle survey. Other shapes require named corridor endpoints.'))
+        if shape!='radial':continue
         straightness.append(dict(line=line['name'],raster_chord_to_path_ratio=chord/length if length else None,
             basis='Retained raster cell-centre geometry; no 3D obstacle/ROW/clearance or rerouting proof'))
     return dict(strategy='predominantly-elevated; maximise feasible straight tangents between demand anchors',
@@ -221,6 +276,7 @@ def route_strategy(design,corridor,a=None):
         retained_civil_class_length_m=by_class,ordinary_viaduct_proposal_length_m=ordinary,
         proposed_conversion_from_at_grade_m=by_class.get('at-grade',0),special_crossings_length_m=special,
         civil_coverage_discrepancy_m=discrepancy,civil_quantity_screen_pass=abs(discrepancy)<=1,
+        alignment_comparison_metrics=alignment_metrics,
         radial_straightness_observations=straightness,geographic_alignment_recomputed=False,
         elevated_coverage_achieved=None,operating_level_crossings_demonstrated=None,housing_demolition_demonstrated=None,
         wildlife_impact_demonstrated=None,zero_impact_demonstrated=False,

@@ -202,3 +202,29 @@ A vertical swept-envelope check also retains adjacent-beam clashes where assumed
 sway reaches the other guidebeam. Ground anchors, variable length at arbitrary
 stop positions, outlet control, local fire/smoke, packed volume and door/body
 reaction loads remain design work; no civil or lifecycle saving is accepted yet.
+
+## Implementation roadmap
+
+This roadmap reconciles the initial v0.5 review with the current elevated,
+integrated-beam and spiral-chute direction. The older request for mandatory
+walkways is a comparator; an approved alternative is still required before removal.
+Architecture objectives are implemented; complete design and manufacture remain open.
+
+| Workstream | Current executable comparison | Required next evidence |
+|---|---|---|
+| Elevated, direct alignments | All ordinary retained sections proposed elevated; original class lengths and conversion budgets retained; radial path length / first-to-last chord reported from cell geometry | Located alternatives, standard straight-span fraction, horizontal/vertical radii, buildings/utilities, station walking catchments and interchange access; rings need their own defined corridor endpoints |
+| Complete installed viaduct | Candidate-specific indexed ordinary allowances, counted concrete, bare lifts, support counts; separate lowest-allowance/lowest-counted-mass observations and Pareto set | Actual foundations/ground, prestress/reinforcement, joints, lifting accessories/crane radius, tolerances, interfaces, full installed quantities and supplier prices |
+| Production and erection | Quantities and indexed transport/handling sensitivities | A maglev-specific finite-resource factory, curing, connection and erection schedule; fastest-construction candidate remains null until this exists |
+| Complete rolling stock | Matched payload/storage/reserve/ferrite, mass-allocation alternatives, fixed running-gear objective, required passenger/protection equipment retained | Part-level EBOM/MBOM, carriers/interfaces, unique and moving assembly counts, wear tasks, measured module replacement and failed-train recovery times |
+| Vehicle/civil/energy feedback | Candidate AW3 mass changes beam demand and the same hot, no-regeneration, straight/level duty/charger screen | Qualified force/loss/thermal maps, candidate-specific actuator layout/control and coupled dynamics; bidirectional complete-system optimisation is not yet implemented |
+| Local manufacture and cost | Workbook-indexed allowances; removed conventional scope credited once; local-integration budget targets separate | Origin-traced supplier-priced MBOM, factory-gate scope, complete installed cost, labour, tooling/yield, specialist dependencies and lifecycle repair/renewal costs |
+| Beam-only evacuation | Conditional CAD, slide/chute clearance and unsafe-landing counterexamples; no-walkway cases excluded from reference promotion | Selected device/mount/entry design, additional mass, every-stop landing/alternative, descent/flow, accessibility, wind/fire/rescue, cost and independent acceptance |
+
+Every search candidate has a `system_scorecard` in the complete retained
+`optimisation-study.json.gz`. Values identify their units and arithmetic scope;
+missing quantities are null. Cost and mass extrema refer to indexed ordinary
+allowances and counted concrete, not complete installed price or mass. All
+no-walkway scorecards hold energy/charging because extra chute mass is unknown.
+The profile-level baseline duty remains a comparator. Supplier-priced cost,
+imported value, labour and repair times are not inferred from a lighter mass target.
+The separate legacy civil schedule is not promoted into a maglev winner.

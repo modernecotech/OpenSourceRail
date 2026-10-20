@@ -2,6 +2,12 @@
 
 ## 0.5 development — whole-catalogue transition and executable studies
 
+- Put the current maglev introduction, illustration and three primary links first;
+  group retained v0.4 books/CAD/videos explicitly and move section comparisons into civil engineering.
+- Add per-candidate whole-system scorecards, matched hot no-regen duty/charging,
+  separate allowance/concrete-mass extrema and all-line route comparison records.
+  Keep construction-time, priced/installed scope and unmeasured industrial metrics unknown.
+
 - Prefer vertical controlled-descent spiral/cell chute research for the no-walkway target; retain height/landing/sway counterexamples and source-specific building/marine claims without transferring approval.
 
 - Add a conditional integrated-beam/no-continuous-walkway target, native 54-part

@@ -155,3 +155,70 @@ def test_actual_retained_rail_mass_cannot_be_replaced_by_lighter_allowance(conte
     assert result['native_passive_rail_line_mass_kg_m_per_direction']==pytest.approx(expected)
     assert result['section']['dead_line_mass_kg_m']==pytest.approx((.66+.12)*2500+expected)
     assert not result['other_attachment_mass_closed']
+
+
+def test_scorecards_preserve_whole_system_unknowns_and_do_not_relabel_allowances(context):
+    r=optimisation.study(context[1],context[2])
+    unknown=('installed_cost_usd_dual_route_km','factory_gate_cost_usd_three_car_train',
+        'total_installed_mass_kg_dual_route_km','maximum_transported_assembly_mass_kg',
+        'factory_labour_hours_per_route_km','onsite_labour_hours_per_route_km',
+        'construction_working_days_per_route_km','unique_parts_count','moving_assemblies_count',
+        'imported_value_usd','specialist_supplier_dependency_count','module_replacement_time_seconds','failed_train_recovery_time_seconds')
+    for row in r['candidates']+r['beam_only_candidates']:
+        score=row['system_scorecard']
+        assert all(score[k] is None for k in unknown)
+        assert score['indexed_ordinary_viaduct_allowance_usd_dual_route_km']==row['civil']['indexed_allowance_usd_dual_km']
+        assert score['tare_kg_per_car']==row['vehicle']['mass']['tare_kg']
+        assert not score['accepted'] and all(score[k] is False for k in model.FLAGS)
+    assert not r['fully_coupled_optimisation']
+    assert any('actual magnetic force/loss' in link['link'] and link['state'].startswith('open') for link in r['coupling_evidence'])
+
+
+def test_matched_profile_duty_changes_with_mass_but_not_budget_alone(context):
+    _,c,k=context;a=optimisation.load()
+    ref=optimisation.vehicle(c,k,a['vehicle_profiles'][0])[1]
+    light=optimisation.vehicle(c,k,a['vehicle_profiles'][1])[1]
+    unchanged=deepcopy(a['vehicle_profiles'][0]);unchanged['hardware_target']=60000
+    budget=optimisation.vehicle(c,k,unchanged)[1]
+    assert light['matched_duty']['hot_aw3_no_regen_cycle_kwh_per_car']<ref['matched_duty']['hot_aw3_no_regen_cycle_kwh_per_car']
+    assert budget['matched_duty']==ref['matched_duty']
+    duty=light['matched_duty']
+    assert duty['balanced_charger_kw_per_car']==pytest.approx(duty['hot_aw3_no_regen_cycle_kwh_per_car']*3600/c['power']['charger_effective_seconds'])
+    assert not duty['actual_magnetic_loss_map_used'] and not duty['route_accepted']
+
+
+def test_new_chute_mass_holds_candidate_energy_instead_of_using_comparator_duty(context):
+    r=optimisation.study(context[1],context[2])
+    for row in r['beam_only_candidates']:
+        s=row['system_scorecard']
+        assert s['additional_onboard_evacuation_mass_required_but_unknown']
+        assert s['hot_aw3_no_regen_cycle_kwh_per_car'] is s['balanced_charger_kw_per_car'] is None
+    assert all(row['system_scorecard']['hot_aw3_no_regen_cycle_kwh_per_car']>0 for row in r['candidates'])
+
+
+def test_distinct_extrema_only_use_passing_reference_configurations(context):
+    r=optimisation.study(context[1],context[2]);passing=[v for v in r['candidates'] if v['numerical_screen_pass']]
+    by_id={v['id']:v for v in passing};e=r['research_extrema']
+    cost=by_id[e['lowest_indexed_ordinary_allowance_candidate_id']]
+    mass=by_id[e['lowest_counted_concrete_mass_candidate_id']]
+    assert cost['civil']['indexed_allowance_usd_dual_km']==min(v['civil']['indexed_allowance_usd_dual_km'] for v in passing)
+    assert mass['civil']['counted_concrete_mass_kg_dual_km']==min(v['civil']['counted_concrete_mass_kg_dual_km'] for v in passing)
+    assert e['fastest_construction_candidate_id'] is None
+    a=optimisation.load();a['civil']['maximum_bare_beam_lift_mass_screen_kg']=1
+    empty=optimisation._study(__import__('json').dumps([context[1],context[2],a],sort_keys=True))['research_extrema']
+    assert empty['lowest_indexed_ordinary_allowance_candidate_id'] is empty['lowest_counted_concrete_mass_candidate_id'] is None
+
+
+def test_route_directness_defines_endpoints_and_does_not_score_rings_as_bad_radials():
+    design={'lines':[{'length_m':1000}],'civil_segments':[{'class':'elevated','from_station_m':0,'to_station_m':1000}]}
+    corridor={'lines':[
+        {'name':'radial','shape':'Radial','cells':[[0,0],[1,0],[1,1]]},
+        {'name':'ring','shape':'Ring','cells':[[0,0],[1,0],[1,1],[0,0]]},
+        {'name':'zero','shape':'Radial','cells':[[0,0],[0,0]]},
+        {'name':'missing','shape':'Radial','cells':[]}]}
+    r=optimisation.route_strategy(design,corridor);metrics={m['line']:m for m in r['alignment_comparison_metrics']}
+    assert metrics['radial']['path_to_endpoint_chord_ratio']==pytest.approx(math.sqrt(2))
+    for key in ('ring','zero','missing'):assert metrics[key]['path_to_endpoint_chord_ratio'] is None
+    assert metrics['radial']['minimum_horizontal_radius_m'] is None
+    assert metrics['radial']['station_walking_catchment_population'] is None
+    assert not metrics['radial']['interchange_access_accepted']

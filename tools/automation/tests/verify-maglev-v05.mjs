@@ -132,6 +132,29 @@ try {
   assert.equal(optimisation.design_complete, false);
   assert.equal(optimisation.local_value_added_fraction, null);
   assert.ok(optimisation.unchanged_scope_floor_usd_dual_km > 0);
+  assert.equal(optimisation.fully_coupled_optimisation, false);
+  assert.equal(
+    optimisation.research_extrema.fastest_construction_candidate_id,
+    null,
+  );
+  assert.ok(
+    optimisation.research_extrema.lowest_counted_concrete_mass_candidate_id,
+  );
+  const score =
+    optimisation.minimum_indexed_allowance_candidate.system_scorecard;
+  assert.equal(score.installed_cost_usd_dual_route_km, null);
+  assert.equal(score.factory_gate_cost_usd_three_car_train, null);
+  assert.equal(score.moving_assemblies_count, null);
+  assert.ok(score.hot_aw3_no_regen_cycle_kwh_per_car > 0);
+  assert.equal(
+    optimisation.beam_only_minimum_gross_allowance_candidate.system_scorecard
+      .hot_aw3_no_regen_cycle_kwh_per_car,
+    null,
+  );
+  assert.match(
+    await page.locator("body").innerText(),
+    /Whole-system comparison scorecards/,
+  );
   assert.equal(optimisation.beam_only_candidate_count, 432);
   assert.equal(optimisation.beam_only_reference_champion_eligible, false);
   assert.equal(optimisation.beam_only_net_system_saving_usd, null);

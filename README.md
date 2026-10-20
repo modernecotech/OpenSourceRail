@@ -1,12 +1,14 @@
 # OpenSourceRail
 
-![OpenSourceRail v0.5 ferrite-maglev station concept in Baghdad, with vehicle and magnetic guideway interface details](OpenSourceRail%20maglev%20station%20concept.png)
+**v0.5 — primary ferrite-maglev development architecture.** OpenSourceRail now develops fixed magnetic modules for local manufacture, passive narrow guidebeams and Rust controls on off-the-shelf SBCs. Engineering and physical acceptance remain open.
 
-*v0.5 development concept — station layout and magnetic interfaces under study.*
+![OpenSourceRail ferrite-maglev station concept in Baghdad, with vehicle and magnetic guideway interface details](OpenSourceRail%20maglev%20station%20concept.png)
+
+*Development concept — station layout and magnetic interfaces under study.*
+
+**[Maglev study and images](docs/design-engine/ferrite-maglev/reference/index.html) · [Current configuration](ferrite-maglev-study.toml) · [Implementation roadmap](engineering/ferrite_maglev/README.md#implementation-roadmap)**
 
 **nobody should be priced out of dignity**
-
-**v0.5 — primary ferrite-maglev development architecture.** OpenSourceRail now develops fixed magnetic modules for local manufacture, passive narrow guidebeams and Rust controls on off-the-shelf SBCs. [Review the executable study and images](docs/design-engine/ferrite-maglev/reference/index.html) · [architecture transition and remaining work](docs/rfcs/0035-v05-primary-ferrite-maglev.md). Engineering and physical acceptance remain open. Existing wheel/rail city packages, CAD, assembly videos, book and brochure are retained v0.4 comparators.
 
 **Default optimisation direction:** predominantly elevated mainlines (99% planning objective), with all ordinary sections proposed on repeatable viaduct kits. Prefer straight tangents where buildings, road/utility clearances, wildlife/water passage, foundations and station access permit. Optimise installed cost per dual-direction route-km together with vehicle mass, construction effort, moving mechanisms and imported content. Required passenger, emergency and support systems remain in scope. [Executable joint search and assumptions](engineering/ferrite_maglev/optimisation.py) · [controlled search bounds](engineering/ferrite_maglev/optimisation.toml).
 
@@ -35,15 +37,13 @@ OpenSourceRail is an open urban-rail reference platform for countries that want 
 > [!IMPORTANT]
 > Repository outputs are planning and engineering-screening evidence—not bids, construction releases, safety certificates, approvals or endorsements. Open topography and water data do not replace survey, geotechnical or hydraulic evidence. Simulation and formal checks do not authorize live railway command.
 
-![Primary maglev concrete guidebeam section study; magnetic interfaces remain open](docs/design-engine/ferrite-maglev/reference/guidebeam-sections.svg)
-
-**Start here:** [two-page brochure](OpenSourceRail-Brochure.pdf) · [complete PDF book](OpenSourceRail-Book.pdf) · [one-page overview](docs/open-source-rail-overview.md) · [architecture](docs/ARCHITECTURE.md) · [current roadmap and open work](docs/ROADMAP.md#reviewed-open-work)
+**Platform navigation:** [one-page overview](docs/open-source-rail-overview.md) · [shared software architecture](docs/ARCHITECTURE.md) · [platform roadmap](docs/ROADMAP.md#reviewed-open-work). Earlier physical documents are grouped under [v0.4 wheel/rail references](#v04-wheelrail-references).
 
 **AI CAD and BIM workflow:** [October 2026 tool review and completion programme](docs/design-engine/ai-cad-bim-workflow-2026-10-17.md) compares editable CAD agents and BIM tools, and provides a resumable proposal → native geometry → solver/IFC checks → feedback loop. Research examples retain the full work-order backlog; complete railway specification and physical acceptance remain open.
 
-**Continuous engineering runner:** [run mechanical, civil, software and integration lanes](docs/design-engine/continuous-runner-2026-10-17.md) with crash-safe follow-ups, fair bounded AI proposals, native/beam-FEM promotion, a research-champion dashboard and benchmarked capability worktrees. Verification levels and exact revisions remain separate from manufacturing and physical acceptance.
+**Retained wheel/rail research runner:** [run mechanical, civil, software and integration lanes](docs/design-engine/continuous-runner-2026-10-17.md) with crash-safe follow-ups, fair bounded AI proposals, native/beam-FEM promotion, a research-champion dashboard and benchmarked capability worktrees. Verification levels and exact revisions remain separate from manufacturing and physical acceptance.
 
-**Baghdad assembly development:** [sourced requirements and first assembly campaign](docs/design-engine/assembly-design/index.html) separates 69 Baghdad reference parts from legacy configurations, runs cassette/bearing-seat alternatives and executable interface tests, and starts isolated capability development with independent research review. [Workflow and limits](engineering/assembly_design/README.md). Complete railway design and manufacturing acceptance remain open.
+**Retained Baghdad wheel/rail assembly development:** [sourced requirements and first assembly campaign](docs/design-engine/assembly-design/index.html) separates 69 Baghdad reference parts from legacy configurations, runs cassette/bearing-seat alternatives and executable interface tests, and starts isolated capability development with independent research review. [Workflow and limits](engineering/assembly_design/README.md). Complete railway design and manufacturing acceptance remain open.
 
 ## Functional comparison
 
@@ -77,9 +77,25 @@ OpenSourceRail is an open urban-rail reference platform for countries that want 
 
 The retained v0.4 wheel/rail physical comparator is a 49.5 m, three-car driverless light metro with **360 AW2 / 480 AW3** capacity and **675 kWh gross / 540 kWh usable** LFP storage, integrated battery/cabin thermal control, seven station archetypes and reusable civil families. A welded steel safety frame, non-structural GFRP cladding and supplier-neutral COTS subsystem interfaces support local fabrication, assembly and repair. Its **120 LM3 product rows, 26 assembly nodes, 30 tooling/mould families and 146 native FreeCAD models with matching split IFC4.3 files** connect that make/buy strategy to BOMs, tooling and qualification gates.
 
-The city catalogue uses **elevated land sections in its controlled central study areas**, radial tangents and curved ring connections where terrain and water permit; retained shore detours and priced bridge candidates replace long lake crossings. Outer approaches retain their actual at-grade, elevated and special-crossing mix, with no tunnels. Each city reports its current civil quantities, one full-fleet planning depot per line, graded staffing and an 18-month factory-readiness plan. These are planning concepts: property, survey, supplier, structural and operational releases remain open. [Catalogue design review](docs/catalogue-current-design-review.md) · [Water and interchange checks](engineering/assurance/catalogue-geography/README.md) · [Baghdad’s dedicated proposal and funding](cities/catalogue/west-asia/Iraq/Baghdad/README.md).
+The retained v0.4 city geography uses **elevated land sections in its controlled central study areas**, radial tangents and curved ring connections where terrain and water permit; retained shore detours and priced bridge candidates replace long lake crossings. Outer approaches retain their actual at-grade, elevated and special-crossing mix, with no tunnels. Each city reports its current civil quantities, one full-fleet planning depot per line, graded staffing and an 18-month factory-readiness plan. These are planning concepts: property, survey, supplier, structural and operational releases remain open. [Catalogue design review](docs/catalogue-current-design-review.md) · [Water and interchange checks](engineering/assurance/catalogue-geography/README.md) · [Baghdad’s dedicated proposal and funding](cities/catalogue/west-asia/Iraq/Baghdad/README.md).
 
-## Complete viaduct design exploration
+## Civil engineering — primary maglev
+
+![Primary maglev concrete guidebeam section study; magnetic interfaces remain open](docs/design-engine/ferrite-maglev/reference/guidebeam-sections.svg)
+
+The [primary joint search](docs/design-engine/ferrite-maglev/reference/index.html) compares 432 reference vehicle/beam/span combinations and 432 conditional no-walkway alternatives. It reports separate lowest indexed ordinary-viaduct allowance and lowest counted concrete mass choices, with Pareto tradeoffs. Fastest construction remains unknown until a maglev-specific factory/erection schedule exists. The USD8.346 million reference allowance is for an ordinary dual-direction route-km; stations, special crossings, land, depots and complete financing remain additional scope.
+
+Each candidate now carries a whole-system comparison scorecard: indexed allowances, tare/loaded mass, matched hot no-regeneration energy/charging and bare lift mass, alongside explicit unknowns for complete installed/factory-gate costs, transport shipment mass, labour, unique/moving parts, imported value and repair/recovery times. Actual magnetic force/loss and candidate-specific control coupling remain open. New chute mass is unselected, so no-walkway energy and net savings are held. The [implementation roadmap](engineering/ferrite_maglev/README.md#implementation-roadmap) identifies the evidence needed to close these measures.
+
+## v0.4 wheel/rail references
+
+These retained physical designs document earlier engineering and manufacturing work. Their costs, route mix, CAD and tests do not qualify the new maglev configuration.
+
+- [Two-page brochure](OpenSourceRail-Brochure.pdf) and [complete PDF book](OpenSourceRail-Book.pdf).
+- [LM3 rolling-stock reference](docs/rolling-stock/light-metro-3car/README.md), [CAD and IFC](engineering/models/bim/reference/README.md) and [buildable trainset](design/component-catalogue/catalog/buildable-trainset/README.md).
+- [Vehicle assembly video](engineering/models/digital-twins/fabrication-assembly/fabrication-assembly-digital-twin.mp4) and [civil IFC sequence](engineering/models/bim/reference/civil-construction-sequence.mp4).
+
+### Retained civil design exploration
 
 The [civil workbench](engineering/civil_exploration/README.md) compares complete **beam–pier–foundation packages**, with Baghdad as the qualification target. It searches for separate low-cost, low-mass and short-construction-time choices and retains the Pareto tradeoffs, failures, changed parameters and evidence gaps. The retained LM3 verification studies and Baghdad research results have distinct load bases; Baghdad supplier axle positions are still missing. The [queued-systems results](docs/design-engine/queued-systems-results-2026-10-16.md) add [63 preliminary package studies](docs/design-engine/queued-systems/index.html), mechanical fit repairs, six-car load feedback, factory equipment/utility alternatives and production/inspection registers. Six native CAD checks passed; engineering qualification and manufacturing release remain open. The [detailed multi-agent scenario](docs/design-engine/multi-agent-detail-scenario-2026-10-17.md) adds feedback-directed civil/mechanical details and manufacturing closure tasks. The [hierarchical development pilot](docs/design-engine/hierarchical-development-2026-10-17.md) adds killed-worker recovery, continued Pareto search, isolated software experiments and parent-level rejection. The [unified campaign review](docs/design-engine/campaign-review/index.html) adds configuration filters, failures, open gates and side-by-side comparison. The [17 October architecture continuation](docs/design-engine/architecture-feedback-2026-10-17.md) propagates lighter-frame and gap proposals, full-module platforms and British tooling limits through 12 provisional cases.
 
@@ -178,7 +194,7 @@ The first adoptable product does not require a new autonomous railway. Start wit
 |---|---|---|
 | ![City Studio deterministic GIS workspace](docs/screenshots/city-studio/gis-workspace.png) | ![Bonsai IFC4.3 construction sequence](engineering/models/bim/reference/civil-construction-sequence.gif) | ![LM3 complete 146-node assembly](docs/screenshots/assembly/trainset-assembly-complete.png) |
 
-These are captures of the installed simulation platform and generated engineering models, not UI mockups. Reproduce the Workbench captures with [`capture-platform.mjs`](deployment/workbench/tests/capture-platform.mjs), or watch the [88-second product assembly](engineering/models/digital-twins/fabrication-assembly/fabrication-assembly-digital-twin.mp4) and [48-second civil IFC sequence](engineering/models/bim/reference/civil-construction-sequence.mp4).
+These are captures of the installed management/simulation platform and retained v0.4 wheel/rail engineering models. The LM3 train and civil IFC images/videos do not depict the current maglev design. Reproduce the Workbench captures with [`capture-platform.mjs`](deployment/workbench/tests/capture-platform.mjs), or watch the [88-second product assembly](engineering/models/digital-twins/fabrication-assembly/fabrication-assembly-digital-twin.mp4) and [48-second civil IFC sequence](engineering/models/bim/reference/civil-construction-sequence.mp4).
 
 ## The economic case
 
