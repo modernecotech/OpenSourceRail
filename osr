@@ -14,17 +14,19 @@ usage() {
 Usage: ./osr [COMMAND] [arguments]
 
   (no command)       Show the v0.5 primary ferrite-maglev development status
-  workbench          Build/run the retained platform GUI at 127.0.0.1:8090
+  workbench          Open the primary maglev design UI at 127.0.0.1:8090
+  workbench legacy   Build/run the retained wheel/rail platform GUI
   infrastructure ... Run/check the primary ferrite-maglev infrastructure study
-  design [action]    Primary maglev run, check, verify, status or release-check
+  design [action]    Primary maglev build, run, check, verify, status or release-check
   design legacy ...  Explicit v0.4 wheel/rail compiler and engineering workflows
   sim [city] ...     Replay primary maglev city energy/charging (Baghdad default)
   sim legacy ...     Run the retained wheel/rail simulator
   city <slug>        Compile primary maglev formation/service/charging/cost planning
   city legacy <slug> Regenerate an explicit wheel/rail comparator city
-  build              Build the v0.5 study and Rust maglev package
+  build              Rebuild stale native kits, replays, all cities and primary report
   build legacy       Build the retained full wheel/rail comparator payload
-  book [arguments]   Rebuild OpenSourceRail-Book.pdf
+  book [arguments]   Rebuild the primary maglev OpenSourceRail-Book.pdf
+  book legacy ...    Build the retained wheel/rail reader edition
   test               Run Rust, Python, browser, and repository checks
   validate ...       Run/plan/verify local checks with source-bound receipts
   doctor ...         Inspect a named local toolchain profile without installing
@@ -70,6 +72,10 @@ case "$command_name" in
         exec python3 tools/automation/erp-platform.py "$@"
         ;;
     workbench)
+        if [[ "${1:-}" == legacy ]]; then
+            shift
+            exec npm run workbench:legacy -- "$@"
+        fi
         exec npm run workbench -- "$@"
         ;;
     sim)
@@ -114,9 +120,13 @@ case "$command_name" in
         fi
         (( $# == 0 )) || { printf 'usage: ./osr build [legacy]\n' >&2; exit 2; }
         cargo build -p osr-maglev-control --examples
-        exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py run
+        exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py build
         ;;
     book)
+        if [[ "${1:-}" == legacy ]]; then
+            shift
+            exec tools/automation/osr-python tools/automation/build-doc-book.py --legacy "$@"
+        fi
         exec tools/automation/osr-python tools/automation/build-doc-book.py "$@"
         ;;
     validate)

@@ -8,7 +8,7 @@ engineering and physical releases remain zero.**
 
 ```bash
 ./osr                         # primary architecture and migration status
-./osr build                   # build Rust examples and publish the study
+./osr build                   # resume dependency build of stale kits, replays, cities, report and book
 ./osr design run              # regenerate bounded calculations and review images
 ./osr design check            # independently regenerate and compare publication outputs
 ./osr design verify           # verify current publication source/file checksums
@@ -22,6 +22,25 @@ tools/automation/osr-python -m engineering.ferrite_maglev.coupled --duration-s 3
 ```
 
 [Open the generated report](../../docs/design-engine/ferrite-maglev/reference/index.html).
+The [primary Workbench](../../docs/workbench/maglev/index.html),
+[public overview](../../docs/open-source-rail-overview.md) and
+[reader book](../../OpenSourceRail-Book.pdf) now use this architecture by default.
+`./osr workbench legacy`, `./osr book legacy`, `./osr city legacy` and
+`./osr design legacy` retain explicitly selected comparator workflows.
+
+`./osr build` and the installed 15-minute timer use the same restartable
+[dependency runner](workflow.py). It verifies native interface/bay exports,
+the beam-only kit, linked mechanical/civil/Rust evidence, the two-way replay,
+all city packages, the report, the overview and the book in dependency order.
+Only stale implemented outputs are rebuilt. A failed execution or rejected
+result holds downstream stages; a restart verifies existing evidence before
+resuming. An interprocess lock excludes simultaneous timer/manual dependency builds.
+Installing the primary timer retires this checkout’s old automatic assembly and
+wheel/rail design/publication services; shared ERP feedback and telemetry are
+left under their existing management. Local progress and failure details are retained in
+`build/maglev-workflow/latest.json`. This is a finite build of implemented
+evaluators, not an autonomous engineering-completion or certification engine.
+
 The scalar study retains 4 mass variants, 12 cost configurations, 2 additional
 local-manufacture budget targets, 16 normal/hot load-duty cases, 3 additional
 no-regen/90 km/h cases and 27 guidebeam geometry/span combinations. The 5% hot

@@ -155,7 +155,7 @@ native_ready() {
 python_ready() {
     [[ -x "$ROOT/.venv/bin/python" ]] \
         && "$ROOT/.venv/bin/python" -c \
-            'import cairosvg, mistune, numpy, PIL, reportlab, requests, osr_planner, osr_mech, osr_aln, reference_ma' \
+            'import cairosvg, mistune, numpy, scipy, matplotlib, PIL, reportlab, requests, osr_planner, osr_mech, osr_aln, reference_ma' \
             >/dev/null 2>&1
 }
 
@@ -178,10 +178,9 @@ playwright_ready() {
 }
 
 build_ready() {
-    [[ -f "$ROOT/build/frontend/sim/index.html" \
-        && -f "$ROOT/build/frontend/occ/index.html" \
-        && -x "$ROOT/target/release/osr-sim" \
-        && -x "$ROOT/target/release/osr-design" ]]
+    [[ -x "$ROOT/target/release/examples/sbc_replay" \
+        && -x "$ROOT/target/release/examples/coupled_bridge" \
+        && -f "$ROOT/docs/workbench/maglev/index.html" ]]
 }
 
 show_core_status() {
@@ -202,8 +201,8 @@ show_core_status() {
         || status_line "JavaScript packages" no
     playwright_ready && status_line "Playwright Chromium" yes \
         || status_line "Playwright Chromium" no
-    build_ready && status_line "Workbench and simulator build" yes \
-        || status_line "Workbench and simulator build" no
+    build_ready && status_line "Primary maglev controls and Workbench" yes \
+        || status_line "Primary maglev controls and Workbench" no
 }
 
 run_root() {
@@ -317,7 +316,7 @@ install_python() {
         'import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)'; then
         fail "$ROOT/.venv uses Python older than 3.11; move it aside and rerun setup"
     fi
-    uv pip install --python "$ROOT/.venv/bin/python" pytest CairoSVG mistune Pillow reportlab \
+    uv pip install --python "$ROOT/.venv/bin/python" pytest --requirement "$ROOT/engineering/ferrite_maglev/requirements.txt" \
         --editable "$ROOT/design/city-generation[geotiff,batch]" \
         --editable "$ROOT/design/component-catalogue[test]" \
         --editable "$ROOT/tools/osr-aln-convert[test]" \
@@ -343,9 +342,9 @@ install_playwright() {
 }
 
 build_platform() {
-    section "Building OpenSourceRail"
-    (cd "$ROOT" && npm run frontend:build)
-    (cd "$ROOT" && cargo build --release --bin osr-sim --bin osr-design)
+    section "Building primary ferrite-PM maglev controls"
+    (cd "$ROOT" && cargo build --locked --release -p osr-maglev-control --examples)
+    (cd "$ROOT" && tools/automation/osr-python tools/automation/ferrite-maglev-study.py verify)
 }
 
 engineering_ready() {
@@ -505,10 +504,10 @@ main() {
 
     printf '\nOpenSourceRail is ready.\n'
     if confirm "Start the Workbench now?" yes no; then
-        exec "$ROOT/osr"
+        exec "$ROOT/osr" workbench
     fi
-    printf 'Start it later with: ./osr\n'
-    printf 'Regenerate the complete public system with: ./osr build\n'
+    printf 'Start it later with: ./osr workbench\n'
+    printf 'Refresh implemented primary design studies with: ./osr build\n'
 }
 
 main "$@"

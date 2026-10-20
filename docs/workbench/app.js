@@ -8,7 +8,7 @@ validateNavigation(registry);
 const MODULES = new Set(registry.modules.map(m => m.id));
 const services = await fetch("/api/workbench/services").then(r => r.json());
 const buttons = document.getElementById("moduleButtons");
-let activeArea = areaFor(registry.modules, new URLSearchParams(location.search).get('module') || 'overview');
+let activeArea = areaFor(registry.modules, new URLSearchParams(location.search).get('module') || 'maglev');
 const areaButtons = document.getElementById('taskAreas');
 for (const group of AREAS) {
   const area = document.createElement('button'); area.type = 'button'; area.dataset.area = group;
@@ -44,7 +44,7 @@ setOptional("selected_asset", params.get("selected_asset"), /^.{1,160}$/);
 setOptional("selected_part", params.get("selected_part"), /^.{1,160}$/);
 if (context.mode === "live" && !context.baseline_sha256) context.mode = "training";
 
-let activeModule = MODULES.has(params.get("module")) ? params.get("module") : "overview";
+let activeModule = MODULES.has(params.get("module")) ? params.get("module") : "maglev";
 const frame = document.getElementById("moduleFrame");
 let operationsOverride = sessionStorage.getItem(`osr:twin:${context.city}`) || "";
 let twinJob = null;

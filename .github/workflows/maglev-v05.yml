@@ -50,6 +50,11 @@ jobs:
           code=0
           python tools/automation/ferrite-maglev-study.py release-check || code=$?
           test "$code" = 3
+      - name: Primary public overview and reader book
+        run: |
+          python tools/automation/generate-public-overview.py --check
+          python tools/automation/build-doc-book.py --check
+          python tools/automation/ferrite-maglev-study.py cycle --output build/maglev-workflow-report
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -59,3 +64,4 @@ jobs:
           npx playwright install --with-deps chromium
           python tools/automation/ferrite-maglev-study.py run
           node tools/automation/tests/verify-maglev-v05.mjs build/maglev-browser
+          node tools/automation/tests/verify-maglev-workbench.mjs build/maglev-workbench-browser

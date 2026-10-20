@@ -1,81 +1,59 @@
-# OpenSourceRail — one-page overview
+# OpenSourceRail v0.5 — ferrite PM maglev
 
-> **Build rail locally · retain skills · reduce foreign-capital dependence**
+**Fewer moving parts, local manufacture and compact elevated urban routes.**
 
-![OpenSourceRail light-metro reference trainset](assets/solar-metro-trainset.png)
+![OpenSourceRail maglev station concept](../OpenSourceRail%20maglev%20station%20concept.png)
 
-**An open urban-rail platform designed to keep ordinary engineering,
-fabrication, integration, software and long-term maintenance capability in the
-adopting country.**
+The primary design uses fixed onboard ferrite magnetic modules and powered linear
+electromagnetic propulsion, replacing conventional wheelsets, axles, gearboxes
+and rotating traction motors in normal running gear. Windings, drives, cooling,
+sensors, protection, passenger doors and emergency systems remain necessary.
+Contactless running aims to reduce wheel/rail contact noise and wear; acoustic
+performance and whole-system maintenance still require measurement.
 
-The same deterministic workspace connects city design, GIS, CAD/IFC,
-simulation, ERPNext business execution, FUXA supervision, costs and railway assurance. Its 265
-developing-world planning models estimate 79% domestic
-value; all values remain planning sensitivities rather than bids or funding
-commitments.
+## Simple civil works and local capability
 
-| about $493B | 265 cities | $900k | 120 rows |
-|---|---|---|---|
-| Roughly 79% modeled domestic value across 44 country programmes | Developing-world public evidence models; one European model is comparison-only | Local factory-gate LM3 planning target; generated build record $885k | Traceable LM3 parts and assemblies with visible supplier and release gaps |
+The research target is one compact integrated concrete guidebeam per direction,
+with necessary ferromagnetic reaction surfaces, repeatable supports and no
+continuous external walkway. A vertical spiral evacuation chute is the preferred
+alternative under investigation. Walkway removal has not been approved. Route
+clearance, safe landings, assisted evacuation, stopping/recovery and fire response
+must work at every permitted stopping location.
 
-## Why local delivery changes finance
+The 99% elevated-mainline objective and straight tangents aim to reach constrained
+urban corridors with less ground occupation and disruption. Land rights,
+utilities, access, wildlife, waterways, curvature and foundation feasibility still
+govern each route. No universal clearance or zero-disruption claim is made.
 
-Open design lets a country competitively procure ordinary civil work, vehicle
-structures and interiors, wiring, software, integration and maintenance
-locally, importing specialist components only where domestic suppliers are not
-yet qualified.
+Local casting, steel fabrication, cartridge assembly, winding, vehicle structures,
+interiors, wiring, Rust software and integration can create domestic capability.
+The complete local-content percentage, installed programme cost and funding
+requirement remain unknown until origin-traced bills, processes and supplier
+offers exist. Earlier LM3 factory-gate prices and portfolio percentages are
+retained comparison inputs, not estimates for the new system.
 
-For the **same modelled railway scope**, suppose the OpenSourceRail case is
-**$100M**. The foreign-turnkey column uses the editable default sensitivity: a
-2.0× delivered price with 90% requiring foreign currency or international
-capital.
+## Inspect and reproduce the current work
 
-| Where the money goes | Localisation-first OpenSourceRail | Foreign-vendor turnkey sensitivity |
-|---|---:|---:|
-| Total programme price | **$100.0M** | **$200.0M** |
-| Value not requiring external capital | $79.1M | $20.0M |
-| External-capital requirement | **$20.9M** `██░░░░░░░░` | **$180.0M** `█████████░` |
-
-That is **$159.1M less external capital
-(88.4%) before interest**. When debt-financed, the
-external requirement becomes loan principal; interest depends on country terms.
-This is a controlled sensitivity—not a vendor quotation or financing offer.
-
-## Design, regenerate and operate
-
-- Edit lines, stations, alignments, demand and line/day/hour service over local
-  GIS.
-- Generate IFC4.3, CAD, quantities, costs and Git-reviewable city packages.
-- Run deterministic train, station, energy, wayside, point/crossing and depot
-  software together.
-- Use one Workbench for engineering, simulation, OCC, ERPNext/Frappe HR, FUXA and railway assurance.
-- Trace 23 publisher records through
-  16 cross-domain controls and
-  15 hashed repository checks; change impact reopens
-  affected evidence.
-
-| City Studio | Civil IFC coordination |
+| Current digital capability | Scope |
 |---|---|
-| ![City Studio deterministic browser acceptance](screenshots/city-studio/gui-acceptance.png) | ![Bonsai IFC4.3 civil coordination model](screenshots/civil/bonsai-ifc4x3-civil-coordination.png) |
+| City planning | 266 separate primary maglev packages; retained geography/demand, recalculated formation, duty, fleet and charging |
+| Magnetic interface | 624 native solids; partial lift/cartridge/frame geometry |
+| Beam-only civil kit | 54 native solids; selected geometry without external walkways |
+| Evacuation entry and support | 20 partial entry parts and 3 support envelopes; not complete manufactured products |
+| Controls | Allocation-free Rust core, 24-module replay, I/O contracts and advisory evacuation state machine |
+| Simulation and media | Field equation controls, actual two-way Rust/beam replay, four assembly visibility videos, native images and source receipts |
+| Engineering acceptance | **0 accepted physical releases; design, manufacture and operational gates remain open** |
 
-## Buildable and standards-aware
+Use `./osr build` to verify dependencies and rebuild stale implemented studies.
+`./osr workbench` opens the primary maglev UI. `./osr design check` independently
+regenerates the report. `./osr book` builds the current reader edition.
+The scheduled runner repeats dependency verification after source changes;
+it does not invent missing physical tests or certify engineering completion.
 
-Reference packages cover all 120 LM3 product
-rows, nine timed manufacturing methods, 30 mould/tooling families, modular
-rolling stock, stations, civil works, battery traction, renewable charging,
-operations and assurance. The Digital Standards Thread spans
-23 publisher records,
-16 cross-domain controls and
-15 hashed repository checks. Supplier freeze,
-licensed clause assessment, detailed drawings, proof testing, certification and
-authority approval remain explicit release gates.
-
-## Review or collaborate
-
-Review the assumptions, reproduce the generators, open a technical issue or
-propose an evidence-backed contribution through the
-[public repository](https://github.com/modernecotech/OpenSourceRail).
-
-For offline printing, [download the landscape HTML edition](open-source-rail-overview.html?raw=1).
+[Open the current Workbench](workbench/maglev/index.html),
+[review calculations, CAD and videos](design-engine/ferrite-maglev/reference/index.html),
+[read the implementation and open work](../engineering/ferrite_maglev/README.md),
+or [download the primary reader book](../OpenSourceRail-Book.pdf).
+Wheel/rail tools are retained behind explicit `legacy` commands.
 
 <!-- Generated by tools/automation/generate-public-overview.py; do not hand-edit. -->

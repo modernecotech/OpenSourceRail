@@ -1,0 +1,71 @@
+{
+  "accepted_physical_releases": 0,
+  "book_receipt_sha256": "22c08709d20c9e2899faa0eec43dd887fa9c1cdb06fb4cb08764dcb44605189f",
+  "design_complete": false,
+  "executed_utc": "2026-10-20T20:14:32.989827+00:00",
+  "failed_dependency_stops_descendants": true,
+  "files_sha256": {
+    "python-tests.txt.gz": "dc052f3aaebd84f6f28acd57996510f9caa2b7e5fe3054c08be729ac91e1ea7b",
+    "release-gate.json": "95b5ad702a0fdbb4d45d3b3914409cb424297bdd1a5642eb8ffbf7a53f0ad6ee",
+    "report-browser/browser-check.json": "646b20baace36e6d344c2a467facf39dfd76e67a477c4e840c80398c227620a8",
+    "report-browser/primary-study-desktop.png": "426931904c2a7854d2ffa856a47e0733371f132da3f727457c63aaa28906b689",
+    "report-browser/primary-study-mobile.png": "2aa912d167b396478d8fe003ca28d99ff7193f63864c9ab748a73ffede542d4e",
+    "report-check.json": "328ee0b478b90f9db35fb3742d3fe8f99e63998a37362cb1639a33c748d5b9b5",
+    "workbench-browser/checks.json": "8d2eeb909ff7254108ea98f650bb7a1cc0657dc7c13df89a697168368f54c188",
+    "workbench-browser/desktop.png": "0661c0af3f82f93367354c2347326d5de3a49ef98b1edd405036a6838c41fc94",
+    "workbench-browser/mobile.png": "397ff67121a69284a1dce8cd97c3c1e5d3a0b0ea73573d19621d47d7091fb5bd"
+  },
+  "frontend_unit_tests_passed": 34,
+  "input_changes_hold_build": true,
+  "manufacturing_release": false,
+  "open_engineering_scope": [
+    "complete magnetic/vehicle/civil geometry and connection capacity",
+    "qualified force/loss/thermal maps and correlated dynamics",
+    "site foundations and complete construction-stage verification",
+    "stowable/deployable chute and all-stop evacuation acceptance",
+    "isolated hardware I/O and measured SBC deadlines",
+    "origin-traced MBOM, supplier/process qualification and G0\u2013G5 acceptance"
+  ],
+  "packet_interruption_recovery_tested": true,
+  "physical_release": false,
+  "physical_validation": false,
+  "primary_city_count": 266,
+  "primary_manifest_sha256": "16b484aad5a51beec913739e8d478fdc1e3454393ef8c0b6df891c31cce780a3",
+  "primary_ui_browser": {
+    "cities": 266,
+    "images": 4,
+    "mobile": true,
+    "private_paths_denied": true
+  },
+  "python_tests_passed": 231,
+  "report_browser": {
+    "assembly_visibility_videos": 4,
+    "images": 10,
+    "local_links": true,
+    "mobile": true
+  },
+  "runner": {
+    "latest_service_result": "success",
+    "private_report_source_current": true,
+    "retired_legacy_units": [
+      "osr-continuous-design.service",
+      "osr-assembly-capability.timer",
+      "osr-assembly-design.timer",
+      "osr-assembly-verification.timer",
+      "osr-design-coverage.timer",
+      "osr-design-progress.timer",
+      "osr-design-publication.timer"
+    ],
+    "timer_active": true
+  },
+  "rust_checks": [
+    "cargo test --locked -p osr-maglev-control --all-targets",
+    "cargo check --locked -p osr-maglev-control --no-default-features",
+    "cargo fmt --package osr-maglev-control -- --check",
+    "cargo clippy -p osr-maglev-control --all-targets -- -D warnings"
+  ],
+  "rust_tests_passed": 33,
+  "schema": "osr-primary-workflow-verification/1",
+  "source_parent_commit": "9246e11d92267c25d90c5cd336e3e4c6945ded94",
+  "source_portability_checked_files": 2831
+}

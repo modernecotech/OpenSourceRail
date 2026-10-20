@@ -10,7 +10,34 @@ The open-source CAD, survey, analysis, and simulation selections and the
 evidence-producing work packages for the remaining engineering items are in
 the [engineering design and simulation plan](engineering-design-simulation-plan.md).
 
-## Reviewed Open Work
+## Primary maglev closure queue
+
+The primary build now refreshes stale native packets, beam-only kits, linked
+mechanical/civil/Rust replays, all 266 city plans, the report, the public overview
+and the reader book. The default Workbench uses the maglev data. These close
+repository delivery gaps; they do not close the engineering queue below.
+
+| Primary package | Required next evidence |
+|---|---|
+| requirements-profile | Approved service/load envelopes, tolerances and requirement-specific quantitative acceptance criteria |
+| magnetic-cad | Complete support, guidance, linear propulsion, capture, parking and recovery assemblies, connections and dimensional chains |
+| magnetic-force-loss | Force-mesh convergence, actual material curves, 3D ends/windings, thermal/loss maps and correlated rig measurements |
+| vehicle-mass | Full body, floor, doors, battery, cooling, controls, chute/stowage and passenger-equipment definition with measured or supplier-supported mass, CG and inertia |
+| civil-kit | Beam, joints, reaction iron, supports, foundations, stations, services, handling and erection-stage capacity; site-specific ground and evacuation evidence |
+| rust-support-control | Qualified actuator/sensor model, independent protection, traction/braking/support fault responses and recovery interfaces |
+| coupled-dynamics | Moving trains, flexible bodies, lateral/torsional modes, joints, supports and soil with calibrated models |
+| sbc-io-timing | Isolated I/O, actual power stage, measured deadlines/watchdogs, power-loss behavior and independent protection on selected hardware |
+| switch-free-city | Located loops, guidebeam alignment, platforms, charging, berth/storage and rescue paths, full service and all-stop evacuation coverage |
+| local-mbom-cost | Origin-traced complete MBOM, UK-made supplier/tooling alternatives, local processes, factory capacity, installed scope and lifecycle/financing costs |
+| rig-and-demonstrator | Independent G0–G5 measurements, inspections and acceptance on identified revisions/serials |
+
+The [transition register](../engineering/ferrite_maglev/README.md) allocates all
+414 source identities and 63 old packages to these eleven packages. Allocation
+does not establish completion. Running-gear simplification removes conventional
+rotating traction motors, not the need for powered linear propulsion, doors,
+cooling, protective hardware or emergency systems.
+
+## Retained v0.4 and shared platform work
 
 The [six-item operations review implementation](../engineering/operations/README.md)
 adds bounded possession/resource, fleet/energy and staff planning, offline field

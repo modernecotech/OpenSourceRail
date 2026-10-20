@@ -103,7 +103,7 @@ Each candidate now carries a whole-system comparison scorecard: indexed allowanc
 
 These retained physical designs document earlier engineering and manufacturing work. Their costs, route mix, CAD and tests do not qualify the new maglev configuration.
 
-- [Two-page brochure](OpenSourceRail-Brochure.pdf) and [complete PDF book](OpenSourceRail-Book.pdf).
+- [Two-page v0.4 brochure](OpenSourceRail-Brochure.pdf) and [archived v0.4 PDF book](https://github.com/modernecotech/OpenSourceRail/blob/9246e11d92267c25d90c5cd336e3e4c6945ded94/OpenSourceRail-Book.pdf).
 - [LM3 rolling-stock reference](docs/rolling-stock/light-metro-3car/README.md), [CAD and IFC](engineering/models/bim/reference/README.md) and [buildable trainset](design/component-catalogue/catalog/buildable-trainset/README.md).
 - [Vehicle assembly video](engineering/models/digital-twins/fabrication-assembly/fabrication-assembly-digital-twin.mp4) and [civil IFC sequence](engineering/models/bim/reference/civil-construction-sequence.mp4).
 
@@ -198,6 +198,12 @@ The first adoptable product does not require a new autonomous railway. Start wit
 
 ## See the current system
 
+The default [maglev Workbench](docs/workbench/maglev/index.html) opens the current city planning, mechanical/civil geometry, control replays and design evidence. Start it with `./osr workbench`.
+
+![Primary maglev Workbench with Baghdad planning and current native geometry](docs/screenshots/workbench/maglev-primary.png)
+
+### Retained shared platform and v0.4 views
+
 | Unified lifecycle workspace | ERPNext city execution | Embedded supervision |
 |---|---|---|
 | ![Installed Workbench lifecycle overview and city deployment status](docs/screenshots/workbench/lifecycle-overview.png) | ![Native ERPNext project and OpenSourceRail operating actions inside Workbench](docs/screenshots/workbench/erp-city-project.png) | ![FUXA vehicle condition monitoring from Rust evaluators](docs/screenshots/workbench/embedded-supervision.png) |
@@ -242,7 +248,7 @@ cargo run -p osr-maglev-control --release --example multimodule_replay
 ./osr sim legacy --duration 3600 --status-every 300
 ```
 
-The primary review is [generated here](docs/design-engine/ferrite-maglev/reference/index.html). Use `./osr workbench` for the retained platform GUI at <http://127.0.0.1:8090/>. The [shared design workflow](docs/design-engine/README.md) adds local jobs, validated installed BOMs, guided manufacturing/site/foundation inputs, independently reviewed revisions, broader civil/vehicle alternatives and scoped evidence verification; see the [36-package acceptance status](docs/design-engine/plan-status.md) and [capability directory](docs/capabilities/README.md). The local server is not an authenticated public deployment. The installer reports existing tools before changing anything and offers larger engineering applications separately. Disposable output goes under `build/` and `target/release/`; public review artifacts remain tracked outside those trees.
+The primary review is [generated here](docs/design-engine/ferrite-maglev/reference/index.html). Use `./osr workbench` for the primary maglev UI at <http://127.0.0.1:8090/>; `./osr workbench legacy` explicitly launches the retained platform GUI. The [current reader book](OpenSourceRail-Book.pdf) covers the primary design. The [shared design workflow](docs/design-engine/README.md) adds local jobs, validated installed BOMs, guided manufacturing/site/foundation inputs, independently reviewed revisions, broader civil/vehicle alternatives and scoped evidence verification; see the [36-package acceptance status](docs/design-engine/plan-status.md) and [capability directory](docs/capabilities/README.md). The local server is not an authenticated public deployment. The installer reports existing tools before changing anything and offers larger engineering applications separately. Disposable output goes under `build/` and `target/release/`; public review artifacts remain tracked outside those trees.
 
 ## Find Your Way
 

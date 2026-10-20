@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>OpenSourceRail — maglev design Workbench</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header>
+    <p class="eyebrow">OpenSourceRail · v0.5 primary design</p>
+    <h1>Simple guidebeams. Fixed magnetic modules. Local manufacture.</h1>
+    <p>Ferrite PM-biased maglev replaces conventional rotating traction motors, wheelsets and gearboxes. Powered linear windings, drives, cooling, sensing and protection remain necessary.</p>
+    <nav><a href="../../design-engine/ferrite-maglev/reference/index.html">Designs, simulations and open requirements</a><a href="/OpenSourceRail-Book.pdf">Current reader book</a></nav>
+  </header>
+  <main>
+    <p class="notice">Provisional digital studies. Physical releases: <strong>0</strong>. Beam-only guideways and onboard spiral chutes are the preferred research layout; evacuation approval and complete system design remain open.</p>
+    <section aria-labelledby="city-title">
+      <h2 id="city-title">Plan a city</h2>
+      <label for="city">City</label><select id="city" disabled></select>
+      <p id="city-status" role="status">Loading current maglev catalogue…</p>
+      <dl id="city-metrics"></dl>
+      <p id="city-links"></p>
+      <p>Route geography and demand are retained planning inputs. Ordinary at-grade sections are proposed for elevation. Complete installed cost, local-content percentage, land rights and site acceptance remain unresolved.</p>
+    </section>
+    <section aria-labelledby="design-title">
+      <h2 id="design-title">Inspect the current physical studies</h2>
+      <div class="cards">
+        <article><img src="../../design-engine/ferrite-maglev/native/interface/overview.png" alt="Native geometry of fixed ferrite magnetic interface modules"><h3>Mechanical and electromagnetic interface</h3><p>624 native solids; cartridge retention, carrier and magnetic-circuit studies. Full vehicle and production drawings remain open.</p></article>
+        <article><img src="../../design-engine/ferrite-maglev/beam-only/overview.png" alt="Native two-direction beam-only viaduct study"><h3>Compact civil system</h3><p>54-solid beam-only bay, reaction iron and support envelopes. No continuous external walkway in this research variant; foundations and evacuation require acceptance.</p></article>
+        <article><img src="../../design-engine/ferrite-maglev/system-development/entry/overview.png" alt="Native partial chute entry frame and cassette material geometry"><h3>Evacuation interface</h3><p>Partial doorway frame and empty cassette; 20 parts. Fabric, stowage, deployment, attachments and passenger performance remain unqualified.</p></article>
+        <article><img src="../../design-engine/ferrite-maglev/system-development/compact-support/overview.png" alt="Native compact pier cap column and foundation envelope"><h3>Manufacture and erection</h3><p>576 support/load-stage sensitivity cases. Demand estimates guide comparisons; no foundation capacity, installed cost or erection time is accepted.</p></article>
+      </div>
+    </section>
+    <section><h2>Replay and reproduce</h2><p>The report links actual Rust control replays, native-derived guideway coupling, source receipts, STEP/FreeCAD files and four assembly visibility videos. Visibility sequences show assembly order; they are not collision or motion simulations.</p><pre>./osr build
+./osr design check
+./osr sim baghdad
+./osr book</pre><p>The restartable build refreshes implemented studies after source changes and stops on failure. It cannot generate missing physical evidence or grant a manufacturing release.</p></section>
+  </main>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

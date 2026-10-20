@@ -5,6 +5,16 @@
 The primary physical development architecture is now **ferrite PM-biased active maglev**, with passive guidebeams, onboard magnetic modules and Rust controls on off-the-shelf SBCs. The controlled [infrastructure policy](../lib/templates/infrastructure.toml), [executable study](design-engine/ferrite-maglev/reference/index.html) and [RFC 0035](rfcs/0035-v05-primary-ferrite-maglev.md) govern the transition. Local cartridge/carrier/coil/guideway manufacture and repair are core objectives. The implemented subsets include the 414-item transition register across 63 legacy packages, provisional city compilation for 266 cities / 1,565 lines, a partial 624-solid native magnetic interface and two-direction 25 m civil bay, 2D field equation controls, and 24-module Rust control with two-way flexible vertical-beam replay. Coupon force remains unconverged under mesh refinement; complete magnetic/vehicle/civil design, actual material/force/loss qualification, physical I/O, measured hardware timing and G0–G5 acceptance remain open. Accepted engineering/physical releases: zero. [Implementation and closure status](../engineering/ferrite_maglev/README.md).
 
 Physical wheel/rail details below describe the retained v0.4 comparator. Shared owner/operator platform functions remain reusable where their interfaces apply. No old axle, braking, fleet, civil-cost or assurance result transfers automatically to maglev.
+
+The current ordinary civil research variant has one integrated beam per direction,
+reaction iron and support envelopes, with no external continuous walkway. The
+54-solid beam-only kit and 20-part partial evacuation-entry frame are retained
+native studies; the vertical spiral chute, its stowed/deployed mechanism and
+all-stop evacuation performance remain unqualified. Conventional rotating traction
+motors are excluded from normal running gear; powered linear windings/drives and
+necessary passenger/protection equipment remain in scope. The primary Workbench,
+overview, reader book and restartable dependency build now use the v0.5 adapter.
+
 **Audience:** Engineers, operators, policymakers, and funders evaluating the project.
 **Purpose:** Define what OpenSourceRail is, what it is not, and the architectural stance that distinguishes it from existing rail vendor offerings.
 

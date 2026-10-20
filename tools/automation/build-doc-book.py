@@ -21,11 +21,12 @@ import io
 import json
 import os
 import re
+import sys
 import tomllib
 from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 import mistune
 from cairosvg import svg2png
@@ -52,6 +53,7 @@ from reportlab.platypus import (
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(REPO_ROOT))
 DEFAULT_OUT = REPO_ROOT / "OpenSourceRail-Book.pdf"
 ASSET_CACHE = REPO_ROOT / "build" / "doc-book-assets"
 IMAGE_ERRORS: list[str] = []
@@ -446,7 +448,7 @@ def _paragraph_from_inline(children: list[dict] | None, styles: dict[str, Paragr
 def _resolve_link(url: str, base_path: Path) -> Path | None:
     if not url or re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", url):
         return None
-    clean = url.split("#", 1)[0]
+    clean = unquote(url.split("#", 1)[0].split('?', 1)[0])
     if not clean:
         return None
     path = (base_path.parent / clean).resolve()
@@ -1107,10 +1109,91 @@ def build_pdf(out_path: Path, include_images: bool, max_image_px: int, image_qua
     doc.build(story, onFirstPage=_page_footer, onLaterPages=_page_footer)
 
 
+def primary_docs() -> list[Path]:
+    return [REPO_ROOT/path for path in (
+        'docs/open-source-rail-overview.md', 'engineering/ferrite_maglev/README.md',
+        'crates/osr-maglev-control/README.md', 'docs/rfcs/0035-v05-primary-ferrite-maglev.md')]
+
+
+def primary_images() -> list[tuple[Path, str]]:
+    base = REPO_ROOT/'docs/design-engine/ferrite-maglev'
+    return [(base/name, label) for name, label in (
+        ('native/interface/overview.png', 'Partial fixed magnetic interface; not a complete vehicle.'),
+        ('beam-only/overview.png', 'Beam-only civil variant. Supports are envelopes; evacuation acceptance remains open.'),
+        ('system-development/entry/overview.png', 'Partial evacuation entry frame and empty cassette. No deployed or stowed mechanism is qualified.'),
+        ('system-development/compact-support/overview.png', 'Compact pier and foundation envelope. Site capacity and structural acceptance remain open.'))]
+
+
+def primary_book_sources() -> dict[str, str]:
+    paths = primary_docs()+[Path(__file__), REPO_ROOT/'tools/automation/generate-public-overview.py',
+        REPO_ROOT/'OpenSourceRail maglev station concept.png', REPO_ROOT/'engineering/ferrite_maglev/city-index.json',
+        REPO_ROOT/'docs/design-engine/ferrite-maglev/reference/manifest.json']
+    paths += [p for p, _ in primary_images()]
+    return {p.relative_to(REPO_ROOT).as_posix():hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
+
+
+def primary_book(out_path: Path, *, include_images: bool, max_image_px: int, image_quality: int, source_ref: str, check: bool=False) -> None:
+    from engineering.ferrite_maglev import delivery, model
+    delivery.verify()
+    identity = primary_book_sources()
+    options = dict(include_images=include_images, max_image_px=max_image_px, image_quality=image_quality, source_ref=source_ref)
+    receipt_path = out_path.with_suffix('.receipt.json')
+    if check:
+        receipt = json.loads(receipt_path.read_text())
+        if (receipt.get('schema') != 'osr-primary-reader-book/1' or receipt.get('source_sha256') != identity
+                or receipt.get('options') != options or receipt.get('pdf_sha256') != hashlib.sha256(out_path.read_bytes()).hexdigest()
+                or any(receipt.get(k) is not False for k in model.FLAGS)):
+            raise ValueError('primary book sources, PDF or receipt differ')
+        return
+    IMAGE_ERRORS.clear()
+    _register_fonts()
+    styles = _styles()
+    width, height = A4
+    content_width, content_height = width-2.9*cm-12, height-3.1*cm-12
+    story = [Spacer(1, 3*cm), Paragraph('OpenSourceRail v0.5', styles['title']),
+        Paragraph('Ferrite PM maglev — primary design reader edition', styles['subtitle']),
+        Paragraph('Fixed magnetic modules · compact elevated guidebeams · Rust controls · local manufacture', styles['subtitle']),
+        Paragraph('Provisional digital studies. Complete vehicle, civil and software qualification remains open. Accepted physical releases: 0.', styles['body']), PageBreak()]
+    for number, path in enumerate(primary_docs()):
+        title = path.read_text().splitlines()[0].lstrip('# ')
+        story.extend([_outline_heading(title, styles['part'], 'primary-'+str(number), 0),
+            Paragraph(html.escape(path.relative_to(REPO_ROOT).as_posix()), styles['source'])])
+        story.extend(_render_markdown(path, styles, content_width, content_height, max_image_px, image_quality, include_images))
+        story.append(PageBreak())
+    story.append(_outline_heading('Native geometry review', styles['part'], 'native-review', 0))
+    if include_images:
+        for path, label in primary_images():
+            story.extend(_image_flowables(dict(attrs=dict(url=str(path)), children=[dict(type='text', raw=label)]),
+                path, styles, max_width=content_width, max_height=content_height*.55, max_px=max_image_px, quality=image_quality))
+            story.append(Paragraph(label, styles['body']))
+    index = json.loads((REPO_ROOT/'engineering/ferrite_maglev/city-index.json').read_text())
+    story.extend([PageBreak(), _outline_heading('Primary maglev city directory', styles['part'], 'primary-cities', 0),
+        Paragraph('Separate planning packages. Complete programme costs, local content, land and physical acceptance remain open for every city.', styles['body'])])
+    rows = [['City', 'Provisional trainsets', 'Cars', 'Open gates']]
+    rows += [[r['name'], str(r['trainsets']), str(r['cars']), str(r['open_gate_count'])] for r in index['cities']]
+    story.append(_simple_table(rows, styles, content_width, header=True))
+    if IMAGE_ERRORS:
+        raise ValueError('primary book image errors: '+str(IMAGE_ERRORS))
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = out_path.with_suffix('.pending.pdf')
+    doc = BookDocTemplate(str(temporary), pagesize=A4, rightMargin=1.45*cm, leftMargin=1.45*cm,
+        topMargin=1.55*cm, bottomMargin=1.55*cm, title='OpenSourceRail v0.5 — ferrite PM maglev', author='OpenSourceRail', invariant=True, pageCompression=1)
+    doc.build(story, onFirstPage=_page_footer, onLaterPages=_page_footer)
+    if identity != primary_book_sources():
+        temporary.unlink()
+        raise ValueError('primary book sources changed during rendering')
+    temporary.replace(out_path)
+    receipt = dict(schema='osr-primary-reader-book/1', source_sha256=identity, options=options,
+        pdf_sha256=hashlib.sha256(out_path.read_bytes()).hexdigest(), **model.FLAGS)
+    receipt_path.write_text(json.dumps(receipt, indent=2, sort_keys=True)+'\n')
+
+
 def main() -> int:
     global REPOSITORY_BLOB_URL
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--out", type=Path, default=DEFAULT_OUT, help="Output PDF path.")
+    parser.add_argument("--out", type=Path, help="Output PDF path; legacy defaults under build/legacy-book.")
+    parser.add_argument("--legacy", action="store_true", help="Explicit retained wheel/rail reader edition.")
+    parser.add_argument("--check", action="store_true", help="Check primary PDF/source receipt without rendering.")
     parser.add_argument("--source-ref", default="main", help="Git ref used by repository links in the PDF.")
     parser.add_argument("--no-images", action="store_true", help="Skip local images.")
     parser.add_argument("--max-image-px", type=int, default=900, help="Maximum cached image dimension.")
@@ -1121,9 +1204,21 @@ def main() -> int:
         help="Print the validated reader-document and city-model manifest, then exit.",
     )
     args = parser.parse_args()
+    args.out = args.out or (REPO_ROOT/'build/legacy-book/OpenSourceRail-v04.pdf' if args.legacy else DEFAULT_OUT)
     REPOSITORY_BLOB_URL = "https://github.com/modernecotech/OpenSourceRail/blob/" + quote(args.source_ref, safe="")
 
     os.chdir(REPO_ROOT)
+    if not args.legacy:
+        if args.list_sources:
+            for path in primary_book_sources():
+                print('primary\t'+path)
+        else:
+            primary_book(args.out, include_images=not args.no_images, max_image_px=args.max_image_px,
+                         image_quality=args.image_quality, source_ref=args.source_ref, check=args.check)
+            print(args.out)
+        return 0
+    if args.check:
+        parser.error('--check applies to the receipt-bound primary edition')
     if args.list_sources:
         for source in _doc_sources():
             print(f"document\t{source.part}\t{source.path.relative_to(REPO_ROOT).as_posix()}")

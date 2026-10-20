@@ -97,6 +97,10 @@ def load():
     if (ROOT/'VERSION').read_text().strip()!='0.5':raise ValueError('primary architecture version differs')
     if any(policy['release'].get(k) is not False for k in FLAGS):
         raise ValueError('primary study is not a release adapter')
+    if (any(policy['objectives'].get(k) is not False for k in (
+            'normal_running_rotating_traction_motors', 'normal_running_conventional_wheelsets', 'all_vehicle_moving_parts_eliminated'))
+            or policy['objectives'].get('linear_electromagnetic_propulsion_required') is not True):
+        raise ValueError('fixed-module running gear/linear propulsion policy differs')
     c = validate(tomllib.loads(INPUT.read_text()))
     if any(policy['objectives'].get(k) is not False for k in ('walkway_removal_approved','concrete_only_magnetic_reaction_claimed')):
         raise ValueError('unqualified beam-only/evacuation claim in primary policy')
@@ -299,6 +303,9 @@ def sources():
     index=Path(__file__).parent/'city-index.json'
     if index.exists():paths.append(index)
     paths+=list((ROOT/'crates/osr-maglev-control').rglob('*.rs'))+[ROOT/'crates/osr-maglev-control/Cargo.toml']
+    paths += [ROOT/name for name in ('tools/automation/maglev-workbench.py', 'install.sh',
+        'tools/automation/generate-public-overview.py', 'tools/automation/build-doc-book.py',
+        'docs/workbench/maglev/index.html', 'docs/workbench/maglev/app.js', 'docs/workbench/maglev/app.css')]
     return {p.relative_to(ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in sorted(set(paths))}
 
 

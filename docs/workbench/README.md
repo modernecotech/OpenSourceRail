@@ -1,5 +1,7 @@
 # OSR Workbench
 
+`./osr workbench` now serves the [primary v0.5 maglev UI](maglev/index.html), with all 266 city plans, retained native geometry, replays, videos and open requirements. It is read-only and needs no wheel/rail frontend build. `./osr workbench legacy` explicitly launches the integrated comparator platform described below; its old physical acceptance and economics do not transfer to maglev.
+
 The Workbench presents City Studio, simulation, OCC replay, ERPNext/Frappe HR,
 FUXA supervision and OSR railway assurance under one origin while preserving
 their authority boundaries. Six task areas—Plan, Design, Deliver, Operate, Maintain and Assure—retain all 25 existing routes and add the [common design/job/part/evidence workflow](../design-engine/README.md). Shared URL context

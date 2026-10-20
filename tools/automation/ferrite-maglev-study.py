@@ -10,6 +10,31 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[2]))
 from engineering.ferrite_maglev import model,delivery
 
 
+LEGACY_DESIGN_UNITS = (
+    'osr-continuous-design', 'osr-assembly-capability', 'osr-assembly-design',
+    'osr-assembly-verification', 'osr-design-coverage', 'osr-design-progress', 'osr-design-publication',
+)
+
+
+def retire_legacy_units():
+    """Retire only this checkout's obsolete automatic physical-design services."""
+    retired = []
+    for base in LEGACY_DESIGN_UNITS:
+        service_name = base+'.service'
+        record = subprocess.run(['systemctl','--user','cat',service_name],capture_output=True,text=True)
+        if record.returncode or str(model.ROOT) not in record.stdout:
+            continue
+        for name in (base+'.timer', service_name):
+            loaded = subprocess.run(['systemctl','--user','show',name,'--property=LoadState','--value'],capture_output=True,text=True)
+            if loaded.returncode or loaded.stdout.strip() != 'loaded':
+                continue
+            enabled = subprocess.run(['systemctl','--user','is-enabled',name],capture_output=True,text=True)
+            action = ['disable','--now'] if enabled.returncode == 0 else ['stop']
+            subprocess.run(['systemctl','--user',*action,name],check=True,capture_output=True,text=True)
+            retired.append(name)
+    return retired
+
+
 def units(output):
     def arg(value):
         return '"'+str(value).replace('\\','\\\\').replace('"','\\"').replace('%','%%')+'"'
@@ -19,7 +44,7 @@ def units(output):
             '[Unit]\nDescription=OpenSourceRail v0.5 primary infrastructure study refresh\n'
             '[Service]\nType=oneshot\nWorkingDirectory='+str(model.ROOT).replace('%','%%')+'\n'
             'ExecStart='+arg(sys.executable)+' '+arg(entry)+' cycle --output '+arg(output)+'\n'
-            'TimeoutStartSec=600\nUMask=0077\n',
+            'TimeoutStartSec=3600\nUMask=0077\n',
         'osr-primary-infrastructure.timer':
             '[Unit]\nDescription=OpenSourceRail v0.5 source-change study refresh\n'
             '[Timer]\nOnBootSec=2min\nOnUnitActiveSec=15min\nPersistent=true\n'
@@ -28,11 +53,12 @@ def units(output):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','release-check','cycle','install','native','coupled','catalogue','evacuation-native','system'))
+    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system'))
     parser.add_argument('--output',type=Path,default=delivery.OUTPUT)
     args=parser.parse_args()
     if args.action=='install':
         model.load()
+        retired = retire_legacy_units()
         output=Path.home()/'.local/state/opensourcerail/ferrite-maglev/latest'
         folder=Path.home()/'.config/systemd/user';folder.mkdir(parents=True,exist_ok=True)
         for name,text in units(output).items():
@@ -44,7 +70,11 @@ def main():
         subprocess.run(['systemctl','--user','enable','--now','osr-primary-infrastructure.timer'],check=True)
         subprocess.run(['systemctl','--user','start','osr-primary-infrastructure.service'],check=True)
         result=dict(timer='osr-primary-infrastructure.timer',report=str(output/'index.html'),
-                    mode='finite source-change refresh; missing capabilities remain open')
+                    retired_legacy_design_units=retired,
+                    mode='restartable dependency build on source change; missing evaluators and physical acceptance remain open')
+    elif args.action in {'cycle','build'}:
+        from engineering.ferrite_maglev import workflow
+        result=workflow.run(args.output)
     elif args.action=='catalogue':
         from engineering.ferrite_maglev import cities
         result=cities.generate_all()
@@ -75,16 +105,6 @@ def main():
         print(json.dumps(dict(release_allowed=False,reason='No authenticated magnetic/vehicle/civil/hardware acceptance adapter',
                               required_gates=['G'+str(i) for i in range(6)]),indent=2));return 3
     else:
-        if args.action=='cycle':
-            from engineering.ferrite_maglev import cities
-            if not cities.verify_index()['current']:cities.generate_all()
-        if args.action=='cycle' and (args.output/'manifest.json').is_file():
-            try:
-                delivery.verify(args.output)
-                retained=json.loads((args.output/'result.json').read_text())
-                if retained['runtime']==delivery.runtime():
-                    print(json.dumps(dict(state='idle; sources unchanged',family=retained['family'],**model.FLAGS),indent=2));return 0
-            except (ValueError,KeyError,FileNotFoundError):pass
         manifest=delivery.verify(args.output) if args.action=='verify' else delivery.publish(args.output,check=args.action=='check')
         result=dict(version=manifest['version'],family=manifest['family'],action=args.action,
                     output=str(args.output),files=len(manifest['files_sha256']),**model.FLAGS)
