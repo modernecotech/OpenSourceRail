@@ -106,7 +106,7 @@ train SOC replay. Located loops/ring closure, actual route and charging limits,
 platforms, berth conflicts, depot access/recovery and complete programme costs
 remain open. Baghdad's old six-car fleet count and cost total do not transfer.
 
-The register also supplies 22 planned EBOM objects, 436 industrial obligations,
+The register also supplies 23 planned EBOM objects, 437 industrial obligations,
 ERP/lifecycle and observation-only FUXA contracts, traveller prerequisites and
 supplier questions separating manufacturing origin from supply/distribution
 location. Its G0–G5 protocols retain 27 unresolved acceptance thresholds; limits

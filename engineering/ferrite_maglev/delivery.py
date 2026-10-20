@@ -8,10 +8,10 @@ from pathlib import Path
 import platform
 import tempfile
 
-from . import model,transition,geometry,field,media,optimisation
+from . import model,transition,geometry,field,media,optimisation,evacuation
 
 OUTPUT = model.ROOT / 'docs/design-engine/ferrite-maglev/reference'
-EXPECTED={'result.json','index.html','guidebeam-sections.svg','duty-energy.svg','transition-register.json.gz','interface-definition.json.gz','civil-bay-definition.json.gz','field-study.json.gz','field-study.png','optimisation-study.json.gz'}
+EXPECTED={'result.json','index.html','guidebeam-sections.svg','duty-energy.svg','transition-register.json.gz','interface-definition.json.gz','civil-bay-definition.json.gz','field-study.json.gz','field-study.png','optimisation-study.json.gz','evacuation-study.json.gz','evacuation-envelope.svg'}
 
 
 def encoded(value):
@@ -61,6 +61,11 @@ def render(result):
 +<h2>Elevated routes and whole-system simplification</h2><p>The default targets predominantly elevated mainlines (99% objective), with all ordinary sections proposed on viaducts. Straight tangents are preferred where building/air-rights, road/utility, wildlife/water, station-access and foundation evidence permit. Rings, terminal loops and necessary obstacle avoidance remain explicit. Current geography is retained; no automatic housing, road or wildlife clearance is claimed.</p>
 +<p><a href="optimisation-study.json.gz">Complete bounded joint optimisation, quantities and Pareto observations</a>: {search['candidate_count']} civil/vehicle combinations, {search['numerical_screen_pass_count']} passing gross stiffness/bare-lift screens, {len(search['pareto_candidate_ids'])} Pareto observations. Lowest indexed ordinary twin-direction viaduct allowance: {best_text}/route-km; supplied base ${search['reference_ordinary_viaduct_usd_dual_km']:,.0f}. These unquoted targets omit project scope and have zero acceptance-eligible candidates.</p>
 +<p>The search varies sections, span/support count, transport/handling and vehicle mass allocations together. Passenger capacity, battery storage, ferrite, emergency equipment and reserve are retained. Required doors, HVAC, sensing, cooling and protection remain. Scope without justified savings retains an allowance floor of ${search['unchanged_scope_floor_usd_dual_km']:,.0f}/route-km. Actual imported content, whole installed mass and lifecycle costs remain unknown. These analytical alternatives are separate configurations from the retained CAD and coupled replay.</p>
++<h2>Integrated beam and onboard evacuation target</h2><p>The target removes continuous external walkway cassettes from the ordinary running guideway. The current attraction-maglev still needs iron reaction faces, supports/foundations, joints and qualified mounts. The retained walkway kit is a comparator; its removal is <strong>not approved</strong>.</p>
++<p><a href="evacuation-study.json.gz">Onboard evacuation study and required evidence</a> · <a href="../beam-only/model.FCStd">Beam-only native CAD</a> · <a href="../beam-only/model.step.gz">Compressed STEP</a> · <a href="../beam-only/manifest.json">Native receipt</a>. The beam-only variant removes 20 walkway parts / 14,940 kg from the modelled 25 m bay. Supports and foundations are retained. This is gross deleted scope; new onboard mass, inspection/repacking, rescue/access and lifetime cost remain unknown.</p>
++<img src="../beam-only/overview.png" alt="Native beam-only candidate without continuous walkway, with necessary iron faces and supports retained"><img src="evacuation-envelope.svg" alt="Geometric comparison of an inclined slide and hypothetical vertical spiral chute">
++<p>Enclosed vertical controlled-descent chutes (spiral/cell variants) are the preferred unqualified research candidate; inclined slides remain a comparator. Chute envelopes at 8/12/20/30 m are illustrative, with diameter, stand-off and lateral sway assumed, not supplier limits. Building and marine supplier claims are recorded separately; their height ratings and throughput do not establish rail acceptance. Variable-height deployment, bottom stabilisation, blockage rescue and mounting loads remain open. No device is a universal sole escape route. At the illustrative 8 m height / 30° slope, slide length is 16 m and horizontal run is 13.86 m before landing clearance. Live roads, roofs, water and obstructed land reject that path. An inward-facing straight slide also intersects the adjacent beam in the retained geometry; equipped doors are not automatically usable exits. Accessible evacuation, fire, weather, partial exit failure, support power, responder access and safe landing at every stop position remain mandatory evidence. Aircraft or marine equipment approval does not establish railway approval.</p>
++<p>Another {search['beam_only_candidate_count']} no-walkway cases are retained for research; none enters reference champion/city-price selection. Extra evacuation equipment mass and lifetime cost are unknown, so gross civil avoidance is not counted as net system savings. For a non-fire breakdown with a tenable train, recovery to a station or qualified rescue transfer is the initial strategy.</p>
 +<h2>Costed development scenarios</h2><p>Matched three-car / 675 kWh / 3 t ferrite per car. USD planning allowances; supplier quotes and feasibility remain open. Train, ordinary guideway and first pilot are separate scopes.</p>
 +<table><tr><th>Scenario</th><th>Repeat train</th><th>Dual-route-km guideway</th><th>First pilot programme</th></tr>{rows}</table>
 +<h2>Local-manufacture optimisation targets</h2><p>Only the magnetic hardware bundle changes here; every other base allowance is retained. These are budget targets, not achieved prices. Imported input costs and origins remain necessary to calculate localisation.</p>
@@ -91,6 +96,8 @@ def payload():
             'interface-definition.json.gz':gzip.compress(encoded(geometry.interface()),mtime=0),
             'civil-bay-definition.json.gz':gzip.compress(encoded(geometry.civil_bay()),mtime=0),
             'optimisation-study.json.gz':gzip.compress(encoded(optimisation.study()),mtime=0),
+            'evacuation-study.json.gz':gzip.compress(encoded(evacuation.study()),mtime=0),
+            'evacuation-envelope.svg':evacuation.envelope_svg(evacuation.study()),
             'field-study.json.gz':gzip.compress(encoded(numerical),mtime=0),'field-study.png':media.field_image(numerical)}
     if before!=model.sources():raise ValueError('sources changed while calculating')
     return files
@@ -104,11 +111,11 @@ def runtime():
 def external_evidence():
     from . import coupled,cities
     base=model.ROOT/'docs/design-engine/ferrite-maglev'
-    geometry.verify_native(base/'native');coupled.verify(base/'coupled')
+    geometry.verify_native(base/'native');coupled.verify(base/'coupled');evacuation.verify_native(base/'beam-only')
     catalogue=cities.verify_index()
     if not catalogue['current']:raise ValueError('city catalogue inputs/outputs changed: '+str(catalogue['errors'][:3]))
     return {p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest()
-            for p in (base/'native/manifest.json',base/'coupled/receipt.json')}
+            for p in (base/'native/manifest.json',base/'coupled/receipt.json',base/'beam-only/manifest.json')}
 
 
 def publish(output=OUTPUT, *, check=False):

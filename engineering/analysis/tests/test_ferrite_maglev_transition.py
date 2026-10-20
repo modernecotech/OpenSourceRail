@@ -19,14 +19,14 @@ def register():
 def test_exhaustive_source_identities_packages_and_requirements(register):
     assert register['inventory_counts']==dict(canonical_items=345,additional_baghdad_items=69,
         total_source_items=414,legacy_work_packages=63,requirements=72,
-        primary_work_packages=11,planned_ebom_objects=22)
+        primary_work_packages=11,planned_ebom_objects=23)
     graph=transition._read(transition.GRAPH)
     reference=transition._read(transition.REFERENCE)
     assert {i['id'] for i in register['items']}=={i['id'] for i in graph['items']}|{
         'baghdad:'+p['id'] for p in reference['parts']}
     assert {p['id'] for p in register['legacy_packages']}=={p['id'] for p in graph['packages']}
     assert all(p['legacy_item_ids'] and p['requirement_ids'] for p in register['work_packages'])
-    assert len(register['industrialisation'])==414+22
+    assert len(register['industrialisation'])==414+23
     assert sum(register['disposition_counts'].values())==414
     # Multiple canonical records with a common catalogue label keep their IDs.
     common=[i for i in register['items'] if i['catalogue_id']=='LM3-BDY-P020']
@@ -191,7 +191,7 @@ def test_native_field_rust_and_coupled_availability_is_source_bound_without_acce
     from hashlib import sha256
     capabilities={r['id']:r for r in register['capability_availability']}
     assert set(capabilities)=={'native-development-solids','two-dimensional-field-hypothesis',
-        'rust-multimodule-study','two-way-beam-control-demonstrator'}
+        'rust-multimodule-study','two-way-beam-control-demonstrator','beam-only-evacuation-research'}
     for cap in capabilities.values():
         assert cap['available'] and cap['available_scope'] and cap['evidence_needed']
         assert cap['execution_receipt'] is None and not cap['closes_acceptance_gate']

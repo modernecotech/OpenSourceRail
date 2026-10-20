@@ -11,6 +11,9 @@ Provisional planning from retained geography, station demand and service schedul
 | line-3 | 2 | 240 / 320 | 34 | fixed-terminal-loops | 9 / 11 | 88 |
 | line-4 | 2 | 240 / 320 | 34 | fixed-terminal-loops | 5 / 7 | 106 |
 
+**Integrated-beam/no-walkway target:** door-mounted evacuation is a study candidate. Continuous walkway removal is not approved. Necessary iron reaction faces, supports/foundations, joints and protection remain. 624 onboard packs are a provisional door-count hypothesis; new mass, lifetime cost and net savings are unknown. Landing space, accessible alternatives, fire/weather/fault conditions and rescue/maintenance access must be proved along the complete route.
+
+
 **Predominantly elevated strategy:** 99% mainline elevation target; all ordinary sections proposed elevated. Ordinary viaduct planning length 33.218 km includes 5.596 km converted from retained at-grade scope. Special crossings remain separate and unpriced.
 
 Straight tangents are preferred between demand anchors. Existing geographic alignments have not been rerouted or proved clear. Buildings/air rights, road and utility clearances, piers/foundations, wildlife/water passage, station access and construction access require evidence. Elevation does not establish zero displacement or zero environmental impact.

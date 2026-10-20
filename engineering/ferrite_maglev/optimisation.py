@@ -86,7 +86,9 @@ def vehicle(c,costs,p):
         limits='Mass allocations and hardware budgets are targets. No extra body/equipment procurement credit, efficiency gain or import saving inferred.',**model.FLAGS)
 
 
-def civil(c,costs,v,width,depth,web,flange,span,a):
+def civil(c,costs,v,width,depth,web,flange,span,a,*,guideway_mode='walkway-reference'):
+    if guideway_mode not in {'walkway-reference','onboard-evacuation-no-walkway'}:raise ValueError('unknown guideway mode')
+    beam_only=guideway_mode=='onboard-evacuation-no-walkway'
     target=deepcopy(c);box=target['civil']['narrow_box_screen'];box['web_thickness_m']=web;box['flange_thickness_m']=flange
     from . import geometry
     native_rail_line_mass=sum(geometry.volume(p)*geometry.MATERIALS[p['material']]
@@ -95,11 +97,12 @@ def civil(c,costs,v,width,depth,web,flange,span,a):
     # Never buy a lighter beam by quietly undercounting retained rail material.
     box['magnetic_hardware_line_mass_screen_kg_m_per_direction']=max(
         box['magnetic_hardware_line_mass_screen_kg_m_per_direction'],native_rail_line_mass)
-    r=model.civil_case(target,width,depth,span)
+    walkway_area=0 if beam_only else a['civil']['reference_walkway_concrete_area_m2_per_direction']
+    r=model.civil_case(target,width,depth,span,walkway_area_m2=walkway_area)
     r['web_m']=web;r['flange_m']=flange
     base=model.cost_case(c,costs,'base',c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'])
     rows=deepcopy(base['civil_rows_usd_dual_km']);b=a['civil']
-    volume=(r['area_m2']+b['reference_walkway_concrete_area_m2_per_direction'])*2000
+    volume=(r['area_m2']+walkway_area)*2000
     refvolume=c['civil']['narrow_box_screen']['candidate_listed_concrete_m3_per_dual_route_km']
     reference_lift=c['civil']['narrow_box_screen']['derived_concrete_area_m2']*c['civil']['reference_span_m']*b['reference_concrete_density_kg_m3']
     piers=1000/span;reference_piers=1000/c['civil']['reference_span_m']
@@ -111,14 +114,21 @@ def civil(c,costs,v,width,depth,web,flange,span,a):
     variable=b['transport_cost_variable_fraction'];rows['transport']*=1-variable+variable*ratio
     # Longer/heavier spans reduce lift count but increase a transparent handling allowance.
     rows['erection']*=support_ratio*max(1,lift_ratio)
+    if beam_only:rows['walkway_brackets']=0
     if set(b['unchanged_cost_rows'])!={'passive_rail_supply','walkway_brackets','temporary','installation','night','qa','relocation','traffic'}:
         raise ValueError('required unchanged scope rows differ')
     reference=base['civil_rows_usd_dual_km']
     for key in b['unchanged_cost_rows']:
-        if rows[key]!=reference[key]:raise ValueError('unqualified fixed-scope credit: '+key)
+        if rows[key]!=reference[key] and not (beam_only and key=='walkway_brackets'):
+            raise ValueError('unqualified fixed-scope credit: '+key)
     stiffness=r['total_elastic_deflection_m']<=span/b['gross_deflection_span_divisor_screen']
     lifting=lift_mass<=b['maximum_bare_beam_lift_mass_screen_kg']
     return dict(section=r,concrete_m3_dual_km=volume,counted_concrete_mass_kg_dual_km=volume*b['reference_concrete_density_kg_m3'],
+        guideway_mode=guideway_mode,evacuation_state='hold; alternative evacuation unproved' if beam_only else 'reference study; acceptance open',
+        eligible_for_reference_research_champion=not beam_only,walkway_removal_approved=False,
+        new_onboard_evacuation_mass_kg_per_car=None if beam_only else 0,
+        new_onboard_evacuation_lifetime_cost_usd=None if beam_only else 0,
+        net_whole_system_saving_usd=None,
         native_passive_rail_line_mass_kg_m_per_direction=native_rail_line_mass,other_attachment_mass_closed=False,
         total_installed_mass_kg_dual_km=None,shared_supports_per_route_km=piers,beam_lifts_per_route_km=2*piers,
         maximum_bare_beam_lift_kg=lift_mass,crane_capacity_at_radius_verified=False,
@@ -139,7 +149,7 @@ def _vector(r):
 
 @lru_cache(maxsize=4)
 def _study(canonical):
-    c,costs,a=json.loads(canonical);rows=[];profiles=[]
+    c,costs,a=json.loads(canonical);rows=[];profiles=[];beam_only_rows=[]
     b=a['civil'];axes=[b[k] for k in ('widths_m','depths_m','webs_m','flanges_m','spans_m')]
     for p in a['vehicle_profiles']:
         target,v=vehicle(c,costs,p);profiles.append(v)
@@ -148,6 +158,11 @@ def _study(canonical):
             except ValueError:continue
             key=f"{p['id']}/{width:g}/{depth:g}/{web:g}/{flange:g}/{span:g}"
             rows.append(dict(id=key,vehicle=v,civil=r,numerical_screen_pass=r['numerical_screen_pass'],accepted=False))
+            bare=civil(target,costs,v,width,depth,web,flange,span,a,guideway_mode='onboard-evacuation-no-walkway')
+            beam_only_rows.append(dict(id='onboard-evacuation-no-walkway/'+key,vehicle=v,civil=bare,
+                numerical_screen_pass=bare['numerical_screen_pass'],accepted=False,
+                gross_avoided_scope_usd_dual_km=r['indexed_allowance_usd_dual_km']-bare['indexed_allowance_usd_dual_km'],
+                added_vehicle_equipment_mass_and_lifetime_cost_closed=False))
     passing=[r for r in rows if r['numerical_screen_pass']];vectors={r['id']:_vector(r) for r in passing}
     pareto=[]
     for r in passing:
@@ -157,8 +172,14 @@ def _study(canonical):
     best=min(passing,key=lambda r:(r['civil']['indexed_allowance_usd_dual_km'],r['id'])) if passing else None
     base=model.cost_case(c,costs,'base',c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'])
     fixed=sum(base['civil_rows_usd_dual_km'][k] for k in b['unchanged_cost_rows'])
+    eligible_bare=[r for r in beam_only_rows if r['numerical_screen_pass']]
+    bare_best=min(eligible_bare,key=lambda r:(r['civil']['indexed_allowance_usd_dual_km'],r['id'])) if eligible_bare else None
     return dict(schema='osr-maglev-whole-system-optimisation/1',candidate_count=len(rows),numerical_screen_pass_count=len(passing),
         pareto_candidate_ids=pareto,minimum_indexed_allowance_candidate=best,vehicle_profiles=profiles,candidates=rows,
+        beam_only_candidate_count=len(beam_only_rows),beam_only_candidates=beam_only_rows,
+        beam_only_minimum_gross_allowance_candidate=bare_best,
+        beam_only_reference_champion_eligible=False,beam_only_net_system_saving_usd=None,
+        beam_only_selection_hold='No safe landing/accessibility/fire/fault/route/supplier acceptance; additional onboard mass, cost, inspection and replacement unknown. Gross avoidance is not a net saving.',
         reference_ordinary_viaduct_usd_dual_km=base['civil_usd_dual_km'],unchanged_scope_floor_usd_dual_km=fixed,
         acceptance_eligible_candidate_count=0,local_value_added_fraction=None,
         objective_units=['USD/dual-route-km','counted concrete kg/dual-route-km','maximum bare lift kg','tare kg/car','USD/three-car train','unqualified vehicle target changes'],
@@ -172,7 +193,10 @@ def _study(canonical):
 
 def study(c=None,costs=None):
     if c is None or costs is None:_,c,costs=model.load()
-    return _study(json.dumps([c,costs,load()],sort_keys=True,allow_nan=False))
+    from . import evacuation
+    a=load();evacuation.load()
+    a['evacuation_input_sha256']=sha256(evacuation.INPUT.read_bytes()).hexdigest()
+    return _study(json.dumps([c,costs,a],sort_keys=True,allow_nan=False))
 
 
 def route_strategy(design,corridor,a=None):

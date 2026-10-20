@@ -90,8 +90,8 @@ PROFILES = {
     'evacuation-station': _profile('redesign', 'CIV-004 OPS-003 OPS-005 GEO-001 GEO-002',
         'civil-kit switch-free-city coupled-dynamics local-mbom-cost rig-and-demonstrator',
         ['Platform/door/protection/disabled evacuation cross-sections through normal and captured states',
-         'One-metre-clear walkway, cantilever brackets/barriers/access and fire/rescue configuration'],
-        ['Swept envelope and load-dependent floor height, bracket torsion/fatigue and access proof',
+         'Retained walkway comparator versus integrated-beam/onboard evacuation target; alternatives require independent egress/fire/rescue acceptance'],
+        ['Swept envelope and load-dependent floor height; safe landing/accessibility/assistance, weather, fire/fault and responder/maintenance access proof',
          'Operator-approved egress limits, constrained-section evacuation and recovery demonstration']),
     'station-shared': _profile('retain-shared-with-interface-revalidation', 'CIV-001 CIV-004 OPS-002 OPS-005 MFG-005',
         'civil-kit switch-free-city local-mbom-cost',
@@ -157,7 +157,8 @@ NEW_OBJECTS = (
     ('FM-REACTION-RAIL', 'Passive lift/guidance/propulsion reaction surfaces', 'civil-guideway'),
     ('FM-RAIL-MOUNT', 'Adjustable replaceable rail mounting cassette', 'civil-guideway'),
     ('FM-GUIDEBOX', 'New guidebox including end details and reinforcement', 'civil-guideway'),
-    ('FM-WALKWAY', 'Evacuation walkway and extended support brackets', 'evacuation-station'),
+    ('FM-WALKWAY', 'Walkway/bracket comparator; removal conditional on accepted alternative evacuation', 'evacuation-station'),
+    ('FM-ONBOARD-EVACUATION', 'Door-mounted evacuation candidate with inflation/mounting/inspection and accessible alternative', 'evacuation-station'),
     ('FM-MAGNET-FIXTURE', 'Controlled retained-magnet assembly fixture', 'factory-industrialisation'),
     ('FM-WINDING-FIXTURE', 'Winding/impregnation/insulation test fixtures', 'factory-industrialisation'),
     ('FM-FIELD-RIG', 'Force/gap/field/thermal end-of-line test station', 'factory-industrialisation'),
@@ -245,10 +246,11 @@ def _source_inventory(plan):
 
 
 def _capability_paths():
-    paths=[ROOT/'engineering/ferrite_maglev'/name for name in ('geometry.py','field.py','coupled.py')]
+    paths=[ROOT/'engineering/ferrite_maglev'/name for name in ('geometry.py','field.py','coupled.py','evacuation.py','evacuation.toml','optimisation.py','optimisation.toml')]
     paths += [ROOT/'engineering/factory_examples/native.py',ROOT/'engineering/factory_examples/models.py',
               ROOT/'engineering/analysis/tests/test_ferrite_maglev_geometry_field.py',
               ROOT/'engineering/analysis/tests/test_ferrite_maglev_coupled.py',
+              ROOT/'engineering/analysis/tests/test_ferrite_maglev_evacuation.py',
               ROOT/'crates/osr-maglev-control/Cargo.toml']
     paths += sorted((ROOT/'crates/osr-maglev-control').rglob('*.rs'))
     return paths
@@ -302,6 +304,17 @@ def capability_availability():
           'Assumed stiffness/mass/damping are not structural/material release; virtual time is not measured hardware timing',
           'Numerical coupling does not establish all-axis stability, ride, complete fault acceptance or route service performance']),
     ]
+    definitions.append(('beam-only-evacuation-research',
+        ['engineering/ferrite_maglev/evacuation.py','engineering/ferrite_maglev/evacuation.toml',
+         'engineering/ferrite_maglev/optimisation.py','engineering/analysis/tests/test_ferrite_maglev_evacuation.py'],
+        ['CIV-004','OPS-003','OPS-005','GEO-001','GEO-002','MFG-005'],
+        ['civil-kit','vehicle-mass','switch-free-city','local-mbom-cost','rig-and-demonstrator'],
+        ['Integrated-beam/no-continuous-walkway material alternative, actual native export/reopening adapter and exact part-removal quantities',
+         'Inclined slide/landing geometry, unsafe-landing counterexamples and optimistic flow lower bounds; no pedestrian/device simulation',
+         'Gross civil avoidance is separated from unknown added onboard mass/lifetime cost; held alternatives cannot replace reference research champions'],
+        ['No approved alternative to CIV-004 reference walkway; constrained-route accessible evacuation and physical tests remain open',
+         'Necessary ferromagnetic reaction faces, supports/foundations, connections, rescue and maintenance access remain',
+         'Safe landing at every stop position, fire/wind/heat/fault/assistance, measured flow and supplier device acceptance unproved']))
     records=[]
     for identity,paths,reqs,packages,available,holds in definitions:
         records.append(dict(id=identity,state='implemented-bounded-development-capability',available=True,

@@ -1,0 +1,67 @@
+# Onboard evacuation hypothesis. None of these values are approved device/route limits.
+[schema]
+version = 1
+family = "ferrite-pm-maglev-study"
+
+[architecture]
+target = "integrated-guidebeam-no-continuous-external-walkway"
+reference = "retained-walkway-study"
+preferred_onboard_candidate = "vertical-controlled-descent-chute; spiral-and-cell-variants"
+door_mounted_inflatable_slides = "retained-inclined-comparator"
+chute_is_universal_sole_means = false
+primary_non_fire_breakdown_strategy = "remain-in-tenable-train; recover-to-station-or-qualified-rescue-transfer"
+concrete_alone_supports_current_attraction_maglev = false
+necessary_reaction_faces_supports_foundations_and_connections_retained = true
+walkway_removal_approved = false
+slide_is_universal_sole_means = false
+
+[geometry]
+door_sill_height_screens_m = [6.0, 8.0, 10.0, 12.0]
+slide_slope_screens_degrees = [30.0, 40.0, 45.0]
+landing_clearance_screen_m = 3.0
+slide_width_screen_m = 1.5
+lateral_clearance_each_side_screen_m = 0.5
+height_and_landing_surveyed = false
+
+[train]
+cars_screen = 6
+doors_per_side_per_car_screen = 3
+sides = 2
+aw3_passengers_screen = 960
+door_configuration_approved = false
+# Mass sensitivity only; not product specifications or allowable allocations.
+installed_slide_pack_mass_screens_kg = [25.0, 50.0, 100.0]
+quoted_slide_pack_cost_usd = "unknown"
+installed_pack_mass_selected_kg = "unknown"
+
+[flow]
+assumed_flow_screens_persons_per_second_per_exit = [0.5, 1.0, 1.5]
+deployment_delay_screen_seconds = 30.0
+railway_evacuation_time_limit_seconds = "authority-and-hazard-analysis-required"
+flow_is_measured = false
+mobility_assistance_demonstrated = false
+
+[acceptance]
+independent_support_and_immobilisation_proved = false
+fire_smoke_and_adjacent_train_isolation_proved = false
+wind_heat_dust_deployment_envelope_proved = false
+accessible_alternative_and_rescue_access_proved = false
+all_stop_positions_have_safe_landing_or_accepted_alternative = false
+operator_and_authority_acceptance = false
+physical_tests_performed = false
+manufacturing_release = false
+physical_release = false
+
+# Illustrative envelopes only: no supplier-selected railway device or wind model.
+[chute]
+door_sill_height_screens_m = [8.0, 12.0, 20.0, 30.0]
+outer_diameter_screen_m = 1.2
+door_standoff_screen_m = 1.0
+assumed_lateral_sway_screen_m = 0.5
+landing_clearance_screen_m = 3.0
+# UK supplier's building-product claim, used only as a separate sensitivity.
+published_building_flow_claim_persons_per_minute = 15.0
+flow_claim_url = "https://www.safelincs.co.uk/product/fire-evacuation-chute-for-escape-out-of-windows-and-from-roofs"
+railway_device_selected = false
+wind_response_validated = false
+accessible_evacuation_demonstrated = false

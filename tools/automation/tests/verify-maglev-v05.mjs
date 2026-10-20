@@ -71,12 +71,14 @@ try {
     "../native/interface/cartridge-detail.png",
     "../native/civil-bay/overview.png",
     "field-study.png",
+    "../beam-only/overview.png",
+    "evacuation-envelope.svg",
   ];
   assert.deepEqual(
     images.map((image) => image.src).sort(),
     expectedImages.sort(),
   );
-  assert.equal(images.length, 6);
+  assert.equal(images.length, 8);
   assert.ok(images.every((i) => i.loaded));
   assert.match(await page.locator("h1").innerText(), /Ferrite-maglev/);
   const origin = `http://127.0.0.1:${port}`;
@@ -130,6 +132,56 @@ try {
   assert.equal(optimisation.design_complete, false);
   assert.equal(optimisation.local_value_added_fraction, null);
   assert.ok(optimisation.unchanged_scope_floor_usd_dual_km > 0);
+  assert.equal(optimisation.beam_only_candidate_count, 432);
+  assert.equal(optimisation.beam_only_reference_champion_eligible, false);
+  assert.equal(optimisation.beam_only_net_system_saving_usd, null);
+  assert.equal(data.onboard_evacuation.beam_only_part_count, 54);
+  assert.equal(data.onboard_evacuation.walkway_removal_approved, false);
+  assert.equal(
+    data.onboard_evacuation.operational_deployment_authorised,
+    false,
+  );
+  const beamOnlyManifest = await jsonAsset("../beam-only/manifest.json");
+  assert.equal(beamOnlyManifest.evacuation_accepted, false);
+  assert.equal(beamOnlyManifest.walkway_removal_approved, false);
+  assert.equal(beamOnlyManifest.manufacturing_release, false);
+  const beamImage = await asset("../beam-only/overview.png");
+  assert.equal(
+    createHash("sha256").update(beamImage.body).digest("hex"),
+    beamOnlyManifest.files_sha256["overview.png"],
+  );
+  const evacuation = JSON.parse(
+    gunzipSync((await asset("evacuation-study.json.gz")).body).toString("utf8"),
+  );
+  assert.match(evacuation.preferred_candidate, /vertical-controlled-descent/);
+  assert.deepEqual(
+    evacuation.chute_envelopes.map((e) => e.height_m),
+    [8, 12, 20, 30],
+  );
+  assert.equal(evacuation.chute_operating_height_approved_m, null);
+  assert.equal(evacuation.chute_descent_simulation_performed, false);
+  assert.ok(
+    evacuation.chute_supplier_comparison.every(
+      (s) => s.railway_accepted === false,
+    ),
+  );
+  assert.ok(
+    evacuation.chute_landing_cases
+      .filter((c) => c.surface !== "controlled-safe-dry-ground")
+      .every((c) => c.state === "rejected"),
+  );
+  assert.equal(
+    evacuation.chute_outward_extended_standoff_path.assessment.state,
+    "hold",
+  );
+  assert.equal(evacuation.procurement_and_lifetime_cost_usd, null);
+  assert.equal(evacuation.net_system_saving_usd, null);
+  assert.ok(
+    evacuation.landing_cases
+      .filter((c) => c.surface !== "controlled-safe-dry-ground")
+      .every((c) => c.state === "rejected"),
+  );
+  assert.ok(evacuation.landing_cases.every((c) => c.accepted === false));
 
   const transition = JSON.parse(
     gunzipSync((await asset("transition-register.json.gz")).body).toString(

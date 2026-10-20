@@ -63,7 +63,7 @@ shows these assumptions and open gates for the six-car comparison.
 
 ## Manufacturing and acceptance
 
-The register includes 22 planned EBOM objects, 436 industrial obligations,
+The register includes 23 planned EBOM objects, 437 industrial obligations,
 ERP/lifecycle and observation-only FUXA interface plans, unanswered supplier
 questions, and G0–G5 procedures with traveller prerequisites. Its 27 unresolved
 quantitative thresholds must be derived and approved before testing. No material
@@ -133,3 +133,72 @@ faces from native material quantities (about 300 kg/m per direction), rather tha
 substituting the older 100 kg/m allowance. This does not close bracket/anchor mass.
 Analytical alternatives are separate configurations from the retained native CAD
 and the earlier flexible-beam replay; those receipts do not validate the new minima.
+
+## Integrated guidebeam and onboard evacuation target
+
+The new target is one integrated structural guidebeam per direction without a
+continuous external walkway. The 54-part beam-only bay removes 20 walkway
+cassettes and 14,940 kg of modelled material from the retained 25 m reference.
+Iron reaction faces are necessary for the current attraction circuit; plain
+concrete is not its magnetic reaction material. Supports, foundations, joints,
+mounts, drainage and emergency/maintenance access still need engineering.
+
+[evacuation.py](evacuation.py) and [evacuation.toml](evacuation.toml) define a
+preferred vertical controlled-descent chute concept (internal spiral or cell
+variants), an inclined-slide comparator and counterexamples. Four chute-height
+envelopes (8/12/20/30 m) assume a 1.2 m diameter, 1 m stand-off and ±0.5 m
+lateral displacement. These are geometric sensitivities, not supplier dimensions,
+a wind-response model or approved operating heights. An illustrative
+8 m height at 30 degrees requires a 16 m straight slide, 13.86 m horizontal run
+and additional landing clearance. Live roads, roofs, water, obstructed land and
+insufficient clearance reject that landing path. Safe geometry alone stays on
+hold: fire/smoke, adjacent trains, wind/heat/dust, support immobilisation, disabled
+and assisted evacuation, crew/responder access, inflation/reliability and the
+applicable authority's acceptance are unproved. No real deployment is commanded.
+
+For a non-fire breakdown with a tenable train, the initial strategy is recovery
+to a station or qualified rescue transfer. Emergency chutes/slides are not assumed to
+be the universal sole escape route. Historical FTA guidance and aviation/marine
+analogies inform research; their test criteria or equipment approvals do not
+transfer to this railway. The current full rail standard and deployment-specific
+acceptance basis require independent review. CIV-004 already retains the reference
+walkway until an approved egress design replaces it; that acceptance remains open.
+
+Another 432 no-walkway research cases are held outside reference champion and
+city-price selection. Gross avoided civil allowances are reported separately
+from net system savings. A provisional three doors per side would mean six
+evacuation packs per car; installed mass, mounting, lost cabin space, inspection,
+repacking/replacement and lifetime costs require actual supplier data. The 25/50/
+100 kg pack values are mass sensitivities, not selected equipment. British supply
+and service leads are distinct from confirmed British manufacture.
+
+Run `./osr design evacuation-native` to export/reopen the candidate native solids
+and render their retained geometry. The [primary report](../../docs/design-engine/ferrite-maglev/reference/index.html)
+links the CAD, counterexamples, quantities and clearance diagram. No evacuation,
+manufacturing or physical release is claimed.
+
+A further geometric counterexample tests an inward-facing door against the
+retained adjacent beam: the straight slide centreline intersects the adjacent
+beam's web. An outward path clear of those modelled boxes still has no approved
+landing or evacuation. Door equipment count therefore cannot be used as the count
+of simultaneously usable exits. Both cases are retained in the structured study.
+
+The chute research compares [Axel Thoms](https://escape-chute.net/en/stationary-escape-chute/)
+(vertical internal spiral), [Survitec MarinArk 2](https://survitecgroup.com/marine-evacuation-systems/marin-ark-2)
+(enclosed helical marine path) and [VIKING Basic EVAC](https://www.viking-life.com/products/evacuation-systems/offshore-evacuation-systems/chute-systems/viking-basic-evac-evacuation-system/)
+(offshore chute, published installation heights up to 35 m). These applications
+have different supports, stabilisation and receiving areas from an onboard train
+system. [Safelincs](https://www.safelincs.co.uk/product/fire-evacuation-chute-for-escape-out-of-windows-and-from-roofs)
+lists a 4–120 m building spiral and up to 15 persons/minute: UK supply of a
+German-made product, not confirmed British manufacture or railway qualification.
+The manufacturer states that each installation is designed for its location.
+
+At that unverified building flow claim, 960 passengers and 18 usable chutes give
+an ideal queue bound of 243 seconds including an assumed 30-second deployment;
+with nine usable chutes it is 457 seconds. These are optimistic arithmetic bounds,
+not evacuation simulations: cabin distribution, descent, assistance, entry/exit
+queues and blocked outlets still require evaluation. No rail time limit is adopted.
+A vertical swept-envelope check also retains adjacent-beam clashes where assumed
+sway reaches the other guidebeam. Ground anchors, variable length at arbitrary
+stop positions, outlet control, local fire/smoke, packed volume and door/body
+reaction loads remain design work; no civil or lifecycle saving is accepted yet.

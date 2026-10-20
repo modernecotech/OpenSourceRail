@@ -2,6 +2,13 @@
 
 ## 0.5 development — whole-catalogue transition and executable studies
 
+- Prefer vertical controlled-descent spiral/cell chute research for the no-walkway target; retain height/landing/sway counterexamples and source-specific building/marine claims without transferring approval.
+
+- Add a conditional integrated-beam/no-continuous-walkway target, native 54-part
+  bay and onboard chute/slide landing research. Hold walkway deletion outside reference
+  selection; track added equipment, accessibility/fire/fault/route evidence and
+  unknown net lifetime savings.
+
 - Target predominantly elevated mainlines and feasible straight tangents; price
   proposed conversion of ordinary at-grade sections and retain special crossings.
   Buildings/air rights, roads/utilities, wildlife/water, access and ground evidence

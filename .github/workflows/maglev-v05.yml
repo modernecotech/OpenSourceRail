@@ -30,8 +30,9 @@ jobs:
       - name: Verify retained native packet without FreeCAD
         run: |
           python - <<'PY'
-          from engineering.ferrite_maglev import geometry
+          from engineering.ferrite_maglev import geometry,evacuation
           geometry.verify_native('docs/design-engine/ferrite-maglev/native')
+          evacuation.verify_native('docs/design-engine/ferrite-maglev/beam-only')
           PY
       - name: Build Rust bridge and publish actual two-way numerical replay
         run: |

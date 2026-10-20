@@ -15,7 +15,7 @@ import os
 from pathlib import Path
 import tomllib
 
-from . import model,optimisation
+from . import model,optimisation,evacuation
 
 ROOT = model.ROOT
 ASSUMPTIONS = Path(__file__).with_name('city-planning.toml')
@@ -318,7 +318,7 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
                     model.INPUT, model.POLICY, Path(model.__file__), ROOT/'engineering/ferrite_maglev/workbook.py',
                     ROOT/c['cost']['cost_input_file'], ROOT/'VERSION']
     source_paths += [ROOT/'design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json',
-                     ROOT/'lib/templates/civil-cost-model.toml',Path(optimisation.__file__),optimisation.INPUT]
+                     ROOT/'lib/templates/civil-cost-model.toml',Path(optimisation.__file__),optimisation.INPUT,Path(evacuation.__file__),evacuation.INPUT]
     for name in ('corridors.json', slug+'.stations.json', slug+'.corridor.geojson', 'alignment-policy.toml'):
         path = city_dir/name
         if path.is_file(): source_paths.append(path)
@@ -364,6 +364,14 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
             candidate_id=candidate['id'],complete_city_programme_usd=None,epc_included=False,nre_included=False,supplier_quotes=False,
             fleet_scaling_basis='Baseline conservative fleet quantities retained; lighter mass and hardware costs are unqualified targets. No fleet reduction credited.',
             civil_basis='Provisional lowest indexed civil allowance passing gross stiffness/lift screens; all ordinary sections proposed elevated. No engineering acceptance or full project price.'))
+    evac=evacuation.load();bare=search['beam_only_minimum_gross_allowance_candidate']
+    packs=cars*evac['train']['doors_per_side_per_car_screen']*evac['train']['sides']
+    beam_only=dict(target=evac['architecture']['target'],walkway_removal_approved=False,
+        onboard_pack_count_hypothesis=packs,door_configuration_approved=False,
+        added_vehicle_mass_kg=None,procurement_and_lifetime_cost_usd=None,net_system_saving_usd=None,
+        gross_avoided_viaduct_scope_allowance_usd=bare['gross_avoided_scope_usd_dual_km']*elevated if bare else None,
+        minimum_gross_only_candidate_id=bare['id'] if bare else None,
+        selection_state='hold; landing at every stop position, accessible alternatives, fire/weather/fault/rescue and supplier acceptance unproved')
     report = dict(schema='osr-maglev-city-planning/1', architecture=c['metadata']['family'], version='0.5',
                   city=slug, name=scenario['scenario']['name'], status='provisional-planning; physical-acceptance-open',
                   source_sha256=sources, planning_assumptions=a, routing_strategy=strategy, retained_records_file='retained-records.json', lines=lines,
@@ -377,7 +385,7 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
                               retained_route_length_m=sum(l['length_m'] for l in design['lines']),
                               added_single_direction_loop_beam_m=sum(l['topology']['added_single_direction_loop_beam_m'] for l in lines),
                               retained_civil_class_length_m=by_class),
-                  costs=dict(scenarios=cost_rows, city_total_usd=None,
+                  costs=dict(scenarios=cost_rows, city_total_usd=None, beam_only_conditional_option=beam_only,
                              unpriced=['site-specific elevated conversion and clearance premiums', 'bridges and special structures', 'curve/site premiums', 'terminal loops and land',
                                        'stations/platform alterations', 'depot/transfer/recovery equipment', 'charging/PV/storage/grid',
                                        'signalling/control/supervision', 'surveys/design/qualification', 'national production plant',
@@ -412,6 +420,8 @@ def write_readme(output, report):
                  '; '.join(f"{r['line']} {r['discrepancy_m']:,.1f} m" for r in diagnostics['ring_closure_discrepancies'])+'.']
     if diagnostics['platform_body_allowance_shortfalls']:
         rows += ['', f"{diagnostics['platform_body_allowance_shortfalls']} retained station platforms are shorter than the new body-length-plus-10 m screen. Final coupling/overhang and platform design remain open."]
+    option=report['costs']['beam_only_conditional_option']
+    rows += ['', '**Integrated-beam/no-walkway target:** door-mounted evacuation is a study candidate. Continuous walkway removal is not approved. Necessary iron reaction faces, supports/foundations, joints and protection remain. '+str(option['onboard_pack_count_hypothesis'])+' onboard packs are a provisional door-count hypothesis; new mass, lifetime cost and net savings are unknown. Landing space, accessible alternatives, fire/weather/fault conditions and rescue/maintenance access must be proved along the complete route.', '']
     route=report['routing_strategy']
     rows += ['', f"**Predominantly elevated strategy:** {100*route['target_elevated_mainline_fraction']:g}% mainline elevation target; all ordinary sections proposed elevated. Ordinary viaduct planning length {route['ordinary_viaduct_proposal_length_m']/1000:,.3f} km includes {route['proposed_conversion_from_at_grade_m']/1000:,.3f} km converted from retained at-grade scope. Special crossings remain separate and unpriced.", '',
              'Straight tangents are preferred between demand anchors. Existing geographic alignments have not been rerouted or proved clear. Buildings/air rights, road and utility clearances, piers/foundations, wildlife/water passage, station access and construction access require evidence. Elevation does not establish zero displacement or zero environmental impact.', '']
@@ -473,7 +483,7 @@ def source_paths():
     Missing generated output is reported by verify_index(), not manufactured.
     """
     paths={Path(__file__),ASSUMPTIONS,model.POLICY,model.INPUT,Path(model.__file__),
-           ROOT/'engineering/ferrite_maglev/workbook.py',Path(optimisation.__file__),optimisation.INPUT,ROOT/'VERSION',
+           ROOT/'engineering/ferrite_maglev/workbook.py',Path(optimisation.__file__),optimisation.INPUT,Path(evacuation.__file__),evacuation.INPUT,ROOT/'VERSION',
            ROOT/'OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx',ROOT/'lib/templates/rolling-stock.toml',
            ROOT/'lib/templates/civil-cost-model.toml',
            ROOT/'design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json'}

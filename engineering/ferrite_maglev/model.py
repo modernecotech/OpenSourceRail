@@ -98,6 +98,8 @@ def load():
     if any(policy['release'].get(k) is not False for k in FLAGS):
         raise ValueError('primary study is not a release adapter')
     c = validate(tomllib.loads(INPUT.read_text()))
+    if any(policy['objectives'].get(k) is not False for k in ('walkway_removal_approved','concrete_only_magnetic_reaction_claimed')):
+        raise ValueError('unqualified beam-only/evacuation claim in primary policy')
     from . import optimisation
     if policy['objectives']['target_elevated_mainline_fraction']!=optimisation.load()['route']['target_elevated_mainline_fraction']:
         raise ValueError('primary policy and elevated optimisation target differ')
@@ -182,14 +184,15 @@ def sagitta(length, radius):
     return (length/2)**2 / (radius+math.sqrt(radius**2-(length/2)**2))
 
 
-def civil_case(c, width, depth, span):
+def civil_case(c, width, depth, span, *, walkway_area_m2=.12):
+    positive(walkway_area_m2,'walkway material area',zero=True)
     b = c['civil']['narrow_box_screen']; s = section(width, depth, b['web_thickness_m'], b['flange_thickness_m'])
     g, rho, young = 9.81, 2500, b['gross_uncracked_concrete_e_pa']
     vehicle = mass(c, c['mass']['ferrite_base'], c['power']['gross_battery_matched_kwh_per_car'])
-    dead = (s['area_m2']+.12)*rho+b['magnetic_hardware_line_mass_screen_kg_m_per_direction']
+    dead = (s['area_m2']+walkway_area_m2)*rho+b['magnetic_hardware_line_mass_screen_kg_m_per_direction']
     live = vehicle['aw3_kg']/c['vehicle']['nominal_car_length_m'];w=(dead+live)*g
     s.update(width_m=width, depth_m=depth, span_m=span, bare_beam_mass_kg=s['area_m2']*span*rho,
-             listed_concrete_m3_dual_km=(s['area_m2']+.12)*2000,
+             listed_concrete_m3_dual_km=(s['area_m2']+walkway_area_m2)*2000,
              shared_piers_per_route_km=1000/span, dead_line_mass_kg_m=dead, vehicle_line_mass_kg_m=live,
              total_moment_nm=w*span**2/8, total_elastic_deflection_m=5*w*span**4/(384*young*s['vertical_i_m4']),
              section_strength_accepted=None, lateral_torsional_accepted=None, relative_gap_accepted=None,
@@ -300,7 +303,7 @@ def sources():
 
 
 def build():
-    from . import transition,coupled,optimisation
+    from . import transition,coupled,optimisation,evacuation
     from . import geometry as native_geometry
     policy,c,costs=load();cost_cases=[];energies=[];masses=[]
     for ferrite,battery in itertools.product((c['mass']['ferrite_base'],c['mass']['ferrite_sensitivity']),
@@ -359,7 +362,8 @@ def build():
                 geometric_interface=dict(parts=len(native['parts']),modelled_material_mass_kg=native['modelled_material_mass_kg'],
                     magnet_budget=native['magnet_budget'],clearances=native['clearances'],holds=native['holds']),
                 flexible_guideway_benchmark=coupled.static_benchmark(),
-                whole_system_optimisation={k:v for k,v in optimisation.study(c,costs).items() if k!='candidates'},
+                whole_system_optimisation={k:v for k,v in optimisation.study(c,costs).items() if k not in {'candidates','beam_only_candidates'}},
+                onboard_evacuation={k:v for k,v in evacuation.study().items() if k not in {'geometry_envelopes','landing_cases','optimistic_flow_bounds'}},
                 city_catalogue=dict(city_count=catalogue['city_count'],catalogue_complete=catalogue['catalogue_complete'],
                     planning_acceptance=False) if catalogue else dict(city_count=0,catalogue_complete=False),
                 work_packages=[dict(id=i,scope=s,state=capability_states.get(i,state),depends_on=deps,accepted=False) for i,s,state,deps in packages],migration=dict(

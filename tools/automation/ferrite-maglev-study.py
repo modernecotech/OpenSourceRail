@@ -28,7 +28,7 @@ def units(output):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','release-check','cycle','install','native','coupled','catalogue'))
+    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','release-check','cycle','install','native','coupled','catalogue','evacuation-native'))
     parser.add_argument('--output',type=Path,default=delivery.OUTPUT)
     args=parser.parse_args()
     if args.action=='install':
@@ -55,6 +55,9 @@ def main():
         geometry.publish_native(output)
         for folder in ('interface','civil-bay'):media.native_views(output/folder)
         result=geometry.seal_native(output)
+    elif args.action=='evacuation-native':
+        from engineering.ferrite_maglev import evacuation
+        result=evacuation.publish_native(model.ROOT/'docs/design-engine/ferrite-maglev/beam-only')
     elif args.action=='coupled':
         from engineering.ferrite_maglev import coupled
         result=coupled.publish(model.ROOT/'docs/design-engine/ferrite-maglev/coupled')
