@@ -84,6 +84,25 @@ provisional comparisons, not adopted railway design acceptance. Sheets add mass
 without unverified shell stiffness; joint/local-buckling, crash/fatigue and
 physical correlation remain open even for a passing elastic frame screen.
 
+The selected carbody also has a finite six-axis connection-stiffness study.
+Distinct member ends remain separate even at coincident splice coordinates;
+eccentric connector arms preserve force/moment transfer. Stiffness factors are
+unmeasured hypotheses derived dimensionally from the participating sections,
+not offered or qualified weld properties. The high-stiffness limit is compared
+with the rigid baseline, while softer cases retain their displacements, joint
+movements, simultaneous resultants and any failed provisional filters.
+
+Declared sill and roof splices have revision-bound, simultaneous member-cut
+demands from every retained rigid-frame load case. A separate offcut coupon
+compares full represented penetration with deliberate half/three-quarter
+penetration defects. Its gap filler solids do not specify a production bevel,
+backing, weld procedure, access method, strength or fatigue class. Partial
+penetration cases are adverse controls. [TWI's joint-design guidance](https://www.twi-global.com/technical-knowledge/job-knowledge/design-part-4-093)
+explains the importance of root access, backing and fatigue; exact source cards
+remain in `data/carbody-connection-sources.json`. [Tata Steel UK's Celsius page](https://www.tatasteeluk.com/construction/products/tube/structural-hollow-sections/celsius)
+provides a procurement reference. Exact stock sizes, corner geometry, heat,
+production location and British manufacture still need confirmation.
+
 The connected civil model preserves its source material/allowance ledger,
 redistributes track plinth material into gauge-spaced rail supports and adds
 physical walkway/service support frames. Its crane checks reject some large

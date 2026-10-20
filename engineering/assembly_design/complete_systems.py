@@ -84,7 +84,7 @@ def installed_check(folder, models, installed, *, verify=False):
 
 
 def build(prepared, folder, *, installed=None):
-    from . import design_studies as studies, assembly_media, design_explorer
+    from . import design_studies as studies, assembly_media, design_explorer, connection_studies
     folder = Path(folder)
     folder.mkdir()
     groups = alternatives(prepared)
@@ -111,8 +111,10 @@ def build(prepared, folder, *, installed=None):
         selection='Exhibit selection excludes known failed screens where alternatives exist; unknown costs and engineering holds are not zero or acceptance',
         engineering_complete=False, full_vehicle_equipment_complete=False, **core.FLAGS)
     value['installed_geometry'] = installed_check(folder, models, installed)
+    body, frame = connection_studies._body(folder, models)
+    value['connection_studies'] = connection_studies.build(prepared, folder/'connections', body, frame)
     studies.write_record(folder, 'summary.json', value)
-    design_explorer.build(folder, _exhibits(folder, models))
+    design_explorer.build(folder, _exhibits(folder, models)+connection_studies.exhibits(folder, value['connection_studies']))
     return value
 
 
@@ -168,8 +170,36 @@ def _verify_model(root, candidate, assessment, model):
         raise ValueError('unconfirmed geometry cannot support assembly media')
 
 
+def _verify_diagnostic(folder, diagnostic, variants):
+    """Only an exact failed revision can veto selection; never a different one."""
+    from . import design_studies as studies
+    from engineering.design_delivery.pipeline import safe
+    path = safe(diagnostic['path'])
+    if not path.startswith('failed-native/'):
+        raise ValueError('unsafe connected-system diagnostic path')
+    root = Path(folder)/path
+    if not root.resolve().is_relative_to(Path(folder).resolve()):
+        raise ValueError('connected-system diagnostic escapes package')
+    result = diagnostic['result']
+    if result != core.read(root/'result.json') or result['native_state'] != 'failed' or result['eligible_for_research'] is not False:
+        raise ValueError('connected-system native failure changed or promoted')
+    candidate = studies.read_record(root, 'candidate.json')
+    assessment = studies.read_record(root, 'assessment.json')
+    if not any(v['candidate'] == candidate and v['assessment'] == assessment for v in variants):
+        raise ValueError('connected-system diagnostic outside domain')
+    if studies.read_record(root, 'definition.json') != candidate['contract']:
+        raise ValueError('connected-system diagnostic definition differs')
+    if result['candidate_revision'] != candidate['revision'] or result['kind'] != candidate['kind'] or result['parts'] != len(candidate['contract']['parts']):
+        raise ValueError('connected-system diagnostic identity/count differs')
+    if result['scope'] != candidate['source_scope'] or result['failed_checks'] != assessment['failed_checks'] or result['held_checks'] != assessment['held_checks']:
+        raise ValueError('connected-system diagnostic scope or checks differ')
+    if any(result.get(k) is not False for k in core.FLAGS):
+        raise ValueError('connected-system diagnostic asserts release')
+    return candidate['revision']
+
+
 def verify(prepared, folder, *, installed=None):
-    from . import design_studies as studies, design_explorer
+    from . import design_studies as studies, design_explorer, connection_studies
     folder = Path(folder)
     value = studies.read_record(folder, 'summary.json')
     if value['epoch'] != core.digest(prepared) or value['engineering_complete'] is not False or value['full_vehicle_equipment_complete'] is not False:
@@ -182,33 +212,30 @@ def verify(prepared, folder, *, installed=None):
         raise ValueError('connected-system alternatives differ from controlled generator')
     if len(value['models']) != len(groups):
         raise ValueError('connected-system family coverage differs')
+    failed_native = {_verify_diagnostic(folder, d, variants) for d in value['native_diagnostics']}
     for pairs, model in zip(groups, value['models']):
         matches = [(c, a) for c, a in pairs if c['revision'] == model['candidate_revision']]
         if len(matches) != 1:
             raise ValueError('connected-system exhibit outside controlled domain')
         candidate, assessment = matches[0]
+        if candidate['revision'] in failed_native:
+            raise ValueError('selected connected-system revision has failed native history')
         _verify_model(folder/model['kind'], candidate, assessment, model)
         if (folder/model['kind']/'alternatives.csv').read_bytes()!=comparison(pairs).encode():
             raise ValueError('connected-system comparison differs')
-        failed_native = {d['result']['candidate_revision'] for d in value['native_diagnostics']}
         if assessment['failed_checks'] and any(not a['failed_checks'] and c['revision'] not in failed_native for c, a in pairs):
             raise ValueError('failed system selected over available passing screens')
-    for diagnostic in value['native_diagnostics']:
-        path = diagnostic['path']
-        if not path.startswith('failed-native/') or Path(path).is_absolute() or '..' in Path(path).parts:
-            raise ValueError('unsafe connected-system diagnostic path')
-        result = diagnostic['result']
-        if result != core.read(folder/path/'result.json') or result['native_state'] != 'failed' or result['eligible_for_research'] is not False:
-            raise ValueError('connected-system native failure changed or promoted')
-        if not any(v['candidate'] == studies.read_record(folder/path, 'candidate.json') and v['assessment'] == studies.read_record(folder/path, 'assessment.json') for v in variants):
-            raise ValueError('connected-system diagnostic outside domain')
     if value['installed_geometry'] != installed_check(folder, value['models'], installed, verify=True):
         raise ValueError('installed configuration geometry or eligibility differs')
+    body, frame = connection_studies._body(folder, value['models'])
+    if value['connection_studies'] != connection_studies.verify(prepared, folder/'connections', body, frame):
+        raise ValueError('connection-study evidence differs')
     # Regenerate the static UI from exact retained geometry and checks. A forged
     # UI cannot become valid just by refreshing outer package checksums.
     with tempfile.TemporaryDirectory(prefix='osr-system-ui-') as temporary:
         expected = Path(temporary)
-        design_explorer.build(expected, _exhibits(folder, value['models']), asset_root=folder)
+        design_explorer.build(expected, _exhibits(folder, value['models'])+
+            connection_studies.exhibits(folder, value['connection_studies']), asset_root=folder)
         for name in ('index.html', 'explorer-data.json'):
             if (folder/name).read_bytes() != (expected/name).read_bytes():
                 raise ValueError('connected-system explorer differs from retained evidence')

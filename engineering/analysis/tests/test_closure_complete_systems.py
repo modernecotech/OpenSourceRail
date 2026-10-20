@@ -89,3 +89,53 @@ def test_inner_design_changes_fail_independently_of_outer_receipts(package, defe
     elif defect == 'viewer': (folder/'index.html').write_text('The railway is complete')
     else: (root/'manufacturing-bom.csv').write_text('Wrong material and mass')
     with pytest.raises(ValueError): systems.verify(prepared, folder)
+
+
+def _failed_history(folder, value):
+    """Genuine controlled bytes, with an explicit simulated native failure."""
+    model = value['models'][0]
+    path = 'failed-native/exact-selected-revision'
+    shutil.copytree(folder/model['kind'], folder/path)
+    result = deepcopy(model)
+    result.update(native_state='failed', eligible_for_research=False,
+        native_error='Deliberate failure-history fixture; no geometry result inferred')
+    core.write(folder/path/'result.json', result)
+    return dict(path=path, result=result)
+
+
+def test_known_failed_revision_vetoes_selected_exhibit_even_after_resealing(package, monkeypatch):
+    folder, prepared, value = package
+    frozen = studies.read_record(folder, 'variants.json')
+    groups = [[(v['candidate'], v['assessment']) for v in frozen if v['candidate']['kind'] == m['kind']]
+        for m in value['models']]
+    monkeypatch.setattr(systems, 'alternatives', lambda prepared: deepcopy(groups))
+    diagnostic = _failed_history(folder, value)
+    # The diagnostic itself is exactly bound and valid. It must still veto
+    # selecting that same revision, including a later passing/held observation.
+    assert systems._verify_diagnostic(folder, diagnostic, frozen) == value['models'][0]['candidate_revision']
+    value['native_diagnostics'] = [diagnostic]
+    studies.write_record(folder, 'summary.json', value)
+    with pytest.raises(ValueError, match='failed native history'):
+        systems.verify(prepared, folder)
+
+
+@pytest.mark.parametrize('field', ('candidate_revision', 'kind', 'parts', 'scope', 'failed_checks', 'definition', 'manufacturing_release'))
+def test_native_diagnostic_cannot_blacklist_another_revision_or_change_scope(package, field):
+    folder, prepared, value = package
+    frozen = studies.read_record(folder, 'variants.json')
+    diagnostic = _failed_history(folder, value)
+    result = diagnostic['result']
+    if field == 'candidate_revision':
+        other = next(v for v in frozen if v['candidate']['revision'] != result['candidate_revision'])
+        result[field] = other['candidate']['revision']
+    elif field == 'parts': result[field] += 1
+    elif field == 'failed_checks': result[field] = ['fabricated-rejection']
+    elif field == 'definition':
+        definition = studies.read_record(folder/diagnostic['path'], 'definition.json')
+        definition['name'] = 'Different physical definition'
+        studies.write_record(folder/diagnostic['path'], 'definition.json', definition)
+    elif field == 'manufacturing_release': result[field] = True
+    else: result[field] = 'different'
+    core.write(folder/diagnostic['path']/'result.json', result)
+    with pytest.raises(ValueError):
+        systems._verify_diagnostic(folder, diagnostic, frozen)
