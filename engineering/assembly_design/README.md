@@ -78,6 +78,9 @@ improvement. Reviewed proposals are not automatically imported into the runner;
 independent numerical benchmarks and adapter/interface registration remain
 required before a new evaluator becomes trusted research infrastructure. Resource limits are 2 GiB of programme output, a 20 GiB
 free-space reserve, 2 GiB service memory and a 15-minute service timeout.
+Portable assembly publication has a 48 MiB cap, including retained site inputs
+and the six additional panel-section CAD/IFC/image exhibits. Raw evidence is
+preserved; no result gains engineering acceptance through publication.
 
 Exports contain exact original receipts/evidence, the requirements and fact
 registry, qualification log, candidate CAD, drawings, BOM/process data, unexecuted

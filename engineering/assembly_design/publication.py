@@ -12,7 +12,10 @@ from engineering.twin_workflow import core
 from engineering.design_delivery.pipeline import safe,archive_members
 from . import workflow
 
-MAX_BYTES=32*1024**2
+# Six additional native section exhibits and their raw numerical evidence are
+# retained alongside the14-route desktop source bundle. Keep the complete
+# portable package below48MiB rather than discarding evidence to fit32MiB.
+MAX_BYTES=48*1024**2
 
 
 def exhibits(data):
