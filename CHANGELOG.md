@@ -2,6 +2,14 @@
 
 ## 0.5 development — whole-catalogue transition and executable studies
 
+- Target predominantly elevated mainlines and feasible straight tangents; price
+  proposed conversion of ordinary at-grade sections and retain special crossings.
+  Buildings/air rights, roads/utilities, wildlife/water, access and ground evidence
+  remain required; no zero-impact claim follows from elevation alone.
+- Add 432 joint civil/vehicle research combinations with cost/quantity tradeoffs,
+  retained passenger/storage/protection scope and actual native rail mass in new
+  load screens. Thin-wall and lighter equipment targets remain unqualified.
+
 - Assign explicit maglev dispositions to all 414 authoritative items and 63 legacy
   packages, with 72 requirements, 11 primary packages, production obligations and
   supplier/test plans. Accepted engineering items remain zero.

@@ -123,6 +123,14 @@ try {
   assert.equal(data.city_catalogue.city_count, 266);
   assert.equal(data.city_catalogue.catalogue_complete, true);
   assert.equal(data.city_catalogue.planning_acceptance, false);
+  const optimisation = data.whole_system_optimisation;
+  assert.equal(optimisation.candidate_count, 432);
+  assert.ok(optimisation.numerical_screen_pass_count > 0);
+  assert.equal(optimisation.acceptance_eligible_candidate_count, 0);
+  assert.equal(optimisation.design_complete, false);
+  assert.equal(optimisation.local_value_added_fraction, null);
+  assert.ok(optimisation.unchanged_scope_floor_usd_dual_km > 0);
+
   const transition = JSON.parse(
     gunzipSync((await asset("transition-register.json.gz")).body).toString(
       "utf8",

@@ -17,6 +17,11 @@ Provisional planning from retained geography, station demand and service schedul
 
 Retained ring wrap distances do not close the complete geographic route. Recomputed closure adds the following distances to the old wrap values; actual closure alignment remains open: line-8 0.3 m.
 
+**Predominantly elevated strategy:** 99% mainline elevation target; all ordinary sections proposed elevated. Ordinary viaduct planning length 350.971 km includes 51.271 km converted from retained at-grade scope. Special crossings remain separate and unpriced.
+
+Straight tangents are preferred between demand anchors. Existing geographic alignments have not been rerouted or proved clear. Buildings/air rights, road and utility clearances, piers/foundations, wildlife/water passage, station access and construction access require evidence. Elevation does not establish zero displacement or zero environmental impact.
+
+
 Formation matches both retained AW2/AW3 loads. Body lengths exclude unresolved couplings/overhang; platform allowance is a planning screen. Fleet is recomputed from hot AW3, no-regen straight/level duty and retained peak headways, with 10% spares rounded up and one cold reserve per line.
 
 Radials use unlocated fixed terminal loop allowances; rings use two independent directed circuits. A 100 m radius / 20 km/h loop allowance is not approved geometry. Depot-only switches or transfer devices require separate hardware, access and recovery qualification.
@@ -25,13 +30,14 @@ Station charging is screened at 600 kW per car, with dwell extended to cover the
 
 | Scenario | Repeat fleet allowance USD | Ordinary elevated allowance USD | Partial subtotal USD |
 |---|---:|---:|---:|
-| low | 629,698,671 | 2,112,220,282 | 2,741,918,953 |
-| base | 718,690,671 | 2,501,261,541 | 3,219,952,212 |
-| high | 931,282,671 | 3,155,398,804 | 4,086,681,475 |
-| target-90000 | 674,194,671 | 2,501,261,541 | 3,175,456,212 |
-| target-60000 | 644,530,671 | 2,501,261,541 | 3,145,792,212 |
+| low | 629,698,671 | 2,473,565,344 | 3,103,264,015 |
+| base | 718,690,671 | 2,929,161,280 | 3,647,851,951 |
+| high | 931,282,671 | 3,695,204,140 | 4,626,486,811 |
+| target-90000 | 674,194,671 | 2,929,161,280 | 3,603,355,951 |
+| target-60000 | 644,530,671 | 2,929,161,280 | 3,573,691,951 |
+| indexed-joint-optimisation-target | 644,530,671 | 2,689,970,886 | 3,334,501,557 |
 
-**Complete city programme cost remains unknown.** Partial allowances extrapolate the supplied three-car cost per car and ordinary elevated route km. They exclude terminal loops, special/at-grade/bridge works, stations, depots, energy, controls, land, NRE/plant, EPC and other scope listed in the structured report. Targets are unquoted hypotheses; old city totals are not reused.
+**Complete city programme cost remains unknown.** Partial allowances extrapolate the supplied three-car cost per car and ordinary elevated route km. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, stations, depots, energy, controls, land, NRE/plant, EPC and other scope listed in the structured report. The joint optimisation row uses unqualified mass/hardware targets and indexed civil quantities; it retains conservative baseline fleet counts. Targets are unquoted hypotheses; old city totals are not reused.
 
 Open acceptance work:
 
@@ -39,6 +45,7 @@ Open acceptance work:
 - formation-platform: Close coupling pitch, full magnetic lifting-face/guidance-arm/below-floor swept envelope, door/egress layouts, actual mass and equal AW2/AW3 qualification. The 2.65 m cabin width does not bound running gear or platform clearance.
 - field-control: Obtain force/loss maps and rig correlation, six-axis stability, target timing and independent support/capture/braking protection.
 - terminal-topology: Locate fixed loops/ring closure, qualify curvature, clearance and land, and provide switch-free failure recovery.
+- elevated-alignment: Locate the predominantly elevated straight-tangent proposal and verify buildings/air rights, road/utility clearance, wildlife/water passage, piers, station/egress and construction access; no zero-impact claim from elevation alone.
 - civil-release: Redesign guidebeam/passive rail, supports/foundations, joints/tolerances, movement, gap dynamics, evacuation and erection.
 - route-duty: Run approved grade, curve, wind, hot, low-voltage, full-SOC, no-regen, missed-charge, failed-channel and rescue duty.
 - fleet-timetable: Validate headway/conflicts, station berth throughput, dispatch, maintenance rotation, degraded service and reserve.

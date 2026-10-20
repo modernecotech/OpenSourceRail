@@ -15,7 +15,7 @@ import os
 from pathlib import Path
 import tomllib
 
-from . import model
+from . import model,optimisation
 
 ROOT = model.ROOT
 ASSUMPTIONS = Path(__file__).with_name('city-planning.toml')
@@ -275,6 +275,7 @@ GATES = [
     ('formation-platform', 'Close coupling pitch, full magnetic lifting-face/guidance-arm/below-floor swept envelope, door/egress layouts, actual mass and equal AW2/AW3 qualification. The 2.65 m cabin width does not bound running gear or platform clearance.'),
     ('field-control', 'Obtain force/loss maps and rig correlation, six-axis stability, target timing and independent support/capture/braking protection.'),
     ('terminal-topology', 'Locate fixed loops/ring closure, qualify curvature, clearance and land, and provide switch-free failure recovery.'),
+    ('elevated-alignment', 'Locate the predominantly elevated straight-tangent proposal and verify buildings/air rights, road/utility clearance, wildlife/water passage, piers, station/egress and construction access; no zero-impact claim from elevation alone.'),
     ('civil-release', 'Redesign guidebeam/passive rail, supports/foundations, joints/tolerances, movement, gap dynamics, evacuation and erection.'),
     ('route-duty', 'Run approved grade, curve, wind, hot, low-voltage, full-SOC, no-regen, missed-charge, failed-channel and rescue duty.'),
     ('fleet-timetable', 'Validate headway/conflicts, station berth throughput, dispatch, maintenance rotation, degraded service and reserve.'),
@@ -317,7 +318,7 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
                     model.INPUT, model.POLICY, Path(model.__file__), ROOT/'engineering/ferrite_maglev/workbook.py',
                     ROOT/c['cost']['cost_input_file'], ROOT/'VERSION']
     source_paths += [ROOT/'design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json',
-                     ROOT/'lib/templates/civil-cost-model.toml']
+                     ROOT/'lib/templates/civil-cost-model.toml',Path(optimisation.__file__),optimisation.INPUT]
     for name in ('corridors.json', slug+'.stations.json', slug+'.corridor.geojson', 'alignment-policy.toml'):
         path = city_dir/name
         if path.is_file(): source_paths.append(path)
@@ -337,7 +338,8 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
     by_class = {}
     for s in design['civil_segments']:
         by_class[s['class']] = by_class.get(s['class'], 0)+s['to_station_m']-s['from_station_m']
-    elevated = by_class.get('elevated', 0)/1000
+    strategy=optimisation.route_strategy(design,corridor)
+    elevated=strategy['ordinary_viaduct_proposal_length_m']/1000
     cost_rows = []
     for name in ('low', 'base', 'high', 'target-90000', 'target-60000'):
         target = int(name.split('-')[1]) if name.startswith('target-') else None
@@ -349,10 +351,22 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
                               ordinary_elevated_allowance_usd=civil, priced_scope_subtotal_usd=trains+civil,
                               complete_city_programme_usd=None, epc_included=False, nre_included=False,
                               supplier_quotes=False, fleet_scaling_basis='Linear per-car extrapolation of supplied three-car allowance; formation engineering and economies of scale unpriced.',
-                              civil_basis='New maglev dual-direction ordinary elevated unit multiplied by retained elevated route km; old curve multipliers/products and costs are not inherited.'))
+                              ordinary_viaduct_proposal_km=elevated,
+                              civil_basis='All ordinary mainline sections proposed elevated, including retained at-grade lengths; special crossings stay separately unpriced. New indexed rate; old curve multipliers/products and costs are not inherited.'))
+    search=optimisation.study(c,costs)
+    candidate=search['minimum_indexed_allowance_candidate']
+    if candidate is not None:
+        unit=candidate['civil']['indexed_allowance_usd_dual_km']
+        trains=candidate['vehicle']['repeat_three_car_train_allowance_usd']*cars/c['vehicle']['cars_per_train']
+        cost_rows.append(dict(scenario='indexed-joint-optimisation-target',repeat_fleet_allowance_usd=trains,
+            ordinary_elevated_allowance_usd=unit*elevated,priced_scope_subtotal_usd=trains+unit*elevated,
+            ordinary_viaduct_proposal_km=elevated,ordinary_viaduct_unit_allowance_usd_dual_km=unit,
+            candidate_id=candidate['id'],complete_city_programme_usd=None,epc_included=False,nre_included=False,supplier_quotes=False,
+            fleet_scaling_basis='Baseline conservative fleet quantities retained; lighter mass and hardware costs are unqualified targets. No fleet reduction credited.',
+            civil_basis='Provisional lowest indexed civil allowance passing gross stiffness/lift screens; all ordinary sections proposed elevated. No engineering acceptance or full project price.'))
     report = dict(schema='osr-maglev-city-planning/1', architecture=c['metadata']['family'], version='0.5',
                   city=slug, name=scenario['scenario']['name'], status='provisional-planning; physical-acceptance-open',
-                  source_sha256=sources, planning_assumptions=a, retained_records_file='retained-records.json', lines=lines,
+                  source_sha256=sources, planning_assumptions=a, routing_strategy=strategy, retained_records_file='retained-records.json', lines=lines,
                   diagnostics=dict(ring_closure_discrepancies=[dict(line=l['line'], discrepancy_m=l['topology']['ring_wrap_discrepancy_m'])
                                     for l in lines if l['topology']['ring_wrap_discrepancy_m'] not in (None, 0)],
                                    platform_body_allowance_shortfalls=sum(s['length_shortfall_screen_m']>0 for l in lines for s in l['stations']),
@@ -364,7 +378,7 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
                               added_single_direction_loop_beam_m=sum(l['topology']['added_single_direction_loop_beam_m'] for l in lines),
                               retained_civil_class_length_m=by_class),
                   costs=dict(scenarios=cost_rows, city_total_usd=None,
-                             unpriced=['at-grade guideway', 'bridges and special structures', 'curve/site premiums', 'terminal loops and land',
+                             unpriced=['site-specific elevated conversion and clearance premiums', 'bridges and special structures', 'curve/site premiums', 'terminal loops and land',
                                        'stations/platform alterations', 'depot/transfer/recovery equipment', 'charging/PV/storage/grid',
                                        'signalling/control/supervision', 'surveys/design/qualification', 'national production plant',
                                        'NRE and first article', 'EPC', 'initial spares/warranty/renewals/OPEX'],
@@ -398,6 +412,9 @@ def write_readme(output, report):
                  '; '.join(f"{r['line']} {r['discrepancy_m']:,.1f} m" for r in diagnostics['ring_closure_discrepancies'])+'.']
     if diagnostics['platform_body_allowance_shortfalls']:
         rows += ['', f"{diagnostics['platform_body_allowance_shortfalls']} retained station platforms are shorter than the new body-length-plus-10 m screen. Final coupling/overhang and platform design remain open."]
+    route=report['routing_strategy']
+    rows += ['', f"**Predominantly elevated strategy:** {100*route['target_elevated_mainline_fraction']:g}% mainline elevation target; all ordinary sections proposed elevated. Ordinary viaduct planning length {route['ordinary_viaduct_proposal_length_m']/1000:,.3f} km includes {route['proposed_conversion_from_at_grade_m']/1000:,.3f} km converted from retained at-grade scope. Special crossings remain separate and unpriced.", '',
+             'Straight tangents are preferred between demand anchors. Existing geographic alignments have not been rerouted or proved clear. Buildings/air rights, road and utility clearances, piers/foundations, wildlife/water passage, station access and construction access require evidence. Elevation does not establish zero displacement or zero environmental impact.', '']
     rows += ['', 'Formation matches both retained AW2/AW3 loads. Body lengths exclude unresolved couplings/overhang; platform allowance is a planning screen. Fleet is recomputed from hot AW3, no-regen straight/level duty and retained peak headways, with 10% spares rounded up and one cold reserve per line.', '',
              'Radials use unlocated fixed terminal loop allowances; rings use two independent directed circuits. A 100 m radius / 20 km/h loop allowance is not approved geometry. Depot-only switches or transfer devices require separate hardware, access and recovery qualification.', '',
              'Station charging is screened at 600 kW per car, with dwell extended to cover the worst incoming hot/no-regen leg and terminal loop. Multiple berths implied by dwell/headway require a conflict-free physical layout. Losses, taper, grade, curve forces, emergency reserve and missed charging remain open. No grid/PV/storage or site release is asserted.', '',
@@ -405,7 +422,7 @@ def write_readme(output, report):
              '|---|---:|---:|---:|']
     for c in report['costs']['scenarios']:
         rows.append(f"| {c['scenario']} | {c['repeat_fleet_allowance_usd']:,.0f} | {c['ordinary_elevated_allowance_usd']:,.0f} | {c['priced_scope_subtotal_usd']:,.0f} |")
-    rows += ['', '**Complete city programme cost remains unknown.** Partial allowances extrapolate the supplied three-car cost per car and ordinary elevated route km. They exclude terminal loops, special/at-grade/bridge works, stations, depots, energy, controls, land, NRE/plant, EPC and other scope listed in the structured report. Targets are unquoted hypotheses; old city totals are not reused.', '',
+    rows += ['', '**Complete city programme cost remains unknown.** Partial allowances extrapolate the supplied three-car cost per car and ordinary elevated route km. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, stations, depots, energy, controls, land, NRE/plant, EPC and other scope listed in the structured report. The joint optimisation row uses unqualified mass/hardware targets and indexed civil quantities; it retains conservative baseline fleet counts. Targets are unquoted hypotheses; old city totals are not reused.', '',
              'Open acceptance work:', '']
     rows += ['- '+g['id']+': '+g['closure'] for g in report['gates']]
     rows += ['', '[Structured plan](summary.json) · [Preserved geography/demand records](retained-records.json)', '',
@@ -456,7 +473,7 @@ def source_paths():
     Missing generated output is reported by verify_index(), not manufactured.
     """
     paths={Path(__file__),ASSUMPTIONS,model.POLICY,model.INPUT,Path(model.__file__),
-           ROOT/'engineering/ferrite_maglev/workbook.py',ROOT/'VERSION',
+           ROOT/'engineering/ferrite_maglev/workbook.py',Path(optimisation.__file__),optimisation.INPUT,ROOT/'VERSION',
            ROOT/'OpenSourceRail_Ferrite_Maglev_Cost_Model.xlsx',ROOT/'lib/templates/rolling-stock.toml',
            ROOT/'lib/templates/civil-cost-model.toml',
            ROOT/'design/component-catalogue/catalog/buildable-trainset/trainset-build-cost.json'}

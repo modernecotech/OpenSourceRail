@@ -8,10 +8,10 @@ from pathlib import Path
 import platform
 import tempfile
 
-from . import model,transition,geometry,field,media
+from . import model,transition,geometry,field,media,optimisation
 
 OUTPUT = model.ROOT / 'docs/design-engine/ferrite-maglev/reference'
-EXPECTED={'result.json','index.html','guidebeam-sections.svg','duty-energy.svg','transition-register.json.gz','interface-definition.json.gz','civil-bay-definition.json.gz','field-study.json.gz','field-study.png'}
+EXPECTED={'result.json','index.html','guidebeam-sections.svg','duty-energy.svg','transition-register.json.gz','interface-definition.json.gz','civil-bay-definition.json.gz','field-study.json.gz','field-study.png','optimisation-study.json.gz'}
 
 
 def encoded(value):
@@ -46,6 +46,8 @@ def energy_svg(result):
 
 
 def render(result):
+    search=result['whole_system_optimisation'];best=search['minimum_indexed_allowance_candidate']
+    best_text=f"${best['civil']['indexed_allowance_usd_dual_km']:,.0f}" if best else 'none; no candidate passes the numerical screens'
     costs=[r for r in result['cost_cases'] if r['ferrite_kg_car']==3000 and r['battery_kwh_car']==225]
     rows=''.join(f'<tr><td>{r["scenario"]}</td><td>${r["train_usd"]:,.0f}</td><td>${r["civil_usd_dual_km"]:,.0f}</td><td>${r["pilot_usd"]:,.0f}</td></tr>' for r in costs)
     targets=''.join(f'<tr><td>${r["magnetic_bundle_usd_train"]:,.0f}</td><td>${r["train_usd"]:,.0f}</td><td>{100*r["train_saving_fraction"]:.2f}%</td></tr>' for r in result['local_manufacture_cost_targets'])
@@ -56,6 +58,9 @@ def render(result):
 +<p class="tag">PRIMARY DEVELOPMENT ARCHITECTURE · v0.5.0</p><h1>Ferrite-maglev, designed for local manufacture and repair</h1>
 +<div class="banner">The project now develops fixed onboard magnetic modules, passive guidebeams and Rust controls on off-the-shelf SBCs. Architecture selection is complete; engineering, manufacturing and operational acceptance remain open. Accepted physical releases: <strong>0</strong>.</div>
 +<p><a href="result.json">Full source-bound calculations, requirements and migration register</a> · <a href="manifest.json">Checksums and source receipt</a> · <a href="../../../../OpenSourceRail_Ferrite_Maglev_Rework_Specification.md">Supplied specification A</a></p>
++<h2>Elevated routes and whole-system simplification</h2><p>The default targets predominantly elevated mainlines (99% objective), with all ordinary sections proposed on viaducts. Straight tangents are preferred where building/air-rights, road/utility, wildlife/water, station-access and foundation evidence permit. Rings, terminal loops and necessary obstacle avoidance remain explicit. Current geography is retained; no automatic housing, road or wildlife clearance is claimed.</p>
++<p><a href="optimisation-study.json.gz">Complete bounded joint optimisation, quantities and Pareto observations</a>: {search['candidate_count']} civil/vehicle combinations, {search['numerical_screen_pass_count']} passing gross stiffness/bare-lift screens, {len(search['pareto_candidate_ids'])} Pareto observations. Lowest indexed ordinary twin-direction viaduct allowance: {best_text}/route-km; supplied base ${search['reference_ordinary_viaduct_usd_dual_km']:,.0f}. These unquoted targets omit project scope and have zero acceptance-eligible candidates.</p>
++<p>The search varies sections, span/support count, transport/handling and vehicle mass allocations together. Passenger capacity, battery storage, ferrite, emergency equipment and reserve are retained. Required doors, HVAC, sensing, cooling and protection remain. Scope without justified savings retains an allowance floor of ${search['unchanged_scope_floor_usd_dual_km']:,.0f}/route-km. Actual imported content, whole installed mass and lifecycle costs remain unknown. These analytical alternatives are separate configurations from the retained CAD and coupled replay.</p>
 +<h2>Costed development scenarios</h2><p>Matched three-car / 675 kWh / 3 t ferrite per car. USD planning allowances; supplier quotes and feasibility remain open. Train, ordinary guideway and first pilot are separate scopes.</p>
 +<table><tr><th>Scenario</th><th>Repeat train</th><th>Dual-route-km guideway</th><th>First pilot programme</th></tr>{rows}</table>
 +<h2>Local-manufacture optimisation targets</h2><p>Only the magnetic hardware bundle changes here; every other base allowance is retained. These are budget targets, not achieved prices. Imported input costs and origins remain necessary to calculate localisation.</p>
@@ -85,6 +90,7 @@ def payload():
             'transition-register.json.gz':gzip.compress(encoded(transition.build()),mtime=0),
             'interface-definition.json.gz':gzip.compress(encoded(geometry.interface()),mtime=0),
             'civil-bay-definition.json.gz':gzip.compress(encoded(geometry.civil_bay()),mtime=0),
+            'optimisation-study.json.gz':gzip.compress(encoded(optimisation.study()),mtime=0),
             'field-study.json.gz':gzip.compress(encoded(numerical),mtime=0),'field-study.png':media.field_image(numerical)}
     if before!=model.sources():raise ValueError('sources changed while calculating')
     return files

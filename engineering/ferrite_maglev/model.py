@@ -98,6 +98,9 @@ def load():
     if any(policy['release'].get(k) is not False for k in FLAGS):
         raise ValueError('primary study is not a release adapter')
     c = validate(tomllib.loads(INPUT.read_text()))
+    from . import optimisation
+    if policy['objectives']['target_elevated_mainline_fraction']!=optimisation.load()['route']['target_elevated_mainline_fraction']:
+        raise ValueError('primary policy and elevated optimisation target differ')
     if policy['controls']['language']!=c['controls']['implementation_language'] or policy['controls']['preferred_host']!=c['controls']['preferred_host']:
         raise ValueError('primary control policy and input differ')
     cost_path = ROOT / c['cost']['cost_input_file']
@@ -297,7 +300,7 @@ def sources():
 
 
 def build():
-    from . import transition,coupled
+    from . import transition,coupled,optimisation
     from . import geometry as native_geometry
     policy,c,costs=load();cost_cases=[];energies=[];masses=[]
     for ferrite,battery in itertools.product((c['mass']['ferrite_base'],c['mass']['ferrite_sensitivity']),
@@ -356,6 +359,7 @@ def build():
                 geometric_interface=dict(parts=len(native['parts']),modelled_material_mass_kg=native['modelled_material_mass_kg'],
                     magnet_budget=native['magnet_budget'],clearances=native['clearances'],holds=native['holds']),
                 flexible_guideway_benchmark=coupled.static_benchmark(),
+                whole_system_optimisation={k:v for k,v in optimisation.study(c,costs).items() if k!='candidates'},
                 city_catalogue=dict(city_count=catalogue['city_count'],catalogue_complete=catalogue['catalogue_complete'],
                     planning_acceptance=False) if catalogue else dict(city_count=0,catalogue_complete=False),
                 work_packages=[dict(id=i,scope=s,state=capability_states.get(i,state),depends_on=deps,accepted=False) for i,s,state,deps in packages],migration=dict(

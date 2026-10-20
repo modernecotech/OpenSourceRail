@@ -82,3 +82,54 @@ tests require their own configuration-specific receipts and evidence.
 Old physical generators remain accessible through explicit `legacy` launcher
 paths. Their city/CAD/book outputs are comparator evidence; new models and
 qualified physical tests must establish the maglev design.
+
+## Predominantly elevated and simpler by design
+
+The primary policy now targets 99% elevated mainline coverage and proposes all
+ordinary running sections on viaducts. Existing at-grade planning lengths enter
+the new ordinary viaduct allowance; bridges and other special crossings retain
+separate quantities and unpriced scope. Existing routes are retained geography,
+not newly approved straight alignments. Rings and terminal loops still curve.
+Housing demolition, road conflicts, wildlife effects, utilities, station/egress
+access, temporary works and pier/foundation placement require their own evidence.
+An elevated line does not establish zero impact or eliminate air-rights needs.
+
+[optimisation.py](optimisation.py) runs a bounded joint search controlled by
+[optimisation.toml](optimisation.toml). Section dimensions, span/support count,
+transport, lift count/mass and candidate vehicle tare enter the same comparison.
+The Pareto objectives include indexed civil cost, counted concrete mass, bare
+lift mass, car tare, train allowance and the number of unqualified vehicle target changes.
+Gross uncracked stiffness and bare lifting-mass screens are numerical filters;
+relative magnetic gap, strength, actual crane capacity and site acceptance stay open.
+
+Costs are indexed from the supplied workbook: structural volume, support count,
+transport mass and handling affect their declared rows. Passive rails, walkway
+brackets, temporary works, installation, night work, QA, relocation and traffic
+receive no automatic deletion credit. A cheaper fully manufactured and erected
+system needs evidence for actual unit rates, connections, tooling, yield,
+production throughput, access and maintenance. Complete city totals stay unknown.
+
+Vehicle targets retain equal passenger loads, storage, ferrite, capture/braking
+and growth reserve. Reduced frame/equipment mass does not automatically reduce
+procurement cost. The existing USD90,000/USD60,000 magnetic hardware targets are
+unquoted budget sensitivities; removed wheel/gear costs are credited only once.
+Doors, HVAC fans/pumps as required, cooling, sensors, support drives and independent
+protection remain. Imported-input cost and local value-added remain unknown until
+origin-traced records exist; zero normal-running-gear moving parts is an objective,
+not a count of every mechanism on the train.
+
+Source context: [FTA aerial fixed-guideway planning](https://www.transit.dot.gov/sites/fta.dot.gov/files/2025-01/Project-and-Construction-Management-Guidelines-January-2025.pdf)
+identifies ROW, adjacent-building, utility and station-access considerations.
+[FHWA prefabrication guidance](https://www.fhwa.dot.gov/bridge/prefab/index.cfm)
+supports offsite assembly and reduced onsite disruption; its
+[decision framework](https://www.fhwa.dot.gov/bridge/prefab/framework.cfm) retains
+connections, erection equipment and local production capability as feasibility
+issues. These references do not validate OSR pricing or railway acceptance.
+
+The initial expanded grid also explores 80 mm walls and deeper narrow sections.
+These require separate reinforcement/cover, prestress, local-load, durability,
+torsion and production assessment. The new screens count the retained wide iron
+faces from native material quantities (about 300 kg/m per direction), rather than
+substituting the older 100 kg/m allowance. This does not close bracket/anchor mass.
+Analytical alternatives are separate configurations from the retained native CAD
+and the earlier flexible-beam replay; those receipts do not validate the new minima.

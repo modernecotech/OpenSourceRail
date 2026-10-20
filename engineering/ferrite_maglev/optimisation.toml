@@ -1,0 +1,75 @@
+# Research search bounds and indexed allowances, not accepted structural limits or quotes.
+[schema]
+version = 1
+family = "ferrite-pm-maglev-study"
+
+[route]
+target_elevated_mainline_fraction = 0.99
+prefer_all_ordinary_mainline_elevated = true
+minimise_tangent_deviation = true
+retain_ring_and_terminal_curve_requirements = true
+zero_housing_demolition_objective = true
+zero_operating_level_crossings_objective = true
+zero_unmitigated_wildlife_barriers_objective = true
+zero_impact_demonstrated = false
+
+[civil]
+widths_m = [0.6, 0.8, 1.0]
+depths_m = [1.4, 1.8, 2.2]
+webs_m = [0.08, 0.12]
+flanges_m = [0.08, 0.15]
+spans_m = [20.0, 25.0, 30.0]
+# Thin 80mm walls and deep/narrow sections require separate reinforcement, cover,
+# prestress, local-load, durability, torsion and production qualification.
+# Gross elastic and lift-mass filters ONLY, not gap, strength or crane acceptance.
+gross_deflection_span_divisor_screen = 1000.0
+maximum_bare_beam_lift_mass_screen_kg = 70000.0
+reference_walkway_concrete_area_m2_per_direction = 0.12
+reference_concrete_density_kg_m3 = 2500.0
+transport_cost_variable_fraction = 0.5
+# Explicit allowance floor: these rows receive no automatic simplification credit.
+unchanged_cost_rows = ["passive_rail_supply", "walkway_brackets", "temporary", "installation", "night", "qa", "relocation", "traffic"]
+
+[[vehicle_profiles]]
+id = "reference"
+structure_ratio = 1.0
+magnetic_equipment_ratio = 1.0
+hvac_ratio = 1.0
+auxiliary_ratio = 1.0
+hardware_target = "retain-workbook"
+unqualified_change_count = 0
+
+[[vehicle_profiles]]
+id = "repeated-light-frame-target"
+structure_ratio = 0.9
+magnetic_equipment_ratio = 1.0
+hvac_ratio = 1.0
+auxiliary_ratio = 1.0
+hardware_target = "retain-workbook"
+unqualified_change_count = 1
+
+[[vehicle_profiles]]
+id = "local-integration-target-90000"
+structure_ratio = 0.8
+magnetic_equipment_ratio = 0.9
+hvac_ratio = 0.9
+auxiliary_ratio = 0.9
+hardware_target = 90000.0
+unqualified_change_count = 4
+
+[[vehicle_profiles]]
+id = "local-integration-target-60000"
+structure_ratio = 0.8
+magnetic_equipment_ratio = 0.9
+hvac_ratio = 0.9
+auxiliary_ratio = 0.9
+hardware_target = 60000.0
+unqualified_change_count = 5
+
+[accounting]
+currency = "USD"
+unit = "dual-direction ordinary route-km"
+origin_traced_import_fraction = "unknown"
+costs_are_quotes = false
+design_complete = false
+manufacturing_release = false

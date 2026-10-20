@@ -8,6 +8,8 @@
 
 **v0.5 — primary ferrite-maglev development architecture.** OpenSourceRail now develops fixed magnetic modules for local manufacture, passive narrow guidebeams and Rust controls on off-the-shelf SBCs. [Review the executable study and images](docs/design-engine/ferrite-maglev/reference/index.html) · [architecture transition and remaining work](docs/rfcs/0035-v05-primary-ferrite-maglev.md). Engineering and physical acceptance remain open. Existing wheel/rail city packages, CAD, assembly videos, book and brochure are retained v0.4 comparators.
 
+**Default optimisation direction:** predominantly elevated mainlines (99% planning objective), with all ordinary sections proposed on repeatable viaduct kits. Prefer straight tangents where buildings, road/utility clearances, wildlife/water passage, foundations and station access permit. Optimise installed cost per dual-direction route-km together with vehicle mass, construction effort, moving mechanisms and imported content. Required passenger, emergency and support systems remain in scope. [Executable joint search and assumptions](engineering/ferrite_maglev/optimisation.py) · [controlled search bounds](engineering/ferrite_maglev/optimisation.toml).
+
 The implemented v0.5 development tools now cover:
 
 | Area | Available work | Acceptance still needed |
