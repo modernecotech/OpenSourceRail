@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **6253**.
+Indexed Markdown files: **6254**.
 
 ## Sections
 
@@ -28,7 +28,7 @@ Indexed Markdown files: **6253**.
 | [deployment](#deployment) | 5 |
 | [design](#design) | 417 |
 | [docs](#docs) | 253 |
-| [engineering](#engineering) | 78 |
+| [engineering](#engineering) | 79 |
 | [lib](#lib) | 3 |
 | [tools](#tools) | 5 |
 
@@ -6318,6 +6318,7 @@ Indexed Markdown files: **6253**.
 | [`engineering/network-planning/baghdad/line-9-construction-plan.md`](../engineering/network-planning/baghdad/line-9-construction-plan.md) | line-9 — foundation and assembly construction plan |
 | [`engineering/network-planning/catalogue/README.md`](../engineering/network-planning/catalogue/README.md) | Residential network additions across the catalogue |
 | [`engineering/operations/README.md`](../engineering/operations/README.md) | Operations Management: Planning, Field Work And Exchange |
+| [`engineering/panel_materials/reference/README.md`](../engineering/panel_materials/reference/README.md) | Replaceable body-panel material benchmark |
 | [`engineering/panel_response/README.md`](../engineering/panel_response/README.md) | Clipped panel response refinement |
 | [`engineering/panel_response/examples/README.md`](../engineering/panel_response/examples/README.md) | Retained panel response study |
 | [`engineering/panel_response/examples/cad/README.md`](../engineering/panel_response/examples/cad/README.md) | Native refined panel arrangements |

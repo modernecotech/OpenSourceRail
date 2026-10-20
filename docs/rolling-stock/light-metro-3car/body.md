@@ -1,5 +1,12 @@
 # Body structure — `light-metro-3car`
 
+The retained geometry below uses GFRP cladding. The new
+[material-neutral panel benchmark](../../../engineering/panel_materials/reference/README.md)
+uses stiffened aluminium as the reference hypothesis for simple replaceable
+panels and compares aluminium/GFRP sandwich alternatives on common proposed
+interfaces. Its analytical results do not adopt a replacement material or
+change the train BOM; primary structure and railway acceptance remain open.
+
 The body architecture is deliberately simple to manufacture in a
 regional workshop: a welded carbon-steel primary structure with
 clipped one-metre fiberglass cladding and COTS passenger-facing modules.

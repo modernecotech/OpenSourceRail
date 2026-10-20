@@ -115,6 +115,14 @@ them.
 
 ## Sandwich-panel development
 
+The [competing material benchmark](../../../engineering/panel_materials/reference/README.md)
+adds stiffened aluminium and aluminium sandwich alternatives to the GFRP
+research route, with the same proposed panel footprint, supports and loads.
+Aluminium is the reference hypothesis for simple panels; GFRP remains available
+for compound-curved parts and roof studies. The benchmark retains failed
+thermal screens, unknown quotes and all manufacturing/physical acceptance gates.
+It does not change this retained GFRP geometry or its historical module inventory.
+
 The [hybrid panel development package](../../../engineering/composite_panels/reference/README.md)
 adds explicit fibre directions, skin/core/bond/finish layers, reinforced edges,
 potted inserts, curved roof CAD and an aperture-based 144-module mass takeoff.

@@ -1,0 +1,49 @@
+{
+  "schema": "osr-panel-material-benchmark/1",
+  "basis": "Editable engineering hypotheses, not measured allowables, quotations or approved interfaces",
+  "reference_route": "stiffened-aluminium",
+  "pressure_pa": 2000,
+  "deflection_limit_m": 0.005,
+  "thermal_resistance_review_m2k_w": 0.6,
+  "side_temperature_c": 45,
+  "roof_temperature_c": 85,
+  "support_pitch_limit_m": 1.0,
+  "width_m": 0.994,
+  "side_height_m": 3.45,
+  "roof_chord_m": 2.35,
+  "roof_crown_m": 0.05,
+  "aluminium": {
+    "density_kg_m3": 2700,
+    "young_pa": 70000000000,
+    "thermal_conductivity_w_mk": 200,
+    "stiffness_sensitivity_factor": 0.9,
+    "basis": "Generic sheet surrogate; exact alloy, temper, bend radius, coatings and temperature allowables unselected"
+  },
+  "gfrp_stiffness_sensitivity_factor": 0.65,
+  "core_shear_sensitivity_factor": 0.5,
+  "hat": {
+    "wall_m": 0.0015,
+    "crown_width_m": 0.04,
+    "foot_width_each_m": 0.015,
+    "edge_return_m": 0.025,
+    "joint_mass_kg_per_m": 0.08
+  },
+  "liner_mass_kg_m2": 0.8,
+  "sweep": {
+    "sheet_m": [0.0015, 0.002, 0.0025],
+    "hat_depth_m": [0.025, 0.035, 0.05],
+    "hat_pitch_limit_m": [0.2, 0.25, 0.34],
+    "sandwich_skin_m": [0.001, 0.0015, 0.002],
+    "sandwich_core_m": [0.02, 0.0246, 0.03],
+    "core_density_kg_m3": [60, 80, 100]
+  },
+  "commercial": {
+    "annual_panels": null,
+    "material_usd_kg": null,
+    "labour_usd_hour": null,
+    "tooling_usd": null,
+    "qualification_usd": null,
+    "reject_fraction": null,
+    "measured_replacement_minutes": null
+  }
+}
