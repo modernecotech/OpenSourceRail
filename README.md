@@ -1,6 +1,6 @@
 # OpenSourceRail
 
-**v0.5 — primary ferrite-maglev development architecture.** OpenSourceRail now develops fixed magnetic modules for local manufacture, passive narrow guidebeams and Rust controls on off-the-shelf SBCs. Engineering and physical acceptance remain open.
+**v0.5 — fewer moving parts, more local manufacture, and rail access across more of the city.** OpenSourceRail develops ferrite maglev to simplify the train and the structures that carry it. Fixed magnetic running modules, compact elevated guidebeams and open Rust controls are the basis for a quieter railway that cities can manufacture, maintain and extend themselves, with lower construction and operating costs as central design objectives.
 
 ![OpenSourceRail ferrite-maglev station concept in Baghdad, with vehicle and magnetic guideway interface details](OpenSourceRail%20maglev%20station%20concept.png)
 
@@ -9,6 +9,16 @@
 **[Maglev study and images](docs/design-engine/ferrite-maglev/reference/index.html) · [Current configuration](ferrite-maglev-study.toml) · [Implementation roadmap](engineering/ferrite_maglev/README.md#implementation-roadmap)**
 
 **nobody should be priced out of dignity**
+
+## Why this design
+
+- **Eliminate conventional moving running gear.** Replace wheelsets, axles, gearboxes and rotating traction motors with fixed magnetic modules and electromagnetic propulsion. Reduce mechanical complexity, wear items and maintenance work.
+- **Reduce noise at its source.** Contact-free normal running removes wheel–rail rolling contact as a source of noise and wear.
+- **Keep more of the railway's value in the country that builds it.** Prioritise local guidebeam casting, structural fabrication, ferrite-cartridge assembly, coil winding, body panels, wiring and integration. Open designs and Rust controls on off-the-shelf computers support local repair and supplier choice. Local-content accounting retains the origin of bought-in cells, semiconductors, sensors and materials.
+- **Reach neighbourhoods that large infrastructure struggles to serve.** Compact viaducts aim to open routes along constrained urban corridors and through dense neighbourhoods, residential districts, industrial areas and outer suburbs. Carrying the train above ground can preserve movement underneath, reduce surface occupation and demolition, and widen the choice of useful station locations.
+- **Make a broad city network affordable to build and extend.** Repeat simple beams, supports, vehicle modules and station kits; manufacture and test offsite, then assemble quickly with fewer site operations. Optimise foundations, piers, beams, transport and erection together so that simplification can reduce the complete installed cost and disruption, opening more areas of the city to rail investment.
+
+**The aim is useful rail access across as much of the city as practical, with a small physical footprint and a high share of locally created value.** Cost, noise, local-content and access benefits are development objectives; their achieved levels depend on the completed design, supply chain and route evidence. [Current calculations and evidence](docs/design-engine/ferrite-maglev/reference/index.html) · [Work needed to complete the design](engineering/ferrite_maglev/README.md#implementation-roadmap).
 
 **Default optimisation direction:** predominantly elevated mainlines (99% planning objective), with all ordinary sections proposed on repeatable viaduct kits. Prefer straight tangents where buildings, road/utility clearances, wildlife/water passage, foundations and station access permit. Optimise installed cost per dual-direction route-km together with vehicle mass, construction effort, moving mechanisms and imported content. Required passenger, emergency and support systems remain in scope. [Executable joint search and assumptions](engineering/ferrite_maglev/optimisation.py) · [controlled search bounds](engineering/ferrite_maglev/optimisation.toml).
 
