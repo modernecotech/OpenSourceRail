@@ -23,11 +23,15 @@ def test_primary_policy_configuration_and_release_boundary_are_explicit(context)
     assert policy['development']['primary_family']==c['metadata']['family']=='ferrite-pm-maglev-study'
     assert c['vehicle']['cars_per_train']==6
     assert c['metadata']['schema']=='osr-ferrite-maglev-study/2'
-    assert c['architecture']['primary_costed_propulsion']=='station-lsm-shared-vehicle-pm'
+    assert c['architecture']['primary_costed_propulsion']=='station-and-located-booster-lsm-shared-vehicle-pm'
     assert c['architecture']['station_zone_powered_stator']
     assert c['architecture']['onboard_support_guidance_windings']
     assert not c['architecture']['onboard_main_traction']
-    assert not c['architecture']['interstation_powered_propulsion']
+    assert c['architecture']['interstation_powered_propulsion']
+    assert c['architecture']['located_booster_powered_stator']
+    assert not c['architecture']['interstation_continuous_powered_stator']
+    assert c['operating_strategy']['junction_operation']=='passenger-transfer-between-fixed-lines'
+    assert c['operating_strategy']['urban_target_stop_spacing_m']==2000
     assert c['mass']['growth_reserve']==1800
     assert c['controls']['preferred_host']=='off-the-shelf-SBC'
     assert policy['objectives']['linear_electromagnetic_propulsion_required']
@@ -63,7 +67,8 @@ def test_quantity_costs_reconcile_line_items_scenarios_and_reserve(context,scena
     # ten 2.49 m cassettes in 25 m, two directional kilometres per route-km.
     reaction_kg=2*10*2.49*.96*.02*7850/25*2000
     # Two 0.4 m solid end infills per beam are additional to the hollow middle.
-    concrete_m3=(.8*1.8-.6*1.5+2*.4*.6*1.5/25+.12)*2000
+    box=c['civil']['narrow_box_screen'];w,h,tw,tf=(box[k] for k in ('outer_width_m','outer_depth_m','web_thickness_m','flange_thickness_m'))
+    concrete_m3=(w*h-(w-2*tw)*(h-2*tf)+2*.4*(w-2*tw)*(h-2*tf)/25+.12)*2000
     assert q['reaction_steel_kg_dual_km']==pytest.approx(reaction_kg)
     assert q['concrete_m3_dual_km']==pytest.approx(concrete_m3)
     assert q['reinforcement_kg_dual_km']==pytest.approx(concrete_m3*rates['reinforcement_kg_per_m3'])
@@ -139,18 +144,19 @@ def test_level_duty_separates_station_traction_from_services_battery(context,mas
     for hot,hotel in [(False,40),(True,60)]:
         r=model.cycle(context[1],mass,hot=hot)
         assert r['kinematic_screen_pass']
-        assert r['moving_seconds']==pytest.approx(90)
-        assert r['cycle_kwh']==r['services_kwh']==pytest.approx(hotel*150/3600)
+        assert r['moving_seconds']==pytest.approx(context[1]['vehicle']['runtime_reference_seconds'])
+        assert r['cycle_kwh']==r['services_kwh']==pytest.approx(hotel*(context[1]['vehicle']['runtime_reference_seconds']+60)/3600)
         assert r['propulsion_dc_kwh']==r['recovered_dc_kwh']==0
         assert r['station_traction_input_kwh']>0
-        assert r['battery_replacement_kwh']==pytest.approx(hotel*105/3600)
-        assert r['balanced_charger_kw']==pytest.approx(hotel+hotel*105/45)
+        assert r['battery_replacement_kwh']==pytest.approx(hotel*(context[1]['vehicle']['runtime_reference_seconds']+15)/3600)
+        assert r['balanced_charger_kw']==pytest.approx((hotel+hotel*(context[1]['vehicle']['runtime_reference_seconds']+15)/45)/context[1]['power']['station_charger_efficiency_assumption'])
 
 
 def test_station_braking_and_higher_speed_limit_never_create_pack_charge(context):
     c=context[1];a=model.cycle(c,26200,hot=True,regen=False);b=model.cycle(c,26200,hot=True,speed_kmh=90,regen=True)
-    assert a['balanced_charger_kw']==b['balanced_charger_kw']==200
-    assert a['charger_balance_kwh']['200']==pytest.approx(0)
+    required=(60+60*(c['vehicle']['runtime_reference_seconds']+15)/45)/c['power']['station_charger_efficiency_assumption']
+    assert a['balanced_charger_kw']==b['balanced_charger_kw']==pytest.approx(required)
+    assert a['charger_balance_kwh']['200']<0 and a['charger_balance_kwh']['240']>0
     assert a['recovered_dc_kwh']==b['recovered_dc_kwh']==0
     assert a['station_brake_dc_kwh']>0 and b['station_brake_dc_kwh']>0
     assert 'no vehicle-pack credit' in a['regeneration_destination']
@@ -159,7 +165,7 @@ def test_station_braking_and_higher_speed_limit_never_create_pack_charge(context
 
 def test_station_energy_and_services_duty_close_independently(context):
     c=context[1];r=model.cycle(c,26200,hot=True)
-    t=station.trajectory(cars=1,car_mass_kg=26200,record_trace=True)
+    t=station.trajectory(cars=1,car_mass_kg=26200,runtime_s=c['vehicle']['runtime_reference_seconds'],acceleration=c['vehicle']['maximum_initial_acceleration_m_s2'],record_trace=True)
     launch=[row for row in t['trace'] if row['phase']=='launch']
     # Independent midpoint integration of the prescribed force demand.
     work=0.
@@ -167,8 +173,8 @@ def test_station_energy_and_services_duty_close_independently(context):
         dt=right['time_s']-left['time_s']
         work+=dt*(left['motor_force_n']*left['speed_m_s']+right['motor_force_n']*right['speed_m_s'])/2
     assert work/(.85*3.6e6)==pytest.approx(r['station_traction_input_kwh'],abs=.001)
-    assert r['services_kwh']==pytest.approx(60*(90+60)/3600)
-    assert r['battery_replacement_kwh']==pytest.approx(60*(90+60-45)/3600)
+    assert r['services_kwh']==pytest.approx(60*(c['vehicle']['runtime_reference_seconds']+60)/3600)
+    assert r['battery_replacement_kwh']==pytest.approx(60*(c['vehicle']['runtime_reference_seconds']+60-45)/3600)
     heavier=model.cycle(c,27200,hot=True)
     assert heavier['cycle_kwh']==r['cycle_kwh']
     assert heavier['station_traction_input_kwh']>r['station_traction_input_kwh']
@@ -192,7 +198,11 @@ def test_claimed_release_is_rejected(context,field,value):
     lambda c:c['mass'].update(growth_reserve=1),
     lambda c:c['architecture'].update(route_powered_stator=False),
     lambda c:c['architecture'].update(onboard_main_traction=True),
-    lambda c:c['architecture'].update(interstation_powered_propulsion=True)])
+    lambda c:c['architecture'].update(interstation_powered_propulsion=False),
+    lambda c:c['architecture'].update(interstation_continuous_powered_stator=True),
+    lambda c:c['architecture'].update(located_booster_powered_stator=False),
+    lambda c:c['operating_strategy'].update(junction_operation='route-trains-between-guideways'),
+    lambda c:c['operating_strategy'].update(urban_target_stop_spacing_m=1200)])
 def test_invalid_physical_inputs_fail_closed(context,mutate):
     c=deepcopy(context[1]);mutate(c)
     with pytest.raises(ValueError):model.validate(c)
@@ -208,7 +218,7 @@ def test_requirements_have_unique_source_locations_and_no_acceptance():
 def test_primary_publication_tamper_stale_and_source_binding(tmp_path):
     out=tmp_path/'packet';m=delivery.publish(out);delivery.publish(out,check=True)
     r=json.loads((out/'result.json').read_text())
-    assert len(r['civil_section_candidates'])==27 and len(r['cost_cases'])==12 and len(r['energy_cases'])==16
+    assert len(r['civil_section_candidates'])==45 and len(r['cost_cases'])==12 and len(r['energy_cases'])==16
     assert all(r[k] is False for k in model.FLAGS)
     assert all(g['accepted'] is False for g in r['gates'])
     assert len(r['work_packages'])==11 and not any(p['accepted'] for p in r['work_packages'])
@@ -229,9 +239,9 @@ def test_cli_primary_and_unsupported_commands_fail_closed():
 
 def test_scheduled_cycle_idles_without_rewriting_unchanged_results(tmp_path):
     command=[str(ROOT/'tools/automation/osr-python'),str(ROOT/'tools/automation/ferrite-maglev-study.py'),'cycle','--output',str(tmp_path/'primary')]
-    first=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=180)
+    first=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=600)
     assert first.returncode==0,first.stderr
     path=tmp_path/'primary/result.json';before=(path.stat().st_mtime_ns,path.read_bytes())
-    second=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=180)
+    second=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=600)
     assert second.returncode==0 and json.loads(second.stdout)['state']=='idle; sources unchanged'
     assert (path.stat().st_mtime_ns,path.read_bytes())==before

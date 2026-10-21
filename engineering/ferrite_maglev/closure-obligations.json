@@ -1,0 +1,347 @@
+{
+  "schema": "osr-design-dossier-obligation-map/1",
+  "groups": [
+    {
+      "id": "body-joints-hardpoints",
+      "system_ids": [
+        "FM-BODY-FRAME",
+        "FM-BODY-PANELS",
+        "FM-DOORS",
+        "FM-GLAZING",
+        "FM-INTERIOR",
+        "FM-COUPLER",
+        "FM-GFRP-HARDPOINT"
+      ],
+      "sp_numbers": [
+        3,
+        36,
+        37,
+        38,
+        43,
+        44,
+        45,
+        68,
+        69,
+        81,
+        85,
+        97
+      ],
+      "work_packages": [
+        "vehicle-mass",
+        "magnetic-cad"
+      ],
+      "deliverable": "Sized sandwich/rib/stringer and local hardpoint drawings, service joint geometry, exclusive interface BOM and complete equipment mass closure",
+      "missing_evaluators_or_external_tests": [
+        "Qualified hot/aged orthotropic laminate/core/adhesive properties",
+        "Full body buckling/fatigue/crash/coupler/peel and insert tests",
+        "Complete equipment, joint, mass/CG/inertia and repair drawings"
+      ],
+      "current_evidence_packets": [
+        "station-structure",
+        "station-native",
+        "moving-train",
+        "corridor"
+      ]
+    },
+    {
+      "id": "magnetic-circuit",
+      "system_ids": [
+        "FM-FERRITE",
+        "FM-CARTRIDGE",
+        "FM-CORE",
+        "FM-LIFT-WINDING",
+        "FM-GUIDANCE-WINDING",
+        "FM-FINITE-MAGNET",
+        "FM-MAGNET-FIXTURE",
+        "FM-FIELD-RIG"
+      ],
+      "sp_numbers": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        24,
+        78,
+        79,
+        95
+      ],
+      "work_packages": [
+        "magnetic-force-loss",
+        "magnetic-cad"
+      ],
+      "deliverable": "Grade-controlled cartridge/coil/steel/phase geometry and converged shared support-thrust force/flux/R/L/loss/thermal maps",
+      "missing_evaluators_or_external_tests": [
+        "Nonlinear 3D finite-array/steel/coil circuit and magnetic stiffness",
+        "Demagnetisation, retention, control authority and full-scale force/loss rig correlation"
+      ],
+      "current_evidence_packets": [
+        "native",
+        "station-structure",
+        "moving-train"
+      ]
+    },
+    {
+      "id": "station-motor-interfaces",
+      "system_ids": [
+        "FM-THRUST-WINDING",
+        "FM-INVERTER",
+        "FM-STATION-STATOR",
+        "FM-STATION-CONVERTER",
+        "FM-STATION-BRAKE-SINK",
+        "FM-STATION-PHASE"
+      ],
+      "sp_numbers": [
+        23,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        70,
+        80,
+        90,
+        92,
+        93,
+        94,
+        96
+      ],
+      "work_packages": [
+        "rust-support-control",
+        "switch-free-city",
+        "local-mbom-cost"
+      ],
+      "deliverable": "Station and located booster cassette/section/bridge/phase/rail-beam interface drawings, grouped converter BOM, normal/thrust reactions and independently available receiving brake",
+      "missing_evaluators_or_external_tests": [
+        "Measured force constants, normal-force coupling, R/L/voltage/current and repeated thermal duty",
+        "Concrete anchors, isolation, protection, phase handover and receiving redundancy",
+        "Supplier-priced converter/winding configurations and complete station MEP"
+      ],
+      "current_evidence_packets": [
+        "station-powered",
+        "station-protocol",
+        "system-campaign",
+        "booster-kit",
+        "corridor"
+      ]
+    },
+    {
+      "id": "civil-strength-stages",
+      "system_ids": [
+        "FM-CAPTURE",
+        "FM-REACTION-RAIL",
+        "FM-RAIL-MOUNT",
+        "FM-GUIDEBOX",
+        "FM-PIER",
+        "FM-FOUNDATION",
+        "FM-BEARING-JOINT",
+        "FM-DRAINAGE",
+        "FM-METROLOGY"
+      ],
+      "sp_numbers": [
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        86,
+        91,
+        98
+      ],
+      "work_packages": [
+        "civil-kit",
+        "coupled-dynamics"
+      ],
+      "deliverable": "Prestress/rebar/cover/end-block/bearing/anchor schedules, temporary restraint and lifting plans, ground-selected foundations and emergency load paths",
+      "missing_evaluators_or_external_tests": [
+        "Shear/torsion/end-zone/transfer/cracking/creep and moving train-gap interaction",
+        "Ground/utility/settlement/water/seismic/wind and anchor capacities",
+        "Load-tested bearings, handling points, restraints and serial survey acceptance"
+      ],
+      "current_evidence_packets": [
+        "native",
+        "beam-only",
+        "station-structure",
+        "moving-train",
+        "booster-kit",
+        "corridor"
+      ]
+    },
+    {
+      "id": "energy-services",
+      "system_ids": [
+        "FM-SUPPORT-POWER",
+        "FM-BATTERY",
+        "FM-CHARGING",
+        "FM-COOLING",
+        "FM-HVAC",
+        "FM-AUXILIARIES"
+      ],
+      "sp_numbers": [
+        39,
+        40,
+        41,
+        42,
+        46
+      ],
+      "work_packages": [
+        "vehicle-mass",
+        "local-mbom-cost",
+        "switch-free-city"
+      ],
+      "deliverable": "Power/thermal single-lines, battery/BMS/charger and services duty, independent support reserve, qualified HVAC/cooling hardware",
+      "missing_evaluators_or_external_tests": [
+        "Measured hot-weather HVAC/door duty, repeated charging/ageing and containment",
+        "Isolated protection, support-loss reserve, connector and power/thermal tests"
+      ],
+      "current_evidence_packets": [
+        "station-powered",
+        "baghdad-reference",
+        "system-campaign",
+        "corridor"
+      ]
+    },
+    {
+      "id": "control-protection",
+      "system_ids": [
+        "FM-SENSOR",
+        "FM-PROTECTION",
+        "FM-ODOMETRY",
+        "FM-CONTROL-SOFTWARE",
+        "FM-STATION-LAUNCH",
+        "FM-DEPOT-ROUTING"
+      ],
+      "sp_numbers": [
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        82,
+        83,
+        87
+      ],
+      "work_packages": [
+        "rust-support-control",
+        "sbc-io-timing",
+        "coupled-dynamics"
+      ],
+      "deliverable": "Versioned support/phase/reservation/complete-consist sensing and independent protection interfaces, fault containment and physical timing tests",
+      "missing_evaluators_or_external_tests": [
+        "Authenticated independent sensing/clearance, common-cause and power-loss tests",
+        "Real current/position control and measured MCU/SBC deadlines",
+        "System hazards, configuration authentication and independent acceptance"
+      ],
+      "current_evidence_packets": [
+        "station-protocol",
+        "coupled",
+        "moving-train",
+        "system-campaign",
+        "corridor"
+      ]
+    },
+    {
+      "id": "station-egress",
+      "system_ids": [
+        "FM-EVACUATION",
+        "FM-EGRESS-ACCESS",
+        "FM-STATION",
+        "FM-STATION-SERVICES",
+        "FM-EGRESS-SOFTWARE"
+      ],
+      "sp_numbers": [
+        71,
+        72,
+        73
+      ],
+      "work_packages": [
+        "civil-kit",
+        "switch-free-city",
+        "rig-and-demonstrator"
+      ],
+      "deliverable": "Passenger-transfer hubs between independent fixed lines with accessible platform/vertical paths, route egress, assisted evacuation and located recovery provisions; no train-routing switch",
+      "missing_evaluators_or_external_tests": [
+        "All-stop landing/height/wind/fire/obstruction and assisted evacuation tests",
+        "Full station structure, access, canopy/services and emergency transfers",
+        "Qualified device stowage/deployment mass, anchors, inspection and renewal"
+      ],
+      "current_evidence_packets": [
+        "system-development",
+        "baghdad-reference"
+      ]
+    },
+    {
+      "id": "industrial-recovery-assurance",
+      "system_ids": [
+        "FM-DEPOT",
+        "FM-FACTORY",
+        "FM-WINDING-FIXTURE",
+        "FM-OPERATIONS",
+        "FM-ASSURANCE",
+        "FM-CIVIL-PRODUCTION"
+      ],
+      "sp_numbers": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        74,
+        75,
+        76,
+        77,
+        84,
+        88,
+        89,
+        99,
+        100
+      ],
+      "work_packages": [
+        "requirements-profile",
+        "local-mbom-cost",
+        "rig-and-demonstrator"
+      ],
+      "deliverable": "Instance-bound MBOM/routings, factory/mould/crew/crane/transport plans, depot/terminal/recovery layout, origin/price records and demonstrator acceptance",
+      "missing_evaluators_or_external_tests": [
+        "Configured machines, controlled processes, measured yield/cure/output and supplier offers",
+        "Access-qualified terminal/depot and rescue/winch/tow arrangements and recovery exercises",
+        "Independent requirements/hazards/site/operator approval and serial material/test evidence"
+      ],
+      "current_evidence_packets": [
+        "station-structure",
+        "station-protocol",
+        "system-campaign",
+        "booster-kit",
+        "corridor"
+      ]
+    }
+  ]
+}

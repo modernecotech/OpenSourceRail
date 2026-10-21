@@ -2,7 +2,7 @@
 
 ![Observed generation progress](progress.svg)
 
-24 exact candidates evaluated over 4 generations; 15 passed training screens. Termination: bounded-stagnation.
+24 exact candidates evaluated over 4 generations; 21 passed training screens. Termination: bounded-stagnation.
 
 The generator uses the preceding results to create differential and local mutations of beam sections/spans, GFRP body/equipment allocations, actual Rust controller gains, station runtime, winding length and acceleration. Each proposal first checks six-car station launch/coast/receive, correctedservicescharging, headway and20%conditional overlap reserve. Each viable proposal runs passenger-load and compliant-guideway scenarios plus replay/invalid-gap protection controls. Shortlisted candidates face separate three-second holdout scenarios; failed confirmation disqualifies that revision.
 

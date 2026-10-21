@@ -3,7 +3,7 @@
 
 [metadata]
 schema = "osr-ferrite-maglev-study/2"
-revision = "C-station-powered-gfrp"
+revision = "E-fixed-line-urban-suburban-powered-zones"
 date = "2026-10-21"
 family = "ferrite-pm-maglev-study"
 repository = "https://github.com/modernecotech/OpenSourceRail"
@@ -20,9 +20,11 @@ normal_running_gear = "fixed-onboard-magnetic-modules"
 primary_study_suspension = "pm-biased-active-attraction-to-wide-horizontal-iron-faces"
 alternative_suspension = "pm-excited-shaped-poles-with-vertical-restoring-force"
 guidance = "onboard-active-short-pole-stations-geometry-tbd"
-primary_costed_propulsion = "station-lsm-shared-vehicle-pm"
+primary_costed_propulsion = "station-and-located-booster-lsm-shared-vehicle-pm"
 onboard_main_traction = false
-interstation_powered_propulsion = false
+interstation_powered_propulsion = true
+interstation_continuous_powered_stator = false
+located_booster_powered_stator = true
 onboard_support_guidance_windings = true
 station_zone_powered_stator = true
 shared_magnetic_volume_status = "candidate-unvalidated"
@@ -37,6 +39,17 @@ normal_stationary_hover = true
 unpowered_all_axis_contactless_stability_claimed = false
 shared_magnetic_volume_demonstrated = false
 
+[operating_strategy]
+urban_minimum_stop_spacing_m = 1500.0
+urban_target_stop_spacing_m = 2000.0
+suburban_minimum_stop_spacing_m = 4000.0
+suburban_maximum_stop_spacing_m = 5000.0
+longer_leg_boosters_enabled = true
+route_alignment = "straight-fixed-lines-subject-to-site-feasibility"
+junction_operation = "passenger-transfer-between-fixed-lines"
+short_interchange_spacing_policy = "retain-and-flag-exception"
+legacy_reference_role = "retained-1000m-component-benchmark"
+
 [vehicle]
 cars_per_train = 6
 nominal_car_length_m = 17.0
@@ -47,11 +60,14 @@ aw3_passengers_per_car = 160
 passenger_mass_screen_kg = 75.0
 service_speed_study_kmh = 80.0
 matched_reference_speed_check_kmh = 80.0
-maximum_initial_acceleration_m_s2 = 0.8
+maximum_initial_acceleration_m_s2 = 1.0
 service_deceleration_study_m_s2 = 0.8
 jerk_study_m_s3 = 0.6
-runtime_reference_seconds = 90.0
-scheduled_headway_seconds = 190.0
+# Component benchmark only. Operational urban/suburban profiles are controlled
+# by [operating_strategy], operating-plan.toml and corridor.toml.
+runtime_reference_seconds = 88.0
+coupler_stiffness_assumption_n_m = 100000000.0
+scheduled_headway_seconds = 180.0
 passenger_doors_per_side = 2
 jerk_profile_approved = false
 
@@ -98,9 +114,11 @@ stiffness_matrix_artifact = "TBD"
 demagnetisation_map_artifact = "TBD"
 
 [power]
-dc_bus_nominal_study_v = 800.0
-station_peak_traction_input_study_kw_per_reference_train = 2346.0
-candidate_station_charger_kw_per_car = 200.0
+dc_bus_nominal_study_v = 1800.0
+station_peak_traction_input_study_kw_per_reference_train = 2864.043608113119
+candidate_station_charger_kw_per_car = 240.0
+station_charger_efficiency_assumption = 0.90
+station_resource_downstream_overlap_m = 75.0
 station_drive_efficiency = 0.85
 station_generating_efficiency = 0.85
 services_battery_kwh_per_car = 30.0
@@ -110,10 +128,11 @@ normal_soc_low = 0.20
 normal_soc_high = 0.80
 eol_capacity_fraction = 0.80
 protected_emergency_energy_kwh = "TBD"
-charger_candidates_kw_per_car = [150.0, 200.0, 250.0]
+charger_candidates_kw_per_car = [150.0, 200.0, 240.0, 250.0]
 charger_rating_selected = false
 charger_effective_seconds = 45.0
 station_dwell_seconds = 60.0
+# Retained 1 km component benchmark, not the operating stop-spacing default.
 station_spacing_study_m = 1000.0
 passive_rail_drag_study_n_per_car = 1000.0
 air_density_study_kg_m3 = 1.2
@@ -197,17 +216,17 @@ citywide_savings_released = false
 [civil.narrow_box_screen]
 status = "illustrative-not-released"
 outer_width_m = 0.8
-outer_depth_m = 1.8
+outer_depth_m = 2.5
 web_thickness_m = 0.10
 flange_thickness_m = 0.15
-derived_concrete_area_m2 = 0.54
-derived_gross_vertical_i_m4 = 0.22005
-derived_gross_lateral_i_m4 = 0.0498
+derived_concrete_area_m2 = 0.6799999999999997
+derived_gross_vertical_i_m4 = 0.5092666666666664
+derived_gross_lateral_i_m4 = 0.06706666666666666
 walkway_bracket_pitch_m = 2.5
 walkway_brackets_per_dual_route_km = 800
 magnetic_hardware_mass_is_validated = false
 gross_uncracked_concrete_e_pa = 30000000000.0
-candidate_listed_concrete_m3_per_dual_route_km = 1320.0
+candidate_listed_concrete_m3_per_dual_route_km = 1359.9999999999995
 listed_concrete_excludes_end_details_rebar_magnetic_rail_and_brackets = true
 candidate_shared_piers_per_route_km_at_25m_spans = 40
 column_foundation_sizes_released = false

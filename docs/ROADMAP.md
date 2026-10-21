@@ -1,9 +1,12 @@
 # Roadmap
 
-OpenSourceRail v0.5.2 development coordinates station-powered ferrite maglev across
-mechanical, civil, software, manufacturing and city planning. Station LSMs launch
-and receive the train; independent onboard support and passenger services remain
-active during the unpowered coast. [Implemented work](../engineering/ferrite_maglev/README.md)
+OpenSourceRail v0.5.2 development coordinates fixed station/booster-zone ferrite
+maglev across mechanical, civil, software, manufacturing and city planning. Station
+LSMs launch and receive the train; longer suburban legs compare located midpoint
+accelerators. Independent onboard support and passenger services remain active
+during the unpowered coast. Junction stations transfer passengers between fixed
+lines. Urban spacing targets 1.5 km minimum and approximately 2 km average, with
+explicitly classified suburban 4–5 km alternatives. [Implemented work](../engineering/ferrite_maglev/README.md)
 and the [current report](design-engine/ferrite-maglev/reference/index.html) identify
 the tested digital scope. Accepted engineering and physical releases remain zero.
 
@@ -15,7 +18,7 @@ the tested digital scope. Accepted engineering and physical releases remain zero
 | GFRP body | Sized orthotropic panels, longitudinal members, magnetic hardpoints, joints, openings and coupler/crash paths; fire, heat, fatigue, repair and weighed equipment closure |
 | Magnetic assemblies | Complete shared or separately priced support/guidance/thrust circuits, cartridge retention, capture, sensors and tolerances |
 | Magnetic force and loss | Converged finite-geometry/steel/coil maps over gap, phase, current and temperature, followed by rig correlation; no automatic ring-paper gain credit |
-| Station propulsion | Selected fixed-group/section topology, phase registration, winding R/L/flux, current/voltage/thermal limits, receiving brakes, fault response and actual purchasing quantities |
+| Station and booster propulsion | Located fixed-group/section topology, phase registration, winding R/L/flux, current/voltage/thermal limits, receiving brakes, fault response, utilities and actual purchasing quantities |
 | Service energy and charging | Verified hot/normal duty, battery life/reserve, complete dwell charging, power-loss support and recovery mission |
 | Civil kit | Prestress/rebar/cover/end blocks, bearings, rail anchors, joints, hollow support connections, ground-specific foundations and every handling/construction stage |
 | Launch and protection | Atomic corridor/receiving-berth reservation, persistent committed ownership, proved tail clearance, independent receiving readiness and stopping/holding under faults |
@@ -35,8 +38,9 @@ structural, magnetic or measured factory evidence.
 
 The adaptive designer uses preceding results to propose vehicle-mass, beam/span
 and actual Rust-gain variants. It preserves ancestry/traces and uses separate
-confirmation cases. Its current coupled plant remains a stationary single rigid
-car with ideal magnetic forces. A preferred candidate therefore remains a bounded
+confirmation cases. Its original search plant is a stationary single rigid car;
+the moving six-car plant and longer-corridor confirmations are separate evidence.
+All currently use ideal magnetic force channels. A preferred candidate remains a bounded
 research result, without automatic promotion to accepted geometry or city criteria.
 
 The dependency runner rebuilds stale implemented studies and holds downstream

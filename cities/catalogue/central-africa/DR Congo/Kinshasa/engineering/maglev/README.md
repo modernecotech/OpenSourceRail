@@ -4,45 +4,57 @@
 
 Provisional planning from retained geography, station demand and service schedules. All physical and manufacturing release flags remain false.
 
-14 lines; 670 provisional trainsets / 4020 cars; 120,600 kWh gross onboard storage.
+14 lines; 600 provisional trainsets / 3600 cars; 108,000 kWh gross onboard storage.
 
 | Line | Cars | AW2 / AW3 | Bodies / assumed overall m | Topology | Peak / total trains | Dwell s |
 |---|---:|---:|---:|---|---:|---:|
-| line-1 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 85 / 95 | 262 |
-| line-2 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 76 / 85 | 364 |
-| line-3 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 30 / 34 | 294 |
-| line-4 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 70 / 78 | 296 |
-| line-5 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 54 / 61 | 359 |
-| line-6 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 45 / 51 | 311 |
-| line-7 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 82 / 92 | 345 |
-| line-8 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 21 / 25 | 289 |
-| line-9 | 6 | 720 / 960 | 102 / 104.5 | two-independent-directed-circuits | 106 / 118 | 287 |
-| line-10 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 5 / 7 | 234 |
-| line-11 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 4 / 6 | 254 |
-| line-12 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 3 / 5 | 347 |
-| line-13 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 6 / 8 | 230 |
-| line-14 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 3 / 5 | 339 |
+| line-1 | 6 | 720 / 960 | 102 / 104.5 | located-tangent-terminal-loops-with-station-powered-blocks | 51 / 58 | 60 |
+| line-2 | 6 | 720 / 960 | 102 / 104.5 | located-tangent-terminal-loops-with-station-powered-blocks | 70 / 78 | 60 |
+| line-3 | 6 | 720 / 960 | 102 / 104.5 | located-tangent-terminal-loops-with-station-powered-blocks | 23 / 27 | 60 |
+| line-4 | 6 | 720 / 960 | 102 / 104.5 | located-tangent-terminal-loops-with-station-powered-blocks | 48 / 54 | 60 |
+| line-5 | 6 | 720 / 960 | 102 / 104.5 | located-tangent-terminal-loops-with-station-powered-blocks | 48 / 54 | 60 |
+| line-6 | 6 | 720 / 960 | 102 / 104.5 | located-tangent-terminal-loops-with-station-powered-blocks | 56 / 63 | 60 |
+| line-7 | 6 | 720 / 960 | 102 / 104.5 | located-tangent-terminal-loops-with-station-powered-blocks | 75 / 84 | 60 |
+| line-8 | 6 | 720 / 960 | 102 / 104.5 | located-tangent-terminal-loops-with-station-powered-blocks | 28 / 32 | 60 |
+| line-9 | 6 | 720 / 960 | 102 / 104.5 | two-independent-directed-circuits | 88 / 98 | 60 |
+| line-10 | 6 | 720 / 960 | 102 / 104.5 | located-tangent-terminal-loops-with-station-powered-blocks | 8 / 10 | 60 |
+| line-11 | 6 | 720 / 960 | 102 / 104.5 | located-tangent-terminal-loops-with-station-powered-blocks | 8 / 10 | 60 |
+| line-12 | 6 | 720 / 960 | 102 / 104.5 | located-tangent-terminal-loops-with-station-powered-blocks | 8 / 10 | 60 |
+| line-13 | 6 | 720 / 960 | 102 / 104.5 | located-tangent-terminal-loops-with-station-powered-blocks | 10 / 12 | 60 |
+| line-14 | 6 | 720 / 960 | 102 / 104.5 | located-tangent-terminal-loops-with-station-powered-blocks | 8 / 10 | 60 |
 
-Station-powered dispatch recomputes headway from runtime,dwell and protected-zone clearance. The190s baseline and longer actual-leg bounds replace shorter source headways; fleet and capacity use the selected headway. Unpowered-coast feasibility, grade, phase/overlap and stalled-train recovery remain hard acceptance gates.
+The requested urban plan uses a1.5km minimum and approximately2km average passenger spacing. Suburban4–5km is considered only with an explicit service classification and fixed, priced midway acceleration zones. Existing transfer nodes are retained; incompatible short gaps remain visible. The1km/88s case is a retained component benchmark. Exclusive whole-leg protection gives a conservative comparison headway; a180s sectioned or multiple-berth alternative needs its own proof and cost. No eligible full operating design is asserted.
 
-- line-1: selected headway 681s versus source 180s; normal capacity 3,806/hour/direction; 29 held longitudinal cases.
-- line-2: selected headway 1020s versus source 180s; normal capacity 2,541/hour/direction; 41 held longitudinal cases.
-- line-3: selected headway 787s versus source 180s; normal capacity 3,294/hour/direction; 22 held longitudinal cases.
-- line-4: selected headway 795s versus source 180s; normal capacity 3,260/hour/direction; 30 held longitudinal cases.
-- line-5: selected headway 1005s versus source 180s; normal capacity 2,579/hour/direction; 30 held longitudinal cases.
-- line-6: selected headway 844s versus source 180s; normal capacity 3,071/hour/direction; 16 held longitudinal cases.
-- line-7: selected headway 958s versus source 180s; normal capacity 2,706/hour/direction; 39 held longitudinal cases.
-- line-8: selected headway 772s versus source 180s; normal capacity 3,358/hour/direction; 11 held longitudinal cases.
-- line-9: selected headway 933s versus source 360s; normal capacity 2,778/hour/direction; 50 held longitudinal cases.
-- line-10: selected headway 586s versus source 180s; normal capacity 4,423/hour/direction; 2 held longitudinal cases.
-- line-11: selected headway 654s versus source 180s; normal capacity 3,963/hour/direction; 2 held longitudinal cases.
-- line-12: selected headway 964s versus source 180s; normal capacity 2,689/hour/direction; 1 held longitudinal cases.
-- line-13: selected headway 573s versus source 180s; normal capacity 4,524/hour/direction; 2 held longitudinal cases.
-- line-14: selected headway 936s versus source 180s; normal capacity 2,769/hour/direction; 1 held longitudinal cases.
+- line-1: urban exclusive-model headway 350s versus source 180s; normal capacity 7,406/hour/direction; 0 held longitudinal cases; 26 transfer/terminal spacing conflicts.
+  Proposed operating plan: 46 mainline stops versus 85 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
+- line-2: urban exclusive-model headway 280s versus source 180s; normal capacity 9,257/hour/direction; 0 held longitudinal cases; 25 transfer/terminal spacing conflicts.
+  Proposed operating plan: 52 mainline stops versus 86 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
+- line-3: urban exclusive-model headway 360s versus source 180s; normal capacity 7,200/hour/direction; 0 held longitudinal cases; 6 transfer/terminal spacing conflicts.
+  Proposed operating plan: 20 mainline stops versus 29 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
+- line-4: urban exclusive-model headway 350s versus source 180s; normal capacity 7,406/hour/direction; 0 held longitudinal cases; 19 transfer/terminal spacing conflicts.
+  Proposed operating plan: 43 mainline stops versus 72 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
+- line-5: urban exclusive-model headway 280s versus source 180s; normal capacity 9,257/hour/direction; 0 held longitudinal cases; 8 transfer/terminal spacing conflicts.
+  Proposed operating plan: 34 mainline stops versus 60 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
+- line-6: urban exclusive-model headway 300s versus source 180s; normal capacity 8,640/hour/direction; 0 held longitudinal cases; 12 transfer/terminal spacing conflicts.
+  Proposed operating plan: 42 mainline stops versus 40 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
+- line-7: urban exclusive-model headway 310s versus source 180s; normal capacity 8,361/hour/direction; 0 held longitudinal cases; 24 transfer/terminal spacing conflicts.
+  Proposed operating plan: 60 mainline stops versus 87 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
+- line-8: urban exclusive-model headway 320s versus source 180s; normal capacity 8,100/hour/direction; 0 held longitudinal cases; 2 transfer/terminal spacing conflicts.
+  Proposed operating plan: 21 mainline stops versus 16 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
+- line-9: urban exclusive-model headway 360s versus source 360s; normal capacity 7,200/hour/direction; 0 held longitudinal cases; 32 transfer/terminal spacing conflicts.
+  Proposed operating plan: 83 mainline stops versus 128 retained access records; 0 additional terminal service/motor zones. Retained capacity target met: true. Consolidated access connections and every station/loop site remain unapproved.
+- line-10: urban exclusive-model headway 250s versus source 180s; normal capacity 10,368/hour/direction; 0 held longitudinal cases; 0 transfer/terminal spacing conflicts.
+  Proposed operating plan: 4 mainline stops versus 3 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
+- line-11: urban exclusive-model headway 260s versus source 180s; normal capacity 9,969/hour/direction; 0 held longitudinal cases; 0 transfer/terminal spacing conflicts.
+  Proposed operating plan: 4 mainline stops versus 3 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
+- line-12: urban exclusive-model headway 260s versus source 180s; normal capacity 9,969/hour/direction; 0 held longitudinal cases; 0 transfer/terminal spacing conflicts.
+  Proposed operating plan: 4 mainline stops versus 2 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
+- line-13: urban exclusive-model headway 240s versus source 180s; normal capacity 10,800/hour/direction; 0 held longitudinal cases; 0 transfer/terminal spacing conflicts.
+  Proposed operating plan: 5 mainline stops versus 4 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
+- line-14: urban exclusive-model headway 250s versus source 180s; normal capacity 10,368/hour/direction; 0 held longitudinal cases; 0 transfer/terminal spacing conflicts.
+  Proposed operating plan: 4 mainline stops versus 2 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
 
-Retained ring wrap distances do not close the complete geographic route. Recomputed closure adds the following distances to the input wrap values; actual closure alignment remains open: line-9 1,534.3 m.
-
-**Integrated-beam/no-walkway target:** door-mounted evacuation is a study candidate. Continuous walkway removal is not approved. Necessary iron reaction faces, supports/foundations, joints and protection remain. 24120 onboard packs are a provisional door-count hypothesis; new mass, lifetime cost and net savings are unknown. Landing space, accessible alternatives, fire/weather/fault conditions and rescue/maintenance access must be proved along the complete route.
+**Integrated-beam/no-walkway target:** door-mounted evacuation is a study candidate. Continuous walkway removal is not approved. Necessary iron reaction faces, supports/foundations, joints and protection remain. 21600 onboard packs are a provisional door-count hypothesis; new mass, lifetime cost and net savings are unknown. Landing space, accessible alternatives, fire/weather/fault conditions and rescue/maintenance access must be proved along the complete route.
 
 
 **Predominantly elevated strategy:** 99% mainline elevation target; all ordinary sections proposed elevated. Ordinary viaduct planning length 624.413 km includes 32.599 km converted from retained at-grade scope. Special crossings remain separate and unpriced.
@@ -52,17 +64,20 @@ Straight tangents are preferred between demand anchors. Existing geographic alig
 
 Formation matches both planning AW2/AW3 loads. Assumed overall length includes the shared configuration’s coupling gaps; body lengths alone exclude them. Platforms are screened against assumed overall length plus 10 m; final tolerances, overhang and berthing require qualification. Fleet is recomputed from hot AW3 services duty and selected station-resource headways, with 10% spares rounded up and one cold reserve per line. Pure trajectory and fixed-winding force feasibility are separate screens; unlocated intermediate-zone hints do not clear either hold.
 
-Radials use unlocated fixed terminal loop allowances; rings use two independent directed circuits. A 100 m radius / 20 km/h loop allowance is not approved geometry. Depot-only switches or transfer devices require separate hardware, access and recovery qualification.
+Default plans retain passenger-transfer nodes between independent fixed lines and choose fewer intermediate passenger stops. Ordinary retained stops remain demand/access records. Short transfer gaps remain explicit exceptions; no train switches or junction routing are introduced. Radial terminals have tangent-connected provisional R-L-R loops, three station-powered sections, two added service/motor stops per loop and explicit 150 m winding zones. Their 25 km/h arclength and lateral-acceleration screens do not qualify six-car curve phase, guidance, clearance, land or construction. Rings retain two independent directed circuits. Depot access and recovery remain unqualified.
 
-Station services charging is screened at 200 kW per car, including live connected services and replacement of run/disconnected-dwell energy. Main traction is supplied by separate station LSM equipment. Dwell is extended for the worst incoming services duty and terminal allowance. Multiple berths implied by dwell/headway require a conflict-free physical layout. Losses, taper, grade, curve forces, emergency reserve and missed charging remain open. No grid/PV/storage or site release is asserted.
+Charging alternatives compare240/400/600kW input per car at90% conversion, with exact connected fractions, hotel load, reserve and computed dwell. The displayed research candidate is not an eligible operating recommendation; changed50/60kWh packs require new formation confirmation. Main traction is supplied by separate station LSM equipment. Dwell is extended for the worst incoming services duty and terminal allowance. Multiple berths implied by dwell/headway require a conflict-free physical layout. Conversion loss is a declared planning allowance; taper, grade, curve forces, emergency reserve and missed charging remain open. No grid/PV/storage or site release is asserted.
 
-| Scenario | Repeat fleet allowance USD | Ordinary elevated allowance USD | Station electrical target USD | Partial subtotal USD |
-|---|---:|---:|---:|---:|
-| low | 593,171,100 | 1,641,502,551 | 839,120,000 | 3,073,793,651 |
-| base | 790,894,800 | 2,188,670,069 | 1,517,820,000 | 4,497,384,869 |
-| high | 1,186,342,200 | 3,283,005,103 | 2,406,300,000 | 6,875,647,303 |
+| Scenario | Repeat fleet allowance USD | Ordinary elevated allowance USD | Terminal civil allowance USD | Station electrical target USD | Foundation proposal increment USD | Booster electrical/mount targets USD | Rescue kits USD | Partial subtotal USD |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| low | 531,198,000 | 1,708,632,623 | 35,708,265 | 820,050,000 | 172,246,206 | 5,573,023 | 190,250,147 | 3,463,658,265 |
+| base | 708,264,000 | 2,278,176,830 | 47,611,020 | 1,486,510,000 | 229,661,609 | 9,847,365 | 253,666,863 | 5,013,737,687 |
+| high | 1,062,396,000 | 3,417,265,245 | 71,416,531 | 2,372,600,000 | 344,492,413 | 15,526,047 | 380,500,294 | 7,664,196,530 |
 
-**Complete city programme cost remains unknown.** Partial allowances price each formation by car, coupling and shared train systems, plus measured section/reaction-steel quantities and explicit process assumptions per ordinary elevated route km. Station electrical rows price unquoted repeated fixed-group equipment targets separately; actual45-second charging and supply/thermal ratings require a configured quote. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, station buildings/access, depots, external utility reinforcement, land, NRE/plant, EPC and other scope listed in the structured report. Rates and productivity assumptions require supplier and site validation. Complete project costs and localisation remain unknown.
+Terminal civil allowances use actual proposed arc length, beam/support counts and ordinary section quantity equivalents; curved detailing premiums remain unpriced. Added one-way service zones conservatively carry complete two-direction electrical package targets. The primary priced subtotal includes the conditional 6.5 m foundation proposal increment once; the previous smaller-foundation subtotal is retained only as a comparison. Every fixed booster has separately priced electrical equipment and mount/cabinet stock; rescue nodes have independently priced winch/portal/foundation kits. Higher voltage/current rating premiums, ground capacity, anchorage and access remain unaccepted and unpriced where unknown.
+
+
+**Complete city programme cost remains unknown.** Partial allowances price each formation by car, coupling and shared train systems, plus measured section/reaction-steel quantities and explicit process assumptions per ordinary elevated route km. Station electrical rows price unquoted repeated fixed-group equipment targets separately; actual45-second charging and supply/thermal ratings require a configured quote. They exclude site-specific conversion/clearance premiums, terminal curved-detail/land premiums, special/bridge works, station buildings/access, depots, external utility reinforcement, land, NRE/plant, EPC and other scope listed in the structured report. Rates and productivity assumptions require supplier and site validation. Complete project costs and localisation remain unknown.
 
 Open acceptance work:
 

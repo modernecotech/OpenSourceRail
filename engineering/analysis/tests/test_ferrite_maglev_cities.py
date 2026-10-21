@@ -123,12 +123,13 @@ def test_long_gap_extends_charging_and_exposes_berth_pressure(context, assumptio
     r=cities.line_plan(context[1], assumptions, f, dict(name='x',shape='radial',length_m=10000),
                        stations(0,10000), dict(schedule=[dict(headway_min=.5)],trainset_count=1), simple_duty)
     charge=r['charging']; dwell=charge['dwell_seconds']
-    assert dwell>60 and charge['candidate_kw_per_train']==6*200
+    charger=assumptions['charging']['candidate_kw_per_car']
+    assert dwell>60 and charge['candidate_kw_per_train']==6*charger
     assert r['selected_peak_headway_seconds']>=r['planning_minimum_headway_seconds']>190
     assert not charge['dwell_exceeds_peak_headway']
     assert charge['minimum_parallel_platform_berths_per_direction']==math.ceil(dwell/r['selected_peak_headway_seconds'])
     # Charge covers incoming leg + loop + services during full dwell, DC only.
-    received=200*(dwell-15)/3600
+    received=charger*(dwell-15)/3600
     required=10+0.2*math.pi+60*dwell/3600
     assert received >= required
     assert charge['grid_pv_storage_sizing_accepted'] is False
@@ -148,7 +149,11 @@ def test_real_city_package_preserves_demand_and_binds_sources(context, tmp_path)
     for case in r['costs']['scenarios']:
         assert case['complete_city_programme_usd'] is None
         assert not case['epc_included'] and not case['supplier_quotes']
-        assert case['priced_scope_subtotal_usd']==case['repeat_fleet_allowance_usd']+case['ordinary_elevated_allowance_usd']+case['station_electrical_allowance_usd']
+        component_names=('repeat_fleet_allowance_usd','ordinary_elevated_allowance_usd',
+            'station_electrical_allowance_usd','terminal_civil_allowance_usd','conditional_foundation_increment_usd',
+            'booster_electrical_allowance_usd','booster_mount_allowance_usd','rescue_kit_allowance_usd')
+        independent_subtotal=math.fsum(case[name] for name in component_names)
+        assert case['priced_scope_subtotal_usd']==pytest.approx(independent_subtotal,rel=0,abs=1e-6)
     assert all(not r[k] for k in model.FLAGS)
     assert all(g['state']=='open' and not g['accepted'] for g in r['gates'])
 

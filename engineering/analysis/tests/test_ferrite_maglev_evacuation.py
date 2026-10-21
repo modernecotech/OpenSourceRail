@@ -76,9 +76,16 @@ def test_beam_only_savings_are_conditional_and_do_not_erase_equipment_or_foundat
 
 def test_unapproved_deletion_never_enters_reference_champion_selection():
     r=optimisation.study()
-    assert r['candidate_count']==r['beam_only_candidate_count']==432
+    assumptions=optimisation.load()
+    axes=('widths_m','depths_m','webs_m','flanges_m','spans_m')
+    expected=len(assumptions['vehicle_profiles'])*math.prod(len(assumptions['civil'][axis]) for axis in axes)
+    assert r['candidate_count']==r['beam_only_candidate_count']==expected
     assert not r['minimum_indexed_allowance_candidate']['id'].startswith('onboard-evacuation')
-    assert len(r['beam_only_candidates'])==432
+    assert len(r['beam_only_candidates'])==expected
+    champion=r['minimum_indexed_allowance_candidate']
+    assert champion['id'] in {row['id'] for row in r['candidates']}
+    assert champion['id'] not in {row['id'] for row in r['beam_only_candidates']}
+    assert champion['civil']['eligible_for_reference_research_champion']
     assert all(not row['civil']['eligible_for_reference_research_champion'] for row in r['beam_only_candidates'])
     assert not r['beam_only_reference_champion_eligible'] and r['beam_only_net_system_saving_usd'] is None
 

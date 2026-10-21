@@ -51,7 +51,7 @@ class Configuration:
     operations: dict
     cost: dict
     def record(self):
-        return dict(schema='osr-selected-configuration/1',architecture='ferrite-pm-maglev-study',propulsion_architecture='station-lsm-and-coast',
+        return dict(schema='osr-selected-configuration/1',architecture='ferrite-pm-maglev-study',propulsion_architecture='fixed-station-and-located-booster-lsm-with-passive-coast-sections',
             publication_role='primary-provisional-design',configuration=asdict(self),
             physical_release=False,manufacturing_release=False,design_complete=False,physical_validation=False)
 
@@ -88,10 +88,12 @@ def selected(c=None,*,city='Baghdad',cars=6):
     return Configuration(a['revision'],f,cv,a['station'],dict(
         baseline_tare_kg_per_car=baseline_mass['tare_kg'],
         payload_aw3_kg_per_car=v['aw3_passengers_per_car']*v['passenger_mass_screen_kg'],
-        cg_m=None,inertia_kg_m2=None,net_chute_addition_kg=None),
+        cg_m=None,inertia_kg_m2=None,net_chute_addition_kg=None,
+        coupler_stiffness_assumption_n_m=v.get('coupler_stiffness_assumption_n_m',100000000.)),
         dict(modules_per_car=24,force_map=None,measured_electrical_limits=None),a['evacuation'],
         dict(charger_kw_per_car=c['power']['candidate_station_charger_kw_per_car'] if 'candidate_station_charger_kw_per_car' in c['power'] else 200.,
-            gross_storage_kwh_per_car=c['power']['services_battery_kwh_per_car'],approved_reserve_kwh=None,recovery_method=None),
+            gross_storage_kwh_per_car=c['power']['services_battery_kwh_per_car'],approved_reserve_kwh=None,recovery_method=None,
+            operating_strategy=deepcopy(c['operating_strategy']),reference_electrical_role='retained-1000m-component-benchmark'),
         dict(quantity_basis='selected native geometry; unmodelled and unpriced scope remains open',installed_programme_usd=None,origin_audited=False))
 
 

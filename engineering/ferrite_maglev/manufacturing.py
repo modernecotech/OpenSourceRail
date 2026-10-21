@@ -103,25 +103,94 @@ def civil(c,costs,*,area=None,span=None,walkway_area=.12,scenario='base'):
         complete_installed_price_usd=None,costs_are_quotes=False)
 
 
+def terminal_civil(c,costs,lines,*,scenario='base'):
+    """Quantity-derived loop allowance with no sharing or curvature-price credit."""
+    from . import geometry
+    ordinary=civil(c,costs,scenario=scenario);rates={r['id']:r for r in ordinary['rows']}
+    box=c['civil']['narrow_box_screen'];area=box['derived_concrete_area_m2'];span=c['civil']['reference_span_m']
+    length=concrete=rail=0.;beams=supports=0
+    for line in lines:
+        for loop in line.get('operating_plan',{}).get('terminal_loops',[]):
+            arc=loop['geometry']['length_m'];count=math.ceil(arc/span);bay=arc/count
+            q=geometry.guideway_quantities(bay)
+            length+=arc;beams+=count;supports+=count+1
+            concrete+=q['beam_concrete_mass_kg']/geometry.MATERIALS['concrete']*count+.12*arc
+            rail+=q['magnetic_rail_mass_kg']*count
+    quantities=dict(structural_supply=concrete,reinforcement=concrete*costs['rates']['reinforcement_kg_per_m3'],
+        passive_rail_supply=rail,supports=supports,walkway_brackets=length,transport=beams,erection=beams,
+        temporary=supports,installation=length,night=length/1000,qa=length/1000,relocation=length/1000,traffic=length/1000)
+    rows=[row(ident,q,rates[ident]['unit'],rates[ident]['unit_rate_usd'],
+        'Proposed terminal loop: '+rates[ident]['process'],local_operation=True) for ident,q in quantities.items()]
+    return dict(rows=rows,total_allowance_usd=sum(r['amount_usd'] for r in rows),
+        single_direction_beam_length_m=length,beam_units=beams,support_positions=supports,
+        concrete_m3=concrete,reaction_steel_kg=rail,
+        basis='Exact loop arclength and span count with native straight-section/end-infill quantity equivalents; curved geometry,prestress,rail detailing and curvature premium unqualified',
+        endpoint_foundation_sharing_credit=False,complete_loop_price_usd=None,costs_are_quotes=False)
+
+
 def city_programme(c,costs,lines,route_km):
     """Explicit priced scopes, quantities, processes and remaining city exclusions."""
     stations=sum(len(line['stations']) for line in lines)
     # Records include interchange platforms on separate lines. Count platform
     # packages per line, never infer unique buildings from an unspecified key.
     from . import station
+    def package(length,charger,index,*,charging=True):
+        assumptions=station.load();assumptions['station'].update(winding_start_m=-length/2,winding_end_m=length/2)
+        value=station.station_costs(assumptions)['sensitivity_cases'][index]['topologies']['B-two-fixed-groups']
+        original=value['rows_usd']['charging']
+        return value['direct_subtotal_usd']+original*((charger/200. if charging else 0.)-1)
     station_cases=station.station_costs()['sensitivity_cases']
-    station_costs={name:station_cases[index]['topologies']['B-two-fixed-groups']['direct_subtotal_usd'] for index,name in enumerate(('low','base','high'))}
+    charger_input=max((line['charging']['candidate_kw_per_car'] for line in lines),default=c['power'].get('candidate_station_charger_kw_per_car',240.))
+    charger_reference=200.;charger_scale=charger_input/charger_reference
+    def electrical_target(case):
+        topology=case['topologies']['B-two-fixed-groups']
+        return topology['direct_subtotal_usd']+topology['rows_usd']['charging']*(charger_scale-1)
+    station_costs={name:electrical_target(station_cases[index]) for index,name in enumerate(('low','base','high'))}
+    terminal_zones=sum(line['topology'].get('terminal_service_zone_count',0) for line in lines)
+    terminal_assumptions=station.load()
+    for line in lines:
+        if line['topology'].get('terminal_service_zone_count'):
+            terminal_assumptions['station']['winding_start_m']=line['topology']['terminal_winding_start_m']
+            terminal_assumptions['station']['winding_end_m']=line['topology']['terminal_winding_end_m'];break
+    terminal_cases=station.station_costs(terminal_assumptions)['sensitivity_cases']
+    terminal_station_costs={name:electrical_target(terminal_cases[index]) for index,name in enumerate(('low','base','high'))}
+    from . import closure
+    foundation=closure.foundation_cost_delta()
     totals=[]
     for scenario in costs['scenario_multipliers']:
+        index={'low':0,'base':1,'high':2}[scenario]
         fleet=[vehicle(c,costs,c['mass']['ferrite_base'],c['power']['services_battery_kwh_per_car'],
             cars=line['formation']['cars'],scenario=scenario) for line in lines]
         fleet_cost=sum(v['total_allowance_usd']*line['fleet']['total'] for v,line in zip(fleet,lines))
         guideway=civil(c,costs,scenario=scenario)
-        station_electrical=station_costs[scenario]*stations
+        terminal=terminal_civil(c,costs,lines,scenario=scenario)
+        main_electrical=sum(package(s.get('power_winding_length_m',200.),line['charging']['candidate_kw_per_car'],index) for line in lines for s in line['stations'])
+        terminal_electrical=sum(package(line['topology']['terminal_winding_end_m']-line['topology']['terminal_winding_start_m'],line['charging']['candidate_kw_per_car'],index)*line['topology'].get('terminal_service_zone_count',0) for line in lines if line['topology'].get('terminal_service_zone_count'))
+        station_electrical=main_electrical+terminal_electrical
+        boosters=[zone for line in lines for zone in line.get('operating_plan',{}).get('powered_top_up_zones',[])]
+        booster_electrical=sum(package(zone['length_m_per_direction'],0.,index,charging=False) for zone in boosters)
+        factor=costs['scenario_multipliers'][scenario]
+        booster_mount=sum(zone['mechanical_takeoff']['mount_and_cabinet_stock_target_usd'] for zone in boosters)*factor
+        rescue=sum(line.get('operating_plan',{}).get('rescue_kit_count',0)*line.get('operating_plan',{}).get('rescue_kit_reference',{}).get('listed_kit_target_usd',0.) for line in lines)*factor
+        additional_foundations=(guideway['quantities']['shared_supports_per_route_km']*route_km+terminal['support_positions'])*foundation['incremental_support_allowance_usd']*costs['scenario_multipliers'][scenario]
+        previous_foundation_scope=fleet_cost+guideway['total_allowance_usd_dual_km']*route_km+station_electrical+terminal['total_allowance_usd']+booster_electrical+booster_mount+rescue
         totals.append(dict(scenario=scenario,repeat_fleet_allowance_usd=fleet_cost,station_electrical_allowance_usd=station_electrical,
-            station_electrical_unit_allowance_usd=station_costs[scenario],station_electrical_packages=stations,
+            station_electrical_unit_allowance_usd=main_electrical/stations if stations else None,station_electrical_packages=stations+terminal_zones,
+            mainline_station_electrical_packages=stations,terminal_service_electrical_packages=terminal_zones,
+            mainline_station_electrical_allowance_usd=main_electrical,
+            terminal_service_electrical_allowance_usd=terminal_electrical,
+            terminal_service_electrical_unit_allowance_usd=terminal_electrical/terminal_zones if terminal_zones else None,
+            booster_electrical_allowance_usd=booster_electrical,booster_mount_allowance_usd=booster_mount,
+            rescue_kit_allowance_usd=rescue,booster_zone_count=len(boosters),
+            recovery_kit_count=sum(line.get('operating_plan',{}).get('rescue_kit_count',0) for line in lines),
+            terminal_civil_allowance_usd=terminal['total_allowance_usd'],terminal_civil_bill=terminal,
             ordinary_elevated_allowance_usd=guideway['total_allowance_usd_dual_km']*route_km,
-            priced_scope_subtotal_usd=fleet_cost+guideway['total_allowance_usd_dual_km']*route_km+station_electrical,
+            priced_scope_subtotal_usd=previous_foundation_scope+additional_foundations,
+            comparison_scope_with_previous_foundation_allowance_usd=previous_foundation_scope,
+            conditional_foundation_increment_usd=additional_foundations,
+            priced_scope_with_conditional_foundation_proposal_usd=previous_foundation_scope+additional_foundations,
+            selected_foundation_basis=(f"Conditional {foundation['foundation_square_side_m']:g}m square shallow-footing proposal at assumed "
+                f"{closure.load()['civil']['foundation_allowable_pressure_pa']/1000:g}kPa; ground, connections, quantities and supplier rates remain unaccepted"),
             complete_city_programme_usd=None,epc_included=False,nre_included=False,supplier_quotes=False,
             ordinary_viaduct_proposal_km=route_km,ordinary_viaduct_unit_allowance_usd_dual_km=guideway['total_allowance_usd_dual_km'],
             fleet_scaling_basis='Each formation priced by car quantities, coupling interfaces and one shared control/protection set per train.',
@@ -134,11 +203,26 @@ def city_programme(c,costs,lines,route_km):
         scenarios=totals,ordinary_route_km=route_km,ordinary_civil_bill_per_dual_km=base,
         quantities={**{key:value*route_km for key,value in q.items()},'platform_packages':stations,
             'cars':sum(l['formation']['cars']*l['fleet']['total'] for l in lines),
-            'station_electrical_two_direction_packages':stations,
-            'station_charger_connections':sum(len(l['stations'])*l['formation']['cars'] for l in lines)},
+            'station_electrical_two_direction_packages':stations+terminal_zones,
+            'terminal_service_zones':terminal_zones,
+            'fixed_nonpassenger_top_up_zones':sum(len(line.get('operating_plan',{}).get('powered_top_up_zones',[])) for line in lines),
+            'independent_one_way_rescue_kits':sum(line.get('operating_plan',{}).get('rescue_kit_count',0) for line in lines),
+            'terminal_loop_single_direction_beam_m':terminal_civil(c,costs,lines)['single_direction_beam_length_m'],
+            'station_charger_connections':sum((2*len(l['stations'])+l['topology'].get('terminal_service_zone_count',0))*l['formation']['cars'] for l in lines)},
         station_electrical_cost_basis=station.station_costs(),station_electrical_rating_qualified=False,
+        terminal_electrical_cost_basis=station.station_costs(terminal_assumptions),
+        terminal_service_zone_pricing='One complete two-direction electrical package per one-way service zone; no speculative shared supply or single-lane discount',
+        charger_upgrade_target=dict(reference_input_kw_per_car=charger_reference,selected_input_kw_per_car=charger_input,
+            selected_input_kw_per_car_by_line={line['line']:line['charging']['candidate_kw_per_car'] for line in lines},
+            interface_cost_factor=charger_scale,rule='Linear charging-interface row scaling only; unquoted planning target, not supplier rating or transformer/thermal qualification',supplier_quote=False),
+        configured_motor_voltage_current_rating_premium_usd=None,
+        terminal_transfer_access_proposals=[connector for line in lines for connector in line.get('operating_plan',{}).get('terminal_transfer_access_proposals',[])],
+        terminal_transfer_access_allowance_usd=None,
+        motor_price_comparison_proved=False,
+        wider_corridor_pricing_scope='Each passenger winding uses its installed length and selected research charger; every fixed top-up has a full two-direction electrical target without charger credit, plus separately counted mount/cabinet stock. Recovery kits have independent portals/footings and no sharing credit. Higher voltage/thermal supplier premiums, access and physical acceptance remain unpriced.',
+        conditional_foundation_proposal=foundation,
         process_routes=processes,equipment_candidates=deepcopy(costs['equipment_candidates']),
         equipment_capex_usd=None,production_duration_days=None,local_value_added_fraction=None,
         sizing_method='Select annual route-km/car targets; convert BoQ to daily demand; size mould/curing, winding, test, transport and crane resources after measured cycle times and yields.',
-        unpriced=['station structures, accessible exits and full MEP','actual45-second services charger upgrade and ratings,external utility reinforcement,storage/PV','depot/recovery/transfer equipment','special crossings and terminal loops','land/air rights and major utility works','surveys/qualified design/independent assurance','factory CAPEX and first articles','evacuation equipment and lifetime maintenance','programme management/EPC/finance/tax/duty/spares/OPEX'],
+        unpriced=['station structures, accessible exits and full MEP','actual45-second services charger upgrade and ratings,external utility reinforcement,storage/PV','depot/recovery/transfer equipment','special crossings and terminal curved-detail/land premiums','land/air rights and major utility works','surveys/qualified design/independent assurance','factory CAPEX and first articles','evacuation equipment and lifetime maintenance','programme management/EPC/finance/tax/duty/spares/OPEX'],
         complete_city_programme_usd=None,design_complete=False,manufacturing_release=False,physical_release=False)

@@ -27,6 +27,10 @@ pub struct StationParams {
 }
 impl StationParams {
     pub fn valid(self) -> bool {
+        // Equivalent SI circuit: F = K i and e = K v must transfer the same
+        // air-gap power. A measured three-phase map is still required.
+        let back_emf_constant = self.flux_linkage_wb * core::f64::consts::TAU
+            / (2. * f64::from(self.pole_pitch_um) * 1e-6);
         self.configuration != [0; 32]
             && self.zone_id > 0
             && self.zone_start_mm.unsigned_abs() <= 100_000_000
@@ -49,6 +53,8 @@ impl StationParams {
             ]
             .iter()
             .all(|v| v.is_finite() && *v >= 1e-9 && *v <= 1e9)
+            && (self.force_constant_n_per_a - back_emf_constant).abs()
+                <= self.force_constant_n_per_a * 1e-9
     }
 }
 
@@ -58,6 +64,8 @@ pub enum StationMode {
     Coast,
     Receive,
     Secured,
+    /// Low-speed positioning within 2 m of the declared berth datum.
+    Berth,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -204,6 +212,10 @@ pub fn evaluate_station(
             || frame.velocity_mmps < 0
             || (frame.mode == StationMode::Secured && frame.velocity_mmps != 0)
             || (frame.mode == StationMode::Launch && frame.force_demand_n < 0.)
+            || (frame.mode == StationMode::Berth
+                && (frame.velocity_mmps > 500
+                    || frame.position_mm.unsigned_abs() > 2000
+                    || frame.force_demand_n.abs() > 20000.))
             || (frame.mode == StationMode::Receive
                 && (frame.force_demand_n > 0.
                     || (frame.velocity_mmps == 0 && frame.force_demand_n != 0.)))

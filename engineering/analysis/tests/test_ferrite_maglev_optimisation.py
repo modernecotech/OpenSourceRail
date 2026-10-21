@@ -1,6 +1,7 @@
 """Independent quantity controls and no-credit/unknown-evidence regressions."""
 from copy import deepcopy
 import math
+import json
 from pathlib import Path
 import sys
 import tomllib
@@ -15,7 +16,7 @@ def context():return model.load()
 
 def test_joint_search_retains_failed_cases_and_only_orders_research(context):
     _,c,k=context;r=optimisation.study(c,k)
-    assert r['candidate_count']==432
+    assert r['candidate_count']==720
     assert 0<r['numerical_screen_pass_count']<r['candidate_count']
     best=r['minimum_indexed_allowance_candidate']
     assert best['numerical_screen_pass']
@@ -39,13 +40,16 @@ def test_pareto_research_set_has_no_dominating_other_screen_pass(context):
 
 def test_reference_cost_reconciles_current_quantity_bill(context):
     _,c,k=context;a=optimisation.load();_,v=optimisation.vehicle(c,k,a['vehicle_profiles'][0])
-    result=optimisation.civil(c,k,v,.8,1.8,.10,.15,25,a)
+    box=c['civil']['narrow_box_screen'];span=c['civil']['reference_span_m']
+    width,depth,web,flange=(box[key] for key in ('outer_width_m','outer_depth_m','web_thickness_m','flange_thickness_m'))
+    void=(width-2*web)*(depth-2*flange);area=width*depth-void;infill=2*.4*void
+    result=optimisation.civil(c,k,v,width,depth,web,flange,span,a)
     ref=model.cost_case(c,k,'base',3000,30)
     assert result['indexed_rows_usd_dual_km']==pytest.approx(ref['civil_rows_usd_dual_km'])
     assert result['indexed_allowance_usd_dual_km']==pytest.approx(ref['civil_usd_dual_km'])
-    assert result['concrete_m3_dual_km']==pytest.approx((.54+.72/25+.12)*2000)
-    assert result['counted_concrete_mass_kg_dual_km']==pytest.approx((.54+.72/25+.12)*2000*2500)
-    assert result['maximum_bare_beam_lift_kg']==pytest.approx((.54*25+.72)*2500)
+    assert result['concrete_m3_dual_km']==pytest.approx((area+infill/span+.12)*2000)
+    assert result['counted_concrete_mass_kg_dual_km']==pytest.approx((area+infill/span+.12)*2000*2500)
+    assert result['maximum_bare_beam_lift_kg']==pytest.approx((area*span+infill)*2500)
     assert result['shared_supports_per_route_km']==40
     assert result['beam_lifts_per_route_km']==80
 
@@ -120,7 +124,7 @@ def test_baghdad_elevated_cost_scope_includes_191km_conversion(context,tmp_path)
     assert strategy['ordinary_viaduct_proposal_length_m']==pytest.approx(482238.1)
     assert strategy['special_crossings_length_m']['bridge']==pytest.approx(31097.4)
     for row in r['costs']['scenarios']:
-        assert row['ordinary_viaduct_proposal_km']==pytest.approx(482.2381)
+        assert row['ordinary_viaduct_proposal_km']==pytest.approx(sum((segment['to_station_m']-segment['from_station_m'])*strategy['cost_quantity_chainage_scale_by_line'][segment['line']] for segment in json.loads((path/'city.json').read_text())['civil_segments'] if segment['class'] in {'at-grade','elevated'})/1000)
         assert row['complete_city_programme_usd'] is None
     assert {row['scenario'] for row in r['costs']['scenarios']}==set(context[2]['scenario_multipliers'])
     assert all(bill['cars']==6 for row in r['costs']['scenarios'] for bill in row['formation_bills'])
@@ -152,11 +156,14 @@ def test_no_numerical_candidate_does_not_invent_an_accepted_design(context):
 
 def test_actual_retained_rail_mass_cannot_be_replaced_by_lighter_allowance(context):
     _,c,k=context;a=optimisation.load();_,v=optimisation.vehicle(c,k,a['vehicle_profiles'][0])
-    result=optimisation.civil(c,k,v,.8,1.8,.10,.15,25,a)
+    box=c['civil']['narrow_box_screen'];span=c['civil']['reference_span_m']
+    width,depth,web,flange=(box[key] for key in ('outer_width_m','outer_depth_m','web_thickness_m','flange_thickness_m'))
+    void=(width-2*web)*(depth-2*flange);area=width*depth-void;infill=2*.4*void
+    result=optimisation.civil(c,k,v,width,depth,web,flange,span,a)
     # Independently count 2 faces x10 cassettes x2.49m x0.96m x20mm x7850kg/m3 /25m.
     expected=2*10*2.49*.96*.02*7850/25
     assert result['native_passive_rail_line_mass_kg_m_per_direction']==pytest.approx(expected)
-    assert result['section']['dead_line_mass_kg_m']==pytest.approx((.54+.72/25+.12)*2500+expected)
+    assert result['section']['dead_line_mass_kg_m']==pytest.approx((area+infill/span+.12)*2500+expected)
     assert not result['other_attachment_mass_closed']
 
 
@@ -187,7 +194,9 @@ def test_matched_profile_separates_constant_services_from_mass_sensitive_station
     assert light['matched_duty']['station_traction_input_kwh']<ref['matched_duty']['station_traction_input_kwh']
     assert budget['matched_duty']==ref['matched_duty']
     duty=light['matched_duty']
-    assert duty['balanced_charger_kw_per_car']==pytest.approx(60+60*105/45)
+    p=c['power'];hotel=p['hot_hotel_kw_per_car'];connected=p['charger_effective_seconds']
+    disconnected=p['station_dwell_seconds']-connected
+    assert duty['balanced_charger_kw_per_car']==pytest.approx((hotel+hotel*(c['vehicle']['runtime_reference_seconds']+disconnected)/connected)/p['station_charger_efficiency_assumption'])
     assert not duty['actual_magnetic_loss_map_used'] and not duty['route_accepted']
 
 

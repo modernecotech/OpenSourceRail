@@ -1,8 +1,9 @@
 # OpenSourceRail architecture
 
-OpenSourceRail v0.5.2 development uses **station-powered ferrite maglev**. Fixed
-station linear synchronous motors launch and receive each train. Interstation
-spans have passive magnetic reaction iron and no propulsion supply. Onboard
+OpenSourceRail v0.5.2 development uses **fixed-zone ferrite maglev**. Fixed
+station linear synchronous motors launch and receive each train; located midpoint
+accelerators are alternatives for longer suburban legs. Coasting sections outside
+these finite powered zones have passive magnetic reaction iron. Onboard
 ferrite PM-biased active support and guidance remain powered independently,
 alongside passenger services, protection and emergency equipment.
 
@@ -20,7 +21,7 @@ and 1.8 t growth reserve. Four doors per car are the body-study basis. No comple
 weighed body, load-bearing joint set or qualified magnetic circuit establishes
 these mass targets.
 
-The ordinary civil candidate is a 25 m, 0.80 × 1.80 m box with 100 mm webs,
+The ordinary civil candidate is a 25 m, 0.80 × 2.50 m box with 100 mm webs,
 150 mm flanges and end infills. Hollow columns and caps are explicit quantity
 studies. Shallow, single-shaft and pile-group foundations remain alternative
 families, selected only with ground and structural evidence. Reaction iron,
@@ -28,9 +29,9 @@ anchors, bearings, joints, rail survey and all construction stages remain in sco
 
 | Layer | Controlled definition | Implemented evidence and boundary |
 |---|---|---|
-| Service and city | Geography, demand, formation, runtime, headway and station spacing | Planning packages; flat reference is 90 s/km and 190 s headway, with grade/coasting and arrival gates |
+| Service and city | Geography, demand, formation, runtime, headway and station spacing | Urban minimum target 1.5 km and mean target 2 km; explicitly classified suburban legs 4–5 km with booster alternatives; short interchange conflicts remain visible |
 | Mechanical | Structural sandwich panels, four doors, ferrite cartridges, support/guidance and services | Quantity takeoffs and partial solids; complete hardpoints, joints, mass/CG/inertia and qualification open |
-| Station propulsion | LSM cassettes/groups, phase sensing, bridges, DC supply, receiving braking and charging | Jerk-limited demand, actual assumed magnetic-band overlap and target cost cases; force/current/voltage maps unqualified |
+| Fixed-zone propulsion | Station/booster LSM cassettes/groups, phase sensing, bridges, DC supply, receiving braking and charging | Separate longer-leg jerk/overlap/rating/service/protection comparisons; measured force/current/voltage/thermal maps unqualified |
 | Civil | Guidebeams, supports, foundations, stations and interfaces | Exact section/end-infill quantities, gross elastic screens and foundation sensitivities; no accepted strength or soil capacity |
 | Software | Independent support control and persistent launch/corridor/berth ownership | Offline Rust tests/replays; no qualified sensing, physical actuator adapter or measured hardware timing |
 | Industrialisation | Moulds, cure/release, crews, transport, cranes, joints and survey | Conditional bottleneck capacity; no measured production or supplier-price evidence |
@@ -40,7 +41,10 @@ anchors, bearings, joints, rail survey and all construction stages remain in sco
 [configuration](../engineering/ferrite_maglev/reference-configuration.toml),
 [operating study](../engineering/ferrite_maglev/station.py) and
 [structure study](../engineering/ferrite_maglev/station_structure.py) control the
-interfaces. City `city.json` inputs feed the same current compiler.
+interfaces. City `city.json` inputs feed the same current compiler. Junctions are
+passenger transfers between independent fixed lines, with no mainline train-routing
+switch. Straight alignments are the design objective; retained mapped routes and
+unselected straight-chord alternatives must keep their site and cost evidence separate.
 
 ## Launch, receiving and recovery
 
@@ -56,9 +60,12 @@ margin. An unpowered span cannot restart a stationary train from a distant
 station. Terminal return geometry, depot movement and rescue equipment remain
 explicit requirements. The nominal trajectory does not close these obligations.
 
-At the hot-services assumption, 45 s charging within a 60 s dwell requires
-1.20 MW/train before charger losses when the battery serves the remaining dwell.
-Station power/charging is a separate priced target from the incomplete civil
+The 1 km/90 s authored and 1 km/88 s developed runs remain explicit benchmarks.
+They do not verify the new 2 km/5 km operating design. Longer profiles compare
+converter ratings, charger power, dwell and larger services packs with their mass
+and cost changes. Whole-leg exclusive reservations impose a capacity constraint;
+a passing motion calculation cannot clear it. Station and booster power/charging
+are separately priced targets from the incomplete civil
 subtotal. Complete network economics must include both, plus stations, fleet,
 recovery, land, qualification, factory capital and financing.
 
@@ -66,8 +73,9 @@ recovery, land, qualification, factory capital and financing.
 
 Ring-field controls and block orientation seeds do not demonstrate railway lift,
 thrust or magnet-mass gains. Gross beam sag is distinct from relative magnetic-gap
-error. The coupled demonstrator remains one stationary rigid car with ideal
-forces and a flexible vertical beam; moving six-car dynamics, flexible bodies,
+error. The stationary single-car demonstrator is retained separately from the
+moving six-car Rust/beam/coupler model. Both use ideal force channels. Longer
+operational profiles need their own moving confirmation; flexible bodies,
 torsion, joints, soil and calibrated electromagnetic/thermal response remain open.
 
 Native CAD covers partial assemblies. Visibility videos show final-position

@@ -12,12 +12,28 @@ import subprocess
 TOKENS=['light-'+'metro-3car','urban-'+'shuttle-1car','wheel-'+'rail-reference',
         'metro-'+'6car','L'+'M3','H'+'M47','buildable-'+'trainset','reference_'+'3car','osr_'+'mech']
 PATTERN=re.compile('|'.join(re.escape(s) for s in TOKENS),re.I)
+DEFAULT_GZIP_RAW_LIMIT=64*1024*1024
+ROOT=Path(__file__).resolve().parents[2]
+# These two verified publications exceed the generic ceiling. Each publisher
+# independently enforces MAX_RAW=128MiB; no suffix/receipt-provided allowance.
+OWNED_GZIP_RAW_LIMITS={
+    ROOT/'docs/design-engine/ferrite-maglev/corridor/result.json.gz':128*1024*1024,
+    ROOT/'docs/design-engine/ferrite-maglev/moving-train/result.json.gz':128*1024*1024,
+}
 TEXT={'.py','.rs','.md','.toml','.json','.sh','.js','.mjs','.html','.yaml','.yml','.txt','.svg','.csv','.proto'}
 
 
 def files(root):
     output=subprocess.check_output(['git','ls-files','-z','--cached','--others','--exclude-standard'],cwd=root)
     return sorted({Path(root)/p.decode() for p in output.split(b'\0') if p and (Path(root)/p.decode()).is_file()})
+
+
+def gzip_raw_limit(path):
+    """Only exact owned, nonsymlink packets receive their declared larger bounds."""
+    path=Path(path)
+    absolute=path.absolute()
+    if path.is_symlink() or path.resolve()!=absolute:return DEFAULT_GZIP_RAW_LIMIT
+    return OWNED_GZIP_RAW_LIMITS.get(absolute,DEFAULT_GZIP_RAW_LIMIT)
 
 
 def scan(paths):
@@ -29,12 +45,12 @@ def scan(paths):
         tokens=[s.lower().encode() for s in TOKENS]
         # ASCII identity tokens can be scanned in bounded byte blocks without
         # decoding gigabytes of numeric geospatial CSV or copying whole files.
-        total=0;tail=b'';found=False
+        total=0;tail=b'';found=False;raw_limit=gzip_raw_limit(path)
         opener=gzip.open if path.suffix=='.gz' else open
         with opener(path,'rb') as stream:
             while block:=stream.read(1024*1024):
                 total+=len(block)
-                if path.suffix=='.gz' and total>64*1024*1024:
+                if path.suffix=='.gz' and total>raw_limit:
                     raise ValueError('bounded evidence audit exceeded: '+str(path))
                 lowered=(tail+block).lower()
                 if any(token in lowered for token in tokens):found=True;break

@@ -1,0 +1,57 @@
+schema = "osr-fixed-powered-corridor-input/1"
+revision = "A-urban-suburban-fixed-zone-numerical"
+urban_reference_distance_m = 2000.0
+urban_reference_runtime_s = 140.0
+suburban_reference_distance_m = 5000.0
+suburban_reference_runtime_s = 375.0
+acceleration_m_s2 = 1.0
+deceleration_m_s2 = 0.8
+jerk_m_s3 = 0.6
+speed_limit_kmh = 80.0
+step_s = 0.01
+electrical_section_m = 12.5
+section_warmup_s = 0.02
+section_lookahead_s = 0.1
+initial_arming_s = 0.1
+downstream_overlap_m = 75.0
+release_allowance_s = 5.0
+requested_headway_s = 180.0
+hot_services_kw_per_car = 60.0
+protected_services_reserve_minutes = 10.0
+charger_efficiency = 0.9
+connected_fraction = 0.75
+stator_allowance_usd_per_direction_m = 1250.0
+
+[ratings.legacy]
+force_constant_n_a = 50.0
+maximum_current_a = 4000.0
+maximum_phase_voltage_v = 900.0
+dc_bus_v = 1800.0
+resistance_ohm = 0.0025
+inductance_h = 0.000025
+maximum_copper_loss_w = 120000.0
+
+[ratings.lower-force-constant]
+force_constant_n_a = 40.0
+maximum_current_a = 4500.0
+maximum_phase_voltage_v = 900.0
+dc_bus_v = 1800.0
+resistance_ohm = 0.0025
+inductance_h = 0.000025
+maximum_copper_loss_w = 120000.0
+
+[ratings.higher-voltage]
+force_constant_n_a = 50.0
+maximum_current_a = 4000.0
+maximum_phase_voltage_v = 1200.0
+dc_bus_v = 2400.0
+resistance_ohm = 0.0025
+inductance_h = 0.000025
+maximum_copper_loss_w = 120000.0
+
+[validation]
+measured_motor_map = false
+new_converter_rating_accepted = false
+section_handover_hardware_accepted = false
+physical_io_enabled = false
+whole_line_capacity_accepted = false

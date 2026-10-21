@@ -2,7 +2,7 @@
   "architecture": "ferrite-pm-maglev-study",
   "configuration": {
     "civil": {
-      "depth_m": 1.8,
+      "depth_m": 2.5,
       "flange_m": 0.15,
       "ground_level_m": 0.0,
       "pier_height_m": 8.0,
@@ -44,11 +44,23 @@
     },
     "operations": {
       "approved_reserve_kwh": null,
-      "charger_kw_per_car": 200.0,
+      "charger_kw_per_car": 240.0,
       "gross_storage_kwh_per_car": 30.0,
-      "recovery_method": null
+      "operating_strategy": {
+        "junction_operation": "passenger-transfer-between-fixed-lines",
+        "legacy_reference_role": "retained-1000m-component-benchmark",
+        "longer_leg_boosters_enabled": true,
+        "route_alignment": "straight-fixed-lines-subject-to-site-feasibility",
+        "short_interchange_spacing_policy": "retain-and-flag-exception",
+        "suburban_maximum_stop_spacing_m": 5000.0,
+        "suburban_minimum_stop_spacing_m": 4000.0,
+        "urban_minimum_stop_spacing_m": 1500.0,
+        "urban_target_stop_spacing_m": 2000.0
+      },
+      "recovery_method": null,
+      "reference_electrical_role": "retained-1000m-component-benchmark"
     },
-    "revision": "V052-STATION-POWERED-GFRP-1",
+    "revision": "V052-FIXED-LINE-URBAN-SUBURBAN-3",
     "station": {
       "arm_clearance_assumption_m": 0.1,
       "capture_drop_assumption_m": 0.02,
@@ -63,6 +75,7 @@
     "vehicle": {
       "baseline_tare_kg_per_car": 14200.0,
       "cg_m": null,
+      "coupler_stiffness_assumption_n_m": 100000000.0,
       "inertia_kg_m2": null,
       "net_chute_addition_kg": null,
       "payload_aw3_kg_per_car": 12000.0
@@ -72,7 +85,7 @@
   "manufacturing_release": false,
   "physical_release": false,
   "physical_validation": false,
-  "propulsion_architecture": "station-lsm-and-coast",
+  "propulsion_architecture": "fixed-station-and-located-booster-lsm-with-passive-coast-sections",
   "publication_role": "primary-provisional-design",
   "schema": "osr-selected-configuration/1"
 }

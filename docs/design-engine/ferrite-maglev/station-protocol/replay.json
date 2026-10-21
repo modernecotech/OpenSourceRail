@@ -1,5 +1,5 @@
 {
-  "binary_sha256": "e5c4de73c2caab6a8d79b301a0f2a44b5b3867d6aacc38089b02a2684f4b5d75",
+  "binary_sha256": "ba1bd209091d3f8d74231001cf2c510fa80c762b8aac88cf10513d445e5283b3",
   "controller_replay": {
     "all_passed": true,
     "checks": {
@@ -13,14 +13,14 @@
       "uncommitted_launch_rejected": true,
       "zero_thrust_coast": true
     },
-    "copper_loss_w": 4499.055625,
-    "launch_current_a": 670.75,
+    "copper_loss_w": 17996.2225,
+    "launch_current_a": 2683,
     "launch_phase_mdeg": 0,
     "measured_motor_map": false,
     "physical_output_authorised": false,
     "schema": "osr-station-control-replay/1",
     "scope": "offline scalar force/current/phase and fault screens; no MCU timing, shared-field or six-car phase validation",
-    "voltage_bound_v": 77.94411184307752
+    "voltage_bound_v": 790.2449999999999
   },
   "design_complete": false,
   "evidence_scope": "Actual Rust executable and durable-fold fault tests with synthetic detector/readiness assertions; no physical qualification",
@@ -55,7 +55,7 @@
       ],
       "returncode": 0,
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "stdout_sha256": "199f19c38f3881af3653696c5519f619bc98d1c5a347b56129f69e28d16ddda8"
+      "stdout_sha256": "e104a4f3fa1fa3c89b91d443c73ee8fe47c93a18e0e6c8bd68ce3440c6fb50b0"
     },
     "tests": {
       "command": [
@@ -71,7 +71,7 @@
         "--test-threads=1"
       ],
       "returncode": 0,
-      "stderr_sha256": "a2b1304f39df35bbcf5021a8f732d2e0ecd3e287403bb7a6e8d781723d07399d",
+      "stderr_sha256": "5e6ed497902d10a2c2079bcc7130ec7ff7ba062cf3016f6c1e3df35f63bacc57",
       "stdout_sha256": "537d4e659e5a5b815e4740c01e6352c7c3b9d47cd06e8060d360c6c0cb44d479"
     }
   },
@@ -96,9 +96,9 @@
     "wrong_consist_or_configuration_or_duplicate_bundle_is_rejected"
   ],
   "schema": "osr-station-protocol-evidence/1",
-  "source_epoch": "76731020a3d3bc0f753f49ec416217be7c61d6bcf74cafdbfcb0a69ac87c5d23",
+  "source_epoch": "0e47c503c18e88cbbdbdb636368510e88e61dccc80fed5e04c399b501c78aee3",
   "source_sha256": {
-    "Cargo.lock": "ba2491f17d5b6d0efcb720928e6d482a4543ba6a4e8f8c01ac5cff095ca8be67",
+    "Cargo.lock": "2f04e682935b3ef2281ccbe4b8de8c1f074a31528f43aa3657398989e77918e3",
     "Cargo.toml": "bd0a0478375bf16689faf6fe55ca5668e3b38ee0b1b314cbee76151f2f6a01f4",
     "crates/osr-core/Cargo.toml": "a3afc36c6d5a599f07fe7a06b3e7fa5c40eb7b1ee116b2207052ca7ca440586a",
     "crates/osr-core/proto/track_state.proto": "4e9b7c745e5df86e00b0ec7bc088bdb0b7a86364d104aea85b1737f7ea78d7cc",
@@ -109,7 +109,9 @@
     "crates/osr-core/src/lib.rs": "a16bce9940d62030521fc56c5fe6ec0286bb375911e6c55e16603d1bc779f8b7",
     "crates/osr-core/src/resources.rs": "367d201281cde034f9854c0a03ff4a5d371ea92e762588d05532286d1a48f2c1",
     "crates/osr-core/src/topology.rs": "b2a0e6818d76a56e9a87ad1d2c63a34384d0205b3e67b19561772cbce55b92f7",
-    "crates/osr-interlocking/Cargo.toml": "18e6eb9aadf1f05761bd8bd0b0330e600903446cb1de2ed49702c2beb3367ef8",
+    "crates/osr-interlocking/Cargo.toml": "1328cc298083de47d688608d9f635779488d4d05cadf0309d0d9890672763d98",
+    "crates/osr-interlocking/examples/corridor_replay.rs": "51b100473c13af66c276423b42e0bccebd32c6e97f7dc15450383409190eaa7c",
+    "crates/osr-interlocking/examples/station_campaign.rs": "e3bc7e08447bc64b0cbe64dacdf93eee4bab06065b99f23445455739b932d652",
     "crates/osr-interlocking/src/kani_proofs.rs": "27415230e48a0c9cdd3adc955da9cffd4c9b027c5d5152636a41c528292caa5b",
     "crates/osr-interlocking/src/lib.rs": "adee787cc88506b8116d7bc6114aa386ac8d901a42151a10c3dcc8475f9f0c07",
     "crates/osr-interlocking/src/log.rs": "ca541ed09e8a7227e7864a58c98238e54871ed70078e33d78ccead7364247be0",
@@ -128,22 +130,23 @@
     "crates/osr-maglev-control/Cargo.toml": "ee59ea85affddbc8436aa4bca2ebb85ce17575cd1c0e95219695081f83919fad",
     "crates/osr-maglev-control/examples/coupled_bridge.rs": "9441e19e6ca4ba30ba01f5cefd86ea49d116507a1f4ef43bc99c061d2b61c94b",
     "crates/osr-maglev-control/examples/egress_replay.rs": "c50aa62ac0a4cd76fa1d2e0f456337769185a6fb61644cee61bd4dd2dcb34024",
+    "crates/osr-maglev-control/examples/moving_train_bridge.rs": "211fdb2f6b0066b1d97c54162f3dbc8591e8dcdae783f7ec5727ae1f1dd4f882",
     "crates/osr-maglev-control/examples/multimodule_replay.rs": "2573fa39171e1a628429b81585925b26bca23bb43d4f413e16b9648d027edaa2",
     "crates/osr-maglev-control/examples/sbc_replay.rs": "d3c51043b651ed3a9ad9c11d01672ec54c1d346c1d64f56a6d16f3564b6b51de",
-    "crates/osr-maglev-control/examples/station_replay.rs": "9306f69f3717810b2db6c62ad49da54f89c7cf7a38b8f9f5957dea81fcee3bdf",
+    "crates/osr-maglev-control/examples/station_replay.rs": "c04ffcd1b17174bc4e1b69194d15467171171174ce512644b06c86b366045189",
     "crates/osr-maglev-control/examples/support/mod.rs": "5b89fd9714f2638c83ef401979ce189a06874ff468c2d803d8c6d13326006868",
     "crates/osr-maglev-control/src/array.rs": "99a38fca3891c65156b91b84a7acd435e0ddbc988b0176d6cd92bf34a74a3801",
     "crates/osr-maglev-control/src/egress.rs": "26b7412a6da216f5503ef62a6ab09cc2b509b9e927abc55f553bbd58adcdeee9",
     "crates/osr-maglev-control/src/ideal.rs": "9d423fdd6c260f1235e87f85ad26d4aba5b3d52ec3abf2bf6bc8cdc487058663",
     "crates/osr-maglev-control/src/io.rs": "dc30aa01ebb446b9581c1b87333cf640bdb18bc04103e5850685e63727aebec3",
     "crates/osr-maglev-control/src/lib.rs": "bef67784153aab663ed5b91cafc6bafc3509b770ff9223e26687e8678f262e3c",
-    "crates/osr-maglev-control/src/station.rs": "2f5ba55db19683a7737eb6ac97e19c10ccae781e91109d06cb1834f391b07615",
+    "crates/osr-maglev-control/src/station.rs": "8239813691f2765e7085c57bd2c8baae890ec43c2127bdb9b339ad26f35634d9",
     "crates/osr-maglev-control/tests/control.rs": "e40324013b46a60c85536bbb7f417777e46984eb2825e420affb3c6b0eced414",
     "crates/osr-maglev-control/tests/egress.rs": "5a850a6f79d85213ddcc28d458aceba99f7761dcbc225c238010ec1fe1b5f338",
     "crates/osr-maglev-control/tests/multimodule.rs": "b5865cfa9aa67b33560e55fef724bd630d8e5e85e6e60b9597a97e1fe5945754",
-    "crates/osr-maglev-control/tests/station.rs": "e237a9701cf91d461c2a74c2b3b1e5325bc0c654b1a5c9303c8e055ec45f22bb",
+    "crates/osr-maglev-control/tests/station.rs": "65b1c6db8ed1b0a1d7b3f9d364c7e63332b2446ca49821fd512de33aedffaf43",
     "engineering/analysis/tests/test_ferrite_maglev_station_protocol.py": "24b57f417715d8a5fbe22a4b31fe2502bb46dbe2b9447a67a11187c210ef3eec",
-    "engineering/ferrite_maglev/model.py": "7484b3fe5f803e6e87fb1daa3a40d3ae6ae0abd0794b45bab8e718d68889cf5b",
+    "engineering/ferrite_maglev/model.py": "43b908817f757965953fd7e4512b2cb4eeb29a6109d91774f0f47914f5469c21",
     "engineering/ferrite_maglev/station_protocol.py": "829e56030d4b1ff2c4d6818a7096eab302d71d099b06cff4d8e55d9cd0463b42",
     "rust-toolchain.toml": "1d76a06616a42a984bad672eeb24ca39a0496e95a8b624e21df0d420d1557734"
   }

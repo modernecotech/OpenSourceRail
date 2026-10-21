@@ -1,0 +1,50 @@
+schema = "osr-system-campaign-input/1"
+revision = "A-integrated-local-two-leg-study"
+distance_m = 1000.0
+runtime_s = 88.0
+acceleration_m_s2 = 1.0
+scheduled_headway_s = 180.0
+step_s = 0.01
+downstream_overlap_m = 75.0
+
+[motor]
+force_constant_n_a = 50.0
+resistance_ohm = 0.0025
+inductance_h = 0.000025
+maximum_current_a = 4000.0
+maximum_voltage_v = 900.0
+dc_bus_v = 1800.0
+modulation_ceiling_fraction = 0.90
+maximum_copper_loss_w = 120000.0
+position_uncertainty_um = 600
+timestamp_uncertainty_ns = 1000
+observation_age_ns = 50000
+
+[brake]
+speed_kmh = 80.0
+downgrade = 0.05
+net_deceleration_m_s2 = 1.0
+response_s = 1.0
+units_per_car = 2
+per_caliper_clamp_capacity_n = 80000.0
+pad_area_m2 = 0.04
+heat_capacity_j_kg_k = 460.0
+temperature_rise_k = 180.0
+thermal_mass_factor = 1.20
+hardware_allowance_kg_per_car = 60.0
+friction_cases = [0.15, 0.25, 0.35]
+pad_allowable_pressure_pa = 3000000.0
+
+[recovery]
+working_pull_factor = 1.5
+speed_m_s = 0.5
+deployment_s = 600.0
+efficiency = 0.75
+critical_services_kw_per_car = 15.0
+
+[validation]
+physical_output_authorised = false
+brake_friction_and_thermal_validated = false
+guideway_braking_reaction_accepted = false
+winch_access_and_attachment_accepted = false
+motor_map_measured = false

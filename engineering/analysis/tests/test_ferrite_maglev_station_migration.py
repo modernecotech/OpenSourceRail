@@ -12,7 +12,8 @@ def test_new_primary_architecture_has_no_onboard_main_traction():
     assert c['architecture']['route_powered_stator']
     assert c['architecture']['station_zone_powered_stator']
     assert not c['architecture']['onboard_main_traction']
-    assert not c['architecture']['interstation_powered_propulsion']
+    assert c['architecture']['interstation_powered_propulsion']
+    assert not c['architecture']['interstation_continuous_powered_stator']
     assert c['architecture']['onboard_support_guidance_windings']
     for name,value in [('onboard_main_traction',True),('route_powered_stator',False),('onboard_support_guidance_windings',False)]:
         bad=deepcopy(c);bad['architecture'][name]=value
@@ -26,6 +27,21 @@ def test_all_100_document_items_are_controlled_without_claiming_acceptance():
     assert not any(r['accepted'] for r in data['requirements'])
     assert data['implemented_complete_system'] is False
     assert data['source_sha256']
+
+
+def test_later_spacing_and_transfer_instructions_preserve_authored_requirements():
+    data=specification.register();rows={r['number']:r for r in data['requirements']}
+    original=json.loads(specification.INPUT.read_text())
+    original_rows={r['number']:r for r in original['requirements']}
+    for number in (1,4,25,56,57,70):
+        assert rows[number]['source_requirement']==original_rows[number]['requirement']
+        assert rows[number]['requirement']!=rows[number]['source_requirement']
+        assert rows[number]['amendment_configuration']=='ferrite-maglev-study.toml [operating_strategy]'
+        assert rows[number]['accepted'] is False
+    assert '1 km' in rows[4]['source_requirement']
+    assert '4–5 km' in rows[4]['requirement']
+    assert 'passenger transfers' in rows[56]['requirement']
+    assert rows[47]['requirement']==original_rows[47]['requirement']
 
 
 def test_changed_user_document_invalidates_controlled_requirement_input(tmp_path,monkeypatch):
@@ -52,7 +68,10 @@ def test_old_mass_and_traction_evidence_are_only_a_named_comparison():
 
 def test_end_infill_and_itemised_support_targets_reconcile_primary_bill():
     _,c,k=model.load();bill=manufacturing.civil(c,k,walkway_area=0)
-    assert bill['quantities']['concrete_m3_dual_km']==pytest.approx(1137.6)
+    box=c['civil']['narrow_box_screen'];span=c['civil']['reference_span_m']
+    void=(box['outer_width_m']-2*box['web_thickness_m'])*(box['outer_depth_m']-2*box['flange_thickness_m'])
+    area=box['outer_width_m']*box['outer_depth_m']-void
+    assert bill['quantities']['concrete_m3_dual_km']==pytest.approx((area+2*.4*void/span)*2000)
     assert bill['support_total_usd']==sum(r['amount_usd'] for r in bill['support_components_per_unit'])==22000
     assert bill['qualified_foundation_selection'] is None
     assert not bill['costs_are_quotes']

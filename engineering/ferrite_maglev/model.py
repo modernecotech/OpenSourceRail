@@ -35,14 +35,29 @@ def validate(c):
     a = c['architecture']
     if a['primary_study_suspension'] != 'pm-biased-active-attraction-to-wide-horizontal-iron-faces':
         raise ValueError('alternative circuit requires a separately qualified adapter')
-    if any(a.get(k) is not False for k in ('route_permanent_magnets', 'onboard_main_traction', 'interstation_powered_propulsion',
+    if any(a.get(k) is not False for k in ('route_permanent_magnets', 'onboard_main_traction', 'interstation_continuous_powered_stator',
                'ferrite_as_primary_crash_or_tensile_structure', 'unpowered_all_axis_contactless_stability_claimed',
                'shared_magnetic_volume_demonstrated')):
         raise ValueError('unsupported architecture claim')
     if (a.get('route_powered_stator') is not True or a.get('station_zone_powered_stator') is not True
             or a.get('onboard_support_guidance_windings') is not True
-            or a.get('primary_costed_propulsion')!='station-lsm-shared-vehicle-pm'):
-        raise ValueError('station-only traction and independent onboard support architecture required')
+            or a.get('interstation_powered_propulsion') is not True
+            or a.get('located_booster_powered_stator') is not True
+            or a.get('primary_costed_propulsion')!='station-and-located-booster-lsm-shared-vehicle-pm'):
+        raise ValueError('fixed station/located booster traction and independent onboard support architecture required')
+    strategy=c['operating_strategy']
+    for name in ('urban_minimum_stop_spacing_m','urban_target_stop_spacing_m',
+                 'suburban_minimum_stop_spacing_m','suburban_maximum_stop_spacing_m'):
+        positive(strategy[name],name)
+    if not (strategy['urban_minimum_stop_spacing_m'] <= strategy['urban_target_stop_spacing_m']
+            < strategy['suburban_minimum_stop_spacing_m'] <= strategy['suburban_maximum_stop_spacing_m']):
+        raise ValueError('ordered urban/suburban station spacing required')
+    if (strategy.get('longer_leg_boosters_enabled') is not True
+            or strategy.get('junction_operation')!='passenger-transfer-between-fixed-lines'
+            or strategy.get('route_alignment')!='straight-fixed-lines-subject-to-site-feasibility'
+            or strategy.get('short_interchange_spacing_policy')!='retain-and-flag-exception'
+            or strategy.get('legacy_reference_role')!='retained-1000m-component-benchmark'):
+        raise ValueError('explicit fixed-line spacing, transfer and retained benchmark policy required')
     if c['controls']['implementation_language'] != 'Rust' or c['controls']['preferred_host'] != 'off-the-shelf-SBC':
         raise ValueError('primary Rust/SBC architecture required')
     if c['controls']['target_timing_measured'] is not False or c['validation']['citywide_savings_released'] is not False:
@@ -70,8 +85,8 @@ def validate(c):
             else:positive(value,name)
     for group,name in [('vehicle','cars_per_train'),('vehicle','aw2_passengers_per_car'),('vehicle','aw3_passengers_per_car'),('magnets','screening_module_count_per_car')]:
         if type(c[group][name]) is not int or c[group][name] <= 0:raise ValueError('positive integer count required: '+name)
-    for name in ('station_drive_efficiency', 'station_generating_efficiency', 'eol_capacity_fraction'):
-        if not 0 < p[name] <= 1: raise ValueError('efficiency/fraction outside (0,1]')
+    for name in ('station_drive_efficiency', 'station_generating_efficiency', 'station_charger_efficiency_assumption', 'eol_capacity_fraction'):
+        if type(p[name]) not in (int,float) or not math.isfinite(p[name]) or not 0 < p[name] <= 1: raise ValueError('efficiency/fraction outside (0,1]')
     if not 0 <= p['normal_soc_low'] < p['normal_soc_high'] <= 1:
         raise ValueError('bounded ordered SOC window required')
     if p['charger_effective_seconds'] > p['station_dwell_seconds']:
@@ -109,6 +124,13 @@ def load():
             or policy['objectives'].get('linear_electromagnetic_propulsion_required') is not True):
         raise ValueError('fixed-module running gear/linear propulsion policy differs')
     c = validate(tomllib.loads(INPUT.read_text()))
+    if (policy['development'].get('propulsion_architecture')!='fixed-station-and-located-booster-lsm-with-passive-coast-sections'
+            or policy['objectives'].get('onboard_main_traction') is not False
+            or policy['objectives'].get('station_zones_powered') is not True
+            or policy['objectives'].get('interstation_traction_powered') is not True
+            or policy['objectives'].get('interstation_continuous_powered_stator') is not False
+            or policy['objectives'].get('junction_operation')!=c['operating_strategy']['junction_operation']):
+        raise ValueError('primary policy and fixed station/booster/transfer architecture differ')
     if any(policy['objectives'].get(k) is not False for k in ('walkway_removal_approved','concrete_only_magnetic_reaction_claimed')):
         raise ValueError('unqualified beam-only/evacuation claim in primary policy')
     from . import optimisation
@@ -211,7 +233,7 @@ def geometry(c):
                                    c['vehicle']['passenger_mass_screen_kg']*9.81/d) for d in m['aw0_to_aw2_movement_sensitivities_m']])
 
 
-def station_zone_screen(c, trajectory, *, cars=None):
+def station_zone_screen(c, trajectory, *, cars=None,winding_start_m=None,winding_end_m=None):
     """Check fixed-zone force against actual band intersections, without sizing it.
 
     The longitudinal plant scales per-car resistance and mass linearly, so its
@@ -223,7 +245,13 @@ def station_zone_screen(c, trajectory, *, cars=None):
     import numpy as np
     count=c['vehicle']['cars_per_train'] if cars is None else cars
     if type(count) is not int or not 1<=count<=12:raise ValueError('bounded station-duty consist required')
-    a=station.load();v=a['vehicle'];s=a['station'];cfg=configuration.selected(c,city='station-duty',cars=count)
+    a=station.load();v=a['vehicle'];s=a['station']
+    if (winding_start_m is None)!=(winding_end_m is None):raise ValueError('both winding endpoints required')
+    if winding_start_m is not None:
+        if any(type(x) not in (int,float) or not math.isfinite(x) or abs(x)>1000 for x in (winding_start_m,winding_end_m)) or winding_end_m-winding_start_m<10:
+            raise ValueError('finite bounded ordered winding endpoints required')
+        s['winding_start_m']=winding_start_m;s['winding_end_m']=winding_end_m
+    cfg=configuration.selected(c,city='station-duty',cars=count)
     length=cfg.formation.assumed_overall_length_m;body=cfg.formation.body_length_m
     band=v['magnetic_band_m_per_car'];pitch=body+cfg.formation.coupling_gap_assumption_m
     offset=(body-band)/2
@@ -312,14 +340,15 @@ def cycle(c, mass_kg, *, hot=False, speed_kmh=80, regen=True,cars=None):
         station_brake_dc_kwh=t['receiving_brake_dc_kwh'] if passed else None,
         station_traction_peak_kw=t['peak_traction_input_kw'] if passed else None,
         services_battery_moving_kwh=hotel*runtime/3600,
-        battery_replacement_kwh=replacement,balanced_charger_kw=balanced,taper_start_kmh=None,
-        charger_balance_kwh={str(int(kw)):(kw-hotel)*connected/3600-replacement for kw in p['charger_candidates_kw_per_car']},
+        battery_replacement_kwh=replacement,balanced_charger_kw=balanced/p['station_charger_efficiency_assumption'],
+        balanced_dc_interface_kw=balanced,charger_efficiency_assumption=p['station_charger_efficiency_assumption'],taper_start_kmh=None,
+        charger_balance_kwh={str(int(kw)):(kw*p['station_charger_efficiency_assumption']-hotel)*connected/3600-replacement for kw in p['charger_candidates_kw_per_car']},
         pure_trajectory_screen_pass=pure_pass,station_zone_screen_pass=zone['study_pass'],station_zone=zone,
         kinematic_screen_pass=passed,kinematic_hold=None if passed else (zone['reason'] if pure_pass else t.get('reason','station coast infeasible')),
-        runtime_basis='max(reference90s/km, speed-limited1.5x travel time, jerk/acceleration planning floor); infeasible routes remain held',
+        runtime_basis='max(configured reference runtime/km, speed-limited1.5x travel time, jerk/acceleration planning floor); infeasible routes remain held',
         actual_motor_loss_map=None,route_acceptance=False,
         exclusions=['measured force/current/voltage/thermal and six-car phase maps','grade/curves/wind',
-                    'qualified timetable and receiver-fault stopping','charge taper/losses and protected reserve'])
+                    'qualified timetable and receiver-fault stopping','charge taper and protected reserve qualification'])
 
 
 def localisation(rows):
@@ -344,7 +373,7 @@ def requirement_register():
     return deepcopy(records)
 
 
-def sources():
+def sources(*,include_generated=True):
     paths=[ROOT/'OpenSourceRail maglev station concept.png',ROOT/'Vertical spiral escape chute concept.png',POLICY,INPUT,SPEC,manufacturing.INPUT,ROOT/'VERSION',ROOT/'OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx',ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'osr',ROOT/'package.json',ROOT/'package-lock.json',
            ROOT/'tools/automation/ferrite-maglev-study.py',ROOT/'engineering/analysis/tests/test_ferrite_maglev.py']
     paths+=list(Path(__file__).parent.glob('*.py'))
@@ -364,13 +393,42 @@ def sources():
         'docs/workbench/maglev/index.html', 'docs/workbench/maglev/app.js', 'docs/workbench/maglev/app.css')]
     from . import navigation
     paths += navigation.source_paths()
-    return {p.relative_to(ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in sorted(set(paths))}
+    def included(path):
+        name=path.relative_to(ROOT).as_posix()
+        return include_generated or not (
+            name.startswith('docs/design-engine/ferrite-maglev/') or '/engineering/maglev/' in name
+            or name.startswith('engineering/ferrite_maglev/city-index.')
+            or (name.startswith('cities/catalogue/') and name.endswith('/README.md')))
+    return {p.relative_to(ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in sorted(set(paths)) if included(p)}
+
+
+def retained_system_details():
+    """Small verified packet interfaces; full traces stay in bounded archives."""
+    import gzip,json
+    from . import moving_train,system_campaign,closure
+    moving=moving_train.read_selected()
+    with gzip.open(moving_train.OUTPUT/'result.json.gz','rb') as stream:run=json.load(stream)
+    moving.update(packet_path=moving_train.OUTPUT.relative_to(ROOT).as_posix(),
+        manifest_sha256=sha256((moving_train.OUTPUT/'manifest.json').read_bytes()).hexdigest(),
+        numerical_controls=run['numerical_controls'],completed_moving_steps=run['moving_run']['completed_moving_steps'],
+        planned_moving_steps=run['moving_run']['planned_moving_steps'])
+    closure.verify()
+    with gzip.open(closure.OUTPUT/'dossier.json.gz','rb') as stream:dossier=json.load(stream)
+    details=dict(packet_path=closure.OUTPUT.relative_to(ROOT).as_posix(),manifest_sha256=sha256((closure.OUTPUT/'manifest.json').read_bytes()).hexdigest(),
+        requirement_count=dossier['closure']['requirement_count'],system_count=dossier['closure']['system_count'],
+        detail_part_count=len(closure.definition()['parts']),accepted_requirements=0,
+        primary_frame_families=dossier['primary_frame_families'],body_interfaces=dossier['body_interfaces'],
+        civil_stages=dossier['civil_stages'],foundation_cost_delta=dossier['foundation_cost_delta'],
+        emergency_and_curve_load_path=dossier['emergency_and_curve_load_path'],complete_manufactured_system=False,**FLAGS)
+    return moving,system_campaign.read_summary(),details
 
 
 def build():
     from . import transition,coupled,optimisation,evacuation,system_development,requirements,configuration
+    from . import corridor,booster_kit,booster_native
     from . import geometry as native_geometry
     policy,c,costs=load();cost_cases=[];energies=[];masses=[]
+    moving_summary,campaign_summary,manufactured_summary=retained_system_details()
     for ferrite,battery in itertools.product((c['mass']['ferrite_base'],c['mass']['ferrite_sensitivity']),
                   (c['power']['services_battery_kwh_per_car'],c['power']['services_battery_low_case_kwh_per_car'])):
         m=mass(c,ferrite,battery);masses.append(dict(ferrite_kg_car=ferrite,battery_kwh_car=battery,**m))
@@ -382,8 +440,19 @@ def build():
     adverse=[cycle(c,heaviest,hot=True,speed_kmh=speed,regen=regen) for speed,regen in ((80,False),(90,True),(90,False))]
     from . import station,station_structure,specification
     station_study=station.evaluate(c)
+    station_study['evidence_role']='retained-1000m-component-benchmark; not verification of longer operational corridors'
+    moving_summary['evidence_role']='retained-1000m-moving-benchmark; longer profiles have separate confirmation'
+    campaign_summary['evidence_role']='retained-1000m-station-protection-benchmark; longer profiles have separate replay'
+    corridor_summary=corridor.read_summary()
+    booster_receipt=booster_kit.verify();booster_native_receipt=booster_native.verify()
+    booster_summary=dict(packet_path=booster_kit.OUTPUT.relative_to(ROOT).as_posix(),
+        manifest_sha256=sha256((booster_kit.OUTPUT/'manifest.json').read_bytes()).hexdigest(),
+        native_packet_path=booster_native.OUTPUT.relative_to(ROOT).as_posix(),
+        native_manifest_sha256=sha256((booster_native.OUTPUT/'manifest.json').read_bytes()).hexdigest(),
+        native_part_count=booster_native_receipt['part_count'],
+        source_current=bool(booster_receipt),passenger_station=False,physical_rescue_accepted=False,**FLAGS)
     grade_speed=None
-    boxes=[civil_case(c,w,d,l) for w,d,l in itertools.product((.8,1.,1.2),(1.4,1.6,1.8),c['civil']['span_sensitivity_m'])]
+    boxes=[civil_case(c,w,d,l) for w,d,l in itertools.product((.8,1.,1.2),optimisation.load()['civil']['depths_m'],c['civil']['span_sensitivity_m'])]
     gates=[dict(id='G'+str(i),name=name,state='open',accepted=False) for i,name in enumerate(c['validation']['gate_order'])]
     manufacturing=[dict(id=k,local_operation_candidate=True,cost_usd=None,imported_input_usd=None,
                         exact_material=None,routing_qualified=False) for k in c['industrialisation']['make_local_candidates']]
@@ -405,10 +474,10 @@ def build():
     capability_states={'magnetic-cad':'dimensioned-native-study',
         'magnetic-force-loss':'2D-numerical-hypothesis; 3D/material/loss validation open',
         'vehicle-mass':'partial-interface-material-ledger; whole-vehicle closure open',
-        'civil-kit':'dimensioned-bay study; reinforcement/ground/connections open',
+        'civil-kit':'native detail, staged gross stress, prestress and conditional foundation proposals; physical ground/connection qualification open',
         'rust-support-control':'24-station five-mode study; actual actuation open',
-        'coupled-dynamics':'two-way rigid-car/vertical-beam numerical study; full dynamics open',
-        'switch-free-city':'all-catalogue provisional compiler and charging replay',
+        'coupled-dynamics':'moving six-car two-way beam/control numerical study with coupler indexing and adverse-stiffness/sensor confirmations; mapped magnetic/soil/flexible-body qualification open',
+        'switch-free-city':'located operating stops, protected headways, curved terminal proposals and repeated loss-inclusive charging replay; site/guidance acceptance open',
         'local-mbom-cost':'quantity/process planning; supplier-validated production MBOM open'}
     catalogue_path=Path(__file__).parent/'city-index.json'
     import json
@@ -417,13 +486,14 @@ def build():
                 architecture=policy['development']['primary_family'],configuration_revision=configuration.selected().revision,
                 publication_role='primary-provisional-design',city='Baghdad six-car reference',
                 formation=dict(baghdad_cars=6,nominal_body_length_m=102.),
-                financial_scope='Partial maglev repeat fleet and ordinary civil planning allowances; total installed programme and localisation unknown',
+                financial_scope='Partial fleet, ordinary/terminal civil, station/booster electrical and conditional foundation/recovery quantities; total installed programme and localisation unknown',
                 selected_configuration=configuration.selected().record(),applicable_requirements=requirements.register(),
                 primary_development=True,controller_state='migration and numerical studies implemented; physical design/acceptance closure remains open',
                 policy=policy,inputs=c,process_cost_inputs=costs,mass_variants=masses,cost_cases=cost_cases,
                 local_manufacture_cost_targets=targets,energy_cases=energies,adverse_energy_cases=adverse,
                 station_powered=station_study,station_structure=station_structure.study(),
-                source_specification=specification.register(),
+                operating_strategy=deepcopy(c['operating_strategy']),corridor_powered=corridor_summary,booster_recovery_kit=booster_summary,
+                source_specification=specification.register(),moving_six_car=moving_summary,integrated_system=campaign_summary,manufactured_design=manufactured_summary,
                 hot_5percent_grade_steady_speed_kmh=grade_speed,geometry=geometry(c),civil_section_candidates=boxes,
                 localisation=dict(local_fraction=None,method='(finished value - imported inputs) / finished value; origin/cost evidence required',
                                   operations=manufacturing,bought_inputs=c['industrialisation']['bought_input_categories']),

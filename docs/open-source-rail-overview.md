@@ -1,4 +1,4 @@
-# OpenSourceRail v0.5.2 development — station-powered ferrite maglev
+# OpenSourceRail v0.5.2 development — fixed-zone ferrite maglev
 
 **Fewer moving parts, local manufacture and compact elevated urban routes.**
 
@@ -6,8 +6,8 @@
 
 *Illustrative development concept, without physical or manufacturing acceptance.*
 
-Station-mounted linear synchronous motors launch and receive the train.
-Interstation propulsion is unpowered; onboard ferrite PM-biased active support,
+Fixed linear synchronous motors launch and receive the train at stations.
+Selected longer legs add located midway acceleration; remaining guideway is unpowered; onboard ferrite PM-biased active support,
 guidance and passenger services remain independently powered. Removing main
 traction equipment from the train shifts electrical plant to stations. Support
 coils/drives, cooling, sensing, protection, doors, HVAC and emergency equipment
@@ -18,15 +18,22 @@ actual losses, acoustic performance and maintenance require measurement.
 
 Baghdad uses six 17 m bodies. The central tare target is 14.2 t/car,
 including a 5.2 t equipped structural GFRP body, 3 t ferrite, 30 kWh services
-storage and the full 1.8 t growth reserve. Four passenger doors per car are the
-body takeoff. Calculated panel stock is distinct from sized members, joints,
-complete equipment mass and structural qualification.
+storage and an existing 1.8 t growth reserve. Four passenger doors per car are the
+body takeoff. Counted frame families, supported panels, couplers and hardpoint
+candidates now have calculated dimensions and margins; frame/emergency-brake
+growth consumes this reserve. Joined-body strength, complete equipment, fatigue,
+CG and inertia remain unqualified.
+The50kWh wider-corridor reference is 14.4t tare/
+26.4t AW3 per car. Its pack increase is included once;
+the primary detail/emergency screens use that heavier mass alongside the retained30kWh case.
 
-The ordinary civil candidate is a 25 m, 0.80 × 1.80 m closed concrete box with
-100 mm webs, 150 mm flanges and end infills. Hollow columns/caps and alternative
+The current ordinary civil candidate is a 25 m, 0.80 × 2.50 m closed concrete box with
+100 mm webs, 150 mm flanges and end infills. The supplied
+1.80 m-depth case remains a separate comparison. Hollow columns/caps and alternative
 foundation families are compared by quantity. Necessary passive iron, anchors,
 bearings, connections and final survey remain in scope. Ground-specific selection,
-prestress/rebar detailing, loads and construction stages remain unqualified.
+prestress/handling details, fixed/guided bearings and emergency load paths have
+numerical screens; physical structural and construction acceptance remain open.
 
 The research target omits a continuous external walkway. Vertical spiral chutes
 are the preferred alternative under investigation, without walkway-removal
@@ -41,7 +48,7 @@ The 99% elevated-mainline objective and straight tangents aim to reach constrain
 corridors with less surface occupation. Rights, buildings, utilities, access,
 wildlife, water, curvature and foundation feasibility govern each route.
 
-Local precast/GFRP production, steel fabrication, cartridge assembly, station
+Local precast/GFRP production, steel fabrication, cartridge assembly, station/booster
 winding cassettes, interiors, wiring, Rust software and integration can build
 domestic capability. Prioritise verified British manufacture when selecting UK
 machinery. A UK distributor or integrator does not establish manufacturing origin.
@@ -49,35 +56,72 @@ Complete local content remains unknown until the bill and input origins exist.
 
 ## Operating and cost boundaries
 
-The station operating reference is a jerk-limited 90 s flat 1 km run with
-190 s headway. Grade, wind, drag, arrival speed and receiving-brake readiness
-remain explicit route gates. A committed coasting train keeps its corridor and
-receiving berth reserved until proved full-consist clearance. Receiver failure,
-independent stopping/holding and stationary recovery remain design obligations;
-a distant station motor cannot restart a train in an unpowered span.
+Urban passenger stops target at least 1.5 km spacing and about
+2 km on average. Suburban stops target
+4–5 km with fixed midway acceleration where required.
+Junctions transfer passengers between independent fixed lines, without train-routing
+switches. Retained close junctions remain spacing/access exceptions requiring a
+solution. Straight alignments are planning candidates subject to land, buildings,
+utilities, grades, access and evacuation.
 
-A 45 s charge within a 60 s dwell needs 1.20 MW/train before charger losses under
-the hot-services assumption, including the battery energy used during the
-remaining dwell. Station electrical cost targets are additional to the incomplete
-ordinary civil subtotal. Stations, external grid work, complete evacuation,
-recovery, land, qualification, factory capital and financing need their own scope.
-No quoted complete railway price or accepted production rate is established.
+The 1 km/88 s/180 s station and moving packets remain component
+benchmarks. The supplied 90 s/190 s case is a separate authored comparison.
+Longer urban/suburban profiles have their own finite-zone, power, services,
+clearance and actual Rust fault tests. Capacity shortfalls and unimplemented
+sectioned protection stay visible; a timer does not prove a clear railway.
+
+The retained benchmark uses 240 kW/car charger input at
+90% assumed conversion efficiency. Longer cases compare their own pack,
+charger and dwell choices. Independently equipped rescue nodes, faster winches
+and 30/50/60 kWh packs have explicit rope/drum/portal/foundation, drive/power,
+mass and cost comparisons. A midpoint accelerator is not automatically a refuge,
+charging station or rescue site. Rope/termination, access, essential loads,
+physical hardware and real ground remain unqualified.
+
+City subtotals separately count eight scopes: fleet, ordinary and terminal civil
+work, station electrical targets, a conditional footing increment, booster
+electrical plant, booster mount stock and independent rescue kits. Complete
+station/transfer hubs, grid reinforcement, land, factory capital, evacuation,
+qualification, finance and other unpriced work remain additional. Fewer passenger
+platforms do not by themselves establish a total saving.
+
+## Baghdad interchange investigation
+
+The default Baghdad plan remains 273 proposed stops with 10 transfer-spacing
+conflicts. A separate [interchange investigation](design-engine/ferrite-maglev/interchange-hubs/README.md)
+compares extended walking links on unchanged guideways with coordinated
+shared-site hub concepts that change guideway geometry. No alternative is selected.
+
+![Retained Baghdad corridors, extended transfer links and unselected shared-site concept](design-engine/ferrite-maglev/interchange-hubs/overview.svg)
+
+Original boarding/access records remain traceable. The extended links retain
+reference walks and partial electrical target credits, without complete connector
+costs or ridership-weighted benefits. Shared-site concepts draw involved fixed
+lines through one location, but station tangents, curves, levels, platforms and
+actual internal walks remain undesigned;100m is only a compact-walk sensitivity.
+Lift resilience, peak transfer pulses, shade, resting places, evacuation, land
+and complete construction/maintenance costs must enter selection. Trains never
+switch between lines in these passenger-transfer proposals.
 
 ## Inspect and reproduce the current work
 
 | Current digital capability | Scope |
 |---|---|
-| City planning | 266 primary packages using explicit geography/demand and recalculated formation, duty, fleet and costs |
-| Operating study | Jerk-limited launch/coast/receive, assumed magnetic-band overlap, power, receiving heat and charging |
-| Mechanical/civil quantities | Three GFRP cases, magnet-orientation inventories, five beam families, ground sensitivities and a conditional production bottleneck |
-| Controls | Independent Rust support and station demand studies, persistent launch reservations and offline negative controls |
-| Simulation and media | Partial native CAD/images, assembly visibility videos and source receipts; coupled replay remains a stationary single car with a vertical beam |
+| City planning | 266 primary packages; located operating stops, access assignments, passenger-transfer spacing conflicts, boosters, rescue nodes, motion/headway/capacity screens and eight-part cost subtotals |
+| Operating study | Separate urban/suburban profiles with finite station/booster zones, services/charging and electrical/protection fault cases |
+| Interchange investigation | Unselected Baghdad extended-access variants and shared-site guideway concepts; default plan and open acceptance preserved |
+| Manufactured details | Counted frame/panel/hardpoint/coupler/stator interfaces, prestress/handling and emergency load-path screens, foundation cost deltas and open qualification |
+| Controls | Actual Rust support replay and integrated station/resource campaign with full-tail clearance and fault cases; one local controller and virtual detectors |
+| Simulation and media | Retained 1 km six-car moving numerical run with repeated flexible spans and couplers, calculated-motion video, partial native detail CAD/images and visibility videos |
 | Engineering acceptance | **0 accepted physical releases; design, manufacture and operational gates remain open** |
 
 Ring benchmarks and block-orientation seeds receive no railway lift or mass-saving
-credit. Moving six-car magnetic/structural dynamics, hardware timing, complete
-manufacturing geometry and physical acceptance remain open. Visibility videos show
-final-position parts, without motion, collision or erection-strength simulation.
+credit. The moving run uses ideal independently allocated magnetic forces, rigid
+cars, linear beams and virtual sensing. Real force maps, shared-field phase,
+flexible bodies, lateral/soil/contact response, hardware timing and distributed
+controller handover remain open. The moving video uses calculated positions with
+declared amplification; other videos show final-position stock visibility,
+without collision or erection-strength acceptance.
 
 Use `./osr build` to verify dependencies and rebuild stale implemented studies.
 `./osr design station`, `./osr design structure` and `./osr design protocol`
@@ -88,6 +132,11 @@ implemented evaluators after source changes; it does not invent physical evidenc
 [Open the Workbench](workbench/maglev/index.html),
 [review calculations, CAD and videos](design-engine/ferrite-maglev/reference/index.html),
 [read implementation and open work](../engineering/ferrite_maglev/README.md),
+[inspect moving six-car evidence](design-engine/ferrite-maglev/moving-train/README.md),
+[inspect the manufactured dossier](design-engine/ferrite-maglev/manufactured-dossier/README.md),
+[inspect wider-stop corridor evidence](design-engine/ferrite-maglev/corridor/README.md),
+[inspect booster and rescue quantities](design-engine/ferrite-maglev/booster-kit/README.md),
+[compare Baghdad interchange alternatives](design-engine/ferrite-maglev/interchange-hubs/README.md),
 [review v0.5.2 development notes](releases/v0.5.2.md),
 or [download the reader book](../OpenSourceRail-Book.pdf).
 

@@ -32,7 +32,7 @@ def main():
                   'engineering/ferrite_maglev/README.md','engineering/ferrite_maglev/city-index.md',
                   'tools/automation/package-maglev-release.py'))
     paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/'LICENSES').rglob('*') if p.is_file())
-    for folder in ('reference','native','beam-only','system-development','baghdad-reference','coupled','iterative','station-powered','station-structure','station-protocol','station-native'):
+    for folder in ('reference','native','beam-only','system-development','baghdad-reference','coupled','iterative','station-powered','station-structure','station-protocol','station-native','moving-train','system-campaign','manufactured-dossier','manufactured-native','corridor','booster-kit','booster-native','interchange-hubs'):
         packet=ROOT/'docs/design-engine/ferrite-maglev'/folder
         paths.update(p.relative_to(ROOT).as_posix() for p in packet.rglob('*') if p.is_file())
         for receipt in [*packet.rglob('manifest.json'),*packet.rglob('receipt.json')]:

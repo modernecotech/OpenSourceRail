@@ -12,13 +12,13 @@ fn params() -> StationParams {
         maximum_tick_ns: 2000000,
         maximum_phase_uncertainty_mdeg: 5000,
         force_density_n_per_envelope_m: 4000.,
-        force_constant_n_per_a: 200.,
-        resistance_ohm: 0.01,
-        inductance_h: 0.0001,
-        flux_linkage_wb: 0.2,
-        maximum_current_a: 1000.,
-        maximum_phase_voltage_v: 800.,
-        maximum_copper_loss_w: 20000.,
+        force_constant_n_per_a: 50.,
+        resistance_ohm: 0.0025,
+        inductance_h: 0.000025,
+        flux_linkage_wb: 50. * 0.5 / core::f64::consts::TAU,
+        maximum_current_a: 4000.,
+        maximum_phase_voltage_v: 900.,
+        maximum_copper_loss_w: 120000.,
     }
 }
 fn frame() -> StationFrame {
@@ -168,4 +168,41 @@ fn nonfinite_and_extreme_inputs_remain_bounded_without_a_physical_enable() {
     assert_eq!(out.state.latched_fault, Some(StationFault::Parameters));
     assert!(!out.physical_output_authorised);
     assert!(out.study_voltage_bound_v.is_finite());
+}
+
+#[test]
+fn equivalent_motor_constants_preserve_air_gap_power_and_reject_free_energy() {
+    let p = params();
+    let f = frame();
+    let output = tick(f);
+    let velocity = f64::from(f.velocity_mmps) / 1000.;
+    let emf = p.flux_linkage_wb * core::f64::consts::TAU * velocity
+        / (2. * f64::from(p.pole_pitch_um) * 1e-6);
+    assert!((emf * output.study_current_a - output.study_force_n * velocity).abs() < 1e-6);
+    let mut impossible = p;
+    impossible.flux_linkage_wb *= 0.01;
+    let rejected = evaluate_station(StationState::default(), f, 1000000, impossible);
+    assert_eq!(rejected.state.latched_fault, Some(StationFault::Parameters));
+    assert!(!rejected.study_command_feasible && !rejected.physical_output_authorised);
+}
+
+#[test]
+fn positioning_is_bounded_separately_from_receiving_braking() {
+    let mut f = frame();
+    f.mode = StationMode::Berth;
+    f.position_mm = -100;
+    f.velocity_mmps = 100;
+    f.force_demand_n = 5000.;
+    assert!(tick(f).study_command_feasible);
+    for case in 0..3 {
+        let mut bad = f;
+        match case {
+            0 => bad.velocity_mmps = 501,
+            1 => bad.position_mm = 2001,
+            _ => bad.force_demand_n = 20001.,
+        }
+        assert_eq!(tick(bad).state.latched_fault, Some(StationFault::Direction));
+    }
+    f.mode = StationMode::Receive;
+    assert_eq!(tick(f).state.latched_fault, Some(StationFault::Direction));
 }

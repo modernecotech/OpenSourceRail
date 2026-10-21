@@ -6,16 +6,19 @@ screen cannot qualify a route, terminal loop, supplier price or operating fleet.
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import FIRST_COMPLETED,ProcessPoolExecutor,wait
 from copy import deepcopy
 from functools import lru_cache
 from hashlib import sha256
 import json
 import math
+import multiprocessing
 import os
 from pathlib import Path
+import tempfile
 import tomllib
 
-from . import model,optimisation,evacuation,manufacturing,cartography,configuration
+from . import model,optimisation,evacuation,manufacturing,cartography,configuration,operating_plan
 
 ROOT = model.ROOT
 ASSUMPTIONS = Path(__file__).with_name('city-planning.toml')
@@ -138,7 +141,8 @@ def duty_evaluator(c):
     return evaluate
 
 
-def line_plan(c, a, f, line, stations, source_fleet, evaluate):
+def line_plan(c, a, f, line, stations, source_fleet, evaluate,*,operating=None):
+    if operating is not None:return operating_line_plan(c,a,f,line,source_fleet,operating)
     if hasattr(evaluate,'for_formation'):evaluate=evaluate.for_formation(f['cars'])
     ordered, distances, closure = station_legs(line, stations)
     schedule = source_fleet.get('schedule', [])
@@ -282,6 +286,131 @@ def line_plan(c, a, f, line, stations, source_fleet, evaluate):
                 charging=charging, depot=depot)
 
 
+def operating_line_plan(c,a,f,line,source_fleet,operating):
+    """Compile located operating stops, real loop arcs and individually charged legs."""
+    ordered=operating['stations'];trips=operating['trips'];loops=operating['terminal_loops']
+    ring=line['shape']=='ring';policy=operating['policy'];schedule=source_fleet['schedule']
+    source_headway=min(model.positive(row['headway_min'],'headway') for row in schedule)*60
+    all_trips=[*trips,*[loop['motion'] for loop in loops]]
+    dwell=max(a['charging']['minimum_dwell_seconds'],*[row.get('dwell_s',a['charging']['maximum_dwell_screen_seconds']) for row in all_trips])
+    charger=max(row.get('charger_input_kw_per_car',a['charging']['candidate_kw_per_car']) for row in all_trips)
+    fraction=min((row.get('connected_fraction',.75) for row in all_trips),default=.75)
+    bound=max(row.get('runtime_s',100.)+dwell+(row.get('tail_clearance_s') or 100.)+policy['release_allowance_s'] for row in all_trips)
+    headway=max(source_headway,policy['minimum_headway_s'],math.ceil(bound/policy['headway_quantum_s'])*policy['headway_quantum_s'])
+    arrivals=[]
+    edges=[(i,i+1,i) for i in range(len(ordered)-1)]
+    if ring:edges.append((len(ordered)-1,0,len(trips)-1))
+    else:edges += [(i,i-1,i-1) for i in range(len(ordered)-1,0,-1)]
+    def event(origin,destination,motion,*,loop=False):
+        hot=operating_plan.duty(c,motion,hot=True)
+        normal=operating_plan.duty(c,motion,hot=False)
+        arrivals.append(dict(origin_station=origin,destination_station=destination,
+            distance_m=motion['distance_m'],moving_seconds=hot['moving_seconds'],
+            hot_no_regen_motion_kwh=hot['moving_energy_kwh']*f['cars'],
+            hot_regen_motion_kwh=hot['moving_energy_kwh']*f['cars'],
+            normal_services_motion_kwh=normal['moving_energy_kwh']*f['cars'],
+            station_traction_input_kwh=None if hot['station_traction_input_kwh'] is None else hot['station_traction_input_kwh']*f['cars'],
+            terminal_loop_allowance=loop,numerical_motion_pass=motion.get('kinematic_screen_pass',motion['study_pass'])))
+    for origin,destination,index in edges:
+        event(ordered[origin]['id'],ordered[destination]['id'],trips[index])
+        if not ring and destination in (0,len(ordered)-1):
+            loop=loops[0 if destination==0 else 1];previous=ordered[destination]['id']
+            for i in range(loop['sections']):
+                target=loop['service_zones'][i]['id'] if i<len(loop['service_zones']) else ordered[destination]['id']+'-outgoing'
+                event(previous,target,loop['motion'],loop=True);previous=target
+    moving=sum(row['moving_seconds'] for row in arrivals);cycle=moving+len(arrivals)*dwell
+    per_direction=math.ceil(cycle/headway);peak=2*per_direction if ring else per_direction
+    spare=math.ceil(peak*a['formation']['spare_fraction']);total=peak+spare+a['formation']['cold_reserve_per_line']
+    slot=f['overall_length_assumption_m']+a['formation']['platform_end_allowance_m']
+    hotel=c['power']['hot_hotel_kw_per_car']*f['cars'];normal_hotel=c['power']['normal_hotel_kw_per_car']*f['cars']
+    hot_cycle=sum(row['hot_no_regen_motion_kwh'] for row in arrivals)+hotel*len(arrivals)*dwell/3600
+    normal_cycle=sum(row['normal_services_motion_kwh'] for row in arrivals)+normal_hotel*len(arrivals)*dwell/3600
+    holds=[dict(leg=i+1,distance_m=row['distance_m'],stage='located-operating-trajectory-and-winding',reason=row.get('reason','; '.join(row.get('holds',[]))))
+           for i,row in enumerate(trips) if not row.get('kinematic_screen_pass',row['study_pass'])]
+    design_holds=[dict(leg=i+1,stage='wider-corridor-system',reason=reason) for i,row in enumerate(trips) for reason in row.get('holds',[])]
+    design_holds.extend(dict(stage='passenger-transfer-spacing',reason='Mandatory transfer/terminal nodes conflict with declared minimum spacing',details=conflict) for conflict in operating['spacing_conflicts'])
+    design_holds.extend(dict(stage='terminal-passenger-transfer-access',reason='Compact terminal transfer connector needs accessible geometry, land, structural design and cost evidence',details=connector)
+        for connector in operating.get('terminal_transfer_access_proposals',[]))
+    for loop in loops:
+        if not loop['motion']['study_pass'] or not loop['geometry']['lateral_screen_pass']:
+            holds.append(dict(leg=loop['id'],distance_m=loop['geometry']['length_m'],stage='terminal-curve-motion',
+                reason=loop['motion'].get('reason','terminal lateral acceleration screen failed')))
+    service_zones=[zone for loop in loops for zone in loop['service_zones']]
+    capacity=f['aw2_passengers']*3600/headway;target=f['retained_aw2_required']*3600/source_headway
+    charging=dict(candidate_kw_per_car=charger,
+        source_input_kw_per_car=charger,
+        converted_output_kw_per_car=charger*a['charging']['conversion_efficiency_study'],
+        conversion_efficiency_study=a['charging']['conversion_efficiency_study'],
+        candidate_kw_per_train=charger*f['cars'],dwell_seconds=dwell,
+        effective_charge_seconds=dwell*fraction,connected_fraction=fraction,
+        minimum_screen_passed=dwell<=a['charging']['maximum_dwell_screen_seconds'],
+        dwell_exceeds_peak_headway=dwell>headway,minimum_parallel_platform_berths_per_direction=math.ceil(dwell/headway),
+        station_count=len(ordered),terminal_service_zone_count=len(service_zones),
+        all_sites_simultaneous_dc_upper_bound_kw=(len(ordered)*2+len(service_zones))*charger*f['cars'],
+        simultaneous_power_scope='Services chargers only; fixed station/booster traction, independent rescue, buildings and external grid losses are additional',
+        fixed_zone_traction_peak_grid_input_kw=None,complete_network_grid_rating_kw=None,
+        diversity_applied=False,grid_pv_storage_sizing_accepted=False,conversion_loss_allowance_included=True,
+        charge_taper_included=False,conversion_losses_and_taper_included=False,rating_selected=False)
+    topology=dict(selected='two-independent-directed-circuits' if ring else 'located-tangent-terminal-loops-with-station-powered-blocks',
+        mainline_switches=0,terminal_loop_count=len(loops),
+        added_single_direction_loop_beam_m=sum(loop['geometry']['length_m'] for loop in loops),
+        loop_radius_screen_m=None if ring else policy['terminal_radius_m'],loop_speed_screen_kmh=None if ring else policy['terminal_speed_limit_kmh'],
+        loop_lateral_acceleration_screen_m_s2=None if ring else (policy['terminal_speed_limit_kmh']/3.6)**2/policy['terminal_radius_m'],
+        loop_lateral_acceleration_limit_screen_m_s2=policy['terminal_lateral_acceleration_screen_m_s2'],
+        loop_land_and_swept_envelope_accepted=False,depot_access_accepted=False,
+        source_ring_wrap_m=line.get('ring_wrap_length_m'),
+        complete_ring_closure_m=trips[-1]['distance_m'] if ring else None,
+        ring_wrap_discrepancy_m=None,exclusive_shuttle_alternative=None,
+        terminal_service_zone_count=len(service_zones),terminal_service_zones=service_zones,
+        terminal_winding_start_m=policy['terminal_winding_start_m'],terminal_winding_end_m=policy['terminal_winding_end_m'],
+        terminal_sections_per_loop=policy['terminal_sections'],
+        loop_length_basis='Exact tangent-connected R-L-R circular arcs, separate station-only stop-to-stop sections; curve-phase,guidance,land and clearance unqualified.')
+    depot=dict(storage_slots=total,minimum_total_storage_track_m=total*slot,
+        storage_lanes_screen=math.ceil(total/a['depot']['trains_per_storage_lane_screen']),
+        inspection_bays_screen=math.ceil(total*a['depot']['inspection_bay_fraction_screen']),
+        simultaneous_depot_charge_kw_upper_bound=total*charging['candidate_kw_per_train'],
+        switch_policy=a['depot']['switches'],placement_accepted=False,entry_exit_without_mainline_points_qualified=False,depot_cost_usd=None,
+        access='Depot connection/transfer and rescue hardware remain independently unqualified')
+    return dict(line=line['name'],retained_shape=line['shape'],retained_length_m=line['length_m'],
+        operational_route_length_m=operating['measured_polyline_length_m'],retained_schedule=schedule,
+        retained_peak_headway_seconds=source_headway,selected_peak_headway_seconds=headway,
+        planning_minimum_headway_seconds=bound,source_aw2_capacity_per_direction_hour=target,
+        aw2_capacity_per_direction_hour=capacity,retained_capacity_target_met=capacity>=target,
+        capacity_shortfall_passengers_per_direction_hour=max(0.,target-capacity),
+        capacity_resolution='Retained demand target is preserved; any shortfall requires a separately qualified capacity/service development, not silent acceptance',
+        pure_trajectory_screen_pass=operating['flat_mainline_screen_pass'],fixed_station_zone_screen_pass=operating['flat_mainline_screen_pass'],
+        station_powered_kinematic_screen_pass=operating['flat_mainline_screen_pass'],kinematic_holds=holds,
+        system_design_holds=design_holds,passenger_spacing_screen_pass=operating['passenger_spacing_screen_pass'],
+        service_class=operating['service_class'],selected_eligible_operating_design=None,
+        protection_options=[dict(kind='existing-exclusive-whole-leg',minimum_headway_s=bound,capacity_per_direction_hour=capacity,
+                retained_target_met=capacity>=target,route_specific_traffic_accepted=False),
+            dict(kind='sectioned-multitrain-fixed-line',target_headway_s=source_headway,implemented_and_proved=False,capacity_per_direction_hour=None,additional_cost_usd=None),
+            dict(kind='multiple-berths-on-independent-fixed-guideways',implemented_and_proved=False,capacity_per_direction_hour=None,additional_cost_usd=None)],
+        intermediate_station_zone_options=[],terminal_loop_propulsion_qualified=False if loops else None,
+        terminal_numerical_motion_screen_pass=operating['terminal_longitudinal_screen_pass'],
+        formation=f,topology=topology,operating_plan=operating,
+        stations=[dict(id=s['id'],lat=s['lat'],lon=s['lon'],s_m=s['s_m'],retained_platform_length_m=None,
+            provisional_platform_body_plus_allowance_m=slot,length_shortfall_screen_m=None,
+            retained_access_station_ids=s['retained_access_station_ids'],mandatory_junction_ids=s['mandatory_junction_ids'],
+            power_winding_length_m=s['power_winding_length_m'],power_winding_start_m=s['power_winding_start_m'],power_winding_end_m=s['power_winding_end_m'],
+            site_approved=False) for s in ordered],
+        duty=dict(cycle_distance_m=sum(row['distance_m'] for row in arrivals),conservative_cycle_seconds=cycle,moving_seconds=moving,
+            normal_aw2_regen_cycle_kwh=normal_cycle,hot_aw3_no_regen_cycle_kwh=hot_cycle,
+            largest_leg_m=max(row['distance_m'] for row in trips),minimum_leg_m=min(row['distance_m'] for row in trips),
+            worst_incoming_leg_hot_no_regen_kwh=max(row['hot_no_regen_motion_kwh'] for row in arrivals),
+            hot_hotel_kw=hotel,arrival_events_per_circuit=arrivals,
+            station_main_traction_input_kwh_per_train_circuit=sum(row['station_traction_input_kwh'] or 0. for row in arrivals),
+            fixed_station_and_booster_traction_input_kwh_per_train_circuit=sum(row['station_traction_input_kwh'] or 0. for row in arrivals),
+            traction_energy_scope='Fixed-zone longitudinal study energy; services battery ledger contains hotel/support services only',
+            eol_window_divided_by_cycle_energy=f['eol_normal_window_kwh']/hot_cycle,route_acceptance=False,
+            exclusions=['grade,wind,curved six-car guidance/phase/dynamics','land,utilities,foundations and station-site approvals',
+                'measured force/current/voltage/thermal hardware','authenticated occupancy and disturbed-network traffic','protected emergency reserve']),
+        fleet=dict(peak=peak,spare=spare,cold_reserve=a['formation']['cold_reserve_per_line'],total=total,
+            source_fleet_inherited=False,conflict_and_recovery_validated=False,kinematic_profile_closed=not holds,
+            timetable_qualified=False,rule='Actual proposed operating-stop and loop-service event circuit / selected protected-resource headway; capacity shortfall remains visible'),
+        charging=charging,depot=depot)
+
+
 GATES = [
     ('retained-geography', 'Survey, utilities, land, water crossings, terrain, ground investigation and alignment reconciliation; retained mapping is geographic evidence only.'),
     ('formation-platform', 'Close coupling pitch, full magnetic lifting-face/guidance-arm/below-floor swept envelope, door/egress layouts, actual mass and equal AW2/AW3 qualification. The 2.65 m cabin width does not bound running gear or platform clearance.'),
@@ -316,12 +445,16 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
     design = json.loads(design_path.read_text())
     if design.get('schema')!='osr-maglev-city-input/1':raise ValueError('current city input schema required')
     slug = design['city']['slug']
+    use_operating=a.get('operating_plan',{}).get('enabled',False) and (evaluate is None or hasattr(evaluate,'for_formation'))
+    if use_operating:
+        geographic=json.loads((city_dir/(slug+'.corridor.geojson')).read_text())
     evaluate = evaluate or duty_evaluator(c)
     lines = []
     for line in design['lines']:
         f = formation(c, line['capacity'], [])
         stations = [s for s in design['stations'] if s['line'] == line['name']]
-        lines.append(line_plan(c, a, f, line, stations, line['service'], evaluate))
+        operating=operating_plan.plan_line(c,f,line,stations,geographic['features'],interchanges=design.get('interchanges',[]),service_class=line.get('maglev_service_class','urban')) if use_operating else None
+        lines.append(line_plan(c, a, f,line,operating['stations'] if operating else stations,line['service'],evaluate,operating=operating))
     source_paths = [*calculation_dependencies(),design_path,ASSUMPTIONS,Path(__file__),
                     model.INPUT,model.POLICY,Path(model.__file__),manufacturing.INPUT,Path(manufacturing.__file__),ROOT/'VERSION']
     for name in ('corridors.json', slug+'.stations.json', slug+'.corridor.geojson', 'alignment-policy.toml','site-context.json'):
@@ -345,6 +478,12 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
         by_class[s['class']] = by_class.get(s['class'], 0)+s['to_station_m']-s['from_station_m']
     strategy=optimisation.route_strategy(design,corridor)
     elevated=strategy['ordinary_viaduct_proposal_length_m']/1000
+    if use_operating:
+        ratios={line['line']:line['operating_plan']['chainage_scale'] for line in lines}
+        elevated=sum((s['to_station_m']-s['from_station_m'])*ratios[s['line']] for s in design['civil_segments'] if s['class'] in {'at-grade','elevated'})/1000
+        strategy.update(ordinary_cost_quantity_polyline_length_m=elevated*1000,
+            cost_quantity_chainage_scale_by_line=ratios,
+            cost_quantity_basis='Retained civil-class fractions scaled to measured geodesic route polylines; no surveyed alignment or structure classification approval')
     programme=manufacturing.city_programme(c,costs,lines,elevated)
     cost_rows=programme['scenarios']
     search=optimisation.study(c,costs)
@@ -359,22 +498,29 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
     from . import configuration
     for line in lines:configuration.selected(c,city=slug,cars=line['formation']['cars'])
     report = dict(configuration_revision=configuration.selected(c).revision,publication_role='primary-provisional-design',
-                  financial_scope='Partial fleet and ordinary elevated civil allowances; complete installed programme unknown',
+                  financial_scope='Partial fleet, ordinary/terminal civil, station electrical, conditional foundation increment, fixed top-up electrical/mounts and independent rescue kits; complete installed programme unknown',
                   schema='osr-maglev-city-planning/1', architecture=c['metadata']['family'], version='0.5',
                   city=slug, name=design['name'], status='provisional-planning; physical-acceptance-open',
                   source_sha256=sources, planning_assumptions=a, routing_strategy=strategy, retained_records_file='retained-records.json', lines=lines,
                   diagnostics=dict(ring_closure_discrepancies=[dict(line=l['line'], discrepancy_m=l['topology']['ring_wrap_discrepancy_m'])
                                     for l in lines if l['topology']['ring_wrap_discrepancy_m'] not in (None, 0)],
-                                   platform_body_allowance_shortfalls=sum(s['length_shortfall_screen_m']>0 for l in lines for s in l['stations']),
+                                   platform_body_allowance_shortfalls=sum((s['length_shortfall_screen_m'] or 0)>0 for l in lines for s in l['stations']),
+                                   unresolved_capacity_targets=[l['line'] for l in lines if l.get('retained_capacity_target_met') is False],
                                    dwell_headway_conflicts=[l['line'] for l in lines if l['charging']['dwell_exceeds_peak_headway']],
                                    excessive_charging_dwell=[l['line'] for l in lines if not l['charging']['minimum_screen_passed']]),
                   totals=dict(lines=len(lines), station_records=sum(len(l['stations']) for l in lines),
+                              retained_dense_benchmark_station_records=sum(l['operating_plan']['retained_dense_benchmark']['passenger_stops'] for l in lines) if use_operating else None,
+                              retained_station_records=len(design['stations']),
+                              added_terminal_service_zones=sum(l['topology'].get('terminal_service_zone_count',0) for l in lines),
+                              powered_top_up_zones=sum(len(l['operating_plan']['powered_top_up_zones']) for l in lines) if use_operating else 0,
+                              rescue_kits=sum(l['operating_plan']['rescue_kit_count'] for l in lines) if use_operating else 0,
+                              transfer_spacing_conflicts=sum(len(l['operating_plan']['spacing_conflicts']) for l in lines) if use_operating else 0,
                               trainsets=fleet, cars=cars, gross_onboard_storage_kwh=cars*c['power']['services_battery_kwh_per_car'],
                               retained_route_length_m=sum(l['length_m'] for l in design['lines']),
                               added_single_direction_loop_beam_m=sum(l['topology']['added_single_direction_loop_beam_m'] for l in lines),
                               retained_civil_class_length_m=by_class),
                   costs=dict(scenarios=cost_rows, city_total_usd=None, beam_only_conditional_option=beam_only,
-                             unpriced=['site-specific elevated conversion and clearance premiums', 'bridges and special structures', 'curve/site premiums', 'terminal loops and land',
+                             unpriced=['site-specific elevated conversion and clearance premiums', 'bridges and special structures', 'curve/site premiums', 'terminal curved detailing and land',
                                        'stations/platform alterations', 'depot/transfer/recovery equipment', 'charging/PV/storage/grid',
                                        'signalling/control/supervision', 'surveys/design/qualification', 'national production plant',
                                        'NRE and first article', 'EPC', 'initial spares/warranty/renewals/OPEX'],
@@ -383,7 +529,9 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
                   design_complete=False, physical_validation=False, manufacturing_release=False, physical_release=False)
     output = Path(output_dir) if output_dir else city_dir/'engineering/maglev'
     output.mkdir(parents=True, exist_ok=True)
-    cartography.render(design,city_dir/(slug+'.corridor.geojson'),output/'network.svg')
+    mapped=deepcopy(design)
+    if use_operating:mapped['stations']=[s for l in lines for s in l['stations']]
+    cartography.render(mapped,city_dir/(slug+'.corridor.geojson'),output/'network.svg')
     report.update(network_file='network.svg',network_sha256=digest(output/'network.svg'))
     (output/'manufacturing.json').write_text(json.dumps(programme,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
     report['manufacturing_file']='manufacturing.json'
@@ -407,9 +555,12 @@ def write_readme(output, report):
     for l in report['lines']:
         f=l['formation']
         rows.append(f"| {l['line']} | {f['cars']} | {f['aw2_passengers']} / {f['aw3_passengers']} | {f['nominal_body_length_m']:g} / {f['overall_length_assumption_m']:g} | {l['topology']['selected']} | {l['fleet']['peak']} / {l['fleet']['total']} | {l['charging']['dwell_seconds']:g} |")
-    rows+=['','Station-powered dispatch recomputes headway from runtime,dwell and protected-zone clearance. The190s baseline and longer actual-leg bounds replace shorter source headways; fleet and capacity use the selected headway. Unpowered-coast feasibility, grade, phase/overlap and stalled-train recovery remain hard acceptance gates.','']
+    rows+=['','The requested urban plan uses a1.5km minimum and approximately2km average passenger spacing. Suburban4–5km is considered only with an explicit service classification and fixed, priced midway acceleration zones. Existing transfer nodes are retained; incompatible short gaps remain visible. The1km/88s case is a retained component benchmark. Exclusive whole-leg protection gives a conservative comparison headway; a180s sectioned or multiple-berth alternative needs its own proof and cost. No eligible full operating design is asserted.','']
     for line in report['lines']:
-        rows.append(f"- {line['line']}: selected headway {line['selected_peak_headway_seconds']:g}s versus source {line['retained_peak_headway_seconds']:g}s; normal capacity {line['aw2_capacity_per_direction_hour']:,.0f}/hour/direction; {len(line['kinematic_holds'])} held longitudinal cases.")
+        rows.append(f"- {line['line']}: {line.get('service_class','benchmark')} exclusive-model headway {line['selected_peak_headway_seconds']:g}s versus source {line['retained_peak_headway_seconds']:g}s; normal capacity {line['aw2_capacity_per_direction_hour']:,.0f}/hour/direction; {len(line['kinematic_holds'])} held longitudinal cases; {len(line.get('operating_plan',{}).get('spacing_conflicts',[]))} transfer/terminal spacing conflicts.")
+        if 'operating_plan' in line:
+            p=line['operating_plan']
+            rows.append(f"  Proposed operating plan: {p['operating_station_count']} mainline stops versus {p['retained_station_count']} retained access records; {line['topology']['terminal_service_zone_count']} additional terminal service/motor zones. Retained capacity target met: {str(line['retained_capacity_target_met']).lower()}. Consolidated access connections and every station/loop site remain unapproved.")
     diagnostics=report['diagnostics']
     if diagnostics['ring_closure_discrepancies']:
         rows += ['', 'Retained ring wrap distances do not close the complete geographic route. Recomputed closure adds the following distances to the input wrap values; actual closure alignment remains open: '+
@@ -422,13 +573,14 @@ def write_readme(output, report):
     rows += ['', f"**Predominantly elevated strategy:** {100*route['target_elevated_mainline_fraction']:g}% mainline elevation target; all ordinary sections proposed elevated. Ordinary viaduct planning length {route['ordinary_viaduct_proposal_length_m']/1000:,.3f} km includes {route['proposed_conversion_from_at_grade_m']/1000:,.3f} km converted from retained at-grade scope. Special crossings remain separate and unpriced.", '',
              'Straight tangents are preferred between demand anchors. Existing geographic alignments have not been rerouted or proved clear. Buildings/air rights, road and utility clearances, piers/foundations, wildlife/water passage, station access and construction access require evidence. Elevation does not establish zero displacement or zero environmental impact.', '']
     rows += ['', 'Formation matches both planning AW2/AW3 loads. Assumed overall length includes the shared configuration’s coupling gaps; body lengths alone exclude them. Platforms are screened against assumed overall length plus 10 m; final tolerances, overhang and berthing require qualification. Fleet is recomputed from hot AW3 services duty and selected station-resource headways, with 10% spares rounded up and one cold reserve per line. Pure trajectory and fixed-winding force feasibility are separate screens; unlocated intermediate-zone hints do not clear either hold.', '',
-             'Radials use unlocated fixed terminal loop allowances; rings use two independent directed circuits. A 100 m radius / 20 km/h loop allowance is not approved geometry. Depot-only switches or transfer devices require separate hardware, access and recovery qualification.', '',
-             'Station services charging is screened at 200 kW per car, including live connected services and replacement of run/disconnected-dwell energy. Main traction is supplied by separate station LSM equipment. Dwell is extended for the worst incoming services duty and terminal allowance. Multiple berths implied by dwell/headway require a conflict-free physical layout. Losses, taper, grade, curve forces, emergency reserve and missed charging remain open. No grid/PV/storage or site release is asserted.', '',
-             '| Scenario | Repeat fleet allowance USD | Ordinary elevated allowance USD | Station electrical target USD | Partial subtotal USD |',
-             '|---|---:|---:|---:|---:|']
+             'Default plans retain passenger-transfer nodes between independent fixed lines and choose fewer intermediate passenger stops. Ordinary retained stops remain demand/access records. Short transfer gaps remain explicit exceptions; no train switches or junction routing are introduced. Radial terminals have tangent-connected provisional R-L-R loops, three station-powered sections, two added service/motor stops per loop and explicit 150 m winding zones. Their 25 km/h arclength and lateral-acceleration screens do not qualify six-car curve phase, guidance, clearance, land or construction. Rings retain two independent directed circuits. Depot access and recovery remain unqualified.', '',
+             'Charging alternatives compare240/400/600kW input per car at90% conversion, with exact connected fractions, hotel load, reserve and computed dwell. The displayed research candidate is not an eligible operating recommendation; changed50/60kWh packs require new formation confirmation. Main traction is supplied by separate station LSM equipment. Dwell is extended for the worst incoming services duty and terminal allowance. Multiple berths implied by dwell/headway require a conflict-free physical layout. Conversion loss is a declared planning allowance; taper, grade, curve forces, emergency reserve and missed charging remain open. No grid/PV/storage or site release is asserted.', '',
+             '| Scenario | Repeat fleet allowance USD | Ordinary elevated allowance USD | Terminal civil allowance USD | Station electrical target USD | Foundation proposal increment USD | Booster electrical/mount targets USD | Rescue kits USD | Partial subtotal USD |',
+             '|---|---:|---:|---:|---:|---:|---:|---:|---:|']
     for c in report['costs']['scenarios']:
-        rows.append(f"| {c['scenario']} | {c['repeat_fleet_allowance_usd']:,.0f} | {c['ordinary_elevated_allowance_usd']:,.0f} | {c['station_electrical_allowance_usd']:,.0f} | {c['priced_scope_subtotal_usd']:,.0f} |")
-    rows += ['', '**Complete city programme cost remains unknown.** Partial allowances price each formation by car, coupling and shared train systems, plus measured section/reaction-steel quantities and explicit process assumptions per ordinary elevated route km. Station electrical rows price unquoted repeated fixed-group equipment targets separately; actual45-second charging and supply/thermal ratings require a configured quote. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, station buildings/access, depots, external utility reinforcement, land, NRE/plant, EPC and other scope listed in the structured report. Rates and productivity assumptions require supplier and site validation. Complete project costs and localisation remain unknown.', '',
+        rows.append(f"| {c['scenario']} | {c['repeat_fleet_allowance_usd']:,.0f} | {c['ordinary_elevated_allowance_usd']:,.0f} | {c.get('terminal_civil_allowance_usd',0):,.0f} | {c['station_electrical_allowance_usd']:,.0f} | {c['conditional_foundation_increment_usd']:,.0f} | {c.get('booster_electrical_allowance_usd',0)+c.get('booster_mount_allowance_usd',0):,.0f} | {c.get('rescue_kit_allowance_usd',0):,.0f} | {c['priced_scope_subtotal_usd']:,.0f} |")
+    rows+=['','Terminal civil allowances use actual proposed arc length, beam/support counts and ordinary section quantity equivalents; curved detailing premiums remain unpriced. Added one-way service zones conservatively carry complete two-direction electrical package targets. The primary priced subtotal includes the conditional 6.5 m foundation proposal increment once; the previous smaller-foundation subtotal is retained only as a comparison. Every fixed booster has separately priced electrical equipment and mount/cabinet stock; rescue nodes have independently priced winch/portal/foundation kits. Higher voltage/current rating premiums, ground capacity, anchorage and access remain unaccepted and unpriced where unknown.','']
+    rows += ['', '**Complete city programme cost remains unknown.** Partial allowances price each formation by car, coupling and shared train systems, plus measured section/reaction-steel quantities and explicit process assumptions per ordinary elevated route km. Station electrical rows price unquoted repeated fixed-group equipment targets separately; actual45-second charging and supply/thermal ratings require a configured quote. They exclude site-specific conversion/clearance premiums, terminal curved-detail/land premiums, special/bridge works, station buildings/access, depots, external utility reinforcement, land, NRE/plant, EPC and other scope listed in the structured report. Rates and productivity assumptions require supplier and site validation. Complete project costs and localisation remain unknown.', '',
              'Open acceptance work:', '']
     rows += ['- '+g['id']+': '+g['closure'] for g in report['gates']]
     programme=json.loads((output/'manufacturing.json').read_text())
@@ -443,31 +595,130 @@ def write_readme(output, report):
     (output/'README.md').write_text('\n'.join(rows))
 
 
-def generate_all(output_root=None):
-    context = model.load()
-    assumptions = tomllib.loads(ASSUMPTIONS.read_text())
-    evaluate = duty_evaluator(context[1])
-    designs = sorted((ROOT/'cities/catalogue').glob('*/*/*/city.json'),key=lambda p:(city_slug(p)!='baghdad',str(p)))
+_CITY_WORKER=None
+
+
+def _catalogue_designs():
+    return sorted((ROOT/'cities/catalogue').glob('*/*/*/city.json'),key=lambda p:(city_slug(p)!='baghdad',str(p)))
+
+
+def _initialise_city_worker(context,assumptions):
+    """One immutable input context and memoised evaluator per spawned process."""
+    global _CITY_WORKER
+    _CITY_WORKER=(context,assumptions,duty_evaluator(context[1]))
+
+
+def _generate_city_row(design,output,context,assumptions,evaluate):
+    design=Path(design);output=Path(output) if output is not None else None
+    report=generate(design.parent,context,output,assumptions=assumptions,evaluate=evaluate)
+    package=output or design.parent/'engineering/maglev'
+    return dict(city=report['city'],name=report['name'],catalogue_path=design.parent.relative_to(ROOT).as_posix(),
+        package_path=package.relative_to(ROOT).as_posix() if package.is_relative_to(ROOT) else str(package),
+        summary_sha256=digest(package/'summary.json'),retained_records_sha256=report['retained_records_sha256'],
+        network_sha256=report['network_sha256'],readme_sha256=digest(package/'README.md'),manufacturing_sha256=report['manufacturing_sha256'],diagnostics=report['diagnostics'],
+        trainsets=report['totals']['trainsets'],cars=report['totals']['cars'],
+        open_gate_count=len(report['gates']),complete_city_programme_usd=None,physical_release=False,
+        _source_sha256=report['source_sha256'])
+
+
+def _generate_city_job(job):
+    if _CITY_WORKER is None:raise ValueError('city worker was not initialised')
+    return _generate_city_row(*job,*_CITY_WORKER)
+
+
+def _parallel_city_rows(jobs,context,assumptions,workers):
+    """Bound active/queued jobs; a failed worker cannot publish an index."""
+    rows=[None]*len(jobs);next_job=0;pending={}
+    pool=ProcessPoolExecutor(max_workers=workers,mp_context=multiprocessing.get_context('spawn'),
+        initializer=_initialise_city_worker,initargs=(context,assumptions))
+    try:
+        while next_job<len(jobs) or pending:
+            while next_job<len(jobs) and len(pending)<workers:
+                pending[pool.submit(_generate_city_job,jobs[next_job])]=next_job;next_job+=1
+            done,_=wait(pending,return_when=FIRST_COMPLETED)
+            # Inspect every completion before scheduling any further work.
+            for future in sorted(done,key=lambda f:pending[f]):
+                index=pending.pop(future);rows[index]=future.result()
+    except BaseException:
+        for future in pending:future.cancel()
+        pool.shutdown(wait=True,cancel_futures=True)
+        raise
+    else:pool.shutdown(wait=True)
+    return rows
+
+
+def _verify_completed_city_row(row,design,output,before,current):
+    package=Path(output) if output is not None else design.parent/'engineering/maglev'
+    expected=package.relative_to(ROOT).as_posix() if package.is_relative_to(ROOT) else str(package)
+    if (row.get('catalogue_path')!=design.parent.relative_to(ROOT).as_posix() or row.get('package_path')!=expected
+            or row.get('physical_release') is not False or row.get('complete_city_programme_usd') is not None):
+        raise ValueError('completed city worker identity or scope differs')
+    for filename,key in [('summary.json','summary_sha256'),('retained-records.json','retained_records_sha256'),
+                         ('network.svg','network_sha256'),('README.md','readme_sha256'),('manufacturing.json','manufacturing_sha256')]:
+        path=package/filename
+        if path.is_symlink() or not path.is_file() or digest(path)!=row.get(key):
+            raise ValueError('completed city packet changed before index publication: '+str(path))
+    recorded=row.pop('_source_sha256',None)
+    if not isinstance(recorded,dict) or any(recorded.get(name)!=value for name,value in before.items()):
+        raise ValueError('completed city packet used a different shared input revision')
+    for relative,expected_hash in recorded.items():
+        path=(ROOT/relative).resolve()
+        if not path.is_relative_to(ROOT) or not path.is_file():raise ValueError('city source missing or outside repository')
+        if relative not in current:current[relative]=digest(path)
+        if current[relative]!=expected_hash:raise ValueError('city source changed during generation: '+relative)
+
+
+def _city_calculation_snapshot():
+    paths={*calculation_dependencies(),Path(__file__),ASSUMPTIONS,Path(model.__file__),
+        model.INPUT,model.POLICY,Path(manufacturing.__file__),manufacturing.INPUT,ROOT/'VERSION'}
+    return {path.relative_to(ROOT).as_posix():digest(path) for path in sorted(paths)}
+
+
+def _publish_city_index(destination,index,markdown):
+    """Prepare both files completely, then replace JSON last as batch receipt."""
+    temporary=[]
+    try:
+        for target,text in [(destination.with_suffix('.md'),markdown),
+                            (destination,json.dumps(index,ensure_ascii=False,sort_keys=True,indent=2)+'\n')]:
+            with tempfile.NamedTemporaryFile(mode='w',encoding='utf-8',dir=destination.parent,
+                    prefix='.'+target.name+'.',suffix='.tmp',delete=False) as stream:
+                temporary.append((Path(stream.name),target));stream.write(text);stream.flush();os.fsync(stream.fileno())
+        for source,target in temporary:os.replace(source,target)
+    finally:
+        for source,_ in temporary:source.unlink(missing_ok=True)
+
+
+def generate_all(output_root=None,*,workers=None):
+    """Compile separate city packets; publish the index after all jobs succeed.
+
+    Canonical generation uses at most four spawned workers. Alternate output
+    roots remain serial by default for callers that inject test dependencies.
+    """
+    if workers is None:workers=4 if output_root is None else 1
+    if type(workers) is not int or not 1<=workers<=4:raise ValueError('city workers must be an integer from1to4')
+    before=_city_calculation_snapshot()
+    context=model.load();assumptions=tomllib.loads(ASSUMPTIONS.read_text())
+    designs=_catalogue_designs()
     if not designs:
         raise ValueError('retained catalogue is empty')
-    rows = []
+    jobs=[]
     for design in designs:
-        output = None if output_root is None else Path(output_root)/design.parent.relative_to(ROOT/'cities/catalogue')
-        report = generate(design.parent, context, output, assumptions=assumptions, evaluate=evaluate)
-        package = output or design.parent/'engineering/maglev'
-        rows.append(dict(city=report['city'], name=report['name'], catalogue_path=design.parent.relative_to(ROOT).as_posix(),
-                         package_path=package.relative_to(ROOT).as_posix() if package.is_relative_to(ROOT) else str(package),
-                         summary_sha256=digest(package/'summary.json'), retained_records_sha256=report['retained_records_sha256'],
-                         network_sha256=report['network_sha256'], readme_sha256=digest(package/'README.md'), manufacturing_sha256=report['manufacturing_sha256'], diagnostics=report['diagnostics'],
-                         trainsets=report['totals']['trainsets'], cars=report['totals']['cars'],
-                         open_gate_count=len(report['gates']), complete_city_programme_usd=None, physical_release=False))
+        output=None if output_root is None else Path(output_root)/design.parent.relative_to(ROOT/'cities/catalogue')
+        jobs.append((str(design),str(output) if output is not None else None))
+    if workers==1:
+        evaluate=duty_evaluator(context[1])
+        rows=[_generate_city_row(design,output,context,assumptions,evaluate) for design,output in jobs]
+    else:rows=_parallel_city_rows(jobs,context,assumptions,workers)
+    after=_city_calculation_snapshot()
+    if before!=after:raise ValueError('city calculation inputs changed during generation; index not published')
+    current=dict(after)
+    for row,(design,output) in zip(rows,jobs):_verify_completed_city_row(row,Path(design),output,before,current)
     index = dict(schema='osr-maglev-city-index/1', architecture=context[1]['metadata']['family'],
                  city_count=len(rows), catalogue_design_paths=sorted(p.relative_to(ROOT).as_posix() for p in designs),
                  catalogue_complete=True, cities=rows, physical_release=False,
                  source_sha256={str(p.relative_to(ROOT)):digest(p) for p in (Path(__file__),ASSUMPTIONS,model.INPUT,model.POLICY)})
     destination = INDEX if output_root is None else Path(output_root)/'city-index.json'
     destination.parent.mkdir(parents=True, exist_ok=True)
-    destination.write_text(json.dumps(index, ensure_ascii=False, sort_keys=True, indent=2)+'\n')
     md=['# v0.5 maglev catalogue planning index', '',
         f'{len(rows)} retained cities have separate provisional maglev packages. Geography and demand are preserved; formation, duty, fleet, charging, depot quantities and partial costs are recomputed. Every physical acceptance gate remains open. Complete city costs remain unknown.', '',
         '| City | Cars | Trainsets | Ring closure discrepancies | Open gates | Planning package |', '|---|---:|---:|---:|---:|---|']
@@ -475,14 +726,14 @@ def generate_all(output_root=None):
         package = ROOT/row['package_path']
         link=Path(os.path.relpath(package/'README.md', destination.parent)).as_posix().replace(' ', '%20')
         md.append(f"| {row['name']} | {row['cars']} | {row['trainsets']} | {len(row['diagnostics']['ring_closure_discrepancies'])} | {row['open_gate_count']} | [plan]({link}) |")
-    destination.with_suffix('.md').write_text('\n'.join(md)+'\n')
+    _publish_city_index(destination,index,'\n'.join(md)+'\n')
     return index
 
 
 def calculation_dependencies():
     """Transitive shared computational inputs used by generation and replay."""
-    from . import station,station_structure
-    return [*optimisation.calculation_dependencies(),Path(cartography.__file__),Path(station.__file__),station.INPUT,*station_structure.source_paths()]
+    from . import station,station_structure,closure
+    return [*optimisation.calculation_dependencies(),Path(cartography.__file__),Path(station.__file__),station.INPUT,*station_structure.source_paths(),*operating_plan.source_paths(),Path(closure.__file__),closure.INPUT]
 
 
 def source_paths():

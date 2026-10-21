@@ -7,9 +7,9 @@
     "beam_assumptions": {
       "damping_ratio": 0.02,
       "elements": 50,
-      "line_mass_kg_m": 1722.23424,
+      "line_mass_kg_m": 2105.83424,
       "retained_modes": 6,
-      "second_moment_m4": 0.22005,
+      "second_moment_m4": 0.5092666666666664,
       "span_m": 25.0,
       "young_pa": 30000000000.0
     },
@@ -18,9 +18,9 @@
       "damping": 1.0,
       "proportional": 1.0
     },
-    "final_fitted_relative_heave_error_m": 1.1323496324627813e-09,
-    "final_pitch_rad": -2.210992398430015e-09,
-    "final_roll_rad": 1.5550089368006766e-15,
+    "final_fitted_relative_heave_error_m": 1.102185252788157e-09,
+    "final_pitch_rad": -2.1520777570080565e-09,
+    "final_roll_rad": 1.5539466219812472e-15,
     "limitations": [
       "synthetic instantaneous force channels and controller gains; no field/current/thermal map",
       "linear simply-supported beam with assumed line mass and modal damping",
@@ -28,12 +28,12 @@
       "no dead-load camber, soil, joints, fatigue, contact, braking or independent protection",
       "offline held-force partitioned integration; no measured timing or stability certificate"
     ],
-    "maximum_relative_gap_m": 0.010397679683980077,
-    "minimum_relative_gap_m": 0.007073657377868149,
-    "peak_fitted_relative_heave_error_m": 0.0009272301161079525,
-    "peak_global_car_down_m": 0.010237013749431279,
-    "peak_global_incremental_beam_displacement_m": 0.010372525693263092,
-    "peak_station_force_n": 9805.532324185,
+    "maximum_relative_gap_m": 0.00955197839180557,
+    "minimum_relative_gap_m": 0.007599734875370631,
+    "peak_fitted_relative_heave_error_m": 0.0009102567923880943,
+    "peak_global_car_down_m": 0.004907033191540626,
+    "peak_global_incremental_beam_displacement_m": 0.004479102583157918,
+    "peak_station_force_n": 9805.532326205,
     "physical_output_authorised": false,
     "retained_vertical_beam_modes": 6,
     "schema": "osr-coupled-guideway-numerical/1",
@@ -67,7 +67,7 @@
   },
   "schema": "osr-coupled-guideway-result/1",
   "source_sha256": {
-    "Cargo.lock": "ba2491f17d5b6d0efcb720928e6d482a4543ba6a4e8f8c01ac5cff095ca8be67",
+    "Cargo.lock": "2f04e682935b3ef2281ccbe4b8de8c1f074a31528f43aa3657398989e77918e3",
     "Cargo.toml": "bd0a0478375bf16689faf6fe55ca5668e3b38ee0b1b314cbee76151f2f6a01f4",
     "crates/osr-maglev-control/Cargo.toml": "ee59ea85affddbc8436aa4bca2ebb85ce17575cd1c0e95219695081f83919fad",
     "crates/osr-maglev-control/examples/coupled_bridge.rs": "9441e19e6ca4ba30ba01f5cefd86ea49d116507a1f4ef43bc99c061d2b61c94b",
@@ -77,41 +77,41 @@
     "crates/osr-maglev-control/src/ideal.rs": "9d423fdd6c260f1235e87f85ad26d4aba5b3d52ec3abf2bf6bc8cdc487058663",
     "crates/osr-maglev-control/src/io.rs": "dc30aa01ebb446b9581c1b87333cf640bdb18bc04103e5850685e63727aebec3",
     "crates/osr-maglev-control/src/lib.rs": "bef67784153aab663ed5b91cafc6bafc3509b770ff9223e26687e8678f262e3c",
-    "engineering/ferrite_maglev/configuration.py": "ede11989fd9b4c721faf28dbdbd1d814a404b27db2352b67fc0cb7fe16216ec1",
+    "engineering/ferrite_maglev/configuration.py": "60a7079ceffdac3dd1d24be0b3663495dfe769478cbfaa19cba98b329093ed58",
     "engineering/ferrite_maglev/coupled.py": "cc44adfda48ff5101f8b263e93690b11f559b37c4292b4d369a495e85717eb78",
     "engineering/ferrite_maglev/geometry.py": "08d2e098dff525c4175ce5913ffcaefc396971cb79cdf35034b47f4ec776a8e7",
-    "engineering/ferrite_maglev/model.py": "7484b3fe5f803e6e87fb1daa3a40d3ae6ae0abd0794b45bab8e718d68889cf5b",
-    "engineering/ferrite_maglev/reference-configuration.toml": "8f63e6530ca3a51fae7af8f19648c3e13ad5ce52be9b92e1da1cfdcffc1242af",
+    "engineering/ferrite_maglev/model.py": "43b908817f757965953fd7e4512b2cb4eeb29a6109d91774f0f47914f5469c21",
+    "engineering/ferrite_maglev/reference-configuration.toml": "060ae16e7d371652fdb7f99bd1a7ee80605649c5d792adced95827b841cdbf1a",
     "engineering/ferrite_maglev/requirements.txt": "daf337705e6606efab587dbd6a6444b413bc7d2b3cca98a8f5748c34a4c1e554",
-    "ferrite-maglev-study.toml": "d42d0721b1a222256a284548650045407219aa7feef7a58712aa582ba71767f9",
+    "ferrite-maglev-study.toml": "a1effd80c4a5390b3c615b5833258e88ed1e687cfad065c65260b8149ae50839",
     "rust-toolchain.toml": "1d76a06616a42a984bad672eeb24ca39a0496e95a8b624e21df0d420d1557734"
   },
   "static_benchmark": {
     "assumptions": {
       "damping_ratio": 0.02,
       "elements": 50,
-      "line_mass_kg_m": 1722.23424,
+      "line_mass_kg_m": 2105.83424,
       "retained_modes": 6,
-      "second_moment_m4": 0.22005,
+      "second_moment_m4": 0.5092666666666664,
       "span_m": 25.0,
       "young_pa": 30000000000.0
     },
-    "centre_closed_form_m": 0.004931013153576207,
-    "centre_fe_m": 0.004931013153630182,
+    "centre_closed_form_m": 0.0021306508268970643,
+    "centre_fe_m": 0.0021306508269295235,
     "centre_point_load_n": 100000.0,
-    "centre_relative_error": 1.094603723661436e-11,
-    "distributed_point_load_max_error_m": 1.3512281571426144e-13,
+    "centre_relative_error": 1.5234442880540648e-11,
+    "distributed_point_load_max_error_m": 7.904614462983517e-14,
     "modal_frequency_hz": [
-      4.920566064908538,
-      19.68226751909174,
-      44.28513303516249,
-      78.72927419050647,
-      123.014980486491,
-      177.14285168558342
+      6.769569068524806,
+      27.078280802886514,
+      60.92617462988005,
+      108.31340403686535,
+      169.24036733569926,
+      243.70788965411603
     ],
-    "modal_frequency_max_relative_error": 1.397018887638879e-05,
-    "modal_static_truncation_max_m": 7.842403021134786e-07,
-    "module_load_static_max_m": 0.012046422546147394
+    "modal_frequency_max_relative_error": 1.3970187523248967e-05,
+    "modal_static_truncation_max_m": 3.3884811521337627e-07,
+    "module_load_static_max_m": 0.005205161568183512
   },
   "structural_acceptance": false
 }

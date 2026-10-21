@@ -1,8 +1,8 @@
 # osr-maglev-control
 
-Portable station-powered ferrite-maglev study core, using Rust `no_std`, no heap
+Portable fixed-zone ferrite-maglev study core, using Rust `no_std`, no heap
 and no external dependencies. It targets simulation and off-the-shelf SBC replay.
-Station LSM demand is separate from onboard active PM support and guidance. Every computed
+Station and located-booster LSM demand is separate from onboard active PM support and guidance. Every computed
 output has `physical_output_authorised = false`; the I/O boundary records study
 outputs and supplies no current, gate-drive or PWM operation.
 
@@ -182,6 +182,14 @@ interlocking or detector record. Persistent corridor/berth ownership is exercise
 separately in `osr-interlocking`; permission expiry cannot release a committed
 train, and full-consist clearance is required. No physical output adapter or
 railway operating authority is supplied.
+
+The longer-corridor study (`./osr design corridor`) separately evaluates urban
+2 km and suburban 5 km profiles, finite station/booster overlap and electrical
+rating alternatives. A booster is a nonpassenger powered asset; junctions are
+passenger transfers between independent fixed lines. The 1 km station replay
+remains a component benchmark. Its passing result cannot clear longer-profile
+voltage, service-energy, recovery, section-handover or exclusive-reservation
+capacity holds.
 
 ## Adaptive research tuning
 

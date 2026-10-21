@@ -514,7 +514,7 @@ def station_costs(a=None):
 
 
 def evaluate(c=None, *, distance_m=1000., cars=None, runtime_s=None, grade=0.,
-             headway_s=190., car_mass_kg=None,winding_length_m=None,acceleration=None):
+             headway_s=None, car_mass_kg=None,winding_length_m=None,acceleration=None,downstream_overlap_m=None):
     """Coordinate trajectory, band overlap, occupancy planning and station scope."""
     a=deepcopy(load());v,m,s=a['vehicle'],a['motion'],a['station']
     if c is not None:
@@ -543,6 +543,7 @@ def evaluate(c=None, *, distance_m=1000., cars=None, runtime_s=None, grade=0.,
     cars=v['cars'] if cars is None else cars
     runtime_s=m['runtime_s'] if runtime_s is None else runtime_s
     car_mass_kg=v['car_mass_kg'] if car_mass_kg is None else car_mass_kg
+    if headway_s is None:headway_s=c['vehicle']['scheduled_headway_seconds'] if c is not None else s['scheduled_headway_s']
     _finite(headway_s,'headway',30,1200)
     if s['connected_charging_s']>s['dwell_s']:
         raise ValueError('charging window longer than dwell')
@@ -553,13 +554,20 @@ def evaluate(c=None, *, distance_m=1000., cars=None, runtime_s=None, grade=0.,
         resistance_quadratic_n_per_car=m['resistance_quadratic_n_per_car'])
     overlap=magnetic_overlap(t,a)
     length=cars*v['body_length_m']+(cars-1)*v['coupling_gap_m']
-    clearance=_time_at_position(t,length+s['winding_end_m']) if t['study_pass'] else None
+    if downstream_overlap_m is None:downstream_overlap_m=c['power'].get('station_resource_downstream_overlap_m',0.) if c is not None else 0.
+    _finite(downstream_overlap_m,'downstream protected overlap',0,1000)
+    winding_clearance=_time_at_position(t,length+s['winding_end_m']) if t['study_pass'] else None
+    clearance=_time_at_position(t,length+s['winding_end_m']+downstream_overlap_m) if t['study_pass'] else None
     headway_min=runtime_s+s['dwell_s']+clearance+s['release_allowance_s'] if clearance is not None else None
     services=cars*s['hot_services_kw_per_car'];disconnected=s['dwell_s']-s['connected_charging_s']
     battery_time=runtime_s+(0. if s['independent_shore_supply_during_disconnected_dwell'] else disconnected)
     replacement=services*battery_time/3600
     battery_charging=replacement*3600/s['connected_charging_s']
     interface=battery_charging+services
+    charging_eta=c['power'].get('station_charger_efficiency_assumption',1.) if c is not None else 1.
+    _finite(charging_eta,'charger efficiency',.01,1.)
+    input_interface=interface/charging_eta
+    candidate_input=cars*c['power']['candidate_station_charger_kw_per_car'] if c is not None else None
     usable=s['services_battery_kwh_per_car']*s['battery_eol_fraction']*(s['soc_high']-s['soc_low'])
     consumed_per_car=replacement/cars;remaining=usable-consumed_per_car
     reserve=s['hot_services_kw_per_car']*s['protected_services_reserve_minutes']/60
@@ -569,7 +577,9 @@ def evaluate(c=None, *, distance_m=1000., cars=None, runtime_s=None, grade=0.,
         replacement_kwh_per_train=replacement,battery_charging_kw_per_train=battery_charging,
         direct_services_kw_per_train=services,connected_interface_kw_per_train=interface,
         battery_charge_c_rate=battery_charging/(cars*s['services_battery_kwh_per_car']),
-        charger_losses_included=False,charge_taper_and_repeated_duty_validated=False,
+        connected_input_kw_per_train=input_interface,charging_efficiency_assumption=charging_eta,
+        candidate_input_kw_per_train=candidate_input,input_rating_screen_pass=candidate_input is None or candidate_input>=input_interface,
+        charger_losses_included=charging_eta!=1.,charge_taper_and_repeated_duty_validated=False,
         independent_disconnected_dwell_shore_supply=s['independent_shore_supply_during_disconnected_dwell'])
     battery=dict(gross_kwh_per_car=s['services_battery_kwh_per_car'],eol_usable_soc_window_kwh_per_car=usable,
         cycle_consumption_kwh_per_car=consumed_per_car,remaining_before_recharge_kwh_per_car=remaining,
@@ -577,8 +587,9 @@ def evaluate(c=None, *, distance_m=1000., cars=None, runtime_s=None, grade=0.,
         protected_services_reserve_kwh_per_car=reserve,screen_pass=battery_ok,
         reserve_basis='Explicit project ten-minute hot-services sensitivity; rescue mission and required emergency reserve unaccepted',
         accepted=False)
-    traffic=dict(scheduled_headway_s=headway_s,clearance_front_distance_m=length+s['winding_end_m'],
-        time_until_tail_clears_winding_s=clearance,planning_minimum_headway_s=headway_min,
+    traffic=dict(scheduled_headway_s=headway_s,clearance_front_distance_m=length+s['winding_end_m']+downstream_overlap_m,
+        downstream_overlap_beyond_winding_m=downstream_overlap_m,
+        time_until_tail_clears_winding_s=winding_clearance,time_until_tail_clears_resource_s=clearance,planning_minimum_headway_s=headway_min,
         planning_headway_margin_s=headway_s-headway_min if headway_min is not None else None,
         screen_pass=headway_min is not None and headway_s>=headway_min,
         normal_passengers_per_train=cars*(c['vehicle']['aw2_passengers_per_car'] if c else 120),
@@ -589,16 +600,19 @@ def evaluate(c=None, *, distance_m=1000., cars=None, runtime_s=None, grade=0.,
     if t['study_pass']:
         average=(t['station_positive_input_kwh']+services*(runtime_s+s['dwell_s'])/3600)*2*3600/headway_s
         power=dict(peak_traction_input_kw=t['peak_traction_input_kw'],
-            one_launch_plus_opposite_connected_services_kw=t['peak_traction_input_kw']+interface,
+            one_launch_plus_opposite_connected_services_kw=t['peak_traction_input_kw']+input_interface,
+            one_launch_plus_opposite_converted_services_kw=t['peak_traction_input_kw']+interface,
             two_coincident_launches_kw=2*t['peak_traction_input_kw'],
-            two_coincident_connected_services_kw=2*interface,
+            two_coincident_connected_services_kw=2*input_interface,
+            two_coincident_converted_services_kw=2*interface,
+            average_two_direction_input_kw_before_station_loads=(t['station_positive_input_kwh']+services*(runtime_s+s['dwell_s'])/3600/charging_eta)*2*3600/headway_s,
             average_two_direction_input_kw_before_station_loads_and_losses=average,
             brake_resistor_peak_dc_kw=t['peak_regenerated_dc_kw'],
             brake_resistor_energy_per_arrival_mj=t['receiving_brake_dc_kwh']*3.6,
             brake_reuse_credited=False,braking_independent_of_another_load_required=True,
             power_kva_and_repeated_thermal_rating_validated=False,
             station_loads_additional=True)
-    passed=t['study_pass'] and overlap['study_pass'] and traffic['screen_pass'] and battery_ok
+    passed=t['study_pass'] and overlap['study_pass'] and traffic['screen_pass'] and battery_ok and (candidate_input is None or candidate_input>=input_interface)
     return dict(schema=SCHEMA,status='conditional-study-pass' if passed else 'hold',study_pass=passed,
         trajectory=t,magnetic_overlap=overlap,traffic=traffic,charging=charging,battery=battery,
         station_power=power,costs=station_costs(a),physical_output_authorised=False,**FLAGS,

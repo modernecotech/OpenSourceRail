@@ -18,7 +18,8 @@ terminal_loop_circumferences_per_roundtrip = 2
 loop_geometry_accepted = false
 
 [charging]
-candidate_kw_per_car = 200.0
+candidate_kw_per_car = 240.0
+conversion_efficiency_study = 0.90
 minimum_dwell_seconds = 60.0
 connection_overhead_seconds = 15.0
 maximum_dwell_screen_seconds = 600.0
@@ -28,3 +29,9 @@ rating_selected = false
 trains_per_storage_lane_screen = 3
 inspection_bay_fraction_screen = 0.10
 switches = "depot-only; independent access/recovery hardware unqualified"
+
+[operating_plan]
+enabled = true
+method = "sparse-passenger-transfer-stops-and-located-fixed-acceleration-zones"
+retained_station_demand_preserved = true
+route_site_approval = false

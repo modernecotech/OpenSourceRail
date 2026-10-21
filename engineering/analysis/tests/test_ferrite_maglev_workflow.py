@@ -49,6 +49,58 @@ def test_failed_dependency_stops_descendants_and_restart_reuses_verified_outputs
     assert ('build', 'b') in events and ('build', 'c') in events
 
 
+
+def test_first_pass_inventory_and_reader_use_refreshed_overview(tmp_path, monkeypatch):
+    """A current inventory must become stale after its overview title changes."""
+    monkeypatch.setattr(model, 'ROOT', tmp_path)
+    monkeypatch.setattr(model, 'load', lambda: None)
+    monkeypatch.setattr(model, 'sources', lambda **_: {'input.toml': 'unchanged'})
+    scripts = tmp_path/'tools/automation'
+    scripts.mkdir(parents=True)
+    overview = tmp_path/'README.md'
+    inventory = tmp_path/'docs/INDEX.md'
+    reader = tmp_path/'docs/reader.txt'
+    inventory.parent.mkdir()
+    overview.write_text('# Previous overview\n')
+    inventory.write_text('# Document index\n\n- Previous overview\n')
+    built = []
+
+    def document(command, *, cwd, check, capture_output, text):
+        assert Path(cwd) == tmp_path
+        assert check and capture_output and text
+        script = Path(command[1])
+        assert script.parent == scripts
+        assert command[2:] in ([], ['--check'])
+        if script.name == 'generate-public-overview.py':
+            target, wanted = overview, '# Current overview\n'
+        elif script.name == 'generate-doc-index.py':
+            title = overview.read_text().splitlines()[0].removeprefix('# ')
+            target, wanted = inventory, '# Document index\n\n- '+title+'\n'
+        elif script.name == 'build-doc-book.py':
+            target, wanted = reader, overview.read_text()+inventory.read_text()
+        else:
+            pytest.fail('unexpected document generator: '+script.name)
+        if command[2:] == ['--check']:
+            if not target.exists() or target.read_text() != wanted:
+                raise subprocess.CalledProcessError(1, command, stderr='stale document')
+        else:
+            target.write_text(wanted)
+            built.append(script.name)
+        return subprocess.CompletedProcess(command, 0, stdout='', stderr='')
+
+    monkeypatch.setattr(workflow.subprocess, 'run', document)
+    selected = {'primary-overview', 'markdown-inventory', 'primary-reader-book'}
+    stages = [row for row in workflow.stages(workflow.delivery.OUTPUT) if row[0] in selected]
+    first = workflow.run(state=tmp_path/'state', stage_list=stages)
+    assert first['state'] == 'implemented studies current; engineering closure open'
+    assert inventory.read_text() == '# Document index\n\n- Current overview\n'
+    assert reader.read_text() == overview.read_text()+inventory.read_text()
+    assert 'Previous overview' not in reader.read_text()
+    assert built == ['generate-public-overview.py', 'generate-doc-index.py', 'build-doc-book.py']
+    built.clear()
+    assert workflow.run(state=tmp_path/'state', stage_list=stages)['state'] == 'idle; sources unchanged'
+    assert not built
+
 def test_successful_execution_with_failed_verification_still_holds(tmp_path):
     def reject():
         raise ValueError('result rejected')
@@ -71,7 +123,7 @@ def test_manual_and_timer_runs_cannot_build_concurrently(tmp_path):
 
 def test_source_change_during_build_holds_before_descendant(tmp_path, monkeypatch):
     revision = {'value': 'old'}
-    monkeypatch.setattr(model, 'sources', lambda: {'input.toml': revision['value']})
+    monkeypatch.setattr(model, 'sources', lambda **_: {'input.toml': revision['value']})
     def missing():
         raise ValueError('stale')
     def edit():

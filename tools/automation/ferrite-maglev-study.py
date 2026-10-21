@@ -28,7 +28,7 @@ def units(output):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system','iterate','station','structure','protocol'))
+    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system','iterate','station','structure','protocol','moving','campaign','dossier','corridor','booster-kit','booster-native','interchange-hubs'))
     parser.add_argument('--output',type=Path,default=delivery.OUTPUT)
     args=parser.parse_args()
     if args.action=='install':
@@ -70,6 +70,12 @@ def main():
     elif args.action=='iterate':
         from engineering.ferrite_maglev import iteration
         result=iteration.publish()
+    elif args.action in {'moving','campaign','dossier'}:
+        from engineering.ferrite_maglev import moving_train,system_campaign,closure
+        result={'moving':moving_train,'campaign':system_campaign,'dossier':closure}[args.action].publish()
+    elif args.action in {'corridor','booster-kit','booster-native','interchange-hubs'}:
+        from engineering.ferrite_maglev import corridor,booster_kit,booster_native,interchange_hubs
+        result={'corridor':corridor,'booster-kit':booster_kit,'booster-native':booster_native,'interchange-hubs':interchange_hubs}[args.action].publish()
     elif args.action=='coupled':
         from engineering.ferrite_maglev import coupled
         result=coupled.publish(model.ROOT/'docs/design-engine/ferrite-maglev/coupled')

@@ -168,7 +168,7 @@ def frontier(rows):
 def search(a,evaluate,confirm,*,checkpoint=None):
     """Deterministic adaptive search; evaluators are injected only for unit tests."""
     rng=random.Random(a['seed']);seen={};history=[];best=None;stagnation=0
-    seeds=[[.8,1.8,.10,.15,25,1,1,1,1,90,212.5,.8],[.8,1.9,.10,.15,25,1,1,1,1,100,200,.8],
+    seeds=[[.8,2.5,.10,.15,25,1,1,1,1,90,212.5,.8],[.8,2.4,.10,.15,25,1,1,1,1,100,200,.8],
         [.8,1.8,.12,.16,25,1,1,.9,1.1,90,225,1.0],[.65,1.9,.10,.14,25,.85,1,1.1,1.2,100,212.5,.8]]
     population=[quantise(v,a) for v in seeds[:a['population']]]
     ancestry={identity(v):dict(method='declared-seed',parents=[]) for v in population}

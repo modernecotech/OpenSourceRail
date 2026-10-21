@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **565**.
+Indexed Markdown files: **571**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **565**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 14 |
+| [docs](#docs) | 20 |
 | [engineering](#engineering) | 3 |
 | [tools](#tools) | 2 |
 
@@ -622,11 +622,17 @@ Indexed Markdown files: **565**.
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Capability Directory |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Primary maglev capability directory |
 | [`docs/design-engine/ferrite-maglev/baghdad-reference/README.md`](../docs/design-engine/ferrite-maglev/baghdad-reference/README.md) | Baghdad six-car native reference study |
+| [`docs/design-engine/ferrite-maglev/booster-kit/README.md`](../docs/design-engine/ferrite-maglev/booster-kit/README.md) | Fixed booster and independent rescue kit study |
+| [`docs/design-engine/ferrite-maglev/corridor/README.md`](../docs/design-engine/ferrite-maglev/corridor/README.md) | Fixed-line urban and suburban operational studies |
+| [`docs/design-engine/ferrite-maglev/interchange-hubs/README.md`](../docs/design-engine/ferrite-maglev/interchange-hubs/README.md) | Baghdad interchange-hub investigation |
 | [`docs/design-engine/ferrite-maglev/iterative/README.md`](../docs/design-engine/ferrite-maglev/iterative/README.md) | Adaptive mechanical, civil and software design study |
+| [`docs/design-engine/ferrite-maglev/manufactured-dossier/README.md`](../docs/design-engine/ferrite-maglev/manufactured-dossier/README.md) | Provisional manufactured design dossier |
+| [`docs/design-engine/ferrite-maglev/moving-train/README.md`](../docs/design-engine/ferrite-maglev/moving-train/README.md) | Moving six-car ideal-force numerical twin |
 | [`docs/design-engine/ferrite-maglev/station-powered/README.md`](../docs/design-engine/ferrite-maglev/station-powered/README.md) | Station-powered maglev study |
 | [`docs/design-engine/ferrite-maglev/station-protocol/README.md`](../docs/design-engine/ferrite-maglev/station-protocol/README.md) | Station launch and controller executable evidence |
 | [`docs/design-engine/ferrite-maglev/station-structure/README.md`](../docs/design-engine/ferrite-maglev/station-structure/README.md) | Station-powered body and civil candidates |
-| [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail v0.5.2 development — station-powered ferrite maglev |
+| [`docs/design-engine/ferrite-maglev/system-campaign/README.md`](../docs/design-engine/ferrite-maglev/system-campaign/README.md) | Integrated station, interlocking and recovery study |
+| [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail v0.5.2 development — fixed-zone ferrite maglev |
 | [`docs/releases/v0.5.1.md`](../docs/releases/v0.5.1.md) | OpenSourceRail v0.5.1 |
 | [`docs/releases/v0.5.2.md`](../docs/releases/v0.5.2.md) | OpenSourceRail v0.5.2 development |
 
@@ -635,7 +641,7 @@ Indexed Markdown files: **565**.
 | File | Title |
 |---|---|
 | [`engineering/README.md`](../engineering/README.md) | OpenSourceRail engineering |
-| [`engineering/ferrite_maglev/README.md`](../engineering/ferrite_maglev/README.md) | OpenSourceRail v0.5 station-powered ferrite-maglev engineering |
+| [`engineering/ferrite_maglev/README.md`](../engineering/ferrite_maglev/README.md) | OpenSourceRail v0.5 fixed-zone ferrite-maglev engineering |
 | [`engineering/ferrite_maglev/city-index.md`](../engineering/ferrite_maglev/city-index.md) | v0.5 maglev catalogue planning index |
 
 ## tools

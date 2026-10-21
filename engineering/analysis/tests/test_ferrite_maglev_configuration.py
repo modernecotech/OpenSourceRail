@@ -8,13 +8,13 @@ from engineering.ferrite_maglev import model,geometry,cities,coupled,configurati
 
 
 def test_rail_quantities_are_identical_and_density_change_propagates(monkeypatch):
-    c=model.load()[1];q=geometry.guideway_quantities()
+    c=model.load()[1];q=geometry.guideway_quantities();box=configuration.selected(c).civil
     assert q['magnetic_rail_line_mass_kg_m']==pytest.approx(300.23424)
-    assert model.civil_case(c,.8,1.8,25)['magnetic_quantities']==q
+    assert model.civil_case(c,box.width_m,box.depth_m,25)['magnetic_quantities']==q
     assert coupled.BeamAssumptions().line_mass_kg_m==q['total_line_mass_kg_m']
     old=system.support_demands(load_case='empty',walkway=False)['track_vertical_reactions_n'][0]
     monkeypatch.setitem(geometry.MATERIALS,'steel',2*7850.)
-    new=geometry.guideway_quantities();r=model.civil_case(c,.8,1.8,25)
+    new=geometry.guideway_quantities();r=model.civil_case(c,box.width_m,box.depth_m,25)
     assert new['magnetic_rail_mass_kg']==pytest.approx(2*q['magnetic_rail_mass_kg'])
     assert r['dead_line_mass_kg_m']==pytest.approx(new['total_line_mass_kg_m']+300)
     assert coupled.BeamAssumptions().line_mass_kg_m==new['total_line_mass_kg_m']
@@ -25,8 +25,9 @@ def test_span_changes_native_mass_reactions_and_support_density():
     c=model.load()[1];d=deepcopy(c);d['civil']['reference_span_m']=30
     a=system.support_demands(load_case='empty',_context=(system.load(),c))
     b=system.support_demands(load_case='empty',_context=(system.load(),d))
-    line_mass=(.54+.12*.996)*2500+300.23424
-    end_mass=2*.4*.6*1.5*2500
+    box=configuration.selected(c).civil;inner=(box.width_m-2*box.web_m)*(box.depth_m-2*box.flange_m)
+    line_mass=(box.width_m*box.depth_m-inner+.12*.996)*2500+300.23424
+    end_mass=2*.4*inner*2500
     assert b['track_vertical_reactions_n'][0]/a['track_vertical_reactions_n'][0]==pytest.approx((30*line_mass+end_mass)/(25*line_mass+end_mass))
     for span in (25,30):
         native=geometry.civil_bay(span)
@@ -72,7 +73,7 @@ def test_station_tracks_six_bodies_full_arm_and_actual_lift_opening():
     assert s['arm_to_platform_horizontal_clearance_m']==pytest.approx(.1)
     assert s['body_to_platform_horizontal_gap_m']>s['arm_to_platform_horizontal_clearance_m']
     assert s['passenger_bridge_plate_required'] and not s['normal_floor_gap_accepted']
-    assert s['charging_kw_per_train']==6*200
+    assert s['charging_kw_per_train']==6*model.load()[1]['power']['candidate_station_charger_kw_per_car']
     assert s['beam_unit_length_m']<=configuration.selected().civil.span_m
     assert s['manufactured_bays_per_direction']*s['beam_unit_length_m']==pytest.approx(s['platform_length_m'])
     for p in s['parts']:

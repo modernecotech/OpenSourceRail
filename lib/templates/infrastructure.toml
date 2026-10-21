@@ -4,7 +4,7 @@ version = 1
 
 [development]
 primary_family = "ferrite-pm-maglev-study"
-propulsion_architecture = "station-lsm-and-unpowered-interstation-coast"
+propulsion_architecture = "fixed-station-and-located-booster-lsm-with-passive-coast-sections"
 primary_input = "ferrite-maglev-study.toml"
 primary_runner = "tools/automation/ferrite-maglev-study.py"
 status = "primary-development; engineering-acceptance-open"
@@ -36,7 +36,9 @@ localisation_percentage = "unknown-until-origin-traced-MBOM"
 structural_gfrp_body_study = true
 onboard_main_traction = false
 station_zones_powered = true
-interstation_traction_powered = false
+interstation_traction_powered = true
+interstation_continuous_powered_stator = false
+junction_operation = "passenger-transfer-between-fixed-lines"
 cost_scenarios = ["quantity-low", "quantity-base", "quantity-high", "local-manufacture-targets"]
 cost_targets_are_quotes = false
 

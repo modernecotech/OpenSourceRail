@@ -1,5 +1,86 @@
 {
+  "charger_upgrade_target": {
+    "interface_cost_factor": 2.0,
+    "reference_input_kw_per_car": 200.0,
+    "rule": "Linear charging-interface row scaling only; unquoted planning target, not supplier rating or transformer/thermal qualification",
+    "selected_input_kw_per_car": 400.0,
+    "selected_input_kw_per_car_by_line": {
+      "line-1": 400.0,
+      "line-2": 400.0,
+      "line-3": 400.0,
+      "line-4": 400.0
+    },
+    "supplier_quote": false
+  },
   "complete_city_programme_usd": null,
+  "conditional_foundation_proposal": {
+    "baseline_support_allowance_usd": 22000.0,
+    "car_mass_kg": 26200.0,
+    "comparative_basis": "Baseline22k ordinary package assumed to include4.5m-square0.8m footing and180kg/m3 reinforcing intensity; only differential quantities charged, not a quotation",
+    "complete_installed_support_price_usd": null,
+    "costs_are_supplier_quotes": false,
+    "design_complete": false,
+    "footing_thickness_m": 0.8,
+    "foundation_square_side_m": 6.5,
+    "id": "conditional-anchored-bay-foundation-cost-delta",
+    "incremental_ordinary_route_km_allowance_usd": 356448.00000000006,
+    "incremental_support_allowance_usd": 8911.200000000003,
+    "manufacturing_release": false,
+    "physical_release": false,
+    "physical_validation": false,
+    "proposed_support_allowance_usd": 30911.200000000004,
+    "qualified_foundation_selection": null,
+    "quantity_basis": {
+      "baseline_footing_concrete_m3": 16.2,
+      "extra_backfill_m3": 13.599999999999998,
+      "extra_concrete_m3": 17.600000000000005,
+      "extra_excavation_m3": 31.200000000000003,
+      "extra_reinforcement_kg": 3168.000000000001,
+      "proposed_footing_concrete_m3": 33.800000000000004
+    },
+    "rows": [
+      {
+        "amount_usd": 3872.000000000001,
+        "id": "extra-concrete",
+        "quantity": 17.600000000000005,
+        "rate_usd": 220.0,
+        "supplier_quote": false,
+        "unit": "m3"
+      },
+      {
+        "amount_usd": 4435.200000000001,
+        "id": "extra-reinforcement",
+        "quantity": 3168.000000000001,
+        "rate_usd": 1.4,
+        "supplier_quote": false,
+        "unit": "kg"
+      },
+      {
+        "amount_usd": 468.00000000000006,
+        "id": "extra-excavation",
+        "quantity": 31.200000000000003,
+        "rate_usd": 15.0,
+        "supplier_quote": false,
+        "unit": "m3"
+      },
+      {
+        "amount_usd": 135.99999999999997,
+        "id": "extra-backfill",
+        "quantity": 13.599999999999998,
+        "rate_usd": 10.0,
+        "supplier_quote": false,
+        "unit": "m3"
+      }
+    ],
+    "supports_per_two_direction_route_km": 40.0,
+    "unpriced": [
+      "actual ground/piles/dewatering/utilities",
+      "pier hoop/longitudinal/anchor/socket reinforcement reconciled against existing package",
+      "formwork, soil support, property footprint, schedule and lifting effects",
+      "brake reaction rail, complete bearing/anchor proof and programme overhead"
+    ]
+  },
+  "configured_motor_voltage_current_rating_premium_usd": null,
   "currency": "USD",
   "design_complete": false,
   "equipment_candidates": [
@@ -67,10 +148,11 @@
   "equipment_capex_usd": null,
   "local_value_added_fraction": null,
   "manufacturing_release": false,
+  "motor_price_comparison_proved": false,
   "ordinary_civil_bill_per_dual_km": {
     "complete_installed_price_usd": null,
     "costs_are_quotes": false,
-    "end_infill_concrete_m3_dual_km": 57.600000000000016,
+    "end_infill_concrete_m3_dual_km": 84.48000000000003,
     "foundation_basis": "itemised favourable ordinary-site procurement targets; support unit rates include unsized reinforcing/joint/process allowances; ground families, actual density and quotations remain unqualified",
     "foundation_families": [
       {
@@ -94,35 +176,35 @@
     "qualified_foundation_selection": null,
     "quantities": {
       "beam_lifts_per_route_km": 80.0,
-      "concrete_m3_dual_km": 1377.6000000000001,
+      "concrete_m3_dual_km": 1684.4799999999996,
       "reaction_steel_kg_dual_km": 600468.48,
-      "reinforcement_kg_dual_km": 247968.00000000003,
+      "reinforcement_kg_dual_km": 303206.3999999999,
       "shared_supports_per_route_km": 40.0
     },
     "reinforcement_basis": "unqualified intensity allowance; no rebar/prestress schedule",
     "rows": [
       {
         "accepted": false,
-        "amount_usd": 303072.00000000006,
+        "amount_usd": 370585.5999999999,
         "id": "structural_supply",
         "imported_input_usd": null,
         "input_origin": "unverified",
         "local_operation_candidate": true,
         "process": "batch, cast, cure and demould beam/walkway concrete",
-        "quantity": 1377.6000000000001,
+        "quantity": 1684.4799999999996,
         "rate_evidence": "project planning assumption; unquoted",
         "unit": "m3",
         "unit_rate_usd": 220.0
       },
       {
         "accepted": false,
-        "amount_usd": 347155.2,
+        "amount_usd": 424488.95999999985,
         "id": "reinforcement",
         "imported_input_usd": null,
         "input_origin": "unverified",
         "local_operation_candidate": true,
         "process": "cut/bend cage; position prestressing and verify cover",
-        "quantity": 247968.00000000003,
+        "quantity": 303206.3999999999,
         "rate_evidence": "project planning assumption; unquoted",
         "unit": "kg",
         "unit_rate_usd": 1.4
@@ -342,9 +424,9 @@
       "superstructure_shared_gravity_kn": 1600.7029535435295
     },
     "support_total_usd": 22000.0,
-    "total_allowance_usd_dual_km": 3505164.16
+    "total_allowance_usd_dual_km": 3650011.5199999996
   },
-  "ordinary_route_km": 43.89230000000004,
+  "ordinary_route_km": 43.886432453254805,
   "physical_release": false,
   "price_basis": "2026-10-21 USD unquoted design-to-cost sensitivities, not supplier or Iraqi market quotations",
   "process_routes": [
@@ -538,20 +620,29 @@
   ],
   "production_duration_days": null,
   "quantities": {
-    "beam_lifts_per_route_km": 3511.384000000003,
-    "cars": 86,
-    "concrete_m3_dual_km": 60466.03248000006,
-    "platform_packages": 31,
-    "reaction_steel_kg_dual_km": 26355942.664704025,
-    "reinforcement_kg_dual_km": 10883885.846400011,
-    "shared_supports_per_route_km": 1755.6920000000016,
-    "station_charger_connections": 62,
-    "station_electrical_two_direction_packages": 31
+    "beam_lifts_per_route_km": 3510.9145962603843,
+    "cars": 120,
+    "concrete_m3_dual_km": 73925.81773885863,
+    "fixed_nonpassenger_top_up_zones": 14,
+    "independent_one_way_rescue_kits": 98,
+    "platform_packages": 29,
+    "reaction_steel_kg_dual_km": 26352419.387828585,
+    "reinforcement_kg_dual_km": 13306647.192994554,
+    "shared_supports_per_route_km": 1755.4572981301922,
+    "station_charger_connections": 148,
+    "station_electrical_two_direction_packages": 45,
+    "terminal_loop_single_direction_beam_m": 5829.090807323001,
+    "terminal_service_zones": 16
   },
   "scenarios": [
     {
+      "booster_electrical_allowance_usd": 16572500.0,
+      "booster_mount_allowance_usd": 352163.5722995462,
+      "booster_zone_count": 14,
       "civil_basis": "Native reaction steel and section concrete; explicit reinforcement, support, delivery, lift and site-work allowances.",
+      "comparison_scope_with_previous_foundation_allowance_usd": 251689257.31927013,
       "complete_city_programme_usd": null,
+      "conditional_foundation_increment_usd": 13389906.50632333,
       "epc_included": false,
       "fleet_scaling_basis": "Each formation priced by car quantities, coupling interfaces and one shared control/protection set per train.",
       "formation_bills": [
@@ -677,7 +768,7 @@
             }
           ],
           "train_allowance_usd": 299610.0,
-          "trainsets": 14
+          "trainsets": 17
         },
         {
           "cars": 2,
@@ -801,7 +892,7 @@
             }
           ],
           "train_allowance_usd": 299610.0,
-          "trainsets": 12
+          "trainsets": 17
         },
         {
           "cars": 2,
@@ -925,7 +1016,7 @@
             }
           ],
           "train_allowance_usd": 299610.0,
-          "trainsets": 11
+          "trainsets": 16
         },
         {
           "cars": 2,
@@ -1049,24 +1140,222 @@
             }
           ],
           "train_allowance_usd": 299610.0,
-          "trainsets": 6
+          "trainsets": 10
         }
       ],
+      "mainline_station_electrical_allowance_usd": 49445000.0,
+      "mainline_station_electrical_packages": 29,
       "nre_included": false,
-      "ordinary_elevated_allowance_usd": 115387287.64497611,
-      "ordinary_viaduct_proposal_km": 43.89230000000004,
-      "ordinary_viaduct_unit_allowance_usd_dual_km": 2628873.12,
-      "priced_scope_subtotal_usd": 170430517.6449761,
-      "repeat_fleet_allowance_usd": 12883230.0,
+      "ordinary_elevated_allowance_usd": 120139488.01956141,
+      "ordinary_viaduct_proposal_km": 43.886432453254805,
+      "ordinary_viaduct_unit_allowance_usd_dual_km": 2737508.6399999997,
+      "priced_scope_subtotal_usd": 265079163.82559347,
+      "priced_scope_with_conditional_foundation_proposal_usd": 265079163.82559347,
+      "recovery_kit_count": 98,
+      "repeat_fleet_allowance_usd": 17976600.0,
+      "rescue_kit_allowance_usd": 13736347.165139217,
       "scenario": "low",
-      "station_electrical_allowance_usd": 42160000.0,
-      "station_electrical_packages": 31,
-      "station_electrical_unit_allowance_usd": 1360000.0,
-      "supplier_quotes": false
+      "selected_foundation_basis": "Conditional 6.5m square shallow-footing proposal at assumed 150kPa; ground, connections, quantities and supplier rates remain unaccepted",
+      "station_electrical_allowance_usd": 71925000.0,
+      "station_electrical_packages": 45,
+      "station_electrical_unit_allowance_usd": 1705000.0,
+      "supplier_quotes": false,
+      "terminal_civil_allowance_usd": 10987158.562269943,
+      "terminal_civil_bill": {
+        "basis": "Exact loop arclength and span count with native straight-section/end-infill quantity equivalents; curved geometry,prestress,rail detailing and curvature premium unqualified",
+        "beam_units": 240,
+        "complete_loop_price_usd": null,
+        "concrete_m3": 4916.712645858402,
+        "costs_are_quotes": false,
+        "endpoint_foundation_sharing_credit": false,
+        "reaction_steel_kg": 1750610.0289594454,
+        "rows": [
+          {
+            "accepted": false,
+            "amount_usd": 811257.5865666362,
+            "id": "structural_supply",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: batch, cast, cure and demould beam/walkway concrete",
+            "quantity": 4916.712645858402,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "m3",
+            "unit_rate_usd": 165.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 929258.6900672377,
+            "id": "reinforcement",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: cut/bend cage; position prestressing and verify cover",
+            "quantity": 885008.2762545123,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "kg",
+            "unit_rate_usd": 1.0499999999999998
+          },
+          {
+            "accepted": false,
+            "amount_usd": 2625915.043439168,
+            "id": "passive_rail_supply",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: cut/machine reaction faces; retain, align and survey",
+            "quantity": 1750610.0289594454,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "kg",
+            "unit_rate_usd": 1.5
+          },
+          {
+            "accepted": false,
+            "amount_usd": 4092000.0,
+            "id": "supports",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: investigate ground; construct foundation, pier and cap",
+            "quantity": 248,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "shared support",
+            "unit_rate_usd": 16500.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 174872.72421969005,
+            "id": "walkway_brackets",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: fit fallback access attachments; removal requires evacuation approval",
+            "quantity": 5829.090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "direction-m",
+            "unit_rate_usd": 30.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 270000.0,
+            "id": "transport",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: transport full span on surveyed access route",
+            "quantity": 240,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "beam delivery",
+            "unit_rate_usd": 1125.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 324000.0,
+            "id": "erection",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: lift, locate, secure and inspect beam",
+            "quantity": 240,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "beam lift",
+            "unit_rate_usd": 1350.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 186000.0,
+            "id": "temporary",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: temporary stability and ground bearing works",
+            "quantity": 248,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "support position",
+            "unit_rate_usd": 750.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 131154.54316476753,
+            "id": "installation",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: connect and align joints/reaction faces",
+            "quantity": 5829.090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "direction-m",
+            "unit_rate_usd": 22.5
+          },
+          {
+            "accepted": false,
+            "amount_usd": 174872.72421969005,
+            "id": "night",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: possession/access planning and restricted-hour allowance",
+            "quantity": 5.829090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "route-km",
+            "unit_rate_usd": 30000.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 393463.62949430256,
+            "id": "qa",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: survey, material/connection records and independent checks",
+            "quantity": 5.829090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "route-km",
+            "unit_rate_usd": 67500.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 655772.7158238377,
+            "id": "relocation",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: provisional ordinary utility-diversion allowance; major diversions unpriced",
+            "quantity": 5.829090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "route-km",
+            "unit_rate_usd": 112500.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 218590.90527461254,
+            "id": "traffic",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: maintain road and pedestrian access during construction",
+            "quantity": 5.829090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "route-km",
+            "unit_rate_usd": 37500.0
+          }
+        ],
+        "single_direction_beam_length_m": 5829.090807323001,
+        "support_positions": 248,
+        "total_allowance_usd": 10987158.562269943
+      },
+      "terminal_service_electrical_allowance_usd": 22480000.0,
+      "terminal_service_electrical_packages": 16,
+      "terminal_service_electrical_unit_allowance_usd": 1405000.0
     },
     {
+      "booster_electrical_allowance_usd": 29767500.0,
+      "booster_mount_allowance_usd": 469551.4297327283,
+      "booster_zone_count": 14,
       "civil_basis": "Native reaction steel and section concrete; explicit reinforcement, support, delivery, lift and site-work allowances.",
+      "comparison_scope_with_previous_foundation_allowance_usd": 377731509.7590269,
       "complete_city_programme_usd": null,
+      "conditional_foundation_increment_usd": 17853208.675097775,
       "epc_included": false,
       "fleet_scaling_basis": "Each formation priced by car quantities, coupling interfaces and one shared control/protection set per train.",
       "formation_bills": [
@@ -1192,7 +1481,7 @@
             }
           ],
           "train_allowance_usd": 399480.0,
-          "trainsets": 14
+          "trainsets": 17
         },
         {
           "cars": 2,
@@ -1316,7 +1605,7 @@
             }
           ],
           "train_allowance_usd": 399480.0,
-          "trainsets": 12
+          "trainsets": 17
         },
         {
           "cars": 2,
@@ -1440,7 +1729,7 @@
             }
           ],
           "train_allowance_usd": 399480.0,
-          "trainsets": 11
+          "trainsets": 16
         },
         {
           "cars": 2,
@@ -1564,24 +1853,222 @@
             }
           ],
           "train_allowance_usd": 399480.0,
-          "trainsets": 6
+          "trainsets": 10
         }
       ],
+      "mainline_station_electrical_allowance_usd": 89175000.0,
+      "mainline_station_electrical_packages": 29,
       "nre_included": false,
-      "ordinary_elevated_allowance_usd": 153849716.85996816,
-      "ordinary_viaduct_proposal_km": 43.89230000000004,
-      "ordinary_viaduct_unit_allowance_usd_dual_km": 3505164.16,
-      "priced_scope_subtotal_usd": 247287356.85996816,
-      "repeat_fleet_allowance_usd": 17177640.0,
+      "ordinary_elevated_allowance_usd": 160185984.0260819,
+      "ordinary_viaduct_proposal_km": 43.886432453254805,
+      "ordinary_viaduct_unit_allowance_usd_dual_km": 3650011.5199999996,
+      "priced_scope_subtotal_usd": 395584718.43412465,
+      "priced_scope_with_conditional_foundation_proposal_usd": 395584718.43412465,
+      "recovery_kit_count": 98,
+      "repeat_fleet_allowance_usd": 23968800.0,
+      "rescue_kit_allowance_usd": 18315129.553518955,
       "scenario": "base",
-      "station_electrical_allowance_usd": 76260000.0,
-      "station_electrical_packages": 31,
-      "station_electrical_unit_allowance_usd": 2460000.0,
-      "supplier_quotes": false
+      "selected_foundation_basis": "Conditional 6.5m square shallow-footing proposal at assumed 150kPa; ground, connections, quantities and supplier rates remain unaccepted",
+      "station_electrical_allowance_usd": 130375000.0,
+      "station_electrical_packages": 45,
+      "station_electrical_unit_allowance_usd": 3075000.0,
+      "supplier_quotes": false,
+      "terminal_civil_allowance_usd": 14649544.749693258,
+      "terminal_civil_bill": {
+        "basis": "Exact loop arclength and span count with native straight-section/end-infill quantity equivalents; curved geometry,prestress,rail detailing and curvature premium unqualified",
+        "beam_units": 240,
+        "complete_loop_price_usd": null,
+        "concrete_m3": 4916.712645858402,
+        "costs_are_quotes": false,
+        "endpoint_foundation_sharing_credit": false,
+        "reaction_steel_kg": 1750610.0289594454,
+        "rows": [
+          {
+            "accepted": false,
+            "amount_usd": 1081676.7820888483,
+            "id": "structural_supply",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: batch, cast, cure and demould beam/walkway concrete",
+            "quantity": 4916.712645858402,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "m3",
+            "unit_rate_usd": 220.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 1239011.5867563172,
+            "id": "reinforcement",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: cut/bend cage; position prestressing and verify cover",
+            "quantity": 885008.2762545123,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "kg",
+            "unit_rate_usd": 1.4
+          },
+          {
+            "accepted": false,
+            "amount_usd": 3501220.057918891,
+            "id": "passive_rail_supply",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: cut/machine reaction faces; retain, align and survey",
+            "quantity": 1750610.0289594454,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "kg",
+            "unit_rate_usd": 2.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 5456000.0,
+            "id": "supports",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: investigate ground; construct foundation, pier and cap",
+            "quantity": 248,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "shared support",
+            "unit_rate_usd": 22000.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 233163.63229292005,
+            "id": "walkway_brackets",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: fit fallback access attachments; removal requires evacuation approval",
+            "quantity": 5829.090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "direction-m",
+            "unit_rate_usd": 40.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 360000.0,
+            "id": "transport",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: transport full span on surveyed access route",
+            "quantity": 240,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "beam delivery",
+            "unit_rate_usd": 1500.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 432000.0,
+            "id": "erection",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: lift, locate, secure and inspect beam",
+            "quantity": 240,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "beam lift",
+            "unit_rate_usd": 1800.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 248000.0,
+            "id": "temporary",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: temporary stability and ground bearing works",
+            "quantity": 248,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "support position",
+            "unit_rate_usd": 1000.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 174872.72421969005,
+            "id": "installation",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: connect and align joints/reaction faces",
+            "quantity": 5829.090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "direction-m",
+            "unit_rate_usd": 30.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 233163.63229292005,
+            "id": "night",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: possession/access planning and restricted-hour allowance",
+            "quantity": 5.829090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "route-km",
+            "unit_rate_usd": 40000.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 524618.1726590701,
+            "id": "qa",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: survey, material/connection records and independent checks",
+            "quantity": 5.829090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "route-km",
+            "unit_rate_usd": 90000.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 874363.6210984502,
+            "id": "relocation",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: provisional ordinary utility-diversion allowance; major diversions unpriced",
+            "quantity": 5.829090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "route-km",
+            "unit_rate_usd": 150000.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 291454.5403661501,
+            "id": "traffic",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: maintain road and pedestrian access during construction",
+            "quantity": 5.829090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "route-km",
+            "unit_rate_usd": 50000.0
+          }
+        ],
+        "single_direction_beam_length_m": 5829.090807323001,
+        "support_positions": 248,
+        "total_allowance_usd": 14649544.749693258
+      },
+      "terminal_service_electrical_allowance_usd": 41200000.0,
+      "terminal_service_electrical_packages": 16,
+      "terminal_service_electrical_unit_allowance_usd": 2575000.0
     },
     {
+      "booster_electrical_allowance_usd": 46900000.0,
+      "booster_mount_allowance_usd": 704327.1445990924,
+      "booster_zone_count": 14,
       "civil_basis": "Native reaction steel and section concrete; explicit reinforcement, support, delivery, lift and site-work allowances.",
+      "comparison_scope_with_previous_foundation_allowance_usd": 580983514.6385401,
       "complete_city_programme_usd": null,
+      "conditional_foundation_increment_usd": 26779813.01264666,
       "epc_included": false,
       "fleet_scaling_basis": "Each formation priced by car quantities, coupling interfaces and one shared control/protection set per train.",
       "formation_bills": [
@@ -1707,7 +2194,7 @@
             }
           ],
           "train_allowance_usd": 599220.0,
-          "trainsets": 14
+          "trainsets": 17
         },
         {
           "cars": 2,
@@ -1831,7 +2318,7 @@
             }
           ],
           "train_allowance_usd": 599220.0,
-          "trainsets": 12
+          "trainsets": 17
         },
         {
           "cars": 2,
@@ -1955,7 +2442,7 @@
             }
           ],
           "train_allowance_usd": 599220.0,
-          "trainsets": 11
+          "trainsets": 16
         },
         {
           "cars": 2,
@@ -2079,20 +2566,213 @@
             }
           ],
           "train_allowance_usd": 599220.0,
-          "trainsets": 6
+          "trainsets": 10
         }
       ],
+      "mainline_station_electrical_allowance_usd": 142100000.0,
+      "mainline_station_electrical_packages": 29,
       "nre_included": false,
-      "ordinary_elevated_allowance_usd": 230774575.28995222,
-      "ordinary_viaduct_proposal_km": 43.89230000000004,
-      "ordinary_viaduct_unit_allowance_usd_dual_km": 5257746.24,
-      "priced_scope_subtotal_usd": 377441035.2899522,
-      "repeat_fleet_allowance_usd": 25766460.0,
+      "ordinary_elevated_allowance_usd": 240278976.03912282,
+      "ordinary_viaduct_proposal_km": 43.886432453254805,
+      "ordinary_viaduct_unit_allowance_usd_dual_km": 5475017.279999999,
+      "priced_scope_subtotal_usd": 607763327.6511868,
+      "priced_scope_with_conditional_foundation_proposal_usd": 607763327.6511868,
+      "recovery_kit_count": 98,
+      "repeat_fleet_allowance_usd": 35953200.0,
+      "rescue_kit_allowance_usd": 27472694.330278434,
       "scenario": "high",
-      "station_electrical_allowance_usd": 120900000.0,
-      "station_electrical_packages": 31,
-      "station_electrical_unit_allowance_usd": 3900000.0,
-      "supplier_quotes": false
+      "selected_foundation_basis": "Conditional 6.5m square shallow-footing proposal at assumed 150kPa; ground, connections, quantities and supplier rates remain unaccepted",
+      "station_electrical_allowance_usd": 207700000.0,
+      "station_electrical_packages": 45,
+      "station_electrical_unit_allowance_usd": 4900000.0,
+      "supplier_quotes": false,
+      "terminal_civil_allowance_usd": 21974317.124539886,
+      "terminal_civil_bill": {
+        "basis": "Exact loop arclength and span count with native straight-section/end-infill quantity equivalents; curved geometry,prestress,rail detailing and curvature premium unqualified",
+        "beam_units": 240,
+        "complete_loop_price_usd": null,
+        "concrete_m3": 4916.712645858402,
+        "costs_are_quotes": false,
+        "endpoint_foundation_sharing_credit": false,
+        "reaction_steel_kg": 1750610.0289594454,
+        "rows": [
+          {
+            "accepted": false,
+            "amount_usd": 1622515.1731332724,
+            "id": "structural_supply",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: batch, cast, cure and demould beam/walkway concrete",
+            "quantity": 4916.712645858402,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "m3",
+            "unit_rate_usd": 330.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 1858517.3801344754,
+            "id": "reinforcement",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: cut/bend cage; position prestressing and verify cover",
+            "quantity": 885008.2762545123,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "kg",
+            "unit_rate_usd": 2.0999999999999996
+          },
+          {
+            "accepted": false,
+            "amount_usd": 5251830.086878336,
+            "id": "passive_rail_supply",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: cut/machine reaction faces; retain, align and survey",
+            "quantity": 1750610.0289594454,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "kg",
+            "unit_rate_usd": 3.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 8184000.0,
+            "id": "supports",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: investigate ground; construct foundation, pier and cap",
+            "quantity": 248,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "shared support",
+            "unit_rate_usd": 33000.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 349745.4484393801,
+            "id": "walkway_brackets",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: fit fallback access attachments; removal requires evacuation approval",
+            "quantity": 5829.090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "direction-m",
+            "unit_rate_usd": 60.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 540000.0,
+            "id": "transport",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: transport full span on surveyed access route",
+            "quantity": 240,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "beam delivery",
+            "unit_rate_usd": 2250.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 648000.0,
+            "id": "erection",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: lift, locate, secure and inspect beam",
+            "quantity": 240,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "beam lift",
+            "unit_rate_usd": 2700.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 372000.0,
+            "id": "temporary",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: temporary stability and ground bearing works",
+            "quantity": 248,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "support position",
+            "unit_rate_usd": 1500.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 262309.08632953506,
+            "id": "installation",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: connect and align joints/reaction faces",
+            "quantity": 5829.090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "direction-m",
+            "unit_rate_usd": 45.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 349745.4484393801,
+            "id": "night",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: possession/access planning and restricted-hour allowance",
+            "quantity": 5.829090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "route-km",
+            "unit_rate_usd": 60000.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 786927.2589886051,
+            "id": "qa",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: survey, material/connection records and independent checks",
+            "quantity": 5.829090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "route-km",
+            "unit_rate_usd": 135000.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 1311545.4316476753,
+            "id": "relocation",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: provisional ordinary utility-diversion allowance; major diversions unpriced",
+            "quantity": 5.829090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "route-km",
+            "unit_rate_usd": 225000.0
+          },
+          {
+            "accepted": false,
+            "amount_usd": 437181.8105492251,
+            "id": "traffic",
+            "imported_input_usd": null,
+            "input_origin": "unverified",
+            "local_operation_candidate": true,
+            "process": "Proposed terminal loop: maintain road and pedestrian access during construction",
+            "quantity": 5.829090807323001,
+            "rate_evidence": "project planning assumption; unquoted",
+            "unit": "route-km",
+            "unit_rate_usd": 75000.0
+          }
+        ],
+        "single_direction_beam_length_m": 5829.090807323001,
+        "support_positions": 248,
+        "total_allowance_usd": 21974317.124539886
+      },
+      "terminal_service_electrical_allowance_usd": 65600000.0,
+      "terminal_service_electrical_packages": 16,
+      "terminal_service_electrical_unit_allowance_usd": 4100000.0
     }
   ],
   "schema": "osr-maglev-city-manufacturing/1",
@@ -2392,15 +3072,374 @@
     ]
   },
   "station_electrical_rating_qualified": false,
+  "terminal_electrical_cost_basis": {
+    "basis": "unquoted-repeat-manufacture-target-rates",
+    "charging_rate_basis": "60-second-connected-case; 45-second interface and corrected 4.67C battery require separate rating and quote",
+    "complete_railway_price": false,
+    "currency": "USD",
+    "design_complete": false,
+    "estimating_reserve_fraction": 0.2,
+    "exclusions": [
+      "development and qualification",
+      "factory capital and tooling",
+      "utility reinforcement",
+      "station buildings/platforms/access",
+      "land and air rights",
+      "depot/recovery/fleet",
+      "taxes/duties/finance/programme costs",
+      "actual winding electrical/thermal and 45-second charging rating"
+    ],
+    "manufacturing_release": false,
+    "physical_release": false,
+    "physical_validation": false,
+    "sensitivity_cases": [
+      {
+        "sensitivity": "aggressive-target",
+        "topologies": {
+          "B-two-fixed-groups": {
+            "assumed_kw_equivalent_per_bridge": 2500.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 1285000.0,
+            "installed_bridges": 4,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 225000.0,
+              "braking": 60000.0,
+              "bridges": 400000.0,
+              "charging": 120000.0,
+              "motion_sensing_safety": 80000.0,
+              "output_routing": 0.0,
+              "supply_rectifier_dc": 250000.0,
+              "thermal_installation_acceptance": 150000.0
+            },
+            "subtotal_with_reserve_usd": 1542000.0
+          },
+          "C-routed-10-banks": {
+            "assumed_kw_equivalent_per_bridge": 1000.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 1405000.0,
+            "installed_bridges": 10,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 225000.0,
+              "braking": 60000.0,
+              "bridges": 400000.0,
+              "charging": 120000.0,
+              "motion_sensing_safety": 80000.0,
+              "output_routing": 120000.0,
+              "supply_rectifier_dc": 250000.0,
+              "thermal_installation_acceptance": 150000.0
+            },
+            "subtotal_with_reserve_usd": 1686000.0
+          },
+          "C-routed-8-banks": {
+            "assumed_kw_equivalent_per_bridge": 1000.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 1325000.0,
+            "installed_bridges": 8,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 225000.0,
+              "braking": 60000.0,
+              "bridges": 320000.0,
+              "charging": 120000.0,
+              "motion_sensing_safety": 80000.0,
+              "output_routing": 120000.0,
+              "supply_rectifier_dc": 250000.0,
+              "thermal_installation_acceptance": 150000.0
+            },
+            "subtotal_with_reserve_usd": 1590000.0
+          },
+          "D-independent-sections": {
+            "assumed_kw_equivalent_per_bridge": 800.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 1653000.0,
+            "installed_bridges": 24,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 225000.0,
+              "braking": 60000.0,
+              "bridges": 768000.0,
+              "charging": 120000.0,
+              "motion_sensing_safety": 80000.0,
+              "output_routing": 0.0,
+              "supply_rectifier_dc": 250000.0,
+              "thermal_installation_acceptance": 150000.0
+            },
+            "subtotal_with_reserve_usd": 1983600.0
+          }
+        }
+      },
+      {
+        "sensitivity": "middle-target",
+        "topologies": {
+          "B-two-fixed-groups": {
+            "assumed_kw_equivalent_per_bridge": 2500.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 2335000.0,
+            "installed_bridges": 4,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 375000.0,
+              "braking": 120000.0,
+              "bridges": 800000.0,
+              "charging": 240000.0,
+              "motion_sensing_safety": 150000.0,
+              "output_routing": 0.0,
+              "supply_rectifier_dc": 400000.0,
+              "thermal_installation_acceptance": 250000.0
+            },
+            "subtotal_with_reserve_usd": 2802000.0
+          },
+          "C-routed-10-banks": {
+            "assumed_kw_equivalent_per_bridge": 1000.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 2635000.0,
+            "installed_bridges": 10,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 375000.0,
+              "braking": 120000.0,
+              "bridges": 800000.0,
+              "charging": 240000.0,
+              "motion_sensing_safety": 150000.0,
+              "output_routing": 300000.0,
+              "supply_rectifier_dc": 400000.0,
+              "thermal_installation_acceptance": 250000.0
+            },
+            "subtotal_with_reserve_usd": 3162000.0
+          },
+          "C-routed-8-banks": {
+            "assumed_kw_equivalent_per_bridge": 1000.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 2475000.0,
+            "installed_bridges": 8,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 375000.0,
+              "braking": 120000.0,
+              "bridges": 640000.0,
+              "charging": 240000.0,
+              "motion_sensing_safety": 150000.0,
+              "output_routing": 300000.0,
+              "supply_rectifier_dc": 400000.0,
+              "thermal_installation_acceptance": 250000.0
+            },
+            "subtotal_with_reserve_usd": 2970000.0
+          },
+          "D-independent-sections": {
+            "assumed_kw_equivalent_per_bridge": 800.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 3071000.0,
+            "installed_bridges": 24,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 375000.0,
+              "braking": 120000.0,
+              "bridges": 1536000.0,
+              "charging": 240000.0,
+              "motion_sensing_safety": 150000.0,
+              "output_routing": 0.0,
+              "supply_rectifier_dc": 400000.0,
+              "thermal_installation_acceptance": 250000.0
+            },
+            "subtotal_with_reserve_usd": 3685200.0
+          }
+        }
+      },
+      {
+        "sensitivity": "stress-target",
+        "topologies": {
+          "B-two-fixed-groups": {
+            "assumed_kw_equivalent_per_bridge": 2500.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 3700000.0,
+            "installed_bridges": 4,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 600000.0,
+              "braking": 200000.0,
+              "bridges": 1200000.0,
+              "charging": 400000.0,
+              "motion_sensing_safety": 250000.0,
+              "output_routing": 0.0,
+              "supply_rectifier_dc": 650000.0,
+              "thermal_installation_acceptance": 400000.0
+            },
+            "subtotal_with_reserve_usd": 4440000.0
+          },
+          "C-routed-10-banks": {
+            "assumed_kw_equivalent_per_bridge": 1000.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 4300000.0,
+            "installed_bridges": 10,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 600000.0,
+              "braking": 200000.0,
+              "bridges": 1200000.0,
+              "charging": 400000.0,
+              "motion_sensing_safety": 250000.0,
+              "output_routing": 600000.0,
+              "supply_rectifier_dc": 650000.0,
+              "thermal_installation_acceptance": 400000.0
+            },
+            "subtotal_with_reserve_usd": 5160000.0
+          },
+          "C-routed-8-banks": {
+            "assumed_kw_equivalent_per_bridge": 1000.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 4060000.0,
+            "installed_bridges": 8,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 600000.0,
+              "braking": 200000.0,
+              "bridges": 960000.0,
+              "charging": 400000.0,
+              "motion_sensing_safety": 250000.0,
+              "output_routing": 600000.0,
+              "supply_rectifier_dc": 650000.0,
+              "thermal_installation_acceptance": 400000.0
+            },
+            "subtotal_with_reserve_usd": 4872000.0
+          },
+          "D-independent-sections": {
+            "assumed_kw_equivalent_per_bridge": 800.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 4804000.0,
+            "installed_bridges": 24,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 600000.0,
+              "braking": 200000.0,
+              "bridges": 2304000.0,
+              "charging": 400000.0,
+              "motion_sensing_safety": 250000.0,
+              "output_routing": 0.0,
+              "supply_rectifier_dc": 650000.0,
+              "thermal_installation_acceptance": 400000.0
+            },
+            "subtotal_with_reserve_usd": 5764800.0
+          }
+        }
+      }
+    ],
+    "supplier_quote": false,
+    "unpriced_topologies": [
+      "A-whole-zone winding: installed current/kVA and winding losses not established"
+    ]
+  },
+  "terminal_service_zone_pricing": "One complete two-direction electrical package per one-way service zone; no speculative shared supply or single-lane discount",
+  "terminal_transfer_access_allowance_usd": null,
+  "terminal_transfer_access_proposals": [
+    {
+      "access_and_land_qualified": false,
+      "accessible_path_length_m": null,
+      "capex_usd": null,
+      "crossing_id": "interchange-005",
+      "id": "interchange-005-terminal-access-proposal",
+      "kind": "compact-terminal-passenger-transfer-access",
+      "reference_coordinates": [
+        [
+          36.45616701289099,
+          -0.7362936076017709
+        ],
+        [
+          36.45616701289099,
+          -0.7361136414354101
+        ],
+        [
+          36.45598733659925,
+          -0.7361136414354101
+        ],
+        [
+          36.45580766030751,
+          -0.7361136414354101
+        ],
+        [
+          36.45562798401577,
+          -0.7362936076017709
+        ],
+        [
+          36.45562798401577,
+          -0.7364735737681316
+        ],
+        [
+          36.45580766030751,
+          -0.7366535399344923
+        ],
+        [
+          36.45598733659925,
+          -0.7368335061008531
+        ],
+        [
+          36.45616701289099,
+          -0.7370134722672138
+        ],
+        [
+          36.45634668918273,
+          -0.7371934384335745
+        ],
+        [
+          36.45643622281875,
+          -0.7372831165156402
+        ]
+      ],
+      "retained_route_separation_m": 235.44946765872106,
+      "route_alignment_changed": false,
+      "source_crossing_s_m": 235.44946765872106,
+      "terminal_loop_datum_changed": false,
+      "terminal_s_m": 0.0,
+      "train_routing": false
+    }
+  ],
   "unpriced": [
     "station structures, accessible exits and full MEP",
     "actual45-second services charger upgrade and ratings,external utility reinforcement,storage/PV",
     "depot/recovery/transfer equipment",
-    "special crossings and terminal loops",
+    "special crossings and terminal curved-detail/land premiums",
     "land/air rights and major utility works",
     "surveys/qualified design/independent assurance",
     "factory CAPEX and first articles",
     "evacuation equipment and lifetime maintenance",
     "programme management/EPC/finance/tax/duty/spares/OPEX"
-  ]
+  ],
+  "wider_corridor_pricing_scope": "Each passenger winding uses its installed length and selected research charger; every fixed top-up has a full two-direction electrical target without charger credit, plus separately counted mount/cabinet stock. Recovery kits have independent portals/footings and no sharing credit. Higher voltage/thermal supplier premiums, access and physical acceptance remain unpriced."
 }

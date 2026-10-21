@@ -10,7 +10,7 @@ import subprocess
 import sys
 import tempfile
 
-from . import cities, coupled, delivery, evacuation, geometry, media, model, system_development, navigation, reference_assembly, iteration, station, station_structure, station_protocol, station_native
+from . import cities, coupled, delivery, evacuation, geometry, media, model, system_development, navigation, reference_assembly, iteration, station, station_structure, station_protocol, station_native, moving_train, system_campaign, closure, manufactured_native, corridor, booster_kit, booster_native, interchange_hubs
 
 BASE = model.ROOT/'docs/design-engine/ferrite-maglev'
 STATE = model.ROOT/'build/maglev-workflow'
@@ -116,12 +116,20 @@ def stages(output):
         ('rust-station-launch-protocol',station_protocol.verify,lambda:fresh_packet('station-protocol',station_protocol.publish)),
         ('adaptive-system-design', iteration.verify, lambda: fresh_packet('iterative', iteration.publish)),
         ('baghdad-six-car-reference',reference_assembly.verify,lambda: fresh_packet('baghdad-reference',reference_assembly.publish)),
+        ('moving-six-car-twin',moving_train.verify,lambda:fresh_packet('moving-train',moving_train.publish)),
+        ('integrated-station-system',system_campaign.verify,lambda:fresh_packet('system-campaign',system_campaign.publish)),
+        ('urban-suburban-powered-corridors',corridor.verify,lambda:fresh_packet('corridor',corridor.publish)),
+        ('fixed-booster-and-recovery-kit',booster_kit.verify,lambda:fresh_packet('booster-kit',booster_kit.publish)),
+        ('booster-and-recovery-native',booster_native.verify,lambda:fresh_packet('booster-native',booster_native.publish)),
+        ('manufactured-design-dossier',closure.verify,lambda:fresh_packet('manufactured-dossier',closure.publish)),
+        ('manufactured-detail-native',manufactured_native.verify,lambda:fresh_packet('manufactured-native',manufactured_native.publish)),
         ('all-city-maglev-planning', city_check, cities.generate_all),
+        ('baghdad-interchange-hub-investigation', interchange_hubs.verify, lambda: fresh_packet('interchange-hubs', interchange_hubs.publish)),
         ('city-design-catalogue', lambda: document('generate-design-index.py','--check'), lambda: document('generate-design-index.py')),
         ('primary-capability-directory', lambda: navigation.publish(check=True), navigation.publish),
-        ('markdown-inventory', lambda: document('generate-doc-index.py','--check'), lambda: document('generate-doc-index.py')),
         ('primary-report', lambda: report_check(delivery.OUTPUT), lambda: delivery.publish()),
         ('primary-overview', lambda: document('generate-public-overview.py', '--check'), lambda: document('generate-public-overview.py')),
+        ('markdown-inventory', lambda: document('generate-doc-index.py','--check'), lambda: document('generate-doc-index.py')),
         ('primary-reader-book', lambda: document('build-doc-book.py', '--check'), lambda: document('build-doc-book.py')),
     ]
     if Path(output).resolve() != delivery.OUTPUT.resolve():
@@ -136,9 +144,9 @@ def run(output=delivery.OUTPUT, *, state=STATE, stage_list=None):
     with locked(state):
         model.load()
         def input_identity():
-            return {name:digest for name,digest in model.sources().items()
-                if '/engineering/maglev/' not in name and not name.startswith('engineering/ferrite_maglev/city-index.')
-                and not (name.startswith('cities/catalogue/') and name.endswith('/README.md'))}
+            # Publication still hashes every retained output. The inter-stage
+            # input guard excludes generated files before reading their bytes.
+            return model.sources(include_generated=False)
         source_identity = input_identity()
         def frozen():
             if input_identity() != source_identity:

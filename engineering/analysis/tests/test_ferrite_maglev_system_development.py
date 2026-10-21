@@ -7,7 +7,7 @@ import shutil
 import sys
 import pytest
 ROOT=Path(__file__).resolve().parents[3];sys.path.insert(0,str(ROOT))
-from engineering.ferrite_maglev import system_development as system,geometry,model
+from engineering.ferrite_maglev import system_development as system,geometry,model,configuration
 
 
 def test_entry_voids_and_holes_are_not_solid_material_or_a_complete_chute():
@@ -85,7 +85,15 @@ def test_current_native_and_rust_packet_have_exact_identities_and_negative_contr
     for key in ('inward-clash','height-gap-10m','road-landing'):
         assert all(v['phase'] not in {'Ready','DeploymentStudy','FlowStudy','CompleteHold'} for v in cases[key]['replay']['frames'])
     matched=json.loads((system.OUTPUT/'native-derived-coupling.json').read_text())
-    assert matched['native_beam_line_mass_kg_m']==pytest.approx((.54+.72/25)*2500+300.23424)
+    # Independent current-section takeoff: shell plus two explicit solid end
+    # infills, and the actual segmented reaction faces on both sides.
+    cv=configuration.selected().civil;L=cv.span_m
+    inner=(cv.width_m-2*cv.web_m)*(cv.depth_m-2*cv.flange_m)
+    shell=cv.width_m*cv.depth_m-inner
+    rail_length=sum(min(cv.rail_segment_length_m,L-i*cv.rail_pitch_m) for i in range(math.ceil(L/cv.rail_pitch_m)))
+    concrete=(shell*L+2*.4*inner)*geometry.MATERIALS['concrete']/L
+    reaction=2*rail_length*cv.rail_width_m*cv.rail_thickness_m*geometry.MATERIALS['steel']/L
+    assert matched['native_beam_line_mass_kg_m']==pytest.approx(concrete+reaction)
     assert matched['replay']['beam_assumptions']['line_mass_kg_m']==matched['native_beam_line_mass_kg_m']
     assert matched['complete_egress_system_included'] is False
     assert matched['car_mass_kg']==pytest.approx(23200+system.study()['entry_partial_material_mass_kg_per_car'])

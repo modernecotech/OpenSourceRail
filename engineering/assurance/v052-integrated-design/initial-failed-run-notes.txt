@@ -1,0 +1,13 @@
+REJECTED INITIAL RUN — historical evidence only; not an accepted test result.
+The original log and source receipt are retained unchanged in content. Their old source identities are historical and are not claimed to match the corrected tree.
+Only executed-tests.txt.gz and test-source-receipt.json establish the final suite counts and acceptance. No initial-run count contributes to those fields.
+
+engineering/analysis/tests/test_ferrite_maglev_architecture_audit.py::test_current_tree_contains_only_current_vehicle_sources
+  Owned corridor gzip evidence exceeded the former 64 MiB audit limit; correction applies the owned packet size bounds while retaining bounded streaming.
+engineering/analysis/tests/test_ferrite_maglev_cities.py::test_real_city_package_preserves_demand_and_binds_sources
+  A strict equality assertion differed by one floating-point ULP in the city cost subtotal; correction uses an appropriately bounded numerical comparison.
+engineering/analysis/tests/test_ferrite_maglev_evacuation.py::test_unapproved_deletion_never_enters_reference_champion_selection
+  The expected optimisation grid size remained 432 after the deliberate depth alternatives expanded it to 720; correction updates the independent expected grid.
+
+Separate workflow correction: refresh the public overview before generating the Markdown inventory and reader book; an isolated first-pass heading regression covers the ordering.
+This correction history does not imply engineering, manufacturing, operating or physical acceptance.

@@ -254,7 +254,7 @@ def section(width, depth, web, flange):
                 area_m2=area, vertical_inertia_m4=ix, lateral_inertia_m4=iy, thin_wall_torsion_j_m4=torsion)
 
 
-def civil(c=None, *, width=None, depth=None, web=None, flange=None, span=None, pier_height=None):
+def civil(c=None, *, width=None, depth=None, web=None, flange=None, span=None, pier_height=None, car_mass_kg=None):
     a = load(); cv = a['civil']; rho = cv['concrete_density_kg_m3']
     width, depth, web, flange, span, height = [default if value is None else value for value, default in
         [(width, cv['width_m']), (depth, cv['depth_m']), (web, cv['web_m']), (flange, cv['flange_m']),
@@ -267,7 +267,7 @@ def civil(c=None, *, width=None, depth=None, web=None, flange=None, span=None, p
         raise ValueError('end zones exceed member length')
     concrete = s['area_m2']*span+2*infill*(width-2*web)*(depth-2*flange)
     rail = cv['reaction_rail_kg_per_direction_m']*span
-    loaded = body(c)['aw3_target_kg']
+    loaded = body(c)['aw3_target_kg'] if car_mass_kg is None else _positive(car_mass_kg, 'per-car gross mass')
     length = body(c)['envelope_m']['length']
     line_live = loaded/length
     q = (s['area_m2']*rho+cv['reaction_rail_kg_per_direction_m']+line_live)*9.81
