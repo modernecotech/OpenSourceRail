@@ -8,7 +8,7 @@ from pathlib import Path
 import platform
 import tempfile
 
-from . import model,transition,geometry,field,media,optimisation,evacuation,system_development,reference_assembly
+from . import model,transition,geometry,field,media,optimisation,evacuation,system_development,reference_assembly,iteration
 
 OUTPUT = model.ROOT / 'docs/design-engine/ferrite-maglev/reference'
 EXPECTED={'result.json','index.html','guidebeam-sections.svg','duty-energy.svg','systems-register.json.gz','interface-definition.json.gz','civil-bay-definition.json.gz','field-study.json.gz','field-study.png','optimisation-study.json.gz','evacuation-study.json.gz','evacuation-envelope.svg'}
@@ -43,6 +43,8 @@ def money(value):
 
 
 def render(result):
+    adaptive=json.loads((iteration.OUTPUT/'recommendation.json').read_text())
+    adaptive_id=escape(adaptive['candidate_id'] or 'none; confirmation held')
     search=result['whole_system_optimisation'];best=search['minimum_indexed_allowance_candidate']
     best_text=f"${best['civil']['indexed_allowance_usd_dual_km']:,.0f}" if best else 'none; no candidate passes the numerical screens'
     costs=[r for r in result['cost_cases'] if r['ferrite_kg_car']==3000 and r['battery_kwh_car']==225]
@@ -56,12 +58,13 @@ def render(result):
     requirements=''.join(f'<tr><td>{r["id"]}</td><td>{escape(r["requirement"])}</td><td>Open</td></tr>' for r in result['requirements'])
     return f'''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OpenSourceRail v0.5 — primary ferrite-maglev study</title>
 +<style>body{{font:17px/1.6 system-ui;max-width:1120px;margin:40px auto;padding:0 24px;color:#172c42;background:#f9fbfd}}h1{{font-size:38px;line-height:1.15}}h2{{margin-top:36px}}.banner{{background:#e3f4f0;padding:20px;border-left:5px solid #087f78}}table{{display:block;overflow-x:auto;border-collapse:collapse;width:100%;font-size:15px}}td,th{{text-align:left;padding:10px;border-bottom:1px solid #cad5df}}img{{width:100%;height:auto}}code{{background:#e9eef3;padding:3px;overflow-wrap:anywhere}}a{{color:#006b67}}.tag{{font-weight:700;color:#087f78}}</style>
-+<p class="tag">PRIMARY DEVELOPMENT ARCHITECTURE · v0.5.0</p><h1>Ferrite-maglev, designed for local manufacture and repair</h1>
++<p class="tag">PRIMARY DEVELOPMENT ARCHITECTURE · v{model.RELEASE_VERSION}</p><h1>Ferrite-maglev, designed for local manufacture and repair</h1>
 +<div class="banner">The project now develops fixed onboard magnetic modules, passive guidebeams and Rust controls on off-the-shelf SBCs. Architecture selection is complete; engineering, manufacturing and operational acceptance remain open. Accepted physical releases: <strong>0</strong>.</div>
 +<p><a href="result.json">Full source-bound calculations, requirements and systems register</a> · <a href="manifest.json">Checksums and source receipt</a></p>
 +<h2>Elevated routes and whole-system simplification</h2><p>The default targets predominantly elevated mainlines (99% objective), with all ordinary sections proposed on viaducts. Straight tangents are preferred where building/air-rights, road/utility, wildlife/water, station-access and foundation evidence permit. Rings, terminal loops and necessary obstacle avoidance remain explicit. Current geography is retained; no automatic housing, road or wildlife clearance is claimed.</p>
 +<p><a href="optimisation-study.json.gz">Complete bounded joint optimisation, quantities and Pareto observations</a>: {search['candidate_count']} civil/vehicle combinations, {search['numerical_screen_pass_count']} passing gross stiffness/bare-lift screens, {len(search['pareto_candidate_ids'])} Pareto observations. Lowest indexed ordinary twin-direction viaduct allowance: {best_text}/route-km; reference planning allowance ${search['reference_ordinary_viaduct_usd_dual_km']:,.0f}. These unquoted targets omit project scope and have zero acceptance-eligible candidates.</p>
 +<p>The search varies sections, span/support count, transport/handling and vehicle mass allocations together. Passenger capacity, battery storage, ferrite, emergency equipment and reserve are retained. Required doors, HVAC, sensing, cooling and protection remain. Scope without justified savings retains an allowance floor of ${search['unchanged_scope_floor_usd_dual_km']:,.0f}/route-km. Actual imported content, whole installed mass and lifecycle costs remain unknown. These analytical alternatives are separate configurations from the retained CAD and coupled replay.</p>
++<h2>Adaptive mechanical, civil and Rust-control search</h2><p><a href="../iterative/README.md">Generation history and scope</a> · <a href="../iterative/recommendation.json">Confirmed research recommendation</a> · <a href="../iterative/result.json.gz">Full variants, ancestry, traces and holdout evidence</a> · <a href="../iterative/progress.svg">Progress chart</a>. Exact candidate <code>{adaptive_id}</code> is preferred within the evaluated research bounds and explicit weights. Nearby proposals depend on previous measured results; failed confirmation disqualifies the revision. Body/equipment reductions are unqualified mass allocations; complete manufactured geometry, field maps and whole-train acceptance remain open. The research recommendation does not automatically replace city or native reference configurations.</p>
 +<h2>Whole-system comparison scorecards</h2><p>Lowest indexed ordinary-viaduct allowance: <code>{cost_id}</code>. Lowest counted concrete mass: <code>{mass_id}</code>. Fastest maglev construction: <strong>unknown</strong>; no qualified factory/erection schedule is present. These observations exclude held no-walkway cases and do not establish complete installed price, mass or delivery time.</p>
 +<table><tr><th>Vehicle profile</th><th>Tare / AW3 kg per car</th><th>Hot no-regen kWh/car-cycle</th><th>Balanced charger kW/car</th><th>Indexed reference-formation allowance</th></tr>{profile_rows}</table>
 +<p>All profiles use matched passenger/storage allocations and the same straight, level 1 km / 80 km/h-request cycle with fixed assumed drag, hotel demand and efficiencies. Actual magnetic force/loss maps and route acceptance are absent. Complete installed/factory-gate costs, shipment mass, factory/site labour, unique/moving parts, imported value, specialist dependence and repair/recovery times remain explicit unknowns in every candidate scorecard. New chute mass is unselected; no-walkway energy/charging are held. <a href="optimisation-study.json.gz">All candidate scorecards and coupling evidence</a>.</p>
@@ -124,6 +127,7 @@ def runtime():
 
 def external_evidence():
     from . import coupled,cities
+    iteration.verify()
     base=model.ROOT/'docs/design-engine/ferrite-maglev'
     geometry.verify_native(base/'native');coupled.verify(base/'coupled');evacuation.verify_native(base/'beam-only')
     system_development.verify(base/'system-development')
@@ -131,12 +135,12 @@ def external_evidence():
     catalogue=cities.verify_index()
     if not catalogue['current']:raise ValueError('city catalogue inputs/outputs changed: '+str(catalogue['errors'][:3]))
     return {p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest()
-            for p in (base/'native/manifest.json',base/'coupled/receipt.json',base/'beam-only/manifest.json',base/'system-development/manifest.json',base/'baghdad-reference/manifest.json')}
+            for p in (base/'native/manifest.json',base/'coupled/receipt.json',base/'beam-only/manifest.json',base/'system-development/manifest.json',base/'baghdad-reference/manifest.json',base/'iterative/manifest.json')}
 
 
 def publish(output=OUTPUT, *, check=False):
     output=Path(output).resolve();files=payload()
-    manifest=dict(schema='osr-primary-infrastructure-publication/1',version='0.5.0',family='ferrite-pm-maglev-study',
+    manifest=dict(schema='osr-primary-infrastructure-publication/1',version=model.RELEASE_VERSION,family='ferrite-pm-maglev-study',
                   source_sha256=model.sources(),files_sha256={name:sha256(data).hexdigest() for name,data in files.items()},**model.FLAGS)
     files['manifest.json']=encoded(manifest)
     if check:

@@ -110,7 +110,18 @@ try {
     return JSON.parse((await asset(relative)).body.toString("utf8"));
   }
   const data = await jsonAsset("result.json");
-  assert.equal(data.version, "0.5.0");
+  assert.equal(data.version, "0.5.1");
+  const adaptiveManifest = await jsonAsset("../iterative/manifest.json");
+  const adaptiveRaw = await asset("../iterative/result.json.gz");
+  assert.equal(createHash("sha256").update(adaptiveRaw.body).digest("hex"), adaptiveManifest.files_sha256["result.json.gz"]);
+  const adaptive = JSON.parse(gunzipSync(adaptiveRaw.body).toString("utf8"));
+  assert.ok(adaptive.selected_candidate_id);
+  assert.ok(adaptive.history.length >= 2);
+  const winner = adaptive.candidates.find(r => r.candidate_id === adaptive.selected_candidate_id);
+  assert.equal(winner.confirmation_state, "passed");
+  assert.equal(winner.eligible_for_research_recommendation, true);
+  assert.equal(adaptive.physical_release, false);
+  assert.ok(adaptive.confirmations.find(r => r.candidate_id === winner.candidate_id).cases.every(c => c.passed));
   for (const flag of [
     "design_complete",
     "physical_validation",

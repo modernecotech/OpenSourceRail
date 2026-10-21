@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parents[2]
 POLICY = ROOT / 'lib/templates/infrastructure.toml'
 INPUT = ROOT / 'ferrite-maglev-study.toml'
 SPEC = ROOT / 'engineering/ferrite_maglev/data/requirements.json'
+RELEASE_VERSION = tomllib.loads((ROOT/'Cargo.toml').read_text())['workspace']['package']['version']
 FLAGS = dict(design_complete=False, physical_validation=False, manufacturing_release=False, physical_release=False)
 
 
@@ -326,7 +327,7 @@ def build():
     catalogue_path=Path(__file__).parent/'city-index.json'
     import json
     catalogue=json.loads(catalogue_path.read_text()) if catalogue_path.is_file() else None
-    return dict(schema='osr-primary-infrastructure-study/1',version='0.5.0',family=policy['development']['primary_family'],
+    return dict(schema='osr-primary-infrastructure-study/1',version=RELEASE_VERSION,family=policy['development']['primary_family'],
                 architecture=policy['development']['primary_family'],configuration_revision=configuration.selected().revision,
                 publication_role='primary-provisional-design',city='Baghdad six-car reference',
                 formation=dict(baghdad_cars=6,nominal_body_length_m=102.),

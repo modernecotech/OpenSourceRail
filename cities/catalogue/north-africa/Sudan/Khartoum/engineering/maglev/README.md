@@ -6,22 +6,22 @@ Provisional planning from retained geography, station demand and service schedul
 
 14 lines; 550 provisional trainsets / 3300 cars; 742,500 kWh gross onboard storage.
 
-| Line | Cars | AW2 / AW3 | Body length m | Topology | Peak / total trains | Dwell s |
+| Line | Cars | AW2 / AW3 | Bodies / assumed overall m | Topology | Peak / total trains | Dwell s |
 |---|---:|---:|---:|---|---:|---:|
-| line-1 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 53 / 60 | 125 |
-| line-2 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 52 / 59 | 137 |
-| line-3 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 57 / 64 | 130 |
-| line-4 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 37 / 42 | 123 |
-| line-5 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 56 / 63 | 138 |
-| line-6 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 37 / 42 | 139 |
-| line-7 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 56 / 63 | 133 |
-| line-8 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 31 / 36 | 133 |
-| line-9 | 6 | 720 / 960 | 102 | two-independent-directed-circuits | 64 / 72 | 120 |
-| line-10 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 9 / 11 | 130 |
-| line-11 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 7 / 9 | 137 |
-| line-12 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 7 / 9 | 130 |
-| line-13 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 9 / 11 | 120 |
-| line-14 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 7 / 9 | 135 |
+| line-1 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 53 / 60 | 125 |
+| line-2 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 52 / 59 | 137 |
+| line-3 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 57 / 64 | 130 |
+| line-4 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 37 / 42 | 123 |
+| line-5 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 56 / 63 | 138 |
+| line-6 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 37 / 42 | 139 |
+| line-7 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 56 / 63 | 133 |
+| line-8 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 31 / 36 | 133 |
+| line-9 | 6 | 720 / 960 | 102 / 104.5 | two-independent-directed-circuits | 64 / 72 | 120 |
+| line-10 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 9 / 11 | 130 |
+| line-11 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 7 / 9 | 137 |
+| line-12 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 7 / 9 | 130 |
+| line-13 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 9 / 11 | 120 |
+| line-14 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 7 / 9 | 135 |
 
 Retained ring wrap distances do not close the complete geographic route. Recomputed closure adds the following distances to the input wrap values; actual closure alignment remains open: line-9 1,700.5 m.
 
@@ -33,7 +33,7 @@ Retained ring wrap distances do not close the complete geographic route. Recompu
 Straight tangents are preferred between demand anchors. Existing geographic alignments have not been rerouted or proved clear. Buildings/air rights, road and utility clearances, piers/foundations, wildlife/water passage, station access and construction access require evidence. Elevation does not establish zero displacement or zero environmental impact.
 
 
-Formation matches both retained AW2/AW3 loads. Body lengths exclude unresolved couplings/overhang; platform allowance is a planning screen. Fleet is recomputed from hot AW3, no-regen straight/level duty and retained peak headways, with 10% spares rounded up and one cold reserve per line.
+Formation matches both planning AW2/AW3 loads. Assumed overall length includes the shared configuration’s coupling gaps; body lengths alone exclude them. Platforms are screened against assumed overall length plus 10 m; final tolerances, overhang and berthing require qualification. Fleet is recomputed from hot AW3, no-regen straight/level duty and retained peak headways, with 10% spares rounded up and one cold reserve per line.
 
 Radials use unlocated fixed terminal loop allowances; rings use two independent directed circuits. A 100 m radius / 20 km/h loop allowance is not approved geometry. Depot-only switches or transfer devices require separate hardware, access and recovery qualification.
 

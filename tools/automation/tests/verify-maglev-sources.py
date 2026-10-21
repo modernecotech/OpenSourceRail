@@ -8,7 +8,7 @@ import subprocess
 ROOT=Path(__file__).resolve().parents[3]
 manifest=json.loads((ROOT/'docs/design-engine/ferrite-maglev/reference/manifest.json').read_text())
 paths=set(manifest['source_sha256'])
-for directory in ('native','beam-only','system-development','baghdad-reference','coupled','reference'):
+for directory in ('native','beam-only','system-development','baghdad-reference','coupled','iterative','reference'):
     paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/'docs/design-engine/ferrite-maglev'/directory).rglob('*') if p.is_file())
 raw=subprocess.check_output(['git','ls-files','--stage','-z'],cwd=ROOT)
 index={}

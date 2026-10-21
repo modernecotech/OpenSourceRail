@@ -1,5 +1,9 @@
 {
   "coupled_replay": {
+    "assumed_inertia_kg_m2": {
+      "pitch": 600000.0,
+      "roll": 20000.0
+    },
     "beam_assumptions": {
       "damping_ratio": 0.02,
       "elements": 50,
@@ -10,6 +14,10 @@
       "young_pa": 30000000000.0
     },
     "car_mass_kg": 27750.0,
+    "controller_scales": {
+      "damping": 1.0,
+      "proportional": 1.0
+    },
     "final_fitted_relative_heave_error_m": 2.5814868472029406e-10,
     "final_pitch_rad": -2.2246181334416366e-09,
     "final_roll_rad": 1.547565055572693e-15,
@@ -32,11 +40,12 @@
     "status": "hypothetical-two-way-offline-cosimulation",
     "stop_seen_in_study": false,
     "structural_acceptance": false,
+    "trace": [],
     "virtual_duration_s": 3.0,
     "virtual_step_s": 0.001
   },
   "execution": {
-    "bridge_sha256": "64cfc4a932af0622c586d205262e88693e22baa20e8844b411b5e2a6b8efa67c",
+    "bridge_sha256": "2829a579562bcb43073e7aacd3d2e90b76b7078ff61f77c46472942ba1172f00",
     "build_command": [
       "cargo",
       "build",
@@ -58,10 +67,10 @@
   },
   "schema": "osr-coupled-guideway-result/1",
   "source_sha256": {
-    "Cargo.lock": "587e69d7041365f11ac1eb7e07a36c5f2a88ab925f72cad8629303842b89bef7",
-    "Cargo.toml": "4165e49dd9577e63d7a7e2b55280ee9181b846b0c1fbd41dffb21b00ffe395e7",
+    "Cargo.lock": "4ee7ab6af4ef8631d9e1ef206fcd99c92dd43c4d67b85e3477ff507bfa1d7d83",
+    "Cargo.toml": "269565a3106200b57d4d323ab641e68500fdcc28c5cdfcfe455dd9bac5a294d9",
     "crates/osr-maglev-control/Cargo.toml": "ee59ea85affddbc8436aa4bca2ebb85ce17575cd1c0e95219695081f83919fad",
-    "crates/osr-maglev-control/examples/coupled_bridge.rs": "f4b106da684c970a5163af9d376920b9e4508f5cbf31ecac1a9e24a64a2c23aa",
+    "crates/osr-maglev-control/examples/coupled_bridge.rs": "9441e19e6ca4ba30ba01f5cefd86ea49d116507a1f4ef43bc99c061d2b61c94b",
     "crates/osr-maglev-control/examples/support/mod.rs": "5b89fd9714f2638c83ef401979ce189a06874ff468c2d803d8c6d13326006868",
     "crates/osr-maglev-control/src/array.rs": "99a38fca3891c65156b91b84a7acd435e0ddbc988b0176d6cd92bf34a74a3801",
     "crates/osr-maglev-control/src/egress.rs": "26b7412a6da216f5503ef62a6ab09cc2b509b9e927abc55f553bbd58adcdeee9",
@@ -69,9 +78,9 @@
     "crates/osr-maglev-control/src/io.rs": "dc30aa01ebb446b9581c1b87333cf640bdb18bc04103e5850685e63727aebec3",
     "crates/osr-maglev-control/src/lib.rs": "00a55a5e0647de6f792f60a8dabdc027a15f51c1a3b951394a49ffb65ba4697e",
     "engineering/ferrite_maglev/configuration.py": "6dac8703a30a5acf3e3bd86b654a12122efd94a4719fbdc9229fbae11cd7a013",
-    "engineering/ferrite_maglev/coupled.py": "bf835f64933344dba52406d5cd6bd1f5b7e606703ebe7afc4c2fd16f7f7436b6",
+    "engineering/ferrite_maglev/coupled.py": "0306e50d53ce479d3c27694fffa8107f93595eaa14e35165130a5113eb90c4eb",
     "engineering/ferrite_maglev/geometry.py": "7f5fbd0fdb0e40527f68db84cf9bf9d4598494014e800768cfa43924deb012ab",
-    "engineering/ferrite_maglev/model.py": "b9ccadaa97664cd0a3db4af8c23a72f295eaac69796e72f09942efbd90d82af0",
+    "engineering/ferrite_maglev/model.py": "ec364fd0a195e2caa66b64d6b549557c6319e163141c23cf0acf6f4021f9cc47",
     "engineering/ferrite_maglev/reference-configuration.toml": "e571015e1e7b0fc8611a9bec49e4b74d56120cf3cd74d7f856ccfb3c6fb0f549",
     "engineering/ferrite_maglev/requirements.txt": "daf337705e6606efab587dbd6a6444b413bc7d2b3cca98a8f5748c34a4c1e554",
     "ferrite-maglev-study.toml": "19f66f7449f9e90fcadc3f37c7620b3604b4a4f204716bbe86ea84440d4cb4a8",

@@ -15,7 +15,7 @@ reused unchanged for shaped-pole passive vertical support.
 
 `array::evaluate_array` adds coupled heave, roll, pitch, lateral displacement and
 yaw feedback and `array::allocate` distributes requested forces and moments over
-24 stations. This is one rigid car, not a three-car coupled train or a validated
+24 stations. This is one rigid car, not the complete six-car Baghdad train or a validated
 six-degree-of-freedom suspension. Longitudinal force has no actuator in this
 model; a nonzero longitudinal demand appears explicitly as unachieved residual.
 Propulsion, braking, roll/yaw cross-coupling from real traction, flexible car/beam
@@ -123,7 +123,7 @@ The Python host sends all 24 **local relative gaps** each virtual millisecond.
 Rust returns bounded support forces, which load a 25 m simply supported
 Euler–Bernoulli beam; its local displacement feeds the next sensor frame. This
 is two-way offline coupling, with no physical output. The beam assumes
-E = 30 GPa, I = 0.193624 m⁴, line mass 1750 kg/m and 2% modal damping, retaining
+the current configured section and native quantity-derived line mass, with 2% modal damping, retaining
 six vertical modes of a 50-element consistent-mass model. Independent point-load
 closed forms check static response; analytical pinned-beam frequencies and
 virtual-work/undamped-energy checks control the numerical implementation.
@@ -154,3 +154,12 @@ negative controls. Loss of prerequisites after deployment begins holds the
 sequence; no automatic retraction is commanded. The egress/support composition
 test preserves fresh support control while inhibiting traction. Physical timing,
 independent protection, accessible passenger evacuation and railway approval remain open.
+
+## Adaptive research tuning
+
+`./osr design iterate` varies bounded proportional and damping gains alongside
+vehicle mass allocations and guidebeam sections/spans. The bridge accepts mass
+and gain scales as optional command arguments; nonfinite or out-of-bound scales
+are rejected before processing frames. Exact revisions face separate confirmation
+scenarios and replay/excess-gap negative controls. This offline tuning establishes
+neither measured magnetic response nor stability over the full operating envelope.

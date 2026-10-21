@@ -7,6 +7,7 @@ The current design uses ferrite PM-biased active-attraction support, fixed onboa
 ```bash
 ./osr build
 ./osr design run
+./osr design iterate
 ./osr design check
 ./osr design verify
 ./osr city baghdad
@@ -22,6 +23,10 @@ cargo test --locked -p osr-maglev-control --all-targets
 `./osr capabilities` publishes executable sources and their scope. `./osr catalogue plan --city baghdad` resolves a selected regeneration, and `./osr catalogue run --city baghdad` rebuilds that city. `./osr readiness` reports current-source gates. `./osr design release-check` remains held while acceptance is open.
 
 The [dependency runner](workflow.py) verifies implemented native, numerical, control, city and publication prerequisites in order. It rebuilds stale evidence and holds dependent outputs after failures. An interprocess lock excludes concurrent timer/manual builds. Runtime progress is stored under `build/maglev-workflow/latest.json`. This is a finite reproducible build of implemented evaluators; missing physical tests and engineering decisions require additional work.
+
+The [adaptive search](iteration.py), configured in [iteration.toml](iteration.toml), generates new section/span, vehicle-mass allocation and actual Rust-gain proposals from preceding results. Each viable proposal faces three coupled load/disturbance cases and replay/excess-gap controls. Shortlisted exact revisions face two separate confirmation scenarios. Failed confirmations remove recommendation eligibility while preserving analytical history. The seeded campaign has explicit evaluation and stagnation budgets; exact-source cache receipts support restart. A timer resumes stale campaigns, then idles once current.
+
+[Published campaign](../../docs/design-engine/ferrite-maglev/iterative/README.md) includes ancestry, traces, progress and the research recommendation. Preference weights and screening bounds are provisional. Scaled body/equipment mass and inertia assumptions do not replace complete manufactured geometry, magnetic measurements or qualified dynamics. The recommendation is kept separate from the reference configuration and city costing.
 
 ## Current inputs and design records
 
@@ -46,6 +51,7 @@ Baghdad uses six 17 m bodies with shared coupling, platform, magnetic-arm and bo
 | Magnetic field | 2D variable-reluctivity equation, manufactured-solution controls and explicit nonlinear material hypotheses | Coupon force convergence, measured material data, 3D force/loss maps and physical rig correlation |
 | Rust control | Module allocation, five-mode virtual replay, protection interfaces, support-preserving stops and advisory evacuation | Actual actuator/sensor model, isolated physical I/O, independent protection and measured timing |
 | Coupled replay | Two-way exchange of Rust module forces and flexible vertical-beam deflections | Flexible vehicle, lateral/torsional/joint/soil dynamics, moving loads and correlated stability/ride/fault measurements |
+| Adaptive design | Result-guided vehicle/beam/gain variation, actual Rust coupling, protection controls, Pareto observations and separate confirmation | Full production geometry, qualified criteria, measured plant, whole-train dynamics and independent acceptance |
 | City planning | Capacity-matched formations, duty, fleet, charging, guideway quantities, provisional costs and manufacturing process needs | Located terminal loops, route/ground/utility surveys, recovery, full duty and complete programme economics |
 | Industrialisation | Current material quantities and explicit process/rate assumptions | Configured suppliers, qualified processes, origin-traced MBOM, production capacity, logistics and installed scope |
 

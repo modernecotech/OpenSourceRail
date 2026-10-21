@@ -206,10 +206,14 @@ def static_benchmark(assumptions: BeamAssumptions | None = None) -> dict:
 
 class RustController:
     """Synchronous offline IPC, bounded frame sizes, with a 10 s response timeout."""
-    def __init__(self, executable: Path, car_mass_kg: float = 27750.):
+    def __init__(self, executable: Path, car_mass_kg: float = 27750., *, proportional_scale=1., damping_scale=1.):
         if not math.isfinite(car_mass_kg) or not 1000 <= car_mass_kg <= 100_000:
             raise ValueError("bounded finite car mass required")
-        self.process = subprocess.Popen([str(executable.resolve()), format(car_mass_kg, '.17g')], stdin=subprocess.PIPE,
+        for value in (proportional_scale,damping_scale):
+            if type(value) not in (int,float) or not math.isfinite(value) or not .25<=value<=2:
+                raise ValueError("controller scale outside bounded study [0.25,2]")
+        self.process = subprocess.Popen([str(executable.resolve()), format(car_mass_kg, '.17g'),
+                                        format(proportional_scale,'.17g'),format(damping_scale,'.17g')], stdin=subprocess.PIPE,
                                         stdout=subprocess.PIPE, text=True, bufsize=1)
         self.selector = selectors.DefaultSelector()
         self.selector.register(self.process.stdout, selectors.EVENT_READ)
@@ -251,7 +255,9 @@ class RustController:
 
 
 def cosimulate(executable: Path, duration_s: float = 3.0, *, initial_down_error_m: float = 0.0005,
-               disturbance_n: float = 5000.0, car_mass_kg: float = 27750., assumptions: BeamAssumptions | None = None) -> dict:
+               disturbance_n: float = 5000.0, car_mass_kg: float = 27750., assumptions: BeamAssumptions | None = None,
+               proportional_scale=1., damping_scale=1., inertia_roll_kg_m2=20_000., inertia_pitch_kg_m2=600_000.,
+               record_trace=False) -> dict:
     """Two-way held-force partitioned co-simulation, fixed virtual 1 ms step.
 
     Beam reaction is downward and equals upward car support force. Sensor gap
@@ -274,13 +280,18 @@ def cosimulate(executable: Path, duration_s: float = 3.0, *, initial_down_error_
     # Absolute downward car displacement relative to the unloaded beam geometry.
     car = np.array([np.mean(beam.local_displacement_m())+initial_down_error_m, 2e-5, -5e-5])
     velocity = np.zeros(3)
-    inertia = np.array([mass, 20_000.0, 600_000.0])
+    for value in (inertia_roll_kg_m2,inertia_pitch_kg_m2):
+        if type(value) not in (int,float) or not math.isfinite(value) or not 1<=value<=1e9:
+            raise ValueError("bounded positive assumed inertia required")
+    if type(record_trace) is not bool:raise ValueError("Boolean trace request required")
+    inertia = np.array([mass, inertia_roll_kg_m2, inertia_pitch_kg_m2])
+    trace=[]
     minimum, maximum = math.inf, -math.inf
     largest_beam, peak_car, force_peak = 0.0, 0.0, 0.0
     stop_seen = False
     relative_heave = []
     target = 0.008
-    with RustController(executable,car_mass_kg=mass) as controller:
+    with RustController(executable,car_mass_kg=mass,proportional_scale=proportional_scale,damping_scale=damping_scale) as controller:
         for tick in range(1, round(duration_s/DT_S)+1):
             local = beam.local_displacement_m()
             gaps = target+car[0]-MODULE_Y_M*car[1]+MODULE_X_M*car[2]-local
@@ -302,9 +313,14 @@ def cosimulate(executable: Path, duration_s: float = 3.0, *, initial_down_error_
             velocity += acceleration*DT_S
             beam.advance(upward)
             relative_heave.append(float(car[0]-np.mean(beam.local_displacement_m())))
+            if record_trace and (tick%50==0 or tick==round(duration_s/DT_S)):
+                trace.append(dict(time_s=tick*DT_S,minimum_gap_m=float(gaps.min()),maximum_gap_m=float(gaps.max()),
+                    relative_heave_error_m=relative_heave[-1],peak_module_force_n=float(upward.max())))
     return {"schema": "osr-coupled-guideway-numerical/1", "status": "hypothetical-two-way-offline-cosimulation",
             "physical_output_authorised": False, "structural_acceptance": False,
             "car_mass_kg": car_mass_kg, "beam_assumptions": asdict(assumptions),
+            "controller_scales":dict(proportional=proportional_scale,damping=damping_scale),
+            "assumed_inertia_kg_m2":dict(roll=inertia_roll_kg_m2,pitch=inertia_pitch_kg_m2),"trace":trace,
             "virtual_step_s": DT_S, "virtual_duration_s": round(duration_s/DT_S)*DT_S,
             "retained_vertical_beam_modes": assumptions.retained_modes,
             "minimum_relative_gap_m": minimum, "maximum_relative_gap_m": maximum,

@@ -5,4 +5,3 @@
 
 Mapped geography and passenger targets are planning inputs. Physical route, vehicle, manufacturing and operational acceptance remain open.
 <!-- osr-maglev-primary:end -->
-

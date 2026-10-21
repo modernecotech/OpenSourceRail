@@ -21,7 +21,7 @@ ROOT = model.ROOT
 ASSUMPTIONS = Path(__file__).with_name('city-planning.toml')
 INDEX = Path(__file__).with_name('city-index.json')
 NOTICE_START=b'<!-- osr-maglev-primary:start -->\n'
-NOTICE_END=b'<!-- osr-maglev-primary:end -->\n\n'
+NOTICE_END=b'<!-- osr-maglev-primary:end -->\n'
 
 
 def promote_city_readme(city_dir):
@@ -374,23 +374,23 @@ def write_readme(output, report):
     rows = [f"# {report['name']} — v0.5 maglev city planning", '', '![Geographic corridor planning map](network.svg)', '',
             'Provisional planning from retained geography, station demand and service schedules. All physical and manufacturing release flags remain false.', '',
             f"{t['lines']} lines; {t['trainsets']} provisional trainsets / {t['cars']} cars; {t['gross_onboard_storage_kwh']:,.0f} kWh gross onboard storage.", '',
-            '| Line | Cars | AW2 / AW3 | Body length m | Topology | Peak / total trains | Dwell s |',
+            '| Line | Cars | AW2 / AW3 | Bodies / assumed overall m | Topology | Peak / total trains | Dwell s |',
             '|---|---:|---:|---:|---|---:|---:|']
     for l in report['lines']:
         f=l['formation']
-        rows.append(f"| {l['line']} | {f['cars']} | {f['aw2_passengers']} / {f['aw3_passengers']} | {f['nominal_body_length_m']:g} | {l['topology']['selected']} | {l['fleet']['peak']} / {l['fleet']['total']} | {l['charging']['dwell_seconds']:g} |")
+        rows.append(f"| {l['line']} | {f['cars']} | {f['aw2_passengers']} / {f['aw3_passengers']} | {f['nominal_body_length_m']:g} / {f['overall_length_assumption_m']:g} | {l['topology']['selected']} | {l['fleet']['peak']} / {l['fleet']['total']} | {l['charging']['dwell_seconds']:g} |")
     diagnostics=report['diagnostics']
     if diagnostics['ring_closure_discrepancies']:
         rows += ['', 'Retained ring wrap distances do not close the complete geographic route. Recomputed closure adds the following distances to the input wrap values; actual closure alignment remains open: '+
                  '; '.join(f"{r['line']} {r['discrepancy_m']:,.1f} m" for r in diagnostics['ring_closure_discrepancies'])+'.']
     if diagnostics['platform_body_allowance_shortfalls']:
-        rows += ['', f"{diagnostics['platform_body_allowance_shortfalls']} retained station platforms are shorter than the new body-length-plus-10 m screen. Final coupling/overhang and platform design remain open."]
+        rows += ['', f"{diagnostics['platform_body_allowance_shortfalls']} retained station platforms are shorter than the assumed overall-length-plus-10 m planning screen. Coupling envelopes, berthing and platform design require qualification."]
     option=report['costs']['beam_only_conditional_option']
     rows += ['', '**Integrated-beam/no-walkway target:** door-mounted evacuation is a study candidate. Continuous walkway removal is not approved. Necessary iron reaction faces, supports/foundations, joints and protection remain. '+str(option['onboard_pack_count_hypothesis'])+' onboard packs are a provisional door-count hypothesis; new mass, lifetime cost and net savings are unknown. Landing space, accessible alternatives, fire/weather/fault conditions and rescue/maintenance access must be proved along the complete route.', '']
     route=report['routing_strategy']
     rows += ['', f"**Predominantly elevated strategy:** {100*route['target_elevated_mainline_fraction']:g}% mainline elevation target; all ordinary sections proposed elevated. Ordinary viaduct planning length {route['ordinary_viaduct_proposal_length_m']/1000:,.3f} km includes {route['proposed_conversion_from_at_grade_m']/1000:,.3f} km converted from retained at-grade scope. Special crossings remain separate and unpriced.", '',
              'Straight tangents are preferred between demand anchors. Existing geographic alignments have not been rerouted or proved clear. Buildings/air rights, road and utility clearances, piers/foundations, wildlife/water passage, station access and construction access require evidence. Elevation does not establish zero displacement or zero environmental impact.', '']
-    rows += ['', 'Formation matches both retained AW2/AW3 loads. Body lengths exclude unresolved couplings/overhang; platform allowance is a planning screen. Fleet is recomputed from hot AW3, no-regen straight/level duty and retained peak headways, with 10% spares rounded up and one cold reserve per line.', '',
+    rows += ['', 'Formation matches both planning AW2/AW3 loads. Assumed overall length includes the shared configuration’s coupling gaps; body lengths alone exclude them. Platforms are screened against assumed overall length plus 10 m; final tolerances, overhang and berthing require qualification. Fleet is recomputed from hot AW3, no-regen straight/level duty and retained peak headways, with 10% spares rounded up and one cold reserve per line.', '',
              'Radials use unlocated fixed terminal loop allowances; rings use two independent directed circuits. A 100 m radius / 20 km/h loop allowance is not approved geometry. Depot-only switches or transfer devices require separate hardware, access and recovery qualification.', '',
              'Station charging is screened at 600 kW per car, with dwell extended to cover the worst incoming hot/no-regen leg and terminal loop. Multiple berths implied by dwell/headway require a conflict-free physical layout. Losses, taper, grade, curve forces, emergency reserve and missed charging remain open. No grid/PV/storage or site release is asserted.', '',
              '| Scenario | Repeat fleet allowance USD | Ordinary elevated allowance USD | Partial subtotal USD |',

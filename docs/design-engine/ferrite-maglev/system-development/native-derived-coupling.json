@@ -2,7 +2,7 @@
   "car_mass_kg": 29075.16171028767,
   "complete_egress_system_included": false,
   "execution": {
-    "bridge_sha256": "64cfc4a932af0622c586d205262e88693e22baa20e8844b411b5e2a6b8efa67c",
+    "bridge_sha256": "2829a579562bcb43073e7aacd3d2e90b76b7078ff61f77c46472942ba1172f00",
     "build_command": [
       "cargo",
       "build",
@@ -21,6 +21,10 @@
   "partial_entry_hardware_mass_added_kg": 1325.1617102876703,
   "physical_output_authorised": false,
   "replay": {
+    "assumed_inertia_kg_m2": {
+      "pitch": 600000.0,
+      "roll": 20000.0
+    },
     "beam_assumptions": {
       "damping_ratio": 0.02,
       "elements": 50,
@@ -31,6 +35,10 @@
       "young_pa": 30000000000.0
     },
     "car_mass_kg": 29075.16171028767,
+    "controller_scales": {
+      "damping": 1.0,
+      "proportional": 1.0
+    },
     "final_fitted_relative_heave_error_m": 1.2398967096094449e-10,
     "final_pitch_rad": -2.226212921449691e-09,
     "final_roll_rad": 1.572245966679757e-15,
@@ -53,6 +61,7 @@
     "status": "hypothetical-two-way-offline-cosimulation",
     "stop_seen_in_study": false,
     "structural_acceptance": false,
+    "trace": [],
     "virtual_duration_s": 3.0,
     "virtual_step_s": 0.001
   },

@@ -28,7 +28,7 @@ def units(output):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system'))
+    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system','iterate'))
     parser.add_argument('--output',type=Path,default=delivery.OUTPUT)
     args=parser.parse_args()
     if args.action=='install':
@@ -64,6 +64,9 @@ def main():
     elif args.action=='system':
         from engineering.ferrite_maglev import system_development
         result=system_development.publish()
+    elif args.action=='iterate':
+        from engineering.ferrite_maglev import iteration
+        result=iteration.publish()
     elif args.action=='coupled':
         from engineering.ferrite_maglev import coupled
         result=coupled.publish(model.ROOT/'docs/design-engine/ferrite-maglev/coupled')
@@ -79,7 +82,7 @@ def main():
         from engineering.ferrite_maglev import transition,requirements,cities
         _,c,_=model.load()
         register=transition.build()
-        result=dict(version='0.5.0',family=c['metadata']['family'],primary_development=True,
+        result=dict(version=model.RELEASE_VERSION,family=c['metadata']['family'],primary_development=True,
                     gates='G0–G5 open',city_packages=len(list((cities.ROOT/'cities/catalogue').glob('*/*/*/city.json'))),
                     city_method='Current maglev configurations and quantity/process cost inputs; geography and passenger targets remain provisional.',
                     system_inventory=register['inventory_counts'],

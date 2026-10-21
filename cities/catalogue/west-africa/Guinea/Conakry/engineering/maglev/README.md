@@ -6,13 +6,13 @@ Provisional planning from retained geography, station demand and service schedul
 
 5 lines; 139 provisional trainsets / 556 cars; 125,100 kWh gross onboard storage.
 
-| Line | Cars | AW2 / AW3 | Body length m | Topology | Peak / total trains | Dwell s |
+| Line | Cars | AW2 / AW3 | Bodies / assumed overall m | Topology | Peak / total trains | Dwell s |
 |---|---:|---:|---:|---|---:|---:|
-| line-1 | 4 | 480 / 640 | 68 | fixed-terminal-loops | 47 / 53 | 121 |
-| line-2 | 4 | 480 / 640 | 68 | fixed-terminal-loops | 35 / 40 | 125 |
-| line-3 | 4 | 480 / 640 | 68 | two-independent-directed-circuits | 20 / 23 | 117 |
-| line-4 | 4 | 480 / 640 | 68 | fixed-terminal-loops | 11 / 14 | 123 |
-| line-5 | 4 | 480 / 640 | 68 | fixed-terminal-loops | 7 / 9 | 134 |
+| line-1 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 47 / 53 | 121 |
+| line-2 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 35 / 40 | 125 |
+| line-3 | 4 | 480 / 640 | 68 / 69.5 | two-independent-directed-circuits | 20 / 23 | 117 |
+| line-4 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 11 / 14 | 123 |
+| line-5 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 7 / 9 | 134 |
 
 **Integrated-beam/no-walkway target:** door-mounted evacuation is a study candidate. Continuous walkway removal is not approved. Necessary iron reaction faces, supports/foundations, joints and protection remain. 3336 onboard packs are a provisional door-count hypothesis; new mass, lifetime cost and net savings are unknown. Landing space, accessible alternatives, fire/weather/fault conditions and rescue/maintenance access must be proved along the complete route.
 
@@ -22,7 +22,7 @@ Provisional planning from retained geography, station demand and service schedul
 Straight tangents are preferred between demand anchors. Existing geographic alignments have not been rerouted or proved clear. Buildings/air rights, road and utility clearances, piers/foundations, wildlife/water passage, station access and construction access require evidence. Elevation does not establish zero displacement or zero environmental impact.
 
 
-Formation matches both retained AW2/AW3 loads. Body lengths exclude unresolved couplings/overhang; platform allowance is a planning screen. Fleet is recomputed from hot AW3, no-regen straight/level duty and retained peak headways, with 10% spares rounded up and one cold reserve per line.
+Formation matches both planning AW2/AW3 loads. Assumed overall length includes the shared configuration’s coupling gaps; body lengths alone exclude them. Platforms are screened against assumed overall length plus 10 m; final tolerances, overhang and berthing require qualification. Fleet is recomputed from hot AW3, no-regen straight/level duty and retained peak headways, with 10% spares rounded up and one cold reserve per line.
 
 Radials use unlocated fixed terminal loop allowances; rings use two independent directed circuits. A 100 m radius / 20 km/h loop allowance is not approved geometry. Depot-only switches or transfer devices require separate hardware, access and recovery qualification.
 

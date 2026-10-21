@@ -18,4 +18,6 @@ OpenSourceRail v0.5 uses one ferrite-maglev architecture across mechanical, civi
 | Manufacturing and economics | Complete origin-traced MBOM, process routes, machine/tooling options, throughput, transport, erection, maintenance and financing |
 | Demonstrator | Traceable manufactured units, independent inspections and physical acceptance on identified serials and revisions |
 
+The adaptive designer now varies vehicle mass allocations, beam geometry/spans and actual Rust controller gains using previous measured results. It retains ancestry and traces, applies separate holdout scenarios and disqualifies failed confirmations. Its preferred candidate is a bounded research result; it does not close production geometry, qualified magnetic maps, physical timing or whole-train acceptance.
+
 The automated runner can regenerate the implemented studies and hold downstream evidence after failures. Missing evaluators, measurements and approvals remain open work, even after every current automated check passes.

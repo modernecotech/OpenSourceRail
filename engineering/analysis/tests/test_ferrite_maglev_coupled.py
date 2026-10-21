@@ -236,3 +236,15 @@ def test_declared_car_mass_changes_actual_rust_gravity_trim(bridge):
 @pytest.mark.parametrize('mass',[0.,float('nan'),100001.])
 def test_invalid_car_mass_does_not_start_a_rust_process(mass):
     with pytest.raises(ValueError):coupled.RustController(Path('/not-a-controller'),car_mass_kg=mass)
+
+
+def test_gain_tuning_changes_actual_rust_response_and_retains_trace(bridge):
+    baseline=coupled.cosimulate(bridge,duration_s=.1,record_trace=True)
+    tuned=coupled.cosimulate(bridge,duration_s=.1,proportional_scale=.8,damping_scale=1.2,record_trace=True)
+    assert tuned['controller_scales']!=baseline['controller_scales']
+    assert tuned['trace'] and baseline['trace']
+    assert tuned['trace']!=baseline['trace']
+    assert tuned['physical_output_authorised'] is False
+    for args in (['27750','nan','1'],['27750','1','3'],['27750','1','1','unexpected']):
+        r=subprocess.run([str(bridge),*args],capture_output=True,text=True)
+        assert r.returncode==2

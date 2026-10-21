@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **559**.
+Indexed Markdown files: **561**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **559**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 8 |
+| [docs](#docs) | 10 |
 | [engineering](#engineering) | 3 |
 | [tools](#tools) | 2 |
 
@@ -622,7 +622,9 @@ Indexed Markdown files: **559**.
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Capability Directory |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Primary maglev capability directory |
 | [`docs/design-engine/ferrite-maglev/baghdad-reference/README.md`](../docs/design-engine/ferrite-maglev/baghdad-reference/README.md) | Baghdad six-car native reference study |
+| [`docs/design-engine/ferrite-maglev/iterative/README.md`](../docs/design-engine/ferrite-maglev/iterative/README.md) | Adaptive mechanical, civil and software design study |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail v0.5 — ferrite PM maglev |
+| [`docs/releases/v0.5.1.md`](../docs/releases/v0.5.1.md) | OpenSourceRail v0.5.1 |
 
 ## engineering
 

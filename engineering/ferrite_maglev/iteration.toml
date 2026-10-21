@@ -1,0 +1,21 @@
+schema = "osr-adaptive-maglev-search/1"
+seed = 20261021
+population = 6
+max_generations = 4
+stagnation_generations = 3
+confirmation_budget = 4
+training_duration_s = 1.8
+confirmation_duration_s = 3.0
+# Project research screens only; these are not accepted railway limits.
+minimum_gap_m = 0.003
+maximum_gap_m = 0.013
+maximum_final_heave_error_m = 0.00025
+maximum_final_angle_rad = 0.00005
+maximum_module_force_n = 20000.0
+# Width, depth, web, flange, span, body allocation ratio,
+# magnetic-equipment allocation ratio, proportional scale, damping scale.
+bounds = [[0.7, 1.0], [1.6, 2.2], [0.12, 0.18], [0.15, 0.22], [20.0, 30.0], [0.9, 1.0], [0.95, 1.0], [0.6, 1.4], [0.7, 1.4]]
+quantisation = [0.01, 0.01, 0.01, 0.01, 0.5, 0.01, 0.01, 0.01, 0.01]
+# Explicit research preference weights: cost, tare, energy, heave, unqualified change.
+weights = [0.35, 0.15, 0.15, 0.20, 0.15]
+references = ["https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.differential_evolution.html", "https://www.fhwa.dot.gov/bridge/prefab/framework.cfm"]

@@ -6,16 +6,16 @@ Provisional planning from retained geography, station demand and service schedul
 
 8 lines; 259 provisional trainsets / 1554 cars; 349,650 kWh gross onboard storage.
 
-| Line | Cars | AW2 / AW3 | Body length m | Topology | Peak / total trains | Dwell s |
+| Line | Cars | AW2 / AW3 | Bodies / assumed overall m | Topology | Peak / total trains | Dwell s |
 |---|---:|---:|---:|---|---:|---:|
-| line-1 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 26 / 30 | 111 |
-| line-2 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 25 / 29 | 124 |
-| line-3 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 18 / 21 | 122 |
-| line-4 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 84 / 94 | 124 |
-| line-5 | 6 | 720 / 960 | 102 | two-independent-directed-circuits | 40 / 45 | 108 |
-| line-6 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 13 / 16 | 106 |
-| line-7 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 13 / 16 | 114 |
-| line-8 | 6 | 720 / 960 | 102 | fixed-terminal-loops | 6 / 8 | 110 |
+| line-1 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 26 / 30 | 111 |
+| line-2 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 25 / 29 | 124 |
+| line-3 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 18 / 21 | 122 |
+| line-4 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 84 / 94 | 124 |
+| line-5 | 6 | 720 / 960 | 102 / 104.5 | two-independent-directed-circuits | 40 / 45 | 108 |
+| line-6 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 13 / 16 | 106 |
+| line-7 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 13 / 16 | 114 |
+| line-8 | 6 | 720 / 960 | 102 / 104.5 | fixed-terminal-loops | 6 / 8 | 110 |
 
 Retained ring wrap distances do not close the complete geographic route. Recomputed closure adds the following distances to the input wrap values; actual closure alignment remains open: line-5 1,636.6 m.
 
@@ -27,7 +27,7 @@ Retained ring wrap distances do not close the complete geographic route. Recompu
 Straight tangents are preferred between demand anchors. Existing geographic alignments have not been rerouted or proved clear. Buildings/air rights, road and utility clearances, piers/foundations, wildlife/water passage, station access and construction access require evidence. Elevation does not establish zero displacement or zero environmental impact.
 
 
-Formation matches both retained AW2/AW3 loads. Body lengths exclude unresolved couplings/overhang; platform allowance is a planning screen. Fleet is recomputed from hot AW3, no-regen straight/level duty and retained peak headways, with 10% spares rounded up and one cold reserve per line.
+Formation matches both planning AW2/AW3 loads. Assumed overall length includes the shared configuration’s coupling gaps; body lengths alone exclude them. Platforms are screened against assumed overall length plus 10 m; final tolerances, overhang and berthing require qualification. Fleet is recomputed from hot AW3, no-regen straight/level duty and retained peak headways, with 10% spares rounded up and one cold reserve per line.
 
 Radials use unlocated fixed terminal loop allowances; rings use two independent directed circuits. A 100 m radius / 20 km/h loop allowance is not approved geometry. Depot-only switches or transfer devices require separate hardware, access and recovery qualification.
 

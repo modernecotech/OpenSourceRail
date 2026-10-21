@@ -16,6 +16,24 @@ fn main() {
         }
         p.mass_kg = mass;
     }
+    // Offline candidate parameters only; these do not authorise device outputs.
+    let arguments: Vec<_> = std::env::args().collect();
+    if arguments.len() > 4 {
+        std::process::exit(2);
+    }
+    for (index, gains) in [(2, &mut p.proportional), (3, &mut p.damping)] {
+        if let Some(value) = arguments.get(index) {
+            let Ok(scale) = value.parse::<f64>() else {
+                std::process::exit(2)
+            };
+            if !scale.is_finite() || !(0.25..=2.0).contains(&scale) {
+                std::process::exit(2);
+            }
+            for gain in gains {
+                *gain *= scale;
+            }
+        }
+    }
     let mut state = ArrayState::default();
     let stdin = io::stdin();
     let mut input = stdin.lock();

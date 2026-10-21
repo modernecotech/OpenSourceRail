@@ -10,6 +10,7 @@ OUTPUT = model.ROOT/'docs/capabilities'
 CAPABILITIES = (
     ('city-planning', 'engineering/ferrite_maglev/cities.py', './osr city baghdad', 'Separate maglev formation, fleet, duty, charging and partial cost planning; no route acceptance.'),
     ('system-search', 'engineering/ferrite_maglev/optimisation.py', './osr design run', 'Vehicle/beam/span sensitivities and indexed allowances; complete costs and full coupling remain open.'),
+    ('adaptive-search', 'engineering/ferrite_maglev/iteration.py', './osr design iterate', 'Result-guided vehicle/beam/Rust gain variants and separate holdout confirmation; research recommendation only.'),
     ('native-geometry', 'engineering/ferrite_maglev/geometry.py', './osr design native', 'Partial magnetic interface and civil-bay native solids; not complete production geometry.'),
     ('beam-only-egress', 'engineering/ferrite_maglev/evacuation.py', './osr design evacuation-native', 'Beam-only geometry and chute envelope/height screens; no evacuation approval.'),
     ('field-equations', 'engineering/ferrite_maglev/field.py', './osr design run', '2D field equation controls; coupon force convergence and qualified force/loss maps remain open.'),
@@ -27,7 +28,7 @@ def source_paths():
         'engineering/ferrite_maglev/navigation.py', 'tools/automation/capabilities.py',
         'tools/automation/catalogue.py', 'tools/automation/test-maglev.sh',
         'tools/automation/check-readmes.py', 'tools/automation/generate-doc-index.py',
-        'tools/automation/generate-design-index.py',
+        'tools/automation/generate-design-index.py', 'tools/automation/package-maglev-release.py',
         'tools/automation/validate-host-manifests.py', 'deployment/maglev.toml',
         'deployment/hosts.toml', 'deployment/components.toml')]
 

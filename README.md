@@ -1,6 +1,6 @@
 # OpenSourceRail
 
-**v0.5 — fewer moving parts, local manufacture and compact elevated urban routes.** OpenSourceRail develops ferrite PM-biased maglev to simplify vehicles, guideways and the factories that build them. Fixed onboard magnetic modules, passive reaction iron, repeatable concrete guidebeams and open Rust controls are the current design basis.
+**v0.5.1 — fewer moving parts, local manufacture and compact elevated urban routes.** OpenSourceRail develops ferrite PM-biased maglev to simplify vehicles, guideways and the factories that build them. Fixed onboard magnetic modules, passive reaction iron, repeatable concrete guidebeams and open Rust controls are the current design basis.
 
 ![OpenSourceRail ferrite-maglev station concept in Baghdad](OpenSourceRail%20maglev%20station%20concept.png)
 
@@ -30,10 +30,13 @@ City packages use explicit geography and service inputs to recalculate formation
 
 **Accepted engineering and physical releases: 0.** Passing calculations, CAD export, software tests or publication checks establishes only the checked digital scope. Complete production drawings, qualified materials, ground investigations, calibrated magnetic/dynamic models, physical hardware tests and independent acceptance are still needed.
 
+The adaptive designer generates beam/span, vehicle-mass allocation and Rust-controller variants from previous results, then evaluates them together with the flexible-guideway model. Separate holdout scenarios can reject a training winner. [Generation history and confirmed research recommendation](docs/design-engine/ferrite-maglev/iterative/README.md) preserve exact revisions, ancestry, numerical traces and stated assumptions. Mass allocations are research inputs, not completed body designs; recommendations do not automatically change city defaults.
+
 ## Run it
 
 ```bash
 ./osr build                    # rebuild stale implemented studies and publications
+./osr design iterate           # adaptive mechanical/civil/Rust study and confirmation
 ./osr city baghdad             # regenerate the Baghdad planning package
 ./osr sim baghdad --cycles 2   # offline charging/SOC replay
 ./osr workbench                # local review UI
