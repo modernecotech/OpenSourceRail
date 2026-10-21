@@ -47,7 +47,9 @@ def test_flow_is_only_an_optimistic_queue_bound_and_zero_exits_is_not_zero_time(
 
 def test_beam_only_material_removal_keeps_necessary_reaction_faces_and_supports():
     before=geometry.civil_bay();bare=evacuation.beam_only_geometry()
-    assert len(before['parts'])==74 and len(bare['parts'])==54
+    assert len(before['parts'])-len(bare['parts'])==len(bare['removed_reference_part_ids'])
+    assert sum('/end-infill-' in p['id'] for p in bare['parts'])==4
+    assert sum(p['id'].endswith('/foundation-envelope') for p in bare['parts'])==2
     assert len(bare['removed_reference_part_ids'])==20
     assert all(not p['id'].startswith('walkway-') for p in bare['parts'])
     assert {p['id'] for p in bare['parts']}=={p['id'] for p in before['parts'] if not p['id'].startswith('walkway-')}

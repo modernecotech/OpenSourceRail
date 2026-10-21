@@ -201,7 +201,7 @@ WORK_PACKAGE_OUTPUTS = {
         ['Obtain actual grade curves and rig correlation; numerical manufactured-solution checks do not validate vehicle force']),
     'vehicle-mass': (
         ['Component quantities, material/CAD/supplier mass, CG/inertia and support-position ledger',
-         '3/4 t ferrite × 150/225 kWh variants with uncertainty and separate growth reserve'],
+         '3/4 t ferrite ×20/30 kWh services-storage variants, GFRP body budgets, uncertainty and separate growth reserve'],
         ['Reconcile all covers/cables/cooling/retainers once; weigh exact-config first article']),
     'civil-kit': (
         ['Guidebeam/reaction surfaces/support/foundation/bearing/joint/walkway design and dual-route BoQ',

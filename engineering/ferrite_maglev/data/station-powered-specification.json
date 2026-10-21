@@ -1,0 +1,728 @@
+{
+  "schema": "osr-user-design-specification/1",
+  "revision": "2026-10-21-station-powered",
+  "source": "OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx",
+  "source_sha256": "ddadab05460950f13f99f8134fafb5303f0103a6e914aa57181917008d092b9a",
+  "requirements": [
+    {
+      "id": "SP-001",
+      "number": 1,
+      "requirement": "Adopt one clear leading architecture. Develop a station-powered, ferrite-PM-biased maglev with onboard suspension stabilization and guidance, station-mounted linear synchronous motors, and unpowered coasting between station zones. Keep train propulsion, magnetic support and passenger services as separate subsystems in the configuration. This preserves the requested removal of onboard main traction equipment while retaining a physically credible route to stationary hover.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-002",
+      "number": 2,
+      "requirement": "Label the maturity of every parameter. Distinguish project objectives, study assumptions, candidate designs and verified requirements. Six cars and station-sourced traction are project choices; 14.2 t tare, 3 t ferrite and 8 mm clearance remain study targets. Rehberg–Blümler informs an optimization method, not validated suspension gains. The civil section now defines a 25 m repeated product, hollow support candidates, a USD 22,000 ordinary-support procurement target and a two-shift production model. Keep the 15.4 t preceding train case, 13.4 t stretch case and old civil quantities for comparison. Do not mark target geometry, cost or throughput as accepted until its evidence is attached.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-003",
+      "number": 3,
+      "requirement": "Fix the Baghdad train envelope. Use six 17 m bodies, 2.65 m study width and 102 m total body length. Use 104.5 m only as an illustrative coupled footprint until couplers and gangways are resolved. Retain 120 passengers/car as the normal study loading and 160/car as the maximum study loading: 720 and 960 passengers/train, respectively, at the current 75 kg/person assumption. [R1]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-004",
+      "number": 4,
+      "requirement": "Keep the operating envelope explicit. Use an 80 km/h study limit. The new launch reference uses 0.8 m/s² net acceleration and service deceleration with 0.6 m/s³ jerk, a 90 s flat 1 km run and 190 s scheduled headway. Retain 0.6 and 1.0 m/s² acceleration and 100 s runtime as cost/performance alternatives. The earlier no-jerk calculations remain labelled comparisons. Route gradients, crosswinds, resistance, temperature, construction tolerances and degraded equipment remain required configuration inputs.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-005",
+      "number": 5,
+      "requirement": "Remove the intended equipment from the train BOM. Delete the onboard main traction motor/windings, main traction inverter, associated traction cooling and large traction-energy battery in this variant. Retain the magnetic support/guidance hardware, its power electronics, sensors, small services battery, doors, HVAC, lighting, communications, emergency stopping/capture provision and couplers. Record the removal explicitly so that later software or mass models do not quietly restore the old propulsion arrangement.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-006",
+      "number": 6,
+      "requirement": "Use magnets as the field source, not the energy source. Permanent magnets can provide magnetic bias and the field against which a station motor acts. The station electrical supply provides the train’s launch energy. Once outside a powered zone, gravity, aerodynamic resistance and magnetic losses determine the coast. A station cannot exert useful propulsion several kilometres away without powered equipment along that intervening route.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-007",
+      "number": 7,
+      "requirement": "Retain active stabilization for always-hovering operation. The leading design uses attractive PM-biased suspension with corrective coils and feedback, targeting low continuous control power. More ferrite alone does not establish stable, contactless support in every direction at rest. A moving-field electrodynamic Halbach system is a different branch: its speed-dependent lift cannot simply be assumed to remain available when stopped. Normal stationary hover and an orderly support-loss response must both be demonstrated. [R2, R33]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-008",
+      "number": 8,
+      "requirement": "Use MagneMotion M3 as the closest architectural reference. Its developer report combines vehicle PM support/guidance fields, stabilization coils and wayside LSM windings. Reuse that functional arrangement as a starting point for an independent ferrite design. Its articulated pods, vehicle size, powered-guideway coverage and performance are not the OSR specification. No qualified, openly licensed six-car ferrite passenger-maglev design was identified that can simply be copied. [R2]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-009",
+      "number": 9,
+      "requirement": "Design a physically correct single-beam magnetic interface. Arrange two symmetric support interfaces around one structural beam. In the attractive configuration, vehicle pole faces must sit below the iron faces toward which they are pulled upward; a magnet above a top-mounted iron face would attract the vehicle downward. Develop the wraparound carrier, guidance faces, capture clearances and load path together. Record support and propulsion gaps explicitly, including their geometric relationship where they share a magnetic face.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-010",
+      "number": 10,
+      "requirement": "Optimize finite ferrite blocks using the Rehberg–Blümler approach. Compare a conventional linear Halbach pattern with finite-block orientation optimization, an alternating-pole iron-backed circuit and a flux-concentrating ferrite/pole-piece circuit. Use the finite-dipole orientation method as an initial estimate, then optimize the actual cartridge, steel and coils in three dimensions. Preserve a useful alternating longitudinal field for propulsion as well as support force, gap tolerance and thermal/demagnetization margin. A static lift optimum need not be a useful LSM secondary. The paper’s circular-ring homogeneity gains do not establish railway lift or magnet-mass gains. [R34, R48]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-011",
+      "number": 11,
+      "requirement": "Use specific ferrite grades as comparison materials. TDK FB9B, FB9H and FB12H provide current, documented reference properties. Compare those against locally obtainable equivalents with complete demagnetization curves, dimensional tolerances and quotations. Premium performance must not be combined with an unverified commodity price. Some high-performance ferrites use lanthanum/cobalt additions; specify composition if avoiding these constituents is a procurement objective. [R3, R4]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-012",
+      "number": 12,
+      "requirement": "Check hot force and cold demagnetization separately. Use actual supplier curves over the selected temperature range, including opposing support/traction fields and faults. Ferrite remanence falls with increasing temperature, while its coercivity can become less favorable in the cold. Magnet temperature, winding hot spots and ambient air temperature are different model variables. Heat tolerance does not imply constant lift or unlimited service life for adhesives, insulation and seals. [R5, R6]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-013",
+      "number": 13,
+      "requirement": "Retain 3 t of ferrite for the first optimized-cartridge comparison. At 5,000 kg/m³ this is 0.60 m³/car, or 18 t/train. The user’s USD 7,000/car assumption is USD 2.33/kg and USD 42,000/train for raw ferrite. Compare orientations at identical volume before shrinking the array. A conditional constant-performance resizing calculation gives about 2.85 t/car with the lighter central body, but requires the original force-per-mass premise to be demonstrated. Keep grade, machining, magnetization, keyed retention, inspection and assembly costs separate.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-014",
+      "number": 14,
+      "requirement": "Start with 24 support cartridges per car. At the revised 26.2 t maximum study load, weight is approximately 257.0 kN/car, or 10.71 kN/cartridge with equal static sharing. Three tonnes of ferrite averages 125 kg/cartridge. Develop 12 paired support stations along the car as a layout seed, resolving their real pitch and distance from car ends in CAD. Uneven passengers, structural flexibility, pitch/roll, beam joints and failed channels determine the higher local ratings; equal division is only a static screen.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-015",
+      "number": 15,
+      "requirement": "Use magnetic pressure as a sanity check. The ideal relation p = B²/(2μ₀) requires approximately 0.232 T equivalent gap field to support 257.0 kN over 12 m² of effective pole area. An illustrative 1.3 force multiplier raises that to 0.265 T. These are required-performance checks, not solved magnetic designs. Remanence is not useful gap field. A hypothetical 2.8% gain in gap field at unchanged area gives about 5.7% more ideal pressure; the Rehberg–Blümler ring result does not establish that gain for this rail.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-016",
+      "number": 16,
+      "requirement": "Optimize the whole empty-to-loaded force envelope. The 14.2 t tare and 26.2 t loaded cases require a force ratio of 1.845, while the payload force swing remains 117.7 kN/car. Under the ideal same-area relationship, empty support requires about 73.6% of the full-load gap field. Biasing the PM circuit at full load could therefore require substantial opposing trim when empty. Compare mid-load bias, controlled gap adjustment and coil authority using force–gap–current–temperature maps. A flatter force–gap curve improves disturbance tolerance but accommodates less payload change through a few millimetres of travel. Retain active stabilization, boarding tolerances and fault margins.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-017",
+      "number": 17,
+      "requirement": "Optimize the gap with the civil works. Compare 8, 12, 16 and 20 mm support clearances wherever the magnetic circuit can operate. First spend any validated magnetic improvement on lower complete system cost: potentially more alignment margin, lower trim losses or less material. These benefits compete and must be measured. Larger gaps can require more magnetic material or power. Retain separate budgets for manufacture, installation, body/beam motion, temperature, control error, curves and capture; optimize both the train and guideway.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-018",
+      "number": 18,
+      "requirement": "Resolve the rigid-carrier curvature problem early. For a straight 12 m magnetic footprint, the chord-height difference L²/(8R) is 18 mm at a 1,000 m vertical radius, 6 mm at 3,000 m and 3.6 mm at 5,000 m. These are significant against an 8 mm gap. Short cartridges rigidly attached to one straight frame do not remove the problem. Either constrain geometry or explicitly permit limited compliant/articulated carriers.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-019",
+      "number": 19,
+      "requirement": "Integrate carriers into reinforced body load paths. Locate magnetic hardpoints on continuous longitudinal members and local sandwich reinforcements, sharing brackets and load spreaders where analysis permits. Keep brittle ferrite positively retained inside replaceable cartridges; it cannot carry primary body tension, bending, coupler or crash loads. Use an interface BOM to prevent omission or double-counting between the GFRP body’s hardpoints and the separate magnetic-carrier allowance. Include joint creep, local peel, thermal expansion and repair access. [R7]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-020",
+      "number": 20,
+      "requirement": "Close guidance, damping and capture as distinct functions. Evaluate lateral restoring force, roll, pitch, yaw and damping over the full running envelope. Size guidance channels for wind, curves, uneven loads and disturbances. Add a normally clear capture/landing interface and a defined degraded condition. Do not count passive centering as demonstrated dynamic stability, or assign all emergency hardware to an unexplained mass allowance.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-021",
+      "number": 21,
+      "requirement": "Optimize the passive rail jointly with the magnets. Compare laminated or appropriately insulated/segmented iron interfaces, including fasteners, return paths and joints. The current quantity model contains about 300 kg of rail steel per guideway-metre, making this a major cost target. Greater useful flux can require more return-path steel if saturation controls, so improved magnet orientation does not automatically justify a thinner rail. Compare measured force, saturation, pole-passing eddy/hysteresis drag and finished installed cost. Study 0.35 and 0.5 mm electrical-steel lamination classes where appropriate; the assembled rail thickness is a separate dimension. [R8, R32]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-022",
+      "number": 22,
+      "requirement": "Co-design pole pitch with the entire consist. Compare 0.10, 0.20, 0.25 and 0.30 m pole pitches. The 0.25 m seed gives a 0.50 m electrical wavelength, about 44.4 Hz at 80 km/h and 30.8 Hz at the new 55.4 km/h launch speed. An illustrative 17.5 m car pitch then equals 35 complete wavelengths, allowing identical car arrays to share phase. Other pitches require deliberate magnetic indexing or separate phase control. Include coupler motion, actual array datums, end effects and slotting; frequency alone does not select the design.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-023",
+      "number": 23,
+      "requirement": "Build a three-phase iron-core station LSM from repeated cassettes. Use a 2.5 m mechanical cassette per face as the new factory seed, paired across the two interfaces. Five paired sets form a 12.5 m addressable section; two sections match a 25 m civil span. Compare distributed windings and concentrated coils using actual cost, force ripple and end effects. Develop shared support/thrust ferrite first as an integration objective, with a separately measured propulsion coupon for characterization. Separate production propulsion magnets must be charged to vehicle mass and cost, not assumed to fit the existing 3 t/car allocation.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-024",
+      "number": 24,
+      "requirement": "Model support, thrust and electrical loading simultaneously. Produce force/moment, flux-linkage, resistance, inductance and loss maps versus position, gap, overlap, phase current, electrical angle and temperature. Evaluate launch, braking, unpowered stator passage and inverter faults. Include reactive current and voltage headroom. If shared fields demand substantial suspension trim, revise the support-power and battery budgets. More force per metre may shorten the winding while increasing copper, converter, normal-force and cooling cost.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-025",
+      "number": 25,
+      "requirement": "Compare fixed winding groups before a switching matrix. Price one 200 m fixed winding per lane, two approximately 100 m groups per lane, and 12.5 m sections routed to a few inverter channels. Start detailed circuit design with the two-group arrangement: four independently controlled bridges per two-direction station, common DC infrastructure and no output selector matrix. Actual R/L, back EMF and current duty must decide the winner. The short-section variant requires phase-correct, current-free transfer and available thrust during handover. Keep a station LIM with a passive vehicle aluminum secondary as a separately costed fallback. [R2, R9, R49, R50]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-026",
+      "number": 26,
+      "requirement": "Size station power from the jerk-limited loaded trajectory. The reference six-car 157.2 t case requires 134.15 kN peak thrust, 1.994 MW peak mechanical propulsion and 5.501 kWh launch work. At a provisional 85% aggregate efficiency these become 2.346 MW and 6.472 kWh input, before services. Receiving braking peaks at 1.437 MW mechanical. These real-power figures do not establish bridge current or kVA rating. Every installed group/channel must be priced, including inactive hardware and required redundancy.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-027",
+      "number": 27,
+      "requirement": "Use partial overlap to reduce station winding length. The reference launch and brake travel are 159.81 and 108.16 m. Keeping the full 104.5 m train engaged throughout would require 372.47 m winding per direction. With six assumed 12 m active magnet bands and 4 kN per metre of equivalent train-envelope overlap, the optimized minimum is 185.66 m. Study 200–225 m after module rounding and margin; the 200 m geometry does not provide a full 20% force reserve in both phases. These are conditional force-overlap results, requiring motor, voltage, thermal and fault validation. Count both directions and both motor faces.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-028",
+      "number": 28,
+      "requirement": "Use one auditable longitudinal model. The central flat case uses 26,200 kg/car, six cars and R(v) = 1,000 + 1.8v² N/car with v in m/s. Integrate jerk-limited launch, zero-thrust coast and receiving braking; solve launch and brake-entry speeds for the required distance/time. Retain the earlier 27,400 and 25,400 kg mass comparisons. Resistance remains provisional. Replace the six-times-single-car aerodynamic approximation with a whole-consist model and measured magnetic losses before route acceptance.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-029",
+      "number": 29,
+      "requirement": "Preserve the earlier profiles as explicitly limited comparisons. The following historical screening table uses a = d = 1 m/s² and omits jerk ramps and dwell. It remains useful for tracing the earlier mass revision, but the new Station launch design section supplies the current jerk-limited operating and hardware study. Mechanical launch work excludes converter losses; receiving brake work is the mechanical energy absorbed by the station motor. The near-natural-stop row is a mathematical comparison, not a berthing method.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-030",
+      "number": 30,
+      "requirement": "Minimize total energy and complete service cost. For the new 90 s reference, moving hot services consume 9 kWh/train; launch input at 85% adds 6.472 kWh, totaling about 15.47 kWh before dwell and station losses. A 100 s reference reduces launch input to 5.00 kWh but raises moving services to 10 kWh, totaling about 15.00 kWh. The small combined saving must be weighed against journey time, headway and hardware. Retain the older energy figures only with their no-jerk profile labels. Lower body mass does not itself reduce passenger HVAC demand.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-031",
+      "number": 31,
+      "requirement": "Include gradients and inertia in the coasting calculation. The central loaded car launched at 80 km/h coasts about 4.63 km to rest on the level, or 1.62 km on a continuous 1% uphill, under the assumed resistance law. The corresponding earlier level result was 4.84 km. Lower inertia means faster slowing under unchanged drag, so lower mass does not by itself extend coasting range. A 1% uphill adds 2.57 kN/car. Optimize magnetic losses, aerodynamic resistance, station elevation and route curvature explicitly; downhill can require positive braking.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-032",
+      "number": 32,
+      "requirement": "Plan a robust arrival window. Optimize launch energy for measured mass, timetable, wind, resistance, voltage and route profile. Require adequate speed on entry to the receiving motor zone under the high-resistance case and adequate stopping capacity under the low-resistance/downhill case. Let the receiving station provide a small corrective push or brake. Exact zero-energy arrival under one nominal model is too sensitive to be the operating rule.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-033",
+      "number": 33,
+      "requirement": "Use station resistor braking as the baseline. The receiving LSM generates into the station DC bus; a chopper and resistor absorb energy without an onboard traction battery or export to the grid. In the new reference, an assumed 85% generating efficiency gives about 1.22 MW peak into the bus and 2.81 kWh / 10.13 MJ per arrival. At 180 s headway that averages 56.3 kW heat per direction. Size pulse power, repeated energy, ambient cooling, coincidence and failure response. Direct DC-bus energy reuse is optional; stopping must remain available without an energy consumer. [R50]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-034",
+      "number": 34,
+      "requirement": "Provide an independent stopping and holding function. A receiver can fail after the departure station has committed the train. Examine independent arrival-brake channels, fail-operational station supply, and an onboard emergency stopping/holding mechanism with passive reaction surfaces where necessary. Eddy-current braking alone cannot hold a stationary train. Cutting electrical propulsion also does not stop a train already coasting. Select the complete degraded-mode architecture before removing all mechanical emergency components.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-035",
+      "number": 35,
+      "requirement": "Define the moving-parts objective precisely. Target no wheels, gearboxes, rotating traction motors or mechanical transmissions in normal operation, and minimize articulated support hardware where geometry permits. Doors, HVAC fans/compressors, couplers, charging interfaces and emergency deployment hardware still have motion. Do not optimize a literal “zero moving parts” label at the expense of larger route radii, expensive alignment or impractical recovery.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-036",
+      "number": 36,
+      "requirement": "Make a structurally participating GFRP sandwich body the leading study. Use repeated flat or gently curved panels, continuous longitudinal load paths, reinforced openings and concentrated hardpoints. Compare vacuum infusion and light RTM with local production capability, cure control and fleet volume. Keep metallic fittings or local substructures where they efficiently handle coupler, suspension and lifting reactions. Avoid retaining a complete conventional frame underneath non-structural cladding if claiming the central mass saving. Rail composite demonstrators support this construction direction, while OSR’s sections and joints require their own sizing. [R35, R36]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-037",
+      "number": 37,
+      "requirement": "Specify a complete laminate, core and joint system. The central takeoff uses 1,900 kg/m³ GFRP faces, an 80 kg/m³ upper-shell core and a 100 kg/m³ floor core. These are property targets, not qualified material selections. Compare rail-oriented AIREX T90 and higher-temperature R82 core families with other suppliers, including PET-core alternatives. Qualify faces, core, adhesive, coatings and liners together for hot strength, creep, fire/smoke and repair. Catalogue core temperature or fire claims do not qualify the finished body. Standardize mold families, inserts, scarf/lap joints and inspection. [R36–R41]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-038",
+      "number": 38,
+      "requirement": "Adopt 14.2 t/car as the central mass target with visible reserve. The equipped GFRP body is budgeted at 5.2 t, including a 3.2 t structural shell plus doors, glazing, interior and extra treatments. Retain 3.0 t ferrite and the full 1.8 t growth reserve. This gives 85.2 t/train empty and 157.2 t at maximum study load. Use 15.3 t/car as a conservative GFRP case and 13.4 t/car as a stretch case. The 1.5 t magnetic-equipment allocation still needs physical sizing; chute equipment and other missing details must be itemized and charged to equipment or reserve. The detailed body takeoff follows the numbered list.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-039",
+      "number": 39,
+      "requirement": "Size the battery from the service mission. Study 20, 30 and 40 kWh/car. At 100 Wh/kg packaged, these are 200, 300 and 400 kg. Applying 80% end-of-life capacity and a 60% operating SOC window leaves 9.6, 14.4 and 19.2 kWh. At 60 kW/car, these correspond to the same numbers of minutes before journey consumption and protected reserve. The reserve must follow the actual recovery and emergency-service mission.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-040",
+      "number": 40,
+      "requirement": "Include charging as a major station load. A 90 s hot trip consumes 9 kWh/train. Replacing it in 45 s requires 720 kW charging before losses; direct dwell services add 360 kW, giving 1.08 MW per berthed train. Charging over 60 s gives 540 + 360 = 900 kW. A 30 kWh/car pack must prove repeated 4C or 3C charging, respectively, in the specified thermal and ageing envelope. Compare actual contact/inductive interfaces, charger efficiency, life, cooling and battery mass. Longer charging dwell consumes throughput.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-041",
+      "number": 41,
+      "requirement": "Engineer HVAC and insulation together. Retain 40 kW/car normal and 60 kW/car hot total services as provisional budgets that already include support/guidance and auxiliaries. Integrate sandwich-core insulation and thermal breaks, then calculate glazing, solar gain, occupants, fresh air, door cycling, filtration and fouling. Release smaller HVAC or battery allowances only from the service-duty model. The body’s lower mass alone is insufficient. Use a replaceable electric package; SUTRAK ACE235 remains a packaging reference rather than a selected Baghdad rating. [R13]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-042",
+      "number": 42,
+      "requirement": "Treat roof solar as an optional service offset. A 17 m by 2.65 m roof has 45.05 m² gross area. At an illustrative 1 kW/m² irradiance and 20% conversion, complete coverage would produce about 9 kW peak/car, before temperature and system losses. Actual area is smaller after HVAC, access and clearances. Compare shading/insulation benefits and maintenance costs; do not use solar to guarantee nighttime hover or full hot-day HVAC.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-043",
+      "number": 43,
+      "requirement": "Make door assumptions consistent with capacity and body mass. The GFRP takeoff initially assumes four 1.40 m by 2.10 m passenger openings per car, two on each side, with complete mechanisms budgeted separately from the shell. Validate that arrangement against six-car dwell, passenger distribution and evacuation. Increasing the number or width of doors changes openings, reinforcement, mechanisms, platform interfaces and mass. Maintain level accessible boarding, door interlocks, handholds and emergency communication over the suspension/load range.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-044",
+      "number": 44,
+      "requirement": "Make couplers and magnet phase one interface requirement. Include structural/electrical interfaces, gangways, articulation, rescue and crash load paths. For a 0.50 m magnetic wavelength, 5 mm longitudinal error is 3.6 electrical degrees and 25 mm is 18 degrees. Successive coupler deflections can accumulate along six cars. Qualify per-car magnet origins, coupler travel/stiffness and load-dependent phase. A common travelling field requires coherent registration; a section overlapping two differently phased cars cannot control their phases independently merely because the section has its own inverter.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-045",
+      "number": 45,
+      "requirement": "Make the composite and magnetic assembly sequence explicit. Each panel and cartridge needs part/revision identity, mass/CG, lifting and support points, datums, joining/fastening process, access and inspection limits. Plan mold preparation, layup, cure, trimming, joint preparation, insert installation and geometry checks before equipment fitting. Use keyed magnet pockets and handling fixtures to control polarity and attraction forces. Track actual resin uptake, process yield and labor hours; intended simplicity must appear in the work instructions and purchasing quantities.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-046",
+      "number": 46,
+      "requirement": "Prioritize achievable local manufacture. Candidate local work includes precast concrete, fabricated frames, panel production, structural carriers, winding assembly, wiring harnesses, final assembly and test. Procure ferrite, electrical steel, semiconductors, qualified cells, bearings and specialist components through interchangeable specifications where feasible. Eliminating a proprietary bogie supplier changes the supply chain; it does not eliminate the need for qualified suppliers and controlled processes.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-047",
+      "number": 47,
+      "requirement": "Implement the proposed departure rule as an exclusive reservation. Launch only when the preceding train has completely cleared the receiving station and protective boundary, the interstation corridor is clear, and the next berth is available. Atomically reserve corridor, receiving berth and required overlap for the named train. Also prove receiving braking, train health, services reserve, door closure and route readiness before launch.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-048",
+      "number": 48,
+      "requirement": "Use a small explicit resource state machine. Use states such as available, reserved, occupied, release pending, blocked and unknown, with train ownership and configuration identity. Lost communications or expired permission must not make a resource available. Release needs positive, sufficiently current full-clearance evidence. Model delayed/replayed messages, restarts, inconsistent sensors and failed departure; a timer alone never proves that a coasting train has disappeared.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-049",
+      "number": 49,
+      "requirement": "Reuse the repository’s persistent locks. The existing resources.rs and resource_log.rs already make locks outlive permissions and require clearance evidence. Extend that machinery for the station launch transaction rather than writing a parallel interlocking. The conventional three-second movement-authority window in ma.rs needs distinct launch/commit semantics: permission may expire before departure, but expiry after launch cannot release the corridor or command physically impossible immediate stopping. [R14]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-050",
+      "number": 50,
+      "requirement": "Detect the complete consist. Use a qualified non-contact boundary-detection and train-integrity method suited to a wheel-free vehicle. A front-end detection or expected travel time is insufficient. Establish tail-clear position and margins, including a separated or failed car. Conventional wheel/axle detectors cannot simply be assumed available on this vehicle. Retain monitoring during the coast for abnormal occupancy and train condition.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-051",
+      "number": 51,
+      "requirement": "Use an STM32 for a bounded local control task. STM32G4/H7-class hardware can prototype current loops, PWM and local position acquisition. ST documents FOC support; SimpleFOC provides an MIT-licensed algorithm reference. Neither is a complete railway controller. Retain independent launch/brake authority and hardware protection. At 0.25 m pole pitch, 5 electrical degrees corresponds to 6.94 mm, traversed in 0.347 ms at 20 m/s. Use timestamped/predicted local phase, calibrated sensors and absolute section identity; back EMF alone supplies no zero-speed phase. [R15, R51–R53]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-052",
+      "number": 52,
+      "requirement": "Keep GoA4 functions beyond separation in scope. Fixed station blocks can simplify traffic separation. Door control, precise berthing, obstacle response, passenger communication, train health, emergency handling, degraded operation and recovery still need an allocated design. ORR’s unattended-operation principles are a useful engineering checklist, not an automatic statement of Iraqi legal applicability. Define the project’s applicable standards and assurance responsibilities with the relevant authority. [R16]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-053",
+      "number": 53,
+      "requirement": "Calculate headway from the actual receiving boundary. Use H ≥ run time + receiving dwell + time for the whole train to clear the protected boundary + release/variability allowance. For the 90 s jerk-limited run, 60 s dwell and 5 s allowance, clearing the platform front marker gives 171.83 s; clearing the end of the rounded station winding at +75 m gives 176.95 s. Detection and train integrity prove release; a timer does not. The old 70/90/120 s table below uses a different no-jerk profile and an illustrative combined 20 s allowance, so it is retained only for traceability.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-054",
+      "number": 54,
+      "requirement": "Use a 190 s service baseline until the three-minute case is demonstrated. A 190 s headway gives 18.95 trains/hour and approximately 13,642 passengers/hour/direction at 720/train. It leaves 13.05 s above the current 176.95 s rounded-zone planning bound. A 180 s service gives 20 trains/hour and 14,400 passengers/hour/direction but leaves only 3.05 s. A proven 50–55 s dwell or a separately qualified shorter resource boundary can improve that margin. More aggressive acceleration alone does not remove dwell and clearance constraints.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-055",
+      "number": 55,
+      "requirement": "Simulate queues, power and network recovery together. Model every berth, corridor, winding group, receiving brake and charger with dwell distributions, timetable disturbances and terminal occupancy. The ideal 90 s trajectory allows a 45 s offset between directions to avoid motion-drive overlap; a 90 s offset creates braking/launch overlap. Neither offset guarantees spare inverter capacity after delays. Share DC supply first; retain independent receiving capability. Atomic reservations, startup and recovery must avoid circular waiting and preserve the committed arrival guarantee.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-056",
+      "number": 56,
+      "requirement": "Resolve terminals without silently adding switches. A mainline without turnouts still needs a physically workable return route. Compare loops, separate bidirectional tracks with an explicit operating plan, and terminal/depot arrangements. A train cannot transfer from one parallel beam to the other without connecting geometry or a transfer mechanism. Loops also require compatible curve radii. Record any exception to the no-mainline-switch objective.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-057",
+      "number": 57,
+      "requirement": "Design recovery for a train stopped between stations. An entirely unpowered coasting span cannot restart a stationary train from a distant station motor. Define a rescue vehicle, tow arrangement, portable recovery system or another practical method, including access to a captured/landed train. Preserve the no-onboard-main-traction baseline; count the response time, blocked-line effects, equipment and staffing in availability and cost.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-058",
+      "number": 58,
+      "requirement": "Specify depot motion and maintenance access. Use depot-mounted low-speed propulsion or workshop handling equipment where appropriate, with isolated work zones and support fixtures. Provide safe access to magnet cassettes, batteries, HVAC and doors. Define de-energization, magnetic-force handling and train storage conditions. Depot switches or transfers are permitted only where deliberately included and costed.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-059",
+      "number": 59,
+      "requirement": "Make the ordinary viaduct a repeated factory product. Retain one concrete guidebeam per direction, with two whole-span beams per ordinary 25 m bay and a shared support. Keep passive iron, anchors, bearings, joints, capture surfaces and station stators in the design and purchasing scope. Target a small standardized family that can be cast, inspected, transported and erected repeatedly. The current narrow-beam comparator already omits a full running deck; claim additional savings from smaller engineered supports, efficient beams and fewer site operations. Preserve route-specific evacuation and access requirements. The existing broad magnetic faces and attachment/swept-width details still require physical redesign.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-060",
+      "number": 60,
+      "requirement": "Use a deeper efficient box as the leading 25 m beam study. Start with a 0.80 m wide × 1.80 m deep prestressed closed box, nominal 100 mm webs and 150 mm flanges. Its 0.540 m² middle section becomes 0.5688 m² effective concrete area with two provisional 0.4 m end infills; use 0.57 m² for budgeting. Concrete plus unchanged reaction iron is about 43.1 t per beam before outstanding detail mass. Investigate a 45–47 t complete-member target, with rigging separately allowed. Retain the 0.65 × 1.90 m, 100/140 mm section as a lighter alternative, and thicker walls where detailing demands them. Compare 20 and 30 m families by complete foundation, transport, crane and gap costs. [R10, R45]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-061",
+      "number": 61,
+      "requirement": "Preserve stiffness and manufacturability while reducing material. The leading section raises gross vertical I by 13.6% while retaining about 90% of the previous lateral I and 97% of its approximate torsion J. The narrower alternative loses about 44% of lateral I and 33% of torsion J for only about USD 38,000/km additional quantity saving at the target rates. Keep the wider section as the leading comparison until coupled analysis supports narrowing. Resolve actual cover, bars, strands, anchors, concrete flow, end blocks, transfer strength, shear, local loads, creep and thermal gradients. An 8 mm nominal support gap requires a coupled vehicle–rail–beam model; absolute beam sag is not the relative magnetic-gap error.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-062",
+      "number": 62,
+      "requirement": "Recalculate support loads using the complete lighter structure. Hold the maximum passenger load at 160 people/car. The 26.2 t loaded car alone reduces the old beam/rail/live gravity screen by only about 2%. With the 0.57 m² beam budget, unchanged iron, both tracks loaded and 25 m tributary length, shared-support superstructure gravity is about 1.602 MN. Adding the proposed 8 m hollow column and 5.4 m³ cap gives about 1.894 MN at the foundation top before design factors, lateral loads or omitted attachments. The existing CAD support solids are unengineered placeholders: replacing them can greatly lower modeled dead load, but equal load capacity must be established before treating that difference as a verified saving. [R44]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-063",
+      "number": 63,
+      "requirement": "Replace placeholder supports with engineered precast families. Study a full-height 8 m hollow circular column of 1.35 m outside and 0.95 m inside diameter, with a total 1 m of provisional solid end zones: approximately 6.49 m³ and 16.2 t. Budget a roughly 5 m crosshead at 5.4 m³/13.5 t, including local widening for the column connection. Retain the 3.8 m ordinary beam-center spacing and check bearing edge distances. Select foundations from shallow footings, a suitable single shaft/column socket, or a pile-group/cap family according to verified soil, settlement, moments, utilities and access. Optimize these families with actual quantities. Use qualified socket or grouted duct/sleeve connections and strength-controlled release. The USD 22,000 ordinary-support target is conditional on ground and serial manufacture. [R17, R46]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-064",
+      "number": 64,
+      "requirement": "Move alignment preparation into the factory and retain final adjustment. Cast repeatable anchor provisions, lifting inserts and survey datums into each beam. Preassemble protected iron cassettes where a transport trial shows that doing so reduces installed cost. Provide adjustable, inspectable rail attachments for final survey and future replacement. Standardize column/cap fit-up gauges, bearing seats and connection access. Dry-fit the first assemblies before serial production. Record shims, grout placement, required connection strength, fastener settings and geometry by instance. Final acceptance covers the complete connected magnetic interface, rather than the moment the crane releases the beam.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-065",
+      "number": 65,
+      "requirement": "Make joints simple, repeatable and compatible with movement. Use a small bearing and connection family with explicit longitudinal restraints, thermal movement, uplift/capture loads and replacement access. Coordinate structural expansion joints with rail and stator cassette joints. Analyze every cartridge crossing for force changes, local bending, vertical/lateral steps and pitch/roll disturbance. Shop-fitted joints and survey references should reduce site adjustment without connecting across necessary expansion gaps. Detail the temporary lateral restraint and connection sequence so a deep beam is stable before its permanent system is complete. Price bearings, joints, inserts and brackets explicitly.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-066",
+      "number": 66,
+      "requirement": "Balance the factory, foundations and two-shift erection train. Set the central target at six beam placements per available 16-hour window and 75% availability: 4.5 accepted beams or 56.25 two-direction route-m per planned working day. A study front uses sixteen beam mould positions at a qualified 48-hour turnaround, eight ordinary-foundation crews, separate pier/cap and rail-survey teams, a main beam crane and a support crane. Keep 24 accepted beams buffered. Foundation and factory work run ahead in parallel; cast/release, grout strength, bearing survey and access evidence govern handover. Lower mass supports handling efficiency, while repeated operations and fewer crane waits produce most of the time saving. These are measured-demonstration targets. [R18, R47]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-067",
+      "number": 67,
+      "requirement": "Use elevation to remove at-grade conflicts. Near-total viaduct construction can avoid ordinary road/rail and wildlife conflicts at track level. It does not remove the need for air rights, foundations, utility clearance, access or effects below the line. Optimize a near-straight route within real property and terrain constraints. Include horizontal and vertical curvature compatibility with the rigid-carrier decision.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-068",
+      "number": 68,
+      "requirement": "Make the compact station genuinely six-car capable. Size the platform to the complete coupled train plus stopping and end-clearance allowances. Place the central lift landing flush with the platform, and include stairs, clear circulation, accessible boarding, fire/evacuation routes and maintenance access. Avoid sizing a six-car station from a two-car illustration. Doors, queueing and the lift footprint must fit within the usable platform width.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-069",
+      "number": 69,
+      "requirement": "Resolve the island-platform alignment tradeoff. Either keep the beams separated sufficiently along the route for an island platform, or introduce gentle approach divergence at stations. Compare the pier-cap and land-width consequences of the first option against curve and magnetic-clearance consequences of the second. Hitachi’s simplified-station precedent used lifts/stairs and omitted intermediate concourses/escalators; its side-platform choice also helped retain straight tracks. [R19]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-070",
+      "number": 70,
+      "requirement": "Package the station power equipment with the civil design. Allocate protected spaces and maintenance access for converters, switchgear, DC link, braking resistors, services charging, control electronics and optional energy buffers. Coordinate cable routes and cooling with platform architecture. Rate simultaneous arrivals/departures in both directions and neighboring stations. A cheaper train can require a more capable station electrical installation.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-071",
+      "number": 71,
+      "requirement": "Develop the vertical spiral chute as a specific candidate. Axel Thoms explicitly identifies monorail/gondola applications and offers custom spiral escape-chute products. Study a sealed, structurally anchored door-adjacent cassette with controlled deployment, entry support and an appropriate lower exit. Treat supplier height/flow claims as inputs to investigation, not as acceptance of this train, its passenger mix or every viaduct location. [R20, R21]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-072",
+      "number": 72,
+      "requirement": "Use the elevated-train chute patent as a geometry reference. DE19711884A1 describes a vertical spiral emergency chute for elevated train cabins, including exits at different levels. It is a relevant disclosed mechanism to study alongside current products. Patent publication does not demonstrate present availability, railway qualification, freedom to operate or satisfactory deployment from an OSR car. Obtain actual dimensions, mass and installation requirements for the selected candidate. [R22]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-073",
+      "number": 73,
+      "requirement": "Model evacuation flow and deployment separately. At an illustrative 15 people/minute/chute, 960 passengers need 5.3 minutes through 12 simultaneously usable chutes, or 10.7 minutes through six, before deployment, queuing, assistance and ground clearance. Usable door count can fall during smoke, fire or adverse wind. Verify children, reduced mobility, luggage, hesitation and assisted descent in the actual system rather than assuming identical flow at every door. [R21]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-074",
+      "number": 74,
+      "requirement": "Close the route-wide escape and rescue design. A vertical chute needs a usable landing/exit location; roads, roofs, water and obstructions can prevent it. Map height, wind exposure, landing access and responder routes for every segment. Compare chutes plus protected landing/recovery provisions with a narrow continuous evacuation provision where needed. Removing a full-width deck does not itself establish that all walkway or maintenance-access provisions can disappear.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-075",
+      "number": 75,
+      "requirement": "Define the twin as an engineering evidence chain. Every important object must connect requirements, geometry, physics, controls, materials, BOM, process, purchase, installation, commissioning and maintenance records. Start with one magnetic cassette and one stator segment, then replicate the proven interfaces. A realistic 3D image is a useful view of the twin; it does not establish assembly feasibility, manufacturability or operating performance.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-076",
+      "number": 76,
+      "requirement": "Extend the existing engineering identity contract. Reuse configuration_sha256, design_revision, asset identity, as-designed/as-built/as-maintained states, part/instance/serial/batch IDs, joint IDs and inspection characteristics in engineering_identity.py. Bind CAD, force maps, firmware, IFC objects and ERP records to these identities. A changed material, winding, gap or geometry must invalidate affected calculations and acceptance evidence. Avoid a second independent asset database. [R23]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-077",
+      "number": 77,
+      "requirement": "Use native parametric CAD as the geometry authority. Retain FreeCAD and the repository’s native geometry workflow; use build123d selectively for repeated scripted BREP parts. Include actual fasteners, datums, windings, connectors, joints and service envelopes. Export STEP for engineering exchange and controlled IFC representations for civil coordination. Treat current visibility/assembly animations as illustrations until interference, lifting and installation operations are explicitly checked. [R24]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-078",
+      "number": 78,
+      "requirement": "Add an analytical optimization stage ahead of Gmsh and Elmer. Reproduce the Rehberg–Blümler reference-ring result, then generate actual linear ferrite cartridges using finite-cuboid field calculations and constrained numerical optimization. The authors’ Halbach_two_point_oh is a useful reference explorer; Magpylib provides an openly licensed analytical implementation route. Pin dependencies. Use nonlinear 3D Elmer models for steel, coils, saturation, end effects and losses. Keep field.py and FEMM as limited regression/cross-check tools, not evidence of full three-dimensional performance. [R25–R27, R34, R42, R43]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-079",
+      "number": 79,
+      "requirement": "Publish force maps and optimization evidence as versioned interfaces. Inputs must include every block’s grade, size, position and magnetization vector; gaps, offsets, temperature, speed, trim current and station electrical phase/current. Outputs include forces, moments, losses, stiffness/control authority and demagnetization margins. Record manufacturing constraints, objective weights, baseline comparisons, geometry/mesh hashes and uncertainty. A stronger peak field or larger homogeneous volume alone does not qualify lift, thrust, reduced rail mass or lower cost.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-080",
+      "number": 80,
+      "requirement": "Couple electrical and thermal models through reproducible interfaces. Use OpenModelica for winding groups, converters, DC bus, brake resistor, supply/storage, chargers and thermal response, with FMI interfaces where helpful. Track peak and RMS phase current, voltage utilization, induced voltages in inactive sections and short-time duty. Compare one fixed winding, two fixed groups and routed sections at identical motion and force margins. Model both directions and hotel charging on the same time axis. The current constant 85% efficiency is a screening assumption, to be replaced by maps. [R28, R50]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-081",
+      "number": 81,
+      "requirement": "Couple flexible GFRP bodies to the six-car magnetic/guideway model. Include orthotropic panels, core shear, joints, openings, distributed support reactions and hot-condition stiffness, together with all cars, couplers, beam modes and foundation response. Check body-to-rail relative deflection at each cartridge, not only global body sag. Evaluate landing, failed support, lifting/rescue and roof/coupler hardpoints. Distributed suspension can reduce some global bending, while local floor and doorway loads remain. The existing single-car vertical model must be extended before mass targets are accepted.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-082",
+      "number": 82,
+      "requirement": "Connect timetable simulation to physical feasibility. Derive each block’s achievable launch/arrival envelope from the route and plant model. Feed that into headway, berth occupancy, queue and recovery simulations. Extend the existing Rust resource-state tests and bounded Kani proofs for the new station transaction; add a small formal protocol model only if it clarifies unresolved behavior. A scheduler must not book a trajectory the station motor, onboard services/support reserve or braking system cannot deliver. [R14]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-083",
+      "number": 83,
+      "requirement": "Add hardware-in-loop before high-power trials. Run the real control firmware against a reproducible plant model and then an instrumented low-voltage rig. Inject sensor disagreement, timing jitter, communication loss, saturation, hot windings and station faults. Log execution timing and physical output limits. Keep experiment orchestration and HMI on an SBC/host, with deterministic loops and independent trips in the appropriate embedded hardware.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-084",
+      "number": 84,
+      "requirement": "Derive purchasing from the revised engineering BOM. Retain separate body, ferrite, suspension, services and civil takeoffs. For launch equipment count every face cassette, group, inverter bridge, selector, sensor, feeder, brake branch, charger and thermal unit. Four hundred direction-metres with two motor faces equal 800 face-metres, not 400. Quote specified current/voltage/duty channels, not just train peak MW. Bind manufacturing quantities, scrap, calibration, assembly and inspection to ERP routings and revision IDs; release price savings only from a complete comparison. [R29, R32]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-085",
+      "number": 85,
+      "requirement": "Capture the composite and magnetic as-built state. Record laminate layup, fibre/resin content, core grade/density, batch, cure, bondline preparation/thickness and insert/joint inspection, as well as ferrite orientation, winding results, gaps and calibration. Weigh completed bodies and cartridges. Bind stiffness/force maps, firmware and acceptance limits to the actual configuration. Repairs and replacements update the as-maintained model, including material substitutions and any changed operating limit.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-086",
+      "number": 86,
+      "requirement": "Make the civil twin predict accepted output, purchasing and cost. Link every foundation, pier, cap, beam, bearing, connector and rail cassette to its geometry, ground evidence, BOM and work package. Add mould occupancy, cure/strength release, delivery turnaround, lift radius, actual rigging mass, crew/crane hours, connection completion and rail survey. Calculate the route production rate from the slowest accepted output of factory, delivery, foundations, supports, beam erection and alignment. Mark installed and accepted as different states. Drive ERP purchasing dates from this schedule and compare actual labour, rework and invoices against each target. Keep plant/tooling amortization and first-factory development visible. [R30]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-087",
+      "number": 87,
+      "requirement": "Use FUXA for observation and engineering feedback. Bind measured gap, current, force, temperature, energy, battery use, arrival time and beam motion to asset ID, calibration, timestamp and revision. Compare those measurements with the corresponding model. Keep the existing supervision/integration gateway separate from commissioned operating control. Dashboards may display trends and alarms; they must not bypass the station interlocking or silently retune the operating basis. [R31]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-088",
+      "number": 88,
+      "requirement": "Make every result reproducible. Pin configuration, source commit, solver, material data, mesh, random seed and input scenario. Distinguish analytic estimate, simulation result, measured result and accepted result. Keep uncertainty and model-validity ranges with the output. Publish editable geometry, calculations and tool inputs under explicit appropriate licenses; a publicly readable report or datasheet is not automatically open hardware.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-089",
+      "number": 89,
+      "requirement": "Update the repository as one coordinated physical-model change. Add GFRP body cases, finite-block magnetization, station propulsion and the revised civil family to configuration, CAD, physics, BOM, costs and city schedules together. In geometry.py, replace the large solid cap/column and shallow foundation envelopes with selectable engineered families. In manufacturing.py, replace the flat support allowance with foundation, column, cap, connection and erection quantities while retaining explicit unquoted target cases. The geometry currently contains a 24 m³ column and 21 m³ cap at 8 m height; the USD 35,000/support cost does not derive from those volumes. Eliminate that disconnect before reporting automatic civil savings. Preserve old configurations and evidence status. [R1, R23, R32, R44]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-090",
+      "number": 90,
+      "requirement": "Add station propulsion and charging as a separately priced scope. The new study exposes repeat-build target-rate sensitivities for stators, converters, supply, braking, chargers, controls and installation. A two-fixed-group middle case is USD 2.46 million/station before an illustrative 20% reserve; the routed eight-bank case is USD 2.60 million. These are unquoted purchasing targets, not demonstrated first-series costs. Preserve external utility reinforcement, non-recurring development, factory capital, station buildings and programme costs as explicit additions.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-091",
+      "number": 91,
+      "requirement": "Adopt a quantified civil cost-reduction programme. The balanced target reduces the existing incomplete listed scope from USD 4.255 million to USD 3.313 million per two-direction route-km, about 22%. The portion excluding unchanged passive iron falls from USD 3.054 million to USD 2.112 million, about 31%. This requires support packages to average USD 22,000 rather than USD 35,000 and lower delivery/erection/site occupation costs; it is not a blanket weight discount. The narrower beam gives USD 3.275 million under the same rates. Separately validated 20–30% iron reduction gives USD 3.073–2.953 million with the balanced beam. Preserve the same exclusions, add an estimating reserve, and replace target rates with itemized local quotations. [R32]",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-092",
+      "number": 92,
+      "requirement": "Compare complete systems at equal service. Evaluate conventional elevated light rail, the previous onboard-drive maglev, and the station-powered variant at the same route, capacity, timetable, climate and availability target. Include stations, grid capacity, fleet/spares, depot, recovery, development, manufacturing facilities and whole-life replacement. Savings from a smaller train can be offset by additional station electrical plant, lower frequency or stricter guideway tolerances.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-093",
+      "number": 93,
+      "requirement": "Separate supplier independence from cost reduction. The design can remove dependence on conventional bogie, gearbox and traction-motor packages. It introduces competence in ferrite modules, precision guideway interfaces, embedded support control and station power electronics. Seek interchangeable interfaces and multiple qualified suppliers. Price prototype engineering and first-factory learning separately from repeat production; low raw-material prices do not fund development automatically.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-094",
+      "number": 94,
+      "requirement": "Optimize complete installed cost at the required service. Sweep body/magnet geometry, useful longitudinal field, gap, current loading, magnetic overlap, winding length, fixed or routed group topology, voltage/current ratings, runtime, dwell, headway, civil geometry and construction resources together. Shortest winding, lowest acceleration and fewest converters are different objectives. Compare both the 90 s reference and a 100 s economy case, including reserve and passenger throughput. Use actual material/process quantities and lifecycle evidence before releasing a saving.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-095",
+      "number": 95,
+      "requirement": "Build paired conventional and optimized magnetic coupons. Use identical ferrite grade, volume, gap and tested rail geometry to compare the original pattern with the finite-block optimized pattern. Measure vertical/lateral force, current, losses and reverse-field margins across load, temperature and alignment cases. Follow with equal-required-force comparisons that can genuinely change mass or geometry. Publish baseline and optimized data with uncertainty, including the carrier and retention effects; do not release a cost saving from an analytical field plot alone.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-096",
+      "number": 96,
+      "requirement": "Build a combined support-and-station-drive segment before selecting the final power architecture. Use a representative full-scale magnetic cross-section and 2.5 m three-phase cassette at controlled initial energy. Measure longitudinal field harmonic, thrust/normal force, R/L, flux linkage, losses, temperature and phase sensitivity. Then test two neighboring sections, a passive-to-powered transition, zero-speed restart, force handover and resistor braking. Use the measured maps to choose long fixed groups or routed channels before ordering megawatt equipment.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-097",
+      "number": 97,
+      "requirement": "Develop the body and moving sled in parallel. First manufacture a representative GFRP doorway/floor section with a real magnetic attachment, then measure load, stiffness, hot-condition response, joint behavior and mass. In parallel, measure sled coasting drag, joint crossing and support/propulsion transitions. Progress to a 17 m body and its full distributed support array. Weigh complete equipment and verify assembly, battery/HVAC duty, load extremes, landing and recovery before extrapolating to six cars.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-098",
+      "number": 98,
+      "requirement": "Demonstrate civil production and then the complete station pair. Build a separate 100 m ordinary-civil pilot: four dual-direction bays, eight beams and five actual support locations. Use representative ground, connections, rail interfaces and lifting geometry; measure strength release, labour, delivery, placement, alignment, rework and cost. Follow with repeat lots and at least ten representative erection windows before adopting a stable production rate. The railway demonstration must separately accommodate the full six-car train and station approach/departure zones. Exercise launch, coast, arrival correction, berthing, charging, clearance, failures and recovery, and measure energy and headway distributions.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-099",
+      "number": 99,
+      "requirement": "Make each milestone produce a purchasable and buildable engineering package. Require native CAD, drawings, material specifications, executable models, measurements, firmware, BOM, assembly steps, inspection limits and cost evidence under common revision IDs. For civil works include actual bar/strand schedules, connection capacities, lift/transport studies, ground-specific foundation selection, factory process sheets and accepted survey records. Publish the intended source of each cost and programme reduction and the evidence that closes it. The initial physical packages now include an optimized cartridge/stator, a GFRP doorway/floor/support module and a representative full civil bay.",
+      "accepted": false,
+      "state": "open; project specification input"
+    },
+    {
+      "id": "SP-100",
+      "number": 100,
+      "requirement": "Release the aggressive targets through measured results. Retain 14.2 t/car as the central mass target until substantiated. Progress the repeated civil product toward approximately 31% less civil/assembly cost excluding iron, 22% less existing priced guideway scope, and 3.2 times the declared illustrative erection rate. Report the baseline, scope and actual resource hours with each result. Beam/pier stiffness, magnetic-gap dynamics, ground behavior, connections, evacuation and complete six-car operation must remain within their requirements. Conditional rail optimization can extend cost reduction to about 28–31% of the listed scope. Convert the targets into accepted purchasing and construction records rather than treating the model output itself as demonstration.",
+      "accepted": false,
+      "state": "open; project specification input"
+    }
+  ],
+  "accepted_requirements": 0,
+  "corrections": [
+    {
+      "id": "CHARGE-45S",
+      "requirement": "Account for hot services during15 disconnected dwell seconds:10.5kWh replenishment,1.20MW connected train load at45s, beforelosses."
+    },
+    {
+      "id": "DOORS-4",
+      "requirement": "Use2doors/side acrossbodyCAD,mass,dwell,platformandegress."
+    },
+    {
+      "id": "GRADE-COAST",
+      "requirement": "Reject unpowered-coast routes outside launch/arrival/braking/speed envelope; flat1km result doesnotqualify5%grade."
+    },
+    {
+      "id": "HEADWAY-190",
+      "requirement": "Recompute headway/fleet/capacity from protected-zone model;190s baseline changes prior180s planning."
+    }
+  ],
+  "physical_release": false
+}

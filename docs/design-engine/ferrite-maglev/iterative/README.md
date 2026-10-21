@@ -2,9 +2,9 @@
 
 ![Observed generation progress](progress.svg)
 
-24 exact candidates evaluated over 4 generations; 18 passed training screens. Termination: bounded-stagnation.
+24 exact candidates evaluated over 4 generations; 15 passed training screens. Termination: bounded-stagnation.
 
-The generator uses the preceding results to create differential and local mutations of beam sections/spans, body and equipment mass allocations, and actual Rust controller gains. Each viable proposal runs passenger-load and compliant-guideway scenarios plus replay/invalid-gap protection controls. Shortlisted candidates face separate three-second holdout scenarios; failed confirmation disqualifies that revision.
+The generator uses the preceding results to create differential and local mutations of beam sections/spans, GFRP body/equipment allocations, actual Rust controller gains, station runtime, winding length and acceleration. Each proposal first checks six-car station launch/coast/receive, correctedservicescharging, headway and20%conditional overlap reserve. Each viable proposal runs passenger-load and compliant-guideway scenarios plus replay/invalid-gap protection controls. Shortlisted candidates face separate three-second holdout scenarios; failed confirmation disqualifies that revision.
 
 The selected study is identified in [recommendation.json](recommendation.json). [Full candidate, ancestry, scenario and confirmation evidence](result.json.gz) is source-bound by [manifest.json](manifest.json). Cache receipts permit exact-source restart; changed sources or binaries create another epoch.
 

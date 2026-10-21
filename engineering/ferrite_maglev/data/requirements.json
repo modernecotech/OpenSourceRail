@@ -1,6 +1,6 @@
 {
   "schema": "osr-maglev-requirement-inputs/1",
-  "revision": "V05-CURRENT-REQUIREMENTS-3",
+  "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
   "authority": "Provisional project engineering requirements; not operator approval or compliance evidence",
   "requirements": [
     {
@@ -8,7 +8,7 @@
       "requirement": "Nominal carbody length 17 m, with explicit coupler pitch and selected consist envelope. Baghdad uses six cars; other formations require city-specific capacity and platform reconciliation.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "requirements-profile",
         "magnetic-cad",
@@ -21,7 +21,7 @@
       "requirement": "Ferrite permanent magnets; Sintered hard ferrite, grade and temperature-dependent properties to be qualified",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
@@ -31,36 +31,36 @@
     },
     {
       "id": "SYS-003",
-      "requirement": "Onboard active equipment; All suspension/propulsion windings and power electronics on the car; guideway magnetic elements passive",
+      "requirement": "Station-mounted LSM windings and converters provide main traction. Onboard active windings and electronics provide independent support/guidance. Interstation spans have no powered propulsion; retain services power, emergency stopping and recovery.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "requirements-profile",
         "magnetic-cad",
         "rust-support-control"
       ],
-      "change_rationale": "Current maglev requirement retained; study assumptions require independent acceptance."
+      "change_rationale": "Rebased to user station-powered/GFRP specification; study targets retain open acceptance."
     },
     {
       "id": "SYS-004",
-      "requirement": "Normal running uses fixed magnetic assemblies and powered onboard windings. Design support, guidance, braking, parking, capture and recovery as distinct verified functions.",
+      "requirement": "Normal running uses fixed ferrite support/propulsion field assemblies, onboard support/guidance coils and station-mounted powered propulsion. Prove support, guidance, receiving brake, independent emergency stopping, parking, capture and recovery separately.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "coupled-dynamics",
         "rig-and-demonstrator"
       ],
-      "change_rationale": "Rebaselined to selected maglev architecture, configuration and independent verification obligations."
+      "change_rationale": "Rebased to user station-powered/GFRP specification; study targets retain open acceptance."
     },
     {
       "id": "SYS-005",
       "requirement": "Stationary hover in normal service; Zero-speed lift AND stability must be demonstrated; protection power and controlled landing remain required",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "coupled-dynamics",
         "rust-support-control",
@@ -70,10 +70,10 @@
     },
     {
       "id": "SYS-006",
-      "requirement": "Small load-dependent vertical movement; Initial target 5 mm AW0\u2192AW2; define AW3 travel separately",
+      "requirement": "Small load-dependent vertical movement; Initial target 5 mm AW0→AW2; define AW3 travel separately",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-force-loss",
         "coupled-dynamics",
@@ -86,7 +86,7 @@
       "requirement": "Integrated construction; Share qualified structural carriers and services; ferrite blocks do not replace the primary crash/bending load path",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "vehicle-mass",
@@ -99,7 +99,7 @@
       "requirement": "No mainline switches; Rerun terminal, headway, failure recovery and depot access models",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "requirements-profile",
         "switch-free-city"
@@ -111,7 +111,7 @@
       "requirement": "Local fabrication and low repeat cost; Price manufactured assemblies, fixtures, yield, labour and inspection, not raw magnets alone",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "local-mbom-cost"
       ],
@@ -119,23 +119,23 @@
     },
     {
       "id": "SYS-010",
-      "requirement": "Use 225 kWh/car as the primary battery study input and evaluate 150 kWh/car only with full route, charging and protected-support reserve analysis.",
+      "requirement": "Use 30 kWh/car services storage as the central study, with 20/40 kWh cases. Size full run and disconnected dwell consumption, hot services, EOL/SOC window, missed charging and protected-support reserve. No onboard main traction battery.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "vehicle-mass",
         "switch-free-city",
         "local-mbom-cost"
       ],
-      "change_rationale": "Rebaselined to selected maglev architecture, configuration and independent verification obligations."
+      "change_rationale": "Rebased to user station-powered/GFRP specification; study targets retain open acceptance."
     },
     {
       "id": "MASS-001",
       "requirement": "export mass, centre of gravity, inertia tensor, support positions, uncertainty and evidence for every assembly. Include magnet mass exactly once. Include all cold plates, cables, fasteners, covers, gap sensors and field shielding. Retain a separate growth reserve and produce a mass-closure ledger for each battery/magnet variant.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "vehicle-mass",
         "local-mbom-cost",
@@ -148,7 +148,7 @@
       "requirement": "publish a three-dimensional swept-envelope analysis on tangent, minimum horizontal radius, vertical curves, cant transitions, beam ends and depot routing. Verify every active face, cover, capture rail, platform interface and evacuation path.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "civil-kit",
@@ -161,7 +161,7 @@
       "requirement": "create a gap budget with independent terms for rail manufacturing, erection/shimming, beam bending/twist, bearing movement, thermal expansion, carbody bending/twist, load-induced movement, control tracking error, sensor bias/noise and wear/debris. Differentiate absolute structure deflection from relative magnet-to-rail displacement. Every omitted or unresolved term remains an explicit uncertainty and acceptance hold.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "civil-kit",
@@ -174,7 +174,7 @@
       "requirement": "integrate magnet carriers into a continuous qualified frame, but retain positive block containment after cracking, bonding failure and crash loads. Ferrite is a ceramic material and is not the primary tensile, bending, impact or fatigue chassis structure. Use common brackets, crossmembers and service channels where the actual load path permits.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "vehicle-mass",
@@ -187,7 +187,7 @@
       "requirement": "determine ride quality using a flexible vehicle/guidebeam model. The 5 mm load-movement stiffness alone produces a several-hertz heave mode in a single-body approximation. This is not proof of comfortable suspension. Evaluate whether electromagnetic control provides adequate disturbance isolation without a mechanical secondary suspension.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "coupled-dynamics",
         "rig-and-demonstrator"
@@ -199,7 +199,7 @@
       "requirement": "validate normal, crush load, maximum grade, strong headwind, hot HVAC, weak magnet, reduced battery voltage, missed chargers, low SOC, full SOC/no-regeneration and one failed traction channel.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-force-loss",
         "switch-free-city",
@@ -209,10 +209,10 @@
     },
     {
       "id": "PWR-002",
-      "requirement": "Size station electrical service from simultaneous arrivals, selected consist, actual dwell, charge taper and grid/charger losses. Evaluate 450, 500 and 600 kW/car as unqualified study points. A six-car berth at 600 kW/car needs 3.6 MW DC before losses and station auxiliaries. Close charging energy balance over the complete route duty, including hot and missed-charge cases.",
+      "requirement": "Size services interfaces from complete run and disconnected-dwell duty. For the six-car hot90s/60s/45s case, replace10.5kWh and serve360kW live load:1.20MW connected before losses. Study150/200/250kW percar. Include station propulsion, two directions, supply/thermal ratings, taper, EOL and missed charging separately.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "switch-free-city",
         "civil-kit",
@@ -222,23 +222,23 @@
     },
     {
       "id": "PWR-003",
-      "requirement": "specify separate energy paths for regeneration, dynamic braking when the battery cannot absorb power, and holding at zero speed on grade. A magnetic brake that fades with speed cannot be the only parking function. A resistor, passive brake surface or capture system needs a defined thermal and structural energy path. A 31.75 t car stores 7.84 MJ of translational kinetic energy at 80 km/h, excluding downgrade energy and any other inertias.",
+      "requirement": "Use receiving station DC bus and qualified resistor/chopper as the baseline energy sink. Size peak and repeated brake duty independently of an available consumer. Include independent stopping and stationary holding after station supply/receiver failure; an already coasting train cannot stop merely by withdrawing authority.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "coupled-dynamics",
         "rig-and-demonstrator"
       ],
-      "change_rationale": "Current maglev requirement retained; study assumptions require independent acceptance."
+      "change_rationale": "Rebased to user station-powered/GFRP specification; study targets retain open acceptance."
     },
     {
       "id": "PWR-004",
       "requirement": "keep support/protection power available during a traction fault for the period required to execute the safe-stop strategy. \"Trip\" must inhibit unsafe propulsion while preserving the control needed for stable support until capture/landing is safe. Determine independent power-domain and energy-reserve requirements from the hazard analysis. Permanent magnetisation does not establish stable contactless operation after complete control-power loss.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "rust-support-control",
         "sbc-io-timing",
@@ -252,7 +252,7 @@
       "requirement": "price and design a **dual-direction route-km**, equal to two single-direction beam-km, unless a result is explicitly labelled otherwise. Include beam structure, reaction surfaces, supports, foundations, bearings/joints, erection, transport, installation, survey/metrology, drainage, protection and an independently accepted evacuation and maintenance access arrangement. Keep station, depot, major bridge, utility, land and charging scopes separate and visible.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "civil-kit",
         "local-mbom-cost"
@@ -264,7 +264,7 @@
       "requirement": "Use 25 m span and 8 m pier height as provisional starting geometry; explore 20/25/30 m spans with actual geotechnical zones and erection logistics. Do not assume a nominally narrower beam automatically permits longer spans or lighter foundations. Magnetic attraction can create large local opposing forces even when net vertical support equals train weight.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "civil-kit",
         "local-mbom-cost"
@@ -276,7 +276,7 @@
       "requirement": "derive the passive rail's material, laminations if required, pole/tooth geometry, sectional kg/m, mounting pitch, adjustment range, corrosion protection, thermal gaps, magnetic continuity, capture faces and inspection access from the chosen circuit. Ordinary unqualified steel cannot be assumed to have negligible eddy-current/hysteresis loss at service speed. Reaction rails remain passive electrically while carrying induced or varying magnetic fields.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "civil-kit",
         "local-mbom-cost",
@@ -289,7 +289,7 @@
       "requirement": "retain the one-metre clear evacuation walkway planning requirement until the deployment's approved egress design replaces it. Compare a common central walkway and separate walkways using actual access, door direction, vehicle-to-walkway height, disabled evacuation, smoke/fire and recovery cases. A narrow beam does not eliminate the width needed by passengers, maintenance or the vehicle swept envelope.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "civil-kit",
         "local-mbom-cost",
@@ -302,7 +302,7 @@
       "requirement": "compute coupled guideway/vehicle dynamics, guidebeam bending/torsion, seismic/wind response, thermal gradients, settlement, joint steps and surface alignment. Publish both structural ultimate/serviceability results and the tighter local magnetic-gap results. Derive magnetic-interface tolerances from the complete relative-gap budget.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "civil-kit",
         "local-mbom-cost",
@@ -315,7 +315,7 @@
       "requirement": "use adjustable, replaceable reaction-rail cassettes only if their fasteners, tolerances, inspection and lifetime cost are included. Allocate correction between concrete casting, surveyed erection and precision magnetic surfaces. Do not demand machine-tool tolerances from the whole viaduct without pricing how they are achieved and maintained.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "civil-kit",
         "local-mbom-cost",
@@ -328,7 +328,7 @@
       "requirement": "evaluate debris, ferrous-object attraction, sand, drainage, rail corrosion, damaged rail joints and contamination. Covers must be included in the field/loss and mechanical-clearance models. Allow full access for rail replacement and magnet module service without dismantling the civil beam.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "civil-kit",
         "local-mbom-cost"
@@ -340,7 +340,7 @@
       "requirement": "select an explicit switch-free mainline topology. Options are continuous directional loops, terminal balloon loops, or independently reversible shuttle guideways/sections. A normal double-track terminal that swaps trains between tracks requires a crossover; it cannot retain that operation while claiming no mainline switches. Loop land/civil costs and shuttle capacity/dead-time belong in the model.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "switch-free-city",
         "requirements-profile"
@@ -352,7 +352,7 @@
       "requirement": "recalculate capacity, headway, commercial speed, platform occupancy, fleet, spares, timetable and depot dispatch. One-minute dwell can dominate travel time on one-kilometre stop spacing. Compare at equal passengers/hour/direction and service hours; longer travel time or lower capacity is a changed product requirement, not a cost saving.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "switch-free-city",
         "requirements-profile"
@@ -364,7 +364,7 @@
       "requirement": "define the failure-blocking consequence of each no-switch route. Demonstrate controlled stopping, evacuation, towing/recovery and reopening with a failed car on the most constrained elevated section. Access to a depot switch does not provide a mainline bypass. Use realistic recovery time in availability and spare-fleet calculations.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "switch-free-city",
         "local-mbom-cost",
@@ -377,7 +377,7 @@
       "requirement": "Provide magnetic module service, retained-magnet handling fixtures, safe support stands, field measurement, gap/current calibration, coil/inverter replacement, rescue equipment and guideway metrology. Size cranes, lifting access and inspection facilities from actual assemblies and maintenance routes.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "switch-free-city",
         "local-mbom-cost",
@@ -387,10 +387,10 @@
     },
     {
       "id": "OPS-005",
-      "requirement": "preserve level boarding and door-to-platform protection over AW0\u2013AW3 motion, control tolerances and failures. A five-millimetre normal load shift is only one term. Define what happens to door enabling after contact/capture or loss of levitation.",
+      "requirement": "preserve level boarding and door-to-platform protection over AW0–AW3 motion, control tolerances and failures. A five-millimetre normal load shift is only one term. Define what happens to door enabling after contact/capture or loss of levitation.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "switch-free-city",
         "local-mbom-cost",
@@ -403,7 +403,7 @@
       "requirement": "Implement local deterministic Rust module/group control and train-level force allocation on declared off-the-shelf SBCs with isolated physical I/O and independent protection. Benchmark exact processors, power domains, sensors and outputs against derived timing and fault requirements; processor clock rate or multicore packaging establishes no independence.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "rust-support-control",
         "sbc-io-timing",
@@ -413,10 +413,10 @@
     },
     {
       "id": "CTL-002",
-      "requirement": "initial scheduling study points are 10\u201320 kHz PWM/current control and 1\u20132 kHz gap/force allocation sampling, subject to the chosen power stage, sensor bandwidth and unstable-mode dynamics. These are starting design targets, not prescribed stabilising bandwidths. Distinguish switching frequency, control sample rate and closed-loop bandwidth. Demonstrate worst-case execution time, latency, jitter, quantisation, saturation recovery and delay robustness on target hardware.",
+      "requirement": "initial scheduling study points are 10–20 kHz PWM/current control and 1–2 kHz gap/force allocation sampling, subject to the chosen power stage, sensor bandwidth and unstable-mode dynamics. These are starting design targets, not prescribed stabilising bandwidths. Distinguish switching frequency, control sample rate and closed-loop bandwidth. Demonstrate worst-case execution time, latency, jitter, quantisation, saturation recovery and delay robustness on target hardware.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "rust-support-control",
         "sbc-io-timing",
@@ -429,7 +429,7 @@
       "requirement": "measure enough independent gaps and inertial/body motion to observe vertical/lateral motion and pitch, roll and yaw. Each channel carries calibration, temperature compensation, quality flags, timestamp, range and uncertainty. Treat sensor bias as well as loss. Define actuator limits from temperature, voltage and electromagnetic force maps.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "rust-support-control",
         "sbc-io-timing",
@@ -442,7 +442,7 @@
       "requirement": "isolate train/OCC supervision from the inner suspension loop. FUXA provides displays, alarms and maintenance information; it does not close the lift-control loop or grant movement authority. Loss of supervisory communications must lead to a bounded locally controlled state.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "rust-support-control",
         "sbc-io-timing"
@@ -454,7 +454,7 @@
       "requirement": "add an independent protection design that detects dangerous gap, overspeed, overcurrent, sensor disagreement and uncommanded thrust. The action sequence must be suspension-aware: restrict traction, preserve required support control, brake, then capture/secure as designed. A blanket removal of support power is not an accepted safe-stop action.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "rust-support-control",
         "sbc-io-timing",
@@ -467,7 +467,7 @@
       "requirement": "Specify contactless odometry using justified combinations of guideway markers, radar/optical speed, electrical position and inertial measurements. Quantify observability, low-speed uncertainty, calibration, sensor failure and route/environment limits before acceptance.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "rust-support-control",
         "sbc-io-timing",
@@ -480,7 +480,7 @@
       "requirement": "add machine-readable interfaces for gap, pole overlap, current, estimated force, force reserve, bus state, temperatures, capture contact, protection power, mode and sensor health. Include units, bounds, provenance and time validity. Extend formal invariants for permitted movement, force/thermal saturation, loss of control and switch-free occupancy. Formal state-machine checks do not establish electromagnetic force or physical stability.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "rust-support-control",
         "sbc-io-timing"
@@ -489,22 +489,22 @@
     },
     {
       "id": "MFG-001",
-      "requirement": "Use a modular body, door and glazing manufacturing concept compatible with the selected structure. Integrate cable channels, mounting datums and service access in CAD. Avoid hundreds of unique magnet carrier variants; use replaceable standard cartridges with controlled orientation variants.",
+      "requirement": "Develop repeated structurally participating GFRP sandwich panels, qualified longitudinal load paths, reinforced openings and hardpoints. Use four passenger doors/car consistently in CAD, mass, dwell and evacuation study. Size laminate/core/joints and production processes; no mass savings accepted from allocated budgets alone.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "local-mbom-cost",
         "magnetic-cad"
       ],
-      "change_rationale": "Rebaselined to selected maglev architecture, configuration and independent verification obligations."
+      "change_rationale": "Rebased to user station-powered/GFRP specification; study targets retain open acceptance."
     },
     {
       "id": "MFG-002",
       "requirement": "specify ferrite by grade, magnetisation axis, remanence/coercivity over temperature, dimensions, permissible chips/cracks, coating if needed and batch traceability. Include controlled assembly fixtures, magnetic keepers/shields where appropriate and a verified field map of each completed module. Identify the installed location and orientation of every replaceable cartridge.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "local-mbom-cost",
         "magnetic-cad"
@@ -516,7 +516,7 @@
       "requirement": "define winding conductor, insulation system, impregnation, electrical tests, cooling interface, current calibration and module end-of-line force/gap test. Include production yield, rework, scrap, supplier quality and labour. Price the actual manufacturing routing in ERP rather than using only material cost.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "local-mbom-cost",
         "magnetic-cad"
@@ -528,7 +528,7 @@
       "requirement": "preserve positive retention after bonding failure and differential thermal expansion. Establish non-destructive inspections where feasible, periodic gap/field checks, crack/debond indicators and replacement limits. Ferrite's corrosion and high-temperature advantages do not remove the need to inspect mechanical supports, insulation, cooling and sensors.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "local-mbom-cost",
         "magnetic-cad"
@@ -540,7 +540,7 @@
       "requirement": "issue EBOM/MBOM revisions, manufacturing drawings, travellers, fixture definitions, inspection plans, calibration certificates, installed serial records and spare-parts lists. Bind each to the same vehicle/rail configuration hash. Keep preliminary engineering items distinct from production-released ERP items.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "local-mbom-cost",
         "rig-and-demonstrator"
@@ -549,49 +549,49 @@
     },
     {
       "id": "MAG-001",
-      "requirement": "Develop a 17 m by 2.65 m car supported and guided magnetically by a passive guidebeam, with permanent magnets and all powered propulsion/suspension windings on the car. Permanent magnets provide the steady suspension bias. Solid-state power electronics control the required forces. The normal running system shall target zero internally moving mechanical running gear; doors and HVAC remain conventional functional assemblies. Cooling pumps, charging mechanisms and emergency mechanisms must be disclosed if selected.",
+      "requirement": "Develop six 17 m by 2.65 m GFRP study bodies, ferrite PM-biased active support and station LSM propulsion. Keep interstation guideways propulsion-unpowered. Required support drives, sensors, passenger equipment and emergency mechanisms remain in the BOM.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "requirements-profile",
         "magnetic-cad",
         "vehicle-mass"
       ],
-      "change_rationale": "Current maglev requirement retained; study assumptions require independent acceptance."
+      "change_rationale": "Rebased to user station-powered/GFRP specification; study targets retain open acceptance."
     },
     {
       "id": "MAG-002",
-      "requirement": "Carry both ferrite cases through every calculation. For the 150 kWh/car battery option these are (A) 18,000 kg empty including 3,000 kg ferrite and (B) 19,000 kg empty including 4,000 kg ferrite. The primary matched-capacity 225 kWh/car cases add 750 kg to each car, becoming 18,750/19,750 kg empty. Use the provisional passenger load cases: AW2 is 120 passengers per car, initially 9,000 kg at 75 kg/person; AW3 is 160 passengers per car, initially 12,000 kg. Thus 150 kWh AW2 masses are 27,000/28,000 kg and AW3 masses are 30,000/31,000 kg; matched-capacity AW2 masses are 27,750/28,750 kg and AW3 masses are 30,750/31,750 kg. Do not silently reduce the declared 160-person-per-car AW3 loading to the 360-person AW2 case. Tare masses are targets, and final occupancy/load definitions need the project's approved requirements. Magnet mass is included in empty mass, not added a second time.",
+      "requirement": "Central mass allocation is 14,200 kg/car empty including 3,000 kg ferrite, 30 kWh services storage and 1,800 kg growth reserve. AW2 adds 120 x 75 =9,000 kg; AW3 adds160 x75=12,000 kg. Compare body targets4400/5200/6300 kg; itemise all changes. Mass, CG and inertia remain unverified. Count ferrite once.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "requirements-profile",
         "magnetic-cad",
         "vehicle-mass"
       ],
-      "change_rationale": "Rebaselined to selected maglev architecture, configuration and independent verification obligations."
+      "change_rationale": "Rebased to user station-powered/GFRP specification; study targets retain open acceptance."
     },
     {
       "id": "MAG-003",
-      "requirement": "Derive gravity loads and inertial forces from each exact mass case using 9.81 m/s\u00b2 and the selected acceleration. At 24 equal modules, divide total lift only as an initial allocation; eccentric loading, moments, failed modules and dynamic factors require separate analysis. At 225 kWh/car, AW3 masses of 30,750/31,750 kg require 301,657.5/311,467.5 N static lift per car.",
+      "requirement": "Derive exact-revision gravity and inertia from the component ledger. At26,200 kg AW3, gravity is257,022 N/car; equal24-cartridge allocation is10,709.25 N only as a preliminary static screen. Unequal loading, failed support and moving dynamics require separate analysis.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "requirements-profile",
         "magnetic-cad",
         "vehicle-mass"
       ],
-      "change_rationale": "Rebaselined to selected maglev architecture, configuration and independent verification obligations."
+      "change_rationale": "Rebased to user station-powered/GFRP specification; study targets retain open acceptance."
     },
     {
       "id": "MAG-004",
-      "requirement": "Retain 24 modules as an initial packaging study, not a fixed architecture. The earlier two 12 m \u00d7 0.5 m \u00d7 0.05 m strips occupy 0.60 m\u00b3; at an assumed density of 5,000 kg/m\u00b3 this is 3,000 kg. This volume arithmetic establishes no levitation capacity. It also excludes cores, windings, brackets, encapsulation and covers.",
+      "requirement": "Retain 24 modules as an initial packaging study, not a fixed architecture. The earlier two 12 m × 0.5 m × 0.05 m strips occupy 0.60 m³; at an assumed density of 5,000 kg/m³ this is 3,000 kg. This volume arithmetic establishes no levitation capacity. It also excludes cores, windings, brackets, encapsulation and covers.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "requirements-profile",
         "magnetic-cad",
@@ -604,7 +604,7 @@
       "requirement": "Evaluate PM-biased active attractive suspension and separately identified shaped-pole restoring alternatives with explicit circuit, force/moment, gap, thermal and loss definitions. Do not mix equations or credit unproved passive stability between alternatives.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
@@ -617,7 +617,7 @@
       "requirement": "Reject any model that credits sustained zero-speed lift to a plain permanent-magnet array inducing currents in a passive normal conductor. Enlarging that array does not remove the requirement for relative motion or powered time-varying excitation.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
@@ -630,7 +630,7 @@
       "requirement": "Rank A and B on complete installed system mass, force capability, power, guideway cost, gap tolerances, controllability, failure response, thermal performance and assembly requirements. A visually simpler cross-section or a lower raw magnet price is insufficient for selection. Record why a topology is selected and retain the losing topology as a comparison model until the choice is supported by hardware evidence.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
@@ -643,7 +643,7 @@
       "requirement": "Set 5 mm AW0-to-AW2 vertical movement as the initial design target, with 3 mm and 10 mm sensitivity cases. The additional lift is 88.29 kN; therefore the required average restoring stiffness is 29.43, 17.658 and 8.829 MN/m for 3, 5 and 10 mm respectively. At 24 equal modules, the 5 mm case corresponds to 735.75 N/mm per module. AW3 adds 117.72 kN above empty: a linear extrapolation of the 5 mm/AW2 stiffness would require 6.67 mm travel, while restricting AW0-to-AW3 movement to 5 mm would require 23.544 MN/m. Select and verify the AW3 travel/active-force requirement explicitly; do not assume the usable force curve remains linear.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-force-loss",
         "coupled-dynamics",
@@ -656,7 +656,7 @@
       "requirement": "Distinguish carbody displacement, physical magnetic gaps and pole overlap in every model. In Architecture B, 5 mm vertical displacement can change pole overlap while the lateral clearance is nearly unchanged. In Architecture A, a smaller upward-attracting gap increases lift and may place a more heavily loaded car higher relative to its rail. Do not transplant the \"heavier car sinks\" assumption between topologies.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-force-loss",
         "coupled-dynamics",
@@ -669,7 +669,7 @@
       "requirement": "Treat the earlier 8 mm magnetic gap as a study point. Determine minimum permissible gap, normal equilibrium range, control travel and contact thresholds from a tolerance budget including manufacturing, rail installation, beam deflection, carbody bending, temperature, curves, sensor uncertainty, disturbances and control error. Passenger-load movement must not consume all available clearance.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-force-loss",
         "coupled-dynamics",
@@ -682,7 +682,7 @@
       "requirement": "Determine the complete force/moment stiffness matrix and controllable modes, not only vertical force. Include vertical and lateral translation, pitch, roll, yaw, longitudinal motion and the dominant elastic modes. Unstable directions must be stabilised at zero speed. Along-track translation can be intentionally free or driven; that does not establish lateral stability.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-force-loss",
         "coupled-dynamics",
@@ -695,7 +695,7 @@
       "requirement": "Simulate passenger movement, eccentric boarding, braking weight transfer, curve loads, wind loads, rail joints, beam deflection and differential module heights. A 5 mm load movement target alone does not establish passenger comfort. With approximately constant 17.658 MN/m total stiffness and the AW0-to-AW2 midpoint masses of 22.5/23.5 t, a single-body model has an undamped heave frequency of approximately 4.46/4.36 Hz. Use the actual multi-body model and route disturbance spectrum to determine ride quality and damping.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-force-loss",
         "coupled-dynamics",
@@ -705,10 +705,10 @@
     },
     {
       "id": "MAG-025",
-      "requirement": "Investigate direct electromagnetic support of the carbody. If it fails ride or clearance requirements, identify the minimum necessary compliance and its mass and disclose any added mechanical mechanisms. Conversely, do not remove structural flexibility or suspension functions from the model merely because the preferred design contains no mechanical ride suspension. Verify horizontal and vertical swept geometry as well as forces. For a straight active length L following a horizontal rail curve of radius R, the chord-to-arc deviation scales approximately as L\u00b2/(8R); 12 m at R = 100 m gives 180 mm of horizontal offset. This exceeds an 8 mm lateral allowance at a narrow vertical face but does not directly consume an 8 mm vertical lift gap at a broad horizontal face. Shortening the individual modules does not automatically solve the global offset if they remain fixed along a straight rigid underframe. Resolve lifting-face overlap, separate guidance geometry, vehicle articulation/compliance or route curvature before claiming a car with fixed magnetic modules can negotiate the existing alignment. Vertical curves and twist require their own clearance calculation.",
+      "requirement": "Investigate direct electromagnetic support of the carbody. If it fails ride or clearance requirements, identify the minimum necessary compliance and its mass and disclose any added mechanical mechanisms. Conversely, do not remove structural flexibility or suspension functions from the model merely because the preferred design contains no mechanical ride suspension. Verify horizontal and vertical swept geometry as well as forces. For a straight active length L following a horizontal rail curve of radius R, the chord-to-arc deviation scales approximately as L²/(8R); 12 m at R = 100 m gives 180 mm of horizontal offset. This exceeds an 8 mm lateral allowance at a narrow vertical face but does not directly consume an 8 mm vertical lift gap at a broad horizontal face. Shortening the individual modules does not automatically solve the global offset if they remain fixed along a straight rigid underframe. Resolve lifting-face overlap, separate guidance geometry, vehicle articulation/compliance or route curvature before claiming a car with fixed magnetic modules can negotiate the existing alignment. Vertical curves and twist require their own clearance calculation.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-force-loss",
         "coupled-dynamics",
@@ -718,10 +718,10 @@
     },
     {
       "id": "MAG-030",
-      "requirement": "Use sintered hard permanent-magnet ferrite, distinguishing it from soft ferrite core materials. The initial Br = 0.43 T and density = 5,000 kg/m\u00b3 are calculation inputs pending a specific grade and procurement specification. TDK lists a hard-ferrite grade with Br 430 \u00b1 10 mT; its ferrite guidance also identifies ceramic brittleness and a Br temperature coefficient near \u22120.18%/K. These data support a material study, not equivalence between every low-price ferrite block and that grade. Qualified supplier data and grade-specific measurements remain required.",
+      "requirement": "Use sintered hard permanent-magnet ferrite, distinguishing it from soft ferrite core materials. The initial Br = 0.43 T and density = 5,000 kg/m³ are calculation inputs pending a specific grade and procurement specification. TDK lists a hard-ferrite grade with Br 430 ± 10 mT; its ferrite guidance also identifies ceramic brittleness and a Br temperature coefficient near −0.18%/K. These data support a material study, not equivalence between every low-price ferrite block and that grade. Qualified supplier data and grade-specific measurements remain required.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
@@ -731,10 +731,10 @@
     },
     {
       "id": "MAG-031",
-      "requirement": "Carry at least \u221220, 20, 50, 80 and 100\u00b0C magnet-temperature screening points until the operating and survival environment is agreed. These are analysis cases, not accepted operational ratings. Keep ambient, rail, magnet, winding, adhesive and battery temperatures separate. For sensitivity, the earlier \u22120.20%/K Br coefficient gives Br(80\u00b0C) \u2248 0.3784 T from 0.43 T at 20\u00b0C. In a simple unsaturated B-squared force estimate, this corresponds to 77.44% of the reference force. Recompute from the real magnetic circuit; do not assume this ratio transfers exactly under saturation or active compensation.",
+      "requirement": "Carry at least −20, 20, 50, 80 and 100°C magnet-temperature screening points until the operating and survival environment is agreed. These are analysis cases, not accepted operational ratings. Keep ambient, rail, magnet, winding, adhesive and battery temperatures separate. For sensitivity, the earlier −0.20%/K Br coefficient gives Br(80°C) ≈ 0.3784 T from 0.43 T at 20°C. In a simple unsaturated B-squared force estimate, this corresponds to 77.44% of the reference force. Recompute from the real magnetic circuit; do not assume this ratio transfers exactly under saturation or active compensation.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
@@ -747,7 +747,7 @@
       "requirement": "Check irreversible demagnetisation at the minimum material temperature as well as at maximum temperature, with the worst reverse coil field, opposing magnet assembly field, shorted winding and manufacturing tolerance. High temperature resistance is not constant magnetic output. Obtain full second-quadrant and recoil curves over temperature and a manufacturer-approved demagnetisation margin.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
@@ -760,7 +760,7 @@
       "requirement": "Do not credit ferrite ceramic as the primary crash, bending, tensile or fatigue load path of the chassis. Integrate magnets into the structural assembly through carriers, pockets, clamps, potting or bonded interfaces with positive retention. Design for differential thermal expansion, block cracking and local debonding. Structural integration means shared engineered support, not an assumption that brittle blocks replace a qualified underframe.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
@@ -773,7 +773,7 @@
       "requirement": "Each magnet module shall have polarity/orientation poka-yoke, a traceable material batch, dimensional inspection and a field-map acceptance record. Check every block or a justified manufacturing sampling plan for remanence, orientation and defects. Verify the complete assembled field, including weak-side leakage. Use assembly fixtures that control attractive forces without depending on manual alignment near an exposed gap. Make a damaged module replaceable without dismantling the whole underframe.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
@@ -783,49 +783,49 @@
     },
     {
       "id": "MAG-040",
-      "requirement": "Compare onboard linear induction and onboard salient-reluctance/permanent-magnet assisted propulsion circuits acting on passive guideway reaction surfaces. Specify external force exchange, magnetic saliency or induced-current mechanism, commutation and lift/propulsion coupling before claiming thrust.",
+      "requirement": "Compare wayside LSM fixed-zone, two-fixed-group and routed-section circuits at equal service and actual six-car magnetic overlap. A station LIM with priced vehicle aluminium secondary is a separate alternative. Include each face, bridge, winding, selector, sensing and normal-force interaction.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
         "rust-support-control"
       ],
-      "change_rationale": "Rebaselined to selected maglev architecture, configuration and independent verification obligations."
+      "change_rationale": "Rebased to user station-powered/GFRP specification; study targets retain open acceptance."
     },
     {
       "id": "MAG-041",
-      "requirement": "Evaluate shared suspension/propulsion cores and windings only with coupled force maps and independent numerical and physical validation. All active hardware stays onboard; shared-volume mass savings require a single reconciled material ledger.",
+      "requirement": "Shared vehicle ferrite support/thrust fields remain an unvalidated objective. Keep onboard support/guidance coils independent from station propulsion windings. Reconcile common magnetic volume and simultaneous forces through one material ledger and measured maps.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
         "rust-support-control"
       ],
-      "change_rationale": "Rebaselined to selected maglev architecture, configuration and independent verification obligations."
+      "change_rationale": "Rebased to user station-powered/GFRP specification; study targets retain open acceptance."
     },
     {
       "id": "MAG-042",
-      "requirement": "The powered coils must exchange force with the external guideway. Forces between components fixed to the same car do not propel it. A uniform lossless iron rail and arbitrary pulsing of onboard magnets is not an acceptable thrust model; define induction currents or a position-dependent salient magnetic circuit.",
+      "requirement": "Station stators exchange external electromagnetic force with longitudinally periodic vehicle magnets. No interstation remote push or energy from permanent magnets is claimed. Include six-car phase registration, coupler compliance, winding R/L and current/voltage constraints.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
         "rust-support-control"
       ],
-      "change_rationale": "Current maglev requirement retained; study assumptions require independent acceptance."
+      "change_rationale": "Rebased to user station-powered/GFRP specification; study targets retain open acceptance."
     },
     {
       "id": "MAG-043",
       "requirement": "Supply maps of thrust, lift, side force, cogging and force ripple against rail position, gap, lateral displacement, current and speed, including forward/reverse motoring and regeneration. Show how propulsion commands affect suspension authority. Size sensors and commutation from the selected pole/tooth combination; the previously discussed 200 mm array wavelength does not universally determine electrical frequency.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
@@ -835,10 +835,10 @@
     },
     {
       "id": "MAG-044",
-      "requirement": "Report mechanical output, DC input, winding/core loss, rail loss and cooling demand separately. Do not apply a fixed 70% efficiency as a validated result. At 80 km/h and 1 m/s\u00b2, even the inertial thrust alone requires approximately 600/622 kW mechanical in AW2 Cases A/B and 667/689 kW in AW3, before drag. Therefore a 600 kW total electrical cap cannot maintain that acceleration to 80 km/h; the controller must taper acceleration or the power system must be resized.",
+      "requirement": "Report station mechanical output, DC input, RMS/peak phase current, voltage, rail/core/copper loss and cooling separately. The85%conversion reference is an assumption;2.346MW peak traction is not a bridge kVA selection. Include winding group and six-car phase/overlap constraints before procurement.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-cad",
         "magnetic-force-loss",
@@ -851,7 +851,7 @@
       "requirement": "Produce reproducible 2D screening models and 3D finite-element models with nonlinear steel, grade-specific magnet curves, finite array ends, module seams, winding slots, joints, conductive covers, mechanical tolerances and mesh convergence. Export SI-unit force and loss maps with geometry/material/model revision identifiers. Verify force by at least two independent methods where practical, such as Maxwell stress and virtual work.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-force-loss",
         "rig-and-demonstrator"
@@ -863,7 +863,7 @@
       "requirement": "Publish the usable operating envelope, including lift capacity at the weakest magnet state and maximum normal gap, lateral stability/control margin, continuous and transient current limits, saturation margin, demagnetisation margin, thermal limits and torque capacity for asymmetric loads. A suggested initial screening reserve of 1.3 times AW3 static weight gives 382.59/395.34 kN in Cases A/B. This is a project assumption, not a substitute for deriving dynamic design loads or a regulatory safety factor. The full AW3 body/rail load and asymmetric passenger distribution must be retained.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "magnetic-force-loss",
         "rig-and-demonstrator"
@@ -875,7 +875,7 @@
       "requirement": "Couple these maps into a six-degree-of-freedom vehicle model and flexible guideway model. Include actuator delay, sensor noise and bias, bus-voltage sag, current saturation, force ripple and structural resonance. Determine control bandwidth from unstable mode growth and disturbance rejection; microcontroller clock speed is not a stability proof.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "coupled-dynamics",
         "rust-support-control"
@@ -887,7 +887,7 @@
       "requirement": "Verify failure cases individually and in credible combinations: a magnet block cracked or incorrectly oriented; a missing module; a coil open or short circuit; an inverter stuck on or off; failed gap sensor; stale communications; guideway joint offset; a blocked cooling path; and common DC-bus interruption. A failed coil does not automatically remove permanent-magnet attraction. A shorted coil may generate speed-dependent forces and heat. Capture these effects in the fault model.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "coupled-dynamics",
         "sbc-io-timing",
@@ -900,7 +900,7 @@
       "requirement": "Prove stationary support and guidance, controlled stopping, power-off support and recovery separately. Fixed skids or capture surfaces may avoid deployment mechanisms, but require load, friction, energy and stability analysis. An AW3 31 t car at 80 km/h contains approximately 7.65 MJ of translational kinetic energy; any emergency stopping system must account for its energy path. Permanent magnets remaining magnetised do not by themselves guarantee contactless stability after a control failure.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "coupled-dynamics",
         "sbc-io-timing",
@@ -913,7 +913,7 @@
       "requirement": "Use progressive evidence gates: material coupon and block acceptance; static instrumented module rig; force-versus-gap/offset and thermal correlation; restrained closed-loop levitation; moving sled with representative joints and speed-dependent rail losses; multiple-module rigid/flexible body; and a representative loaded car/beam demonstrator. Do not advance from bench levitation directly to passenger operation.",
       "state": "open",
       "accepted": false,
-      "revision": "V05-CURRENT-REQUIREMENTS-3",
+      "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
       "work_package_ids": [
         "coupled-dynamics",
         "sbc-io-timing",

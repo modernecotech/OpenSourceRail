@@ -206,7 +206,7 @@ def static_benchmark(assumptions: BeamAssumptions | None = None) -> dict:
 
 class RustController:
     """Synchronous offline IPC, bounded frame sizes, with a 10 s response timeout."""
-    def __init__(self, executable: Path, car_mass_kg: float = 27750., *, proportional_scale=1., damping_scale=1.):
+    def __init__(self, executable: Path, car_mass_kg: float = 23200., *, proportional_scale=1., damping_scale=1.):
         if not math.isfinite(car_mass_kg) or not 1000 <= car_mass_kg <= 100_000:
             raise ValueError("bounded finite car mass required")
         for value in (proportional_scale,damping_scale):
@@ -255,7 +255,7 @@ class RustController:
 
 
 def cosimulate(executable: Path, duration_s: float = 3.0, *, initial_down_error_m: float = 0.0005,
-               disturbance_n: float = 5000.0, car_mass_kg: float = 27750., assumptions: BeamAssumptions | None = None,
+               disturbance_n: float = 5000.0, car_mass_kg: float = 23200., assumptions: BeamAssumptions | None = None,
                proportional_scale=1., damping_scale=1., inertia_roll_kg_m2=20_000., inertia_pitch_kg_m2=600_000.,
                record_trace=False) -> dict:
     """Two-way held-force partitioned co-simulation, fixed virtual 1 ms step.

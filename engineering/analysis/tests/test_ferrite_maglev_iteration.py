@@ -62,7 +62,7 @@ def test_execution_error_is_a_hold_not_a_cached_candidate_rejection():
 
 
 def test_cache_requires_exact_sources_vector_hash_and_false_release_flags(tmp_path):
-    v=it.quantise([.8,1.9,.15,.18,25,1,1,1,1],it.load());r=fake(v)
+    v=it.quantise([.8,1.9,.15,.18,25,1,1,1,1,90,212.5,.8],it.load());r=fake(v)
     path=tmp_path/'cache.json'
     def write():path.write_bytes(it.encoded(dict(epoch='a',result=r,sha256=sha256(it.encoded(r)).hexdigest())))
     write();assert it.read_cache(path,v,'a')==r

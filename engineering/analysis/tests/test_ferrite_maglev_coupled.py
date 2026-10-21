@@ -21,7 +21,7 @@ def bridge():
 
 def test_fe_point_load_and_modal_frequencies_have_independent_controls():
     result = coupled.static_benchmark()
-    assert result["centre_closed_form_m"] == pytest.approx(0.005604002832523057)
+    assert result["centre_closed_form_m"] == pytest.approx(100000*25**3/(48*30e9*(.8*1.8**3-.6*1.5**3)/12))
     assert result["centre_relative_error"] < 1e-8
     assert result["distributed_point_load_max_error_m"] < 1e-9
     assert result["modal_frequency_max_relative_error"] < 2e-5
@@ -75,7 +75,7 @@ def test_static_reaction_response_is_linear_and_mesh_converges():
 def test_two_way_rust_loop_uses_local_gap_not_global_deflection(bridge):
     result = coupled.cosimulate(bridge, duration_s=3.0)
     assert result["status"] == "hypothetical-two-way-offline-cosimulation"
-    assert result["peak_global_incremental_beam_displacement_m"] > 0.013
+    assert result["peak_global_incremental_beam_displacement_m"] > .008  # world beam sag exceeds nominal relative gap
     assert 0.003 < result["minimum_relative_gap_m"] < 0.008
     assert 0.008 < result["maximum_relative_gap_m"] < 0.013
     assert result["peak_fitted_relative_heave_error_m"] > 0.0008  # reaction-load feedback and declared pulse
@@ -101,7 +101,7 @@ def test_excess_gap_and_replayed_frames_are_rejected_by_actual_rust_core(bridge)
         coupled.cosimulate(bridge, duration_s=0.02, initial_down_error_m=0.01)
     with coupled.RustController(bridge) as controller:
         forces, _, _ = controller.tick(1, np.full(24, 0.008))
-        assert forces.sum() == pytest.approx(27_750*9.81, rel=1e-10)
+        assert forces.sum() == pytest.approx(23_200*9.81, rel=1e-10)
         with pytest.raises(RuntimeError, match="rejected frame"):
             controller.tick(1, np.full(24, 0.008))
 
@@ -245,6 +245,6 @@ def test_gain_tuning_changes_actual_rust_response_and_retains_trace(bridge):
     assert tuned['trace'] and baseline['trace']
     assert tuned['trace']!=baseline['trace']
     assert tuned['physical_output_authorised'] is False
-    for args in (['27750','nan','1'],['27750','1','3'],['27750','1','1','unexpected']):
+    for args in (['23200','nan','1'],['23200','1','3'],['23200','1','1','unexpected']):
         r=subprocess.run([str(bridge),*args],capture_output=True,text=True)
         assert r.returncode==2

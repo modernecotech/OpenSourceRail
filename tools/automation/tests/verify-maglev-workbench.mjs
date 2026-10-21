@@ -3,6 +3,7 @@ import { chromium } from '@playwright/test';
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { createHash } from 'node:crypto';
 import assert from 'node:assert/strict';
 
 const root = resolve(import.meta.dirname, '../../..');
@@ -32,7 +33,8 @@ try {
   await page.waitForFunction(() => document.querySelector('#city-status').textContent.includes('Baghdad'));
   assert.equal(await page.locator('#city option').count(),266);
   await page.waitForFunction(() => [...document.images].every(image => image.complete && image.naturalWidth>0));
-  assert.equal(await page.locator('img').count(),5);
+  assert.equal(await page.locator('img').count(),6);
+  await page.getByText('Headway and coasting holds',{exact:true}).click();
   await page.getByText('Manufacturing and erection processes',{exact:true}).click();
   await page.getByText('UK industry equipment candidates and origin',{exact:true}).click();
   await page.screenshot({path:output+'/desktop.png',fullPage:true});
@@ -54,6 +56,27 @@ try {
     const dollars = new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0});
     assert.equal(await page.locator('[data-metric="fleet"]').innerText(),dollars.format(base.repeat_fleet_allowance_usd));
     assert.equal(await page.locator('[data-metric="civil"]').innerText(),dollars.format(base.ordinary_elevated_allowance_usd));
+    assert.equal(await page.locator('[data-metric="station-electrical"]').innerText(),dollars.format(base.station_electrical_allowance_usd));
+    assert.ok(base.station_electrical_allowance_usd > 0);
+    assert.ok(Math.abs(base.priced_scope_subtotal_usd-base.repeat_fleet_allowance_usd-base.ordinary_elevated_allowance_usd-base.station_electrical_allowance_usd)<.01);
+    const range = values => {
+      const low=Math.min(...values),high=Math.max(...values);
+      const text=v=>Number.isInteger(v)?String(v):v.toFixed(1);
+      return low===high ? `${text(low)} s` : `${text(low)}–${text(high)} s`;
+    };
+    assert.equal(await page.locator('[data-metric="source-headway"]').innerText(),range(summary.lines.map(line=>line.retained_peak_headway_seconds)));
+    assert.equal(await page.locator('[data-metric="selected-headway"]').innerText(),range(summary.lines.map(line=>line.selected_peak_headway_seconds)));
+    const heldCases=summary.lines.reduce((sum,line)=>sum+line.kinematic_holds.length,0);
+    assert.equal(await page.locator('[data-metric="coasting-holds"]').innerText(),String(heldCases));
+    assert.equal(await page.locator('#city-service li[data-line]').count(),summary.lines.length);
+    assert.equal(await page.locator('#city-service li[data-hold]').count(),heldCases);
+    for(const line of summary.lines){
+      assert.ok(line.selected_peak_headway_seconds>=190);
+      assert.ok(line.selected_peak_headway_seconds>=line.retained_peak_headway_seconds);
+      assert.ok(line.selected_peak_headway_seconds>=line.planning_minimum_headway_seconds);
+      assert.equal(line.station_powered_kinematic_screen_pass,line.kinematic_holds.length===0);
+    }
+    assert.equal(bill.station_electrical_rating_qualified,false);
     assert.equal(await page.locator('[data-metric="partial-subtotal"]').innerText(),dollars.format(base.priced_scope_subtotal_usd));
     assert.match(await page.locator('[data-metric="complete-cost"]').innerText(),/Unknown.*unpriced/);
     assert.equal(bill.complete_city_programme_usd,null);
@@ -66,7 +89,7 @@ try {
     assert.equal(network.status(),200);
     assert.match(await network.text(),/<svg/);
     await page.waitForFunction(() => document.querySelector('#city-map').complete && document.querySelector('#city-map').naturalWidth>0);
-    exercised.push({city,base_partial_subtotal_usd:base.priced_scope_subtotal_usd,complete_city_programme_usd:null,process_routes:bill.process_routes.length});
+    exercised.push({city,base_partial_subtotal_usd:base.priced_scope_subtotal_usd,station_electrical_target_usd:base.station_electrical_allowance_usd,held_coasting_cases:heldCases,complete_city_programme_usd:null,process_routes:bill.process_routes.length});
   }
   for (const href of await page.locator('a').evaluateAll(nodes => nodes.map(node => node.href))) {
     const response = await page.request.get(href);
@@ -87,7 +110,32 @@ try {
   assert.equal(await page.locator('#city-links a').count(),0);
   assert.equal(await page.locator('#city-map').isHidden(),true);
   await page.unroute(corruptedBill);
-  await page.selectOption('#city','baghdad');
+  // Even self-consistent byte receipts cannot turn a two-component subtotal
+  // into a valid fleet+civil+station electrical bill. Exercise that UI guard.
+  const indexURL=origin+'/engineering/ferrite_maglev/city-index.json';
+  const forgedIndex=await (await page.request.get(indexURL)).json();
+  const forgedRow=forgedIndex.cities.find(row=>row.city==='baghdad');
+  const forgedPath='/'+forgedRow.package_path+'/';
+  const forgedSummary=await (await page.request.get(origin+forgedPath+'summary.json')).json();
+  const forgedBill=await (await page.request.get(origin+forgedPath+'manufacturing.json')).json();
+  const forgedBase=forgedBill.scenarios.find(row=>row.scenario==='base');
+  forgedBase.priced_scope_subtotal_usd=forgedBase.repeat_fleet_allowance_usd+forgedBase.ordinary_elevated_allowance_usd;
+  const forgedBillBytes=JSON.stringify(forgedBill);
+  forgedSummary.manufacturing_sha256=createHash('sha256').update(forgedBillBytes).digest('hex');
+  const forgedSummaryBytes=JSON.stringify(forgedSummary);
+  forgedRow.summary_sha256=createHash('sha256').update(forgedSummaryBytes).digest('hex');
+  await page.route(indexURL,route=>route.fulfill({json:forgedIndex}));
+  await page.route(origin+forgedPath+'summary.json',route=>route.fulfill({body:forgedSummaryBytes,contentType:'application/json'}));
+  await page.route(origin+forgedPath+'manufacturing.json',route=>route.fulfill({body:forgedBillBytes,contentType:'application/json'}));
+  await page.goto(origin+'/docs/workbench/maglev/?city=baghdad');
+  await page.waitForFunction(()=>document.querySelector('#city-status').textContent.includes('Inconsistent partial cost scope'));
+  assert.equal(await page.locator('#city-metrics dd').count(),0);
+  assert.equal(await page.locator('#city-service li').count(),0);
+  assert.equal(await page.locator('#city-map').isHidden(),true);
+  await page.unroute(indexURL);
+  await page.unroute(origin+forgedPath+'summary.json');
+  await page.unroute(origin+forgedPath+'manufacturing.json');
+  await page.goto(origin+'/docs/workbench/maglev/?city=baghdad');
   await page.waitForFunction(() => document.querySelector('#city-status').textContent.includes('Baghdad'));
   await page.waitForFunction(() => document.querySelector('#city-map').complete && document.querySelector('#city-map').naturalWidth>0);
   await page.setViewportSize({width:390,height:844});
@@ -97,7 +145,7 @@ try {
     assert.equal((await page.request.get(origin+path)).status(),404);
   }
   assert.deepEqual(errors,[]); assert.deepEqual(failures,[]); assert.deepEqual(external,[]);
-  const result={primary_ui:true,cities:266,exercised,images:5,quantity_costs:true,complete_cost_unknown:true,manufacturing_and_map_links:true,receipt_tampering_held:true,links:true,mobile:true,private_paths_rejected:true,errors,external,physical_release:false};
+  const result={primary_ui:true,cities:266,exercised,images:6,quantity_costs:true,station_electrical_separate:true,headway_and_coast_holds:true,omitted_station_cost_rejected:true,complete_cost_unknown:true,manufacturing_and_map_links:true,receipt_tampering_held:true,links:true,mobile:true,private_paths_rejected:true,errors,external,physical_release:false};
   await writeFile(output+'/checks.json',JSON.stringify(result,null,2)+'\n');
   console.log(JSON.stringify(result));
 } finally {

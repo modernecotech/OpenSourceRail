@@ -10,7 +10,7 @@ import pytest
 
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT))
-from engineering.ferrite_maglev import model,delivery
+from engineering.ferrite_maglev import model,delivery,station
 
 
 @pytest.fixture(scope='module')
@@ -22,6 +22,13 @@ def test_primary_policy_configuration_and_release_boundary_are_explicit(context)
     assert (ROOT/'VERSION').read_text().strip()=='0.5'
     assert policy['development']['primary_family']==c['metadata']['family']=='ferrite-pm-maglev-study'
     assert c['vehicle']['cars_per_train']==6
+    assert c['metadata']['schema']=='osr-ferrite-maglev-study/2'
+    assert c['architecture']['primary_costed_propulsion']=='station-lsm-shared-vehicle-pm'
+    assert c['architecture']['station_zone_powered_stator']
+    assert c['architecture']['onboard_support_guidance_windings']
+    assert not c['architecture']['onboard_main_traction']
+    assert not c['architecture']['interstation_powered_propulsion']
+    assert c['mass']['growth_reserve']==1800
     assert c['controls']['preferred_host']=='off-the-shelf-SBC'
     assert policy['objectives']['linear_electromagnetic_propulsion_required']
     assert not policy['objectives']['all_vehicle_moving_parts_eliminated']
@@ -29,7 +36,7 @@ def test_primary_policy_configuration_and_release_boundary_are_explicit(context)
 
 
 
-@pytest.mark.parametrize('ferrite,battery,tare',[(3000,150,18000),(4000,150,19000),(3000,225,18750),(4000,225,19750)])
+@pytest.mark.parametrize('ferrite,battery,tare',[(3000,20,14100),(4000,20,15100),(3000,30,14200),(4000,30,15200)])
 def test_mass_contains_magnets_once_and_retains_equal_payload(context,ferrite,battery,tare):
     r=model.mass(context[1],ferrite,battery)
     assert r['tare_kg']==tare and r['aw2_kg']==tare+9000 and r['aw3_kg']==tare+12000
@@ -39,10 +46,10 @@ def test_mass_contains_magnets_once_and_retains_equal_payload(context,ferrite,ba
 
 @pytest.mark.parametrize('scenario',['low','base','high'])
 def test_quantity_costs_reconcile_line_items_scenarios_and_reserve(context,scenario):
-    _,c,costs=context;r=model.cost_case(c,costs,scenario,3000,225)
+    _,c,costs=context;r=model.cost_case(c,costs,scenario,3000,30)
     rates=costs['rates'];factor=costs['scenario_multipliers'][scenario];cars=c['vehicle']['cars_per_train']
     expected=(cars*(rates['body_and_passenger_systems_per_car']+3000*rates['ferrite_per_kg']+
-        rates['magnetic_equipment_per_car']+225*rates['battery_pack_per_kwh']+
+        rates['magnetic_equipment_per_car']+30*rates['battery_pack_per_kwh']+
         rates['capture_brake_per_car']+rates['hvac_auxiliary_per_car']+
         rates['assembly_test_hours_per_car']*rates['labour_per_hour'])+
         (cars-1)*rates['coupling_gangway_per_interface']+rates['train_control_per_train'])*factor
@@ -55,7 +62,8 @@ def test_quantity_costs_reconcile_line_items_scenarios_and_reserve(context,scena
     # Independently count native 20 mm reaction faces: two faces per beam,
     # ten 2.49 m cassettes in 25 m, two directional kilometres per route-km.
     reaction_kg=2*10*2.49*.96*.02*7850/25*2000
-    concrete_m3=(.8*1.6-(.8-.3)*(1.6-.36)+.12)*2000
+    # Two 0.4 m solid end infills per beam are additional to the hollow middle.
+    concrete_m3=(.8*1.8-.6*1.5+2*.4*.6*1.5/25+.12)*2000
     assert q['reaction_steel_kg_dual_km']==pytest.approx(reaction_kg)
     assert q['concrete_m3_dual_km']==pytest.approx(concrete_m3)
     assert q['reinforcement_kg_dual_km']==pytest.approx(concrete_m3*rates['reinforcement_kg_per_m3'])
@@ -63,18 +71,18 @@ def test_quantity_costs_reconcile_line_items_scenarios_and_reserve(context,scena
     assert r['civil_usd_dual_km']==pytest.approx(sum(x['quantity']*x['unit_rate_usd'] for x in civil['rows']))
     assert r['pilot_usd'] is r['city_total_usd'] is bill['complete_factory_gate_price_usd'] is None
     assert not r['epc_included'] and not r['costs_are_quotes']
-    reduced=model.cost_case(c,costs,scenario,3000,150)
+    reduced=model.cost_case(c,costs,scenario,3000,20)
     reserve=1+rates['vehicle_integration_reserve_fraction']
-    assert r['train_usd']-reduced['train_usd']==pytest.approx(cars*75*rates['battery_pack_per_kwh']*factor*reserve)
-    more=model.cost_case(c,costs,scenario,4000,225)
+    assert r['train_usd']-reduced['train_usd']==pytest.approx(cars*10*rates['battery_pack_per_kwh']*factor*reserve)
+    more=model.cost_case(c,costs,scenario,4000,30)
     assert more['train_usd']-r['train_usd']==pytest.approx(cars*1000*rates['ferrite_per_kg']*factor*reserve)
     assert more['civil_usd_dual_km']==r['civil_usd_dual_km']
 
 
 def test_formation_bills_price_shared_controls_once_and_interfaces_per_connection(context):
     _,c,costs=context
-    three=model.cost_case(c,costs,'base',3000,225,cars=3)['vehicle_bill']
-    six=model.cost_case(c,costs,'base',3000,225,cars=6)['vehicle_bill']
+    three=model.cost_case(c,costs,'base',3000,30,cars=3)['vehicle_bill']
+    six=model.cost_case(c,costs,'base',3000,30,cars=6)['vehicle_bill']
     small={r['id']:r for r in three['rows']};large={r['id']:r for r in six['rows']}
     assert small['train-control-and-protection']['quantity']==large['train-control-and-protection']['quantity']==1
     assert small['coupling-and-gangway']['quantity']==2 and large['coupling-and-gangway']['quantity']==5
@@ -88,8 +96,8 @@ def test_formation_bills_price_shared_controls_once_and_interfaces_per_connectio
 
 def test_lower_cost_and_localisation_are_targets_with_imported_inputs_visible(context):
     _,c,costs=context
-    base=model.cost_case(c,costs,'base',3000,225)
-    target=model.cost_case(c,costs,'base',3000,225,hardware_target=90000)
+    base=model.cost_case(c,costs,'base',3000,30)
+    target=model.cost_case(c,costs,'base',3000,30,hardware_target=90000)
     before=base['magnetic_bundle_usd_train'];reserve=1+costs['rates']['vehicle_integration_reserve_fraction']
     assert target['magnetic_bundle_usd_train']==90000
     assert base['train_usd']-target['train_usd']==pytest.approx((before-90000)*reserve)
@@ -102,16 +110,17 @@ def test_lower_cost_and_localisation_are_targets_with_imported_inputs_visible(co
 
 
 
-def test_section_matches_parallel_axis_and_retains_lateral_issue(context):
-    s=model.section(.8,1.6,.15,.18)
-    # Independently sum top/bottom flanges and two webs.
-    area=2*.8*.18+2*.15*1.24
-    inertia=2*(.8*.18**3/12+(.8*.18)*(.8-.09)**2)+2*(.15*1.24**3/12)
+def test_section_matches_parallel_axis_and_keeps_end_infill_loads(context):
+    s=model.section(.8,1.8,.10,.15)
+    area=2*.8*.15+2*.10*1.5
+    inertia=2*(.8*.15**3/12+(.8*.15)*(.9-.075)**2)+2*(.10*1.5**3/12)
     assert s['area_m2']==pytest.approx(area)
     assert s['vertical_i_m4']==pytest.approx(inertia)
-    assert s['lateral_i_m4']==pytest.approx(.05535)
-    a=model.civil_case(context[1],.8,1.6,20);b=model.civil_case(context[1],.8,1.6,30)
-    assert b['total_elastic_deflection_m']/a['total_elastic_deflection_m']==pytest.approx((30/20)**4)
+    assert s['lateral_i_m4']==pytest.approx(.0498)
+    a=model.civil_case(context[1],.8,1.8,20);b=model.civil_case(context[1],.8,1.8,30)
+    # End blocks have fixed volume, so changing span also changes mean line load.
+    q=lambda length:(.54+.12)*2500+2*.4*.6*1.5*2500/length+300.23424+26200/17
+    assert b['total_elastic_deflection_m']/a['total_elastic_deflection_m']==pytest.approx((30/20)**4*q(30)/q(20))
     assert a['relative_gap_accepted'] is None
 
 
@@ -125,41 +134,44 @@ def test_curve_offset_is_horizontal_and_not_independent_module_sagitta(context):
     assert model.sagitta(1,100)<model.sagitta(12,100)/100
 
 
-@pytest.mark.parametrize('mass,normal,hot',[(27750,3.661,5.618),(30750,3.842,5.923),(28750,3.721,5.719),(31750,3.902,6.025),
-    (27000,3.616,5.542),(30000,3.797,5.847),(28000,3.676,5.643),(31000,3.857,5.948)])
-def test_level_duty_matches_independent_review_cases(context,mass,normal,hot):
-    for is_hot,expected in [(False,normal),(True,hot)]:
-        r=model.cycle(context[1],mass,hot=is_hot)
-        assert abs(r['cycle_kwh']-expected)<.00051
-        assert r['cycle_kwh']==pytest.approx(r['propulsion_dc_kwh']-r['recovered_dc_kwh']+r['services_kwh'])
-        assert r['balanced_charger_kw']==pytest.approx(r['cycle_kwh']*80)
+@pytest.mark.parametrize('mass',[23200,26200,24200,27200])
+def test_level_duty_separates_station_traction_from_services_battery(context,mass):
+    for hot,hotel in [(False,40),(True,60)]:
+        r=model.cycle(context[1],mass,hot=hot)
+        assert r['kinematic_screen_pass']
+        assert r['moving_seconds']==pytest.approx(90)
+        assert r['cycle_kwh']==r['services_kwh']==pytest.approx(hotel*150/3600)
+        assert r['propulsion_dc_kwh']==r['recovered_dc_kwh']==0
+        assert r['station_traction_input_kwh']>0
+        assert r['battery_replacement_kwh']==pytest.approx(hotel*105/3600)
+        assert r['balanced_charger_kw']==pytest.approx(hotel+hotel*105/45)
 
 
-def test_no_regen_and_90kmh_expose_600kw_charger_deficit(context):
-    c=context[1];a=model.cycle(c,31750,hot=True,regen=False);b=model.cycle(c,31750,hot=True,speed_kmh=90,regen=False)
-    assert a['balanced_charger_kw']==pytest.approx(540.16996,abs=.001)
-    assert b['balanced_charger_kw']==pytest.approx(619.45459,abs=.001)
-    assert a['charger_balance_kwh']['600']>0 and b['charger_balance_kwh']['600']<0
+def test_station_braking_and_higher_speed_limit_never_create_pack_charge(context):
+    c=context[1];a=model.cycle(c,26200,hot=True,regen=False);b=model.cycle(c,26200,hot=True,speed_kmh=90,regen=True)
+    assert a['balanced_charger_kw']==b['balanced_charger_kw']==200
+    assert a['charger_balance_kwh']['200']==pytest.approx(0)
     assert a['recovered_dc_kwh']==b['recovered_dc_kwh']==0
+    assert a['station_brake_dc_kwh']>0 and b['station_brake_dc_kwh']>0
+    assert 'no vehicle-pack credit' in a['regeneration_destination']
+    assert a['achieved_speed_kmh']<80  # speed input is a limit, not powered cruising.
 
 
-def test_cycle_has_independent_time_domain_energy_control(context):
-    # Independent 1 ms integration of acceleration; compare with quadrature's
-    # peak speed and DC energy for an unambiguously acceleration-only interval.
-    c=context[1];p=c['power'];m=31750;dt=.001;t=0;speed=0;energy=0;distance=0
-    while speed<80/3.6:
-        drag=1000+1.8*speed**2
-        accel=min(1.,((600000-60000)*.55/max(speed,1e-12)-drag)/m)
-        step=min(dt,(80/3.6-speed)/accel)
-        midpoint=speed+accel*step/2
-        energy+=((m*accel+1000+1.8*midpoint**2)*midpoint/.55)*step
-        distance+=midpoint*step;t+=step;speed+=accel*step
-    r=model.cycle(c,m,hot=True)
-    braking_distance=(80/3.6)**2/2
-    cruise=max(0,1000-distance-braking_distance)
-    assert t+cruise/(80/3.6)+(80/3.6)==pytest.approx(r['moving_seconds'],abs=.002)
-    cruise_energy=(1000+1.8*(80/3.6)**2)*cruise/.55
-    assert (energy+cruise_energy)/3.6e6==pytest.approx(r['propulsion_dc_kwh'],abs=.001)
+def test_station_energy_and_services_duty_close_independently(context):
+    c=context[1];r=model.cycle(c,26200,hot=True)
+    t=station.trajectory(cars=1,car_mass_kg=26200,record_trace=True)
+    launch=[row for row in t['trace'] if row['phase']=='launch']
+    # Independent midpoint integration of the prescribed force demand.
+    work=0.
+    for left,right in zip(launch,launch[1:]):
+        dt=right['time_s']-left['time_s']
+        work+=dt*(left['motor_force_n']*left['speed_m_s']+right['motor_force_n']*right['speed_m_s'])/2
+    assert work/(.85*3.6e6)==pytest.approx(r['station_traction_input_kwh'],abs=.001)
+    assert r['services_kwh']==pytest.approx(60*(90+60)/3600)
+    assert r['battery_replacement_kwh']==pytest.approx(60*(90+60-45)/3600)
+    heavier=model.cycle(c,27200,hot=True)
+    assert heavier['cycle_kwh']==r['cycle_kwh']
+    assert heavier['station_traction_input_kwh']>r['station_traction_input_kwh']
 
 
 @pytest.mark.parametrize('field,value', [('electromagnetic_force_map_validated',True),('fabrication_release_allowed',True),('vehicle_mass_measured',True)])
@@ -169,7 +181,7 @@ def test_claimed_release_is_rejected(context,field,value):
 
 
 @pytest.mark.parametrize('mutate',[
-    lambda c:c['power'].update(normal_drive_efficiency=0),
+    lambda c:c['power'].update(station_drive_efficiency=0),
     lambda c:c['power'].update(normal_soc_high=1.1),
     lambda c:c['power'].update(charger_effective_seconds=61),
     lambda c:c['power'].update(normal_soc_high=True),
@@ -178,7 +190,9 @@ def test_claimed_release_is_rejected(context,field,value):
     lambda c:c['mass'].update(ferrite_base=float('nan')),
     lambda c:c['vehicle'].update(nominal_car_length_m=True),
     lambda c:c['mass'].update(growth_reserve=1),
-    lambda c:c['architecture'].update(route_powered_stator=True)])
+    lambda c:c['architecture'].update(route_powered_stator=False),
+    lambda c:c['architecture'].update(onboard_main_traction=True),
+    lambda c:c['architecture'].update(interstation_powered_propulsion=True)])
 def test_invalid_physical_inputs_fail_closed(context,mutate):
     c=deepcopy(context[1]);mutate(c)
     with pytest.raises(ValueError):model.validate(c)

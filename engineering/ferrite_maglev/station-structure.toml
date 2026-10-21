@@ -1,0 +1,159 @@
+schema = "osr-station-structure-study/1"
+revision = "STATION-STRUCTURE-1"
+status = "unqualified-design-and-process-targets"
+source_document = "OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx"
+source_paragraphs = [26, 27, 28, 56, 75, 217, 218, 219, 232, 235, 239, 240, 272, 285, 296, 309, 312, 319, 468, 483]
+
+[body]
+length_m = 17.0
+width_m = 2.65
+height_m = 2.80
+doors_per_side = 2
+door_width_m = 1.40
+door_height_m = 2.10
+fixed_side_glazing_area_m2 = 24.0
+combined_end_opening_area_m2 = 6.5
+face_density_kg_m3 = 1900.0
+core_substitution_density_kg_m3 = [80.0, 100.0, 110.0, 180.0]
+
+[body.cases.stretch]
+upper_face_each_m = 0.0016
+upper_core_m = 0.035
+upper_core_density_kg_m3 = 80.0
+upper_bond_finish_kg_m2 = 0.6
+floor_faces_total_m = 0.0040
+floor_core_m = 0.050
+floor_core_density_kg_m3 = 80.0
+floor_bond_finish_kg_m2 = 0.8
+primary_load_paths_kg = 700.0
+opening_joints_inserts_kg = 350.0
+doors_kg = 450.0
+fixed_glazing_kg = 450.0
+interior_kg = 650.0
+extra_treatments_kg = 150.0
+rounded_equipped_target_kg = 4400.0
+
+[body.cases.central]
+upper_face_each_m = 0.0020
+upper_core_m = 0.040
+upper_core_density_kg_m3 = 80.0
+upper_bond_finish_kg_m2 = 0.7
+floor_faces_total_m = 0.0045
+floor_core_m = 0.060
+floor_core_density_kg_m3 = 100.0
+floor_bond_finish_kg_m2 = 1.0
+primary_load_paths_kg = 800.0
+opening_joints_inserts_kg = 400.0
+doors_kg = 500.0
+fixed_glazing_kg = 500.0
+interior_kg = 800.0
+extra_treatments_kg = 200.0
+rounded_equipped_target_kg = 5200.0
+
+[body.cases.conservative]
+upper_face_each_m = 0.0023
+upper_core_m = 0.040
+upper_core_density_kg_m3 = 100.0
+upper_bond_finish_kg_m2 = 0.8
+floor_faces_total_m = 0.0055
+floor_core_m = 0.080
+floor_core_density_kg_m3 = 100.0
+floor_bond_finish_kg_m2 = 1.0
+primary_load_paths_kg = 1000.0
+opening_joints_inserts_kg = 500.0
+doors_kg = 600.0
+fixed_glazing_kg = 600.0
+interior_kg = 900.0
+extra_treatments_kg = 300.0
+rounded_equipped_target_kg = 6300.0
+
+[vehicle]
+cars = 6
+ferrite_kg = 3000.0
+support_guidance_equipment_kg = 1500.0
+capture_landing_braking_kg = 600.0
+services_battery_kwh = 30.0
+pack_specific_energy_wh_kg = 100.0
+hvac_kg = 800.0
+auxiliary_controls_wiring_kg = 400.0
+couplers_gangways_solar_kg = 600.0
+growth_reserve_kg = 1800.0
+normal_passengers = 120
+maximum_passengers = 160
+passenger_mass_kg = 75.0
+
+[magnetic]
+cartridges = 24
+ferrite_density_kg_m3 = 5000.0
+pole_area_study_m2 = 12.0
+support_gap_study_m = [0.008, 0.012, 0.016, 0.020]
+force_multiplier_study = 1.3
+pole_pitch_study_m = 0.25
+# No measured lift/current/loss map or percentage improvement is credited.
+force_map_validated = false
+automatic_paper_gain_credit = false
+
+[civil]
+concrete_density_kg_m3 = 2500.0
+concrete_young_pa = 30000000000.0
+reaction_rail_kg_per_direction_m = 300.23424
+beam_centres_m = 3.8
+span_m = 25.0
+width_m = 0.80
+depth_m = 1.80
+web_m = 0.10
+flange_m = 0.15
+end_infill_each_m = 0.40
+budget_effective_area_m2 = 0.57
+column_height_m = 8.0
+column_outer_diameter_m = 1.35
+column_inner_diameter_m = 0.95
+column_solid_end_total_m = 1.0
+cap_volume_m3 = 5.4
+footing_thickness_m = 0.8
+footing_square_side_m = 4.5
+bearing_pressure_screens_kpa = [100.0, 150.0, 200.0]
+base_moment_study_knm = 500.0
+
+[cost]
+concrete_cast_cure_usd_m3 = 220.0
+reinforcement_intensity_kg_m3 = 180.0
+reinforcement_fabricated_usd_kg = 1.4
+passive_rail_usd_kg = 2.0
+baseline_support_usd = 35000.0
+target_support_usd = 22000.0
+baseline_delivery_usd_beam = 2200.0
+target_delivery_usd_beam = 1500.0
+baseline_erection_usd_beam = 3500.0
+target_erection_usd_beam = 1800.0
+baseline_temporary_usd_support = 2500.0
+target_temporary_usd_support = 1000.0
+baseline_alignment_usd_direction_m = 45.0
+target_alignment_usd_direction_m = 30.0
+baseline_access_usd_km = 60000.0
+target_access_usd_km = 40000.0
+route_qa_usd_km = 90000.0
+ordinary_utilities_usd_km = 150000.0
+baseline_traffic_usd_km = 85000.0
+target_traffic_usd_km = 50000.0
+estimating_reserve_fraction = 0.20
+
+[production]
+shifts_per_available_day = 2
+hours_per_shift = 8.0
+workdays_per_week = 6.0
+availability = 0.75
+mould_positions = 16
+mould_cycle_elapsed_hours = 48.0
+factory_utilisation_yield = 0.75
+foundation_crews = 8
+productive_crew_days_per_foundation = 2.0
+pier_caps_per_available_day = 4.0
+beam_deliveries_per_planned_day = 6.0
+beam_placements_per_available_day = 6.0
+rail_completion_route_m_per_available_day = 100.0
+accepted_beam_buffer = 24
+cranes_per_front = 2
+pilot_route_m = 100.0
+pilot_erection_windows = 10
+programme_initial_and_trailing_workdays = 45.0

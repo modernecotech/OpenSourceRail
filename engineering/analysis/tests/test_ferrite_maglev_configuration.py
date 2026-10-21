@@ -10,11 +10,11 @@ from engineering.ferrite_maglev import model,geometry,cities,coupled,configurati
 def test_rail_quantities_are_identical_and_density_change_propagates(monkeypatch):
     c=model.load()[1];q=geometry.guideway_quantities()
     assert q['magnetic_rail_line_mass_kg_m']==pytest.approx(300.23424)
-    assert model.civil_case(c,.8,1.6,25)['magnetic_quantities']==q
+    assert model.civil_case(c,.8,1.8,25)['magnetic_quantities']==q
     assert coupled.BeamAssumptions().line_mass_kg_m==q['total_line_mass_kg_m']
     old=system.support_demands(load_case='empty',walkway=False)['track_vertical_reactions_n'][0]
     monkeypatch.setitem(geometry.MATERIALS,'steel',2*7850.)
-    new=geometry.guideway_quantities();r=model.civil_case(c,.8,1.6,25)
+    new=geometry.guideway_quantities();r=model.civil_case(c,.8,1.8,25)
     assert new['magnetic_rail_mass_kg']==pytest.approx(2*q['magnetic_rail_mass_kg'])
     assert r['dead_line_mass_kg_m']==pytest.approx(new['total_line_mass_kg_m']+300)
     assert coupled.BeamAssumptions().line_mass_kg_m==new['total_line_mass_kg_m']
@@ -25,12 +25,14 @@ def test_span_changes_native_mass_reactions_and_support_density():
     c=model.load()[1];d=deepcopy(c);d['civil']['reference_span_m']=30
     a=system.support_demands(load_case='empty',_context=(system.load(),c))
     b=system.support_demands(load_case='empty',_context=(system.load(),d))
-    assert b['track_vertical_reactions_n'][0]/a['track_vertical_reactions_n'][0]==pytest.approx(1.2)
+    line_mass=(.54+.12*.996)*2500+300.23424
+    end_mass=2*.4*.6*1.5*2500
+    assert b['track_vertical_reactions_n'][0]/a['track_vertical_reactions_n'][0]==pytest.approx((30*line_mass+end_mass)/(25*line_mass+end_mass))
     for span in (25,30):
         native=geometry.civil_bay(span)
         beam=sum(p['modelled_mass_kg'] for p in native['parts'] if p['id'].startswith('beam-1/'))
         assert beam==pytest.approx(geometry.guideway_quantities(span)['total_line_mass_kg_m']*span)
-        assert model.civil_case(c,.8,1.6,span)['shared_piers_per_route_km']==pytest.approx(1000/span)
+        assert model.civil_case(c,.8,1.8,span)['shared_piers_per_route_km']==pytest.approx(1000/span)
 
 
 def test_thickness_configuration_changes_mass_and_city_dependency(monkeypatch,tmp_path):
@@ -52,10 +54,10 @@ def test_city_package_geometry_hash_change_is_detected(monkeypatch):
 
 def test_six_car_configuration_and_conditional_walkway_requirement():
     cfg=configuration.selected()
-    assert cfg.formation.body_sum_m==102 and cfg.formation.devices==36
+    assert cfg.formation.body_sum_m==102 and cfg.formation.devices==6*4
     with pytest.raises(ValueError):configuration.selected(cars=3)
     r=requirements.register();rows={v['id']:v for v in r['requirements']}
-    assert len(rows)==79 and not r['walkway_removal_approved']
+    assert len(rows)==72+7+100 and not r['walkway_removal_approved']
     assert not rows['CIV-004']['alternative_selected'] and not rows['CIV-004']['superseded_by']
     assert set(rows['CIV-004']['alternative_requirement_ids'])=={i for i in rows if i.startswith('EVAC-')}
     assert all(not row['accepted'] and not row['evidence_links'] for row in rows.values())
@@ -63,14 +65,14 @@ def test_six_car_configuration_and_conditional_walkway_requirement():
 
 def test_station_tracks_six_bodies_full_arm_and_actual_lift_opening():
     from engineering.ferrite_maglev import reference_assembly as r
-    s=r.station();assert len(s['cars'])==6 and len(s['door_interfaces'])==36
+    s=r.station();assert len(s['cars'])==6 and len(s['door_interfaces'])==6*4
     assert s['nominal_body_length_m']==102 and s['platform_length_m']>s['assumed_overall_train_length_m']>102
     assert s['lift_centre_xy_m']==[0.,0.] and s['lift_threshold_step_m']==0
     assert s['clear_passage_each_lift_side_m']>1
     assert s['arm_to_platform_horizontal_clearance_m']==pytest.approx(.1)
     assert s['body_to_platform_horizontal_gap_m']>s['arm_to_platform_horizontal_clearance_m']
     assert s['passenger_bridge_plate_required'] and not s['normal_floor_gap_accepted']
-    assert s['charging_kw_per_train']==3600
+    assert s['charging_kw_per_train']==6*200
     assert s['beam_unit_length_m']<=configuration.selected().civil.span_m
     assert s['manufactured_bays_per_direction']*s['beam_unit_length_m']==pytest.approx(s['platform_length_m'])
     for p in s['parts']:
@@ -86,7 +88,10 @@ def test_height_family_propagates_mass_loads_slenderness_and_descent_height():
     assert [v['pier_height_m'] for v in rows]==[8,12,20,30]
     assert all(a['demands']['column_base_axial_n']<b['demands']['column_base_axial_n'] for a,b in zip(rows,rows[1:]))
     assert rows[-1]['demands']['column_geometric_slenderness'][0]>rows[0]['demands']['column_geometric_slenderness'][0]
-    assert rows[-1]['door_sill_to_ground_m']==pytest.approx(33.1)
+    assert rows[-1]['door_sill_to_ground_m']-rows[0]['door_sill_to_ground_m']==pytest.approx(30-8)
+    for row in rows:
+        d=row['demands']
+        assert row['column_mass_kg']==pytest.approx((d['column_base_axial_n']-d['column_top_axial_n'])/9.81)
     assert all(not row['foundation_selected'] and row['installed_cost_usd'] is None for row in rows)
 
 

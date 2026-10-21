@@ -8,9 +8,9 @@
 </head>
 <body>
   <header>
-    <p class="eyebrow">OpenSourceRail · v0.5 primary design</p>
-    <h1>Simple guidebeams. Fixed magnetic modules. Local manufacture.</h1>
-    <p>Ferrite PM-biased maglev replaces conventional rotating traction motors, wheelsets and gearboxes. Powered linear windings, drives, cooling, sensing and protection remain necessary.</p>
+    <p class="eyebrow">OpenSourceRail · v0.5.2 development</p>
+    <h1>Station-powered maglev. Compact guidebeams. Local manufacture.</h1>
+    <p>Fixed station LSMs launch and receive the train; interstation spans are unpowered. Independent onboard ferrite PM-biased active support, services storage, sensing, cooling and protection remain necessary.</p>
     <nav><a href="../../design-engine/ferrite-maglev/reference/index.html">Designs, simulations and open requirements</a><a href="/OpenSourceRail-Book.pdf">Current reader book</a></nav>
   </header>
   <main>
@@ -21,7 +21,8 @@
       <p id="city-status" role="status">Loading current maglev catalogue…</p>
       <dl id="city-metrics"></dl>
       <p id="city-links"></p>
-      <p class="cost-scope">USD planning assumptions from current quantities and process routes, without supplier quotations. The subtotal covers repeat fleet and ordinary elevated guideway allowances. Stations, power/charging, factory investment, special crossings, land, assurance, evacuation, financing and other unpriced work remain outside it.</p>
+      <details><summary>Headway and coasting holds</summary><ul id="city-service"></ul></details>
+      <p class="cost-scope">USD planning assumptions from current quantities and process routes, without supplier quotations. Fleet, ordinary guideway and station electrical target rows are labelled separately. Station structures, external grid reinforcement, factory investment, special crossings, land, assurance, complete evacuation, recovery, financing and other unpriced work remain outside the counted scopes. Reserve does not price omissions.</p>
       <figure><img id="city-map" hidden alt=""><figcaption>Mapped planning geography, reinterpreted as proposed maglev routes. Line shapes and station positions remain subject to route and site validation.</figcaption></figure>
       <details><summary>Manufacturing and erection processes</summary><ul id="city-processes"></ul></details>
       <details><summary>UK industry equipment candidates and origin</summary><p>Priority is equipment made in Britain. A UK supplier, distributor or integrator does not establish UK manufacturing origin. The statements below distinguish verified capability claims and configuration-specific origin still to confirm. Prices and process qualification remain open.</p><ul id="city-equipment"></ul></details>
@@ -30,13 +31,17 @@
     <section aria-labelledby="design-title">
       <h2 id="design-title">Inspect the current physical studies</h2>
       <div class="cards">
-        <article><img src="../../design-engine/ferrite-maglev/native/interface/overview.png" alt="Native geometry of fixed ferrite magnetic interface modules"><h3>Mechanical and electromagnetic interface</h3><p>624 native solids; cartridge retention, carrier and magnetic-circuit studies. Full vehicle and production drawings remain open.</p></article>
-        <article><img src="../../design-engine/ferrite-maglev/beam-only/overview.png" alt="Native two-direction beam-only viaduct study"><h3>Compact civil system</h3><p>54-solid beam-only bay, reaction iron and support envelopes. No continuous external walkway in this research variant; foundations and evacuation require acceptance.</p></article>
-        <article><img src="../../design-engine/ferrite-maglev/system-development/entry/overview.png" alt="Native partial chute entry frame and cassette material geometry"><h3>Evacuation interface</h3><p>Partial doorway frame and empty cassette; 20 parts. Fabric, stowage, deployment, attachments and passenger performance remain unqualified.</p></article>
-        <article><img src="../../design-engine/ferrite-maglev/system-development/compact-support/overview.png" alt="Native compact pier cap column and foundation envelope"><h3>Manufacture and erection</h3><p>576 support/load-stage sensitivity cases. Demand estimates guide comparisons; no foundation capacity, installed cost or erection time is accepted.</p></article>
+        <article><img src="../../design-engine/ferrite-maglev/station-native/overview.png" alt="Partial native GFRP panel stock with balanced concrete beams and hollow supports"><h3>GFRP body and repeated civil products</h3><p>Four-door panel quantities, 14.2 t/car tare target and hollow-support candidates. Members, joints, station motor hardware and ground qualification remain open.</p></article>
+        <article><img src="../../design-engine/ferrite-maglev/native/interface/overview.png" alt="Native geometry of fixed ferrite magnetic interface modules"><h3>Mechanical and electromagnetic interface</h3><p>Partial cartridge retention, carrier and magnetic-circuit studies. Complete vehicle, actual force/loss maps and production drawings remain open.</p></article>
+        <article><img src="../../design-engine/ferrite-maglev/beam-only/overview.png" alt="Native two-direction beam-only viaduct study"><h3>Compact civil system</h3><p>Beam-only bay with reaction iron. The leading 25 m box uses 0.80 × 1.80 m dimensions, end infills and hollow support candidates; foundations, connections and evacuation remain unqualified.</p></article>
+        <article><img src="../../design-engine/ferrite-maglev/system-development/entry/overview.png" alt="Native partial chute entry frame and cassette material geometry"><h3>Evacuation interface</h3><p>Partial doorway frame and empty cassette. Fabric, stowage, deployment, attachments and passenger performance remain unqualified.</p></article>
+        <article><img src="../../design-engine/ferrite-maglev/system-development/compact-support/overview.png" alt="Native compact pier cap column and foundation envelope"><h3>Manufacture and erection</h3><p>GFRP panel quantities, hollow support/foundation families and a two-shift bottleneck model guide manufacture. Production rates, strength releases, costs and ground capacity remain targets.</p></article>
       </div>
     </section>
-    <section><h2>Replay and reproduce</h2><p>The report links actual Rust control replays, native-derived guideway coupling, source receipts, STEP/FreeCAD files and five assembly visibility videos. Visibility sequences show assembly order; they are not collision or motion simulations.</p><pre>./osr build
+    <section><h2>Replay and reproduce</h2><p>The report links station trajectory/overlap and reservation checks, GFRP/civil quantities, actual Rust replays, partial STEP/FreeCAD geometry, images and assembly visibility videos. The coupled plant remains one stationary car and a vertical beam. Visibility sequences show final-position geometry, without motion, collision or erected-strength simulation.</p><pre>./osr build
+./osr design station
+./osr design structure
+./osr design protocol
 ./osr design check
 ./osr sim baghdad
 ./osr book</pre><p>The restartable build refreshes implemented studies after source changes and stops on failure. It cannot generate missing physical evidence or grant a manufacturing release.</p></section>

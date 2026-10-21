@@ -1,29 +1,52 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OpenSourceRail v0.5 — ferrite PM maglev overview</title><style>body{font:17px/1.6 system-ui;max-width:1050px;margin:32px auto;padding:0 24px;color:#173341}img{width:100%;height:auto}table{display:block;overflow:auto;border-collapse:collapse}td,th{padding:10px;text-align:left;border-bottom:1px solid #ccd}a{color:#006b65}h1{line-height:1.15}code{overflow-wrap:anywhere}@media print{body{font-size:11px}img{max-height:260px;object-fit:contain}}</style><h1>OpenSourceRail v0.5 — ferrite PM maglev</h1>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OpenSourceRail v0.5.2 development — station-powered ferrite maglev</title><style>body{font:17px/1.6 system-ui;max-width:1050px;margin:32px auto;padding:0 24px;color:#173341}img{width:100%;height:auto}table{display:block;overflow:auto;border-collapse:collapse}td,th{padding:10px;text-align:left;border-bottom:1px solid #ccd}a{color:#006b65}h1{line-height:1.15}code{overflow-wrap:anywhere}@media print{body{font-size:11px}img{max-height:260px;object-fit:contain}}</style><h1>OpenSourceRail v0.5.2 development — station-powered ferrite maglev</h1>
 <p><strong>Fewer moving parts, local manufacture and compact elevated urban routes.</strong></p>
 <p><img src="../OpenSourceRail%20maglev%20station%20concept.png" alt="OpenSourceRail maglev station concept" /></p>
-<p>The primary design uses fixed onboard ferrite magnetic modules and powered linear
-electromagnetic propulsion, replacing conventional wheelsets, axles, gearboxes
-and rotating traction motors in normal running gear. Windings, drives, cooling,
-sensors, protection, passenger doors and emergency systems remain necessary.
-Contactless running aims to reduce wheel/rail contact noise and wear; acoustic
-performance and whole-system maintenance still require measurement.</p>
-<h2>Simple civil works and local capability</h2>
-<p>The research target is one compact integrated concrete guidebeam per direction,
-with necessary ferromagnetic reaction surfaces, repeatable supports and no
-continuous external walkway. A vertical spiral evacuation chute is the preferred
-alternative under investigation. Walkway removal has not been approved. Route
-clearance, safe landings, assisted evacuation, stopping/recovery and fire response
-must work at every permitted stopping location.</p>
+<p><em>Illustrative development concept, without physical or manufacturing acceptance.</em></p>
+<p>Station-mounted linear synchronous motors launch and receive the train.
+Interstation propulsion is unpowered; onboard ferrite PM-biased active support,
+guidance and passenger services remain independently powered. Removing main
+traction equipment from the train shifts electrical plant to stations. Support
+coils/drives, cooling, sensing, protection, doors, HVAC and emergency equipment
+remain necessary. Contactless running aims to reduce contact noise and wear;
+actual losses, acoustic performance and maintenance require measurement.</p>
+<h2>Body, civil works and local capability</h2>
+<p>Baghdad uses six 17 m bodies. The central tare target is 14.2 t/car,
+including a 5.2 t equipped structural GFRP body, 3 t ferrite, 30 kWh services
+storage and the full 1.8 t growth reserve. Four passenger doors per car are the
+body takeoff. Calculated panel stock is distinct from sized members, joints,
+complete equipment mass and structural qualification.</p>
+<p>The ordinary civil candidate is a 25 m, 0.80 × 1.80 m closed concrete box with
+100 mm webs, 150 mm flanges and end infills. Hollow columns/caps and alternative
+foundation families are compared by quantity. Necessary passive iron, anchors,
+bearings, connections and final survey remain in scope. Ground-specific selection,
+prestress/rebar detailing, loads and construction stages remain unqualified.</p>
+<p>The research target omits a continuous external walkway. Vertical spiral chutes
+are the preferred alternative under investigation, without walkway-removal
+approval. Safe landing, assisted evacuation, deployment, stopping/recovery and
+fire response must work at every allowed stopping location.</p>
+<p><img src="../Vertical%20spiral%20escape%20chute%20concept.png" alt="Vertical spiral escape chute concept" /></p>
+<p><em>Illustrative concept; no qualified railway device or all-stop evacuation claim.</em></p>
 <p>The 99% elevated-mainline objective and straight tangents aim to reach constrained
-urban corridors with less ground occupation and disruption. Land rights,
-utilities, access, wildlife, waterways, curvature and foundation feasibility still
-govern each route. No universal clearance or zero-disruption claim is made.</p>
-<p>Local casting, steel fabrication, cartridge assembly, winding, vehicle structures,
-interiors, wiring, Rust software and integration can create domestic capability.
-The complete local-content percentage, installed programme cost and funding
-requirement remain unknown until origin-traced bills, processes and supplier
-offers exist. Costs use the current material quantities, manufacturing routes and explicit
-planning rates. Unpriced scope remains open; no supplier quotation is implied.</p>
+corridors with less surface occupation. Rights, buildings, utilities, access,
+wildlife, water, curvature and foundation feasibility govern each route.</p>
+<p>Local precast/GFRP production, steel fabrication, cartridge assembly, station
+winding cassettes, interiors, wiring, Rust software and integration can build
+domestic capability. Prioritise verified British manufacture when selecting UK
+machinery. A UK distributor or integrator does not establish manufacturing origin.
+Complete local content remains unknown until the bill and input origins exist.</p>
+<h2>Operating and cost boundaries</h2>
+<p>The station operating reference is a jerk-limited 90 s flat 1 km run with
+190 s headway. Grade, wind, drag, arrival speed and receiving-brake readiness
+remain explicit route gates. A committed coasting train keeps its corridor and
+receiving berth reserved until proved full-consist clearance. Receiver failure,
+independent stopping/holding and stationary recovery remain design obligations;
+a distant station motor cannot restart a train in an unpowered span.</p>
+<p>A 45 s charge within a 60 s dwell needs 1.20 MW/train before charger losses under
+the hot-services assumption, including the battery energy used during the
+remaining dwell. Station electrical cost targets are additional to the incomplete
+ordinary civil subtotal. Stations, external grid work, complete evacuation,
+recovery, land, qualification, factory capital and financing need their own scope.
+No quoted complete railway price or accepted production rate is established.</p>
 <h2>Inspect and reproduce the current work</h2>
 <table>
 <thead>
@@ -35,27 +58,23 @@ planning rates. Unpriced scope remains open; no supplier quotation is implied.</
 <tbody>
 <tr>
   <td>City planning</td>
-  <td>266 separate primary maglev packages; retained geography/demand, recalculated formation, duty, fleet and charging</td>
+  <td>266 primary packages using explicit geography/demand and recalculated formation, duty, fleet and costs</td>
 </tr>
 <tr>
-  <td>Magnetic interface</td>
-  <td>624 native solids; partial lift/cartridge/frame geometry</td>
+  <td>Operating study</td>
+  <td>Jerk-limited launch/coast/receive, assumed magnetic-band overlap, power, receiving heat and charging</td>
 </tr>
 <tr>
-  <td>Beam-only civil kit</td>
-  <td>54 native solids; selected geometry without external walkways</td>
-</tr>
-<tr>
-  <td>Evacuation entry and support</td>
-  <td>20 partial entry parts and 3 support envelopes; not complete manufactured products</td>
+  <td>Mechanical/civil quantities</td>
+  <td>Three GFRP cases, magnet-orientation inventories, five beam families, ground sensitivities and a conditional production bottleneck</td>
 </tr>
 <tr>
   <td>Controls</td>
-  <td>Allocation-free Rust core, 24-module replay, I/O contracts and advisory evacuation state machine</td>
+  <td>Independent Rust support and station demand studies, persistent launch reservations and offline negative controls</td>
 </tr>
 <tr>
   <td>Simulation and media</td>
-  <td>Field equation controls, actual two-way Rust/beam replay, five assembly visibility videos, native images and source receipts</td>
+  <td>Partial native CAD/images, assembly visibility videos and source receipts; coupled replay remains a stationary single car with a vertical beam</td>
 </tr>
 <tr>
   <td>Engineering acceptance</td>
@@ -63,15 +82,22 @@ planning rates. Unpriced scope remains open; no supplier quotation is implied.</
 </tr>
 </tbody>
 </table>
+<p>Ring benchmarks and block-orientation seeds receive no railway lift or mass-saving
+credit. Moving six-car magnetic/structural dynamics, hardware timing, complete
+manufacturing geometry and physical acceptance remain open. Visibility videos show
+final-position parts, without motion, collision or erection-strength simulation.</p>
 <p>Use <code>./osr build</code> to verify dependencies and rebuild stale implemented studies.
-<code>./osr workbench</code> opens the primary maglev UI. <code>./osr design check</code> independently
-regenerates the report. <code>./osr book</code> builds the current reader edition.
-The scheduled runner repeats dependency verification after source changes;
-it does not invent missing physical tests or certify engineering completion.</p>
-<p><a href="workbench/maglev/index.html">Open the current Workbench</a>,
+<code>./osr design station</code>, <code>./osr design structure</code> and <code>./osr design protocol</code>
+reproduce their separate evidence. <code>./osr workbench</code> opens the review UI;
+<code>./osr book</code> builds the current reader edition. The scheduled runner refreshes
+implemented evaluators after source changes; it does not invent physical evidence.</p>
+<p><a href="workbench/maglev/index.html">Open the Workbench</a>,
 <a href="design-engine/ferrite-maglev/reference/index.html">review calculations, CAD and videos</a>,
-<a href="../engineering/ferrite_maglev/README.md">read the implementation and open work</a>,
-or <a href="../OpenSourceRail-Book.pdf">download the primary reader book</a>.</p>
+<a href="../engineering/ferrite_maglev/README.md">read implementation and open work</a>,
+<a href="releases/v0.5.2.md">review v0.5.2 development notes</a>,
+or <a href="../OpenSourceRail-Book.pdf">download the reader book</a>.</p>
+<p>Published v0.5.1 remains preserved. This document describes v0.5.2 development on
+main and does not announce a new release.</p>
 <!-- Generated by tools/automation/generate-public-overview.py; do not hand-edit. -->
 
 

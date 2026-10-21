@@ -17,7 +17,7 @@ import subprocess
 import tempfile
 import tomllib
 
-from . import model, geometry, evacuation, media, coupled
+from . import model, geometry, evacuation, media, coupled, configuration
 
 INPUT=Path(__file__).with_suffix('.toml')
 OUTPUT=model.ROOT/'docs/design-engine/ferrite-maglev/system-development'
@@ -42,7 +42,7 @@ def load():
         for value in values:
             model.positive(value,name,zero=name.startswith('additional'))
             if name.endswith('scales') and not .5<=value<=1:raise ValueError('bounded geometric reduction hypothesis required')
-            if name=='cap_scales' and value*7<4.6:raise ValueError('cap does not span both reference beam seat footprints')
+            if name=='cap_scales' and value*5<4.6:raise ValueError('cap does not span both reference beam seat footprints')
     model.positive(a['civil']['passenger_payload_kg_per_car'],'payload')
     return a
 
@@ -89,17 +89,20 @@ def entry_geometry(standoff_m=None):
     return r
 
 
-def support_geometry(column_scale=.8,foundation_scale=.85,cap_scale=.75,*,span=None,pier_height=None):
-    if not .5<=column_scale<=1 or not .5<=foundation_scale<=1 or not 4.6/7<=cap_scale<=1:raise ValueError('bounded support scales required')
+def support_geometry(column_scale=.8,foundation_scale=.85,cap_scale=.96,*,span=None,pier_height=None):
+    if not .5<=column_scale<=1 or not .5<=foundation_scale<=1 or not 4.6/5<=cap_scale<=1:raise ValueError('bounded support scales required')
     source=geometry.civil_bay(span,pier_height=pier_height);parts=[]
     origin=min(p['at_m'][0]+p['size_m'][0]/2 for p in source['parts'] if p['id'].endswith('/cap'))
     prefix=next(p['id'].rsplit('/',1)[0] for p in source['parts'] if p['id'].endswith('/cap') and p['at_m'][0]<0)
     for p in source['parts']:
         if not p['id'].startswith(prefix+'/'):continue
         p=deepcopy(p);p['id']=p['id'].replace(prefix,'study-support');p['at_m'][0]-=origin
-        scale=column_scale if p['id'].endswith('/column') else foundation_scale if p['id'].endswith('/foundation-envelope') else cap_scale
+        scale=column_scale if p['id'].endswith('/column') else foundation_scale if p['id'].endswith('/foundation-envelope') else (cap_scale if p['id'].endswith('/cap') else 1.)
         for axis in ((1,) if p['id'].endswith('/cap') else (0,1)):
             centre=p['at_m'][axis]+p['size_m'][axis]/2;p['size_m'][axis]*=scale;p['at_m'][axis]=centre-p['size_m'][axis]/2
+        if p['id'].endswith('/column'):
+            for hole in p.get('holes',[]):
+                hole['diameter_m']*=column_scale;hole['x_m']*=column_scale;hole['y_m']*=column_scale
         parts.append(p)
     r=geometry.finish('OSR-V05-COMPACT-SUPPORT',parts,[dict(id='foundation-envelope',parts=[p['id'] for p in parts if p['role']=='ground-assumption']),
         dict(id='column-and-cap',parts=[p['id'] for p in parts if p['role']!='ground-assumption'])],
@@ -121,7 +124,7 @@ def support_demands(*,column_scale=1.,foundation_scale=1.,cap_scale=1.,walkway=T
     # A continuous interior support receives half of each of two adjacent equal spans.
     beam=sum(p['modelled_mass_kg'] for p in native['parts'] if p['id'].startswith('beam-1/'))
     walks=sum(p['modelled_mass_kg'] for p in native['parts'] if p['id'].startswith('walkway-1-')) if walkway else 0.
-    vehicle=model.mass(c,c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'])
+    vehicle=model.mass(c,c['mass']['ferrite_base'],c['power']['services_battery_kwh_per_car'])
     live=(vehicle['tare_kg']+cfg['civil']['passenger_payload_kg_per_car']+additional_equipment_kg_per_car)/c['vehicle']['nominal_car_length_m']*span
     # Added equipment is an independent sensitivity, not a selected chute mass.
     masses=[beam+walks,beam+walks]
@@ -130,18 +133,19 @@ def support_demands(*,column_scale=1.,foundation_scale=1.,cap_scale=1.,walkway=T
     if load_case=='one-beam-erection':masses=[beam,0.]
     cap,column,foundation=[next(p for p in support['parts'] if p['id'].endswith('/'+key)) for key in ('cap','column','foundation-envelope')]
     n_top=sum(masses)*g;moment=(masses[1]-masses[0])*1.9*g
-    n_column=n_top+cap['modelled_mass_kg']*g
+    n_column=n_top+sum(p['modelled_mass_kg'] for p in support['parts'] if p['role']=='cap')*g
     n_base=n_column+column['modelled_mass_kg']*g
     n_ground=n_base+foundation['modelled_mass_kg']*g
-    area=column['size_m'][0]*column['size_m'][1]
-    section_modulus=column['size_m'][0]*column['size_m'][1]**2/6
+    outer=column['size_m'][0];inner=column['holes'][0]['diameter_m']
+    area=math.pi*(outer**2-inner**2)/4
+    section_modulus=math.pi*(outer**4-inner**4)/(32*outer)
     footing_area=foundation['size_m'][0]*foundation['size_m'][1]
     footing_z=foundation['size_m'][0]*foundation['size_m'][1]**2/6
     qmin=n_ground/footing_area-abs(moment)/footing_z;qmax=n_ground/footing_area+abs(moment)/footing_z
     return dict(column_scale=column_scale,foundation_scale=foundation_scale,cap_scale=cap_scale,walkway_included=walkway,load_case=load_case,
         additional_equipment_mass_sensitivity_kg_per_car=additional_equipment_kg_per_car,
         pier_height_m=column['size_m'][2],
-        column_geometric_slenderness=[column['size_m'][2]/(d/math.sqrt(12)) for d in column['size_m'][:2]],
+        column_geometric_slenderness=[column['size_m'][2]/math.sqrt((outer**2+inner**2)/16)]*2,
         tributary_span_m=span,track_vertical_reactions_n=[v*g for v in masses],column_top_axial_n=n_column,
         transverse_eccentric_moment_nm=moment,column_base_axial_n=n_base,ground_vertical_n=n_ground,
         column_nominal_extreme_stress_pa=[n_base/area-abs(moment)/section_modulus,n_base/area+abs(moment)/section_modulus],
@@ -238,9 +242,9 @@ def publish(output=OUTPUT):
         matched=dict(schema='osr-native-derived-guideway-coupling/1',native_beam_line_mass_kg_m=native_mass/span,
             native_mesh_sha256=before['docs/design-engine/ferrite-maglev/native/civil-bay/native-mesh.json.gz'],
             section_basis='Analytical reference box inertia; line mass recovered from native kernel volumes; no material/force-map validation',
-            car_mass_kg=27750.+result['entry_partial_material_mass_kg_per_car'],complete_egress_system_included=False,
+            car_mass_kg=(configuration.selected().vehicle['baseline_tare_kg_per_car']+9000.)+result['entry_partial_material_mass_kg_per_car'],complete_egress_system_included=False,
             partial_entry_hardware_mass_added_kg=result['entry_partial_material_mass_kg_per_car'],execution=execution,
-            static_controls=coupled.static_benchmark(assumptions),replay=coupled.cosimulate(executable,assumptions=assumptions,car_mass_kg=27750.+result['entry_partial_material_mass_kg_per_car']),
+            static_controls=coupled.static_benchmark(assumptions),replay=coupled.cosimulate(executable,assumptions=assumptions,car_mass_kg=(configuration.selected().vehicle['baseline_tare_kg_per_car']+9000.)+result['entry_partial_material_mass_kg_per_car']),
             physical_output_authorised=False,structural_acceptance=False)
         (target/'native-derived-coupling.json').write_bytes(encoded(matched))
         stream=io.StringIO();writer=csv.DictWriter(stream,fieldnames=['id','revision','material','kind','length_m','width_m','height_m','modelled_mass_kg','production_released'])
@@ -284,7 +288,7 @@ def verify(output=OUTPUT,*,require_current=True):
     if matched['physical_output_authorised'] is not False or matched['structural_acceptance'] is not False or matched['complete_egress_system_included'] is not False:raise ValueError('native-derived coupling scope/authority differs')
     if any(matched['replay'].get(k) is not False for k in ('physical_output_authorised','structural_acceptance')):raise ValueError('coupled replay asserted authority')
     if matched['replay']['beam_assumptions']['line_mass_kg_m']!=matched['native_beam_line_mass_kg_m']:raise ValueError('native beam mass not used by coupled replay')
-    if matched['replay']['car_mass_kg']!=matched['car_mass_kg'] or matched['car_mass_kg']!=27750.+study()['entry_partial_material_mass_kg_per_car']:raise ValueError('partial hardware mass not used by car/controller replay')
+    if matched['replay']['car_mass_kg']!=matched['car_mass_kg'] or matched['car_mass_kg']!=(configuration.selected().vehicle['baseline_tare_kg_per_car']+9000.)+study()['entry_partial_material_mass_kg_per_car']:raise ValueError('partial hardware mass not used by car/controller replay')
     if matched['native_mesh_sha256']!=m['source_sha256']['docs/design-engine/ferrite-maglev/native/civil-bay/native-mesh.json.gz']:raise ValueError('coupled replay native identity differs')
     executed=json.loads((output/'software-replay.json').read_text());identity=sha256(encoded(entry_geometry())).hexdigest()
     if executed['physical_output_authorised'] is not False or len(executed['cases'])!=4:raise ValueError('system replay identity differs')

@@ -14,7 +14,7 @@ import sys
 
 from . import model,configuration
 
-MATERIALS={'steel':7850.,'aluminium':2700.,'ferrite':5000.,'concrete':2500.,'winding-envelope':5500.}
+MATERIALS={'steel':7850.,'aluminium':2700.,'ferrite':5000.,'concrete':2500.,'winding-envelope':5500.,'gfrp':1900.,'core-80':80.,'core-100':100.,'bond-surface':1000.}
 
 
 def part(identity,size,at,material,*,role=None,kind='box',**kw):
@@ -43,7 +43,7 @@ def finish(identity,parts,stages,*,scope,holds):
     for p in parts:
         p['volume_m3']=volume(p);p['density_assumption_kg_m3']=MATERIALS[p['material']]
         p['modelled_mass_kg']=p['volume_m3']*MATERIALS[p['material']]
-        p['revision']='V05-INTERFACE-1';p['production_released']=False
+        p['revision']='V052-STATION-INTERFACE-1';p['production_released']=False
     total=sum(p['modelled_mass_kg'] for p in parts)
     cg=[sum(p['modelled_mass_kg']*(p['at_m'][i]+p['size_m'][i]/2) for p in parts)/total for i in range(3)]
     # This ledger is distinct from the whole-vehicle target. Coil envelopes use
@@ -64,6 +64,9 @@ def beam_parts(prefix,span,centre_y=0,*,width=None,depth=None,web=None,flange=No
     x=-span/2;y=centre_y;p=[]
     p.append(part(prefix+'/top-slab',[span,width,flange],[x,y-width/2,-flange],'concrete'))
     p.append(part(prefix+'/bottom-slab',[span,width,flange],[x,y-width/2,-depth],'concrete'))
+    # Solid end zones are explicit quantities, still requiring prestress/shear design.
+    for end in (-1,1):
+        p.append(part(prefix+f'/end-infill-{end}',[.4,width-2*web,depth-2*flange],[x if end<0 else x+span-.4,y-width/2+web,-depth+flange],'concrete'))
     for side in (-1,1):
         at=y-width/2 if side<0 else y+width/2-web
         p.append(part(prefix+f'/web-{side}',[span,web,depth-2*flange],[x,at,-depth+flange],'concrete'))
@@ -92,7 +95,8 @@ def interface(variant='recessed-retainer'):
         frame.append(part(f'frame/lift-collector-{side}',[12,.08,.08],[-6,side*.88-.04,-.444],'steel',kind='tube',wall_m=.006,axis=0))
     for x in (-8,-6,-4,-2,0,2,4,6,8):
         frame.append(part(f'frame/crossmember-{x}',[.08,2.1,.1],[x-.04,-1.05,.19],'steel',kind='tube',wall_m=.005,axis=1))
-    frame.append(part('frame/floor-material-region',[17,2.65,.01],[-8.5,-1.325,.29],'aluminium'))
+    for name,thickness,z,material in [('lower-face',.00225,.2355,'gfrp'),('core',.06,.23775,'core-100'),('upper-face',.00225,.29775,'gfrp')]:
+        frame.append(part('frame/floor-'+name,[17,2.65,thickness],[-8.5,-1.325,z],material))
     for x in (-6,6):
         frame.append(part(f'frame/lower-crosshead-{x}',[.1,2.96,.08],[x-.05,-1.48,-.524],'steel',kind='tube',wall_m=.006,axis=1))
         for side in (-1,1):
@@ -177,9 +181,12 @@ def civil_bay(span=None,*,width=None,depth=None,web=None,flange=None,pier_height
     stages.append(dict(id='beams-and-functional-rails',parts=[v['id'] for v in p]))
     sub=[]
     for x in (-span/2,span/2):
-        sub.append(part(f'support-{x}/cap',[2.5,7,1.2],[x-1.25,-3.5,-depth-1.2],'concrete'))
-        sub.append(part(f'support-{x}/column',[1.5,2,pier_height],[x-.75,-1,-depth-1.2-pier_height],'concrete'))
-        sub.append(part(f'support-{x}/foundation-envelope',[4.5,4.5,1.2],[x-2.25,-2.25,-depth-2.4-pier_height],'concrete',role='ground-assumption'))
+        cap_z=-depth-.9
+        sub.append(part(f'support-{x}/cap',[1.,5.,.9],[x-.5,-2.5,cap_z],'concrete',role='cap'))
+        for side in (-1,1):
+            sub.append(part(f'support-{x}/cap-widening-{side}',[.5,1.,.9],[x-1. if side<0 else x+.5,-.5,cap_z],'concrete',role='cap'))
+        sub.append(part(f'support-{x}/column',[1.35,1.35,pier_height],[x-.675,-.675,cap_z-pier_height],'concrete',role='column',kind='cylinder',holes=[dict(axis='z',x_m=.675,y_m=.675,start_m=.5,length_m=pier_height-1.,diameter_m=.95)]))
+        sub.append(part(f'support-{x}/foundation-envelope',[4.5,4.5,.8],[x-2.25,-2.25,cap_z-pier_height-.8],'concrete',role='ground-assumption'))
     p+=sub;stages.append(dict(id='support-ground-assumptions',parts=[v['id'] for v in sub]))
     walk=[]
     for side in (-1,1):
@@ -187,7 +194,7 @@ def civil_bay(span=None,*,width=None,depth=None,web=None,flange=None,pier_height
             x=-span/2+j*2.5
             walk.append(part(f'walkway-{side}-{j}',[min(2.49,span-j*2.5),1,.12],[x,3.6 if side>0 else -4.6,-.02],'concrete'))
     p+=walk;stages.append(dict(id='walkway-cassettes',parts=[v['id'] for v in walk]))
-    r=finish('OSR-V05-CIVIL-BAY',p,stages,scope=f'Dual-direction {span:g}m geometric kit; solid cap and shallow foundation envelopes are alternative study inputs, not site designs',
+    r=finish('OSR-V05-CIVIL-BAY',p,stages,scope=f'Dual-direction {span:g}m geometric kit; hollow-column/cap and shallow-foundation candidates are provisional quantities, not site designs',
         holds=['soil/pile/shallow-foundation selection and settlement','prestress/rebar/diaphragms and lifting inserts','corbels/bearings/joints/walkway brackets/anchors',
                'local magnetic loads, torsion, wind, seismic and fault/capture loads','transport/crane ground support and connection/strength development',
                'walkway supports and egress/platform swept envelope; no installed cost or structural release'])

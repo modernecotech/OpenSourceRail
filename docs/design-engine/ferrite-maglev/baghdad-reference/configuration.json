@@ -2,8 +2,8 @@
   "architecture": "ferrite-pm-maglev-study",
   "configuration": {
     "civil": {
-      "depth_m": 1.6,
-      "flange_m": 0.18,
+      "depth_m": 1.8,
+      "flange_m": 0.15,
       "ground_level_m": 0.0,
       "pier_height_m": 8.0,
       "rail_pitch_m": 2.5,
@@ -11,7 +11,7 @@
       "rail_thickness_m": 0.02,
       "rail_width_m": 0.96,
       "span_m": 25.0,
-      "web_m": 0.15,
+      "web_m": 0.1,
       "width_m": 0.8
     },
     "cost": {
@@ -33,9 +33,8 @@
       "city": "Baghdad",
       "coupling_gap_assumption_m": 0.5,
       "doors_per_side_x_m": [
-        -5.0,
-        0.0,
-        5.0
+        -4.5,
+        4.5
       ]
     },
     "magnetic": {
@@ -45,11 +44,11 @@
     },
     "operations": {
       "approved_reserve_kwh": null,
-      "charger_kw_per_car": 600.0,
-      "gross_storage_kwh_per_car": 225.0,
+      "charger_kw_per_car": 200.0,
+      "gross_storage_kwh_per_car": 30.0,
       "recovery_method": null
     },
-    "revision": "V05-BAGHDAD-SIX-CAR-2",
+    "revision": "V052-STATION-POWERED-GFRP-1",
     "station": {
       "arm_clearance_assumption_m": 0.1,
       "capture_drop_assumption_m": 0.02,
@@ -62,7 +61,7 @@
       "stopping_tolerance_assumption_m": 0.5
     },
     "vehicle": {
-      "baseline_tare_kg_per_car": 18750.0,
+      "baseline_tare_kg_per_car": 14200.0,
       "cg_m": null,
       "inertia_kg_m2": null,
       "net_chute_addition_kg": null,
@@ -73,6 +72,7 @@
   "manufacturing_release": false,
   "physical_release": false,
   "physical_validation": false,
+  "propulsion_architecture": "station-lsm-and-coast",
   "publication_role": "primary-provisional-design",
   "schema": "osr-selected-configuration/1"
 }

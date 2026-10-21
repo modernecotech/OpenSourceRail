@@ -28,7 +28,7 @@ def units(output):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system','iterate'))
+    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system','iterate','station','structure','protocol'))
     parser.add_argument('--output',type=Path,default=delivery.OUTPUT)
     args=parser.parse_args()
     if args.action=='install':
@@ -64,6 +64,9 @@ def main():
     elif args.action=='system':
         from engineering.ferrite_maglev import system_development
         result=system_development.publish()
+    elif args.action in {'station','structure','protocol'}:
+        from engineering.ferrite_maglev import station,station_structure,station_protocol
+        result={'station':station,'structure':station_structure,'protocol':station_protocol}[args.action].publish()
     elif args.action=='iterate':
         from engineering.ferrite_maglev import iteration
         result=iteration.publish()
@@ -76,7 +79,7 @@ def main():
         result=dict(family=retained['family'],source_current=True,scope='Primary maglev digital studies; no engineering/physical release',
             accepted_physical_releases=0,open_requirements=len(retained['applicable_requirements']['requirements']),
             core_open_requirements=len(retained['requirements']),
-            evacuation_open_requirements=len(retained['applicable_requirements']['requirements'])-len(retained['requirements']),gates=retained['gates'],
+            evacuation_open_requirements=7,specification_open_requirements=len(retained['source_specification']['requirements']),gates=retained['gates'],
             transition_inventory=retained['transition_inventory'],**model.FLAGS)
     elif args.action=='status':
         from engineering.ferrite_maglev import transition,requirements,cities
@@ -84,7 +87,8 @@ def main():
         register=transition.build()
         result=dict(version=model.RELEASE_VERSION,family=c['metadata']['family'],primary_development=True,
                     gates='G0–G5 open',city_packages=len(list((cities.ROOT/'cities/catalogue').glob('*/*/*/city.json'))),
-                    city_method='Current maglev configurations and quantity/process cost inputs; geography and passenger targets remain provisional.',
+                    propulsion_architecture=c['architecture']['primary_costed_propulsion'],
+                    city_method='Current station-powered maglev configurations and quantity/process cost inputs; geography and passenger targets remain provisional.',
                     system_inventory=register['inventory_counts'],
                     open_requirements=len(requirements.register()['requirements']),
                     accepted_engineering_items=register['accepted_item_count'],**model.FLAGS)

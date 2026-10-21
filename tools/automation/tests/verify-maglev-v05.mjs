@@ -76,12 +76,17 @@ try {
     "evacuation-envelope.svg",
     "../system-development/entry/overview.png",
     "../system-development/compact-support/overview.png",
+    "../station-native/overview.png",
+    "../station-powered/overview.svg",
+    "../station-powered/power.svg",
+    "../station-structure/comparison.svg",
+    "../iterative/progress.svg",
   ];
   assert.deepEqual(
     images.map((image) => image.src).sort(),
     expectedImages.sort(),
   );
-  assert.equal(images.length, 11);
+  assert.equal(images.length, 16);
   assert.ok(images.every((i) => i.loaded));
   assert.match(await page.locator("h1").innerText(), /Ferrite-maglev/);
   const origin = `http://127.0.0.1:${port}`;
@@ -110,7 +115,137 @@ try {
     return JSON.parse((await asset(relative)).body.toString("utf8"));
   }
   const data = await jsonAsset("result.json");
-  assert.equal(data.version, "0.5.1");
+  assert.equal(data.version, "0.5.2");
+  const digest = body => createHash("sha256").update(body).digest("hex");
+  async function checkedPacket(relative) {
+    const manifest = await jsonAsset(relative+"manifest.json");
+    assert.ok(Object.keys(manifest.files_sha256).length > 0);
+    for (const [name, expected] of Object.entries(manifest.files_sha256)) {
+      assert.match(expected,/^[a-f0-9]{64}$/);
+      assert.ok(!name.startsWith("/") && !name.split("/").includes(".."));
+      assert.equal(digest((await asset(relative+name)).body),expected,relative+name);
+    }
+    const sources=manifest.sources_sha256 || manifest.source_sha256;
+    assert.ok(sources && Object.keys(sources).length>0);
+    for (const [name,expected] of Object.entries(sources)) {
+      assert.ok(!name.startsWith("/") && !name.split("/").includes(".."));
+      assert.equal(digest((await asset("/"+name)).body),expected,"stale source "+name);
+    }
+    for(const flag of ["design_complete","physical_validation","manufacturing_release","physical_release"])
+      assert.equal(manifest[flag],false);
+    return manifest;
+  }
+  const stationPoweredManifest=await checkedPacket("../station-powered/");
+  const stationPowered=JSON.parse(gunzipSync((await asset("../station-powered/result.json.gz")).body).toString("utf8"));
+  assert.deepEqual(stationPowered.source_sha256,stationPoweredManifest.sources_sha256);
+  assert.deepEqual(stationPowered.cases.map(row=>row.name),["reference-90s","economy-100s","uphill-2-percent","uphill-5-percent","downhill-5-percent"]);
+  const operation=data.station_powered, trajectory=operation.trajectory;
+  assert.equal(trajectory.inputs.cars,6);
+  assert.equal(trajectory.inputs.car_mass_kg,26200);
+  assert.equal(trajectory.inputs.train_mass_kg,157200);
+  assert.equal(trajectory.inputs.distance_m,1000);
+  assert.equal(trajectory.inputs.runtime_s,90);
+  assert.equal(trajectory.inputs.jerk_m_s3,.6);
+  assert.equal(trajectory.energy_balance.passed,true);
+  assert.ok(Math.abs(trajectory.energy_balance.residual_j)<1);
+  assert.ok(trajectory.phases.coast.distance_m>0);
+  assert.ok(Math.abs(Object.values(trajectory.phases).reduce((sum,phase)=>sum+phase.distance_m,0)-1000)<1e-5);
+  const coast=trajectory.trace.filter(row=>row.phase==="coast");
+  assert.ok(coast.length>10);
+  assert.ok(coast.every(row=>row.motor_force_n===0 && row.mechanical_kw===0));
+  assert.ok(Math.abs(trajectory.peak_traction_input_kw-2346)<5);
+  assert.equal(operation.charging.moving_services_kwh,9);
+  assert.equal(operation.charging.disconnected_dwell_s,15);
+  assert.equal(operation.charging.battery_supplied_seconds_per_cycle,105);
+  assert.equal(operation.charging.replacement_kwh_per_train,10.5);
+  assert.equal(operation.charging.battery_charging_kw_per_train,840);
+  assert.equal(operation.charging.connected_interface_kw_per_train,1200);
+  assert.equal(operation.charging.charger_losses_included,false);
+  assert.equal(operation.battery.gross_kwh_per_car,30);
+  assert.equal(operation.battery.accepted,false);
+  assert.equal(operation.traffic.scheduled_headway_s,190);
+  assert.ok(operation.traffic.planning_headway_margin_s>10);
+  assert.equal(operation.traffic.timer_is_clearance_proof,false);
+  assert.equal(operation.traffic.release_requires_positive_full_consist_evidence,true);
+  assert.equal(operation.magnetic_overlap.magnetic_bands_relative_to_front_m.length,6);
+  assert.equal(operation.magnetic_overlap.installed_direction_m_per_two_direction_station,400);
+  assert.equal(operation.magnetic_overlap.installed_face_m_per_two_direction_station,800);
+  assert.equal(operation.magnetic_overlap.force_map_validated,false);
+  assert.equal(operation.magnetic_overlap.engineering_force_reserve_accepted,false);
+  assert.equal(operation.station_power.brake_reuse_credited,false);
+  for(const name of ["uphill-5-percent","downhill-5-percent"]){
+    const adverse=stationPowered.cases.find(row=>row.name===name).result;
+    assert.equal(adverse.study_pass,false);
+    assert.equal(adverse.status,"hold");
+  }
+  assert.equal(stationPowered.engineering_accepted_count,0);
+  const structureManifest=await checkedPacket("../station-structure/");
+  const structure=await jsonAsset("../station-structure/result.json");
+  assert.equal(structure.source_epoch_sha256,structureManifest.source_epoch_sha256);
+  const centralBody=structure.body_cases.find(row=>row.case==="central");
+  assert.equal(centralBody.tare_target_kg,14200);
+  assert.equal(centralBody.passenger_doors_per_car,4);
+  assert.ok(Math.abs(centralBody.calculated_equipped_mass_kg-5198.0725)<1e-6);
+  assert.equal(centralBody.complete_part_bom,false);
+  assert.equal(centralBody.cg_m,null);
+  assert.equal(structure.civil_families.length,5);
+  const balanced=structure.civil_families.find(row=>row.id==="balanced-25m");
+  assert.equal(balanced.qualified_foundation_selection,null);
+  assert.ok(Math.abs(balanced.beam.concrete_m3-14.22)<1e-9);
+  assert.ok(Math.abs(balanced.beam.concrete_plus_iron_kg-43055.856)<1e-6);
+  assert.equal(structure.magnetic_screens.useful_rail_force_gain,null);
+  assert.equal(structure.magnetic_screens.ring_reference.automatic_gain_credit,false);
+  assert.ok(structure.magnetic_screens.linear_orientation_candidates.candidates.every(row=>row.support_force_n===null && row.propulsion_force_n===null));
+  assert.equal(structure.production.conditional_route_m_per_planned_workday,56.25);
+  assert.equal(structure.production.production_release_allowed,false);
+  assert.ok(structure.production.strength_and_handover_gates.every(gate=>!gate.accepted));
+  assert.ok(Math.abs(structure.civil_cost_comparison.target_listed_scope_usd-3313016.96)<1e-6);
+  assert.equal(structure.civil_cost_comparison.complete_installed_price_usd,null);
+  assert.equal(structure.civil_cost_comparison.costs_are_supplier_quotes,false);
+  const stationNativeManifest=await checkedPacket("../station-native/");
+  const stationNativeDefinition=await jsonAsset("../station-native/definition.json");
+  const stationNativeReceipt=await jsonAsset("../station-native/native-cad.json");
+  assert.equal(stationNativeReceipt.part_count,stationNativeDefinition.parts.length);
+  assert.equal(stationNativeManifest.part_count,stationNativeDefinition.parts.length);
+  assert.equal(stationNativeReceipt.input_sha256,digest((await asset("../station-native/definition.json")).body));
+  assert.equal(stationNativeReceipt.fcstd_reopened,true);
+  assert.equal(stationNativeReceipt.step_reopened,true);
+  assert.equal(stationNativeManifest.complete_body_mass_modelled,false);
+  assert.equal(stationNativeDefinition.qualified_foundation_selection,null);
+  const protocolManifest=await checkedPacket("../station-protocol/");
+  const protocol=await jsonAsset("../station-protocol/replay.json");
+  assert.deepEqual(protocol.source_sha256,protocolManifest.source_sha256);
+  assert.deepEqual(protocol.execution,protocolManifest.execution);
+  assert.equal(protocol.binary_sha256,protocolManifest.binary_sha256);
+  assert.match(protocol.binary_sha256,/^[a-f0-9]{64}$/);
+  assert.equal(protocol.release_authority,false);
+  const controller=protocol.controller_replay;
+  const requiredControllerChecks=["launch","replay_rejected","stale_phase_rejected","zero_thrust_coast","resistor_braking","receiver_fault_requires_independent_recovery","uncommitted_launch_rejected","insufficient_overlap_rejected","physical_outputs_disabled_and_support_preserved"];
+  assert.deepEqual(Object.keys(controller.checks).sort(),requiredControllerChecks.sort());
+  assert.ok(Object.values(controller.checks).every(value=>value===true));
+  assert.equal(controller.all_passed,true);
+  assert.equal(controller.physical_output_authorised,false);
+  assert.equal(controller.measured_motor_map,false);
+  const execution=JSON.parse(gunzipSync((await asset("../station-protocol/executed-tests.txt.gz")).body).toString("utf8"));
+  assert.deepEqual(Object.keys(execution).sort(),["build","compiler","run","tests"]);
+  for(const [name,entry] of Object.entries(execution)){
+    assert.equal(entry.returncode,0);
+    assert.equal(protocol.execution[name].stdout_sha256,digest(Buffer.from(entry.stdout)));
+    assert.equal(protocol.execution[name].stderr_sha256,digest(Buffer.from(entry.stderr)));
+  }
+  assert.ok(execution.build.command.includes("station_replay"));
+  assert.ok(execution.tests.command.includes("station_launch"));
+  assert.ok(protocol.required_executed_tests.length>=13);
+  for(const name of protocol.required_executed_tests)
+    assert.ok(execution.tests.stdout.includes("test "+name+" ... ok"),name);
+  assert.match(execution.tests.stdout,/test result: ok\. 13 passed; 0 failed/);
+  assert.equal(data.source_specification.requirements.length,100);
+  assert.equal(data.source_specification.accepted_requirements,0);
+  assert.equal(digest((await asset("/"+data.source_specification.source)).body),data.source_specification.source_sha256);
+  assert.equal(data.applicable_requirements.requirements.length,179);
+  assert.equal(data.applicable_requirements.accepted_requirements,0);
+  assert.ok(data.applicable_requirements.requirements.every(row=>row.accepted===false));
+  assert.equal(data.applicable_requirements.requirements.filter(row=>row.id.startsWith("SP-")).length,100);
   const adaptiveManifest = await jsonAsset("../iterative/manifest.json");
   const adaptiveRaw = await asset("../iterative/result.json.gz");
   assert.equal(createHash("sha256").update(adaptiveRaw.body).digest("hex"), adaptiveManifest.files_sha256["result.json.gz"]);
@@ -171,7 +306,8 @@ try {
   assert.equal(optimisation.beam_only_candidate_count, 432);
   assert.equal(optimisation.beam_only_reference_champion_eligible, false);
   assert.equal(optimisation.beam_only_net_system_saving_usd, null);
-  assert.equal(data.onboard_evacuation.beam_only_part_count, 54);
+  const beamOnlyDefinition=await jsonAsset("../beam-only/definition.json");
+  assert.equal(data.onboard_evacuation.beam_only_part_count,beamOnlyDefinition.parts.length);
   assert.equal(data.onboard_evacuation.walkway_removal_approved, false);
   assert.equal(
     data.onboard_evacuation.operational_deployment_authorised,
@@ -265,8 +401,11 @@ try {
     assert.equal(receipt.step_reopened, true);
     assert.equal(receipt.physical_release, false);
     assert.match(receipt.input_sha256, /^[a-f0-9]{64}$/);
-    if (name === "interface") assert.equal(receipt.part_count, 624);
-    else assert.ok(receipt.part_count > 0);
+    const definition=await jsonAsset(`../native/${name}/definition.json`);
+    assert.equal(receipt.part_count,definition.parts.length);
+    assert.equal(receipt.input_sha256,digest((await asset(`../native/${name}/definition.json`)).body));
+    if(name==="interface") assert.equal(receipt.part_count,data.geometric_interface.parts);
+    else assert.ok(receipt.part_count>0);
     nativeReceipts.push({
       name,
       part_count: receipt.part_count,
@@ -313,6 +452,7 @@ try {
     "../system-development/compact-support/assembly-visibility.mp4",
   );
   expectedVideos.push("../baghdad-reference/station/assembly-visibility.mp4");
+  expectedVideos.push("../station-native/assembly-visibility.mp4");
   const stationManifest = await jsonAsset("../baghdad-reference/manifest.json");
   const stationStudy = await jsonAsset("../baghdad-reference/study.json");
   assert.equal(stationStudy.cars_per_train,6);
@@ -322,7 +462,14 @@ try {
   assert.equal(systemManifest.manufacturing_release, false);
   const development = data.linked_system_development;
   assert.equal(development.entry_hardware_part_count, 20);
-  assert.equal(development.support_case_count, 576);
+  const supportStudyAsset=await asset("../system-development/study.json.gz");
+  assert.equal(digest(supportStudyAsset.body),systemManifest.files_sha256["study.json.gz"]);
+  const supportStudy=JSON.parse(gunzipSync(supportStudyAsset.body).toString("utf8"));
+  assert.equal(development.support_case_count,supportStudy.support_case_count);
+  assert.equal(development.support_case_count,supportStudy.support_cases.length);
+  assert.deepEqual([...new Set(supportStudy.support_cases.map(row=>row.load_case))].sort(),
+    ["both-trains","empty","one-beam-erection","one-train"]);
+  assert.ok(supportStudy.support_cases.every(row=>row.accepted===false && row.capacity_utilisation===null));
   assert.equal(development.erection_working_days_saved, null);
   const replay = await jsonAsset("../system-development/software-replay.json");
   assert.equal(replay.physical_output_authorised, false);
@@ -340,14 +487,20 @@ try {
   const matched = await jsonAsset(
     "../system-development/native-derived-coupling.json",
   );
-  assert.ok(Math.abs(matched.native_beam_line_mass_kg_m - 1950.23424) < 1e-5);
+  const civilDefinition=await jsonAsset("../native/civil-bay/definition.json");
+  const span=data.inputs.civil.reference_span_m;
+  const nativeLineMass=civilDefinition.parts.filter(part=>part.id.startsWith("beam-1/")).reduce((sum,part)=>sum+part.modelled_mass_kg,0)/span;
+  assert.ok(Math.abs(matched.native_beam_line_mass_kg_m-nativeLineMass)<1e-5);
+  assert.ok(Math.abs(nativeLineMass-1722.23424)<1e-5);
   assert.equal(
     matched.replay.beam_assumptions.line_mass_kg_m,
     matched.native_beam_line_mass_kg_m,
   );
   assert.equal(matched.complete_egress_system_included, false);
   assert.equal(matched.replay.car_mass_kg, matched.car_mass_kg);
-  assert.ok(matched.car_mass_kg > 27750);
+  const referenceAw2=data.selected_configuration.configuration.vehicle.baseline_tare_kg_per_car+data.inputs.vehicle.aw2_passengers_per_car*data.inputs.vehicle.passenger_mass_screen_kg;
+  assert.equal(referenceAw2,23200);
+  assert.ok(Math.abs(matched.car_mass_kg-referenceAw2-matched.partial_entry_hardware_mass_added_kg)<1e-6);
   const videoLinks = await page
     .locator('a[href$=".mp4"]')
     .evaluateAll((nodes) => nodes.map((node) => node.getAttribute("href")));
@@ -361,15 +514,16 @@ try {
       "assembly video must contain media bytes",
     );
     assert.equal(video.body.subarray(4, 8).toString("ascii"), "ftyp");
+    const productVideo=href.startsWith("../station-native/");
     const stationVideo = href.startsWith("../baghdad-reference/");
     const systemVideo = href.startsWith("../system-development/");
     const name = href.replace(
-      stationVideo ? "../baghdad-reference/" : systemVideo ? "../system-development/" : "../native/",
+      productVideo ? "../station-native/" : stationVideo ? "../baghdad-reference/" : systemVideo ? "../system-development/" : "../native/",
       "",
     );
     assert.equal(
       createHash("sha256").update(video.body).digest("hex"),
-      (stationVideo ? stationManifest : systemVideo ? systemManifest : nativeManifest).files_sha256[name],
+      (productVideo ? stationNativeManifest : stationVideo ? stationManifest : systemVideo ? systemManifest : nativeManifest).files_sha256[name],
     );
     videos.push({
       href: video.pathname,
@@ -386,6 +540,9 @@ try {
         createHash("sha256").update(loaded.body).digest("hex"),
         systemManifest.files_sha256[name],
       );
+    }
+    for(const [prefix,manifest] of [["../station-native/",stationNativeManifest],["../station-powered/",stationPoweredManifest],["../station-structure/",structureManifest],["../iterative/",adaptiveManifest]]){
+      if(image.src.startsWith(prefix)) assert.equal(digest(loaded.body),manifest.files_sha256[image.src.slice(prefix.length)]);
     }
     if (image.src.startsWith("../native/")) {
       const name = image.src.replace("../native/", "");
@@ -423,6 +580,7 @@ try {
     city_count: data.city_catalogue.city_count,
     accepted_item_count: transition.accepted_item_count,
     native_receipts: nativeReceipts,
+    station_powered: { charging_kw_per_train: operation.charging.connected_interface_kw_per_train, reference_headway_s:operation.traffic.scheduled_headway_s, grade_holds_retained:true, actual_protocol_checks:requiredControllerChecks.length, actual_protocol_tests:protocol.required_executed_tests.length, source_specification_requirements:data.source_specification.requirements.length, native_parts:stationNativeDefinition.parts.length, physical_release:false },
     coupled_receipt: {
       schema: coupledReceipt.schema,
       bridge_sha256: coupledReceipt.execution.bridge_sha256,

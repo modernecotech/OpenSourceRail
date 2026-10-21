@@ -1,8 +1,11 @@
-# Primary v0.5 development profile. This is not a deployable railway image.
+# Primary v0.5.2 station-powered development profile; not a deployable railway image.
+# Station LSM launch/receiving and persistent reservations are offline studies.
+# Onboard PM-biased support and 30 kWh services storage remain independent.
+# Physical sensing, current drive, receiving redundancy and recovery remain open.
 schema = "osr-maglev-development-host/1"
 family = "ferrite-pm-maglev-study"
 role = "maglev-study-sbc"
-status = "offline-development; hardware-and-system-qualification-open"
+status = "offline-station-powered-development; hardware-and-system-qualification-open"
 services = ["osr-maglev-control"]
 interface_qualification_required = ["levitation-and-guidance", "linear-propulsion", "support-and-braking", "independent-protection", "battery-and-power", "doors-and-egress", "thermal-and-fire"]
 

@@ -1,5 +1,6 @@
 //! Resource lifecycle is a committed extension of the existing track-state fold.
 use crate::resources::*;
+use crate::station::*;
 use osr_core::{deployment::RailwayModel, resources::*, Direction, RouteId, SectionId, TrainId};
 use serde::{Deserialize, Serialize};
 
@@ -26,6 +27,16 @@ pub enum ResourceEvent {
         owner: Owner,
         proved: bool,
     },
+    PrepareStationLaunch {
+        request: StationLaunchRequest,
+        readiness: StationReadiness,
+    },
+    CommitStationLaunch {
+        id: u64,
+        readiness: StationReadiness,
+    },
+    HoldStationLaunch(StationFault),
+    ClearStationLaunch(Box<StationClearance>),
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -36,6 +47,10 @@ pub struct ResourceLedger {
     pub proofs: Vec<Option<ProtectionProof>>,
     pub integrity: std::collections::BTreeMap<TrainId, bool>,
     pub rejected_transitions: u64,
+    #[serde(default)]
+    pub station_launches: Vec<StationLaunch>,
+    #[serde(default)]
+    pub last_station_launch_id: u64,
 }
 impl ResourceLedger {
     pub fn new(
@@ -63,6 +78,8 @@ impl ResourceLedger {
             controller,
             integrity: Default::default(),
             rejected_transitions: 0,
+            station_launches: Vec::new(),
+            last_station_launch_id: 0,
         })
     }
     pub fn apply(&mut self, event: &ResourceEvent, now: u64) -> Result<(), ResourceError> {
@@ -83,6 +100,22 @@ impl ResourceLedger {
                     return Err(ResourceError::Proof);
                 }
                 self.proofs[index] = Some(*p);
+                let specs = self
+                    .model
+                    .specifications()
+                    .map_err(|_| ResourceError::Model)?;
+                for launch in &mut self.station_launches {
+                    if launch.phase != LaunchPhase::Cleared
+                        && launch.request.resources().contains(&p.resource)
+                        && (!p.permits(specs[index], self.controller.epoch(), now)
+                            || !p.owns_or_clear(launch.request.owner)
+                            || !p.occupancy_integrity_proved
+                            || (specs[index].points_required
+                                && p.proved_route != Some(launch.request.route)))
+                    {
+                        launch.phase = LaunchPhase::Held;
+                    }
+                }
                 if let Some(g) = self.controller.records()[index].grant {
                     if p.occupant == Some(g.owner) && p.occupancy_integrity_proved {
                         let _ = self.controller.occupied(g, now);
@@ -96,6 +129,9 @@ impl ResourceLedger {
                 route,
                 direction,
             } => {
+                if self.station_owns(*resource) {
+                    return Err(ResourceError::Phase);
+                }
                 let train = self
                     .model
                     .trains
@@ -120,30 +156,73 @@ impl ResourceLedger {
                     .request(*owner, *route, *direction, proof, now)
                     .map(|_| ())
             }
-            ResourceEvent::Withdraw(g) => self.controller.begin_release(*g, now),
+            ResourceEvent::Withdraw(g) => {
+                if self.station_owns(g.resource) {
+                    return Err(ResourceError::Phase);
+                }
+                self.controller.begin_release(*g, now)
+            }
             ResourceEvent::Clear(resource) => {
+                if self.station_owns(*resource) {
+                    return Err(ResourceError::Phase);
+                }
                 self.controller.verified_clear(self.proof(*resource)?, now)
             }
-            ResourceEvent::Block(resource) => self.controller.block(*resource),
+            ResourceEvent::Block(resource) => {
+                for launch in &mut self.station_launches {
+                    if launch.phase != LaunchPhase::Cleared
+                        && launch.request.resources().contains(resource)
+                    {
+                        launch.phase = LaunchPhase::Held;
+                    }
+                }
+                self.controller.block(*resource)
+            }
             ResourceEvent::Restart(epoch) => {
                 self.controller.restart(*epoch, now)?;
                 self.proofs.fill(None);
+                for launch in &mut self.station_launches {
+                    if launch.phase != LaunchPhase::Cleared {
+                        launch.phase = LaunchPhase::Held;
+                    }
+                }
                 Ok(())
             }
-            ResourceEvent::Reconcile(resource) => self
-                .controller
-                .reconcile_owner(self.proof(*resource)?, now)
-                .map(|_| ()),
+            ResourceEvent::Reconcile(resource) => {
+                if self.station_owns(*resource) {
+                    return Err(ResourceError::Phase);
+                }
+                self.controller
+                    .reconcile_owner(self.proof(*resource)?, now)
+                    .map(|_| ())
+            }
             ResourceEvent::Integrity { owner, proved } => {
                 if !self.model.trains.iter().any(|t| t.config.owner == *owner) {
                     return Err(ResourceError::Ownership);
                 }
                 self.integrity.insert(owner.train, *proved);
+                if !proved {
+                    for launch in &mut self.station_launches {
+                        if launch.request.owner == *owner && launch.phase != LaunchPhase::Cleared {
+                            launch.phase = LaunchPhase::Held;
+                        }
+                    }
+                }
                 Ok(())
+            }
+            ResourceEvent::PrepareStationLaunch { request, readiness } => {
+                self.prepare_station_launch(*request, *readiness, now)
+            }
+            ResourceEvent::CommitStationLaunch { id, readiness } => {
+                self.commit_station_launch(*id, *readiness, now)
+            }
+            ResourceEvent::HoldStationLaunch(fault) => self.hold_station_launch(*fault, now),
+            ResourceEvent::ClearStationLaunch(evidence) => {
+                self.clear_station_launch(**evidence, now)
             }
         }
     }
-    fn proof(&self, resource: ResourceId) -> Result<ProtectionProof, ResourceError> {
+    pub(crate) fn proof(&self, resource: ResourceId) -> Result<ProtectionProof, ResourceError> {
         self.proofs
             .get(usize::from(resource.0))
             .copied()

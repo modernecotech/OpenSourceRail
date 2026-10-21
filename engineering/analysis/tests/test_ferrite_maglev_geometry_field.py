@@ -23,7 +23,7 @@ def test_native_seed_matches_array_stations_and_explicit_full_pm_budget():
 def test_box_beam_material_regions_do_not_count_void_as_concrete():
     p=geometry.beam_parts('x',25)
     concrete=sum(geometry.volume(v) for v in p if v['material']=='concrete')
-    assert concrete==pytest.approx(.66*25)
+    assert concrete==pytest.approx((.8*1.8-.6*1.5)*25+2*.4*.6*1.5)
     rail=sum(geometry.volume(v) for v in p if v['role']=='magnetic-rail')
     assert rail==pytest.approx(2*10*2.49*.96*.02)
     assert geometry.civil_bay()['foundation_selected'] is False

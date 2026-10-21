@@ -1,7 +1,9 @@
 """Reproducible primary development screens, without engineering release authority."""
 from copy import deepcopy
+from functools import lru_cache
 from hashlib import sha256
 import itertools
+import json
 import math
 from pathlib import Path
 import re
@@ -24,7 +26,7 @@ def positive(value, name, *, zero=False):
 
 
 def validate(c):
-    if c['metadata']['schema'] != 'osr-ferrite-maglev-study/1' or c['metadata']['family'] != 'ferrite-pm-maglev-study':
+    if c['metadata']['schema'] != 'osr-ferrite-maglev-study/2' or c['metadata']['family'] != 'ferrite-pm-maglev-study':
         raise ValueError('explicit primary maglev schema/family required')
     for key in ('fabrication_release_allowed', 'operational_authorisation', 'electromagnetic_force_map_validated',
                 'vehicle_mass_measured', 'civil_design_released', 'costs_are_supplier_quotes'):
@@ -33,10 +35,14 @@ def validate(c):
     a = c['architecture']
     if a['primary_study_suspension'] != 'pm-biased-active-attraction-to-wide-horizontal-iron-faces':
         raise ValueError('alternative circuit requires a separately qualified adapter')
-    if any(a.get(k) is not False for k in ('route_powered_stator', 'route_permanent_magnets',
+    if any(a.get(k) is not False for k in ('route_permanent_magnets', 'onboard_main_traction', 'interstation_powered_propulsion',
                'ferrite_as_primary_crash_or_tensile_structure', 'unpowered_all_axis_contactless_stability_claimed',
                'shared_magnetic_volume_demonstrated')):
         raise ValueError('unsupported architecture claim')
+    if (a.get('route_powered_stator') is not True or a.get('station_zone_powered_stator') is not True
+            or a.get('onboard_support_guidance_windings') is not True
+            or a.get('primary_costed_propulsion')!='station-lsm-shared-vehicle-pm'):
+        raise ValueError('station-only traction and independent onboard support architecture required')
     if c['controls']['implementation_language'] != 'Rust' or c['controls']['preferred_host'] != 'off-the-shelf-SBC':
         raise ValueError('primary Rust/SBC architecture required')
     if c['controls']['target_timing_measured'] is not False or c['validation']['citywide_savings_released'] is not False:
@@ -64,7 +70,7 @@ def validate(c):
             else:positive(value,name)
     for group,name in [('vehicle','cars_per_train'),('vehicle','aw2_passengers_per_car'),('vehicle','aw3_passengers_per_car'),('magnets','screening_module_count_per_car')]:
         if type(c[group][name]) is not int or c[group][name] <= 0:raise ValueError('positive integer count required: '+name)
-    for name in ('normal_drive_efficiency', 'hot_drive_efficiency', 'normal_regen_efficiency', 'hot_regen_efficiency', 'eol_capacity_fraction'):
+    for name in ('station_drive_efficiency', 'station_generating_efficiency', 'eol_capacity_fraction'):
         if not 0 < p[name] <= 1: raise ValueError('efficiency/fraction outside (0,1]')
     if not 0 <= p['normal_soc_low'] < p['normal_soc_high'] <= 1:
         raise ValueError('bounded ordered SOC window required')
@@ -72,14 +78,14 @@ def validate(c):
         raise ValueError('charging time exceeds dwell')
     masses = c['mass']
     keys = ('structural_body_floor_doors_glazing_interior', 'ferrite_base',
-            'cores_all_windings_carriers_drives_local_sensors_cooling', 'capture_landing_emergency_braking',
-            'battery_150kwh_installed', 'cabin_hvac_ducting', 'auxiliary_electrical_train_controls_wiring',
+            'support_guidance_cores_windings_carriers_drives_sensors_cooling', 'capture_landing_emergency_braking',
+            'services_battery_low_case_installed_kg', 'cabin_hvac_ducting', 'auxiliary_electrical_train_controls_wiring',
             'couplers_gangway_interfaces_solar', 'growth_reserve')
-    if not math.isclose(sum(masses[k] for k in keys), masses['base_tare_target_150kwh_3t_ferrite']):
+    if not math.isclose(sum(masses[k] for k in keys), masses['base_tare_low_storage_target_kg']):
         raise ValueError('mass allocation does not close')
-    expected = masses['base_tare_target_150kwh_3t_ferrite'] + (
-        p['gross_battery_matched_kwh_per_car'] - p['gross_battery_reduced_option_kwh_per_car']) * 1000 / p['installed_pack_specific_energy_wh_kg']
-    if not math.isclose(expected, masses['matched_tare_target_225kwh_3t_ferrite']):
+    expected = masses['base_tare_low_storage_target_kg'] + (
+        p['services_battery_kwh_per_car'] - p['services_battery_low_case_kwh_per_car']) * 1000 / p['installed_pack_specific_energy_wh_kg']
+    if not math.isclose(expected, masses['matched_tare_target_kg']):
         raise ValueError('matched mass allocation differs')
     box = c['civil']['narrow_box_screen']
     calculated = section(box['outer_width_m'], box['outer_depth_m'], box['web_thickness_m'], box['flange_thickness_m'])
@@ -112,14 +118,22 @@ def load():
         raise ValueError('primary control policy and input differ')
     if c['cost']['cost_input_file'] != manufacturing.INPUT.relative_to(ROOT).as_posix():
         raise ValueError('controlled process rate input required')
+    from . import station_structure
+    shared=station_structure.load();body=shared['body'];vehicle=shared['vehicle'];cv=shared['civil']
+    if (c['mass']['structural_body_floor_doors_glazing_interior']!=body['cases']['central']['rounded_equipped_target_kg']
+            or c['vehicle']['passenger_doors_per_side']!=body['doors_per_side']
+            or c['mass']['ferrite_base']!=vehicle['ferrite_kg']
+            or c['power']['services_battery_kwh_per_car']!=vehicle['services_battery_kwh']
+            or c['civil']['narrow_box_screen']['web_thickness_m']!=cv['web_m']):
+        raise ValueError('primary configuration and controlled body/civil target contract differ')
     costs = manufacturing.load()
     return policy, c, costs
 
 
 def mass(c, ferrite, battery):
     p = c['power']; m = c['mass']; v = c['vehicle']
-    tare = m['base_tare_target_150kwh_3t_ferrite'] + ferrite-m['ferrite_base'] + (
-        battery-p['gross_battery_reduced_option_kwh_per_car'])*1000/p['installed_pack_specific_energy_wh_kg']
+    tare = m['base_tare_low_storage_target_kg'] + ferrite-m['ferrite_base'] + (
+        battery-p['services_battery_low_case_kwh_per_car'])*1000/p['installed_pack_specific_energy_wh_kg']
     return dict(tare_kg=tare, aw2_kg=tare+v['aw2_passengers_per_car']*v['passenger_mass_screen_kg'],
                 aw3_kg=tare+v['aw3_passengers_per_car']*v['passenger_mass_screen_kg'],
                 battery_mass_kg=battery*1000/p['installed_pack_specific_energy_wh_kg'],
@@ -161,14 +175,14 @@ def civil_case(c, width, depth, span, *, walkway_area_m2=.12):
     positive(walkway_area_m2,'walkway material area',zero=True)
     b = c['civil']['narrow_box_screen']; s = section(width, depth, b['web_thickness_m'], b['flange_thickness_m'])
     g, rho, young = 9.81, 2500, b['gross_uncracked_concrete_e_pa']
-    vehicle = mass(c, c['mass']['ferrite_base'], c['power']['gross_battery_matched_kwh_per_car'])
+    vehicle = mass(c, c['mass']['ferrite_base'], c['power']['services_battery_kwh_per_car'])
     from .geometry import guideway_quantities,MATERIALS
     quantities=guideway_quantities(span,width=width,depth=depth,web=b['web_thickness_m'],flange=b['flange_thickness_m'])
     rho=MATERIALS['concrete']
     dead = quantities['total_line_mass_kg_m']+walkway_area_m2*rho
     live = vehicle['aw3_kg']/c['vehicle']['nominal_car_length_m'];w=(dead+live)*g
-    s.update(magnetic_quantities=quantities,width_m=width, depth_m=depth, span_m=span, bare_beam_mass_kg=s['area_m2']*span*rho,
-             listed_concrete_m3_dual_km=(s['area_m2']+walkway_area_m2)*2000,
+    s.update(magnetic_quantities=quantities,width_m=width, depth_m=depth, span_m=span, bare_beam_mass_kg=quantities['beam_concrete_mass_kg'],
+             listed_concrete_m3_dual_km=(quantities['beam_concrete_line_mass_kg_m']/rho+walkway_area_m2)*2000,
              shared_piers_per_route_km=1000/span, dead_line_mass_kg_m=dead, vehicle_line_mass_kg_m=live,
              total_moment_nm=w*span**2/8, total_elastic_deflection_m=5*w*span**4/(384*young*s['vertical_i_m4']),
              section_strength_accepted=None, lateral_torsional_accepted=None, relative_gap_accepted=None,
@@ -178,7 +192,7 @@ def civil_case(c, width, depth, span, *, walkway_area_m2=.12):
 
 def geometry(c):
     m = c['magnets'];length=m['seed_strip_length_m'];area=m['seed_strips']*length*m['seed_strip_width_m']
-    volume=area*m['seed_strip_thickness_m'];load=mass(c,c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'])['aw3_kg']*9.81
+    volume=area*m['seed_strip_thickness_m'];load=mass(c,c['mass']['ferrite_base'],c['power']['services_battery_kwh_per_car'])['aw3_kg']*9.81
     return dict(seed_ferrite_mass_kg=volume*m['reference_density_kg_m3'], seed_area_m2=area,
                 seed_blocks=volume/m['seed_block_edge_m']**3,
                 field_demand_static_t=math.sqrt(2*4*math.pi*1e-7*load/area),
@@ -197,41 +211,115 @@ def geometry(c):
                                    c['vehicle']['passenger_mass_screen_kg']*9.81/d) for d in m['aw0_to_aw2_movement_sensitivities_m']])
 
 
-def cycle(c, mass_kg, *, hot=False, speed_kmh=80, regen=True):
-    """Velocity-domain quadrature; fixed assumed efficiencies and level straight track."""
-    from scipy.integrate import quad
-    from scipy.optimize import brentq
-    p, v = c['power'], c['vehicle'];positive(mass_kg, 'mass');positive(speed_kmh, 'speed')
-    eta=p['hot_drive_efficiency' if hot else 'normal_drive_efficiency']
-    er=p['hot_regen_efficiency' if hot else 'normal_regen_efficiency'] if regen else 0
-    hotel=p['hot_hotel_kw_per_car' if hot else 'normal_hotel_kw_per_car']*1000
-    cap=p['total_motoring_dc_cap_per_car_kw']*1000
-    if cap <= hotel: raise ValueError('no propulsion power after services')
-    amax=v['maximum_initial_acceleration_m_s2'];brake=v['service_deceleration_study_m_s2'];top=speed_kmh/3.6
-    drag=lambda speed:p['passive_rail_drag_study_n_per_car']+.5*p['air_density_study_kg_m3']*p['drag_area_study_m2_per_car']*speed**2
-    crossover=brentq(lambda speed:(mass_kg*amax+drag(speed))*speed/eta+hotel-cap,0, max(top,1)*100)
-    equilibrium=brentq(lambda speed:drag(speed)*speed-(cap-hotel)*eta,0,max(top,1)*100)
-    if top >= equilibrium: raise ValueError('requested speed exceeds steady power envelope')
-    def accel(speed):return amax if speed <= crossover else ((cap-hotel)*eta/speed-drag(speed))/mass_kg
-    def integral(fn,upper):return quad(fn,0,upper,epsabs=1e-7,points=[crossover] if crossover<upper else None)[0]
-    distance=lambda speed:integral(lambda x:x/accel(x),speed)
-    length=p['station_spacing_study_m']
-    if distance(top)+top**2/(2*brake)>length:
-        top=brentq(lambda speed:distance(speed)+speed**2/(2*brake)-length,1e-6,top)
-    ta=integral(lambda x:1/accel(x),top);da=distance(top);db=top**2/(2*brake);dc=max(0,length-da-db)
-    tc=dc/top;tb=top/brake;duration=ta+tc+tb+p['station_dwell_seconds']
-    traction=integral(lambda x:(mass_kg*accel(x)+drag(x))*x/(eta*accel(x)),top)+drag(top)*dc/eta
-    recovered=er*integral(lambda x:max(0,mass_kg*brake-drag(x))*x/brake,top)
-    energy=(traction-recovered+hotel*duration)/3.6e6
-    return dict(mass_kg=mass_kg, hot=hot, requested_speed_kmh=speed_kmh, achieved_speed_kmh=top*3.6,
-                regeneration_available=regen, moving_seconds=duration-p['station_dwell_seconds'],
-                cycle_seconds=duration, commercial_speed_kmh=length/duration*3.6,
-                propulsion_dc_kwh=traction/3.6e6, recovered_dc_kwh=recovered/3.6e6,
-                services_kwh=hotel*duration/3.6e6, cycle_kwh=energy,
-                balanced_charger_kw=energy*3600/p['charger_effective_seconds'],
-                taper_start_kmh=crossover*3.6, charger_balance_kwh={str(int(kw)):kw*p['charger_effective_seconds']/3600-energy for kw in p['charger_candidates_kw_per_car']},
-                actual_motor_loss_map=None, route_acceptance=False,
-                exclusions=['jerk', 'grid/charger and battery internal losses', 'charge taper', 'grade/curves/wind', 'protected emergency reserve'])
+def station_zone_screen(c, trajectory, *, cars=None):
+    """Check fixed-zone force against actual band intersections, without sizing it.
+
+    The longitudinal plant scales per-car resistance and mass linearly, so its
+    acceleration/position history is reusable for the declared full consist.
+    Force density remains an unvalidated assumption; this check rejects known
+    geometric impossibility without crediting unlocated intermediate stations.
+    """
+    from . import station,configuration
+    import numpy as np
+    count=c['vehicle']['cars_per_train'] if cars is None else cars
+    if type(count) is not int or not 1<=count<=12:raise ValueError('bounded station-duty consist required')
+    a=station.load();v=a['vehicle'];s=a['station'];cfg=configuration.selected(c,city='station-duty',cars=count)
+    length=cfg.formation.assumed_overall_length_m;body=cfg.formation.body_length_m
+    band=v['magnetic_band_m_per_car'];pitch=body+cfg.formation.coupling_gap_assumption_m
+    offset=(body-band)/2
+    if offset<0:raise ValueError('magnetic band exceeds the body length')
+    bands=np.array([[-offset-band-i*pitch,-offset-i*pitch] for i in range(count)])
+    density=s['equivalent_envelope_force_n_m']*length/(band*count)
+    result=dict(cars=count,train_length_assumption_m=length,
+        magnetic_bands_relative_to_front_m=bands.tolist(),
+        winding_start_m=s['winding_start_m'],winding_end_m=s['winding_end_m'],
+        equivalent_envelope_force_density_n_m=s['equivalent_envelope_force_n_m'],
+        active_band_force_density_n_m=density,force_map_validated=False,
+        phase_registration_validated=False,engineering_accepted=False,**FLAGS)
+    if not trajectory.get('study_pass'):
+        return dict(result,study_pass=False,status='hold',reason='No feasible pure longitudinal trajectory')
+    values=dict(base=result,mass=trajectory['inputs']['car_mass_kg']*count,
+        grade=trajectory['inputs']['grade'],resistance=trajectory['resistance'],
+        segments=trajectory['segments'],braking_distance_m=trajectory['phases']['braking']['distance_m'],
+        sample_interval_s=a['motion']['overlap_sample_interval_s'])
+    return deepcopy(_station_zone_cached(json.dumps(values,sort_keys=True,allow_nan=False)))
+
+
+@lru_cache(maxsize=4096)
+def _station_zone_cached(canonical):
+    """Immutable numerical/geometric keys; no sizing solver or shared results."""
+    from . import station
+    import numpy as np
+    values=json.loads(canonical);result=values['base'];count=result['cars'];mass=values['mass']
+    bands=np.array(result['magnetic_bands_relative_to_front_m']);density=result['active_band_force_density_n_m']
+    constant=values['resistance']['constant_n_per_car']*count+mass*9.81*values['grade']
+    quadratic=values['resistance']['quadratic_n_per_car_per_m_s_squared']*count
+    margins={};zero_overlap=False;sample_count=0
+    for name in ('launch','braking'):
+        _,positions,velocity,acceleration=station._phase_samples(
+            values['segments'][name],values['sample_interval_s'])
+        if name=='braking':positions=positions-values['braking_distance_m']
+        force=np.abs(mass*acceleration+constant+quadratic*velocity**2)
+        overlap=station._overlap(positions,bands,result['winding_start_m'],result['winding_end_m'])
+        active=force>1.
+        margins[name]=float(np.min(overlap[active]*density/force[active])-1.) if np.any(active) else None
+        zero_overlap=zero_overlap or bool(np.any((overlap<1e-9)&active))
+        sample_count+=len(positions)
+    passed=all(value is not None and value>=-1e-7 for value in margins.values())
+    reason=None if passed else ('Fixed station winding has zero magnetic overlap while nonzero motor force is required'
+        if zero_overlap else 'Fixed station winding cannot supply the sampled force demand at the assumed overlap force density')
+    return dict(result,study_pass=passed,status='conditional-study-pass' if passed else 'hold',reason=reason,
+        minimum_force_reserve_fraction=margins,zero_overlap_with_nonzero_force=zero_overlap,
+        sample_interval_max_s=values['sample_interval_s'],samples_evaluated=sample_count,
+        intermediate_station_credit_applied=False,
+        scope='Fixed installed winding and exact rectangular bands; no current/voltage/thermal, phase or fault qualification')
+
+
+def cycle(c, mass_kg, *, hot=False, speed_kmh=80, regen=True,cars=None):
+    """Station launch/coast/receive demand and a separate services-only battery.
+
+    Arbitrary city distances use an explicit runtime allocation, not a qualified
+    timetable. Infeasible longitudinal cases remain held rather than restoring
+    powered cruise. Station braking energy is never credited to the vehicle pack.
+    """
+    from . import station
+    p=c['power'];v=c['vehicle'];positive(mass_kg,'mass');positive(speed_kmh,'speed')
+    distance=p['station_spacing_study_m'];positive(distance,'distance')
+    runtime=max(v['runtime_reference_seconds']*distance/1000,
+                1.5*distance/(speed_kmh/3.6),2*math.sqrt(distance/v['maximum_initial_acceleration_m_s2'])+6.)
+    runtime=round(max(20.,runtime),4)
+    try:
+        t=station.trajectory(distance_m=distance,runtime_s=runtime,car_mass_kg=mass_kg,cars=1,
+            acceleration=v['maximum_initial_acceleration_m_s2'],deceleration=v['service_deceleration_study_m_s2'],
+            jerk=v['jerk_study_m_s3'],speed_limit_kmh=speed_kmh,record_trace=False,
+            motoring_efficiency=p['station_drive_efficiency'],generating_efficiency=p['station_generating_efficiency'],
+            resistance_constant_n_per_car=p['passive_rail_drag_study_n_per_car'],
+            resistance_quadratic_n_per_car=.5*p['air_density_study_kg_m3']*p['drag_area_study_m2_per_car'])
+    except ValueError as exc:
+        t=dict(study_pass=False,reason='outside bounded station trajectory domain: '+str(exc))
+    hotel=p['hot_hotel_kw_per_car' if hot else 'normal_hotel_kw_per_car']
+    dwell=p['station_dwell_seconds'];connected=p['charger_effective_seconds'];duration=runtime+dwell
+    services=hotel*duration/3600;replacement=hotel*(runtime+dwell-connected)/3600
+    balanced=hotel+replacement*3600/connected
+    pure_pass=t['study_pass'];zone=station_zone_screen(c,t,cars=cars)
+    passed=pure_pass and zone['study_pass']
+    return dict(mass_kg=mass_kg,hot=hot,requested_speed_kmh=speed_kmh,
+        achieved_speed_kmh=t['peak_speed_kmh'] if passed else None,
+        regeneration_available=regen,regeneration_destination='station DC/resistor; no vehicle-pack credit',
+        moving_seconds=runtime,cycle_seconds=duration,commercial_speed_kmh=distance/duration*3.6,
+        propulsion_dc_kwh=0.,recovered_dc_kwh=0.,services_kwh=services,cycle_kwh=services,
+        station_traction_input_kwh=t['station_positive_input_kwh'] if passed else None,
+        station_brake_dc_kwh=t['receiving_brake_dc_kwh'] if passed else None,
+        station_traction_peak_kw=t['peak_traction_input_kw'] if passed else None,
+        services_battery_moving_kwh=hotel*runtime/3600,
+        battery_replacement_kwh=replacement,balanced_charger_kw=balanced,taper_start_kmh=None,
+        charger_balance_kwh={str(int(kw)):(kw-hotel)*connected/3600-replacement for kw in p['charger_candidates_kw_per_car']},
+        pure_trajectory_screen_pass=pure_pass,station_zone_screen_pass=zone['study_pass'],station_zone=zone,
+        kinematic_screen_pass=passed,kinematic_hold=None if passed else (zone['reason'] if pure_pass else t.get('reason','station coast infeasible')),
+        runtime_basis='max(reference90s/km, speed-limited1.5x travel time, jerk/acceleration planning floor); infeasible routes remain held',
+        actual_motor_loss_map=None,route_acceptance=False,
+        exclusions=['measured force/current/voltage/thermal and six-car phase maps','grade/curves/wind',
+                    'qualified timetable and receiver-fault stopping','charge taper/losses and protected reserve'])
 
 
 def localisation(rows):
@@ -257,7 +345,7 @@ def requirement_register():
 
 
 def sources():
-    paths=[ROOT/'OpenSourceRail maglev station concept.png',ROOT/'Vertical spiral escape chute concept.png',POLICY,INPUT,SPEC,manufacturing.INPUT,ROOT/'VERSION',ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'osr',ROOT/'package.json',ROOT/'package-lock.json',
+    paths=[ROOT/'OpenSourceRail maglev station concept.png',ROOT/'Vertical spiral escape chute concept.png',POLICY,INPUT,SPEC,manufacturing.INPUT,ROOT/'VERSION',ROOT/'OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx',ROOT/'Cargo.toml',ROOT/'Cargo.lock',ROOT/'osr',ROOT/'package.json',ROOT/'package-lock.json',
            ROOT/'tools/automation/ferrite-maglev-study.py',ROOT/'engineering/analysis/tests/test_ferrite_maglev.py']
     paths+=list(Path(__file__).parent.glob('*.py'))
     paths+=list(Path(__file__).parent.glob('*.txt'))
@@ -284,19 +372,17 @@ def build():
     from . import geometry as native_geometry
     policy,c,costs=load();cost_cases=[];energies=[];masses=[]
     for ferrite,battery in itertools.product((c['mass']['ferrite_base'],c['mass']['ferrite_sensitivity']),
-                  (c['power']['gross_battery_matched_kwh_per_car'],c['power']['gross_battery_reduced_option_kwh_per_car'])):
+                  (c['power']['services_battery_kwh_per_car'],c['power']['services_battery_low_case_kwh_per_car'])):
         m=mass(c,ferrite,battery);masses.append(dict(ferrite_kg_car=ferrite,battery_kwh_car=battery,**m))
         for scenario in costs['scenario_multipliers']:cost_cases.append(cost_case(c,costs,scenario,ferrite,battery))
         for load_case,hot in itertools.product(('aw2_kg','aw3_kg'),(False,True)):
             energies.append(dict(ferrite_kg_car=ferrite,battery_kwh_car=battery,load=load_case,**cycle(c,m[load_case],hot=hot)))
-    targets=[cost_case(c,costs,'base',c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'],hardware_target=h) for h in (90000,60000)]
+    targets=[cost_case(c,costs,'base',c['mass']['ferrite_base'],c['power']['services_battery_kwh_per_car'],hardware_target=h) for h in (90000,60000)]
     heaviest=max(m['aw3_kg'] for m in masses)
     adverse=[cycle(c,heaviest,hot=True,speed_kmh=speed,regen=regen) for speed,regen in ((80,False),(90,True),(90,False))]
-    g=9.81;grade=c['power']['minimum_service_grade_case_percent']/100
-    from scipy.optimize import brentq
-    force=heaviest*g*math.sin(math.atan(grade));p=c['power']
-    grade_speed=brentq(lambda v:(force+p['passive_rail_drag_study_n_per_car']+.5*p['air_density_study_kg_m3']*p['drag_area_study_m2_per_car']*v*v)*v-
-                      (p['total_motoring_dc_cap_per_car_kw']-p['hot_hotel_kw_per_car'])*1000*p['hot_drive_efficiency'],0,100)*3.6
+    from . import station,station_structure,specification
+    station_study=station.evaluate(c)
+    grade_speed=None
     boxes=[civil_case(c,w,d,l) for w,d,l in itertools.product((.8,1.,1.2),(1.4,1.6,1.8),c['civil']['span_sensitivity_m'])]
     gates=[dict(id='G'+str(i),name=name,state='open',accepted=False) for i,name in enumerate(c['validation']['gate_order'])]
     manufacturing=[dict(id=k,local_operation_candidate=True,cost_usd=None,imported_input_usd=None,
@@ -327,7 +413,7 @@ def build():
     catalogue_path=Path(__file__).parent/'city-index.json'
     import json
     catalogue=json.loads(catalogue_path.read_text()) if catalogue_path.is_file() else None
-    return dict(schema='osr-primary-infrastructure-study/1',version=RELEASE_VERSION,family=policy['development']['primary_family'],
+    return dict(schema='osr-primary-infrastructure-study/2',version=RELEASE_VERSION,family=policy['development']['primary_family'],
                 architecture=policy['development']['primary_family'],configuration_revision=configuration.selected().revision,
                 publication_role='primary-provisional-design',city='Baghdad six-car reference',
                 formation=dict(baghdad_cars=6,nominal_body_length_m=102.),
@@ -336,6 +422,8 @@ def build():
                 primary_development=True,controller_state='migration and numerical studies implemented; physical design/acceptance closure remains open',
                 policy=policy,inputs=c,process_cost_inputs=costs,mass_variants=masses,cost_cases=cost_cases,
                 local_manufacture_cost_targets=targets,energy_cases=energies,adverse_energy_cases=adverse,
+                station_powered=station_study,station_structure=station_structure.study(),
+                source_specification=specification.register(),
                 hot_5percent_grade_steady_speed_kmh=grade_speed,geometry=geometry(c),civil_section_candidates=boxes,
                 localisation=dict(local_fraction=None,method='(finished value - imported inputs) / finished value; origin/cost evidence required',
                                   operations=manufacturing,bought_inputs=c['industrialisation']['bought_input_categories']),

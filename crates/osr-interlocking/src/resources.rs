@@ -10,6 +10,9 @@ pub enum Phase {
     ReleasePending,
     Blocked,
     Unknown,
+    /// Appended to preserve existing serialized variant ordinals. A launch has
+    /// crossed its commit point; expiry cannot undo its protected arrival.
+    Committed,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
@@ -120,6 +123,59 @@ pub struct ResourceController {
 }
 
 impl ResourceController {
+    /// Atomically fence an already reserved station bundle against lease expiry.
+    /// This does not command motion or establish physical braking capability.
+    pub(crate) fn commit_station_bundle(
+        &mut self,
+        grants: &[Grant; 3],
+        now_ns: u64,
+    ) -> Result<(), ResourceError> {
+        self.tick(now_ns)?;
+        for grant in grants {
+            let i = self.index(grant.resource)?;
+            if !self.owns(*grant, i)
+                || now_ns >= grant.valid_until_ns
+                || !matches!(self.records[i].phase, Phase::Reserved | Phase::Occupied)
+            {
+                return Err(ResourceError::Phase);
+            }
+        }
+        for grant in grants {
+            let i = self.index(grant.resource)?;
+            self.records[i].phase = Phase::Committed;
+        }
+        Ok(())
+    }
+
+    /// The caller has checked full-consist identity and every bundle proof.
+    /// Work on a copy so one bad proof cannot partially clear the arrival path.
+    pub(crate) fn clear_station_bundle(
+        &mut self,
+        grants: &[Grant; 3],
+        proofs: &[ProtectionProof; 3],
+        now_ns: u64,
+    ) -> Result<(), ResourceError> {
+        let mut proposed = self.clone();
+        proposed.tick(now_ns)?;
+        for (grant, proof) in grants.iter().zip(proofs) {
+            let i = proposed.index(grant.resource)?;
+            let record = proposed.records[i];
+            if record.grant != Some(*grant)
+                || proof.resource != grant.resource
+                || proof.cleared_owner != Some(grant.owner)
+                || !proof.occupancy_integrity_proved
+                || record.phase == Phase::Blocked
+                || (record.phase == Phase::Unknown && now_ns < proposed.quarantine_until_ns)
+            {
+                return Err(ResourceError::Proof);
+            }
+            proposed.records[i].phase = Phase::ReleasePending;
+            proposed.verified_clear(*proof, now_ns)?;
+        }
+        *self = proposed;
+        Ok(())
+    }
+
     pub fn boot(
         configuration: ConfigurationId,
         controller: ControllerId,

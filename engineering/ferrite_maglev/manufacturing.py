@@ -38,9 +38,9 @@ def vehicle(c,costs,ferrite,battery,*,cars=None,hardware_target=None,scenario='b
     r=costs['rates'];factor=costs['scenario_multipliers'][scenario]
     # Finished body systems and mass-derived ferrite are distinct scopes. The
     # magnetic integration row excludes raw ferrite and the protected battery.
-    specs=[('body-and-passenger-systems',cars,'car',r['body_and_passenger_systems_per_car'],'cut/form/join frame; doors, glazing, interior and acceptance checks',True),
+    specs=[('body-and-passenger-systems',cars,'car',r['body_and_passenger_systems_per_car'],'GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks',True),
         ('ferrite',cars*ferrite,'kg',r['ferrite_per_kg'],'qualify stock blocks; retain in replaceable cartridges',True),
-        ('magnetic-modules',cars,'car',r['magnetic_equipment_per_car'],'machine carriers/cores; wind, impregnate, assemble and calibrate',True),
+        ('magnetic-modules',cars,'car',r['magnetic_equipment_per_car'],'support/guidance carriers/cores/coils/drives; station main traction excluded',True),
         ('battery-pack',cars*battery,'kWh',r['battery_pack_per_kwh'],'cell receipt; protected pack integration and electrical test',True),
         ('capture-and-brake',cars,'car',r['capture_brake_per_car'],'fabricate and verify capture, landing and emergency brake hardware',True),
         ('hvac-and-auxiliary',cars,'car',r['hvac_auxiliary_per_car'],'install cooling, ventilation and low-voltage services',True),
@@ -57,6 +57,7 @@ def vehicle(c,costs,ferrite,battery,*,cars=None,hardware_target=None,scenario='b
     return dict(cars=cars,rows=rows,priced_scope_subtotal_usd=subtotal,
         integration_reserve_usd=reserve,total_allowance_usd=subtotal+reserve,
         excluded=['complete evacuation devices and lifetime maintenance','development and qualification','factory CAPEX','warranty and initial spares','tax/duty/freight and finance'],
+        architecture='station-lsm-and-coast',onboard_main_traction_included=False,station_main_traction_included=False,
         complete_factory_gate_price_usd=None,local_value_added_fraction=None,costs_are_quotes=False)
 
 
@@ -67,11 +68,13 @@ def civil(c,costs,*,area=None,span=None,walkway_area=.12,scenario='base'):
     area=c['civil']['narrow_box_screen']['derived_concrete_area_m2'] if area is None else positive(area,'beam area')
     span=c['civil']['reference_span_m'] if span is None else positive(span,'span')
     positive(walkway_area,'walkway area',zero=True)
-    concrete=(area+walkway_area)*2000
+    box=c['civil']['narrow_box_screen'];infill_each=.4
+    infill_area=2*infill_each*max(0,(box['outer_width_m']-2*box['web_thickness_m'])*(box['outer_depth_m']-2*box['flange_thickness_m']))/span
+    concrete=(area+infill_area+walkway_area)*2000
     supports=1000/span
     rail_mass=geometry.guideway_quantities(span)['magnetic_rail_line_mass_kg_m']*2000
     reinforcement=concrete*r['reinforcement_kg_per_m3']
-    # Support/foundation units are explicit site-independent allowances, not
+    # Itemised target packages retain explicit site/connection uncertainty, not
     # a ground design; no reduction proportional to train mass is granted.
     specs=[('structural_supply',concrete,'m3',r['concrete_cast_cure_per_m3'],'batch, cast, cure and demould beam/walkway concrete'),
         ('reinforcement',reinforcement,'kg',r['reinforcement_fabricated_per_kg'],'cut/bend cage; position prestressing and verify cover'),
@@ -87,11 +90,16 @@ def civil(c,costs,*,area=None,span=None,walkway_area=.12,scenario='base'):
         ('relocation',1,'route-km',r['utility_allowance_per_km'],'provisional ordinary utility-diversion allowance; major diversions unpriced'),
         ('traffic',1,'route-km',r['traffic_allowance_per_km'],'maintain road and pedestrian access during construction')]
     rows=[row(i,q,u,p*factor,process,local_operation=True) for i,q,u,p,process in specs]
-    return dict(rows=rows,total_allowance_usd_dual_km=sum(x['amount_usd'] for x in rows),
+    from . import station_structure
+    dimensions=station_structure.civil(c,span=span)
+    support_components=[dict(id=i,quantity=q,unit=u,amount_usd=amount*factor,unit_rate_usd=(amount/q)*factor,rate_is_target=True,accepted=False) for i,q,u,amount in [('foundation-excavation',1,'favourable ordinary-site package',10500.),('column',dimensions['supports']['hollow_column_m3'],'m3',3500.),('cap',dimensions['supports']['cap_m3'],'m3',2800.),('connections-bearings-grout',1,'package',1800.),('support-transport-erection',1,'package',2500.),('local-inspection-handover',1,'package',900.)]]
+    return dict(support_components_per_unit=support_components,support_total_usd=sum(x['amount_usd'] for x in support_components),
+        support_geometry=dimensions['supports'],foundation_families=dimensions['foundation_families'],qualified_foundation_selection=None,
+        end_infill_concrete_m3_dual_km=infill_area*2000,rows=rows,total_allowance_usd_dual_km=sum(x['amount_usd'] for x in rows),
         quantities=dict(concrete_m3_dual_km=concrete,reinforcement_kg_dual_km=reinforcement,
             reaction_steel_kg_dual_km=rail_mass,shared_supports_per_route_km=supports,beam_lifts_per_route_km=2*supports),
         reinforcement_basis='unqualified intensity allowance; no rebar/prestress schedule',
-        foundation_basis='unit allowance only; Baghdad/open-data estimates cannot qualify ground',
+        foundation_basis='itemised favourable ordinary-site procurement targets; support unit rates include unsized reinforcing/joint/process allowances; ground families, actual density and quotations remain unqualified',
         complete_installed_price_usd=None,costs_are_quotes=False)
 
 
@@ -100,15 +108,20 @@ def city_programme(c,costs,lines,route_km):
     stations=sum(len(line['stations']) for line in lines)
     # Records include interchange platforms on separate lines. Count platform
     # packages per line, never infer unique buildings from an unspecified key.
+    from . import station
+    station_cases=station.station_costs()['sensitivity_cases']
+    station_costs={name:station_cases[index]['topologies']['B-two-fixed-groups']['direct_subtotal_usd'] for index,name in enumerate(('low','base','high'))}
     totals=[]
     for scenario in costs['scenario_multipliers']:
-        fleet=[vehicle(c,costs,c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'],
+        fleet=[vehicle(c,costs,c['mass']['ferrite_base'],c['power']['services_battery_kwh_per_car'],
             cars=line['formation']['cars'],scenario=scenario) for line in lines]
         fleet_cost=sum(v['total_allowance_usd']*line['fleet']['total'] for v,line in zip(fleet,lines))
         guideway=civil(c,costs,scenario=scenario)
-        totals.append(dict(scenario=scenario,repeat_fleet_allowance_usd=fleet_cost,
+        station_electrical=station_costs[scenario]*stations
+        totals.append(dict(scenario=scenario,repeat_fleet_allowance_usd=fleet_cost,station_electrical_allowance_usd=station_electrical,
+            station_electrical_unit_allowance_usd=station_costs[scenario],station_electrical_packages=stations,
             ordinary_elevated_allowance_usd=guideway['total_allowance_usd_dual_km']*route_km,
-            priced_scope_subtotal_usd=fleet_cost+guideway['total_allowance_usd_dual_km']*route_km,
+            priced_scope_subtotal_usd=fleet_cost+guideway['total_allowance_usd_dual_km']*route_km+station_electrical,
             complete_city_programme_usd=None,epc_included=False,nre_included=False,supplier_quotes=False,
             ordinary_viaduct_proposal_km=route_km,ordinary_viaduct_unit_allowance_usd_dual_km=guideway['total_allowance_usd_dual_km'],
             fleet_scaling_basis='Each formation priced by car quantities, coupling interfaces and one shared control/protection set per train.',
@@ -121,9 +134,11 @@ def city_programme(c,costs,lines,route_km):
         scenarios=totals,ordinary_route_km=route_km,ordinary_civil_bill_per_dual_km=base,
         quantities={**{key:value*route_km for key,value in q.items()},'platform_packages':stations,
             'cars':sum(l['formation']['cars']*l['fleet']['total'] for l in lines),
+            'station_electrical_two_direction_packages':stations,
             'station_charger_connections':sum(len(l['stations'])*l['formation']['cars'] for l in lines)},
+        station_electrical_cost_basis=station.station_costs(),station_electrical_rating_qualified=False,
         process_routes=processes,equipment_candidates=deepcopy(costs['equipment_candidates']),
         equipment_capex_usd=None,production_duration_days=None,local_value_added_fraction=None,
         sizing_method='Select annual route-km/car targets; convert BoQ to daily demand; size mould/curing, winding, test, transport and crane resources after measured cycle times and yields.',
-        unpriced=['station structures, accessible exits and full MEP','charging/grid/storage/PV','depot/recovery/transfer equipment','special crossings and terminal loops','land/air rights and major utility works','surveys/qualified design/independent assurance','factory CAPEX and first articles','evacuation equipment and lifetime maintenance','programme management/EPC/finance/tax/duty/spares/OPEX'],
+        unpriced=['station structures, accessible exits and full MEP','actual45-second services charger upgrade and ratings,external utility reinforcement,storage/PV','depot/recovery/transfer equipment','special crossings and terminal loops','land/air rights and major utility works','surveys/qualified design/independent assurance','factory CAPEX and first articles','evacuation equipment and lifetime maintenance','programme management/EPC/finance/tax/duty/spares/OPEX'],
         complete_city_programme_usd=None,design_complete=False,manufacturing_release=False,physical_release=False)

@@ -12,12 +12,12 @@ from pathlib import Path
 import random
 import tomllib
 
-from . import model,optimisation,coupled,geometry
+from . import model,optimisation,coupled,geometry,station
 
 INPUT=Path(__file__).with_suffix('.toml')
 OUTPUT=model.ROOT/'docs/design-engine/ferrite-maglev/iterative'
 STATE=model.ROOT/'build/maglev-iteration'
-NAMES=('width_m','depth_m','web_m','flange_m','span_m','body_ratio','equipment_ratio','proportional_scale','damping_scale')
+NAMES=('width_m','depth_m','web_m','flange_m','span_m','body_ratio','equipment_ratio','proportional_scale','damping_scale','runtime_s','winding_length_m','acceleration_m_s2')
 FILES={'result.json.gz','recommendation.json','progress.svg','README.md'}
 
 
@@ -95,16 +95,23 @@ def protection(executable,mass,p,d):
 def assess(vector,executable,c,costs,a,*,confirmation=False):
     values=dict(zip(NAMES,vector));profile=dict(id='adaptive-'+identity(vector)[:12],
         structure_ratio=values['body_ratio'],magnetic_equipment_ratio=values['equipment_ratio'],hvac_ratio=1.,auxiliary_ratio=1.,
-        hardware_target='retain-process-rates',unqualified_change_count=sum(v<1 for v in vector[5:7]))
-    target,vehicle=optimisation.vehicle(c,costs,profile)
+        hardware_target='retain-process-rates',unqualified_change_count=sum(v!=1 for v in vector[5:7]))
+    from copy import deepcopy
+    candidate=deepcopy(c);candidate['vehicle']['runtime_reference_seconds']=vector[9];candidate['vehicle']['maximum_initial_acceleration_m_s2']=vector[11]
+    target,vehicle=optimisation.vehicle(candidate,costs,profile)
     civil=optimisation.civil(target,costs,vehicle,*vector[:5],optimisation.load())
     base=dict(candidate_id=identity(vector),vector=vector,parameters=values,
         phase='confirmation' if confirmation else 'training',vehicle=vehicle,civil=civil,
-        manufacturing_screen=dict(minimum_web_m=.12,minimum_flange_m=.15,
+        manufacturing_screen=dict(minimum_web_m=.10,minimum_flange_m=.14,
             basis='project search bounds only; cover, prestress, connections and strength remain unqualified'),
-        protection=None,cases=[],screen_pass=False,**model.FLAGS)
+        protection=None,cases=[],station=None,screen_pass=False,**model.FLAGS)
     if not civil['numerical_screen_pass']:
         base['reason']='gross stiffness or bare lift screen rejected';return base
+    station_result=station.evaluate(target,car_mass_kg=vehicle['mass']['aw3_kg']+(500 if confirmation else 0),runtime_s=vector[9],winding_length_m=vector[10],acceleration=vector[11],headway_s=200.)
+    base['station']=station_result
+    reserve=station_result['magnetic_overlap'].get('minimum_force_reserve_fraction',{})
+    if not station_result['study_pass'] or not reserve or min(reserve.values())<.20:
+        base['reason']='station launch/receive/headway/services or20%conditional overlap reserve failed';return base
     section=civil['section'];line=geometry.guideway_quantities(*vector[4:5],width=vector[0],depth=vector[1],web=vector[2],flange=vector[3])['total_line_mass_kg_m']
     line+=optimisation.load()['civil']['reference_walkway_concrete_area_m2_per_direction']*geometry.MATERIALS['concrete']
     guard=protection(executable,vehicle['mass']['aw2_kg'],vector[7],vector[8]);base['protection']=guard
@@ -125,7 +132,7 @@ def assess(vector,executable,c,costs,a,*,confirmation=False):
             result=coupled.cosimulate(executable,duration_s=a['confirmation_duration_s' if confirmation else 'training_duration_s'],
                 car_mass_kg=mass,assumptions=beam,initial_down_error_m=error,disturbance_n=pulse,
                 proportional_scale=vector[7],damping_scale=vector[8],
-                inertia_roll_kg_m2=20000*mass/27750,inertia_pitch_kg_m2=600000*mass/27750,record_trace=True)
+                inertia_roll_kg_m2=20000*mass/23200,inertia_pitch_kg_m2=600000*mass/23200,record_trace=True)
             case=dict(name=name,added_unqualified_equipment_mass_kg=added,result=result,passed=case_pass(result,a))
         except RuntimeError as exc:
             if 'rejected frame' not in str(exc):raise
@@ -135,13 +142,18 @@ def assess(vector,executable,c,costs,a,*,confirmation=False):
     base['screen_pass']=True
     gaps=[min(case['result']['minimum_relative_gap_m']-a['minimum_gap_m'],a['maximum_gap_m']-case['result']['maximum_relative_gap_m']) for case in base['cases']]
     heave=max(abs(case['result']['final_fitted_relative_heave_error_m']) for case in base['cases'])
-    terms=[civil['indexed_allowance_usd_dual_km']/5e6,vehicle['mass']['tare_kg']/18750,
-        vehicle['matched_duty']['hot_aw3_no_regen_cycle_kwh_per_car']/20,heave/a['maximum_final_heave_error_m'],
-        sum(1-v for v in vector[5:7])*10]
+    station_cost=station_result['costs']['sensitivity_cases'][1]['topologies']['B-two-fixed-groups']['direct_subtotal_usd']
+    combined=civil['indexed_allowance_usd_dual_km']+station_cost
+    total_energy=station_result['trajectory']['station_positive_input_kwh']/6+vehicle['matched_duty']['hot_aw3_no_regen_cycle_kwh_per_car']
+    terms=[combined/6e6,vehicle['mass']['tare_kg']/14200,
+        total_energy/5,heave/a['maximum_final_heave_error_m'],
+        sum(abs(1-v) for v in vector[5:7])*10]
     base['metrics']=dict(score=sum(w*v for w,v in zip(a['weights'],terms)),objective_terms=terms,
         minimum_gap_margin_m=min(gaps),maximum_final_heave_error_m=heave,
         tare_kg=vehicle['mass']['tare_kg'],ordinary_civil_allowance_usd_dual_km=civil['indexed_allowance_usd_dual_km'],
-        hot_cycle_kwh_per_car=vehicle['matched_duty']['hot_aw3_no_regen_cycle_kwh_per_car'])
+        hot_cycle_kwh_per_car=total_energy,station_electrical_allowance_usd_per_site=station_cost,
+        priced_civil_and_one_station_scope_usd_per_km=combined,station_force_reserve_fraction=min(reserve.values()),
+        headway_scope='200-second research schedule; costs assume one two-direction station perroute-km; site/fleet/wholeprogrammeunpriced')
     return base
 
 
@@ -156,8 +168,8 @@ def frontier(rows):
 def search(a,evaluate,confirm,*,checkpoint=None):
     """Deterministic adaptive search; evaluators are injected only for unit tests."""
     rng=random.Random(a['seed']);seen={};history=[];best=None;stagnation=0
-    seeds=[[.8,1.6,.15,.18,25,1,1,1,1],[.8,1.9,.15,.18,25,1,1,1,1],
-        [.9,2.,.15,.18,25,.95,1,.9,1.1],[.8,1.9,.14,.17,22.5,1,.98,1.1,1.2]]
+    seeds=[[.8,1.8,.10,.15,25,1,1,1,1,90,212.5,.8],[.8,1.9,.10,.15,25,1,1,1,1,100,200,.8],
+        [.8,1.8,.12,.16,25,1,1,.9,1.1,90,225,1.0],[.65,1.9,.10,.14,25,.85,1,1.1,1.2,100,212.5,.8]]
     population=[quantise(v,a) for v in seeds[:a['population']]]
     ancestry={identity(v):dict(method='declared-seed',parents=[]) for v in population}
     while len(population)<a['population']:
@@ -271,7 +283,7 @@ def publish(output=OUTPUT):
         beam_only_option='held: full onboard evacuation mass, lifetime cost and route acceptance remain unknown',**model.FLAGS)
     rows=['# Adaptive mechanical, civil and software design study','','![Observed generation progress](progress.svg)','',
         f"{len(result['candidates'])} exact candidates evaluated over {len(result['history'])} generations; {sum(r['screen_pass'] for r in result['candidates'])} passed training screens. Termination: {result['termination_reason']}.",'',
-        'The generator uses the preceding results to create differential and local mutations of beam sections/spans, body and equipment mass allocations, and actual Rust controller gains. Each viable proposal runs passenger-load and compliant-guideway scenarios plus replay/invalid-gap protection controls. Shortlisted candidates face separate three-second holdout scenarios; failed confirmation disqualifies that revision.','',
+        'The generator uses the preceding results to create differential and local mutations of beam sections/spans, GFRP body/equipment allocations, actual Rust controller gains, station runtime, winding length and acceleration. Each proposal first checks six-car station launch/coast/receive, correctedservicescharging, headway and20%conditional overlap reserve. Each viable proposal runs passenger-load and compliant-guideway scenarios plus replay/invalid-gap protection controls. Shortlisted candidates face separate three-second holdout scenarios; failed confirmation disqualifies that revision.','',
         'The selected study is identified in [recommendation.json](recommendation.json). [Full candidate, ancestry, scenario and confirmation evidence](result.json.gz) is source-bound by [manifest.json](manifest.json). Cache receipts permit exact-source restart; changed sources or binaries create another epoch.','',
         'Manufacturing screens are declared project bounds and bare-lift checks. Body mass reductions are unqualified allocations, with no automatic procurement or local-content credit. Required ferrite, batteries, passenger equipment, capture and reserves remain in the comparison. Inertias are assumed to scale with mass; they are not recovered from a complete body model.','',
         'The comparison retains fallback walkway scope. Removing it remains conditional on qualified onboard evacuation and route acceptance. Candidate beam geometry is not automatically promoted into city defaults.','',
@@ -313,6 +325,8 @@ def verify(output=OUTPUT):
         if any(row.get(k) is not False for k in model.FLAGS):raise ValueError('candidate release flag differs')
         if row['parameters']!=dict(zip(NAMES,row['vector'])):raise ValueError('candidate parameters differ')
         if row['screen_pass']:
+            sr=row.get('station');reserve=sr.get('magnetic_overlap',{}).get('minimum_force_reserve_fraction',{}) if sr else {}
+            if not sr or not sr.get('study_pass') or not reserve or min(reserve.values())<.20:raise ValueError('passing candidate lacks mandatory station evidence')
             expected=['aw2-normal','aw3-load','aw3-compliant'] if row['phase']=='training' else ['aw2-reverse-holdout','aw3-adverse-holdout']
             if (row['phase'] not in {'training','confirmation'} or [c['name'] for c in row['cases']]!=expected
                     or not row['protection'] or any(row['protection'].get(k) is not True for k in ('passed','gravity_equilibrium','replayed_frame_rejected','excess_gap_rejected'))

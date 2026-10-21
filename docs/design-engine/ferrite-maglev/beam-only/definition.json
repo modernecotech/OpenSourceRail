@@ -6,6 +6,8 @@
       "parts": [
         "beam--1/top-slab",
         "beam--1/bottom-slab",
+        "beam--1/end-infill--1",
+        "beam--1/end-infill-1",
         "beam--1/web--1",
         "beam--1/lift-rail--1-0",
         "beam--1/lift-rail--1-1",
@@ -30,6 +32,8 @@
         "beam--1/lift-rail-1-9",
         "beam-1/top-slab",
         "beam-1/bottom-slab",
+        "beam-1/end-infill--1",
+        "beam-1/end-infill-1",
         "beam-1/web--1",
         "beam-1/lift-rail--1-0",
         "beam-1/lift-rail--1-1",
@@ -58,9 +62,13 @@
       "id": "support-ground-assumptions",
       "parts": [
         "support--12.5/cap",
+        "support--12.5/cap-widening--1",
+        "support--12.5/cap-widening-1",
         "support--12.5/column",
         "support--12.5/foundation-envelope",
         "support-12.5/cap",
+        "support-12.5/cap-widening--1",
+        "support-12.5/cap-widening-1",
         "support-12.5/column",
         "support-12.5/foundation-envelope"
       ]
@@ -88,83 +96,131 @@
   "manufacturing_release": false,
   "material_density_assumptions_kg_m3": {
     "aluminium": 2700.0,
+    "bond-surface": 1000.0,
     "concrete": 2500.0,
+    "core-100": 100.0,
+    "core-80": 80.0,
     "ferrite": 5000.0,
+    "gfrp": 1900.0,
     "steel": 7850.0,
     "winding-envelope": 5500.0
   },
   "modelled_cg_m": [
-    -0.00016904635164217489,
-    8.193429832525934e-18,
-    -5.63600762963658
+    -0.0003312988421881694,
+    -1.4050374745502223e-17,
+    -5.4978596891044855
   ],
-  "modelled_material_mass_kg": 444011.712,
+  "modelled_material_mass_kg": 226558.4736253571,
   "parts": [
     {
       "at_m": [
         -12.5,
         -2.3,
-        -0.18
+        -0.15
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "beam--1/top-slab",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 9000.0,
+      "modelled_mass_kg": 7500.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "concrete",
       "size_m": [
         25.0,
         0.8,
-        0.18
+        0.15
       ],
-      "volume_m3": 3.5999999999999996
+      "volume_m3": 3.0
     },
     {
       "at_m": [
         -12.5,
         -2.3,
-        -1.6
+        -1.8
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "beam--1/bottom-slab",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 9000.0,
+      "modelled_mass_kg": 7500.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "concrete",
       "size_m": [
         25.0,
         0.8,
-        0.18
+        0.15
       ],
-      "volume_m3": 3.5999999999999996
+      "volume_m3": 3.0
+    },
+    {
+      "at_m": [
+        -12.5,
+        -2.1999999999999997,
+        -1.6500000000000001
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "id": "beam--1/end-infill--1",
+      "kind": "box",
+      "material": "concrete",
+      "modelled_mass_kg": 900.0000000000002,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "concrete",
+      "size_m": [
+        0.4,
+        0.6000000000000001,
+        1.5
+      ],
+      "volume_m3": 0.3600000000000001
+    },
+    {
+      "at_m": [
+        12.1,
+        -2.1999999999999997,
+        -1.6500000000000001
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "id": "beam--1/end-infill-1",
+      "kind": "box",
+      "material": "concrete",
+      "modelled_mass_kg": 900.0000000000002,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "concrete",
+      "size_m": [
+        0.4,
+        0.6000000000000001,
+        1.5
+      ],
+      "volume_m3": 0.3600000000000001
     },
     {
       "at_m": [
         -12.5,
         -2.3,
-        -1.4200000000000002
+        -1.6500000000000001
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "beam--1/web--1",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 11625.0,
+      "modelled_mass_kg": 9375.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "concrete",
       "size_m": [
         25.0,
-        0.15,
-        1.2400000000000002
+        0.1,
+        1.5
       ],
-      "volume_m3": 4.65
+      "volume_m3": 3.75
     },
     {
       "at_m": [
@@ -179,7 +235,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -201,7 +257,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -223,7 +279,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -245,7 +301,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -267,7 +323,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -289,7 +345,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -311,7 +367,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -333,7 +389,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -355,7 +411,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -377,7 +433,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -389,24 +445,24 @@
     {
       "at_m": [
         -12.5,
-        -1.65,
-        -1.4200000000000002
+        -1.6,
+        -1.6500000000000001
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "beam--1/web-1",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 11625.0,
+      "modelled_mass_kg": 9375.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "concrete",
       "size_m": [
         25.0,
-        0.15,
-        1.2400000000000002
+        0.1,
+        1.5
       ],
-      "volume_m3": 4.65
+      "volume_m3": 3.75
     },
     {
       "at_m": [
@@ -421,7 +477,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -443,7 +499,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -465,7 +521,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -487,7 +543,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -509,7 +565,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -531,7 +587,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -553,7 +609,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -575,7 +631,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -597,7 +653,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -619,7 +675,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -632,67 +688,111 @@
       "at_m": [
         -12.5,
         1.5,
-        -0.18
+        -0.15
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "beam-1/top-slab",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 9000.0,
+      "modelled_mass_kg": 7500.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "concrete",
       "size_m": [
         25.0,
         0.8,
-        0.18
+        0.15
       ],
-      "volume_m3": 3.5999999999999996
+      "volume_m3": 3.0
     },
     {
       "at_m": [
         -12.5,
         1.5,
-        -1.6
+        -1.8
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "beam-1/bottom-slab",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 9000.0,
+      "modelled_mass_kg": 7500.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "concrete",
       "size_m": [
         25.0,
         0.8,
-        0.18
+        0.15
       ],
-      "volume_m3": 3.5999999999999996
+      "volume_m3": 3.0
+    },
+    {
+      "at_m": [
+        -12.5,
+        1.6,
+        -1.6500000000000001
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "id": "beam-1/end-infill--1",
+      "kind": "box",
+      "material": "concrete",
+      "modelled_mass_kg": 900.0000000000002,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "concrete",
+      "size_m": [
+        0.4,
+        0.6000000000000001,
+        1.5
+      ],
+      "volume_m3": 0.3600000000000001
+    },
+    {
+      "at_m": [
+        12.1,
+        1.6,
+        -1.6500000000000001
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "id": "beam-1/end-infill-1",
+      "kind": "box",
+      "material": "concrete",
+      "modelled_mass_kg": 900.0000000000002,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "concrete",
+      "size_m": [
+        0.4,
+        0.6000000000000001,
+        1.5
+      ],
+      "volume_m3": 0.3600000000000001
     },
     {
       "at_m": [
         -12.5,
         1.5,
-        -1.4200000000000002
+        -1.6500000000000001
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "beam-1/web--1",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 11625.0,
+      "modelled_mass_kg": 9375.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "concrete",
       "size_m": [
         25.0,
-        0.15,
-        1.2400000000000002
+        0.1,
+        1.5
       ],
-      "volume_m3": 4.65
+      "volume_m3": 3.75
     },
     {
       "at_m": [
@@ -707,7 +807,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -729,7 +829,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -751,7 +851,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -773,7 +873,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -795,7 +895,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -817,7 +917,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -839,7 +939,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -861,7 +961,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -883,7 +983,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -905,7 +1005,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -917,24 +1017,24 @@
     {
       "at_m": [
         -12.5,
-        2.15,
-        -1.4200000000000002
+        2.1999999999999997,
+        -1.6500000000000001
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "beam-1/web-1",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 11625.0,
+      "modelled_mass_kg": 9375.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "concrete",
       "size_m": [
         25.0,
-        0.15,
-        1.2400000000000002
+        0.1,
+        1.5
       ],
-      "volume_m3": 4.65
+      "volume_m3": 3.75
     },
     {
       "at_m": [
@@ -949,7 +1049,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -971,7 +1071,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -993,7 +1093,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -1015,7 +1115,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -1037,7 +1137,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -1059,7 +1159,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -1081,7 +1181,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -1103,7 +1203,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -1125,7 +1225,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -1147,7 +1247,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -1158,135 +1258,243 @@
     },
     {
       "at_m": [
-        -13.75,
-        -3.5,
-        -2.8
+        -13.0,
+        -2.5,
+        -2.7
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "support--12.5/cap",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 52500.0,
+      "modelled_mass_kg": 11250.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
-      "role": "concrete",
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "cap",
       "size_m": [
-        2.5,
-        7,
-        1.2
+        1.0,
+        5.0,
+        0.9
       ],
-      "volume_m3": 21.0
+      "volume_m3": 4.5
     },
     {
       "at_m": [
-        -13.25,
-        -1,
-        -10.8
+        -13.5,
+        -0.5,
+        -2.7
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
-      "id": "support--12.5/column",
+      "id": "support--12.5/cap-widening--1",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 60000.0,
+      "modelled_mass_kg": 1125.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
-      "role": "concrete",
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "cap",
       "size_m": [
-        1.5,
-        2,
+        0.5,
+        1.0,
+        0.9
+      ],
+      "volume_m3": 0.45
+    },
+    {
+      "at_m": [
+        -12.0,
+        -0.5,
+        -2.7
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "id": "support--12.5/cap-widening-1",
+      "kind": "box",
+      "material": "concrete",
+      "modelled_mass_kg": 1125.0,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "cap",
+      "size_m": [
+        0.5,
+        1.0,
+        0.9
+      ],
+      "volume_m3": 0.45
+    },
+    {
+      "at_m": [
+        -13.175,
+        -0.675,
+        -10.7
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "holes": [
+        {
+          "axis": "z",
+          "diameter_m": 0.95,
+          "length_m": 7.0,
+          "start_m": 0.5,
+          "x_m": 0.675,
+          "y_m": 0.675
+        }
+      ],
+      "id": "support--12.5/column",
+      "kind": "cylinder",
+      "material": "concrete",
+      "modelled_mass_kg": 16223.38081267854,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "column",
+      "size_m": [
+        1.35,
+        1.35,
         8.0
       ],
-      "volume_m3": 24.0
+      "volume_m3": 6.489352325071416
     },
     {
       "at_m": [
         -14.75,
         -2.25,
-        -12.0
+        -11.5
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "support--12.5/foundation-envelope",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 60750.0,
+      "modelled_mass_kg": 40500.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ground-assumption",
       "size_m": [
         4.5,
         4.5,
-        1.2
+        0.8
       ],
-      "volume_m3": 24.3
+      "volume_m3": 16.2
     },
     {
       "at_m": [
-        11.25,
-        -3.5,
-        -2.8
+        12.0,
+        -2.5,
+        -2.7
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "support-12.5/cap",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 52500.0,
+      "modelled_mass_kg": 11250.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
-      "role": "concrete",
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "cap",
       "size_m": [
-        2.5,
-        7,
-        1.2
+        1.0,
+        5.0,
+        0.9
       ],
-      "volume_m3": 21.0
+      "volume_m3": 4.5
     },
     {
       "at_m": [
-        11.75,
-        -1,
-        -10.8
+        11.5,
+        -0.5,
+        -2.7
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
-      "id": "support-12.5/column",
+      "id": "support-12.5/cap-widening--1",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 60000.0,
+      "modelled_mass_kg": 1125.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
-      "role": "concrete",
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "cap",
       "size_m": [
-        1.5,
-        2,
+        0.5,
+        1.0,
+        0.9
+      ],
+      "volume_m3": 0.45
+    },
+    {
+      "at_m": [
+        13.0,
+        -0.5,
+        -2.7
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "id": "support-12.5/cap-widening-1",
+      "kind": "box",
+      "material": "concrete",
+      "modelled_mass_kg": 1125.0,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "cap",
+      "size_m": [
+        0.5,
+        1.0,
+        0.9
+      ],
+      "volume_m3": 0.45
+    },
+    {
+      "at_m": [
+        11.825,
+        -0.675,
+        -10.7
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "holes": [
+        {
+          "axis": "z",
+          "diameter_m": 0.95,
+          "length_m": 7.0,
+          "start_m": 0.5,
+          "x_m": 0.675,
+          "y_m": 0.675
+        }
+      ],
+      "id": "support-12.5/column",
+      "kind": "cylinder",
+      "material": "concrete",
+      "modelled_mass_kg": 16223.38081267854,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "column",
+      "size_m": [
+        1.35,
+        1.35,
         8.0
       ],
-      "volume_m3": 24.0
+      "volume_m3": 6.489352325071416
     },
     {
       "at_m": [
         10.25,
         -2.25,
-        -12.0
+        -11.5
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "support-12.5/foundation-envelope",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 60750.0,
+      "modelled_mass_kg": 40500.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ground-assumption",
       "size_m": [
         4.5,
         4.5,
-        1.2
+        0.8
       ],
-      "volume_m3": 24.3
+      "volume_m3": 16.2
     }
   ],
   "physical_release": false,

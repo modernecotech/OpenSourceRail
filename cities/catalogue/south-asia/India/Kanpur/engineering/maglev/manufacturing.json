@@ -52,6 +52,16 @@
       "selection": "integration alternative; lower priority than evidenced UK-made equipment",
       "source": "https://conspare.com/",
       "supplier": "ConSpare"
+    },
+    {
+      "checked": "2026-10-21",
+      "manufacture": "UK rail composite manufacturing capability; exact laminate/core/insert origin schedule to confirm",
+      "model": "Permaglass sandwich panels and composite manufacturing capability; final engineered layup unspecified",
+      "price_usd": null,
+      "process": "rail composite panel manufacture",
+      "selection": "capability reference, not a complete body, configured production line or qualified OSR part",
+      "source": "https://www.permali.co.uk/rail-composites/",
+      "supplier": "Permali"
     }
   ],
   "equipment_capex_usd": null,
@@ -60,38 +70,59 @@
   "ordinary_civil_bill_per_dual_km": {
     "complete_installed_price_usd": null,
     "costs_are_quotes": false,
-    "foundation_basis": "unit allowance only; Baghdad/open-data estimates cannot qualify ground",
+    "end_infill_concrete_m3_dual_km": 57.600000000000016,
+    "foundation_basis": "itemised favourable ordinary-site procurement targets; support unit rates include unsized reinforcing/joint/process allowances; ground families, actual density and quotations remain unqualified",
+    "foundation_families": [
+      {
+        "id": "shallow",
+        "illustrative_concrete_m3": 16.2,
+        "quantity_basis": "bearing/settlement/overturning/socket study; no ground selected"
+      },
+      {
+        "id": "single-shaft",
+        "quantity_m3": null,
+        "shaft_depth_m": null,
+        "shaft_diameter_m": null
+      },
+      {
+        "cap_m3": null,
+        "id": "pile-group",
+        "pile_count": null,
+        "pile_length_m": null
+      }
+    ],
+    "qualified_foundation_selection": null,
     "quantities": {
       "beam_lifts_per_route_km": 80.0,
-      "concrete_m3_dual_km": 1560.0,
+      "concrete_m3_dual_km": 1377.6000000000001,
       "reaction_steel_kg_dual_km": 600468.48,
-      "reinforcement_kg_dual_km": 280800.0,
+      "reinforcement_kg_dual_km": 247968.00000000003,
       "shared_supports_per_route_km": 40.0
     },
     "reinforcement_basis": "unqualified intensity allowance; no rebar/prestress schedule",
     "rows": [
       {
         "accepted": false,
-        "amount_usd": 343200.0,
+        "amount_usd": 303072.00000000006,
         "id": "structural_supply",
         "imported_input_usd": null,
         "input_origin": "unverified",
         "local_operation_candidate": true,
         "process": "batch, cast, cure and demould beam/walkway concrete",
-        "quantity": 1560.0,
+        "quantity": 1377.6000000000001,
         "rate_evidence": "project planning assumption; unquoted",
         "unit": "m3",
         "unit_rate_usd": 220.0
       },
       {
         "accepted": false,
-        "amount_usd": 393120.0,
+        "amount_usd": 347155.2,
         "id": "reinforcement",
         "imported_input_usd": null,
         "input_origin": "unverified",
         "local_operation_candidate": true,
         "process": "cut/bend cage; position prestressing and verify cover",
-        "quantity": 280800.0,
+        "quantity": 247968.00000000003,
         "rate_evidence": "project planning assumption; unquoted",
         "unit": "kg",
         "unit_rate_usd": 1.4
@@ -111,7 +142,7 @@
       },
       {
         "accepted": false,
-        "amount_usd": 1400000.0,
+        "amount_usd": 880000.0,
         "id": "supports",
         "imported_input_usd": null,
         "input_origin": "unverified",
@@ -120,7 +151,7 @@
         "quantity": 40.0,
         "rate_evidence": "project planning assumption; unquoted",
         "unit": "shared support",
-        "unit_rate_usd": 35000.0
+        "unit_rate_usd": 22000.0
       },
       {
         "accepted": false,
@@ -137,7 +168,7 @@
       },
       {
         "accepted": false,
-        "amount_usd": 176000.0,
+        "amount_usd": 120000.0,
         "id": "transport",
         "imported_input_usd": null,
         "input_origin": "unverified",
@@ -146,11 +177,11 @@
         "quantity": 80.0,
         "rate_evidence": "project planning assumption; unquoted",
         "unit": "beam delivery",
-        "unit_rate_usd": 2200.0
+        "unit_rate_usd": 1500.0
       },
       {
         "accepted": false,
-        "amount_usd": 280000.0,
+        "amount_usd": 144000.0,
         "id": "erection",
         "imported_input_usd": null,
         "input_origin": "unverified",
@@ -159,11 +190,11 @@
         "quantity": 80.0,
         "rate_evidence": "project planning assumption; unquoted",
         "unit": "beam lift",
-        "unit_rate_usd": 3500.0
+        "unit_rate_usd": 1800.0
       },
       {
         "accepted": false,
-        "amount_usd": 100000.0,
+        "amount_usd": 40000.0,
         "id": "temporary",
         "imported_input_usd": null,
         "input_origin": "unverified",
@@ -172,11 +203,11 @@
         "quantity": 40.0,
         "rate_evidence": "project planning assumption; unquoted",
         "unit": "support position",
-        "unit_rate_usd": 2500.0
+        "unit_rate_usd": 1000.0
       },
       {
         "accepted": false,
-        "amount_usd": 90000.0,
+        "amount_usd": 60000.0,
         "id": "installation",
         "imported_input_usd": null,
         "input_origin": "unverified",
@@ -185,11 +216,11 @@
         "quantity": 2000,
         "rate_evidence": "project planning assumption; unquoted",
         "unit": "direction-m",
-        "unit_rate_usd": 45.0
+        "unit_rate_usd": 30.0
       },
       {
         "accepted": false,
-        "amount_usd": 60000.0,
+        "amount_usd": 40000.0,
         "id": "night",
         "imported_input_usd": null,
         "input_origin": "unverified",
@@ -198,7 +229,7 @@
         "quantity": 1,
         "rate_evidence": "project planning assumption; unquoted",
         "unit": "route-km",
-        "unit_rate_usd": 60000.0
+        "unit_rate_usd": 40000.0
       },
       {
         "accepted": false,
@@ -228,7 +259,7 @@
       },
       {
         "accepted": false,
-        "amount_usd": 85000.0,
+        "amount_usd": 50000.0,
         "id": "traffic",
         "imported_input_usd": null,
         "input_origin": "unverified",
@@ -237,14 +268,85 @@
         "quantity": 1,
         "rate_evidence": "project planning assumption; unquoted",
         "unit": "route-km",
-        "unit_rate_usd": 85000.0
+        "unit_rate_usd": 50000.0
       }
     ],
-    "total_allowance_usd_dual_km": 4448256.96
+    "support_components_per_unit": [
+      {
+        "accepted": false,
+        "amount_usd": 10500.0,
+        "id": "foundation-excavation",
+        "quantity": 1,
+        "rate_is_target": true,
+        "unit": "favourable ordinary-site package",
+        "unit_rate_usd": 10500.0
+      },
+      {
+        "accepted": false,
+        "amount_usd": 3500.0,
+        "id": "column",
+        "quantity": 6.489352325071419,
+        "rate_is_target": true,
+        "unit": "m3",
+        "unit_rate_usd": 539.3450416427313
+      },
+      {
+        "accepted": false,
+        "amount_usd": 2800.0,
+        "id": "cap",
+        "quantity": 5.4,
+        "rate_is_target": true,
+        "unit": "m3",
+        "unit_rate_usd": 518.5185185185185
+      },
+      {
+        "accepted": false,
+        "amount_usd": 1800.0,
+        "id": "connections-bearings-grout",
+        "quantity": 1,
+        "rate_is_target": true,
+        "unit": "package",
+        "unit_rate_usd": 1800.0
+      },
+      {
+        "accepted": false,
+        "amount_usd": 2500.0,
+        "id": "support-transport-erection",
+        "quantity": 1,
+        "rate_is_target": true,
+        "unit": "package",
+        "unit_rate_usd": 2500.0
+      },
+      {
+        "accepted": false,
+        "amount_usd": 900.0,
+        "id": "local-inspection-handover",
+        "quantity": 1,
+        "rate_is_target": true,
+        "unit": "package",
+        "unit_rate_usd": 900.0
+      }
+    ],
+    "support_geometry": {
+      "beam_centres_m": 3.8,
+      "beam_deliveries_per_route_km": 80.0,
+      "cap_kg": 13500.0,
+      "cap_m3": 5.4,
+      "column_height_m": 8.0,
+      "column_kg": 16223.380812678548,
+      "continuous_supports_per_route_km": 40.0,
+      "foundation_top_gravity_kn": 1892.2893193159061,
+      "hollow_column_m3": 6.489352325071419,
+      "isolated_integer_span_count": 40,
+      "isolated_supports_for_that_count": 41,
+      "superstructure_shared_gravity_kn": 1600.7029535435295
+    },
+    "support_total_usd": 22000.0,
+    "total_allowance_usd_dual_km": 3505164.16
   },
   "ordinary_route_km": 353.38909999999953,
   "physical_release": false,
-  "price_basis": "2026-10-20 USD project assumptions; budget sensitivities, no supplier or Iraqi market price validation",
+  "price_basis": "2026-10-21 USD unquoted design-to-cost sensitivities, not supplier or Iraqi market quotations",
   "process_routes": [
     {
       "acceptance_holds": [
@@ -309,19 +411,20 @@
       ],
       "id": "vehicle",
       "operations": [
-        "cut and form simple repeat panels/members",
-        "join on dimensional fixtures",
-        "inspect joints",
-        "install doors, glazing and interior",
-        "integrate batteries, HVAC and safety systems",
-        "weigh and survey finished car"
+        "prepare repeatable sandwich moulds and layup",
+        "infuse or light-RTM selected laminate/core",
+        "verify cure and bondline",
+        "fit sized hardpoints, doors, glazing and interior",
+        "install support/guidance coils,30kWh services pack and auxiliaries",
+        "weigh, inspect and test exact revision"
       ],
       "plant": [
-        "panel cutting/forming",
-        "joining fixtures",
-        "machining",
-        "electrical test",
-        "mass and dimensional metrology"
+        "reusable GFRP moulds",
+        "vacuum infusion/light RTM equipment",
+        "cure and bondline control",
+        "trimming/extraction",
+        "hardpoint fixtures",
+        "mass/dimensional/structural test"
       ],
       "production_instruction_released": false,
       "qualified": false
@@ -403,18 +506,47 @@
       ],
       "production_instruction_released": false,
       "qualified": false
+    },
+    {
+      "acceptance_holds": [
+        "force/current/voltage/thermal maps",
+        "independent receiving stopping",
+        "full-consist proof",
+        "supply and charging ratings"
+      ],
+      "id": "station-propulsion",
+      "operations": [
+        "manufacture paired2.5m stator cassettes",
+        "verify winding R/L,insulation and polarity",
+        "assemble two fixed groups per direction",
+        "integrate independent bridges,DCbus,resistor and services charging",
+        "calibrate phase sensors",
+        "replay launch/commit/fault protocol",
+        "low-energy rig and rated duty acceptance"
+      ],
+      "plant": [
+        "coil winder and impregnation",
+        "insulated power test",
+        "converter cabinets",
+        "brake thermal rig",
+        "calibrated phase/position test",
+        "hardware-in-loop plant"
+      ],
+      "production_instruction_released": false,
+      "qualified": false
     }
   ],
   "production_duration_days": null,
   "quantities": {
     "beam_lifts_per_route_km": 28271.12799999996,
-    "cars": 2268,
-    "concrete_m3_dual_km": 551286.9959999992,
+    "cars": 1098,
+    "concrete_m3_dual_km": 486828.8241599994,
     "platform_packages": 115,
     "reaction_steel_kg_dual_km": 212199015.7255677,
-    "reinforcement_kg_dual_km": 99231659.27999987,
+    "reinforcement_kg_dual_km": 87629188.3487999,
     "shared_supports_per_route_km": 14135.56399999998,
-    "station_charger_connections": 690
+    "station_charger_connections": 690,
+    "station_electrical_two_direction_packages": 115
   },
   "scenarios": [
     {
@@ -433,7 +565,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -459,7 +591,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -467,13 +599,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 121500.0,
+              "amount_usd": 16200.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 90.0
@@ -544,8 +676,8 @@
               "unit_rate_usd": 6.0
             }
           ],
-          "train_allowance_usd": 1011690.0,
-          "trainsets": 39
+          "train_allowance_usd": 885330.0,
+          "trainsets": 19
         },
         {
           "cars": 6,
@@ -557,7 +689,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -583,7 +715,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -591,13 +723,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 121500.0,
+              "amount_usd": 16200.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 90.0
@@ -668,8 +800,8 @@
               "unit_rate_usd": 6.0
             }
           ],
-          "train_allowance_usd": 1011690.0,
-          "trainsets": 41
+          "train_allowance_usd": 885330.0,
+          "trainsets": 17
         },
         {
           "cars": 6,
@@ -681,7 +813,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -707,7 +839,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -715,13 +847,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 121500.0,
+              "amount_usd": 16200.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 90.0
@@ -792,8 +924,8 @@
               "unit_rate_usd": 6.0
             }
           ],
-          "train_allowance_usd": 1011690.0,
-          "trainsets": 63
+          "train_allowance_usd": 885330.0,
+          "trainsets": 28
         },
         {
           "cars": 6,
@@ -805,7 +937,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -831,7 +963,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -839,13 +971,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 121500.0,
+              "amount_usd": 16200.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 90.0
@@ -916,8 +1048,8 @@
               "unit_rate_usd": 6.0
             }
           ],
-          "train_allowance_usd": 1011690.0,
-          "trainsets": 49
+          "train_allowance_usd": 885330.0,
+          "trainsets": 19
         },
         {
           "cars": 6,
@@ -929,7 +1061,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -955,7 +1087,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -963,13 +1095,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 121500.0,
+              "amount_usd": 16200.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 90.0
@@ -1040,8 +1172,8 @@
               "unit_rate_usd": 6.0
             }
           ],
-          "train_allowance_usd": 1011690.0,
-          "trainsets": 45
+          "train_allowance_usd": 885330.0,
+          "trainsets": 21
         },
         {
           "cars": 6,
@@ -1053,7 +1185,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1079,7 +1211,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1087,13 +1219,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 121500.0,
+              "amount_usd": 16200.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 90.0
@@ -1164,8 +1296,8 @@
               "unit_rate_usd": 6.0
             }
           ],
-          "train_allowance_usd": 1011690.0,
-          "trainsets": 56
+          "train_allowance_usd": 885330.0,
+          "trainsets": 22
         },
         {
           "cars": 6,
@@ -1177,7 +1309,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1203,7 +1335,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1211,13 +1343,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 121500.0,
+              "amount_usd": 16200.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 90.0
@@ -1288,8 +1420,8 @@
               "unit_rate_usd": 6.0
             }
           ],
-          "train_allowance_usd": 1011690.0,
-          "trainsets": 29
+          "train_allowance_usd": 885330.0,
+          "trainsets": 14
         },
         {
           "cars": 6,
@@ -1301,7 +1433,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1327,7 +1459,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1335,13 +1467,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 121500.0,
+              "amount_usd": 16200.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 90.0
@@ -1412,17 +1544,20 @@
               "unit_rate_usd": 6.0
             }
           ],
-          "train_allowance_usd": 1011690.0,
-          "trainsets": 56
+          "train_allowance_usd": 885330.0,
+          "trainsets": 43
         }
       ],
       "nre_included": false,
-      "ordinary_elevated_allowance_usd": 1178974142.7473505,
+      "ordinary_elevated_allowance_usd": 929015105.8909909,
       "ordinary_viaduct_proposal_km": 353.38909999999953,
-      "ordinary_viaduct_unit_allowance_usd_dual_km": 3336192.7199999997,
-      "priced_scope_subtotal_usd": 1561392962.7473505,
-      "repeat_fleet_allowance_usd": 382418820.0,
+      "ordinary_viaduct_unit_allowance_usd_dual_km": 2628873.12,
+      "priced_scope_subtotal_usd": 1247430495.8909907,
+      "repeat_fleet_allowance_usd": 162015390.0,
       "scenario": "low",
+      "station_electrical_allowance_usd": 156400000.0,
+      "station_electrical_packages": 115,
+      "station_electrical_unit_allowance_usd": 1360000.0,
       "supplier_quotes": false
     },
     {
@@ -1441,7 +1576,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1467,7 +1602,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1475,13 +1610,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 162000.0,
+              "amount_usd": 21600.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 120.0
@@ -1552,8 +1687,8 @@
               "unit_rate_usd": 8.0
             }
           ],
-          "train_allowance_usd": 1348920.0,
-          "trainsets": 39
+          "train_allowance_usd": 1180440.0,
+          "trainsets": 19
         },
         {
           "cars": 6,
@@ -1565,7 +1700,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1591,7 +1726,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1599,13 +1734,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 162000.0,
+              "amount_usd": 21600.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 120.0
@@ -1676,8 +1811,8 @@
               "unit_rate_usd": 8.0
             }
           ],
-          "train_allowance_usd": 1348920.0,
-          "trainsets": 41
+          "train_allowance_usd": 1180440.0,
+          "trainsets": 17
         },
         {
           "cars": 6,
@@ -1689,7 +1824,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1715,7 +1850,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1723,13 +1858,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 162000.0,
+              "amount_usd": 21600.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 120.0
@@ -1800,8 +1935,8 @@
               "unit_rate_usd": 8.0
             }
           ],
-          "train_allowance_usd": 1348920.0,
-          "trainsets": 63
+          "train_allowance_usd": 1180440.0,
+          "trainsets": 28
         },
         {
           "cars": 6,
@@ -1813,7 +1948,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1839,7 +1974,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1847,13 +1982,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 162000.0,
+              "amount_usd": 21600.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 120.0
@@ -1924,8 +2059,8 @@
               "unit_rate_usd": 8.0
             }
           ],
-          "train_allowance_usd": 1348920.0,
-          "trainsets": 49
+          "train_allowance_usd": 1180440.0,
+          "trainsets": 19
         },
         {
           "cars": 6,
@@ -1937,7 +2072,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1963,7 +2098,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -1971,13 +2106,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 162000.0,
+              "amount_usd": 21600.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 120.0
@@ -2048,8 +2183,8 @@
               "unit_rate_usd": 8.0
             }
           ],
-          "train_allowance_usd": 1348920.0,
-          "trainsets": 45
+          "train_allowance_usd": 1180440.0,
+          "trainsets": 21
         },
         {
           "cars": 6,
@@ -2061,7 +2196,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2087,7 +2222,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2095,13 +2230,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 162000.0,
+              "amount_usd": 21600.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 120.0
@@ -2172,8 +2307,8 @@
               "unit_rate_usd": 8.0
             }
           ],
-          "train_allowance_usd": 1348920.0,
-          "trainsets": 56
+          "train_allowance_usd": 1180440.0,
+          "trainsets": 22
         },
         {
           "cars": 6,
@@ -2185,7 +2320,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2211,7 +2346,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2219,13 +2354,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 162000.0,
+              "amount_usd": 21600.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 120.0
@@ -2296,8 +2431,8 @@
               "unit_rate_usd": 8.0
             }
           ],
-          "train_allowance_usd": 1348920.0,
-          "trainsets": 29
+          "train_allowance_usd": 1180440.0,
+          "trainsets": 14
         },
         {
           "cars": 6,
@@ -2309,7 +2444,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2335,7 +2470,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2343,13 +2478,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 162000.0,
+              "amount_usd": 21600.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 120.0
@@ -2420,17 +2555,20 @@
               "unit_rate_usd": 8.0
             }
           ],
-          "train_allowance_usd": 1348920.0,
-          "trainsets": 56
+          "train_allowance_usd": 1180440.0,
+          "trainsets": 43
         }
       ],
       "nre_included": false,
-      "ordinary_elevated_allowance_usd": 1571965523.6631339,
+      "ordinary_elevated_allowance_usd": 1238686807.8546543,
       "ordinary_viaduct_proposal_km": 353.38909999999953,
-      "ordinary_viaduct_unit_allowance_usd_dual_km": 4448256.96,
-      "priced_scope_subtotal_usd": 2081857283.6631339,
-      "repeat_fleet_allowance_usd": 509891760.0,
+      "ordinary_viaduct_unit_allowance_usd_dual_km": 3505164.16,
+      "priced_scope_subtotal_usd": 1737607327.8546543,
+      "repeat_fleet_allowance_usd": 216020520.0,
       "scenario": "base",
+      "station_electrical_allowance_usd": 282900000.0,
+      "station_electrical_packages": 115,
+      "station_electrical_unit_allowance_usd": 2460000.0,
       "supplier_quotes": false
     },
     {
@@ -2449,7 +2587,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2475,7 +2613,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2483,13 +2621,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 243000.0,
+              "amount_usd": 32400.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 180.0
@@ -2560,8 +2698,8 @@
               "unit_rate_usd": 12.0
             }
           ],
-          "train_allowance_usd": 2023380.0,
-          "trainsets": 39
+          "train_allowance_usd": 1770660.0,
+          "trainsets": 19
         },
         {
           "cars": 6,
@@ -2573,7 +2711,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2599,7 +2737,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2607,13 +2745,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 243000.0,
+              "amount_usd": 32400.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 180.0
@@ -2684,8 +2822,8 @@
               "unit_rate_usd": 12.0
             }
           ],
-          "train_allowance_usd": 2023380.0,
-          "trainsets": 41
+          "train_allowance_usd": 1770660.0,
+          "trainsets": 17
         },
         {
           "cars": 6,
@@ -2697,7 +2835,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2723,7 +2861,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2731,13 +2869,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 243000.0,
+              "amount_usd": 32400.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 180.0
@@ -2808,8 +2946,8 @@
               "unit_rate_usd": 12.0
             }
           ],
-          "train_allowance_usd": 2023380.0,
-          "trainsets": 63
+          "train_allowance_usd": 1770660.0,
+          "trainsets": 28
         },
         {
           "cars": 6,
@@ -2821,7 +2959,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2847,7 +2985,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2855,13 +2993,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 243000.0,
+              "amount_usd": 32400.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 180.0
@@ -2932,8 +3070,8 @@
               "unit_rate_usd": 12.0
             }
           ],
-          "train_allowance_usd": 2023380.0,
-          "trainsets": 49
+          "train_allowance_usd": 1770660.0,
+          "trainsets": 19
         },
         {
           "cars": 6,
@@ -2945,7 +3083,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2971,7 +3109,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -2979,13 +3117,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 243000.0,
+              "amount_usd": 32400.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 180.0
@@ -3056,8 +3194,8 @@
               "unit_rate_usd": 12.0
             }
           ],
-          "train_allowance_usd": 2023380.0,
-          "trainsets": 45
+          "train_allowance_usd": 1770660.0,
+          "trainsets": 21
         },
         {
           "cars": 6,
@@ -3069,7 +3207,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -3095,7 +3233,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -3103,13 +3241,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 243000.0,
+              "amount_usd": 32400.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 180.0
@@ -3180,8 +3318,8 @@
               "unit_rate_usd": 12.0
             }
           ],
-          "train_allowance_usd": 2023380.0,
-          "trainsets": 56
+          "train_allowance_usd": 1770660.0,
+          "trainsets": 22
         },
         {
           "cars": 6,
@@ -3193,7 +3331,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -3219,7 +3357,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -3227,13 +3365,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 243000.0,
+              "amount_usd": 32400.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 180.0
@@ -3304,8 +3442,8 @@
               "unit_rate_usd": 12.0
             }
           ],
-          "train_allowance_usd": 2023380.0,
-          "trainsets": 29
+          "train_allowance_usd": 1770660.0,
+          "trainsets": 14
         },
         {
           "cars": 6,
@@ -3317,7 +3455,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "cut/form/join frame; doors, glazing, interior and acceptance checks",
+              "process": "GFRP sandwich panels, sized hardpoints and joints; doors, glazing, interior and acceptance checks",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -3343,7 +3481,7 @@
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
-              "process": "machine carriers/cores; wind, impregnate, assemble and calibrate",
+              "process": "support/guidance carriers/cores/coils/drives; station main traction excluded",
               "quantity": 6,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "car",
@@ -3351,13 +3489,13 @@
             },
             {
               "accepted": false,
-              "amount_usd": 243000.0,
+              "amount_usd": 32400.0,
               "id": "battery-pack",
               "imported_input_usd": null,
               "input_origin": "unverified",
               "local_operation_candidate": true,
               "process": "cell receipt; protected pack integration and electrical test",
-              "quantity": 1350.0,
+              "quantity": 180.0,
               "rate_evidence": "project planning assumption; unquoted",
               "unit": "kWh",
               "unit_rate_usd": 180.0
@@ -3428,25 +3566,323 @@
               "unit_rate_usd": 12.0
             }
           ],
-          "train_allowance_usd": 2023380.0,
-          "trainsets": 56
+          "train_allowance_usd": 1770660.0,
+          "trainsets": 43
         }
       ],
       "nre_included": false,
-      "ordinary_elevated_allowance_usd": 2357948285.494701,
+      "ordinary_elevated_allowance_usd": 1858030211.7819817,
       "ordinary_viaduct_proposal_km": 353.38909999999953,
-      "ordinary_viaduct_unit_allowance_usd_dual_km": 6672385.4399999995,
-      "priced_scope_subtotal_usd": 3122785925.494701,
-      "repeat_fleet_allowance_usd": 764837640.0,
+      "ordinary_viaduct_unit_allowance_usd_dual_km": 5257746.24,
+      "priced_scope_subtotal_usd": 2630560991.7819815,
+      "repeat_fleet_allowance_usd": 324030780.0,
       "scenario": "high",
+      "station_electrical_allowance_usd": 448500000.0,
+      "station_electrical_packages": 115,
+      "station_electrical_unit_allowance_usd": 3900000.0,
       "supplier_quotes": false
     }
   ],
   "schema": "osr-maglev-city-manufacturing/1",
   "sizing_method": "Select annual route-km/car targets; convert BoQ to daily demand; size mould/curing, winding, test, transport and crane resources after measured cycle times and yields.",
+  "station_electrical_cost_basis": {
+    "basis": "unquoted-repeat-manufacture-target-rates",
+    "charging_rate_basis": "60-second-connected-case; 45-second interface and corrected 4.67C battery require separate rating and quote",
+    "complete_railway_price": false,
+    "currency": "USD",
+    "design_complete": false,
+    "estimating_reserve_fraction": 0.2,
+    "exclusions": [
+      "development and qualification",
+      "factory capital and tooling",
+      "utility reinforcement",
+      "station buildings/platforms/access",
+      "land and air rights",
+      "depot/recovery/fleet",
+      "taxes/duties/finance/programme costs",
+      "actual winding electrical/thermal and 45-second charging rating"
+    ],
+    "manufacturing_release": false,
+    "physical_release": false,
+    "physical_validation": false,
+    "sensitivity_cases": [
+      {
+        "sensitivity": "aggressive-target",
+        "topologies": {
+          "B-two-fixed-groups": {
+            "assumed_kw_equivalent_per_bridge": 2500.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 1360000.0,
+            "installed_bridges": 4,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 300000.0,
+              "braking": 60000.0,
+              "bridges": 400000.0,
+              "charging": 120000.0,
+              "motion_sensing_safety": 80000.0,
+              "output_routing": 0.0,
+              "supply_rectifier_dc": 250000.0,
+              "thermal_installation_acceptance": 150000.0
+            },
+            "subtotal_with_reserve_usd": 1632000.0
+          },
+          "C-routed-10-banks": {
+            "assumed_kw_equivalent_per_bridge": 1000.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 1480000.0,
+            "installed_bridges": 10,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 300000.0,
+              "braking": 60000.0,
+              "bridges": 400000.0,
+              "charging": 120000.0,
+              "motion_sensing_safety": 80000.0,
+              "output_routing": 120000.0,
+              "supply_rectifier_dc": 250000.0,
+              "thermal_installation_acceptance": 150000.0
+            },
+            "subtotal_with_reserve_usd": 1776000.0
+          },
+          "C-routed-8-banks": {
+            "assumed_kw_equivalent_per_bridge": 1000.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 1400000.0,
+            "installed_bridges": 8,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 300000.0,
+              "braking": 60000.0,
+              "bridges": 320000.0,
+              "charging": 120000.0,
+              "motion_sensing_safety": 80000.0,
+              "output_routing": 120000.0,
+              "supply_rectifier_dc": 250000.0,
+              "thermal_installation_acceptance": 150000.0
+            },
+            "subtotal_with_reserve_usd": 1680000.0
+          },
+          "D-independent-sections": {
+            "assumed_kw_equivalent_per_bridge": 800.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 1984000.0,
+            "installed_bridges": 32,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 300000.0,
+              "braking": 60000.0,
+              "bridges": 1024000.0,
+              "charging": 120000.0,
+              "motion_sensing_safety": 80000.0,
+              "output_routing": 0.0,
+              "supply_rectifier_dc": 250000.0,
+              "thermal_installation_acceptance": 150000.0
+            },
+            "subtotal_with_reserve_usd": 2380800.0
+          }
+        }
+      },
+      {
+        "sensitivity": "middle-target",
+        "topologies": {
+          "B-two-fixed-groups": {
+            "assumed_kw_equivalent_per_bridge": 2500.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 2460000.0,
+            "installed_bridges": 4,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 500000.0,
+              "braking": 120000.0,
+              "bridges": 800000.0,
+              "charging": 240000.0,
+              "motion_sensing_safety": 150000.0,
+              "output_routing": 0.0,
+              "supply_rectifier_dc": 400000.0,
+              "thermal_installation_acceptance": 250000.0
+            },
+            "subtotal_with_reserve_usd": 2952000.0
+          },
+          "C-routed-10-banks": {
+            "assumed_kw_equivalent_per_bridge": 1000.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 2760000.0,
+            "installed_bridges": 10,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 500000.0,
+              "braking": 120000.0,
+              "bridges": 800000.0,
+              "charging": 240000.0,
+              "motion_sensing_safety": 150000.0,
+              "output_routing": 300000.0,
+              "supply_rectifier_dc": 400000.0,
+              "thermal_installation_acceptance": 250000.0
+            },
+            "subtotal_with_reserve_usd": 3312000.0
+          },
+          "C-routed-8-banks": {
+            "assumed_kw_equivalent_per_bridge": 1000.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 2600000.0,
+            "installed_bridges": 8,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 500000.0,
+              "braking": 120000.0,
+              "bridges": 640000.0,
+              "charging": 240000.0,
+              "motion_sensing_safety": 150000.0,
+              "output_routing": 300000.0,
+              "supply_rectifier_dc": 400000.0,
+              "thermal_installation_acceptance": 250000.0
+            },
+            "subtotal_with_reserve_usd": 3120000.0
+          },
+          "D-independent-sections": {
+            "assumed_kw_equivalent_per_bridge": 800.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 3708000.0,
+            "installed_bridges": 32,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 500000.0,
+              "braking": 120000.0,
+              "bridges": 2048000.0,
+              "charging": 240000.0,
+              "motion_sensing_safety": 150000.0,
+              "output_routing": 0.0,
+              "supply_rectifier_dc": 400000.0,
+              "thermal_installation_acceptance": 250000.0
+            },
+            "subtotal_with_reserve_usd": 4449600.0
+          }
+        }
+      },
+      {
+        "sensitivity": "stress-target",
+        "topologies": {
+          "B-two-fixed-groups": {
+            "assumed_kw_equivalent_per_bridge": 2500.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 3900000.0,
+            "installed_bridges": 4,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 800000.0,
+              "braking": 200000.0,
+              "bridges": 1200000.0,
+              "charging": 400000.0,
+              "motion_sensing_safety": 250000.0,
+              "output_routing": 0.0,
+              "supply_rectifier_dc": 650000.0,
+              "thermal_installation_acceptance": 400000.0
+            },
+            "subtotal_with_reserve_usd": 4680000.0
+          },
+          "C-routed-10-banks": {
+            "assumed_kw_equivalent_per_bridge": 1000.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 4500000.0,
+            "installed_bridges": 10,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 800000.0,
+              "braking": 200000.0,
+              "bridges": 1200000.0,
+              "charging": 400000.0,
+              "motion_sensing_safety": 250000.0,
+              "output_routing": 600000.0,
+              "supply_rectifier_dc": 650000.0,
+              "thermal_installation_acceptance": 400000.0
+            },
+            "subtotal_with_reserve_usd": 5400000.0
+          },
+          "C-routed-8-banks": {
+            "assumed_kw_equivalent_per_bridge": 1000.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 4260000.0,
+            "installed_bridges": 8,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 800000.0,
+              "braking": 200000.0,
+              "bridges": 960000.0,
+              "charging": 400000.0,
+              "motion_sensing_safety": 250000.0,
+              "output_routing": 600000.0,
+              "supply_rectifier_dc": 650000.0,
+              "thermal_installation_acceptance": 400000.0
+            },
+            "subtotal_with_reserve_usd": 5112000.0
+          },
+          "D-independent-sections": {
+            "assumed_kw_equivalent_per_bridge": 800.0,
+            "design_complete": false,
+            "direct_subtotal_usd": 5772000.0,
+            "installed_bridges": 32,
+            "manufacturing_release": false,
+            "phase_current_kva_rating_qualified": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "rows_usd": {
+              "active_stators": 800000.0,
+              "braking": 200000.0,
+              "bridges": 3072000.0,
+              "charging": 400000.0,
+              "motion_sensing_safety": 250000.0,
+              "output_routing": 0.0,
+              "supply_rectifier_dc": 650000.0,
+              "thermal_installation_acceptance": 400000.0
+            },
+            "subtotal_with_reserve_usd": 6926400.0
+          }
+        }
+      }
+    ],
+    "supplier_quote": false,
+    "unpriced_topologies": [
+      "A-whole-zone winding: installed current/kVA and winding losses not established"
+    ]
+  },
+  "station_electrical_rating_qualified": false,
   "unpriced": [
     "station structures, accessible exits and full MEP",
-    "charging/grid/storage/PV",
+    "actual45-second services charger upgrade and ratings,external utility reinforcement,storage/PV",
     "depot/recovery/transfer equipment",
     "special crossings and terminal loops",
     "land/air rights and major utility works",

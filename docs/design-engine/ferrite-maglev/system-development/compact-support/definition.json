@@ -1,5 +1,5 @@
 {
-  "cap_scale": 0.75,
+  "cap_scale": 0.96,
   "column_scale": 0.8,
   "construction_stages": [
     {
@@ -12,6 +12,8 @@
       "id": "column-and-cap",
       "parts": [
         "study-support/cap",
+        "study-support/cap-widening--1",
+        "study-support/cap-widening-1",
         "study-support/column"
       ]
     }
@@ -34,83 +36,141 @@
   "manufacturing_release": false,
   "material_density_assumptions_kg_m3": {
     "aluminium": 2700.0,
+    "bond-surface": 1000.0,
     "concrete": 2500.0,
+    "core-100": 100.0,
+    "core-80": 80.0,
     "ferrite": 5000.0,
+    "gfrp": 1900.0,
     "steel": 7850.0,
     "winding-envelope": 5500.0
   },
   "modelled_cg_m": [
+    -1.3125621853450288e-16,
     0.0,
-    0.0,
-    -6.970774707577555
+    -8.041266811103805
   ],
-  "modelled_material_mass_kg": 121666.875,
+  "modelled_material_mass_kg": 52694.21372011427,
   "parts": [
     {
       "at_m": [
-        -1.25,
-        -2.625,
-        -2.8
+        -0.5,
+        -2.4,
+        -2.7
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "study-support/cap",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 39375.0,
+      "modelled_mass_kg": 10800.0,
       "production_released": false,
       "revision": "V05-COMPACT-SUPPORT-1",
-      "role": "concrete",
+      "role": "cap",
       "size_m": [
-        2.5,
-        5.25,
-        1.2
+        1.0,
+        4.8,
+        0.9
       ],
-      "volume_m3": 15.75
+      "volume_m3": 4.32
     },
     {
       "at_m": [
-        -0.6000000000000001,
-        -0.8,
-        -10.8
+        -1.0,
+        -0.5,
+        -2.7
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
-      "id": "study-support/column",
+      "id": "study-support/cap-widening--1",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 38400.00000000001,
+      "modelled_mass_kg": 1125.0,
       "production_released": false,
       "revision": "V05-COMPACT-SUPPORT-1",
-      "role": "concrete",
+      "role": "cap",
       "size_m": [
-        1.2000000000000002,
-        1.6,
+        0.5,
+        1.0,
+        0.9
+      ],
+      "volume_m3": 0.45
+    },
+    {
+      "at_m": [
+        0.5,
+        -0.5,
+        -2.7
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "id": "study-support/cap-widening-1",
+      "kind": "box",
+      "material": "concrete",
+      "modelled_mass_kg": 1125.0,
+      "production_released": false,
+      "revision": "V05-COMPACT-SUPPORT-1",
+      "role": "cap",
+      "size_m": [
+        0.5,
+        1.0,
+        0.9
+      ],
+      "volume_m3": 0.45
+    },
+    {
+      "at_m": [
+        -0.5400000000000007,
+        -0.54,
+        -10.7
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "holes": [
+        {
+          "axis": "z",
+          "diameter_m": 0.76,
+          "length_m": 7.0,
+          "start_m": 0.5,
+          "x_m": 0.54,
+          "y_m": 0.54
+        }
+      ],
+      "id": "study-support/column",
+      "kind": "cylinder",
+      "material": "concrete",
+      "modelled_mass_kg": 10382.963720114269,
+      "production_released": false,
+      "revision": "V05-COMPACT-SUPPORT-1",
+      "role": "column",
+      "size_m": [
+        1.08,
+        1.08,
         8.0
       ],
-      "volume_m3": 15.360000000000003
+      "volume_m3": 4.1531854880457075
     },
     {
       "at_m": [
         -1.9124999999999999,
         -1.9124999999999999,
-        -12.0
+        -11.5
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "study-support/foundation-envelope",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 43891.87499999999,
+      "modelled_mass_kg": 29261.25,
       "production_released": false,
       "revision": "V05-COMPACT-SUPPORT-1",
       "role": "ground-assumption",
       "size_m": [
         3.8249999999999997,
         3.8249999999999997,
-        1.2
+        0.8
       ],
-      "volume_m3": 17.556749999999997
+      "volume_m3": 11.7045
     }
   ],
   "physical_release": false,

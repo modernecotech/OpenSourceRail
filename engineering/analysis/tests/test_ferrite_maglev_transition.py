@@ -21,9 +21,9 @@ def register():
 def test_current_systems_have_explicit_identity_process_and_reverse_coverage(register):
     inputs=transition.inventory_inputs()
     assert {r['id'] for r in register['items']}=={r['id'] for r in inputs}
-    assert len(inputs)==45
-    assert register['inventory_counts']==dict(canonical_items=45,system_items=45,total_source_items=45,
-        requirements=72,work_packages=11,primary_work_packages=11,planned_ebom_objects=45)
+    assert len(inputs)==53
+    assert register['inventory_counts']==dict(canonical_items=53,system_items=53,total_source_items=53,
+        requirements=72,work_packages=11,primary_work_packages=11,planned_ebom_objects=53)
     for collection in ('items','planned_ebom','industrialisation'):
         assert len(register[collection])==len(inputs)
     for package in register['work_packages']:
@@ -32,7 +32,9 @@ def test_current_systems_have_explicit_identity_process_and_reverse_coverage(reg
         assert package['new_deliverables'] and package['evidence_needed']
     assert all(r['source'].startswith('engineering/ferrite_maglev/') and r['process_route'] for r in inputs)
     assert {r['id'] for r in inputs}>={'FM-FERRITE','FM-CAPTURE','FM-FOUNDATION','FM-STATION',
-        'FM-CHARGING','FM-CONTROL-SOFTWARE','FM-EGRESS-SOFTWARE','FM-FACTORY','FM-ASSURANCE'}
+        'FM-CHARGING','FM-CONTROL-SOFTWARE','FM-EGRESS-SOFTWARE','FM-FACTORY','FM-ASSURANCE',
+        'FM-STATION-STATOR','FM-STATION-CONVERTER','FM-STATION-BRAKE-SINK','FM-STATION-LAUNCH',
+        'FM-CIVIL-PRODUCTION','FM-GFRP-HARDPOINT','FM-FINITE-MAGNET'}
 
 
 def test_only_current_sources_bind_inventory(register):
@@ -182,8 +184,8 @@ def test_native_field_rust_and_coupled_availability_need_execution_and_physical_
             assert digest==sha256((ROOT/path).read_bytes()).hexdigest()
             assert register['source_sha256'][path]==digest
     variants={r['variant']:r for r in capabilities['native-development-solids']['geometry_variants']}
-    assert variants['flat-retainer']['planned_solid_count']==576
-    assert variants['recessed-retainer']['planned_solid_count']==624
+    assert variants['flat-retainer']['planned_solid_count']==580
+    assert variants['recessed-retainer']['planned_solid_count']==628
     assert variants['flat-retainer']['nominal_fastener_head_gap_m']==pytest.approx(.002)
     assert variants['recessed-retainer']['nominal_fastener_head_gap_m']==pytest.approx(.008)
     assert all(not r['full_error_budget_accepted'] for r in variants.values())
@@ -204,7 +206,7 @@ def test_available_capability_cannot_be_promoted_to_acceptance(register,mutation
 def test_selected_requirements_use_current_data_and_keep_egress_hold():
     from engineering.ferrite_maglev import requirements
     register=requirements.register()
-    assert len(register['requirements'])==79
+    assert len(register['requirements'])==72+7+100
     core=next(r for r in register['requirements'] if r['id']=='CIV-004')
     assert not core['alternative_selected'] and core['alternative_requirement_ids']
     assert not register['walkway_removal_approved'] and not register['accepted_requirements']

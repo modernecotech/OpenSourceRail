@@ -1,8 +1,8 @@
 {
-  "car_mass_kg": 29075.16171028767,
+  "car_mass_kg": 24525.16171028767,
   "complete_egress_system_included": false,
   "execution": {
-    "bridge_sha256": "2829a579562bcb43073e7aacd3d2e90b76b7078ff61f77c46472942ba1172f00",
+    "bridge_sha256": "b1ea0b351c161a282b09886504af0d312b2a224184fa853b09ab46095b86b026",
     "build_command": [
       "cargo",
       "build",
@@ -16,8 +16,8 @@
     ],
     "rustc": "rustc 1.92.0 (ded5c06cf 2025-12-08)"
   },
-  "native_beam_line_mass_kg_m": 1950.2342400000002,
-  "native_mesh_sha256": "0167c0925d5da1ace74b21e431c4aeae37116c9fe28e7dafd9932a434670d8da",
+  "native_beam_line_mass_kg_m": 1722.23424,
+  "native_mesh_sha256": "9491b79e721c3ce171905405232dde51c3022555aa6f8d65bfdf77d21c6a3805",
   "partial_entry_hardware_mass_added_kg": 1325.1617102876703,
   "physical_output_authorised": false,
   "replay": {
@@ -28,20 +28,20 @@
     "beam_assumptions": {
       "damping_ratio": 0.02,
       "elements": 50,
-      "line_mass_kg_m": 1950.2342400000002,
+      "line_mass_kg_m": 1722.23424,
       "retained_modes": 6,
-      "second_moment_m4": 0.19362400000000005,
+      "second_moment_m4": 0.22005,
       "span_m": 25.0,
       "young_pa": 30000000000.0
     },
-    "car_mass_kg": 29075.16171028767,
+    "car_mass_kg": 24525.16171028767,
     "controller_scales": {
       "damping": 1.0,
       "proportional": 1.0
     },
-    "final_fitted_relative_heave_error_m": 1.2398967096094449e-10,
-    "final_pitch_rad": -2.226212921449691e-09,
-    "final_roll_rad": 1.572245966679757e-15,
+    "final_fitted_relative_heave_error_m": 8.115416307713508e-10,
+    "final_pitch_rad": -2.211010226746323e-09,
+    "final_roll_rad": 1.5801069196964683e-15,
     "limitations": [
       "synthetic instantaneous force channels and controller gains; no field/current/thermal map",
       "linear simply-supported beam with assumed line mass and modal damping",
@@ -49,12 +49,12 @@
       "no dead-load camber, soil, joints, fatigue, contact, braking or independent protection",
       "offline held-force partitioned integration; no measured timing or stability certificate"
     ],
-    "maximum_relative_gap_m": 0.01096797109968172,
-    "minimum_relative_gap_m": 0.006680623543310931,
-    "peak_fitted_relative_heave_error_m": 0.0008860560817563531,
-    "peak_global_car_down_m": 0.01407608887828322,
-    "peak_global_incremental_beam_displacement_m": 0.014646089111774766,
-    "peak_station_force_n": 12207.0046688,
+    "maximum_relative_gap_m": 0.010473260376709159,
+    "minimum_relative_gap_m": 0.0070207452508506425,
+    "peak_fitted_relative_heave_error_m": 0.0009213563313273006,
+    "peak_global_car_down_m": 0.010744104185954367,
+    "peak_global_incremental_beam_displacement_m": 0.010940030405017146,
+    "peak_station_force_n": 10347.19217318,
     "physical_output_authorised": false,
     "retained_vertical_beam_modes": 6,
     "schema": "osr-coupled-guideway-numerical/1",
@@ -71,28 +71,28 @@
     "assumptions": {
       "damping_ratio": 0.02,
       "elements": 50,
-      "line_mass_kg_m": 1950.2342400000002,
+      "line_mass_kg_m": 1722.23424,
       "retained_modes": 6,
-      "second_moment_m4": 0.19362400000000005,
+      "second_moment_m4": 0.22005,
       "span_m": 25.0,
       "young_pa": 30000000000.0
     },
-    "centre_closed_form_m": 0.005604002832523056,
-    "centre_fe_m": 0.00560400283263498,
+    "centre_closed_form_m": 0.004931013153576207,
+    "centre_fe_m": 0.004931013153630182,
     "centre_point_load_n": 100000.0,
-    "centre_relative_error": 1.997221664851168e-11,
-    "distributed_point_load_max_error_m": 2.757342965065135e-13,
+    "centre_relative_error": 1.094603723661436e-11,
+    "distributed_point_load_max_error_m": 1.3512281571426144e-13,
     "modal_frequency_hz": [
-      4.337472120710069,
-      17.349891320208517,
-      39.03728292290998,
-      69.39974524657944,
-      108.43753349723207,
-      156.15117636327722
+      4.920566064908538,
+      19.68226751909174,
+      44.28513303516249,
+      78.72927419050647,
+      123.014980486491,
+      177.14285168558342
     ],
-    "modal_frequency_max_relative_error": 1.3970181937272841e-05,
-    "modal_static_truncation_max_m": 8.913118966381167e-07,
-    "module_load_static_max_m": 0.013690530519477901
+    "modal_frequency_max_relative_error": 1.397018887638879e-05,
+    "modal_static_truncation_max_m": 7.842403021134786e-07,
+    "module_load_static_max_m": 0.012046422546147394
   },
   "structural_acceptance": false
 }

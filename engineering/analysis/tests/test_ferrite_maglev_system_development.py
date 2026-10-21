@@ -33,9 +33,9 @@ def test_interior_support_counts_two_half_spans_and_preserves_equilibrium():
     # Two directions of 25m tributary box/rail plus AW3 vehicle UDL; no duplicate full bays.
     native=geometry.civil_bay();beam=sum(p['modelled_mass_kg'] for p in native['parts'] if p['id'].startswith('beam-1/'))
     walk=sum(p['modelled_mass_kg'] for p in native['parts'] if p['id'].startswith('walkway-1-'))
-    expected_track=(beam+walk+(18750+12000)*25/17)*g
+    expected_track=(beam+walk+(14200+12000)*25/17)*g
     assert r['track_vertical_reactions_n']==pytest.approx([expected_track]*2)
-    cap_mass=2.5*7*1.2*2500
+    cap_mass=(1*5*.9+2*.5*1*.9)*2500
     assert r['column_top_axial_n']==pytest.approx(2*expected_track+cap_mass*g)
     assert r['transverse_eccentric_moment_nm']==0
     bare=system.support_demands(walkway=False)
@@ -47,7 +47,10 @@ def test_asymmetric_construction_is_not_a_symmetric_empty_or_operating_case():
     r=system.support_demands(load_case='one-beam-erection')
     assert r['track_vertical_reactions_n'][1]==0
     assert abs(r['transverse_eccentric_moment_nm'])==pytest.approx(r['track_vertical_reactions_n'][0]*1.9)
-    cases=system.study()['support_cases'];assert len(cases)==576
+    cases=system.study()['support_cases'];cfg=system.load()['civil']
+    expected=math.prod(len(cfg[key]) for key in ('column_scales','foundation_scales','cap_scales'))*2*4*(len(cfg['additional_equipment_mass_screens_kg_per_car'])+1)
+    assert len(cases)==expected
+    assert {v['load_case'] for v in cases}=={'empty','both-trains','one-train','one-beam-erection'}
     assert any(not v['compression_only_linear_contact_admissible'] for v in cases)
     assert all(v['capacity_utilisation'] is None and not v['accepted'] for v in cases)
 
@@ -82,10 +85,10 @@ def test_current_native_and_rust_packet_have_exact_identities_and_negative_contr
     for key in ('inward-clash','height-gap-10m','road-landing'):
         assert all(v['phase'] not in {'Ready','DeploymentStudy','FlowStudy','CompleteHold'} for v in cases[key]['replay']['frames'])
     matched=json.loads((system.OUTPUT/'native-derived-coupling.json').read_text())
-    assert matched['native_beam_line_mass_kg_m']==pytest.approx(1950.23424)
+    assert matched['native_beam_line_mass_kg_m']==pytest.approx((.54+.72/25)*2500+300.23424)
     assert matched['replay']['beam_assumptions']['line_mass_kg_m']==matched['native_beam_line_mass_kg_m']
     assert matched['complete_egress_system_included'] is False
-    assert matched['car_mass_kg']==pytest.approx(27750+system.study()['entry_partial_material_mass_kg_per_car'])
+    assert matched['car_mass_kg']==pytest.approx(23200+system.study()['entry_partial_material_mass_kg_per_car'])
     assert matched['replay']['car_mass_kg']==matched['car_mass_kg']
     for folder in ('entry','compact-support'):
         r=json.loads((system.OUTPUT/folder/'native-cad.json').read_text())

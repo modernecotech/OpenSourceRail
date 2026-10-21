@@ -1,6 +1,6 @@
 {
   "schema": "osr-maglev-systems-inputs/1",
-  "revision": "V05-SYSTEMS-3",
+  "revision": "V052-STATION-POWERED-SYSTEMS-1",
   "scope": "Explicit current vehicle, guideway, station, manufacturing, software and assurance responsibilities; not a claim of detail completeness",
   "items": [
     {
@@ -17,7 +17,7 @@
         "GEO-003",
         "MASS-001"
       ],
-      "process_route": "section fabrication; join; inspect datums and retention loads",
+      "process_route": "qualified GFRP laminate/core/insert/joint study; controlled infusion/RTM, cure, dimensional and mass inspection",
       "state": "provisional-design-responsibility; acceptance-open"
     },
     {
@@ -33,7 +33,7 @@
         "MFG-001",
         "MASS-001"
       ],
-      "process_route": "cut/form panels; join; seal; inspect and leak test",
+      "process_route": "qualified GFRP laminate/core/insert/joint study; controlled infusion/RTM, cure, dimensional and mass inspection",
       "state": "provisional-design-responsibility; acceptance-open"
     },
     {
@@ -745,6 +745,126 @@
         "MAG-055"
       ],
       "process_route": "maintain exact-revision requirements, raw evidence, NCRs and independent gate decisions",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-STATION-STATOR",
+      "title": "Paired station LSM cassettes",
+      "source": "engineering/ferrite_maglev/station.py",
+      "work_package_ids": [
+        "magnetic-cad",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "MAG-040",
+        "MAG-041"
+      ],
+      "process_route": "wind/insulate/impregnate; qualify R/L, flux and force maps",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-STATION-CONVERTER",
+      "title": "Independent fixed-group bridges and shared DC plant",
+      "source": "engineering/ferrite_maglev/station.py",
+      "work_package_ids": [
+        "rust-support-control",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "MAG-040",
+        "PWR-001"
+      ],
+      "process_route": "specify current/voltage/duty; integrate protected DC and thermal equipment",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-STATION-BRAKE-SINK",
+      "title": "Receiving chopper/resistor and independent stopping interfaces",
+      "source": "engineering/ferrite_maglev/station.py",
+      "work_package_ids": [
+        "rust-support-control",
+        "coupled-dynamics"
+      ],
+      "requirement_ids": [
+        "PWR-003",
+        "PWR-004"
+      ],
+      "process_route": "repeated pulse/heat testing; retained stop/hold provision",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-STATION-PHASE",
+      "title": "Local phase and complete-consist sensing",
+      "source": "engineering/ferrite_maglev/station.py",
+      "work_package_ids": [
+        "sbc-io-timing",
+        "rust-support-control"
+      ],
+      "requirement_ids": [
+        "CTL-001",
+        "MAG-043"
+      ],
+      "process_route": "timestamped calibrated local position/phase; train integrity and boundary proof",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-STATION-LAUNCH",
+      "title": "Durable corridor/berth launch transaction",
+      "source": "engineering/ferrite_maglev/station.py",
+      "work_package_ids": [
+        "rust-support-control",
+        "switch-free-city"
+      ],
+      "requirement_ids": [
+        "CTL-001",
+        "CTL-005"
+      ],
+      "process_route": "atomic persisted reservation; commit, fault and full-tail-clearance replays",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-CIVIL-PRODUCTION",
+      "title": "Factory/transport/erection accepted-output process",
+      "source": "engineering/ferrite_maglev/station_structure.py",
+      "work_package_ids": [
+        "civil-kit",
+        "local-mbom-cost"
+      ],
+      "requirement_ids": [
+        "CIV-001",
+        "MFG-001"
+      ],
+      "process_route": "mould/cure/strength holds; deliveries; crane/connection/survey evidence",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-GFRP-HARDPOINT",
+      "title": "Composite panel and distributed magnetic hardpoint interface",
+      "source": "engineering/ferrite_maglev/station_structure.py",
+      "work_package_ids": [
+        "vehicle-mass",
+        "magnetic-cad"
+      ],
+      "requirement_ids": [
+        "GEO-003",
+        "MASS-001"
+      ],
+      "process_route": "orthotropic laminate/core/joint sizing and physical inspection",
+      "state": "provisional-design-responsibility; acceptance-open"
+    },
+    {
+      "id": "FM-FINITE-MAGNET",
+      "title": "Finite-block orientations and reference controls",
+      "source": "engineering/ferrite_maglev/station_structure.py",
+      "work_package_ids": [
+        "magnetic-force-loss",
+        "magnetic-cad"
+      ],
+      "requirement_ids": [
+        "MAG-040",
+        "MAG-041"
+      ],
+      "process_route": "analytical field reference; orientation/manufacturing candidate generation; 3D and rig gates",
       "state": "provisional-design-responsibility; acceptance-open"
     }
   ]

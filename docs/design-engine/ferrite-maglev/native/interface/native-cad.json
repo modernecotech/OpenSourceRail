@@ -9,9 +9,9 @@
   "exporter_sha256": "439b9a26d61f0d151e78913f8d4d592507c1cbb6570aa57ab70e78eb573a6bed",
   "fcstd_reopened": true,
   "files_sha256": {
-    "model.FCStd": "b31e1fcb97e1f031210803668d81e34a9c82ecb4c7135452ec9c617ec80c89ee",
-    "model.step.gz": "14542e985e37fc0b776d38d64d946cdcd9b1fac77bce7745ec9cccb84034fb32",
-    "native-mesh.json.gz": "491162a95dd9b64fd15a370a0658e28e2bd2528d72a4e6d8a716f50bb154e6d7"
+    "model.FCStd": "6209204a2466aa254e670ff6bacfcb09f89693f3378894306f100faa33f56657",
+    "model.step.gz": "12febf9e3bc313b70c38964fc1a73bb405874f7da268792e9e0cb6f289e25c3f",
+    "native-mesh.json.gz": "64853279e5915f814007cb344541d5a634416f755676945a2a0660e9fa03d0fd"
   },
   "freecad_version": [
     "1",
@@ -24,7 +24,7 @@
     "4fd3bf320d9566a27e60069fc8387448aaa3a094"
   ],
   "geometry_helpers_sha256": "5b9ef81b6377f5468678d91401cbfde33f3a1e4f1f11738ec81a0eda076e7017",
-  "input_sha256": "257055faa6c76103ac8258635d26b81b96657342847644cecf6d39bccb70ea43",
+  "input_sha256": "1ccf1bb3fe998a24ab72115ccdbac26afecfc9380044688597d77c84e732f6ea",
   "interference_checked_ids": [
     "guideway/lift-rail--1-0",
     "guideway/lift-rail--1-1",
@@ -577,43 +577,67 @@
   ],
   "note": "Only declared role pairs receive positive-volume checks; other roles and envelopes have no interference acceptance",
   "opencascade_version": "7.8.1",
-  "part_count": 624,
+  "part_count": 628,
   "parts": [
     {
       "bounds_m": [
         -12.5,
         -0.4,
-        -0.18,
+        -0.15,
         12.5,
         0.4,
         0.0
       ],
       "id": "guideway/top-slab",
-      "volume_m3": 3.6
+      "volume_m3": 3.0
     },
     {
       "bounds_m": [
         -12.5,
         -0.4,
-        -1.6,
+        -1.8,
         12.5,
         0.4,
-        -1.42
+        -1.65
       ],
       "id": "guideway/bottom-slab",
-      "volume_m3": 3.6
+      "volume_m3": 3.0
+    },
+    {
+      "bounds_m": [
+        -12.5,
+        -0.30000000000000004,
+        -1.6500000000000001,
+        -12.1,
+        0.30000000000000004,
+        -0.15000000000000022
+      ],
+      "id": "guideway/end-infill--1",
+      "volume_m3": 0.36000000000000004
+    },
+    {
+      "bounds_m": [
+        12.1,
+        -0.30000000000000004,
+        -1.6500000000000001,
+        12.5,
+        0.30000000000000004,
+        -0.15000000000000022
+      ],
+      "id": "guideway/end-infill-1",
+      "volume_m3": 0.36000000000000004
     },
     {
       "bounds_m": [
         -12.5,
         -0.4,
-        -1.4200000000000002,
+        -1.6500000000000001,
         12.5,
-        -0.25,
-        -0.18
+        -0.3,
+        -0.15000000000000022
       ],
       "id": "guideway/web--1",
-      "volume_m3": 4.650000000000001
+      "volume_m3": 3.75
     },
     {
       "bounds_m": [
@@ -738,14 +762,14 @@
     {
       "bounds_m": [
         -12.5,
-        0.25,
-        -1.4200000000000002,
+        0.30000000000000004,
+        -1.6500000000000001,
         12.5,
-        0.4,
-        -0.18
+        0.4000000000000001,
+        -0.15000000000000022
       ],
       "id": "guideway/web-1",
-      "volume_m3": 4.650000000000001
+      "volume_m3": 3.75
     },
     {
       "bounds_m": [
@@ -1027,13 +1051,37 @@
       "bounds_m": [
         -8.5,
         -1.325,
-        0.29,
+        0.2355,
+        8.5,
+        1.325,
+        0.23775
+      ],
+      "id": "frame/floor-lower-face",
+      "volume_m3": 0.1013625
+    },
+    {
+      "bounds_m": [
+        -8.5,
+        -1.325,
+        0.23775,
+        8.5,
+        1.325,
+        0.29775
+      ],
+      "id": "frame/floor-core",
+      "volume_m3": 2.703
+    },
+    {
+      "bounds_m": [
+        -8.5,
+        -1.325,
+        0.29775,
         8.5,
         1.325,
         0.3
       ],
-      "id": "frame/floor-material-region",
-      "volume_m3": 0.45049999999999996
+      "id": "frame/floor-upper-face",
+      "volume_m3": 0.1013625
     },
     {
       "bounds_m": [
@@ -8071,6 +8119,6 @@
   "physical_release": false,
   "schema": "osr-factory-native-cad/1",
   "step_reopened": true,
-  "step_uncompressed_sha256": "13ec9ba2ac35e70018f88e4bd4a7a1614b6a81d425a2fedcb949b3078851b205",
-  "volume_sum_m3": 18.898409873532774
+  "step_uncompressed_sha256": "db43f08b739dfd22b6d87ce34488bc9b9c1ffcb463fd60cbbdc6193d244af532",
+  "volume_sum_m3": 19.07363487353277
 }

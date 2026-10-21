@@ -51,7 +51,7 @@ class Configuration:
     operations: dict
     cost: dict
     def record(self):
-        return dict(schema='osr-selected-configuration/1',architecture='ferrite-pm-maglev-study',
+        return dict(schema='osr-selected-configuration/1',architecture='ferrite-pm-maglev-study',propulsion_architecture='station-lsm-and-coast',
             publication_role='primary-provisional-design',configuration=asdict(self),
             physical_release=False,manufacturing_release=False,design_complete=False,physical_validation=False)
 
@@ -80,17 +80,18 @@ def selected(c=None,*,city='Baghdad',cars=6):
     for field,value in asdict(cv).items():
         if not math.isfinite(value) or (field!='ground_level_m' and value<=0):raise ValueError('invalid civil '+field)
     if cv.width_m<=2*cv.web_m or cv.depth_m<=2*cv.flange_m or cv.rail_segment_length_m>cv.rail_pitch_m:raise ValueError('invalid section or rail segmentation')
+    if len(f.doors_per_side_x_m)!=v['passenger_doors_per_side']:raise ValueError('body, mass, dwell and evacuation door counts must share the selected configuration')
     if f.coupling_gap_assumption_m<0 or not f.doors_per_side_x_m or len(set(f.doors_per_side_x_m))!=len(f.doors_per_side_x_m) or any(abs(x)+.67>=f.body_length_m/2 for x in f.doors_per_side_x_m):raise ValueError('invalid assumed coupling or door layout')
     if a['station']['island_width_m']<=a['station']['lift_width_m']+2*a['station']['minimum_side_passage_m']:raise ValueError('lift blocks island circulation')
     from . import model
-    baseline_mass=model.mass(c,c['mass']['ferrite_base'],c['power']['gross_battery_matched_kwh_per_car'])
+    baseline_mass=model.mass(c,c['mass']['ferrite_base'],c['power']['services_battery_kwh_per_car'])
     return Configuration(a['revision'],f,cv,a['station'],dict(
         baseline_tare_kg_per_car=baseline_mass['tare_kg'],
         payload_aw3_kg_per_car=v['aw3_passengers_per_car']*v['passenger_mass_screen_kg'],
         cg_m=None,inertia_kg_m2=None,net_chute_addition_kg=None),
         dict(modules_per_car=24,force_map=None,measured_electrical_limits=None),a['evacuation'],
-        dict(charger_kw_per_car=c['power']['candidate_station_charger_kw_per_car'] if 'candidate_station_charger_kw_per_car' in c['power'] else 600.,
-            gross_storage_kwh_per_car=c['power']['gross_battery_matched_kwh_per_car'],approved_reserve_kwh=None,recovery_method=None),
+        dict(charger_kw_per_car=c['power']['candidate_station_charger_kw_per_car'] if 'candidate_station_charger_kw_per_car' in c['power'] else 200.,
+            gross_storage_kwh_per_car=c['power']['services_battery_kwh_per_car'],approved_reserve_kwh=None,recovery_method=None),
         dict(quantity_basis='selected native geometry; unmodelled and unpriced scope remains open',installed_programme_usd=None,origin_audited=False))
 
 

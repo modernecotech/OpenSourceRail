@@ -31,11 +31,11 @@ def source_consist(aw2=720, aw3=960):
 def test_baghdad_six_car_capacity_and_storage_are_preserved(context):
     f = cities.formation(context[1], source_consist(), [])
     assert (f['cars'], f['aw2_passengers'], f['aw3_passengers']) == (6, 720, 960)
-    assert f['gross_storage_kwh'] == 1350
+    assert f['gross_storage_kwh'] == 6*30
     assert f['nominal_body_length_m'] == 102
-    assert f['tare_mass_kg'] == 112500
-    assert f['aw2_mass_kg'] == 166500 and f['aw3_mass_kg'] == 184500
-    assert f['eol_normal_window_kwh'] == pytest.approx(648)
+    assert f['tare_mass_kg'] == 6*14200
+    assert f['aw2_mass_kg'] == 6*23200 and f['aw3_mass_kg'] == 6*26200
+    assert f['eol_normal_window_kwh'] == pytest.approx(6*30*.8*.6)
     assert f['overall_length_m'] is None and f['formation_qualified'] is False
 
 
@@ -77,7 +77,9 @@ def test_invalid_station_geometry_is_rejected(points):
 def simple_duty(distance, hot=False, regen=True, speed=80):
     # Independent test plant: 10 m/s and 1 kWh/km, with no hidden station energy.
     return dict(moving_seconds=distance/10, moving_energy_kwh=distance/1000,
-                achieved_speed_kmh=36, hotel_kw=60 if hot else 40)
+                achieved_speed_kmh=36, hotel_kw=60 if hot else 40,
+                pure_trajectory_screen_pass=True,station_zone_screen_pass=True,
+                kinematic_screen_pass=True,kinematic_hold=None)
 
 
 def test_radial_fleet_is_recomputed_with_explicit_slow_loops(context, assumptions):
@@ -89,13 +91,13 @@ def test_radial_fleet_is_recomputed_with_explicit_slow_loops(context, assumption
     assert result['topology']['added_single_direction_loop_beam_m'] == pytest.approx(400*math.pi)
     assert result['topology']['loop_speed_screen_kmh'] == 20
     assert result['topology']['loop_lateral_acceleration_screen_m_s2'] == pytest.approx((20/3.6)**2/100)
-    assert result['duty']['conservative_cycle_seconds'] == pytest.approx(400+40*math.pi+4*60)
+    assert result['duty']['conservative_cycle_seconds'] == pytest.approx(400+40*math.pi+4*result['charging']['dwell_seconds'])
     assert result['fleet']['peak'] == 5 and result['fleet']['total'] == 7
     assert result['depot']['storage_slots'] == 7
     assert result['depot']['minimum_total_storage_track_m'] == 7*62
     assert result['fleet']['source_fleet_inherited'] is False
     assert result['topology']['exclusive_shuttle_alternative']['minimum_independent_lanes'] == 4
-    assert result['duty']['hot_aw3_no_regen_cycle_kwh'] == pytest.approx((4+0.4*math.pi+60*240/3600)*3)
+    assert result['duty']['hot_aw3_no_regen_cycle_kwh'] == pytest.approx((4+0.4*math.pi+60*4*result['charging']['dwell_seconds']/3600)*3)
 
 
 def test_loop_lateral_limit_rejects_mainline_speed(context, assumptions):
@@ -121,11 +123,12 @@ def test_long_gap_extends_charging_and_exposes_berth_pressure(context, assumptio
     r=cities.line_plan(context[1], assumptions, f, dict(name='x',shape='radial',length_m=10000),
                        stations(0,10000), dict(schedule=[dict(headway_min=.5)],trainset_count=1), simple_duty)
     charge=r['charging']; dwell=charge['dwell_seconds']
-    assert dwell>60 and charge['candidate_kw_per_train']==3600
-    assert charge['dwell_exceeds_peak_headway']
-    assert charge['minimum_parallel_platform_berths_per_direction']==math.ceil(dwell/30)
+    assert dwell>60 and charge['candidate_kw_per_train']==6*200
+    assert r['selected_peak_headway_seconds']>=r['planning_minimum_headway_seconds']>190
+    assert not charge['dwell_exceeds_peak_headway']
+    assert charge['minimum_parallel_platform_berths_per_direction']==math.ceil(dwell/r['selected_peak_headway_seconds'])
     # Charge covers incoming leg + loop + services during full dwell, DC only.
-    received=600*(dwell-15)/3600
+    received=200*(dwell-15)/3600
     required=10+0.2*math.pi+60*dwell/3600
     assert received >= required
     assert charge['grid_pv_storage_sizing_accepted'] is False
@@ -145,7 +148,7 @@ def test_real_city_package_preserves_demand_and_binds_sources(context, tmp_path)
     for case in r['costs']['scenarios']:
         assert case['complete_city_programme_usd'] is None
         assert not case['epc_included'] and not case['supplier_quotes']
-        assert case['priced_scope_subtotal_usd']==case['repeat_fleet_allowance_usd']+case['ordinary_elevated_allowance_usd']
+        assert case['priced_scope_subtotal_usd']==case['repeat_fleet_allowance_usd']+case['ordinary_elevated_allowance_usd']+case['station_electrical_allowance_usd']
     assert all(not r[k] for k in model.FLAGS)
     assert all(g['state']=='open' and not g['accepted'] for g in r['gates'])
 
@@ -154,8 +157,6 @@ def replay_fixture(context, assumptions):
     f=cities.formation(context[1],source_consist(360,480),[])
     line=cities.line_plan(context[1],assumptions,f,dict(name='x',shape='radial',length_m=2000),
                           stations(0,1000,2000),dict(schedule=[dict(headway_min=3)],trainset_count=809),simple_duty)
-    for event in line['duty']['arrival_events_per_circuit']:
-        event['hot_regen_motion_kwh']=event['hot_no_regen_motion_kwh']*.5
     return dict(schema='osr-maglev-city-planning/1',city='fixture',physical_release=False,
                 source_sha256={str(p.relative_to(ROOT)):cities.digest(p) for p in [Path(cities.__file__),*cities.calculation_dependencies()]},lines=[line])
 
@@ -186,12 +187,13 @@ def test_replay_reveals_energy_failure_without_clipping_or_claiming_reserve(cont
     assert r['emergency_reserve_passed'] is None and r['protected_emergency_energy_kwh'] is None
 
 
-def test_replay_regeneration_state_changes_energy_with_same_compiled_events(context,assumptions):
+def test_station_regeneration_never_credits_services_pack_with_same_compiled_events(context,assumptions):
     plan=replay_fixture(context,assumptions)
     a=cities.replay_city(plan,regen_available=False,missed_charge_events=(1,))
     b=cities.replay_city(plan,regen_available=True,missed_charge_events=(1,))
-    assert a['lines'][0]['energy_totals']['motion_kwh']==pytest.approx(2*b['lines'][0]['energy_totals']['motion_kwh'])
+    assert a['lines'][0]['energy_totals']['motion_kwh']==pytest.approx(b['lines'][0]['energy_totals']['motion_kwh'])
     assert b['regeneration_available'] and not a['regeneration_available']
+    assert a['lines'][0]['final_energy_kwh']==pytest.approx(b['lines'][0]['final_energy_kwh'])
     assert a['compiled_plan_sha256']==b['compiled_plan_sha256']
 
 

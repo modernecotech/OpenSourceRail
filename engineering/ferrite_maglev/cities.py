@@ -71,15 +71,15 @@ def formation(c, source_consist, profiles):
     cars = max(math.ceil(aw2 / v['aw2_passengers_per_car']),
                math.ceil(aw3 / v['aw3_passengers_per_car']))
     cfg=configuration.selected(c,city='planning',cars=cars).formation
-    m = model.mass(c, c['mass']['ferrite_base'], c['power']['gross_battery_matched_kwh_per_car'])
+    m = model.mass(c, c['mass']['ferrite_base'], c['power']['services_battery_kwh_per_car'])
     return dict(cars=cars, retained_aw2_required=aw2, retained_aw3_required=aw3,
                 aw2_passengers=cars*v['aw2_passengers_per_car'], aw3_passengers=cars*v['aw3_passengers_per_car'],
                 nominal_body_length_m=cars*v['nominal_car_length_m'], overall_length_m=None,
                 overall_length_assumption_m=cfg.assumed_overall_length_m,coupling_gap_assumption_m=cfg.coupling_gap_assumption_m,
                 length_basis='Sum of nominal 17 m bodies; coupling pitch and overhang unresolved.',
                 tare_mass_kg=cars*m['tare_kg'], aw2_mass_kg=cars*m['aw2_kg'], aw3_mass_kg=cars*m['aw3_kg'],
-                gross_storage_kwh=cars*c['power']['gross_battery_matched_kwh_per_car'],
-                eol_capacity_kwh=cars*c['power']['gross_battery_matched_kwh_per_car']*c['power']['eol_capacity_fraction'],
+                gross_storage_kwh=cars*c['power']['services_battery_kwh_per_car'],
+                eol_capacity_kwh=cars*c['power']['services_battery_kwh_per_car']*c['power']['eol_capacity_fraction'],
                 normal_soc_low=c['power']['normal_soc_low'], normal_soc_high=c['power']['normal_soc_high'],
                 eol_normal_window_kwh=cars*m['eol_window_kwh'], protected_emergency_energy_kwh=None,
                 cabin_width_m=v['nominal_car_width_m'], full_running_gear_envelope_width_m=None,
@@ -115,26 +115,37 @@ def station_legs(line, stations):
 
 def duty_evaluator(c):
     """Cache only within this exact input configuration."""
-    mass = model.mass(c, c['mass']['ferrite_base'], c['power']['gross_battery_matched_kwh_per_car'])
+    mass = model.mass(c, c['mass']['ferrite_base'], c['power']['services_battery_kwh_per_car'])
 
     @lru_cache(maxsize=None)
-    def evaluate(distance, hot=False, regen=True, speed=80.0):
+    def evaluate(distance, hot=False, regen=True, speed=80.0,*,cars=None):
         configuration = deepcopy(c)
         configuration['power']['station_spacing_study_m'] = distance
-        r = model.cycle(configuration, mass['aw3_kg' if hot else 'aw2_kg'], hot=hot, regen=regen, speed_kmh=speed)
+        r = model.cycle(configuration, mass['aw3_kg' if hot else 'aw2_kg'], hot=hot, regen=regen, speed_kmh=speed,cars=cars)
         hotel = configuration['power']['hot_hotel_kw_per_car' if hot else 'normal_hotel_kw_per_car']
         return dict(moving_seconds=r['moving_seconds'], moving_energy_kwh=r['cycle_kwh']-
                     hotel*configuration['power']['station_dwell_seconds']/3600,
-                    achieved_speed_kmh=r['achieved_speed_kmh'], hotel_kw=hotel)
+                    achieved_speed_kmh=r['achieved_speed_kmh'], hotel_kw=hotel,
+                    station_traction_input_kwh=r['station_traction_input_kwh'],
+                    pure_trajectory_screen_pass=r['pure_trajectory_screen_pass'],
+                    station_zone_screen_pass=r['station_zone_screen_pass'],station_zone=r['station_zone'],
+                    kinematic_screen_pass=r['kinematic_screen_pass'],kinematic_hold=r['kinematic_hold'])
+    def for_formation(cars):
+        def bound(distance,hot=False,regen=True,speed=80.0):
+            return evaluate(distance,hot,regen,speed,cars=cars)
+        return bound
+    evaluate.for_formation=for_formation
     return evaluate
 
 
 def line_plan(c, a, f, line, stations, source_fleet, evaluate):
+    if hasattr(evaluate,'for_formation'):evaluate=evaluate.for_formation(f['cars'])
     ordered, distances, closure = station_legs(line, stations)
     schedule = source_fleet.get('schedule', [])
     if not schedule:
         raise ValueError('retained service schedule required: '+line['name'])
-    headway = min(model.positive(s['headway_min'], 'headway') for s in schedule)*60
+    source_headway = min(model.positive(s['headway_min'], 'headway') for s in schedule)*60
+    headway=max(source_headway,c['vehicle']['scheduled_headway_seconds'])
     normal = [evaluate(round(d, 6)) for d in distances]
     hot = [evaluate(round(d, 6), True, False) for d in distances]
     hot_regen = [evaluate(round(d, 6), True, True) for d in distances]
@@ -167,6 +178,11 @@ def line_plan(c, a, f, line, stations, source_fleet, evaluate):
         effective = (max(r['moving_energy_kwh'] for r in hot)*3600+extra*3600+
                      hotel*p['connection_overhead_seconds'])/(charger-hotel)
         dwell = max(dwell, math.ceil(effective+p['connection_overhead_seconds']))
+    # Protected-zone clearance uses the same nominal jerk/acceleration envelope.
+    # It is planning time only; full-tail detection and grade/receiver evidence remain open.
+    clearance=math.sqrt(2*(f['overall_length_assumption_m']+75)/c['vehicle']['maximum_initial_acceleration_m_s2'])+c['vehicle']['maximum_initial_acceleration_m_s2']/c['vehicle']['jerk_study_m_s3']
+    headway_bound=max(r['moving_seconds'] for r in hot)+dwell+clearance+5.
+    headway=max(headway,math.ceil(headway_bound))
     cycle_distance = sum(distances)*(1 if ring else 2)+loop_distance
     cycle_seconds = sum(r['moving_seconds'] for r in hot)*(1 if ring else 2)+loop_time
     # Radials include both terminal stops once per round trip; rings once/lap.
@@ -233,7 +249,18 @@ def line_plan(c, a, f, line, stations, source_fleet, evaluate):
                              hot_regen_motion_kwh=(hot_regen[leg_index]['moving_energy_kwh']+(loop_regen_energy/2 if terminal_loop else 0))*f['cars'],
                              terminal_loop_allowance=terminal_loop))
     return dict(line=line['name'], retained_shape=line['shape'], retained_length_m=line['length_m'],
-                retained_schedule=schedule, retained_peak_headway_seconds=headway,
+                retained_schedule=schedule, retained_peak_headway_seconds=source_headway,
+                selected_peak_headway_seconds=headway,planning_minimum_headway_seconds=headway_bound,
+                source_aw2_capacity_per_direction_hour=f['aw2_passengers']*3600/source_headway,
+                pure_trajectory_screen_pass=all(r.get('pure_trajectory_screen_pass',r['kinematic_screen_pass']) for r in hot),
+                fixed_station_zone_screen_pass=all(r.get('station_zone_screen_pass',False) for r in hot),
+                station_powered_kinematic_screen_pass=all(r['kinematic_screen_pass'] and r.get('station_zone_screen_pass',False) for r in hot),
+                intermediate_station_zone_options=[dict(after_station=ordered[min(i,len(ordered)-1)]['id'],leg_distance_m=d,additional_1km_station_zones=max(0,math.ceil(d/1000)-1),located=False,priced=False) for i,d in enumerate(distances) if d>1000],
+                kinematic_holds=[dict(leg=i+1,distance_m=distances[i],
+                    stage='fixed-station-zone' if r.get('pure_trajectory_screen_pass',r['kinematic_screen_pass']) else 'longitudinal-trajectory',
+                    reason=r.get('kinematic_hold') or 'Fixed station-zone feasibility not supplied by the planning evaluator')
+                    for i,r in enumerate(hot) if not r['kinematic_screen_pass'] or not r.get('station_zone_screen_pass',False)],
+                terminal_loop_propulsion_qualified=False if not ring else None,
                 aw2_capacity_per_direction_hour=f['aw2_passengers']*3600/headway,
                 formation=f, topology=topology, stations=stations_out,
                 duty=dict(cycle_distance_m=cycle_distance, conservative_cycle_seconds=cycle_seconds,
@@ -245,12 +272,13 @@ def line_plan(c, a, f, line, stations, source_fleet, evaluate):
                           hot_hotel_kw=hotel*f['cars'], arrival_events_per_circuit=arrivals,
                           eol_window_divided_by_cycle_energy=f['eol_normal_window_kwh']/(hot_cycle*f['cars']),
                           route_acceptance=False,
-                          exclusions=['grade/curves/wind', 'jerk and coupled dynamics', 'shared-train aerodynamic effects',
+                          exclusions=['grade/curves/wind', 'six-car coupled dynamics', 'shared-train aerodynamic effects',
                                       'loop lateral force and physical geometry', 'emergency reserve', 'missed charge',
                                       'full SOC and low voltage', 'charger taper/grid and battery internal losses']),
                 fleet=dict(peak=peak, spare=spare, cold_reserve=a['formation']['cold_reserve_per_line'], total=total,
-                           source_fleet_inherited=False, conflict_and_recovery_validated=False,
-                           rule='ceil(hot/no-regen circuit time / retained peak headway), two directions for rings, 10% spare rounded up plus one cold reserve/line'),
+                           source_fleet_inherited=False,conflict_and_recovery_validated=False,
+                           kinematic_profile_closed=all(r['kinematic_screen_pass'] and r.get('station_zone_screen_pass',False) for r in hot),timetable_qualified=False,
+                           rule='ceil(services circuit time / selected station-resource headway), two directions for rings,10%spare plusone reserve; held kinematic/routecases remain conditional'),
                 charging=charging, depot=depot)
 
 
@@ -341,7 +369,7 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
                                    dwell_headway_conflicts=[l['line'] for l in lines if l['charging']['dwell_exceeds_peak_headway']],
                                    excessive_charging_dwell=[l['line'] for l in lines if not l['charging']['minimum_screen_passed']]),
                   totals=dict(lines=len(lines), station_records=sum(len(l['stations']) for l in lines),
-                              trainsets=fleet, cars=cars, gross_onboard_storage_kwh=cars*c['power']['gross_battery_matched_kwh_per_car'],
+                              trainsets=fleet, cars=cars, gross_onboard_storage_kwh=cars*c['power']['services_battery_kwh_per_car'],
                               retained_route_length_m=sum(l['length_m'] for l in design['lines']),
                               added_single_direction_loop_beam_m=sum(l['topology']['added_single_direction_loop_beam_m'] for l in lines),
                               retained_civil_class_length_m=by_class),
@@ -379,6 +407,9 @@ def write_readme(output, report):
     for l in report['lines']:
         f=l['formation']
         rows.append(f"| {l['line']} | {f['cars']} | {f['aw2_passengers']} / {f['aw3_passengers']} | {f['nominal_body_length_m']:g} / {f['overall_length_assumption_m']:g} | {l['topology']['selected']} | {l['fleet']['peak']} / {l['fleet']['total']} | {l['charging']['dwell_seconds']:g} |")
+    rows+=['','Station-powered dispatch recomputes headway from runtime,dwell and protected-zone clearance. The190s baseline and longer actual-leg bounds replace shorter source headways; fleet and capacity use the selected headway. Unpowered-coast feasibility, grade, phase/overlap and stalled-train recovery remain hard acceptance gates.','']
+    for line in report['lines']:
+        rows.append(f"- {line['line']}: selected headway {line['selected_peak_headway_seconds']:g}s versus source {line['retained_peak_headway_seconds']:g}s; normal capacity {line['aw2_capacity_per_direction_hour']:,.0f}/hour/direction; {len(line['kinematic_holds'])} held longitudinal cases.")
     diagnostics=report['diagnostics']
     if diagnostics['ring_closure_discrepancies']:
         rows += ['', 'Retained ring wrap distances do not close the complete geographic route. Recomputed closure adds the following distances to the input wrap values; actual closure alignment remains open: '+
@@ -390,14 +421,14 @@ def write_readme(output, report):
     route=report['routing_strategy']
     rows += ['', f"**Predominantly elevated strategy:** {100*route['target_elevated_mainline_fraction']:g}% mainline elevation target; all ordinary sections proposed elevated. Ordinary viaduct planning length {route['ordinary_viaduct_proposal_length_m']/1000:,.3f} km includes {route['proposed_conversion_from_at_grade_m']/1000:,.3f} km converted from retained at-grade scope. Special crossings remain separate and unpriced.", '',
              'Straight tangents are preferred between demand anchors. Existing geographic alignments have not been rerouted or proved clear. Buildings/air rights, road and utility clearances, piers/foundations, wildlife/water passage, station access and construction access require evidence. Elevation does not establish zero displacement or zero environmental impact.', '']
-    rows += ['', 'Formation matches both planning AW2/AW3 loads. Assumed overall length includes the shared configuration’s coupling gaps; body lengths alone exclude them. Platforms are screened against assumed overall length plus 10 m; final tolerances, overhang and berthing require qualification. Fleet is recomputed from hot AW3, no-regen straight/level duty and retained peak headways, with 10% spares rounded up and one cold reserve per line.', '',
+    rows += ['', 'Formation matches both planning AW2/AW3 loads. Assumed overall length includes the shared configuration’s coupling gaps; body lengths alone exclude them. Platforms are screened against assumed overall length plus 10 m; final tolerances, overhang and berthing require qualification. Fleet is recomputed from hot AW3 services duty and selected station-resource headways, with 10% spares rounded up and one cold reserve per line. Pure trajectory and fixed-winding force feasibility are separate screens; unlocated intermediate-zone hints do not clear either hold.', '',
              'Radials use unlocated fixed terminal loop allowances; rings use two independent directed circuits. A 100 m radius / 20 km/h loop allowance is not approved geometry. Depot-only switches or transfer devices require separate hardware, access and recovery qualification.', '',
-             'Station charging is screened at 600 kW per car, with dwell extended to cover the worst incoming hot/no-regen leg and terminal loop. Multiple berths implied by dwell/headway require a conflict-free physical layout. Losses, taper, grade, curve forces, emergency reserve and missed charging remain open. No grid/PV/storage or site release is asserted.', '',
-             '| Scenario | Repeat fleet allowance USD | Ordinary elevated allowance USD | Partial subtotal USD |',
-             '|---|---:|---:|---:|']
+             'Station services charging is screened at 200 kW per car, including live connected services and replacement of run/disconnected-dwell energy. Main traction is supplied by separate station LSM equipment. Dwell is extended for the worst incoming services duty and terminal allowance. Multiple berths implied by dwell/headway require a conflict-free physical layout. Losses, taper, grade, curve forces, emergency reserve and missed charging remain open. No grid/PV/storage or site release is asserted.', '',
+             '| Scenario | Repeat fleet allowance USD | Ordinary elevated allowance USD | Station electrical target USD | Partial subtotal USD |',
+             '|---|---:|---:|---:|---:|']
     for c in report['costs']['scenarios']:
-        rows.append(f"| {c['scenario']} | {c['repeat_fleet_allowance_usd']:,.0f} | {c['ordinary_elevated_allowance_usd']:,.0f} | {c['priced_scope_subtotal_usd']:,.0f} |")
-    rows += ['', '**Complete city programme cost remains unknown.** Partial allowances price each formation by car, coupling and shared train systems, plus measured section/reaction-steel quantities and explicit process assumptions per ordinary elevated route km. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, stations, depots, energy, controls, land, NRE/plant, EPC and other scope listed in the structured report. Rates and productivity assumptions require supplier and site validation. Complete project costs and localisation remain unknown.', '',
+        rows.append(f"| {c['scenario']} | {c['repeat_fleet_allowance_usd']:,.0f} | {c['ordinary_elevated_allowance_usd']:,.0f} | {c['station_electrical_allowance_usd']:,.0f} | {c['priced_scope_subtotal_usd']:,.0f} |")
+    rows += ['', '**Complete city programme cost remains unknown.** Partial allowances price each formation by car, coupling and shared train systems, plus measured section/reaction-steel quantities and explicit process assumptions per ordinary elevated route km. Station electrical rows price unquoted repeated fixed-group equipment targets separately; actual45-second charging and supply/thermal ratings require a configured quote. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, station buildings/access, depots, external utility reinforcement, land, NRE/plant, EPC and other scope listed in the structured report. Rates and productivity assumptions require supplier and site validation. Complete project costs and localisation remain unknown.', '',
              'Open acceptance work:', '']
     rows += ['- '+g['id']+': '+g['closure'] for g in report['gates']]
     programme=json.loads((output/'manufacturing.json').read_text())
@@ -450,7 +481,8 @@ def generate_all(output_root=None):
 
 def calculation_dependencies():
     """Transitive shared computational inputs used by generation and replay."""
-    return [*optimisation.calculation_dependencies(),Path(cartography.__file__)]
+    from . import station,station_structure
+    return [*optimisation.calculation_dependencies(),Path(cartography.__file__),Path(station.__file__),station.INPUT,*station_structure.source_paths()]
 
 
 def source_paths():
@@ -632,7 +664,7 @@ def replay_city(report, *, cycles=2, start_soc=None, charger_efficiency=0.90,
                                   minimum_event_energy_kwh=minimum, normal_window_passed=minimum>=lower))
         balance=initial-totals['motion_kwh']-totals['stationary_services_kwh']+totals['stored_charge_kwh']
         lines.append(dict(line=line['line'], representative_trains_replayed=1,
-                          compiled_fleet_total=line['fleet']['total'], retained_headway_seconds=line['retained_peak_headway_seconds'],
+                          compiled_fleet_total=line['fleet']['total'], retained_headway_seconds=line['retained_peak_headway_seconds'],selected_headway_seconds=line['selected_peak_headway_seconds'],
                           initial_energy_kwh=initial, final_energy_kwh=energy, minimum_normal_energy_kwh=lower,
                           eol_capacity_kwh=capacity, elapsed_seconds=elapsed, cycles=cycles,
                           energy_ledger_residual_kwh=energy-balance, energy_totals=totals,
@@ -649,7 +681,7 @@ def replay_city(report, *, cycles=2, start_soc=None, charger_efficiency=0.90,
                 normal_window_passed=all(l['normal_window_passed'] for l in lines),
                 protected_emergency_energy_kwh=None, emergency_reserve_passed=None,
                 physical_release=False, route_acceptance=False, force_acceptance=False,
-                exclusions=['fleet traffic/conflicts and charging simultaneity', 'grade/curves/wind/jerk',
+                exclusions=['fleet traffic/conflicts and charging simultaneity', 'grade/curves/wind and qualified traffic',
                             'battery voltage/thermal/taper and internal losses', 'physical force/control/protection',
                             'grid/PV/storage availability', 'protected emergency reserve'])
 

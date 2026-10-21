@@ -39,23 +39,24 @@ def test_pareto_research_set_has_no_dominating_other_screen_pass(context):
 
 def test_reference_cost_reconciles_current_quantity_bill(context):
     _,c,k=context;a=optimisation.load();_,v=optimisation.vehicle(c,k,a['vehicle_profiles'][0])
-    result=optimisation.civil(c,k,v,.8,1.6,.15,.18,25,a)
-    ref=model.cost_case(c,k,'base',3000,225)
+    result=optimisation.civil(c,k,v,.8,1.8,.10,.15,25,a)
+    ref=model.cost_case(c,k,'base',3000,30)
     assert result['indexed_rows_usd_dual_km']==pytest.approx(ref['civil_rows_usd_dual_km'])
     assert result['indexed_allowance_usd_dual_km']==pytest.approx(ref['civil_usd_dual_km'])
-    assert result['concrete_m3_dual_km']==pytest.approx(1560)
-    assert result['counted_concrete_mass_kg_dual_km']==pytest.approx(3900000)
-    assert result['maximum_bare_beam_lift_kg']==pytest.approx(41250)
+    assert result['concrete_m3_dual_km']==pytest.approx((.54+.72/25+.12)*2000)
+    assert result['counted_concrete_mass_kg_dual_km']==pytest.approx((.54+.72/25+.12)*2000*2500)
+    assert result['maximum_bare_beam_lift_kg']==pytest.approx((.54*25+.72)*2500)
     assert result['shared_supports_per_route_km']==40
     assert result['beam_lifts_per_route_km']==80
 
 
 def test_longer_spans_reduce_support_count_but_increase_lift_and_deflection(context):
     _,c,k=context;a=optimisation.load();_,v=optimisation.vehicle(c,k,a['vehicle_profiles'][0])
-    short=optimisation.civil(c,k,v,.8,1.6,.15,.18,20,a);long=optimisation.civil(c,k,v,.8,1.6,.15,.18,30,a)
+    short=optimisation.civil(c,k,v,.8,1.8,.10,.15,20,a);long=optimisation.civil(c,k,v,.8,1.8,.10,.15,30,a)
     assert long['shared_supports_per_route_km']/short['shared_supports_per_route_km']==pytest.approx(2/3)
-    assert long['maximum_bare_beam_lift_kg']/short['maximum_bare_beam_lift_kg']==pytest.approx(1.5)
-    assert long['section']['total_elastic_deflection_m']/short['section']['total_elastic_deflection_m']==pytest.approx(1.5**4)
+    assert long['maximum_bare_beam_lift_kg']/short['maximum_bare_beam_lift_kg']==pytest.approx((.54*30+.72)/(.54*20+.72))
+    q=lambda length:(.54+.12)*2500+.72*2500/length+300.23424+26200/17
+    assert long['section']['total_elastic_deflection_m']/short['section']['total_elastic_deflection_m']==pytest.approx(1.5**4*q(30)/q(20))
     for key in ('walkway_brackets','installation','night','qa','relocation','traffic'):
         assert short['indexed_rows_usd_dual_km'][key]==long['indexed_rows_usd_dual_km'][key]
     for key in ('supports','temporary','transport','erection'):
@@ -64,13 +65,13 @@ def test_longer_spans_reduce_support_count_but_increase_lift_and_deflection(cont
 
 
 def test_vehicle_targets_preserve_payload_storage_ferrite_capture_and_reserve(context):
-    _,c,k=context;a=optimisation.load();baseline=model.mass(c,3000,225)
+    _,c,k=context;a=optimisation.load();baseline=model.mass(c,3000,30)
     for p in a['vehicle_profiles']:
         target,r=optimisation.vehicle(c,k,p)
         assert r['mass']['aw3_kg']-r['mass']['tare_kg']==12000
         assert r['mass']['aw2_kg']-r['mass']['tare_kg']==9000
-        assert r['gross_storage_kwh_per_car']==225
-        assert r['fixed_allocations_kg']=={'ferrite_base':3000,'capture_landing_emergency_braking':600,'battery_150kwh_installed':1500,'growth_reserve':1800}
+        assert r['gross_storage_kwh_per_car']==30
+        assert r['fixed_allocations_kg']=={'ferrite_base':3000,'capture_landing_emergency_braking':600,'services_battery_low_case_installed_kg':200,'growth_reserve':1800}
         assert r['mass']['tare_kg']==baseline['tare_kg']-r['assumed_mass_saving_kg']
         assert r['imported_input_usd'] is r['local_value_added_fraction'] is None
         assert r['total_moving_parts_count'] is None
@@ -88,8 +89,8 @@ def test_mass_allocation_alone_does_not_invent_procurement_savings(context):
 
 def test_vehicle_mass_changes_civil_loads_in_same_geometry(context):
     _,c,k=context;a=optimisation.load();target,v=optimisation.vehicle(c,k,a['vehicle_profiles'][-1])
-    light=optimisation.civil(target,k,v,.8,1.6,.15,.18,25,a)
-    heavy=optimisation.civil(c,k,v,.8,1.6,.15,.18,25,a)
+    light=optimisation.civil(target,k,v,.8,1.8,.10,.15,25,a)
+    heavy=optimisation.civil(c,k,v,.8,1.8,.10,.15,25,a)
     assert light['section']['vehicle_line_mass_kg_m']==pytest.approx(v['mass']['aw3_kg']/17)
     assert light['section']['total_moment_nm']<heavy['section']['total_moment_nm']
     assert light['section']['total_elastic_deflection_m']<heavy['section']['total_elastic_deflection_m']
@@ -151,11 +152,11 @@ def test_no_numerical_candidate_does_not_invent_an_accepted_design(context):
 
 def test_actual_retained_rail_mass_cannot_be_replaced_by_lighter_allowance(context):
     _,c,k=context;a=optimisation.load();_,v=optimisation.vehicle(c,k,a['vehicle_profiles'][0])
-    result=optimisation.civil(c,k,v,.8,1.6,.15,.18,25,a)
+    result=optimisation.civil(c,k,v,.8,1.8,.10,.15,25,a)
     # Independently count 2 faces x10 cassettes x2.49m x0.96m x20mm x7850kg/m3 /25m.
     expected=2*10*2.49*.96*.02*7850/25
     assert result['native_passive_rail_line_mass_kg_m_per_direction']==pytest.approx(expected)
-    assert result['section']['dead_line_mass_kg_m']==pytest.approx((.66+.12)*2500+expected)
+    assert result['section']['dead_line_mass_kg_m']==pytest.approx((.54+.72/25+.12)*2500+expected)
     assert not result['other_attachment_mass_closed']
 
 
@@ -176,16 +177,17 @@ def test_scorecards_preserve_whole_system_unknowns_and_do_not_relabel_allowances
     assert any('actual magnetic force/loss' in link['link'] and link['state'].startswith('open') for link in r['coupling_evidence'])
 
 
-def test_matched_profile_duty_changes_with_mass_but_not_budget_alone(context):
+def test_matched_profile_separates_constant_services_from_mass_sensitive_station_energy(context):
     _,c,k=context;a=optimisation.load()
     ref=optimisation.vehicle(c,k,a['vehicle_profiles'][0])[1]
     light=optimisation.vehicle(c,k,a['vehicle_profiles'][1])[1]
     unchanged=deepcopy(a['vehicle_profiles'][0]);unchanged['hardware_target']=60000
     budget=optimisation.vehicle(c,k,unchanged)[1]
-    assert light['matched_duty']['hot_aw3_no_regen_cycle_kwh_per_car']<ref['matched_duty']['hot_aw3_no_regen_cycle_kwh_per_car']
+    assert light['matched_duty']['hot_aw3_no_regen_cycle_kwh_per_car']==ref['matched_duty']['hot_aw3_no_regen_cycle_kwh_per_car']
+    assert light['matched_duty']['station_traction_input_kwh']<ref['matched_duty']['station_traction_input_kwh']
     assert budget['matched_duty']==ref['matched_duty']
     duty=light['matched_duty']
-    assert duty['balanced_charger_kw_per_car']==pytest.approx(duty['hot_aw3_no_regen_cycle_kwh_per_car']*3600/c['power']['charger_effective_seconds'])
+    assert duty['balanced_charger_kw_per_car']==pytest.approx(60+60*105/45)
     assert not duty['actual_magnetic_loss_map_used'] and not duty['route_accepted']
 
 
@@ -237,8 +239,8 @@ def test_process_rate_changes_invalidate_optimisation_and_city_replay(context):
     before=optimisation.canonical_inputs(c,k,a);after=optimisation.canonical_inputs(c,changed,a)
     assert before!=after
     _,v=optimisation.vehicle(c,k,a['vehicle_profiles'][0])
-    old=optimisation.civil(c,k,v,.8,1.6,.15,.18,25,a)
-    new=optimisation.civil(c,changed,v,.8,1.6,.15,.18,25,a)
+    old=optimisation.civil(c,k,v,.8,1.8,.10,.15,25,a)
+    new=optimisation.civil(c,changed,v,.8,1.8,.10,.15,25,a)
     assert new['indexed_rows_usd_dual_km']['passive_rail_supply']==pytest.approx(2*old['indexed_rows_usd_dual_km']['passive_rail_supply'])
     plan=replay_fixture(context,tomllib.loads(cities.ASSUMPTIONS.read_text()))
     key=original.relative_to(ROOT).as_posix()

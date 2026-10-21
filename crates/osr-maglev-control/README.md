@@ -1,7 +1,8 @@
 # osr-maglev-control
 
-Portable v0.5 maglev study core, using Rust `no_std`, no heap and no external
-dependencies. It targets simulation and off-the-shelf SBC replay. Every computed
+Portable station-powered ferrite-maglev study core, using Rust `no_std`, no heap
+and no external dependencies. It targets simulation and off-the-shelf SBC replay.
+Station LSM demand is separate from onboard active PM support and guidance. Every computed
 output has `physical_output_authorised = false`; the I/O boundary records study
 outputs and supplies no current, gate-drive or PWM operation.
 
@@ -15,11 +16,12 @@ reused unchanged for shaped-pole passive vertical support.
 
 `array::evaluate_array` adds coupled heave, roll, pitch, lateral displacement and
 yaw feedback and `array::allocate` distributes requested forces and moments over
-24 stations. This is one rigid car, not the complete six-car Baghdad train or a validated
-six-degree-of-freedom suspension. Longitudinal force has no actuator in this
-model; a nonzero longitudinal demand appears explicitly as unachieved residual.
-Propulsion, braking, roll/yaw cross-coupling from real traction, flexible car/beam
-modes, nonlinear finite-angle dynamics and contact dynamics remain open.
+24 support stations. This is one rigid car; the complete moving six-car Baghdad
+train and a validated six-degree-of-freedom suspension remain open. The array
+model has no longitudinal actuator; nonzero longitudinal demand appears as an
+unachieved residual. The separate station module supplies an offline LSM demand
+screen, without closing physical propulsion/braking, traction/support coupling,
+flexible vehicle/beam modes, finite-angle dynamics or contact behavior.
 
 Coordinates use x forward, y left and z up, with the assumed car centre of mass
 as origin. Station positions and gaps are metres, force is newtons, moments are
@@ -78,8 +80,9 @@ cargo run -p osr-maglev-control --example multimodule_replay
 
 The array replay integrates ten seconds of virtual 1 ms frames, prints CSV at
 500 ms intervals and asserts feasibility and a final small five-mode error. Its
-27,750 kg AW2 mass is the profile's 18,750 kg matched tare plus 120 × 75 kg
-passengers. Gains, diagonal inertias, force limits and instantaneous actuator
+27,750 kg AW2 mass is a retained numerical comparison: 18,750 kg tare plus
+120 × 75 kg passengers. The current station-powered design instead targets
+14,200 kg tare; this retained control case is not the new vehicle mass closure. Gains, diagonal inertias, force limits and instantaneous actuator
 response are synthetic. It starts with coupled displacement/tilt, commands a
 stop at 0.5 s and loses station 0 at 1 s under a specified zero-residual failure
 hypothesis. It keeps fresh support and the stop latch active. This trajectory
@@ -154,6 +157,31 @@ negative controls. Loss of prerequisites after deployment begins holds the
 sequence; no automatic retraction is commanded. The egress/support composition
 test preserves fresh support control while inhibiting traction. Physical timing,
 independent protection, accessible passenger evacuation and railway approval remain open.
+
+
+## Station launch and receiving study
+
+`station` evaluates bounded offline launch, coast, receive and secured modes.
+It checks exact configuration/zone identity, fresh monotonic frames, phase
+uncertainty, reservation assertions, magnetic-band overlap and assumed current,
+voltage and thermal limits. Coast demands zero station thrust. Receiving braking
+requires the declared brake resistor to be ready. Receiver loss after commitment
+requires independent stopping/recovery; clearing a Boolean drive demand does not
+stop an already coasting train.
+
+```sh
+cargo run --locked -p osr-maglev-control --example station_replay
+./osr design protocol
+```
+
+The scalar force/current relation, winding R/L/flux and voltage/loss calculations
+are explicit hypotheses. They are not measured motor maps, three-phase hardware
+commutation, shared support/thrust qualification or a six-car electromagnetic
+simulation. An external `launch_committed` assertion is not an authenticated
+interlocking or detector record. Persistent corridor/berth ownership is exercised
+separately in `osr-interlocking`; permission expiry cannot release a committed
+train, and full-consist clearance is required. No physical output adapter or
+railway operating authority is supplied.
 
 ## Adaptive research tuning
 

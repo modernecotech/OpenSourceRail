@@ -9,7 +9,7 @@ from copy import deepcopy
 import gzip
 import json
 import math
-from . import configuration,geometry,media,model,system_development,requirements,evacuation
+from . import configuration,geometry,media,model,system_development,requirements,evacuation,station_structure,specification
 
 OUTPUT=model.ROOT/'docs/design-engine/ferrite-maglev/baghdad-reference'
 
@@ -39,7 +39,7 @@ def station(cfg=None):
         p.append(geometry.part(f'platform/lift-side-{side}',[s['lift_length_m'],(s['island_width_m']-s['lift_width_m'])/2,.08],[-s['lift_length_m']/2,y,floor-.08],'concrete'))
     stages.append(dict(id='platform-with-lift-opening',parts=[v['id'] for v in p[start:]]));start=len(p)
     p.append(geometry.part('lift/flush-floor',[s['lift_length_m'],s['lift_width_m'],.08],[-s['lift_length_m']/2,-s['lift_width_m']/2,floor-.08],'steel'))
-    ground=-(cv.pier_height_m+cv.depth_m+1.2)
+    ground=-(cv.pier_height_m+cv.depth_m+.9)
     for x in (-s['lift_length_m']/2,s['lift_length_m']/2-.06):
         for y in (-s['lift_width_m']/2,s['lift_width_m']/2-.06):
             p.append(geometry.part(f'lift/shaft-frame-{x}-{y}',[.06,.06,floor-ground+2.2],[x,y,ground],'steel',kind='tube',wall_m=.005,axis=2))
@@ -104,7 +104,7 @@ def study():
     for height in (8.,12.,20.,30.):
         d=system_development.support_demands(pier_height=height)
         families.append(dict(pier_height_m=height,door_sill_to_ground_m=height+cfg.civil.depth_m+1.2+cfg.station['floor_top_above_beam_m'],
-            column_mass_kg=1.5*2*height*geometry.MATERIALS['concrete'],
+            column_mass_kg=station_structure.civil(pier_height=height)['supports']['column_kg'],
             ground_level_assumed_m=cfg.civil.ground_level_m,demands=d,lateral_capacity=None,
             foundation_selected=False,erection_equipment_selected=False,installed_cost_usd=None))
     qty={}
@@ -129,7 +129,7 @@ def study():
 
 
 def sources():
-    paths=[Path(requirements.__file__),Path(evacuation.__file__),evacuation.INPUT,model.SPEC,Path(__file__),*configuration.source_paths(),Path(geometry.__file__),Path(media.__file__),
+    paths=[*station_structure.source_paths(),Path(specification.__file__),specification.INPUT,model.ROOT/'OpenSourceRail_Station_Powered_Maglev_Design_Specification.docx',Path(requirements.__file__),Path(evacuation.__file__),evacuation.INPUT,model.SPEC,Path(__file__),*configuration.source_paths(),Path(geometry.__file__),Path(media.__file__),
         Path(model.__file__),Path(system_development.__file__),system_development.INPUT,
         model.ROOT/'engineering/factory_examples/native.py',model.ROOT/'engineering/factory_examples/models.py']
     return {p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in paths}

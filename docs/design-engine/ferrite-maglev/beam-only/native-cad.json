@@ -9,9 +9,9 @@
   "exporter_sha256": "439b9a26d61f0d151e78913f8d4d592507c1cbb6570aa57ab70e78eb573a6bed",
   "fcstd_reopened": true,
   "files_sha256": {
-    "model.FCStd": "7694d9b837c20a48da7cb136aa1acd1fa467b1a6de01301134e38ce3c05730f4",
-    "model.step.gz": "16fce6c37ddb50e7a79c18439cc3b8babfd5600f95d2d123bc1d9af26d049a7f",
-    "native-mesh.json.gz": "c540954c7c56c06cb7bf6b2316d7c606327960503d82711b8a723b501db2d784"
+    "model.FCStd": "fa089bbcc09671f46be188d9474ba009a0f8379c7c2ebb9ff2a4e1a298bc8a60",
+    "model.step.gz": "f18fe6681a5b702c80c4c6b0c2925a701cb2ea3dbc5e38b54dd3b144cc768c0c",
+    "native-mesh.json.gz": "fe5589cbc56381f03cb4ec3eaca5997a4720814f78fdaeea85ad41598fe62120"
   },
   "freecad_version": [
     "1",
@@ -24,7 +24,7 @@
     "4fd3bf320d9566a27e60069fc8387448aaa3a094"
   ],
   "geometry_helpers_sha256": "5b9ef81b6377f5468678d91401cbfde33f3a1e4f1f11738ec81a0eda076e7017",
-  "input_sha256": "f8fcb57f00f73d0276042ae2171355d2033492fa8955f10bee8059ec5911bc8f",
+  "input_sha256": "d9597ef33009fa7ed42e40607fb9878070b9724e6486cfc4505ed4f491aed1d5",
   "interference_checked_ids": [
     "beam--1/lift-rail--1-0",
     "beam--1/lift-rail--1-1",
@@ -69,43 +69,67 @@
   ],
   "note": "Only declared role pairs receive positive-volume checks; other roles and envelopes have no interference acceptance",
   "opencascade_version": "7.8.1",
-  "part_count": 54,
+  "part_count": 62,
   "parts": [
     {
       "bounds_m": [
         -12.5,
         -2.3,
-        -0.18,
+        -0.15,
         12.5,
         -1.5,
         0.0
       ],
       "id": "beam--1/top-slab",
-      "volume_m3": 3.6
+      "volume_m3": 3.0
     },
     {
       "bounds_m": [
         -12.5,
         -2.3,
-        -1.6,
+        -1.8,
         12.5,
         -1.5,
-        -1.42
+        -1.65
       ],
       "id": "beam--1/bottom-slab",
-      "volume_m3": 3.6
+      "volume_m3": 3.0
+    },
+    {
+      "bounds_m": [
+        -12.5,
+        -2.1999999999999997,
+        -1.6500000000000001,
+        -12.1,
+        -1.5999999999999996,
+        -0.15000000000000022
+      ],
+      "id": "beam--1/end-infill--1",
+      "volume_m3": 0.36
+    },
+    {
+      "bounds_m": [
+        12.1,
+        -2.1999999999999997,
+        -1.6500000000000001,
+        12.5,
+        -1.5999999999999996,
+        -0.15000000000000022
+      ],
+      "id": "beam--1/end-infill-1",
+      "volume_m3": 0.36
     },
     {
       "bounds_m": [
         -12.5,
         -2.3,
-        -1.4200000000000002,
+        -1.6500000000000001,
         12.5,
-        -2.15,
-        -0.18
+        -2.2,
+        -0.15000000000000022
       ],
       "id": "beam--1/web--1",
-      "volume_m3": 4.650000000000001
+      "volume_m3": 3.75
     },
     {
       "bounds_m": [
@@ -230,14 +254,14 @@
     {
       "bounds_m": [
         -12.5,
-        -1.65,
-        -1.4200000000000002,
+        -1.6,
+        -1.6500000000000001,
         12.5,
         -1.5,
-        -0.18
+        -0.15000000000000022
       ],
       "id": "beam--1/web-1",
-      "volume_m3": 4.650000000000001
+      "volume_m3": 3.75
     },
     {
       "bounds_m": [
@@ -363,37 +387,61 @@
       "bounds_m": [
         -12.5,
         1.5,
-        -0.18,
+        -0.15,
         12.5,
         2.3,
         0.0
       ],
       "id": "beam-1/top-slab",
-      "volume_m3": 3.6
+      "volume_m3": 3.0
     },
     {
       "bounds_m": [
         -12.5,
         1.5,
-        -1.6,
+        -1.8,
         12.5,
         2.3,
-        -1.42
+        -1.65
       ],
       "id": "beam-1/bottom-slab",
-      "volume_m3": 3.6
+      "volume_m3": 3.0
+    },
+    {
+      "bounds_m": [
+        -12.5,
+        1.6,
+        -1.6500000000000001,
+        -12.1,
+        2.2,
+        -0.15000000000000022
+      ],
+      "id": "beam-1/end-infill--1",
+      "volume_m3": 0.36
+    },
+    {
+      "bounds_m": [
+        12.1,
+        1.6,
+        -1.6500000000000001,
+        12.5,
+        2.2,
+        -0.15000000000000022
+      ],
+      "id": "beam-1/end-infill-1",
+      "volume_m3": 0.36
     },
     {
       "bounds_m": [
         -12.5,
         1.5,
-        -1.4200000000000002,
+        -1.6500000000000001,
         12.5,
-        1.65,
-        -0.18
+        1.6,
+        -0.15000000000000022
       ],
       "id": "beam-1/web--1",
-      "volume_m3": 4.650000000000001
+      "volume_m3": 3.75
     },
     {
       "bounds_m": [
@@ -518,14 +566,14 @@
     {
       "bounds_m": [
         -12.5,
-        2.15,
-        -1.4200000000000002,
+        2.1999999999999997,
+        -1.6500000000000001,
         12.5,
-        2.3,
-        -0.18
+        2.2999999999999994,
+        -0.15000000000000022
       ],
       "id": "beam-1/web-1",
-      "volume_m3": 4.650000000000001
+      "volume_m3": 3.75
     },
     {
       "bounds_m": [
@@ -649,80 +697,128 @@
     },
     {
       "bounds_m": [
-        -13.75,
-        -3.5,
-        -2.8,
-        -11.25,
-        3.5,
-        -1.6
+        -13.0,
+        -2.5,
+        -2.7,
+        -12.0,
+        2.5,
+        -1.8
       ],
       "id": "support--12.5/cap",
-      "volume_m3": 21.0
+      "volume_m3": 4.5
     },
     {
       "bounds_m": [
-        -13.25,
-        -1.0,
-        -10.8,
-        -11.75,
-        1.0,
-        -2.8
+        -13.5,
+        -0.5,
+        -2.7,
+        -13.0,
+        0.5,
+        -1.8
+      ],
+      "id": "support--12.5/cap-widening--1",
+      "volume_m3": 0.45
+    },
+    {
+      "bounds_m": [
+        -12.0,
+        -0.5,
+        -2.7,
+        -11.5,
+        0.5,
+        -1.8
+      ],
+      "id": "support--12.5/cap-widening-1",
+      "volume_m3": 0.45
+    },
+    {
+      "bounds_m": [
+        -13.175,
+        -0.675,
+        -10.7,
+        -11.825,
+        0.675,
+        -2.7
       ],
       "id": "support--12.5/column",
-      "volume_m3": 24.0
+      "volume_m3": 6.489352325071415
     },
     {
       "bounds_m": [
         -14.75,
         -2.25,
-        -12.0,
+        -11.5,
         -10.25,
         2.25,
-        -10.8
+        -10.7
       ],
       "id": "support--12.5/foundation-envelope",
-      "volume_m3": 24.3
+      "volume_m3": 16.2
     },
     {
       "bounds_m": [
-        11.25,
-        -3.5,
-        -2.8,
-        13.75,
-        3.5,
-        -1.6
+        12.0,
+        -2.5,
+        -2.7,
+        13.0,
+        2.5,
+        -1.8
       ],
       "id": "support-12.5/cap",
-      "volume_m3": 21.0
+      "volume_m3": 4.5
     },
     {
       "bounds_m": [
-        11.75,
-        -1.0,
-        -10.8,
-        13.25,
-        1.0,
-        -2.8
+        11.5,
+        -0.5,
+        -2.7,
+        12.0,
+        0.5,
+        -1.8
+      ],
+      "id": "support-12.5/cap-widening--1",
+      "volume_m3": 0.45
+    },
+    {
+      "bounds_m": [
+        13.0,
+        -0.5,
+        -2.7,
+        13.5,
+        0.5,
+        -1.8
+      ],
+      "id": "support-12.5/cap-widening-1",
+      "volume_m3": 0.45
+    },
+    {
+      "bounds_m": [
+        11.825,
+        -0.675,
+        -10.7,
+        13.175,
+        0.675,
+        -2.7
       ],
       "id": "support-12.5/column",
-      "volume_m3": 24.0
+      "volume_m3": 6.489352325071415
     },
     {
       "bounds_m": [
         10.25,
         -2.25,
-        -12.0,
+        -11.5,
         14.75,
         2.25,
-        -10.8
+        -10.7
       ],
       "id": "support-12.5/foundation-envelope",
-      "volume_m3": 24.3
+      "volume_m3": 16.2
     }
   ],
   "physical_release": false,
   "schema": "osr-factory-native-cad/1",
   "step_reopened": true,
-  "step_uncompressed_sha256": "3e66df11a8c45fd386bb3435f0d79cf354b49773dcd42fc9243f85e72edb7780",
-  "volume_sum_m3": 173.51232000000002
+  "step_uncompressed_sha256": "f2c50f72a03baa421b3fb4f16a2e1c42841f542f979c0e5245ea292cf42895ee",
+  "volume_sum_m3": 86.53102465014283
 }

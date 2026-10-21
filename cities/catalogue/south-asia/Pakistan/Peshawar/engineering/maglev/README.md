@@ -4,22 +4,33 @@
 
 Provisional planning from retained geography, station demand and service schedules. All physical and manufacturing release flags remain false.
 
-8 lines; 204 provisional trainsets / 816 cars; 183,600 kWh gross onboard storage.
+8 lines; 108 provisional trainsets / 432 cars; 12,960 kWh gross onboard storage.
 
 | Line | Cars | AW2 / AW3 | Bodies / assumed overall m | Topology | Peak / total trains | Dwell s |
 |---|---:|---:|---:|---|---:|---:|
-| line-1 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 31 / 36 | 123 |
-| line-2 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 28 / 32 | 126 |
-| line-3 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 37 / 42 | 129 |
-| line-4 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 27 / 31 | 136 |
-| line-5 | 4 | 480 / 640 | 68 / 69.5 | two-independent-directed-circuits | 32 / 37 | 121 |
-| line-6 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 6 / 8 | 124 |
-| line-7 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 7 / 9 | 137 |
-| line-8 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 7 / 9 | 100 |
+| line-1 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 14 / 17 | 309 |
+| line-2 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 12 / 15 | 319 |
+| line-3 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 15 / 18 | 329 |
+| line-4 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 11 / 14 | 353 |
+| line-5 | 4 | 480 / 640 | 68 / 69.5 | two-independent-directed-circuits | 24 / 28 | 287 |
+| line-6 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 3 / 5 | 310 |
+| line-7 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 3 / 5 | 357 |
+| line-8 | 4 | 480 / 640 | 68 / 69.5 | fixed-terminal-loops | 4 / 6 | 229 |
+
+Station-powered dispatch recomputes headway from runtime,dwell and protected-zone clearance. The190s baseline and longer actual-leg bounds replace shorter source headways; fleet and capacity use the selected headway. Unpowered-coast feasibility, grade, phase/overlap and stalled-train recovery remain hard acceptance gates.
+
+- line-1: selected headway 835s versus source 180s; normal capacity 2,069/hour/direction; 7 held longitudinal cases.
+- line-2: selected headway 868s versus source 180s; normal capacity 1,991/hour/direction; 7 held longitudinal cases.
+- line-3: selected headway 901s versus source 180s; normal capacity 1,918/hour/direction; 9 held longitudinal cases.
+- line-4: selected headway 982s versus source 180s; normal capacity 1,760/hour/direction; 6 held longitudinal cases.
+- line-5: selected headway 932s versus source 360s; normal capacity 1,854/hour/direction; 18 held longitudinal cases.
+- line-6: selected headway 839s versus source 180s; normal capacity 2,060/hour/direction; 1 held longitudinal cases.
+- line-7: selected headway 994s versus source 180s; normal capacity 1,738/hour/direction; 1 held longitudinal cases.
+- line-8: selected headway 569s versus source 180s; normal capacity 3,037/hour/direction; 2 held longitudinal cases.
 
 Retained ring wrap distances do not close the complete geographic route. Recomputed closure adds the following distances to the input wrap values; actual closure alignment remains open: line-5 -0.2 m.
 
-**Integrated-beam/no-walkway target:** door-mounted evacuation is a study candidate. Continuous walkway removal is not approved. Necessary iron reaction faces, supports/foundations, joints and protection remain. 4896 onboard packs are a provisional door-count hypothesis; new mass, lifetime cost and net savings are unknown. Landing space, accessible alternatives, fire/weather/fault conditions and rescue/maintenance access must be proved along the complete route.
+**Integrated-beam/no-walkway target:** door-mounted evacuation is a study candidate. Continuous walkway removal is not approved. Necessary iron reaction faces, supports/foundations, joints and protection remain. 2592 onboard packs are a provisional door-count hypothesis; new mass, lifetime cost and net savings are unknown. Landing space, accessible alternatives, fire/weather/fault conditions and rescue/maintenance access must be proved along the complete route.
 
 
 **Predominantly elevated strategy:** 99% mainline elevation target; all ordinary sections proposed elevated. Ordinary viaduct planning length 186.603 km includes 30.230 km converted from retained at-grade scope. Special crossings remain separate and unpriced.
@@ -27,19 +38,19 @@ Retained ring wrap distances do not close the complete geographic route. Recompu
 Straight tangents are preferred between demand anchors. Existing geographic alignments have not been rerouted or proved clear. Buildings/air rights, road and utility clearances, piers/foundations, wildlife/water passage, station access and construction access require evidence. Elevation does not establish zero displacement or zero environmental impact.
 
 
-Formation matches both planning AW2/AW3 loads. Assumed overall length includes the shared configuration’s coupling gaps; body lengths alone exclude them. Platforms are screened against assumed overall length plus 10 m; final tolerances, overhang and berthing require qualification. Fleet is recomputed from hot AW3, no-regen straight/level duty and retained peak headways, with 10% spares rounded up and one cold reserve per line.
+Formation matches both planning AW2/AW3 loads. Assumed overall length includes the shared configuration’s coupling gaps; body lengths alone exclude them. Platforms are screened against assumed overall length plus 10 m; final tolerances, overhang and berthing require qualification. Fleet is recomputed from hot AW3 services duty and selected station-resource headways, with 10% spares rounded up and one cold reserve per line. Pure trajectory and fixed-winding force feasibility are separate screens; unlocated intermediate-zone hints do not clear either hold.
 
 Radials use unlocated fixed terminal loop allowances; rings use two independent directed circuits. A 100 m radius / 20 km/h loop allowance is not approved geometry. Depot-only switches or transfer devices require separate hardware, access and recovery qualification.
 
-Station charging is screened at 600 kW per car, with dwell extended to cover the worst incoming hot/no-regen leg and terminal loop. Multiple berths implied by dwell/headway require a conflict-free physical layout. Losses, taper, grade, curve forces, emergency reserve and missed charging remain open. No grid/PV/storage or site release is asserted.
+Station services charging is screened at 200 kW per car, including live connected services and replacement of run/disconnected-dwell energy. Main traction is supplied by separate station LSM equipment. Dwell is extended for the worst incoming services duty and terminal allowance. Multiple berths implied by dwell/headway require a conflict-free physical layout. Losses, taper, grade, curve forces, emergency reserve and missed charging remain open. No grid/PV/storage or site release is asserted.
 
-| Scenario | Repeat fleet allowance USD | Ordinary elevated allowance USD | Partial subtotal USD |
-|---|---:|---:|---:|
-| low | 138,048,840 | 622,542,569 | 760,591,409 |
-| base | 184,065,120 | 830,056,759 | 1,014,121,879 |
-| high | 276,097,680 | 1,245,085,139 | 1,521,182,819 |
+| Scenario | Repeat fleet allowance USD | Ordinary elevated allowance USD | Station electrical target USD | Partial subtotal USD |
+|---|---:|---:|---:|---:|
+| low | 63,986,760 | 490,554,822 | 82,960,000 | 637,501,582 |
+| base | 85,315,680 | 654,073,096 | 150,060,000 | 889,448,776 |
+| high | 127,973,520 | 981,109,644 | 237,900,000 | 1,346,983,164 |
 
-**Complete city programme cost remains unknown.** Partial allowances price each formation by car, coupling and shared train systems, plus measured section/reaction-steel quantities and explicit process assumptions per ordinary elevated route km. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, stations, depots, energy, controls, land, NRE/plant, EPC and other scope listed in the structured report. Rates and productivity assumptions require supplier and site validation. Complete project costs and localisation remain unknown.
+**Complete city programme cost remains unknown.** Partial allowances price each formation by car, coupling and shared train systems, plus measured section/reaction-steel quantities and explicit process assumptions per ordinary elevated route km. Station electrical rows price unquoted repeated fixed-group equipment targets separately; actual45-second charging and supply/thermal ratings require a configured quote. They exclude site-specific conversion/clearance premiums, terminal loops, special/bridge works, station buildings/access, depots, external utility reinforcement, land, NRE/plant, EPC and other scope listed in the structured report. Rates and productivity assumptions require supplier and site validation. Complete project costs and localisation remain unknown.
 
 Open acceptance work:
 
@@ -62,10 +73,11 @@ Local work is proposed for repeated frames, cartridges, coils, concrete units an
 
 - **beam**: qualify concrete and reinforcement → assemble reusable mould and cage → stress approved tendons → cast and monitor cure → verify release strength → demould and survey → install reaction faces → proof/inspect serialised element.
 - **supports**: investigate utilities and ground → qualify foundation type → prefabricate cage/pier where feasible → construct foundation → erect and temporarily stabilise pier/cap → survey bearing seats.
-- **vehicle**: cut and form simple repeat panels/members → join on dimensional fixtures → inspect joints → install doors, glazing and interior → integrate batteries, HVAC and safety systems → weigh and survey finished car.
+- **vehicle**: prepare repeatable sandwich moulds and layup → infuse or light-RTM selected laminate/core → verify cure and bondline → fit sized hardpoints, doors, glazing and interior → install support/guidance coils,30kWh services pack and auxiliaries → weigh, inspect and test exact revision.
 - **magnetics**: qualify ferrite and core steel → machine carriers and reaction faces → wind and insulate coils → impregnate and cure → assemble replaceable cartridges → map force/loss/temperature → calibrate independent sensing.
 - **erection**: survey delivery corridor → verify lift plan and crane at radius → deliver and lift beam → locate and positively lock engineered joint → survey reaction faces → complete serial QA traveller → test integrated route section.
 - **software**: build reproducible Rust control → execute oracle/fault/deadline tests → bind exact geometry and force-map revision → test isolated SBC I/O and independent trips → measure worst-case timing → perform integrated rig and route tests.
+- **station-propulsion**: manufacture paired2.5m stator cassettes → verify winding R/L,insulation and polarity → assemble two fixed groups per direction → integrate independent bridges,DCbus,resistor and services charging → calibrate phase sensors → replay launch/commit/fault protocol → low-energy rig and rated duty acceptance.
 
 UK equipment candidates are capability leads, not prices or approved purchases. Rotary coil winding and CCL prestressing have explicit UK-manufacture statements; complete configuration, ratings and origin schedules remain open. See the linked manufacturing bill for dated primary sources.
 

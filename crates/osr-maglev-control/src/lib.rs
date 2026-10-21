@@ -11,6 +11,7 @@ pub mod array;
 pub mod egress;
 pub mod ideal;
 pub mod io;
+pub mod station;
 
 /// Example controller parameters: units are explicit and gains require plant identification.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

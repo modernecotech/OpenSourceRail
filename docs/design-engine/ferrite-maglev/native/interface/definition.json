@@ -12,6 +12,8 @@
       "parts": [
         "guideway/top-slab",
         "guideway/bottom-slab",
+        "guideway/end-infill--1",
+        "guideway/end-infill-1",
         "guideway/web--1",
         "guideway/lift-rail--1-0",
         "guideway/lift-rail--1-1",
@@ -52,7 +54,9 @@
         "frame/crossmember-4",
         "frame/crossmember-6",
         "frame/crossmember-8",
-        "frame/floor-material-region",
+        "frame/floor-lower-face",
+        "frame/floor-core",
+        "frame/floor-upper-face",
         "frame/lower-crosshead--6",
         "frame/u-arm--6--1",
         "frame/outrigger--6--1",
@@ -75562,17 +75566,21 @@
   "manufacturing_release": false,
   "material_density_assumptions_kg_m3": {
     "aluminium": 2700.0,
+    "bond-surface": 1000.0,
     "concrete": 2500.0,
+    "core-100": 100.0,
+    "core-80": 80.0,
     "ferrite": 5000.0,
+    "gfrp": 1900.0,
     "steel": 7850.0,
     "winding-envelope": 5500.0
   },
   "modelled_cg_m": [
-    -0.0006708415571195555,
-    4.096091490976795e-18,
-    -0.6457245789846716
+    -0.00075537908448506,
+    4.612269182765498e-18,
+    -0.7105583694128772
   ],
-  "modelled_material_mass_kg": 55943.58250723225,
+  "modelled_material_mass_kg": 49682.71000723225,
   "modules": [
     {
       "calibrated_force_map": null,
@@ -76444,67 +76452,111 @@
       "at_m": [
         -12.5,
         -0.4,
-        -0.18
+        -0.15
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "guideway/top-slab",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 9000.0,
+      "modelled_mass_kg": 7500.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "concrete",
       "size_m": [
         25.0,
         0.8,
-        0.18
+        0.15
       ],
-      "volume_m3": 3.5999999999999996
+      "volume_m3": 3.0
     },
     {
       "at_m": [
         -12.5,
         -0.4,
-        -1.6
+        -1.8
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "guideway/bottom-slab",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 9000.0,
+      "modelled_mass_kg": 7500.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "concrete",
       "size_m": [
         25.0,
         0.8,
-        0.18
+        0.15
       ],
-      "volume_m3": 3.5999999999999996
+      "volume_m3": 3.0
+    },
+    {
+      "at_m": [
+        -12.5,
+        -0.30000000000000004,
+        -1.6500000000000001
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "id": "guideway/end-infill--1",
+      "kind": "box",
+      "material": "concrete",
+      "modelled_mass_kg": 900.0000000000002,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "concrete",
+      "size_m": [
+        0.4,
+        0.6000000000000001,
+        1.5
+      ],
+      "volume_m3": 0.3600000000000001
+    },
+    {
+      "at_m": [
+        12.1,
+        -0.30000000000000004,
+        -1.6500000000000001
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 2500.0,
+      "id": "guideway/end-infill-1",
+      "kind": "box",
+      "material": "concrete",
+      "modelled_mass_kg": 900.0000000000002,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "concrete",
+      "size_m": [
+        0.4,
+        0.6000000000000001,
+        1.5
+      ],
+      "volume_m3": 0.3600000000000001
     },
     {
       "at_m": [
         -12.5,
         -0.4,
-        -1.4200000000000002
+        -1.6500000000000001
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "guideway/web--1",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 11625.0,
+      "modelled_mass_kg": 9375.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "concrete",
       "size_m": [
         25.0,
-        0.15,
-        1.2400000000000002
+        0.1,
+        1.5
       ],
-      "volume_m3": 4.65
+      "volume_m3": 3.75
     },
     {
       "at_m": [
@@ -76519,7 +76571,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76541,7 +76593,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76563,7 +76615,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76585,7 +76637,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76607,7 +76659,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76629,7 +76681,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76651,7 +76703,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76673,7 +76725,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76695,7 +76747,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76717,7 +76769,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76729,24 +76781,24 @@
     {
       "at_m": [
         -12.5,
-        0.25,
-        -1.4200000000000002
+        0.30000000000000004,
+        -1.6500000000000001
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 2500.0,
       "id": "guideway/web-1",
       "kind": "box",
       "material": "concrete",
-      "modelled_mass_kg": 11625.0,
+      "modelled_mass_kg": 9375.0,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "concrete",
       "size_m": [
         25.0,
-        0.15,
-        1.2400000000000002
+        0.1,
+        1.5
       ],
-      "volume_m3": 4.65
+      "volume_m3": 3.75
     },
     {
       "at_m": [
@@ -76761,7 +76813,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76783,7 +76835,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76805,7 +76857,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76827,7 +76879,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76849,7 +76901,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76871,7 +76923,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76893,7 +76945,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76915,7 +76967,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76937,7 +76989,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76959,7 +77011,7 @@
       "material": "steel",
       "modelled_mass_kg": 375.2928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "magnetic-rail",
       "size_m": [
         2.49,
@@ -76982,7 +77034,7 @@
       "material": "steel",
       "modelled_mass_kg": 563.6928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         17,
@@ -77006,7 +77058,7 @@
       "material": "steel",
       "modelled_mass_kg": 167.29919999999987,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         12,
@@ -77030,7 +77082,7 @@
       "material": "steel",
       "modelled_mass_kg": 563.6928,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         17,
@@ -77054,7 +77106,7 @@
       "material": "steel",
       "modelled_mass_kg": 167.29919999999987,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         12,
@@ -77078,7 +77130,7 @@
       "material": "steel",
       "modelled_mass_kg": 28.02449999999999,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.08,
@@ -77102,7 +77154,7 @@
       "material": "steel",
       "modelled_mass_kg": 28.02449999999999,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.08,
@@ -77126,7 +77178,7 @@
       "material": "steel",
       "modelled_mass_kg": 28.02449999999999,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.08,
@@ -77150,7 +77202,7 @@
       "material": "steel",
       "modelled_mass_kg": 28.02449999999999,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.08,
@@ -77174,7 +77226,7 @@
       "material": "steel",
       "modelled_mass_kg": 28.02449999999999,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.08,
@@ -77198,7 +77250,7 @@
       "material": "steel",
       "modelled_mass_kg": 28.02449999999999,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.08,
@@ -77222,7 +77274,7 @@
       "material": "steel",
       "modelled_mass_kg": 28.02449999999999,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.08,
@@ -77246,7 +77298,7 @@
       "material": "steel",
       "modelled_mass_kg": 28.02449999999999,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.08,
@@ -77270,7 +77322,7 @@
       "material": "steel",
       "modelled_mass_kg": 28.02449999999999,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.08,
@@ -77284,23 +77336,67 @@
       "at_m": [
         -8.5,
         -1.325,
-        0.29
+        0.2355
       ],
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
-      "density_assumption_kg_m3": 2700.0,
-      "id": "frame/floor-material-region",
+      "density_assumption_kg_m3": 1900.0,
+      "id": "frame/floor-lower-face",
       "kind": "box",
-      "material": "aluminium",
-      "modelled_mass_kg": 1216.35,
+      "material": "gfrp",
+      "modelled_mass_kg": 192.58874999999998,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
-      "role": "aluminium",
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "gfrp",
       "size_m": [
         17,
         2.65,
-        0.01
+        0.00225
       ],
-      "volume_m3": 0.45049999999999996
+      "volume_m3": 0.10136249999999998
+    },
+    {
+      "at_m": [
+        -8.5,
+        -1.325,
+        0.23775
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 100.0,
+      "id": "frame/floor-core",
+      "kind": "box",
+      "material": "core-100",
+      "modelled_mass_kg": 270.3,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "core-100",
+      "size_m": [
+        17,
+        2.65,
+        0.06
+      ],
+      "volume_m3": 2.703
+    },
+    {
+      "at_m": [
+        -8.5,
+        -1.325,
+        0.29775
+      ],
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 1900.0,
+      "id": "frame/floor-upper-face",
+      "kind": "box",
+      "material": "gfrp",
+      "modelled_mass_kg": 192.58874999999998,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "gfrp",
+      "size_m": [
+        17,
+        2.65,
+        0.00225
+      ],
+      "volume_m3": 0.10136249999999998
     },
     {
       "at_m": [
@@ -77316,7 +77412,7 @@
       "material": "steel",
       "modelled_mass_kg": 46.843775999999956,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.1,
@@ -77340,7 +77436,7 @@
       "material": "steel",
       "modelled_mass_kg": 10.349942400000002,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.1,
@@ -77364,7 +77460,7 @@
       "material": "steel",
       "modelled_mass_kg": 5.2224479999999955,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.1,
@@ -77388,7 +77484,7 @@
       "material": "steel",
       "modelled_mass_kg": 10.349942400000002,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.1,
@@ -77412,7 +77508,7 @@
       "material": "steel",
       "modelled_mass_kg": 5.2224479999999955,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.1,
@@ -77436,7 +77532,7 @@
       "material": "steel",
       "modelled_mass_kg": 46.843775999999956,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.1,
@@ -77460,7 +77556,7 @@
       "material": "steel",
       "modelled_mass_kg": 10.349942400000002,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.1,
@@ -77484,7 +77580,7 @@
       "material": "steel",
       "modelled_mass_kg": 5.2224479999999955,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.1,
@@ -77508,7 +77604,7 @@
       "material": "steel",
       "modelled_mass_kg": 10.349942400000002,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.1,
@@ -77532,7 +77628,7 @@
       "material": "steel",
       "modelled_mass_kg": 5.2224479999999955,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.1,
@@ -77555,7 +77651,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -77577,7 +77673,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -77599,7 +77695,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -77647,7 +77743,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -77669,7 +77765,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -77705,7 +77801,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -77727,7 +77823,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -77749,7 +77845,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -77779,7 +77875,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -77801,7 +77897,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -77823,7 +77919,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -77853,7 +77949,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -77875,7 +77971,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -77911,7 +78007,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -77933,7 +78029,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -77955,7 +78051,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -77985,7 +78081,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -78007,7 +78103,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -78029,7 +78125,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -78059,7 +78155,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -78081,7 +78177,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -78103,7 +78199,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -78125,7 +78221,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -78147,7 +78243,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -78169,7 +78265,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -78191,7 +78287,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -78213,7 +78309,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -78261,7 +78357,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -78283,7 +78379,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -78319,7 +78415,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -78341,7 +78437,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -78363,7 +78459,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -78393,7 +78489,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -78415,7 +78511,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -78437,7 +78533,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -78467,7 +78563,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -78489,7 +78585,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -78525,7 +78621,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -78547,7 +78643,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -78569,7 +78665,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -78599,7 +78695,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -78621,7 +78717,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -78643,7 +78739,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -78673,7 +78769,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -78695,7 +78791,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -78717,7 +78813,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -78739,7 +78835,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -78761,7 +78857,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -78783,7 +78879,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -78805,7 +78901,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -78827,7 +78923,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -78875,7 +78971,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -78897,7 +78993,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -78933,7 +79029,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -78955,7 +79051,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -78977,7 +79073,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -79007,7 +79103,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -79029,7 +79125,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -79051,7 +79147,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -79081,7 +79177,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -79103,7 +79199,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -79139,7 +79235,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -79161,7 +79257,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -79183,7 +79279,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -79213,7 +79309,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -79235,7 +79331,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -79257,7 +79353,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -79287,7 +79383,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -79309,7 +79405,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -79331,7 +79427,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -79353,7 +79449,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -79375,7 +79471,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -79397,7 +79493,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -79419,7 +79515,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -79441,7 +79537,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -79489,7 +79585,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -79511,7 +79607,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -79547,7 +79643,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -79569,7 +79665,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -79591,7 +79687,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -79621,7 +79717,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -79643,7 +79739,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -79665,7 +79761,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -79695,7 +79791,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -79717,7 +79813,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -79753,7 +79849,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -79775,7 +79871,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -79797,7 +79893,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -79827,7 +79923,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -79849,7 +79945,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -79871,7 +79967,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -79901,7 +79997,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -79923,7 +80019,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -79945,7 +80041,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -79967,7 +80063,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -79989,7 +80085,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -80011,7 +80107,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -80033,7 +80129,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -80055,7 +80151,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -80103,7 +80199,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -80125,7 +80221,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -80161,7 +80257,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -80183,7 +80279,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -80205,7 +80301,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -80235,7 +80331,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -80257,7 +80353,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -80279,7 +80375,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -80309,7 +80405,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -80331,7 +80427,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -80367,7 +80463,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -80389,7 +80485,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -80411,7 +80507,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -80441,7 +80537,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -80463,7 +80559,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -80485,7 +80581,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -80515,7 +80611,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -80537,7 +80633,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -80559,7 +80655,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -80581,7 +80677,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -80603,7 +80699,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -80625,7 +80721,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -80647,7 +80743,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -80669,7 +80765,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -80717,7 +80813,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -80739,7 +80835,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -80775,7 +80871,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -80797,7 +80893,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -80819,7 +80915,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -80849,7 +80945,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -80871,7 +80967,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -80893,7 +80989,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -80923,7 +81019,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -80945,7 +81041,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -80981,7 +81077,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -81003,7 +81099,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -81025,7 +81121,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -81055,7 +81151,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -81077,7 +81173,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -81099,7 +81195,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -81129,7 +81225,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -81151,7 +81247,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -81173,7 +81269,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -81195,7 +81291,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -81217,7 +81313,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -81239,7 +81335,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -81261,7 +81357,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -81283,7 +81379,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -81331,7 +81427,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -81353,7 +81449,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -81389,7 +81485,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -81411,7 +81507,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -81433,7 +81529,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -81463,7 +81559,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -81485,7 +81581,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -81507,7 +81603,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -81537,7 +81633,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -81559,7 +81655,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -81595,7 +81691,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -81617,7 +81713,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -81639,7 +81735,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -81669,7 +81765,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -81691,7 +81787,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -81713,7 +81809,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -81743,7 +81839,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -81765,7 +81861,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -81787,7 +81883,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -81809,7 +81905,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -81831,7 +81927,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -81853,7 +81949,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -81875,7 +81971,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -81897,7 +81993,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -81945,7 +82041,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -81967,7 +82063,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -82003,7 +82099,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -82025,7 +82121,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -82047,7 +82143,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -82077,7 +82173,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -82099,7 +82195,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -82121,7 +82217,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -82151,7 +82247,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -82173,7 +82269,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -82209,7 +82305,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -82231,7 +82327,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -82253,7 +82349,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -82283,7 +82379,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -82305,7 +82401,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -82327,7 +82423,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -82357,7 +82453,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -82379,7 +82475,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -82401,7 +82497,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -82423,7 +82519,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -82445,7 +82541,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -82467,7 +82563,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -82489,7 +82585,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -82511,7 +82607,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -82559,7 +82655,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -82581,7 +82677,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -82617,7 +82713,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -82639,7 +82735,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -82661,7 +82757,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -82691,7 +82787,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -82713,7 +82809,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -82735,7 +82831,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -82765,7 +82861,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -82787,7 +82883,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -82823,7 +82919,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -82845,7 +82941,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -82867,7 +82963,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -82897,7 +82993,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -82919,7 +83015,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -82941,7 +83037,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -82971,7 +83067,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -82993,7 +83089,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -83015,7 +83111,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -83037,7 +83133,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -83059,7 +83155,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -83081,7 +83177,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -83103,7 +83199,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -83125,7 +83221,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -83173,7 +83269,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -83195,7 +83291,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -83231,7 +83327,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -83253,7 +83349,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -83275,7 +83371,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -83305,7 +83401,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -83327,7 +83423,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -83349,7 +83445,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -83379,7 +83475,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -83401,7 +83497,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -83437,7 +83533,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -83459,7 +83555,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -83481,7 +83577,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -83511,7 +83607,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -83533,7 +83629,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -83555,7 +83651,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -83585,7 +83681,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -83607,7 +83703,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -83629,7 +83725,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -83651,7 +83747,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -83673,7 +83769,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -83695,7 +83791,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -83717,7 +83813,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -83739,7 +83835,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -83787,7 +83883,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -83809,7 +83905,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -83845,7 +83941,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -83867,7 +83963,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -83889,7 +83985,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -83919,7 +84015,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -83941,7 +84037,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -83963,7 +84059,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -83993,7 +84089,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -84015,7 +84111,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -84051,7 +84147,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -84073,7 +84169,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -84095,7 +84191,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -84125,7 +84221,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -84147,7 +84243,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -84169,7 +84265,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -84199,7 +84295,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -84221,7 +84317,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -84243,7 +84339,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -84265,7 +84361,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -84287,7 +84383,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -84309,7 +84405,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -84331,7 +84427,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -84353,7 +84449,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -84401,7 +84497,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -84423,7 +84519,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -84459,7 +84555,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -84481,7 +84577,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -84503,7 +84599,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -84533,7 +84629,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -84555,7 +84651,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -84577,7 +84673,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -84607,7 +84703,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -84629,7 +84725,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -84665,7 +84761,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -84687,7 +84783,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -84709,7 +84805,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -84739,7 +84835,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -84761,7 +84857,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -84783,7 +84879,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -84813,7 +84909,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -84835,7 +84931,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -84857,7 +84953,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -84879,7 +84975,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -84901,7 +84997,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -84923,7 +85019,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -84945,7 +85041,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -84967,7 +85063,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -85015,7 +85111,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -85037,7 +85133,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -85073,7 +85169,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -85095,7 +85191,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -85117,7 +85213,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -85147,7 +85243,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -85169,7 +85265,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -85191,7 +85287,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -85221,7 +85317,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -85243,7 +85339,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -85279,7 +85375,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -85301,7 +85397,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -85323,7 +85419,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -85353,7 +85449,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -85375,7 +85471,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -85397,7 +85493,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -85427,7 +85523,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -85449,7 +85545,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -85471,7 +85567,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -85493,7 +85589,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -85515,7 +85611,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -85537,7 +85633,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -85559,7 +85655,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -85581,7 +85677,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -85629,7 +85725,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -85651,7 +85747,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -85687,7 +85783,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -85709,7 +85805,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -85731,7 +85827,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -85761,7 +85857,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -85783,7 +85879,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -85805,7 +85901,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -85835,7 +85931,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -85857,7 +85953,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -85893,7 +85989,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -85915,7 +86011,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -85937,7 +86033,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -85967,7 +86063,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -85989,7 +86085,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -86011,7 +86107,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -86041,7 +86137,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -86063,7 +86159,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -86085,7 +86181,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -86107,7 +86203,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -86129,7 +86225,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -86151,7 +86247,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -86173,7 +86269,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -86195,7 +86291,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -86243,7 +86339,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -86265,7 +86361,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -86301,7 +86397,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -86323,7 +86419,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -86345,7 +86441,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -86375,7 +86471,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -86397,7 +86493,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -86419,7 +86515,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -86449,7 +86545,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -86471,7 +86567,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -86507,7 +86603,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -86529,7 +86625,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -86551,7 +86647,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -86581,7 +86677,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -86603,7 +86699,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -86625,7 +86721,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -86655,7 +86751,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -86677,7 +86773,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -86699,7 +86795,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -86721,7 +86817,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -86743,7 +86839,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -86765,7 +86861,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -86787,7 +86883,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -86809,7 +86905,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -86857,7 +86953,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -86879,7 +86975,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -86915,7 +87011,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -86937,7 +87033,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -86959,7 +87055,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -86989,7 +87085,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -87011,7 +87107,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -87033,7 +87129,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -87063,7 +87159,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -87085,7 +87181,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -87121,7 +87217,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -87143,7 +87239,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -87165,7 +87261,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -87195,7 +87291,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -87217,7 +87313,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -87239,7 +87335,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -87269,7 +87365,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -87291,7 +87387,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -87313,7 +87409,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -87335,7 +87431,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -87357,7 +87453,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -87379,7 +87475,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -87401,7 +87497,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -87423,7 +87519,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -87471,7 +87567,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -87493,7 +87589,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -87529,7 +87625,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -87551,7 +87647,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -87573,7 +87669,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -87603,7 +87699,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -87625,7 +87721,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -87647,7 +87743,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -87677,7 +87773,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -87699,7 +87795,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -87735,7 +87831,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -87757,7 +87853,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -87779,7 +87875,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -87809,7 +87905,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -87831,7 +87927,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -87853,7 +87949,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -87883,7 +87979,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -87905,7 +88001,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -87927,7 +88023,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -87949,7 +88045,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -87971,7 +88067,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -87993,7 +88089,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -88015,7 +88111,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -88037,7 +88133,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -88085,7 +88181,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -88107,7 +88203,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -88143,7 +88239,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -88165,7 +88261,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -88187,7 +88283,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -88217,7 +88313,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -88239,7 +88335,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -88261,7 +88357,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -88291,7 +88387,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -88313,7 +88409,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -88349,7 +88445,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -88371,7 +88467,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -88393,7 +88489,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -88423,7 +88519,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -88445,7 +88541,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -88467,7 +88563,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -88497,7 +88593,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -88519,7 +88615,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -88541,7 +88637,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -88563,7 +88659,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -88585,7 +88681,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -88607,7 +88703,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -88629,7 +88725,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -88651,7 +88747,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -88699,7 +88795,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -88721,7 +88817,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -88757,7 +88853,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -88779,7 +88875,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -88801,7 +88897,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -88831,7 +88927,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -88853,7 +88949,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -88875,7 +88971,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -88905,7 +89001,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -88927,7 +89023,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -88963,7 +89059,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -88985,7 +89081,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -89007,7 +89103,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -89037,7 +89133,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -89059,7 +89155,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -89081,7 +89177,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -89111,7 +89207,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -89133,7 +89229,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -89155,7 +89251,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -89177,7 +89273,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -89199,7 +89295,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -89221,7 +89317,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -89243,7 +89339,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -89265,7 +89361,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -89313,7 +89409,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -89335,7 +89431,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -89371,7 +89467,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -89393,7 +89489,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -89415,7 +89511,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -89445,7 +89541,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -89467,7 +89563,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -89489,7 +89585,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -89519,7 +89615,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -89541,7 +89637,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -89577,7 +89673,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -89599,7 +89695,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -89621,7 +89717,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -89651,7 +89747,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -89673,7 +89769,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -89695,7 +89791,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -89725,7 +89821,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -89747,7 +89843,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -89769,7 +89865,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -89791,7 +89887,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -89813,7 +89909,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -89835,7 +89931,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -89857,7 +89953,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -89879,7 +89975,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -89927,7 +90023,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -89949,7 +90045,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -89985,7 +90081,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -90007,7 +90103,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -90029,7 +90125,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -90059,7 +90155,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -90081,7 +90177,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -90103,7 +90199,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -90133,7 +90229,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -90155,7 +90251,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -90191,7 +90287,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -90213,7 +90309,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -90235,7 +90331,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -90265,7 +90361,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -90287,7 +90383,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -90309,7 +90405,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -90339,7 +90435,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -90361,7 +90457,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -90383,7 +90479,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -90405,7 +90501,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -90427,7 +90523,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -90449,7 +90545,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -90471,7 +90567,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -90493,7 +90589,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -90541,7 +90637,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -90563,7 +90659,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -90599,7 +90695,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -90621,7 +90717,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -90643,7 +90739,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -90673,7 +90769,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -90695,7 +90791,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -90717,7 +90813,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -90747,7 +90843,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -90769,7 +90865,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -90805,7 +90901,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -90827,7 +90923,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -90849,7 +90945,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -90879,7 +90975,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -90901,7 +90997,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -90923,7 +91019,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -90953,7 +91049,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -90975,7 +91071,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -90997,7 +91093,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -91019,7 +91115,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -91041,7 +91137,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -91063,7 +91159,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -91085,7 +91181,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -91107,7 +91203,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -91155,7 +91251,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -91177,7 +91273,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -91213,7 +91309,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -91235,7 +91331,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -91257,7 +91353,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -91287,7 +91383,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -91309,7 +91405,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -91331,7 +91427,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -91361,7 +91457,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -91383,7 +91479,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -91419,7 +91515,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -91441,7 +91537,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -91463,7 +91559,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -91493,7 +91589,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -91515,7 +91611,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -91537,7 +91633,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -91567,7 +91663,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -91589,7 +91685,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -91611,7 +91707,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -91633,7 +91729,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -91655,7 +91751,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -91677,7 +91773,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 108.75000000000001,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.87,
@@ -91699,7 +91795,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -91721,7 +91817,7 @@
       "material": "ferrite",
       "modelled_mass_kg": 4.5,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "ferrite",
       "size_m": [
         0.04,
@@ -91769,7 +91865,7 @@
       "material": "steel",
       "modelled_mass_kg": 24.913334509867294,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.98,
@@ -91791,7 +91887,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -91827,7 +91923,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -91849,7 +91945,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -91871,7 +91967,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -91901,7 +91997,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -91923,7 +92019,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -91945,7 +92041,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -91975,7 +92071,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -91997,7 +92093,7 @@
       "material": "steel",
       "modelled_mass_kg": 1.169964,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.006,
@@ -92033,7 +92129,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.337122418311215,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "retainer",
       "size_m": [
         0.04,
@@ -92055,7 +92151,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -92077,7 +92173,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -92107,7 +92203,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -92129,7 +92225,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.020912953976416532,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.008,
@@ -92151,7 +92247,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.0026634422517134264,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.012,
@@ -92181,7 +92277,7 @@
       "material": "steel",
       "modelled_mass_kg": 0.004254109152042279,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "fastener",
       "size_m": [
         0.014,
@@ -92203,7 +92299,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -92225,7 +92321,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,
@@ -92247,7 +92343,7 @@
       "material": "steel",
       "modelled_mass_kg": 2.6471456,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "carrier",
       "size_m": [
         0.958,
@@ -92269,7 +92365,7 @@
       "material": "winding-envelope",
       "modelled_mass_kg": 9.9,
       "production_released": false,
-      "revision": "V05-INTERFACE-1",
+      "revision": "V052-STATION-INTERFACE-1",
       "role": "winding-envelope",
       "size_m": [
         0.3,

@@ -17,7 +17,7 @@ def native_views(folder):
     mesh=json.loads(gzip.decompress((folder/'native-mesh.json.gz').read_bytes()))
     definition=json.loads((folder/'definition.json').read_text())
     parts=mesh['parts'];byid={p['id']:p for p in parts}
-    colours={'concrete':'#7c8996','steel':'#477e98','aluminium':'#c0cbd3','ferrite':'#dd7558','winding-envelope':'#dab14a'}
+    colours={'concrete':'#7c8996','steel':'#477e98','aluminium':'#c0cbd3','ferrite':'#dd7558','winding-envelope':'#dab14a','gfrp':'#16998c','core-80':'#e5c76b','core-100':'#c5a249','bond-surface':'#b18895'}
     def image(ids,path,caption,detail=False):
         fig=plt.figure(figsize=(12,6.75),dpi=100,facecolor='#f3f6f9');ax=fig.add_subplot(projection='3d')
         selected=[byid[key] for key in ids];points=[]
