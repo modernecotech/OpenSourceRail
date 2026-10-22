@@ -1,0 +1,2015 @@
+{
+  "accepted_engineering_items": 0,
+  "all_points_closed": false,
+  "applicable_open_requirements": 179,
+  "audit_source_attachments": {
+    "assurance-generator.py": {
+      "original_execution_path": "build/closure-final-assurance.py",
+      "sha256": "6778b761021e688cfa43a242e302e03668e84cd66c4be47266928ef09c33f756"
+    },
+    "replay-generator.py": {
+      "original_execution_path": "build/closure-final-baghdad-four-circuits.py",
+      "sha256": "651bf2c50d64599c098e2e02d7a205633db9aa2fe28df6147f4efc36835c9594"
+    },
+    "suite-driver.py": {
+      "original_execution_path": "build/closure-final-driver.py",
+      "sha256": "37f0bd4314cef90aad07caa4605b86045576f0ac7189297618cb15f5d158f638"
+    }
+  },
+  "background_refresh": {
+    "cadence_minutes": 15,
+    "comparison": "private-public-comparison.json",
+    "last_exit_status": 0,
+    "mode": "Rebuild stale implemented studies; no autonomous physical acceptance",
+    "private_and_public_payloads_byte_equal": false,
+    "private_public_equivalence": "diagnostic-roundoff-only",
+    "source_match": true,
+    "timer_active": true
+  },
+  "baghdad_lines": [
+    {
+      "boosters": [],
+      "kinematic_holds": [],
+      "line": "line-1",
+      "operating_station_count": 25,
+      "retained_capacity_target_met": false,
+      "selected_headway_seconds": 350.0,
+      "spacing_conflicts": [
+        {
+          "alternatives": [
+            {
+              "access_and_cost_qualified": false,
+              "actual_accessible_path_m": null,
+              "capex_usd": null,
+              "guideways_moved": false,
+              "kind": "accessible-consolidated-transfer-hub",
+              "minimum_shared_line_transfer_walk_m": 948.7774019638746
+            },
+            {
+              "accepted": false,
+              "capex_usd": null,
+              "geometry_changed": false,
+              "kind": "separately-assessed-fixed-line-geometry-or-terminal-lead"
+            }
+          ],
+          "distance_m": 948.7774019638746,
+          "engineering_accepted": false,
+          "from_nodes": [
+            "interchange-004"
+          ],
+          "kind": "passenger-stop-spacing-conflict",
+          "maximum_m": 3000.0,
+          "minimum_m": 1500.0,
+          "retained_crossings_preserved": true,
+          "service_class": "urban",
+          "to_nodes": [
+            "interchange-005"
+          ]
+        }
+      ]
+    },
+    {
+      "boosters": [],
+      "kinematic_holds": [],
+      "line": "line-2",
+      "operating_station_count": 28,
+      "retained_capacity_target_met": false,
+      "selected_headway_seconds": 280.0,
+      "spacing_conflicts": []
+    },
+    {
+      "boosters": [
+        {
+          "converter_rating": {
+            "dc_bus_v": 2400.0,
+            "force_constant_n_a": 50.0,
+            "inductance_h": 2.5e-05,
+            "maximum_copper_loss_w": 120000.0,
+            "maximum_current_a": 4000.0,
+            "maximum_phase_voltage_v": 1200.0,
+            "resistance_ohm": 0.0025
+          },
+          "directions": 2,
+          "electrical_sections_per_direction": 22,
+          "forward_end_s_m": 14542.531755942078,
+          "forward_start_s_m": 14267.531755942078,
+          "hardware_qualified": false,
+          "id": "line-3-leg-8-booster",
+          "independent_grid_braking_heat_and_qa_required": true,
+          "kind": "fixed-nonpassenger-top-up",
+          "lat": 33.19711843294172,
+          "leg": 8,
+          "length_m_per_direction": 275.0,
+          "lon": 44.46550269817399,
+          "mechanical_takeoff": {
+            "additional_ordinary_beams_credited": 0,
+            "addressable_sections": 44,
+            "cassette_lengths_per_face_m": [
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5
+            ],
+            "complete_installed_cost_usd": null,
+            "design_complete": false,
+            "directions": 2,
+            "face_cassettes": 440,
+            "face_metres": 1100.0,
+            "interfaces": [
+              "2.5m datum-controlled face cassettes; segmented mounts clear beam joints",
+              "One fixed and one guided bearing per ordinary span; actual traction reactions allocated spatially",
+              "Separately protected feeder, earth, isolation, converter, resistor and cooling interfaces",
+              "Independent ground access, cabinet pads and replaceable lifting/maintenance provisions"
+            ],
+            "kind": "fixed-midway-accelerator",
+            "length_per_direction_m": 275.0,
+            "manufacturing_release": false,
+            "material_quantities": {
+              "cabinet_pad_concrete_m3": 3.5999999999999996,
+              "cabinet_shell_steel_kg": 675.1000000000001,
+              "mount_bolt_stock_kg": 277.78716225277816,
+              "mount_plate_steel_kg": 12434.400000000001
+            },
+            "mount_and_cabinet_stock_target_usd": 54341.14864901112,
+            "mount_bolts": 1760,
+            "no_double_count": "Ordinary beams/bearings/supports stay in route civil bill; stock target does not include a second motor electrical allowance",
+            "open": [
+              "Measured normal/thrust/loss map and repeated thermal duty",
+              "Embedded anchor breakout, torsion, prying, fatigue and rail/gap alignment",
+              "No automatic refuge, charging, recovery winch or passenger boarding function"
+            ],
+            "ordinary_beam_bays_occupied_per_direction": 11,
+            "passenger_station": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "supplier_quote": false,
+            "winding_core_cooling_and_power_hardware_mass_kg": null
+          },
+          "passenger": false,
+          "protected_resources_required": true,
+          "reverse_end_s_m": 14553.930488942078,
+          "reverse_start_s_m": 14278.930488942078,
+          "s_m": 14405.031755942078,
+          "services_charger": false,
+          "site_approved": false,
+          "source_segment_fraction": 0.5082844839583047,
+          "source_segment_index": 598
+        }
+      ],
+      "kinematic_holds": [],
+      "line": "line-3",
+      "operating_station_count": 26,
+      "retained_capacity_target_met": false,
+      "selected_headway_seconds": 300.0,
+      "spacing_conflicts": [
+        {
+          "alternatives": [
+            {
+              "access_and_cost_qualified": false,
+              "actual_accessible_path_m": null,
+              "capex_usd": null,
+              "guideways_moved": false,
+              "kind": "accessible-consolidated-transfer-hub",
+              "minimum_shared_line_transfer_walk_m": 1420.9742277676196
+            },
+            {
+              "accepted": false,
+              "capex_usd": null,
+              "geometry_changed": false,
+              "kind": "separately-assessed-fixed-line-geometry-or-terminal-lead"
+            }
+          ],
+          "distance_m": 1420.9742277676196,
+          "engineering_accepted": false,
+          "from_nodes": [
+            "interchange-024"
+          ],
+          "kind": "passenger-stop-spacing-conflict",
+          "maximum_m": 3000.0,
+          "minimum_m": 1500.0,
+          "retained_crossings_preserved": true,
+          "service_class": "urban",
+          "to_nodes": [
+            "interchange-025"
+          ]
+        }
+      ]
+    },
+    {
+      "boosters": [],
+      "kinematic_holds": [],
+      "line": "line-4",
+      "operating_station_count": 22,
+      "retained_capacity_target_met": false,
+      "selected_headway_seconds": 310.0,
+      "spacing_conflicts": []
+    },
+    {
+      "boosters": [
+        {
+          "converter_rating": {
+            "dc_bus_v": 2400.0,
+            "force_constant_n_a": 50.0,
+            "inductance_h": 2.5e-05,
+            "maximum_copper_loss_w": 120000.0,
+            "maximum_current_a": 4000.0,
+            "maximum_phase_voltage_v": 1200.0,
+            "resistance_ohm": 0.0025
+          },
+          "directions": 2,
+          "electrical_sections_per_direction": 22,
+          "forward_end_s_m": 2712.058797678655,
+          "forward_start_s_m": 2437.058797678655,
+          "hardware_qualified": false,
+          "id": "line-5-leg-2-booster",
+          "independent_grid_braking_heat_and_qa_required": true,
+          "kind": "fixed-nonpassenger-top-up",
+          "lat": 33.292919339797066,
+          "leg": 2,
+          "length_m_per_direction": 275.0,
+          "lon": 44.277899415692495,
+          "mechanical_takeoff": {
+            "additional_ordinary_beams_credited": 0,
+            "addressable_sections": 44,
+            "cassette_lengths_per_face_m": [
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5,
+              2.5
+            ],
+            "complete_installed_cost_usd": null,
+            "design_complete": false,
+            "directions": 2,
+            "face_cassettes": 440,
+            "face_metres": 1100.0,
+            "interfaces": [
+              "2.5m datum-controlled face cassettes; segmented mounts clear beam joints",
+              "One fixed and one guided bearing per ordinary span; actual traction reactions allocated spatially",
+              "Separately protected feeder, earth, isolation, converter, resistor and cooling interfaces",
+              "Independent ground access, cabinet pads and replaceable lifting/maintenance provisions"
+            ],
+            "kind": "fixed-midway-accelerator",
+            "length_per_direction_m": 275.0,
+            "manufacturing_release": false,
+            "material_quantities": {
+              "cabinet_pad_concrete_m3": 3.5999999999999996,
+              "cabinet_shell_steel_kg": 675.1000000000001,
+              "mount_bolt_stock_kg": 277.78716225277816,
+              "mount_plate_steel_kg": 12434.400000000001
+            },
+            "mount_and_cabinet_stock_target_usd": 54341.14864901112,
+            "mount_bolts": 1760,
+            "no_double_count": "Ordinary beams/bearings/supports stay in route civil bill; stock target does not include a second motor electrical allowance",
+            "open": [
+              "Measured normal/thrust/loss map and repeated thermal duty",
+              "Embedded anchor breakout, torsion, prying, fatigue and rail/gap alignment",
+              "No automatic refuge, charging, recovery winch or passenger boarding function"
+            ],
+            "ordinary_beam_bays_occupied_per_direction": 11,
+            "passenger_station": false,
+            "physical_release": false,
+            "physical_validation": false,
+            "supplier_quote": false,
+            "winding_core_cooling_and_power_hardware_mass_kg": null
+          },
+          "passenger": false,
+          "protected_resources_required": true,
+          "reverse_end_s_m": 2719.710444678655,
+          "reverse_start_s_m": 2444.710444678655,
+          "s_m": 2574.558797678655,
+          "services_charger": false,
+          "site_approved": false,
+          "source_segment_fraction": 0.8356035163946497,
+          "source_segment_index": 111
+        }
+      ],
+      "kinematic_holds": [],
+      "line": "line-5",
+      "operating_station_count": 26,
+      "retained_capacity_target_met": false,
+      "selected_headway_seconds": 300.0,
+      "spacing_conflicts": [
+        {
+          "alternatives": [
+            {
+              "access_and_cost_qualified": false,
+              "actual_accessible_path_m": null,
+              "capex_usd": null,
+              "guideways_moved": false,
+              "kind": "accessible-consolidated-transfer-hub",
+              "minimum_shared_line_transfer_walk_m": 1174.558797678655
+            },
+            {
+              "accepted": false,
+              "capex_usd": null,
+              "geometry_changed": false,
+              "kind": "separately-assessed-fixed-line-geometry-or-terminal-lead"
+            }
+          ],
+          "distance_m": 1174.558797678655,
+          "engineering_accepted": false,
+          "from_nodes": [
+            "start"
+          ],
+          "kind": "passenger-stop-spacing-conflict",
+          "maximum_m": 3000.0,
+          "minimum_m": 1500.0,
+          "retained_crossings_preserved": true,
+          "service_class": "urban",
+          "to_nodes": [
+            "interchange-011"
+          ]
+        },
+        {
+          "alternatives": [
+            {
+              "access_and_cost_qualified": false,
+              "actual_accessible_path_m": null,
+              "capex_usd": null,
+              "guideways_moved": false,
+              "kind": "accessible-consolidated-transfer-hub",
+              "minimum_shared_line_transfer_walk_m": 1458.6740368981555
+            },
+            {
+              "accepted": false,
+              "capex_usd": null,
+              "geometry_changed": false,
+              "kind": "separately-assessed-fixed-line-geometry-or-terminal-lead"
+            }
+          ],
+          "distance_m": 1458.6740368981555,
+          "engineering_accepted": false,
+          "from_nodes": [
+            "interchange-034"
+          ],
+          "kind": "passenger-stop-spacing-conflict",
+          "maximum_m": 3000.0,
+          "minimum_m": 1500.0,
+          "retained_crossings_preserved": true,
+          "service_class": "urban",
+          "to_nodes": [
+            "interchange-023"
+          ]
+        }
+      ]
+    },
+    {
+      "boosters": [],
+      "kinematic_holds": [],
+      "line": "line-6",
+      "operating_station_count": 27,
+      "retained_capacity_target_met": false,
+      "selected_headway_seconds": 300.0,
+      "spacing_conflicts": [
+        {
+          "alternatives": [
+            {
+              "access_and_cost_qualified": false,
+              "actual_accessible_path_m": null,
+              "capex_usd": null,
+              "guideways_moved": false,
+              "kind": "accessible-consolidated-transfer-hub",
+              "minimum_shared_line_transfer_walk_m": 1439.1507363449127
+            },
+            {
+              "accepted": false,
+              "capex_usd": null,
+              "geometry_changed": false,
+              "kind": "separately-assessed-fixed-line-geometry-or-terminal-lead"
+            }
+          ],
+          "distance_m": 1439.1507363449127,
+          "engineering_accepted": false,
+          "from_nodes": [
+            "interchange-000"
+          ],
+          "kind": "passenger-stop-spacing-conflict",
+          "maximum_m": 3000.0,
+          "minimum_m": 1500.0,
+          "retained_crossings_preserved": true,
+          "service_class": "urban",
+          "to_nodes": [
+            "interchange-036"
+          ]
+        },
+        {
+          "alternatives": [
+            {
+              "access_and_cost_qualified": false,
+              "actual_accessible_path_m": null,
+              "capex_usd": null,
+              "guideways_moved": false,
+              "kind": "accessible-consolidated-transfer-hub",
+              "minimum_shared_line_transfer_walk_m": 1494.5709095119237
+            },
+            {
+              "accepted": false,
+              "capex_usd": null,
+              "geometry_changed": false,
+              "kind": "separately-assessed-fixed-line-geometry-or-terminal-lead"
+            }
+          ],
+          "distance_m": 1494.5709095119237,
+          "engineering_accepted": false,
+          "from_nodes": [
+            "interchange-024"
+          ],
+          "kind": "passenger-stop-spacing-conflict",
+          "maximum_m": 3000.0,
+          "minimum_m": 1500.0,
+          "retained_crossings_preserved": true,
+          "service_class": "urban",
+          "to_nodes": [
+            "interchange-025"
+          ]
+        }
+      ]
+    },
+    {
+      "boosters": [],
+      "kinematic_holds": [],
+      "line": "line-7",
+      "operating_station_count": 21,
+      "retained_capacity_target_met": false,
+      "selected_headway_seconds": 310.0,
+      "spacing_conflicts": [
+        {
+          "alternatives": [
+            {
+              "access_and_cost_qualified": false,
+              "actual_accessible_path_m": null,
+              "capex_usd": null,
+              "guideways_moved": false,
+              "kind": "accessible-consolidated-transfer-hub",
+              "minimum_shared_line_transfer_walk_m": 1275.290678181038
+            },
+            {
+              "accepted": false,
+              "capex_usd": null,
+              "geometry_changed": false,
+              "kind": "separately-assessed-fixed-line-geometry-or-terminal-lead"
+            }
+          ],
+          "distance_m": 1275.290678181038,
+          "engineering_accepted": false,
+          "from_nodes": [
+            "interchange-041"
+          ],
+          "kind": "passenger-stop-spacing-conflict",
+          "maximum_m": 3000.0,
+          "minimum_m": 1500.0,
+          "retained_crossings_preserved": true,
+          "service_class": "urban",
+          "to_nodes": [
+            "interchange-002"
+          ]
+        }
+      ]
+    },
+    {
+      "boosters": [],
+      "kinematic_holds": [],
+      "line": "line-8",
+      "operating_station_count": 26,
+      "retained_capacity_target_met": false,
+      "selected_headway_seconds": 240.0,
+      "spacing_conflicts": []
+    },
+    {
+      "boosters": [],
+      "kinematic_holds": [],
+      "line": "line-9",
+      "operating_station_count": 50,
+      "retained_capacity_target_met": true,
+      "selected_headway_seconds": 360,
+      "spacing_conflicts": [
+        {
+          "alternatives": [
+            {
+              "access_and_cost_qualified": false,
+              "actual_accessible_path_m": null,
+              "capex_usd": null,
+              "guideways_moved": false,
+              "kind": "accessible-consolidated-transfer-hub",
+              "minimum_shared_line_transfer_walk_m": 941.8289573273069
+            },
+            {
+              "accepted": false,
+              "capex_usd": null,
+              "geometry_changed": false,
+              "kind": "separately-assessed-fixed-line-geometry-or-terminal-lead"
+            }
+          ],
+          "distance_m": 941.8289573273069,
+          "engineering_accepted": false,
+          "from_nodes": [
+            "interchange-040"
+          ],
+          "kind": "passenger-stop-spacing-conflict",
+          "maximum_m": 3000.0,
+          "minimum_m": 1500.0,
+          "retained_crossings_preserved": true,
+          "service_class": "urban",
+          "to_nodes": [
+            "interchange-031"
+          ]
+        },
+        {
+          "alternatives": [
+            {
+              "access_and_cost_qualified": false,
+              "actual_accessible_path_m": null,
+              "capex_usd": null,
+              "guideways_moved": false,
+              "kind": "accessible-consolidated-transfer-hub",
+              "minimum_shared_line_transfer_walk_m": 795.397663297801
+            },
+            {
+              "accepted": false,
+              "capex_usd": null,
+              "geometry_changed": false,
+              "kind": "separately-assessed-fixed-line-geometry-or-terminal-lead"
+            }
+          ],
+          "distance_m": 795.397663297801,
+          "engineering_accepted": false,
+          "from_nodes": [
+            "interchange-036"
+          ],
+          "kind": "passenger-stop-spacing-conflict",
+          "maximum_m": 3000.0,
+          "minimum_m": 1500.0,
+          "retained_crossings_preserved": true,
+          "service_class": "urban",
+          "to_nodes": [
+            "interchange-001"
+          ]
+        }
+      ]
+    },
+    {
+      "boosters": [],
+      "kinematic_holds": [],
+      "line": "line-10",
+      "operating_station_count": 5,
+      "retained_capacity_target_met": false,
+      "selected_headway_seconds": 240.0,
+      "spacing_conflicts": [
+        {
+          "alternatives": [
+            {
+              "access_and_cost_qualified": false,
+              "actual_accessible_path_m": null,
+              "capex_usd": null,
+              "guideways_moved": false,
+              "kind": "accessible-consolidated-transfer-hub",
+              "minimum_shared_line_transfer_walk_m": 1099.1656744847742
+            },
+            {
+              "accepted": false,
+              "capex_usd": null,
+              "geometry_changed": false,
+              "kind": "separately-assessed-fixed-line-geometry-or-terminal-lead"
+            }
+          ],
+          "distance_m": 1099.1656744847742,
+          "engineering_accepted": false,
+          "from_nodes": [
+            "interchange-007"
+          ],
+          "kind": "passenger-stop-spacing-conflict",
+          "maximum_m": 3000.0,
+          "minimum_m": 1500.0,
+          "retained_crossings_preserved": true,
+          "service_class": "urban",
+          "to_nodes": [
+            "end"
+          ]
+        }
+      ]
+    },
+    {
+      "boosters": [],
+      "kinematic_holds": [],
+      "line": "line-11",
+      "operating_station_count": 4,
+      "retained_capacity_target_met": false,
+      "selected_headway_seconds": 270.0,
+      "spacing_conflicts": []
+    },
+    {
+      "boosters": [],
+      "kinematic_holds": [],
+      "line": "line-12",
+      "operating_station_count": 4,
+      "retained_capacity_target_met": false,
+      "selected_headway_seconds": 260.0,
+      "spacing_conflicts": []
+    },
+    {
+      "boosters": [],
+      "kinematic_holds": [],
+      "line": "line-13",
+      "operating_station_count": 5,
+      "retained_capacity_target_met": false,
+      "selected_headway_seconds": 240.0,
+      "spacing_conflicts": []
+    },
+    {
+      "boosters": [],
+      "kinematic_holds": [],
+      "line": "line-14",
+      "operating_station_count": 4,
+      "retained_capacity_target_met": false,
+      "selected_headway_seconds": 240.0,
+      "spacing_conflicts": []
+    }
+  ],
+  "baghdad_totals": {
+    "added_single_direction_loop_beam_m": 18944.54512379975,
+    "added_terminal_service_zones": 52,
+    "cars": 2706,
+    "gross_onboard_storage_kwh": 81180.0,
+    "lines": 14,
+    "powered_top_up_zones": 2,
+    "rescue_kits": 1066,
+    "retained_civil_class_length_m": {
+      "at-grade": 191033.7999999999,
+      "bridge": 31097.40000000006,
+      "elevated": 291204.2999999992
+    },
+    "retained_dense_benchmark_station_records": 599,
+    "retained_route_length_m": 513335.5,
+    "retained_station_records": 159,
+    "station_records": 273,
+    "trainsets": 451,
+    "transfer_spacing_conflicts": 10
+  },
+  "body_axial_sensitivity": {
+    "accepted_body_or_plant": false,
+    "city_default_changed": false,
+    "comparisons": [
+      {
+        "confirmation_screen_pass": true,
+        "delta_from_fresh_reference": {
+          "completed_moving_steps": 0,
+          "maximum_gap_m": 0.0,
+          "maximum_longitudinal_relative_spread_m": 0.0,
+          "maximum_magnetic_phase_spread_degrees": 0.0,
+          "minimum_gap_m": 0.0,
+          "peak_beam_displacement_m": 0.0,
+          "peak_coupler_extension_m": 0.0,
+          "peak_coupler_force_n": 0.0,
+          "peak_module_force_n": 0.0,
+          "planned_moving_steps": 0
+        },
+        "metrics": {
+          "completed_moving_steps": 17600,
+          "maximum_gap_m": 0.009719223847837176,
+          "maximum_longitudinal_relative_spread_m": 0.0024270107572537444,
+          "maximum_magnetic_phase_spread_degrees": 1.747447745222696,
+          "minimum_gap_m": 0.005362232844964802,
+          "peak_beam_displacement_m": 0.005024796810907811,
+          "peak_coupler_extension_m": 0.0008027584440101164,
+          "peak_coupler_force_n": 80274.57879051396,
+          "peak_module_force_n": 11905.53948402,
+          "planned_moving_steps": 17600
+        },
+        "name": "reference-100MN.json.gz",
+        "original_nominal_screen_pass": true,
+        "stiffness_n_m": 100000000.0
+      },
+      {
+        "confirmation_screen_pass": false,
+        "delta_from_fresh_reference": {
+          "completed_moving_steps": 0,
+          "maximum_gap_m": -2.983263135587777e-07,
+          "maximum_longitudinal_relative_spread_m": 0.013407121177038224,
+          "maximum_magnetic_phase_spread_degrees": 9.653127247467522,
+          "minimum_gap_m": 7.064796397459466e-08,
+          "peak_beam_displacement_m": 2.395847375959853e-08,
+          "peak_coupler_extension_m": 0.004372503305456089,
+          "peak_coupler_force_n": 2318.843689916903,
+          "peak_module_force_n": -0.17111045999990893,
+          "planned_moving_steps": 0
+        },
+        "metrics": {
+          "completed_moving_steps": 17600,
+          "maximum_gap_m": 0.009718925521523617,
+          "maximum_longitudinal_relative_spread_m": 0.015834131934291968,
+          "maximum_magnetic_phase_spread_degrees": 11.400574992690217,
+          "minimum_gap_m": 0.0053623034929287765,
+          "peak_beam_displacement_m": 0.005024820769381571,
+          "peak_coupler_extension_m": 0.005175261749466206,
+          "peak_coupler_force_n": 82593.42248043086,
+          "peak_module_force_n": 11905.36837356,
+          "planned_moving_steps": 17600
+        },
+        "name": "gross-series.json.gz",
+        "original_nominal_screen_pass": true,
+        "stiffness_n_m": 15948105.371410485
+      },
+      {
+        "confirmation_screen_pass": false,
+        "delta_from_fresh_reference": {
+          "completed_moving_steps": 0,
+          "maximum_gap_m": -2.9888403633472616e-07,
+          "maximum_longitudinal_relative_spread_m": 0.013472244073606537,
+          "maximum_magnetic_phase_spread_degrees": 9.700015732996707,
+          "minimum_gap_m": 7.052359820864523e-08,
+          "peak_beam_displacement_m": 2.390337656282826e-08,
+          "peak_coupler_extension_m": 0.004393091545246825,
+          "peak_coupler_force_n": 2313.601556436057,
+          "peak_module_force_n": -0.17207919000065885,
+          "planned_moving_steps": 0
+        },
+        "metrics": {
+          "completed_moving_steps": 17600,
+          "maximum_gap_m": 0.009718924963800842,
+          "maximum_longitudinal_relative_spread_m": 0.01589925483086028,
+          "maximum_magnetic_phase_spread_degrees": 11.447463478219403,
+          "minimum_gap_m": 0.0053623033685630105,
+          "peak_beam_displacement_m": 0.005024820714284374,
+          "peak_coupler_extension_m": 0.005195849989256942,
+          "peak_coupler_force_n": 82588.18034695002,
+          "peak_module_force_n": 11905.36740483,
+          "planned_moving_steps": 17600
+        },
+        "name": "drilled-series.json.gz",
+        "original_nominal_screen_pass": true,
+        "stiffness_n_m": 15884338.844920503
+      }
+    ],
+    "design_complete": false,
+    "fresh_reference_difference_from_retained": {
+      "completed_moving_steps": 0,
+      "maximum_gap_m": 0.0,
+      "maximum_longitudinal_relative_spread_m": 0.0,
+      "maximum_magnetic_phase_spread_degrees": 0.0,
+      "minimum_gap_m": 0.0,
+      "peak_beam_displacement_m": 0.0,
+      "peak_coupler_extension_m": 0.0,
+      "peak_coupler_force_n": 0.0,
+      "peak_module_force_n": 0.0,
+      "planned_moving_steps": 0
+    },
+    "full_aw3_car_mass_kg": 26200.0,
+    "full_train_mass_kg": 157200.0,
+    "manufacturing_release": false,
+    "physical_release": false,
+    "physical_validation": false,
+    "receipt": "body-axial-receipt.json",
+    "scope": "Fresh 88s prescribed 1km station trajectory on six rigid cars and repeated linear pinned spans with actual Rust vertical controllers; only lumped longitudinal series stiffness is changed. Full retained AW3 26200kg/car is used. This is not a distributed flexible-body model, joined-body verification, shared-field thrust/phase confirmation, measured material test, hardware acceptance or city default.",
+    "source_current": true,
+    "source_unchanged_after_execution": true
+  },
+  "body_witness_controls": {
+    "all_rejected": true,
+    "controls": 12,
+    "physical_acceptance": false,
+    "receipt": "body-witness-controls.json",
+    "source_current": true
+  },
+  "city_packages": 266,
+  "closure_studies": {
+    "assembled_body": {
+      "all_defined_material_pairs_native_checked": true,
+      "axial_screen": {
+        "assumed_coupler_stiffness_n_m": 100000000.0,
+        "assumed_longitudinal_E_pa": 20000000000.0,
+        "body_and_coupler_series_stiffness_n_m": 15948105.371410485,
+        "body_axial_compliance_m_n": 5.270337301587303e-08,
+        "body_under_100kn_extension_m": 0.005270337301587303,
+        "definition": "Two half-car end load paths (one full car-length) in series with the100MN/m coupler; only two longitudinal tubes credited",
+        "design_complete": false,
+        "drilled_body_and_coupler_series_stiffness_n_m": 15884338.844920503,
+        "drilled_body_axial_compliance_m_n": 5.295509116010707e-08,
+        "drilled_body_axial_stiffness_n_m": 18883925.569621816,
+        "engineering_accepted": false,
+        "gross_area_per_stringer_m2": 0.008063999999999998,
+        "gross_body_axial_stiffness_n_m": 18974117.64705882,
+        "hole_compliance_model": "Axial compliance integral1/(E A(x)) through both actual drilled walls; circular chord removal,1000-step Simpson rule per hole site. Uniform load sharing/orthotropic E remains assumed.",
+        "length_m": 17.0,
+        "manufacturing_release": false,
+        "missing": [
+          "actual joined node/coupler-hardpoint compliance",
+          "drilled net sections and composite orthotropy",
+          "shell participation, shear-lag and flexural coupling",
+          "measured end load introduction/creep/hot-wet properties"
+        ],
+        "physical_release": false,
+        "physical_validation": false,
+        "plant_stiffness_promoted": false,
+        "series_to_current_coupler_only_ratio": 0.15948105371410484,
+        "series_under_100kn_extension_m": 0.006270337301587304,
+        "stiffness_is_upper_bound": true,
+        "stringers": 2
+      },
+      "complete_equipped_vehicle": false,
+      "default_mass_or_stiffness_changed": false,
+      "defined_vehicle_material_cg_m": [
+        6.78710997815831e-05,
+        7.020822712226609e-05,
+        0.18647559468112102
+      ],
+      "defined_vehicle_material_inertia_kg_m2": [
+        [
+          20370.37068000045,
+          4.523332786970924e-05,
+          -0.9538181566663947
+        ],
+        [
+          4.523332786970924e-05,
+          167622.13164975686,
+          -0.9625381630661103
+        ],
+        [
+          -0.9538181566663947,
+          -0.9625381630661103,
+          168303.70791436938
+        ]
+      ],
+      "defined_vehicle_material_mass_kg": 9492.609052646612,
+      "design_complete": false,
+      "engineering_accepted": false,
+      "hardpoint_analytical_screen_pass": true,
+      "installed_primary_member_count": 65,
+      "legacy_expected_collision_observed": true,
+      "manufacturing_release": false,
+      "part_count": 4040,
+      "physical_release": false,
+      "physical_validation": false,
+      "schema": "osr-assembled-structural-body/1",
+      "source_primary_stock_count": 63,
+      "unintended_intersection_count": 0
+    },
+    "body_stiffness": {
+      "automatic_adoption": false,
+      "case_count": 5,
+      "cases": [
+        {
+          "candidate_sha256": "057c271f7728ca8e58013536f2b481882471771e9431098d0cb7be8d3551e08b",
+          "confirmation_screen_pass": false,
+          "existing_hardpoint_mass_target_kg": 26400.0,
+          "existing_load_path_scaling": {
+            "calculation_only": true,
+            "maximum_interface_force_n": 21790.995652173915,
+            "ratio": 0.9924242424242424,
+            "reference_mass_kg": 26400.0,
+            "shear_per_bolt_n": 1361.9372282608697,
+            "tension_per_bolt_n": 8460.033606138108,
+            "thin_wall_joint_assessed": false,
+            "whole_joint_acceptance": false
+          },
+          "full_aw3_car_mass_kg": 26200.0,
+          "full_train_mass_kg": 157200.0,
+          "gap_and_stroke_screen_pass": true,
+          "id": "OSR-STOCK-GFRP-CONTROL-1",
+          "incremental_stock_and_spacer_mass_kg": 0.0,
+          "longitudinal_energy": {
+            "coupler_damping_work_j": 31.455750161109005,
+            "drag_work_j": 7940203.914639642,
+            "final_spring_energy_j": 1.4805864141259393e-09,
+            "kinetic_change_j": 4.947639769828286e-10,
+            "motor_signed_work_j": 7940230.805592365,
+            "relative_residual": 5.748948050209284e-07,
+            "residual_j": 4.564797440802192
+          },
+          "lumped_stiffness_n_m": 15884338.844920503,
+          "material_id": "GFRP-20GPa-1900-unqualified",
+          "metrics": {
+            "completed_moving_steps": 17600,
+            "maximum_gap_m": 0.009718924963800842,
+            "maximum_longitudinal_relative_spread_m": 0.01589925483086028,
+            "maximum_magnetic_phase_spread_degrees": 11.447463478219403,
+            "minimum_gap_m": 0.0053623033685630105,
+            "peak_beam_displacement_m": 0.005024820714284374,
+            "peak_coupler_extension_m": 0.005195849989256942,
+            "peak_coupler_force_n": 82588.18034695002,
+            "peak_module_force_n": 11905.36740483,
+            "planned_moving_steps": 17600
+          },
+          "name": "gfrp-control",
+          "raw_file": "gfrp-control.json.gz",
+          "trace_rows": 881,
+          "within_existing_hardpoint_mass_target": true
+        },
+        {
+          "candidate_sha256": "b02f5f2e381b35c686695b8aff1886b4b6c6e04d35e5cce2fab99133b0d99fa7",
+          "confirmation_screen_pass": false,
+          "existing_hardpoint_mass_target_kg": 26400.0,
+          "existing_load_path_scaling": {
+            "calculation_only": true,
+            "maximum_interface_force_n": 21845.3211207229,
+            "ratio": 0.9948983795783972,
+            "reference_mass_kg": 26400.0,
+            "shear_per_bolt_n": 1365.3325700451812,
+            "tension_per_bolt_n": 8481.124670398302,
+            "thin_wall_joint_assessed": false,
+            "whole_joint_acceptance": false
+          },
+          "full_aw3_car_mass_kg": 26265.317220869685,
+          "full_train_mass_kg": 157591.90332521813,
+          "gap_and_stroke_screen_pass": true,
+          "id": "OSR-STOCK-STEEL-WALL-003-1",
+          "incremental_stock_and_spacer_mass_kg": 65.3172208696833,
+          "longitudinal_energy": {
+            "coupler_damping_work_j": 6.3102631589006135,
+            "drag_work_j": 7940119.112512227,
+            "final_spring_energy_j": 1.7397200123151828e-11,
+            "kinetic_change_j": 2.214845617851906e-10,
+            "motor_signed_work_j": 7940127.369451276,
+            "relative_residual": 2.451693530091023e-07,
+            "residual_j": -1.946675889978235
+          },
+          "lumped_stiffness_n_m": 33222811.520536117,
+          "material_id": "STEEL-200GPa-7850-unqualified",
+          "metrics": {
+            "completed_moving_steps": 17600,
+            "maximum_gap_m": 0.009722480908078417,
+            "maximum_longitudinal_relative_spread_m": 0.007452173690039977,
+            "maximum_magnetic_phase_spread_degrees": 5.365565056828784,
+            "minimum_gap_m": 0.005355713445171382,
+            "peak_beam_displacement_m": 0.005037316945462606,
+            "peak_coupler_extension_m": 0.002458540916540007,
+            "peak_coupler_force_n": 81702.84620132092,
+            "peak_module_force_n": 11934.97354712,
+            "planned_moving_steps": 17600
+          },
+          "name": "steel-wall-003",
+          "raw_file": "steel-wall-003.json.gz",
+          "trace_rows": 881,
+          "within_existing_hardpoint_mass_target": true
+        },
+        {
+          "candidate_sha256": "a198344ed115a989962f442f170af294a74ef0cbca326d389ff068b4542d3385",
+          "confirmation_screen_pass": true,
+          "existing_hardpoint_mass_target_kg": 26400.0,
+          "existing_load_path_scaling": {
+            "calculation_only": true,
+            "maximum_interface_force_n": 21996.473629920285,
+            "ratio": 1.0017822969920456,
+            "reference_mass_kg": 26400.0,
+            "shear_per_bolt_n": 1374.7796018700178,
+            "tension_per_bolt_n": 8539.807409263167,
+            "thin_wall_joint_assessed": false,
+            "whole_joint_acceptance": false
+          },
+          "full_aw3_car_mass_kg": 26447.052640590002,
+          "full_train_mass_kg": 158682.31584354,
+          "gap_and_stroke_screen_pass": true,
+          "id": "OSR-STOCK-STEEL-WALL-004-1",
+          "incremental_stock_and_spacer_mass_kg": 247.05264059000103,
+          "longitudinal_energy": {
+            "coupler_damping_work_j": 4.287638931779216,
+            "drag_work_j": 7939886.559282818,
+            "final_spring_energy_j": 3.6789286366277445e-10,
+            "kinetic_change_j": 7.760147515059074e-12,
+            "motor_signed_work_j": 7939892.909755531,
+            "relative_residual": 2.59806247333078e-07,
+            "residual_j": -2.062833781110098
+          },
+          "lumped_stiffness_n_m": 39744180.43564447,
+          "material_id": "STEEL-200GPa-7850-unqualified",
+          "metrics": {
+            "completed_moving_steps": 17600,
+            "maximum_gap_m": 0.00973188790377817,
+            "maximum_longitudinal_relative_spread_m": 0.006151803927557309,
+            "maximum_magnetic_phase_spread_degrees": 4.429298827841262,
+            "minimum_gap_m": 0.005337500898633878,
+            "peak_beam_displacement_m": 0.005072138486508212,
+            "peak_coupler_extension_m": 0.0020391509194903697,
+            "peak_coupler_force_n": 81052.24735912976,
+            "peak_module_force_n": 12012.72011523,
+            "planned_moving_steps": 17600
+          },
+          "name": "steel-wall-004",
+          "raw_file": "steel-wall-004.json.gz",
+          "trace_rows": 881,
+          "within_existing_hardpoint_mass_target": false
+        },
+        {
+          "candidate_sha256": "5c2464c370b1c7216b6805db396684ec277195760e02ec4df7e691637a685d1b",
+          "confirmation_screen_pass": true,
+          "existing_hardpoint_mass_target_kg": 26400.0,
+          "existing_load_path_scaling": {
+            "calculation_only": true,
+            "maximum_interface_force_n": 22145.850256143753,
+            "ratio": 1.0085853356178152,
+            "reference_mass_kg": 26400.0,
+            "shear_per_bolt_n": 1384.1156410089845,
+            "tension_per_bolt_n": 8597.800687679339,
+            "thin_wall_joint_assessed": false,
+            "whole_joint_acceptance": false
+          },
+          "full_aw3_car_mass_kg": 26626.652860310318,
+          "full_train_mass_kg": 159759.9171618619,
+          "gap_and_stroke_screen_pass": true,
+          "id": "OSR-STOCK-STEEL-WALL-005-1",
+          "incremental_stock_and_spacer_mass_kg": 426.6528603103187,
+          "longitudinal_energy": {
+            "coupler_damping_work_j": 3.6271888892513613,
+            "drag_work_j": 7939661.432223753,
+            "final_spring_energy_j": 3.6685196870544196e-11,
+            "kinetic_change_j": 3.052020377184997e-11,
+            "motor_signed_work_j": 7939668.957855922,
+            "relative_residual": 4.910082902120217e-07,
+            "residual_j": -3.8984432798463007
+          },
+          "lumped_stiffness_n_m": 45048338.82272372,
+          "material_id": "STEEL-200GPa-7850-unqualified",
+          "metrics": {
+            "completed_moving_steps": 17600,
+            "maximum_gap_m": 0.009741142284972769,
+            "maximum_longitudinal_relative_spread_m": 0.0055254384910053056,
+            "maximum_magnetic_phase_spread_degrees": 3.97831571352382,
+            "minimum_gap_m": 0.005319288821972686,
+            "peak_beam_displacement_m": 0.005106540786311066,
+            "peak_coupler_extension_m": 0.0018228925908991163,
+            "peak_coupler_force_n": 82123.74900035489,
+            "peak_module_force_n": 12094.47973098,
+            "planned_moving_steps": 17600
+          },
+          "name": "steel-wall-005",
+          "raw_file": "steel-wall-005.json.gz",
+          "trace_rows": 881,
+          "within_existing_hardpoint_mass_target": false
+        },
+        {
+          "candidate_sha256": "9aaf7b1cd555cdec9576e2361ee7ed81a2d10ecc0ea86b3c835585c48742a92b",
+          "confirmation_screen_pass": true,
+          "existing_hardpoint_mass_target_kg": 26400.0,
+          "existing_load_path_scaling": {
+            "calculation_only": true,
+            "maximum_interface_force_n": 22293.45099939331,
+            "ratio": 1.015307495455706,
+            "reference_mass_kg": 26400.0,
+            "shear_per_bolt_n": 1393.3406874620819,
+            "tension_per_bolt_n": 8655.104505646814,
+            "thin_wall_joint_assessed": false,
+            "whole_joint_acceptance": false
+          },
+          "full_aw3_car_mass_kg": 26804.117880030637,
+          "full_train_mass_kg": 160824.70728018382,
+          "gap_and_stroke_screen_pass": true,
+          "id": "OSR-STOCK-STEEL-WALL-006-1",
+          "incremental_stock_and_spacer_mass_kg": 604.1178800306365,
+          "longitudinal_energy": {
+            "coupler_damping_work_j": 3.3353716261669657,
+            "drag_work_j": 7939443.440722602,
+            "final_spring_energy_j": 6.62274136220448e-12,
+            "kinetic_change_j": 2.232275788767801e-10,
+            "motor_signed_work_j": 7939444.195930181,
+            "relative_residual": 3.249804374011433e-07,
+            "residual_j": 2.5801640475153587
+          },
+          "lumped_stiffness_n_m": 49446151.20110342,
+          "material_id": "STEEL-200GPa-7850-unqualified",
+          "metrics": {
+            "completed_moving_steps": 17600,
+            "maximum_gap_m": 0.009750301737316811,
+            "maximum_longitudinal_relative_spread_m": 0.00512475712584658,
+            "maximum_magnetic_phase_spread_degrees": 3.6898251306095378,
+            "minimum_gap_m": 0.005301376766770149,
+            "peak_beam_displacement_m": 0.005140519002439788,
+            "peak_coupler_extension_m": 0.0016833787659988344,
+            "peak_coupler_force_n": 83245.14936723636,
+            "peak_module_force_n": 12175.33790853,
+            "planned_moving_steps": 17600
+          },
+          "name": "steel-wall-006",
+          "raw_file": "steel-wall-006.json.gz",
+          "trace_rows": 881,
+          "within_existing_hardpoint_mass_target": false
+        }
+      ],
+      "city_default_changed": false,
+      "design_complete": false,
+      "gfrp_control_above_phase_limit": true,
+      "joined_body_accepted": false,
+      "manufacturing_release": false,
+      "open_gates": [
+        "Structurally participating GFRP sandwich remains the leading body study. Steel spines are an explicit alternative, not a hidden conventional complete underframe or adopted architecture.",
+        "Full joined-body skin/frame participation, torsion, bending, buckling, fatigue and coupler/hardpoint compliance remain unqualified; this is a rigid-car lumped axial sensitivity.",
+        "Thin steel wall bearing/pull-through, crushing, weld heat/distortion, tube splices, local buckling, corrosion, thermal expansion/magnetic interaction and dissimilar-material interfaces require independent design and tests.",
+        "E=200GPa, density=7850kg/m3, GFRP properties and coupler100MN/m are assumptions. Actual supply, local fabrication, steel grade, dimensional tolerances, weld procedure and inspectability remain unverified.",
+        "Full AW3 reference mass plus every added directly replaced tube/spacer kg is retained; equipment, payload and contingency reserves receive no removal credit. Baseline assumed roll/pitch inertias and ideal independently allocated thrust are unchanged.",
+        "The existing hardpoint load hypothesis is26400kg/car. Alternatives above it need heavier-load re-evaluation as well as the new steel-wall joint design; a phase-screen pass does not close this gate.",
+        "The 5 degree magnetic phase screen, physical gap/stroke/force controllers and numerical controls are unchanged. Passing them is not shared-field electromagnetic feasibility, a flexible-body confirmation, manufacturing or physical acceptance."
+      ],
+      "phase_screen_passing_alternatives": 3,
+      "physical_release": false,
+      "physical_validation": false,
+      "schema": "osr-body-stiffness-verification/1",
+      "scope": "Full AW3 rigid-car drilled-stock sensitivity; exact added tube/spacer mass, unchanged 5 degree screen; no joined/flexible-body or manufacturing acceptance",
+      "selected_candidate_id": null,
+      "source_files": 67,
+      "study_pass": false
+    },
+    "hub_access": {
+      "access_cores": 3,
+      "bearing_seats": 108,
+      "deck_bays": 54,
+      "design_complete": false,
+      "engineering_accepted": false,
+      "flow_scenarios": 18,
+      "focused_variant_id": "pair-031-040/line-9/midpoint",
+      "hub_selected": false,
+      "lift_scenarios": 36,
+      "manufacturing_release": false,
+      "maximum_platform_transfer_walk_m": 965.82892602,
+      "minimum_platform_transfer_walk_m": 494.91390758,
+      "physical_reference_length_m": 977.8289260139312,
+      "physical_release": false,
+      "physical_validation": false,
+      "platform_pair_count": 3,
+      "schema": "osr-hub-access-design-study/1",
+      "shared_site_circulation_alternatives": 7,
+      "stock_sections": 2,
+      "unique_support_positions": 55,
+      "width_alternatives": 3
+    },
+    "line_capacity": {
+      "city_default_changed": false,
+      "design_complete": false,
+      "executed_controls_pass": true,
+      "legacy_station_launch": {
+        "headway_180s_rejected_while_stopped": true,
+        "headway_600s_executed_pass": true,
+        "legacy_contract_changed": false,
+        "runs": 20
+      },
+      "manufacturing_release": false,
+      "open_gates": [
+        "measured/degraded independent brake curves and stopping-time distributions",
+        "qualified detector and train-integrity coverage, latency and clock error",
+        "candidate finite-authority protocol composed with station motor/receiver and onboard brake/support command interfaces",
+        "durable multi-controller handover, authenticated installed event persistence and restart/reconciliation; restored snapshots cannot resume",
+        "perturbed dwell, failed mid-coast recovery, junction/passenger demand, turnbacks and repeated full-line cycles",
+        "real-time timing, fail-safe output and physical system acceptance"
+      ],
+      "physical_release": false,
+      "physical_validation": false,
+      "profiles": [
+        {
+          "headway_s": 180.0,
+          "mode": "urban",
+          "nominal": {
+            "frames": 5100,
+            "full_tail_releases": 28,
+            "maximum_active_trains": 3,
+            "minimum_stopping_margin_m": 0.747,
+            "stopped_forward_withdrawals": 0
+          }
+        },
+        {
+          "headway_s": 180.0,
+          "mode": "suburban",
+          "nominal": {
+            "frames": 7450,
+            "full_tail_releases": 44,
+            "maximum_active_trains": 3,
+            "minimum_stopping_margin_m": 0.096,
+            "stopped_forward_withdrawals": 0
+          }
+        }
+      ],
+      "progressive_departure": {
+        "executed_api_tests": 12,
+        "profiles": [
+          {
+            "closed_arrival_brake_plant_pass": true,
+            "committed_departures": 6,
+            "full_tail_releases": 28,
+            "headway_s": 180.0,
+            "hold_stopping_margin_m": 2.749,
+            "minimum_stopping_margin_m": 0.071,
+            "mode": "urban",
+            "stopped_arrivals": 4
+          },
+          {
+            "closed_arrival_brake_plant_pass": true,
+            "committed_departures": 5,
+            "full_tail_releases": 44,
+            "headway_s": 180.0,
+            "hold_stopping_margin_m": 2.177,
+            "minimum_stopping_margin_m": 0.105,
+            "mode": "suburban",
+            "stopped_arrivals": 3
+          }
+        ],
+        "protocol": "osr-progressive-departure/1",
+        "reconciliation_resumption_implemented": false,
+        "restored_snapshot_can_authorise_motion": false,
+        "runs": 26
+      },
+      "protection_controls": 44,
+      "runs": 66,
+      "schema": "osr-line-capacity-verification/1",
+      "scope": "Executed legacy StationLaunch composition and separate finite-authority departure candidate; live motor/brake interfaces and physical acceptance open",
+      "source_files": 50,
+      "study_pass": false,
+      "whole_line_capacity_accepted": false
+    },
+    "qualification": {
+      "accepted_physical_gates": 0,
+      "accepted_requirements": 0,
+      "applicable_requirements": 179,
+      "binding_sha256": "fd527c22293ddc59566b3434272da8b8f53de4314840c123405b62c2a6d8fb63",
+      "design_complete": false,
+      "engineering_accepted": false,
+      "gates": 6,
+      "manufacturing_release": false,
+      "obligation_groups": 8,
+      "physical_release": false,
+      "physical_validation": false,
+      "protocols": 15,
+      "schema": "osr-design-qualification/1",
+      "status": "prepared-unexecuted; supplier/site/rig/independent records and approved limits required",
+      "supplied_specification_requirements": 100,
+      "system_ids": 53,
+      "tasks": 576,
+      "uncovered_groups": [],
+      "uncovered_requirements": []
+    },
+    "shared_hub_layout": {
+      "common_platform_length_m": 219.0,
+      "design_complete": false,
+      "engineering_accepted": false,
+      "geometric_fit_count": 38,
+      "hub_selected": false,
+      "manufacturing_release": false,
+      "maximum_representative_door_walk_m": 209.18976886172447,
+      "native_present": true,
+      "physical_release": false,
+      "physical_validation": false,
+      "projected_anchor_repair_concepts": 4,
+      "representatives": 3,
+      "required_common_straight_m": 400.0,
+      "schema": "osr-shared-hub-layout/1",
+      "source_concepts": 7,
+      "variant_count": 528
+    }
+  },
+  "design_complete": false,
+  "full_suite_exit_status": 0,
+  "interchange_hub_investigation": {
+    "baseline_stops": 273,
+    "compact_hubs_proved": 0,
+    "design_complete": false,
+    "focused_investigation": {
+      "id": "pair-031-040/line-9/midpoint",
+      "maximum_reference_access_arm_m": 470.9144786636534,
+      "price_scope_allowance_usd_per_reference_m": 3264.924035385512,
+      "unique_reference_connector_m": 941.8289573273069
+    },
+    "manufacturing_release": false,
+    "network_alternatives": 10,
+    "physical_release": false,
+    "physical_validation": false,
+    "placement_variants": 24,
+    "schema": "osr-interchange-hub-investigation/1",
+    "selected_variant": null,
+    "shared_line_adjacencies": 8,
+    "unique_pairs": 7
+  },
+  "longer_corridors": {
+    "capacity_accepted": false,
+    "configuration_revision": "V052-FIXED-LINE-URBAN-SUBURBAN-3",
+    "design_complete": false,
+    "executed_numerical_study_pass": true,
+    "inertia_scope": "Independent unqualified rigid-body hypotheses: roll20000kg m2 and pitch600000kg m2 retained across pack masses. No measured mass distribution, pack CG or actual body inertia is claimed.",
+    "manifest_sha256": "e9bd6cf9bd33b6ed63202bb18d6dfcb9a354645fd06a52b2ccb53b0f26ffd02e",
+    "manufacturing_release": false,
+    "operations": {
+      "suburban": {
+        "capacity_screen_pass": false,
+        "car_mass_kg": 26400.0,
+        "cars": 6,
+        "distance_m": 5000.0,
+        "headway_lower_bound_s": 506.8560984809298,
+        "holds": [
+          "Exclusive whole-leg arrival protection cannot sustain requested180s headway",
+          "Measured magnetic force/loss maps remain unqualified",
+          "Converter/winding, handover and independent recovery hardware remain unqualified"
+        ],
+        "installed_zones": [
+          {
+            "converter_rating": {
+              "dc_bus_v": 2400.0,
+              "force_constant_n_a": 50.0,
+              "inductance_h": 2.5e-05,
+              "maximum_copper_loss_w": 120000.0,
+              "maximum_current_a": 4000.0,
+              "maximum_phase_voltage_v": 1200.0,
+              "resistance_ohm": 0.0025
+            },
+            "electrical_section_m": 12.5,
+            "electrical_sections": 28,
+            "end_m": 200.0,
+            "id": "departure",
+            "kind": "station",
+            "length_m": 350.0,
+            "passenger": true,
+            "protected_by": "exclusive-corridor-and-arrival-bundle",
+            "start_m": -150.0
+          },
+          {
+            "converter_rating": {
+              "dc_bus_v": 2400.0,
+              "force_constant_n_a": 50.0,
+              "inductance_h": 2.5e-05,
+              "maximum_copper_loss_w": 120000.0,
+              "maximum_current_a": 4000.0,
+              "maximum_phase_voltage_v": 1200.0,
+              "resistance_ohm": 0.0025
+            },
+            "electrical_section_m": 12.5,
+            "electrical_sections": 30,
+            "end_m": 2687.5,
+            "id": "booster",
+            "kind": "top-up",
+            "length_m": 375.0,
+            "passenger": false,
+            "protected_by": "exclusive-corridor-and-arrival-bundle",
+            "start_m": 2312.5
+          },
+          {
+            "converter_rating": {
+              "dc_bus_v": 2400.0,
+              "force_constant_n_a": 50.0,
+              "inductance_h": 2.5e-05,
+              "maximum_copper_loss_w": 120000.0,
+              "maximum_current_a": 4000.0,
+              "maximum_phase_voltage_v": 1200.0,
+              "resistance_ohm": 0.0025
+            },
+            "electrical_section_m": 12.5,
+            "electrical_sections": 28,
+            "end_m": 5200.0,
+            "id": "arrival",
+            "kind": "station",
+            "length_m": 350.0,
+            "passenger": true,
+            "protected_by": "exclusive-corridor-and-arrival-bundle",
+            "start_m": 4850.0
+          }
+        ],
+        "load_case": "AW3",
+        "mandatory_moving_candidate_sha256": [
+          "826e4d3534c8b6e0d3f4aa00fd34bc211df97bed3101c5018759a621a99d69d8",
+          "7a52c550f0b20827dfd86887ed737bfc51379dec77d8448614c29712edb88155"
+        ],
+        "maximum_indexing_spread_m": 0.00033514725311754314,
+        "motion_screen_pass": true,
+        "moving_candidate_sha256": "6c63ea43174197ef77e6b653cf1e9890b484aa8a1ead4d905600e9bdaf9b007b",
+        "operational_geometry_confirmed": true,
+        "peak_speed_kmh": 66.19403119108365,
+        "propulsion_input_kwh": 15.845881441289793,
+        "protection_screen_pass": true,
+        "rating_screen_pass": true,
+        "recovered_energy_kwh": 1.7051644552619685,
+        "runtime_s": 375.0,
+        "service_energy": {
+          "battery_kwh_per_car": 50.0,
+          "charger_kw_per_car": 600.0,
+          "connected_s": 72.0,
+          "dwell_s": 96.0,
+          "protected_reserve_kwh_per_car": 10.0,
+          "replenished_kwh_per_car": 9.6,
+          "screen_pass": true,
+          "trip_hotel_kwh_per_car": 6.65,
+          "usable_kwh_per_car": 24.000000000000004
+        },
+        "service_energy_screen_pass": true
+      },
+      "urban": {
+        "capacity_screen_pass": false,
+        "car_mass_kg": 26400.0,
+        "cars": 6,
+        "distance_m": 2000.0,
+        "headway_lower_bound_s": 235.14099300349875,
+        "holds": [
+          "Exclusive whole-leg arrival protection cannot sustain requested180s headway",
+          "Measured magnetic force/loss maps remain unqualified",
+          "Converter/winding, handover and independent recovery hardware remain unqualified"
+        ],
+        "installed_zones": [
+          {
+            "converter_rating": {
+              "dc_bus_v": 2400.0,
+              "force_constant_n_a": 50.0,
+              "inductance_h": 2.5e-05,
+              "maximum_copper_loss_w": 120000.0,
+              "maximum_current_a": 4000.0,
+              "maximum_phase_voltage_v": 1200.0,
+              "resistance_ohm": 0.0025
+            },
+            "electrical_section_m": 12.5,
+            "electrical_sections": 28,
+            "end_m": 200.0,
+            "id": "departure",
+            "kind": "station",
+            "length_m": 350.0,
+            "passenger": true,
+            "protected_by": "exclusive-corridor-and-arrival-bundle",
+            "start_m": -150.0
+          },
+          {
+            "converter_rating": {
+              "dc_bus_v": 2400.0,
+              "force_constant_n_a": 50.0,
+              "inductance_h": 2.5e-05,
+              "maximum_copper_loss_w": 120000.0,
+              "maximum_current_a": 4000.0,
+              "maximum_phase_voltage_v": 1200.0,
+              "resistance_ohm": 0.0025
+            },
+            "electrical_section_m": 12.5,
+            "electrical_sections": 28,
+            "end_m": 2200.0,
+            "id": "arrival",
+            "kind": "station",
+            "length_m": 350.0,
+            "passenger": true,
+            "protected_by": "exclusive-corridor-and-arrival-bundle",
+            "start_m": 1850.0
+          }
+        ],
+        "load_case": "AW3",
+        "mandatory_moving_candidate_sha256": [
+          "a775c7582bb7fb55199f19142fcfec97a752dca54f02fd745186e4328c89ed4a",
+          "4ed64617bdb5e6f4e3721e0714366d72d9bdf2bdf2f17c62e14a02732135c024"
+        ],
+        "maximum_indexing_spread_m": 0.0022881325747990226,
+        "motion_screen_pass": true,
+        "moving_candidate_sha256": "c3d7f4f8952cdaf09e9020ae366bb50b3fbd908cc60ec24243b05c7814ac88af",
+        "operational_geometry_confirmed": true,
+        "peak_speed_kmh": 70.42637142326977,
+        "propulsion_input_kwh": 10.466887143654096,
+        "protection_screen_pass": true,
+        "rating_screen_pass": true,
+        "recovered_energy_kwh": 3.381613873266832,
+        "runtime_s": 140.0,
+        "service_energy": {
+          "battery_kwh_per_car": 50.0,
+          "charger_kw_per_car": 400.0,
+          "connected_s": 45.0,
+          "dwell_s": 60.0,
+          "protected_reserve_kwh_per_car": 10.0,
+          "replenished_kwh_per_car": 3.75,
+          "screen_pass": true,
+          "trip_hotel_kwh_per_car": 2.5833333333333335,
+          "usable_kwh_per_car": 24.000000000000004
+        },
+        "service_energy_screen_pass": true
+      }
+    },
+    "physical_output_authorised": false,
+    "physical_release": false,
+    "physical_validation": false,
+    "schema": "osr-fixed-corridor-summary/1",
+    "source_sha256": {
+      "Cargo.lock": "2f04e682935b3ef2281ccbe4b8de8c1f074a31528f43aa3657398989e77918e3",
+      "Cargo.toml": "bd0a0478375bf16689faf6fe55ca5668e3b38ee0b1b314cbee76151f2f6a01f4",
+      "crates/osr-core/Cargo.toml": "a3afc36c6d5a599f07fe7a06b3e7fa5c40eb7b1ee116b2207052ca7ca440586a",
+      "crates/osr-core/src/consist.rs": "1751c11582227e65bf3b9059d92ccc37f006df71df7aa88258e86bddef836360",
+      "crates/osr-core/src/deployment.rs": "d8f9d2305d137a52783ecbb5244edcd6e553c6ca4a8a9a4308fe90fdb5df3199",
+      "crates/osr-core/src/geometry.rs": "ea956fc1bf01db721e7d715c10f2a57d06d026824dd437fa20d1332264a160f6",
+      "crates/osr-core/src/ids.rs": "da19c4d25950e70a6e3dabb57550ba6d01825089bd0fb1a43077eab13af65cfd",
+      "crates/osr-core/src/lib.rs": "a16bce9940d62030521fc56c5fe6ec0286bb375911e6c55e16603d1bc779f8b7",
+      "crates/osr-core/src/resources.rs": "367d201281cde034f9854c0a03ff4a5d371ea92e762588d05532286d1a48f2c1",
+      "crates/osr-core/src/topology.rs": "b2a0e6818d76a56e9a87ad1d2c63a34384d0205b3e67b19561772cbce55b92f7",
+      "crates/osr-interlocking/Cargo.toml": "1328cc298083de47d688608d9f635779488d4d05cadf0309d0d9890672763d98",
+      "crates/osr-interlocking/examples/corridor_replay.rs": "51b100473c13af66c276423b42e0bccebd32c6e97f7dc15450383409190eaa7c",
+      "crates/osr-interlocking/examples/line_capacity_replay.rs": "b38335869e6f2d0c27a7073cb6d6d5ff8141769b11bce48800b891ab932ab862",
+      "crates/osr-interlocking/examples/station_campaign.rs": "e3bc7e08447bc64b0cbe64dacdf93eee4bab06065b99f23445455739b932d652",
+      "crates/osr-interlocking/src/kani_proofs.rs": "27415230e48a0c9cdd3adc955da9cffd4c9b027c5d5152636a41c528292caa5b",
+      "crates/osr-interlocking/src/lib.rs": "291b7fe0bdf235d57f774999a8d31b2318c283d33a4919e5c5a86aa8fbbc2613",
+      "crates/osr-interlocking/src/log.rs": "ca541ed09e8a7227e7864a58c98238e54871ed70078e33d78ccead7364247be0",
+      "crates/osr-interlocking/src/ma.rs": "2a782f09348fb6a94973413959c7b7d2b49aba336ad223d4c4771f21dc97ecbc",
+      "crates/osr-interlocking/src/ordered_map.rs": "9e646d6fc67ba0bf3c4721a5f5afbc07480596fb217b2aa8eb906877af4375b8",
+      "crates/osr-interlocking/src/progressive.rs": "f3a3a2cbdd26c12bc8d72ef23695248459a25dcdbc0d5c7750f47914675345de",
+      "crates/osr-interlocking/src/resource_log.rs": "f99f0938e81800c953d853263e19d146117ce44211f399dcf9d1d02cdbca3989",
+      "crates/osr-interlocking/src/resources.rs": "e07064cef8c2587b97cceaca60d5c3a562aebb7f7f9ff8a04da6cf3dd081d085",
+      "crates/osr-interlocking/src/state.rs": "eadf125cbb227c6a5b1f3bf9725595e0fb133d45cb27dab68fa9bc565d882a93",
+      "crates/osr-interlocking/src/station.rs": "9f5846dbe9cac8a4db2110cd08a400e798bfc93ab1d0204c1c0fb3b1d86b2c5b",
+      "crates/osr-interlocking/src/topology.rs": "af0d2895303dc86980850ef707b045a94ed95580869954a59bdb06c73ca1430d",
+      "crates/osr-interlocking/tests/differential.rs": "d5865ed9a4a9c6d8837ecb13660ced6cc01cab634dc1e53afbd5ad4abacae329",
+      "crates/osr-interlocking/tests/proptest_determinism.rs": "282be99899dca672a6a8cf2ceae6ee2cac7c5a6c6b40811bc30f7a2a42bd6e8c",
+      "crates/osr-interlocking/tests/proptest_ma.rs": "589f9d0fd42cfcd89941551076f848ca62b307ae7e8e1e2ffbcafc9381284dd3",
+      "crates/osr-interlocking/tests/resource_protocol.rs": "b9a24a68c1f94d993de0ec6e3c390107647483770d3ff89cd1dae3ac01da0210",
+      "crates/osr-interlocking/tests/station_launch.rs": "ed8bfda0ae76f0c2714f8f49c70144672a72a27be753b9cded50444083805288",
+      "crates/osr-maglev-control/Cargo.toml": "ee59ea85affddbc8436aa4bca2ebb85ce17575cd1c0e95219695081f83919fad",
+      "crates/osr-maglev-control/examples/coupled_bridge.rs": "9441e19e6ca4ba30ba01f5cefd86ea49d116507a1f4ef43bc99c061d2b61c94b",
+      "crates/osr-maglev-control/examples/egress_replay.rs": "c50aa62ac0a4cd76fa1d2e0f456337769185a6fb61644cee61bd4dd2dcb34024",
+      "crates/osr-maglev-control/examples/moving_train_bridge.rs": "211fdb2f6b0066b1d97c54162f3dbc8591e8dcdae783f7ec5727ae1f1dd4f882",
+      "crates/osr-maglev-control/examples/multimodule_replay.rs": "2573fa39171e1a628429b81585925b26bca23bb43d4f413e16b9648d027edaa2",
+      "crates/osr-maglev-control/examples/sbc_replay.rs": "d3c51043b651ed3a9ad9c11d01672ec54c1d346c1d64f56a6d16f3564b6b51de",
+      "crates/osr-maglev-control/examples/station_replay.rs": "c04ffcd1b17174bc4e1b69194d15467171171174ce512644b06c86b366045189",
+      "crates/osr-maglev-control/examples/support/mod.rs": "5b89fd9714f2638c83ef401979ce189a06874ff468c2d803d8c6d13326006868",
+      "crates/osr-maglev-control/src/array.rs": "99a38fca3891c65156b91b84a7acd435e0ddbc988b0176d6cd92bf34a74a3801",
+      "crates/osr-maglev-control/src/egress.rs": "26b7412a6da216f5503ef62a6ab09cc2b509b9e927abc55f553bbd58adcdeee9",
+      "crates/osr-maglev-control/src/ideal.rs": "9d423fdd6c260f1235e87f85ad26d4aba5b3d52ec3abf2bf6bc8cdc487058663",
+      "crates/osr-maglev-control/src/io.rs": "dc30aa01ebb446b9581c1b87333cf640bdb18bc04103e5850685e63727aebec3",
+      "crates/osr-maglev-control/src/lib.rs": "bef67784153aab663ed5b91cafc6bafc3509b770ff9223e26687e8678f262e3c",
+      "crates/osr-maglev-control/src/station.rs": "8239813691f2765e7085c57bd2c8baae890ec43c2127bdb9b339ad26f35634d9",
+      "crates/osr-maglev-control/tests/control.rs": "e40324013b46a60c85536bbb7f417777e46984eb2825e420affb3c6b0eced414",
+      "crates/osr-maglev-control/tests/egress.rs": "5a850a6f79d85213ddcc28d458aceba99f7761dcbc225c238010ec1fe1b5f338",
+      "crates/osr-maglev-control/tests/multimodule.rs": "b5865cfa9aa67b33560e55fef724bd630d8e5e85e6e60b9597a97e1fe5945754",
+      "crates/osr-maglev-control/tests/station.rs": "65b1c6db8ed1b0a1d7b3f9d364c7e63332b2446ca49821fd512de33aedffaf43",
+      "engineering/analysis/tests/test_ferrite_maglev_corridor.py": "e28dcea2ac9c49270d3d31a9588b1434764fa017fc73688a26a544ac72e66fd3",
+      "engineering/analysis/tests/test_ferrite_maglev_moving_train.py": "f49d24a97c609af43b07f8f552a18909ad13e0f92be894a4c1a1cd78ce1c18e6",
+      "engineering/ferrite_maglev/configuration.py": "60a7079ceffdac3dd1d24be0b3663495dfe769478cbfaa19cba98b329093ed58",
+      "engineering/ferrite_maglev/corridor.py": "385215504c9774e2fe81c217cff75f37f332ad10f28f8acd9ae0a597ccf0d2bf",
+      "engineering/ferrite_maglev/corridor.toml": "36dfb6da1422562e7708ebfafa04c174a9db2235a304550721e55a875a70e3e2",
+      "engineering/ferrite_maglev/coupled.py": "cc44adfda48ff5101f8b263e93690b11f559b37c4292b4d369a495e85717eb78",
+      "engineering/ferrite_maglev/data/cost-rates.json": "bef0873c9382656b162a407d86526d087d85d77898340840e340a524c6b8779b",
+      "engineering/ferrite_maglev/geometry.py": "a5122e48721276f610bfebcd6486893486ebdb9ac792513ae0829f30d1243ad3",
+      "engineering/ferrite_maglev/manufacturing.py": "4285d231425369081ec96a54ff9f0070676425c318f5ea674b0bc69cf4d46a61",
+      "engineering/ferrite_maglev/model.py": "43b908817f757965953fd7e4512b2cb4eeb29a6109d91774f0f47914f5469c21",
+      "engineering/ferrite_maglev/moving-train.toml": "36d5d1f70bed70df983f4124a8d59a92a901939c7098c4197a1d3f1c80f1495d",
+      "engineering/ferrite_maglev/moving_train.py": "644f9dac51f3de0759700cdd87dff1c72e6d242b88ccdb3152d03c8bb279c7ce",
+      "engineering/ferrite_maglev/reference-configuration.toml": "060ae16e7d371652fdb7f99bd1a7ee80605649c5d792adced95827b841cdbf1a",
+      "engineering/ferrite_maglev/requirements.txt": "daf337705e6606efab587dbd6a6444b413bc7d2b3cca98a8f5748c34a4c1e554",
+      "engineering/ferrite_maglev/station.py": "9d76f0e507160d519733ffae358715294ff836ae6812d23ad171b0350cfd2db3",
+      "engineering/ferrite_maglev/station.toml": "38f4a6ffeb2c3f5e114c6fd8681f2bf0da3b34a6215c751f564201489086ee4f",
+      "engineering/ferrite_maglev/system-campaign.toml": "705d503c9a86b736463c7932ef59cd7581c16ae207b1f3647842a6771e82570b",
+      "engineering/ferrite_maglev/system_campaign.py": "76535f61770eeaeb1ffa00b98814ab4621a5b9c0782a8856f5ce5653dc87c9fa",
+      "ferrite-maglev-study.toml": "a1effd80c4a5390b3c615b5833258e88ed1e687cfad065c65260b8149ae50839",
+      "rust-toolchain.toml": "1d76a06616a42a984bad672eeb24ca39a0496e95a8b624e21df0d420d1557734"
+    },
+    "study_pass": false
+  },
+  "manufactured_dossier": {
+    "complete_manufactured_system": false,
+    "frame_reserve_allocation": {
+      "additional_pack_mass_already_in_tare_kg": 200.0,
+      "emergency_quantity_basis": "Exact system_campaign.emergency_brake per-car input thermal and hardware calculation; no study()/publication invoked",
+      "existing_kg": 1800.0,
+      "frame_overrun_kg": 346.4553599999999,
+      "mass_accounting_scope": "Pack increment is included once in tare/gross mass; retained growth reserve is debited for frame overrun and exact brake proposal only",
+      "nominal_tare_including_existing_reserve_kg": 14400.0,
+      "remaining_before_other_system_growth_kg": 1246.518876164622,
+      "reserve_is_new_mass_credit": false,
+      "separately_proposed_emergency_kg": 207.02576383537803
+    },
+    "requirements": 179,
+    "systems": 53
+  },
+  "manufacturing_release": false,
+  "moving_benchmark": {
+    "evidence_role": "retained-1000m-component-benchmark",
+    "numerical_controls": {
+      "boundary_displacement_jump_m": 1.7157429995745018e-17,
+      "coupler_energy_conservation": true,
+      "coupler_energy_relative_error": 3.8708094507455826e-14,
+      "coupler_internal_momentum": true,
+      "coupler_net_force_max_n": 4.656612873077393e-10,
+      "force_projection_relative_error": 3.469446951953614e-18,
+      "force_projection_virtual_power": true,
+      "full_run_longitudinal_work_balance": true,
+      "full_run_phase_indexing_screen": true,
+      "full_run_projection_work": true,
+      "gravity_equilibrium": true,
+      "gravity_residual_n": 0.0,
+      "independent_moving_load_solution": true,
+      "mandatory_adverse_confirmations": true,
+      "moving_load_benchmark_scope": "60 spatial elements and one mode isolate temporal convergence; production mesh unchanged",
+      "moving_load_refinement": [
+        {
+          "maximum_error": 1.9124741618081753e-05,
+          "mesh_elements": 60,
+          "relative_error": 5.531421359193784e-05,
+          "retained_modes": 1,
+          "step_s": 0.005
+        },
+        {
+          "maximum_error": 4.782150156312781e-06,
+          "mesh_elements": 60,
+          "relative_error": 1.3831343735640807e-05,
+          "retained_modes": 1,
+          "step_s": 0.0025
+        }
+      ],
+      "moving_load_refines": true,
+      "moving_load_temporal_refinement_ratio": 3.9991930393142763,
+      "moving_train_time_refinement": true,
+      "out_of_envelope_gap_rejected": true,
+      "physical_gap_bias_counterexample_rejected": true,
+      "physical_output_authorised": false,
+      "replayed_frame_rejected": true,
+      "sensed_and_physical_gap_bias_consistent": true,
+      "static_point_load": true,
+      "static_refinement_relative_error": 1.8601872309176307e-12,
+      "support_boundary_continuity": true,
+      "two_way_feedback_negative_control": true
+    },
+    "selected_candidate_sha256": "5c2ca2e9ca0ad77054b1d357395c4511a8a7383cc98280062093dfdd6170dfd4"
+  },
+  "moving_confirmations": {
+    "suburban/lighter-2.4m-comparison": {
+      "candidate_sha256": "39543e878c54974f4db5fb9c839d76cffa847519da18efe64cb7074fd448af52",
+      "completed_moving_steps": 60000,
+      "maximum_gap_m": 0.010801946965589906,
+      "minimum_gap_m": 0.0030751577569325616,
+      "planned_moving_steps": 60000,
+      "profile_sha256": "6aa05246e7c29757f61a524346d37ef2c28aa72adc122d9257e2d3cb6c0acb77",
+      "study_pass": true
+    },
+    "suburban/nominal": {
+      "candidate_sha256": "6c63ea43174197ef77e6b653cf1e9890b484aa8a1ead4d905600e9bdaf9b007b",
+      "completed_moving_steps": 75000,
+      "maximum_gap_m": 0.01009430773288734,
+      "minimum_gap_m": 0.005064914812905089,
+      "planned_moving_steps": 75000,
+      "profile_sha256": "07dc4cd529fd3c40953480908cdb567751c46274fac3b9982f550b23f5c1e31f",
+      "study_pass": true
+    },
+    "suburban/reduced-E-negative-bias": {
+      "candidate_sha256": "7a52c550f0b20827dfd86887ed737bfc51379dec77d8448614c29712edb88155",
+      "completed_moving_steps": 75000,
+      "maximum_gap_m": 0.010966720368343966,
+      "minimum_gap_m": 0.005046830690037444,
+      "planned_moving_steps": 75000,
+      "profile_sha256": "07dc4cd529fd3c40953480908cdb567751c46274fac3b9982f550b23f5c1e31f",
+      "study_pass": true
+    },
+    "suburban/reduced-E-positive-bias": {
+      "candidate_sha256": "826e4d3534c8b6e0d3f4aa00fd34bc211df97bed3101c5018759a621a99d69d8",
+      "completed_moving_steps": 75000,
+      "maximum_gap_m": 0.009966720368343632,
+      "minimum_gap_m": 0.00404683069003786,
+      "planned_moving_steps": 75000,
+      "profile_sha256": "07dc4cd529fd3c40953480908cdb567751c46274fac3b9982f550b23f5c1e31f",
+      "study_pass": true
+    },
+    "suburban/rejected-2.2m": {
+      "candidate_sha256": "7c3beae3b887d0b5f7f7a319fff0ec64309f88532467cfecbd47ba838fe7817f",
+      "completed_moving_steps": 3537,
+      "maximum_gap_m": 0.010476606998219465,
+      "minimum_gap_m": 0.0029934180609087003,
+      "planned_moving_steps": 60000,
+      "profile_sha256": "6aa05246e7c29757f61a524346d37ef2c28aa72adc122d9257e2d3cb6c0acb77",
+      "study_pass": false
+    },
+    "urban/nominal": {
+      "candidate_sha256": "c3d7f4f8952cdaf09e9020ae366bb50b3fbd908cc60ec24243b05c7814ac88af",
+      "completed_moving_steps": 28000,
+      "maximum_gap_m": 0.010241448619705731,
+      "minimum_gap_m": 0.004926521976688194,
+      "planned_moving_steps": 28000,
+      "profile_sha256": "8546bfb78e31a6fd8eab6965bbe3cad3a9258c04ae4e5003c2e5535af007f9df",
+      "study_pass": true
+    },
+    "urban/reduced-E-negative-bias": {
+      "candidate_sha256": "4ed64617bdb5e6f4e3721e0714366d72d9bdf2bdf2f17c62e14a02732135c024",
+      "completed_moving_steps": 28000,
+      "maximum_gap_m": 0.011141645035586933,
+      "minimum_gap_m": 0.004882624740257589,
+      "planned_moving_steps": 28000,
+      "profile_sha256": "8546bfb78e31a6fd8eab6965bbe3cad3a9258c04ae4e5003c2e5535af007f9df",
+      "study_pass": true
+    },
+    "urban/reduced-E-positive-bias": {
+      "candidate_sha256": "a775c7582bb7fb55199f19142fcfec97a752dca54f02fd745186e4328c89ed4a",
+      "completed_moving_steps": 28000,
+      "maximum_gap_m": 0.01014164503558639,
+      "minimum_gap_m": 0.003882624740257141,
+      "planned_moving_steps": 28000,
+      "profile_sha256": "8546bfb78e31a6fd8eab6965bbe3cad3a9258c04ae4e5003c2e5535af007f9df",
+      "study_pass": true
+    }
+  },
+  "moving_physical_guard_negative": {
+    "completed_moving_steps": 1801,
+    "minimum_biased_sensed_gap_m": 0.004999334254549495,
+    "minimum_physical_gap_m": 0.0029993342545494945,
+    "reason": "independent physical gap outside envelope"
+  },
+  "multipart_bundle": {
+    "archive_files": {
+      "OpenSourceRail-v0.5.2-design-studies-part-001.tar.gz": {
+        "bytes": 25588092,
+        "sha256": "40c4c7257cb6d746e985b280f1499f87263f4719ef493869390a37bf86370a25"
+      },
+      "OpenSourceRail-v0.5.2-design-studies-part-002.tar.gz": {
+        "bytes": 20574832,
+        "sha256": "c136a762e7312899fd638837a323ed60b92449e881caf8efbd41160cd786a215"
+      },
+      "OpenSourceRail-v0.5.2-design-studies-part-003.tar.gz": {
+        "bytes": 19121883,
+        "sha256": "a18070d93585e0374e30ee186a632c95f496c2720571f8fd780bad404bed2204"
+      },
+      "OpenSourceRail-v0.5.2-design-studies-part-004.tar.gz": {
+        "bytes": 19040833,
+        "sha256": "37a6f527c8d64048bd7a2188f56f82ab7dbb27912d491c3fefaff884a8684380"
+      },
+      "OpenSourceRail-v0.5.2-design-studies-part-005.tar.gz": {
+        "bytes": 18266325,
+        "sha256": "e7dc851342652fc68d4a00b990646a2be4f3f3635a4ef7322a070a2b3f24d475"
+      },
+      "OpenSourceRail-v0.5.2-design-studies-part-006.tar.gz": {
+        "bytes": 18258387,
+        "sha256": "9efc10cafabca049fd477e37ba6e6560893c78d1868b02f648cc0f7df6e4e31d"
+      },
+      "OpenSourceRail-v0.5.2-design-studies-part-007.tar.gz": {
+        "bytes": 18924567,
+        "sha256": "1f89466edb73dbaa8d44fd6372505b6a566802f34dc0e98e5f403f97eec3c5cf"
+      },
+      "OpenSourceRail-v0.5.2-design-studies-part-008.tar.gz": {
+        "bytes": 19637317,
+        "sha256": "f3a7a9160ce47711a8c4275e55de105c80467fc1ac747fcef2c324aa6d949220"
+      },
+      "OpenSourceRail-v0.5.2-design-studies-part-009.tar.gz": {
+        "bytes": 19676914,
+        "sha256": "52c7dc8d82951d0874077aa9b927d0c2ee347045771494d0d978d3c9dbeb75c5"
+      },
+      "OpenSourceRail-v0.5.2-design-studies-part-010.tar.gz": {
+        "bytes": 97519453,
+        "sha256": "570ec00d154406b29ac992676b2d17ec2984bd82ddd54692cd59ee3d4e6c39ce"
+      }
+    },
+    "artifact_location": "Local ignored build/closure-multipart-bundle; checksum/manifest receipts retained here. Numbered archives are not duplicated in Git and no new GitHub release is announced.",
+    "commit": "7b4e426753dc6a2853c004cea82aec4897261cfd",
+    "current_git_tree_bound": true,
+    "manifest_anchor_scope": "Local digest plus independent current HEAD tree comparison for every member; no external signature claimed",
+    "manifest_sha256": "4b8a12b33d208fc8b6b7afa13c85b88a4606756a19fe99b01aea2d171aaa1e82",
+    "members": 3349,
+    "parts": 10,
+    "physical_release": false,
+    "scope": "Internal part/source digest consistency; authenticate the manifest digest or compare the exact commit in a trusted Git checkout separately",
+    "shard_payload_limit_bytes": 268435456,
+    "signature_verified": false,
+    "source_bound": true,
+    "trusted_manifest_matched": true,
+    "uncompressed_payload_bytes": 2634562470
+  },
+  "operating_strategy": {
+    "junction_operation": "passenger-transfer-between-fixed-lines",
+    "legacy_reference_role": "retained-1000m-component-benchmark",
+    "longer_leg_boosters_enabled": true,
+    "route_alignment": "straight-fixed-lines-subject-to-site-feasibility",
+    "short_interchange_spacing_policy": "retain-and-flag-exception",
+    "suburban_maximum_stop_spacing_m": 5000.0,
+    "suburban_minimum_stop_spacing_m": 4000.0,
+    "urban_minimum_stop_spacing_m": 1500.0,
+    "urban_target_stop_spacing_m": 2000.0
+  },
+  "physical_output_authorised": false,
+  "physical_release": false,
+  "physical_validation": false,
+  "publication_manifest_sha256": "1ef768b2b8424fa2db7aff3eee7b6c931f1c9ae59ec4362d9af8b5ddf5349681",
+  "python_tests_passed": 813,
+  "remaining_acceptance_scope": "Complete equipped-body and joined/flexible-body design, detailed curved transitions/stations/terminal return geometry, route-wide restart/handover, complete cost and real ground/utility/site records remain open alongside qualified material/force/loss maps, physical hardware/timing/egress/recovery tests and authenticated independent dispositions. Prepared procedures and local offline studies are not acceptance.",
+  "repeated_services_replay": {
+    "normal_window_passed": true,
+    "protected_emergency_energy_accepted": false,
+    "source_current": true
+  },
+  "retained_packet_manifest_sha256": {
+    "docs/design-engine/ferrite-maglev/assembled-body/manifest.json": "78179523ad749fef4461e386dc2a3c8ec2bceed0dccca0f6627b1d1e782433a6",
+    "docs/design-engine/ferrite-maglev/baghdad-reference/manifest.json": "fa765fbdb45cf1cb7ccb4f3ea9b41343f3eb5599e4936d755b9e6e4fbda91973",
+    "docs/design-engine/ferrite-maglev/beam-only/manifest.json": "550566e0bf9b3dcb8dc9a4f7ad2390a6508b0daa8473039099bc9cda0c735951",
+    "docs/design-engine/ferrite-maglev/body-stiffness/manifest.json": "061f6d2a3ca7994fb5bc31d6710f4a7c629c74700f50430ae28de64e3f920914",
+    "docs/design-engine/ferrite-maglev/booster-kit/manifest.json": "98f5849242a09b1ff60923dbca20174e8006ae4ea77e1a8896d103953e0be090",
+    "docs/design-engine/ferrite-maglev/booster-native/manifest.json": "4180e5c21112ffa61198a06e34e9390edc201b81d2d31ba962ef9c3169e633a5",
+    "docs/design-engine/ferrite-maglev/corridor/manifest.json": "e9bd6cf9bd33b6ed63202bb18d6dfcb9a354645fd06a52b2ccb53b0f26ffd02e",
+    "docs/design-engine/ferrite-maglev/coupled/receipt.json": "e05af31cce17c8b787ce470dcf828898f0faf53e78b40771ed69bebd7ff8ae61",
+    "docs/design-engine/ferrite-maglev/hub-access/manifest.json": "63ef1e19a6c3ecc435e9737ee94055d860ac19b3745f423276626d94016f36f2",
+    "docs/design-engine/ferrite-maglev/interchange-hubs/manifest.json": "0b42cc47e0bbebe06b6bd416effa60fe2258c9a2aa5f79403ae633f26e36e243",
+    "docs/design-engine/ferrite-maglev/iterative/manifest.json": "52a49170b6caa1a35df3a31dc5aabe7b831a96bb34e5bed276bb9e064cfa80dd",
+    "docs/design-engine/ferrite-maglev/line-capacity/manifest.json": "9cac3fd22c796d609da37dbf0990340d6b6f99a7e7a622ef978145300ba5c6f9",
+    "docs/design-engine/ferrite-maglev/manufactured-dossier/manifest.json": "7b347111b51f151a4f970ac2bfaa13bf70ff3ff8033d390406a4085e7158324a",
+    "docs/design-engine/ferrite-maglev/manufactured-native/manifest.json": "6ac086841093b9c5c2bbcb9f48f21a7834950d34cf81f2c87dd0de4a49a826af",
+    "docs/design-engine/ferrite-maglev/moving-train/manifest.json": "c76a6817f14f3e9631b2faf2f30fc3ae4fe670bc37da308e46e7d4ef1a584091",
+    "docs/design-engine/ferrite-maglev/native/manifest.json": "98227f920a21dadae4f58d18f33ef27db650357226fca2725717406a6ee5a810",
+    "docs/design-engine/ferrite-maglev/qualification/manifest.json": "e80be170e5b0207331f0d6657214538aab65b9a3992f001ea2ddfa591166dad6",
+    "docs/design-engine/ferrite-maglev/shared-hub-layout/manifest.json": "e7a52c3d0d02add86919eb766694776307a5699944be37dd83f78748c1934f14",
+    "docs/design-engine/ferrite-maglev/station-native/manifest.json": "4b3cd448c3b2a6945760636659b9c5ec09bef348ad81de01c73e238fbaa94860",
+    "docs/design-engine/ferrite-maglev/station-powered/manifest.json": "f23c794955c75f6d0c5851c43e730b257d3e6440cf9676aa3d2cb205b26c550c",
+    "docs/design-engine/ferrite-maglev/station-protocol/manifest.json": "262daa3842e8256ec674217fe50afbef9c00bd0ab089db29e87a4bf081faf3be",
+    "docs/design-engine/ferrite-maglev/station-structure/manifest.json": "03af45263b5ff7c026efec92c17191a21a446dee49ff6fd7ea83f1f66db09db2",
+    "docs/design-engine/ferrite-maglev/system-campaign/manifest.json": "abbbccd3e0c1d123a0e369f44a46d5fa11048bba4254ce17143c767f1bed6a0a",
+    "docs/design-engine/ferrite-maglev/system-development/manifest.json": "0b405a92b5857cd06a04df0d6a0ad951534f1aa4e601d60651055d90b3165007"
+  },
+  "rust_tests_passed": 698,
+  "schema": "osr-v052-closure-development-verification/1",
+  "scope": "Executed provisional fixed-line station/booster designs, source-bound native stock and moving/control simulations. Ideal force channels, assumed inertia/material/ground and supplier targets remain unqualified. No operating or manufacturing release.",
+  "source_document_sha256": "ddadab05460950f13f99f8134fafb5303f0103a6e914aa57181917008d092b9a",
+  "source_specification_requirements": 100,
+  "verified_utc": "2026-10-22T05:58:52.508688+00:00",
+  "version": "0.5.2"
+}
