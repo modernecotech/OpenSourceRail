@@ -1,0 +1,10 @@
+{
+  "cycle_evidence": "background-refresh.json",
+  "exclusive_rerun_evidence": "python-exclusive-after-runner.json",
+  "installer_waiter_exit_status": 2,
+  "natural_service_exit_observed": false,
+  "physical_release": false,
+  "reason": "The successful 35-stage journal was captured, then the service was deliberately stopped to run the exclusive city-generation test. This canceled the installer waiting on systemctl; it was not a failed engineering stage.",
+  "schema": "osr-background-install-observation/1",
+  "timer_restored": true
+}

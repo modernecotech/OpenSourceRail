@@ -1,0 +1,1399 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.18s
+     Running unittests src/lib.rs (target/debug/deps/osr_afc-05effc2ed77e8461)
+
+running 8 tests
+test evaluate::tests::bad_signature_denied ... ok
+test evaluate::tests::gate_auto_closes_after_duration ... ok
+test evaluate::tests::blacklisted_denied ... ok
+test evaluate::tests::determinism ... ok
+test evaluate::tests::valid_token_opens_gate ... ok
+test evaluate::tests::nothing_scanned_gate_closed ... ok
+test evaluate::tests::expired_token_denied ... ok
+test evaluate::tests::wrong_station_denied ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_afc.rs (target/debug/deps/proptest_afc-26784e2529278d60)
+
+running 7 tests
+test afc5_blacklisted_denied ... ok
+test afc7_gate_iff_grant ... ok
+test afc3_bad_signature_denied ... ok
+test afc6_honest_token_granted ... ok
+test afc4_wrong_station_denied ... ok
+test afc2_expired_denied ... ok
+test afc1_determinism ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_afc_backoffice-a55bc49e72e34498)
+
+running 6 tests
+test tests::determinism ... ok
+test tests::denies_outside_window_do_not_flag ... ok
+test tests::deny_does_not_charge ... ok
+test tests::rapid_denies_flag_account ... ok
+test tests::flag_not_re_emitted_once_set ... ok
+test tests::single_grant_ledger_and_revenue ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_backoffice.rs (target/debug/deps/proptest_backoffice-5302ed465acacce6)
+
+running 3 tests
+test bo2_revenue_accounting ... ok
+test bo1_determinism ... ok
+test bo3_grant_only_never_flagged ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_alignment-6d5c0e87c18407d3)
+
+running 7 tests
+test landxml::tests::xml_escape_special_chars ... ok
+test chainage::tests::station_mid_tangent_uphill ... ok
+test chainage::tests::sampling_hits_endpoints ... ok
+test landxml::tests::emits_valid_xml_header ... ok
+test chainage::tests::station_at_origin ... ok
+test chainage::tests::station_past_end_is_none ... ok
+test railml::tests::emits_minimal_railml ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/osr_alignment_export-cc2749f676cb025b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/smoke.rs (target/debug/deps/smoke-3d5135ac820bb87a)
+
+running 5 tests
+test station_at_midpoint_of_arc ... ok
+test stake_out_samples_include_endpoints ... ok
+test railml_emits_speed_and_radius_entries ... ok
+test total_length_matches ... ok
+test landxml_has_expected_elements ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_analytics-ff305c8571300ab3)
+
+running 8 tests
+test tests::energy_per_km_basic ... ok
+test tests::basic_single_sample ... ok
+test tests::basic_mean_in_range ... ok
+test tests::headway_perfect ... ok
+test tests::basic_empty_is_default ... ok
+test tests::mdbf_positive ... ok
+test tests::headway_none ... ok
+test tests::mdbf_zero_failures_is_none ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_analytics.rs (target/debug/deps/proptest_analytics-60f72b0574864c1d)
+
+running 5 tests
+test a3_empty_means_none ... ok
+test a4_headway_adherence_bounded ... ok
+test mdbf_monotone_in_distance ... ok
+test a1_determinism ... ok
+test a2_mean_in_range ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_atp-07e847590c4f0031)
+
+running 18 tests
+test envelope::tests::compiled_profile_tracks_configuration_and_preserves_envelope ... ok
+test envelope::tests::decel_table_rounds_safe_side ... ok
+test envelope::tests::envelope_reaction_time_tightens_envelope ... ok
+test envelope::tests::envelope_zero_distance_is_zero_speed ... ok
+test envelope::tests::envelope_grows_with_distance ... ok
+test envelope::tests::isqrt_spot_checks ... ok
+test evaluate::tests::a1_determinism ... ok
+test evaluate::tests::a2_expired_ma_trips_emergency ... ok
+test evaluate::tests::a3_unknown_position_trips_emergency ... ok
+test evaluate::tests::a4_train_mismatch_trips_emergency ... ok
+test evaluate::tests::a5_head_past_ma_end_trips_emergency ... ok
+test evaluate::tests::a6_overspeed_trips_emergency ... ok
+test evaluate::tests::nominal_release_within_envelope ... ok
+test evaluate::tests::service_brake_in_approach_band ... ok
+test evaluate::tests::speed_restriction_caps_envelope ... ok
+test envelope::tests::isqrt_boundaries_match_standard_library ... ok
+test evaluate::tests::static_topology_matches_network_braking ... ok
+test envelope::tests::isqrt_matches_floor_for_all_generated_u64 ... ok
+
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+
+     Running tests/proptest_atp.rs (target/debug/deps/proptest_atp-ea65c25f02e93aab)
+
+running 8 tests
+test margin_constants_well_ordered ... ok
+test stopped_nominal_train_never_emergency ... ok
+test a3_no_known_position_always_emergency ... ok
+test a7_shorter_ma_is_conservative ... ok
+test a2_expired_ma_always_emergency ... ok
+test a1_determinism ... ok
+test a7_speed_uncertainty_is_conservative ... ok
+test a6_speed_above_envelope_plus_margin_trips ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_aux_power-196bc07ccb70e4ca)
+
+running 8 tests
+test tests::contactor_open_disables_all_rails ... ok
+test tests::determinism ... ok
+test tests::high_soc_all_rails_enabled ... ok
+test tests::fault_cooldown_latches ... ok
+test tests::disable_request_respected ... ok
+test tests::low_soc_sheds_110v_and_direct_hv ... ok
+test tests::medium_soc_sheds_direct_hv ... ok
+test tests::rail_fault_disables_only_that_rail ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_aux.rs (target/debug/deps/proptest_aux-4439ea9013839080)
+
+running 6 tests
+test rails_sheddable_do_not_exceed_enabled_parent ... ok
+test ap4_nominal_24v_enabled ... ok
+test ap3_fault_disables_rail ... ok
+test ap1_determinism ... ok
+test ap2_shedding_monotone_in_soc ... ok
+test ap5_contactor_open_all_off ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_balise-0b9cd2e52a15d002)
+
+running 5 tests
+test tests::mark_seen_updates_record ... ok
+test tests::unknown_id_reports_unknown ... ok
+test tests::stale_balise_flagged ... ok
+test tests::matching_position_is_seen ... ok
+test tests::position_mismatch_flagged ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_balise.rs (target/debug/deps/proptest_balise-94ace1a0feacc213)
+
+running 3 tests
+test determinism ... ok
+test matching_yields_seen ... ok
+test unknown_id_yields_unknown_event ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_bms-98b947b082aeb0cf)
+
+running 17 tests
+test commissioning::tests::chemistry_change_cannot_reuse_lfp_calibration ... ok
+test commissioning::tests::unqualified_and_invalid_profiles_rejected ... ok
+test commissioning::tests::validated_profile_uses_existing_protection ... ok
+test evaluate::tests::cooldown_latches_through_resolve ... ok
+test evaluate::tests::imbalance_trips_fault ... ok
+test evaluate::tests::hot_cycles_accelerate_soh_degradation ... ok
+test evaluate::tests::off_gas_trip_opens_pack_and_preserves_module_identity ... ok
+test evaluate::tests::open_contactor_gives_zero_limits ... ok
+test evaluate::tests::nominal_operation_closes_contactor_and_gives_full_limits ... ok
+test evaluate::tests::determinism ... ok
+test evaluate::tests::over_temp_trips_fault ... ok
+test evaluate::tests::over_voltage_trips_contactor ... ok
+test evaluate::tests::sensor_mismatch_trips ... ok
+test evaluate::tests::soc_bounded_at_100 ... ok
+test evaluate::tests::soc_decreases_under_discharge_current ... ok
+test evaluate::tests::soc_increases_under_charge_current ... ok
+test evaluate::tests::soh_degrades_with_equivalent_full_cycle_throughput ... ok
+
+test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_bms.rs (target/debug/deps/proptest_bms-8e7f84190ce03c4c)
+
+running 6 tests
+test m2_hard_fault_opens_contactor ... ok
+test m1_determinism ... ok
+test m4_derating_is_conservative ... ok
+test m6_open_contactor_zero_limits ... ok
+test m5_soc_bounded ... ok
+test m3_fault_latches_through_cooldown ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_consensus-3a25ad7435bab95c)
+
+running 3 tests
+test durable::tests::truncation_trailing_bytes_and_magic_fail_closed ... ok
+test durable::tests::restore_retains_only_stable_fields ... ok
+test durable::tests::unsupported_version_and_commit_beyond_log_fail_closed ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/osr-resilience-evidence.rs (target/debug/deps/osr_resilience_evidence-4bc7414f98a035c7)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/authenticated_ingress.rs (target/debug/deps/authenticated_ingress-10754ed4b8ac30b2)
+
+running 7 tests
+test committed_category_must_match_the_signed_category ... ok
+test forged_signature_is_rejected_before_log_append ... ok
+test altered_payload_is_rejected_before_deserialization ... ok
+test unknown_issuer_and_future_timestamp_are_rejected ... ok
+test signed_metadata_must_match_the_track_entry ... ok
+test honest_signed_entry_commits_and_reverifies_before_decode ... ok
+test replay_and_stale_entries_are_rejected ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running tests/basic.rs (target/debug/deps/basic-ac10807f28a21850)
+
+running 8 tests
+test quorum_loss_prevents_new_commits ... ok
+test single_advisory_entry_commits ... ok
+test safety_entry_commits_when_quorum_fresh ... ok
+test committed_prefix_accessor_matches_commit_index ... ok
+test safety_entry_rejected_when_quorum_confirmation_stale ... ok
+test leader_death_triggers_new_election ... ok
+test three_node_cluster_elects_a_leader ... ok
+test healing_partition_converges_committed_prefix ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/disk_journal.rs (target/debug/deps/disk_journal-019d42d4a804d66a)
+
+running 3 tests
+test every_torn_suffix_and_configuration_disagreement_inhibit_startup ... ok
+test compaction_retains_full_log_and_an_exclusive_writer ... ok
+test every_persisted_transition_recovers_lock_and_replay_fences_without_leadership ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/interlocking_roundtrip.rs (target/debug/deps/interlocking_roundtrip-2fabead90dc88cba)
+
+running 2 tests
+test safety_category_reflects_entry_importance ... ok
+test interlocking_entries_round_trip_through_consensus ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_safety.rs (target/debug/deps/proptest_safety-e2ec113140b4e1aa)
+
+running 5 tests
+test individual_invariants_compile_and_smoke ... ok
+test isolated_leader_never_commits ... ok
+test safety_invariants_3node ... ok
+test advisory_only_preserves_state_machine_safety ... ok
+test safety_invariants_5node ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s
+
+     Running tests/quorum_age.rs (target/debug/deps/quorum_age-559b3654f3fa0ac4)
+
+running 1 test
+test empty_heartbeats_refresh_a_real_quorum_but_historical_peers_do_not ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/replay_5node.rs (target/debug/deps/replay_5node-7611d72ccbf3a420)
+
+running 1 test
+test regression_5node_partition_heal_preserves_safety ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/resilience_harness.rs (target/debug/deps/resilience_harness-be3231018c810f70)
+
+running 4 tests
+test corrupted_or_wrong_node_state_never_restarts ... ok
+test atomic_store_preserves_last_good_state_on_disk_faults ... ok
+test corrupt_restart_fails_closed_and_leaves_node_offline ... ok
+test restart_partition_clock_storage_and_telemetry_trace_is_deterministic ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_core-dcab78ff37b92ac8)
+
+running 2 tests
+test topology::static_tests::reject_duplicate_ids_and_dangling_references ... ok
+test topology::static_tests::unknown_lookup_retains_network_failure_contract - should panic ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_crypto-852d24f436f9d081)
+
+running 14 tests
+test ed25519_tests::debug_hides_signing_key_bytes ... ok
+test ed25519_tests::sign_is_deterministic ... ok
+test tests::ct_eq_matches ... ok
+test tests::hmac_differs_across_keys ... ok
+test tests::verify_accepts_honest_tag ... ok
+test tests::debug_hides_key_bytes ... ok
+test tests::hmac_is_stable ... ok
+test tests::verify_rejects_wrong_length ... ok
+test tests::verify_rejects_bit_flip ... ok
+test ed25519_tests::verify_rejects_tampered_message ... ok
+test ed25519_tests::verify_rejects_bit_flipped_signature ... ok
+test ed25519_tests::verify_rejects_wrong_key ... ok
+test ed25519_tests::public_key_roundtrip_through_bytes ... ok
+test ed25519_tests::sign_and_verify_roundtrip ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/proptest_crypto.rs (target/debug/deps/proptest_crypto-975242754a18d7be)
+
+running 5 tests
+test ct_eq_matches_plain_equality ... ok
+test c1_determinism ... ok
+test c2_verify_accepts_honest_mac ... ok
+test c4_different_keys_different_macs ... ok
+test c3_verify_rejects_bit_flip ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_derailment-61f44cc6db65fd85)
+
+running 8 tests
+test tests::determinism ... ok
+test tests::quiet_when_nominal ... ok
+test tests::invalid_sensor_blocks_trip ... ok
+test tests::lateral_2oo2_trip ... ok
+test tests::single_channel_lateral_does_not_trip ... ok
+test tests::tilt_2oo2_trip ... ok
+test tests::vertical_2oo2_trip ... ok
+test tests::trip_latches ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_derail.rs (target/debug/deps/proptest_derail-1397ffae627cc94e)
+
+running 5 tests
+test d2_2oo2_safety ... ok
+test d3_latch_persists ... ok
+test d4_invalid_sensor_blocks_trip ... ok
+test d5_any_anomaly_raises_alarm ... ok
+test d1_determinism ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_door_control-491c725d73bda321)
+
+running 11 tests
+test tests::closed_at_station_open_drives_open ... ok
+test tests::consist_interlock_and_reduction ... ok
+test tests::high_motor_current_counts_as_obstruction ... ok
+test tests::close_when_open_drives_close ... ok
+test tests::motor_timeout_faults ... ok
+test tests::interlock_is_2oo2 ... ok
+test tests::determinism ... ok
+test tests::obstruction_stops_close ... ok
+test tests::emergency_unlock_opens_at_speed ... ok
+test tests::open_above_threshold_refused ... ok
+test tests::open_off_platform_refused ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_door.rs (target/debug/deps/proptest_door-0d7c52c76ff45306)
+
+running 9 tests
+test d7_motor_timeout_latches ... ok
+test d5_emergency_unlock_never_closes ... ok
+test d4_obstruction_stops_close ... ok
+test d3_at_station_gates_open ... ok
+test d1_determinism ... ok
+test d8_fault_blocks_motor ... ok
+test d4_current_spike_stops_close ... ok
+test d6_interlock_is_2oo2 ... ok
+test d2_no_open_above_threshold ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_energy_site-0c283c91830aafa1)
+
+running 8 tests
+test tests::conservation_under_net_generation ... ok
+test tests::determinism ... ok
+test tests::current_limit_is_enforced ... ok
+test tests::grid_outage_caps_import ... ok
+test tests::train_at_pad_drains_battery_and_grid ... ok
+test tests::over_limit_pv_curtails ... ok
+test tests::sunny_no_train_charges_battery_and_exports ... ok
+test tests::two_contacts_share_one_cabinet ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_es.rs (target/debug/deps/proptest_es-96bf8831d27abc0f)
+
+running 4 tests
+test es1_determinism ... ok
+test es3_train_served_up_to_cap ... ok
+test es4_curtailment_nonneg ... ok
+test es2_conservation_when_surplus ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests examples/supervision.rs (target/debug/examples/supervision-ca3f95ca37e33881)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_event_recorder-62f3a51095f83d6a)
+
+running 7 tests
+test tests::clear_resets_state ... ok
+test tests::fifo_order_preserved_below_capacity ... ok
+test tests::starts_empty ... ok
+test tests::records_have_fixed_layout_size ... ok
+test tests::wrap_retains_most_recent ... ok
+test tests::snapshot_roundtrip ... ok
+test tests::records_up_to_capacity ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_recorder.rs (target/debug/deps/proptest_recorder-bdd78aa3d1d8f135)
+
+running 6 tests
+test er3_dropped_accounting ... ok
+test clear_is_idempotent ... ok
+test er4_most_recent_retained ... ok
+test er5_snapshot_roundtrip ... ok
+test er2_fifo_order ... ok
+test er1_capacity_bounded ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.14s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_fire_safety-17f23fe9943b282c)
+
+running 8 tests
+test tests::determinism ... ok
+test tests::differential_temp_trips ... ok
+test tests::high_temp_in_traction_bay_trips ... ok
+test tests::nominal_operation_is_quiet ... ok
+test tests::immediate_danger_requests_emergency_brake ... ok
+test tests::smoke_in_battery_bay_trips ... ok
+test tests::trip_latches_through_cooldown ... ok
+test tests::suppression_gated_on_agent_availability ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_fire.rs (target/debug/deps/proptest_fire-bf05d4a65ec41358)
+
+running 5 tests
+test alarm_level_rolls_up_correctly ... ok
+test f3_emergency_requires_escalation ... ok
+test f2_latched_trip_requests_controlled_stop ... ok
+test f4_only_battery_has_automatic_suppression ... ok
+test f1_determinism ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_historian-677a853ff90b1e6b)
+
+running 6 tests
+test tests::decimation_works ... ok
+test tests::ingest_and_query_basic ... ok
+test tests::query_is_sorted ... ok
+test tests::unknown_metric_empty ... ok
+test tests::raw_tier_caps_at_capacity ... ok
+test tests::query_respects_range ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_historian.rs (target/debug/deps/proptest_historian-ebd3703f3600e637)
+
+running 4 tests
+test h3_query_range ... ok
+test h4_query_sorted ... ok
+test h1_raw_retains_recent ... ok
+test h2_decimation_ratio ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_hvac-ffe0fffd3bf658a4)
+
+running 9 tests
+test integrated_thermal::tests::battery_cooling_has_priority_over_cabin_comfort ... ok
+test integrated_thermal::tests::battery_loop_leak_requests_isolation ... ok
+test integrated_thermal::tests::nominal_battery_leaves_capacity_for_cabin ... ok
+test tests::cold_cabin_heats ... ok
+test tests::determinism ... ok
+test tests::disabled_outputs_zero ... ok
+test tests::hot_cabin_cools ... ok
+test tests::in_deadband_ventilates ... ok
+test tests::rail_down_is_reduced ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_hvac.rs (target/debug/deps/proptest_hvac-e71f0bc2739bacfa)
+
+running 5 tests
+test compressor_and_heater_mutually_exclusive ... ok
+test rail_down_forces_reduced ... ok
+test outputs_bounded ... ok
+test determinism ... ok
+test disabled_is_all_zero ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/proptest_integrated_thermal.rs (target/debug/deps/proptest_integrated_thermal-2d714b7c06139e26)
+
+running 2 tests
+test failed_battery_circuit_never_reports_nominal ... ok
+test allocation_never_exceeds_common_compressor ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests examples/cooling_fault_evidence.rs (target/debug/examples/cooling_fault_evidence-9acc941fb8b6319b)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_interlocking-83471956f1cd1fe7)
+
+running 48 tests
+test ma::tests::intrusion_present_blocks_section ... ok
+test ma::tests::intermediate_speed_restriction_is_collected ... ok
+test ma::tests::intrusion_clear_permits_section ... ok
+test ma::tests::intrusion_unknown_is_fail_restrictive ... ok
+test ma::tests::single_train_extends_to_max_distance ... ok
+test ma::tests::other_train_blocks_extension ... ok
+test ma::tests::p2_non_overlap_two_trains ... ok
+test ma::tests::no_registration_yields_fail_restrictive_ma ... ok
+test ma::tests::no_intrusion_entry_is_fail_restrictive ... ok
+test ma::tests::latest_intrusion_verdict_wins ... ok
+test ma::tests::p5_validity_window_bounded ... ok
+test ordered_map::tests::duplicate_keys_and_lazy_initialization_match_existing_map ... ok
+test ma::tests::two_train_clearance_and_occupancy_are_independent ... ok
+test progressive::tests::fabricated_release_pose_and_old_arrived_contract_cannot_clear_current_authority ... ok
+test progressive::tests::duplicate_commit_is_idempotent_but_cannot_extend_a_permission ... ok
+test progressive::recovery::tests::restart_of_a_live_domain_also_requires_reconciliation ... ok
+test progressive::tests::local_speed_limit_is_enforced_before_general_motion_bounds ... ok
+test progressive::tests::invalid_arrival_evidence_holds_and_retains_the_prior_authority ... ok
+test progressive::tests::nonuniform_route_speed_limits_are_outside_this_candidate_contract ... ok
+test progressive::tests::live_speed_or_missing_body_proof_cannot_authorise_motion ... ok
+test progressive::tests::prepare_is_atomic_and_does_not_reserve_a_receiving_berth ... ok
+test progressive::tests::raw_proof_and_integrity_faults_hold_without_transfer ... ok
+test progressive::recovery::tests::every_crash_loses_the_transient_restart_and_reconciliation_witness ... ok
+test progressive::recovery::tests::two_owners_need_complete_evidence_and_observation_order_does_not_matter ... ok
+test state::tests::determinism_batch_matches_incremental ... ok
+test state::tests::departure_clears_train_and_occupancy ... ok
+test progressive::tests::release_needs_geometry_identity_and_no_generic_clear_bypass ... ok
+test state::tests::empty_prefix_yields_default_state ... ok
+test state::tests::switch_observation_recorded_with_latest_winning ... ok
+test state::tests::unregistered_position_blocks_occupancy_without_inventing_a_consist ... ok
+test state::tests::registration_then_position_tracks_train ... ok
+test state::tests::out_of_order_heartbeat_ignored ... ok
+test progressive::tests::readiness_and_clear_body_counterexamples_retain_prepared_locks ... ok
+test topology::tests::forward_chain_linear_basic ... ok
+test topology::tests::footprint_crosses_section_boundary ... ok
+test topology::tests::forward_chain_ring_wraps ... ok
+test topology::tests::footprint_single_section ... ok
+test topology::tests::forward_chain_linear_terminates_at_end ... ok
+test progressive::recovery::tests::snapshot_cannot_inject_a_live_or_restart_witness ... ok
+test progressive::recovery::tests::pinned_model_and_policy_must_match_restored_controller ... ok
+test topology::tests::forward_chain_stops_at_budget_section_boundary ... ok
+test progressive::tests::snapshots_before_and_after_commit_cannot_resume_after_restart ... ok
+test progressive::recovery::tests::prepared_and_committed_snapshots_need_new_epoch_and_fresh_contract ... ok
+test progressive::tests::denied_extension_brakes_inside_previous_owned_authority_without_next_sample_credit ... ok
+test topology::tests::borrowed_walks_preserve_original_traversal ... ok
+test ma::tests::static_topology_matches_network_authority ... ok
+test progressive::recovery::tests::adversarial_reconciliation_is_atomic_and_never_releases_a_retained_owner ... ok
+test ordered_map::tests::operations_match_btree ... ok
+
+test result: ok. 48 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.39s
+
+     Running tests/differential.rs (target/debug/deps/differential-a49ac2d1ec192683)
+
+running 9 tests
+test smoke_no_registration_fail_restrictive ... ok
+test smoke_route_grant_blocks_another_trains_ma ... ok
+test smoke_switch_observation_in_log ... ok
+test smoke_single_train_full_extension ... ok
+test smoke_ring_network ... ok
+test smoke_other_train_blocks ... ok
+test smoke_speed_restriction_reflected_in_ma ... ok
+test prop_rust_and_python_agree_ring ... ok
+test prop_rust_and_python_agree_linear ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.63s
+
+     Running tests/proptest_determinism.rs (target/debug/deps/proptest_determinism-c81b36a3a68a3e83)
+
+running 4 tests
+test prefix_extension_is_incremental ... ok
+test derive_state_is_pure ... ok
+test batch_equals_incremental ... ok
+test derive_state_is_total ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.40s
+
+     Running tests/proptest_ma.rs (target/debug/deps/proptest_ma-198732e3e0569756)
+
+running 6 tests
+test snapshot_matches_individual_replay ... ok
+test ma_validity_window_bounded ... ok
+test ma_is_total ... ok
+test ma_end_is_ahead_of_start ... ok
+test ma_is_deterministic_in_inputs ... ok
+test appending_committed_suffix_matches_full_fold ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/resource_protocol.rs (target/debug/deps/resource_protocol-ba5eeb7cd11d1077)
+
+running 7 tests
+test active_reservation_cannot_be_cleared_or_transferred_by_session_route_or_direction ... ok
+test an_empty_detector_and_restart_timeout_are_not_proofs_of_safe_release ... ok
+test restart_reconciliation_returns_permission_only_to_verified_retained_owner ... ok
+test restart_and_replayed_clearance_cannot_open_track ... ok
+test timeout_retains_conflicting_lock_and_clearance_is_verified ... ok
+test block_and_missing_proving_survive_timer_and_restart ... ok
+test exhaustive_bounded_schedules_keep_mutual_exclusion ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+
+     Running tests/station_launch.rs (target/debug/deps/station_launch-bed4520624ea8e54)
+
+running 13 tests
+test expiry_before_commit_prevents_departure_without_releasing_ownership ... ok
+test delayed_prelaunch_clearance_cannot_release_committed_arrival ... ok
+test conflicting_detector_or_lost_integrity_holds_without_releasing ... ok
+test preparation_is_atomic_and_an_unavailable_receiver_does_not_allocate ... ok
+test commit_survives_expired_permissions_and_duplicate_events_are_idempotent ... ok
+test missing_tail_integrity_and_partial_or_replayed_proofs_cannot_clear ... ok
+test this_prototype_rejects_cross_controller_atomic_launch_domains ... ok
+test receiver_fault_after_commit_holds_the_entire_arrival_path ... ok
+test changed_point_route_is_held_and_cannot_commit_station_launch ... ok
+test newer_occupancy_or_conflicting_proofs_disqualify_delayed_clearance ... ok
+test wrong_consist_or_configuration_or_duplicate_bundle_is_rejected ... ok
+test committed_log_replay_and_incremental_fold_preserve_the_same_launch ... ok
+test serialized_restart_retains_bundle_and_requires_new_epoch_complete_clearance ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/corridor_replay.rs (target/debug/examples/corridor_replay-f8a80304e3c2fca9)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/line_capacity_replay.rs (target/debug/examples/line_capacity_replay-2e4e26d67af99c96)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/station_campaign.rs (target/debug/examples/station_campaign-18e5c87d0d4281a4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/stopped_recovery_replay.rs (target/debug/examples/stopped_recovery_replay-1c293b589cc7ceb3)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_intrusion_detect-8da9b735426648bf)
+
+running 13 tests
+test evaluate::tests::clean_frame_is_clear ... ok
+test evaluate::tests::extreme_off_profile_sensor_offsets_do_not_overflow ... ok
+test evaluate::tests::lidar_in_profile_forces_present_i1 ... ok
+test evaluate::tests::camera_alone_cannot_produce_clear_i4 ... ok
+test evaluate::tests::stale_lidar_forces_unknown_i2 ... ok
+test evaluate::tests::camera_low_confidence_does_not_demote ... ok
+test sensors::tests::clear_frame_is_actually_clear ... ok
+test verdict::tests::severity_ordering_is_monotone ... ok
+test evaluate::tests::present_beats_unknown ... ok
+test evaluate::tests::radar_in_profile_forces_present_i1 ... ok
+test evaluate::tests::lidar_off_profile_stays_clear ... ok
+test evaluate::tests::fence_offline_forces_unknown_i2 ... ok
+test evaluate::tests::fence_breach_forces_present_i3 ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_intrusion.rs (target/debug/deps/proptest_intrusion-d13c9c6e8b9a17c5)
+
+running 6 tests
+test i1_lidar_in_profile_always_present ... ok
+test i1_radar_in_profile_always_present ... ok
+test i3_fence_breach_always_present ... ok
+test i5_fresher_never_more_severe ... ok
+test i2_stale_is_never_clear ... ok
+test i4_camera_hazard_never_clear ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_level_crossing-7bc38e5d09d043de)
+
+running 6 tests
+test tests::approach_enters_warning ... ok
+test tests::clearing_returns_to_idle_when_up ... ok
+test tests::fault_forces_unsafe ... ok
+test tests::idle_stays_idle_when_clear ... ok
+test tests::determinism ... ok
+test tests::warning_to_closed_after_time_and_barriers_down ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_lc.rs (target/debug/deps/proptest_lc-d2e0c89f1e4e17b1)
+
+running 3 tests
+test lc1_determinism ... ok
+test lc4_faulted_is_unsafe ... ok
+test lc2_safe_iff_closed_and_barriers_down ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_lifecycle_identity-b213849d25ccdbd9)
+
+running 3 tests
+test tests::identity_round_trips_and_builds_lookup_only_qr_payload ... ok
+test tests::invalid_identifiers_and_resolver_origins_fail_closed ... ok
+test tests::authority_path_and_unknown_fields_fail_closed ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_lighting-d4995fb21d7d8b7d)
+
+running 10 tests
+test tests::daylight_uses_low_beam ... ok
+test tests::determinism ... ok
+test tests::night_auto_dim_uses_high_beam ... ok
+test tests::dimmed_mode_reduces_interior ... ok
+test tests::emergency_unlock_forces_emergency ... ok
+test tests::normal_mode_full_interior ... ok
+test tests::off_mode_is_all_zero ... ok
+test tests::reverse_heading_swaps_leading_end ... ok
+test tests::v110_down_forces_emergency ... ok
+test tests::v24_down_in_emergency_degrades_egress ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_lighting.rs (target/debug/deps/proptest_lighting-cec66850dbfd2626)
+
+running 5 tests
+test v110_down_forces_emergency ... ok
+test determinism ... ok
+test interior_bounded ... ok
+test off_mode_is_zero ... ok
+test emergency_overrides_mode_request ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_maglev_control-4a19190d569b93e4)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/control.rs (target/debug/deps/control-dbbb25a4697569db)
+
+running 12 tests
+test derivative_uses_measurement_time_and_correct_damping_sign ... ok
+test averaging_cannot_conceal_out_of_envelope_gap ... ok
+test extreme_integer_inputs_remain_bounded ... ok
+test invalid_configuration_cannot_divide_by_zero_or_permit_traction ... ok
+test reset_requires_fresh_healthy_stopped_and_secured_state ... ok
+test missing_support_power_is_explicit_even_when_magnets_remain ... ok
+test lost_or_disagreeing_sensing_requires_local_fallback_not_frozen_current ... ok
+test saturation_stops_traction_and_latches_until_secure_reset ... ok
+test stale_future_replayed_and_clock_regression_inputs_fail ... ok
+test upward_attraction_sign_and_bias_are_explicit ... ok
+test valid_support_can_resume_after_transient_fault_but_traction_stays_latched ... ok
+test traction_stop_preserves_fresh_support_control ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/drives.rs (target/debug/deps/drives-cdee0c0e80968667)
+
+running 9 tests
+test current_sensor_deadline_identity_thermal_and_bus_adversaries_hold ... ok
+test faults_latch_require_secure_zero_demand_reset_and_do_not_zero_support ... ok
+test receive_requires_resistor_and_authority_and_never_shuts_down_support ... ok
+test replay_and_late_ticks_cannot_reset_the_last_good_clock ... ok
+test antiwindup_limits_integral_and_recovers_after_saturation ... ok
+test transforms_reconstruct_currents_and_power_at_all_phases ... ok
+test three_phase_duties_remain_bounded_and_coast_has_no_stator_output ... ok
+test trigonometry_matches_independent_std_oracle ... ok
+test support_pi_tracks_exact_rl_plant_and_negative_current ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/egress.rs (target/debug/deps/egress-de4a38f07dbd458d)
+
+running 12 tests
+test complete_sequence_stays_held_until_a_new_secured_stowed_reset ... ok
+test cancelling_before_deployment_requires_secured_stowed_fresh_reset ... ok
+test completed_flow_never_permits_new_entry_or_automatically_releases_hold ... ok
+test corrupt_active_history_and_unlatched_idle_cassette_inhibit_traction ... ok
+test deadline_reset_requires_new_monotonic_in_deadline_history ... ok
+test egress_stop_can_inhibit_traction_without_removing_valid_support_control ... ok
+test invalid_parameters_never_enter_a_deployment_phase ... ok
+test flow_confirmation_loss_latches_and_recovery_cannot_restart_entry ... ok
+test losing_a_landing_during_deployment_does_not_command_retraction_or_release ... ok
+test stale_replay_context_change_and_contradictory_feedback_latch ... ok
+test train_hold_survives_another_doors_reset_blocked_outlet_and_lost_support ... ok
+test every_missing_gate_prevents_ready_and_deployment ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/multimodule.rs (target/debug/deps/multimodule-ce38fb4dda922812)
+
+running 14 tests
+test corrupt_history_and_unsupported_plant_force_are_rejected ... ok
+test constant_wrench_conserves_work_energy_and_unforced_momentum ... ok
+test independent_cross_product_and_interface_power_agree ... ok
+test averaging_cannot_hide_contact_and_host_stub_cannot_authorise_output ... ok
+test invalid_numbers_and_degenerate_sensing_do_not_escape ... ok
+test all_failed_cannot_claim_support_balance ... ok
+test rigid_modes_and_feedback_polarities_match_coordinates ... ok
+test train_egress_hold_reaches_all_twenty_four_support_channels ... ok
+test stale_replayed_and_future_frames_require_fallback_without_poisoning_samples ... ok
+test unavailable_axes_capacity_and_slew_are_visible_in_residuals ... ok
+test five_axis_demand_and_known_failed_station_are_redistributed ... ok
+test geometry_and_equilibrium_are_independently_checkable ... ok
+test an_active_support_bound_stops_traction_even_with_zero_residual ... ok
+test stop_and_station_failure_keep_fresh_support_but_latch_traction ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s
+
+     Running tests/station.rs (target/debug/deps/station-58f1616905f193ce)
+
+running 8 tests
+test bounded_launch_and_receiving_brake_are_offline_and_do_not_cut_support ... ok
+test current_voltage_and_repeated_heat_hypotheses_are_independent_limits ... ok
+test equivalent_motor_constants_preserve_air_gap_power_and_reject_free_energy ... ok
+test no_propulsion_while_coasting_and_overlap_is_checked_against_the_train_envelope ... ok
+test nonfinite_and_extreme_inputs_remain_bounded_without_a_physical_enable ... ok
+test phase_uses_predicted_position_with_an_independent_uncertainty_bound ... ok
+test positioning_is_bounded_separately_from_receiving_braking ... ok
+test replay_identity_faults_and_uncommitted_arrival_cannot_supply_thrust ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/coupled_bridge.rs (target/debug/examples/coupled_bridge-ae38547419a9d977)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/egress_replay.rs (target/debug/examples/egress_replay-3c134ed5afdc5732)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/moving_train_bridge.rs (target/debug/examples/moving_train_bridge-196aaa9156e3dfe8)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/multimodule_replay.rs (target/debug/examples/multimodule_replay-347f74c259210916)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/sbc_replay.rs (target/debug/examples/sbc_replay-b28feace6bf4ca73)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/station_replay.rs (target/debug/examples/station_replay-83f690685a5bdf47)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests examples/winding_replay.rs (target/debug/examples/winding_replay-634cd2a585d0ffba)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_obstacle_detect-be575eb0afa3118b)
+
+running 19 tests
+test evaluate::tests::clear_frame_at_rest_is_clear ... ok
+test evaluate::tests::above_ultrasonic_band_without_any_long_range_triggers_eb_o4a ... ok
+test evaluate::tests::faulted_ultrasonic_channel_triggers_eb ... ok
+test evaluate::tests::extreme_off_profile_sensor_offsets_do_not_overflow ... ok
+test evaluate::tests::human_classifier_stays_eb ... ok
+test evaluate::tests::lidar_detection_off_rail_profile_does_not_trigger ... ok
+test evaluate::tests::lidar_offline_with_radar_healthy_restricts_speed_o4b ... ok
+test evaluate::tests::lidar_stale_is_treated_as_offline ... ok
+test evaluate::tests::light_debris_classifier_downgrades_to_crawl ... ok
+test evaluate::tests::peer_disagreement_triggers_eb_o3 ... ok
+test evaluate::tests::radar_detection_inside_envelope_triggers_eb ... ok
+test evaluate::tests::radar_detection_still_triggers_eb_when_lidar_degraded ... ok
+test evaluate::tests::radar_offline_alone_is_not_a_speed_restriction ... ok
+test evaluate::tests::stale_ultrasonic_triggers_eb_o2 ... ok
+test evaluate::tests::ultrasonic_echo_triggers_eb_o1 ... ok
+test sensors::tests::clear_frame_has_no_detections ... ok
+test verdict::tests::crawl_is_below_ultrasonic_envelope ... ok
+test verdict::tests::restricted_speed_matches_ultrasonic_envelope ... ok
+test verdict::tests::verdict_ordering_is_severity_monotone ... ok
+
+test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_obstacle.rs (target/debug/deps/proptest_obstacle-b545b186133b357f)
+
+running 8 tests
+test o5_fresher_never_more_severe ... ok
+test o1_ultrasonic_return_forces_eb ... ok
+test light_debris_downgrades_lidar_eb_to_crawl ... ok
+test radar_offline_alone_stays_clear ... ok
+test o4b_lidar_offline_radar_ok_restricts_to_40kmh ... ok
+test o2_stale_ultrasonic_always_eb ... ok
+test o4a_above_band_no_long_range_forces_eb ... ok
+test o3_peer_disagreement_always_eb ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_occ-56fcf0884675e0a0)
+
+running 7 tests
+test tests::closing_critical_incident_clears_auto_hold ... ok
+test tests::determinism ... ok
+test tests::critical_incident_auto_holds_line ... ok
+test tests::empty_tick_no_change ... ok
+test tests::manual_hold_set_and_cleared ... ok
+test tests::stale_update_suppressed ... ok
+test tests::telemetry_builds_roster ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_occ.rs (target/debug/deps/proptest_occ-af206ff85035b21b)
+
+running 4 tests
+test occ2_stale_update_suppressed ... ok
+test occ4_critical_auto_holds_line ... ok
+test occ3_incident_state_matches_closed_ns ... ok
+test occ1_determinism ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_onboard_routing-55a01e06306a3308)
+
+running 3 tests
+test tests::one_source_or_disagreement_holds ... ok
+test tests::stale_or_untrusted_votes_do_not_count ... ok
+test tests::network_loss_continues_with_plan_and_sensor_agreement ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_routing.rs (target/debug/deps/proptest_routing-5ccf5c203107d3c0)
+
+running 2 tests
+test no_single_source_can_select_a_route ... ok
+test accepted_route_always_retains_ma_boundary ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_passenger_assist-c886af0f8aa7ee6f)
+
+running 3 tests
+test tests::authenticated_operator_can_accept_release_or_escalate ... ok
+test tests::press_immediately_requests_controlled_stop_and_media ... ok
+test tests::link_loss_cannot_release_latched_stop ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_pis_onboard-e4277d500519d37a)
+
+running 7 tests
+test tests::approach_within_threshold_announces ... ok
+test tests::arrived_announces_once ... ok
+test tests::cruising_shows_next_station ... ok
+test tests::emergency_broadcast_dominates ... ok
+test tests::determinism ... ok
+test tests::v110_down_blanks_displays_keeps_cctv ... ok
+test tests::v24_down_disables_cctv ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_pis.rs (target/debug/deps/proptest_pis-59a47d2fc8401aa0)
+
+running 5 tests
+test emergency_dominates ... ok
+test announcement_always_none_when_blank_or_no_station ... ok
+test v110_down_blanks_display ... ok
+test cctv_tracks_v24 ... ok
+test determinism ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_pis_station-a17735b3ebbc2a2c)
+
+running 7 tests
+test tests::approach_cue_fires_once_per_train ... ok
+test tests::announcements_prune_when_train_leaves_list ... ok
+test tests::board_sorts_by_eta ... ok
+test tests::board_truncates_to_max_entries ... ok
+test tests::determinism ... ok
+test tests::emergency_broadcast_dominates ... ok
+test tests::empty_board_no_cue ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_pis_station.rs (target/debug/deps/proptest_pis_station-4fdfbed80f390bd9)
+
+running 5 tests
+test ps4_approach_announced_once ... ok
+test ps3_board_sorted_by_eta ... ok
+test ps2_emergency_dominates ... ok
+test ps5_board_bounded ... ok
+test ps1_determinism ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_proto-903dcfa0056af065)
+
+running 5 tests
+test tests::encoding_is_deterministic ... ok
+test tests::postcard_wire_fixture_is_stable ... ok
+test tests::decode_rejects_garbage ... ok
+test tests::round_trip_train_position_report ... ok
+test tests::round_trip_switch_observation ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_proto.rs (target/debug/deps/proptest_proto-e9b4ed22750071fd)
+
+running 2 tests
+test pr1_round_trip ... ok
+test pr2_encoding_deterministic ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_psd-b07585f8943beaf9)
+
+running 10 tests
+test tests::all_closed_is_and_reduction ... ok
+test tests::close_command_drives_close_from_open ... ok
+test tests::cannot_open_without_train_interlock ... ok
+test tests::cannot_open_without_train_at_platform ... ok
+test tests::determinism ... ok
+test tests::happy_path_opens_panels ... ok
+test tests::emergency_stop_opens_all ... ok
+test tests::cannot_open_without_train_doors_open ... ok
+test tests::motor_timeout_faults_panel ... ok
+test tests::obstruction_stops_close ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_psd.rs (target/debug/deps/proptest_psd-4c6a79aaf4c73108)
+
+running 6 tests
+test psd5_emergency_stop_opens_all ... ok
+test psd6_all_closed_and_reduction ... ok
+test psd2_no_open_without_platform ... ok
+test psd4_obstruction_stops_close ... ok
+test psd3_no_open_without_interlock ... ok
+test psd1_determinism ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_ptp-e1f6a87a51e92077)
+
+running 5 tests
+test tests::determinism ... ok
+test tests::perfect_sample_yields_zero_offset ... ok
+test tests::lock_transitions_up_then_down ... ok
+test tests::slave_behind_by_100ns ... ok
+test tests::slave_ahead_by_100ns ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_ptp.rs (target/debug/deps/proptest_ptp-b8b04bee03314a2d)
+
+running 4 tests
+test pt2_zero_offset_on_symmetric_path ... ok
+test pt4_eventually_locks ... ok
+test pt3_path_delay_nonneg ... ok
+test pt1_determinism ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_regen-b637fda1b23379fa)
+
+running 7 tests
+test tests::contactor_open_routes_all_to_resistor ... ok
+test tests::no_sink_refuses_everything ... ok
+test tests::determinism ... ok
+test tests::resistor_picks_up_pack_shortfall ... ok
+test tests::resistor_over_temp_disables_resistor ... ok
+test tests::zero_request_is_idle ... ok
+test tests::pack_absorbs_full_request ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_regen.rs (target/debug/deps/proptest_regen-d8a545c81481de1a)
+
+running 7 tests
+test r1_determinism ... ok
+test r3_pack_limit ... ok
+test r5_resistor_fault_no_resistor ... ok
+test r6_resistor_bound ... ok
+test r7_prefer_pack_uses_pack_fully_before_resistor ... ok
+test r4_contactor_open_no_pack ... ok
+test r2_current_conservation ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_routing-1952358e06b08967)
+
+running 49 tests
+test civil::tests::crossing_comparison_includes_all_construction_penalties ... ok
+test civil::tests::civil_transition_edges_are_counted_exactly_once ... ok
+test civil::tests::classified_elevated_corner_gets_product_and_cost_penalty ... ok
+test civil::tests::independent_water_and_terrain_evidence_drive_civil_class ... ok
+test civil::tests::elevated_geometry_selects_constructible_product_family ... ok
+test civil::tests::crossing_comparison_rejects_infeasible_or_invalid_inputs ... ok
+test raster::tests::gridref_rc_to_latlon_inverts_corner ... ok
+test solver::tests::rejects_malformed_grid_penalty_and_weight_without_panicking ... ok
+test civil::tests::extending_a_tangent_does_not_spread_a_local_curve_penalty ... ok
+test solver::tests::reports_unreachable ... ok
+test solver::tests::routes_around_obstacle ... ok
+test solver::tests::straight_line_on_uniform_grid ... ok
+test station::tests::closed_line_has_one_station_at_its_shared_start_end_cell ... ok
+test station::tests::distant_radial_terminus_is_left_for_topology_review ... ok
+test solver::tests::rejects_column_aliasing_into_another_row ... ok
+test raster::tests::loader_rejects_invalid_topography_values_and_slug ... ok
+test station::tests::endpoint_repair_restores_radial_but_not_duplicate_ring_end ... ok
+test station::tests::final_outer_gap_repair_keeps_local_intervals_and_selects_a_dry_route_cell ... ok
+test station::tests::forced_crossing_preserves_nearby_route_endpoint ... ok
+test raster::tests::loader_uses_declared_paths_and_rejects_path_traversal ... ok
+test station::tests::inline_cluster_collapses_same_line_platforms_inside_interchange_group ... ok
+test station::tests::inline_cluster_prefers_higher_demand_away_from_endpoint ... ok
+test station::tests::final_open_line_endpoint_restore_does_not_reinsert_a_ring_origin ... ok
+test raster::tests::loader_requires_paired_dem_layers_and_valid_anchor_identity ... ok
+test station::tests::inline_cluster_keeps_one_deterministic_platform ... ok
+test station::tests::inline_cluster_preserves_forced_interchange_platform ... ok
+test station::tests::interchange_cleanup_keeps_the_stop_needed_to_bound_a_suburban_gap ... ok
+test station::tests::interchange_diameter_cannot_expand_through_transitive_or_same_line_links ... ok
+test station::tests::crossing_beyond_the_terminal_tolerance_keeps_the_actual_crossing_platform ... ok
+test station::tests::interchange_neighbours_use_local_spacing_and_preserve_endpoints_and_crossings ... ok
+test station::tests::large_gap_repair_inserts_evenly_spaced_stations ... ok
+test station::tests::layout_gate_rejects_an_ungrouped_cross_line_near_miss ... ok
+test station::tests::merge_does_not_combine_same_line_stations ... ok
+test station::tests::merge_groups_close_cross_line_stations ... ok
+test station::tests::nearby_shared_run_exit_keeps_its_platform_coverage ... ok
+test station::tests::opposite_raster_diagonals_are_a_self_crossing_without_duplicate_cells ... ok
+test station::tests::radial_terminus_near_ring_gets_routed_extension ... ok
+test station::tests::parallel_routes_and_water_crossings_do_not_create_false_platforms ... ok
+test station::tests::ring_connector_cannot_double_back_over_its_original_radial ... ok
+test station::tests::radial_crossings_insert_grouped_platforms_at_the_actual_intersection ... ok
+test station::tests::ring_wrap_cluster_is_consolidated ... ok
+test station::tests::residential_priority_sites_are_ordinary_on_corridor_stops_and_reject_wet_sites ... ok
+test station::tests::shared_run_exit_remains_a_geometric_crossing ... ok
+test station::tests::suburban_gap_repair_does_not_split_a_just_over_target_interval ... ok
+test station::tests::terminal_inside_transfer_envelope_connects_at_a_real_dry_junction ... ok
+test station::tests::shared_bends_force_only_the_shared_run_ends ... ok
+test topology::tests::axis_backtrack_ignores_small_street_wiggles ... ok
+test topology::tests::axis_backtrack_rejects_a_material_hairpin ... ok
+test raster::tests::loader_rejects_inconsistent_metadata_and_byte_lengths ... ok
+
+test result: ok. 49 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_routing.rs (target/debug/deps/proptest_routing-966b1055757cdfaf)
+
+running 5 tests
+test population_thresholds_select_the_documented_planner_tiers ... ok
+test greedy_synthesis_returns_a_real_route_and_rejects_too_few_anchors ... ok
+test all_population_archetypes_produce_connected_bounded_networks ... ok
+test any_mapped_water_requires_bridge_and_excludes_station ... ok
+test solved_uniform_paths_stay_in_bounds_and_connected ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_safety_case-f579bd9739ac5d11)
+
+running 6 tests
+test tests::unclosed_goal_is_rejected ... ok
+test tests::duplicate_id_rejected ... ok
+test tests::cite_evidence_skips_path_check ... ok
+test tests::minimal_case_closes ... ok
+test tests::decomposition_closes_when_children_close ... ok
+test results::tests::source_pointer_cannot_substitute_for_current_accepted_execution ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/osr_safety_case-86122cb4f000948a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/starter_case_closes.rs (target/debug/deps/starter_case_closes-cf93f37d3359b8d6)
+
+running 1 test
+test current_maglev_source_traceability_is_distinct_from_execution_acceptance ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_secbus-2267d7aa04767085)
+
+running 7 tests
+test tests::s3_unknown_issuer_rejects ... ok
+test tests::wrong_key_registered_rejects ... ok
+test tests::s2_tampered_payload_rejects ... ok
+test tests::s2_bit_flipped_signature_rejects ... ok
+test tests::sign_and_verify_roundtrip ... ok
+test tests::s1_verify_is_deterministic ... ok
+test tests::registry_latest_insert_wins ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running tests/proptest_secbus.rs (target/debug/deps/proptest_secbus-41e2c6e5279bcaf7)
+
+running 5 tests
+test s3_unknown_issuer_always_rejects ... ok
+test s2_bit_flip_in_signature_rejects ... ok
+test s2_bit_flip_in_payload_rejects ... ok
+test honest_signature_always_verifies ... ok
+test s1_verify_deterministic ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.73s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_station_scada-727efecab8809e31)
+
+running 6 tests
+test tests::determinism ... ok
+test tests::escalator_fault_stops_command ... ok
+test tests::emergency_stops_escalators_and_hvac ... ok
+test tests::lift_fault_holds_at_current ... ok
+test tests::low_storage_is_warning ... ok
+test tests::nominal_station_is_nominal ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_scada.rs (target/debug/deps/proptest_scada-96c29c22203ccd19)
+
+running 4 tests
+test sc4_cctv_low_storage_warns ... ok
+test sc3_any_fault_not_nominal ... ok
+test sc1_determinism ... ok
+test sc2_emergency_stops_escalators_and_hvac ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_supervision_contract-724de4c23ce3ec6e)
+
+running 3 tests
+test tests::duplicate_nonfinite_and_empty_frames_fail_closed ... ok
+test tests::authority_schema_environment_and_unknown_fields_fail_closed ... ok
+test tests::valid_frame_round_trips_with_exact_fields ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_t2g-ca2e86b2162262b0)
+
+running 7 tests
+test tests::both_weak_is_offline ... ok
+test tests::determinism ... ok
+test tests::empty_queue_does_not_transmit ... ok
+test tests::emergency_bypasses_rate_gate ... ok
+test tests::rate_gate_holds_off_regular_sends ... ok
+test tests::primary_down_fails_over_to_backup ... ok
+test tests::strong_primary_selected ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_t2g.rs (target/debug/deps/proptest_t2g-54487412750a098b)
+
+running 5 tests
+test t2g2_emergency_transmits_when_channel_available ... ok
+test t2g4_both_weak_is_offline ... ok
+test queue_decrement_on_transmit ... ok
+test t2g1_determinism ... ok
+test t2g3_failover ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_tcms-962c0c6ceec51f14)
+
+running 5 tests
+test tests::any_emergency_sets_trip_and_blocks_move ... ok
+test tests::clean_is_ready ... ok
+test tests::determinism ... ok
+test tests::door_open_blocks_move ... ok
+test tests::worst_alarm_takes_max ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_tcms.rs (target/debug/deps/proptest_tcms-51a8766dc6e86348)
+
+running 4 tests
+test tcms1_determinism ... ok
+test tcms3_worst_alarm_is_at_least_max_input ... ok
+test tcms2_ready_requires_all_green ... ok
+test tcms4_emergency_forces_trip ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_tcn-7396ca800bd534e5)
+
+running 13 tests
+test mock::tests::app_drops_oldest_on_overflow ... ok
+test mock::tests::depth_and_counters_track ... ok
+test mock::tests::publish_and_receive ... ok
+test mock::tests::fifo_order ... ok
+test mock::tests::topic_isolation ... ok
+test mock::tests::safety_errors_on_overflow ... ok
+test registry::tests::insertion_order_preserved ... ok
+test registry::tests::intern_is_idempotent ... ok
+test registry::tests::missing_id_returns_none ... ok
+test registry::tests::builtin_has_expected_topics ... ok
+test udp::tests::roundtrip_single_payload ... ok
+test udp::tests::topic_isolation ... ok
+test udp::tests::fifo_per_topic ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_tcn.rs (target/debug/deps/proptest_tcn-e28d7fee6925c7b5)
+
+running 6 tests
+test t5_topic_isolation ... ok
+test t6_topic_class_is_immutable ... ok
+test t3_safety_never_silently_drops ... ok
+test t1_t2_safety_roundtrip_fifo ... ok
+test t4_app_drops_under_backpressure ... ok
+test t7_registry_mapping_is_deterministic ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.46s
+
+     Running unittests src/lib.rs (target/debug/deps/osr_tvm-bfd2226d0511adc7)
+
+running 7 tests
+test tests::insufficient_cash_denied ... ok
+test tests::change_returned ... ok
+test tests::mobile_money_settles_at_quoted ... ok
+test tests::ttl_matches_product_duration ... ok
+test tests::determinism ... ok
+test tests::day_pass_is_network_wide ... ok
+test tests::single_ride_cash_exact_issues_token ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/proptest_tvm.rs (target/debug/deps/proptest_tvm-3b27d00128fc36ad)
+
+running 5 tests
+test tvm2_insufficient_denied ... ok
+test tvm3_4_5_sufficient_issues_validatable_token ... ok
+test denied_state_unchanged ... ok
+test tvm6_change_accounting ... ok
+test tvm1_determinism ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+

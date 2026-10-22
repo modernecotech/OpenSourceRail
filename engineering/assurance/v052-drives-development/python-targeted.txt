@@ -1,0 +1,55 @@
+................................................................F....... [ 70%]
+..............................                                           [100%]
+=================================== FAILURES ===================================
+_ test_selected_generation_executes_maglev_without_touching_other_city_packets _
+
+state = PosixPath('/home/hayder/Documents/OpenSourceRail/build/maglev-workflow')
+
+    @contextmanager
+    def locked(state=STATE):
+        """Manual and timer builds share a non-blocking interprocess lock."""
+        state = Path(state)
+        state.mkdir(parents=True, exist_ok=True)
+        with (state/'runner.lock').open('a') as stream:
+            try:
+>               fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+E               BlockingIOError: [Errno 11] Resource temporarily unavailable
+
+engineering/ferrite_maglev/workflow.py:34: BlockingIOError
+
+The above exception was the direct cause of the following exception:
+
+tmp_path = PosixPath('/tmp/pytest-of-hayder/pytest-1065/test_selected_generation_execu0')
+
+    def test_selected_generation_executes_maglev_without_touching_other_city_packets(tmp_path):
+>       report = navigation.run_selected(['baghdad'],output=tmp_path)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+engineering/analysis/tests/test_ferrite_maglev_navigation.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+engineering/ferrite_maglev/navigation.py:112: in run_selected
+    with workflow.locked():
+         ^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+state = PosixPath('/home/hayder/Documents/OpenSourceRail/build/maglev-workflow')
+
+    @contextmanager
+    def locked(state=STATE):
+        """Manual and timer builds share a non-blocking interprocess lock."""
+        state = Path(state)
+        state.mkdir(parents=True, exist_ok=True)
+        with (state/'runner.lock').open('a') as stream:
+            try:
+                fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError as exc:
+>               raise ValueError('another primary build holds the runner lock') from exc
+E               ValueError: another primary build holds the runner lock
+
+engineering/ferrite_maglev/workflow.py:36: ValueError
+=========================== short test summary info ============================
+FAILED engineering/analysis/tests/test_ferrite_maglev_navigation.py::test_selected_generation_executes_maglev_without_touching_other_city_packets
+1 failed, 101 passed in 484.68s (0:08:04)
