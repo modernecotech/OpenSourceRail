@@ -26,6 +26,64 @@ The requested urban plan uses a1.5km minimum and approximately2km average passen
   Proposed operating plan: 4 mainline stops versus 3 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
 - line-5: urban exclusive-model headway 260s versus source 180s; normal capacity 4,985/hour/direction; 0 held longitudinal cases; 0 transfer/terminal spacing conflicts.
   Proposed operating plan: 4 mainline stops versus 3 retained access records; 4 additional terminal service/motor zones. Retained capacity target met: false. Consolidated access connections and every station/loop site remain unapproved.
+## Why this architecture
+
+**The main proposition is useful city-wide reach with less construction capital, operating expenditure and long-term debt repayment.** PM-maglev station-launched monorail is the means being investigated. Affordability and domestic capability must be demonstrated at equal passenger service.
+
+| Intended advantage | Design mechanism | Evidence and cost test |
+|---|---|---|
+| Affordable reach | Compact repeated elevated beams, straight demand-led tangents and independent fixed lines with passenger transfers. | Compare complete CAPEX per route km and residents served; survey access, rights, ground and crossings. |
+| Simpler rolling stock | Station/located-booster LSMs replace onboard main traction motors and inverters; passive ferrite bias with active support remains. | Price retained coils, drives, sensing, braking, cooling, batteries, doors and HVAC; measure mass, energy and maintenance. |
+| Station-led GOA4 dispatch | Prepare receiving resources, prove doors/platform safe, commit launch, verify full-tail clearance, then consider the following departure. | Retain separation, stopping authority, receiving readiness, intrusion detection, integrity, protection and degraded recovery. |
+| Domestic productive capacity | Local precast units, GFRP bodies, steel carriers, winding cassettes, wiring, Rust integration and serial QA. | Audit imported raw materials, semiconductors and machine tools; count domestic value added rather than a local supplier address. |
+| Lower operating burden | Aim for less contact wear, fewer propulsion components per moving vehicle and repeatable wayside maintenance. | Include support power, launch losses, staff across shifts, rescue, maintenance, renewals and availability; no automatic saving percentage. |
+| Manageable repayment | Phase useful corridors; minimise whole-life public cash and foreign-currency borrowing alongside construction cost. | Separate resource cost, borrower cash, imported procurement and debt currency; demonstrate affordable annual funding before expansion. |
+| Open and repairable systems | Published hardware/process quantities, reproducible Rust tests, interchangeable interfaces and local tooling skills. | Qualify interfaces, independent assurance, spares and second sources; software licences alone do not qualify a train. |
+
+## CAPEX, OPEX and debt repayment
+
+**Affordability is a design objective:** maximise useful coverage and domestic capability per unit of construction capital, annual operating cash and debt repayment.
+
+These scope-covering scenarios add explicit allowances to the existing partial quantity bill. They are unquoted budget sensitivities; the complete engineered estimate and funding offer remain open. Values are constant USD.
+
+| Scenario | Budget CAPEX | Annual OPEX | Annual debt service | Annual OPEX + debt | 30-year operating life + construction borrower cash |
+|---|---:|---:|---:|---:|---:|
+| low | $776.5m | $24.6m | $24.9m | $49.5m | $1,857.6m |
+| base | $1,517.8m | $74.6m | $100.3m | $174.9m | $5,149.2m |
+| high | $3,310.2m | $244.7m | $369.9m | $614.6m | $15,635.3m |
+
+The combined annual figure excludes irregular renewal payments; those are included in the full cash schedule. Construction interest and fees are paid separately. Resource cost counts CAPEX once; borrower cash counts equity and loan repayments, avoiding a second count of financed principal.
+
+| Scenario | Debt / equity CAPEX | Foreign-currency debt | Total construction + repayment interest | Whole-life resource cost | Discounted resource cost |
+|---|---:|---:|---:|---:|---:|
+| low | $388.3m / $388.3m | $97.1m | $271.9m | $1,577.9m | $993.3m |
+| base | $1,062.5m / $455.3m | $531.2m | $1,129.3m | $3,998.7m | $2,307.1m |
+| high | $2,813.7m / $496.5m | $2,251.0m | $3,438.6m | $12,140.4m | $6,375.7m |
+
+[Every allowance, energy component, finance assumption and yearly cash flow](summary.json) → `affordability`. Five construction years and 30 operating years are hypotheses. No fare or subsidy revenue is assumed. Complete financing must address local-currency revenue, foreign-currency debt, lender terms, resilience and renewal funding.
+
+The same-service procurement sensitivity assumes 1.5× CAPEX and 1.1× OPEX, without changing coverage, timetable, loan rate or tenor. It illustrates the effect of procurement cost and foreign borrowing; it is not an independently priced alternative. Proven cost advantage and local-content percentages remain open.
+
+[Whole-life appraisal reference](https://www.gov.uk/government/publications/the-green-book--2/the-green-book-2026). [UKEF Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) can finance up to85% of an eligible export contract, subject to assessment; that does not establish85% financing of this city programme. [UK content requirements](https://www.gov.uk/government/publications/ukefs-approach-to-foreign-content/ukefs-approach-to-foreign-content) need a transaction-specific content schedule. No UKEF approval, tariff, lender commitment or economic multiplier is assumed.
+
+## Energy and operating cost detail
+
+| Scenario | Annual services supply GWh | Positive traction GWh | Extra fixed-zone losses GWh | Station auxiliaries GWh | Electricity USD/kWh | Annual energy cost | Annual staff cost | Annual maintenance/admin allowance |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| low | 91.3 | 32.2 | 115.5 | 4.2 | 0.06 | $14.6m | $2.3m | $7.8m |
+| base | 91.3 | 32.2 | 173.3 | 10.5 | 0.12 | $36.9m | $7.4m | $30.4m |
+| high | 91.3 | 32.2 | 288.8 | 21.0 | 0.25 | $108.3m | $20.5m | $115.9m |
+
+Hot services and station auxiliary demand are conservative planning allowances, not measured consumption. Positive traction includes no regeneration credit. Additional winding/conversion losses use explicit8/12/20kWh per fixed-zone event, including separately counted boosters; these are sensitivities rather than measured route-specific loss maps. Reserve/depot movement, missed charging, wind, grade, full field maps, electrical diversity and supply resilience need further duty studies. No automatic solar or grid-independence credit is applied.
+
+## Station-led GOA4 operation
+
+Normal operation centres on the station: reserve a protected receiving path/berth, prove vehicle support and services ready, prove doors/platform safe, prepare and commit the finite powered launch, monitor coast/booster/arrival, then release each resource with valid train-identity and full-consist clearance evidence. A leading train leaving a station can make its berth available to the next train once its entire tail is proved clear and the following movement has protected authority. A launch command or elapsed timer alone does not release occupancy.
+
+Fixed lines eliminate mainline route-switch choices. Wayside launch/receive equipment concentrates primary propulsion and dispatch infrastructure at known sites. Independent onboard support/guidance current control and protection continue during coasting. Receiving plant must remain protected after launch; a fault cannot be resolved by simply cancelling a coasting train.
+
+Current city fleet/capacity calculations retain exclusive whole-leg reservation. The separate progressive-departure Rust candidate tests release behind a verified full tail, finite stopping envelopes and faults at180s headway. Local results have not qualified route-wide distributed detectors, cross-controller authority, degraded recovery or a city timetable. Driverless/GOA4 is the operating target, without operational authorisation or an assumed zero staff budget. [ORR unattended-operation principles](https://www.orr.gov.uk/sites/default/files/2024-07/railway-safety-principles-factors-for-safe-operation-of-goa4-uto.pdf) are a design reference for departure, passenger protection and degraded operation; they are not Iraqi operational approval.
+
 
 **Integrated-beam/no-walkway target:** door-mounted evacuation is a study candidate. Continuous walkway removal is not approved. Necessary iron reaction faces, supports/foundations, joints and protection remain. 1800 onboard packs are a provisional door-count hypothesis; new mass, lifetime cost and net savings are unknown. Landing space, accessible alternatives, fire/weather/fault conditions and rescue/maintenance access must be proved along the complete route.
 

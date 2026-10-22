@@ -18,7 +18,7 @@ from pathlib import Path
 import tempfile
 import tomllib
 
-from . import model,optimisation,evacuation,manufacturing,cartography,configuration,operating_plan
+from . import model,optimisation,evacuation,manufacturing,cartography,configuration,operating_plan,affordability,city_brief
 
 ROOT = model.ROOT
 ASSUMPTIONS = Path(__file__).with_name('city-planning.toml')
@@ -27,13 +27,14 @@ NOTICE_START=b'<!-- osr-maglev-primary:start -->\n'
 NOTICE_END=b'<!-- osr-maglev-primary:end -->\n'
 
 
-def promote_city_readme(city_dir):
-    """Replace the city front door with its sole current primary package."""
+def promote_city_readme(city_dir, report=None):
+    """Regenerate a detailed front door from the current primary package."""
     path=Path(city_dir)/'README.md'
     data=json.loads((Path(city_dir)/'city.json').read_text())
-    text=(NOTICE_START.decode()+f"# {data['name']} — ferrite-PM maglev\n\n"
-        "[Current city plan, costs and manufacturing routes](engineering/maglev/README.md).\n\n"
-        "Mapped geography and passenger targets are planning inputs. Physical route, vehicle, manufacturing and operational acceptance remain open.\n"+NOTICE_END.decode())
+    report=report or json.loads((Path(city_dir)/'engineering/maglev/summary.json').read_text())
+    if report['city']!=data['city']['slug'] or 'affordability' not in report:
+        raise ValueError('current city identity and affordability required for public brief')
+    text=NOTICE_START.decode()+city_brief.frontdoor(report,data)+NOTICE_END.decode()
     path.write_text(text)
     return path
 
@@ -527,6 +528,7 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
                              old_city_costs_inherited=False, pilot_and_repeat_fleet_automatically_added=False),
                   gates=[dict(id=k, state='open', accepted=False, closure=v) for k,v in GATES],
                   design_complete=False, physical_validation=False, manufacturing_release=False, physical_release=False)
+    report['affordability']=affordability.study(report,design)
     output = Path(output_dir) if output_dir else city_dir/'engineering/maglev'
     output.mkdir(parents=True, exist_ok=True)
     mapped=deepcopy(design)
@@ -541,7 +543,7 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
     (output/'summary.json').write_text(json.dumps(report, ensure_ascii=False, sort_keys=True, indent=2)+'\n')
     write_readme(output, report)
     if output_dir is None:
-        promote_city_readme(city_dir)
+        promote_city_readme(city_dir,report)
     return report
 
 
@@ -561,6 +563,7 @@ def write_readme(output, report):
         if 'operating_plan' in line:
             p=line['operating_plan']
             rows.append(f"  Proposed operating plan: {p['operating_station_count']} mainline stops versus {p['retained_station_count']} retained access records; {line['topology']['terminal_service_zone_count']} additional terminal service/motor zones. Retained capacity target met: {str(line['retained_capacity_target_met']).lower()}. Consolidated access connections and every station/loop site remain unapproved.")
+    rows+=city_brief.usp_markdown()+affordability.markdown(report)+city_brief.dispatch_markdown()
     diagnostics=report['diagnostics']
     if diagnostics['ring_closure_discrepancies']:
         rows += ['', 'Retained ring wrap distances do not close the complete geographic route. Recomputed closure adds the following distances to the input wrap values; actual closure alignment remains open: '+
@@ -733,7 +736,7 @@ def generate_all(output_root=None,*,workers=None):
 def calculation_dependencies():
     """Transitive shared computational inputs used by generation and replay."""
     from . import station,station_structure,closure
-    return [*optimisation.calculation_dependencies(),Path(cartography.__file__),Path(station.__file__),station.INPUT,*station_structure.source_paths(),*operating_plan.source_paths(),Path(closure.__file__),closure.INPUT]
+    return [*optimisation.calculation_dependencies(),Path(cartography.__file__),Path(station.__file__),station.INPUT,*station_structure.source_paths(),*operating_plan.source_paths(),*city_brief.source_paths(),Path(closure.__file__),closure.INPUT]
 
 
 def source_paths():
@@ -826,11 +829,17 @@ def verify_index(index_path=INDEX):
         check_hash(package/'retained-records.json',report.get('retained_records_sha256'),label+' retained records')
         check_hash(package/'manufacturing.json',report.get('manufacturing_sha256'),label+' manufacturing')
         check_hash(package/'network.svg',report.get('network_sha256'),label+' map')
+        if report.get('affordability',{}).get('schema')!=affordability.SCHEMA:
+            errors.append(label+': current affordability scenarios missing')
         entry=ROOT/row.get('catalogue_path','missing-city')/'README.md'
         try:
             body=entry.read_bytes()
             if not body.startswith(NOTICE_START) or NOTICE_END not in body or b'engineering/maglev/README.md' not in body.split(NOTICE_END,1)[0]:
                 errors.append(label+': primary entry notice missing or incomplete')
+            if 'affordability' in report:
+                design=read_json(entry.parent/'city.json')
+                expected=NOTICE_START.decode()+city_brief.frontdoor(report,design)+NOTICE_END.decode()
+                if body.decode()!=expected:errors.append(label+': detailed public brief differs from current quantities')
         except OSError:
             errors.append(label+': city entry README missing')
     return dict(current=not errors,errors=errors,city_count=len(entries),

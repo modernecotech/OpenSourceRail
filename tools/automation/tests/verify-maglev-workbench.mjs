@@ -120,6 +120,18 @@ try {
     assert.equal(bill.station_electrical_rating_qualified,false);
     assert.equal(await page.locator('[data-metric="partial-subtotal"]').innerText(),dollars.format(base.priced_scope_subtotal_usd));
     assert.match(await page.locator('[data-metric="complete-cost"]').innerText(),/Unknown.*unpriced/);
+    const budget=summary.affordability.cases.find(item=>item.id==='base');
+    assert.equal(await page.locator('[data-metric="budget-capex"]').innerText(),dollars.format(budget.budget_capex_sensitivity_usd));
+    if(budget.energy_data_complete) {
+      assert.equal(await page.locator('[data-metric="budget-opex"]').innerText(),dollars.format(budget.annual_opex_sensitivity_usd));
+      assert.equal(await page.locator('[data-metric="budget-debt"]').innerText(),dollars.format(budget.financing.annual_level_debt_service_usd));
+      assert.equal(await page.locator('[data-metric="lifetime-cash"]').innerText(),dollars.format(budget.financing.undiscounted_public_cash_usd));
+      assert.equal(await page.locator('[data-metric="foreign-debt"]').innerText(),dollars.format(budget.financing.foreign_currency_debt_usd));
+    } else assert.match(await page.locator('[data-metric="budget-debt"]').innerText(),/^HOLD/);
+    const briefResponse=await page.request.get(origin+'/'+link.split('/').filter(Boolean).slice(0,-3).join('/')+'/README.md');
+    assert.equal(briefResponse.status(),200);
+    const brief=await briefResponse.text();
+    for(const text of ['## Lines and service','Annual OPEX','Annual debt service','Station-led GOA4','Domestic productive capacity']) assert.ok(brief.includes(text));
     assert.equal(bill.complete_city_programme_usd,null);
     assert.equal(await page.locator('#city-processes li').count(),bill.process_routes.length);
     assert.equal(await page.locator('#city-equipment li').count(),bill.equipment_candidates.length);
@@ -177,6 +189,17 @@ try {
   await page.unroute(indexURL);
   await page.unroute(origin+forgedPath+'summary.json');
   await page.unroute(origin+forgedPath+'manufacturing.json');
+  // Rehashed lifecycle cash must not double-count financed capital.
+  const badFinance=await (await page.request.get(origin+forgedPath+'summary.json')).json();
+  badFinance.affordability.cases[1].financing.undiscounted_public_cash_usd+=badFinance.affordability.cases[1].financing.debt_principal_usd;
+  const badFinanceBytes=JSON.stringify(badFinance);
+  forgedRow.summary_sha256=createHash('sha256').update(badFinanceBytes).digest('hex');
+  await page.route(indexURL,route=>route.fulfill({json:forgedIndex}));
+  await page.route(origin+forgedPath+'summary.json',route=>route.fulfill({body:badFinanceBytes,contentType:'application/json'}));
+  await page.goto(origin+'/docs/workbench/maglev/?city=baghdad');
+  await page.waitForFunction(()=>document.querySelector('#city-status').textContent.includes('Inconsistent lifecycle cash accounting'));
+  assert.equal(await page.locator('#city-metrics dd').count(),0);
+  await page.unroute(indexURL);await page.unroute(origin+forgedPath+'summary.json');
   // A changed investigation payload must hide its map and counts independently
   // of the still-valid city plan.
   const corruptHubs=hubPath+'study.json.gz';

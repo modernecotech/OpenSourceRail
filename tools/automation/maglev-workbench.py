@@ -32,8 +32,11 @@ class Handler(SimpleHTTPRequestHandler):
                    and path.is_relative_to(ROOT/'cities/catalogue')
                    and path.parent.name == 'maglev'
                    and path.name in {'summary.json', 'README.md', 'retained-records.json', 'manufacturing.json', 'network.svg'})
+        is_city_brief = (path.is_relative_to(ROOT/'cities/catalogue')
+                         and len(path.relative_to(ROOT/'cities/catalogue').parts) == 4
+                         and path.name == 'README.md' and (path.parent/'city.json').is_file())
         if (path != lexical or not path.is_relative_to(ROOT) or any(part in {'.', '..'} for part in name.split('/'))
-                or not (name in exact or is_city or any(path.is_relative_to(p) for p in roots))):
+                or not (name in exact or is_city or is_city_brief or any(path.is_relative_to(p) for p in roots))):
             self.send_error(404)
             return None
         if path.is_dir() and not (path/'index.html').is_file():

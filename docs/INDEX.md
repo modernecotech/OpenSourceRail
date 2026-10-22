@@ -57,537 +57,537 @@ Indexed Markdown files: **580**.
 | File | Title |
 |---|---|
 | [`cities/catalogue/README.md`](../cities/catalogue/README.md) | Maglev city design catalogue |
-| [`cities/catalogue/central-africa/Angola/Benguela/README.md`](../cities/catalogue/central-africa/Angola/Benguela/README.md) | Benguela — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/Angola/Benguela/README.md`](../cities/catalogue/central-africa/Angola/Benguela/README.md) | Benguela — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/Angola/Benguela/engineering/maglev/README.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/maglev/README.md) | Benguela — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/Angola/Huambo/README.md`](../cities/catalogue/central-africa/Angola/Huambo/README.md) | Huambo — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/Angola/Huambo/README.md`](../cities/catalogue/central-africa/Angola/Huambo/README.md) | Huambo — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/Angola/Huambo/engineering/maglev/README.md`](../cities/catalogue/central-africa/Angola/Huambo/engineering/maglev/README.md) | Huambo — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/Angola/Lobito/README.md`](../cities/catalogue/central-africa/Angola/Lobito/README.md) | Lobito — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/Angola/Lobito/README.md`](../cities/catalogue/central-africa/Angola/Lobito/README.md) | Lobito — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/Angola/Lobito/engineering/maglev/README.md`](../cities/catalogue/central-africa/Angola/Lobito/engineering/maglev/README.md) | Lobito — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/Angola/Luanda/README.md`](../cities/catalogue/central-africa/Angola/Luanda/README.md) | Luanda — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/Angola/Luanda/README.md`](../cities/catalogue/central-africa/Angola/Luanda/README.md) | Luanda — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/Angola/Luanda/engineering/maglev/README.md`](../cities/catalogue/central-africa/Angola/Luanda/engineering/maglev/README.md) | Luanda — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/Angola/Lubango/README.md`](../cities/catalogue/central-africa/Angola/Lubango/README.md) | Lubango — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/Angola/Lubango/README.md`](../cities/catalogue/central-africa/Angola/Lubango/README.md) | Lubango — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/Angola/Lubango/engineering/maglev/README.md`](../cities/catalogue/central-africa/Angola/Lubango/engineering/maglev/README.md) | Lubango — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/Angola/Malanje/README.md`](../cities/catalogue/central-africa/Angola/Malanje/README.md) | Malanje — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/Angola/Malanje/README.md`](../cities/catalogue/central-africa/Angola/Malanje/README.md) | Malanje — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/Angola/Malanje/engineering/maglev/README.md`](../cities/catalogue/central-africa/Angola/Malanje/engineering/maglev/README.md) | Malanje — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/Angola/Namibe/README.md`](../cities/catalogue/central-africa/Angola/Namibe/README.md) | Namibe — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/Angola/Namibe/README.md`](../cities/catalogue/central-africa/Angola/Namibe/README.md) | Namibe — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/Angola/Namibe/engineering/maglev/README.md`](../cities/catalogue/central-africa/Angola/Namibe/engineering/maglev/README.md) | Namibe — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/Angola/Soyo/README.md`](../cities/catalogue/central-africa/Angola/Soyo/README.md) | Soyo — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/Angola/Soyo/README.md`](../cities/catalogue/central-africa/Angola/Soyo/README.md) | Soyo — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/Angola/Soyo/engineering/maglev/README.md`](../cities/catalogue/central-africa/Angola/Soyo/engineering/maglev/README.md) | Soyo — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/Angola/Uige/README.md`](../cities/catalogue/central-africa/Angola/Uige/README.md) | Uige — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/Angola/Uige/README.md`](../cities/catalogue/central-africa/Angola/Uige/README.md) | Uige — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/Angola/Uige/engineering/maglev/README.md`](../cities/catalogue/central-africa/Angola/Uige/engineering/maglev/README.md) | Uige — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/DR Congo/Bukavu/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/README.md) | Bukavu — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/DR Congo/Bukavu/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/README.md) | Bukavu — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/DR Congo/Bukavu/engineering/maglev/README.md`](../cities/catalogue/central-africa/DR Congo/Bukavu/engineering/maglev/README.md) | Bukavu — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/DR Congo/Goma/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/README.md) | Goma — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/DR Congo/Goma/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/README.md) | Goma — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/DR Congo/Goma/engineering/maglev/README.md`](../cities/catalogue/central-africa/DR Congo/Goma/engineering/maglev/README.md) | Goma — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/DR Congo/Kananga/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/README.md) | Kananga — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/DR Congo/Kananga/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/README.md) | Kananga — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/DR Congo/Kananga/engineering/maglev/README.md`](../cities/catalogue/central-africa/DR Congo/Kananga/engineering/maglev/README.md) | Kananga — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/DR Congo/Kinshasa/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/README.md) | Kinshasa — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/DR Congo/Kinshasa/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/README.md) | Kinshasa — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/maglev/README.md`](../cities/catalogue/central-africa/DR Congo/Kinshasa/engineering/maglev/README.md) | Kinshasa — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/DR Congo/Kisangani/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/README.md) | Kisangani — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/DR Congo/Kisangani/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/README.md) | Kisangani — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/DR Congo/Kisangani/engineering/maglev/README.md`](../cities/catalogue/central-africa/DR Congo/Kisangani/engineering/maglev/README.md) | Kisangani — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/DR Congo/Lubumbashi/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/README.md) | Lubumbashi — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/DR Congo/Lubumbashi/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/README.md) | Lubumbashi — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/maglev/README.md`](../cities/catalogue/central-africa/DR Congo/Lubumbashi/engineering/maglev/README.md) | Lubumbashi — v0.5 maglev city planning |
-| [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/README.md) | Mbuji Mayi — ferrite-PM maglev |
+| [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/README.md) | Mbuji Mayi — PM-maglev station-launched monorail |
 | [`cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/maglev/README.md`](../cities/catalogue/central-africa/DR Congo/Mbuji-Mayi/engineering/maglev/README.md) | Mbuji Mayi — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Eldoret/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/README.md) | Eldoret — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Eldoret/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/README.md) | Eldoret — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Eldoret/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Eldoret/engineering/maglev/README.md) | Eldoret — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Garissa/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/README.md) | Garissa — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Garissa/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/README.md) | Garissa — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Garissa/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Garissa/engineering/maglev/README.md) | Garissa — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Kakamega/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/README.md) | Kakamega — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Kakamega/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/README.md) | Kakamega — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Kakamega/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Kakamega/engineering/maglev/README.md) | Kakamega — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Kisii/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/README.md) | Kisii — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Kisii/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/README.md) | Kisii — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Kisii/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Kisii/engineering/maglev/README.md) | Kisii — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Kisumu/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/README.md) | Kisumu — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Kisumu/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/README.md) | Kisumu — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Kisumu/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Kisumu/engineering/maglev/README.md) | Kisumu — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Kitale/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/README.md) | Kitale — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Kitale/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/README.md) | Kitale — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Kitale/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Kitale/engineering/maglev/README.md) | Kitale — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Machakos/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/README.md) | Machakos — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Machakos/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/README.md) | Machakos — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Machakos/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Machakos/engineering/maglev/README.md) | Machakos — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Malindi/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/README.md) | Malindi — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Malindi/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/README.md) | Malindi — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Malindi/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Malindi/engineering/maglev/README.md) | Malindi — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Meru-Ke/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/README.md) | Meru Ke — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Meru-Ke/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/README.md) | Meru Ke — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Meru-Ke/engineering/maglev/README.md) | Meru Ke — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Mombasa/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/README.md) | Mombasa — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Mombasa/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/README.md) | Mombasa — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Mombasa/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Mombasa/engineering/maglev/README.md) | Mombasa — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Nairobi/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/README.md) | Nairobi — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Nairobi/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/README.md) | Nairobi — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Nairobi/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Nairobi/engineering/maglev/README.md) | Nairobi — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Naivasha/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/README.md) | Naivasha — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Naivasha/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/README.md) | Naivasha — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Naivasha/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Naivasha/engineering/maglev/README.md) | Naivasha — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Nakuru/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/README.md) | Nakuru — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Nakuru/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/README.md) | Nakuru — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Nakuru/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Nakuru/engineering/maglev/README.md) | Nakuru — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Nyeri/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/README.md) | Nyeri — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Nyeri/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/README.md) | Nyeri — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Nyeri/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Nyeri/engineering/maglev/README.md) | Nyeri — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Kenya/Thika/README.md`](../cities/catalogue/east-africa/Kenya/Thika/README.md) | Thika — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Kenya/Thika/README.md`](../cities/catalogue/east-africa/Kenya/Thika/README.md) | Thika — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Kenya/Thika/engineering/maglev/README.md`](../cities/catalogue/east-africa/Kenya/Thika/engineering/maglev/README.md) | Thika — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Madagascar/Antananarivo/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/README.md) | Antananarivo — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Madagascar/Antananarivo/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/README.md) | Antananarivo — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/maglev/README.md`](../cities/catalogue/east-africa/Madagascar/Antananarivo/engineering/maglev/README.md) | Antananarivo — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Mozambique/Beira/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/README.md) | Beira — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Mozambique/Beira/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/README.md) | Beira — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Mozambique/Beira/engineering/maglev/README.md`](../cities/catalogue/east-africa/Mozambique/Beira/engineering/maglev/README.md) | Beira — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Mozambique/Chimoio/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/README.md) | Chimoio — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Mozambique/Chimoio/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/README.md) | Chimoio — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Mozambique/Chimoio/engineering/maglev/README.md`](../cities/catalogue/east-africa/Mozambique/Chimoio/engineering/maglev/README.md) | Chimoio — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Mozambique/Lichinga/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/README.md) | Lichinga — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Mozambique/Lichinga/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/README.md) | Lichinga — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Mozambique/Lichinga/engineering/maglev/README.md`](../cities/catalogue/east-africa/Mozambique/Lichinga/engineering/maglev/README.md) | Lichinga — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Mozambique/Maputo/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/README.md) | Maputo — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Mozambique/Maputo/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/README.md) | Maputo — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Mozambique/Maputo/engineering/maglev/README.md`](../cities/catalogue/east-africa/Mozambique/Maputo/engineering/maglev/README.md) | Maputo — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Mozambique/Nacala/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/README.md) | Nacala — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Mozambique/Nacala/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/README.md) | Nacala — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Mozambique/Nacala/engineering/maglev/README.md`](../cities/catalogue/east-africa/Mozambique/Nacala/engineering/maglev/README.md) | Nacala — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Mozambique/Nampula/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/README.md) | Nampula — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Mozambique/Nampula/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/README.md) | Nampula — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Mozambique/Nampula/engineering/maglev/README.md`](../cities/catalogue/east-africa/Mozambique/Nampula/engineering/maglev/README.md) | Nampula — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/README.md) | Pemba Mz — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/README.md) | Pemba Mz — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/maglev/README.md`](../cities/catalogue/east-africa/Mozambique/Pemba-Mz/engineering/maglev/README.md) | Pemba Mz — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Mozambique/Quelimane/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/README.md) | Quelimane — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Mozambique/Quelimane/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/README.md) | Quelimane — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Mozambique/Quelimane/engineering/maglev/README.md`](../cities/catalogue/east-africa/Mozambique/Quelimane/engineering/maglev/README.md) | Quelimane — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Mozambique/Tete/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/README.md) | Tete — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Mozambique/Tete/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/README.md) | Tete — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Mozambique/Tete/engineering/maglev/README.md`](../cities/catalogue/east-africa/Mozambique/Tete/engineering/maglev/README.md) | Tete — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Mozambique/Xai-Xai/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/README.md) | Xai Xai — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Mozambique/Xai-Xai/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/README.md) | Xai Xai — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/maglev/README.md`](../cities/catalogue/east-africa/Mozambique/Xai-Xai/engineering/maglev/README.md) | Xai Xai — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Rwanda/Huye/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/README.md) | Huye — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Rwanda/Huye/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/README.md) | Huye — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Rwanda/Huye/engineering/maglev/README.md`](../cities/catalogue/east-africa/Rwanda/Huye/engineering/maglev/README.md) | Huye — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Rwanda/Kigali/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/README.md) | Kigali — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Rwanda/Kigali/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/README.md) | Kigali — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Rwanda/Kigali/engineering/maglev/README.md`](../cities/catalogue/east-africa/Rwanda/Kigali/engineering/maglev/README.md) | Kigali — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Rwanda/Rubavu/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/README.md) | Rubavu — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Rwanda/Rubavu/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/README.md) | Rubavu — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Rwanda/Rubavu/engineering/maglev/README.md`](../cities/catalogue/east-africa/Rwanda/Rubavu/engineering/maglev/README.md) | Rubavu — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Somalia/Mogadishu/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/README.md) | Mogadishu — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Somalia/Mogadishu/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/README.md) | Mogadishu — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Somalia/Mogadishu/engineering/maglev/README.md`](../cities/catalogue/east-africa/Somalia/Mogadishu/engineering/maglev/README.md) | Mogadishu — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/South Sudan/Wau/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/README.md) | Waw — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/South Sudan/Wau/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/README.md) | Waw — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/South Sudan/Wau/engineering/maglev/README.md`](../cities/catalogue/east-africa/South Sudan/Wau/engineering/maglev/README.md) | Waw — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Arusha/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/README.md) | Arusha — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Arusha/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/README.md) | Arusha — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Arusha/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Arusha/engineering/maglev/README.md) | Arusha — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/README.md) | Dar Es Salaam — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/README.md) | Dar Es Salaam — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Dar-Es-Salaam/engineering/maglev/README.md) | Dar Es Salaam — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Dodoma/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/README.md) | Dodoma — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Dodoma/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/README.md) | Dodoma — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Dodoma/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Dodoma/engineering/maglev/README.md) | Dodoma — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Iringa/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/README.md) | Iringa — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Iringa/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/README.md) | Iringa — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Iringa/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Iringa/engineering/maglev/README.md) | Iringa — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Kigoma/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/README.md) | Kigoma — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Kigoma/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/README.md) | Kigoma — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Kigoma/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Kigoma/engineering/maglev/README.md) | Kigoma — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Mbeya/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/README.md) | Mbeya — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Mbeya/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/README.md) | Mbeya — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Mbeya/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Mbeya/engineering/maglev/README.md) | Mbeya — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Morogoro/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/README.md) | Morogoro — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Morogoro/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/README.md) | Morogoro — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Morogoro/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Morogoro/engineering/maglev/README.md) | Morogoro — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Moshi/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/README.md) | Moshi — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Moshi/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/README.md) | Moshi — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Moshi/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Moshi/engineering/maglev/README.md) | Moshi — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Mwanza/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/README.md) | Mwanza — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Mwanza/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/README.md) | Mwanza — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Mwanza/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Mwanza/engineering/maglev/README.md) | Mwanza — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Shinyanga/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/README.md) | Shinyanga — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Shinyanga/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/README.md) | Shinyanga — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Shinyanga/engineering/maglev/README.md) | Shinyanga — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Songea/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/README.md) | Songea — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Songea/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/README.md) | Songea — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Songea/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Songea/engineering/maglev/README.md) | Songea — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Sumbawanga/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/README.md) | Sumbawanga — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Sumbawanga/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/README.md) | Sumbawanga — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Sumbawanga/engineering/maglev/README.md) | Sumbawanga — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Tabora/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/README.md) | Tabora — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Tabora/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/README.md) | Tabora — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Tabora/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Tabora/engineering/maglev/README.md) | Tabora — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Tanga/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/README.md) | Tanga — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Tanga/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/README.md) | Tanga — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Tanga/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Tanga/engineering/maglev/README.md) | Tanga — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/README.md) | Zanzibar City — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/README.md) | Zanzibar City — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/maglev/README.md`](../cities/catalogue/east-africa/Tanzania/Zanzibar-City/engineering/maglev/README.md) | Zanzibar City — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Uganda/Arua/README.md`](../cities/catalogue/east-africa/Uganda/Arua/README.md) | Arua — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Uganda/Arua/README.md`](../cities/catalogue/east-africa/Uganda/Arua/README.md) | Arua — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Uganda/Arua/engineering/maglev/README.md`](../cities/catalogue/east-africa/Uganda/Arua/engineering/maglev/README.md) | Arua — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Uganda/Entebbe/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/README.md) | Entebbe — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Uganda/Entebbe/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/README.md) | Entebbe — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Uganda/Entebbe/engineering/maglev/README.md`](../cities/catalogue/east-africa/Uganda/Entebbe/engineering/maglev/README.md) | Entebbe — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Uganda/Fort-Portal/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/README.md) | Fort Portal — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Uganda/Fort-Portal/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/README.md) | Fort Portal — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/maglev/README.md`](../cities/catalogue/east-africa/Uganda/Fort-Portal/engineering/maglev/README.md) | Fort Portal — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Uganda/Gulu/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/README.md) | Gulu — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Uganda/Gulu/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/README.md) | Gulu — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Uganda/Gulu/engineering/maglev/README.md`](../cities/catalogue/east-africa/Uganda/Gulu/engineering/maglev/README.md) | Gulu — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Uganda/Hoima/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/README.md) | Hoima — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Uganda/Hoima/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/README.md) | Hoima — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Uganda/Hoima/engineering/maglev/README.md`](../cities/catalogue/east-africa/Uganda/Hoima/engineering/maglev/README.md) | Hoima — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Uganda/Jinja/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/README.md) | Jinja — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Uganda/Jinja/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/README.md) | Jinja — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Uganda/Jinja/engineering/maglev/README.md`](../cities/catalogue/east-africa/Uganda/Jinja/engineering/maglev/README.md) | Jinja — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Uganda/Kampala/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/README.md) | Kampala — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Uganda/Kampala/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/README.md) | Kampala — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Uganda/Kampala/engineering/maglev/README.md`](../cities/catalogue/east-africa/Uganda/Kampala/engineering/maglev/README.md) | Kampala — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Uganda/Lira/README.md`](../cities/catalogue/east-africa/Uganda/Lira/README.md) | Lira — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Uganda/Lira/README.md`](../cities/catalogue/east-africa/Uganda/Lira/README.md) | Lira — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Uganda/Lira/engineering/maglev/README.md`](../cities/catalogue/east-africa/Uganda/Lira/engineering/maglev/README.md) | Lira — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Uganda/Masaka/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/README.md) | Masaka — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Uganda/Masaka/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/README.md) | Masaka — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Uganda/Masaka/engineering/maglev/README.md`](../cities/catalogue/east-africa/Uganda/Masaka/engineering/maglev/README.md) | Masaka — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Uganda/Mbale/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/README.md) | Mbale — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Uganda/Mbale/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/README.md) | Mbale — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Uganda/Mbale/engineering/maglev/README.md`](../cities/catalogue/east-africa/Uganda/Mbale/engineering/maglev/README.md) | Mbale — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Uganda/Mbarara/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/README.md) | Mbarara — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Uganda/Mbarara/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/README.md) | Mbarara — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Uganda/Mbarara/engineering/maglev/README.md`](../cities/catalogue/east-africa/Uganda/Mbarara/engineering/maglev/README.md) | Mbarara — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Uganda/Soroti/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/README.md) | Soroti — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Uganda/Soroti/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/README.md) | Soroti — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Uganda/Soroti/engineering/maglev/README.md`](../cities/catalogue/east-africa/Uganda/Soroti/engineering/maglev/README.md) | Soroti — v0.5 maglev city planning |
-| [`cities/catalogue/east-africa/Zambia/Lusaka/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/README.md) | Lusaka — ferrite-PM maglev |
+| [`cities/catalogue/east-africa/Zambia/Lusaka/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/README.md) | Lusaka — PM-maglev station-launched monorail |
 | [`cities/catalogue/east-africa/Zambia/Lusaka/engineering/maglev/README.md`](../cities/catalogue/east-africa/Zambia/Lusaka/engineering/maglev/README.md) | Lusaka — v0.5 maglev city planning |
-| [`cities/catalogue/europe/France/Lyon/README.md`](../cities/catalogue/europe/France/Lyon/README.md) | Lyon — ferrite-PM maglev |
+| [`cities/catalogue/europe/France/Lyon/README.md`](../cities/catalogue/europe/France/Lyon/README.md) | Lyon — PM-maglev station-launched monorail |
 | [`cities/catalogue/europe/France/Lyon/engineering/maglev/README.md`](../cities/catalogue/europe/France/Lyon/engineering/maglev/README.md) | Lyon — v0.5 maglev city planning |
-| [`cities/catalogue/latin-america/Bolivia/La-Paz/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/README.md) | La Paz — ferrite-PM maglev |
+| [`cities/catalogue/latin-america/Bolivia/La-Paz/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/README.md) | La Paz — PM-maglev station-launched monorail |
 | [`cities/catalogue/latin-america/Bolivia/La-Paz/engineering/maglev/README.md`](../cities/catalogue/latin-america/Bolivia/La-Paz/engineering/maglev/README.md) | La Paz — v0.5 maglev city planning |
-| [`cities/catalogue/latin-america/Ecuador/Cuenca/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/README.md) | Cuenca — ferrite-PM maglev |
+| [`cities/catalogue/latin-america/Ecuador/Cuenca/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/README.md) | Cuenca — PM-maglev station-launched monorail |
 | [`cities/catalogue/latin-america/Ecuador/Cuenca/engineering/maglev/README.md`](../cities/catalogue/latin-america/Ecuador/Cuenca/engineering/maglev/README.md) | Cuenca — v0.5 maglev city planning |
-| [`cities/catalogue/latin-america/El Salvador/San-Salvador/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/README.md) | San Salvador — ferrite-PM maglev |
+| [`cities/catalogue/latin-america/El Salvador/San-Salvador/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/README.md) | San Salvador — PM-maglev station-launched monorail |
 | [`cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/maglev/README.md`](../cities/catalogue/latin-america/El Salvador/San-Salvador/engineering/maglev/README.md) | San Salvador — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Morocco/Agadir/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/README.md) | Agadir — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Morocco/Agadir/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/README.md) | Agadir — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Morocco/Agadir/engineering/maglev/README.md`](../cities/catalogue/north-africa/Morocco/Agadir/engineering/maglev/README.md) | Agadir — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Morocco/Beni-Mellal/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/README.md) | Beni Mellal — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Morocco/Beni-Mellal/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/README.md) | Beni Mellal — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/maglev/README.md`](../cities/catalogue/north-africa/Morocco/Beni-Mellal/engineering/maglev/README.md) | Beni Mellal — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Morocco/Fez/README.md`](../cities/catalogue/north-africa/Morocco/Fez/README.md) | Fez — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Morocco/Fez/README.md`](../cities/catalogue/north-africa/Morocco/Fez/README.md) | Fez — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Morocco/Fez/engineering/maglev/README.md`](../cities/catalogue/north-africa/Morocco/Fez/engineering/maglev/README.md) | Fez — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Morocco/Kenitra/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/README.md) | Kenitra — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Morocco/Kenitra/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/README.md) | Kenitra — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Morocco/Kenitra/engineering/maglev/README.md`](../cities/catalogue/north-africa/Morocco/Kenitra/engineering/maglev/README.md) | Kenitra — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Morocco/Khouribga/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/README.md) | Khouribga — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Morocco/Khouribga/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/README.md) | Khouribga — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Morocco/Khouribga/engineering/maglev/README.md`](../cities/catalogue/north-africa/Morocco/Khouribga/engineering/maglev/README.md) | Khouribga — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Morocco/Marrakech/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/README.md) | Marrakech — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Morocco/Marrakech/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/README.md) | Marrakech — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Morocco/Marrakech/engineering/maglev/README.md`](../cities/catalogue/north-africa/Morocco/Marrakech/engineering/maglev/README.md) | Marrakech — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Morocco/Meknes/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/README.md) | Meknes — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Morocco/Meknes/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/README.md) | Meknes — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Morocco/Meknes/engineering/maglev/README.md`](../cities/catalogue/north-africa/Morocco/Meknes/engineering/maglev/README.md) | Meknes — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Morocco/Nador/README.md`](../cities/catalogue/north-africa/Morocco/Nador/README.md) | Nador — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Morocco/Nador/README.md`](../cities/catalogue/north-africa/Morocco/Nador/README.md) | Nador — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Morocco/Nador/engineering/maglev/README.md`](../cities/catalogue/north-africa/Morocco/Nador/engineering/maglev/README.md) | Nador — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Morocco/Oujda/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/README.md) | Oujda — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Morocco/Oujda/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/README.md) | Oujda — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Morocco/Oujda/engineering/maglev/README.md`](../cities/catalogue/north-africa/Morocco/Oujda/engineering/maglev/README.md) | Oujda — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Morocco/Safi/README.md`](../cities/catalogue/north-africa/Morocco/Safi/README.md) | Safi — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Morocco/Safi/README.md`](../cities/catalogue/north-africa/Morocco/Safi/README.md) | Safi — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Morocco/Safi/engineering/maglev/README.md`](../cities/catalogue/north-africa/Morocco/Safi/engineering/maglev/README.md) | Safi — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Morocco/Tangier/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/README.md) | Tangier — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Morocco/Tangier/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/README.md) | Tangier — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Morocco/Tangier/engineering/maglev/README.md`](../cities/catalogue/north-africa/Morocco/Tangier/engineering/maglev/README.md) | Tangier — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Morocco/Tetouan/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/README.md) | Tetouan — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Morocco/Tetouan/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/README.md) | Tetouan — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Morocco/Tetouan/engineering/maglev/README.md`](../cities/catalogue/north-africa/Morocco/Tetouan/engineering/maglev/README.md) | Tetouan — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Sudan/El-Obeid/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/README.md) | El Obeid — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Sudan/El-Obeid/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/README.md) | El Obeid — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Sudan/El-Obeid/engineering/maglev/README.md`](../cities/catalogue/north-africa/Sudan/El-Obeid/engineering/maglev/README.md) | El Obeid — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Sudan/Kassala/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/README.md) | Kassala — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Sudan/Kassala/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/README.md) | Kassala — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Sudan/Kassala/engineering/maglev/README.md`](../cities/catalogue/north-africa/Sudan/Kassala/engineering/maglev/README.md) | Kassala — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Sudan/Khartoum/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/README.md) | Khartoum — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Sudan/Khartoum/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/README.md) | Khartoum — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Sudan/Khartoum/engineering/maglev/README.md`](../cities/catalogue/north-africa/Sudan/Khartoum/engineering/maglev/README.md) | Khartoum — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Sudan/Nyala/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/README.md) | Nyala — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Sudan/Nyala/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/README.md) | Nyala — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Sudan/Nyala/engineering/maglev/README.md`](../cities/catalogue/north-africa/Sudan/Nyala/engineering/maglev/README.md) | Nyala — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Sudan/Omdurman/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/README.md) | Omdurman — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Sudan/Omdurman/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/README.md) | Omdurman — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Sudan/Omdurman/engineering/maglev/README.md`](../cities/catalogue/north-africa/Sudan/Omdurman/engineering/maglev/README.md) | Omdurman — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Sudan/Port-Sudan/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/README.md) | Port Sudan — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Sudan/Port-Sudan/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/README.md) | Port Sudan — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/maglev/README.md`](../cities/catalogue/north-africa/Sudan/Port-Sudan/engineering/maglev/README.md) | Port Sudan — v0.5 maglev city planning |
-| [`cities/catalogue/north-africa/Tunisia/Tunis/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/README.md) | Tunis — ferrite-PM maglev |
+| [`cities/catalogue/north-africa/Tunisia/Tunis/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/README.md) | Tunis — PM-maglev station-launched monorail |
 | [`cities/catalogue/north-africa/Tunisia/Tunis/engineering/maglev/README.md`](../cities/catalogue/north-africa/Tunisia/Tunis/engineering/maglev/README.md) | Tunis — v0.5 maglev city planning |
-| [`cities/catalogue/south-africa/South Africa/Bloemfontein/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/README.md) | Bloemfontein — ferrite-PM maglev |
+| [`cities/catalogue/south-africa/South Africa/Bloemfontein/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/README.md) | Bloemfontein — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/maglev/README.md`](../cities/catalogue/south-africa/South Africa/Bloemfontein/engineering/maglev/README.md) | Bloemfontein — v0.5 maglev city planning |
-| [`cities/catalogue/south-africa/South Africa/Durban/README.md`](../cities/catalogue/south-africa/South Africa/Durban/README.md) | Durban — ferrite-PM maglev |
+| [`cities/catalogue/south-africa/South Africa/Durban/README.md`](../cities/catalogue/south-africa/South Africa/Durban/README.md) | Durban — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-africa/South Africa/Durban/engineering/maglev/README.md`](../cities/catalogue/south-africa/South Africa/Durban/engineering/maglev/README.md) | Durban — v0.5 maglev city planning |
-| [`cities/catalogue/south-africa/South Africa/East-London-Za/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/README.md) | East London Za — ferrite-PM maglev |
+| [`cities/catalogue/south-africa/South Africa/East-London-Za/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/README.md) | East London Za — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-africa/South Africa/East-London-Za/engineering/maglev/README.md`](../cities/catalogue/south-africa/South Africa/East-London-Za/engineering/maglev/README.md) | East London Za — v0.5 maglev city planning |
-| [`cities/catalogue/south-africa/South Africa/Nelspruit/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/README.md) | Nelspruit — ferrite-PM maglev |
+| [`cities/catalogue/south-africa/South Africa/Nelspruit/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/README.md) | Nelspruit — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-africa/South Africa/Nelspruit/engineering/maglev/README.md`](../cities/catalogue/south-africa/South Africa/Nelspruit/engineering/maglev/README.md) | Nelspruit — v0.5 maglev city planning |
-| [`cities/catalogue/south-africa/South Africa/Polokwane/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/README.md) | Polokwane — ferrite-PM maglev |
+| [`cities/catalogue/south-africa/South Africa/Polokwane/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/README.md) | Polokwane — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-africa/South Africa/Polokwane/engineering/maglev/README.md`](../cities/catalogue/south-africa/South Africa/Polokwane/engineering/maglev/README.md) | Polokwane — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Afghanistan/Herat/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/README.md) | Herat — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Afghanistan/Herat/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/README.md) | Herat — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Afghanistan/Herat/engineering/maglev/README.md`](../cities/catalogue/south-asia/Afghanistan/Herat/engineering/maglev/README.md) | Herat — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/README.md) | Jalalabad Af — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/README.md) | Jalalabad Af — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/maglev/README.md`](../cities/catalogue/south-asia/Afghanistan/Jalalabad-Af/engineering/maglev/README.md) | Jalalabad Af — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Afghanistan/Kabul/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/README.md) | Kabul — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Afghanistan/Kabul/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/README.md) | Kabul — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Afghanistan/Kabul/engineering/maglev/README.md`](../cities/catalogue/south-asia/Afghanistan/Kabul/engineering/maglev/README.md) | Kabul — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Afghanistan/Kandahar/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/README.md) | Kandahar — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Afghanistan/Kandahar/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/README.md) | Kandahar — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/maglev/README.md`](../cities/catalogue/south-asia/Afghanistan/Kandahar/engineering/maglev/README.md) | Kandahar — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/README.md) | Mazar E Sharif — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/README.md) | Mazar E Sharif — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/maglev/README.md`](../cities/catalogue/south-asia/Afghanistan/Mazar-E-Sharif/engineering/maglev/README.md) | Mazar E Sharif — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Bangladesh/Barisal/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/README.md) | Barisal — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Bangladesh/Barisal/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/README.md) | Barisal — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Bangladesh/Barisal/engineering/maglev/README.md`](../cities/catalogue/south-asia/Bangladesh/Barisal/engineering/maglev/README.md) | Barisal — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Bangladesh/Chittagong/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/README.md) | Chittagong — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Bangladesh/Chittagong/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/README.md) | Chittagong — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/maglev/README.md`](../cities/catalogue/south-asia/Bangladesh/Chittagong/engineering/maglev/README.md) | Chittagong — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Bangladesh/Comilla/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/README.md) | Comilla — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Bangladesh/Comilla/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/README.md) | Comilla — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Bangladesh/Comilla/engineering/maglev/README.md`](../cities/catalogue/south-asia/Bangladesh/Comilla/engineering/maglev/README.md) | Comilla — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Bangladesh/Gazipur/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/README.md) | Gazipur — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Bangladesh/Gazipur/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/README.md) | Gazipur — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/maglev/README.md`](../cities/catalogue/south-asia/Bangladesh/Gazipur/engineering/maglev/README.md) | Gazipur — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Bangladesh/Khulna/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/README.md) | Khulna — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Bangladesh/Khulna/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/README.md) | Khulna — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Bangladesh/Khulna/engineering/maglev/README.md`](../cities/catalogue/south-asia/Bangladesh/Khulna/engineering/maglev/README.md) | Khulna — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Bangladesh/Mymensingh/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/README.md) | Mymensingh — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Bangladesh/Mymensingh/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/README.md) | Mymensingh — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/maglev/README.md`](../cities/catalogue/south-asia/Bangladesh/Mymensingh/engineering/maglev/README.md) | Mymensingh — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Bangladesh/Narayanganj/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/README.md) | Narayanganj — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Bangladesh/Narayanganj/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/README.md) | Narayanganj — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/maglev/README.md`](../cities/catalogue/south-asia/Bangladesh/Narayanganj/engineering/maglev/README.md) | Narayanganj — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Bangladesh/Rajshahi/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/README.md) | Rajshahi — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Bangladesh/Rajshahi/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/README.md) | Rajshahi — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/maglev/README.md`](../cities/catalogue/south-asia/Bangladesh/Rajshahi/engineering/maglev/README.md) | Rajshahi — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Bangladesh/Rangpur/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/README.md) | Rangpur — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Bangladesh/Rangpur/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/README.md) | Rangpur — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/maglev/README.md`](../cities/catalogue/south-asia/Bangladesh/Rangpur/engineering/maglev/README.md) | Rangpur — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Bangladesh/Sylhet/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/README.md) | Sylhet — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Bangladesh/Sylhet/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/README.md) | Sylhet — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/maglev/README.md`](../cities/catalogue/south-asia/Bangladesh/Sylhet/engineering/maglev/README.md) | Sylhet — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Agra/README.md`](../cities/catalogue/south-asia/India/Agra/README.md) | Agra — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Agra/README.md`](../cities/catalogue/south-asia/India/Agra/README.md) | Agra — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Agra/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Agra/engineering/maglev/README.md) | Agra — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Bhopal/README.md`](../cities/catalogue/south-asia/India/Bhopal/README.md) | Bhopal — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Bhopal/README.md`](../cities/catalogue/south-asia/India/Bhopal/README.md) | Bhopal — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Bhopal/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Bhopal/engineering/maglev/README.md) | Bhopal — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Coimbatore/README.md`](../cities/catalogue/south-asia/India/Coimbatore/README.md) | Coimbatore — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Coimbatore/README.md`](../cities/catalogue/south-asia/India/Coimbatore/README.md) | Coimbatore — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Coimbatore/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Coimbatore/engineering/maglev/README.md) | Coimbatore — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Indore/README.md`](../cities/catalogue/south-asia/India/Indore/README.md) | Indore — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Indore/README.md`](../cities/catalogue/south-asia/India/Indore/README.md) | Indore — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Indore/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Indore/engineering/maglev/README.md) | Indore — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Jodhpur/README.md`](../cities/catalogue/south-asia/India/Jodhpur/README.md) | Jodhpur — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Jodhpur/README.md`](../cities/catalogue/south-asia/India/Jodhpur/README.md) | Jodhpur — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Jodhpur/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Jodhpur/engineering/maglev/README.md) | Jodhpur — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Kanpur/README.md`](../cities/catalogue/south-asia/India/Kanpur/README.md) | Kanpur — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Kanpur/README.md`](../cities/catalogue/south-asia/India/Kanpur/README.md) | Kanpur — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Kanpur/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Kanpur/engineering/maglev/README.md) | Kanpur — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Lucknow/README.md`](../cities/catalogue/south-asia/India/Lucknow/README.md) | Lucknow — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Lucknow/README.md`](../cities/catalogue/south-asia/India/Lucknow/README.md) | Lucknow — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Lucknow/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Lucknow/engineering/maglev/README.md) | Lucknow — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Madurai/README.md`](../cities/catalogue/south-asia/India/Madurai/README.md) | Madurai — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Madurai/README.md`](../cities/catalogue/south-asia/India/Madurai/README.md) | Madurai — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Madurai/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Madurai/engineering/maglev/README.md) | Madurai — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Meerut/README.md`](../cities/catalogue/south-asia/India/Meerut/README.md) | Meerut — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Meerut/README.md`](../cities/catalogue/south-asia/India/Meerut/README.md) | Meerut — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Meerut/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Meerut/engineering/maglev/README.md) | Meerut — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Patna/README.md`](../cities/catalogue/south-asia/India/Patna/README.md) | Patna — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Patna/README.md`](../cities/catalogue/south-asia/India/Patna/README.md) | Patna — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Patna/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Patna/engineering/maglev/README.md) | Patna — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Raipur/README.md`](../cities/catalogue/south-asia/India/Raipur/README.md) | Raipur — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Raipur/README.md`](../cities/catalogue/south-asia/India/Raipur/README.md) | Raipur — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Raipur/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Raipur/engineering/maglev/README.md) | Raipur — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Rajkot/README.md`](../cities/catalogue/south-asia/India/Rajkot/README.md) | Rajkot — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Rajkot/README.md`](../cities/catalogue/south-asia/India/Rajkot/README.md) | Rajkot — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Rajkot/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Rajkot/engineering/maglev/README.md) | Rajkot — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Ranchi/README.md`](../cities/catalogue/south-asia/India/Ranchi/README.md) | Ranchi — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Ranchi/README.md`](../cities/catalogue/south-asia/India/Ranchi/README.md) | Ranchi — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Ranchi/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Ranchi/engineering/maglev/README.md) | Ranchi — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Vadodara/README.md`](../cities/catalogue/south-asia/India/Vadodara/README.md) | Vadodara — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Vadodara/README.md`](../cities/catalogue/south-asia/India/Vadodara/README.md) | Vadodara — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Vadodara/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Vadodara/engineering/maglev/README.md) | Vadodara — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Varanasi/README.md`](../cities/catalogue/south-asia/India/Varanasi/README.md) | Varanasi — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Varanasi/README.md`](../cities/catalogue/south-asia/India/Varanasi/README.md) | Varanasi — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Varanasi/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Varanasi/engineering/maglev/README.md) | Varanasi — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Vijayawada/README.md`](../cities/catalogue/south-asia/India/Vijayawada/README.md) | Vijayawada — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Vijayawada/README.md`](../cities/catalogue/south-asia/India/Vijayawada/README.md) | Vijayawada — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Vijayawada/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Vijayawada/engineering/maglev/README.md) | Vijayawada — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/India/Visakhapatnam/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/README.md) | Visakhapatnam — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/India/Visakhapatnam/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/README.md) | Visakhapatnam — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/India/Visakhapatnam/engineering/maglev/README.md`](../cities/catalogue/south-asia/India/Visakhapatnam/engineering/maglev/README.md) | Visakhapatnam — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Nepal/Biratnagar/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/README.md) | Biratnagar — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Nepal/Biratnagar/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/README.md) | Biratnagar — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Nepal/Biratnagar/engineering/maglev/README.md`](../cities/catalogue/south-asia/Nepal/Biratnagar/engineering/maglev/README.md) | Biratnagar — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Nepal/Kathmandu/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/README.md) | Kathmandu — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Nepal/Kathmandu/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/README.md) | Kathmandu — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Nepal/Kathmandu/engineering/maglev/README.md`](../cities/catalogue/south-asia/Nepal/Kathmandu/engineering/maglev/README.md) | Kathmandu — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Nepal/Pokhara/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/README.md) | Pokhara — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Nepal/Pokhara/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/README.md) | Pokhara — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Nepal/Pokhara/engineering/maglev/README.md`](../cities/catalogue/south-asia/Nepal/Pokhara/engineering/maglev/README.md) | Pokhara — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Pakistan/Bahawalpur/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/README.md) | Bahawalpur — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Pakistan/Bahawalpur/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/README.md) | Bahawalpur — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/maglev/README.md`](../cities/catalogue/south-asia/Pakistan/Bahawalpur/engineering/maglev/README.md) | Bahawalpur — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Pakistan/Faisalabad/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/README.md) | Faisalabad — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Pakistan/Faisalabad/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/README.md) | Faisalabad — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/maglev/README.md`](../cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/maglev/README.md) | Faisalabad — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Pakistan/Gujranwala/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/README.md) | Gujranwala — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Pakistan/Gujranwala/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/README.md) | Gujranwala — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/maglev/README.md`](../cities/catalogue/south-asia/Pakistan/Gujranwala/engineering/maglev/README.md) | Gujranwala — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/README.md) | Hyderabad Pk — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/README.md) | Hyderabad Pk — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/maglev/README.md`](../cities/catalogue/south-asia/Pakistan/Hyderabad-Pk/engineering/maglev/README.md) | Hyderabad Pk — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Pakistan/Karachi/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/README.md) | Karachi — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Pakistan/Karachi/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/README.md) | Karachi — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Pakistan/Karachi/engineering/maglev/README.md`](../cities/catalogue/south-asia/Pakistan/Karachi/engineering/maglev/README.md) | Karachi — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Pakistan/Larkana/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/README.md) | Larkana — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Pakistan/Larkana/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/README.md) | Larkana — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Pakistan/Larkana/engineering/maglev/README.md`](../cities/catalogue/south-asia/Pakistan/Larkana/engineering/maglev/README.md) | Larkana — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Pakistan/Multan/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/README.md) | Multan — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Pakistan/Multan/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/README.md) | Multan — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Pakistan/Multan/engineering/maglev/README.md`](../cities/catalogue/south-asia/Pakistan/Multan/engineering/maglev/README.md) | Multan — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Pakistan/Peshawar/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/README.md) | Peshawar — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Pakistan/Peshawar/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/README.md) | Peshawar — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Pakistan/Peshawar/engineering/maglev/README.md`](../cities/catalogue/south-asia/Pakistan/Peshawar/engineering/maglev/README.md) | Peshawar — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Pakistan/Quetta/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/README.md) | Quetta — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Pakistan/Quetta/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/README.md) | Quetta — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Pakistan/Quetta/engineering/maglev/README.md`](../cities/catalogue/south-asia/Pakistan/Quetta/engineering/maglev/README.md) | Quetta — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/README.md) | Rahim Yar Khan — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/README.md) | Rahim Yar Khan — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/maglev/README.md`](../cities/catalogue/south-asia/Pakistan/Rahim-Yar-Khan/engineering/maglev/README.md) | Rahim Yar Khan — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Pakistan/Sheikhupura/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/README.md) | Sheikhupura — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Pakistan/Sheikhupura/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/README.md) | Sheikhupura — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/maglev/README.md`](../cities/catalogue/south-asia/Pakistan/Sheikhupura/engineering/maglev/README.md) | Sheikhupura — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Pakistan/Sialkot/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/README.md) | Sialkot — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Pakistan/Sialkot/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/README.md) | Sialkot — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Pakistan/Sialkot/engineering/maglev/README.md`](../cities/catalogue/south-asia/Pakistan/Sialkot/engineering/maglev/README.md) | Sialkot — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Pakistan/Sukkur/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/README.md) | Sukkur — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Pakistan/Sukkur/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/README.md) | Sukkur — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Pakistan/Sukkur/engineering/maglev/README.md`](../cities/catalogue/south-asia/Pakistan/Sukkur/engineering/maglev/README.md) | Sukkur — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Sri Lanka/Colombo/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/README.md) | Colombo — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Sri Lanka/Colombo/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/README.md) | Colombo — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/maglev/README.md`](../cities/catalogue/south-asia/Sri Lanka/Colombo/engineering/maglev/README.md) | Colombo — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Sri Lanka/Galle/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/README.md) | Galle — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Sri Lanka/Galle/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/README.md) | Galle — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Sri Lanka/Galle/engineering/maglev/README.md`](../cities/catalogue/south-asia/Sri Lanka/Galle/engineering/maglev/README.md) | Galle — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Sri Lanka/Jaffna/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/README.md) | Jaffna — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Sri Lanka/Jaffna/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/README.md) | Jaffna — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/maglev/README.md`](../cities/catalogue/south-asia/Sri Lanka/Jaffna/engineering/maglev/README.md) | Jaffna — v0.5 maglev city planning |
-| [`cities/catalogue/south-asia/Sri Lanka/Kandy/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/README.md) | Kandy — ferrite-PM maglev |
+| [`cities/catalogue/south-asia/Sri Lanka/Kandy/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/README.md) | Kandy — PM-maglev station-launched monorail |
 | [`cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/maglev/README.md`](../cities/catalogue/south-asia/Sri Lanka/Kandy/engineering/maglev/README.md) | Kandy — v0.5 maglev city planning |
-| [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/README.md) | Phnom Penh — ferrite-PM maglev |
+| [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/README.md) | Phnom Penh — PM-maglev station-launched monorail |
 | [`cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/maglev/README.md`](../cities/catalogue/southeast-asia/Cambodia/Phnom-Penh/engineering/maglev/README.md) | Phnom Penh — v0.5 maglev city planning |
-| [`cities/catalogue/southeast-asia/Indonesia/Bandung/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/README.md) | Bandung — ferrite-PM maglev |
+| [`cities/catalogue/southeast-asia/Indonesia/Bandung/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/README.md) | Bandung — PM-maglev station-launched monorail |
 | [`cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/maglev/README.md`](../cities/catalogue/southeast-asia/Indonesia/Bandung/engineering/maglev/README.md) | Bandung — v0.5 maglev city planning |
-| [`cities/catalogue/southeast-asia/Indonesia/Surabaya/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/README.md) | Surabaya — ferrite-PM maglev |
+| [`cities/catalogue/southeast-asia/Indonesia/Surabaya/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/README.md) | Surabaya — PM-maglev station-launched monorail |
 | [`cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/maglev/README.md`](../cities/catalogue/southeast-asia/Indonesia/Surabaya/engineering/maglev/README.md) | Surabaya — v0.5 maglev city planning |
-| [`cities/catalogue/southeast-asia/Laos/Vientiane/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/README.md) | Vientiane — ferrite-PM maglev |
+| [`cities/catalogue/southeast-asia/Laos/Vientiane/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/README.md) | Vientiane — PM-maglev station-launched monorail |
 | [`cities/catalogue/southeast-asia/Laos/Vientiane/engineering/maglev/README.md`](../cities/catalogue/southeast-asia/Laos/Vientiane/engineering/maglev/README.md) | Vientiane — v0.5 maglev city planning |
-| [`cities/catalogue/southeast-asia/Myanmar/Mandalay/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/README.md) | Mandalay — ferrite-PM maglev |
+| [`cities/catalogue/southeast-asia/Myanmar/Mandalay/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/README.md) | Mandalay — PM-maglev station-launched monorail |
 | [`cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/maglev/README.md`](../cities/catalogue/southeast-asia/Myanmar/Mandalay/engineering/maglev/README.md) | Mandalay — v0.5 maglev city planning |
-| [`cities/catalogue/southeast-asia/Myanmar/Yangon/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/README.md) | Yangon — ferrite-PM maglev |
+| [`cities/catalogue/southeast-asia/Myanmar/Yangon/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/README.md) | Yangon — PM-maglev station-launched monorail |
 | [`cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/maglev/README.md`](../cities/catalogue/southeast-asia/Myanmar/Yangon/engineering/maglev/README.md) | Yangon — v0.5 maglev city planning |
-| [`cities/catalogue/southeast-asia/Philippines/Davao/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/README.md) | Davao — ferrite-PM maglev |
+| [`cities/catalogue/southeast-asia/Philippines/Davao/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/README.md) | Davao — PM-maglev station-launched monorail |
 | [`cities/catalogue/southeast-asia/Philippines/Davao/engineering/maglev/README.md`](../cities/catalogue/southeast-asia/Philippines/Davao/engineering/maglev/README.md) | Davao — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/README.md) | Ouagadougou — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/README.md) | Ouagadougou — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/maglev/README.md`](../cities/catalogue/west-africa/Burkina Faso/Ouagadougou/engineering/maglev/README.md) | Ouagadougou — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Cameroon/Bafoussam/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/README.md) | Bafoussam — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Cameroon/Bafoussam/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/README.md) | Bafoussam — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/maglev/README.md`](../cities/catalogue/west-africa/Cameroon/Bafoussam/engineering/maglev/README.md) | Bafoussam — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Cameroon/Bamenda/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/README.md) | Bamenda — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Cameroon/Bamenda/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/README.md) | Bamenda — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Cameroon/Bamenda/engineering/maglev/README.md`](../cities/catalogue/west-africa/Cameroon/Bamenda/engineering/maglev/README.md) | Bamenda — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Cameroon/Bertoua/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/README.md) | Bertoua — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Cameroon/Bertoua/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/README.md) | Bertoua — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Cameroon/Bertoua/engineering/maglev/README.md`](../cities/catalogue/west-africa/Cameroon/Bertoua/engineering/maglev/README.md) | Bertoua — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Cameroon/Douala/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/README.md) | Douala — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Cameroon/Douala/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/README.md) | Douala — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Cameroon/Douala/engineering/maglev/README.md`](../cities/catalogue/west-africa/Cameroon/Douala/engineering/maglev/README.md) | Douala — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Cameroon/Edea/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/README.md) | Edea — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Cameroon/Edea/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/README.md) | Edea — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Cameroon/Edea/engineering/maglev/README.md`](../cities/catalogue/west-africa/Cameroon/Edea/engineering/maglev/README.md) | Edea — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Cameroon/Garoua/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/README.md) | Garoua — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Cameroon/Garoua/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/README.md) | Garoua — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Cameroon/Garoua/engineering/maglev/README.md`](../cities/catalogue/west-africa/Cameroon/Garoua/engineering/maglev/README.md) | Garoua — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Cameroon/Kumba/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/README.md) | Kumba — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Cameroon/Kumba/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/README.md) | Kumba — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Cameroon/Kumba/engineering/maglev/README.md`](../cities/catalogue/west-africa/Cameroon/Kumba/engineering/maglev/README.md) | Kumba — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Cameroon/Maroua/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/README.md) | Maroua — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Cameroon/Maroua/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/README.md) | Maroua — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Cameroon/Maroua/engineering/maglev/README.md`](../cities/catalogue/west-africa/Cameroon/Maroua/engineering/maglev/README.md) | Maroua — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Cameroon/Ngaoundere/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/README.md) | Ngaoundere — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Cameroon/Ngaoundere/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/README.md) | Ngaoundere — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/maglev/README.md`](../cities/catalogue/west-africa/Cameroon/Ngaoundere/engineering/maglev/README.md) | Ngaoundere — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Cameroon/Yaounde/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/README.md) | Yaounde — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Cameroon/Yaounde/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/README.md) | Yaounde — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Cameroon/Yaounde/engineering/maglev/README.md`](../cities/catalogue/west-africa/Cameroon/Yaounde/engineering/maglev/README.md) | Yaounde — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Guinea/Conakry/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/README.md) | Conakry — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Guinea/Conakry/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/README.md) | Conakry — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Guinea/Conakry/engineering/maglev/README.md`](../cities/catalogue/west-africa/Guinea/Conakry/engineering/maglev/README.md) | Conakry — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Mali/Bamako/README.md`](../cities/catalogue/west-africa/Mali/Bamako/README.md) | Bamako — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Mali/Bamako/README.md`](../cities/catalogue/west-africa/Mali/Bamako/README.md) | Bamako — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Mali/Bamako/engineering/maglev/README.md`](../cities/catalogue/west-africa/Mali/Bamako/engineering/maglev/README.md) | Bamako — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Niger/Niamey/README.md`](../cities/catalogue/west-africa/Niger/Niamey/README.md) | Niamey — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Niger/Niamey/README.md`](../cities/catalogue/west-africa/Niger/Niamey/README.md) | Niamey — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Niger/Niamey/engineering/maglev/README.md`](../cities/catalogue/west-africa/Niger/Niamey/engineering/maglev/README.md) | Niamey — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Nigeria/Aba-Ng/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/README.md) | Aba Ng — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Nigeria/Aba-Ng/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/README.md) | Aba Ng — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/maglev/README.md`](../cities/catalogue/west-africa/Nigeria/Aba-Ng/engineering/maglev/README.md) | Aba Ng — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Nigeria/Benin-City/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/README.md) | Benin City — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Nigeria/Benin-City/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/README.md) | Benin City — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Nigeria/Benin-City/engineering/maglev/README.md`](../cities/catalogue/west-africa/Nigeria/Benin-City/engineering/maglev/README.md) | Benin City — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Nigeria/Ibadan/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/README.md) | Ibadan — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Nigeria/Ibadan/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/README.md) | Ibadan — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Nigeria/Ibadan/engineering/maglev/README.md`](../cities/catalogue/west-africa/Nigeria/Ibadan/engineering/maglev/README.md) | Ibadan — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Nigeria/Ilorin/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/README.md) | Ilorin — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Nigeria/Ilorin/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/README.md) | Ilorin — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Nigeria/Ilorin/engineering/maglev/README.md`](../cities/catalogue/west-africa/Nigeria/Ilorin/engineering/maglev/README.md) | Ilorin — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Nigeria/Jos/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/README.md) | Jos — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Nigeria/Jos/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/README.md) | Jos — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Nigeria/Jos/engineering/maglev/README.md`](../cities/catalogue/west-africa/Nigeria/Jos/engineering/maglev/README.md) | Jos — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Nigeria/Kano/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/README.md) | Kano — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Nigeria/Kano/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/README.md) | Kano — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Nigeria/Kano/engineering/maglev/README.md`](../cities/catalogue/west-africa/Nigeria/Kano/engineering/maglev/README.md) | Kano — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Nigeria/Maiduguri/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/README.md) | Maiduguri — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Nigeria/Maiduguri/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/README.md) | Maiduguri — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/maglev/README.md`](../cities/catalogue/west-africa/Nigeria/Maiduguri/engineering/maglev/README.md) | Maiduguri — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Nigeria/Onitsha/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/README.md) | Onitsha — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Nigeria/Onitsha/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/README.md) | Onitsha — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Nigeria/Onitsha/engineering/maglev/README.md`](../cities/catalogue/west-africa/Nigeria/Onitsha/engineering/maglev/README.md) | Onitsha — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/README.md) | Port Harcourt — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/README.md) | Port Harcourt — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/maglev/README.md`](../cities/catalogue/west-africa/Nigeria/Port-Harcourt/engineering/maglev/README.md) | Port Harcourt — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Nigeria/Uyo/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/README.md) | Uyo — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Nigeria/Uyo/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/README.md) | Uyo — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Nigeria/Uyo/engineering/maglev/README.md`](../cities/catalogue/west-africa/Nigeria/Uyo/engineering/maglev/README.md) | Uyo — v0.5 maglev city planning |
-| [`cities/catalogue/west-africa/Senegal/Dakar/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/README.md) | Dakar — ferrite-PM maglev |
+| [`cities/catalogue/west-africa/Senegal/Dakar/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/README.md) | Dakar — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-africa/Senegal/Dakar/engineering/maglev/README.md`](../cities/catalogue/west-africa/Senegal/Dakar/engineering/maglev/README.md) | Dakar — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Arish/README.md`](../cities/catalogue/west-asia/Egypt/Arish/README.md) | Arish — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Arish/README.md`](../cities/catalogue/west-asia/Egypt/Arish/README.md) | Arish — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Arish/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Arish/engineering/maglev/README.md) | Arish — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Asyut/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/README.md) | Asyut — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Asyut/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/README.md) | Asyut — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Asyut/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Asyut/engineering/maglev/README.md) | Asyut — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Beni-Suef/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/README.md) | Beni Suef — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Beni-Suef/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/README.md) | Beni Suef — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Beni-Suef/engineering/maglev/README.md) | Beni Suef — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Damanhur/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/README.md) | Damanhur — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Damanhur/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/README.md) | Damanhur — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Damanhur/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Damanhur/engineering/maglev/README.md) | Damanhur — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Damietta/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/README.md) | Damietta — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Damietta/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/README.md) | Damietta — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Damietta/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Damietta/engineering/maglev/README.md) | Damietta — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Fayoum/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/README.md) | Fayoum — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Fayoum/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/README.md) | Fayoum — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Fayoum/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Fayoum/engineering/maglev/README.md) | Fayoum — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Hurghada/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/README.md) | Hurghada — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Hurghada/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/README.md) | Hurghada — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Hurghada/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Hurghada/engineering/maglev/README.md) | Hurghada — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Ismailia/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/README.md) | Ismailia — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Ismailia/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/README.md) | Ismailia — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Ismailia/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Ismailia/engineering/maglev/README.md) | Ismailia — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/README.md) | Kafr El Sheikh — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/README.md) | Kafr El Sheikh — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Kafr-El-Sheikh/engineering/maglev/README.md) | Kafr El Sheikh — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Luxor/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/README.md) | Luxor — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Luxor/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/README.md) | Luxor — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Luxor/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Luxor/engineering/maglev/README.md) | Luxor — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Mahalla/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/README.md) | Mahalla — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Mahalla/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/README.md) | Mahalla — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Mahalla/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Mahalla/engineering/maglev/README.md) | Mahalla — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/README.md) | Mansoura Eg — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/README.md) | Mansoura Eg — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Mansoura-Eg/engineering/maglev/README.md) | Mansoura Eg — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Minya/README.md`](../cities/catalogue/west-asia/Egypt/Minya/README.md) | Minya — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Minya/README.md`](../cities/catalogue/west-asia/Egypt/Minya/README.md) | Minya — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Minya/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Minya/engineering/maglev/README.md) | Minya — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Port-Said/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/README.md) | Port Said — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Port-Said/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/README.md) | Port Said — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Port-Said/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Port-Said/engineering/maglev/README.md) | Port Said — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Qena/README.md`](../cities/catalogue/west-asia/Egypt/Qena/README.md) | Qena — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Qena/README.md`](../cities/catalogue/west-asia/Egypt/Qena/README.md) | Qena — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Qena/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Qena/engineering/maglev/README.md) | Qena — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Sohag/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/README.md) | Sohag — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Sohag/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/README.md) | Sohag — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Sohag/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Sohag/engineering/maglev/README.md) | Sohag — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Suez/README.md`](../cities/catalogue/west-asia/Egypt/Suez/README.md) | Suez — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Suez/README.md`](../cities/catalogue/west-asia/Egypt/Suez/README.md) | Suez — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Suez/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Suez/engineering/maglev/README.md) | Suez — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Tanta/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/README.md) | Tanta — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Tanta/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/README.md) | Tanta — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Tanta/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Tanta/engineering/maglev/README.md) | Tanta — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Egypt/Zagazig/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/README.md) | Zagazig — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Egypt/Zagazig/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/README.md) | Zagazig — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Egypt/Zagazig/engineering/maglev/README.md`](../cities/catalogue/west-asia/Egypt/Zagazig/engineering/maglev/README.md) | Zagazig — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Amarah/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/README.md) | Amarah — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Amarah/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/README.md) | Amarah — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Amarah/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Amarah/engineering/maglev/README.md) | Amarah — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Baghdad/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) | Baghdad — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Baghdad/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/README.md) | Baghdad — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Baghdad/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Baghdad/engineering/maglev/README.md) | Baghdad — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Baqubah/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/README.md) | Baqubah — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Baqubah/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/README.md) | Baqubah — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Baqubah/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Baqubah/engineering/maglev/README.md) | Baqubah — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Basra/README.md`](../cities/catalogue/west-asia/Iraq/Basra/README.md) | Basra — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Basra/README.md`](../cities/catalogue/west-asia/Iraq/Basra/README.md) | Basra — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Basra/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Basra/engineering/maglev/README.md) | Basra — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Diwaniyah/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/README.md) | Diwaniyah — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Diwaniyah/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/README.md) | Diwaniyah — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Diwaniyah/engineering/maglev/README.md) | Diwaniyah — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Duhok/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/README.md) | Duhok — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Duhok/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/README.md) | Duhok — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Duhok/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Duhok/engineering/maglev/README.md) | Duhok — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Erbil/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/README.md) | Erbil — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Erbil/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/README.md) | Erbil — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Erbil/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Erbil/engineering/maglev/README.md) | Erbil — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Fallujah/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/README.md) | Fallujah — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Fallujah/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/README.md) | Fallujah — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Fallujah/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Fallujah/engineering/maglev/README.md) | Fallujah — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Hillah/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/README.md) | Hillah — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Hillah/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/README.md) | Hillah — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Hillah/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Hillah/engineering/maglev/README.md) | Hillah — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Karbala/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/README.md) | Karbala — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Karbala/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/README.md) | Karbala — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Karbala/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Karbala/engineering/maglev/README.md) | Karbala — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Kirkuk/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/README.md) | Kirkuk — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Kirkuk/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/README.md) | Kirkuk — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Kirkuk/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Kirkuk/engineering/maglev/README.md) | Kirkuk — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Kut/README.md`](../cities/catalogue/west-asia/Iraq/Kut/README.md) | Kut — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Kut/README.md`](../cities/catalogue/west-asia/Iraq/Kut/README.md) | Kut — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Kut/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Kut/engineering/maglev/README.md) | Kut — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Mosul/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/README.md) | Mosul — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Mosul/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/README.md) | Mosul — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Mosul/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Mosul/engineering/maglev/README.md) | Mosul — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Najaf/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/README.md) | Najaf — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Najaf/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/README.md) | Najaf — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Najaf/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Najaf/engineering/maglev/README.md) | Najaf — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Nasiriyah/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/README.md) | Nasiriyah — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Nasiriyah/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/README.md) | Nasiriyah — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Nasiriyah/engineering/maglev/README.md) | Nasiriyah — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Ramadi/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/README.md) | Ramadi — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Ramadi/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/README.md) | Ramadi — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Ramadi/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Ramadi/engineering/maglev/README.md) | Ramadi — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Samawah/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/README.md) | Samawah — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Samawah/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/README.md) | Samawah — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Samawah/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Samawah/engineering/maglev/README.md) | Samawah — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/README.md) | Sulaymaniyah — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/README.md) | Sulaymaniyah — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/maglev/README.md`](../cities/catalogue/west-asia/Iraq/Sulaymaniyah/engineering/maglev/README.md) | Sulaymaniyah — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Jordan/Amman/README.md`](../cities/catalogue/west-asia/Jordan/Amman/README.md) | Amman — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Jordan/Amman/README.md`](../cities/catalogue/west-asia/Jordan/Amman/README.md) | Amman — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Jordan/Amman/engineering/maglev/README.md`](../cities/catalogue/west-asia/Jordan/Amman/engineering/maglev/README.md) | Amman — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Jordan/Aqaba/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/README.md) | Aqaba — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Jordan/Aqaba/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/README.md) | Aqaba — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Jordan/Aqaba/engineering/maglev/README.md`](../cities/catalogue/west-asia/Jordan/Aqaba/engineering/maglev/README.md) | Aqaba — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Jordan/Irbid/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/README.md) | Irbid — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Jordan/Irbid/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/README.md) | Irbid — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Jordan/Irbid/engineering/maglev/README.md`](../cities/catalogue/west-asia/Jordan/Irbid/engineering/maglev/README.md) | Irbid — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Jordan/Zarqa/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/README.md) | Zarqa — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Jordan/Zarqa/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/README.md) | Zarqa — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Jordan/Zarqa/engineering/maglev/README.md`](../cities/catalogue/west-asia/Jordan/Zarqa/engineering/maglev/README.md) | Zarqa — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Lebanon/Beirut/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/README.md) | Beirut — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Lebanon/Beirut/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/README.md) | Beirut — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Lebanon/Beirut/engineering/maglev/README.md`](../cities/catalogue/west-asia/Lebanon/Beirut/engineering/maglev/README.md) | Beirut — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Lebanon/Sidon/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/README.md) | Sidon — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Lebanon/Sidon/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/README.md) | Sidon — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Lebanon/Sidon/engineering/maglev/README.md`](../cities/catalogue/west-asia/Lebanon/Sidon/engineering/maglev/README.md) | Sidon — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/README.md) | Tripoli Lb — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/README.md) | Tripoli Lb — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/maglev/README.md`](../cities/catalogue/west-asia/Lebanon/Tripoli-Lb/engineering/maglev/README.md) | Tripoli Lb — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Palestine/Gaza-City/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/README.md) | Gaza City — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Palestine/Gaza-City/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/README.md) | Gaza City — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Palestine/Gaza-City/engineering/maglev/README.md`](../cities/catalogue/west-asia/Palestine/Gaza-City/engineering/maglev/README.md) | Gaza City — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Palestine/Hebron/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/README.md) | Hebron — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Palestine/Hebron/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/README.md) | Hebron — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Palestine/Hebron/engineering/maglev/README.md`](../cities/catalogue/west-asia/Palestine/Hebron/engineering/maglev/README.md) | Hebron — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Palestine/Nablus/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/README.md) | Nablus — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Palestine/Nablus/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/README.md) | Nablus — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Palestine/Nablus/engineering/maglev/README.md`](../cities/catalogue/west-asia/Palestine/Nablus/engineering/maglev/README.md) | Nablus — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Abha/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/README.md) | Abha — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Abha/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/README.md) | Abha — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Abha/engineering/maglev/README.md) | Abha — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/README.md) | Al Kharj — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/README.md) | Al Kharj — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Al-Kharj/engineering/maglev/README.md) | Al Kharj — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/README.md) | Buraidah — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/README.md) | Buraidah — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Buraidah/engineering/maglev/README.md) | Buraidah — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Dammam/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/README.md) | Dammam — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Dammam/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/README.md) | Dammam — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Dammam/engineering/maglev/README.md) | Dammam — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Hail/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/README.md) | Hail — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Hail/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/README.md) | Hail — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hail/engineering/maglev/README.md) | Hail — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/README.md) | Hofuf — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/README.md) | Hofuf — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Hofuf/engineering/maglev/README.md) | Hofuf — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/README.md) | Jeddah — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/README.md) | Jeddah — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jeddah/engineering/maglev/README.md) | Jeddah — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Jizan/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/README.md) | Jizan — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Jizan/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/README.md) | Jizan — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Jizan/engineering/maglev/README.md) | Jizan — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/README.md) | Khamis Mushait — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/README.md) | Khamis Mushait — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Khamis-Mushait/engineering/maglev/README.md) | Khamis Mushait — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Mecca/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/README.md) | Mecca — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Mecca/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/README.md) | Mecca — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Mecca/engineering/maglev/README.md) | Mecca — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Medina/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/README.md) | Medina — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Medina/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/README.md) | Medina — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Medina/engineering/maglev/README.md) | Medina — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Najran/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/README.md) | Najran — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Najran/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/README.md) | Najran — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Najran/engineering/maglev/README.md) | Najran — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/README.md) | Tabuk — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/README.md) | Tabuk — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Tabuk/engineering/maglev/README.md) | Tabuk — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Saudi Arabia/Taif/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/README.md) | Taif — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Saudi Arabia/Taif/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/README.md) | Taif — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/maglev/README.md`](../cities/catalogue/west-asia/Saudi Arabia/Taif/engineering/maglev/README.md) | Taif — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Syria/Aleppo/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/README.md) | Aleppo — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Syria/Aleppo/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/README.md) | Aleppo — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Syria/Aleppo/engineering/maglev/README.md`](../cities/catalogue/west-asia/Syria/Aleppo/engineering/maglev/README.md) | Aleppo — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Syria/Damascus/README.md`](../cities/catalogue/west-asia/Syria/Damascus/README.md) | Damascus — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Syria/Damascus/README.md`](../cities/catalogue/west-asia/Syria/Damascus/README.md) | Damascus — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Syria/Damascus/engineering/maglev/README.md`](../cities/catalogue/west-asia/Syria/Damascus/engineering/maglev/README.md) | Damascus — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/README.md) | Deir Ez Zor — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/README.md) | Deir Ez Zor — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/maglev/README.md`](../cities/catalogue/west-asia/Syria/Deir-Ez-Zor/engineering/maglev/README.md) | Deir Ez Zor — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Syria/Hama/README.md`](../cities/catalogue/west-asia/Syria/Hama/README.md) | Hama — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Syria/Hama/README.md`](../cities/catalogue/west-asia/Syria/Hama/README.md) | Hama — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Syria/Hama/engineering/maglev/README.md`](../cities/catalogue/west-asia/Syria/Hama/engineering/maglev/README.md) | Hama — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Syria/Homs/README.md`](../cities/catalogue/west-asia/Syria/Homs/README.md) | Homs — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Syria/Homs/README.md`](../cities/catalogue/west-asia/Syria/Homs/README.md) | Homs — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Syria/Homs/engineering/maglev/README.md`](../cities/catalogue/west-asia/Syria/Homs/engineering/maglev/README.md) | Homs — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Syria/Idlib/README.md`](../cities/catalogue/west-asia/Syria/Idlib/README.md) | Idlib — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Syria/Idlib/README.md`](../cities/catalogue/west-asia/Syria/Idlib/README.md) | Idlib — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Syria/Idlib/engineering/maglev/README.md`](../cities/catalogue/west-asia/Syria/Idlib/engineering/maglev/README.md) | Idlib — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Syria/Latakia/README.md`](../cities/catalogue/west-asia/Syria/Latakia/README.md) | Latakia — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Syria/Latakia/README.md`](../cities/catalogue/west-asia/Syria/Latakia/README.md) | Latakia — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Syria/Latakia/engineering/maglev/README.md`](../cities/catalogue/west-asia/Syria/Latakia/engineering/maglev/README.md) | Latakia — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Syria/Raqqa/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/README.md) | Raqqa — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Syria/Raqqa/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/README.md) | Raqqa — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Syria/Raqqa/engineering/maglev/README.md`](../cities/catalogue/west-asia/Syria/Raqqa/engineering/maglev/README.md) | Raqqa — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Syria/Tartus/README.md`](../cities/catalogue/west-asia/Syria/Tartus/README.md) | Tartus — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Syria/Tartus/README.md`](../cities/catalogue/west-asia/Syria/Tartus/README.md) | Tartus — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Syria/Tartus/engineering/maglev/README.md`](../cities/catalogue/west-asia/Syria/Tartus/engineering/maglev/README.md) | Tartus — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Yemen/Aden/README.md`](../cities/catalogue/west-asia/Yemen/Aden/README.md) | Aden — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Yemen/Aden/README.md`](../cities/catalogue/west-asia/Yemen/Aden/README.md) | Aden — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Yemen/Aden/engineering/maglev/README.md`](../cities/catalogue/west-asia/Yemen/Aden/engineering/maglev/README.md) | Aden — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Yemen/Dhamar/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/README.md) | Dhamar — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Yemen/Dhamar/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/README.md) | Dhamar — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Yemen/Dhamar/engineering/maglev/README.md`](../cities/catalogue/west-asia/Yemen/Dhamar/engineering/maglev/README.md) | Dhamar — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Yemen/Hodeidah/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/README.md) | Hodeidah — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Yemen/Hodeidah/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/README.md) | Hodeidah — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Yemen/Hodeidah/engineering/maglev/README.md`](../cities/catalogue/west-asia/Yemen/Hodeidah/engineering/maglev/README.md) | Hodeidah — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Yemen/Ibb/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/README.md) | Ibb — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Yemen/Ibb/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/README.md) | Ibb — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Yemen/Ibb/engineering/maglev/README.md`](../cities/catalogue/west-asia/Yemen/Ibb/engineering/maglev/README.md) | Ibb — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Yemen/Lahij/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/README.md) | Lahij — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Yemen/Lahij/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/README.md) | Lahij — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Yemen/Lahij/engineering/maglev/README.md`](../cities/catalogue/west-asia/Yemen/Lahij/engineering/maglev/README.md) | Lahij — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Yemen/Mukalla/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/README.md) | Mukalla — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Yemen/Mukalla/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/README.md) | Mukalla — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Yemen/Mukalla/engineering/maglev/README.md`](../cities/catalogue/west-asia/Yemen/Mukalla/engineering/maglev/README.md) | Mukalla — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Yemen/Sanaa/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/README.md) | Sanaa — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Yemen/Sanaa/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/README.md) | Sanaa — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Yemen/Sanaa/engineering/maglev/README.md`](../cities/catalogue/west-asia/Yemen/Sanaa/engineering/maglev/README.md) | Sanaa — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Yemen/Sayun/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/README.md) | Sayun — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Yemen/Sayun/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/README.md) | Sayun — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Yemen/Sayun/engineering/maglev/README.md`](../cities/catalogue/west-asia/Yemen/Sayun/engineering/maglev/README.md) | Sayun — v0.5 maglev city planning |
-| [`cities/catalogue/west-asia/Yemen/Taiz/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/README.md) | Taiz — ferrite-PM maglev |
+| [`cities/catalogue/west-asia/Yemen/Taiz/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/README.md) | Taiz — PM-maglev station-launched monorail |
 | [`cities/catalogue/west-asia/Yemen/Taiz/engineering/maglev/README.md`](../cities/catalogue/west-asia/Yemen/Taiz/engineering/maglev/README.md) | Taiz — v0.5 maglev city planning |
 
 ## control-electronics

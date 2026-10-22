@@ -2,6 +2,8 @@
 
 **v0.5.2 development — ferrite maglev with fixed powered zones, local manufacture and compact elevated routes.** Fixed linear motors at stations launch and receive the train; selected longer legs add located midway accelerator zones. The remaining guideway is unpowered. Onboard ferrite PM-biased active support and guidance remain independent of traction. Repeated concrete guidebeams, structural GFRP sandwich panels and open Rust controls are the current design strategy.
 
+The economic aim is to retain system knowledge, design authority, software, fabrication, integration and maintenance capability in-country. Open designs and competitive sourcing should turn more transport investment into domestic productive capacity and reduce dependence on imported turnkey equipment. **CAPEX, OPEX and debt repayment must be affordable together**; the city scenarios expose the assumptions needed to test that proposition.
+
 ![OpenSourceRail ferrite-maglev station concept in Baghdad](OpenSourceRail%20maglev%20station%20concept.png)
 
 *Illustrative development concept. Baghdad uses six 17 m bodies; complete engineering and physical acceptance remain open.*
@@ -10,6 +12,8 @@
 
 ## Why this design
 
+- **Make broad networks affordable over their whole life.** Minimise CAPEX, OPEX and long-term debt repayment together, with explicit attention to imported equipment and foreign-currency borrowing. Every city now shows scope-covering capital sensitivities, operating costs and annual finance schedules; complete estimates and proven savings remain open.
+- **Simplify normal GOA4 dispatch around stations.** Fixed launch/receive sites and passenger transfers between independent lines remove mainline switching choices. Following departures use protected authority and resources released behind a verified full train tail; independent support, safe arrival and degraded recovery remain necessary.
 - **Simplify the train.** Fixed wayside linear synchronous motors remove the main propulsion windings, traction inverter and large traction-energy battery from the vehicle. Normal running gear avoids wheelsets, gearboxes and rotating traction motors. Support coils, drives, sensors, cooling, protection, doors, HVAC and emergency systems remain necessary.
 - **Reduce noise and wear.** Contactless running removes rolling contact from normal operation. Acoustic performance, magnetic losses, energy use and reliability need measurement.
 - **Build more value locally.** Prioritise concrete casting, reinforcement/prestress work, composite panels, carriers, winding cassettes, interiors, wiring, Rust software and integration. Prefer verified British manufacture for UK machinery procurement. Imported cells, semiconductors, sensors and materials retain their actual origin in local-content accounting.
@@ -63,6 +67,14 @@ The [assembled structural candidate](docs/design-engine/ferrite-maglev/assembled
 A [fresh full-mass stiffness sensitivity](engineering/assurance/v052-drives-development/body-axial-summary.json) records a moving-system hold: the body-derived series stiffness produces about11.4° magnetic phase spread against the existing5° confirmation criterion, although its gap screens pass. The100MN/m reference produces1.75°. These are rigid-car comparisons with complete retained traces and a [source receipt](engineering/assurance/v052-drives-development/body-axial-receipt.json); they do not qualify flexible bodies or promote the new structure into the operating model.
 
 The [repeatable longitudinal-stock sweep](docs/design-engine/ferrite-maglev/body-stiffness/README.md) tests four steel-spine alternatives after that failure, counting drilled walls, longer crush spacers and added full-AW3 mass. Three alternatives pass the same phase screen. They remain unselected: material, thin-wall joints, heavier structural loads and flexible-body behavior still require verification. The GFRP result and all rejected comparisons remain visible.
+
+## Affordability and city-wide reach
+
+**Low CAPEX, low OPEX and affordable long-term debt repayment are core OpenSourceRail design objectives.** Compact elevated beams, station-launched PM-maglev vehicles, passenger transfers between fixed lines, local production and open repairable controls are intended to make broad networks practical with less imported capital. Compare complete lifetime cash at equal service, including stations, launch power, energy losses, staff, maintenance, renewals and financing.
+
+The [detailed Baghdad brief](cities/catalogue/west-asia/Iraq/Baghdad/README.md) and every generated city now expose network/service tables, manufacturing routes and low/reference/high affordability sensitivities. Each scenario adds explicit scope allowances to the partial quantity bill, then calculates operating expenditure, construction interest, debt repayments, foreign-currency exposure and whole-life cash without counting financed principal twice. Assumed rates, unpriced engineering and an illustrative procurement comparator remain visible; proven savings, local-content percentages and lender commitments remain open.
+
+Station-led GOA4 dispatch prepares a protected receiving path before launch and permits resource release behind verified full-tail clearance. Fixed lines remove mainline switching choices. Independent support control, separation, protected arrival, passenger safety and degraded recovery remain necessary; the city capacity defaults still use exclusive whole-leg protection while the progressive-departure candidate is qualified separately.
 
 ## Run it
 

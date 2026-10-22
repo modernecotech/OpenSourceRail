@@ -219,16 +219,25 @@ def test_replay_rejects_changed_compiled_sources(context,assumptions):
 def test_primary_entry_notice_is_idempotent_and_replaces_stale_content(tmp_path):
     original=b'# Stale city output\r\n\r\nFleet 809; total $12345.\r\n'
     path=tmp_path/'README.md';path.write_bytes(original)
-    (tmp_path/'city.json').write_text(json.dumps(dict(name='Example',city=dict(slug='example'))))
-    cities.promote_city_readme(tmp_path)
+    source=ROOT/'cities/catalogue/west-asia/Iraq/Baghdad'
+    design=json.loads((source/'city.json').read_text())
+    report=json.loads((source/'engineering/maglev/summary.json').read_text())
+    design['name']='Example'
+    design['city']['slug']='example'
+    report['name']='Example'
+    report['city']='example'
+    report['affordability']=cities.affordability.study(report,design)
+    (tmp_path/'city.json').write_text(json.dumps(design))
+    cities.promote_city_readme(tmp_path,report)
     first=path.read_bytes()
     assert original not in first and b'$12345' not in first
     assert first.startswith(cities.NOTICE_START)
     assert b'engineering/maglev/README.md' in first
     assert b'Example' in first
-    cities.promote_city_readme(tmp_path)
+    cities.promote_city_readme(tmp_path,report)
     assert path.read_bytes()==first
     assert first.count(cities.NOTICE_START)==1
+    assert all(term in first for term in (b'## Lines and service',b'Annual OPEX',b'Annual debt service',b'Station-led GOA4',b'Domestic productive capacity'))
 
 
 def test_city_source_inventory_is_unique_complete_and_read_only():

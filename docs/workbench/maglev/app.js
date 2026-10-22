@@ -117,6 +117,22 @@ try {
       if (!base || [...costTerms, 'priced_scope_subtotal_usd'].some(key => !Number.isFinite(base[key]) || base[key] < 0) ||
           base.complete_city_programme_usd !== null || base.supplier_quotes !== false ||
           Math.abs(base.priced_scope_subtotal_usd-costTerms.reduce((sum,key) => sum+base[key],0)) > 0.01) throw Error('Inconsistent partial cost scope');
+      const affordability=summary.affordability;
+      if (!affordability || affordability.schema !== 'osr-maglev-affordability/1' || affordability.complete_project_estimate_usd !== null ||
+          affordability.financing_offer !== false || affordability.physical_release !== false ||
+          JSON.stringify(affordability.cases.map(item=>item.id)) !== JSON.stringify(['low','base','high'])) throw Error('Missing provisional affordability scenarios');
+      const nonnegative=value=>Number.isFinite(value)&&value>=0;
+      for(const item of affordability.cases) {
+        if(!nonnegative(item.budget_capex_sensitivity_usd) || Object.values(item.scope_additions_usd).some(value=>!nonnegative(value)) ||
+           Math.abs(item.budget_capex_sensitivity_usd-item.priced_scope_subtotal_usd-Object.values(item.scope_additions_usd).reduce((sum,value)=>sum+value,0))>.01) throw Error('Inconsistent budget scope');
+        if(item.energy_data_complete) {
+          const finance=item.financing;
+          if(!nonnegative(item.annual_opex_sensitivity_usd)||!finance||
+             ['annual_level_debt_service_usd','undiscounted_public_cash_usd','undiscounted_resource_cost_usd','total_interest_usd','finance_fees_usd'].some(key=>!nonnegative(finance[key])) ||
+             Math.abs(finance.undiscounted_public_cash_usd-finance.undiscounted_resource_cost_usd-finance.total_interest_usd-finance.finance_fees_usd)>.1) throw Error('Inconsistent lifecycle cash accounting');
+        } else if(item.annual_opex_sensitivity_usd!==null||item.financing!==null) throw Error('Missing energy evidence must hold operating finance');
+      }
+      const budget=affordability.cases.find(item=>item.id==='base');
       if (!Array.isArray(summary.lines) || !summary.lines.length || summary.lines.some(line =>
           ['retained_peak_headway_seconds', 'selected_peak_headway_seconds', 'planning_minimum_headway_seconds'].some(key => !Number.isFinite(line[key]) || line[key] <= 0) ||
           line.selected_peak_headway_seconds < Math.max(line.retained_peak_headway_seconds, line.planning_minimum_headway_seconds) ||
@@ -149,6 +165,13 @@ try {
       metric('Independent rescue-kit target',usd.format(base.rescue_kit_allowance_usd),'rescue-cost');
       metric('Base priced-scope subtotal',usd.format(base.priced_scope_subtotal_usd),'partial-subtotal');
       metric('Complete installed programme cost','Unknown — unpriced scope remains','complete-cost');
+      metric('Budget CAPEX sensitivity — reference',usd.format(budget.budget_capex_sensitivity_usd),'budget-capex');
+      metric('Budget CAPEX sensitivity — low/high',affordability.cases.filter(item=>item.id!=='base').map(item=>usd.format(item.budget_capex_sensitivity_usd)).join(' / '),'budget-range');
+      metric('Annual OPEX sensitivity — reference',budget.annual_opex_sensitivity_usd===null?'HOLD — incomplete energy':usd.format(budget.annual_opex_sensitivity_usd),'budget-opex');
+      metric('Annual debt service sensitivity — reference',budget.financing?usd.format(budget.financing.annual_level_debt_service_usd):'HOLD — incomplete energy','budget-debt');
+      metric('Annual OPEX + debt — excludes renewal peaks',budget.financing?usd.format(budget.financing.annual_opex_plus_debt_service_usd):'HOLD — incomplete energy','annual-burden');
+      metric('Lifetime borrower cash sensitivity — reference',budget.financing?usd.format(budget.financing.undiscounted_public_cash_usd):'HOLD — incomplete energy','lifetime-cash');
+      metric('Foreign-currency debt sensitivity — reference',budget.financing?usd.format(budget.financing.foreign_currency_debt_usd):'HOLD — incomplete energy','foreign-debt');
       metric('Source peak headway',headwayRange(summary.lines.map(line => line.retained_peak_headway_seconds)),'source-headway');
       metric('Selected station-resource headway',headwayRange(summary.lines.map(line => line.selected_peak_headway_seconds)),'selected-headway');
       metric('Held coasting cases',summary.lines.reduce((sum,line) => sum+line.kinematic_holds.length,0),'coasting-holds');
@@ -175,6 +198,7 @@ try {
         }
       }
       link('City planning package',path+'README.md','package');
+      link('Detailed city brief',path.replace(/engineering\/maglev\/$/,'')+'README.md','brief');
       link('Machine-readable plan',path+'summary.json','summary');
       link('Manufacturing processes and quantity bill',path+'manufacturing.json','manufacturing');
       link('Mapped network schematic',path+'network.svg','network');

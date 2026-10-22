@@ -4,7 +4,7 @@ Implemented digital capabilities for v0.5. Every engineering/physical acceptance
 
 | Capability | Entry | Implemented scope |
 |---|---|---|
-| [city-planning](../../engineering/ferrite_maglev/cities.py) | `./osr city baghdad` | Separate maglev formation, fleet, duty, charging and partial cost planning; no route acceptance. |
+| [city-planning](../../engineering/ferrite_maglev/cities.py) | `./osr city baghdad` | Detailed PM-maglev city briefs, formation, fleet, duty, charging, manufacture and CAPEX/OPEX/debt sensitivities; complete costs, financing and route acceptance remain open. |
 | [system-search](../../engineering/ferrite_maglev/optimisation.py) | `./osr design run` | Vehicle/beam/span sensitivities and indexed allowances; complete costs and full coupling remain open. |
 | [adaptive-search](../../engineering/ferrite_maglev/iteration.py) | `./osr design iterate` | Result-guided vehicle/beam/Rust gain variants and separate holdout confirmation; research recommendation only. |
 | [station-propulsion](../../engineering/ferrite_maglev/station.py) | `./osr design station` | Jerk-limited launch/coast/receive, actual-band overlap, headway and corrected services charging; no qualified motor map. |

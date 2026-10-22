@@ -28,6 +28,23 @@ def primary_markdown() -> str:
 
 **Fewer moving parts, local manufacture and compact elevated urban routes.**
 
+**Low CAPEX, OPEX and long-term debt repayment are central design objectives.**
+The detailed city briefs restore line-by-line service, energy, manufacture and
+whole-life affordability views for the PM-maglev station-launched monorail.
+Each current city has low/reference/high scope-covering capital budgets, annual
+operating cash and debt schedules, with explicit unquoted assumptions.
+They distinguish resource cost from borrower cash and imported inputs from
+foreign-currency debt. Complete engineered costs and a proven comparative
+advantage remain open; no former railway savings percentage is inherited.
+
+Station-led GOA4 dispatch concentrates launch and receiving control at known
+sites. The following train may use a released berth/resource only after valid
+full-tail clearance and protected authority; a launch command alone cannot
+release occupancy. Independent active support, separation, safe arrival,
+passenger protection and recovery remain necessary. The city defaults retain
+exclusive whole-leg headways while the progressive multi-train candidate
+undergoes separate qualification.
+
 ![OpenSourceRail maglev station concept](../OpenSourceRail%20maglev%20station%20concept.png)
 
 *Illustrative development concept, without physical or manufacturing acceptance.*

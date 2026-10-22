@@ -241,6 +241,8 @@ def test_default_ui_routes_to_maglev_and_has_no_private_or_mutable_routes(endpoi
     assert endpoint('/docs/workbench/maglev/')[0] == 200
     assert endpoint('/docs/design-engine/ferrite-maglev/beam-only/overview.png')[0] == 200
     assert endpoint('/engineering/ferrite_maglev/city-index.json')[0] == 200
+    assert endpoint('/cities/catalogue/west-asia/Iraq/Baghdad/README.md')[0] == 200
+    assert endpoint('/cities/catalogue/west-asia/Iraq/Baghdad/city.json')[0] == 404
     for path in ['/.git/config', '/var/ops-core.sqlite3', '/build/maglev-workflow/latest.json',
                  '/docs/workbench/maglev/%2e%2e/%2e%2e/README.md', '/docs/design-engine/ferrite-maglev/',
                  '/api/design/jobs', '/crates/osr-maglev-control/src/lib.rs']:

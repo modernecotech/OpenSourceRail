@@ -1,0 +1,88 @@
+schema = "osr-maglev-affordability-input/1"
+price_basis = "2026-10-22 constant USD; unquoted budget and real-rate sensitivities, not a cost estimate or finance offer"
+construction_years = 5
+operating_years = 30
+operating_days_per_year = 365
+discount_rate = 0.05
+charger_efficiency = 0.90
+finance_fee_fraction = 0.02
+comparison_capex_multiplier = 1.50
+comparison_opex_multiplier = 1.10
+comparison_foreign_debt_fraction = 0.90
+
+# These are explicit scope-covering allowances, not configured supplier prices.
+# Low/base/high reuse the matching existing manufacturing quantity scenario.
+[[cases]]
+id = "low"
+station_building_access_usd_per_stop = 500000
+grid_usd_per_powered_site = 100000
+depot_usd_per_train = 15000
+land_special_works_usd_per_route_km = 250000
+factory_nre_usd = 20000000
+design_qualification_fraction = 0.06
+epc_fraction = 0.08
+contingency_fraction = 0.15
+electricity_usd_per_kwh = 0.06
+fixed_zone_loss_kwh_per_event = 8.0
+station_auxiliary_kw_per_stop = 10.0
+staff_per_stop = 3.0
+staff_per_train = 0.25
+staff_per_line = 12.0
+loaded_staff_usd_per_year = 10000
+routine_maintenance_fraction = 0.010
+renewal_fraction = 0.04
+renewal_interval_years = 10
+debt_fraction = 0.50
+foreign_debt_fraction = 0.25
+annual_real_interest = 0.04
+repayment_years = 25
+
+[[cases]]
+id = "base"
+station_building_access_usd_per_stop = 1500000
+grid_usd_per_powered_site = 350000
+depot_usd_per_train = 35000
+land_special_works_usd_per_route_km = 750000
+factory_nre_usd = 50000000
+design_qualification_fraction = 0.10
+epc_fraction = 0.12
+contingency_fraction = 0.25
+electricity_usd_per_kwh = 0.12
+fixed_zone_loss_kwh_per_event = 12.0
+station_auxiliary_kw_per_stop = 25.0
+staff_per_stop = 5.0
+staff_per_train = 0.50
+staff_per_line = 24.0
+loaded_staff_usd_per_year = 18000
+routine_maintenance_fraction = 0.020
+renewal_fraction = 0.08
+renewal_interval_years = 10
+debt_fraction = 0.70
+foreign_debt_fraction = 0.50
+annual_real_interest = 0.07
+repayment_years = 20
+
+[[cases]]
+id = "high"
+station_building_access_usd_per_stop = 4000000
+grid_usd_per_powered_site = 1000000
+depot_usd_per_train = 70000
+land_special_works_usd_per_route_km = 2000000
+factory_nre_usd = 100000000
+design_qualification_fraction = 0.15
+epc_fraction = 0.18
+contingency_fraction = 0.40
+electricity_usd_per_kwh = 0.25
+fixed_zone_loss_kwh_per_event = 20.0
+station_auxiliary_kw_per_stop = 50.0
+staff_per_stop = 8.0
+staff_per_train = 1.0
+staff_per_line = 40.0
+loaded_staff_usd_per_year = 30000
+routine_maintenance_fraction = 0.035
+renewal_fraction = 0.15
+renewal_interval_years = 8
+debt_fraction = 0.85
+foreign_debt_fraction = 0.80
+annual_real_interest = 0.10
+repayment_years = 15

@@ -1,4 +1,320 @@
 {
+  "affordability": {
+    "assumptions": {
+      "cases": [
+        {
+          "annual_real_interest": 0.04,
+          "contingency_fraction": 0.15,
+          "debt_fraction": 0.5,
+          "depot_usd_per_train": 15000,
+          "design_qualification_fraction": 0.06,
+          "electricity_usd_per_kwh": 0.06,
+          "epc_fraction": 0.08,
+          "factory_nre_usd": 20000000,
+          "fixed_zone_loss_kwh_per_event": 8.0,
+          "foreign_debt_fraction": 0.25,
+          "grid_usd_per_powered_site": 100000,
+          "id": "low",
+          "land_special_works_usd_per_route_km": 250000,
+          "loaded_staff_usd_per_year": 10000,
+          "renewal_fraction": 0.04,
+          "renewal_interval_years": 10,
+          "repayment_years": 25,
+          "routine_maintenance_fraction": 0.01,
+          "staff_per_line": 12.0,
+          "staff_per_stop": 3.0,
+          "staff_per_train": 0.25,
+          "station_auxiliary_kw_per_stop": 10.0,
+          "station_building_access_usd_per_stop": 500000
+        },
+        {
+          "annual_real_interest": 0.07,
+          "contingency_fraction": 0.25,
+          "debt_fraction": 0.7,
+          "depot_usd_per_train": 35000,
+          "design_qualification_fraction": 0.1,
+          "electricity_usd_per_kwh": 0.12,
+          "epc_fraction": 0.12,
+          "factory_nre_usd": 50000000,
+          "fixed_zone_loss_kwh_per_event": 12.0,
+          "foreign_debt_fraction": 0.5,
+          "grid_usd_per_powered_site": 350000,
+          "id": "base",
+          "land_special_works_usd_per_route_km": 750000,
+          "loaded_staff_usd_per_year": 18000,
+          "renewal_fraction": 0.08,
+          "renewal_interval_years": 10,
+          "repayment_years": 20,
+          "routine_maintenance_fraction": 0.02,
+          "staff_per_line": 24.0,
+          "staff_per_stop": 5.0,
+          "staff_per_train": 0.5,
+          "station_auxiliary_kw_per_stop": 25.0,
+          "station_building_access_usd_per_stop": 1500000
+        },
+        {
+          "annual_real_interest": 0.1,
+          "contingency_fraction": 0.4,
+          "debt_fraction": 0.85,
+          "depot_usd_per_train": 70000,
+          "design_qualification_fraction": 0.15,
+          "electricity_usd_per_kwh": 0.25,
+          "epc_fraction": 0.18,
+          "factory_nre_usd": 100000000,
+          "fixed_zone_loss_kwh_per_event": 20.0,
+          "foreign_debt_fraction": 0.8,
+          "grid_usd_per_powered_site": 1000000,
+          "id": "high",
+          "land_special_works_usd_per_route_km": 2000000,
+          "loaded_staff_usd_per_year": 30000,
+          "renewal_fraction": 0.15,
+          "renewal_interval_years": 8,
+          "repayment_years": 15,
+          "routine_maintenance_fraction": 0.035,
+          "staff_per_line": 40.0,
+          "staff_per_stop": 8.0,
+          "staff_per_train": 1.0,
+          "station_auxiliary_kw_per_stop": 50.0,
+          "station_building_access_usd_per_stop": 4000000
+        }
+      ],
+      "charger_efficiency": 0.9,
+      "comparison_capex_multiplier": 1.5,
+      "comparison_foreign_debt_fraction": 0.9,
+      "comparison_opex_multiplier": 1.1,
+      "construction_years": 5,
+      "discount_rate": 0.05,
+      "finance_fee_fraction": 0.02,
+      "operating_days_per_year": 365,
+      "operating_years": 30,
+      "price_basis": "2026-10-22 constant USD; unquoted budget and real-rate sensitivities, not a cost estimate or finance offer",
+      "schema": "osr-maglev-affordability-input/1"
+    },
+    "cases": [
+      {
+        "annual_opex_breakdown_usd": {
+          "energy": null,
+          "routine_maintenance_insurance_and_administration": 5182706.427884647,
+          "staff_and_supervision": 1785000.0
+        },
+        "annual_opex_sensitivity_usd": null,
+        "budget_capex_sensitivity_usd": 518270642.78846467,
+        "budget_usd_per_route_km": 9727700.748375457,
+        "comparative_cash_difference_usd": null,
+        "comparative_foreign_debt_difference_usd": null,
+        "daily_energy_breakdown_kwh": {
+          "extra_winding_conversion_loss": 162432.0,
+          "positive_fixed_zone_traction": null,
+          "services": 208403.0166775342,
+          "station_auxiliaries": 7920.0
+        },
+        "energy_data_complete": false,
+        "equal_service_procurement_sensitivity": null,
+        "financing": null,
+        "id": "low",
+        "priced_scope_subtotal_usd": 335477670.73180586,
+        "scope_additions_usd": {
+          "contingency": 67600518.62458235,
+          "depots_and_workshops": 1170000,
+          "design_and_qualification": 23620027.47190159,
+          "epc": 33382972.16028758,
+          "factory_nre_and_initial_spares": 20000000,
+          "grid_and_connection": 7200000,
+          "land_special_crossing_and_site_premiums": 13319453.799887316,
+          "station_building_and_access": 16500000
+        },
+        "staff_fte_sensitivity": 178.5
+      },
+      {
+        "annual_opex_breakdown_usd": {
+          "energy": null,
+          "routine_maintenance_insurance_and_administration": 20506160.209162418,
+          "staff_and_supervision": 5832000.0
+        },
+        "annual_opex_sensitivity_usd": null,
+        "budget_capex_sensitivity_usd": 1025308010.458121,
+        "budget_usd_per_route_km": 19244558.107682973,
+        "comparative_cash_difference_usd": null,
+        "comparative_foreign_debt_difference_usd": null,
+        "daily_energy_breakdown_kwh": {
+          "extra_winding_conversion_loss": 243648.0,
+          "positive_fixed_zone_traction": null,
+          "services": 208403.0166775342,
+          "station_auxiliaries": 19800.0
+        },
+        "energy_data_complete": false,
+        "equal_service_procurement_sensitivity": null,
+        "financing": null,
+        "id": "base",
+        "priced_scope_subtotal_usd": 498396060.97574127,
+        "scope_additions_usd": {
+          "contingency": 205061602.0916242,
+          "depots_and_workshops": 2730000,
+          "design_and_qualification": 66578442.23754032,
+          "epc": 87883543.75355323,
+          "factory_nre_and_initial_spares": 50000000,
+          "grid_and_connection": 25200000,
+          "land_special_crossing_and_site_premiums": 39958361.39966195,
+          "station_building_and_access": 49500000
+        },
+        "staff_fte_sensitivity": 324.0
+      },
+      {
+        "annual_opex_breakdown_usd": {
+          "energy": null,
+          "routine_maintenance_insurance_and_administration": 78527965.1570672,
+          "staff_and_supervision": 16260000.0
+        },
+        "annual_opex_sensitivity_usd": null,
+        "budget_capex_sensitivity_usd": 2243656147.3447766,
+        "budget_usd_per_route_km": 42112390.28742602,
+        "comparative_cash_difference_usd": null,
+        "comparative_foreign_debt_difference_usd": null,
+        "daily_energy_breakdown_kwh": {
+          "extra_winding_conversion_loss": 406080.0,
+          "positive_fixed_zone_traction": null,
+          "services": 208403.0166775342,
+          "station_auxiliaries": 39600.0
+        },
+        "energy_data_complete": false,
+        "equal_service_procurement_sensitivity": null,
+        "financing": null,
+        "id": "high",
+        "priced_scope_subtotal_usd": 764980341.4636117,
+        "scope_additions_usd": {
+          "contingency": 641044613.5270791,
+          "depots_and_workshops": 5460000,
+          "design_and_qualification": 177149395.77940652,
+          "epc": 244466166.175581,
+          "factory_nre_and_initial_spares": 100000000,
+          "grid_and_connection": 72000000,
+          "land_special_crossing_and_site_premiums": 106555630.39909853,
+          "station_building_and_access": 132000000
+        },
+        "staff_fte_sensitivity": 542.0
+      }
+    ],
+    "complete_project_estimate_usd": null,
+    "currency": "USD",
+    "design_complete": false,
+    "economic_benefit_npv_usd": null,
+    "financing_offer": false,
+    "limitations": [
+      "Scope-covering budget sensitivities are not complete engineered estimates; rates, sites, taxes, customs, inflation and construction risk need local appraisal.",
+      "Constant USD with real financing-rate hypotheses; no exchange-rate forecast, tax, revenue, subsidy, grant, fare or guaranteed regeneration assumed.",
+      "Loss allowance per fixed-zone event includes a provisional winding/conversion/cooling provision; it is not a measured map. The drive study retains 7.18kWh urban terminal copper heat alone. No free paired-train regeneration.",
+      "Missed traction data holds energy OPEX and finance; equivalent circuits are not a complete start/end or disturbed timetable. Reserves and depot movements need their own duty.",
+      "Staff counts are paid FTE allowances across shifts; GOA4 removes no station, control-room, rescue or maintenance duty by itself.",
+      "Comparator uses identical service quantities and assumed CAPEX/OPEX multipliers with the same debt rate/tenor/fraction; it is not a priced metro alternative or proven saving.",
+      "Foreign-currency debt fraction is an independent finance assumption, not imported content or accepted localisation. UKEF eligibility is contract-specific and unconfirmed.",
+      "Land-value, access, employment, productivity and travel-time benefits remain unmonetised pending catchments, OD demand, counterfactual and displacement assessment."
+    ],
+    "localisation_fraction": null,
+    "manufacturing_release": false,
+    "physical_release": false,
+    "physical_validation": false,
+    "population": 615000,
+    "price_basis": "2026-10-22 constant USD; unquoted budget and real-rate sensitivities, not a cost estimate or finance offer",
+    "ridership_forecast": null,
+    "route_km": 53.277815199549266,
+    "route_km_per_million_residents": 86.63059382040531,
+    "schema": "osr-maglev-affordability/1",
+    "service": {
+      "lines": [
+        {
+          "directional_departures_per_day": 87,
+          "energy_data_complete": false,
+          "equivalent_train_circuits_per_day": 87,
+          "fixed_zone_events_per_day": 3828,
+          "line": "line-1",
+          "positive_traction_kwh_per_day": null,
+          "service_hours": 20.5,
+          "services_hot_kwh_per_day": 82343.3428096656,
+          "timetable_qualified": false,
+          "train_km_per_day": 3326.4916478673713
+        },
+        {
+          "directional_departures_per_day": 204,
+          "energy_data_complete": true,
+          "equivalent_train_circuits_per_day": 204,
+          "fixed_zone_events_per_day": 4488,
+          "line": "line-2",
+          "positive_traction_kwh_per_day": 8881.655308147008,
+          "service_hours": 20.5,
+          "services_hot_kwh_per_day": 25115.9528613888,
+          "timetable_qualified": false,
+          "train_km_per_day": 3826.2639905280002
+        },
+        {
+          "directional_departures_per_day": 206,
+          "energy_data_complete": true,
+          "equivalent_train_circuits_per_day": 206,
+          "fixed_zone_events_per_day": 6592,
+          "line": "line-3",
+          "positive_traction_kwh_per_day": 16453.33909816391,
+          "service_hours": 20.5,
+          "services_hot_kwh_per_day": 44015.3408559452,
+          "timetable_qualified": false,
+          "train_km_per_day": 6841.548484872001
+        },
+        {
+          "directional_departures_per_day": 214,
+          "energy_data_complete": true,
+          "equivalent_train_circuits_per_day": 214,
+          "fixed_zone_events_per_day": 2568,
+          "line": "line-4",
+          "positive_traction_kwh_per_day": 6542.235465644942,
+          "service_hours": 20.5,
+          "services_hot_kwh_per_day": 19652.313455658,
+          "timetable_qualified": false,
+          "train_km_per_day": 2627.798662428
+        },
+        {
+          "directional_departures_per_day": 202,
+          "energy_data_complete": true,
+          "equivalent_train_circuits_per_day": 202,
+          "fixed_zone_events_per_day": 2828,
+          "line": "line-5",
+          "positive_traction_kwh_per_day": 5235.270908212299,
+          "service_hours": 20.5,
+          "services_hot_kwh_per_day": 16435.7650271232,
+          "timetable_qualified": false,
+          "train_km_per_day": 2294.604514176
+        }
+      ],
+      "method": "Window-rounded departures in each direction at max(retained headway,current exclusive resource headway); fractional equivalent circuits, hot services, positive traction without regeneration credit",
+      "paid_trips_forecast": null,
+      "timetable_qualified": false,
+      "train_km_per_day": 18916.707299871374
+    },
+    "sources": [
+      {
+        "checked": "2026-10-22",
+        "title": "ORR unattended operation safety principles",
+        "url": "https://www.orr.gov.uk/sites/default/files/2024-07/railway-safety-principles-factors-for-safe-operation-of-goa4-uto.pdf",
+        "use": "GOA4 responsibilities; UK guidance used as a design reference, not Iraqi approval"
+      },
+      {
+        "checked": "2026-10-22",
+        "title": "HM Treasury Green Book 2026",
+        "url": "https://www.gov.uk/government/publications/the-green-book--2/the-green-book-2026",
+        "use": "Whole-life options appraisal reference; no UK discount rate adopted as Iraqi policy"
+      },
+      {
+        "checked": "2026-10-22",
+        "title": "UKEF Buyer Credit Facility",
+        "url": "https://www.gov.uk/guidance/buyer-credit-facility",
+        "use": "Eligible export-contract finance may cover up to 85%; not 85% of a city programme or an offer"
+      },
+      {
+        "checked": "2026-10-22",
+        "title": "UKEF foreign content policy",
+        "url": "https://www.gov.uk/government/publications/ukefs-approach-to-foreign-content/ukefs-approach-to-foreign-content",
+        "use": "UK economic content and transaction assessment; local factory work alone establishes no eligibility"
+      }
+    ],
+    "supplier_quotes": false
+  },
   "architecture": "ferrite-pm-maglev-study",
   "city": "taiz",
   "configuration_revision": "V052-FIXED-LINE-URBAN-SUBURBAN-3",
@@ -97878,11 +98194,14 @@
     "cities/catalogue/west-asia/Yemen/Taiz/taiz.corridor.geojson": "1e98c57ab37edba920bbfdabd96ddb56750f153cc432abf56f9a8b2dec3c251c",
     "cities/catalogue/west-asia/Yemen/Taiz/taiz.stations.json": "10ebfa3bf6949f7b7e277e02c1954b99963d532c5c85940726f1aed39203abb0",
     "engineering/analysis/tests/test_ferrite_maglev_booster_kit.py": "4572035d9e78d9a4b7f0cda8a090d1da58d832ec786a5b1018456f21d772dc75",
+    "engineering/ferrite_maglev/affordability.py": "35ff7be308eb4d38e681d659098a597bfa7b844b4c4d8dc2c3c39f90381b4f76",
+    "engineering/ferrite_maglev/affordability.toml": "b9a13f2a91de24fdaef2885f7adfeda1c1f5849f991c607d26f3dec16d98aaca",
     "engineering/ferrite_maglev/booster-kit.toml": "541071201a14b95c654e615bb5fc4895f3306341729d0bc677514a94e1a4751c",
     "engineering/ferrite_maglev/booster_kit.py": "997de36e44dd6c8c9341159e2aa7ee7dedc3b09fa2616ad6b71745f44e6f69f4",
     "engineering/ferrite_maglev/cartography.py": "0ec95da146701013ce073d814e50fd58531b2f2a5b7687a7668b19f3b5432ffe",
-    "engineering/ferrite_maglev/cities.py": "87f841b1934a33663415fcd524caac35cf31e16fc625fc7fca613c144abb0c19",
+    "engineering/ferrite_maglev/cities.py": "43d0d5caca1f44af5cd2eef3466be12aa660988b81496eda2c2958df2b424161",
     "engineering/ferrite_maglev/city-planning.toml": "e386d137b933b68f0349310da5279cb0ddc11bc8bc0e2fbc8fd93508baf25058",
+    "engineering/ferrite_maglev/city_brief.py": "4cff2d1b0e23893ea9d2fcfd4ed1ea7c76a39d7a06f3aa67904de63f6db1dc9f",
     "engineering/ferrite_maglev/closure.py": "6f294dd965c15c21fd6257b5e07c2d678867d7dfbdda0b85c325cfc0caec70d3",
     "engineering/ferrite_maglev/closure.toml": "02847d0b89ed4fcd6eec853e9bdb519c9b2d5a69ef0a2166b2814686ae1f1bfe",
     "engineering/ferrite_maglev/configuration.py": "60a7079ceffdac3dd1d24be0b3663495dfe769478cbfaa19cba98b329093ed58",

@@ -12,6 +12,8 @@ the tested digital scope. Accepted engineering and physical releases remain zero
 
 ## Primary maglev closure queue
 
+The restored city briefs now show current line/service tables, energy, local production routes and low/reference/high CAPEX/OPEX/debt sensitivities. The next city-platform work must regenerate walking catchments and OD/accessibility for the new stops, produce resource-loaded factory/construction schedules and procurement cash requirements, and bind serial assets/QA/maintenance to the current maglev BOM and approved business interfaces. Existing enterprise or supervisory modules do not become a commissioned maglev platform through a documentation link. Station-led GOA4 dispatch and the progressive-departure candidate retain their independent protection and acceptance gates. Whole-life affordability, owner-held design knowledge and domestic capability remain central selection criteria.
+
 | Package | Evidence required for closure |
 |---|---|
 | Requirements and configuration | Approved six-car loads, service/grade envelope, door layout, tolerances and quantitative acceptance criteria |
