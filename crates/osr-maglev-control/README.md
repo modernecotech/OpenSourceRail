@@ -6,6 +6,28 @@ Station and located-booster LSM demand is separate from onboard active PM suppor
 output has `physical_output_authorised = false`; the I/O boundary records study
 outputs and supplies no current, gate-drive or PWM operation.
 
+`drives` adds a separate local-loop software layer: bipolar support-current PI,
+three-phase Clarke/Park transforms and bounded dq current regulation for station
+LSM converters. It checks dual current acquisition, phase uncertainty, deadlines,
+temperature, DC voltage, protected authority and receiver/resistor readiness.
+Faults latch; reset requires fresh healthy zero-demand stopped/secured evidence.
+An unavailable support command requests external local fallback; a wayside fault
+never requests onboard support shutdown. None of these outputs operates hardware.
+
+The proposed division is SBC supervision/allocation, local MCU current and gap
+loops, and independent hardware protection plus support power. The 20 kHz target
+is an input, not a measured deadline. `cargo test --locked -p osr-maglev-control
+--test drives` runs nine regression tests. `cargo run --locked -p
+osr-maglev-control --example winding_replay` emits three actual 4000-frame RL/FOC
+coupon replays and fourteen adverse controls. The independent plant uses a
+standard-library trigonometric oracle. The 40 A coupon does not qualify a
+multi-kA launch converter or close the ideal-force moving-train model.
+
+See the [construction design and counted BOM](../../docs/design-engine/ferrite-maglev/drive-construction/README.md)
+for support-coil packages, winding/phase schedules, power-electronics families,
+sensing, connections, supplier references and the remaining magnetic/hardware
+acceptance gates. No PCB, ADC/PWM adapter, gate-drive or installed timing is released.
+
 The existing `evaluate(previous, inputs, now_ns, params)` API remains a
 single-module integer current hypothesis. Its polarity, damping, envelope,
 time/replay, stop/reset and support-power tests remain compatible. Increasing an

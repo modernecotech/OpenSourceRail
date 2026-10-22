@@ -11,6 +11,7 @@ import sys
 import tempfile
 
 from . import cities, coupled, delivery, evacuation, geometry, media, model, system_development, navigation, reference_assembly, iteration, station, station_structure, station_protocol, station_native, moving_train, system_campaign, closure, manufactured_native, corridor, booster_kit, booster_native, interchange_hubs, line_capacity, hub_access, qualification, assembled_body, shared_hub_layout,body_stiffness,stopped_recovery
+from . import drive_design
 
 BASE = model.ROOT/'docs/design-engine/ferrite-maglev'
 STATE = model.ROOT/'build/maglev-workflow'
@@ -114,6 +115,7 @@ def stages(output):
         ('gfrp-civil-production',station_structure.verify,lambda:fresh_packet('station-structure',station_structure.publish)),
         ('station-native-materials',station_native.verify,lambda:fresh_packet('station-native',station_native.publish)),
         ('rust-station-launch-protocol',station_protocol.verify,lambda:fresh_packet('station-protocol',station_protocol.publish)),
+        ('support-and-launch-construction',drive_design.verify,lambda:fresh_packet('drive-construction',drive_design.publish)),
         ('adaptive-system-design', iteration.verify, lambda: fresh_packet('iterative', iteration.publish)),
         ('baghdad-six-car-reference',reference_assembly.verify,lambda: fresh_packet('baghdad-reference',reference_assembly.publish)),
         ('moving-six-car-twin',moving_train.verify,lambda:fresh_packet('moving-train',moving_train.publish)),

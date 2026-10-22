@@ -8,7 +8,7 @@ import subprocess
 ROOT=Path(__file__).resolve().parents[3]
 manifest=json.loads((ROOT/'docs/design-engine/ferrite-maglev/reference/manifest.json').read_text())
 paths=set(manifest['source_sha256'])
-for directory in ('native','beam-only','system-development','baghdad-reference','coupled','iterative','station-powered','station-structure','station-protocol','station-native','moving-train','system-campaign','manufactured-dossier','manufactured-native','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness','stopped-recovery','reference'):
+for directory in ('native','beam-only','system-development','baghdad-reference','coupled','iterative','station-powered','station-structure','station-protocol','station-native','moving-train','system-campaign','manufactured-dossier','manufactured-native','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness','stopped-recovery','drive-construction','reference'):
     packet=ROOT/'docs/design-engine/ferrite-maglev'/directory
     paths.update(p.relative_to(ROOT).as_posix() for p in packet.rglob('*') if p.is_file())
     for receipt in [*packet.rglob('manifest.json'),*packet.rglob('receipt.json')]:

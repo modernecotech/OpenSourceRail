@@ -18,6 +18,7 @@ are the leading studies. **Accepted engineering and physical releases: zero.**
 ./osr design booster-kit
 ./osr design line-capacity
 ./osr design stopped-recovery
+./osr design drives
 ./osr design hub-access
 ./osr design qualification
 ./osr design assembled-body
@@ -52,6 +53,8 @@ dependent work after failures; missing evaluators and physical measurements
 remain additional engineering work.
 
 The [stopped-controller recovery study](../../docs/design-engine/ferrite-maglev/stopped-recovery/README.md) executes fresh-epoch reconciliation for stationary consists at declared berths. It retains complete checkpoints and event histories, repeats every replay during verification, and requires new contracts after recovery. Moving recovery, multi-controller handover, authenticated installed storage and physical interfaces remain open.
+
+The [support/launch construction design](../../docs/design-engine/ferrite-maglev/drive-construction/README.md) defines the provisional coil and conductor quantities, local current/commutation software, converter/sensor purchasing families, winding schedule and electrical connections. `drive_design.py` derives R/L/material, phase uncertainty, fixed-group voltage/current, copper heat and DC/braking duties on current urban/suburban profiles. It executes `drives.rs` against an independent RL/alpha-beta coupon plant. Those local loops are not yet coupled to the ideal-force moving train. SBC supervision, local MCU loops and independent hardware protection/power remain separate; the larger winding's failed fit and magnetic/electronic qualification holds stay visible.
 
 ## Current inputs and design records
 
@@ -172,3 +175,22 @@ The moving-train video uses calculated six-car positions and beam states with de
 PDE residuals, virtual controller ticks and consistent publication hashes each
 establish only their checked digital scope. [Closure work](../../docs/ROADMAP.md#primary-maglev-closure-queue)
 and [v0.5.2 development notes](../../docs/releases/v0.5.2.md) remain explicit.
+
+## UK power-module procurement
+
+Checked 22 October 2026. This supplements the [40-line construction BOM](../../docs/design-engine/ferrite-maglev/drive-construction/bom.csv); it changes procurement preference, not quantities or the executable electrical assumptions. No order line, quotation or converter is selected.
+
+| BOM family | British manufacturing candidate | Imported comparison | Confirmation needed |
+|---|---|---|---|
+| LSM-IGBT: 96 proposed single-switch modules/station | Dynex 3.3 kV IGBT family | Infineon FZ1500R33HE3BPSA1, 3.3 kV/1500 A catalogue reference | Exact part, manufacturing site, lifecycle, switching/thermal duty, SOA and parallel sharing |
+| LSM-BRIDGE: four custom converters/station | Dynex custom power-assembly capability; UK manufacturing scope to specify | Nidec M700 remains an industrial integration reference, without a selected 2400 V catalogue configuration | Complete topology, UK operations, gate/protection design, cooling, insulation, testing and quote |
+
+Dynex's current company page describes in-house UK manufacturing and semiconductor fabrication/assembly capability. It also states that higher volumes can be outsourced to China. Treat Lincoln manufacture as a procurement requirement for the proposed order, not an automatic property of every Dynex-branded device. Its current finder includes 3.3 kV modules, but an exact suitable part remains unselected. [Dynex company and manufacturing](https://www.dynexsemi.com/About-Dynex), [current module finder](https://www.dynexsemi.com/IGBT/IGBT-Module-Products).
+
+The imported comparator is a single-switch 3300 V/1500 A module, with a 190 × 140 mm package. Infineon's product page lists Hungary for assembly and Malaysia for diffusion for this ordering code; confirm the delivered lot's records. These catalogue values do not establish an OpenSourceRail current, thermal or switching rating. [Infineon product and origin fields](https://www.infineon.com/part/FZ1500R33HE3).
+
+Four parallel devices per switch position is a provisional count. Do not reduce it merely because a catalogue current exceeds a divided peak demand. Check current sharing, switching energy at the actual voltage/current/frequency, diode duty, junction/case temperatures, cooling and fault clearing. Receiving-chopper modules have their own duty and are not silently included in the traction-bridge count.
+
+The proposed bus remains 2400 V DC. A lone 1700 V device remains unsuitable as its two-level switch; a 3.3 kV label alone does not qualify transient margin or insulation. The [construction study](../../docs/design-engine/ferrite-maglev/drive-construction/README.md) retains those gates and its current/voltage/heat comparisons.
+
+Exact UK-origin evidence, imported input value, local assembly and Iraqi local content remain separate records. No localisation percentage or financing eligibility is inferred from a supplier's address or ownership. Engineering, manufacturing and physical acceptance remain open.

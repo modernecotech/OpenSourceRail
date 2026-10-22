@@ -48,6 +48,34 @@ unselected straight-chord alternatives must keep their site and cost evidence se
 
 ## Launch, receiving and recovery
 
+The [electrical construction package](design-engine/ferrite-maglev/drive-construction/README.md)
+separates three control responsibilities. The car SBC runs supervision and force
+allocation; proposed local MCU boards acquire gap/current signals and run fast
+loops; independent protection, essential support power and capture handle faults.
+Permanent magnets provide bias flux, while active windings correct unstable
+attractive suspension and guidance. An ordinary SBC process is not a qualified
+20 kHz power-stage controller. The new Rust `drives` layer executes bipolar
+current PI and sensored three-phase dq commutation in offline coupon plants.
+It has no ADC/PWM adapter or physical-output authority.
+
+The counted construction candidate has one lift coil and two series-opposed
+guidance coils per cartridge: 432 coils and 288 bipolar circuits per six-car train.
+Its 50-turn compact coil passes declared depth/packing and current screens,
+while retaining rejected larger-pack and lower-turn alternatives. Separate
+wayside LSM bridges use indexed three-phase winding groups. Their
+[BOM](design-engine/ferrite-maglev/drive-construction/bom.csv),
+[winding schedule](design-engine/ferrite-maglev/drive-construction/winding-schedule.csv)
+and [connections](design-engine/ferrite-maglev/drive-construction/connections.csv)
+retain material, converter, sensing, DC and braking quantities. Measured magnetic
+maps, complete wiring/PCB drawings, thermal design, installed timing and actuator
+dynamics in the moving train remain open. A station propulsion fault must not
+remove onboard support.
+
+The [UK procurement supplement](../engineering/ferrite_maglev/README.md#uk-power-module-procurement)
+adds Dynex's British manufacturing capability as a first candidate for launch
+semiconductors and custom assemblies, retaining an imported comparator and
+requiring exact order-origin confirmation. It does not select or qualify a part.
+
 A launch reserves the interstation corridor, receiving berth and protective
 boundary for one train. Permission expiry does not release committed occupancy.
 Release requires complete-consist clearance evidence; lost communications or a

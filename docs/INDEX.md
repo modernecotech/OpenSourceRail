@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **578**.
+Indexed Markdown files: **580**.
 
 ## Sections
 
@@ -26,8 +26,8 @@ Indexed Markdown files: **578**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 27 |
-| [engineering](#engineering) | 3 |
+| [docs](#docs) | 28 |
+| [engineering](#engineering) | 4 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -626,6 +626,7 @@ Indexed Markdown files: **578**.
 | [`docs/design-engine/ferrite-maglev/body-stiffness/README.md`](../docs/design-engine/ferrite-maglev/body-stiffness/README.md) | Drilled longitudinal stock alternatives |
 | [`docs/design-engine/ferrite-maglev/booster-kit/README.md`](../docs/design-engine/ferrite-maglev/booster-kit/README.md) | Fixed booster and independent rescue kit study |
 | [`docs/design-engine/ferrite-maglev/corridor/README.md`](../docs/design-engine/ferrite-maglev/corridor/README.md) | Fixed-line urban and suburban operational studies |
+| [`docs/design-engine/ferrite-maglev/drive-construction/README.md`](../docs/design-engine/ferrite-maglev/drive-construction/README.md) | Active support/guidance and station launch construction |
 | [`docs/design-engine/ferrite-maglev/hub-access/README.md`](../docs/design-engine/ferrite-maglev/hub-access/README.md) | Baghdad physical interchange access-kit study |
 | [`docs/design-engine/ferrite-maglev/interchange-hubs/README.md`](../docs/design-engine/ferrite-maglev/interchange-hubs/README.md) | Baghdad interchange-hub investigation |
 | [`docs/design-engine/ferrite-maglev/iterative/README.md`](../docs/design-engine/ferrite-maglev/iterative/README.md) | Adaptive mechanical, civil and software design study |
@@ -648,6 +649,7 @@ Indexed Markdown files: **578**.
 | File | Title |
 |---|---|
 | [`engineering/README.md`](../engineering/README.md) | OpenSourceRail engineering |
+| [`engineering/assurance/v052-drives-development/README.md`](../engineering/assurance/v052-drives-development/README.md) | Active-control and launch construction execution evidence |
 | [`engineering/ferrite_maglev/README.md`](../engineering/ferrite_maglev/README.md) | OpenSourceRail v0.5 fixed-zone ferrite-maglev engineering |
 | [`engineering/ferrite_maglev/city-index.md`](../engineering/ferrite_maglev/city-index.md) | v0.5 maglev catalogue planning index |
 

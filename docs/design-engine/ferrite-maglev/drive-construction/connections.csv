@@ -1,0 +1,13 @@
+net,from_terminal,to_terminal,requirement
+SUP-96V,segregated support-power zone,local fused H-bridge DC input,Independent protection energy; no direct SBC GPIO power control
+SUP-COIL-LIFT,H-bridge L+ / L-,configured lift winding,Bipolar regulation; inductive clamp and temperature observation
+SUP-COIL-GUIDE,H-bridge G+ / G-,two guidance windings in series opposition,Polarity checked with low-energy field and force measurements
+SUP-ADC,dual current and four gap chains,local MCU synchronous acquisition,Individual timestamp/sequence/calibration; independent chain qualification
+SUP-TRIP,independent comparators/watchdog,latched local driver disable / fallback request,Protection does not establish safe levitation; capture/power path needs qualification
+SUP-SBC,car supervisor,local 1 kHz setpoint/health interface,20 kHz current timing stays local; stale supervisory demand invokes qualified local fallback
+LSM-DC,supply/DC protection,four isolated group converters and film banks,"2400 V hypothesis; fault clearing, discharge and insulation design required"
+LSM-ABC,group A/B/C outputs,indexed series cassette phases A/B/C,No arbitrary parallel unequal-back-EMF circuits; continuity/polarity test every cassette
+LSM-PHASE,independent absolute position plus magnetic registration,local group FOC MCU,Zero-speed phase and total uncertainty budget; back-EMF-only startup rejected
+LSM-BRAKE,common DC bus,independent chopper/resistor paths,"Peak power, event energy and repeated duty including simultaneous arrivals"
+LSM-AUTHORITY,interlocking and receiver protection,launch/receive admission,Current command or timetable is not route authority
+SUP-SEPARATION,wayside propulsion fault,onboard support stop/recovery interface,Never interpret zero station thrust as permission to remove onboard support

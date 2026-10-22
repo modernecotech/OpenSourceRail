@@ -100,6 +100,8 @@ try {
     "../shared-hub-layout/station-plan.svg",
     "../shared-hub-layout/overview.png",
     "../body-stiffness/overview.svg",
+    "../drive-construction/architecture.svg",
+    "../drive-construction/construction.svg",
   ];
   assert.deepEqual(
     images.map((image) => image.src).sort(),
@@ -508,7 +510,7 @@ try {
   assert.ok((await page.locator('body').innerText()).includes(`default Baghdad reference remains ${hubs.baseline.operating_station_count} proposed stops`));
 
   const closureManifests={};
-  for(const [folder,key] of [['line-capacity','line_capacity'],['hub-access','hub_access'],['qualification','qualification'],['assembled-body','assembled_body'],['shared-hub-layout','shared_hub_layout'],['body-stiffness','body_stiffness'],['stopped-recovery','stopped_recovery']]){
+  for(const [folder,key] of [['line-capacity','line_capacity'],['hub-access','hub_access'],['qualification','qualification'],['assembled-body','assembled_body'],['shared-hub-layout','shared_hub_layout'],['body-stiffness','body_stiffness'],['stopped-recovery','stopped_recovery'],['drive-construction','drive_construction']]){
     const manifest=await checkedPacket('../'+folder+'/');
     closureManifests[folder]=manifest;
     const receipt=(await asset('../'+folder+'/manifest.json')).body;
@@ -519,7 +521,21 @@ try {
     for(const flag of ['design_complete','physical_validation','manufacturing_release','physical_release']){
       assert.equal(study[flag],false);assert.equal(data.closure_studies[key][flag],false);
     }
-    if(folder==='line-capacity'){
+    if(folder==='drive-construction'){
+      assert.equal(study.hardware_io_enabled,false);
+      assert.equal(study.support.legacy_depth_fit,true);
+      assert.deepEqual(study.support_alternatives.map(r=>r.provisional_screens_pass),[true,false,false]);
+      assert.equal(study.support.physical_coils_per_car,72);
+      assert.equal(study.launch.face_cassettes_per_station,560);
+      assert.equal(study.software_replays.length,17);
+      assert.ok(study.software_replays.every(r=>r.control_pass==='true' && r.physical_output_authorised==='false'));
+      assert.equal(study.dc_system.urban.lone_1700v_two_level_switch_eligible,false);
+      assert.equal(data.closure_studies[key].support_circuits_per_train,288);
+      assert.equal(data.closure_studies[key].support_coils_per_train,432);
+      const execution=JSON.parse(gunzipSync((await asset('../drive-construction/execution.json.gz')).body).toString('utf8'));
+      assert.equal(execution.api.returncode,0);assert.match(execution.api.stdout,/9 passed; 0 failed;/);
+      assert.equal(execution.replay.returncode,0);
+    }else if(folder==='line-capacity'){
       assert.equal(study.executed_controls_pass,true);
       assert.equal(study.whole_line_capacity_accepted,false);
       assert.equal(study.city_default_changed,false);

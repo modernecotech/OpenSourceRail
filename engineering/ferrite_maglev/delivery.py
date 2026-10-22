@@ -9,6 +9,7 @@ import platform
 import tempfile
 
 from . import model,transition,geometry,field,media,optimisation,evacuation,system_development,reference_assembly,iteration,station,station_structure,station_protocol,station_native,moving_train,system_campaign,closure,manufactured_native,corridor,booster_kit,booster_native,interchange_hubs,line_capacity,hub_access,qualification,assembled_body,shared_hub_layout,body_stiffness,stopped_recovery
+from . import drive_design
 
 OUTPUT = model.ROOT / 'docs/design-engine/ferrite-maglev/reference'
 EXPECTED={'result.json','index.html','guidebeam-sections.svg','duty-energy.svg','systems-register.json.gz','interface-definition.json.gz','civil-bay-definition.json.gz','field-study.json.gz','field-study.png','optimisation-study.json.gz','evacuation-study.json.gz','evacuation-envelope.svg'}
@@ -148,6 +149,10 @@ The new longer-leg studies are separate from the retained 1 km benchmarks below.
 <p>Joined structural stock, panels, hardpoints and cartridge interfaces are placed as defined material regions. The former crosshead/guidebeam interference and incompatible bolt arrangement remain negative controls. Revised arms and fasteners carry their actual geometry, loads and counted mass. Native mass and inertia use declared densities; omitted equipment and unqualified material/joint behavior prevent an equipped-vehicle or manufacturing claim. Body and joint compliance are separate from the retained rigid-car numerical plant.</p>
 <img src="../assembled-body/overview.png" alt="Native candidate assembled structural body and declared interfaces"><img src="../assembled-body/frame-cutaway.png" alt="Structural members and revised load paths with panels cut away"><img src="../assembled-body/six-car.png" alt="Six repetitions of the defined structural candidate, with omitted equipment explicit">
 <p><a href="../assembled-body/assembly-visibility.mp4">Structural assembly visibility video</a>. A staged visibility sequence does not qualify a movement path, tooling, lifting or manufacturing process.</p>
+<h2>Active support and station launch construction</h2>
+<p><a href="../drive-construction/README.md">Control responsibilities, coil construction and launch design</a> · <a href="../drive-construction/bom.csv">Counted purchasing BOM</a> · <a href="../drive-construction/winding-schedule.csv">Phase/slot winding schedule</a> · <a href="../drive-construction/connections.csv">Electrical interface schedule</a> · <a href="../drive-construction/study.json.gz">Quantities, R/L/voltage, thermal and braking screens</a> · <a href="../drive-construction/execution.json.gz">Actual Rust current/commutation execution</a> · <a href="../drive-construction/manifest.json">Source receipt</a>.</p>
+<p>Ferrite provides bias; measured-gap support and guidance require active coil current. The SBC supervises allocation, while proposed local MCU loops and independent hardware protection control power. The counted candidate has 432 physical coils and 288 bipolar current circuits per six-car train. A separate 350 m station LSM winding/direction uses four custom converters and 560 face cassettes per two-direction station. A compact 50-turn support coil passes declared depth/packing screens; the larger pack and lower-turn current failures remain retained. High station current, voltage and braking duties remain visible. These calculations and 17 executable coupon/adverse cases do not replace the ideal-force moving plant or qualify hardware.</p>
+<img src="../drive-construction/architecture.svg" alt="Separate onboard active support and local current control versus wayside LSM launch and receive"><img src="../drive-construction/construction.svg" alt="Dimensioned compact support winding and launch cassette construction; complete winding and magnetic fit remain open">
 <h2>Longitudinal stock alternatives after the stiffness hold</h2>
 <p><a href="../body-stiffness/README.md">Exact drilled-stock alternatives and unchanged confirmation criteria</a> · <a href="../body-stiffness/study.json.gz">Full mass, compliance and moving-run comparison</a> · <a href="../body-stiffness/manifest.json">Source and execution receipt</a>. The GFRP sensitivity retains its phase-limit failure. Alternative steel spines keep the same outer envelope, count changed wall cuts and longer crush spacers, and add every incremental material kilogram to the full retained AW3 mass. Their actual Rust runs retain the existing phase/gap/force criteria. This tests a bounded repair idea; thin-wall joints, welds, thermal behavior, shell/frame participation and the heavier load cases remain separate requirements. No alternative is adopted as the equipped body or city default.</p>
 <img src="../body-stiffness/overview.svg" alt="Actual full-mass longitudinal stock alternatives with unchanged phase limits and unresolved joint acceptance">
@@ -162,7 +167,7 @@ def closure_studies():
     return dict(line_capacity=line_capacity.read_summary(),hub_access=hub_access.read_summary(),
                 qualification=qualification.read_summary(),assembled_body=assembled_body.read_summary(),
                 shared_hub_layout=shared_hub_layout.read_summary(),body_stiffness=body_stiffness.read_summary(),
-                stopped_recovery=stopped_recovery.read_summary())
+                stopped_recovery=stopped_recovery.read_summary(),drive_construction=drive_design.read_summary())
 
 def payload():
     before=model.sources();result=model.build()
@@ -196,6 +201,7 @@ def external_evidence():
     corridor.verify();booster_kit.verify();booster_native.verify();interchange_hubs.verify()
     line_capacity.verify();hub_access.verify();qualification.verify()
     assembled_body.verify();shared_hub_layout.verify();body_stiffness.verify();stopped_recovery.verify()
+    drive_design.verify()
     base=model.ROOT/'docs/design-engine/ferrite-maglev'
     geometry.verify_native(base/'native');coupled.verify(base/'coupled');evacuation.verify_native(base/'beam-only')
     system_development.verify(base/'system-development')
@@ -203,7 +209,7 @@ def external_evidence():
     catalogue=cities.verify_index()
     if not catalogue['current']:raise ValueError('city catalogue inputs/outputs changed: '+str(catalogue['errors'][:3]))
     return {p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest()
-            for p in (base/'native/manifest.json',base/'coupled/receipt.json',base/'beam-only/manifest.json',base/'system-development/manifest.json',base/'baghdad-reference/manifest.json',base/'iterative/manifest.json',base/'station-powered/manifest.json',base/'station-structure/manifest.json',base/'station-protocol/manifest.json',base/'station-native/manifest.json',base/'moving-train/manifest.json',base/'system-campaign/manifest.json',base/'manufactured-dossier/manifest.json',base/'manufactured-native/manifest.json',base/'corridor/manifest.json',base/'booster-kit/manifest.json',base/'booster-native/manifest.json',base/'interchange-hubs/manifest.json',base/'line-capacity/manifest.json',base/'hub-access/manifest.json',base/'qualification/manifest.json',base/'assembled-body/manifest.json',base/'shared-hub-layout/manifest.json',base/'body-stiffness/manifest.json',base/'stopped-recovery/manifest.json')}
+            for p in (base/'native/manifest.json',base/'coupled/receipt.json',base/'beam-only/manifest.json',base/'system-development/manifest.json',base/'baghdad-reference/manifest.json',base/'iterative/manifest.json',base/'station-powered/manifest.json',base/'station-structure/manifest.json',base/'station-protocol/manifest.json',base/'station-native/manifest.json',base/'moving-train/manifest.json',base/'system-campaign/manifest.json',base/'manufactured-dossier/manifest.json',base/'manufactured-native/manifest.json',base/'corridor/manifest.json',base/'booster-kit/manifest.json',base/'booster-native/manifest.json',base/'interchange-hubs/manifest.json',base/'line-capacity/manifest.json',base/'hub-access/manifest.json',base/'qualification/manifest.json',base/'assembled-body/manifest.json',base/'shared-hub-layout/manifest.json',base/'body-stiffness/manifest.json',base/'stopped-recovery/manifest.json',base/'drive-construction/manifest.json')}
 
 
 def publish(output=OUTPUT, *, check=False):

@@ -1,0 +1,41 @@
+id,description,unit,per_car,per_six_car_train,per_two_direction_station,supplier_reference,accounting_parent,unit_price_usd,ordered_part,manufacturing_origin_confirmed,accepted
+SUP-COIL,50-turn rectangular copper coil: one lift and two opposed guide coils/module,coil,72,432,0,rotary,,,,False,False
+SUP-COPPER,"Bare copper conductor; material inside SUP-COIL, not extra mass",m,1828.8,10972.8,0,,SUP-COIL,,,False,False
+SUP-FORMER,"Insulating former, interlayer insulation and impregnation kit",kit,72,432,0,,SUP-COIL,,,False,False
+SUP-YOKE,Lift/guide pole and return-path assembly; new magnetic fit unresolved,assembly,24,144,0,,,,,False,False
+SUP-BRIDGE,96 V bipolar full H-bridge current circuit,bridge,48,288,0,,,,,False,False
+SUP-SWITCH,200 V-class MOSFET position; exact die/parallel count requires SOA and layout,position,192,1152,0,,SUP-BRIDGE,,,False,False
+SUP-GATE,Dual isolated gate-driver IC; gate peak amps are not winding amps,IC,96,576,0,gate-driver,SUP-BRIDGE,,,False,False
+SUP-GATE-SUPPLY,Isolated driver power domain; two per H-bridge,domain,96,576,0,,SUP-BRIDGE,,,False,False
+SUP-HALL,Isolated primary current measurement,channel,48,288,0,,,,,False,False
+SUP-SHUNT,Independent shunt/isolated conversion measurement,channel,48,288,0,,,,,False,False
+SUP-GAP,Two lift and two lateral gap chains/module; exact full-range probe unselected,chain,96,576,0,gap-sensor,,,,False,False
+SUP-MCU,"Local acquisition/current/gap controller board, not complete released PCB",board,24,144,0,stm32,,,,False,False
+SUP-TRIP,Independent comparator/watchdog/latched driver-disable network,network,24,144,0,,,,,False,False
+SUP-TEMP,One embedded temperature sensor per physical coil,sensor,72,432,0,,,,,False,False
+SUP-PROTECTION,"Local fused branch, DC capacitor, clamp and discharge kit",kit,24,144,0,,,,,False,False
+SUP-ZONE,Six-module isolated-power/protection/cooling distribution zone,zone,4,24,0,,,,,False,False
+SUP-SBC,"SBC supervisor per car, excluding one train standby",SBC,1,6,0,raspberry-pi-5,,,,False,False
+SUP-STANDBY,"Train supervisory standby, not a proven automatic transfer",SBC,0,1,0,raspberry-pi-5,,,,False,False
+SUP-NETWORK,Segregated local control link and supervisory network harness,set,1,6,0,,,,,False,False
+SUP-COOLING,"Coldplate, insulated mounts, coolant/air fittings and service connections",set,24,144,0,,,,,False,False
+SUP-INDEPENDENT-POWER,Independent support/capture power path; capacity not sized by copper alone,system,0,1,0,,,,,False,False
+LSM-CASSETTE,2.5 m face cassette with 30 slots and 15 full-pitch coils,cassette,0,0,560,,,,,False,False
+LSM-COIL,One-turn 350 mm2 copper bar coil; N alternatives retained,coil,0,0,8400,,LSM-CASSETTE,,,False,False
+LSM-COPPER,Bare bar length inside LSM-COIL; no second copper-mass credit,m,0,0,12600.0,,LSM-COIL,,,False,False
+LSM-INSULATION,"Slot liner, phase separator, former, potting and stress-relief kit",kit,0,0,560,,LSM-CASSETTE,,,False,False
+LSM-CONNECTION,Phase terminals and indexed series links; creepage/clearance unqualified,set,0,0,560,,,,,False,False
+LSM-BRIDGE,Custom 3-phase 2400 V DC group converter; not a catalogue drive rating,bridge,0,0,4,nidec,,,,False,False
+LSM-IGBT,"3.3 kV-class single-switch modules, 4 parallel/position, 6 positions/group; unselected",module,0,0,96,igbt,LSM-BRIDGE,,,False,False
+LSM-DRIVER,Module-specific isolated gate/protection assembly,assembly,0,0,96,,LSM-BRIDGE,,,False,False
+LSM-CURRENT,Two independent chains for each of three group phase currents,chain,0,0,24,,,,,False,False
+LSM-LOCAL-MCU,Per-group local sensored dq/current controller,board,0,0,4,stm32,,,,False,False
+LSM-POSITION,Independent position/phase reference chains per direction; outdoor hardware unselected,chain,0,0,4,,,,,False,False
+LSM-DC-VOLTAGE,Dual independent DC sensing chains per group,chain,0,0,8,,,,,False,False
+LSM-DC-CAP,Per-group assumed 20 mF film-capacitor bank; ripple/fault design open,bank,0,0,4,api,,,,False,False
+LSM-DC-PROTECTION,"Precharge, isolators, fuses, discharge, IMD and protection coordination",system,0,0,1,,,,,False,False
+LSM-RESISTOR,Independent braking chopper/resistor path per direction; common-bus losses not sole sink,path,0,0,2,cressall,,,,False,False
+LSM-SUPPLY,"Transformer, supply converter and supply protection; rated grid study required",system,0,0,1,,,,,False,False
+LSM-CHARGE,Separately rated train services charger/interface per direction,interface,0,0,2,,,,,False,False
+LSM-SBC,Station supervision and standby; field authority remains a separate function,SBC,0,0,2,raspberry-pi-5,,,,False,False
+LSM-THERMAL,"Group liquid cooling, earth bonding, cabinet and field harness",system,0,0,4,,,,,False,False

@@ -28,7 +28,7 @@ def units(output):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system','iterate','station','structure','protocol','moving','campaign','dossier','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness','stopped-recovery'))
+    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system','iterate','station','structure','protocol','drives','moving','campaign','dossier','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness','stopped-recovery'))
     parser.add_argument('--output',type=Path,default=delivery.OUTPUT)
     args=parser.parse_args()
     if args.action=='install':
@@ -67,6 +67,9 @@ def main():
     elif args.action in {'station','structure','protocol'}:
         from engineering.ferrite_maglev import station,station_structure,station_protocol
         result={'station':station,'structure':station_structure,'protocol':station_protocol}[args.action].publish()
+    elif args.action=='drives':
+        from engineering.ferrite_maglev import drive_design
+        result=drive_design.publish()
     elif args.action=='iterate':
         from engineering.ferrite_maglev import iteration
         result=iteration.publish()
