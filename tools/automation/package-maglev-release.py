@@ -13,9 +13,8 @@ from engineering.ferrite_maglev import delivery,iteration,model,release_bundle
 
 
 def body_evidence_paths():
-    """Retain the independent sensitivity and its exact original-driver mapping."""
+    """Select a current sensitivity; historical assurance directories stay intact."""
     from engineering.ferrite_maglev import assembled_body,moving_train,body_stiffness
-    base=ROOT/'engineering/assurance/v052-closure-development'
     def checksum(path):
         if (path.resolve()!=path or path.is_symlink() or not path.is_file()
                 or path.stat().st_size>release_bundle.MAX_MEMBER):
@@ -24,7 +23,23 @@ def body_evidence_paths():
         with path.open('rb') as stream:
             for block in iter(lambda:stream.read(1024*1024),b''):value.update(block)
         return value.hexdigest()
-    receipt_path=base/'body-axial-receipt.json'
+    current={**moving_train.sources(),**assembled_body.sources(),**body_stiffness.sources()}
+    candidates=sorted((ROOT/'engineering/assurance').glob('*/body-axial-receipt.json'))
+    if len(candidates)>100:raise ValueError('bounded body evidence inventory required')
+    selected=[]
+    for candidate in candidates:
+        checksum(candidate)
+        value=json.loads(candidate.read_bytes())
+        original=value.get('original_driver_path','build/body-axial-sensitivity/run.py')
+        release_bundle.safe(original)
+        if not original.startswith('build/') or not original.endswith('/run.py') or original in current:
+            raise ValueError('owned ignored body driver path required')
+        driver_hash=value.get('files_sha256',{}).get('run.py')
+        if value.get('source_sha256')=={**current,original:driver_hash}:
+            selected.append((candidate,original))
+    if not selected:raise ValueError('no current body sensitivity; rerun it without overwriting historical assurance')
+    receipt_path,original=selected[-1]
+    base=receipt_path.parent
     checksum(receipt_path)
     receipt=json.loads(receipt_path.read_bytes())
     expected={'run.py','summary.json','reference-100MN.json.gz','gross-series.json.gz','drilled-series.json.gz'}
@@ -40,9 +55,7 @@ def body_evidence_paths():
     instructions=base/'body-axial-reproduction.txt'
     checksum(instructions)
     values.add(instructions.relative_to(ROOT).as_posix())
-    original='build/body-axial-sensitivity/run.py'
-    expected_sources={**moving_train.sources(),**assembled_body.sources(),**body_stiffness.sources(),
-        original:receipt['files_sha256']['run.py']}
+    expected_sources={**current,original:receipt['files_sha256']['run.py']}
     if receipt.get('source_sha256')!=expected_sources:raise ValueError('body evidence sources stale')
     # The original ignored execution path maps to the byte-identical audit copy;
     # every other source remains at its original committed repository path.
@@ -84,7 +97,7 @@ def main():
                   'tools/automation/package-maglev-release.py'))
     paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/'LICENSES').rglob('*') if p.is_file())
     paths.update(body_evidence_paths())
-    for folder in ('reference','native','beam-only','system-development','baghdad-reference','coupled','iterative','station-powered','station-structure','station-protocol','station-native','moving-train','system-campaign','manufactured-dossier','manufactured-native','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness'):
+    for folder in ('reference','native','beam-only','system-development','baghdad-reference','coupled','iterative','station-powered','station-structure','station-protocol','station-native','moving-train','system-campaign','manufactured-dossier','manufactured-native','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness','stopped-recovery'):
         packet=ROOT/'docs/design-engine/ferrite-maglev'/folder
         paths.update(p.relative_to(ROOT).as_posix() for p in packet.rglob('*') if p.is_file())
         for receipt in [*packet.rglob('manifest.json'),*packet.rglob('receipt.json')]:

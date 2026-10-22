@@ -92,6 +92,7 @@ try {
     "../interchange-hubs/overview.svg",
     "../line-capacity/overview.svg",
     "../hub-access/overview.svg",
+    "../stopped-recovery/overview.svg",
     "../assembled-body/overview.png",
     "../assembled-body/frame-cutaway.png",
     "../assembled-body/six-car.png",
@@ -507,7 +508,7 @@ try {
   assert.ok((await page.locator('body').innerText()).includes(`default Baghdad reference remains ${hubs.baseline.operating_station_count} proposed stops`));
 
   const closureManifests={};
-  for(const [folder,key] of [['line-capacity','line_capacity'],['hub-access','hub_access'],['qualification','qualification'],['assembled-body','assembled_body'],['shared-hub-layout','shared_hub_layout'],['body-stiffness','body_stiffness']]){
+  for(const [folder,key] of [['line-capacity','line_capacity'],['hub-access','hub_access'],['qualification','qualification'],['assembled-body','assembled_body'],['shared-hub-layout','shared_hub_layout'],['body-stiffness','body_stiffness'],['stopped-recovery','stopped_recovery']]){
     const manifest=await checkedPacket('../'+folder+'/');
     closureManifests[folder]=manifest;
     const receipt=(await asset('../'+folder+'/manifest.json')).body;
@@ -537,6 +538,16 @@ try {
         assert.ok(profile.minimum_stopping_margin_m>=0 && profile.hold_stopping_margin_m>=0);
         assert.equal(profile.closed_arrival_brake_plant_pass,true);
       }
+    }else if(folder==='stopped-recovery'){
+      assert.equal(study.protocol,'osr-progressive-stopped-recovery/1');
+      assert.equal(study.all_controls_pass,true);assert.equal(study.runs.length,44);
+      assert.equal(study.old_contract_resumption,false);
+      assert.equal(study.multi_controller_handover_implemented,false);
+      assert.equal(study.authenticated_persistence_implemented,false);
+      assert.equal(data.closure_studies[key].new_contract_required,true);
+      assert.equal(data.closure_studies[key].successful_reconciliations,10);
+      assert.equal(data.closure_studies[key].adverse_cases_rejected,34);
+      assert.ok(study.runs.every(r=>r.result.snapshot_fenced && r.result.old_contracts_fenced && r.result.exact_event_replay_equal));
     }else if(folder==='qualification'){
       assert.equal(study.coverage.applicable_requirements,data.applicable_requirements.requirements.length);
       assert.equal(study.coverage.accepted_requirements,0);assert.equal(study.coverage.accepted_physical_gates,0);

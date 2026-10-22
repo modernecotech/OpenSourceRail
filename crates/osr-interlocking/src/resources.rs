@@ -220,6 +220,26 @@ impl ResourceController {
         &self.records
     }
 
+    /// Snapshot consistency against a separately pinned configuration. This
+    /// does not authenticate the snapshot or qualify any detector evidence.
+    pub(crate) fn matches_configuration(
+        &self,
+        configuration: ConfigurationId,
+        controller: ControllerId,
+        specs: &[ResourceSpec],
+    ) -> bool {
+        self.configuration == configuration
+            && self.controller == controller
+            && self.specs == specs
+            && self.records.len() == specs.len()
+            && self.epoch > 0
+            && self
+                .records
+                .iter()
+                .filter_map(|r| r.grant)
+                .all(|g| g.lease <= self.serial)
+    }
+
     fn tick(&mut self, now_ns: u64) -> Result<(), ResourceError> {
         if now_ns == 0 || now_ns < self.last_now_ns {
             return Err(ResourceError::Time);

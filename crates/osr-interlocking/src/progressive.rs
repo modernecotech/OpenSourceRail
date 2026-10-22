@@ -13,6 +13,9 @@ use crate::{
 use osr_core::{deployment::RailwayModel, resources::*, Direction, RouteId};
 use serde::{Deserialize, Serialize};
 
+mod recovery;
+pub use recovery::RECOVERY_PROTOCOL;
+
 pub const PROTOCOL: &str = "osr-progressive-departure/1";
 /// Controlled numerical assumptions, not measured or accepted brake/sensor ratings.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -61,6 +64,9 @@ pub enum ProgressivePhase {
     Arrived,
     Held,
     HeldStopped,
+    /// Retired by an explicit whole-domain stopped reconciliation. A new
+    /// departure id is required; this contract can never resume or clear locks.
+    ReconciledStopped,
 }
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ProgressiveError {
@@ -123,14 +129,22 @@ pub enum ProgressiveEvent {
     Restart {
         new_epoch: u64,
     },
+    /// Pinned external model and fresh independent evidence are caller inputs,
+    /// not authenticated or physically qualified by this pure offline fold.
+    ReconcileStopped {
+        configuration: ConfigurationId,
+        expected_policy: ProgressivePolicy,
+        expected_model: Box<RailwayModel>,
+        readiness: Vec<ProgressiveReadiness>,
+    },
 }
 /// Pure event fold for an explicitly offline candidate. The caller must retain
 /// authenticated, durably committed events before acting on any decision.
 /// Checksums and serde roundtrips do not establish that external responsibility.
 ///
 /// Deserialization always fences movement, commit and new departure. Restart
-/// retains owners and the fence. Snapshot recovery/reconciliation and automatic
-/// resumption are deliberately unsupported in this revision.
+/// retains owners and the fence. Whole-domain stopped reconciliation can retire
+/// old contracts; a separate fresh prepare/commit is required for any movement.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ProgressiveDomain {
@@ -140,11 +154,22 @@ pub struct ProgressiveDomain {
     last_id: u64,
     last_now_ns: u64,
     /// Deserialised state is an observation, never restored movement authority.
-    /// Reconciliation/resumption from snapshots is intentionally unimplemented.
     #[serde(skip, default)]
     live_epoch: bool,
+    /// Restoring a snapshot also loses this transient fence witness: another
+    /// durably fenced epoch and quarantine are required after every crash.
+    #[serde(skip, default)]
+    recovery_started_ns: Option<u64>,
 }
 impl ProgressiveDomain {
+    fn valid_policy(policy: ProgressivePolicy) -> bool {
+        policy.maximum_acceleration_mmps2 <= 2000
+            && (1..=100_000_000).contains(&policy.maximum_sample_ns)
+            && policy.velocity_error_mmps <= 1000
+            && policy.minimum_gap_um > 0
+            && policy.maximum_gap_um > policy.minimum_gap_um
+            && policy.maximum_gap_um <= 30000
+    }
     /// Fresh controlled startup; must not be used to bypass a retained snapshot
     /// or the outstanding recovery/reconciliation requirement after a restart.
     pub fn new(
@@ -153,14 +178,7 @@ impl ProgressiveDomain {
         policy: ProgressivePolicy,
         now: u64,
     ) -> Result<Self, ProgressiveError> {
-        if policy.maximum_acceleration_mmps2 > 2000
-            || policy.maximum_sample_ns == 0
-            || policy.maximum_sample_ns > 100_000_000
-            || policy.velocity_error_mmps > 1000
-            || policy.minimum_gap_um == 0
-            || policy.maximum_gap_um <= policy.minimum_gap_um
-            || policy.maximum_gap_um > 30000
-        {
+        if !Self::valid_policy(policy) {
             return Err(ProgressiveError::Model);
         }
         if model.routes.iter().any(|r| {
@@ -181,6 +199,7 @@ impl ProgressiveDomain {
             last_id: 0,
             last_now_ns: now,
             live_epoch: true,
+            recovery_started_ns: None,
         })
     }
     pub fn ledger(&self) -> &ResourceLedger {
@@ -495,7 +514,9 @@ impl ProgressiveDomain {
         if !self.live_epoch
             && !matches!(
                 event,
-                ProgressiveEvent::Restart { .. } | ProgressiveEvent::Evidence(_)
+                ProgressiveEvent::Restart { .. }
+                    | ProgressiveEvent::Evidence(_)
+                    | ProgressiveEvent::ReconcileStopped { .. }
             )
         {
             return Err(ProgressiveError::Phase);
@@ -633,12 +654,14 @@ impl ProgressiveDomain {
                         .departures
                         .iter()
                         .position(|d| {
-                            d.phase == ProgressivePhase::Arrived
-                                && (d.request.owner == request.owner
-                                    || self.departures.iter().any(|later| {
-                                        later.request.owner == d.request.owner
-                                            && later.request.id > d.request.id
-                                    }))
+                            matches!(
+                                d.phase,
+                                ProgressivePhase::Arrived | ProgressivePhase::ReconciledStopped
+                            ) && (d.request.owner == request.owner
+                                || self.departures.iter().any(|later| {
+                                    later.request.owner == d.request.owner
+                                        && later.request.id > d.request.id
+                                }))
                         })
                         .ok_or(ProgressiveError::Model)?;
                     self.departures.remove(i);
@@ -878,6 +901,8 @@ impl ProgressiveDomain {
                 self.ledger
                     .apply(&ResourceEvent::Restart(*new_epoch), now)
                     .map_err(|_| ProgressiveError::Proof)?;
+                self.live_epoch = false;
+                self.recovery_started_ns = Some(now);
                 for d in &mut self.departures {
                     if matches!(
                         d.phase,
@@ -893,6 +918,18 @@ impl ProgressiveDomain {
                 }
                 Ok(())
             }
+            ProgressiveEvent::ReconcileStopped {
+                configuration,
+                expected_policy,
+                expected_model,
+                readiness,
+            } => self.reconcile_stopped(
+                *configuration,
+                *expected_policy,
+                expected_model,
+                readiness,
+                now,
+            ),
         }
     }
     /// Assumed stopping bound including reaction, next sample, observation age,
@@ -977,7 +1014,7 @@ mod tests {
         train: TrainId(101),
         session: 1,
     };
-    fn model() -> RailwayModel {
+    pub(super) fn model() -> RailwayModel {
         let edges = [0_u64, 350000, 1000000, 2000000, 2350000, 2425000, 3000000];
         let resources:Vec<_>=(0..6).map(|i|json!({"id":i,"section":100+i,"asset_id":format!("resource-{i}"),"kind":if i==0||i==3{"platform"}else{"track"},"controller":900,"conflicts":[i],"point_asset_id":null,"clearance_basis":"synthetic independent whole-consist detector"})).collect();
         let segments:Vec<_>=(0..6).map(|i|json!({"resource":i,"start_mm":edges[i],"end_mm":edges[i+1],"speed_limit_mmps":22223,"downhill_permille":0})).collect();
@@ -988,7 +1025,7 @@ mod tests {
         let trains:Vec<_>=(101..=102).map(|i|json!({"asset_id":format!("train-{i}"),"config":{"owner":{"train":i,"session":1},"configuration":CFG,"length_mm":104500,"minimum_deceleration_mmps2":600,"reaction_time_ms":200,"stop_margin_mm":100000,"maximum_position_uncertainty_mm":500},"integrity_arrangement":"synthetic complete six-car integrity","braking_evidence":"constant unqualified0.6m/s² independent brake","permitted_route":1})).collect();
         serde_json::from_value(json!({"schema":"osr-tacs-railway/2","revision":"progressive-tests-1","approval_state":"prototype-unapproved","runtime":{"voters":[1,2,3],"participants":participants,"designed_revision":"progressive-tests-1","installed_state":"not-installed","approved_operating_profile":"prototype-unapproved","clock_error_ns":0},"resources":resources,"routes":[{"id":1,"asset_id":"fixed-line","direction":"Forward","leader_required":false,"operating_scope":"local offline finite authority study","segments":segments,"stopping_locations":[{"asset_id":"departure","at_mm":300000,"platform":0,"charger_asset_id":"charger-0","minimum_departure_energy_wh":10000},{"asset_id":"arrival","at_mm":2150000,"platform":3,"charger_asset_id":"charger-1","minimum_departure_energy_wh":10000}]}],"trains":trains,"controllers":[{"id":900,"asset_id":"local-controller","startup_epoch":1,"restart_reconciliation":"retain all owners; no automatic motion"}],"protected_work_resources":[],"maintenance_procedure":"offline tests only"})).unwrap()
     }
-    fn policy() -> ProgressivePolicy {
+    pub(super) fn policy() -> ProgressivePolicy {
         ProgressivePolicy {
             maximum_acceleration_mmps2: 1000,
             maximum_sample_ns: 100_000_000,
@@ -997,7 +1034,7 @@ mod tests {
             maximum_gap_um: 13000,
         }
     }
-    fn ready(seq: u64, now: u64, front: u64, v: u32) -> ProgressiveReadiness {
+    pub(super) fn ready(seq: u64, now: u64, front: u64, v: u32) -> ProgressiveReadiness {
         ProgressiveReadiness {
             configuration: CFG,
             owner: OWNER,
@@ -1013,7 +1050,7 @@ mod tests {
             maximum_gap_um: 8000,
         }
     }
-    fn clearproof(i: u8, sequence: u64, now: u64) -> ProtectionProof {
+    pub(super) fn clearproof(i: u8, sequence: u64, now: u64) -> ProtectionProof {
         ProtectionProof {
             resource: ResourceId(i),
             controller: ControllerId(900),
@@ -1030,7 +1067,7 @@ mod tests {
             restriction: Restriction::Open,
         }
     }
-    fn fixture() -> ProgressiveDomain {
+    pub(super) fn fixture() -> ProgressiveDomain {
         let mut d = ProgressiveDomain::new(model(), CFG, policy(), NOW).unwrap();
         for train in [101, 102] {
             d.apply(
@@ -1076,7 +1113,7 @@ mod tests {
             .unwrap();
         }
     }
-    fn request() -> DepartureRequest {
+    pub(super) fn request() -> DepartureRequest {
         DepartureRequest {
             id: 1,
             owner: OWNER,
@@ -1086,7 +1123,7 @@ mod tests {
             readiness: ready(1, NOW, 300000, 0),
         }
     }
-    fn launch(d: &mut ProgressiveDomain) {
+    pub(super) fn launch(d: &mut ProgressiveDomain) {
         d.apply(&ProgressiveEvent::Prepare(request()), NOW).unwrap();
         d.apply(
             &ProgressiveEvent::Commit {

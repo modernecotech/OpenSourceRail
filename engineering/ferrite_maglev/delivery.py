@@ -8,7 +8,7 @@ from pathlib import Path
 import platform
 import tempfile
 
-from . import model,transition,geometry,field,media,optimisation,evacuation,system_development,reference_assembly,iteration,station,station_structure,station_protocol,station_native,moving_train,system_campaign,closure,manufactured_native,corridor,booster_kit,booster_native,interchange_hubs,line_capacity,hub_access,qualification,assembled_body,shared_hub_layout,body_stiffness
+from . import model,transition,geometry,field,media,optimisation,evacuation,system_development,reference_assembly,iteration,station,station_structure,station_protocol,station_native,moving_train,system_campaign,closure,manufactured_native,corridor,booster_kit,booster_native,interchange_hubs,line_capacity,hub_access,qualification,assembled_body,shared_hub_layout,body_stiffness,stopped_recovery
 
 OUTPUT = model.ROOT / 'docs/design-engine/ferrite-maglev/reference'
 EXPECTED={'result.json','index.html','guidebeam-sections.svg','duty-energy.svg','systems-register.json.gz','interface-definition.json.gz','civil-bay-definition.json.gz','field-study.json.gz','field-study.png','optimisation-study.json.gz','evacuation-study.json.gz','evacuation-envelope.svg'}
@@ -140,6 +140,9 @@ The new longer-leg studies are separate from the retained 1 km benchmarks below.
 <img src="../line-capacity/overview.svg" alt="Bounded multi-train reservation studies and adverse controls, without operational acceptance">
 <p><a href="../hub-access/README.md">Interchange access, structures and passenger-flow alternatives</a> · <a href="../hub-access/manifest.json">Access source receipt</a>. Connector modules and supports, access gradients, rests, lifts, passenger pulses and outage cases are counted explicitly. Reference loads and flow assumptions require local qualification; no connector or compact shared-site hub is selected.</p>
 <img src="../hub-access/overview.svg" alt="Provisional connector structure and accessible passenger-flow alternatives with open site and structural gates">
+<h2>Stopped controller recovery</h2>
+<p><a href="../stopped-recovery/README.md">Recovery protocol and limits</a> · <a href="../stopped-recovery/study.json.gz">Actual inputs, checkpoints and event transcripts</a> · <a href="../stopped-recovery/manifest.json">Source receipt</a>. A separately pinned model and policy, fresh whole-consist evidence at declared berths and a fenced new epoch are required. Reconciliation is atomic across all resources; old contracts stay retired and fresh prepare/commit is mandatory. Every retained replay is re-executed during verification. Moving restart, cross-controller handover, authenticated installed persistence and physical detector/timing qualification remain open.</p>
+<img src="../stopped-recovery/overview.svg" alt="Actual local stopped-recovery cases and atomic adverse rejections; no physical release">
 <h2>Assembled structural material regions</h2>
 <p><a href="../assembled-body/README.md">Assembled body, load-path revisions and limits</a> · <a href="../assembled-body/model.FCStd">Native structural assembly</a> · <a href="../assembled-body/model.step.gz">Compressed STEP</a> · <a href="../assembled-body/mass-properties.json">Geometry-derived partial mass and inertia</a> · <a href="../assembled-body/cut-list.csv">Counted cut list</a> · <a href="../assembled-body/legacy-collision-control.json">Retained incompatible-layout control</a> · <a href="../assembled-body/manifest.json">Source receipt</a>.</p>
 <p>Joined structural stock, panels, hardpoints and cartridge interfaces are placed as defined material regions. The former crosshead/guidebeam interference and incompatible bolt arrangement remain negative controls. Revised arms and fasteners carry their actual geometry, loads and counted mass. Native mass and inertia use declared densities; omitted equipment and unqualified material/joint behavior prevent an equipped-vehicle or manufacturing claim. Body and joint compliance are separate from the retained rigid-car numerical plant.</p>
@@ -158,7 +161,8 @@ The new longer-leg studies are separate from the retained 1 km benchmarks below.
 def closure_studies():
     return dict(line_capacity=line_capacity.read_summary(),hub_access=hub_access.read_summary(),
                 qualification=qualification.read_summary(),assembled_body=assembled_body.read_summary(),
-                shared_hub_layout=shared_hub_layout.read_summary(),body_stiffness=body_stiffness.read_summary())
+                shared_hub_layout=shared_hub_layout.read_summary(),body_stiffness=body_stiffness.read_summary(),
+                stopped_recovery=stopped_recovery.read_summary())
 
 def payload():
     before=model.sources();result=model.build()
@@ -191,7 +195,7 @@ def external_evidence():
     moving_train.verify();system_campaign.verify();closure.verify();manufactured_native.verify()
     corridor.verify();booster_kit.verify();booster_native.verify();interchange_hubs.verify()
     line_capacity.verify();hub_access.verify();qualification.verify()
-    assembled_body.verify();shared_hub_layout.verify();body_stiffness.verify()
+    assembled_body.verify();shared_hub_layout.verify();body_stiffness.verify();stopped_recovery.verify()
     base=model.ROOT/'docs/design-engine/ferrite-maglev'
     geometry.verify_native(base/'native');coupled.verify(base/'coupled');evacuation.verify_native(base/'beam-only')
     system_development.verify(base/'system-development')
@@ -199,7 +203,7 @@ def external_evidence():
     catalogue=cities.verify_index()
     if not catalogue['current']:raise ValueError('city catalogue inputs/outputs changed: '+str(catalogue['errors'][:3]))
     return {p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest()
-            for p in (base/'native/manifest.json',base/'coupled/receipt.json',base/'beam-only/manifest.json',base/'system-development/manifest.json',base/'baghdad-reference/manifest.json',base/'iterative/manifest.json',base/'station-powered/manifest.json',base/'station-structure/manifest.json',base/'station-protocol/manifest.json',base/'station-native/manifest.json',base/'moving-train/manifest.json',base/'system-campaign/manifest.json',base/'manufactured-dossier/manifest.json',base/'manufactured-native/manifest.json',base/'corridor/manifest.json',base/'booster-kit/manifest.json',base/'booster-native/manifest.json',base/'interchange-hubs/manifest.json',base/'line-capacity/manifest.json',base/'hub-access/manifest.json',base/'qualification/manifest.json',base/'assembled-body/manifest.json',base/'shared-hub-layout/manifest.json',base/'body-stiffness/manifest.json')}
+            for p in (base/'native/manifest.json',base/'coupled/receipt.json',base/'beam-only/manifest.json',base/'system-development/manifest.json',base/'baghdad-reference/manifest.json',base/'iterative/manifest.json',base/'station-powered/manifest.json',base/'station-structure/manifest.json',base/'station-protocol/manifest.json',base/'station-native/manifest.json',base/'moving-train/manifest.json',base/'system-campaign/manifest.json',base/'manufactured-dossier/manifest.json',base/'manufactured-native/manifest.json',base/'corridor/manifest.json',base/'booster-kit/manifest.json',base/'booster-native/manifest.json',base/'interchange-hubs/manifest.json',base/'line-capacity/manifest.json',base/'hub-access/manifest.json',base/'qualification/manifest.json',base/'assembled-body/manifest.json',base/'shared-hub-layout/manifest.json',base/'body-stiffness/manifest.json',base/'stopped-recovery/manifest.json')}
 
 
 def publish(output=OUTPUT, *, check=False):

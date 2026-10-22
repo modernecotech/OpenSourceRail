@@ -17,6 +17,7 @@ are the leading studies. **Accepted engineering and physical releases: zero.**
 ./osr design corridor
 ./osr design booster-kit
 ./osr design line-capacity
+./osr design stopped-recovery
 ./osr design hub-access
 ./osr design qualification
 ./osr design assembled-body
@@ -49,6 +50,8 @@ concurrent timer/manual builds. Progress is retained under
 `build/maglev-workflow/latest.json`. The runner rebuilds stale evidence and holds
 dependent work after failures; missing evaluators and physical measurements
 remain additional engineering work.
+
+The [stopped-controller recovery study](../../docs/design-engine/ferrite-maglev/stopped-recovery/README.md) executes fresh-epoch reconciliation for stationary consists at declared berths. It retains complete checkpoints and event histories, repeats every replay during verification, and requires new contracts after recovery. Moving recovery, multi-controller handover, authenticated installed storage and physical interfaces remain open.
 
 ## Current inputs and design records
 

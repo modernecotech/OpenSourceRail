@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **577**.
+Indexed Markdown files: **578**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **577**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 26 |
+| [docs](#docs) | 27 |
 | [engineering](#engineering) | 3 |
 | [tools](#tools) | 2 |
 
@@ -637,6 +637,7 @@ Indexed Markdown files: **577**.
 | [`docs/design-engine/ferrite-maglev/station-powered/README.md`](../docs/design-engine/ferrite-maglev/station-powered/README.md) | Station-powered maglev study |
 | [`docs/design-engine/ferrite-maglev/station-protocol/README.md`](../docs/design-engine/ferrite-maglev/station-protocol/README.md) | Station launch and controller executable evidence |
 | [`docs/design-engine/ferrite-maglev/station-structure/README.md`](../docs/design-engine/ferrite-maglev/station-structure/README.md) | Station-powered body and civil candidates |
+| [`docs/design-engine/ferrite-maglev/stopped-recovery/README.md`](../docs/design-engine/ferrite-maglev/stopped-recovery/README.md) | Stopped progressive-controller recovery |
 | [`docs/design-engine/ferrite-maglev/system-campaign/README.md`](../docs/design-engine/ferrite-maglev/system-campaign/README.md) | Integrated station, interlocking and recovery study |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail v0.5.2 development — fixed-zone ferrite maglev |
 | [`docs/releases/v0.5.1.md`](../docs/releases/v0.5.1.md) | OpenSourceRail v0.5.1 |

@@ -10,7 +10,7 @@ import subprocess
 import sys
 import tempfile
 
-from . import cities, coupled, delivery, evacuation, geometry, media, model, system_development, navigation, reference_assembly, iteration, station, station_structure, station_protocol, station_native, moving_train, system_campaign, closure, manufactured_native, corridor, booster_kit, booster_native, interchange_hubs, line_capacity, hub_access, qualification, assembled_body, shared_hub_layout,body_stiffness
+from . import cities, coupled, delivery, evacuation, geometry, media, model, system_development, navigation, reference_assembly, iteration, station, station_structure, station_protocol, station_native, moving_train, system_campaign, closure, manufactured_native, corridor, booster_kit, booster_native, interchange_hubs, line_capacity, hub_access, qualification, assembled_body, shared_hub_layout,body_stiffness,stopped_recovery
 
 BASE = model.ROOT/'docs/design-engine/ferrite-maglev'
 STATE = model.ROOT/'build/maglev-workflow'
@@ -128,6 +128,7 @@ def stages(output):
         ('all-city-maglev-planning', city_check, cities.generate_all),
         ('baghdad-interchange-hub-investigation', interchange_hubs.verify, lambda: fresh_packet('interchange-hubs', interchange_hubs.publish)),
         ('sectioned-multitrain-capacity', line_capacity.verify, lambda: fresh_packet('line-capacity', line_capacity.publish)),
+        ('stopped-controller-recovery',stopped_recovery.verify,lambda:fresh_packet('stopped-recovery',stopped_recovery.publish)),
         ('interchange-access-engineering', hub_access.verify, lambda: fresh_packet('hub-access', hub_access.publish)),
         ('shared-hub-station-geometry',shared_hub_layout.verify,lambda:fresh_packet('shared-hub-layout',shared_hub_layout.publish)),
         ('requirements-qualification-protocols', qualification.verify, lambda: fresh_packet('qualification', qualification.publish)),

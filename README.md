@@ -60,7 +60,7 @@ The [qualification programme](docs/design-engine/ferrite-maglev/qualification/RE
 
 The [assembled structural candidate](docs/design-engine/ferrite-maglev/assembled-body/README.md) places fitted material regions, mounting holes and fasteners together and derives partial mass and inertia from reopened native solids. It retains the earlier crossmember/guideway interference as a rejected control. Its images and assembly visibility video show the defined structure; omitted equipment, joined-body behavior and physical qualification remain open. The [shared-hub geometry study](docs/design-engine/ferrite-maglev/shared-hub-layout/README.md) fits both directional approaches, powered zones, platforms and door-to-door paths, preserving rejected layouts and counting new geometry without assuming former civil prices.
 
-A [fresh full-mass stiffness sensitivity](engineering/assurance/v052-closure-development/body-axial-summary.json) records a moving-system hold: the body-derived series stiffness produces about11.4° magnetic phase spread against the existing5° confirmation criterion, although its gap screens pass. The100MN/m reference produces1.75°. These are rigid-car comparisons with complete retained traces and a [source receipt](engineering/assurance/v052-closure-development/body-axial-receipt.json); they do not qualify flexible bodies or promote the new structure into the operating model.
+A [fresh full-mass stiffness sensitivity](engineering/assurance/v052-stopped-recovery-development/body-axial-summary.json) records a moving-system hold: the body-derived series stiffness produces about11.4° magnetic phase spread against the existing5° confirmation criterion, although its gap screens pass. The100MN/m reference produces1.75°. These are rigid-car comparisons with complete retained traces and a [source receipt](engineering/assurance/v052-stopped-recovery-development/body-axial-receipt.json); they do not qualify flexible bodies or promote the new structure into the operating model.
 
 The [repeatable longitudinal-stock sweep](docs/design-engine/ferrite-maglev/body-stiffness/README.md) tests four steel-spine alternatives after that failure, counting drilled walls, longer crush spacers and added full-AW3 mass. Three alternatives pass the same phase screen. They remain unselected: material, thin-wall joints, heavier structural loads and flexible-body behavior still require verification. The GFRP result and all rejected comparisons remain visible.
 
@@ -87,6 +87,8 @@ The [repeatable longitudinal-stock sweep](docs/design-engine/ferrite-maglev/body
 ./osr readiness                # source and acceptance gates
 ./osr book                     # source-bound reader PDF
 ```
+
+The [stopped-controller recovery study](docs/design-engine/ferrite-maglev/stopped-recovery/README.md) tests local recovery from prepared and committed checkpoints, including two trains and adverse evidence. A new fenced epoch, quarantine and complete fresh stopped proofs are required; old contracts stay retired and fresh prepare/commit is mandatory. Moving recovery, cross-controller handover and installed authentication remain open.
 
 The dependency runner resumes implemented work after interruption and holds downstream output when a prerequisite fails. The Workbench has no live train-control authority. A committed coasting train needs protected receiving capability; a receiver fault, stranded train and stationary recovery each require an engineered response.
 
