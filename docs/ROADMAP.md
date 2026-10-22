@@ -29,6 +29,15 @@ the tested digital scope. Accepted engineering and physical releases remain zero
 | Economics and origin | Complete origin-traced MBOM, configured supplier offers, station/civil/fleet scope, capital/tooling, maintenance, financing and uncertainty |
 | Demonstrator | Manufactured serials and exact revisions, independent inspections, measured system operation and physical acceptance |
 
+The [qualification programme](design-engine/ferrite-maglev/qualification/README.md)
+maps the applicable requirements to dependency-ordered tasks, physical test
+procedures and guarded raw-evidence assessment. It supplies the execution route
+for this queue; every physical acceptance gate remains open until actual evidence
+and independent dispositions exist. New [fitted structural CAD](design-engine/ferrite-maglev/assembled-body/README.md),
+[multi-train controls](design-engine/ferrite-maglev/line-capacity/README.md) and
+[shared-hub geometry](design-engine/ferrite-maglev/shared-hub-layout/README.md)
+close defined digital studies while retaining their unresolved interfaces.
+
 The implemented station study adds jerk-limited launch/coast/arrival calculations,
 magnetic-band overlap, receiving-brake duty and headway/power/cost sensitivities.
 The structure study adds quantity-derived GFRP cases, orientation seeds, five beam

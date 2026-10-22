@@ -90,12 +90,21 @@ try {
     "../corridor/urban-overview.png",
     "../corridor/suburban-overview.png",
     "../interchange-hubs/overview.svg",
+    "../line-capacity/overview.svg",
+    "../hub-access/overview.svg",
+    "../assembled-body/overview.png",
+    "../assembled-body/frame-cutaway.png",
+    "../assembled-body/six-car.png",
+    "../shared-hub-layout/overview.svg",
+    "../shared-hub-layout/station-plan.svg",
+    "../shared-hub-layout/overview.png",
+    "../body-stiffness/overview.svg",
   ];
   assert.deepEqual(
     images.map((image) => image.src).sort(),
     expectedImages.sort(),
   );
-  assert.equal(images.length, 25);
+  assert.equal(images.length, expectedImages.length);
   assert.ok(images.every((i) => i.loaded));
   assert.match(await page.locator("h1").innerText(), /Ferrite-maglev/);
   const origin = `http://127.0.0.1:${port}`;
@@ -497,6 +506,91 @@ try {
   assert.equal(hubs.engineering_accepted,false);assert.equal(hubs.physical_release,false);
   assert.ok((await page.locator('body').innerText()).includes(`default Baghdad reference remains ${hubs.baseline.operating_station_count} proposed stops`));
 
+  const closureManifests={};
+  for(const [folder,key] of [['line-capacity','line_capacity'],['hub-access','hub_access'],['qualification','qualification'],['assembled-body','assembled_body'],['shared-hub-layout','shared_hub_layout'],['body-stiffness','body_stiffness']]){
+    const manifest=await checkedPacket('../'+folder+'/');
+    closureManifests[folder]=manifest;
+    const receipt=(await asset('../'+folder+'/manifest.json')).body;
+    assert.equal(data.retained_evidence['docs/design-engine/ferrite-maglev/'+folder+'/manifest.json'],digest(receipt));
+    const study=JSON.parse(gunzipSync((await asset('../'+folder+'/study.json.gz')).body).toString('utf8'));
+    const boundSources=study.source_sha256 || study.binding.source_sha256;
+    assert.deepEqual(boundSources,manifest.source_sha256);
+    for(const flag of ['design_complete','physical_validation','manufacturing_release','physical_release']){
+      assert.equal(study[flag],false);assert.equal(data.closure_studies[key][flag],false);
+    }
+    if(folder==='line-capacity'){
+      assert.equal(study.executed_controls_pass,true);
+      assert.equal(study.whole_line_capacity_accepted,false);
+      assert.equal(study.city_default_changed,false);
+      assert.ok(study.runs.length>=20 && study.runs.every(run=>run.control_pass===true));
+      const summary=data.closure_studies[key];
+      assert.equal(summary.legacy_station_launch.legacy_contract_changed,false);
+      assert.equal(summary.legacy_station_launch.headway_180s_rejected_while_stopped,true);
+      assert.equal(summary.legacy_station_launch.headway_600s_executed_pass,true);
+      assert.equal(summary.progressive_departure.protocol,'osr-progressive-departure/1');
+      assert.equal(summary.progressive_departure.restored_snapshot_can_authorise_motion,false);
+      assert.equal(summary.progressive_departure.reconciliation_resumption_implemented,false);
+      assert.ok(summary.progressive_departure.executed_api_tests>=12);
+      for(const profile of summary.progressive_departure.profiles){
+        assert.equal(profile.headway_s,180);assert.ok(profile.committed_departures>=3);
+        assert.ok(profile.stopped_arrivals>0 && profile.full_tail_releases>0);
+        assert.ok(profile.minimum_stopping_margin_m>=0 && profile.hold_stopping_margin_m>=0);
+        assert.equal(profile.closed_arrival_brake_plant_pass,true);
+      }
+    }else if(folder==='qualification'){
+      assert.equal(study.coverage.applicable_requirements,data.applicable_requirements.requirements.length);
+      assert.equal(study.coverage.accepted_requirements,0);assert.equal(study.coverage.accepted_physical_gates,0);
+      assert.deepEqual(study.coverage.uncovered_requirements,[]);assert.deepEqual(study.coverage.uncovered_groups,[]);
+      assert.equal(study.coverage.gates,data.gates.length);
+      assert.ok(study.coverage.protocols>=15 && study.tasks.length===study.topological_task_order.length);
+    }else if(folder==='hub-access'){
+      assert.equal(data.closure_studies[key].hub_selected,false);
+      assert.ok(data.closure_studies[key].flow_scenarios>0 && data.closure_studies[key].lift_scenarios>0);
+    }else if(folder==='assembled-body'){
+      const summary=data.closure_studies[key];
+      const mass=await jsonAsset('../'+folder+'/mass-properties.json');
+      const legacy=await jsonAsset('../'+folder+'/legacy-collision-control.json');
+      const native=await jsonAsset('../'+folder+'/native-cad.json');
+      assert.equal(study.complete_equipped_vehicle,false);assert.equal(study.default_mass_or_stiffness_changed,false);
+      assert.equal(summary.complete_equipped_vehicle,false);assert.equal(summary.default_mass_or_stiffness_changed,false);
+      assert.equal(summary.part_count,study.part_count);assert.ok(summary.part_count>1000);
+      assert.equal(native.fcstd_reopened,true);assert.equal(native.step_reopened,true);
+      assert.equal(summary.all_defined_material_pairs_native_checked,true);assert.equal(summary.unintended_intersection_count,0);
+      assert.equal(summary.defined_vehicle_material_mass_kg,mass.defined_vehicle_material_mass_kg);
+      assert.deepEqual(summary.defined_vehicle_material_cg_m,mass.defined_vehicle_material_cg_m);
+      assert.deepEqual(summary.defined_vehicle_material_inertia_kg_m2,mass.defined_vehicle_material_inertia_kg_m2);
+      assert.equal(mass.whole_equipped_vehicle_mass_kg,null);assert.equal(mass.density_assumptions_are_measured,false);
+      assert.equal(legacy.expected_failure_observed,true);assert.equal(legacy.eligible_for_assembled_adoption,false);
+      assert.ok(legacy.total_common_volume_mm3>0 && legacy.collisions.length>0);
+    }else if(folder==='body-stiffness'){
+      const summary=data.closure_studies[key];
+      assert.equal(summary.case_count,study.cases.length);assert.equal(summary.case_count,5);
+      assert.equal(summary.selected_candidate_id,null);assert.equal(summary.automatic_adoption,false);
+      assert.equal(summary.city_default_changed,false);assert.equal(summary.joined_body_accepted,false);
+      assert.equal(summary.study_pass,false);assert.equal(summary.gfrp_control_above_phase_limit,true);
+      assert.deepEqual(summary.cases,study.cases);
+      assert.equal(summary.phase_screen_passing_alternatives,study.phase_screen_passing_alternative_ids.length);
+      assert.ok(summary.phase_screen_passing_alternatives>0);
+      assert.ok(summary.open_gates.length>0);
+    }else if(folder==='shared-hub-layout'){
+      const summary=data.closure_studies[key];
+      assert.equal(summary.hub_selected,false);
+      assert.equal(summary.variant_count,study.variant_count);
+      assert.equal(summary.geometric_fit_count,study.geometric_fit_count);
+      assert.equal(summary.representatives,study.representatives.length);
+      assert.equal(summary.required_common_straight_m,study.stop_convention.required_common_straight_m);
+      assert.equal(summary.common_platform_length_m,study.stop_convention.common_platform_length_m);
+      assert.ok(study.alternatives.some(row=>!row.geometric_research_screen_pass));
+      for(const row of study.representatives){
+        assert.equal(row.selected,false);
+        for(const paths of row.circulation.platform_pair_walks){
+          assert.equal(paths.routed_door_pairs,paths.required_door_pairs);
+          assert.ok(paths.maximum_horizontal_walk_m>=paths.minimum_horizontal_walk_m && paths.minimum_horizontal_walk_m>=0);
+        }
+      }
+    }
+  }
+
   const adaptiveManifest = await jsonAsset("../iterative/manifest.json");
   const adaptiveRaw = await asset("../iterative/result.json.gz");
   assert.equal(createHash("sha256").update(adaptiveRaw.body).digest("hex"), adaptiveManifest.files_sha256["result.json.gz"]);
@@ -704,6 +798,7 @@ try {
   );
   expectedVideos.push("../baghdad-reference/station/assembly-visibility.mp4");
   expectedVideos.push("../station-native/assembly-visibility.mp4", "../moving-train/moving-train.mp4", "../manufactured-native/assembly-visibility.mp4", "../booster-native/assembly-visibility.mp4", "../corridor/urban-motion.mp4", "../corridor/suburban-motion.mp4");
+  expectedVideos.push("../assembled-body/assembly-visibility.mp4");
   const stationManifest = await jsonAsset("../baghdad-reference/manifest.json");
   const stationStudy = await jsonAsset("../baghdad-reference/study.json");
   assert.equal(stationStudy.cars_per_train,6);
@@ -765,7 +860,7 @@ try {
       "assembly video must contain media bytes",
     );
     assert.equal(video.body.subarray(4, 8).toString("ascii"), "ftyp");
-    const mediaPackets=[["../station-native/",stationNativeManifest],["../moving-train/",movingManifest],["../manufactured-native/",detailManifest],["../booster-native/",boosterNativeManifest],["../corridor/",corridorManifest],["../baghdad-reference/",stationManifest],["../system-development/",systemManifest],["../native/",nativeManifest]];
+    const mediaPackets=[["../station-native/",stationNativeManifest],["../moving-train/",movingManifest],["../manufactured-native/",detailManifest],["../booster-native/",boosterNativeManifest],["../corridor/",corridorManifest],["../baghdad-reference/",stationManifest],["../system-development/",systemManifest],["../native/",nativeManifest],["../assembled-body/",closureManifests['assembled-body']]];
     const [prefix,manifest]=mediaPackets.find(([prefix])=>href.startsWith(prefix)) || [];
     assert.ok(prefix,"video has no source-bound packet");
     assert.equal(digest(video.body),manifest.files_sha256[href.slice(prefix.length)]);

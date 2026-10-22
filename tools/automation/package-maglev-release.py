@@ -1,24 +1,75 @@
 #!/usr/bin/env python3
 """Package verified, committed digital studies; never authorise physical release."""
 import argparse
-from hashlib import sha1,sha256
-import io
+from hashlib import sha256
 import json
 from pathlib import Path
 import subprocess
 import sys
-import tarfile
-import gzip
 
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT))
-from engineering.ferrite_maglev import delivery,iteration,model
+from engineering.ferrite_maglev import delivery,iteration,model,release_bundle
+
+
+def body_evidence_paths():
+    """Retain the independent sensitivity and its exact original-driver mapping."""
+    from engineering.ferrite_maglev import assembled_body,moving_train,body_stiffness
+    base=ROOT/'engineering/assurance/v052-closure-development'
+    def checksum(path):
+        if (path.resolve()!=path or path.is_symlink() or not path.is_file()
+                or path.stat().st_size>release_bundle.MAX_MEMBER):
+            raise ValueError('bounded ordinary body evidence required')
+        value=sha256()
+        with path.open('rb') as stream:
+            for block in iter(lambda:stream.read(1024*1024),b''):value.update(block)
+        return value.hexdigest()
+    receipt_path=base/'body-axial-receipt.json'
+    checksum(receipt_path)
+    receipt=json.loads(receipt_path.read_bytes())
+    expected={'run.py','summary.json','reference-100MN.json.gz','gross-series.json.gz','drilled-series.json.gz'}
+    if (receipt.get('schema')!='osr-body-axial-sensitivity-receipt/1'
+            or set(receipt.get('files_sha256',{}))!=expected
+            or any(receipt.get(k) is not False for k in (*model.FLAGS,'accepted_body_or_plant','city_default_changed'))):
+        raise ValueError('body evidence scope or inventory differs')
+    values={receipt_path.relative_to(ROOT).as_posix()}
+    for name,expected_hash in receipt['files_sha256'].items():
+        path=base/('body-axial-'+name)
+        if checksum(path)!=expected_hash:raise ValueError('body evidence checksum differs')
+        values.add(path.relative_to(ROOT).as_posix())
+    instructions=base/'body-axial-reproduction.txt'
+    checksum(instructions)
+    values.add(instructions.relative_to(ROOT).as_posix())
+    original='build/body-axial-sensitivity/run.py'
+    expected_sources={**moving_train.sources(),**assembled_body.sources(),**body_stiffness.sources(),
+        original:receipt['files_sha256']['run.py']}
+    if receipt.get('source_sha256')!=expected_sources:raise ValueError('body evidence sources stale')
+    # The original ignored execution path maps to the byte-identical audit copy;
+    # every other source remains at its original committed repository path.
+    for name,expected_hash in expected_sources.items():
+        release_bundle.safe(name)
+        if name==original:continue
+        if checksum(ROOT/name)!=expected_hash:raise ValueError('body evidence input changed')
+        values.add(name)
+    return values
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--shard-payload-mib',type=int,default=256,
+                        help='Raw member payload per archive part (64–512 MiB)')
+    parser.add_argument('--verify-bundle',action='store_true',
+                        help='Verify an existing multipart bundle without native tools')
+    parser.add_argument('--expected-manifest-sha256',
+                        help='Trusted manifest digest for offline bundle verification')
     args=parser.parse_args()
+    if args.verify_bundle:
+        print(json.dumps(release_bundle.verify(args.output,expected_manifest_sha256=args.expected_manifest_sha256),indent=2));return
+    if args.expected_manifest_sha256:
+        parser.error('--expected-manifest-sha256 requires --verify-bundle')
+    if not 64<=args.shard_payload_mib<=512:
+        parser.error('--shard-payload-mib must be between64 and512')
     manifest=delivery.verify();iteration.verify()
     commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     raw=subprocess.check_output(['git','ls-tree','-rz','--full-tree','HEAD'],cwd=ROOT)
@@ -32,43 +83,18 @@ def main():
                   'engineering/ferrite_maglev/README.md','engineering/ferrite_maglev/city-index.md',
                   'tools/automation/package-maglev-release.py'))
     paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/'LICENSES').rglob('*') if p.is_file())
-    for folder in ('reference','native','beam-only','system-development','baghdad-reference','coupled','iterative','station-powered','station-structure','station-protocol','station-native','moving-train','system-campaign','manufactured-dossier','manufactured-native','corridor','booster-kit','booster-native','interchange-hubs'):
+    paths.update(body_evidence_paths())
+    for folder in ('reference','native','beam-only','system-development','baghdad-reference','coupled','iterative','station-powered','station-structure','station-protocol','station-native','moving-train','system-campaign','manufactured-dossier','manufactured-native','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness'):
         packet=ROOT/'docs/design-engine/ferrite-maglev'/folder
         paths.update(p.relative_to(ROOT).as_posix() for p in packet.rglob('*') if p.is_file())
         for receipt in [*packet.rglob('manifest.json'),*packet.rglob('receipt.json')]:
             value=json.loads(receipt.read_text())
             for key in ('source_sha256','sources_sha256'):
                 paths.update(value.get(key,{}))
-    files={};total=0
-    for name in sorted(paths):
-        path=ROOT/name
-        if path.is_symlink() or not path.resolve().is_relative_to(ROOT) or '..' in Path(name).parts:raise ValueError('unsafe release member')
-        if path.stat().st_size>64*1024*1024:raise ValueError('oversized member: '+name)
-        data=path.read_bytes();total+=len(data)
-        if total>512*1024*1024:raise ValueError('release package exceeds bound')
-        git_hash=sha1(b'blob '+str(len(data)).encode()+b'\0'+data).hexdigest()
-        if tracked.get(name)!=git_hash:raise ValueError('release member differs from committed source: '+name)
-        files[name]=data
-    record=dict(schema='osr-software-study-release/1',version=model.RELEASE_VERSION,commit=commit,
-        scope='Source-bound digital research studies, not a manufacturing or operating release. This evidence bundle is a selected source subset; obtain full source from the Git tag.',
-        source_sha256=manifest['source_sha256'],files_sha256={n:sha256(d).hexdigest() for n,d in files.items()},
-        accepted_engineering_items=0,**model.FLAGS)
-    files['RELEASE-MANIFEST.json']=delivery.encoded(record)
-    prefix='OpenSourceRail-v'+model.RELEASE_VERSION
-    output=args.output.resolve()
-    if output.exists() and any(output.iterdir()):raise ValueError('choose a new empty release output')
-    output.mkdir(parents=True,exist_ok=True)
-    archive=output/(prefix+'-design-studies.tar.gz')
-    with archive.open('wb') as target,gzip.GzipFile(filename='',mode='wb',fileobj=target,mtime=0) as compressed,tarfile.open(fileobj=compressed,mode='w|') as tar:
-        for name,data in sorted(files.items()):
-            info=tarfile.TarInfo(prefix+'/'+name);info.size=len(data);info.mode=0o644;info.mtime=0
-            tar.addfile(info,io.BytesIO(data))
-    (output/'RELEASE-MANIFEST.json').write_bytes(files['RELEASE-MANIFEST.json'])
-    (output/'OpenSourceRail-Book.pdf').write_bytes((ROOT/'OpenSourceRail-Book.pdf').read_bytes())
-    sums=''.join(sha256(p.read_bytes()).hexdigest()+'  '+p.name+'\n' for p in sorted(output.iterdir()))
-    (output/'SHA256SUMS').write_text(sums)
-    print(json.dumps(dict(version=model.RELEASE_VERSION,commit=commit,members=len(files),uncompressed_bytes=total,
-        archive_bytes=archive.stat().st_size,output=str(output),physical_release=False),indent=2))
+    result=release_bundle.publish(ROOT,args.output,paths,tracked,version=model.RELEASE_VERSION,
+        commit=commit,source_sha256=manifest['source_sha256'],
+        shard_limit=args.shard_payload_mib*1024*1024)
+    print(json.dumps(result,indent=2))
 
 
 if __name__=='__main__':main()

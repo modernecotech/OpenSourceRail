@@ -1,0 +1,2556 @@
+{
+  "common_prerequisites": [
+    "Approved quantitative limits and uncertainty budget before execution",
+    "Article serial/batch, exact drawings/material/firmware and configuration hashes",
+    "Named qualified operator and independent witness/assessor; authenticated identity and scope",
+    "Calibrated instruments with certificate hashes, units, range and validity throughout run",
+    "Approved safe method, restraint/exclusion, abort and rescue plan",
+    "Earlier gate dispositions and NCR closure; no simulation or catalogue claim as physical evidence"
+  ],
+  "evidence_policy": {
+    "all_release_flags_remain_false": true,
+    "allowed_classes": [
+      "executed-study",
+      "supplier-record",
+      "site-record",
+      "physical-rig",
+      "independent-review"
+    ],
+    "authenticator": "Caller supplies trusted external signature/identity verifier; absent verifier always holds. Local reviewer text or digest is not authentication.",
+    "max_raw_bytes": 16777216,
+    "max_samples": 100000
+  },
+  "groups": [
+    {
+      "current_evidence_packets": [
+        "station-structure",
+        "station-native",
+        "moving-train",
+        "corridor"
+      ],
+      "deliverable": "Sized sandwich/rib/stringer and local hardpoint drawings, service joint geometry, exclusive interface BOM and complete equipment mass closure",
+      "id": "body-joints-hardpoints",
+      "missing_evaluators_or_external_tests": [
+        "Qualified hot/aged orthotropic laminate/core/adhesive properties",
+        "Full body buckling/fatigue/crash/coupler/peel and insert tests",
+        "Complete equipment, joint, mass/CG/inertia and repair drawings"
+      ],
+      "required_protocol_ids": [
+        "hot-composite-joints",
+        "vehicle-structure"
+      ],
+      "sp_numbers": [
+        3,
+        36,
+        37,
+        38,
+        43,
+        44,
+        45,
+        68,
+        69,
+        81,
+        85,
+        97
+      ],
+      "system_ids": [
+        "FM-BODY-FRAME",
+        "FM-BODY-PANELS",
+        "FM-DOORS",
+        "FM-GLAZING",
+        "FM-INTERIOR",
+        "FM-COUPLER",
+        "FM-GFRP-HARDPOINT"
+      ],
+      "work_packages": [
+        "vehicle-mass",
+        "magnetic-cad"
+      ]
+    },
+    {
+      "current_evidence_packets": [
+        "native",
+        "station-structure",
+        "moving-train"
+      ],
+      "deliverable": "Grade-controlled cartridge/coil/steel/phase geometry and converged shared support-thrust force/flux/R/L/loss/thermal maps",
+      "id": "magnetic-circuit",
+      "missing_evaluators_or_external_tests": [
+        "Nonlinear 3D finite-array/steel/coil circuit and magnetic stiffness",
+        "Demagnetisation, retention, control authority and full-scale force/loss rig correlation"
+      ],
+      "required_protocol_ids": [
+        "magnetic-module",
+        "restrained-support",
+        "moving-guideway"
+      ],
+      "sp_numbers": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        24,
+        78,
+        79,
+        95
+      ],
+      "system_ids": [
+        "FM-FERRITE",
+        "FM-CARTRIDGE",
+        "FM-CORE",
+        "FM-LIFT-WINDING",
+        "FM-GUIDANCE-WINDING",
+        "FM-FINITE-MAGNET",
+        "FM-MAGNET-FIXTURE",
+        "FM-FIELD-RIG"
+      ],
+      "work_packages": [
+        "magnetic-force-loss",
+        "magnetic-cad"
+      ]
+    },
+    {
+      "current_evidence_packets": [
+        "station-powered",
+        "station-protocol",
+        "system-campaign",
+        "booster-kit",
+        "corridor"
+      ],
+      "deliverable": "Station and located booster cassette/section/bridge/phase/rail-beam interface drawings, grouped converter BOM, normal/thrust reactions and independently available receiving brake",
+      "id": "station-motor-interfaces",
+      "missing_evaluators_or_external_tests": [
+        "Measured force constants, normal-force coupling, R/L/voltage/current and repeated thermal duty",
+        "Concrete anchors, isolation, protection, phase handover and receiving redundancy",
+        "Supplier-priced converter/winding configurations and complete station MEP"
+      ],
+      "required_protocol_ids": [
+        "station-stator"
+      ],
+      "sp_numbers": [
+        23,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        70,
+        80,
+        90,
+        92,
+        93,
+        94,
+        96
+      ],
+      "system_ids": [
+        "FM-THRUST-WINDING",
+        "FM-INVERTER",
+        "FM-STATION-STATOR",
+        "FM-STATION-CONVERTER",
+        "FM-STATION-BRAKE-SINK",
+        "FM-STATION-PHASE"
+      ],
+      "work_packages": [
+        "rust-support-control",
+        "switch-free-city",
+        "local-mbom-cost"
+      ]
+    },
+    {
+      "current_evidence_packets": [
+        "native",
+        "beam-only",
+        "station-structure",
+        "moving-train",
+        "booster-kit",
+        "corridor"
+      ],
+      "deliverable": "Prestress/rebar/cover/end-block/bearing/anchor schedules, temporary restraint and lifting plans, ground-selected foundations and emergency load paths",
+      "id": "civil-strength-stages",
+      "missing_evaluators_or_external_tests": [
+        "Shear/torsion/end-zone/transfer/cracking/creep and moving train-gap interaction",
+        "Ground/utility/settlement/water/seismic/wind and anchor capacities",
+        "Load-tested bearings, handling points, restraints and serial survey acceptance"
+      ],
+      "required_protocol_ids": [
+        "baghdad-site",
+        "civil-prestress-handling",
+        "moving-guideway"
+      ],
+      "sp_numbers": [
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        86,
+        91,
+        98
+      ],
+      "system_ids": [
+        "FM-CAPTURE",
+        "FM-REACTION-RAIL",
+        "FM-RAIL-MOUNT",
+        "FM-GUIDEBOX",
+        "FM-PIER",
+        "FM-FOUNDATION",
+        "FM-BEARING-JOINT",
+        "FM-DRAINAGE",
+        "FM-METROLOGY"
+      ],
+      "work_packages": [
+        "civil-kit",
+        "coupled-dynamics"
+      ]
+    },
+    {
+      "current_evidence_packets": [
+        "station-powered",
+        "baghdad-reference",
+        "system-campaign",
+        "corridor"
+      ],
+      "deliverable": "Power/thermal single-lines, battery/BMS/charger and services duty, independent support reserve, qualified HVAC/cooling hardware",
+      "id": "energy-services",
+      "missing_evaluators_or_external_tests": [
+        "Measured hot-weather HVAC/door duty, repeated charging/ageing and containment",
+        "Isolated protection, support-loss reserve, connector and power/thermal tests"
+      ],
+      "required_protocol_ids": [
+        "restrained-support",
+        "battery-hvac-charge",
+        "service-demonstrator"
+      ],
+      "sp_numbers": [
+        39,
+        40,
+        41,
+        42,
+        46
+      ],
+      "system_ids": [
+        "FM-SUPPORT-POWER",
+        "FM-BATTERY",
+        "FM-CHARGING",
+        "FM-COOLING",
+        "FM-HVAC",
+        "FM-AUXILIARIES"
+      ],
+      "work_packages": [
+        "vehicle-mass",
+        "local-mbom-cost",
+        "switch-free-city"
+      ]
+    },
+    {
+      "current_evidence_packets": [
+        "station-protocol",
+        "coupled",
+        "moving-train",
+        "system-campaign",
+        "corridor"
+      ],
+      "deliverable": "Versioned support/phase/reservation/complete-consist sensing and independent protection interfaces, fault containment and physical timing tests",
+      "id": "control-protection",
+      "missing_evaluators_or_external_tests": [
+        "Authenticated independent sensing/clearance, common-cause and power-loss tests",
+        "Real current/position control and measured MCU/SBC deadlines",
+        "System hazards, configuration authentication and independent acceptance"
+      ],
+      "required_protocol_ids": [
+        "baseline-review",
+        "target-io-timing",
+        "restrained-support",
+        "moving-guideway",
+        "service-demonstrator"
+      ],
+      "sp_numbers": [
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        82,
+        83,
+        87
+      ],
+      "system_ids": [
+        "FM-SENSOR",
+        "FM-PROTECTION",
+        "FM-ODOMETRY",
+        "FM-CONTROL-SOFTWARE",
+        "FM-STATION-LAUNCH",
+        "FM-DEPOT-ROUTING"
+      ],
+      "work_packages": [
+        "rust-support-control",
+        "sbc-io-timing",
+        "coupled-dynamics"
+      ]
+    },
+    {
+      "current_evidence_packets": [
+        "system-development",
+        "baghdad-reference"
+      ],
+      "deliverable": "Passenger-transfer hubs between independent fixed lines with accessible platform/vertical paths, route egress, assisted evacuation and located recovery provisions; no train-routing switch",
+      "id": "station-egress",
+      "missing_evaluators_or_external_tests": [
+        "All-stop landing/height/wind/fire/obstruction and assisted evacuation tests",
+        "Full station structure, access, canopy/services and emergency transfers",
+        "Qualified device stowage/deployment mass, anchors, inspection and renewal"
+      ],
+      "required_protocol_ids": [
+        "baseline-review",
+        "baghdad-site",
+        "recovery-system",
+        "egress-access",
+        "service-demonstrator"
+      ],
+      "sp_numbers": [
+        71,
+        72,
+        73
+      ],
+      "system_ids": [
+        "FM-EVACUATION",
+        "FM-EGRESS-ACCESS",
+        "FM-STATION",
+        "FM-STATION-SERVICES",
+        "FM-EGRESS-SOFTWARE"
+      ],
+      "work_packages": [
+        "civil-kit",
+        "switch-free-city",
+        "rig-and-demonstrator"
+      ]
+    },
+    {
+      "current_evidence_packets": [
+        "station-structure",
+        "station-protocol",
+        "system-campaign",
+        "booster-kit",
+        "corridor"
+      ],
+      "deliverable": "Instance-bound MBOM/routings, factory/mould/crew/crane/transport plans, depot/terminal/recovery layout, origin/price records and demonstrator acceptance",
+      "id": "industrial-recovery-assurance",
+      "missing_evaluators_or_external_tests": [
+        "Configured machines, controlled processes, measured yield/cure/output and supplier offers",
+        "Access-qualified terminal/depot and rescue/winch/tow arrangements and recovery exercises",
+        "Independent requirements/hazards/site/operator approval and serial material/test evidence"
+      ],
+      "required_protocol_ids": [
+        "baseline-review",
+        "baghdad-site",
+        "recovery-system",
+        "service-demonstrator",
+        "industrial-first-article"
+      ],
+      "sp_numbers": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        74,
+        75,
+        76,
+        77,
+        84,
+        88,
+        89,
+        99,
+        100
+      ],
+      "system_ids": [
+        "FM-DEPOT",
+        "FM-FACTORY",
+        "FM-WINDING-FIXTURE",
+        "FM-OPERATIONS",
+        "FM-ASSURANCE",
+        "FM-CIVIL-PRODUCTION"
+      ],
+      "work_packages": [
+        "requirements-profile",
+        "local-mbom-cost",
+        "rig-and-demonstrator"
+      ]
+    }
+  ],
+  "planning_targets_are_qualified_limits": false,
+  "protocols": [
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "unresolved_requirements",
+          "role": "count",
+          "unit": "1"
+        },
+        {
+          "name": "unclosed_hazards",
+          "role": "count",
+          "unit": "1"
+        },
+        {
+          "name": "capacity_shortfall_pphpd",
+          "role": "demand difference",
+          "unit": "passengers/hour/direction"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "unresolved_requirements",
+          "comparison": "le",
+          "derivation": "Every applicable exact revision must have an agreed verification route",
+          "id": "requirements_open",
+          "limit": null,
+          "statistic": "max",
+          "unit": "1"
+        },
+        {
+          "channel": "capacity_shortfall_pphpd",
+          "comparison": "le",
+          "derivation": "Operator demand and independently accepted degraded-service policy",
+          "id": "capacity_shortfall",
+          "limit": null,
+          "statistic": "max",
+          "unit": "passengers/hour/direction"
+        }
+      ],
+      "evidence_class": "independent-review",
+      "executed": false,
+      "gate": "G0",
+      "group_ids": [
+        "industrial-recovery-assurance",
+        "control-protection",
+        "station-egress"
+      ],
+      "id": "baseline-review",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Freeze exact drawings/configuration, all applicable requirement texts and revision hashes, explicit urban/suburban stop classes and independent fixed-line transfer topology.",
+        "Obtain operator peak demand, service hours, headway, dwell, spares and degraded service requirements. Reconcile route quantities and all life-cycle scope at equal service.",
+        "Review hazard register, independent protection domains, residual uncertainty and authority/assessor appointment. No clearance, timing or egress target becomes an approved limit without signed derivation."
+      ],
+      "reference_ids": [],
+      "required_cases": [
+        "requirements-review",
+        "equal-service-review"
+      ],
+      "revision": "Q01",
+      "specimen": "Controlled six-car configuration, mass and route model; reviewed operator demand, fire/egress and protection basis",
+      "title": "Configuration, hazard, route and equal-service baseline"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "coverage_fraction",
+          "role": "survey coverage",
+          "unit": "fraction"
+        },
+        {
+          "name": "horizontal_uncertainty_m",
+          "role": "survey uncertainty",
+          "unit": "m"
+        },
+        {
+          "name": "vertical_uncertainty_m",
+          "role": "survey uncertainty",
+          "unit": "m"
+        },
+        {
+          "name": "unverified_utility_crossings",
+          "role": "count",
+          "unit": "1"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "coverage_fraction",
+          "comparison": "ge",
+          "derivation": "Accepted survey and investigation coverage plan",
+          "id": "coverage",
+          "limit": null,
+          "statistic": "min",
+          "unit": "fraction"
+        },
+        {
+          "channel": "vertical_uncertainty_m",
+          "comparison": "le",
+          "derivation": "Relative-gap, foundation and route-height uncertainty allocation",
+          "id": "vertical_uncertainty",
+          "limit": null,
+          "statistic": "max",
+          "unit": "m"
+        }
+      ],
+      "evidence_class": "site-record",
+      "executed": false,
+      "gate": "G0",
+      "group_ids": [
+        "civil-strength-stages",
+        "station-egress",
+        "industrial-recovery-assurance"
+      ],
+      "id": "baghdad-site",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Georeference survey control, route/chord alternatives, station and recovery footprints. Record CRS, date, vertical datum, accuracy and independent check points.",
+        "Plan intrusive geotechnical investigations with the geotechnical designer. Log strata, groundwater seasonal range, test methods, laboratory samples and chain of custody; open-map proxies remain estimates.",
+        "Locate/verify utilities, road/water/roof/vegetation/adjacent-train obstacles and clear rescue access at every permitted stop position, including between recovery nodes.",
+        "Record land/permissions, foundation settlement, flood/scour, seismic/wind and grid studies with responsible local authorities; unresolved coverage blocks selection."
+      ],
+      "reference_ids": [],
+      "required_cases": [
+        "alignment",
+        "foundation-zones",
+        "all-stop-egress"
+      ],
+      "revision": "Q01",
+      "specimen": "Survey control, representative foundation zones, all-stop door/ground envelopes and located utility/grid records",
+      "title": "Survey, ground, utilities, water and route-specific landing verification"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "gap_m",
+          "role": "position",
+          "unit": "m"
+        },
+        {
+          "name": "offset_m",
+          "role": "position",
+          "unit": "m"
+        },
+        {
+          "name": "support_current_a",
+          "role": "electrical",
+          "unit": "A"
+        },
+        {
+          "name": "thrust_current_a",
+          "role": "electrical",
+          "unit": "A"
+        },
+        {
+          "name": "voltage_v",
+          "role": "electrical",
+          "unit": "V"
+        },
+        {
+          "name": "force_x_n",
+          "role": "thrust",
+          "unit": "N"
+        },
+        {
+          "name": "force_y_n",
+          "role": "guidance",
+          "unit": "N"
+        },
+        {
+          "name": "force_z_n",
+          "role": "lift",
+          "unit": "N"
+        },
+        {
+          "name": "moment_x_nm",
+          "role": "roll",
+          "unit": "N*m"
+        },
+        {
+          "name": "moment_y_nm",
+          "role": "pitch",
+          "unit": "N*m"
+        },
+        {
+          "name": "moment_z_nm",
+          "role": "yaw",
+          "unit": "N*m"
+        },
+        {
+          "name": "winding_temperature_c",
+          "role": "thermal",
+          "unit": "degC"
+        },
+        {
+          "name": "magnet_temperature_c",
+          "role": "thermal",
+          "unit": "degC"
+        },
+        {
+          "name": "electrical_loss_w",
+          "role": "loss",
+          "unit": "W"
+        },
+        {
+          "name": "resistance_ohm",
+          "role": "electrical",
+          "unit": "ohm"
+        },
+        {
+          "name": "inductance_h",
+          "role": "electrical",
+          "unit": "H"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "force_z_n",
+          "comparison": "ge",
+          "derivation": "Exact AW3 asymmetric/fault allocation and measurement uncertainty; evaluate approved case mask",
+          "id": "minimum_lift",
+          "limit": null,
+          "statistic": "min",
+          "unit": "N"
+        },
+        {
+          "channel": "winding_temperature_c",
+          "comparison": "le",
+          "derivation": "Qualified insulation/adhesive/ferrite cooling allowables",
+          "id": "maximum_temperature",
+          "limit": null,
+          "statistic": "max",
+          "unit": "degC"
+        },
+        {
+          "channel": "electrical_loss_w",
+          "comparison": "le",
+          "derivation": "Approved thermal and route energy duty allocation",
+          "id": "loss_budget",
+          "limit": null,
+          "statistic": "max",
+          "unit": "W"
+        }
+      ],
+      "evidence_class": "physical-rig",
+      "executed": false,
+      "gate": "G1",
+      "group_ids": [
+        "magnetic-circuit"
+      ],
+      "id": "magnetic-module",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Measure dimensions, magnetisation axis, batch Br/Hc curves and initial field map; inspect chips/cracks and positive retention. Lock material, winding, cooling and steel B-H revisions.",
+        "Calibrate six-axis force/moment transducer, independent displacement, current, voltage, flux and temperature channels. Tare fixture/friction and measure uncertainty/cross-axis coupling.",
+        "Within an approved independently restrained envelope, sweep gap, lateral/longitudinal offset, phase, support current, thrust current and temperature in increasing/decreasing order; retain all approach/recede data.",
+        "Separate static support from shared-field simultaneous thrust. Measure finite-array edge force, guidance and moments. Never infer zero-speed lift from eddy-current motion.",
+        "Measure R(T), small-signal L versus operating bias, electrical input, mechanical output and calorimetric/temperature loss. Repeat zero/current-off controls and before/after field maps.",
+        "Derive finite-difference force/stiffness maps with spatial step/uncertainty study. Compare independently measured force methods and simulation; analyse cold reverse-field demagnetisation and hot repeated duty."
+      ],
+      "reference_ids": [
+        "npl-force"
+      ],
+      "required_cases": [
+        "zero-current",
+        "support-only",
+        "thrust-only",
+        "combined-support-thrust",
+        "hot-duty",
+        "cold-reverse-field"
+      ],
+      "revision": "Q01",
+      "specimen": "Serial ferrite/carrier/core/winding module with actual production retention, surface coating and reaction rail",
+      "title": "Six-axis magnetic force, loss, R/L and thermal map"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "force_n",
+          "role": "load",
+          "unit": "N"
+        },
+        {
+          "name": "displacement_m",
+          "role": "deformation",
+          "unit": "m"
+        },
+        {
+          "name": "strain",
+          "role": "deformation",
+          "unit": "1"
+        },
+        {
+          "name": "specimen_temperature_c",
+          "role": "thermal",
+          "unit": "degC"
+        },
+        {
+          "name": "relative_humidity_fraction",
+          "role": "conditioning",
+          "unit": "fraction"
+        },
+        {
+          "name": "retained_strength_pa",
+          "role": "conditioned characteristic strength",
+          "unit": "Pa"
+        },
+        {
+          "name": "residual_stiffness_n_m",
+          "role": "degradation",
+          "unit": "N/m"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "retained_strength_pa",
+          "comparison": "ge",
+          "derivation": "Approved load-path demand, characteristic statistical basis and environmental factors",
+          "id": "conditioned_strength",
+          "limit": null,
+          "statistic": "min",
+          "unit": "Pa"
+        },
+        {
+          "channel": "residual_stiffness_n_m",
+          "comparison": "ge",
+          "derivation": "Approved fatigue/creep life and gap/door/structural deformation budgets",
+          "id": "residual_stiffness",
+          "limit": null,
+          "statistic": "min",
+          "unit": "N/m"
+        }
+      ],
+      "evidence_class": "physical-rig",
+      "executed": false,
+      "gate": "G1",
+      "group_ids": [
+        "body-joints-hardpoints"
+      ],
+      "id": "hot-composite-joints",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Freeze laminate ply/axis/thickness, core, bondline thickness, cure record, surface preparation and repair process. Include process corners and multiple independently fabricated batches.",
+        "Agree specimen geometry, statistically justified replicate count, conditioning temperature/humidity/soak to equilibrium and permitted extrapolation before machining. Record moisture mass and thermal history.",
+        "Test tension/compression/shear, sandwich bending/core shear, adhesive shear/peel/cleavage, inserts/pull-through and representative door/hardpoint load introduction. Record full force/displacement/strain, failure mode and photographs.",
+        "Repeat dry/hot/wet/aged and sustained-load/creep/fatigue spectra representative of Baghdad service. No room-temperature datasheet allowable substitutes for conditioned production data.",
+        "Build conservative characteristic allowables with uncertainty and batch scatter; correlate orthotropic model and qualify repair and NDE detection limits independently."
+      ],
+      "reference_ids": [
+        "npl-composites",
+        "npl-adhesive"
+      ],
+      "required_cases": [
+        "dry-reference",
+        "hot-dry",
+        "hot-wet",
+        "aged",
+        "cyclic",
+        "sustained-load"
+      ],
+      "revision": "Q01",
+      "specimen": "Witnessed coupons and subcomponents from actual resin/fibre/core/adhesive batches, production cure and bonded surface process",
+      "title": "Hot/wet GFRP, adhesive, inserts and representative joints"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "overlap_m",
+          "role": "position",
+          "unit": "m"
+        },
+        {
+          "name": "phase_rad",
+          "role": "electrical phase",
+          "unit": "rad"
+        },
+        {
+          "name": "force_x_n",
+          "role": "thrust",
+          "unit": "N"
+        },
+        {
+          "name": "force_z_n",
+          "role": "support coupling",
+          "unit": "N"
+        },
+        {
+          "name": "bus_voltage_v",
+          "role": "electrical",
+          "unit": "V"
+        },
+        {
+          "name": "phase_current_a",
+          "role": "electrical",
+          "unit": "A"
+        },
+        {
+          "name": "winding_temperature_c",
+          "role": "thermal",
+          "unit": "degC"
+        },
+        {
+          "name": "resistor_temperature_c",
+          "role": "thermal",
+          "unit": "degC"
+        },
+        {
+          "name": "brake_energy_j",
+          "role": "energy",
+          "unit": "J"
+        },
+        {
+          "name": "phase_error_rad",
+          "role": "control",
+          "unit": "rad"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "phase_error_rad",
+          "comparison": "le",
+          "derivation": "Qualified measured force map and independent thrust authority allocation",
+          "id": "maximum_phase_error",
+          "limit": null,
+          "statistic": "absmax",
+          "unit": "rad"
+        },
+        {
+          "channel": "winding_temperature_c",
+          "comparison": "le",
+          "derivation": "Qualified winding thermal duty and insulation system",
+          "id": "maximum_winding_temperature",
+          "limit": null,
+          "statistic": "max",
+          "unit": "degC"
+        },
+        {
+          "channel": "brake_energy_j",
+          "comparison": "ge",
+          "derivation": "Worst no-regeneration complete train stopping and repetition duty",
+          "id": "minimum_brake_energy",
+          "limit": null,
+          "statistic": "last",
+          "unit": "J"
+        }
+      ],
+      "evidence_class": "physical-rig",
+      "executed": false,
+      "gate": "G2",
+      "group_ids": [
+        "station-motor-interfaces"
+      ],
+      "id": "station-stator",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Validate isolated measurement, earthing, insulation, cooling and independent receiving brake. Freeze bus limits, switching firmware, section identity and physical anchor load paths.",
+        "Sweep entry/exit overlap and phase at AW0/AW2/AW3-equivalent force; measure normal-force coupling and complete voltage/current/R/L envelope at hot/weak supply.",
+        "Test section handover, short/open/inactive section, missed position, stale phase, stuck output, full DC bus/no regeneration and loss of receiving supply using guarded energy-limited increments.",
+        "Execute repeated station and midpoint-booster duty with actual zero/partial overlap, control delays, braking resistor and cooling. Repeat with the independent primary brake channel unavailable.",
+        "Retain synchronised power and force data, braking energy balance and independent safe support/capture response. No ideal force source is a hardware force map."
+      ],
+      "reference_ids": [
+        "npl-force"
+      ],
+      "required_cases": [
+        "entry",
+        "handover",
+        "exit",
+        "hot-repeat-duty",
+        "full-bus-brake",
+        "receiver-loss"
+      ],
+      "revision": "Q01",
+      "specimen": "Actual converter, finite stator sections, protection, rail mounting and representative vehicle PM/support module",
+      "title": "Shared support/thrust, phase handover and repeated braking"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "stimulus_time_s",
+          "role": "external edge",
+          "unit": "s"
+        },
+        {
+          "name": "output_time_s",
+          "role": "external edge",
+          "unit": "s"
+        },
+        {
+          "name": "sensor_to_output_s",
+          "role": "measured latency",
+          "unit": "s"
+        },
+        {
+          "name": "execution_s",
+          "role": "measured execution",
+          "unit": "s"
+        },
+        {
+          "name": "jitter_s",
+          "role": "measured jitter",
+          "unit": "s"
+        },
+        {
+          "name": "protection_response_s",
+          "role": "independent action",
+          "unit": "s"
+        },
+        {
+          "name": "deadline_misses",
+          "role": "count",
+          "unit": "1"
+        },
+        {
+          "name": "board_temperature_c",
+          "role": "environment",
+          "unit": "degC"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "sensor_to_output_s",
+          "comparison": "le",
+          "derivation": "Delay-robustness/stability and approved physical I/O budget",
+          "id": "latency",
+          "limit": null,
+          "statistic": "max",
+          "unit": "s"
+        },
+        {
+          "channel": "protection_response_s",
+          "comparison": "le",
+          "derivation": "Hazard-derived safe support/brake/capture time",
+          "id": "protection_response",
+          "limit": null,
+          "statistic": "max",
+          "unit": "s"
+        },
+        {
+          "channel": "deadline_misses",
+          "comparison": "le",
+          "derivation": "Approved timing case; zero misses alone is insufficient WCET proof",
+          "id": "deadline_misses",
+          "limit": null,
+          "statistic": "max",
+          "unit": "1"
+        }
+      ],
+      "evidence_class": "physical-rig",
+      "executed": false,
+      "gate": "G2",
+      "group_ids": [
+        "control-protection"
+      ],
+      "id": "target-io-timing",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Record CPU/board serial, clocks/governor, thermal throttling, OS/kernel/config, scheduling, interrupts, I/O bus wiring and compiled binary hash. Production safety responsibilities remain separately assessed.",
+        "Use calibrated external logic analyser/oscilloscope with common timebase to capture physical sensor stimulus, input edge, task start/end, output command, gate/current response and independent protection action.",
+        "Run nominal, CPU/memory/network/storage/interrupt stress, hot/throttled and low-voltage conditions. Record complete traces, all deadline misses and run duration/sample count.",
+        "Inject stale/bias/disagreement sensors, lost clocks, boot/reset, bus faults, stuck PWM and loss of supervision/protection supplies. Confirm traction inhibit preserves support until the approved capture state.",
+        "Use RTLA timerlat/osnoise/hwnoise as supplementary diagnostics. Never substitute scheduler latency or host offline replay for end-to-end sensor-to-actuator timing.",
+        "Analyse WCET/latency/jitter, worst tails and uncertainty against delay robustness and unstable-mode growth. A finite test maximum alone is not a proven WCET bound."
+      ],
+      "reference_ids": [
+        "linux-rtla"
+      ],
+      "required_cases": [
+        "nominal",
+        "resource-stress",
+        "hot-throttled",
+        "sensor-fault",
+        "power-fault",
+        "stuck-output"
+      ],
+      "revision": "Q01",
+      "specimen": "Exact SBC/MCU revision, boot firmware, kernel, Rust binary, isolated sensors/I/O, power stage and independent protection board",
+      "title": "Target SBC/MCU sensor-to-power timing and independent protection"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "physical_gap_m",
+          "role": "independent gap",
+          "unit": "m"
+        },
+        {
+          "name": "sensed_gap_m",
+          "role": "control sensor",
+          "unit": "m"
+        },
+        {
+          "name": "roll_rad",
+          "role": "motion",
+          "unit": "rad"
+        },
+        {
+          "name": "pitch_rad",
+          "role": "motion",
+          "unit": "rad"
+        },
+        {
+          "name": "capture_force_n",
+          "role": "reaction",
+          "unit": "N"
+        },
+        {
+          "name": "support_power_w",
+          "role": "power",
+          "unit": "W"
+        },
+        {
+          "name": "reserve_energy_j",
+          "role": "protected reserve",
+          "unit": "J"
+        },
+        {
+          "name": "force_reserve_n",
+          "role": "control authority",
+          "unit": "N"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "physical_gap_m",
+          "comparison": "ge",
+          "derivation": "Approved complete geometric uncertainty and dynamic gap budget",
+          "id": "minimum_gap",
+          "limit": null,
+          "statistic": "min",
+          "unit": "m"
+        },
+        {
+          "channel": "physical_gap_m",
+          "comparison": "le",
+          "derivation": "Qualified force map, capture and controllable travel envelope",
+          "id": "maximum_gap",
+          "limit": null,
+          "statistic": "max",
+          "unit": "m"
+        },
+        {
+          "channel": "reserve_energy_j",
+          "comparison": "ge",
+          "derivation": "Worst qualified safe-stop/hold/capture duty",
+          "id": "reserve_energy",
+          "limit": null,
+          "statistic": "min",
+          "unit": "J"
+        }
+      ],
+      "evidence_class": "physical-rig",
+      "executed": false,
+      "gate": "G2",
+      "group_ids": [
+        "magnetic-circuit",
+        "control-protection",
+        "energy-services"
+      ],
+      "id": "restrained-support",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Verify G1 magnetic/material evidence, restraint capacity, calibrated ballast and six-axis load distribution before energisation.",
+        "Exercise AW0/AW2/AW3, eccentric passenger steps, pitch/roll disturbances and weak/hot modules; record physical gaps independently from onboard sensed gaps.",
+        "Inject bounded sensor bias/loss/staleness, failed winding/inverter, bus interruption and protection-power loss. Record current redistribution, thermal saturation, stopping and capture reactions.",
+        "Quantify full stiffness/control matrix and dominant flexible modes, force reserve, independent energy reserve and recoverability; report the worst measured gap before/after every fault."
+      ],
+      "reference_ids": [
+        "npl-force"
+      ],
+      "required_cases": [
+        "aw0",
+        "aw2",
+        "aw3-eccentric",
+        "module-fault",
+        "sensor-bias",
+        "bus-loss"
+      ],
+      "revision": "Q01",
+      "specimen": "Representative flexible underframe and multiple serial modules with independent mechanical capture/restraint",
+      "title": "Loaded multi-module support and fault containment"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "concrete_strength_pa",
+          "role": "stage strength",
+          "unit": "Pa"
+        },
+        {
+          "name": "prestress_force_n",
+          "role": "prestress",
+          "unit": "N"
+        },
+        {
+          "name": "tendon_elongation_m",
+          "role": "prestress verification",
+          "unit": "m"
+        },
+        {
+          "name": "lifting_force_n",
+          "role": "handling",
+          "unit": "N"
+        },
+        {
+          "name": "deflection_m",
+          "role": "response",
+          "unit": "m"
+        },
+        {
+          "name": "twist_rad",
+          "role": "response",
+          "unit": "rad"
+        },
+        {
+          "name": "crack_width_m",
+          "role": "damage",
+          "unit": "m"
+        },
+        {
+          "name": "anchor_slip_m",
+          "role": "connection",
+          "unit": "m"
+        },
+        {
+          "name": "rigging_angle_rad",
+          "role": "handling geometry",
+          "unit": "rad"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "concrete_strength_pa",
+          "comparison": "ge",
+          "derivation": "Approved structural stage design and measured release strength",
+          "id": "stage_strength",
+          "limit": null,
+          "statistic": "min",
+          "unit": "Pa"
+        },
+        {
+          "channel": "crack_width_m",
+          "comparison": "le",
+          "derivation": "Approved durability/structural/rail alignment limits for stage",
+          "id": "crack_width",
+          "limit": null,
+          "statistic": "max",
+          "unit": "m"
+        },
+        {
+          "channel": "anchor_slip_m",
+          "comparison": "le",
+          "derivation": "Qualified connection design and exact gap budget",
+          "id": "anchor_slip",
+          "limit": null,
+          "statistic": "absmax",
+          "unit": "m"
+        }
+      ],
+      "evidence_class": "physical-rig",
+      "executed": false,
+      "gate": "G3",
+      "group_ids": [
+        "civil-strength-stages"
+      ],
+      "id": "civil-prestress-handling",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Freeze reinforcement/prestress/cover/end-block, bearing/rail-anchor and approved stage load diagrams. Verify strength at transfer/demould/lift, measured prestress force and elongation, curing history and NDE.",
+        "Independently engineer lifting points, sling angle/spreader, handling torsion, lateral stability, transport restraint and crane capacity at actual radius including rigging and ground reactions.",
+        "Instrument transfer, demould, storage supports, lift, transport acceleration, partial erection and completed connection before releasing temporary restraint. Survey cracks, deflection/twist, slip and bearing movement at each stage.",
+        "Apply approved service/ultimate/cyclic test programmes with safe exclusion and fail/abort limits; reconcile creep/shrinkage/prestress loss and end-zone/anchor/shear/torsion models.",
+        "Confirm connection seating/positive lock, grout or joint strength, rail alignment adjustment and serial installed survey. Model fit-up does not substitute for stage stability and concrete strength."
+      ],
+      "reference_ids": [
+        "fhwa-pbes",
+        "fhwa-abc",
+        "npl-force"
+      ],
+      "required_cases": [
+        "transfer",
+        "demould",
+        "storage",
+        "lifting",
+        "transport",
+        "partial-erection",
+        "completed-connection"
+      ],
+      "revision": "Q01",
+      "specimen": "Full-scale beam or independently justified representative section/end zone using actual concrete, prestress/rebar, inserts, bearings and lifting equipment",
+      "title": "Precast transfer, lifting, transport, erection and connection proof"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "position_m",
+          "role": "route",
+          "unit": "m"
+        },
+        {
+          "name": "speed_m_s",
+          "role": "motion",
+          "unit": "m/s"
+        },
+        {
+          "name": "physical_gap_m",
+          "role": "independent gap",
+          "unit": "m"
+        },
+        {
+          "name": "beam_displacement_m",
+          "role": "response",
+          "unit": "m"
+        },
+        {
+          "name": "beam_twist_rad",
+          "role": "response",
+          "unit": "rad"
+        },
+        {
+          "name": "rail_temperature_c",
+          "role": "thermal",
+          "unit": "degC"
+        },
+        {
+          "name": "rail_loss_w_per_m",
+          "role": "loss",
+          "unit": "W/m"
+        },
+        {
+          "name": "capture_force_n",
+          "role": "contact",
+          "unit": "N"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "physical_gap_m",
+          "comparison": "ge",
+          "derivation": "Approved dynamic gap and complete uncertainty budget",
+          "id": "minimum_gap",
+          "limit": null,
+          "statistic": "min",
+          "unit": "m"
+        },
+        {
+          "channel": "rail_loss_w_per_m",
+          "comparison": "le",
+          "derivation": "Approved route energy and temperature budget",
+          "id": "rail_loss",
+          "limit": null,
+          "statistic": "max",
+          "unit": "W/m"
+        },
+        {
+          "channel": "rail_temperature_c",
+          "comparison": "le",
+          "derivation": "Qualified steel/coating/joint/material thermal envelope",
+          "id": "rail_temperature",
+          "limit": null,
+          "statistic": "max",
+          "unit": "degC"
+        }
+      ],
+      "evidence_class": "physical-rig",
+      "executed": false,
+      "gate": "G3",
+      "group_ids": [
+        "civil-strength-stages",
+        "magnetic-circuit",
+        "control-protection"
+      ],
+      "id": "moving-guideway",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Survey rail/datums and thermal gradients, measured support stiffness and joint steps. Freeze magnet/rail/material/control revisions and independent physical-gap channel.",
+        "Increase speed/load only within approved prior-stage limits; include AW3 equivalents, weak magnets, reduced stiffness, geometry imperfections, sand/water/debris and reverse travel.",
+        "Record relative gaps, beam bending/twist, rail loss/temperature, support/thrust coupling and capture reactions. Retain failed joint/offset controls and compare independently instrumented model predictions.",
+        "Check spatial and temporal convergence of the digital correlation separately from physical uncertainty. A one-dimensional equivalent beam is not full joint/torsion/fatigue validation."
+      ],
+      "reference_ids": [
+        "npl-force"
+      ],
+      "required_cases": [
+        "low-speed",
+        "service-speed",
+        "hot-weak",
+        "joint-step",
+        "contamination",
+        "reverse"
+      ],
+      "revision": "Q01",
+      "specimen": "Surveyed representative beam, reaction rails, joints, capture interfaces and instrumented restrained moving sled",
+      "title": "Sled/guideway moving-gap, joint and loss correlation"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "bus_voltage_v",
+          "role": "electrical",
+          "unit": "V"
+        },
+        {
+          "name": "current_a",
+          "role": "electrical",
+          "unit": "A"
+        },
+        {
+          "name": "stored_energy_j",
+          "role": "energy",
+          "unit": "J"
+        },
+        {
+          "name": "protected_reserve_j",
+          "role": "reserve",
+          "unit": "J"
+        },
+        {
+          "name": "battery_temperature_c",
+          "role": "thermal",
+          "unit": "degC"
+        },
+        {
+          "name": "hvac_power_w",
+          "role": "services",
+          "unit": "W"
+        },
+        {
+          "name": "grid_power_w",
+          "role": "charging",
+          "unit": "W"
+        },
+        {
+          "name": "isolation_resistance_ohm",
+          "role": "isolation",
+          "unit": "ohm"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "protected_reserve_j",
+          "comparison": "ge",
+          "derivation": "Qualified hazard-derived safe-stop/support reserve at hot/EOL",
+          "id": "protected_reserve",
+          "limit": null,
+          "statistic": "min",
+          "unit": "J"
+        },
+        {
+          "channel": "battery_temperature_c",
+          "comparison": "le",
+          "derivation": "Supplier-qualified cell/pack thermal and containment envelope",
+          "id": "battery_temperature",
+          "limit": null,
+          "statistic": "max",
+          "unit": "degC"
+        }
+      ],
+      "evidence_class": "physical-rig",
+      "executed": false,
+      "gate": "G4",
+      "group_ids": [
+        "energy-services"
+      ],
+      "id": "battery-hvac-charge",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Freeze pack chemistry/capacity, SOC window, end-of-life resistance/capacity basis, BMS/protection, containment and charge connector/cooling configuration.",
+        "Replay actual urban/suburban run and disconnected dwell profiles with measured Baghdad hot-weather HVAC/door loads, loaded auxiliaries, weak voltage, missed charge and no regeneration.",
+        "Measure connected power, charge taper, repeated thermal duty, support/protection reserve and independent safe-stop energy; distinguish live load from energy returned to storage.",
+        "Witness approved electrical isolation, overcurrent, fire/containment and safe-fault procedures at an appropriately equipped lab. No destructive test is performed from this software plan."
+      ],
+      "reference_ids": [],
+      "required_cases": [
+        "urban-hot",
+        "suburban-hot",
+        "eol",
+        "missed-charge",
+        "weak-voltage",
+        "no-regen"
+      ],
+      "revision": "Q01",
+      "specimen": "Serial complete-car services/BMS/battery/charger/HVAC and isolated protected-support power domain",
+      "title": "Hot/EOL support reserve, services, charging and containment"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "tare_mass_kg",
+          "role": "mass",
+          "unit": "kg"
+        },
+        {
+          "name": "cg_z_m",
+          "role": "mass distribution",
+          "unit": "m"
+        },
+        {
+          "name": "inertia_pitch_kg_m2",
+          "role": "mass distribution",
+          "unit": "kg*m2"
+        },
+        {
+          "name": "applied_force_n",
+          "role": "load",
+          "unit": "N"
+        },
+        {
+          "name": "strain",
+          "role": "response",
+          "unit": "1"
+        },
+        {
+          "name": "body_deflection_m",
+          "role": "response",
+          "unit": "m"
+        },
+        {
+          "name": "door_step_m",
+          "role": "boarding",
+          "unit": "m"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "tare_mass_kg",
+          "comparison": "le",
+          "derivation": "Approved whole-car exact-variant mass ledger including reserve policy",
+          "id": "tare_mass",
+          "limit": null,
+          "statistic": "max",
+          "unit": "kg"
+        },
+        {
+          "channel": "door_step_m",
+          "comparison": "le",
+          "derivation": "Approved accessible boarding and door safety budget",
+          "id": "door_step",
+          "limit": null,
+          "statistic": "absmax",
+          "unit": "m"
+        }
+      ],
+      "evidence_class": "physical-rig",
+      "executed": false,
+      "gate": "G4",
+      "group_ids": [
+        "body-joints-hardpoints"
+      ],
+      "id": "vehicle-structure",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Reconcile every installed serial to exclusive EBOM/MBOM, measure tare/ballast, CG/inertias and support distributions independently of budgets.",
+        "Conduct independently approved bending/torsion/buckling, coupler/hardpoint, cyclic/fatigue and crashworthiness qualification using controlled test articles and applicable authority requirements.",
+        "Measure body modes, boarding thresholds, door forces/interlocks and post-capture level differences. Include repair, glazing, fire/smoke and passenger equipment evidence.",
+        "Document strain/displacement/failure observations and NDE with model correlation; a partial frame CAD animation is not structural or crash acceptance."
+      ],
+      "reference_ids": [
+        "npl-force",
+        "npl-composites"
+      ],
+      "required_cases": [
+        "tare",
+        "aw3-asymmetric",
+        "bending-torsion",
+        "coupler-hardpoint",
+        "fatigue",
+        "door-capture"
+      ],
+      "revision": "Q01",
+      "specimen": "Complete 17 m car with actual equipment/doors/glazing/interior/carriers/couplers and calibrated ballast",
+      "title": "Complete vehicle mass/CG/inertia, joints, doors and structural proof"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "rope_tension_n",
+          "role": "load",
+          "unit": "N"
+        },
+        {
+          "name": "anchor_displacement_m",
+          "role": "response",
+          "unit": "m"
+        },
+        {
+          "name": "tow_speed_m_s",
+          "role": "motion",
+          "unit": "m/s"
+        },
+        {
+          "name": "recovery_time_s",
+          "role": "service recovery",
+          "unit": "s"
+        },
+        {
+          "name": "support_reserve_j",
+          "role": "reserve",
+          "unit": "J"
+        },
+        {
+          "name": "brake_slip_m",
+          "role": "holding",
+          "unit": "m"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "rope_tension_n",
+          "comparison": "le",
+          "derivation": "Qualified rope assembly including termination, dynamics and approved safety factors",
+          "id": "rope_tension",
+          "limit": null,
+          "statistic": "max",
+          "unit": "N"
+        },
+        {
+          "channel": "recovery_time_s",
+          "comparison": "le",
+          "derivation": "Operator availability and route-blockage requirement",
+          "id": "recovery_time",
+          "limit": null,
+          "statistic": "last",
+          "unit": "s"
+        },
+        {
+          "channel": "brake_slip_m",
+          "comparison": "le",
+          "derivation": "Approved stationary secure-hold specification",
+          "id": "brake_slip",
+          "limit": null,
+          "statistic": "absmax",
+          "unit": "m"
+        }
+      ],
+      "evidence_class": "physical-rig",
+      "executed": false,
+      "gate": "G4",
+      "group_ids": [
+        "industrial-recovery-assurance",
+        "station-egress"
+      ],
+      "id": "recovery-system",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Verify actual route reach, access and independent supply at the worst passive-coast stop, wet/windy/hot cases, qualified rope/termination factors and independently designed anchor/ground support.",
+        "Proof and functional-test winch, brake, rope termination, sheaves/guards, coupler load path and retention under approved safe restrictions; establish inspection and discard criteria.",
+        "Time fault detection, controlled support, passenger communication, site access, rigging, tow, secured parking and reopening with actual crew/resources. Record setup as well as pulling time.",
+        "Test failed mains/primary rescue equipment and unreachable/blocked landing alternatives. A nearby booster is not proof of movement from outside its finite zone."
+      ],
+      "reference_ids": [
+        "npl-force"
+      ],
+      "required_cases": [
+        "worst-stop",
+        "hot-load",
+        "no-mains",
+        "primary-winch-fault",
+        "blocked-access"
+      ],
+      "revision": "Q01",
+      "specimen": "Actual rescue node, rope termination/winch/drum/brake/anchors/hardstand, serial towing interfaces and immobilised loaded vehicle",
+      "title": "Full-load immobilisation, winch/tow, access and reopening"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "sill_height_m",
+          "role": "geometry",
+          "unit": "m"
+        },
+        {
+          "name": "wind_speed_m_s",
+          "role": "environment",
+          "unit": "m/s"
+        },
+        {
+          "name": "anchor_force_n",
+          "role": "load",
+          "unit": "N"
+        },
+        {
+          "name": "deployment_time_s",
+          "role": "operation",
+          "unit": "s"
+        },
+        {
+          "name": "evacuation_time_s",
+          "role": "operation",
+          "unit": "s"
+        },
+        {
+          "name": "exit_flow_person_s",
+          "role": "flow",
+          "unit": "persons/s"
+        },
+        {
+          "name": "unserved_passengers",
+          "role": "coverage",
+          "unit": "1"
+        },
+        {
+          "name": "landing_clearance_m",
+          "role": "geometry",
+          "unit": "m"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "evacuation_time_s",
+          "comparison": "le",
+          "derivation": "Rail fire/tenability/operator and independent authority requirement; no aircraft limit imported",
+          "id": "evacuation_time",
+          "limit": null,
+          "statistic": "last",
+          "unit": "s"
+        },
+        {
+          "channel": "unserved_passengers",
+          "comparison": "le",
+          "derivation": "Approved inclusive passenger/assistance scenario and safe alternative",
+          "id": "unserved_passengers",
+          "limit": null,
+          "statistic": "max",
+          "unit": "1"
+        },
+        {
+          "channel": "landing_clearance_m",
+          "comparison": "ge",
+          "derivation": "Surveyed road/water/roof/utility exclusion and crowd clearance envelope",
+          "id": "landing_clearance",
+          "limit": null,
+          "statistic": "min",
+          "unit": "m"
+        }
+      ],
+      "evidence_class": "physical-rig",
+      "executed": false,
+      "gate": "G5",
+      "group_ids": [
+        "station-egress"
+      ],
+      "id": "egress-access",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Retain the walkway fallback until route-specific alternative approval. Freeze device, door side/height/roll/capture envelope, ground obstruction and fire/smoke tenability cases.",
+        "Test anchors/stowage/deployment in a guarded unmanned rig with instrumented dummies before any independently approved participant exercise; qualified rescue supervision and medical/ethical arrangements are prerequisites.",
+        "Cover minimum/maximum/intermediate sill heights, wind/dust/heat, constrained landing, blocked exit, failed device, power loss and fire-unavailable doors. Record the actual variable-height outlet and ground stabilisation.",
+        "Demonstrate wheelchair/reduced-mobility/child assistance and an independent alternative where the device cannot serve a passenger. Do not assume an attendant is already present in driverless service.",
+        "Measure deployment, entry/descent/exit queues, assistance staffing, injury/impact criteria, clear-ground escape and complete train evacuation under approved population scenarios; include rescue access and repack/inspection.",
+        "Independent assessor and local authority review all stop-position coverage; manufacturer building/monorail precedent is not system approval."
+      ],
+      "reference_ids": [
+        "thoms-chute",
+        "osaka-egress"
+      ],
+      "required_cases": [
+        "min-height",
+        "max-height",
+        "wind-dust-hot",
+        "blocked-exit",
+        "reduced-mobility",
+        "driverless-assistance",
+        "power-loss"
+      ],
+      "revision": "Q01",
+      "specimen": "Actual door/frame/anchor/cassette or approved alternative, representative heights, mobility-assistance equipment and surveyed landing obstacles",
+      "title": "Full-scale accessible evacuation, chute and route landing demonstration"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "headway_s",
+          "role": "service",
+          "unit": "s"
+        },
+        {
+          "name": "passengers_per_hour_direction",
+          "role": "capacity",
+          "unit": "passengers/hour/direction"
+        },
+        {
+          "name": "grid_power_w",
+          "role": "power",
+          "unit": "W"
+        },
+        {
+          "name": "support_reserve_j",
+          "role": "energy",
+          "unit": "J"
+        },
+        {
+          "name": "availability_fraction",
+          "role": "reliability",
+          "unit": "fraction"
+        },
+        {
+          "name": "recovery_time_s",
+          "role": "recovery",
+          "unit": "s"
+        },
+        {
+          "name": "demonstration_duration_h",
+          "role": "coverage",
+          "unit": "h"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "headway_s",
+          "comparison": "le",
+          "derivation": "Accepted demand/capacity/protection and dwell model",
+          "id": "headway",
+          "limit": null,
+          "statistic": "max",
+          "unit": "s"
+        },
+        {
+          "channel": "passengers_per_hour_direction",
+          "comparison": "ge",
+          "derivation": "Operator approved equal-service requirement",
+          "id": "minimum_capacity",
+          "limit": null,
+          "statistic": "min",
+          "unit": "passengers/hour/direction"
+        },
+        {
+          "channel": "availability_fraction",
+          "comparison": "ge",
+          "derivation": "Accepted failure/repair definition, duration and confidence basis",
+          "id": "availability",
+          "limit": null,
+          "statistic": "min",
+          "unit": "fraction"
+        }
+      ],
+      "evidence_class": "physical-rig",
+      "executed": false,
+      "gate": "G5",
+      "group_ids": [
+        "control-protection",
+        "energy-services",
+        "industrial-recovery-assurance",
+        "station-egress"
+      ],
+      "id": "service-demonstrator",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Close earlier gate deviations, measure complete-consist sensing/last-tail clearance, platform/coupler/trainline interactions and independent receiving-brake readiness.",
+        "Demonstrate accepted demand/headway, dwell, fleet/spares, concurrent grid loading and services reserve at equal capacity; test unoccupied receiving berth/resource acquisition and full-tail release.",
+        "Run hot/EOL/missed-charge, sensor/communications/section faults and blocked-elevated-route recovery; preserve support during traction inhibition and independent emergency stopping.",
+        "Record all failure/repair/event times over the approved statistically justified demonstration duration. Include planned/unplanned maintenance, component substitution and repeat tests after changes."
+      ],
+      "reference_ids": [],
+      "required_cases": [
+        "normal-service",
+        "peak-concurrency",
+        "hot-eol",
+        "missed-charge",
+        "complete-tail-fault",
+        "blocked-route"
+      ],
+      "revision": "Q01",
+      "specimen": "Complete six-car train, independently fixed-line stations/terminal/depot/boosters, grid interfaces and trained operating/rescue resources",
+      "title": "Six-car equal-capacity route and sustained fault/recovery demonstration"
+    },
+    {
+      "accepted": false,
+      "channels": [
+        {
+          "name": "time_s",
+          "role": "synchronisation",
+          "unit": "s"
+        },
+        {
+          "name": "yield_fraction",
+          "role": "quality",
+          "unit": "fraction"
+        },
+        {
+          "name": "cycle_time_s",
+          "role": "throughput",
+          "unit": "s"
+        },
+        {
+          "name": "imported_input_usd",
+          "role": "cost",
+          "unit": "USD"
+        },
+        {
+          "name": "local_operation_usd",
+          "role": "local value",
+          "unit": "USD"
+        },
+        {
+          "name": "unpriced_line_items",
+          "role": "cost coverage",
+          "unit": "1"
+        }
+      ],
+      "criteria": [
+        {
+          "channel": "unpriced_line_items",
+          "comparison": "le",
+          "derivation": "Approved full-scope priced BOM/BoQ completeness",
+          "id": "price_coverage",
+          "limit": null,
+          "statistic": "max",
+          "unit": "1"
+        },
+        {
+          "channel": "cycle_time_s",
+          "comparison": "le",
+          "derivation": "Approved factory/mould/crew production and delivery schedule",
+          "id": "throughput",
+          "limit": null,
+          "statistic": "max",
+          "unit": "s"
+        },
+        {
+          "channel": "yield_fraction",
+          "comparison": "ge",
+          "derivation": "Approved repeat production quality and economic plan",
+          "id": "yield",
+          "limit": null,
+          "statistic": "min",
+          "unit": "fraction"
+        }
+      ],
+      "evidence_class": "supplier-record",
+      "executed": false,
+      "gate": "G5",
+      "group_ids": [
+        "industrial-recovery-assurance"
+      ],
+      "id": "industrial-first-article",
+      "limits_approved": false,
+      "minimum_samples_per_case": 2,
+      "procedure": [
+        "Issue dimensioned RFQs tied to exact drawing/material/quantity/process revisions and required inspection; distinguish UK manufacture, UK integration and unconfirmed origin for each input.",
+        "Retain signed supplier return, configured machine envelope/power/lead time, tooling, software, import duties/logistics, service and spare terms; target prices are not quotations.",
+        "Witness first articles and measured cycle/cure time, labour, yield/scrap/rework, inspection, environmental control and tool life at intended capacity.",
+        "Reconcile priced EBOM/MBOM/BoQ and local value addition without counting imported material as local manufacture; bind serial travellers, calibration, NCRs and repair/spares to installed configuration."
+      ],
+      "reference_ids": [],
+      "required_cases": [
+        "configured-rfq",
+        "origin-trace",
+        "first-article",
+        "throughput"
+      ],
+      "revision": "Q01",
+      "specimen": "Configured machine/tool/mould/fixture, actual material inputs and serial first articles with production routings",
+      "title": "Supplier origin/price and manufactured first article process qualification"
+    }
+  ],
+  "reference_sources": [
+    {
+      "id": "npl-force",
+      "scope": "Traceable force calibration and uncertainty, not a magnetic module pass limit",
+      "url": "https://www.npl.co.uk/products-services/force-pressure-mass-density/force-calibrations"
+    },
+    {
+      "id": "npl-composites",
+      "scope": "Independent mechanical, thermal and nondestructive composite characterisation; no material allowables imported",
+      "url": "https://www.npl.co.uk/products-services/composites"
+    },
+    {
+      "id": "npl-adhesive",
+      "scope": "Specimen preparation, conditioning, static/cyclic/creep adhesive test practice; actual process and Baghdad conditioning must be qualified",
+      "url": "https://eprintspublications.npl.co.uk/2423/1/MGPG28.pdf"
+    },
+    {
+      "id": "fhwa-pbes",
+      "scope": "Handling, access, transport, connection and erection planning; highway guidance is not railway load approval",
+      "url": "https://www.fhwa.dot.gov/bridge/prefab/framework.cfm"
+    },
+    {
+      "id": "fhwa-abc",
+      "scope": "Prefabricated construction-stage and connection planning; project prestress, lifting and soil limits unresolved",
+      "url": "https://www.fhwa.dot.gov/bridge/abc/docs/abcmanual.pdf"
+    },
+    {
+      "id": "linux-rtla",
+      "scope": "IRQ/thread timing and hardware/OS noise diagnostics; application GPIO/sensor-to-power latency requires separate physical capture",
+      "url": "https://kernel.org/doc/html/latest/tools/rtla/rtla.html"
+    },
+    {
+      "id": "thoms-chute",
+      "scope": "Commercial application precedent only; no OpenSourceRail qualification, throughput or height approval",
+      "url": "https://escape-chute.net/en/stationary-escape-chute/"
+    },
+    {
+      "id": "osaka-egress",
+      "scope": "Operator describes onboard chute/descender use under staff instruction after rescue transfer is difficult; no driverless evacuation equivalence",
+      "url": "https://www.osaka-monorail.co.jp/info/detail/434"
+    }
+  ],
+  "requirement_group_map": {
+    "CIV-001": [
+      "civil-strength-stages"
+    ],
+    "CIV-002": [
+      "civil-strength-stages"
+    ],
+    "CIV-003": [
+      "civil-strength-stages"
+    ],
+    "CIV-004": [
+      "station-egress"
+    ],
+    "CIV-005": [
+      "civil-strength-stages"
+    ],
+    "CIV-006": [
+      "civil-strength-stages"
+    ],
+    "CIV-007": [
+      "civil-strength-stages"
+    ],
+    "CTL-001": [
+      "control-protection"
+    ],
+    "CTL-002": [
+      "control-protection"
+    ],
+    "CTL-003": [
+      "control-protection"
+    ],
+    "CTL-004": [
+      "control-protection"
+    ],
+    "CTL-005": [
+      "control-protection"
+    ],
+    "CTL-006": [
+      "control-protection"
+    ],
+    "CTL-007": [
+      "control-protection"
+    ],
+    "EVAC-ANCHOR": [
+      "station-egress"
+    ],
+    "EVAC-DESCENT": [
+      "station-egress"
+    ],
+    "EVAC-DOOR": [
+      "station-egress"
+    ],
+    "EVAC-DRIVERLESS": [
+      "station-egress"
+    ],
+    "EVAC-HEIGHT": [
+      "station-egress"
+    ],
+    "EVAC-LIFECYCLE": [
+      "station-egress"
+    ],
+    "EVAC-OUTLET": [
+      "station-egress"
+    ],
+    "GEO-001": [
+      "civil-strength-stages"
+    ],
+    "GEO-002": [
+      "civil-strength-stages"
+    ],
+    "GEO-003": [
+      "body-joints-hardpoints"
+    ],
+    "GEO-004": [
+      "control-protection"
+    ],
+    "MAG-001": [
+      "industrial-recovery-assurance"
+    ],
+    "MAG-002": [
+      "body-joints-hardpoints"
+    ],
+    "MAG-003": [
+      "body-joints-hardpoints"
+    ],
+    "MAG-004": [
+      "body-joints-hardpoints"
+    ],
+    "MAG-010": [
+      "magnetic-circuit"
+    ],
+    "MAG-011": [
+      "magnetic-circuit"
+    ],
+    "MAG-012": [
+      "magnetic-circuit",
+      "industrial-recovery-assurance"
+    ],
+    "MAG-020": [
+      "magnetic-circuit"
+    ],
+    "MAG-021": [
+      "magnetic-circuit"
+    ],
+    "MAG-022": [
+      "magnetic-circuit",
+      "civil-strength-stages"
+    ],
+    "MAG-023": [
+      "magnetic-circuit",
+      "control-protection"
+    ],
+    "MAG-024": [
+      "magnetic-circuit",
+      "civil-strength-stages"
+    ],
+    "MAG-025": [
+      "magnetic-circuit",
+      "civil-strength-stages"
+    ],
+    "MAG-030": [
+      "magnetic-circuit"
+    ],
+    "MAG-031": [
+      "magnetic-circuit"
+    ],
+    "MAG-032": [
+      "magnetic-circuit"
+    ],
+    "MAG-033": [
+      "magnetic-circuit"
+    ],
+    "MAG-034": [
+      "magnetic-circuit"
+    ],
+    "MAG-040": [
+      "station-motor-interfaces"
+    ],
+    "MAG-041": [
+      "station-motor-interfaces"
+    ],
+    "MAG-042": [
+      "station-motor-interfaces"
+    ],
+    "MAG-043": [
+      "station-motor-interfaces"
+    ],
+    "MAG-044": [
+      "station-motor-interfaces"
+    ],
+    "MAG-050": [
+      "magnetic-circuit"
+    ],
+    "MAG-051": [
+      "magnetic-circuit"
+    ],
+    "MAG-052": [
+      "control-protection"
+    ],
+    "MAG-053": [
+      "control-protection"
+    ],
+    "MAG-054": [
+      "energy-services",
+      "control-protection"
+    ],
+    "MAG-055": [
+      "control-protection",
+      "industrial-recovery-assurance"
+    ],
+    "MASS-001": [
+      "body-joints-hardpoints"
+    ],
+    "MFG-001": [
+      "body-joints-hardpoints"
+    ],
+    "MFG-002": [
+      "magnetic-circuit"
+    ],
+    "MFG-003": [
+      "magnetic-circuit"
+    ],
+    "MFG-004": [
+      "magnetic-circuit"
+    ],
+    "MFG-005": [
+      "industrial-recovery-assurance"
+    ],
+    "OPS-001": [
+      "industrial-recovery-assurance"
+    ],
+    "OPS-002": [
+      "industrial-recovery-assurance"
+    ],
+    "OPS-003": [
+      "industrial-recovery-assurance"
+    ],
+    "OPS-004": [
+      "industrial-recovery-assurance"
+    ],
+    "OPS-005": [
+      "station-egress"
+    ],
+    "PWR-001": [
+      "energy-services"
+    ],
+    "PWR-002": [
+      "energy-services"
+    ],
+    "PWR-003": [
+      "station-motor-interfaces"
+    ],
+    "PWR-004": [
+      "energy-services"
+    ],
+    "SP-001": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-002": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-003": [
+      "body-joints-hardpoints"
+    ],
+    "SP-004": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-005": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-006": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-007": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-008": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-009": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-010": [
+      "magnetic-circuit"
+    ],
+    "SP-011": [
+      "magnetic-circuit"
+    ],
+    "SP-012": [
+      "magnetic-circuit"
+    ],
+    "SP-013": [
+      "magnetic-circuit"
+    ],
+    "SP-014": [
+      "magnetic-circuit"
+    ],
+    "SP-015": [
+      "magnetic-circuit"
+    ],
+    "SP-016": [
+      "magnetic-circuit"
+    ],
+    "SP-017": [
+      "magnetic-circuit"
+    ],
+    "SP-018": [
+      "magnetic-circuit"
+    ],
+    "SP-019": [
+      "magnetic-circuit"
+    ],
+    "SP-020": [
+      "magnetic-circuit"
+    ],
+    "SP-021": [
+      "magnetic-circuit"
+    ],
+    "SP-022": [
+      "magnetic-circuit"
+    ],
+    "SP-023": [
+      "station-motor-interfaces"
+    ],
+    "SP-024": [
+      "magnetic-circuit"
+    ],
+    "SP-025": [
+      "station-motor-interfaces"
+    ],
+    "SP-026": [
+      "station-motor-interfaces"
+    ],
+    "SP-027": [
+      "station-motor-interfaces"
+    ],
+    "SP-028": [
+      "station-motor-interfaces"
+    ],
+    "SP-029": [
+      "station-motor-interfaces"
+    ],
+    "SP-030": [
+      "station-motor-interfaces"
+    ],
+    "SP-031": [
+      "station-motor-interfaces"
+    ],
+    "SP-032": [
+      "station-motor-interfaces"
+    ],
+    "SP-033": [
+      "station-motor-interfaces"
+    ],
+    "SP-034": [
+      "station-motor-interfaces"
+    ],
+    "SP-035": [
+      "station-motor-interfaces"
+    ],
+    "SP-036": [
+      "body-joints-hardpoints"
+    ],
+    "SP-037": [
+      "body-joints-hardpoints"
+    ],
+    "SP-038": [
+      "body-joints-hardpoints"
+    ],
+    "SP-039": [
+      "energy-services"
+    ],
+    "SP-040": [
+      "energy-services"
+    ],
+    "SP-041": [
+      "energy-services"
+    ],
+    "SP-042": [
+      "energy-services"
+    ],
+    "SP-043": [
+      "body-joints-hardpoints"
+    ],
+    "SP-044": [
+      "body-joints-hardpoints"
+    ],
+    "SP-045": [
+      "body-joints-hardpoints"
+    ],
+    "SP-046": [
+      "energy-services"
+    ],
+    "SP-047": [
+      "control-protection"
+    ],
+    "SP-048": [
+      "control-protection"
+    ],
+    "SP-049": [
+      "control-protection"
+    ],
+    "SP-050": [
+      "control-protection"
+    ],
+    "SP-051": [
+      "control-protection"
+    ],
+    "SP-052": [
+      "control-protection"
+    ],
+    "SP-053": [
+      "control-protection"
+    ],
+    "SP-054": [
+      "control-protection"
+    ],
+    "SP-055": [
+      "control-protection"
+    ],
+    "SP-056": [
+      "control-protection"
+    ],
+    "SP-057": [
+      "control-protection"
+    ],
+    "SP-058": [
+      "control-protection"
+    ],
+    "SP-059": [
+      "civil-strength-stages"
+    ],
+    "SP-060": [
+      "civil-strength-stages"
+    ],
+    "SP-061": [
+      "civil-strength-stages"
+    ],
+    "SP-062": [
+      "civil-strength-stages"
+    ],
+    "SP-063": [
+      "civil-strength-stages"
+    ],
+    "SP-064": [
+      "civil-strength-stages"
+    ],
+    "SP-065": [
+      "civil-strength-stages"
+    ],
+    "SP-066": [
+      "civil-strength-stages"
+    ],
+    "SP-067": [
+      "civil-strength-stages"
+    ],
+    "SP-068": [
+      "body-joints-hardpoints"
+    ],
+    "SP-069": [
+      "body-joints-hardpoints"
+    ],
+    "SP-070": [
+      "station-motor-interfaces"
+    ],
+    "SP-071": [
+      "station-egress"
+    ],
+    "SP-072": [
+      "station-egress"
+    ],
+    "SP-073": [
+      "station-egress"
+    ],
+    "SP-074": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-075": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-076": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-077": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-078": [
+      "magnetic-circuit"
+    ],
+    "SP-079": [
+      "magnetic-circuit"
+    ],
+    "SP-080": [
+      "station-motor-interfaces"
+    ],
+    "SP-081": [
+      "body-joints-hardpoints"
+    ],
+    "SP-082": [
+      "control-protection"
+    ],
+    "SP-083": [
+      "control-protection"
+    ],
+    "SP-084": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-085": [
+      "body-joints-hardpoints"
+    ],
+    "SP-086": [
+      "civil-strength-stages"
+    ],
+    "SP-087": [
+      "control-protection"
+    ],
+    "SP-088": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-089": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-090": [
+      "station-motor-interfaces"
+    ],
+    "SP-091": [
+      "civil-strength-stages"
+    ],
+    "SP-092": [
+      "station-motor-interfaces"
+    ],
+    "SP-093": [
+      "station-motor-interfaces"
+    ],
+    "SP-094": [
+      "station-motor-interfaces"
+    ],
+    "SP-095": [
+      "magnetic-circuit"
+    ],
+    "SP-096": [
+      "station-motor-interfaces"
+    ],
+    "SP-097": [
+      "body-joints-hardpoints"
+    ],
+    "SP-098": [
+      "civil-strength-stages"
+    ],
+    "SP-099": [
+      "industrial-recovery-assurance"
+    ],
+    "SP-100": [
+      "industrial-recovery-assurance"
+    ],
+    "SYS-001": [
+      "body-joints-hardpoints"
+    ],
+    "SYS-002": [
+      "magnetic-circuit"
+    ],
+    "SYS-003": [
+      "station-motor-interfaces"
+    ],
+    "SYS-004": [
+      "station-motor-interfaces"
+    ],
+    "SYS-005": [
+      "magnetic-circuit"
+    ],
+    "SYS-006": [
+      "magnetic-circuit"
+    ],
+    "SYS-007": [
+      "body-joints-hardpoints"
+    ],
+    "SYS-008": [
+      "industrial-recovery-assurance"
+    ],
+    "SYS-009": [
+      "industrial-recovery-assurance"
+    ],
+    "SYS-010": [
+      "energy-services"
+    ]
+  },
+  "revision": "Q01",
+  "schema": "osr-qualification-plan/1",
+  "status": "prepared-unexecuted"
+}

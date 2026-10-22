@@ -184,8 +184,21 @@ def test_native_field_rust_and_coupled_availability_need_execution_and_physical_
             assert digest==sha256((ROOT/path).read_bytes()).hexdigest()
             assert register['source_sha256'][path]==digest
     variants={r['variant']:r for r in capabilities['native-development-solids']['geometry_variants']}
-    assert variants['flat-retainer']['planned_solid_count']==580
-    assert variants['recessed-retainer']['planned_solid_count']==628
+    from engineering.ferrite_maglev import geometry
+    # Four independent outboard supports replace two beam-crossing members.
+    # Both variants retain 26 guideway regions and 28 frame regions; recessing
+    # splits each of the 24 ferrite regions into three instead of one.
+    support_ids={f'frame/lower-side-cantilever-{x}-{side}' for x in (-6,6) for side in (-1,1)}
+    for variant,per_cartridge,total in (('flat-retainer',22,582),('recessed-retainer',24,630)):
+        definition=geometry.interface(variant);parts={p['id']:p for p in definition['parts']}
+        assert variants[variant]['planned_solid_count']==len(parts)==total==26+28+24*per_cartridge
+        assert {name for name in parts if name.startswith('frame/lower-side-cantilever-')}==support_ids
+        assert not any(name.startswith('frame/lower-crosshead-') for name in parts)
+        for x in (-6,6):
+            for side in (-1,1):
+                support=parts[f'frame/lower-side-cantilever-{x}-{side}']
+                assert support['kind']=='tube' and support['size_m']==[.1,.64,.08]
+                assert support['at_m']==[x-.05,.84 if side>0 else -1.48,-.524]
     assert variants['flat-retainer']['nominal_fastener_head_gap_m']==pytest.approx(.002)
     assert variants['recessed-retainer']['nominal_fastener_head_gap_m']==pytest.approx(.008)
     assert all(not r['full_error_budget_accepted'] for r in variants.values())

@@ -14,8 +14,8 @@ HOSTS = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(HOSTS)
 
 
-def command(*args):
-    return subprocess.run([str(model.ROOT/'osr'),*args],cwd=model.ROOT,capture_output=True,text=True,timeout=120)
+def command(*args,timeout=120):
+    return subprocess.run([str(model.ROOT/'osr'),*args],cwd=model.ROOT,capture_output=True,text=True,timeout=timeout)
 
 
 def test_selected_plan_resolves_only_current_city_compiler():
@@ -88,7 +88,8 @@ def test_default_city_artifact_index_is_current_and_cannot_assert_acceptance():
 
 
 def test_readiness_is_current_and_keeps_all_requirements_open():
-    result = command('readiness')
+    # Readiness performs the same full cold verification as Workbench startup.
+    result = command('readiness',timeout=600)
     assert result.returncode==0, result.stderr
     data = json.loads(result.stdout)
     assert data['family']=='ferrite-pm-maglev-study' and data['source_current']

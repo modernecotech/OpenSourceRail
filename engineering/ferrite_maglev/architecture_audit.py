@@ -14,11 +14,12 @@ TOKENS=['light-'+'metro-3car','urban-'+'shuttle-1car','wheel-'+'rail-reference',
 PATTERN=re.compile('|'.join(re.escape(s) for s in TOKENS),re.I)
 DEFAULT_GZIP_RAW_LIMIT=64*1024*1024
 ROOT=Path(__file__).resolve().parents[2]
-# These two verified publications exceed the generic ceiling. Each publisher
-# independently enforces MAX_RAW=128MiB; no suffix/receipt-provided allowance.
+# These exact verified publications exceed the generic ceiling. Their own
+# publishers enforce these raw bounds; no suffix/receipt-provided allowance.
 OWNED_GZIP_RAW_LIMITS={
     ROOT/'docs/design-engine/ferrite-maglev/corridor/result.json.gz':128*1024*1024,
     ROOT/'docs/design-engine/ferrite-maglev/moving-train/result.json.gz':128*1024*1024,
+    ROOT/'docs/design-engine/ferrite-maglev/assembled-body/native-mesh.json.gz':256*1024*1024,
 }
 TEXT={'.py','.rs','.md','.toml','.json','.sh','.js','.mjs','.html','.yaml','.yml','.txt','.svg','.csv','.proto'}
 

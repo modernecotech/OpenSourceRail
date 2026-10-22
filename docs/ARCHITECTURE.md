@@ -30,12 +30,12 @@ anchors, bearings, joints, rail survey and all construction stages remain in sco
 | Layer | Controlled definition | Implemented evidence and boundary |
 |---|---|---|
 | Service and city | Geography, demand, formation, runtime, headway and station spacing | Urban minimum target 1.5 km and mean target 2 km; explicitly classified suburban legs 4–5 km with booster alternatives; short interchange conflicts remain visible |
-| Mechanical | Structural sandwich panels, four doors, ferrite cartridges, support/guidance and services | Quantity takeoffs and partial solids; complete hardpoints, joints, mass/CG/inertia and qualification open |
+| Mechanical | Structural sandwich panels, four doors, ferrite cartridges, support/guidance and services | Fitted structural/material regions with native interference, drilled hardpoints and partial mass/CG/inertia; complete equipment, joined behavior and qualification open |
 | Fixed-zone propulsion | Station/booster LSM cassettes/groups, phase sensing, bridges, DC supply, receiving braking and charging | Separate longer-leg jerk/overlap/rating/service/protection comparisons; measured force/current/voltage/thermal maps unqualified |
 | Civil | Guidebeams, supports, foundations, stations and interfaces | Exact section/end-infill quantities, gross elastic screens and foundation sensitivities; no accepted strength or soil capacity |
 | Software | Independent support control and persistent launch/corridor/berth ownership | Offline Rust tests/replays; no qualified sensing, physical actuator adapter or measured hardware timing |
 | Industrialisation | Moulds, cure/release, crews, transport, cranes, joints and survey | Conditional bottleneck capacity; no measured production or supplier-price evidence |
-| Acceptance | Exact configuration, source, unit/serial identity, tests and reviewers | Source-bound receipts; engineering/manufacturing/physical acceptance remains open |
+| Acceptance | Exact configuration, source, unit/serial identity, tests and reviewers | Requirement task chains, typed physical test protocols and source-bound receipts; engineering/manufacturing/physical acceptance remains open |
 
 [Infrastructure policy](../lib/templates/infrastructure.toml),
 [configuration](../engineering/ferrite_maglev/reference-configuration.toml),
@@ -54,6 +54,13 @@ Release requires complete-consist clearance evidence; lost communications or a
 timer cannot establish that clearance. The receiver must remain able to stop a
 train after departure. Independent stopping/holding, receiver faults, low-service
 energy and stranded-train recovery require their own engineered designs.
+
+The separate `osr-progressive-departure/1` candidate instead protects a finite
+stopping envelope before a stopped departure and renews it from fresh evidence.
+Its local multi-train replay includes withheld arrival permission and explicit
+reaction/braking transients. It does not replace `StationLaunch` or the city
+capacity basis. Restored candidate snapshots remain fenced; operational restart,
+distributed handover and physical brake/detector qualification remain open.
 
 Coasting feasibility depends on grade, drag, wind, launch speed and arrival
 margin. An unpowered span cannot restart a stationary train from a distant

@@ -8,7 +8,7 @@ from pathlib import Path
 import platform
 import tempfile
 
-from . import model,transition,geometry,field,media,optimisation,evacuation,system_development,reference_assembly,iteration,station,station_structure,station_protocol,station_native,moving_train,system_campaign,closure,manufactured_native,corridor,booster_kit,booster_native,interchange_hubs
+from . import model,transition,geometry,field,media,optimisation,evacuation,system_development,reference_assembly,iteration,station,station_structure,station_protocol,station_native,moving_train,system_campaign,closure,manufactured_native,corridor,booster_kit,booster_native,interchange_hubs,line_capacity,hub_access,qualification,assembled_body,shared_hub_layout,body_stiffness
 
 OUTPUT = model.ROOT / 'docs/design-engine/ferrite-maglev/reference'
 EXPECTED={'result.json','index.html','guidebeam-sections.svg','duty-energy.svg','systems-register.json.gz','interface-definition.json.gz','civil-bay-definition.json.gz','field-study.json.gz','field-study.png','optimisation-study.json.gz','evacuation-study.json.gz','evacuation-envelope.svg'}
@@ -49,6 +49,8 @@ def render(result):
     hubs=interchange_hubs.read_summary()
     hub_study=json.loads(gzip.decompress((interchange_hubs.OUTPUT/'study.json.gz').read_bytes()))
     hub_conflicts=sum(len(row['spacing_conflicts']) for row in hub_study['baseline']['line_screens'])
+    hub_native_view=('<img src="../shared-hub-layout/overview.png" alt="Reopened native shared-station solids with declared vertical display exaggeration">'
+                     if result.get('closure_studies',{}).get('shared_hub_layout',{}).get('native_present') else '')
     st=result['station_powered'];tr=st['trajectory'];charge=st['charging'];traffic=st['traffic'];struct=result['station_structure']
     current=result['selected_configuration']['configuration']['civil']
     corridor_rows=''.join(f'<tr><td>{escape(mode)}</td><td>{screen["distance_m"]:g} m</td><td>{screen["runtime_s"]:g} s</td><td>{screen["service_energy"]["battery_kwh_per_car"]:g} kWh/car</td><td>{screen["service_energy"]["charger_kw_per_car"]:g} kW/car</td><td>{screen["service_energy"]["dwell_s"]:g} s</td><td>{screen["headway_lower_bound_s"]:.2f} s; capacity hold</td></tr>' for mode,screen in result['corridor_powered']['operations'].items())
@@ -131,14 +133,39 @@ The new longer-leg studies are separate from the retained 1 km benchmarks below.
 <p>The default Baghdad reference remains {hubs['baseline_stops']} proposed stops with {hub_conflicts} spacing conflicts. <a href="../interchange-hubs/README.md">Interchange investigation and limits</a> · <a href="../interchange-hubs/study.json.gz">Complete alternatives and source evidence</a> · <a href="../interchange-hubs/manifest.json">Receipt</a>.</p>
 <img src="../interchange-hubs/overview.svg" alt="Unchanged Baghdad guideways and extended passenger links, with a separate unselected shared-site guideway concept">
 <p>{hubs['unique_pairs']} pairs produce {hubs['placement_variants']} extended-transfer placements and {hubs['network_alternatives']} bounded network alternatives, including rejected extent controls. Original cross-line boarding platforms remain in the unchanged-guideway options. Grouping station IDs does not remove their physical walks; cross-line transfers may require both connector arms. The focused {escape(hubs['focused_investigation']['id'])} midpoint case has about {hubs['focused_investigation']['maximum_reference_access_arm_m']:.0f} m maximum reference access arm and {hubs['focused_investigation']['unique_reference_connector_m']:.0f} m unique connector. Its partial electrical target allowance is not a quote or complete economic break-even.</p>
-<p>Separate coordinated shared-site concepts physically draw the involved fixed lines through a common location. They change guideway geometry: old civil classifications and prices are not reused. Their350 m station tangents, curves, levels, platforms, internal walks and costs remain undesigned. The100 m compact walk is a sensitivity assumption; {hubs['compact_hubs_proved']} compact layouts are demonstrated. No alternative is selected, no train-routing switches are introduced, and access/flow/lift resilience, shade, rests, fire/evacuation, land and full lifecycle cost remain open.</p>
+<p>Separate coordinated shared-site concepts physically draw the involved fixed lines through a common location. They change guideway geometry: old civil classifications and prices are not reused. The original concept leaves station tangents, levels, structures and internal walks undefined; its100 m compact walk remains a sensitivity assumption and {hubs['compact_hubs_proved']} compact layouts are proved by that packet. The separate geometry study below develops fitted alternatives and actual paths. No alternative is selected, no train-routing switches are introduced, and access/flow/lift resilience, shade, rests, fire/evacuation, land and full lifecycle cost remain open.</p>
+<h2>Work to close the remaining points</h2>
+<p><a href="../qualification/README.md">Requirement-specific qualification tasks and test protocols</a> · <a href="../qualification/manifest.json">Qualification source receipt</a>. The task graph distinguishes executable development studies, supplier and site records, physical rig measurements and independent acceptance. A prepared procedure or synthetic record does not close a physical requirement.</p>
+<p><a href="../line-capacity/README.md">Sectioned multi-train capacity prototype</a> · <a href="../line-capacity/manifest.json">Capacity source and execution receipt</a>. Progressive reservations use actual local Rust ownership and conservative stopping envelopes. Delayed clearance, stale observations, obstruction, rollback and unavailable braking are separate controls. This is an additional bounded study; current city headways and capacity holds are retained.</p>
+<img src="../line-capacity/overview.svg" alt="Bounded multi-train reservation studies and adverse controls, without operational acceptance">
+<p><a href="../hub-access/README.md">Interchange access, structures and passenger-flow alternatives</a> · <a href="../hub-access/manifest.json">Access source receipt</a>. Connector modules and supports, access gradients, rests, lifts, passenger pulses and outage cases are counted explicitly. Reference loads and flow assumptions require local qualification; no connector or compact shared-site hub is selected.</p>
+<img src="../hub-access/overview.svg" alt="Provisional connector structure and accessible passenger-flow alternatives with open site and structural gates">
+<h2>Assembled structural material regions</h2>
+<p><a href="../assembled-body/README.md">Assembled body, load-path revisions and limits</a> · <a href="../assembled-body/model.FCStd">Native structural assembly</a> · <a href="../assembled-body/model.step.gz">Compressed STEP</a> · <a href="../assembled-body/mass-properties.json">Geometry-derived partial mass and inertia</a> · <a href="../assembled-body/cut-list.csv">Counted cut list</a> · <a href="../assembled-body/legacy-collision-control.json">Retained incompatible-layout control</a> · <a href="../assembled-body/manifest.json">Source receipt</a>.</p>
+<p>Joined structural stock, panels, hardpoints and cartridge interfaces are placed as defined material regions. The former crosshead/guidebeam interference and incompatible bolt arrangement remain negative controls. Revised arms and fasteners carry their actual geometry, loads and counted mass. Native mass and inertia use declared densities; omitted equipment and unqualified material/joint behavior prevent an equipped-vehicle or manufacturing claim. Body and joint compliance are separate from the retained rigid-car numerical plant.</p>
+<img src="../assembled-body/overview.png" alt="Native candidate assembled structural body and declared interfaces"><img src="../assembled-body/frame-cutaway.png" alt="Structural members and revised load paths with panels cut away"><img src="../assembled-body/six-car.png" alt="Six repetitions of the defined structural candidate, with omitted equipment explicit">
+<p><a href="../assembled-body/assembly-visibility.mp4">Structural assembly visibility video</a>. A staged visibility sequence does not qualify a movement path, tooling, lifting or manufacturing process.</p>
+<h2>Longitudinal stock alternatives after the stiffness hold</h2>
+<p><a href="../body-stiffness/README.md">Exact drilled-stock alternatives and unchanged confirmation criteria</a> · <a href="../body-stiffness/study.json.gz">Full mass, compliance and moving-run comparison</a> · <a href="../body-stiffness/manifest.json">Source and execution receipt</a>. The GFRP sensitivity retains its phase-limit failure. Alternative steel spines keep the same outer envelope, count changed wall cuts and longer crush spacers, and add every incremental material kilogram to the full retained AW3 mass. Their actual Rust runs retain the existing phase/gap/force criteria. This tests a bounded repair idea; thin-wall joints, welds, thermal behavior, shell/frame participation and the heavier load cases remain separate requirements. No alternative is adopted as the equipped body or city default.</p>
+<img src="../body-stiffness/overview.svg" alt="Actual full-mass longitudinal stock alternatives with unchanged phase limits and unresolved joint acceptance">
+<h2>Fitted shared-hub station geometry</h2>
+<p><a href="../shared-hub-layout/README.md">Station tangents, transitions and computed passenger routes</a> · <a href="../shared-hub-layout/geometry.json">Explicit geometric units</a> · <a href="../shared-hub-layout/manifest.json">Source receipt</a>. The study accounts for both directions' finite powered zones, full train and boarding-door extents, transition curvature and actual circulation obstacles. Invalid through-line constructions remain rejected controls; terminal alternatives require explicit turnback geometry. New station/guideway/access quantities receive no former civil price credit. Land, structures, magnetic curve behavior, services and operation remain unqualified, and no hub is selected.</p>
+<img src="../shared-hub-layout/overview.svg" alt="Fitted and rejected shared-hub geometric alternatives"><img src="../shared-hub-layout/station-plan.svg" alt="Station train, door, platform and access geometry with explicit limits">
+{hub_native_view}
 <h2>Acceptance gates</h2><ul>{gate_rows}</ul><details><summary>{len(result['applicable_requirements']['requirements'])} applicable requirements, including all 100 supplied specification items — acceptance remains open</summary><table>{requirement_rows}</table></details></html>'''.encode()
+
+
+def closure_studies():
+    return dict(line_capacity=line_capacity.read_summary(),hub_access=hub_access.read_summary(),
+                qualification=qualification.read_summary(),assembled_body=assembled_body.read_summary(),
+                shared_hub_layout=shared_hub_layout.read_summary(),body_stiffness=body_stiffness.read_summary())
 
 def payload():
     before=model.sources();result=model.build()
     result['source_sha256']=before
     result['runtime']=runtime()
     result['retained_evidence']=external_evidence()
+    result['closure_studies']=closure_studies()
     numerical=field.study()
     files={'result.json':encoded(result),'index.html':render(result),
             'guidebeam-sections.svg':section_svg(result),'duty-energy.svg':energy_svg(result),
@@ -163,6 +190,8 @@ def external_evidence():
     iteration.verify();station.verify();station_structure.verify();station_protocol.verify();station_native.verify()
     moving_train.verify();system_campaign.verify();closure.verify();manufactured_native.verify()
     corridor.verify();booster_kit.verify();booster_native.verify();interchange_hubs.verify()
+    line_capacity.verify();hub_access.verify();qualification.verify()
+    assembled_body.verify();shared_hub_layout.verify();body_stiffness.verify()
     base=model.ROOT/'docs/design-engine/ferrite-maglev'
     geometry.verify_native(base/'native');coupled.verify(base/'coupled');evacuation.verify_native(base/'beam-only')
     system_development.verify(base/'system-development')
@@ -170,7 +199,7 @@ def external_evidence():
     catalogue=cities.verify_index()
     if not catalogue['current']:raise ValueError('city catalogue inputs/outputs changed: '+str(catalogue['errors'][:3]))
     return {p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest()
-            for p in (base/'native/manifest.json',base/'coupled/receipt.json',base/'beam-only/manifest.json',base/'system-development/manifest.json',base/'baghdad-reference/manifest.json',base/'iterative/manifest.json',base/'station-powered/manifest.json',base/'station-structure/manifest.json',base/'station-protocol/manifest.json',base/'station-native/manifest.json',base/'moving-train/manifest.json',base/'system-campaign/manifest.json',base/'manufactured-dossier/manifest.json',base/'manufactured-native/manifest.json',base/'corridor/manifest.json',base/'booster-kit/manifest.json',base/'booster-native/manifest.json',base/'interchange-hubs/manifest.json')}
+            for p in (base/'native/manifest.json',base/'coupled/receipt.json',base/'beam-only/manifest.json',base/'system-development/manifest.json',base/'baghdad-reference/manifest.json',base/'iterative/manifest.json',base/'station-powered/manifest.json',base/'station-structure/manifest.json',base/'station-protocol/manifest.json',base/'station-native/manifest.json',base/'moving-train/manifest.json',base/'system-campaign/manifest.json',base/'manufactured-dossier/manifest.json',base/'manufactured-native/manifest.json',base/'corridor/manifest.json',base/'booster-kit/manifest.json',base/'booster-native/manifest.json',base/'interchange-hubs/manifest.json',base/'line-capacity/manifest.json',base/'hub-access/manifest.json',base/'qualification/manifest.json',base/'assembled-body/manifest.json',base/'shared-hub-layout/manifest.json',base/'body-stiffness/manifest.json')}
 
 
 def publish(output=OUTPUT, *, check=False):
@@ -211,4 +240,5 @@ def verify(output=OUTPUT):
     if r['source_sha256']!=m['source_sha256'] or r['family']!=m['family']:raise ValueError('result identity differs')
     if any(o.get(k) is not False for o in (m,r) for k in model.FLAGS):raise ValueError('study asserted a release')
     if r.get('retained_evidence')!=external_evidence():raise ValueError('retained native/coupled evidence differs')
+    if r.get('closure_studies')!=closure_studies():raise ValueError('closure studies differ')
     return m

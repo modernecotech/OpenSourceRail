@@ -98,8 +98,12 @@ def interface(variant='recessed-retainer'):
     for name,thickness,z,material in [('lower-face',.00225,.2355,'gfrp'),('core',.06,.23775,'core-100'),('upper-face',.00225,.29775,'gfrp')]:
         frame.append(part('frame/floor-'+name,[17,2.65,thickness],[-8.5,-1.325,z],material))
     for x in (-6,6):
-        frame.append(part(f'frame/lower-crosshead-{x}',[.1,2.96,.08],[x-.05,-1.48,-.524],'steel',kind='tube',wall_m=.006,axis=1))
         for side in (-1,1):
+            # Separate outboard cantilevers do not pass through the deep box
+            # beam. Retain the legacy full-width members as an immutable
+            # measured negative control in assembled_body.LEGACY.
+            frame.append(part(f'frame/lower-side-cantilever-{x}-{side}',[.1,.64,.08],
+                [x-.05,.84 if side>0 else -1.48,-.524],'steel',kind='tube',wall_m=.006,axis=1))
             frame.append(part(f'frame/u-arm-{x}-{side}',[.1,.08,.654],[x-.05,side*1.44-.04,-.444],'steel',kind='tube',wall_m=.006,axis=2))
             frame.append(part(f'frame/outrigger-{x}-{side}',[.1,.33,.08],[x-.05,1.15 if side>0 else -1.48,.21],'steel',kind='tube',wall_m=.006,axis=1))
     p+=frame;groups['frame']=[v['id'] for v in frame]
@@ -144,6 +148,8 @@ def interface(variant='recessed-retainer'):
                'rail faces/corbels/embedded anchors, structural joints and production winding detail',
                'body/doors/glazing/interior/HVAC/battery/capture/propulsion components not included in this partial model'])
     result.update(variant=variant,modules=modules,ferrite_block_inventory=blocks,
+        interference_roles=['ferrite','carrier','retainer','fastener','magnetic-rail','steel','concrete'],
+        interference_scope='Selected magnetic parts, structural steel frame and concrete receive native positive-volume checks; GFRP floor stock remains outside complete assembled-body acceptance',
         magnet_budget=dict(total_allocated_kg=3000,lift_modelled_kg=2826 if recessed else 2850,guidance_propulsion_reserved_unmodelled_kg=174 if recessed else 150,
                            shared_magnetic_volume_demonstrated=False),
         clearances=dict(nominal_magnet_to_lift_face_m=.008,keeper_to_face_m=-.3-(keeper_z+.002),bolt_head_to_face_m=-.3-(head_z+head_height),
@@ -256,6 +262,10 @@ def verify_native(output):
         if receipt['input_sha256']!=sha256((folder/'definition.json').read_bytes()).hexdigest():raise ValueError('native input receipt differs')
         if not receipt['fcstd_reopened'] or not receipt['step_reopened']:raise ValueError('native reopen evidence missing')
         if receipt['part_count']!=len(definition['parts']):raise ValueError('native part inventory differs')
+        expected_checked=[p['id'] for p in definition['parts'] if p['role'] in definition['interference_roles']]
+        if (receipt.get('checked_interference_roles')!=definition['interference_roles']
+                or receipt.get('interference_checked_ids')!=expected_checked):
+            raise ValueError('native declared structural/concrete interference coverage differs')
         visual=json.loads((folder/'visual-receipt.json').read_text())
         if visual['renderer_sha256']!=sha256(Path(__file__).with_name('media.py').read_bytes()).hexdigest():raise ValueError('native renderer source changed')
         if visual['mesh_sha256']!=sha256((folder/'native-mesh.json.gz').read_bytes()).hexdigest():raise ValueError('visual mesh identity differs')

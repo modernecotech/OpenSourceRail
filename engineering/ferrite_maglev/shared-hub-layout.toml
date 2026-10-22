@@ -1,0 +1,63 @@
+schema = "osr-shared-hub-layout/1"
+minimum_station_tangent_m = 350.0
+forward_power_zone_m = [-150.0, 200.0]
+directional_beam_centre_offset_from_island_edge_m = 1.4
+ordinary_directional_beam_centres_m = 3.8
+platform_door_gap_m = 0.075
+vehicle_swept_allowance_per_side_m = 0.12
+platform_stopping_allowance_m = 10.0
+platform_widths_m = [6.0, 18.0]
+heading_adjustments_deg = [-5.0, 0.0, 5.0]
+shared_site_east_offsets_m = [0.0, 25.0]
+minimum_horizontal_radii_m = [250.0, 600.0]
+level_spacings_m = [6.0, 8.0]
+control_handle_fractions = [0.15, 0.25, 0.35]
+maximum_transition_detour_ratio = 1.25
+maximum_transition_extent_from_chord_m = 1000.0
+maximum_anchor_projection_offset_m = 5.0
+maximum_grade_fraction = 0.04
+minimum_vertical_radius_m = 1500.0
+anchor_beam_level_m = 8.0
+platform_floor_above_beam_m = 0.35
+vehicle_envelope_above_beam_m = 3.2
+vehicle_envelope_half_width_m = 1.6
+minimum_structure_clearance_m = 0.5
+portal_cap_depth_m = 1.0
+portal_cap_width_m = 1.2
+portal_column_width_m = 0.8
+portal_column_offsets_m = [12.0, 18.0, 24.0]
+maximum_guideway_bay_m = 25.0
+hall_floor_m = 2.0
+hall_headroom_m = 2.6
+hall_side_m = 32.0
+platform_slab_m = 0.25
+hall_slab_m = 0.25
+lift_shaft_width_m = 2.6
+lift_shaft_depth_m = 3.0
+lift_positions_along_platform_m = [-8.0, 8.0]
+stair_flight_clear_width_m = 2.4
+stair_centre_gap_m = 0.3
+minimum_platform_side_passage_m = 1.5
+stair_core_centre_along_platform_m = 25.0
+stair_riser_max_m = 0.15
+stair_tread_m = 0.3
+maximum_risers_per_flight = 12
+stair_landing_length_m = 2.4
+maximum_variants = 768
+maximum_representatives = 3
+curvature_subdivision_depth = 12
+native_enabled = true
+stop_coordinate_convention = "front-of-leading-car-at-H-in-both-directions"
+hub_selected = false
+land_accepted = false
+engineering_accepted = false
+
+[[external_guidance]]
+title = "RSSB RIS-7016-INS issue2, June2022, consultation copy"
+url = "https://consultations.rssb.co.uk/_entity/sharepointdocumentlocation/a667694a-5b5e-ec11-8f8f-000d3ab597d8/2ab10dab-d681-4911-b881-cc99413f07b6?file=08.+RIS_7016_INS+issue+2.pdf"
+use = "UK comparator supporting straight platform interfaces and explicit stepping-distance/gauge assessments. Not a maglev or Iraqi approval basis; proposed curvature/grade limits remain study assumptions."
+
+[[external_guidance]]
+title = "Office of Rail and Road: Station and platform safety"
+url = "https://www.orr.gov.uk/guidance-compliance/rail/health-safety/passenger-safety/station-and-platform-safety"
+use = "Platform gap and impaired-mobility access need route-specific assessment. No acceptance is inferred from this schematic."

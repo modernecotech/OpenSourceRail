@@ -16,6 +16,12 @@ are the leading studies. **Accepted engineering and physical releases: zero.**
 ./osr design protocol
 ./osr design corridor
 ./osr design booster-kit
+./osr design line-capacity
+./osr design hub-access
+./osr design qualification
+./osr design assembled-body
+./osr design body-stiffness
+./osr design shared-hub-layout
 ./osr design iterate
 ./osr design check
 ./osr design verify
@@ -63,6 +69,13 @@ remain additional engineering work.
 | Integrated station/control campaign | [Executable campaign](system_campaign.py), [command/input/output evidence](../../docs/design-engine/ferrite-maglev/system-campaign/README.md) |
 | City geography/service | Each city's `city.json`; [compiler](cities.py), [operating-plan generator](operating_plan.py) |
 | Baghdad interchange alternatives | [Investigation model](interchange_hubs.py), [unselected access/shared-site comparisons](../../docs/design-engine/ferrite-maglev/interchange-hubs/README.md), [map](../../docs/design-engine/ferrite-maglev/interchange-hubs/overview.svg) |
+| Interchange access engineering | [Model](hub_access.py), [connector/support and passenger-flow alternatives](../../docs/design-engine/ferrite-maglev/hub-access/README.md) |
+| Sectioned multi-train prototype | [Model](line_capacity.py), [actual Rust reservations and adverse controls](../../docs/design-engine/ferrite-maglev/line-capacity/README.md) |
+| Qualification tasks and physical records | [Task/assessment engine](qualification.py), [requirement chains, rig procedures and raw schemas](../../docs/design-engine/ferrite-maglev/qualification/README.md) |
+| Assembled structural candidate | [Generator and native checks](assembled_body.py), [fitted regions, load-path changes and partial mass/inertia](../../docs/design-engine/ferrite-maglev/assembled-body/README.md) |
+| Longitudinal stock alternatives | [Repeatable generator and verifier](body_stiffness.py), [drilled stock, added full-AW3 mass and actual moving comparisons](../../docs/design-engine/ferrite-maglev/body-stiffness/README.md); no joined-body or default adoption |
+| Shared-hub station geometry | [Bounded fitter](shared_hub_layout.py), [directional approaches, platforms and actual door paths](../../docs/design-engine/ferrite-maglev/shared-hub-layout/README.md) |
+| Portable evidence bundles | [Streaming multipart writer/verifier](release_bundle.py), [command](../../tools/automation/package-maglev-release.py); exact committed sources, bounded archives, no physical-release authority |
 | Onboard support control | [Rust package](../../crates/osr-maglev-control/README.md), [offline host profile](../../deployment/maglev.toml) |
 
 Baghdad uses six 17 m bodies with 0.5 m assumed coupler gaps. The retained 30 kWh tare target is 14.2 t/car, including a 5.2 t equipped GFRP body, 3 t ferrite and an existing 1.8 t growth reserve. The 50 kWh operating reference is 14.4 t tare / 26.4 t AW3 per car (158.4 t six-car AW3); the pack increase is included once in mass. Four passenger doors per car are the body takeoff. The manufactured dossier uses that heavier case for hardpoints, passive supports, civil demands and exact brake energy/thermal quantities, alongside a named 30 kWh benchmark. Its counted primary-frame overrun and heavier brake proposal consume growth reserve; battery mass is not charged a second time. Unweighed hardware, joined-body behavior, fatigue, CG and inertia remain open.
@@ -71,7 +84,16 @@ The primary ordinary box uses 25 m spans, 0.80 m width, 100 mm webs, 150 mm flan
 
 ## Implemented checks and open boundaries
 
-The separate [Baghdad interchange investigation](../../docs/design-engine/ferrite-maglev/interchange-hubs/README.md) leaves the default273 stops and10 spacing conflicts unchanged. It compares24 extended-transfer placements on unchanged guideways and bounded disjoint network scenarios, retaining rejected extent controls and overlapping-pair constraints. Seven coordinated shared-site concepts instead draw changed guideway chords to a common location. None is selected or physically qualified. Shared-site tangents, curves, levels, platform/bridge structures and actual internal walks remain undesigned; their100m walk is a sensitivity assumption. Extended-link quantities and electrical target credits exclude complete connectors, station civil and passenger-time economics. No equal-capacity savings or compact-hub proof follows from grouping IDs.
+The qualification programme assigns each applicable requirement an exact revision,
+deliverables and prerequisites through physical measurement and independent
+acceptance. It provides specimen/rig procedures and typed raw-data assessment;
+prepared procedures and synthetic examples remain unaccepted. Use
+`tools/automation/osr-python -m engineering.ferrite_maglev.qualification --help`
+for the evidence assessment entrypoint. The multi-train and hub-access packets
+are additional studies; they do not select a hub, approve protection or change
+city defaults from an isolated passing scenario.
+
+The separate [Baghdad interchange investigation](../../docs/design-engine/ferrite-maglev/interchange-hubs/README.md) leaves the default273 stops and10 spacing conflicts unchanged. It compares24 extended-transfer placements on unchanged guideways and bounded disjoint network scenarios, retaining rejected extent controls and overlapping-pair constraints. Seven coordinated shared-site concepts instead draw changed guideway chords to a common location. None is selected or physically qualified. The original shared-site packet leaves tangents, levels, structures and internal walks undefined; its100m walk remains a sensitivity assumption. The separate shared-hub geometry study now fits candidate approaches, powered zones, platforms and actual door paths, retaining failed layouts and open structural/site acceptance. Extended-link quantities and electrical target credits exclude complete connectors, station civil and passenger-time economics. No equal-capacity savings or compact-hub proof follows from grouping IDs.
 
 | Capability | Implemented scope | Evidence still required |
 |---|---|---|
@@ -143,7 +165,7 @@ landings, assistance, fire/weather, partial failure, rescue and driverless use.
 Walkway removal needs accepted route and onboard alternatives at every allowed
 stopping point.
 
-The moving-train video uses calculated six-car positions and beam states with declared visual amplification. Other CAD videos are final-position visibility sequences; none establishes collision-free erection, crane performance or chute deployment. CAD integrity,
+The moving-train video uses calculated six-car positions and beam states with declared visual amplification. Legacy CAD videos show final-position visibility; the assembled-body movie adds illustrative installation translations. None establishes collision-free erection, crane performance or chute deployment. CAD integrity,
 PDE residuals, virtual controller ticks and consistent publication hashes each
 establish only their checked digital scope. [Closure work](../../docs/ROADMAP.md#primary-maglev-closure-queue)
 and [v0.5.2 development notes](../../docs/releases/v0.5.2.md) remain explicit.

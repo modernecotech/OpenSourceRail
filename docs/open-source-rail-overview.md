@@ -67,8 +67,10 @@ utilities, grades, access and evacuation.
 The 1 km/88 s/180 s station and moving packets remain component
 benchmarks. The supplied 90 s/190 s case is a separate authored comparison.
 Longer urban/suburban profiles have their own finite-zone, power, services,
-clearance and actual Rust fault tests. Capacity shortfalls and unimplemented
-sectioned protection stay visible; a timer does not prove a clear railway.
+clearance and actual Rust fault tests. A separate local multi-train prototype
+now executes progressive Rust reservations and stopping-distance envelopes.
+Capacity shortfalls and unqualified route-wide sectioned protection stay visible;
+a timer does not prove a clear railway.
 
 The retained benchmark uses 240 kW/car charger input at
 90% assumed conversion efficiency. Longer cases compare their own pack,
@@ -97,11 +99,47 @@ shared-site hub concepts that change guideway geometry. No alternative is select
 Original boarding/access records remain traceable. The extended links retain
 reference walks and partial electrical target credits, without complete connector
 costs or ridership-weighted benefits. Shared-site concepts draw involved fixed
-lines through one location, but station tangents, curves, levels, platforms and
-actual internal walks remain undesigned;100m is only a compact-walk sensitivity.
+lines through one location; the original100m compact walk is only a sensitivity.
+The separate geometry study below fits new approaches, powered zones, platforms
+and actual internal paths without selecting or qualifying a hub.
 Lift resilience, peak transfer pulses, shade, resting places, evacuation, land
 and complete construction/maintenance costs must enter selection. Trains never
 switch between lines in these passenger-transfer proposals.
+
+The separate [access engineering study](design-engine/ferrite-maglev/hub-access/README.md)
+adds physical connector/support quantities, accessible routes, passenger pulses
+and lift-outage comparisons. Assumed loads, flow rates and geometry remain
+provisional; no option is selected and no complete construction price is claimed.
+
+The [shared-hub geometry study](design-engine/ferrite-maglev/shared-hub-layout/README.md)
+develops new station tangents, both directional powered zones, bounded approach
+transitions, platforms and actual door-to-door paths. Rejected fits remain
+visible; new quantities receive no previous civil price credit. This separate
+study does not turn the original100m sensitivity into a measured transfer walk.
+
+The [longitudinal-stock sweep](design-engine/ferrite-maglev/body-stiffness/README.md)
+tests failure-directed alternatives after the GFRP stiffness hold. Exact drilled
+steel stock and changed spacers add their mass to the complete retained AW3
+basis. The unchanged phase criterion retains passes and failures; thin-wall
+joints, heavier loads, qualified materials and flexible-body behavior remain
+open. No stock alternative changes the city default.
+
+## Requirement closure and physical evidence
+
+The [qualification programme](design-engine/ferrite-maglev/qualification/README.md)
+gives each applicable requirement a deliverable, prerequisites and a route to
+actual test or acceptance evidence. Specimen/rig procedures and typed raw records
+cover materials, magnetic forces and losses, controls, civil stages, services,
+egress and recovery. Prepared procedures and synthetic records do not constitute
+physical tests. Qualified limits, exact revisions and authenticated independent
+decisions remain necessary.
+
+The [multi-train capacity study](design-engine/ferrite-maglev/line-capacity/README.md)
+compares local progressive ownership with exclusive whole-leg protection and
+retains adverse cases. It does not promote city schedules or approve an operating
+railway. Portable study bundles now use bounded, checksum-verified numbered
+archives so that the complete retained source set can exceed one archive's size
+without dropping evidence.
 
 ## Inspect and reproduce the current work
 
@@ -110,7 +148,12 @@ switch between lines in these passenger-transfer proposals.
 | City planning | 266 primary packages; located operating stops, access assignments, passenger-transfer spacing conflicts, boosters, rescue nodes, motion/headway/capacity screens and eight-part cost subtotals |
 | Operating study | Separate urban/suburban profiles with finite station/booster zones, services/charging and electrical/protection fault cases |
 | Interchange investigation | Unselected Baghdad extended-access variants and shared-site guideway concepts; default plan and open acceptance preserved |
+| Access engineering | Connector/support quantity and passenger/lift-outage alternatives, without site or structural acceptance |
+| Multi-train prototype | Actual local Rust progressive reservations, full-tail release and stopping-envelope/adverse controls; city capacity holds retained |
+| Qualification programme | Exact requirement task chains, physical test protocols and guarded raw-evidence assessment; no simulated acceptance |
 | Manufactured details | Counted frame/panel/hardpoint/coupler/stator interfaces, prestress/handling and emergency load-path screens, foundation cost deltas and open qualification |
+| Assembled structure | Fitted native material regions, mounting holes and fasteners, retained collision controls and geometry-derived partial mass/inertia; omitted equipment remains explicit |
+| Shared-hub geometry | Both directional approaches and finite powered zones, platforms, access obstacles and actual door paths; no site selection or former price credit |
 | Controls | Actual Rust support replay and integrated station/resource campaign with full-tail clearance and fault cases; one local controller and virtual detectors |
 | Simulation and media | Retained 1 km six-car moving numerical run with repeated flexible spans and couplers, calculated-motion video, partial native detail CAD/images and visibility videos |
 | Engineering acceptance | **0 accepted physical releases; design, manufacture and operational gates remain open** |

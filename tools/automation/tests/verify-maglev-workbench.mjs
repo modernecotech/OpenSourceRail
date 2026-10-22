@@ -17,10 +17,10 @@ let stderr = '';
 server.stderr.on('data', chunk => { stderr += String(chunk); });
 try {
   const origin = await new Promise((accept,reject) => {
-    // The server verifies every source-bound packet before binding. Cold hub
-    // scenario recalculation alone takes about50s; allow headroom for the full
-    // verifier without bypassing validation or delaying individual UI checks.
-    const timer = setTimeout(() => reject(Error('Primary server startup timeout: '+stderr)),180000);
+    // The server verifies every source-bound packet before binding. The expanded
+    // native body and hub checks exceed three minutes on a cold process. Allow
+    // ten minutes for complete verification; individual UI checks are unchanged.
+    const timer = setTimeout(() => reject(Error('Primary server startup timeout: '+stderr)),600000);
     server.stdout.on('data', chunk => {
       const match = String(chunk).match(/http:\/\/127\.0\.0\.1:\d+/);
       if (match) { clearTimeout(timer); accept(match[0]); }

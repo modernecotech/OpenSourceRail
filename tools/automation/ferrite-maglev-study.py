@@ -28,7 +28,7 @@ def units(output):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system','iterate','station','structure','protocol','moving','campaign','dossier','corridor','booster-kit','booster-native','interchange-hubs'))
+    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system','iterate','station','structure','protocol','moving','campaign','dossier','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness'))
     parser.add_argument('--output',type=Path,default=delivery.OUTPUT)
     args=parser.parse_args()
     if args.action=='install':
@@ -73,9 +73,11 @@ def main():
     elif args.action in {'moving','campaign','dossier'}:
         from engineering.ferrite_maglev import moving_train,system_campaign,closure
         result={'moving':moving_train,'campaign':system_campaign,'dossier':closure}[args.action].publish()
-    elif args.action in {'corridor','booster-kit','booster-native','interchange-hubs'}:
-        from engineering.ferrite_maglev import corridor,booster_kit,booster_native,interchange_hubs
-        result={'corridor':corridor,'booster-kit':booster_kit,'booster-native':booster_native,'interchange-hubs':interchange_hubs}[args.action].publish()
+    elif args.action in {'corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness'}:
+        from engineering.ferrite_maglev import corridor,booster_kit,booster_native,interchange_hubs,line_capacity,hub_access,qualification,assembled_body,shared_hub_layout,body_stiffness
+        result={'corridor':corridor,'booster-kit':booster_kit,'booster-native':booster_native,'interchange-hubs':interchange_hubs,
+            'line-capacity':line_capacity,'hub-access':hub_access,'qualification':qualification,
+            'assembled-body':assembled_body,'shared-hub-layout':shared_hub_layout,'body-stiffness':body_stiffness}[args.action].publish()
     elif args.action=='coupled':
         from engineering.ferrite_maglev import coupled
         result=coupled.publish(model.ROOT/'docs/design-engine/ferrite-maglev/coupled')
@@ -86,6 +88,8 @@ def main():
             accepted_physical_releases=0,open_requirements=len(retained['applicable_requirements']['requirements']),
             core_open_requirements=len(retained['requirements']),
             evacuation_open_requirements=7,specification_open_requirements=len(retained['source_specification']['requirements']),gates=retained['gates'],
+            closure_studies=retained['closure_studies'],
+            physical_evidence_entrypoint='tools/automation/osr-python -m engineering.ferrite_maglev.qualification assess --help',
             transition_inventory=retained['transition_inventory'],**model.FLAGS)
     elif args.action=='status':
         from engineering.ferrite_maglev import transition,requirements,cities

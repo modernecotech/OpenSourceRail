@@ -1,0 +1,54 @@
+schema = "osr-assembled-structural-body/1"
+revision = "ASSEMBLED-STRUCTURAL-CANDIDATE-3"
+status = "provisional-joined-geometry-unqualified"
+material_properties_qualified = false
+complete_equipped_vehicle = false
+adopt_mass_or_stiffness_in_city_defaults = false
+
+[geometry]
+panel_corner_bond_m = 0.001
+joint_strap_m = 0.003
+joint_bond_m = 0.001
+minimum_computational_clearance_m = 0.00000001
+minimum_bolt_centre_edge_diameters = 2.0
+positive_intersection_limit_mm3 = 0.001
+arm_outer_y_m = 1.48
+collector_lower_z_m = -0.444
+arm_lower_z_m = -0.444
+cantilever_lower_z_m = -0.604
+
+[hardpoint]
+bolts = 16
+columns_x_m = [-0.175, -0.125, -0.075, -0.025, 0.025, 0.075, 0.125, 0.175]
+rows_z_m = [-0.085, 0.085]
+bolt_diameter_m = 0.012
+bolt_hole_m = 0.013
+bolt_length_m = 0.230
+bolt_head_m = 0.008
+nut_m = 0.010
+washer_m = 0.003
+washer_diameter_m = 0.040
+socket_outer_diameter_m = 0.028
+spacer_outer_diameter_m = 0.025
+spacer_bore_m = 0.013
+carrier_width_m = 0.220
+carrier_depth_m = 0.240
+carrier_wall_m = 0.008
+carrier_flange_m = 0.032
+carrier_flange_height_m = 0.260
+plate_width_m = 0.430
+upright_width_m = 0.420
+upright_wall_m = 0.012
+outer_column_washer_diameter_m = 0.030
+mesh_relative_volume_tolerance = 0.03
+service_access_bore_m = 0.032
+thread_pitch_m = 0.00175
+minimum_projection_pitches = 2.0
+prying_multiplier = 1.5
+maximum_gross_car_mass_kg = 26400.0
+
+[render]
+width_px = 1200
+height_px = 675
+frames_per_stage = 6
+frames_per_second = 6

@@ -1,0 +1,32 @@
+schema = "osr-line-capacity-input/1"
+revision = "A-bounded-fixed-block-three-train-study"
+trains = 3
+cars = 6
+headway_s = 180.0
+step_s = 0.1
+block_length_m = 500.0
+minimum_deceleration_m_s2 = 0.6
+reaction_s = 0.2
+maximum_acceleration_m_s2 = 1.0
+stop_margin_m = 20.0
+position_uncertainty_m = 0.5
+velocity_error_mmps = 100
+downhill_permille = 0
+urban_legs = 3
+suburban_legs = 2
+urban_dwell_s = 60.0
+suburban_dwell_s = 96.0
+urban_runtime_s = 140.0
+suburban_runtime_s = 375.0
+urban_distance_m = 2000.0
+suburban_distance_m = 5000.0
+delayed_clearance_s = 180.0
+stale_after_s = 70.0
+stale_age_s = 2.0
+
+[validation]
+physical_detectors_accepted = false
+independent_brake_accepted = false
+distributed_authority_accepted = false
+whole_line_capacity_accepted = false
+city_default_changed = false

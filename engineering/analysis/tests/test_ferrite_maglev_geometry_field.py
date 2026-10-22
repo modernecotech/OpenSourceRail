@@ -30,6 +30,18 @@ def test_box_beam_material_regions_do_not_count_void_as_concrete():
     assert geometry.civil_bay()['foundation_selected'] is False
 
 
+def test_partial_interface_routes_lower_members_outside_concrete_with_native_coverage():
+    value=geometry.interface();parts=value['parts']
+    assert not any(p['id'].startswith('frame/lower-crosshead-') for p in parts)
+    arms=[p for p in parts if p['id'].startswith('frame/lower-side-cantilever-')]
+    assert len(arms)==4
+    for p in arms:
+        lo=p['at_m'][1];hi=lo+p['size_m'][1]
+        assert hi<=-.84+1e-10 or lo>=.84-1e-10
+    assert {'steel','concrete'}<=set(value['interference_roles'])
+    assert value['whole_vehicle_mass_kg'] is None
+
+
 def test_pde_grid_refinement_is_second_order_against_analytic_sine():
     r=field.manufactured_controls()
     assert r['second_order_control']

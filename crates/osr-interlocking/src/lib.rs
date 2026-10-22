@@ -49,3 +49,6 @@ pub use topology::{far_end_of, footprint_from, forward_chain};
 pub mod resource_log;
 pub mod resources;
 pub mod station;
+
+/// Explicit offline finite-authority departure candidate; physical acceptance open.
+pub mod progressive;

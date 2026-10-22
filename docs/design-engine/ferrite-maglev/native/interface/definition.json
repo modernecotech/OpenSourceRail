@@ -57,14 +57,16 @@
         "frame/floor-lower-face",
         "frame/floor-core",
         "frame/floor-upper-face",
-        "frame/lower-crosshead--6",
+        "frame/lower-side-cantilever--6--1",
         "frame/u-arm--6--1",
         "frame/outrigger--6--1",
+        "frame/lower-side-cantilever--6-1",
         "frame/u-arm--6-1",
         "frame/outrigger--6-1",
-        "frame/lower-crosshead-6",
+        "frame/lower-side-cantilever-6--1",
         "frame/u-arm-6--1",
         "frame/outrigger-6--1",
+        "frame/lower-side-cantilever-6-1",
         "frame/u-arm-6-1",
         "frame/outrigger-6-1"
       ]
@@ -75549,8 +75551,11 @@
     "carrier",
     "retainer",
     "fastener",
-    "magnetic-rail"
+    "magnetic-rail",
+    "steel",
+    "concrete"
   ],
+  "interference_scope": "Selected magnetic parts, structural steel frame and concrete receive native positive-volume checks; GFRP floor stock remains outside complete assembled-body acceptance",
   "magnet_budget": {
     "guidance_propulsion_reserved_unmodelled_kg": 174,
     "lift_modelled_kg": 2826,
@@ -75576,11 +75581,11 @@
     "winding-envelope": 5500.0
   },
   "modelled_cg_m": [
-    -0.0006331628838199002,
-    3.866029278139505e-18,
-    -1.007756611827997
+    -0.0006337314092693369,
+    3.869500637704408e-18,
+    -1.008226899917751
   ],
-  "modelled_material_mass_kg": 59272.71000723225,
+  "modelled_material_mass_kg": 59219.53599123225,
   "modules": [
     {
       "calibrated_force_map": null,
@@ -77407,19 +77412,19 @@
       "axis": 1,
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 7850.0,
-      "id": "frame/lower-crosshead--6",
+      "id": "frame/lower-side-cantilever--6--1",
       "kind": "tube",
       "material": "steel",
-      "modelled_mass_kg": 46.843775999999956,
+      "modelled_mass_kg": 10.128383999999995,
       "production_released": false,
       "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.1,
-        2.96,
+        0.64,
         0.08
       ],
-      "volume_m3": 0.0059673599999999945,
+      "volume_m3": 0.0012902399999999994,
       "wall_m": 0.006
     },
     {
@@ -77468,6 +77473,30 @@
         0.08
       ],
       "volume_m3": 0.0006652799999999994,
+      "wall_m": 0.006
+    },
+    {
+      "at_m": [
+        -6.05,
+        0.84,
+        -0.524
+      ],
+      "axis": 1,
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 7850.0,
+      "id": "frame/lower-side-cantilever--6-1",
+      "kind": "tube",
+      "material": "steel",
+      "modelled_mass_kg": 10.128383999999995,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "steel",
+      "size_m": [
+        0.1,
+        0.64,
+        0.08
+      ],
+      "volume_m3": 0.0012902399999999994,
       "wall_m": 0.006
     },
     {
@@ -77527,19 +77556,19 @@
       "axis": 1,
       "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
       "density_assumption_kg_m3": 7850.0,
-      "id": "frame/lower-crosshead-6",
+      "id": "frame/lower-side-cantilever-6--1",
       "kind": "tube",
       "material": "steel",
-      "modelled_mass_kg": 46.843775999999956,
+      "modelled_mass_kg": 10.128383999999995,
       "production_released": false,
       "revision": "V052-STATION-INTERFACE-1",
       "role": "steel",
       "size_m": [
         0.1,
-        2.96,
+        0.64,
         0.08
       ],
-      "volume_m3": 0.0059673599999999945,
+      "volume_m3": 0.0012902399999999994,
       "wall_m": 0.006
     },
     {
@@ -77588,6 +77617,30 @@
         0.08
       ],
       "volume_m3": 0.0006652799999999994,
+      "wall_m": 0.006
+    },
+    {
+      "at_m": [
+        5.95,
+        0.84,
+        -0.524
+      ],
+      "axis": 1,
+      "basis": "OSR v0.5 dimensional hypothesis; material and manufacturing acceptance open",
+      "density_assumption_kg_m3": 7850.0,
+      "id": "frame/lower-side-cantilever-6-1",
+      "kind": "tube",
+      "material": "steel",
+      "modelled_mass_kg": 10.128383999999995,
+      "production_released": false,
+      "revision": "V052-STATION-INTERFACE-1",
+      "role": "steel",
+      "size_m": [
+        0.1,
+        0.64,
+        0.08
+      ],
+      "volume_m3": 0.0012902399999999994,
       "wall_m": 0.006
     },
     {
