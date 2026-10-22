@@ -93,6 +93,14 @@ def main():
     shutil.copyfile(bundle/'SHA256SUMS',BASE/'multipart-bundle-SHA256SUMS.txt')
     timer=subprocess.check_output(['systemctl','--user','is-active','osr-primary-infrastructure.timer'],text=True).strip()
     assert timer=='active'
+    public=ROOT/'docs/design-engine/ferrite-maglev/reference/manifest.json'
+    private=Path.home()/'.local/state/opensourcerail/ferrite-maglev/latest/manifest.json'
+    public_manifest=read(public);private_manifest=read(private)
+    assert public_manifest['source_sha256']==private_manifest['source_sha256']
+    assert all(m[k] is False for m in (public_manifest,private_manifest) for k in model.FLAGS)
+    write('private-report-binding.json',dict(public_manifest_sha256=digest(public),
+        private_manifest_sha256=digest(private),source_match=True,
+        scope='Matching input identities for the installed report copy; payload byte equality is not asserted.',**model.FLAGS))
     service=subprocess.check_output(['systemctl','--user','show','osr-primary-infrastructure.service',
         '--property=ActiveState,Result,ExecMainStatus,ExecMainExitTimestamp'],text=True)
     write('summary.json',dict(schema='osr-stopped-recovery-development-assurance/1',
@@ -103,7 +111,7 @@ def main():
         recovery=recovery,report_images=35,report_videos=12,report_links=len(report['links']),
         workbench_cities=266,workbench_images=10,mobile_checked=True,
         bundle_manifest_sha256=sha256(bundle_raw).hexdigest(),
-        timer_active=True,service_show=service,observed_source_change_hold=True,
+        timer_active=True,service_show=service,observed_source_change_hold=True,private_public_source_match=True,
         git_source_and_packet_members_checked=portability['checked_files'],
         background_scope='An installed source-change refresh completed successfully; the timer continues checking implemented studies. It cannot manufacture hardware or supply external acceptance.',
         all_points_closed=False,accepted_engineering_releases=0,
