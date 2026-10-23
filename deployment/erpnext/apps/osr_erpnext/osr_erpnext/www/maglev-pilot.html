@@ -1,0 +1,37 @@
+{% extends "templates/web.html" %}
+{% block title %}Current maglev pilot Workbench{% endblock %}
+{% block page_content %}
+<style>
+.pilot-shell{max-width:1200px;margin:auto}.pilot-warning{border-left:5px solid #d29b27;background:#fff7e7;padding:18px;margin:20px 0}.pilot-card{border:1px solid #ccd7df;border-radius:10px;padding:20px;margin-bottom:20px}.pilot-card code{word-break:break-all}.pilot-grid{display:flex;flex-wrap:wrap;gap:12px;margin:14px 0}.pilot-state{padding:9px;background:#edf3f6;border-radius:5px}.pilot-buttons{display:flex;gap:10px;flex-wrap:wrap}.pilot-history{max-height:260px;overflow:auto;font-size:13px}#pilot-feedback{white-space:pre-wrap}button{padding:8px 13px}
+</style>
+<div class="pilot-shell">
+<h1>Current maglev pilot Workbench</h1>
+<p>Authenticated user: <b>{{ pilot.actor }}</b> · Native ERPNext project <a href="/app/project/{{ pilot.project }}">{{ pilot.project }}</a> · <a href="http://127.0.0.1:1888">FUXA observation</a></p>
+<div class="pilot-warning"><strong>Software business pilot.</strong> Stock, inspection, alarm and maintenance actions use simulated fixtures. Business review never commissions a train or guideway. Physical validation, manufacturing release and movement authority remain false.</div>
+<p>Controlled configuration <code>{{ pilot.package.configuration_id }} / {{ pilot.package.configuration_sha256 }}</code></p>
+{% for unit in pilot.result.products %}
+{% set position=pilot.journal.state.positions[unit.asset_id] %}
+<article class="pilot-card" data-asset="{{ unit.asset_id }}">
+<h2>{{ unit.product_id }}</h2><p><code>{{ unit.asset_id }}</code> · revision <code>{{ unit.product_revision_sha256 }}</code></p>
+<div class="pilot-grid"><span class="pilot-state">Installed: <b>{{ position.serial }}</b></span><span class="pilot-state">Condition: {{ position.condition }}</span><span class="pilot-state">Business review: {{ position.handback }}</span><span class="pilot-state">Removed: {{ position.removed|join(', ') }}</span></div>
+<p>{% for kind,url in unit.links.items() %}<a href="{{ url }}">{{ kind }}</a> {% if not loop.last %} · {% endif %}{% endfor %}</p>
+<div class="pilot-buttons">
+{% if pilot.allowed_actions %}<button type="button" onclick="pilotAction('{{ unit.asset_id }}','test-pass')">Record simulated passing test</button><button type="button" onclick="pilotAction('{{ unit.asset_id }}','test-fail')">Record simulated failed test</button>{% endif %}
+{% if pilot.reviewer %}<button type="button" onclick="pilotAction('{{ unit.asset_id }}','review-business')">Independently review business handback</button>{% endif %}
+</div>
+<details><summary>Serial evidence and event history</summary><ol class="pilot-history">{% for event in pilot.journal.events %}{% if event.command.asset_id==unit.asset_id %}<li>{{ event.command.kind }} · {{ event.command.serial }} · {{ event.command.actor }} <code>{{ event.sha256[:16] }}</code></li>{% endif %}{% endfor %}</ol></details>
+</article>
+{% endfor %}
+<p id="pilot-feedback" role="status"></p>
+<p>Native ERP records retain their own permissions and edit history. A later failed test removes earlier business review validity. Replacement serials preserve the old history; a new product revision needs a new controlled baseline.</p>
+</div>
+<script>
+const pilotHead={{ pilot.journal.head_sha256|tojson }};
+async function pilotAction(asset,action){
+ const out=document.querySelector('#pilot-feedback');out.textContent='Recording native software fixture…';
+ try{const response=await fetch('/api/method/osr_erpnext.maglev_pilot.action',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json','X-Frappe-CSRF-Token':frappe.csrf_token},body:JSON.stringify({asset_id:asset,action:action,expected_head:pilotHead})});
+ const data=await response.json();if(!response.ok||data.exc)throw new Error('Action refused. Check your role, latest exact-serial test, independence and current revision.');location.reload();}
+ catch(error){out.textContent=error.message;}
+}
+</script>
+{% endblock %}

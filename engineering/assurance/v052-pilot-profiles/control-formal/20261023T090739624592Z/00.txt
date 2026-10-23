@@ -1,0 +1,55 @@
+Kani Rust Verifier 0.67.0 (cargo plugin)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.05s
+Checking harness kani_proofs::kani_p5_time_bounded_arithmetic...
+CBMC 6.8.0 (cbmc-6.8.0)
+CBMC version 6.8.0 (cbmc-6.8.0) 64-bit x86_64 linux
+Reading GOTO program from file /home/hayder/Documents/OpenSourceRail/target/kani/x86_64-unknown-linux-gnu/debug/deps/osr_interlocking-0001b82911929ec4__RNvNtCs5Y3akE0GMvl_16osr_interlocking11kani_proofs31kani_p5_time_bounded_arithmetic.out
+Generating GOTO Program
+Adding CPROVER library (x86_64)
+Removal of function pointers and virtual functions
+Generic Property Instrumentation
+Running with 16 object bits, 48 offset bits (user-specified)
+Starting Bounded Model Checking
+Runtime Symex: 0.00332534s
+size of program expression: 164 steps
+slicing removed 71 assignments
+Generated 4 VCC(s), 4 remaining after simplification
+Runtime Postprocess Equation: 3.2842e-05s
+Passing problem to propositional reduction
+converting SSA
+Runtime Convert SSA: 0.00155284s
+Running propositional reduction
+Post-processing
+Runtime Post-process: 5.4e-06s
+Solving with CaDiCaL 2.0.0
+1000 variables, 3419 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.000747733s
+Runtime decision procedure: 0.00235194s
+Running propositional reduction
+Solving with CaDiCaL 2.0.0
+1001 variables, 3420 clauses
+SAT checker: instance is UNSATISFIABLE
+Runtime Solver: 0.0103831s
+Runtime decision procedure: 0.0104071s
+
+RESULTS:
+Check 1: kani_proofs::kani_p5_time_bounded_arithmetic.assertion.1
+	 - Status: SUCCESS
+	 - Description: "assertion failed: valid_until_ns >= now_ns"
+	 - Location: crates/osr-interlocking/src/kani_proofs.rs:241:5 in function kani_proofs::kani_p5_time_bounded_arithmetic
+
+Check 2: kani_proofs::kani_p5_time_bounded_arithmetic.assertion.2
+	 - Status: SUCCESS
+	 - Description: "assertion failed: valid_until_ns.saturating_sub(now_ns) <= MA_VALIDITY_WINDOW_NS"
+	 - Location: crates/osr-interlocking/src/kani_proofs.rs:242:5 in function kani_proofs::kani_p5_time_bounded_arithmetic
+
+
+SUMMARY:
+ ** 0 of 2 failed
+
+VERIFICATION:- SUCCESSFUL
+Verification Time: 0.057954464s
+
+Manual Harness Summary:
+Complete - 1 successfully verified harnesses, 0 failures, 1 total.

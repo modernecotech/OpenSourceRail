@@ -28,7 +28,7 @@ def units(output):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system','iterate','station','structure','protocol','drives','moving','campaign','dossier','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness','stopped-recovery'))
+    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system','iterate','station','structure','protocol','drives','moving','campaign','dossier','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness','stopped-recovery','pilot-product','pilot-actuators','launch-optimisation','pilot-corridor','pilot-variants','delivery-schedule','pilot-lifecycle','pilot-assurance','capability-migration','pilot-delivery'))
     parser.add_argument('--output',type=Path,default=delivery.OUTPUT)
     args=parser.parse_args()
     if args.action=='install':
@@ -81,6 +81,9 @@ def main():
         result={'corridor':corridor,'booster-kit':booster_kit,'booster-native':booster_native,'interchange-hubs':interchange_hubs,
             'line-capacity':line_capacity,'hub-access':hub_access,'qualification':qualification,
             'assembled-body':assembled_body,'shared-hub-layout':shared_hub_layout,'body-stiffness':body_stiffness,'stopped-recovery':stopped_recovery}[args.action].publish()
+    elif args.action in {'pilot-product','pilot-actuators','launch-optimisation','pilot-corridor','pilot-variants','delivery-schedule','pilot-lifecycle','pilot-assurance','capability-migration','pilot-delivery'}:
+        import importlib
+        result=importlib.import_module('engineering.ferrite_maglev.'+args.action.replace('-','_')).publish()
     elif args.action=='coupled':
         from engineering.ferrite_maglev import coupled
         result=coupled.publish(model.ROOT/'docs/design-engine/ferrite-maglev/coupled')

@@ -1,5 +1,20 @@
 # OpenSourceRail changelog
 
+## 0.5.2 development — 23 October 2026
+
+- Connect the Baghdad pilot's equipment ledger, coupled actuator experiment,
+  segmented launch search, access/service model, resource-constrained delivery,
+  monthly cash and serial-specific native business lifecycle.
+- Keep defined equipment and remaining scope allowances separate; expose mass
+  target overruns and retain the rejected cartridge removal path alongside a
+  counted lateral-removal redesign.
+- Restore the actual v0.4 capability migration register, three-product adoption
+  boundary, retained authority proofs and current maglev refusal proofs. Separate
+  engineering, delivery-lifecycle and control-formal execution profiles from
+  physical qualification and independent acceptance.
+- Add connected evidence review to the maglev Workbench. Physical, site,
+  manufacturing and operational release gates remain open.
+
 ## 0.5.0 development — 20 October 2026
 
 - Select ferrite PM-biased active maglev with fixed onboard magnetic modules,

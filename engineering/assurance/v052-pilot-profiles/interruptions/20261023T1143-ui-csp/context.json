@@ -1,0 +1,19 @@
+{
+  "browser_log": "browser-failure.txt",
+  "browser_log_sha256": "31302014cb31496c75aeea0ca9506fe8fba1ba6316e1b6fa115f613fe66db842",
+  "corrected_server_sha256": "1f78175dee40580f86270b9787ec251dea424772d6f86d32157051f0ce404fec",
+  "correction": "Add connect-src 'self' blob:; retain external connection denial and video-byte hash assertions",
+  "design_complete": false,
+  "engineering_accepted": false,
+  "manufacturing_release": false,
+  "observed_exit_codes": [
+    -15
+  ],
+  "observed_profile_state": "failed",
+  "old_server_sha256": "0a92b398d7cafe8ab0c08fbe275d5cafbb0f90a5bda14ac342e20742c6291cae",
+  "physical_release": false,
+  "profile_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261023T112323062116Z/receipt.json",
+  "profile_receipt_sha256": "a7c8985667ff95901e7615a87ecd6112163f024cf3015a03efb39de34e415176",
+  "reason": "Operator stopped the engineering pytest process after the simultaneous Workbench smoke test found CSP blocking fetch of a live local Blob. The original failed profile remains unchanged.",
+  "schema": "osr-development-interruption/1"
+}

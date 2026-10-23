@@ -1,0 +1,2100 @@
+Kani Rust Verifier 0.67.0 (cargo plugin)
+   Compiling osr-maglev-control v0.5.2 (/home/hayder/Documents/OpenSourceRail/crates/osr-maglev-control)
+warning: Found the following unsupported constructs:
+             - caller_location (1)
+             - foreign function (1)
+         
+         Verification will fail if one or more of these constructs is reachable.
+         See https://model-checking.github.io/kani/rust-feature-support.html for more details.
+
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.46s
+Checking harness kani_proofs::kani_maglev_unprotected_launch_has_no_force...
+CBMC 6.8.0 (cbmc-6.8.0)
+CBMC version 6.8.0 (cbmc-6.8.0) 64-bit x86_64 linux
+Reading GOTO program from file /home/hayder/Documents/OpenSourceRail/target/kani/x86_64-unknown-linux-gnu/debug/deps/osr_maglev_control-828c5c81bc4ffeac__RNvNtCs1IhnMuvzYgG_18osr_maglev_control11kani_proofs43kani_maglev_unprotected_launch_has_no_force.out
+Generating GOTO Program
+Adding CPROVER library (x86_64)
+Removal of function pointers and virtual functions
+Generic Property Instrumentation
+Running with 16 object bits, 48 offset bits (user-specified)
+Starting Bounded Model Checking
+Unwinding loop _RINvXs2E_NtNtCsci0VKyKEi6N_4core5slice4iterINtB7_4IterdENtNtNtNtBb_4iter6traits8iterator8Iterator3allNCNvMNtCs1IhnMuvzYgG_18osr_maglev_control7stationNtB1G_13StationParams5valid0EB1I_.0 iteration 1 file /home/runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs line 290 column 17 function <core::slice::Iter<'_, f64> as core::iter::Iterator>::all::<{closure@crates/osr-maglev-control/src/station.rs:55:18: 55:21}> thread 0
+Unwinding loop _RINvXs2E_NtNtCsci0VKyKEi6N_4core5slice4iterINtB7_4IterdENtNtNtNtBb_4iter6traits8iterator8Iterator3allNCNvMNtCs1IhnMuvzYgG_18osr_maglev_control7stationNtB1G_13StationParams5valid0EB1I_.0 iteration 2 file /home/runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs line 290 column 17 function <core::slice::Iter<'_, f64> as core::iter::Iterator>::all::<{closure@crates/osr-maglev-control/src/station.rs:55:18: 55:21}> thread 0
+Unwinding loop _RINvXs2E_NtNtCsci0VKyKEi6N_4core5slice4iterINtB7_4IterdENtNtNtNtBb_4iter6traits8iterator8Iterator3allNCNvMNtCs1IhnMuvzYgG_18osr_maglev_control7stationNtB1G_13StationParams5valid0EB1I_.0 iteration 3 file /home/runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs line 290 column 17 function <core::slice::Iter<'_, f64> as core::iter::Iterator>::all::<{closure@crates/osr-maglev-control/src/station.rs:55:18: 55:21}> thread 0
+Unwinding loop _RINvXs2E_NtNtCsci0VKyKEi6N_4core5slice4iterINtB7_4IterdENtNtNtNtBb_4iter6traits8iterator8Iterator3allNCNvMNtCs1IhnMuvzYgG_18osr_maglev_control7stationNtB1G_13StationParams5valid0EB1I_.0 iteration 4 file /home/runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs line 290 column 17 function <core::slice::Iter<'_, f64> as core::iter::Iterator>::all::<{closure@crates/osr-maglev-control/src/station.rs:55:18: 55:21}> thread 0
+Unwinding loop _RINvXs2E_NtNtCsci0VKyKEi6N_4core5slice4iterINtB7_4IterdENtNtNtNtBb_4iter6traits8iterator8Iterator3allNCNvMNtCs1IhnMuvzYgG_18osr_maglev_control7stationNtB1G_13StationParams5valid0EB1I_.0 iteration 5 file /home/runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs line 290 column 17 function <core::slice::Iter<'_, f64> as core::iter::Iterator>::all::<{closure@crates/osr-maglev-control/src/station.rs:55:18: 55:21}> thread 0
+Unwinding loop _RINvXs2E_NtNtCsci0VKyKEi6N_4core5slice4iterINtB7_4IterdENtNtNtNtBb_4iter6traits8iterator8Iterator3allNCNvMNtCs1IhnMuvzYgG_18osr_maglev_control7stationNtB1G_13StationParams5valid0EB1I_.0 iteration 6 file /home/runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs line 290 column 17 function <core::slice::Iter<'_, f64> as core::iter::Iterator>::all::<{closure@crates/osr-maglev-control/src/station.rs:55:18: 55:21}> thread 0
+Unwinding loop _RINvXs2E_NtNtCsci0VKyKEi6N_4core5slice4iterINtB7_4IterdENtNtNtNtBb_4iter6traits8iterator8Iterator3allNCNvMNtCs1IhnMuvzYgG_18osr_maglev_control7stationNtB1G_13StationParams5valid0EB1I_.0 iteration 7 file /home/runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs line 290 column 17 function <core::slice::Iter<'_, f64> as core::iter::Iterator>::all::<{closure@crates/osr-maglev-control/src/station.rs:55:18: 55:21}> thread 0
+Unwinding loop _RINvXs2E_NtNtCsci0VKyKEi6N_4core5slice4iterINtB7_4IterdENtNtNtNtBb_4iter6traits8iterator8Iterator3allNCNvMNtCs1IhnMuvzYgG_18osr_maglev_control7stationNtB1G_13StationParams5valid0EB1I_.0 iteration 8 file /home/runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs line 290 column 17 function <core::slice::Iter<'_, f64> as core::iter::Iterator>::all::<{closure@crates/osr-maglev-control/src/station.rs:55:18: 55:21}> thread 0
+Unwinding loop memcmp.0 iteration 1 file <builtin-library-memcmp> line 25 function memcmp thread 0
+Unwinding loop memcmp.0 iteration 2 file <builtin-library-memcmp> line 25 function memcmp thread 0
+Unwinding loop memcmp.0 iteration 3 file <builtin-library-memcmp> line 25 function memcmp thread 0
+Unwinding loop memcmp.0 iteration 4 file <builtin-library-memcmp> line 25 function memcmp thread 0
+Unwinding loop memcmp.0 iteration 5 file <builtin-library-memcmp> line 25 function memcmp thread 0
+Unwinding loop memcmp.0 iteration 6 file <builtin-library-memcmp> line 25 function memcmp thread 0
+Unwinding loop memcmp.0 iteration 7 file <builtin-library-memcmp> line 25 function memcmp thread 0
+Unwinding loop memcmp.0 iteration 8 file <builtin-library-memcmp> line 25 function memcmp thread 0
+Unwinding loop memcmp.0 iteration 9 file <builtin-library-memcmp> line 25 function memcmp thread 0
+Unwinding loop memcmp.0 iteration 10 file <builtin-library-memcmp> line 25 function memcmp thread 0
+Unwinding loop memcmp.0 iteration 11 file <builtin-library-memcmp> line 25 function memcmp thread 0
+Not unwinding loop memcmp.0 iteration 12 file <builtin-library-memcmp> line 25 function memcmp thread 0
+aborting path on assume(false) at file crates/osr-maglev-control/src/kani_proofs.rs line 93 column 5 function kani_proofs::kani_maglev_unprotected_launch_has_no_force thread 0
+aborting path on assume(false) at file crates/osr-maglev-control/src/kani_proofs.rs line 94 column 5 function kani_proofs::kani_maglev_unprotected_launch_has_no_force thread 0
+Runtime Symex: 0.319768s
+size of program expression: 11590 steps
+slicing removed 7575 assignments
+Generated 948 VCC(s), 9 remaining after simplification
+Runtime Postprocess Equation: 0.00333018s
+Passing problem to propositional reduction
+converting SSA
+Runtime Convert SSA: 0.0315005s
+Running propositional reduction
+Post-processing
+Runtime Post-process: 6.002e-06s
+Solving with CaDiCaL 2.0.0
+30541 variables, 38443 clauses
+SAT checker: instance is SATISFIABLE
+Runtime Solver: 0.000967047s
+Runtime decision procedure: 0.0330486s
+Running propositional reduction
+Solving with CaDiCaL 2.0.0
+30542 variables, 38444 clauses
+SAT checker: instance is UNSATISFIABLE
+Runtime Solver: 8.3728e-05s
+Runtime decision procedure: 0.00014289s
+
+RESULTS:
+Check 1: core::fmt::Arguments::<'_>::from_str.assertion.1
+	 - Status: UNDETERMINED
+	 - Description: "attempt to shift left with overflow"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/fmt/mod.rs:820:38 in function core::fmt::Arguments::<'_>::from_str
+
+Check 2: core::option::Option::<u64>::is_none_or::<{closure@crates/osr-maglev-control/src/station.rs:148:25: 148:28}>.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:711:15 in function core::option::Option::<u64>::is_none_or::<{closure@crates/osr-maglev-control/src/station.rs:148:25: 148:28}>
+
+Check 3: memcmp.precondition.1
+	 - Status: UNDETERMINED
+	 - Description: "memcmp region 1 readable"
+	 - Location: <builtin-library-memcmp>:19 in function memcmp
+
+Check 4: memcmp.precondition.2
+	 - Status: UNDETERMINED
+	 - Description: "memcpy region 2 readable"
+	 - Location: <builtin-library-memcmp>:21 in function memcmp
+
+Check 5: core::option::Option::<u64>::is_none_or::<{closure@crates/osr-maglev-control/src/station.rs:143:44: 143:47}>.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:711:15 in function core::option::Option::<u64>::is_none_or::<{closure@crates/osr-maglev-control/src/station.rs:143:44: 143:47}>
+
+Check 6: core::panicking::assert_failed_inner.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: crates/osr-maglev-control/src/lib.rs:0:0 in function core::panicking::assert_failed_inner
+
+Check 7: core::panicking::assert_failed_inner.assertion.1
+	 - Status: UNDETERMINED
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panicking.rs:434:23 in function core::panicking::assert_failed_inner
+
+Check 8: core::panicking::assert_failed_inner.assertion.2
+	 - Status: UNDETERMINED
+	 - Description: "This is a placeholder message; Kani doesn't support message formatted at runtime"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panicking.rs:439:17 in function core::panicking::assert_failed_inner
+
+Check 9: core::option::Option::<u64>::map_or::<f64, {closure@crates/osr-maglev-control/src/station.rs:237:51: 237:54}>.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:1229:15 in function core::option::Option::<u64>::map_or::<f64, {closure@crates/osr-maglev-control/src/station.rs:237:51: 237:54}>
+
+Check 10: core::option::Option::<u64>::is_some_and::<{closure@crates/osr-maglev-control/src/station.rs:158:26: 158:29}>.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:662:15 in function core::option::Option::<u64>::is_some_and::<{closure@crates/osr-maglev-control/src/station.rs:158:26: 158:29}>
+
+Check 11: core::panicking::panic_nounwind_fmt::runtime.unsupported_construct.1
+	 - Status: UNDETERMINED
+	 - Description: "call to foreign "Rust" function `_RNvCs1hStedNDpZ2_7___rustc17rust_begin_unwind` is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/new/choose"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panicking.rs:110:17 in function core::panicking::panic_nounwind_fmt::runtime
+
+Check 12: station::evaluate_station::{closure#4}.assertion.1
+	 - Status: UNDETERMINED
+	 - Description: "attempt to subtract with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:158:30 in function station::evaluate_station::{closure#4}
+
+Check 13: kani::rustc_intrinsics::offset::<f64, *const f64, usize>.safety_check.1
+	 - Status: UNDETERMINED
+	 - Description: "Offset in bytes overflows isize"
+	 - Location: ../../../runner/work/kani/kani/library/kani/src/lib.rs:57:1 in function kani::rustc_intrinsics::offset::<f64, *const f64, usize>
+
+Check 14: kani::rustc_intrinsics::offset::<f64, *const f64, usize>.safety_check.2
+	 - Status: UNDETERMINED
+	 - Description: "Offset result and original pointer must point to the same allocation"
+	 - Location: ../../../runner/work/kani/kani/library/kani/src/lib.rs:57:1 in function kani::rustc_intrinsics::offset::<f64, *const f64, usize>
+
+Check 15: core::num::<impl u64>::checked_sub.arithmetic_overflow.1
+	 - Status: UNDETERMINED
+	 - Description: "attempt to compute `unchecked_sub` which would overflow"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:812:31 in function core::num::<impl u64>::checked_sub
+
+Check 16: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 17: <usize as kani::rustc_intrinsics::ToISize>::to_isize.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: ../../../runner/work/kani/kani/library/kani_core/src/models.rs:176:17 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize
+
+Check 18: <usize as kani::rustc_intrinsics::ToISize>::to_isize.safety_check.1
+	 - Status: UNDETERMINED
+	 - Description: "Offset value overflows isize"
+	 - Location: ../../../runner/work/kani/kani/library/kani/src/lib.rs:57:1 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize
+
+Check 19: <usize as kani::rustc_intrinsics::ToISize>::to_isize.assertion.1
+	 - Status: UNDETERMINED
+	 - Description: "internal error: entered unreachable code"
+	 - Location: ../../../runner/work/kani/kani/library/kani/src/lib.rs:57:1 in function <usize as kani::rustc_intrinsics::ToISize>::to_isize
+
+Check 20: core::option::Option::<u64>::is_none_or::<{closure@crates/osr-maglev-control/src/station.rs:155:30: 155:33}>.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:711:15 in function core::option::Option::<u64>::is_none_or::<{closure@crates/osr-maglev-control/src/station.rs:155:30: 155:33}>
+
+Check 21: station::evaluate_station::{closure#5}.assertion.1
+	 - Status: UNDETERMINED
+	 - Description: "attempt to subtract with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:237:55 in function station::evaluate_station::{closure#5}
+
+Check 22: core::num::<impl u64>::div_ceil.assertion.1
+	 - Status: UNDETERMINED
+	 - Description: "attempt to divide by zero"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3487:21 in function core::num::<impl u64>::div_ceil
+
+Check 23: core::num::<impl u64>::div_ceil.arithmetic_overflow.1
+	 - Status: UNDETERMINED
+	 - Description: "attempt to divide by zero"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3487:21 in function core::num::<impl u64>::div_ceil
+
+Check 24: core::num::<impl u64>::div_ceil.assertion.2
+	 - Status: UNDETERMINED
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3488:21 in function core::num::<impl u64>::div_ceil
+
+Check 25: core::num::<impl u64>::div_ceil.arithmetic_overflow.2
+	 - Status: UNDETERMINED
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3488:21 in function core::num::<impl u64>::div_ceil
+
+Check 26: core::num::<impl u64>::div_ceil.assertion.3
+	 - Status: UNDETERMINED
+	 - Description: "attempt to add with overflow"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3490:17 in function core::num::<impl u64>::div_ceil
+
+Check 27: core::option::Option::<u64>::unwrap_or.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:1042:15 in function core::option::Option::<u64>::unwrap_or
+
+Check 28: kani::mem::cbmc::same_allocation.unsupported_construct.1
+	 - Status: UNDETERMINED
+	 - Description: "Kani does not support reasoning about pointer to unallocated memory"
+	 - Location: ../../../runner/work/kani/kani/library/kani/src/lib.rs:57:1 in function kani::mem::cbmc::same_allocation
+
+Check 29: <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::contains::<u64>.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: crates/osr-maglev-control/src/lib.rs:0:0 in function <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::contains::<u64>
+
+Check 30: core::option::Option::<u64>::is_none_or::<{closure@crates/osr-maglev-control/src/station.rs:145:46: 145:49}>.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:711:15 in function core::option::Option::<u64>::is_none_or::<{closure@crates/osr-maglev-control/src/station.rs:145:46: 145:49}>
+
+Check 31: core::panic::Location::<'_>::caller.unsupported_construct.1
+	 - Status: UNDETERMINED
+	 - Description: "caller_location is not currently supported by Kani. Please post your example at https://github.com/model-checking/kani/issues/374"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panic/location.rs:147:9 in function core::panic::Location::<'_>::caller
+
+Check 32: core::num::<impl u64>::saturating_mul.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:2249:19 in function core::num::<impl u64>::saturating_mul
+
+Check 33: station::evaluate_station.assertion.1
+	 - Status: UNDETERMINED
+	 - Description: "attempt to multiply with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:189:29 in function station::evaluate_station
+
+Check 34: station::evaluate_station.assertion.2
+	 - Status: UNDETERMINED
+	 - Description: "attempt to multiply with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:190:28 in function station::evaluate_station
+
+Check 35: station::evaluate_station.assertion.3
+	 - Status: UNDETERMINED
+	 - Description: "attempt to multiply with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:191:15 in function station::evaluate_station
+
+Check 36: station::evaluate_station.assertion.4
+	 - Status: UNDETERMINED
+	 - Description: "attempt to divide by zero"
+	 - Location: crates/osr-maglev-control/src/station.rs:191:15 in function station::evaluate_station
+
+Check 37: station::evaluate_station.assertion.5
+	 - Status: UNDETERMINED
+	 - Description: "attempt to divide with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:191:15 in function station::evaluate_station
+
+Check 38: station::evaluate_station.arithmetic_overflow.1
+	 - Status: UNDETERMINED
+	 - Description: "attempt to divide with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:191:15 in function station::evaluate_station
+
+Check 39: station::evaluate_station.arithmetic_overflow.2
+	 - Status: UNDETERMINED
+	 - Description: "attempt to divide by zero"
+	 - Location: crates/osr-maglev-control/src/station.rs:191:15 in function station::evaluate_station
+
+Check 40: station::evaluate_station.assertion.6
+	 - Status: UNDETERMINED
+	 - Description: "attempt to add with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:190:28 in function station::evaluate_station
+
+Check 41: station::evaluate_station.assertion.7
+	 - Status: UNDETERMINED
+	 - Description: "attempt to multiply with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:192:42 in function station::evaluate_station
+
+Check 42: station::evaluate_station.assertion.8
+	 - Status: UNDETERMINED
+	 - Description: "attempt to subtract with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:192:27 in function station::evaluate_station
+
+Check 43: station::evaluate_station.assertion.9
+	 - Status: UNDETERMINED
+	 - Description: "attempt to multiply with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:193:25 in function station::evaluate_station
+
+Check 44: station::evaluate_station.assertion.10
+	 - Status: UNDETERMINED
+	 - Description: "attempt to divide by zero"
+	 - Location: crates/osr-maglev-control/src/station.rs:193:25 in function station::evaluate_station
+
+Check 45: station::evaluate_station.assertion.11
+	 - Status: UNDETERMINED
+	 - Description: "attempt to divide with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:193:25 in function station::evaluate_station
+
+Check 46: station::evaluate_station.arithmetic_overflow.3
+	 - Status: UNDETERMINED
+	 - Description: "attempt to divide with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:193:25 in function station::evaluate_station
+
+Check 47: station::evaluate_station.arithmetic_overflow.4
+	 - Status: UNDETERMINED
+	 - Description: "attempt to divide by zero"
+	 - Location: crates/osr-maglev-control/src/station.rs:193:25 in function station::evaluate_station
+
+Check 48: station::evaluate_station.assertion.12
+	 - Status: UNDETERMINED
+	 - Description: "attempt to add with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:193:25 in function station::evaluate_station
+
+Check 49: station::evaluate_station.assertion.13
+	 - Status: UNDETERMINED
+	 - Description: "attempt to multiply with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:198:15 in function station::evaluate_station
+
+Check 50: station::evaluate_station.assertion.14
+	 - Status: UNDETERMINED
+	 - Description: "attempt to divide by zero"
+	 - Location: crates/osr-maglev-control/src/station.rs:198:15 in function station::evaluate_station
+
+Check 51: station::evaluate_station.arithmetic_overflow.5
+	 - Status: UNDETERMINED
+	 - Description: "attempt to divide by zero"
+	 - Location: crates/osr-maglev-control/src/station.rs:198:15 in function station::evaluate_station
+
+Check 52: station::evaluate_station.assertion.15
+	 - Status: UNDETERMINED
+	 - Description: "attempt to add with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:197:38 in function station::evaluate_station
+
+Check 53: station::evaluate_station.assertion.16
+	 - Status: UNDETERMINED
+	 - Description: "attempt to subtract with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:206:15 in function station::evaluate_station
+
+Check 54: station::evaluate_station.assertion.17
+	 - Status: UNDETERMINED
+	 - Description: "attempt to subtract with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:205:32 in function station::evaluate_station
+
+Check 55: station::evaluate_station.assertion.18
+	 - Status: UNDETERMINED
+	 - Description: "attempt to subtract with overflow"
+	 - Location: crates/osr-maglev-control/src/station.rs:226:50 in function station::evaluate_station
+
+Check 56: core::num::<impl usize>::unchecked_sub.arithmetic_overflow.1
+	 - Status: UNDETERMINED
+	 - Description: "attempt to compute `unchecked_sub` which would overflow"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:908:17 in function core::num::<impl usize>::unchecked_sub
+
+Check 57: core::num::<impl i64>::rem_euclid.assertion.1
+	 - Status: UNDETERMINED
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/int_macros.rs:3178:21 in function core::num::<impl i64>::rem_euclid
+
+Check 58: core::num::<impl i64>::rem_euclid.assertion.2
+	 - Status: UNDETERMINED
+	 - Description: "attempt to calculate the remainder with overflow"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/int_macros.rs:3178:21 in function core::num::<impl i64>::rem_euclid
+
+Check 59: core::num::<impl i64>::rem_euclid.arithmetic_overflow.1
+	 - Status: UNDETERMINED
+	 - Description: "attempt to calculate the remainder with overflow"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/int_macros.rs:3178:21 in function core::num::<impl i64>::rem_euclid
+
+Check 60: core::num::<impl i64>::rem_euclid.arithmetic_overflow.2
+	 - Status: UNDETERMINED
+	 - Description: "attempt to calculate the remainder with a divisor of zero"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/int_macros.rs:3178:21 in function core::num::<impl i64>::rem_euclid
+
+Check 61: kani_proofs::kani_maglev_unprotected_launch_has_no_force.assertion.1
+	 - Status: UNDETERMINED
+	 - Description: "assertion failed: !out.study_command_feasible"
+	 - Location: crates/osr-maglev-control/src/kani_proofs.rs:93:5 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 62: kani_proofs::kani_maglev_unprotected_launch_has_no_force.assertion.2
+	 - Status: UNDETERMINED
+	 - Description: "assertion failed: !out.onboard_support_shutdown_requested && !out.physical_output_authorised"
+	 - Location: crates/osr-maglev-control/src/kani_proofs.rs:94:5 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 63: <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::contains::<u32>.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: crates/osr-maglev-control/src/lib.rs:0:0 in function <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::contains::<u32>
+
+Check 64: core::ptr::NonNull::<f64>::as_ref::<'_>.safety_check.1
+	 - Status: UNDETERMINED
+	 - Description: "misaligned pointer to reference cast: address must be a multiple of its type's alignment"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:445:18 in function core::ptr::NonNull::<f64>::as_ref::<'_>
+
+Check 65: core::ptr::NonNull::<f64>::as_ref::<'_>.safety_check.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:445:18 in function core::ptr::NonNull::<f64>::as_ref::<'_>
+
+Check 66: core::option::Option::<station::StationFault>::or.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:1625:15 in function core::option::Option::<station::StationFault>::or
+
+Check 67: <core::slice::Iter<'_, f64> as core::iter::Iterator>::all::<{closure@crates/osr-maglev-control/src/station.rs:55:18: 55:21}>.unreachable.1
+	 - Status: UNDETERMINED
+	 - Description: "unreachable code"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:285:13 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::all::<{closure@crates/osr-maglev-control/src/station.rs:55:18: 55:21}>
+
+Check 68: kani::rustc_intrinsics::offset::<f64, *mut f64, usize>.safety_check.1
+	 - Status: UNDETERMINED
+	 - Description: "Offset in bytes overflows isize"
+	 - Location: ../../../runner/work/kani/kani/library/kani/src/lib.rs:57:1 in function kani::rustc_intrinsics::offset::<f64, *mut f64, usize>
+
+Check 69: kani::rustc_intrinsics::offset::<f64, *mut f64, usize>.safety_check.2
+	 - Status: UNDETERMINED
+	 - Description: "Offset result and original pointer must point to the same allocation"
+	 - Location: ../../../runner/work/kani/kani/library/kani/src/lib.rs:57:1 in function kani::rustc_intrinsics::offset::<f64, *mut f64, usize>
+
+Check 70: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt
+
+Check 71: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt
+
+Check 72: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt
+
+Check 73: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt
+
+Check 74: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt
+
+Check 75: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt
+
+Check 76: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt
+
+Check 77: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt
+
+Check 78: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt
+
+Check 79: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt
+
+Check 80: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt
+
+Check 81: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::lt
+
+Check 82: memcmp.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: <builtin-library-memcmp>:27 in function memcmp
+
+Check 83: memcmp.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: <builtin-library-memcmp>:27 in function memcmp
+
+Check 84: memcmp.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: <builtin-library-memcmp>:27 in function memcmp
+
+Check 85: memcmp.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: <builtin-library-memcmp>:27 in function memcmp
+
+Check 86: memcmp.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: <builtin-library-memcmp>:27 in function memcmp
+
+Check 87: memcmp.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: <builtin-library-memcmp>:27 in function memcmp
+
+Check 88: memcmp.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: <builtin-library-memcmp>:27 in function memcmp
+
+Check 89: memcmp.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: <builtin-library-memcmp>:27 in function memcmp
+
+Check 90: memcmp.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: <builtin-library-memcmp>:27 in function memcmp
+
+Check 91: memcmp.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: <builtin-library-memcmp>:27 in function memcmp
+
+Check 92: memcmp.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: <builtin-library-memcmp>:27 in function memcmp
+
+Check 93: memcmp.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: <builtin-library-memcmp>:27 in function memcmp
+
+Check 94: <core::slice::Iter<'_, f64> as core::iter::Iterator>::all::<{closure@crates/osr-maglev-control/src/station.rs:55:18: 55:21}>.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:290:37 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::all::<{closure@crates/osr-maglev-control/src/station.rs:55:18: 55:21}>
+
+Check 95: core::option::Option::<station::StationFault>::or.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:1625:15 in function core::option::Option::<station::StationFault>::or
+
+Check 96: <station::StationMode as core::cmp::PartialEq>::eq.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:61:30 in function <station::StationMode as core::cmp::PartialEq>::eq
+
+Check 97: <station::StationMode as core::cmp::PartialEq>::eq.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:61:30 in function <station::StationMode as core::cmp::PartialEq>::eq
+
+Check 98: <station::StationMode as core::cmp::PartialEq>::eq.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:61:30 in function <station::StationMode as core::cmp::PartialEq>::eq
+
+Check 99: <station::StationMode as core::cmp::PartialEq>::eq.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:61:30 in function <station::StationMode as core::cmp::PartialEq>::eq
+
+Check 100: <station::StationMode as core::cmp::PartialEq>::eq.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:61:30 in function <station::StationMode as core::cmp::PartialEq>::eq
+
+Check 101: <station::StationMode as core::cmp::PartialEq>::eq.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:61:30 in function <station::StationMode as core::cmp::PartialEq>::eq
+
+Check 102: <station::StationMode as core::cmp::PartialEq>::eq.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:61:30 in function <station::StationMode as core::cmp::PartialEq>::eq
+
+Check 103: <station::StationMode as core::cmp::PartialEq>::eq.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:61:30 in function <station::StationMode as core::cmp::PartialEq>::eq
+
+Check 104: <station::StationMode as core::cmp::PartialEq>::eq.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:61:30 in function <station::StationMode as core::cmp::PartialEq>::eq
+
+Check 105: <station::StationMode as core::cmp::PartialEq>::eq.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:61:30 in function <station::StationMode as core::cmp::PartialEq>::eq
+
+Check 106: <station::StationMode as core::cmp::PartialEq>::eq.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:61:30 in function <station::StationMode as core::cmp::PartialEq>::eq
+
+Check 107: <station::StationMode as core::cmp::PartialEq>::eq.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:61:30 in function <station::StationMode as core::cmp::PartialEq>::eq
+
+Check 108: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt
+
+Check 109: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt
+
+Check 110: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt
+
+Check 111: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt
+
+Check 112: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt
+
+Check 113: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt
+
+Check 114: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt
+
+Check 115: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt
+
+Check 116: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt
+
+Check 117: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt
+
+Check 118: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt
+
+Check 119: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::lt
+
+Check 120: core::ptr::NonNull::<f64>::as_ref::<'_>.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:445:20 in function core::ptr::NonNull::<f64>::as_ref::<'_>
+
+Check 121: core::ptr::NonNull::<f64>::as_ref::<'_>.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:445:20 in function core::ptr::NonNull::<f64>::as_ref::<'_>
+
+Check 122: core::ptr::NonNull::<f64>::as_ref::<'_>.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:445:20 in function core::ptr::NonNull::<f64>::as_ref::<'_>
+
+Check 123: core::ptr::NonNull::<f64>::as_ref::<'_>.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:445:20 in function core::ptr::NonNull::<f64>::as_ref::<'_>
+
+Check 124: core::ptr::NonNull::<f64>::as_ref::<'_>.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:445:20 in function core::ptr::NonNull::<f64>::as_ref::<'_>
+
+Check 125: core::ptr::NonNull::<f64>::as_ref::<'_>.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:445:20 in function core::ptr::NonNull::<f64>::as_ref::<'_>
+
+Check 126: station::evaluate_station::{closure#2}.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:148:29 in function station::evaluate_station::{closure#2}
+
+Check 127: station::evaluate_station::{closure#2}.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:148:29 in function station::evaluate_station::{closure#2}
+
+Check 128: station::evaluate_station::{closure#2}.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:148:29 in function station::evaluate_station::{closure#2}
+
+Check 129: station::evaluate_station::{closure#2}.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:148:29 in function station::evaluate_station::{closure#2}
+
+Check 130: station::evaluate_station::{closure#2}.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:148:29 in function station::evaluate_station::{closure#2}
+
+Check 131: station::evaluate_station::{closure#2}.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:148:29 in function station::evaluate_station::{closure#2}
+
+Check 132: <core::option::Option<station::StationFault> as core::default::Default>::default.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2237:9 in function <core::option::Option<station::StationFault> as core::default::Default>::default
+
+Check 133: station::StationParams::valid.NaN.1
+	 - Status: UNDETERMINED
+	 - Description: "NaN on division"
+	 - Location: crates/osr-maglev-control/src/station.rs:32:33 in function station::StationParams::valid
+
+Check 134: station::StationParams::valid.NaN.2
+	 - Status: UNDETERMINED
+	 - Description: "NaN on subtraction"
+	 - Location: crates/osr-maglev-control/src/station.rs:56:16 in function station::StationParams::valid
+
+Check 135: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:22 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 136: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:22 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 137: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:22 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 138: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:22 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 139: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:22 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 140: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:22 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 141: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:35 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 142: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:35 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 143: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:35 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 144: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:35 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 145: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:35 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 146: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:35 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 147: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.13
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:22 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 148: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.14
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:22 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 149: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.15
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:22 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 150: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.16
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:22 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 151: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.17
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:22 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 152: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.18
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:22 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 153: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.19
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:35 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 154: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.20
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:35 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 155: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.21
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:35 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 156: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.22
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:35 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 157: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.23
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:35 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 158: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.24
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:46:35 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 159: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.25
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:51:85 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 160: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.26
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:51:85 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 161: kani_proofs::kani_maglev_unprotected_launch_has_no_force.pointer_dereference.27
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/macros/mod.rs:51:85 in function kani_proofs::kani_maglev_unprotected_launch_has_no_force
+
+Check 162: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le
+
+Check 163: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le
+
+Check 164: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le
+
+Check 165: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le
+
+Check 166: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le
+
+Check 167: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le
+
+Check 168: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le
+
+Check 169: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le
+
+Check 170: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le
+
+Check 171: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le
+
+Check 172: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le
+
+Check 173: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::le
+
+Check 174: <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::end_bound.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/range.rs:1129:12 in function <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::end_bound
+
+Check 175: <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::end_bound.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/range.rs:1129:12 in function <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::end_bound
+
+Check 176: <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::end_bound.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/range.rs:1129:12 in function <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::end_bound
+
+Check 177: <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::end_bound.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/range.rs:1129:12 in function <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::end_bound
+
+Check 178: <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::end_bound.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/range.rs:1129:12 in function <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::end_bound
+
+Check 179: <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::end_bound.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/range.rs:1129:12 in function <core::ops::RangeInclusive<u64> as core::ops::RangeBounds<u64>>::end_bound
+
+Check 180: station::evaluate_station::{closure#0}.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:143:48 in function station::evaluate_station::{closure#0}
+
+Check 181: station::evaluate_station::{closure#0}.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:143:48 in function station::evaluate_station::{closure#0}
+
+Check 182: station::evaluate_station::{closure#0}.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:143:48 in function station::evaluate_station::{closure#0}
+
+Check 183: station::evaluate_station::{closure#0}.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:143:48 in function station::evaluate_station::{closure#0}
+
+Check 184: station::evaluate_station::{closure#0}.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:143:48 in function station::evaluate_station::{closure#0}
+
+Check 185: station::evaluate_station::{closure#0}.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:143:48 in function station::evaluate_station::{closure#0}
+
+Check 186: core::num::<impl i64>::rem_euclid.division-by-zero.1
+	 - Status: UNDETERMINED
+	 - Description: "division by zero"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/int_macros.rs:3178:21 in function core::num::<impl i64>::rem_euclid
+
+Check 187: station::evaluate_station.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:180:9 in function station::evaluate_station
+
+Check 188: station::evaluate_station.division-by-zero.1
+	 - Status: UNDETERMINED
+	 - Description: "division by zero"
+	 - Location: crates/osr-maglev-control/src/station.rs:193:25 in function station::evaluate_station
+
+Check 189: station::evaluate_station.NaN.1
+	 - Status: UNDETERMINED
+	 - Description: "NaN on multiplication"
+	 - Location: crates/osr-maglev-control/src/station.rs:229:23 in function station::evaluate_station
+
+Check 190: station::evaluate_station.NaN.2
+	 - Status: UNDETERMINED
+	 - Description: "NaN on division"
+	 - Location: crates/osr-maglev-control/src/station.rs:234:13 in function station::evaluate_station
+
+Check 191: station::evaluate_station.NaN.3
+	 - Status: UNDETERMINED
+	 - Description: "NaN on division"
+	 - Location: crates/osr-maglev-control/src/station.rs:240:17 in function station::evaluate_station
+
+Check 192: station::evaluate_station.NaN.4
+	 - Status: UNDETERMINED
+	 - Description: "NaN on multiplication"
+	 - Location: crates/osr-maglev-control/src/station.rs:242:23 in function station::evaluate_station
+
+Check 193: station::evaluate_station.NaN.5
+	 - Status: UNDETERMINED
+	 - Description: "NaN on subtraction"
+	 - Location: crates/osr-maglev-control/src/station.rs:243:37 in function station::evaluate_station
+
+Check 194: station::evaluate_station.NaN.6
+	 - Status: UNDETERMINED
+	 - Description: "NaN on division"
+	 - Location: crates/osr-maglev-control/src/station.rs:243:36 in function station::evaluate_station
+
+Check 195: station::evaluate_station.NaN.7
+	 - Status: UNDETERMINED
+	 - Description: "NaN on multiplication"
+	 - Location: crates/osr-maglev-control/src/station.rs:243:19 in function station::evaluate_station
+
+Check 196: station::evaluate_station.NaN.8
+	 - Status: UNDETERMINED
+	 - Description: "NaN on addition"
+	 - Location: crates/osr-maglev-control/src/station.rs:242:23 in function station::evaluate_station
+
+Check 197: station::evaluate_station.NaN.9
+	 - Status: UNDETERMINED
+	 - Description: "NaN on multiplication"
+	 - Location: crates/osr-maglev-control/src/station.rs:244:19 in function station::evaluate_station
+
+Check 198: station::evaluate_station.NaN.10
+	 - Status: UNDETERMINED
+	 - Description: "NaN on addition"
+	 - Location: crates/osr-maglev-control/src/station.rs:242:13 in function station::evaluate_station
+
+Check 199: station::evaluate_station.NaN.11
+	 - Status: UNDETERMINED
+	 - Description: "NaN on multiplication"
+	 - Location: crates/osr-maglev-control/src/station.rs:246:20 in function station::evaluate_station
+
+Check 200: station::evaluate_station.NaN.12
+	 - Status: UNDETERMINED
+	 - Description: "NaN on multiplication"
+	 - Location: crates/osr-maglev-control/src/station.rs:246:13 in function station::evaluate_station
+
+Check 201: <station::StationFault as core::cmp::PartialEq>::eq.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:96:30 in function <station::StationFault as core::cmp::PartialEq>::eq
+
+Check 202: <station::StationFault as core::cmp::PartialEq>::eq.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:96:30 in function <station::StationFault as core::cmp::PartialEq>::eq
+
+Check 203: <station::StationFault as core::cmp::PartialEq>::eq.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:96:30 in function <station::StationFault as core::cmp::PartialEq>::eq
+
+Check 204: <station::StationFault as core::cmp::PartialEq>::eq.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:96:30 in function <station::StationFault as core::cmp::PartialEq>::eq
+
+Check 205: <station::StationFault as core::cmp::PartialEq>::eq.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:96:30 in function <station::StationFault as core::cmp::PartialEq>::eq
+
+Check 206: <station::StationFault as core::cmp::PartialEq>::eq.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:96:30 in function <station::StationFault as core::cmp::PartialEq>::eq
+
+Check 207: <station::StationFault as core::cmp::PartialEq>::eq.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:96:30 in function <station::StationFault as core::cmp::PartialEq>::eq
+
+Check 208: <station::StationFault as core::cmp::PartialEq>::eq.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:96:30 in function <station::StationFault as core::cmp::PartialEq>::eq
+
+Check 209: <station::StationFault as core::cmp::PartialEq>::eq.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:96:30 in function <station::StationFault as core::cmp::PartialEq>::eq
+
+Check 210: <station::StationFault as core::cmp::PartialEq>::eq.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:96:30 in function <station::StationFault as core::cmp::PartialEq>::eq
+
+Check 211: <station::StationFault as core::cmp::PartialEq>::eq.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:96:30 in function <station::StationFault as core::cmp::PartialEq>::eq
+
+Check 212: <station::StationFault as core::cmp::PartialEq>::eq.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:96:30 in function <station::StationFault as core::cmp::PartialEq>::eq
+
+Check 213: station::evaluate_station::{closure#1}.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:145:50 in function station::evaluate_station::{closure#1}
+
+Check 214: station::evaluate_station::{closure#1}.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:145:50 in function station::evaluate_station::{closure#1}
+
+Check 215: station::evaluate_station::{closure#1}.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:145:50 in function station::evaluate_station::{closure#1}
+
+Check 216: station::evaluate_station::{closure#1}.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:145:50 in function station::evaluate_station::{closure#1}
+
+Check 217: station::evaluate_station::{closure#1}.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:145:50 in function station::evaluate_station::{closure#1}
+
+Check 218: station::evaluate_station::{closure#1}.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:145:50 in function station::evaluate_station::{closure#1}
+
+Check 219: station::evaluate_station::{closure#3}.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:155:38 in function station::evaluate_station::{closure#3}
+
+Check 220: station::evaluate_station::{closure#3}.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:155:38 in function station::evaluate_station::{closure#3}
+
+Check 221: station::evaluate_station::{closure#3}.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:155:38 in function station::evaluate_station::{closure#3}
+
+Check 222: station::evaluate_station::{closure#3}.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:155:38 in function station::evaluate_station::{closure#3}
+
+Check 223: station::evaluate_station::{closure#3}.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:155:38 in function station::evaluate_station::{closure#3}
+
+Check 224: station::evaluate_station::{closure#3}.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:155:38 in function station::evaluate_station::{closure#3}
+
+Check 225: station::StationParams::valid::{closure#0}.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:22 in function station::StationParams::valid::{closure#0}
+
+Check 226: station::StationParams::valid::{closure#0}.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:22 in function station::StationParams::valid::{closure#0}
+
+Check 227: station::StationParams::valid::{closure#0}.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:22 in function station::StationParams::valid::{closure#0}
+
+Check 228: station::StationParams::valid::{closure#0}.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:22 in function station::StationParams::valid::{closure#0}
+
+Check 229: station::StationParams::valid::{closure#0}.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:22 in function station::StationParams::valid::{closure#0}
+
+Check 230: station::StationParams::valid::{closure#0}.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:22 in function station::StationParams::valid::{closure#0}
+
+Check 231: station::StationParams::valid::{closure#0}.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:39 in function station::StationParams::valid::{closure#0}
+
+Check 232: station::StationParams::valid::{closure#0}.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:39 in function station::StationParams::valid::{closure#0}
+
+Check 233: station::StationParams::valid::{closure#0}.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:39 in function station::StationParams::valid::{closure#0}
+
+Check 234: station::StationParams::valid::{closure#0}.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:39 in function station::StationParams::valid::{closure#0}
+
+Check 235: station::StationParams::valid::{closure#0}.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:39 in function station::StationParams::valid::{closure#0}
+
+Check 236: station::StationParams::valid::{closure#0}.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:39 in function station::StationParams::valid::{closure#0}
+
+Check 237: station::StationParams::valid::{closure#0}.pointer_dereference.13
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:53 in function station::StationParams::valid::{closure#0}
+
+Check 238: station::StationParams::valid::{closure#0}.pointer_dereference.14
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:53 in function station::StationParams::valid::{closure#0}
+
+Check 239: station::StationParams::valid::{closure#0}.pointer_dereference.15
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:53 in function station::StationParams::valid::{closure#0}
+
+Check 240: station::StationParams::valid::{closure#0}.pointer_dereference.16
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:53 in function station::StationParams::valid::{closure#0}
+
+Check 241: station::StationParams::valid::{closure#0}.pointer_dereference.17
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:53 in function station::StationParams::valid::{closure#0}
+
+Check 242: station::StationParams::valid::{closure#0}.pointer_dereference.18
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:55:53 in function station::StationParams::valid::{closure#0}
+
+Check 243: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt
+
+Check 244: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt
+
+Check 245: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt
+
+Check 246: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt
+
+Check 247: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt
+
+Check 248: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt
+
+Check 249: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt
+
+Check 250: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt
+
+Check 251: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt
+
+Check 252: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt
+
+Check 253: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt
+
+Check 254: core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2109:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u64>::lt
+
+Check 255: <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:1692:9 in function <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq
+
+Check 256: <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:1692:9 in function <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq
+
+Check 257: <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:1692:9 in function <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq
+
+Check 258: <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:1692:9 in function <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq
+
+Check 259: <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:1692:9 in function <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq
+
+Check 260: <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:1692:9 in function <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq
+
+Check 261: <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:1692:26 in function <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq
+
+Check 262: <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:1692:26 in function <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq
+
+Check 263: <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:1692:26 in function <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq
+
+Check 264: <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:1692:26 in function <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq
+
+Check 265: <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:1692:26 in function <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq
+
+Check 266: <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ptr/non_null.rs:1692:26 in function <core::ptr::NonNull<f64> as core::cmp::PartialEq>::eq
+
+Check 267: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le
+
+Check 268: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le
+
+Check 269: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le
+
+Check 270: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le
+
+Check 271: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le
+
+Check 272: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:28 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le
+
+Check 273: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le
+
+Check 274: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le
+
+Check 275: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le
+
+Check 276: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le
+
+Check 277: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le
+
+Check 278: core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:2113:35 in function core::cmp::impls::<impl core::cmp::PartialOrd for &u32>::le
+
+Check 279: core::option::Option::<station::StationFault>::is_some.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:636:18 in function core::option::Option::<station::StationFault>::is_some
+
+Check 280: core::option::Option::<station::StationFault>::is_some.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:636:18 in function core::option::Option::<station::StationFault>::is_some
+
+Check 281: core::option::Option::<station::StationFault>::is_some.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:636:18 in function core::option::Option::<station::StationFault>::is_some
+
+Check 282: core::option::Option::<station::StationFault>::is_some.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:636:18 in function core::option::Option::<station::StationFault>::is_some
+
+Check 283: core::option::Option::<station::StationFault>::is_some.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:636:18 in function core::option::Option::<station::StationFault>::is_some
+
+Check 284: core::option::Option::<station::StationFault>::is_some.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:636:18 in function core::option::Option::<station::StationFault>::is_some
+
+Check 285: core::panicking::assert_failed_inner.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/panicking.rs:433:11 in function core::panicking::assert_failed_inner
+
+Check 286: core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt
+
+Check 287: core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt
+
+Check 288: core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt
+
+Check 289: core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt
+
+Check 290: core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt
+
+Check 291: core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt
+
+Check 292: core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt
+
+Check 293: core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt
+
+Check 294: core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt
+
+Check 295: core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt
+
+Check 296: core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt
+
+Check 297: core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for i64>::lt
+
+Check 298: <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::end_bound.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/range.rs:1129:12 in function <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::end_bound
+
+Check 299: <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::end_bound.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/range.rs:1129:12 in function <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::end_bound
+
+Check 300: <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::end_bound.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/range.rs:1129:12 in function <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::end_bound
+
+Check 301: <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::end_bound.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/range.rs:1129:12 in function <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::end_bound
+
+Check 302: <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::end_bound.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/range.rs:1129:12 in function <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::end_bound
+
+Check 303: <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::end_bound.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/ops/range.rs:1129:12 in function <core::ops::RangeInclusive<u32> as core::ops::RangeBounds<u32>>::end_bound
+
+Check 304: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le
+
+Check 305: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le
+
+Check 306: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le
+
+Check 307: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le
+
+Check 308: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le
+
+Check 309: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le
+
+Check 310: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le
+
+Check 311: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le
+
+Check 312: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le
+
+Check 313: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le
+
+Check 314: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le
+
+Check 315: core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u32>::le
+
+Check 316: station::evaluate_station::{closure#4}.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:158:30 in function station::evaluate_station::{closure#4}
+
+Check 317: station::evaluate_station::{closure#4}.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:158:30 in function station::evaluate_station::{closure#4}
+
+Check 318: station::evaluate_station::{closure#4}.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:158:30 in function station::evaluate_station::{closure#4}
+
+Check 319: station::evaluate_station::{closure#4}.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:158:30 in function station::evaluate_station::{closure#4}
+
+Check 320: station::evaluate_station::{closure#4}.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:158:30 in function station::evaluate_station::{closure#4}
+
+Check 321: station::evaluate_station::{closure#4}.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:158:30 in function station::evaluate_station::{closure#4}
+
+Check 322: station::evaluate_station::{closure#4}.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:158:43 in function station::evaluate_station::{closure#4}
+
+Check 323: station::evaluate_station::{closure#4}.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:158:43 in function station::evaluate_station::{closure#4}
+
+Check 324: station::evaluate_station::{closure#4}.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:158:43 in function station::evaluate_station::{closure#4}
+
+Check 325: station::evaluate_station::{closure#4}.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:158:43 in function station::evaluate_station::{closure#4}
+
+Check 326: station::evaluate_station::{closure#4}.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:158:43 in function station::evaluate_station::{closure#4}
+
+Check 327: station::evaluate_station::{closure#4}.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:158:43 in function station::evaluate_station::{closure#4}
+
+Check 328: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt
+
+Check 329: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt
+
+Check 330: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt
+
+Check 331: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt
+
+Check 332: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt
+
+Check 333: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt
+
+Check 334: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt
+
+Check 335: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt
+
+Check 336: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt
+
+Check 337: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt
+
+Check 338: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt
+
+Check 339: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1903:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::lt
+
+Check 340: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 341: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 342: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 343: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 344: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 345: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 346: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 347: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 348: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 349: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 350: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 351: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 352: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.13
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 353: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.14
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 354: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.15
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 355: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.16
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 356: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.17
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 357: <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq.pointer_dereference.18
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/option.rs:2365:15 in function <core::option::Option<station::StationFault> as core::cmp::PartialEq>::eq
+
+Check 358: station::evaluate_station::{closure#5}.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: crates/osr-maglev-control/src/station.rs:237:56 in function station::evaluate_station::{closure#5}
+
+Check 359: station::evaluate_station::{closure#5}.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: crates/osr-maglev-control/src/station.rs:237:56 in function station::evaluate_station::{closure#5}
+
+Check 360: station::evaluate_station::{closure#5}.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: crates/osr-maglev-control/src/station.rs:237:56 in function station::evaluate_station::{closure#5}
+
+Check 361: station::evaluate_station::{closure#5}.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: crates/osr-maglev-control/src/station.rs:237:56 in function station::evaluate_station::{closure#5}
+
+Check 362: station::evaluate_station::{closure#5}.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: crates/osr-maglev-control/src/station.rs:237:56 in function station::evaluate_station::{closure#5}
+
+Check 363: station::evaluate_station::{closure#5}.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: crates/osr-maglev-control/src/station.rs:237:56 in function station::evaluate_station::{closure#5}
+
+Check 364: core::num::<impl u64>::div_ceil.division-by-zero.1
+	 - Status: UNDETERMINED
+	 - Description: "division by zero"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3487:21 in function core::num::<impl u64>::div_ceil
+
+Check 365: core::num::<impl u64>::div_ceil.division-by-zero.2
+	 - Status: UNDETERMINED
+	 - Description: "division by zero"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/num/uint_macros.rs:3488:21 in function core::num::<impl u64>::div_ceil
+
+Check 366: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le
+
+Check 367: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le
+
+Check 368: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le
+
+Check 369: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le
+
+Check 370: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le
+
+Check 371: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:50 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le
+
+Check 372: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le
+
+Check 373: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le
+
+Check 374: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le
+
+Check 375: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le
+
+Check 376: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le
+
+Check 377: core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/cmp.rs:1905:59 in function core::cmp::impls::<impl core::cmp::PartialOrd for u64>::le
+
+Check 378: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.1
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:160:27 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 379: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.2
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:160:27 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 380: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.3
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:160:27 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 381: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.4
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:160:27 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 382: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.5
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:160:27 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 383: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.6
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:160:27 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 384: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.7
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:161:34 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 385: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.8
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:161:34 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 386: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.9
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:161:34 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 387: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.10
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:161:34 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 388: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.11
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:161:34 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 389: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.12
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:161:34 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 390: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.13
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:174:25 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 391: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.14
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:174:25 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 392: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.15
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:174:25 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 393: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.16
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:174:25 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 394: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.17
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:174:25 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 395: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.18
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:174:25 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 396: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.19
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:168:36 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 397: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.20
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:180:36 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 398: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.21
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer NULL"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:184:25 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 399: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.22
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer invalid"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:184:25 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 400: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.23
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: deallocated dynamic object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:184:25 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 401: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.24
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: dead object"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:184:25 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 402: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.25
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: pointer outside object bounds"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:184:25 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 403: <core::slice::Iter<'_, f64> as core::iter::Iterator>::next.pointer_dereference.26
+	 - Status: UNDETERMINED
+	 - Description: "dereference failure: invalid integer address"
+	 - Location: ../../../runner/.rustup/toolchains/nightly-2025-11-21-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/slice/iter/macros.rs:184:25 in function <core::slice::Iter<'_, f64> as core::iter::Iterator>::next
+
+Check 404: memcmp.unwind.0
+	 - Status: FAILURE
+	 - Description: "unwinding assertion loop 0"
+	 - Location: <builtin-library-memcmp>:25 in function memcmp
+
+
+SUMMARY:
+ ** 1 of 404 failed (403 undetermined)
+Failed Checks: unwinding assertion loop 0
+ File: "<builtin-library-memcmp>", line 25, in memcmp
+
+VERIFICATION:- FAILED
+[Kani] info: Verification output shows one or more unwinding failures.
+[Kani] tip: Consider increasing the unwinding value or disabling `--unwinding-assertions`.
+Verification Time: 0.87695813s
+
+Manual Harness Summary:
+Verification failed for - kani_proofs::kani_maglev_unprotected_launch_has_no_force
+Complete - 0 successfully verified harnesses, 1 failures, 1 total.

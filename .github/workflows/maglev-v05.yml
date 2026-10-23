@@ -9,7 +9,7 @@ permissions:
 jobs:
   primary-study:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -18,6 +18,8 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.92.0
         with:
           components: rustfmt,clippy
+      - name: Media encoding and decoded-frame verification
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
       - run: python -m pip install pytest -r engineering/ferrite_maglev/requirements.txt
       - name: Verify every published source and packet file is tracked
         run: python tools/automation/tests/verify-maglev-sources.py
@@ -35,8 +37,18 @@ jobs:
       - run: cargo check --locked -p osr-maglev-control --no-default-features
       - run: cargo fmt --package osr-maglev-control -- --check
       - run: cargo clippy -p osr-maglev-control --all-targets -- -D warnings
+      - name: Offline normal-wrench observer prototype
+        run: |
+          cargo fmt --manifest-path engineering/ferrite_maglev/observer-prototype/Cargo.toml -- --check
+          cargo clippy --locked --manifest-path engineering/ferrite_maglev/observer-prototype/Cargo.toml --all-targets -- -D warnings
+          cargo test --locked --manifest-path engineering/ferrite_maglev/observer-prototype/Cargo.toml --all-targets
+          python engineering/ferrite_maglev/observer-prototype/tests/differential.py
+      - name: Prepare runtime-bound publication and reader
+        run: python tools/automation/ferrite-maglev-study.py cycle --output build/maglev-workflow-report
       - name: All primary maglev Python suites
         run: python -m pytest engineering/analysis/tests/test_ferrite_maglev*.py -q
+      - name: Verify retained engineering, lifecycle and formal execution profiles
+        run: python -m engineering.ferrite_maglev.pilot_assurance verify --require-executed
       - name: Verify source-bound native packet without FreeCAD
         run: |
           python - <<'PY'
@@ -64,7 +76,6 @@ jobs:
         run: |
           python tools/automation/generate-public-overview.py --check
           python tools/automation/build-doc-book.py --check
-          python tools/automation/ferrite-maglev-study.py cycle --output build/maglev-workflow-report
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -75,3 +86,23 @@ jobs:
           python tools/automation/ferrite-maglev-study.py run
           node tools/automation/tests/verify-maglev-v05.mjs build/maglev-browser
           node tools/automation/tests/verify-maglev-workbench.mjs build/maglev-workbench-browser
+  control-formal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: dtolnay/rust-toolchain@1.92.0
+      - name: Install the pinned bounded verifier
+        run: |
+          cargo install kani-verifier --version 0.67.0 --locked
+          cargo kani setup
+      - name: Execute retained authority and current maglev refusal properties
+        run: python -m engineering.ferrite_maglev.pilot_assurance run control-formal
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: control-formal-execution
+          path: engineering/assurance/v052-pilot-profiles/control-formal/

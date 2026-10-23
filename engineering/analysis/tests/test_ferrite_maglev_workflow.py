@@ -1,5 +1,6 @@
 """Dependency recovery, publication holds and primary UI boundaries."""
 import http.client
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import importlib.util
 import json
 from pathlib import Path
@@ -229,6 +230,7 @@ def endpoint():
         result = response.status, dict(response.getheaders()), response.read()
         client.close()
         return result
+    request.origin=f'http://127.0.0.1:{server.server_port}'
     yield request
     server.shutdown()
     server.server_close()
@@ -260,3 +262,125 @@ def test_ui_serves_every_primary_city_summary(endpoint):
         assert summary['architecture'] == 'ferrite-pm-maglev-study'
         assert summary['city'] == row['city']
         assert all(summary[k] is False for k in model.FLAGS)
+
+
+def test_actual_handler_allows_verified_blob_reads_but_blocks_external_connections(endpoint):
+    """Image/media permission does not grant fetch permission for a Blob URL.
+
+    Exercise Chromium with the real Handler's CSP. The independent other-origin
+    listener proves a rejected network request never reaches its destination.
+    Navigating to source text avoids starting unrelated city/design readers.
+    """
+    received=[]
+    class Foreign(BaseHTTPRequestHandler):
+        def do_GET(self):
+            received.append(self.path)
+            self.send_response(200);self.end_headers();self.wfile.write(b'must not be fetched')
+        def log_message(self,*args):
+            pass
+    foreign=ThreadingHTTPServer(('127.0.0.1',0),Foreign)
+    thread=threading.Thread(target=foreign.serve_forever,daemon=True);thread.start()
+    script=r"""
+import assert from 'node:assert/strict';
+import {chromium} from '@playwright/test';
+const browser=await chromium.launch({headless:true});
+try {
+  const page=await browser.newPage();
+  const response=await page.goto(process.argv[1]+'/docs/workbench/maglev/pilot.js');
+  assert.ok(response.headers()['content-security-policy'].includes("connect-src 'self' blob:"));
+  const result=await page.evaluate(async foreign=>{
+    const content=new Uint8Array([0,1,2,253,254,255]);
+    const url=URL.createObjectURL(new Blob([content],{type:'video/mp4'}));
+    const retained=new Uint8Array(await(await fetch(url)).arrayBuffer());
+    const sha=bytes=>crypto.subtle.digest('SHA-256',bytes).then(buffer=>
+      [...new Uint8Array(buffer)].map(n=>n.toString(16).padStart(2,'0')).join(''));
+    const digestMatches=(await sha(retained))===(await sha(content));
+    URL.revokeObjectURL(url);
+    let revokedRefused=false;
+    try {await fetch(url);} catch {revokedRefused=true;}
+    let timer;
+    const violation=new Promise((resolve,reject)=>{
+      timer=setTimeout(()=>reject(Error('External connect-src refusal was not observed')),3000);
+      document.addEventListener('securitypolicyviolation',event=>{
+        if(event.blockedURI.startsWith(foreign)) {
+          clearTimeout(timer);resolve(event.effectiveDirective);
+        }
+      });
+    });
+    let externalRefused=false;
+    try {await fetch(foreign+'/must-not-arrive');} catch {externalRefused=true;}
+    const directive=await violation;
+    return {digestMatches,revokedRefused,externalRefused,directive};
+  },process.argv[2]);
+  assert.deepEqual(result,{digestMatches:true,revokedRefused:true,externalRefused:true,directive:'connect-src'});
+  console.log(JSON.stringify(result));
+} finally {await browser.close();}
+"""
+    try:
+        result=subprocess.run(['node','--input-type=module','-e',script,endpoint.origin,
+                               f'http://127.0.0.1:{foreign.server_port}'],cwd=model.ROOT,
+                              capture_output=True,text=True,timeout=30)
+        assert result.returncode==0,result.stdout+result.stderr
+        assert json.loads(result.stdout)['digestMatches'] is True
+        assert received==[]
+    finally:
+        foreign.shutdown();foreign.server_close();thread.join()
+
+
+def test_standalone_observer_change_holds_the_dependency_runner(tmp_path,monkeypatch):
+    monkeypatch.setattr(model,'ROOT',tmp_path)
+    monkeypatch.setattr(model,'load',lambda:None)
+    monkeypatch.setattr(model,'sources',lambda **_: {})
+    source=tmp_path/'engineering/ferrite_maglev/observer-prototype/src/lib.rs'
+    source.parent.mkdir(parents=True);source.write_text('initial observer')
+    def missing():raise ValueError('missing result')
+    def edit():source.write_text('changed observer')
+    reached=[]
+    with pytest.raises(ValueError,match='sources changed'):
+        workflow.run(state=tmp_path/'state',stage_list=[('observer',missing,edit),
+            ('descendant',lambda:reached.append(True),lambda:None)])
+    assert not reached
+
+
+def test_migration_browser_dependency_change_stops_the_runner(tmp_path,monkeypatch):
+    from engineering.ferrite_maglev import capability_migration
+    monkeypatch.setattr(model,'ROOT',tmp_path)
+    monkeypatch.setattr(model,'load',lambda:None)
+    monkeypatch.setattr(model,'sources',lambda **_: {})
+    marker=tmp_path/'engineering/ferrite_maglev/data/pilot-capability-migration.json'
+    marker.parent.mkdir(parents=True);marker.write_text('{}')
+    revision={'sha':'before'}
+    monkeypatch.setattr(capability_migration,'sources',lambda:{'browser.mjs':revision['sha']})
+    def missing():raise ValueError('missing result')
+    def edit():revision['sha']='after'
+    reached=[]
+    with pytest.raises(ValueError,match='sources changed'):
+        workflow.run(state=tmp_path/'state',stage_list=[('browser',missing,edit),
+            ('dependent',lambda:reached.append(True),lambda:None)])
+    assert not reached
+
+
+def test_stale_book_is_rejected_before_expensive_report_checks(tmp_path,monkeypatch):
+    from hashlib import sha256
+    from engineering.ferrite_maglev import delivery
+    spec=importlib.util.spec_from_file_location('primary_book_gate',model.ROOT/'tools/automation/build-doc-book.py')
+    book=importlib.util.module_from_spec(spec);spec.loader.exec_module(book)
+    monkeypatch.setattr(book,'primary_book_sources',lambda:{'input.md':'a'*64})
+    calls=[]
+    def qualified():
+        calls.append(True)
+        raise ValueError('report qualification still required')
+    monkeypatch.setattr(delivery,'verify',qualified)
+    pdf=tmp_path/'book.pdf';pdf.write_bytes(b'%PDF-test')
+    options=dict(include_images=True,max_image_px=1600,image_quality=82,source_ref='main')
+    receipt=dict(schema='osr-primary-reader-book/1',source_sha256={'input.md':'b'*64},
+        options=options,pdf_sha256=sha256(pdf.read_bytes()).hexdigest(),**model.FLAGS)
+    pdf.with_suffix('.receipt.json').write_text(json.dumps(receipt))
+    with pytest.raises(ValueError,match='book sources'):
+        book.primary_book(pdf,check=True,**options)
+    assert not calls
+    receipt['source_sha256']={'input.md':'a'*64}
+    pdf.with_suffix('.receipt.json').write_text(json.dumps(receipt))
+    with pytest.raises(ValueError,match='qualification still required'):
+        book.primary_book(pdf,check=True,**options)
+    assert calls==[True]

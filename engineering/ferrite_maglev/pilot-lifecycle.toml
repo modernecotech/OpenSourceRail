@@ -1,0 +1,28 @@
+schema = "osr-maglev-pilot-lifecycle-input/1"
+revision = "current-maglev-business-pilot-1"
+configuration_id = "baghdad-30kwh-aw3"
+city = "baghdad"
+environment = "simulation"
+company = "OpenSourceRail Evaluation"
+railway_family = "fixed-zone-ferrite-maglev"
+
+[[positions]]
+asset_id = "SIM-BAG-CAR01-CARTRIDGE01"
+product_id = "OSR-PILOT-MAGNETIC-CARTRIDGE"
+site_type = "magnetic-cartridge-position"
+supervisory_kind = "magnetic-cartridge"
+schedule_reference = "PROC-VEHICLES"
+
+[[positions]]
+asset_id = "SIM-BAG-GUIDEBEAM-0000"
+product_id = "OSR-PILOT-GUIDEBEAM-25M"
+site_type = "guidebeam-position"
+supervisory_kind = "guidebeam"
+schedule_reference = "beam-0000/qa"
+
+[[positions]]
+asset_id = "SIM-BAG-LAUNCH-0000"
+product_id = "OSR-PILOT-LAUNCH-CASSETTE-2P5M"
+site_type = "launch-cassette-position"
+supervisory_kind = "launch-cassette"
+schedule_reference = "PROC-STATOR"

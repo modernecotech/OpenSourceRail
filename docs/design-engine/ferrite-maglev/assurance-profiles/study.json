@@ -1,0 +1,75 @@
+{
+  "all_profiles_executed": true,
+  "design_complete": false,
+  "external_gates": [
+    "measured magnetic maps",
+    "target timing and EMI",
+    "site/ground and utilities",
+    "fire and evacuation",
+    "supplier qualifications",
+    "independent engineering and authority acceptance"
+  ],
+  "formal_properties": [
+    {
+      "crate": "osr-interlocking",
+      "harness": "kani_p5_time_bounded_arithmetic",
+      "scope": "retained validity-window saturating arithmetic"
+    },
+    {
+      "crate": "osr-atp",
+      "harness": "kani_a2_expired_ma_trips",
+      "scope": "retained expired authority emergency response"
+    },
+    {
+      "crate": "osr-maglev-control",
+      "harness": "kani_maglev_stale_support_requests_fallback",
+      "scope": "stale support sample refusal"
+    },
+    {
+      "crate": "osr-maglev-control",
+      "harness": "kani_maglev_unprotected_launch_has_no_force",
+      "scope": "uncommitted or unprotected launch refusal"
+    },
+    {
+      "crate": "osr-maglev-control",
+      "harness": "kani_maglev_replayed_drive_frame_has_no_duties",
+      "scope": "replayed current-loop sequence refusal"
+    }
+  ],
+  "manufacturing_release": false,
+  "physical_release": false,
+  "physical_validation": false,
+  "profiles": [
+    {
+      "digital_state": "executed-current",
+      "executions": 7,
+      "id": "engineering",
+      "independent_acceptance": false,
+      "receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261023T135325854929Z/receipt.json",
+      "receipt_sha256": "5e710cf1636a33c5aae21b072bdcdbbbfb44dd9486de94b3e64593095a7ca96a"
+    },
+    {
+      "digital_state": "executed-current",
+      "executions": 2,
+      "id": "delivery-lifecycle",
+      "independent_acceptance": false,
+      "receipt": "engineering/assurance/v052-pilot-profiles/delivery-lifecycle/20261023T135249489868Z/receipt.json",
+      "receipt_sha256": "1a0823e626449160a82f0e41ec13e16830360d8f1c57c0213d392c6c0616947c"
+    },
+    {
+      "digital_state": "executed-current",
+      "executions": 5,
+      "id": "control-formal",
+      "independent_acceptance": false,
+      "receipt": "engineering/assurance/v052-pilot-profiles/control-formal/20261023T135226744921Z/receipt.json",
+      "receipt_sha256": "4a2f575802020cab0ad73717a5bdf51f08957fad00f6b56d32ae265e1b7b4858"
+    }
+  ],
+  "schema": "osr-pilot-assurance/1",
+  "scope": "Exact development execution; engineering, delivery and formal profiles are separate. No SIL, hardware, site or operational acceptance.",
+  "source_sha256": {
+    "engineering/analysis/tests/test_ferrite_maglev_pilot_assurance.py": "90a19bdc5276ed466faa7de32ae2fb7d11a24380191f7c66736be7dac4a382e2",
+    "engineering/ferrite_maglev/data/pilot-assurance-case.toml": "42fc702d6830b79f6cc99900550251b02f5bf6d7b22eb3d924a0f42b5b36d711",
+    "engineering/ferrite_maglev/pilot_assurance.py": "7df59577c1af11c838d371e5cb0a668fdd7fef3c6eadf3f50ec5ac208c4e962b"
+  }
+}

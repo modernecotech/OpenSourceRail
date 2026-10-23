@@ -1,0 +1,33 @@
+......................................................F................. [  7%]
+........................................................................ [ 14%]
+........................................................................ [ 21%]
+........................................................................ [ 28%]
+........................................................................ [ 35%]
+........................................................................ [ 42%]
+........................................................................ [ 49%]
+.................................................................
+=================================== FAILURES ===================================
+___________ test_current_tree_contains_only_current_vehicle_sources ____________
+
+    def test_current_tree_contains_only_current_vehicle_sources():
+>       assert architecture_audit.verify(model.ROOT)['current_only']
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+engineering/analysis/tests/test_ferrite_maglev_architecture_audit.py:14: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+root = PosixPath('/home/hayder/Documents/OpenSourceRail')
+
+    def verify(root):
+        findings=scan(files(root))
+>       if findings:raise ValueError('retired vehicle references remain: '+', '.join(findings[:20]))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: retired vehicle references remain: /home/hayder/Documents/OpenSourceRail/docs/design-engine/ferrite-maglev/capability-migration/README.md, /home/hayder/Documents/OpenSourceRail/docs/design-engine/ferrite-maglev/capability-migration/study.json, /home/hayder/Documents/OpenSourceRail/docs/design-engine/ferrite-maglev/pilot-delivery/study.json, /home/hayder/Documents/OpenSourceRail/engineering/ferrite_maglev/data/pilot-capability-migration.json
+
+engineering/ferrite_maglev/architecture_audit.py:66: ValueError
+=========================== short test summary info ============================
+FAILED engineering/analysis/tests/test_ferrite_maglev_architecture_audit.py::test_current_tree_contains_only_current_vehicle_sources
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/usr/lib64/python3.13/selectors.py:398: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+1 failed, 568 passed in 6760.54s (1:52:40)

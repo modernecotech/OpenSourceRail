@@ -1,0 +1,108 @@
+# A development evidence index. Trace closure is not a claim that a railway is safe.
+[[goal]]
+id = "PILOT-TRACE"
+description = "Current pilot development claims have explicit evidence paths and separate physical acceptance gates"
+[[strategy]]
+id = "PILOT-STRATEGY"
+parent = "PILOT-TRACE"
+description = "Separate engineering, delivery, formal control and unaccepted physical qualification"
+children = ["PILOT-ENGINEERING", "PILOT-DELIVERY", "PILOT-FORMAL", "PILOT-PHYSICAL"]
+
+[[goal]]
+id = "PILOT-ENGINEERING"
+description = "Controlled product, coupled actuator and corridor/schedule implementations are traceable; execution must be recorded separately"
+[[solution]]
+id = "E-PRODUCT"
+parent = "PILOT-ENGINEERING"
+description = "Configuration-specific product and allowance substitution"
+[solution.evidence]
+kind = "pytest"
+path = "engineering/analysis/tests/test_ferrite_maglev_pilot_product.py"
+[[solution]]
+id = "E-ACTUATOR"
+parent = "PILOT-ENGINEERING"
+description = "Bounded coupled actuator and fault tests"
+[solution.evidence]
+kind = "pytest"
+path = "engineering/analysis/tests/test_ferrite_maglev_pilot_actuators.py"
+[[solution]]
+id = "E-DELIVERY-SCHEDULE"
+parent = "PILOT-ENGINEERING"
+description = "Resource schedule, cash and comparison tests"
+[solution.evidence]
+kind = "pytest"
+path = "engineering/analysis/tests/test_ferrite_maglev_delivery_schedule.py"
+[[solution]]
+id = "E-CORRIDOR"
+parent = "PILOT-ENGINEERING"
+description = "Pilot access, demand proxy and service tests"
+[solution.evidence]
+kind = "pytest"
+path = "engineering/analysis/tests/test_ferrite_maglev_pilot_corridor.py"
+
+[[goal]]
+id = "PILOT-DELIVERY"
+description = "Current product IDs traverse the simulated business lifecycle; no physical receiving or handback is claimed"
+[[solution]]
+id = "E-LIFECYCLE"
+parent = "PILOT-DELIVERY"
+description = "Native disposable ERPNext/FUXA/Workbench lifecycle runner"
+[solution.evidence]
+kind = "sim-run"
+path = "tools/automation/pilot-lifecycle-native.py"
+
+[[goal]]
+id = "PILOT-FORMAL"
+description = "Retained time/authority and current maglev refusal properties have bounded executable harnesses"
+[[solution]]
+id = "E-TIME"
+parent = "PILOT-FORMAL"
+description = "Validity-window arithmetic"
+[solution.evidence]
+kind = "kani"
+path = "crates/osr-interlocking/src/kani_proofs.rs"
+anchor = "kani_p5_time_bounded_arithmetic"
+[[solution]]
+id = "E-EXPIRED"
+parent = "PILOT-FORMAL"
+description = "Expired authority emergency response"
+[solution.evidence]
+kind = "kani"
+path = "crates/osr-atp/src/kani_proofs.rs"
+anchor = "kani_a2_expired_ma_trips"
+[[solution]]
+id = "E-STALE-SUPPORT"
+parent = "PILOT-FORMAL"
+description = "Stale support input requests independent fallback"
+[solution.evidence]
+kind = "kani"
+path = "crates/osr-maglev-control/src/kani_proofs.rs"
+anchor = "kani_maglev_stale_support_requests_fallback"
+[[solution]]
+id = "E-UNPROTECTED-LAUNCH"
+parent = "PILOT-FORMAL"
+description = "Unprotected launch cannot emit study force"
+[solution.evidence]
+kind = "kani"
+path = "crates/osr-maglev-control/src/kani_proofs.rs"
+anchor = "kani_maglev_unprotected_launch_has_no_force"
+[[solution]]
+id = "E-REPLAY-DRIVE"
+parent = "PILOT-FORMAL"
+description = "Replayed current-loop frame cannot emit study duties"
+[solution.evidence]
+kind = "kani"
+path = "crates/osr-maglev-control/src/kani_proofs.rs"
+anchor = "kani_maglev_replayed_drive_frame_has_no_duties"
+
+[[goal]]
+id = "PILOT-PHYSICAL"
+description = "Physical qualification obligations are recorded and remain unaccepted"
+[[solution]]
+id = "E-PHYSICAL-PLAN"
+parent = "PILOT-PHYSICAL"
+description = "Unexecuted physical protocols and independent evidence assessment contract"
+[solution.evidence]
+kind = "cite"
+path = "engineering/ferrite_maglev/qualification.py"
+note = "A protocol plan is evidence of an obligation only. It is not an executed physical test."

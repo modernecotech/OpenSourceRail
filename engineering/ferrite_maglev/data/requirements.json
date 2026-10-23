@@ -31,7 +31,9 @@
     },
     {
       "id": "SYS-003",
-      "requirement": "Station-mounted LSM windings and converters provide main traction. Onboard active windings and electronics provide independent support/guidance. Interstation spans have no powered propulsion; retain services power, emergency stopping and recovery.",
+      "requirement": "Fixed station LSM windings and explicitly located interstation booster zones provide main traction. Ordinary coast spans have no continuous powered propulsion. Onboard active windings and electronics provide independent support/guidance. Retain independent services power, emergency stopping and recovery; each booster requires its own protected electrical and civil configuration.",
+      "applicability": ["baghdad-30kwh-aw3", "baghdad-50kwh-aw3", "fixed-station-and-located-booster-lsm"],
+      "historical_profiles": [{"id": "station-only-no-interstation-booster", "role": "retained historical benchmark; not universally applicable"}],
       "state": "open",
       "accepted": false,
       "revision": "V052-STATION-POWERED-REQUIREMENTS-1",
@@ -860,7 +862,11 @@
     },
     {
       "id": "MAG-051",
-      "requirement": "Publish the usable operating envelope, including lift capacity at the weakest magnet state and maximum normal gap, lateral stability/control margin, continuous and transient current limits, saturation margin, demagnetisation margin, thermal limits and torque capacity for asymmetric loads. A suggested initial screening reserve of 1.3 times AW3 static weight gives 382.59/395.34 kN in Cases A/B. This is a project assumption, not a substitute for deriving dynamic design loads or a regulatory safety factor. The full AW3 body/rail load and asymmetric passenger distribution must be retained.",
+      "requirement": "Publish the usable operating envelope, including lift capacity at the weakest magnet state and maximum normal gap, lateral stability/control margin, continuous and transient current limits, saturation margin, demagnetisation margin, thermal limits and torque capacity for asymmetric loads. The provisional 1.3 times AW3 static-weight screen is 334.1286 kN for the 30 kWh / 26.2 t profile and 336.6792 kN for the 50 kWh / 26.4 t profile. Reconciled component-ledger mass overruns require a newly calculated load profile rather than inheritance of either target. The multiplier remains a project hypothesis, not a dynamic-load derivation or regulatory safety factor. Retain full AW3 body/rail loading and asymmetric passengers.",
+      "applicability": ["component-accounted-pilot-aw3", "historical-target-30kwh-26p2t-aw3", "historical-target-50kwh-26p4t-aw3"],
+      "screen_profiles": [{"id": "historical-target-30kwh-26p2t-aw3", "battery_kwh": 30, "aw3_mass_kg": 26200, "multiplier": 1.3, "screen_force_n": 334128.6}, {"id": "historical-target-50kwh-26p4t-aw3", "battery_kwh": 50, "aw3_mass_kg": 26400, "multiplier": 1.3, "screen_force_n": 336679.2}],
+      "controlled_screen_profiles": [{"id": "baghdad-30kwh-aw3", "product_revision": "PILOT-PRODUCT-1", "aw3_mass_kg": 28817.025904510658, "multiplier": 1.3, "screen_force_n": 367503.5313602245}, {"id": "baghdad-50kwh-aw3", "product_revision": "PILOT-PRODUCT-1", "aw3_mass_kg": 29017.025904510658, "multiplier": 1.3, "screen_force_n": 370054.13136022445}],
+      "historical_profiles": [{"id": "legacy-case-A-30t", "aw3_mass_kg": 30000, "multiplier": 1.3, "screen_force_n": 382590}, {"id": "legacy-case-B-31t", "aw3_mass_kg": 31000, "multiplier": 1.3, "screen_force_n": 395343}],
       "state": "open",
       "accepted": false,
       "revision": "V052-STATION-POWERED-REQUIREMENTS-1",

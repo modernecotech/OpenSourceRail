@@ -1,0 +1,3475 @@
+{
+  "controls": [
+    {
+      "id": "SIM-BAG-CAR01-CARTRIDGE01/later-inspection-failure",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-CAR01-CARTRIDGE01/restart",
+      "result": "committed-history-replayed"
+    },
+    {
+      "id": "SIM-BAG-CAR01-CARTRIDGE01/later-test-failure",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-CAR01-CARTRIDGE01/self-review",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-CAR01-CARTRIDGE01/stale-revision",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-CAR01-CARTRIDGE01/wrong-role",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-CAR01-CARTRIDGE01/changed-revision-handback",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-GUIDEBEAM-0000/later-inspection-failure",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-GUIDEBEAM-0000/restart",
+      "result": "committed-history-replayed"
+    },
+    {
+      "id": "SIM-BAG-GUIDEBEAM-0000/later-test-failure",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-GUIDEBEAM-0000/self-review",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-GUIDEBEAM-0000/stale-revision",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-GUIDEBEAM-0000/wrong-role",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-GUIDEBEAM-0000/changed-revision-handback",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-LAUNCH-0000/later-inspection-failure",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-LAUNCH-0000/restart",
+      "result": "committed-history-replayed"
+    },
+    {
+      "id": "SIM-BAG-LAUNCH-0000/later-test-failure",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-LAUNCH-0000/self-review",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-LAUNCH-0000/stale-revision",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-LAUNCH-0000/wrong-role",
+      "result": "rejected-without-history-change"
+    },
+    {
+      "id": "SIM-BAG-LAUNCH-0000/changed-revision-handback",
+      "result": "rejected-without-history-change"
+    }
+  ],
+  "physical_evidence": false,
+  "raw": [
+    {
+      "command": {
+        "actor": "sim-planner",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "bom_sha256": "815a94a2f906213a5610fd8826f95e5a2673d62267f03e22b6dd13ea2239b7b8",
+          "draft_material_request": "SIM-MR-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+          "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "evidence": [
+          "c549781b4e2f09f7c78de73ed9f5164af7e2156e7f68d885cf809206b687a8e4"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:1:purchase",
+        "kind": "purchase",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "planner",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-stock",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "receipt": "SIM-PR-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "evidence": [
+          "57ccbf1cf77d3148b32002d52d83e6d8f39f08901b730f0977f3bc6ea5d265c9"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:2:receive",
+        "kind": "receive",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "stock",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "inspection": "SIM-QI-EARLY",
+          "result": "pass"
+        },
+        "evidence": [
+          "a63171f62aa4e4395196c6a825701173725e666c2f9a11681aa79718497a7b51"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:3:inspect",
+        "kind": "inspect",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "inspection": "SIM-QI-NCR",
+          "result": "fail"
+        },
+        "evidence": [
+          "935849cfe4407d0e56ff728ccd071e1a2674d41d101908ce13a3e658645e1be6"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:4:inspect",
+        "kind": "inspect",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-technician",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "nonconformance": "SIM-NCR-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+          "rework_order": "SIM-REWORK-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "evidence": [
+          "1bc39e97ae9319553f030875ec20754278230214cd6073ac9beaf3978eea10e4"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:5:rework",
+        "kind": "rework",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "technician",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "inspection": "SIM-QI-PASS-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+          "result": "pass"
+        },
+        "evidence": [
+          "ef5eec00076a8add841358c958ed4c6f490a61dc8a4d7df1a8bcf8a76dfe1b37"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:6:inspect",
+        "kind": "inspect",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-assembler",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "manufacture_entry": "SIM-SE-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+          "work_order": "SIM-WO-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "evidence": [
+          "62a55e8d67f44ad0eaec2b12661560b93d11c706e4503216ca6ce0155c706644"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:7:assemble",
+        "kind": "assemble",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "assembler",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-engineer",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "installation_record": "SIM-INSTALL-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "evidence": [
+          "73a99e40d83e3256c42a381d86688956de8ce16d4112922e3e46e16f0d043ac4"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:8:install",
+        "kind": "install",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "engineer",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "result": "pass",
+          "test_record": "SIM-TEST-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "evidence": [
+          "b76578e51375dcbc770d7716dab91969d83ae330f5b83a222f2b3c31b2849b80"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:9:test",
+        "kind": "test",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-reviewer",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "review_record": "SIM-INDEPENDENT-REVIEW-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+          "test_id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:9:test"
+        },
+        "evidence": [
+          "80aee70cdf640f5eb63197250d852b1a7b74c594246f254c0804b84f3b2e74de"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:10:handback",
+        "kind": "handback",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "reviewer",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-observer",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "incident_id": "SIM-INCIDENT-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "evidence": [
+          "a9c20292cb817f1c3c99e95d74eef613699cac78a9c7e770c09b4aca9f48f464"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:11:alarm",
+        "kind": "alarm",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "observer",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-maintainer",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "maintenance_case": "SIM-REPAIR-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "evidence": [
+          "324175719a3681fb38b1c4ed279ed543b0fde95dee132462d20eaa4c61a4d817"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:12:maintain",
+        "kind": "maintain",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "maintainer",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-maintainer",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "removal_record": "SIM-REMOVE-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "evidence": [
+          "c4eaa948d315e2e58197368c42c27bd690fcbf84c70fa48d9575d0b96e9d7799"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:13:remove",
+        "kind": "remove",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "maintainer",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-planner",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "bom_sha256": "815a94a2f906213a5610fd8826f95e5a2673d62267f03e22b6dd13ea2239b7b8",
+          "draft_material_request": "SIM-MR-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+          "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "evidence": [
+          "f4926236f140fa63d048669936ffc0ecdbd4237a8abaebaf0759c893866f7556"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:14:purchase",
+        "kind": "purchase",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "planner",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-stock",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "receipt": "SIM-PR-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "evidence": [
+          "2e16eb477cdbaa5d3e2cb6709c30af2c2496ec183046e898a061aa88e7c9c189"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:15:receive",
+        "kind": "receive",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "stock",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "inspection": "SIM-QI-PASS-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+          "result": "pass"
+        },
+        "evidence": [
+          "23e9ab291d7d99bfb25f5277f6b34bee4a286605938d0c722bddb3e684149be6"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:16:inspect",
+        "kind": "inspect",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-assembler",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "manufacture_entry": "SIM-SE-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+          "work_order": "SIM-WO-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "evidence": [
+          "91fb1cc57ed61ba2f24e5bd641c801b0cf921b876fc5c8535e3e14ba7a75a2b6"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:17:assemble",
+        "kind": "assemble",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "assembler",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-engineer",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "installation_record": "SIM-INSTALL-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+          "replaces_serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "evidence": [
+          "577175e4055e4a4c5c58450fa81e1e116f31b1cf2838eeee1dd25e1f9431a060"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:18:install",
+        "kind": "install",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "engineer",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "result": "pass",
+          "test_record": "SIM-TEST-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "evidence": [
+          "8b9e01431f0fa48e939339b6dddce7678e91888dab34162ccc75ea57c4957617"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:19:test",
+        "kind": "test",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "result": "fail",
+          "test_record": "SIM-TEST-LATE-FAIL"
+        },
+        "evidence": [
+          "bd075d6b77f31bd463b0ca8afc10aa55032229c33e32847241dd516ca44ebf86"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:20:test",
+        "kind": "test",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "result": "pass",
+          "test_record": "SIM-RETEST-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "evidence": [
+          "3416ea1990350ecfe46da7835a87465aa38ea708297d4779ea6a96a3ea22d494"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:21:test",
+        "kind": "test",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-reviewer",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "review_record": "SIM-INDEPENDENT-REVIEW-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+          "test_id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:21:test"
+        },
+        "evidence": [
+          "7d2e08d45b8e1fddac95a586c0225acdd7dbba7c49307b5327bf8d93224c64b6"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:22:handback",
+        "kind": "handback",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "reviewer",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-engineer",
+        "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+        "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "proposed_product_revision_sha256": "c9d4695c8fae6164d9c852a8145114c4dff1ca11c248bef3ee849f43d8387436"
+        },
+        "evidence": [
+          "6b216ade4da82524701557fea3a13f615c03e99a4381ab028a4e7757bd40b2ab"
+        ],
+        "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:23:revision-proposal",
+        "kind": "revision-proposal",
+        "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+        "role": "engineer",
+        "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-planner",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "bom_sha256": "34a1cfdf77ad02fea07bd673638a9edc78eac52193a4dad9790f37556cfdc75f",
+          "draft_material_request": "SIM-MR-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+          "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "evidence": [
+          "c4cf9be8dee85828d45adf02bad6d25084726ff6a767b56b22c59abfee64268a"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:24:purchase",
+        "kind": "purchase",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "planner",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-stock",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "receipt": "SIM-PR-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "evidence": [
+          "eb5b43d0bad3927f57d32c9c2d8c3e395bef22e859112e69ec4a0c6c32ffec52"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:25:receive",
+        "kind": "receive",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "stock",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "inspection": "SIM-QI-EARLY",
+          "result": "pass"
+        },
+        "evidence": [
+          "b38cdc3e719a1df6d271c0b8e2d01dbfc4e533e05fae651f81182910ec8bf054"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:26:inspect",
+        "kind": "inspect",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "inspection": "SIM-QI-NCR",
+          "result": "fail"
+        },
+        "evidence": [
+          "35f354ca3cf2d997801303c8763f0bebeba40d3a32c0853e95f74f593565e895"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:27:inspect",
+        "kind": "inspect",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-technician",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "nonconformance": "SIM-NCR-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+          "rework_order": "SIM-REWORK-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "evidence": [
+          "1c97dff126f5f7b3131d1dca81df074fe85ab637850c5fab9c3028bc3cefe373"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:28:rework",
+        "kind": "rework",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "technician",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "inspection": "SIM-QI-PASS-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+          "result": "pass"
+        },
+        "evidence": [
+          "1951dd20771f15a99aa3a0d49cca570dd56c47ed197e80aaae0032303dc0cbad"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:29:inspect",
+        "kind": "inspect",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-assembler",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "manufacture_entry": "SIM-SE-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+          "work_order": "SIM-WO-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "evidence": [
+          "f9b2a8739269e9e100445817b26d26c28910034c223128b4cb2a7616b8424477"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:30:assemble",
+        "kind": "assemble",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "assembler",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-engineer",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "installation_record": "SIM-INSTALL-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "evidence": [
+          "8f61bed66d33739d6c576ceb7369981f2df69a916e30a39f850f17d221e52770"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:31:install",
+        "kind": "install",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "engineer",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "result": "pass",
+          "test_record": "SIM-TEST-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "evidence": [
+          "28ed5c99d9e6fdf3ec9f0de54ceb098b2544864a2fa1cdd92084f2420af21041"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:32:test",
+        "kind": "test",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-reviewer",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "review_record": "SIM-INDEPENDENT-REVIEW-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+          "test_id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:32:test"
+        },
+        "evidence": [
+          "1e468a3619798cef93f89521bdd5255fc88e5ab063700e1e24b3de5325ee1ced"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:33:handback",
+        "kind": "handback",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "reviewer",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-observer",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "incident_id": "SIM-INCIDENT-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "evidence": [
+          "6c22e3a5c76005f439236a907dd4e6ff8f89a59bd935d0f2ff08aa495b83ae50"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:34:alarm",
+        "kind": "alarm",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "observer",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-maintainer",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "maintenance_case": "SIM-REPAIR-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "evidence": [
+          "b1457535d0b16cf1b4962e1f44c55b769d89b7206fc3865029ed8e0fe7421121"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:35:maintain",
+        "kind": "maintain",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "maintainer",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-maintainer",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "removal_record": "SIM-REMOVE-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "evidence": [
+          "4cafbc5d804401687a6eb6561a8c78a998b7405a6b9fa5bcb392ec90e0b80c01"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:36:remove",
+        "kind": "remove",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "maintainer",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-planner",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "bom_sha256": "34a1cfdf77ad02fea07bd673638a9edc78eac52193a4dad9790f37556cfdc75f",
+          "draft_material_request": "SIM-MR-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+          "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "evidence": [
+          "5b94e34a7f55baddcbf1655a58ff7db66395ad06ddcaa023286c757f959bb22a"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:37:purchase",
+        "kind": "purchase",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "planner",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-stock",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "receipt": "SIM-PR-SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "evidence": [
+          "a6d5823c79251d9559d0cbdf3a8c9c9f1fe16f5895e6a719f31823d745e2d1cc"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:38:receive",
+        "kind": "receive",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "stock",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "inspection": "SIM-QI-PASS-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+          "result": "pass"
+        },
+        "evidence": [
+          "83ed40596e9e8238df59eadc5b6db1a935ea4f6f3f22b97691c0866a1cf0d383"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:39:inspect",
+        "kind": "inspect",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-assembler",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "manufacture_entry": "SIM-SE-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+          "work_order": "SIM-WO-SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "evidence": [
+          "ceae1397f02ef5df0aa3573e47f1e405cf35b20e072d123a2f9d2286122fea9c"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:40:assemble",
+        "kind": "assemble",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "assembler",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-engineer",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "installation_record": "SIM-INSTALL-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+          "replaces_serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "evidence": [
+          "5b9576c94c96c07b729e92f72725989a976e8c01e304012b308d6b555a859526"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:41:install",
+        "kind": "install",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "engineer",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "result": "pass",
+          "test_record": "SIM-TEST-SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "evidence": [
+          "23d7db0770c3b5a127839ce2898e68863b0bac5a4b75f34b74c32e1db0892e7a"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:42:test",
+        "kind": "test",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "result": "fail",
+          "test_record": "SIM-TEST-LATE-FAIL"
+        },
+        "evidence": [
+          "3c06d64d1519788ae796e6c7a10320b8129aef35e28b60297b0dcfab47fc25c5"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:43:test",
+        "kind": "test",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "result": "pass",
+          "test_record": "SIM-RETEST-SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "evidence": [
+          "907b02883000b1da7a5f6bd9b461836064d217e7fb1cbdc65e8d6e4e262e636f"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:44:test",
+        "kind": "test",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-reviewer",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "review_record": "SIM-INDEPENDENT-REVIEW-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+          "test_id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:44:test"
+        },
+        "evidence": [
+          "49db4fbae9158cf6d78cb952f81110263922774025269423d4d9c3b7ba85b76e"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:45:handback",
+        "kind": "handback",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "reviewer",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-engineer",
+        "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+        "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "proposed_product_revision_sha256": "c9d4695c8fae6164d9c852a8145114c4dff1ca11c248bef3ee849f43d8387436"
+        },
+        "evidence": [
+          "55384de0e891e6cf65ee37f9ec259151ba03aafa7899a2dff8bba2bf4903ef09"
+        ],
+        "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:46:revision-proposal",
+        "kind": "revision-proposal",
+        "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+        "role": "engineer",
+        "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-planner",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "bom_sha256": "c66dc71a5a8b9648e696f8cf6cd1016086ea8cc1e665725f5bfcbfc5f5bbf454",
+          "draft_material_request": "SIM-MR-SIM-SIM-BAG-LAUNCH-0000-OLD",
+          "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "evidence": [
+          "211d9121665314bcefa3fccd55256394772dda5d47f391830c9227f42e0546b5"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:47:purchase",
+        "kind": "purchase",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "planner",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-stock",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "receipt": "SIM-PR-SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "evidence": [
+          "1d09bdcdac28c070c8004daff2a12ca3cd8b1bd66891430bd2658f8aa16d1a64"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:48:receive",
+        "kind": "receive",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "stock",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "inspection": "SIM-QI-EARLY",
+          "result": "pass"
+        },
+        "evidence": [
+          "e2045990852975e5e6142b45d01535c7aaa3dbb55423d37af60e086acbf98aa5"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:49:inspect",
+        "kind": "inspect",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "inspection": "SIM-QI-NCR",
+          "result": "fail"
+        },
+        "evidence": [
+          "504632c4a3bc1ce46ddf41fca32e2e215f10161c3baef915a41c024d1c419318"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:50:inspect",
+        "kind": "inspect",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-technician",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "nonconformance": "SIM-NCR-SIM-SIM-BAG-LAUNCH-0000-OLD",
+          "rework_order": "SIM-REWORK-SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "evidence": [
+          "381ad7d9b4bd8f20ff6b670707f3595057ea1e86d06282a7b39b165d45e2a142"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:51:rework",
+        "kind": "rework",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "technician",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "inspection": "SIM-QI-PASS-SIM-SIM-BAG-LAUNCH-0000-OLD",
+          "result": "pass"
+        },
+        "evidence": [
+          "ee060763a0f27b2b7a10b2ea51d00d38131a16385496a7471f1f6ac7c4b62fbf"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:52:inspect",
+        "kind": "inspect",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-assembler",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "manufacture_entry": "SIM-SE-SIM-SIM-BAG-LAUNCH-0000-OLD",
+          "work_order": "SIM-WO-SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "evidence": [
+          "03fe5d653a542c2407a97f47ef1905300440786a94c0e387dc4b11c6dd73d51b"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:53:assemble",
+        "kind": "assemble",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "assembler",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-engineer",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "installation_record": "SIM-INSTALL-SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "evidence": [
+          "b008836330dd05c7218dfcc42230dd1c7fa8c7ca557d54e00b1053cc152cb76b"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:54:install",
+        "kind": "install",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "engineer",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "result": "pass",
+          "test_record": "SIM-TEST-SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "evidence": [
+          "984b81fdc4cf1f25dcc3d93238571e63fc8cb9ff10b0f400c4eb6b3fa2e3bd23"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:55:test",
+        "kind": "test",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-reviewer",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "review_record": "SIM-INDEPENDENT-REVIEW-SIM-SIM-BAG-LAUNCH-0000-OLD",
+          "test_id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:55:test"
+        },
+        "evidence": [
+          "76472c674970798f3de7b9d03a38c4753d9e049ad3a07a231d1b90c41e5a906c"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:56:handback",
+        "kind": "handback",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "reviewer",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-observer",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "incident_id": "SIM-INCIDENT-SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "evidence": [
+          "8d693b923449da075260892d069023aa4bfe2014d5aae2921d45f8ec6e442ec3"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:57:alarm",
+        "kind": "alarm",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "observer",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-maintainer",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "maintenance_case": "SIM-REPAIR-SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "evidence": [
+          "73e90e2bd2a9b07d1b3fe3d255b2334793af4e27c6107cad621208246ce773cc"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:58:maintain",
+        "kind": "maintain",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "maintainer",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-maintainer",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "removal_record": "SIM-REMOVE-SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "evidence": [
+          "0a7bd72b67cfea13ab2cf3295d0184a0287ae89e60ba338814ed19bbda717973"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:59:remove",
+        "kind": "remove",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "maintainer",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-planner",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "bom_sha256": "c66dc71a5a8b9648e696f8cf6cd1016086ea8cc1e665725f5bfcbfc5f5bbf454",
+          "draft_material_request": "SIM-MR-SIM-SIM-BAG-LAUNCH-0000-NEW",
+          "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "evidence": [
+          "d5d051e130165f739289556d2267cbfdebe851defbe39d0df36bc7543b8e663f"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:60:purchase",
+        "kind": "purchase",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "planner",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-stock",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "receipt": "SIM-PR-SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "evidence": [
+          "1d1fd8ae01a96993ca7557b9ffd33c9046c7122d8f16f4fe70e6bd40c70c8064"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:61:receive",
+        "kind": "receive",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "stock",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "inspection": "SIM-QI-PASS-SIM-SIM-BAG-LAUNCH-0000-NEW",
+          "result": "pass"
+        },
+        "evidence": [
+          "b5b58c296361f265306544eb32c8d9c73051344f2aa84fdbf249e4d2252a39ae"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:62:inspect",
+        "kind": "inspect",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-assembler",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "manufacture_entry": "SIM-SE-SIM-SIM-BAG-LAUNCH-0000-NEW",
+          "work_order": "SIM-WO-SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "evidence": [
+          "8f8385303a630c111e5613c21b5b4218f5ea5d035b865ffc0927a33cfef5ff7d"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:63:assemble",
+        "kind": "assemble",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "assembler",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-engineer",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "installation_record": "SIM-INSTALL-SIM-SIM-BAG-LAUNCH-0000-NEW",
+          "replaces_serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "evidence": [
+          "e68e3de3ee27214d392fe8a93ed113d32c72cd4e43ed0fed42e783883f5ca0a8"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:64:install",
+        "kind": "install",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "engineer",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "result": "pass",
+          "test_record": "SIM-TEST-SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "evidence": [
+          "e1c94011654eee2086e92d5389b7abb8fadd9ee0e1b813d8bc5e03905100446e"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:65:test",
+        "kind": "test",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "result": "fail",
+          "test_record": "SIM-TEST-LATE-FAIL"
+        },
+        "evidence": [
+          "f7e9036bf41a02fce1036bf0edceb40e4b50426e8368e33cb23d25ad477bfe3a"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:66:test",
+        "kind": "test",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-inspector",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "result": "pass",
+          "test_record": "SIM-RETEST-SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "evidence": [
+          "f9cb08977e79f5ad449b8b5a47f0740b7a79cc5af03ab77c162a23d01f48497e"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:67:test",
+        "kind": "test",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "inspector",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-reviewer",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "review_record": "SIM-INDEPENDENT-REVIEW-SIM-SIM-BAG-LAUNCH-0000-NEW",
+          "test_id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:67:test"
+        },
+        "evidence": [
+          "675514a197a3d3b729604eab0c91c8eb072d72bff6942b2c422bde76551dfe2e"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:68:handback",
+        "kind": "handback",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "reviewer",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    },
+    {
+      "command": {
+        "actor": "sim-engineer",
+        "asset_id": "SIM-BAG-LAUNCH-0000",
+        "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+        "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+        "data": {
+          "proposed_product_revision_sha256": "c9d4695c8fae6164d9c852a8145114c4dff1ca11c248bef3ee849f43d8387436"
+        },
+        "evidence": [
+          "faf23af09846be52ec01556cc4b66ae3447b9aa56d139e7ffa0523190db622f2"
+        ],
+        "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:69:revision-proposal",
+        "kind": "revision-proposal",
+        "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+        "role": "engineer",
+        "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+      },
+      "native_record": false,
+      "source": "synthetic-software-fixture"
+    }
+  ],
+  "snapshot": {
+    "design_complete": false,
+    "engineering_accepted": false,
+    "environment": "simulation",
+    "events": [
+      {
+        "command": {
+          "actor": "sim-planner",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "bom_sha256": "815a94a2f906213a5610fd8826f95e5a2673d62267f03e22b6dd13ea2239b7b8",
+            "draft_material_request": "SIM-MR-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+            "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+          },
+          "evidence": [
+            "c549781b4e2f09f7c78de73ed9f5164af7e2156e7f68d885cf809206b687a8e4"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:1:purchase",
+          "kind": "purchase",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "planner",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "previous_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+        "seq": 1,
+        "sha256": "fc6b38652b440b6684b94d0cb2e2f852fafdce44b1f3a0b9249d96ea722f997a"
+      },
+      {
+        "command": {
+          "actor": "sim-stock",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "receipt": "SIM-PR-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+          },
+          "evidence": [
+            "57ccbf1cf77d3148b32002d52d83e6d8f39f08901b730f0977f3bc6ea5d265c9"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:2:receive",
+          "kind": "receive",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "stock",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "previous_sha256": "fc6b38652b440b6684b94d0cb2e2f852fafdce44b1f3a0b9249d96ea722f997a",
+        "seq": 2,
+        "sha256": "112dec088492e95ac3989bf37126f3b97efd20c40da6ff951f59c542273e8b63"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "inspection": "SIM-QI-EARLY",
+            "result": "pass"
+          },
+          "evidence": [
+            "a63171f62aa4e4395196c6a825701173725e666c2f9a11681aa79718497a7b51"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:3:inspect",
+          "kind": "inspect",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "previous_sha256": "112dec088492e95ac3989bf37126f3b97efd20c40da6ff951f59c542273e8b63",
+        "seq": 3,
+        "sha256": "d4ebfd3b20dd019bf05c76c0558142fae5731fcf8e5c1a12e84e6cd8ef71cca9"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "inspection": "SIM-QI-NCR",
+            "result": "fail"
+          },
+          "evidence": [
+            "935849cfe4407d0e56ff728ccd071e1a2674d41d101908ce13a3e658645e1be6"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:4:inspect",
+          "kind": "inspect",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "previous_sha256": "d4ebfd3b20dd019bf05c76c0558142fae5731fcf8e5c1a12e84e6cd8ef71cca9",
+        "seq": 4,
+        "sha256": "6cc6045cf29fa6f01a2fec6ac17a9aad497bc5e2e32d8d4c13b0ac98a8e1c00f"
+      },
+      {
+        "command": {
+          "actor": "sim-technician",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "nonconformance": "SIM-NCR-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+            "rework_order": "SIM-REWORK-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+          },
+          "evidence": [
+            "1bc39e97ae9319553f030875ec20754278230214cd6073ac9beaf3978eea10e4"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:5:rework",
+          "kind": "rework",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "technician",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "previous_sha256": "6cc6045cf29fa6f01a2fec6ac17a9aad497bc5e2e32d8d4c13b0ac98a8e1c00f",
+        "seq": 5,
+        "sha256": "2b06275f8041fcb6cd1f731c5cbd64ac407fb0c2bba49b7b56c061b0b81cf62c"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "inspection": "SIM-QI-PASS-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+            "result": "pass"
+          },
+          "evidence": [
+            "ef5eec00076a8add841358c958ed4c6f490a61dc8a4d7df1a8bcf8a76dfe1b37"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:6:inspect",
+          "kind": "inspect",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "previous_sha256": "2b06275f8041fcb6cd1f731c5cbd64ac407fb0c2bba49b7b56c061b0b81cf62c",
+        "seq": 6,
+        "sha256": "858d37746c35b5e1b0f96611907e9910d62ac3d933bd8e6224dc6b7666fc09e0"
+      },
+      {
+        "command": {
+          "actor": "sim-assembler",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "manufacture_entry": "SIM-SE-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+            "work_order": "SIM-WO-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+          },
+          "evidence": [
+            "62a55e8d67f44ad0eaec2b12661560b93d11c706e4503216ca6ce0155c706644"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:7:assemble",
+          "kind": "assemble",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "assembler",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "previous_sha256": "858d37746c35b5e1b0f96611907e9910d62ac3d933bd8e6224dc6b7666fc09e0",
+        "seq": 7,
+        "sha256": "a3c41c01397745ef10350fbfb6eece2b8fd7d5f070b9515fd41765a7a71318fb"
+      },
+      {
+        "command": {
+          "actor": "sim-engineer",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "installation_record": "SIM-INSTALL-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+          },
+          "evidence": [
+            "73a99e40d83e3256c42a381d86688956de8ce16d4112922e3e46e16f0d043ac4"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:8:install",
+          "kind": "install",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "engineer",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "previous_sha256": "a3c41c01397745ef10350fbfb6eece2b8fd7d5f070b9515fd41765a7a71318fb",
+        "seq": 8,
+        "sha256": "e30f27f7be120d7d87151151d17578ef2c2ff106bc14386c9d7abda346f89485"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "result": "pass",
+            "test_record": "SIM-TEST-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+          },
+          "evidence": [
+            "b76578e51375dcbc770d7716dab91969d83ae330f5b83a222f2b3c31b2849b80"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:9:test",
+          "kind": "test",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "previous_sha256": "e30f27f7be120d7d87151151d17578ef2c2ff106bc14386c9d7abda346f89485",
+        "seq": 9,
+        "sha256": "9ec702daf26e1e9f85e285db2c316cb5dca60fa8dccda5bc17f88bfb01f730c9"
+      },
+      {
+        "command": {
+          "actor": "sim-reviewer",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "review_record": "SIM-INDEPENDENT-REVIEW-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+            "test_id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:9:test"
+          },
+          "evidence": [
+            "80aee70cdf640f5eb63197250d852b1a7b74c594246f254c0804b84f3b2e74de"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:10:handback",
+          "kind": "handback",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "reviewer",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "previous_sha256": "9ec702daf26e1e9f85e285db2c316cb5dca60fa8dccda5bc17f88bfb01f730c9",
+        "seq": 10,
+        "sha256": "2b890b8f60b7c1c3c0b32754b82ec4594b3bbe69e361f2166cfad48f9d778539"
+      },
+      {
+        "command": {
+          "actor": "sim-observer",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "incident_id": "SIM-INCIDENT-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+          },
+          "evidence": [
+            "a9c20292cb817f1c3c99e95d74eef613699cac78a9c7e770c09b4aca9f48f464"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:11:alarm",
+          "kind": "alarm",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "observer",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "previous_sha256": "2b890b8f60b7c1c3c0b32754b82ec4594b3bbe69e361f2166cfad48f9d778539",
+        "seq": 11,
+        "sha256": "ed2d2db2744d6e5ebec049c007bb21eecad26fe59454474235ef6a1c68f8ff1d"
+      },
+      {
+        "command": {
+          "actor": "sim-maintainer",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "maintenance_case": "SIM-REPAIR-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+          },
+          "evidence": [
+            "324175719a3681fb38b1c4ed279ed543b0fde95dee132462d20eaa4c61a4d817"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:12:maintain",
+          "kind": "maintain",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "maintainer",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "previous_sha256": "ed2d2db2744d6e5ebec049c007bb21eecad26fe59454474235ef6a1c68f8ff1d",
+        "seq": 12,
+        "sha256": "e7177d7f7479431345cff8db60c7f27a6e1f10cf8cf3830d3b68c1dd23a34f74"
+      },
+      {
+        "command": {
+          "actor": "sim-maintainer",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "removal_record": "SIM-REMOVE-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+          },
+          "evidence": [
+            "c4eaa948d315e2e58197368c42c27bd690fcbf84c70fa48d9575d0b96e9d7799"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:13:remove",
+          "kind": "remove",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "maintainer",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+        },
+        "previous_sha256": "e7177d7f7479431345cff8db60c7f27a6e1f10cf8cf3830d3b68c1dd23a34f74",
+        "seq": 13,
+        "sha256": "b9994a4cdaf1d7141e680f3ef125a9e78b49a153147821bed494cf681e0d402d"
+      },
+      {
+        "command": {
+          "actor": "sim-planner",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "bom_sha256": "815a94a2f906213a5610fd8826f95e5a2673d62267f03e22b6dd13ea2239b7b8",
+            "draft_material_request": "SIM-MR-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+            "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+          },
+          "evidence": [
+            "f4926236f140fa63d048669936ffc0ecdbd4237a8abaebaf0759c893866f7556"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:14:purchase",
+          "kind": "purchase",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "planner",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "previous_sha256": "b9994a4cdaf1d7141e680f3ef125a9e78b49a153147821bed494cf681e0d402d",
+        "seq": 14,
+        "sha256": "50a7db4351c1fab606ed6e95c455fc313322cecc0f3e79f6c7eb8d4571802688"
+      },
+      {
+        "command": {
+          "actor": "sim-stock",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "receipt": "SIM-PR-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+          },
+          "evidence": [
+            "2e16eb477cdbaa5d3e2cb6709c30af2c2496ec183046e898a061aa88e7c9c189"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:15:receive",
+          "kind": "receive",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "stock",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "previous_sha256": "50a7db4351c1fab606ed6e95c455fc313322cecc0f3e79f6c7eb8d4571802688",
+        "seq": 15,
+        "sha256": "8a2130fee15f2d77f488271029d88536d2b66ca1b351daed52c7123fb0e32c8a"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "inspection": "SIM-QI-PASS-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+            "result": "pass"
+          },
+          "evidence": [
+            "23e9ab291d7d99bfb25f5277f6b34bee4a286605938d0c722bddb3e684149be6"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:16:inspect",
+          "kind": "inspect",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "previous_sha256": "8a2130fee15f2d77f488271029d88536d2b66ca1b351daed52c7123fb0e32c8a",
+        "seq": 16,
+        "sha256": "8549f409d84dbd69bed8f06e398572394be8cdbe052a2124fc9a246fdb2b5a3d"
+      },
+      {
+        "command": {
+          "actor": "sim-assembler",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "manufacture_entry": "SIM-SE-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+            "work_order": "SIM-WO-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+          },
+          "evidence": [
+            "91fb1cc57ed61ba2f24e5bd641c801b0cf921b876fc5c8535e3e14ba7a75a2b6"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:17:assemble",
+          "kind": "assemble",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "assembler",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "previous_sha256": "8549f409d84dbd69bed8f06e398572394be8cdbe052a2124fc9a246fdb2b5a3d",
+        "seq": 17,
+        "sha256": "1fa59fb56106f7f7260c645f831acfd93d923d43d7dba3d7f0167f34506bbf5d"
+      },
+      {
+        "command": {
+          "actor": "sim-engineer",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "installation_record": "SIM-INSTALL-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+            "replaces_serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+          },
+          "evidence": [
+            "577175e4055e4a4c5c58450fa81e1e116f31b1cf2838eeee1dd25e1f9431a060"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:18:install",
+          "kind": "install",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "engineer",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "previous_sha256": "1fa59fb56106f7f7260c645f831acfd93d923d43d7dba3d7f0167f34506bbf5d",
+        "seq": 18,
+        "sha256": "077fb9cf3e5b678c0ee0a91c19001c2eccaa77a96757465877f8fec6ba89329f"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "result": "pass",
+            "test_record": "SIM-TEST-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+          },
+          "evidence": [
+            "8b9e01431f0fa48e939339b6dddce7678e91888dab34162ccc75ea57c4957617"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:19:test",
+          "kind": "test",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "previous_sha256": "077fb9cf3e5b678c0ee0a91c19001c2eccaa77a96757465877f8fec6ba89329f",
+        "seq": 19,
+        "sha256": "c4fd0ced8541414ef8bd5983668073a12db15f9bb1b57c7c93ab1f889c9cc5a9"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "result": "fail",
+            "test_record": "SIM-TEST-LATE-FAIL"
+          },
+          "evidence": [
+            "bd075d6b77f31bd463b0ca8afc10aa55032229c33e32847241dd516ca44ebf86"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:20:test",
+          "kind": "test",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "previous_sha256": "c4fd0ced8541414ef8bd5983668073a12db15f9bb1b57c7c93ab1f889c9cc5a9",
+        "seq": 20,
+        "sha256": "e8ec8c3ad0caa3f5956912ffae1d1cea4687f1d559d6fd2040ddead75eb7a250"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "result": "pass",
+            "test_record": "SIM-RETEST-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+          },
+          "evidence": [
+            "3416ea1990350ecfe46da7835a87465aa38ea708297d4779ea6a96a3ea22d494"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:21:test",
+          "kind": "test",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "previous_sha256": "e8ec8c3ad0caa3f5956912ffae1d1cea4687f1d559d6fd2040ddead75eb7a250",
+        "seq": 21,
+        "sha256": "68f03d0f87f192f9da8a629b8e86cb2a140c08604db455cefadb4bade348d29f"
+      },
+      {
+        "command": {
+          "actor": "sim-reviewer",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "review_record": "SIM-INDEPENDENT-REVIEW-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+            "test_id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:21:test"
+          },
+          "evidence": [
+            "7d2e08d45b8e1fddac95a586c0225acdd7dbba7c49307b5327bf8d93224c64b6"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:22:handback",
+          "kind": "handback",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "reviewer",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "previous_sha256": "68f03d0f87f192f9da8a629b8e86cb2a140c08604db455cefadb4bade348d29f",
+        "seq": 22,
+        "sha256": "791295fe963caeb0193d0a473eb874a16915d4437e2907ae3b601da36d05a31c"
+      },
+      {
+        "command": {
+          "actor": "sim-engineer",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "proposed_product_revision_sha256": "c9d4695c8fae6164d9c852a8145114c4dff1ca11c248bef3ee849f43d8387436"
+          },
+          "evidence": [
+            "6b216ade4da82524701557fea3a13f615c03e99a4381ab028a4e7757bd40b2ab"
+          ],
+          "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:23:revision-proposal",
+          "kind": "revision-proposal",
+          "product_revision_sha256": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "role": "engineer",
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "previous_sha256": "791295fe963caeb0193d0a473eb874a16915d4437e2907ae3b601da36d05a31c",
+        "seq": 23,
+        "sha256": "5f7c0b1bb5f1b780b3cb3e679c119dd7c62b12a89630c8d62f9127e464376358"
+      },
+      {
+        "command": {
+          "actor": "sim-planner",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "bom_sha256": "34a1cfdf77ad02fea07bd673638a9edc78eac52193a4dad9790f37556cfdc75f",
+            "draft_material_request": "SIM-MR-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+            "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+          },
+          "evidence": [
+            "c4cf9be8dee85828d45adf02bad6d25084726ff6a767b56b22c59abfee64268a"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:24:purchase",
+          "kind": "purchase",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "planner",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "previous_sha256": "5f7c0b1bb5f1b780b3cb3e679c119dd7c62b12a89630c8d62f9127e464376358",
+        "seq": 24,
+        "sha256": "daddee3b8de97fca576e1a3bb8aa647dbf060aa20ad342e8aa54861a6f5f6567"
+      },
+      {
+        "command": {
+          "actor": "sim-stock",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "receipt": "SIM-PR-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+          },
+          "evidence": [
+            "eb5b43d0bad3927f57d32c9c2d8c3e395bef22e859112e69ec4a0c6c32ffec52"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:25:receive",
+          "kind": "receive",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "stock",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "previous_sha256": "daddee3b8de97fca576e1a3bb8aa647dbf060aa20ad342e8aa54861a6f5f6567",
+        "seq": 25,
+        "sha256": "7ebcf2881c30356321bb248f4c0ee5e3da1ac46b898e7f6f55b34946a10f3b4d"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "inspection": "SIM-QI-EARLY",
+            "result": "pass"
+          },
+          "evidence": [
+            "b38cdc3e719a1df6d271c0b8e2d01dbfc4e533e05fae651f81182910ec8bf054"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:26:inspect",
+          "kind": "inspect",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "previous_sha256": "7ebcf2881c30356321bb248f4c0ee5e3da1ac46b898e7f6f55b34946a10f3b4d",
+        "seq": 26,
+        "sha256": "5c3858274cb1215fb07872635ed844a5c49767cd6a9ca17faddd19e0b43bc9b5"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "inspection": "SIM-QI-NCR",
+            "result": "fail"
+          },
+          "evidence": [
+            "35f354ca3cf2d997801303c8763f0bebeba40d3a32c0853e95f74f593565e895"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:27:inspect",
+          "kind": "inspect",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "previous_sha256": "5c3858274cb1215fb07872635ed844a5c49767cd6a9ca17faddd19e0b43bc9b5",
+        "seq": 27,
+        "sha256": "269ceff3aa8dd561f14422d4b5e4346c60c066f30c0c72e118475bff43f1b589"
+      },
+      {
+        "command": {
+          "actor": "sim-technician",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "nonconformance": "SIM-NCR-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+            "rework_order": "SIM-REWORK-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+          },
+          "evidence": [
+            "1c97dff126f5f7b3131d1dca81df074fe85ab637850c5fab9c3028bc3cefe373"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:28:rework",
+          "kind": "rework",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "technician",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "previous_sha256": "269ceff3aa8dd561f14422d4b5e4346c60c066f30c0c72e118475bff43f1b589",
+        "seq": 28,
+        "sha256": "07633caf3efde576ac0e8581d4c77f4fc9d5cbb3a72c93e976c9d0069aba66e4"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "inspection": "SIM-QI-PASS-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+            "result": "pass"
+          },
+          "evidence": [
+            "1951dd20771f15a99aa3a0d49cca570dd56c47ed197e80aaae0032303dc0cbad"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:29:inspect",
+          "kind": "inspect",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "previous_sha256": "07633caf3efde576ac0e8581d4c77f4fc9d5cbb3a72c93e976c9d0069aba66e4",
+        "seq": 29,
+        "sha256": "3a3aad688360a064696ebd11e52d05e46fb49965f871ea837b0e97fa21951cbf"
+      },
+      {
+        "command": {
+          "actor": "sim-assembler",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "manufacture_entry": "SIM-SE-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+            "work_order": "SIM-WO-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+          },
+          "evidence": [
+            "f9b2a8739269e9e100445817b26d26c28910034c223128b4cb2a7616b8424477"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:30:assemble",
+          "kind": "assemble",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "assembler",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "previous_sha256": "3a3aad688360a064696ebd11e52d05e46fb49965f871ea837b0e97fa21951cbf",
+        "seq": 30,
+        "sha256": "20f36196f169e612176e4d550d7004e0d419a0a8f0f5433981ff5694042befb9"
+      },
+      {
+        "command": {
+          "actor": "sim-engineer",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "installation_record": "SIM-INSTALL-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+          },
+          "evidence": [
+            "8f61bed66d33739d6c576ceb7369981f2df69a916e30a39f850f17d221e52770"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:31:install",
+          "kind": "install",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "engineer",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "previous_sha256": "20f36196f169e612176e4d550d7004e0d419a0a8f0f5433981ff5694042befb9",
+        "seq": 31,
+        "sha256": "e83740df0ec2e75ee158a53efa77401655c2ee3f406d82280bc8afa5d508e14d"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "result": "pass",
+            "test_record": "SIM-TEST-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+          },
+          "evidence": [
+            "28ed5c99d9e6fdf3ec9f0de54ceb098b2544864a2fa1cdd92084f2420af21041"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:32:test",
+          "kind": "test",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "previous_sha256": "e83740df0ec2e75ee158a53efa77401655c2ee3f406d82280bc8afa5d508e14d",
+        "seq": 32,
+        "sha256": "2f775604aa5950389cf053f197924b60464cc819a3287c42d4972c17dca53828"
+      },
+      {
+        "command": {
+          "actor": "sim-reviewer",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "review_record": "SIM-INDEPENDENT-REVIEW-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+            "test_id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:32:test"
+          },
+          "evidence": [
+            "1e468a3619798cef93f89521bdd5255fc88e5ab063700e1e24b3de5325ee1ced"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:33:handback",
+          "kind": "handback",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "reviewer",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "previous_sha256": "2f775604aa5950389cf053f197924b60464cc819a3287c42d4972c17dca53828",
+        "seq": 33,
+        "sha256": "ecd7507a148d74e00e16f63cd688ff3caf9adc355c768b19b37a4671ab884180"
+      },
+      {
+        "command": {
+          "actor": "sim-observer",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "incident_id": "SIM-INCIDENT-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+          },
+          "evidence": [
+            "6c22e3a5c76005f439236a907dd4e6ff8f89a59bd935d0f2ff08aa495b83ae50"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:34:alarm",
+          "kind": "alarm",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "observer",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "previous_sha256": "ecd7507a148d74e00e16f63cd688ff3caf9adc355c768b19b37a4671ab884180",
+        "seq": 34,
+        "sha256": "d8ccf653753323a6de5af05b1358423bc47b24d3fb2bfbc75747a78aaeefe29e"
+      },
+      {
+        "command": {
+          "actor": "sim-maintainer",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "maintenance_case": "SIM-REPAIR-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+          },
+          "evidence": [
+            "b1457535d0b16cf1b4962e1f44c55b769d89b7206fc3865029ed8e0fe7421121"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:35:maintain",
+          "kind": "maintain",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "maintainer",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "previous_sha256": "d8ccf653753323a6de5af05b1358423bc47b24d3fb2bfbc75747a78aaeefe29e",
+        "seq": 35,
+        "sha256": "32c04ad69ffdae6ffce6034f41b8d03526f300cc8ad781d79d7f03c3746e8904"
+      },
+      {
+        "command": {
+          "actor": "sim-maintainer",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "removal_record": "SIM-REMOVE-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+          },
+          "evidence": [
+            "4cafbc5d804401687a6eb6561a8c78a998b7405a6b9fa5bcb392ec90e0b80c01"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:36:remove",
+          "kind": "remove",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "maintainer",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+        },
+        "previous_sha256": "32c04ad69ffdae6ffce6034f41b8d03526f300cc8ad781d79d7f03c3746e8904",
+        "seq": 36,
+        "sha256": "bfc00987b40348e274ab55692cdeababc99566b1f5cce6e21400c3092223144d"
+      },
+      {
+        "command": {
+          "actor": "sim-planner",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "bom_sha256": "34a1cfdf77ad02fea07bd673638a9edc78eac52193a4dad9790f37556cfdc75f",
+            "draft_material_request": "SIM-MR-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+            "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+          },
+          "evidence": [
+            "5b94e34a7f55baddcbf1655a58ff7db66395ad06ddcaa023286c757f959bb22a"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:37:purchase",
+          "kind": "purchase",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "planner",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "previous_sha256": "bfc00987b40348e274ab55692cdeababc99566b1f5cce6e21400c3092223144d",
+        "seq": 37,
+        "sha256": "8b3c2cb6d8cb764d1f632f14a924ce6ba04fa6b18281724d7833e6e3d8e972a0"
+      },
+      {
+        "command": {
+          "actor": "sim-stock",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "receipt": "SIM-PR-SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+          },
+          "evidence": [
+            "a6d5823c79251d9559d0cbdf3a8c9c9f1fe16f5895e6a719f31823d745e2d1cc"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:38:receive",
+          "kind": "receive",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "stock",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "previous_sha256": "8b3c2cb6d8cb764d1f632f14a924ce6ba04fa6b18281724d7833e6e3d8e972a0",
+        "seq": 38,
+        "sha256": "d44e6f441603ee42bdbe2ea29846706b8bdee0e4cd0fc145c2ffaee7c85417c3"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "inspection": "SIM-QI-PASS-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+            "result": "pass"
+          },
+          "evidence": [
+            "83ed40596e9e8238df59eadc5b6db1a935ea4f6f3f22b97691c0866a1cf0d383"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:39:inspect",
+          "kind": "inspect",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "previous_sha256": "d44e6f441603ee42bdbe2ea29846706b8bdee0e4cd0fc145c2ffaee7c85417c3",
+        "seq": 39,
+        "sha256": "11f17341e55fd628a862b1210402d8f6d12f25ab772d532bff84f4c4d4e043e2"
+      },
+      {
+        "command": {
+          "actor": "sim-assembler",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "manufacture_entry": "SIM-SE-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+            "work_order": "SIM-WO-SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+          },
+          "evidence": [
+            "ceae1397f02ef5df0aa3573e47f1e405cf35b20e072d123a2f9d2286122fea9c"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:40:assemble",
+          "kind": "assemble",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "assembler",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "previous_sha256": "11f17341e55fd628a862b1210402d8f6d12f25ab772d532bff84f4c4d4e043e2",
+        "seq": 40,
+        "sha256": "14dbbba7505f3485f7b172960d66f3092a9cc835ac43b3fab0345ed407bcfff6"
+      },
+      {
+        "command": {
+          "actor": "sim-engineer",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "installation_record": "SIM-INSTALL-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+            "replaces_serial": "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+          },
+          "evidence": [
+            "5b9576c94c96c07b729e92f72725989a976e8c01e304012b308d6b555a859526"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:41:install",
+          "kind": "install",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "engineer",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "previous_sha256": "14dbbba7505f3485f7b172960d66f3092a9cc835ac43b3fab0345ed407bcfff6",
+        "seq": 41,
+        "sha256": "cf981c93cddd8f9f3f31bd7b2d8c2ef9e83118cb9e6665c4242149a0103ffc1f"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "result": "pass",
+            "test_record": "SIM-TEST-SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+          },
+          "evidence": [
+            "23d7db0770c3b5a127839ce2898e68863b0bac5a4b75f34b74c32e1db0892e7a"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:42:test",
+          "kind": "test",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "previous_sha256": "cf981c93cddd8f9f3f31bd7b2d8c2ef9e83118cb9e6665c4242149a0103ffc1f",
+        "seq": 42,
+        "sha256": "d8077d178bcf26c949d4310f087efb06e8a187ff5906759efec6a9364050f56c"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "result": "fail",
+            "test_record": "SIM-TEST-LATE-FAIL"
+          },
+          "evidence": [
+            "3c06d64d1519788ae796e6c7a10320b8129aef35e28b60297b0dcfab47fc25c5"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:43:test",
+          "kind": "test",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "previous_sha256": "d8077d178bcf26c949d4310f087efb06e8a187ff5906759efec6a9364050f56c",
+        "seq": 43,
+        "sha256": "850778ac2f03eab64d3977bb57572452426e19d4c446588e481819f985ddca3c"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "result": "pass",
+            "test_record": "SIM-RETEST-SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+          },
+          "evidence": [
+            "907b02883000b1da7a5f6bd9b461836064d217e7fb1cbdc65e8d6e4e262e636f"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:44:test",
+          "kind": "test",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "previous_sha256": "850778ac2f03eab64d3977bb57572452426e19d4c446588e481819f985ddca3c",
+        "seq": 44,
+        "sha256": "0eb090b01c94acf73b9877a865095dac40d46935928c1367c8cc1fe9562a41bb"
+      },
+      {
+        "command": {
+          "actor": "sim-reviewer",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "review_record": "SIM-INDEPENDENT-REVIEW-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+            "test_id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:44:test"
+          },
+          "evidence": [
+            "49db4fbae9158cf6d78cb952f81110263922774025269423d4d9c3b7ba85b76e"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:45:handback",
+          "kind": "handback",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "reviewer",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "previous_sha256": "0eb090b01c94acf73b9877a865095dac40d46935928c1367c8cc1fe9562a41bb",
+        "seq": 45,
+        "sha256": "394d883284c004581c39aed14d5cf7e80a2b88c8839d87d608540b15c5d8a774"
+      },
+      {
+        "command": {
+          "actor": "sim-engineer",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "proposed_product_revision_sha256": "c9d4695c8fae6164d9c852a8145114c4dff1ca11c248bef3ee849f43d8387436"
+          },
+          "evidence": [
+            "55384de0e891e6cf65ee37f9ec259151ba03aafa7899a2dff8bba2bf4903ef09"
+          ],
+          "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:46:revision-proposal",
+          "kind": "revision-proposal",
+          "product_revision_sha256": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "role": "engineer",
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "previous_sha256": "394d883284c004581c39aed14d5cf7e80a2b88c8839d87d608540b15c5d8a774",
+        "seq": 46,
+        "sha256": "75bb94bedacc5fb55d596903c0707640325166d7feb164e8d31855acc8629e48"
+      },
+      {
+        "command": {
+          "actor": "sim-planner",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "bom_sha256": "c66dc71a5a8b9648e696f8cf6cd1016086ea8cc1e665725f5bfcbfc5f5bbf454",
+            "draft_material_request": "SIM-MR-SIM-SIM-BAG-LAUNCH-0000-OLD",
+            "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-LAUNCH-0000-OLD"
+          },
+          "evidence": [
+            "211d9121665314bcefa3fccd55256394772dda5d47f391830c9227f42e0546b5"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:47:purchase",
+          "kind": "purchase",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "planner",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "previous_sha256": "75bb94bedacc5fb55d596903c0707640325166d7feb164e8d31855acc8629e48",
+        "seq": 47,
+        "sha256": "37a5c0bfbd3c05fedc19264568cc7966fe72a80e35be52f71edde80e6391739f"
+      },
+      {
+        "command": {
+          "actor": "sim-stock",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "receipt": "SIM-PR-SIM-SIM-BAG-LAUNCH-0000-OLD"
+          },
+          "evidence": [
+            "1d09bdcdac28c070c8004daff2a12ca3cd8b1bd66891430bd2658f8aa16d1a64"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:48:receive",
+          "kind": "receive",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "stock",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "previous_sha256": "37a5c0bfbd3c05fedc19264568cc7966fe72a80e35be52f71edde80e6391739f",
+        "seq": 48,
+        "sha256": "7c38775d3211153fe282f2f54aba840b1654bf15aa30db7fad6022bc7e0a2178"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "inspection": "SIM-QI-EARLY",
+            "result": "pass"
+          },
+          "evidence": [
+            "e2045990852975e5e6142b45d01535c7aaa3dbb55423d37af60e086acbf98aa5"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:49:inspect",
+          "kind": "inspect",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "previous_sha256": "7c38775d3211153fe282f2f54aba840b1654bf15aa30db7fad6022bc7e0a2178",
+        "seq": 49,
+        "sha256": "62523114f185a066a0d0ab3f606031ede53ea4d6da332638ed674d2dea56910e"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "inspection": "SIM-QI-NCR",
+            "result": "fail"
+          },
+          "evidence": [
+            "504632c4a3bc1ce46ddf41fca32e2e215f10161c3baef915a41c024d1c419318"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:50:inspect",
+          "kind": "inspect",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "previous_sha256": "62523114f185a066a0d0ab3f606031ede53ea4d6da332638ed674d2dea56910e",
+        "seq": 50,
+        "sha256": "eb2c23e8e05dcdcfb50921dd72804d214a5e34164a0c7a00990d4fcdf3b8107b"
+      },
+      {
+        "command": {
+          "actor": "sim-technician",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "nonconformance": "SIM-NCR-SIM-SIM-BAG-LAUNCH-0000-OLD",
+            "rework_order": "SIM-REWORK-SIM-SIM-BAG-LAUNCH-0000-OLD"
+          },
+          "evidence": [
+            "381ad7d9b4bd8f20ff6b670707f3595057ea1e86d06282a7b39b165d45e2a142"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:51:rework",
+          "kind": "rework",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "technician",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "previous_sha256": "eb2c23e8e05dcdcfb50921dd72804d214a5e34164a0c7a00990d4fcdf3b8107b",
+        "seq": 51,
+        "sha256": "9910d324fc8523bd7ff518df4adc44e88455989aac397700e7cf0cddb50bfff4"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "inspection": "SIM-QI-PASS-SIM-SIM-BAG-LAUNCH-0000-OLD",
+            "result": "pass"
+          },
+          "evidence": [
+            "ee060763a0f27b2b7a10b2ea51d00d38131a16385496a7471f1f6ac7c4b62fbf"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:52:inspect",
+          "kind": "inspect",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "previous_sha256": "9910d324fc8523bd7ff518df4adc44e88455989aac397700e7cf0cddb50bfff4",
+        "seq": 52,
+        "sha256": "c7361b9dae7616b8f8cbda71c471c35ce20e1def0c527178fe554254f5df0e9f"
+      },
+      {
+        "command": {
+          "actor": "sim-assembler",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "manufacture_entry": "SIM-SE-SIM-SIM-BAG-LAUNCH-0000-OLD",
+            "work_order": "SIM-WO-SIM-SIM-BAG-LAUNCH-0000-OLD"
+          },
+          "evidence": [
+            "03fe5d653a542c2407a97f47ef1905300440786a94c0e387dc4b11c6dd73d51b"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:53:assemble",
+          "kind": "assemble",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "assembler",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "previous_sha256": "c7361b9dae7616b8f8cbda71c471c35ce20e1def0c527178fe554254f5df0e9f",
+        "seq": 53,
+        "sha256": "4a0a79ec3ec262ec88e60f364c9ab531d63b634d349a1bd5180781752b5196b8"
+      },
+      {
+        "command": {
+          "actor": "sim-engineer",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "installation_record": "SIM-INSTALL-SIM-SIM-BAG-LAUNCH-0000-OLD"
+          },
+          "evidence": [
+            "b008836330dd05c7218dfcc42230dd1c7fa8c7ca557d54e00b1053cc152cb76b"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:54:install",
+          "kind": "install",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "engineer",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "previous_sha256": "4a0a79ec3ec262ec88e60f364c9ab531d63b634d349a1bd5180781752b5196b8",
+        "seq": 54,
+        "sha256": "0dc852052616d999721181ad9fb8764672dc986e766fdb9515bac3e6eb21504a"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "result": "pass",
+            "test_record": "SIM-TEST-SIM-SIM-BAG-LAUNCH-0000-OLD"
+          },
+          "evidence": [
+            "984b81fdc4cf1f25dcc3d93238571e63fc8cb9ff10b0f400c4eb6b3fa2e3bd23"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:55:test",
+          "kind": "test",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "previous_sha256": "0dc852052616d999721181ad9fb8764672dc986e766fdb9515bac3e6eb21504a",
+        "seq": 55,
+        "sha256": "713ab44f4e2b4366f431b0cb3ee04253a33fa85ed84518d6c0846d8252094d14"
+      },
+      {
+        "command": {
+          "actor": "sim-reviewer",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "review_record": "SIM-INDEPENDENT-REVIEW-SIM-SIM-BAG-LAUNCH-0000-OLD",
+            "test_id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:55:test"
+          },
+          "evidence": [
+            "76472c674970798f3de7b9d03a38c4753d9e049ad3a07a231d1b90c41e5a906c"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:56:handback",
+          "kind": "handback",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "reviewer",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "previous_sha256": "713ab44f4e2b4366f431b0cb3ee04253a33fa85ed84518d6c0846d8252094d14",
+        "seq": 56,
+        "sha256": "3a3b638db1f1d37bf647e47edfc4001355ca43316024b6a8ca354aeb4d9c4955"
+      },
+      {
+        "command": {
+          "actor": "sim-observer",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "incident_id": "SIM-INCIDENT-SIM-SIM-BAG-LAUNCH-0000-OLD"
+          },
+          "evidence": [
+            "8d693b923449da075260892d069023aa4bfe2014d5aae2921d45f8ec6e442ec3"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:57:alarm",
+          "kind": "alarm",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "observer",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "previous_sha256": "3a3b638db1f1d37bf647e47edfc4001355ca43316024b6a8ca354aeb4d9c4955",
+        "seq": 57,
+        "sha256": "85a66cf691df9d97cf3114b112d50977b05a69271f5df200cf05493cc8254fde"
+      },
+      {
+        "command": {
+          "actor": "sim-maintainer",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "maintenance_case": "SIM-REPAIR-SIM-SIM-BAG-LAUNCH-0000-OLD"
+          },
+          "evidence": [
+            "73e90e2bd2a9b07d1b3fe3d255b2334793af4e27c6107cad621208246ce773cc"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:58:maintain",
+          "kind": "maintain",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "maintainer",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "previous_sha256": "85a66cf691df9d97cf3114b112d50977b05a69271f5df200cf05493cc8254fde",
+        "seq": 58,
+        "sha256": "81d2171338a0c5fcec800d8b716c0d708528845d2bdea5eae523dd0ec0bcc82d"
+      },
+      {
+        "command": {
+          "actor": "sim-maintainer",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "removal_record": "SIM-REMOVE-SIM-SIM-BAG-LAUNCH-0000-OLD"
+          },
+          "evidence": [
+            "0a7bd72b67cfea13ab2cf3295d0184a0287ae89e60ba338814ed19bbda717973"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:59:remove",
+          "kind": "remove",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "maintainer",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+        },
+        "previous_sha256": "81d2171338a0c5fcec800d8b716c0d708528845d2bdea5eae523dd0ec0bcc82d",
+        "seq": 59,
+        "sha256": "e961d2f42e60f363e0c25447945eec8f44e6e362f7a2361de21a8a667586ae3d"
+      },
+      {
+        "command": {
+          "actor": "sim-planner",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "bom_sha256": "c66dc71a5a8b9648e696f8cf6cd1016086ea8cc1e665725f5bfcbfc5f5bbf454",
+            "draft_material_request": "SIM-MR-SIM-SIM-BAG-LAUNCH-0000-NEW",
+            "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-LAUNCH-0000-NEW"
+          },
+          "evidence": [
+            "d5d051e130165f739289556d2267cbfdebe851defbe39d0df36bc7543b8e663f"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:60:purchase",
+          "kind": "purchase",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "planner",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "previous_sha256": "e961d2f42e60f363e0c25447945eec8f44e6e362f7a2361de21a8a667586ae3d",
+        "seq": 60,
+        "sha256": "94e35c3e449953ac8b2b240ac962c554ed8e016f660ea3c80ce2d33706aee38d"
+      },
+      {
+        "command": {
+          "actor": "sim-stock",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "receipt": "SIM-PR-SIM-SIM-BAG-LAUNCH-0000-NEW"
+          },
+          "evidence": [
+            "1d1fd8ae01a96993ca7557b9ffd33c9046c7122d8f16f4fe70e6bd40c70c8064"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:61:receive",
+          "kind": "receive",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "stock",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "previous_sha256": "94e35c3e449953ac8b2b240ac962c554ed8e016f660ea3c80ce2d33706aee38d",
+        "seq": 61,
+        "sha256": "6916e580cab99c1bdcf05068d1daf475b68f634d5136fd44c5d4cce6be1fecb1"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "inspection": "SIM-QI-PASS-SIM-SIM-BAG-LAUNCH-0000-NEW",
+            "result": "pass"
+          },
+          "evidence": [
+            "b5b58c296361f265306544eb32c8d9c73051344f2aa84fdbf249e4d2252a39ae"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:62:inspect",
+          "kind": "inspect",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "previous_sha256": "6916e580cab99c1bdcf05068d1daf475b68f634d5136fd44c5d4cce6be1fecb1",
+        "seq": 62,
+        "sha256": "5a677b8db76c1c498c09b898e293d766f3a20e4645979622a4dc993aa7fd3c46"
+      },
+      {
+        "command": {
+          "actor": "sim-assembler",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "manufacture_entry": "SIM-SE-SIM-SIM-BAG-LAUNCH-0000-NEW",
+            "work_order": "SIM-WO-SIM-SIM-BAG-LAUNCH-0000-NEW"
+          },
+          "evidence": [
+            "8f8385303a630c111e5613c21b5b4218f5ea5d035b865ffc0927a33cfef5ff7d"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:63:assemble",
+          "kind": "assemble",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "assembler",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "previous_sha256": "5a677b8db76c1c498c09b898e293d766f3a20e4645979622a4dc993aa7fd3c46",
+        "seq": 63,
+        "sha256": "8fbf3aaff6624bcb5f6f34d394cbd11d1a0558957a486d2a9bb85652c7ac7bb6"
+      },
+      {
+        "command": {
+          "actor": "sim-engineer",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "installation_record": "SIM-INSTALL-SIM-SIM-BAG-LAUNCH-0000-NEW",
+            "replaces_serial": "SIM-SIM-BAG-LAUNCH-0000-OLD"
+          },
+          "evidence": [
+            "e68e3de3ee27214d392fe8a93ed113d32c72cd4e43ed0fed42e783883f5ca0a8"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:64:install",
+          "kind": "install",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "engineer",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "previous_sha256": "8fbf3aaff6624bcb5f6f34d394cbd11d1a0558957a486d2a9bb85652c7ac7bb6",
+        "seq": 64,
+        "sha256": "2fff3fe6c80ec7c89ec1c9f54053e9f41c7380cd066723f05b8db54978cba1f9"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "result": "pass",
+            "test_record": "SIM-TEST-SIM-SIM-BAG-LAUNCH-0000-NEW"
+          },
+          "evidence": [
+            "e1c94011654eee2086e92d5389b7abb8fadd9ee0e1b813d8bc5e03905100446e"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:65:test",
+          "kind": "test",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "previous_sha256": "2fff3fe6c80ec7c89ec1c9f54053e9f41c7380cd066723f05b8db54978cba1f9",
+        "seq": 65,
+        "sha256": "f83a42071c5e34bdeea475ba1d6f80b19be1f17b848014c002a86125b1aacff8"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "result": "fail",
+            "test_record": "SIM-TEST-LATE-FAIL"
+          },
+          "evidence": [
+            "f7e9036bf41a02fce1036bf0edceb40e4b50426e8368e33cb23d25ad477bfe3a"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:66:test",
+          "kind": "test",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "previous_sha256": "f83a42071c5e34bdeea475ba1d6f80b19be1f17b848014c002a86125b1aacff8",
+        "seq": 66,
+        "sha256": "39a077198b1245ee1dde6f9478c12644b6f078ac377bb4acd2d86401385f8fc1"
+      },
+      {
+        "command": {
+          "actor": "sim-inspector",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "result": "pass",
+            "test_record": "SIM-RETEST-SIM-SIM-BAG-LAUNCH-0000-NEW"
+          },
+          "evidence": [
+            "f9cb08977e79f5ad449b8b5a47f0740b7a79cc5af03ab77c162a23d01f48497e"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:67:test",
+          "kind": "test",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "inspector",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "previous_sha256": "39a077198b1245ee1dde6f9478c12644b6f078ac377bb4acd2d86401385f8fc1",
+        "seq": 67,
+        "sha256": "33dae6c7dfb255d36afee649dbe6415419b52b6f60f43da7d99bedc01cc36faf"
+      },
+      {
+        "command": {
+          "actor": "sim-reviewer",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "review_record": "SIM-INDEPENDENT-REVIEW-SIM-SIM-BAG-LAUNCH-0000-NEW",
+            "test_id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:67:test"
+          },
+          "evidence": [
+            "675514a197a3d3b729604eab0c91c8eb072d72bff6942b2c422bde76551dfe2e"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:68:handback",
+          "kind": "handback",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "reviewer",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "previous_sha256": "33dae6c7dfb255d36afee649dbe6415419b52b6f60f43da7d99bedc01cc36faf",
+        "seq": 68,
+        "sha256": "c9f9f0367f957ef3324f32185335d95532ad9ca6574d8411c788e2fdac21444a"
+      },
+      {
+        "command": {
+          "actor": "sim-engineer",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "configuration_sha256": "3ce432d51bd35acf8a3c06726b0623e812233bae51c22348212d3310818dd45c",
+          "data": {
+            "proposed_product_revision_sha256": "c9d4695c8fae6164d9c852a8145114c4dff1ca11c248bef3ee849f43d8387436"
+          },
+          "evidence": [
+            "faf23af09846be52ec01556cc4b66ae3447b9aa56d139e7ffa0523190db622f2"
+          ],
+          "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:69:revision-proposal",
+          "kind": "revision-proposal",
+          "product_revision_sha256": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "role": "engineer",
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+        },
+        "previous_sha256": "c9f9f0367f957ef3324f32185335d95532ad9ca6574d8411c788e2fdac21444a",
+        "seq": 69,
+        "sha256": "015870357f01ceffcfba36da979b0fa24028ad5198e153f56f3dcf1c2c875dc3"
+      }
+    ],
+    "head_sha256": "015870357f01ceffcfba36da979b0fa24028ad5198e153f56f3dcf1c2c875dc3",
+    "manufacturing_release": false,
+    "physical_release": false,
+    "physical_validation": false,
+    "state": {
+      "articles": {
+        "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW": {
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "inspections": [
+            {
+              "actor": "sim-inspector",
+              "event_id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:16:inspect",
+              "record": "SIM-QI-PASS-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+              "result": "pass"
+            }
+          ],
+          "installed_at": "SIM-BAG-CAR01-CARTRIDGE01",
+          "native_records": {
+            "bom_sha256": "815a94a2f906213a5610fd8826f95e5a2673d62267f03e22b6dd13ea2239b7b8",
+            "draft_material_request": "SIM-MR-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+            "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+            "manufacture_entry": "SIM-SE-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+            "receipt": "SIM-PR-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+            "work_order": "SIM-WO-SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+          },
+          "removed": false,
+          "revision": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "rework": [],
+          "stage": "installed"
+        },
+        "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD": {
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "batch": "SIM-BATCH-SIM-BAG-CAR01-CARTRIDGE01",
+          "inspections": [
+            {
+              "actor": "sim-inspector",
+              "event_id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:3:inspect",
+              "record": "SIM-QI-EARLY",
+              "result": "pass"
+            },
+            {
+              "actor": "sim-inspector",
+              "event_id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:4:inspect",
+              "record": "SIM-QI-NCR",
+              "result": "fail"
+            },
+            {
+              "actor": "sim-inspector",
+              "event_id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD:6:inspect",
+              "record": "SIM-QI-PASS-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+              "result": "pass"
+            }
+          ],
+          "installed_at": "SIM-BAG-CAR01-CARTRIDGE01",
+          "native_records": {
+            "bom_sha256": "815a94a2f906213a5610fd8826f95e5a2673d62267f03e22b6dd13ea2239b7b8",
+            "draft_material_request": "SIM-MR-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+            "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+            "manufacture_entry": "SIM-SE-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+            "receipt": "SIM-PR-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+            "work_order": "SIM-WO-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+          },
+          "removed": true,
+          "revision": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "rework": [
+            {
+              "nonconformance": "SIM-NCR-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD",
+              "rework_order": "SIM-REWORK-SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+            }
+          ],
+          "stage": "removed"
+        },
+        "SIM-SIM-BAG-GUIDEBEAM-0000-NEW": {
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "inspections": [
+            {
+              "actor": "sim-inspector",
+              "event_id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:39:inspect",
+              "record": "SIM-QI-PASS-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+              "result": "pass"
+            }
+          ],
+          "installed_at": "SIM-BAG-GUIDEBEAM-0000",
+          "native_records": {
+            "bom_sha256": "34a1cfdf77ad02fea07bd673638a9edc78eac52193a4dad9790f37556cfdc75f",
+            "draft_material_request": "SIM-MR-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+            "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+            "manufacture_entry": "SIM-SE-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+            "receipt": "SIM-PR-SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+            "work_order": "SIM-WO-SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+          },
+          "removed": false,
+          "revision": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "rework": [],
+          "stage": "installed"
+        },
+        "SIM-SIM-BAG-GUIDEBEAM-0000-OLD": {
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "batch": "SIM-BATCH-SIM-BAG-GUIDEBEAM-0000",
+          "inspections": [
+            {
+              "actor": "sim-inspector",
+              "event_id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:26:inspect",
+              "record": "SIM-QI-EARLY",
+              "result": "pass"
+            },
+            {
+              "actor": "sim-inspector",
+              "event_id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:27:inspect",
+              "record": "SIM-QI-NCR",
+              "result": "fail"
+            },
+            {
+              "actor": "sim-inspector",
+              "event_id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-OLD:29:inspect",
+              "record": "SIM-QI-PASS-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+              "result": "pass"
+            }
+          ],
+          "installed_at": "SIM-BAG-GUIDEBEAM-0000",
+          "native_records": {
+            "bom_sha256": "34a1cfdf77ad02fea07bd673638a9edc78eac52193a4dad9790f37556cfdc75f",
+            "draft_material_request": "SIM-MR-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+            "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+            "manufacture_entry": "SIM-SE-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+            "receipt": "SIM-PR-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+            "work_order": "SIM-WO-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+          },
+          "removed": true,
+          "revision": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "rework": [
+            {
+              "nonconformance": "SIM-NCR-SIM-SIM-BAG-GUIDEBEAM-0000-OLD",
+              "rework_order": "SIM-REWORK-SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+            }
+          ],
+          "stage": "removed"
+        },
+        "SIM-SIM-BAG-LAUNCH-0000-NEW": {
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "inspections": [
+            {
+              "actor": "sim-inspector",
+              "event_id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:62:inspect",
+              "record": "SIM-QI-PASS-SIM-SIM-BAG-LAUNCH-0000-NEW",
+              "result": "pass"
+            }
+          ],
+          "installed_at": "SIM-BAG-LAUNCH-0000",
+          "native_records": {
+            "bom_sha256": "c66dc71a5a8b9648e696f8cf6cd1016086ea8cc1e665725f5bfcbfc5f5bbf454",
+            "draft_material_request": "SIM-MR-SIM-SIM-BAG-LAUNCH-0000-NEW",
+            "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-LAUNCH-0000-NEW",
+            "manufacture_entry": "SIM-SE-SIM-SIM-BAG-LAUNCH-0000-NEW",
+            "receipt": "SIM-PR-SIM-SIM-BAG-LAUNCH-0000-NEW",
+            "work_order": "SIM-WO-SIM-SIM-BAG-LAUNCH-0000-NEW"
+          },
+          "removed": false,
+          "revision": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "rework": [],
+          "stage": "installed"
+        },
+        "SIM-SIM-BAG-LAUNCH-0000-OLD": {
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "batch": "SIM-BATCH-SIM-BAG-LAUNCH-0000",
+          "inspections": [
+            {
+              "actor": "sim-inspector",
+              "event_id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:49:inspect",
+              "record": "SIM-QI-EARLY",
+              "result": "pass"
+            },
+            {
+              "actor": "sim-inspector",
+              "event_id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:50:inspect",
+              "record": "SIM-QI-NCR",
+              "result": "fail"
+            },
+            {
+              "actor": "sim-inspector",
+              "event_id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-OLD:52:inspect",
+              "record": "SIM-QI-PASS-SIM-SIM-BAG-LAUNCH-0000-OLD",
+              "result": "pass"
+            }
+          ],
+          "installed_at": "SIM-BAG-LAUNCH-0000",
+          "native_records": {
+            "bom_sha256": "c66dc71a5a8b9648e696f8cf6cd1016086ea8cc1e665725f5bfcbfc5f5bbf454",
+            "draft_material_request": "SIM-MR-SIM-SIM-BAG-LAUNCH-0000-OLD",
+            "draft_purchase_order": "SIM-PO-SIM-SIM-BAG-LAUNCH-0000-OLD",
+            "manufacture_entry": "SIM-SE-SIM-SIM-BAG-LAUNCH-0000-OLD",
+            "receipt": "SIM-PR-SIM-SIM-BAG-LAUNCH-0000-OLD",
+            "work_order": "SIM-WO-SIM-SIM-BAG-LAUNCH-0000-OLD"
+          },
+          "removed": true,
+          "revision": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "rework": [
+            {
+              "nonconformance": "SIM-NCR-SIM-SIM-BAG-LAUNCH-0000-OLD",
+              "rework_order": "SIM-REWORK-SIM-SIM-BAG-LAUNCH-0000-OLD"
+            }
+          ],
+          "stage": "removed"
+        }
+      },
+      "engineering_accepted": false,
+      "physical_release": false,
+      "positions": {
+        "SIM-BAG-CAR01-CARTRIDGE01": {
+          "condition": "software-pilot-reviewed",
+          "handback": "hold",
+          "last_test": {
+            "actor": "sim-inspector",
+            "evidence": [
+              "3416ea1990350ecfe46da7835a87465aa38ea708297d4779ea6a96a3ea22d494"
+            ],
+            "id": "SIM-BAG-CAR01-CARTRIDGE01:SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW:21:test",
+            "result": "pass",
+            "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+          },
+          "maintenance": false,
+          "product_id": "OSR-PILOT-MAGNETIC-CARTRIDGE",
+          "removed": [
+            "SIM-SIM-BAG-CAR01-CARTRIDGE01-OLD"
+          ],
+          "replacement_required": false,
+          "revision_hold": true,
+          "serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW"
+        },
+        "SIM-BAG-GUIDEBEAM-0000": {
+          "condition": "software-pilot-reviewed",
+          "handback": "hold",
+          "last_test": {
+            "actor": "sim-inspector",
+            "evidence": [
+              "907b02883000b1da7a5f6bd9b461836064d217e7fb1cbdc65e8d6e4e262e636f"
+            ],
+            "id": "SIM-BAG-GUIDEBEAM-0000:SIM-SIM-BAG-GUIDEBEAM-0000-NEW:44:test",
+            "result": "pass",
+            "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+          },
+          "maintenance": false,
+          "product_id": "OSR-PILOT-GUIDEBEAM-25M",
+          "removed": [
+            "SIM-SIM-BAG-GUIDEBEAM-0000-OLD"
+          ],
+          "replacement_required": false,
+          "revision_hold": true,
+          "serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW"
+        },
+        "SIM-BAG-LAUNCH-0000": {
+          "condition": "software-pilot-reviewed",
+          "handback": "hold",
+          "last_test": {
+            "actor": "sim-inspector",
+            "evidence": [
+              "f9cb08977e79f5ad449b8b5a47f0740b7a79cc5af03ab77c162a23d01f48497e"
+            ],
+            "id": "SIM-BAG-LAUNCH-0000:SIM-SIM-BAG-LAUNCH-0000-NEW:67:test",
+            "result": "pass",
+            "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+          },
+          "maintenance": false,
+          "product_id": "OSR-PILOT-LAUNCH-CASSETTE-2P5M",
+          "removed": [
+            "SIM-SIM-BAG-LAUNCH-0000-OLD"
+          ],
+          "replacement_required": false,
+          "revision_hold": true,
+          "serial": "SIM-SIM-BAG-LAUNCH-0000-NEW"
+        }
+      },
+      "revision_requests": [
+        {
+          "actor": "sim-engineer",
+          "asset_id": "SIM-BAG-CAR01-CARTRIDGE01",
+          "installed_serial": "SIM-SIM-BAG-CAR01-CARTRIDGE01-NEW",
+          "new_revision": "c9d4695c8fae6164d9c852a8145114c4dff1ca11c248bef3ee849f43d8387436",
+          "old_revision": "fdfc8c0c2238dd939a2ba9b62c264297c111ad9c5c504866c6a454e3af5596d4",
+          "state": "independent-review-and-retest-required"
+        },
+        {
+          "actor": "sim-engineer",
+          "asset_id": "SIM-BAG-GUIDEBEAM-0000",
+          "installed_serial": "SIM-SIM-BAG-GUIDEBEAM-0000-NEW",
+          "new_revision": "c9d4695c8fae6164d9c852a8145114c4dff1ca11c248bef3ee849f43d8387436",
+          "old_revision": "419301f7df9af2cc9d7751dbf496f028a7b2d7477e862b9f4bd0877bcabe1304",
+          "state": "independent-review-and-retest-required"
+        },
+        {
+          "actor": "sim-engineer",
+          "asset_id": "SIM-BAG-LAUNCH-0000",
+          "installed_serial": "SIM-SIM-BAG-LAUNCH-0000-NEW",
+          "new_revision": "c9d4695c8fae6164d9c852a8145114c4dff1ca11c248bef3ee849f43d8387436",
+          "old_revision": "d2ac07bec3a7c48c843e24b271fb13bd6f88f64afd00b1cf6dfa5ae405004427",
+          "state": "independent-review-and-retest-required"
+        }
+      ]
+    }
+  }
+}

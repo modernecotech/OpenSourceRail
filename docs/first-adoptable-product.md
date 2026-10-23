@@ -1,0 +1,11 @@
+# First adoptable product: the delivery platform
+
+OpenSourceRail has three linked products: the owner/builder/operator delivery platform, reference hardware and factories, and the open GOA4 control platform. The delivery platform can support controlled planning and training before a train or guideway receives physical approval.
+
+The current adoption example is the [Baghdad digital pilot](design-engine/ferrite-maglev/pilot-delivery/README.md). It connects current product revisions to procurement planning, simulated receiving and inspection, accountable rework, serial installation, equipment condition, maintenance, replacement and independent simulated handback. Its [native lifecycle exercise](design-engine/ferrite-maglev/pilot-lifecycle/README.md) uses an isolated ERPNext/FUXA/Workbench deployment. Existing owner/operator sites retain their own data and permissions.
+
+A builder should be able to follow a physical unit from its product revision and drawing/BOM references to its order, inspection, installed position and replacement history. A failed or stale inspection must remain a hold. Business software must not accept its own hardware, waive independent review or authorise train movement.
+
+The [capability migration register](design-engine/ferrite-maglev/capability-migration/README.md) accounts for every feature in the v0.4 feature table. It distinguishes current tested scope, replaced implementations, disconnected functions and missing capabilities. The former interactive GIS editor and independent SUMO cross-check are not claimed as restored by the maglev evidence viewer.
+
+For a real deployment, the owner supplies legal companies, controlled calendars, business masters, user roles, approved procurement and QA procedures, equipment bindings, data retention and recovery responsibilities. Physical inspections require authenticated measured evidence and independent acceptance. The repository's simulated serial records establish development behavior only.

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **580**.
+Indexed Markdown files: **598**.
 
 ## Sections
 
@@ -26,8 +26,8 @@ Indexed Markdown files: **580**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 28 |
-| [engineering](#engineering) | 4 |
+| [docs](#docs) | 44 |
+| [engineering](#engineering) | 6 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -622,17 +622,32 @@ Indexed Markdown files: **580**.
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Capability Directory |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Primary maglev capability directory |
 | [`docs/design-engine/ferrite-maglev/assembled-body/README.md`](../docs/design-engine/ferrite-maglev/assembled-body/README.md) | Joined structural-body candidate |
+| [`docs/design-engine/ferrite-maglev/assurance-profiles/README.md`](../docs/design-engine/ferrite-maglev/assurance-profiles/README.md) | Pilot development assurance profiles |
 | [`docs/design-engine/ferrite-maglev/baghdad-reference/README.md`](../docs/design-engine/ferrite-maglev/baghdad-reference/README.md) | Baghdad six-car native reference study |
 | [`docs/design-engine/ferrite-maglev/body-stiffness/README.md`](../docs/design-engine/ferrite-maglev/body-stiffness/README.md) | Drilled longitudinal stock alternatives |
 | [`docs/design-engine/ferrite-maglev/booster-kit/README.md`](../docs/design-engine/ferrite-maglev/booster-kit/README.md) | Fixed booster and independent rescue kit study |
+| [`docs/design-engine/ferrite-maglev/capability-migration/README.md`](../docs/design-engine/ferrite-maglev/capability-migration/README.md) | v0.4 capability migration to station-powered maglev |
 | [`docs/design-engine/ferrite-maglev/corridor/README.md`](../docs/design-engine/ferrite-maglev/corridor/README.md) | Fixed-line urban and suburban operational studies |
+| [`docs/design-engine/ferrite-maglev/delivery-schedule/README.md`](../docs/design-engine/ferrite-maglev/delivery-schedule/README.md) | Resource-loaded Baghdad delivery study |
 | [`docs/design-engine/ferrite-maglev/drive-construction/README.md`](../docs/design-engine/ferrite-maglev/drive-construction/README.md) | Active support/guidance and station launch construction |
 | [`docs/design-engine/ferrite-maglev/hub-access/README.md`](../docs/design-engine/ferrite-maglev/hub-access/README.md) | Baghdad physical interchange access-kit study |
 | [`docs/design-engine/ferrite-maglev/interchange-hubs/README.md`](../docs/design-engine/ferrite-maglev/interchange-hubs/README.md) | Baghdad interchange-hub investigation |
 | [`docs/design-engine/ferrite-maglev/iterative/README.md`](../docs/design-engine/ferrite-maglev/iterative/README.md) | Adaptive mechanical, civil and software design study |
+| [`docs/design-engine/ferrite-maglev/launch-optimisation/README.md`](../docs/design-engine/ferrite-maglev/launch-optimisation/README.md) | Provisional finite-group launch optimisation |
 | [`docs/design-engine/ferrite-maglev/line-capacity/README.md`](../docs/design-engine/ferrite-maglev/line-capacity/README.md) | Three-train fixed-block capacity study |
 | [`docs/design-engine/ferrite-maglev/manufactured-dossier/README.md`](../docs/design-engine/ferrite-maglev/manufactured-dossier/README.md) | Provisional manufactured design dossier |
 | [`docs/design-engine/ferrite-maglev/moving-train/README.md`](../docs/design-engine/ferrite-maglev/moving-train/README.md) | Moving six-car ideal-force numerical twin |
+| [`docs/design-engine/ferrite-maglev/pilot-actuators/README.md`](../docs/design-engine/ferrite-maglev/pilot-actuators/README.md) | Provisional electrical/magnetic/moving actuator composition |
+| [`docs/design-engine/ferrite-maglev/pilot-actuators-python-observer-baseline/README.md`](../docs/design-engine/ferrite-maglev/pilot-actuators-python-observer-baseline/README.md) | Provisional electrical/magnetic/moving actuator composition |
+| [`docs/design-engine/ferrite-maglev/pilot-actuators-rejected-120turn/README.md`](../docs/design-engine/ferrite-maglev/pilot-actuators-rejected-120turn/README.md) | Provisional electrical/magnetic/moving actuator composition |
+| [`docs/design-engine/ferrite-maglev/pilot-corridor/README.md`](../docs/design-engine/ferrite-maglev/pilot-corridor/README.md) | Baghdad current-line pilot delivery study |
+| [`docs/design-engine/ferrite-maglev/pilot-delivery/README.md`](../docs/design-engine/ferrite-maglev/pilot-delivery/README.md) | Baghdad connected digital pilot delivery |
+| [`docs/design-engine/ferrite-maglev/pilot-lifecycle/README.md`](../docs/design-engine/ferrite-maglev/pilot-lifecycle/README.md) | Current maglev pilot lifecycle |
+| [`docs/design-engine/ferrite-maglev/pilot-product/README.md`](../docs/design-engine/ferrite-maglev/pilot-product/README.md) | Controlled provisional pilot product |
+| [`docs/design-engine/ferrite-maglev/pilot-variant-failures/50faefb04c5f2872c05e342a0e1a65c1fbe56fc01b5b7392085f0b488c7ea999-failed/README.md`](../docs/design-engine/ferrite-maglev/pilot-variant-failures/50faefb04c5f2872c05e342a0e1a65c1fbe56fc01b5b7392085f0b488c7ea999-failed/README.md) | Retained failed candidate and cost history |
+| [`docs/design-engine/ferrite-maglev/pilot-variant-failures/50faefb04c5f2872c05e342a0e1a65c1fbe56fc01b5b7392085f0b488c7ea999-failed/actuators/README.md`](../docs/design-engine/ferrite-maglev/pilot-variant-failures/50faefb04c5f2872c05e342a0e1a65c1fbe56fc01b5b7392085f0b488c7ea999-failed/actuators/README.md) | Provisional electrical/magnetic/moving actuator composition |
+| [`docs/design-engine/ferrite-maglev/pilot-variant-failures/50faefb04c5f2872c05e342a0e1a65c1fbe56fc01b5b7392085f0b488c7ea999-failed/finance/README.md`](../docs/design-engine/ferrite-maglev/pilot-variant-failures/50faefb04c5f2872c05e342a0e1a65c1fbe56fc01b5b7392085f0b488c7ea999-failed/finance/README.md) | Separate counted actuator candidate: pilot cost and finance |
+| [`docs/design-engine/ferrite-maglev/pilot-variants/README.md`](../docs/design-engine/ferrite-maglev/pilot-variants/README.md) | Separate counted actuator candidate: pilot cost and finance |
 | [`docs/design-engine/ferrite-maglev/qualification/README.md`](../docs/design-engine/ferrite-maglev/qualification/README.md) | Qualification and design closure worklist |
 | [`docs/design-engine/ferrite-maglev/shared-hub-layout/README.md`](../docs/design-engine/ferrite-maglev/shared-hub-layout/README.md) | Baghdad shared-hub station and approach geometry |
 | [`docs/design-engine/ferrite-maglev/station-powered/README.md`](../docs/design-engine/ferrite-maglev/station-powered/README.md) | Station-powered maglev study |
@@ -640,6 +655,7 @@ Indexed Markdown files: **580**.
 | [`docs/design-engine/ferrite-maglev/station-structure/README.md`](../docs/design-engine/ferrite-maglev/station-structure/README.md) | Station-powered body and civil candidates |
 | [`docs/design-engine/ferrite-maglev/stopped-recovery/README.md`](../docs/design-engine/ferrite-maglev/stopped-recovery/README.md) | Stopped progressive-controller recovery |
 | [`docs/design-engine/ferrite-maglev/system-campaign/README.md`](../docs/design-engine/ferrite-maglev/system-campaign/README.md) | Integrated station, interlocking and recovery study |
+| [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoptable product: the delivery platform |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail v0.5.2 development — fixed-zone ferrite maglev |
 | [`docs/releases/v0.5.1.md`](../docs/releases/v0.5.1.md) | OpenSourceRail v0.5.1 |
 | [`docs/releases/v0.5.2.md`](../docs/releases/v0.5.2.md) | OpenSourceRail v0.5.2 development |
@@ -650,8 +666,10 @@ Indexed Markdown files: **580**.
 |---|---|
 | [`engineering/README.md`](../engineering/README.md) | OpenSourceRail engineering |
 | [`engineering/assurance/v052-drives-development/README.md`](../engineering/assurance/v052-drives-development/README.md) | Active-control and launch construction execution evidence |
+| [`engineering/assurance/v052-pilot-actuator-crosscheck/README.md`](../engineering/assurance/v052-pilot-actuator-crosscheck/README.md) | Independent final actuator cross-check |
 | [`engineering/ferrite_maglev/README.md`](../engineering/ferrite_maglev/README.md) | OpenSourceRail v0.5 fixed-zone ferrite-maglev engineering |
 | [`engineering/ferrite_maglev/city-index.md`](../engineering/ferrite_maglev/city-index.md) | v0.5 maglev catalogue planning index |
+| [`engineering/ferrite_maglev/observer-prototype/README.md`](../engineering/ferrite_maglev/observer-prototype/README.md) | Delayed-map normal-wrench Rust research prototype |
 
 ## tools
 

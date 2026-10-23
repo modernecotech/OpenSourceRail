@@ -599,7 +599,18 @@ def _page_footer(canvas, doc) -> None:
 def primary_docs() -> list[Path]:
     return [REPO_ROOT/path for path in (
         'docs/open-source-rail-overview.md', 'engineering/ferrite_maglev/README.md',
-        'crates/osr-maglev-control/README.md', 'docs/ARCHITECTURE.md', 'docs/ROADMAP.md')]
+        'crates/osr-maglev-control/README.md', 'docs/ARCHITECTURE.md', 'docs/ROADMAP.md',
+        'docs/first-adoptable-product.md',
+        'docs/design-engine/ferrite-maglev/pilot-delivery/README.md',
+        'docs/design-engine/ferrite-maglev/pilot-product/README.md',
+        'docs/design-engine/ferrite-maglev/pilot-actuators/README.md',
+        'docs/design-engine/ferrite-maglev/launch-optimisation/README.md',
+        'docs/design-engine/ferrite-maglev/delivery-schedule/README.md',
+        'docs/design-engine/ferrite-maglev/pilot-corridor/README.md',
+        'docs/design-engine/ferrite-maglev/pilot-variants/README.md',
+        'docs/design-engine/ferrite-maglev/pilot-lifecycle/README.md',
+        'docs/design-engine/ferrite-maglev/assurance-profiles/README.md',
+        'docs/design-engine/ferrite-maglev/capability-migration/README.md')]
 
 def primary_images() -> list[tuple[Path, str]]:
     base = REPO_ROOT/'docs/design-engine/ferrite-maglev'
@@ -619,7 +630,6 @@ def primary_book_sources() -> dict[str, str]:
 
 def primary_book(out_path: Path, *, include_images: bool, max_image_px: int, image_quality: int, source_ref: str, check: bool=False) -> None:
     from engineering.ferrite_maglev import delivery, model
-    delivery.verify()
     identity = primary_book_sources()
     options = dict(include_images=include_images, max_image_px=max_image_px, image_quality=image_quality, source_ref=source_ref)
     receipt_path = out_path.with_suffix('.receipt.json')
@@ -629,7 +639,9 @@ def primary_book(out_path: Path, *, include_images: bool, max_image_px: int, ima
                 or receipt.get('options') != options or receipt.get('pdf_sha256') != hashlib.sha256(out_path.read_bytes()).hexdigest()
                 or any(receipt.get(k) is not False for k in model.FLAGS)):
             raise ValueError('primary book sources, PDF or receipt differ')
+        delivery.verify()
         return
+    delivery.verify()
     IMAGE_ERRORS.clear()
     _register_fonts()
     styles = _styles()

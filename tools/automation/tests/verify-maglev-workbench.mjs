@@ -18,9 +18,9 @@ server.stderr.on('data', chunk => { stderr += String(chunk); });
 try {
   const origin = await new Promise((accept,reject) => {
     // The server verifies every source-bound packet before binding. The expanded
-    // native body and hub checks exceed three minutes on a cold process. Allow
-    // ten minutes for complete verification; individual UI checks are unchanged.
-    const timer = setTimeout(() => reject(Error('Primary server startup timeout: '+stderr)),600000);
+    // native body, pilot and hub checks can exceed ten minutes on a cold process.
+    // Allow thirty minutes for complete verification; UI assertion bounds stay unchanged.
+    const timer = setTimeout(() => reject(Error('Primary server startup timeout: '+stderr)),1800000);
     server.stdout.on('data', chunk => {
       const match = String(chunk).match(/http:\/\/127\.0\.0\.1:\d+/);
       if (match) { clearTimeout(timer); accept(match[0]); }
@@ -32,13 +32,101 @@ try {
   const errors=[], failures=[], external=[];
   page.on('pageerror', error => errors.push(String(error)));
   page.on('requestfailed', request => failures.push(request.url()));
-  page.on('request', request => { if (!request.url().startsWith(origin+'/')) external.push(request.url()); });
+  page.on('request', request => { if (!request.url().startsWith(origin+'/') && !request.url().startsWith('blob:'+origin+'/')) external.push(request.url()); });
   await page.goto(origin+'/');
   await page.waitForURL('**/docs/workbench/maglev/**');
   await page.waitForFunction(() => document.querySelector('#city-status').textContent.includes('Baghdad'));
+  await page.waitForFunction(() => document.querySelector('#pilot-status').textContent.includes('connected digital packets verified'));
+  const pilotPath=origin+'/docs/design-engine/ferrite-maglev/pilot-delivery/';
+  const pilotManifest=await (await page.request.get(pilotPath+'manifest.json')).json();
+  const pilotBytes=await (await page.request.get(pilotPath+'study.json')).body();
+  assert.equal(createHash('sha256').update(pilotBytes).digest('hex'),pilotManifest.files_sha256['study.json']);
+  const pilotStudy=JSON.parse(pilotBytes.toString('utf8'));
+  assert.equal(pilotStudy.components.length,9);
+  assert.equal(await page.locator('#pilot-view option').count(),9);
+  assert.equal(await page.locator('#pilot-deliverables tr').count(),6);
+  assert.ok((await page.locator('#pilot-detail').innerText()).includes('component-accounted tare'));
+  async function pilotView(id,imageCount) {
+    const component=pilotStudy.components.find(row=>row.id===id);
+    assert.ok(component,'declared pilot view '+id);
+    await page.selectOption('#pilot-view',id);
+    await page.waitForFunction(({id,readme,imageCount})=>{
+      const images=[...document.querySelectorAll('#pilot-detail img')];
+      return document.querySelector('#pilot-view').value===id &&
+        document.querySelector('#pilot-status').textContent.includes('connected digital packets verified') &&
+        [...document.querySelectorAll('#pilot-detail a')].some(a=>a.getAttribute('href')===readme) &&
+        images.length===imageCount && images.every(image=>image.complete && image.naturalWidth>0);
+    },{id,readme:'/'+component.packet+'/README.md',imageCount});
+    return component.summary;
+  }
+  await pilotView('assurance-profiles',0);
+  assert.ok((await page.locator('#pilot-detail').innerText()).includes('control-formal'));
+  await pilotView('capability-migration',0);
+  assert.ok((await page.locator('#pilot-detail').innerText()).includes('missing'));
+  await pilotView('candidate-finance',2);
+  const candidate=pilotStudy.components.find(row=>row.id==='candidate-finance').summary;
+  assert.equal(candidate.assembly_media.configuration_sha256,candidate.configuration_sha256);
+  assert.equal(candidate.assembly_media.physical_accepted,false);
+  assert.ok((await page.locator('#pilot-detail img').last().getAttribute('alt')).includes('Exact larger-winding candidate'));
+  const candidateVideo=page.locator('#pilot-detail a').filter({hasText:'View current-candidate replacement translations'});
+  const candidateVideoURL=await candidateVideo.getAttribute('href');
+  assert.ok(candidateVideoURL.startsWith('blob:'+origin+'/'));
+  const candidateVideoBytes=await page.evaluate(async url=>Array.from(new Uint8Array(await (await fetch(url)).arrayBuffer())),candidateVideoURL);
+  const candidateRow=pilotStudy.components.find(row=>row.id==='candidate-finance');
+  const candidateReceipt=await (await page.request.get(origin+'/'+candidateRow.packet+'/manifest.json')).json();
+  assert.equal(createHash('sha256').update(Buffer.from(candidateVideoBytes)).digest('hex'),candidateReceipt.files_sha256[candidate.assembly_media.files.video]);
+  const candidateText=await page.locator('#pilot-detail').innerText();
+  assert.ok(candidateText.includes(candidate.configuration_sha256));
+  assert.ok(candidateText.includes(candidate.base_configuration_sha256));
+  assert.ok(candidateText.includes('Separate retained base capital'));
+  assert.ok(candidateText.includes('no city-default adoption or physical qualification'));
+  if (candidate.financial_view) {
+    const dollars=new Intl.NumberFormat('en-GB',{style:'currency',currency:'USD',maximumFractionDigits:0});
+    assert.ok(candidateText.includes(dollars.format(candidate.financial_view.capital_usd)));
+    assert.ok(candidateText.includes(dollars.format(candidate.financial_view.annual_opex_usd)));
+    assert.ok(candidateText.includes(dollars.format(candidate.base_reference.capital_usd)));
+  } else assert.ok(candidateText.includes('Candidate finance remains held'));
+  await page.setViewportSize({width:390,height:844});
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),'exact candidate identities must fit the mobile evidence view');
+  await page.screenshot({path:output+'/candidate-mobile.png',fullPage:true});
+  await page.setViewportSize({width:1440,height:1000});
+  const coupled=await pilotView('coupled-actuators',2);
+  const coupledText=await page.locator('#pilot-detail').innerText();
+  for (const hold of coupled.holds) assert.ok(coupledText.includes(hold),'coupled view must expose '+hold);
+  const measurement=new Intl.NumberFormat('en-GB',{maximumFractionDigits:1});
+  for (const repair of coupled.repair_candidates) {
+    assert.ok(coupledText.includes(repair.body_variant+' / '+repair.winding_variant));
+    assert.ok(coupledText.includes(measurement.format(repair.magnetic_geometry.assumed_gap_pole_area_m2*1e6)+' mm²'));
+    assert.ok(coupledText.includes(measurement.format(repair.magnetic_geometry.winding_inner_aperture_m2*1e6)+' mm²'));
+  }
+  assert.ok(coupledText.includes('Unreconciled') && coupledText.includes('Unqualified'));
+  assert.ok(coupledText.includes('Independent actual module-force screen'));
+  assert.ok(coupledText.includes(measurement.format(pilotStudy.coupled_actual_module_force.observed_peak_n)+' N'));
+  assert.ok(coupledText.includes(measurement.format(pilotStudy.coupled_actual_module_force.limit_n)+' N'));
+  assert.ok((await page.locator('#pilot-detail img').last().getAttribute('alt')).includes('Larger-winding candidate bay'));
+  await page.screenshot({path:output+'/coupled-actuators.png',fullPage:true});
+  await pilotView('pilot-corridor',1);
+  assert.ok((await page.locator('#pilot-detail').innerText()).includes('Protected minimum separation'));
+  assert.ok((await page.locator('#pilot-detail img').getAttribute('alt')).includes('open-map walk network'));
+  await pilotView('resource-delivery',1);
+  assert.ok((await page.locator('#pilot-detail img').getAttribute('alt')).includes('finite capacity'));
+  const launchOptions=await pilotView('launch-options',0);
+  const launchText=await page.locator('#pilot-detail').innerText();
+  assert.ok(launchOptions.research_recommendation,'retained launch recommendation is required');
+  assert.ok(launchText.includes('Research groups per direction') && launchText.includes('Winding heat per trip'));
+  assert.ok(launchText.includes('has not passed moving local-phase and handover constraints'));
+  assert.ok(launchText.includes('remain unqualified'));
+  const native=await pilotView('native-lifecycle',1);
+  assert.equal(native.native.state,'executed-current');
+  assert.ok((await page.locator('#pilot-detail img').getAttribute('alt')).includes('Actual authenticated current-maglev pilot Workbench'));
+  const nativeDimensions=await page.locator('#pilot-detail img').evaluate(image=>({width:image.naturalWidth,height:image.naturalHeight}));
+  assert.ok(nativeDimensions.width>500 && nativeDimensions.height>500,'genuine native Workbench screenshot must not be a placeholder');
+  await pilotView('controlled-product',1);
+  assert.ok((await page.locator('#pilot-detail').innerText()).includes('reference-bay'));
   assert.equal(await page.locator('#city option').count(),266);
   await page.waitForFunction(() => [...document.images].every(image => image.complete && image.naturalWidth>0));
-  assert.equal(await page.locator('img').count(),10);
+  await page.waitForFunction(()=>{const image=document.querySelector('#pilot-detail img');return image?.complete && image.naturalWidth>0;});
+  assert.equal(await page.locator('#city-map, #hub-map, .cards img').count(),10);
   const hubPath=origin+'/docs/design-engine/ferrite-maglev/interchange-hubs/';
   const hubManifest=await (await page.request.get(hubPath+'manifest.json')).json();
   const hubBytes=await (await page.request.get(hubPath+'study.json.gz')).body();
@@ -145,9 +233,62 @@ try {
     exercised.push({city,retained_access_records:summary.totals.retained_station_records,operating_stops:summary.totals.station_records,terminal_motor_zones:summary.totals.added_terminal_service_zones,base_partial_subtotal_usd:base.priced_scope_subtotal_usd,station_electrical_target_usd:base.station_electrical_allowance_usd,held_coasting_cases:heldCases,complete_city_programme_usd:null,process_routes:bill.process_routes.length});
   }
   for (const href of await page.locator('a').evaluateAll(nodes => nodes.map(node => node.href))) {
+    if (href.startsWith('blob:'+origin+'/')) {
+      const length=await page.evaluate(async url=>(await (await fetch(url)).arrayBuffer()).byteLength,href);
+      assert.ok(length>0,'verified video Blob must contain actual bytes');
+      continue;
+    }
     const response = await page.request.get(href);
     assert.equal(response.status(),200,href);
   }
+  // The connected study and child receipts stay genuine. Only delivered visual
+  // bytes change: neither an image nor a stale success status may survive.
+  const poisonedVisuals=[
+    {id:'controlled-product',path:'pilot-product/bay-views.svg',body:Buffer.from('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><text x="0" y="20">CORRUPTED BAY</text></svg>'),contentType:'image/svg+xml'},
+    {id:'candidate-finance',path:'pilot-variants/candidate-bay-poster.png',body:Buffer.from('corrupt candidate poster'),contentType:'image/png'},
+    {id:'candidate-finance',path:'pilot-variants/candidate-bay-replacement.mp4',body:Buffer.from('corrupt candidate video'),contentType:'video/mp4'},
+    {id:'native-lifecycle',path:'pilot-lifecycle/native-workbench.png',body:Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=','base64'),contentType:'image/png'},
+  ];
+  assert.equal(pilotStudy.components.find(r=>r.id==='native-lifecycle').summary.native.state,'executed-current');
+  for (const visual of poisonedVisuals) {
+    const url=origin+'/docs/design-engine/ferrite-maglev/'+visual.path;
+    let replaced=false;
+    await page.route(url,async route=>{replaced=true;await route.fulfill({body:visual.body,contentType:visual.contentType});});
+    await page.selectOption('#pilot-view','assurance-profiles');
+    await page.waitForFunction(()=>document.querySelector('#pilot-status').textContent.includes('connected digital packets verified'));
+    await page.selectOption('#pilot-view',visual.id);
+    await page.waitForFunction(()=>document.querySelector('#pilot-status').textContent.includes('differs from its receipt'));
+    assert.ok(replaced,visual.path+' must exercise the delivered image route');
+    assert.equal(await page.locator('#pilot-detail img').count(),0,'corrupt image must not be inserted');
+    assert.equal(await page.locator('#pilot-detail a').count(),0,'failed view must not leave links or video');
+    await page.unroute(url);
+    await page.selectOption('#pilot-view','assurance-profiles');
+    await page.waitForFunction(()=>document.querySelector('#pilot-detail').textContent.includes('control-formal'));
+    await page.waitForFunction(()=>document.querySelector('#pilot-status').textContent.includes('connected digital packets verified'));
+    assert.ok(!(await page.locator('#pilot-status').innerText()).includes('differs from its receipt'),'successful selection must clear stale error');
+  }
+  // Rehash parent/child metadata while emptying only the video digest. The image
+  // remains valid: this separately proves that a missing digest cannot opt out.
+  const productRow=pilotStudy.components.find(r=>r.id==='controlled-product');
+  const productManifestURL=origin+'/'+productRow.packet+'/manifest.json';
+  const missingVideoManifest=await (await page.request.get(productManifestURL)).json();
+  missingVideoManifest.files_sha256['bay-replacement.mp4']='';
+  const missingVideoManifestBytes=JSON.stringify(missingVideoManifest);
+  const missingVideoStudy=structuredClone(pilotStudy);
+  missingVideoStudy.components.find(r=>r.id==='controlled-product').manifest_sha256=createHash('sha256').update(missingVideoManifestBytes).digest('hex');
+  const missingVideoStudyBytes=JSON.stringify(missingVideoStudy),missingVideoRoot=structuredClone(pilotManifest);
+  missingVideoRoot.files_sha256['study.json']=createHash('sha256').update(missingVideoStudyBytes).digest('hex');
+  await page.route(pilotPath+'manifest.json',route=>route.fulfill({json:missingVideoRoot}));
+  await page.route(pilotPath+'study.json',route=>route.fulfill({body:missingVideoStudyBytes,contentType:'application/json'}));
+  await page.route(productManifestURL,route=>route.fulfill({body:missingVideoManifestBytes,contentType:'application/json'}));
+  await page.reload();
+  await page.waitForFunction(()=>document.querySelector('#pilot-status').textContent.includes('Missing pilot payload identity'));
+  assert.equal(await page.locator('#pilot-detail img').count(),0);
+  assert.equal(await page.locator('#pilot-detail a').count(),0);
+  await page.unroute(pilotPath+'manifest.json');await page.unroute(pilotPath+'study.json');await page.unroute(productManifestURL);
+  await page.reload();
+  await page.waitForFunction(()=>document.querySelector('#pilot-status').textContent.includes('connected digital packets verified'));
+  await page.waitForFunction(()=>{const image=document.querySelector('#pilot-detail img');return image?.complete && image.naturalWidth>0;});
   // Corrupt a delivered bill while retaining its summary receipt. The UI must hold,
   // not show the injected cost or any previous city's result.
   const corruptedBill = '**/Kisangani/engineering/maglev/manufacturing.json';
@@ -233,7 +374,7 @@ try {
     assert.equal((await page.request.get(origin+path)).status(),404);
   }
   assert.deepEqual(errors,[]); assert.deepEqual(failures,[]); assert.deepEqual(external,[]);
-  const result={primary_ui:true,cities:266,exercised,images:10,unselected_interchange_investigation:true,interchange_payload_tampering_held:true,interchange_inflate_budget_held:true,quantity_costs:true,eight_term_subtotal:true,operating_access_and_capacity:true,station_electrical_separate:true,headway_and_coast_holds:true,omitted_rescue_cost_rejected:true,fixed_line_transfer_conflicts_visible:true,complete_cost_unknown:true,manufacturing_and_map_links:true,receipt_tampering_held:true,links:true,mobile:true,private_paths_rejected:true,errors,external,physical_release:false};
+  const result={primary_ui:true,cities:266,exercised,images:10,pilot_packets:9,candidate_finance_separate:true,current_candidate_media_verified:true,coupled_images_and_magnetic_holds:true,independent_module_force_visible:true,pilot_access_and_resource_charts:true,native_workbench_screenshot:true,pilot_visual_tampering_held:true,missing_video_digest_held:true,pilot_image_decode_required:true,pilot_error_recovery:true,unselected_interchange_investigation:true,interchange_payload_tampering_held:true,interchange_inflate_budget_held:true,quantity_costs:true,eight_term_subtotal:true,operating_access_and_capacity:true,station_electrical_separate:true,headway_and_coast_holds:true,omitted_rescue_cost_rejected:true,fixed_line_transfer_conflicts_visible:true,complete_cost_unknown:true,manufacturing_and_map_links:true,receipt_tampering_held:true,links:true,mobile:true,private_paths_rejected:true,errors,external,physical_release:false};
   await writeFile(output+'/checks.json',JSON.stringify(result,null,2)+'\n');
   console.log(JSON.stringify(result));
 } finally {

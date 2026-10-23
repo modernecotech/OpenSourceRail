@@ -4,6 +4,16 @@ Implemented digital capabilities for v0.5. Every engineering/physical acceptance
 
 | Capability | Entry | Implemented scope |
 |---|---|---|
+| [connected-pilot-delivery](../../engineering/ferrite_maglev/pilot_release.py) | `./osr design pilot-delivery` | Connected product, actuator, launch search, pilot delivery/finance, serial lifecycle, migration and executed development profiles. Engineering failures and physical gates remain visible. |
+| [controlled-pilot-product](../../engineering/ferrite_maglev/pilot_product.py) | `./osr design pilot-product` | Scope-exclusive mass/cost/space ledger and equipped-bay variants; target overruns are not hidden. |
+| [coupled-pilot-actuators](../../engineering/ferrite_maglev/pilot_actuators.py) | `./osr design pilot-actuators` | Actual Rust current kernels with bounded voltage/current/force/beam/sensing and thermal/DC accounting; unqualified plant maps. |
+| [segmented-launch-search](../../engineering/ferrite_maglev/launch_optimisation.py) | `./osr design launch-optimisation` | Separate energised sections, conductor/voltage candidates and lifecycle cost, including extra cabinets and maintenance. |
+| [pilot-corridor-finance](../../engineering/ferrite_maglev/pilot_corridor.py) | `./osr design pilot-corridor` | Declared access/demand proxies, full pilot service/failures, monthly procurement cash, revenue/DSCR and independent comparison quantities. |
+| [resource-delivery](../../engineering/ferrite_maglev/delivery_schedule.py) | `./osr design delivery-schedule` | Resource-constrained1km construction, procurement and origin-accounted pooled factory/training. |
+| [exact-actuator-pilot-finance](../../engineering/ferrite_maglev/pilot_variants.py) | `./osr design pilot-variants` | Separate cost, full-line service and finance for the exact executed steel/higher-copper actuator configuration; no cheaper alternative is substituted. |
+| [serial-pilot-lifecycle](../../engineering/ferrite_maglev/pilot_lifecycle.py) | `./osr design pilot-lifecycle` | Simulated serial-specific native ERPNext/FUXA/Workbench chain; business records never accept hardware. |
+| [pilot-assurance](../../engineering/ferrite_maglev/pilot_assurance.py) | `./osr design pilot-assurance` | Separate engineering, delivery-lifecycle and control-formal execution profiles, source-pinned raw logs and project-wide evidence graph. |
+| [v04-capability-migration](../../engineering/ferrite_maglev/capability_migration.py) | `./osr design capability-migration` | Actual v0.4 feature dispositions and three-product scope with explicit missing capabilities. |
 | [city-planning](../../engineering/ferrite_maglev/cities.py) | `./osr city baghdad` | Detailed PM-maglev city briefs, formation, fleet, duty, charging, manufacture and CAPEX/OPEX/debt sensitivities; complete costs, financing and route acceptance remain open. |
 | [system-search](../../engineering/ferrite_maglev/optimisation.py) | `./osr design run` | Vehicle/beam/span sensitivities and indexed allowances; complete costs and full coupling remain open. |
 | [adaptive-search](../../engineering/ferrite_maglev/iteration.py) | `./osr design iterate` | Result-guided vehicle/beam/Rust gain variants and separate holdout confirmation; research recommendation only. |

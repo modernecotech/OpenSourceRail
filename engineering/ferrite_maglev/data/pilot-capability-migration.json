@@ -1,0 +1,235 @@
+{
+  "baseline": {
+    "commit": "205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e",
+    "feature_rows": 14,
+    "path": "README.md",
+    "sha256": "c4160b9ba9aefde225d9bcd7ea8b34c8db7565294f10c56a603276b01b5de444",
+    "tag": "v0.4.0"
+  },
+  "capabilities": [
+    {
+      "acceptance_test": "Regenerate a city twice; compare receipts and current primary identities.",
+      "current_sources": [
+        "engineering/ferrite_maglev/cities.py"
+      ],
+      "decision": "Current266city planning; former route editor is not restored.",
+      "execution_profile": "engineering",
+      "id": "city-generation",
+      "owner": "City planning",
+      "state": "retained-and-tested",
+      "tests": [
+        "engineering/analysis/tests/test_ferrite_maglev_cities.py"
+      ],
+      "title": "Deterministic city generation"
+    },
+    {
+      "acceptance_test": "Verify1km resource schedule, procurement dates and monthly finance; reject revision mismatches.",
+      "current_sources": [
+        "engineering/ferrite_maglev/delivery_schedule.py"
+      ],
+      "decision": "Pilot resource schedule, procurement and monthly cash replace the old delivery model; catalogue-wide ERP twins remain open.",
+      "execution_profile": "engineering",
+      "id": "project-twin",
+      "owner": "Delivery engineering",
+      "state": "replaced",
+      "tests": [
+        "engineering/analysis/tests/test_ferrite_maglev_delivery_schedule.py"
+      ],
+      "title": "Generatable project digital twin"
+    },
+    {
+      "acceptance_test": "Open current pilot and native authenticated workflow; preserve permissions and reject unsafe paths.",
+      "current_sources": [
+        "tools/automation/maglev-workbench.py"
+      ],
+      "decision": "Current evidence review plus isolated native pilot; full former GIS/OCC/HR navigation is unconnected.",
+      "execution_profile": null,
+      "id": "workbench",
+      "owner": "Platform integration",
+      "state": "retained-but-unconnected",
+      "tests": [
+        "tools/automation/tests/verify-maglev-workbench.mjs"
+      ],
+      "title": "Integrated Workbench"
+    },
+    {
+      "acceptance_test": "Purchase, simulated receiving, QA/rework, install, alarm, maintenance, replacement and independent handback; test restart/revision faults.",
+      "current_sources": [
+        "engineering/ferrite_maglev/pilot_lifecycle.py"
+      ],
+      "decision": "Test scope is serial cartridge and beam simulation in native ERPNext/FUXA; entire-city HR/accounts and evaluator bindings remain open.",
+      "execution_profile": "delivery-lifecycle",
+      "id": "business-lifecycle",
+      "owner": "Owner/operator platform",
+      "state": "retained-and-tested",
+      "tests": [
+        "engineering/analysis/tests/test_ferrite_maglev_pilot_lifecycle.py"
+      ],
+      "title": "Business execution and embedded maintenance"
+    },
+    {
+      "acceptance_test": "Restore editable maglev route/service revisions with GIS provenance and merge/review tests.",
+      "current_sources": [
+        "engineering/ferrite_maglev/cities.py"
+      ],
+      "decision": "The current front door is read-only; the former16layer editor and OD revision UI are absent.",
+      "execution_profile": null,
+      "id": "interactive-planning",
+      "owner": "GIS and transport planning",
+      "state": "missing",
+      "tests": [],
+      "title": "Interactive network and service planning"
+    },
+    {
+      "acceptance_test": "Replay exact equipment identity through Rust loops and coupled plant with adverse controls and energy accounting.",
+      "current_sources": [
+        "engineering/ferrite_maglev/pilot_actuators.py"
+      ],
+      "decision": "Current Rust support/current/launch loops and bounded plant replace wheel-specific interfaces; physical plant validation stays open.",
+      "execution_profile": "engineering",
+      "id": "software-loop",
+      "owner": "Control integration",
+      "state": "replaced",
+      "tests": [
+        "engineering/analysis/tests/test_ferrite_maglev_pilot_actuators.py"
+      ],
+      "title": "Software in the loop"
+    },
+    {
+      "acceptance_test": "Generate same-stop SUMO demand/dwell scenario and compare timings within a declared bound.",
+      "current_sources": [
+        "engineering/ferrite_maglev/pilot_corridor.py"
+      ],
+      "decision": "Independent SUMO timing cross-check is not migrated; Rust/Python comparisons are not SUMO evidence.",
+      "execution_profile": null,
+      "id": "sumo-crosscheck",
+      "owner": "Operations modelling",
+      "state": "missing",
+      "tests": [],
+      "title": "Independent operations cross-check"
+    },
+    {
+      "acceptance_test": "Reconcile serial/typeIDs, quantities and field records through IFC/IDS/BCF without autoaccepting estimates.",
+      "current_sources": [
+        "engineering/ferrite_maglev/cities.py"
+      ],
+      "decision": "Current plans retain geography; complete IFC4.3/IDS/BCF and field acceptance federation is unconnected.",
+      "execution_profile": null,
+      "id": "civil-bim-gis",
+      "owner": "Civil information management",
+      "state": "retained-but-unconnected",
+      "tests": [],
+      "title": "Civil BIM, GIS and field evidence"
+    },
+    {
+      "acceptance_test": "Reconcile current units, interfaces, lifting and QA plans; retain clearance/supplier holds.",
+      "current_sources": [
+        "engineering/ferrite_maglev/shared_hub_layout.py",
+        "engineering/ferrite_maglev/pilot_product.py"
+      ],
+      "decision": "Current guidebeam/hub definitions replace old platform and bogie-change products; all45former families are not reproduced.",
+      "execution_profile": "engineering",
+      "id": "station-geometry",
+      "owner": "Station and civil engineering",
+      "state": "replaced",
+      "tests": [
+        "engineering/analysis/tests/test_ferrite_maglev_pilot_product.py"
+      ],
+      "title": "Station and civil product geometry"
+    },
+    {
+      "acceptance_test": "Retain solver inputs, failures and flow/adverse cases on current interfaces; qualify fire/drainage separately.",
+      "current_sources": [
+        "engineering/ferrite_maglev/station_native.py",
+        "engineering/ferrite_maglev/hub_access.py"
+      ],
+      "decision": "Current structural/access screens replace old benchmarks; complete fire/drainage/thermal qualification remains open.",
+      "execution_profile": null,
+      "id": "station-screens",
+      "owner": "Station engineering",
+      "state": "replaced",
+      "tests": [],
+      "title": "Station engineering screens"
+    },
+    {
+      "acceptance_test": "Reconcile scope-exclusive mass/cost/space; test equipped bay assembly/removal, retain failures.",
+      "current_sources": [
+        "engineering/ferrite_maglev/assembled_body.py",
+        "engineering/ferrite_maglev/pilot_product.py"
+      ],
+      "decision": "Current composite body and magnetic bays replace the [historical wheel/traction product](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/README.md); stock geometry is not a manufactured train release.",
+      "execution_profile": "engineering",
+      "id": "trainset",
+      "owner": "Mechanical product engineering",
+      "state": "replaced",
+      "tests": [
+        "engineering/analysis/tests/test_ferrite_maglev_pilot_product.py"
+      ],
+      "title": "Buildable modular trainset"
+    },
+    {
+      "acceptance_test": "Reconcile quantities/monthly cash, funding gap, DSCR and independent comparison quantities without principal double count.",
+      "current_sources": [
+        "engineering/ferrite_maglev/delivery_schedule.py",
+        "engineering/ferrite_maglev/launch_optimisation.py"
+      ],
+      "decision": "Pilot quantities and computed launch losses feed cash/revenue/debt sensitivities; catalogue allowances retain their separate identity.",
+      "execution_profile": "engineering",
+      "id": "cost-propagation",
+      "owner": "Project economics",
+      "state": "replaced",
+      "tests": [
+        "engineering/analysis/tests/test_ferrite_maglev_delivery_schedule.py"
+      ],
+      "title": "Automatic cost propagation"
+    },
+    {
+      "acceptance_test": "Execute authority and maglev refusal proofs with stale/tamper and independent handback negative controls.",
+      "current_sources": [
+        "engineering/ferrite_maglev/pilot_assurance.py"
+      ],
+      "decision": "Executed authority and maglev refusal properties are source-bound; they do not provide physical or operational acceptance.",
+      "execution_profile": "control-formal",
+      "id": "assurance",
+      "owner": "Independent assurance",
+      "state": "retained-and-tested",
+      "tests": [
+        "engineering/analysis/tests/test_ferrite_maglev_pilot_assurance.py"
+      ],
+      "title": "Operations and assurance"
+    },
+    {
+      "acceptance_test": "Run native scenario/browser, outage/restart and revision faults; retain source receipts/screenshots.",
+      "current_sources": [
+        "tools/automation/pilot-lifecycle-native.py"
+      ],
+      "decision": "Current disposable native scenario exercises ERPNext/FUXA/Workbench with faults/recovery; broad former editor coverage is not restored.",
+      "execution_profile": "delivery-lifecycle",
+      "id": "integrated-testing",
+      "owner": "Platform verification",
+      "state": "replaced",
+      "tests": [
+        "engineering/analysis/tests/test_ferrite_maglev_pilot_lifecycle.py"
+      ],
+      "title": "Deterministic integrated testing"
+    }
+  ],
+  "products": [
+    {
+      "boundary": "Planning, procurement, simulated QA/serial execution, evidence and maintenance with business-owned permissions.",
+      "first_adoptable": "Controlled pilot planning and training before rolling-stock certification; no movement authority.",
+      "name": "Owner/builder/operator delivery platform"
+    },
+    {
+      "boundary": "Mechanical/civil candidates, methods, origin-accounted suppliers, QA and serial definitions.",
+      "first_adoptable": "Digital pilot kits for review and supplier engagement; manufacture requires independent release.",
+      "name": "Reference hardware and factories"
+    },
+    {
+      "boundary": "Rust authority/control kernels, supervision, offline plant and refusal tests.",
+      "first_adoptable": "Replay and hardware-in-loop development; no live train or safety authorisation.",
+      "name": "Open GOA4 control platform"
+    }
+  ],
+  "schema": "osr-v04-capability-migration-input/1"
+}

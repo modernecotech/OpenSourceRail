@@ -1,0 +1,42 @@
+OpenSourceRail safety case — 5 goal(s), 1 strategy(ies), 11 solution(s)
+========================================================================
+G PILOT-DELIVERY: Current product IDs traverse the simulated business lifecycle; no physical receiving or handback is claimed
+  E E-LIFECYCLE: Native disposable ERPNext/FUXA/Workbench lifecycle runner (sim-run) — tools/automation/pilot-lifecycle-native.py
+G PILOT-ENGINEERING: Controlled product, coupled actuator and corridor/schedule implementations are traceable; execution must be recorded separately
+  E E-ACTUATOR: Bounded coupled actuator and fault tests (pytest) — engineering/analysis/tests/test_ferrite_maglev_pilot_actuators.py
+  E E-CORRIDOR: Pilot access, demand proxy and service tests (pytest) — engineering/analysis/tests/test_ferrite_maglev_pilot_corridor.py
+  E E-DELIVERY-SCHEDULE: Resource schedule, cash and comparison tests (pytest) — engineering/analysis/tests/test_ferrite_maglev_delivery_schedule.py
+  E E-PRODUCT: Configuration-specific product and allowance substitution (pytest) — engineering/analysis/tests/test_ferrite_maglev_pilot_product.py
+G PILOT-FORMAL: Retained time/authority and current maglev refusal properties have bounded executable harnesses
+  E E-EXPIRED: Expired authority emergency response (kani)  [kani_a2_expired_ma_trips] — crates/osr-atp/src/kani_proofs.rs
+  E E-REPLAY-DRIVE: Replayed current-loop frame cannot emit study duties (kani)  [kani_maglev_replayed_drive_frame_has_no_duties] — crates/osr-maglev-control/src/kani_proofs.rs
+  E E-STALE-SUPPORT: Stale support input requests independent fallback (kani)  [kani_maglev_stale_support_requests_fallback] — crates/osr-maglev-control/src/kani_proofs.rs
+  E E-TIME: Validity-window arithmetic (kani)  [kani_p5_time_bounded_arithmetic] — crates/osr-interlocking/src/kani_proofs.rs
+  E E-UNPROTECTED-LAUNCH: Unprotected launch cannot emit study force (kani)  [kani_maglev_unprotected_launch_has_no_force] — crates/osr-maglev-control/src/kani_proofs.rs
+G PILOT-PHYSICAL: Physical qualification obligations are recorded and remain unaccepted
+  E E-PHYSICAL-PLAN: Unexecuted physical protocols and independent evidence assessment contract (cite) — engineering/ferrite_maglev/qualification.py
+      note: A protocol plan is evidence of an obligation only. It is not an executed physical test.
+G PILOT-TRACE: Current pilot development claims have explicit evidence paths and separate physical acceptance gates
+  S PILOT-STRATEGY: Separate engineering, delivery, formal control and unaccepted physical qualification
+    G PILOT-ENGINEERING: Controlled product, coupled actuator and corridor/schedule implementations are traceable; execution must be recorded separately
+      E E-ACTUATOR: Bounded coupled actuator and fault tests (pytest) — engineering/analysis/tests/test_ferrite_maglev_pilot_actuators.py
+      E E-CORRIDOR: Pilot access, demand proxy and service tests (pytest) — engineering/analysis/tests/test_ferrite_maglev_pilot_corridor.py
+      E E-DELIVERY-SCHEDULE: Resource schedule, cash and comparison tests (pytest) — engineering/analysis/tests/test_ferrite_maglev_delivery_schedule.py
+      E E-PRODUCT: Configuration-specific product and allowance substitution (pytest) — engineering/analysis/tests/test_ferrite_maglev_pilot_product.py
+    G PILOT-DELIVERY: Current product IDs traverse the simulated business lifecycle; no physical receiving or handback is claimed
+      E E-LIFECYCLE: Native disposable ERPNext/FUXA/Workbench lifecycle runner (sim-run) — tools/automation/pilot-lifecycle-native.py
+    G PILOT-FORMAL: Retained time/authority and current maglev refusal properties have bounded executable harnesses
+      E E-EXPIRED: Expired authority emergency response (kani)  [kani_a2_expired_ma_trips] — crates/osr-atp/src/kani_proofs.rs
+      E E-REPLAY-DRIVE: Replayed current-loop frame cannot emit study duties (kani)  [kani_maglev_replayed_drive_frame_has_no_duties] — crates/osr-maglev-control/src/kani_proofs.rs
+      E E-STALE-SUPPORT: Stale support input requests independent fallback (kani)  [kani_maglev_stale_support_requests_fallback] — crates/osr-maglev-control/src/kani_proofs.rs
+      E E-TIME: Validity-window arithmetic (kani)  [kani_p5_time_bounded_arithmetic] — crates/osr-interlocking/src/kani_proofs.rs
+      E E-UNPROTECTED-LAUNCH: Unprotected launch cannot emit study force (kani)  [kani_maglev_unprotected_launch_has_no_force] — crates/osr-maglev-control/src/kani_proofs.rs
+    G PILOT-PHYSICAL: Physical qualification obligations are recorded and remain unaccepted
+      E E-PHYSICAL-PLAN: Unexecuted physical protocols and independent evidence assessment contract (cite) — engineering/ferrite_maglev/qualification.py
+          note: A protocol plan is evidence of an obligation only. It is not an executed physical test.
+
+OK — traceability complete; proof results and acceptance are separate (5 goals, 1 strategies, 11 solutions)
+Evidence: 10 / 11 current successful results; 0 independently accepted records
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.07s
+     Running `target/debug/osr-safety-case engineering/ferrite_maglev/data --evidence-root . --results docs/design-engine/ferrite-maglev/assurance-profiles/results.toml --require-verified`
+E-PHYSICAL-PLAN: no execution result

@@ -103,6 +103,7 @@ def report_check(output):
 
 
 def stages(output):
+    from . import pilot_product,pilot_actuators,launch_optimisation,pilot_corridor,pilot_variants,delivery_schedule,pilot_lifecycle,pilot_assurance,capability_migration,pilot_release
     def document(script, *args):
         subprocess.run([sys.executable, str(model.ROOT/'tools/automation'/script), *args], cwd=model.ROOT, check=True, capture_output=True, text=True)
     values = [
@@ -134,6 +135,16 @@ def stages(output):
         ('interchange-access-engineering', hub_access.verify, lambda: fresh_packet('hub-access', hub_access.publish)),
         ('shared-hub-station-geometry',shared_hub_layout.verify,lambda:fresh_packet('shared-hub-layout',shared_hub_layout.publish)),
         ('requirements-qualification-protocols', qualification.verify, lambda: fresh_packet('qualification', qualification.publish)),
+        ('controlled-pilot-product',pilot_product.verify,lambda:fresh_packet('pilot-product',pilot_product.publish)),
+        ('coupled-pilot-actuators',pilot_actuators.verify,lambda:fresh_packet('pilot-actuators',pilot_actuators.publish)),
+        ('segmented-launch-optimisation',launch_optimisation.verify,lambda:fresh_packet('launch-optimisation',launch_optimisation.publish)),
+        ('resource-constrained-pilot-delivery',delivery_schedule.verify,lambda:fresh_packet('delivery-schedule',delivery_schedule.publish)),
+        ('baghdad-complete-pilot-corridor',pilot_corridor.verify,lambda:fresh_packet('pilot-corridor',pilot_corridor.publish)),
+        ('exact-actuator-pilot-finance',pilot_variants.verify,lambda:fresh_packet('pilot-variants',pilot_variants.publish)),
+        ('serial-pilot-business-lifecycle',pilot_lifecycle.verify,lambda:fresh_packet('pilot-lifecycle',pilot_lifecycle.publish)),
+        ('pilot-development-assurance',pilot_assurance.verify,lambda:fresh_packet('assurance-profiles',pilot_assurance.publish)),
+        ('v04-capability-migration',capability_migration.verify,lambda:fresh_packet('capability-migration',capability_migration.publish)),
+        ('connected-pilot-delivery',pilot_release.verify,lambda:fresh_packet('pilot-delivery',pilot_release.publish)),
         ('city-design-catalogue', lambda: document('generate-design-index.py','--check'), lambda: document('generate-design-index.py')),
         ('primary-capability-directory', lambda: navigation.publish(check=True), navigation.publish),
         ('primary-report', lambda: report_check(delivery.OUTPUT), lambda: delivery.publish()),
@@ -147,6 +158,23 @@ def stages(output):
     return values
 
 
+def input_sources():
+    """Guard standalone control and launcher inputs as well as primary sources."""
+    values=model.sources(include_generated=False)
+    # The migration register also binds browser checks outside model.sources().
+    from . import capability_migration
+    if (model.ROOT/'engineering/ferrite_maglev/data/pilot-capability-migration.json').is_file():
+        values.update(capability_migration.sources())
+    package=model.ROOT/'engineering/ferrite_maglev/observer-prototype'
+    paths=[p for p in package.rglob('*') if p.is_file()
+           and p.suffix in {'.rs','.py','.json','.toml','.lock','.h','.c'}
+           and not any(part in {'target','__pycache__'} for part in p.parts)]
+    launcher=model.ROOT/'tools/automation/osr-python'
+    if launcher.is_file():paths.append(launcher)
+    values.update({p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in paths})
+    return values
+
+
 def run(output=delivery.OUTPUT, *, state=STATE, stage_list=None):
     """Reverify each dependency after restart; a failed build stops descendants."""
     state = Path(state)
@@ -155,7 +183,7 @@ def run(output=delivery.OUTPUT, *, state=STATE, stage_list=None):
         def input_identity():
             # Publication still hashes every retained output. The inter-stage
             # input guard excludes generated files before reading their bytes.
-            return model.sources(include_generated=False)
+            return input_sources()
         source_identity = input_identity()
         def frozen():
             if input_identity() != source_identity:

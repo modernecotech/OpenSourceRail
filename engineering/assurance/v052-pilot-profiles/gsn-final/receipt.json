@@ -1,0 +1,90 @@
+{
+  "design_complete": false,
+  "executions": [
+    {
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "-p",
+        "osr-safety-case",
+        "--",
+        "engineering/ferrite_maglev/data",
+        "--evidence-root",
+        ".",
+        "--results",
+        "docs/design-engine/ferrite-maglev/assurance-profiles/results.toml"
+      ],
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "passed": true,
+      "report": "trace.txt",
+      "report_sha256": "eebe1f47aa997d56e71164f8eba819ab683d8ecc468233dde79ad88f2d5a3f5b"
+    },
+    {
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "-p",
+        "osr-safety-case",
+        "--",
+        "engineering/ferrite_maglev/data",
+        "--evidence-root",
+        ".",
+        "--results",
+        "docs/design-engine/ferrite-maglev/assurance-profiles/results.toml",
+        "--require-verified"
+      ],
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "passed": true,
+      "report": "require-verified.txt",
+      "report_sha256": "40c3a62fa9d20928b90b033ad6d84dc1589a61fd98bff4e20c4df649343744e3"
+    },
+    {
+      "command": [
+        "cargo",
+        "run",
+        "--locked",
+        "-p",
+        "osr-safety-case",
+        "--",
+        "engineering/ferrite_maglev/data",
+        "--evidence-root",
+        ".",
+        "--results",
+        "docs/design-engine/ferrite-maglev/assurance-profiles/results.toml",
+        "--require-accepted"
+      ],
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "passed": true,
+      "report": "require-accepted.txt",
+      "report_sha256": "9df9e0db11e722f9c4b99c4221d3fec6ef6f920e9207b5e93558c1604ca65561"
+    }
+  ],
+  "independently_accepted": 0,
+  "manufacturing_release": false,
+  "passed": true,
+  "physical_release": false,
+  "physical_validation": false,
+  "schema": "osr-pilot-gsn-cli-execution/1",
+  "scope": "Executed CLI traceability and current-receipt assessment. The physical verification and independent acceptance gates refuse closure as expected.",
+  "source_sha256": {
+    "Cargo.lock": "2f04e682935b3ef2281ccbe4b8de8c1f074a31528f43aa3657398989e77918e3",
+    "Cargo.toml": "bd0a0478375bf16689faf6fe55ca5668e3b38ee0b1b314cbee76151f2f6a01f4",
+    "crates/osr-safety-case/Cargo.toml": "a29961d5c2f510aa7d038181245825a8e32c0e771061a7e2d79d314567541acc",
+    "crates/osr-safety-case/src/lib.rs": "198da047ec877b7d8fc05f6048aa652487e2495114bd379e275c06f5fe602800",
+    "crates/osr-safety-case/src/main.rs": "a5b77901b70981e8ee73cb0b027ef20bffbce6339ce5d8120979d28f4f05e935",
+    "crates/osr-safety-case/src/results.rs": "864654032ef02d8b433f994fad74e10b3e72a1663b35c0deffad68ef81248556",
+    "crates/osr-safety-case/tests/pilot_case.rs": "49c7bd1205676845584af671081f0f68aa5ca45df4794b4c6da1cdaf4f7508bd",
+    "crates/osr-safety-case/tests/starter_case_closes.rs": "29f52dba973bd77f79d81bad6a22050f489ad99ab1bdae9c5667dfce5c978f9b",
+    "docs/design-engine/ferrite-maglev/assurance-profiles/results.toml": "9d8d83ada1e8a0d8d1df8c6c1b3a90c2c4ecba921e35478b64aca8502c412016",
+    "engineering/ferrite_maglev/data/pilot-assurance-case.toml": "42fc702d6830b79f6cc99900550251b02f5bf6d7b22eb3d924a0f42b5b36d711"
+  },
+  "source_unchanged": true,
+  "tool_version": "rustc 1.92.0 (ded5c06cf 2025-12-08)",
+  "total_solutions": 11,
+  "verified_solutions": 10
+}

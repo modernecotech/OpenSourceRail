@@ -1,0 +1,100 @@
+schema = "osr-resource-delivery-input/1"
+revision = "PILOT-RESOURCE-SCHEDULE-1"
+span_m = 25.0
+reference_length_m = 1000.0
+design_and_site_planning_days = 30.0
+foundation_hours = 16.0
+batch_hours = 2.0
+mould_occupation_hours = 24.0
+curing_hours = 168.0
+qa_hours = 2.0
+transport_hours = 4.0
+erection_hours = 3.0
+stator_hours = 4.0
+test_hours = 4.0
+shift_hours = 8.0
+crane_radius_m = 25.0
+assumed_chart_capacity_t_at_radius = 90.0
+rigging_t = 4.0
+dynamic_lift_factor = 1.10
+transport_payload_t = 100.0
+programme_factory_length_km = 100.0
+shared_factory_capital_usd = 2200000.0
+factory_imported_finished_usd = 1500000.0
+factory_imported_inputs_usd = 300000.0
+factory_local_process_usd = 400000.0
+training_trainees = 12
+training_hours_each = 120.0
+training_local_usd_per_hour = 15.0
+trainer_hours = 160.0
+trainer_usd_per_hour = 75.0
+
+[resources]
+foundation = 2
+batch = 1
+mould = 4
+curing = 16
+qa = 1
+transport = 2
+crane = 1
+stator = 2
+test = 1
+
+[rates]
+concrete_usd_m3 = 150.0
+reinforcement_kg_m3 = 160.0
+steel_usd_kg = 1.20
+reaction_steel_usd_kg = 2.50
+foundation_each_usd = 30000.0
+column_cap_each_usd = 20000.0
+beam_transport_each_usd = 1200.0
+beam_erection_each_usd = 1800.0
+beam_qa_each_usd = 500.0
+stator_route_m_usd = 250.0
+site_test_route_m_usd = 60.0
+
+[[procurement]]
+id = "PROC-MOULDS"
+candidate = "UK fabricated 25 m steel mould; supplier configuration and quote required"
+lead_days = 60.0
+planning_usd = 400000.0
+origin = "unknown; UK manufacture prioritised, no origin certificate"
+[[procurement]]
+id = "PROC-BATCH"
+candidate = "Rapid International planetary/twin-shaft batch mixer; Northern Ireland manufacturer candidate"
+lead_days = 90.0
+planning_usd = 500000.0
+origin = "manufacturer says in-house UK production; exact serial/input origins unverified"
+[[procurement]]
+id = "PROC-CRANE"
+candidate = "hired crane plus engineered ground mat; 90 t at 25 m is a study envelope, not a vendor chart"
+lead_days = 45.0
+planning_usd = 200000.0
+origin = "unknown; UK supply does not establish UK manufacture"
+[[procurement]]
+id = "PROC-STATOR"
+candidate = "copper, insulation, section converters and fixtures; no ordered parts"
+lead_days = 120.0
+planning_usd = 250000.0
+origin = "unknown"
+[[procurement]]
+id = "PROC-VEHICLES"
+candidate = "six-car prototype/fleet; independent vehicle qualification required"
+lead_days = 270.0
+planning_usd = 0.0
+origin = "cost counted by pilot fleet BOM; no supplier claim"
+[[procurement]]
+id = "PROC-LIFTS"
+candidate = "paired accessible station lifts; specific supplier and Iraqi approval required"
+lead_days = 150.0
+planning_usd = 0.0
+origin = "cost counted by pilot station BOM; no supplier claim"
+
+[[sources]]
+url = "https://www.fhwa.dot.gov/bridge/abc/prefab_def.cfm"
+checked = "2026-10-23"
+scope = "PBES includes foundations, piers, caps and decks; not railway approval or a seven-day strength certificate"
+[[sources]]
+url = "https://rapidinternational.com/rapidmix-2/"
+checked = "2026-10-23"
+scope = "in-house manufacturing statement and UK address; continuous Rapidmix is not selected as structural precast batching equipment"

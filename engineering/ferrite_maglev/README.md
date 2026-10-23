@@ -9,6 +9,10 @@ are the leading studies. **Accepted engineering and physical releases: zero.**
 
 ## Run and inspect
 
+The [connected Baghdad pilot](../../docs/design-engine/ferrite-maglev/pilot-delivery/README.md) joins controlled product accounting, coupled actuator experiments, launch segmentation, construction/procurement cash, access and service modelling, and serial-specific native business execution. Earlier mass targets are retained as benchmarks; the component-accounted product exposes its overrun and missing equipment definitions.
+
+The [migration register](../../docs/design-engine/ferrite-maglev/capability-migration/README.md) accounts for the actual v0.4 feature table. The [first adoptable product](../../docs/first-adoptable-product.md) is the owner/builder/operator planning and training platform, with separate reference hardware and GOA4 control products. The [assurance profiles](../../docs/design-engine/ferrite-maglev/assurance-profiles/README.md) distinguish source trace, executed verification and independent acceptance.
+
 ```bash
 ./osr build
 ./osr design station
@@ -24,6 +28,14 @@ are the leading studies. **Accepted engineering and physical releases: zero.**
 ./osr design assembled-body
 ./osr design body-stiffness
 ./osr design shared-hub-layout
+./osr design pilot-product
+./osr design pilot-actuators
+./osr design launch-optimisation
+./osr design delivery-schedule
+./osr design pilot-corridor
+./osr design pilot-variants
+./osr design pilot-lifecycle
+./osr design pilot-delivery
 ./osr design iterate
 ./osr design check
 ./osr design verify
@@ -194,3 +206,16 @@ Four parallel devices per switch position is a provisional count. Do not reduce 
 The proposed bus remains 2400 V DC. A lone 1700 V device remains unsuitable as its two-level switch; a 3.3 kV label alone does not qualify transient margin or insulation. The [construction study](../../docs/design-engine/ferrite-maglev/drive-construction/README.md) retains those gates and its current/voltage/heat comparisons.
 
 Exact UK-origin evidence, imported input value, local assembly and Iraqi local content remain separate records. No localisation percentage or financing eligibility is inferred from a supplier's address or ownership. Engineering, manufacturing and physical acceptance remain open.
+
+
+Browser execution records can be refreshed after the three development profiles and `./osr build` pass:
+
+```bash
+tools/automation/osr-python tools/automation/retain-pilot-ui.py prepare
+node tools/automation/tests/verify-maglev-workbench.mjs build/maglev-workbench-browser > build/pilot-final-browser-workbench.log 2>&1
+node tools/automation/tests/verify-maglev-v05.mjs build/maglev-browser > build/pilot-final-browser-reference.log 2>&1
+tools/automation/osr-python tools/automation/retain-pilot-ui.py retain
+tools/automation/osr-python tools/automation/retain-pilot-ui.py verify
+```
+
+The retainer checks unchanged publication and UI inputs before retaining screenshots, logs and checksums under `engineering/assurance/v052-pilot-ui/`. These are digital UI checks, not engineering acceptance.

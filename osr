@@ -25,6 +25,7 @@ Usage: ./osr [COMMAND] [arguments]
   capabilities ...   Generate/check the capability directory
   catalogue ...      Index, plan or regenerate selected cities
   readiness [...]    Show source-bound readiness and outstanding gates
+  assurance ...      Run/publish/verify engineering, lifecycle or formal profiles
 EOF
 }
 
@@ -40,6 +41,9 @@ case "$command_name" in
         ;;
     readiness)
         exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py readiness "$@"
+        ;;
+    assurance)
+        exec tools/automation/osr-python -m engineering.ferrite_maglev.pilot_assurance "$@"
         ;;
     workbench)
         exec npm run workbench -- "$@"

@@ -1,0 +1,101 @@
+schema = "osr-baghdad-pilot-input/1"
+revision = "BAGHDAD-LINE14-PILOT-1"
+line = "line-14"
+operating_hours_day = 16.0
+simulation_hours = 4.0
+walk_speed_m_s = 1.0
+wheel_speed_m_s = 0.6
+access_budget_minutes = 20.0
+node_snap_limit_m = 150.0
+platform_height_m = 8.0
+lift_speed_m_s = 1.0
+lift_doors_s = 15.0
+normal_lift_wait_s = 30.0
+outage_lift_wait_s = 60.0
+lift_passengers_per_car = 13
+normal_lift_fraction_of_passengers = 0.20
+daily_trips_per_catchment_resident = 0.12
+peak_hour_share_of_daily = 0.12
+peak_demand_factors = [0.7, 1.0, 1.0, 0.7]
+spare_trains = 2
+charge_kw_per_car = 600.0
+charge_efficiency = 0.9
+charge_connected_fraction = 0.75
+services_kw_per_car = 60.0
+daily_paid_ramp = [0.40, 0.70, 0.90, 1.0]
+fares_usd = [0.25, 0.50, 1.0]
+nonfare_fraction_of_fares = 0.10
+collection_fraction = 0.95
+annual_operating_days = 360
+annual_staff_salary_usd = 15000.0
+staff_per_shift_station = 3.0
+shifts_per_day = 2.5
+control_maintenance_management_staff = 35.0
+energy_usd_kwh = 0.10
+maintenance_fraction_capital = 0.02
+renewal_reserve_fraction_capital = 0.01
+debt_fraction = 0.60
+annual_interest = 0.06
+repayment_years = 20
+finance_fee_fraction = 0.02
+minimum_dscr = 1.20
+subsidy_usd_year = 2000000.0
+design_risk_reserve_fraction = 0.30
+station_roof_usd_m2 = 220.0
+station_lift_each_usd = 120000.0
+station_services_each_usd = 500000.0
+land_utilities_route_m_usd = 500.0
+depot_training_startup_usd = 6000000.0
+independent_assurance_usd = 2000000.0
+prototype_vehicle_nre_usd = 5000000.0
+station_converter_each_usd = 50000.0
+station_copper_usd_kg = 12.0
+
+[steel_wheel_comparison]
+deck_width_m = 7.0
+deck_slab_m = 0.25
+girders_per_span = 4
+girder_area_m2 = 0.38
+rails_kg_per_m = 60.0
+rails_per_route = 4
+rail_usd_kg = 2.0
+direct_fastener_pairs_per_route_m = 3.3333333333333335
+fastener_pair_usd = 160.0
+train_body_each_usd = 300000.0
+bogies_per_train = 12
+bogie_each_usd = 45000.0
+wheelsets_per_train = 24
+wheelset_each_usd = 4000.0
+motors_per_train = 24
+motor_each_usd = 8000.0
+inverters_per_train = 8
+inverter_each_usd = 20000.0
+traction_substation_per_route_km = 0.5
+substation_each_usd = 400000.0
+third_rail_kg_per_track_m = 12.0
+third_rail_usd_kg = 5.0
+gross_car_mass_kg = 33000.0
+rolling_resistance_fraction = 0.002
+hotel_kw_per_car = 40.0
+traction_efficiency = 0.90
+
+[[sources]]
+url = "https://hub.worldpop.org/geodata/summary?id=73856"
+checked = "2026-10-23"
+scope = "2026 Iraq100m people/pixel, produced2025-09-01, alphaR2025A; projected residential population, not measured OD or employment"
+[[sources]]
+url = "https://download.geofabrik.de/asia/iraq.html"
+checked = "2026-10-23"
+scope = "Repository retains2026-10-09 OSM topology; no claim latest roads, crossing rights or accessibility verified"
+[[sources]]
+url = "https://overpass-api.de/api/interpreter"
+checked = "2026-10-23"
+scope = "Retained OSM response: nwr amenity university|hospital|school|college|clinic|marketplace within33.345,44.42,33.382,44.482; out center tags. Object centres are not verified entrances or unique facilities; ODbL attribution retained."
+[[sources]]
+url = "https://www.activetravelengland.gov.uk/planning-active-places/pavements-and-footpaths"
+checked = "2026-10-23"
+scope = "UK comparator2m step-free routes/rest opportunities; no Iraqi approval and no missing kerb/width inference"
+[[sources]]
+url = "https://www.gov.uk/guidance/buyer-credit-facility"
+checked = "2026-10-23"
+scope = "UK exporter, acceptable lender, foreign-content/due-diligence and country-cover assessment;85% maximum export-contract support is not60% programme funding approval"

@@ -1,6 +1,8 @@
 """Bounded, source-bound publication for the v0.5 primary study."""
 from hashlib import sha256
 from html import escape
+from dataclasses import dataclass
+import importlib
 import json
 import gzip
 import os
@@ -71,6 +73,11 @@ def render(result):
 <p>PRIMARY DEVELOPMENT · v{model.RELEASE_VERSION}</p><h1>Ferrite-maglev on independent fixed lines</h1>
 <div class="banner">Six 17 m GFRP body studies, onboard ferrite PM-biased active support/guidance, station LSM launch/receiving braking, selected midway accelerator zones and coasting elsewhere. Junctions transfer passengers between fixed lines, without train-routing switches. Accepted engineering and physical releases: <strong>0</strong>. The published v0.5.1 configuration is retained as an identified comparison.</div>
 <p><a href="result.json">Current configuration, calculations and requirements</a> · <a href="manifest.json">Sources and payload receipt</a> · <a href="systems-register.json.gz">Systems responsibility register</a></p>
+<h2>Connected Baghdad digital pilot</h2>
+<p><a href="../pilot-delivery/README.md">Product, engineering, delivery and lifecycle evidence</a> connects the equipment ledger, coupled actuator experiment, segmented launch options, full pilot-line operation, procurement/construction cash and native serial business workflow. Accounted equipment exceeds historical mass targets. Failed original removal paths, counted redesigns and unresolved design gates remain visible.</p>
+<p><a href="../pilot-product/README.md">Controlled product</a> · <a href="../pilot-actuators/README.md">Actuator simulation</a> · <a href="../launch-optimisation/README.md">Launch search</a> · <a href="../pilot-corridor/README.md">Pilot access/service/finance</a> · <a href="../delivery-schedule/README.md">Resource delivery</a> · <a href="../pilot-lifecycle/README.md">Native lifecycle</a> · <a href="../assurance-profiles/README.md">Executed profiles</a> · <a href="../capability-migration/README.md">v0.4 migration</a></p>
+<p>All development profiles executed against current sources: <strong>{result['closure_studies']['connected_pilot']['digital_profiles_executed']}</strong>. Mass targets closed: <strong>{result['closure_studies']['connected_pilot']['mass_targets_closed']}</strong>. Physical and manufacturing gates remain open.</p>
+<p>Retained rejected experiment: <a href="../pilot-actuators-rejected-120turn/README.md">120-turn coupled run, failure receipt and exact sources</a> · <a href="../pilot-variant-failures/50faefb04c5f2872c05e342a0e1a65c1fbe56fc01b5b7392085f0b488c7ea999-failed/README.md">matched failed-candidate costs and finance</a>. Later candidates preserve this history.</p>
 <h2>Wider-stop urban and suburban operating corridors</h2>
 <p>Urban passenger stops target at least {result['operating_strategy']['urban_minimum_stop_spacing_m']/1000:g} km spacing and about {result['operating_strategy']['urban_target_stop_spacing_m']/1000:g} km on average. Suburban stops target {result['operating_strategy']['suburban_minimum_stop_spacing_m']/1000:g}–{result['operating_strategy']['suburban_maximum_stop_spacing_m']/1000:g} km with finite midway acceleration where required. Junctions are passenger transfers between independent fixed lines, without physical train-routing switches. Close retained transfers remain visible spacing/access exceptions. Straight alignments require actual land, utility, grade, clearance and evacuation checks.</p>
 <p><a href="../corridor/README.md">Longer corridor model and limits</a> · <a href="../corridor/result.json.gz">Separate trajectories, installed zones, services, capacity and actual Rust fault evidence</a> · <a href="../corridor/manifest.json">Corridor source receipt</a></p>
@@ -163,18 +170,55 @@ The new longer-leg studies are separate from the retained 1 km benchmarks below.
 <h2>Acceptance gates</h2><ul>{gate_rows}</ul><details><summary>{len(result['applicable_requirements']['requirements'])} applicable requirements, including all 100 supplied specification items — acceptance remains open</summary><table>{requirement_rows}</table></details></html>'''.encode()
 
 
-def closure_studies():
-    return dict(line_capacity=line_capacity.read_summary(),hub_access=hub_access.read_summary(),
+@dataclass(frozen=True)
+class _VerifiedConnectedPilot:
+    """Operation-local verified bytes; never retained between operations."""
+    summary_json: bytes
+    manifest_sha256: tuple
+
+
+def _connected_pilot_manifests():
+    from . import pilot_release
+    modules=[importlib.import_module('engineering.ferrite_maglev.'+name)
+             for _,name,_ in pilot_release.COMPONENTS]
+    return {(module.OUTPUT/'manifest.json').relative_to(model.ROOT).as_posix():
+            sha256((module.OUTPUT/'manifest.json').read_bytes()).hexdigest()
+            for module in [*modules,pilot_release]}
+
+
+def _verify_connected_pilot():
+    from . import pilot_release
+    before=_connected_pilot_manifests()
+    summary=pilot_release.read_summary()
+    if before!=_connected_pilot_manifests():
+        raise ValueError('connected pilot receipts changed while verifying')
+    return _VerifiedConnectedPilot(encoded(summary),tuple(sorted(before.items())))
+
+
+def _check_connected_pilot(context):
+    if (not isinstance(context,_VerifiedConnectedPilot)
+            or dict(context.manifest_sha256)!=_connected_pilot_manifests()):
+        raise ValueError('connected pilot receipts changed after verification')
+    return json.loads(context.summary_json)
+
+
+def closure_studies(*, _pilot=None):
+    context=_verify_connected_pilot() if _pilot is None else _pilot
+    _check_connected_pilot(context)
+    result=dict(line_capacity=line_capacity.read_summary(),hub_access=hub_access.read_summary(),
                 qualification=qualification.read_summary(),assembled_body=assembled_body.read_summary(),
                 shared_hub_layout=shared_hub_layout.read_summary(),body_stiffness=body_stiffness.read_summary(),
-                stopped_recovery=stopped_recovery.read_summary(),drive_construction=drive_design.read_summary())
+                stopped_recovery=stopped_recovery.read_summary(),drive_construction=drive_design.read_summary(),
+                connected_pilot=_check_connected_pilot(context))
+    return result
 
 def payload():
     before=model.sources();result=model.build()
+    pilot=_verify_connected_pilot()
     result['source_sha256']=before
     result['runtime']=runtime()
-    result['retained_evidence']=external_evidence()
-    result['closure_studies']=closure_studies()
+    result['retained_evidence']=external_evidence(_pilot=pilot)
+    result['closure_studies']=closure_studies(_pilot=pilot)
     numerical=field.study()
     files={'result.json':encoded(result),'index.html':render(result),
             'guidebeam-sections.svg':section_svg(result),'duty-energy.svg':energy_svg(result),
@@ -194,8 +238,10 @@ def runtime():
     return dict(python=platform.python_version(),scipy=scipy.__version__,numpy=numpy.__version__,matplotlib=matplotlib.__version__)
 
 
-def external_evidence():
+def external_evidence(*, _pilot=None):
     from . import coupled,cities
+    context=_verify_connected_pilot() if _pilot is None else _pilot
+    _check_connected_pilot(context)
     iteration.verify();station.verify();station_structure.verify();station_protocol.verify();station_native.verify()
     moving_train.verify();system_campaign.verify();closure.verify();manufactured_native.verify()
     corridor.verify();booster_kit.verify();booster_native.verify();interchange_hubs.verify()
@@ -208,8 +254,11 @@ def external_evidence():
     reference_assembly.verify(base/'baghdad-reference')
     catalogue=cities.verify_index()
     if not catalogue['current']:raise ValueError('city catalogue inputs/outputs changed: '+str(catalogue['errors'][:3]))
-    return {p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest()
+    result={p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest()
             for p in (base/'native/manifest.json',base/'coupled/receipt.json',base/'beam-only/manifest.json',base/'system-development/manifest.json',base/'baghdad-reference/manifest.json',base/'iterative/manifest.json',base/'station-powered/manifest.json',base/'station-structure/manifest.json',base/'station-protocol/manifest.json',base/'station-native/manifest.json',base/'moving-train/manifest.json',base/'system-campaign/manifest.json',base/'manufactured-dossier/manifest.json',base/'manufactured-native/manifest.json',base/'corridor/manifest.json',base/'booster-kit/manifest.json',base/'booster-native/manifest.json',base/'interchange-hubs/manifest.json',base/'line-capacity/manifest.json',base/'hub-access/manifest.json',base/'qualification/manifest.json',base/'assembled-body/manifest.json',base/'shared-hub-layout/manifest.json',base/'body-stiffness/manifest.json',base/'stopped-recovery/manifest.json',base/'drive-construction/manifest.json')}
+    _check_connected_pilot(context)
+    result.update(dict(context.manifest_sha256))
+    return result
 
 
 def publish(output=OUTPUT, *, check=False):
@@ -249,6 +298,8 @@ def verify(output=OUTPUT):
     r=json.loads((output/'result.json').read_text())
     if r['source_sha256']!=m['source_sha256'] or r['family']!=m['family']:raise ValueError('result identity differs')
     if any(o.get(k) is not False for o in (m,r) for k in model.FLAGS):raise ValueError('study asserted a release')
-    if r.get('retained_evidence')!=external_evidence():raise ValueError('retained native/coupled evidence differs')
-    if r.get('closure_studies')!=closure_studies():raise ValueError('closure studies differ')
+    pilot=_verify_connected_pilot()
+    if r.get('retained_evidence')!=external_evidence(_pilot=pilot):raise ValueError('retained native/coupled evidence differs')
+    if r.get('closure_studies')!=closure_studies(_pilot=pilot):raise ValueError('closure studies differ')
+    if m['source_sha256']!=model.sources():raise ValueError('primary study sources changed while verifying')
     return m

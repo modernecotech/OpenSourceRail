@@ -94,16 +94,30 @@ def main():
     paths=set(manifest['source_sha256'])
     paths.update(('README.md','LICENSE.md','OpenSourceRail-Book.pdf','docs/ARCHITECTURE.md','docs/ROADMAP.md',
                   'engineering/ferrite_maglev/README.md','engineering/ferrite_maglev/city-index.md',
-                  'tools/automation/package-maglev-release.py'))
+                  'tools/automation/package-maglev-release.py','tools/automation/osr-python','tools/automation/retain-pilot-ui.py',
+                  'docs/first-adoptable-product.md','docs/releases/v0.5.2.md',
+                  'tools/automation/tests/verify-maglev-workbench.mjs','tools/automation/tests/verify-maglev-v05.mjs',
+                  'engineering/ferrite_maglev/observer-prototype/README.md'))
     paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/'LICENSES').rglob('*') if p.is_file())
     paths.update(body_evidence_paths())
-    for folder in ('reference','native','beam-only','system-development','baghdad-reference','coupled','iterative','station-powered','station-structure','station-protocol','station-native','moving-train','system-campaign','manufactured-dossier','manufactured-native','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness','stopped-recovery','drive-construction'):
+    for folder in ('reference','native','beam-only','system-development','baghdad-reference','coupled','iterative','station-powered','station-structure','station-protocol','station-native','moving-train','system-campaign','manufactured-dossier','manufactured-native','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness','stopped-recovery','drive-construction','pilot-product','pilot-actuators',
+                   'launch-optimisation','delivery-schedule','pilot-corridor','pilot-variants','pilot-lifecycle',
+                   'assurance-profiles','capability-migration','pilot-delivery'):
         packet=ROOT/'docs/design-engine/ferrite-maglev'/folder
         paths.update(p.relative_to(ROOT).as_posix() for p in packet.rglob('*') if p.is_file())
         for receipt in [*packet.rglob('manifest.json'),*packet.rglob('receipt.json')]:
             value=json.loads(receipt.read_text())
             for key in ('source_sha256','sources_sha256'):
                 paths.update(value.get(key,{}))
+    # Histories remain historical; their earlier source hashes are not rebound
+    # to current files. The current profile packet identifies eligible executions.
+    for name in ('engineering/assurance/v052-pilot-profiles',
+                 'engineering/assurance/v052-pilot-lifecycle-native','engineering/assurance/v052-pilot-ui',
+                 'engineering/assurance/v052-pilot-actuator-crosscheck',
+                 'docs/design-engine/ferrite-maglev/pilot-actuators-rejected-120turn',
+                 'docs/design-engine/ferrite-maglev/pilot-actuators-python-observer-baseline',
+                 'docs/design-engine/ferrite-maglev/pilot-variant-failures'):
+        paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/name).rglob('*') if p.is_file())
     result=release_bundle.publish(ROOT,args.output,paths,tracked,version=model.RELEASE_VERSION,
         commit=commit,source_sha256=manifest['source_sha256'],
         shard_limit=args.shard_payload_mib*1024*1024)

@@ -145,6 +145,7 @@ def binding():
 def _task(identity, evidence_class, deliverable, prerequisites, **values):
     return dict(id=identity, evidence_class=evidence_class, deliverable=deliverable,
         prerequisites=sorted(set(prerequisites)), state='hold', accepted=False,
+        digital_state='planned', digital_evidence=[], physical_state='unexecuted',
         pass_rule='Exact-revision deliverable and required authenticated records, approved limits and closed deviations',
         hold_rule='Missing/unverified evidence, unresolved limit, prerequisite, approval or configuration mismatch',
         fail_rule='Authenticated applicable measurement fails its pre-approved guard-banded criterion or a mandatory prerequisite is revoked',

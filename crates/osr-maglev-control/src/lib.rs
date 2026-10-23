@@ -14,6 +14,9 @@ pub mod ideal;
 pub mod io;
 pub mod station;
 
+#[cfg(kani)]
+mod kani_proofs;
+
 /// Example controller parameters: units are explicit and gains require plant identification.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Params {

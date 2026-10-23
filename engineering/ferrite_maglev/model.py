@@ -390,9 +390,11 @@ def sources(*,include_generated=True):
     paths+=list((ROOT/'crates/osr-maglev-control').rglob('*.rs'))+[ROOT/'crates/osr-maglev-control/Cargo.toml']
     paths += [ROOT/name for name in ('tools/automation/maglev-workbench.py', 'install.sh',
         'tools/automation/generate-public-overview.py', 'tools/automation/build-doc-book.py',
-        'docs/workbench/maglev/index.html', 'docs/workbench/maglev/app.js', 'docs/workbench/maglev/app.css')]
+        'docs/workbench/maglev/index.html', 'docs/workbench/maglev/app.js', 'docs/workbench/maglev/pilot.js', 'docs/workbench/maglev/app.css')]
     from . import navigation
     paths += navigation.source_paths()
+    from . import pilot_lifecycle,pilot_assurance
+    paths += pilot_lifecycle.source_paths()+pilot_assurance.source_paths()
     def included(path):
         name=path.relative_to(ROOT).as_posix()
         return include_generated or not (
