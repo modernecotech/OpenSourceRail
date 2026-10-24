@@ -32,6 +32,32 @@ def test_field_adapter_requires_exact_guid_revision_unit_and_no_acceptance():
     with pytest.raises(ValueError,match='stale'):b.assess_field(work,bad,configuration_sha256=cfg,part=part)
 
 
+def test_selected_span_endinfills_match_manufacturing_quantities_and_change_native_ifc(tmp_path):
+    candidate=b.candidate_magnetics.definition()
+    selection=dict(section_id='wider-intermediate',span_m=20.)
+    products=b.manufacturing.product_definition(candidate,selection=selection)
+    parts=b.exchange_parts(candidate,selection=selection)
+    concrete=[part for part in parts if part['id'].startswith('civil/')]
+    assert len(concrete)==6
+    assert sum(part['volume_m3'] for part in concrete)==pytest.approx(products['beam']['concrete_volume_m3'])
+    assert max(part['at_m'][0]+part['size_m'][0] for part in concrete)==20.
+    exported=b.export_ifc(tmp_path,candidate,selection=selection)
+    assert exported['selected_beam']==selection
+    assert exported['ids_pass'] and exported['stale_revision_refused']
+    ids=(tmp_path/'candidate.ids').read_bytes();ifc=(tmp_path/'candidate.ifc').read_bytes()
+    b._retained_ifc(ifc,ids,candidate,exported,selection=selection)
+    with pytest.raises(ValueError,match='beam/span'):
+        b._retained_ifc(ifc,ids,candidate,exported,selection=dict(section_id='wider-intermediate',span_m=25.))
+
+
+def test_exchange_refuses_foreign_selected_beam():
+    candidate=b.candidate_magnetics.definition()
+    beam=b.candidate_structures.selected_beam(candidate)
+    beam['configuration_sha256']='f'*64
+    with pytest.raises(ValueError,match='configuration'):
+        b.exchange_parts(candidate,beam=beam)
+
+
 @pytest.fixture(scope='module')
 def retained_packet(tmp_path_factory):
     output=tmp_path_factory.mktemp('actual-retained-bim');b.publish(output)

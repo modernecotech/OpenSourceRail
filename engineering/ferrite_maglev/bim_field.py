@@ -16,7 +16,7 @@ import uuid
 import zipfile
 import xml.etree.ElementTree as ET
 import numpy as np
-from . import model, candidate_magnetics, candidate_structures, delivery_platform as platform
+from . import model, candidate_magnetics, candidate_structures, candidate_manufacturing as manufacturing, delivery_platform as platform
 
 ROOT=model.ROOT
 OUTPUT=ROOT/'docs/design-engine/ferrite-maglev/bim-field'
@@ -31,7 +31,7 @@ from osr_integration.operations import field
 
 
 def source_paths():return sorted({Path(__file__),Path(field.__file__),Path(platform.__file__),Path(model.__file__),FIELD/'osr_integration/config.py',FIELD/'osr_integration/operations/contracts.py',Path(__file__).with_name('requirements.txt'),ROOT/'engineering/analysis/tests/test_ferrite_maglev_bim_field.py',
-    *candidate_magnetics.source_paths(),*candidate_structures.source_paths(),*[p for p in XSD.iterdir() if p.is_file()]})
+    *candidate_magnetics.source_paths(),*candidate_structures.source_paths(),*manufacturing.source_paths(),*[p for p in XSD.iterdir() if p.is_file()]})
 def sources():return {p.relative_to(ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in source_paths()}
 def identity(configuration,part):return str(uuid.uuid5(GUID_NS,configuration+'/'+part))
 
@@ -99,20 +99,38 @@ def _solids(f,part):
     return solid
 
 
-def exchange_parts(candidate):
+def exchange_parts(candidate,*,beam=None,selection=None,include_rail_and_supports=False,allow_incomplete=False):
+    if type(include_rail_and_supports) is not bool:raise ValueError('explicit civil exchange scope required')
     parts=[dict(p,exchange_scope='one magnetic module, module-local frame') for p in candidate['module']['parts']]
-    assumptions=candidate_structures.load();sec=assumptions['beam_sections'][0];b=sec['width_m'];h=sec['depth_m'];tw=sec['web_m'];tf=sec['flange_m']
-    for label,size,at in [('bottom',[25.,b,tf],[0.,3.,0.]),('top',[25.,b,tf],[0.,3.,h-tf]),
-        ('left-web',[25.,tw,h-2*tf],[0.,3.,tf]),('right-web',[25.,tw,h-2*tf],[0.,3.+b-tw,tf])]:
-        parts.append(dict(id='civil/25m-box/'+label,kind='box',size_m=size,at_m=at,material='provisional-concrete',
-            volume_m3=math.prod(size),mass_kg=math.prod(size)*assumptions['concrete']['density_kg_m3'],exchange_scope='25m concrete box only; end blocks/rail steel/bearings/piers separate structural packet'))
+    resolved=manufacturing.selected_beam(candidate,beam=beam,selection=selection,allow_incomplete=allow_incomplete)
+    geometry=manufacturing._civil_geometry(resolved);density=resolved['assumptions']['concrete']['density_kg_m3']
+    sec=resolved['beam']['section'];span=resolved['selection']['span_m']
+    # A declared review-layout translation separates a beam coupon from the
+    # module coupon. It supplies no installed vehicle/guideway clearance credit.
+    offset=[span/2,3.+sec['width_m']/2,sec['depth_m']-resolved['assumptions']['rail_support']['beam_top_z_m']]
+    for part in geometry['parts']:
+        if part['material']!='concrete' and not include_rail_and_supports:continue
+        row=dict(part,id='civil/'+part['id'],at_m=[x+y for x,y in zip(part['at_m'],offset)],
+            exchange_scope=f'Selected{span:g}m {sec["id"]} beam coupon; concrete includes endinfills. Review-layout translation only; reinforcement/strand/bearing/foundation installed details remain open.')
+        if part['material']=='concrete':row['mass_kg']=part['volume_m3']*density
+        if 'cg_m' in part:row['cg_m']=[x+y for x,y in zip(part['cg_m'],offset)]
+        parts.append(row)
+    for part in candidate.get('additional_stock',[]):
+        if part.get('kind') not in {'box','cylinder'} or part.get('equivalent_box'):
+            raise ValueError('additional exchange stock needs actual supported primitive geometry')
+        row=dict(part,at_m=[part['at_m'][0],part['at_m'][1]+8.,part['at_m'][2]],
+            exchange_scope='Known added carrier stock percar, review-layout translated8m laterally. Unresolved bearings/slides/retention are not geometry and remain holds.')
+        if 'cg_m' in part:row['cg_m']=[part['cg_m'][0],part['cg_m'][1]+8.,part['cg_m'][2]]
+        parts.append(row)
+    if len({part['id'] for part in parts})!=len(parts):raise ValueError('unique candidate exchange part IDs required')
     return parts
 
 
-def export_ifc(directory,candidate=None):
+def export_ifc(directory,candidate=None,*,beam=None,selection=None,include_rail_and_supports=False,allow_incomplete=False):
     import ifcopenshell,ifcopenshell.api,ifcopenshell.geom,ifcopenshell.util.shape
     from ifctester import ids
     candidate=candidate or candidate_magnetics.definition();directory=Path(directory);directory.mkdir(parents=True,exist_ok=True)
+    resolved=manufacturing.selected_beam(candidate,beam=beam,selection=selection,allow_incomplete=allow_incomplete)
     cfg=candidate['configuration_sha256'];f=ifcopenshell.api.run('project.create_file',version='IFC4X3')
     project=ifcopenshell.api.run('root.create_entity',f,ifc_class='IfcProject',name='OpenSourceRail candidate exchange')
     ifcopenshell.api.run('unit.assign_unit',f,length={'is_metric':True,'raw':'METERS'})
@@ -120,7 +138,7 @@ def export_ifc(directory,candidate=None):
     site=ifcopenshell.api.run('root.create_entity',f,ifc_class='IfcSite',name='Provisional Baghdad component exchange; not surveyed')
     ifcopenshell.api.run('aggregate.assign_object',f,products=[site],relating_object=project)
     rows=[];materials={}
-    for part in exchange_parts(candidate):
+    for part in exchange_parts(candidate,beam=resolved,include_rail_and_supports=include_rail_and_supports,allow_incomplete=allow_incomplete):
         uid=identity(cfg,part['id']);obj=ifcopenshell.api.run('root.create_entity',f,ifc_class='IfcBuildingElementProxy',name=part['id']);obj.GlobalId=ifcopenshell.guid.compress(uuid.UUID(uid).hex)
         obj.Tag='SIM-'+uid[:8];solid=_solids(f,part);representation=f.createIfcShapeRepresentation(body,'Body','CSG',[solid])
         ifcopenshell.api.run('geometry.assign_representation',f,product=obj,representation=representation)
@@ -148,7 +166,11 @@ def export_ifc(directory,candidate=None):
     ifcopenshell.api.run('pset.edit_pset',reopened,pset=pset,properties={'ConfigurationSHA256':'f'*64})
     restored.validate(reopened);negative=not all(s.status for s in restored.specifications)
     if not negative:raise ValueError('stale IFC identity negative control escaped IDS')
-    return dict(configuration_sha256=cfg,ifc_schema=f.schema_identifier,ids_schema_valid=True,ids_pass=True,stale_revision_refused=negative,mesh_linear_deflection_m=1e-5,mesh_angular_deflection_rad=.1,mesh_volume_relative_tolerance=.001,
+    return dict(configuration_sha256=cfg,selected_beam=resolved['selection'],
+        selected_beam_sha256=platform.digest(dict(configuration_sha256=cfg,selection=resolved['selection'],beam=resolved['beam'])),
+        include_rail_and_supports=include_rail_and_supports,
+        incomplete_stock_diagnostic=allow_incomplete,
+        ifc_schema=f.schema_identifier,ids_schema_valid=True,ids_pass=True,stale_revision_refused=negative,mesh_linear_deflection_m=1e-5,mesh_angular_deflection_rad=.1,mesh_volume_relative_tolerance=.001,
         parts=rows,total_native_volume_m3=math.fsum(r['reopened_volume_m3'] for r in rows),**platform.FLAGS)
 
 
@@ -197,8 +219,8 @@ def assess_field(work,event,*,configuration_sha256,part):
     return dict(state='performed-awaiting-independent-inspection',configuration_sha256=configuration_sha256,ifc_guid=part['ifc_guid'],serial=part['simulated_serial'],raw_event_sha256=platform.digest(event),simulated=True,**platform.FLAGS)
 
 
-def study(directory,candidate=None):
-    candidate=candidate or candidate_magnetics.definition();directory=Path(directory);ex=export_ifc(directory,candidate);bcf=bcf_exchange(directory,candidate['configuration_sha256'],ex['parts']);part=ex['parts'][0];work=field_plan(candidate['configuration_sha256'],part)
+def study(directory,candidate=None,*,beam=None,selection=None,include_rail_and_supports=False,allow_incomplete=False):
+    candidate=candidate or candidate_magnetics.definition();directory=Path(directory);ex=export_ifc(directory,candidate,beam=beam,selection=selection,include_rail_and_supports=include_rail_and_supports,allow_incomplete=allow_incomplete);bcf=bcf_exchange(directory,candidate['configuration_sha256'],ex['parts']);part=ex['parts'][0];work=field_plan(candidate['configuration_sha256'],part)
     event=dict(id='SIM-FIELD-1',device_id='sim-tablet',work_id=work['id'],status='performed-awaiting-inspection',readings={'gap':dict(value=8.,unit='mm'),'part-revision':candidate['configuration_sha256'],'ifc-guid':part['ifc_guid']},photos=[],notes='Synthetic field example, no measured hardware')
     result=assess_field(work,event,configuration_sha256=candidate['configuration_sha256'],part=part);controls=[]
     from copy import deepcopy
@@ -209,22 +231,23 @@ def study(directory,candidate=None):
         else:raise ValueError('field negative control escaped: '+name)
     return dict(schema=SCHEMA,configuration_sha256=candidate['configuration_sha256'],exchange=ex,bcf=bcf,work=work,event=event,field_result=result,negative_controls=controls,
         study_pass=ex['ids_pass'] and ex['stale_revision_refused'] and len(controls)==4,
-        scope='One magnetic module and concrete25m box exchanged with exact boolean primitive volumes; no whole-train/city IFC, accepted tolerance, physical survey, manufacturing or operational release.',**platform.FLAGS)
+        scope='One magnetic module and explicitly selected beam/span stock exchanged with exact boolean primitive volumes; no whole-train/city IFC, installed reinforcement, accepted tolerance, physical survey, manufacturing or operational release.',**platform.FLAGS)
 
 
-def readme():
+def readme(selection=None,include_rail_and_supports=False):
+    selection=selection or dict(section_id='narrow-deep-reference',span_m=25.)
     return ('\n'.join(['# Candidate BIM and field exchange','',
         'IFC4.3 ADD2 actual component geometry, materials, configuration/part/serial identities and reopened boolean volumes. The executed IDS1 validator requires these identities; a deliberately stale component fails. BCF3 XML members validate against retained buildingSMART schemas and refer to actual IFC GUIDs.','',
         'The typed field adapter executes synthetic readings and rejects wrong units, out-of-range values, stale revisions and automatic acceptance. Every result awaits independent inspection. The7.5–8.5mm gap band is a provisional exercise limit, not an approved manufacturing tolerance.','',
-        'Scope: one magnetic module and25m concrete box. Reaction-rail, station/depot, whole-city federation and physical as-built validation remain further work.','',
+        f'Scope: one magnetic module and selected {selection["span_m"]:g}m {selection["section_id"]} beam with counted concrete endinfills. '+('Return rails and their support stock are included. ' if include_rail_and_supports else 'Return rails and their support stock remain in the structural packet. ')+'Reinforcement/strand native detailing, station/depot, whole-city federation and physical as-built validation remain further work.','',
         '[IfcTester](https://docs.ifcopenshell.org/ifctester.html), [BCF3 specification](https://github.com/buildingSMART/BCF-XML/tree/release_3_0).',''])).encode()
 
 
-def publish(output=OUTPUT):
+def publish(output=OUTPUT,candidate=None,*,beam=None,selection=None,include_rail_and_supports=False,allow_incomplete=False):
     before=sources();output=Path(output);output.mkdir(parents=True,exist_ok=True)
     with tempfile.TemporaryDirectory() as temporary:
-        folder=Path(temporary);value=study(folder);files={p.name+'.gz':gzip.compress(p.read_bytes(),mtime=0) for p in folder.iterdir()}
-    files['study.json.gz']=gzip.compress(platform.encoded(value),mtime=0);files['README.md']=readme()
+        folder=Path(temporary);value=study(folder,candidate,beam=beam,selection=selection,include_rail_and_supports=include_rail_and_supports,allow_incomplete=allow_incomplete);files={p.name+'.gz':gzip.compress(p.read_bytes(),mtime=0) for p in folder.iterdir()}
+    files['study.json.gz']=gzip.compress(platform.encoded(value),mtime=0);files['README.md']=readme(value['exchange']['selected_beam'],include_rail_and_supports)
     if before!=sources():raise ValueError('BIM exchange sources changed during execution')
     for n,b in files.items():(output/n).write_bytes(b)
     manifest=dict(schema=SCHEMA,source_sha256=before,files_sha256={n:sha256(b).hexdigest() for n,b in files.items()},**platform.FLAGS);(output/'manifest.json').write_bytes(platform.encoded(manifest));return manifest
@@ -279,10 +302,15 @@ def _source_solid(obj,part):
     return at,at+bounds
 
 
-def _retained_ifc(ifc_bytes,ids_bytes,candidate,record):
+def _retained_ifc(ifc_bytes,ids_bytes,candidate,record,*,beam=None,selection=None,include_rail_and_supports=False,allow_incomplete=False):
     import ifcopenshell,ifcopenshell.api,ifcopenshell.geom,ifcopenshell.util.shape,ifcopenshell.util.element,ifcopenshell.util.unit,ifcopenshell.util.placement
     from ifctester import ids
-    cfg=candidate['configuration_sha256'];parts=exchange_parts(candidate)
+    resolved=manufacturing.selected_beam(candidate,beam=beam,selection=selection,allow_incomplete=allow_incomplete)
+    cfg=candidate['configuration_sha256'];parts=exchange_parts(candidate,beam=resolved,include_rail_and_supports=include_rail_and_supports,allow_incomplete=allow_incomplete)
+    if (record.get('selected_beam')!=resolved['selection'] or
+            record.get('selected_beam_sha256')!=platform.digest(dict(configuration_sha256=cfg,selection=resolved['selection'],beam=resolved['beam'])) or
+            record.get('include_rail_and_supports') is not include_rail_and_supports or
+            record.get('incomplete_stock_diagnostic') is not allow_incomplete):raise ValueError('retained selected beam/span or civil scope differs')
     if not ifc_bytes.lstrip().startswith(b'ISO-10303-21;') or not ifc_bytes.rstrip().endswith(b'END-ISO-10303-21;'):raise ValueError('retained IFC STEP framing invalid')
     settings=ifcopenshell.geom.settings();settings.set('mesher-linear-deflection',1e-5);settings.set('mesher-angular-deflection',.1)
     if any(record.get(k) is not True for k in ('ids_schema_valid','ids_pass','stale_revision_refused')) or record.get('ifc_schema')!='IFC4X3_ADD2' or record.get('configuration_sha256')!=cfg or any(record.get(k) is not False for k in platform.FLAGS):raise ValueError('retained IFC execution metadata differs')
@@ -362,16 +390,18 @@ def _retained_bcf(data,configuration,parts,record):
     if result!=record:raise ValueError('retained BCF reported evidence differs')
 
 
-def verify(output=OUTPUT):
+def verify(output=OUTPUT,candidate=None,*,beam=None,selection=None,include_rail_and_supports=False,allow_incomplete=False):
     output=Path(output);before=sources();m=json.loads(_ordinary(output/'manifest.json',1024*1024))
     if m.get('schema')!=SCHEMA or m.get('source_sha256')!=before or any(m.get(k) is not False for k in platform.FLAGS):raise ValueError('BIM field inputs/release stale')
     if set(m['files_sha256'])!=FILES or {p.name for p in output.iterdir()}!=FILES|{'manifest.json'}:raise ValueError('BIM exchange inventory differs')
     files={n:_ordinary(output/n,LIMITS.get(n,1024*1024)) for n in FILES}
     if any(sha256(files[n]).hexdigest()!=h for n,h in m['files_sha256'].items()):raise ValueError('BIM exchange bytes altered')
-    if files['README.md']!=readme():raise ValueError('BIM evidence description differs')
-    raw={n:_inflate(data,LIMITS[n]) for n,data in files.items() if n in LIMITS};value=json.loads(raw['study.json.gz']);candidate=candidate_magnetics.definition();cfg=candidate['configuration_sha256']
+    candidate=candidate_magnetics.definition() if candidate is None else candidate
+    resolved=manufacturing.selected_beam(candidate,beam=beam,selection=selection,allow_incomplete=allow_incomplete)
+    if files['README.md']!=readme(resolved['selection'],include_rail_and_supports):raise ValueError('BIM evidence description differs')
+    raw={n:_inflate(data,LIMITS[n]) for n,data in files.items() if n in LIMITS};value=json.loads(raw['study.json.gz']);cfg=candidate['configuration_sha256']
     if value.get('schema')!=SCHEMA or value['configuration_sha256']!=cfg or any(value.get(k) is not False for k in platform.FLAGS):raise ValueError('BIM candidate/release differs')
-    parts=_retained_ifc(raw['candidate.ifc.gz'],raw['candidate.ids.gz'],candidate,value['exchange']);_retained_bcf(raw['candidate-issues.bcf.gz'],cfg,parts,value['bcf'])
+    parts=_retained_ifc(raw['candidate.ifc.gz'],raw['candidate.ids.gz'],candidate,value['exchange'],beam=resolved,include_rail_and_supports=include_rail_and_supports,allow_incomplete=allow_incomplete);_retained_bcf(raw['candidate-issues.bcf.gz'],cfg,parts,value['bcf'])
     part=parts[0];work=field_plan(cfg,part)
     if value['work']!=work or value['field_result']!=assess_field(work,value['event'],configuration_sha256=cfg,part=part):raise ValueError('retained typed field/work/evidence differs')
     from copy import deepcopy

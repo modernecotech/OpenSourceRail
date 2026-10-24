@@ -57,6 +57,53 @@ def test_generic_resources_do_not_overlap_and_cycles_refuse():
     tasks[0]['depends']=['c']
     with pytest.raises(ValueError,match='cyclic'):p.resource_schedule(tasks,dict(crane=1,survey=1))
 
+
+def material_plan():
+    points=[[44.,33.],[44.002,33.]]
+    length=p.operating_plan.distance(*points)
+    stops=[dict(id=f's{i}',chainage_m=at,lon=point[0],lat=point[1],dwell_s=60.,mandatory_junction_ids=[])
+           for i,(at,point) in enumerate(((0.,points[0]),(length,points[1])))]
+    return p.seal(dict(schema=p.SCHEMA,city='fixture',revision=1,parent_revision_sha256=None,
+        actor='test',environment='planning',source_sha256={},interchanges=[],od=[],changes=[],
+        lines=[dict(id='test/line',coordinates=points,length_m=length,stops=stops,
+                    headway_s=180.,planning_minimum_headway_s=180.,cars=6)],**p.FLAGS))
+
+
+def test_material_lead_times_precede_first_consumption_and_move_schedule_and_cash():
+    plan=material_plan();rates=dict(guidebeam=100.,support=200.,station=300.)
+    short=p.project_twin(plan,configuration_sha256='a'*64,unit_costs=rates,
+                         procurement_lead_days=dict(guidebeam=1.,support=1.,station=1.))
+    delayed=p.project_twin(plan,configuration_sha256='a'*64,unit_costs=rates,
+                           procurement_lead_days=dict(guidebeam=400.,support=1.,station=1.))
+    for twin in (short,delayed):
+        by={task['id']:task for task in twin['tasks']}
+        for purchase in twin['procurement']:
+            assert purchase['order_by_day']>=0
+            assert purchase['planned_arrival_day']==pytest.approx(purchase['order_by_day']+purchase['lead_days'])
+            consumers=[by[need['consuming_task_id']] for need in twin['material_need_tasks']
+                       if need['product']==purchase['product']]
+            assert purchase['need_by_day']==min(task['start_h']/24 for task in consumers)
+            assert all(task['start_h']>=purchase['planned_arrival_day']*24 for task in consumers)
+            for need in twin['material_need_tasks']:
+                assert need['availability_task_id'] in by[need['id']]['depends']
+                assert need['id'] in by[need['consuming_task_id']]['depends']
+            assert not purchase['actual_receipt_recorded']
+        assert sum(row['cash_usd'] for row in twin['monthly_cash'])==pytest.approx(twin['priced_subtotal_usd'])
+    cast=lambda twin:min(task['start_h'] for task in twin['tasks'] if task['id'].endswith('/cast'))
+    assert cast(delayed)-cast(short)>350*24
+    assert delayed['completion_calendar_days']>short['completion_calendar_days']+350
+    assert delayed['monthly_cash']!=short['monthly_cash']
+
+
+def test_selected_span_changes_whole_beam_support_quantities_and_bad_lead_refused():
+    plan=material_plan()
+    a=p.project_twin(plan,configuration_sha256='a'*64,beam_span_m=25.)
+    b=p.project_twin(plan,configuration_sha256='a'*64,beam_span_m=15.)
+    assert a['quantities'][0]['quantity']<b['quantities'][0]['quantity']
+    assert a['quantities'][1]['quantity']<b['quantities'][1]['quantity']
+    for bad in ({'guidebeam':-1},{'guidebeam':float('nan')},{'unknown':10}):
+        with pytest.raises(ValueError):p.project_twin(plan,configuration_sha256='a'*64,procurement_lead_days=bad)
+
 @pytest.mark.parametrize('relative',['east-africa/Kenya/Garissa','central-africa/DR Congo/Kisangani','west-asia/Iraq/Baghdad'])
 def test_any_city_plan_compiles_through_retained_erp_adapter(relative):
     plan=p.baseline(p.ROOT/'cities/catalogue'/relative)

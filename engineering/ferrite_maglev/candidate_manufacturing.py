@@ -16,6 +16,7 @@ OUTPUT=ROOT/'docs/design-engine/ferrite-maglev/candidate-manufacturing'
 SCHEMA='osr-candidate-manufacturing/1'
 UOM={'metre':'Meter','kg allocation':'Kg','kg':'Kg','kg-processed':'Kg','coil':'Nos','m3':'Cubic Meter','unit':'Nos','m':'Meter'}
 _PRODUCT_CACHE={}
+_BEAM_CACHE={}
 
 
 def source_paths():return sorted({Path(__file__),ROOT/'engineering/analysis/tests/test_ferrite_maglev_candidate_manufacturing.py',*magnetics.source_paths(),*structures.source_paths()})
@@ -59,11 +60,52 @@ def module_materials(candidate):
     return rows
 
 
-def civil_materials(candidate):
-    a=structures.load();rail=structures.return_rail_and_attachments(candidate);loads=structures.load_cases(candidate,structures.mass_properties(candidate));beams=structures.beam_design(candidate,loads,rail)
-    beam=beams[0];rates=a['rates'];prefix=beam['id']
-    rows=[_line(prefix+'/concrete','precast-concrete','m3',beam['concrete_volume_m3'],rates['concrete_usd_m3'],['civil/box','civil/end-blocks'],'mix,cast,vibrate,strength-test,controlled-cure',waste=.03,mass=beam['concrete_volume_m3']*a['concrete']['density_kg_m3'],origin='Iraqi manufacture hypothesis; mix/material sources and plant qualification open'),
-        _line(prefix+'/reaction-rails','reaction-steel','kg',beam['reaction_rail_and_attachment_steel_mass_kg'],rates['fabricated_structural_steel_usd_kg'],['civil/L-rails','civil/transverse-supports'],'fabricate,coat,align,bolt; magnetic joints and anchors unqualified',waste=.08,mass=beam['reaction_rail_and_attachment_steel_mass_kg']),
+def selected_beam(candidate,*,beam=None,selection=None,allow_incomplete=False):
+    """Resolve one named, same-candidate section/span; never trust foreign rows."""
+    requested=selection
+    if beam is not None:
+        if not isinstance(beam,dict) or beam.get('configuration_sha256')!=candidate['configuration_sha256']:
+            raise ValueError('selected manufacturing beam configuration differs')
+        proposed=beam.get('selection') or {key:beam.get(key) for key in ('section_id','span_m')}
+        if requested is not None and any(requested.get(key)!=proposed.get(key) for key in ('section_id','span_m')):
+            raise ValueError('selected beam and explicit section/span differ')
+        requested=proposed
+    if type(allow_incomplete) is not bool:raise ValueError('explicit incomplete-stock diagnostic choice required')
+    if requested is None:requested=candidate.get('architecture',{}).get('guidebeam',dict(section_id='narrow-deep-reference',span_m=25.))
+    structural_sources={p.relative_to(ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in structures.source_paths()}
+    key=platform.digest(dict(candidate=candidate,selection=requested,allow_incomplete=allow_incomplete,source_sha256=structural_sources))
+    if key not in _BEAM_CACHE:
+        resolved=structures.selected_beam(candidate,selection=requested,allow_incomplete=allow_incomplete)
+        if len(_BEAM_CACHE)>=16:_BEAM_CACHE.pop(next(iter(_BEAM_CACHE)))
+        _BEAM_CACHE[key]=deepcopy(resolved)
+    resolved=deepcopy(_BEAM_CACHE[key])
+    if beam is not None:
+        if 'beam' in beam and platform.digest(beam['beam'])!=platform.digest(resolved['beam']):
+            raise ValueError('selected manufacturing beam quantities differ')
+        if 'section' in beam and beam['section']!=resolved['beam']['section']:
+            raise ValueError('selected manufacturing beam geometry differs')
+    return resolved
+
+
+def _civil_geometry(resolved):
+    value=dict(configuration_sha256=resolved['configuration_sha256'],assumptions=resolved['assumptions'],
+        civil=dict(beam_variants=[resolved['beam']],rail_and_attachments=resolved['rail_and_attachments']))
+    return structures.geometry_definition(value,selection=resolved['selection'])
+
+
+def civil_geometry(candidate,*,beam=None,selection=None,allow_incomplete=False):
+    return _civil_geometry(selected_beam(candidate,beam=beam,selection=selection,allow_incomplete=allow_incomplete))
+
+
+def civil_materials(candidate,*,beam=None,selection=None,allow_incomplete=False):
+    resolved=selected_beam(candidate,beam=beam,selection=selection,allow_incomplete=allow_incomplete);a=resolved['assumptions']
+    beam=deepcopy(resolved['beam']);beam.update(configuration_sha256=candidate['configuration_sha256'],
+        section_id=resolved['selection']['section_id'],span_m=resolved['selection']['span_m'])
+    rates=a['rates'];prefix=beam['id'];geometry=_civil_geometry(resolved)
+    concrete_ids=['civil/'+part['id'] for part in geometry['parts'] if part['material']=='concrete']
+    steel_ids=['civil/'+part['id'] for part in geometry['parts'] if part['material']!='concrete']
+    rows=[_line(prefix+'/concrete','precast-concrete','m3',beam['concrete_volume_m3'],rates['concrete_usd_m3'],concrete_ids,'mix,cast,vibrate,strength-test,controlled-cure',waste=.03,mass=beam['concrete_volume_m3']*a['concrete']['density_kg_m3'],origin='Iraqi manufacture hypothesis; mix/material sources and plant qualification open'),
+        _line(prefix+'/reaction-rails','reaction-steel','kg',beam['reaction_rail_and_attachment_steel_mass_kg'],rates['fabricated_structural_steel_usd_kg'],steel_ids,'fabricate,coat,align,bolt; magnetic joints and anchors unqualified',waste=.08,mass=beam['reaction_rail_and_attachment_steel_mass_kg']),
         _line(prefix+'/reinforcement','reinforcement','kg',beam['reinforcement_mass_kg'],rates['fabricated_rebar_usd_kg'],['civil/rebar-cage'],'cut,bend,fix; development/end-zone approval hold',waste=.05,mass=beam['reinforcement_mass_kg']),
         _line(prefix+'/prestress','prestress','kg',beam['strand_mass_kg'],rates['prestress_strand_usd_kg'],['civil/strands'],'calibrated pretension,elongation,transfer/debond hold',waste=.04,mass=beam['strand_mass_kg']),
         _line(prefix+'/bearings','bearings','unit',4,rates['bearing_usd_unit'],['civil/bearings'],'supplier pressure,rotation,movement/fatigue qualification hold')]
@@ -73,6 +115,14 @@ def civil_materials(candidate):
 def launch_materials(candidate):
     """Dimensioned coil coupon; force acceptance is a separate field-map hold."""
     a=magnetics.load();p=a['propulsion_band'];coil=magnetics.propulsion_group_definition(5.);mass=coil['copper_mass_kg']
+    if coil['configuration_sha256']!=candidate['configuration_sha256']:
+        reference=magnetics.definition(candidate['variant_id'])
+        source=candidate.get('source_candidate_configuration_sha256',candidate['configuration_sha256'])
+        if source!=reference['configuration_sha256'] or candidate['propulsion_band']!=reference['propulsion_band']:
+            raise ValueError('wayside winding and candidate propulsion source differ')
+        coil=deepcopy(coil);coil['source_configuration_sha256']=coil['configuration_sha256']
+        coil['configuration_sha256']=candidate['configuration_sha256']
+        coil['component_id']=platform.digest({key:coil[key] for key in ('coils','group_length_m','period_m','turns','conductor_area_mm2','physical_sides')})
     rows=[]
     for row in coil['manufacturing_bom']:
         parts=row['geometry_part_ids'] or ['allocated/'+row['id']]
@@ -81,11 +131,15 @@ def launch_materials(candidate):
     return rows,coil
 
 
-def product_definition(candidate=None):
-    candidate=candidate or magnetics.definition();key=platform.digest(dict(candidate=candidate,source_sha256=sources()))
+def product_definition(candidate=None,*,beam=None,selection=None,allow_incomplete=False):
+    candidate=magnetics.definition() if candidate is None else candidate
+    resolved=selected_beam(candidate,beam=beam,selection=selection,allow_incomplete=allow_incomplete)
+    key=platform.digest(dict(candidate=candidate,selection=resolved['selection'],allow_incomplete=allow_incomplete,source_sha256=sources()))
     if key in _PRODUCT_CACHE:return deepcopy(_PRODUCT_CACHE[key])
-    cfg=candidate['configuration_sha256'];module=module_materials(candidate);civil,beam=civil_materials(candidate);launch,coil=launch_materials(candidate)
-    definitions=[('OSR-PILOT-MAGNETIC-BAY',module,candidate['module']['parts'],'magnetic bay'),('OSR-PILOT-GUIDEBEAM-25M',civil,beam,'25m guidebeam'),('OSR-PILOT-LAUNCH-GROUP-5M',launch,coil,'5m wayside winding group')];products=[]
+    cfg=candidate['configuration_sha256'];module=module_materials(candidate);civil,beam=civil_materials(candidate,beam=resolved,allow_incomplete=allow_incomplete);launch,coil=launch_materials(candidate)
+    canonical=resolved['selection']==dict(section_id='narrow-deep-reference',span_m=25.)
+    beam_id='OSR-PILOT-GUIDEBEAM-25M' if canonical else ('OSR-PILOT-GUIDEBEAM-'+beam['section_id'].upper()+'-'+format(beam['span_m'],'g').replace('.','P')+'M')
+    definitions=[('OSR-PILOT-MAGNETIC-BAY',module,candidate['module']['parts'],'magnetic bay'),(beam_id,civil,beam,f'{beam["span_m"]:g}m {beam["section_id"]} guidebeam'),('OSR-PILOT-LAUNCH-GROUP-5M',launch,coil,'5m wayside winding group')];products=[]
     for uid,rows,geometry,label in definitions:
         grouped=aggregate(rows);geometry_hash=platform.digest(geometry);revision=platform.digest(dict(configuration_sha256=cfg,product_id=uid,geometry_sha256=geometry_hash,cut_schedule=rows))
         products.append(dict(product_id=uid,product_revision_sha256=revision,geometry_sha256=geometry_hash,geometry_source_ids=sorted({i for r in rows for i in r['geometry_part_ids']}),
@@ -93,17 +147,20 @@ def product_definition(candidate=None):
             release='draft-unqualified',cost_state='unquoted-quantitative-estimate',label=label,estimated_material_process_cost_usd=math.fsum(r['extended_cost_usd'] for r in rows),
             complete_product_cost=False,excluded_costs=['qualified detailed electronics, tooling, labour not explicitly priced, factory overhead, freight/tax, validation and warranty'],
             manufacturing_mode='quantified-candidate',physical_test_executed=False))
-    value=dict(schema=SCHEMA,configuration_sha256=cfg,products=products,beam=beam,launch_coil=coil,**platform.FLAGS)
+    value=dict(schema=SCHEMA,configuration_sha256=cfg,selected_beam=resolved['selection'],
+        selected_beam_sha256=platform.digest(dict(configuration_sha256=cfg,selection=resolved['selection'],beam=beam)),
+        products=products,beam=beam,launch_coil=coil,**platform.FLAGS)
     if len(_PRODUCT_CACHE)>=4:_PRODUCT_CACHE.pop(next(iter(_PRODUCT_CACHE)))
     _PRODUCT_CACHE[key]=deepcopy(value)
     return value
 
 
-def lifecycle_package():
-    value=product_definition();base=deepcopy(lifecycle.load());products=value['products'];positions=base['positions']
+def lifecycle_package(candidate=None,*,beam=None,selection=None,allow_incomplete=False):
+    candidate=magnetics.definition() if candidate is None else candidate
+    value=product_definition(candidate,beam=beam,selection=selection,allow_incomplete=allow_incomplete);base=deepcopy(lifecycle.load());products=value['products'];positions=base['positions']
     for pos,product in zip(positions,products):pos['product_id']=product['product_id']
     package=dict(schema=lifecycle.SCHEMA,revision='candidate-dimensioned-lifecycle-1',environment='simulation',city='baghdad',railway_family='fixed-zone-ferrite-maglev',
-        configuration_id=magnetics.definition()['id'],configuration_sha256=value['configuration_sha256'],products=products,positions=positions,manufacturing_mode='quantified-candidate',**lifecycle.contract.FLAGS)
+        configuration_id=candidate.get('id',candidate.get('candidate_id','candidate-'+value['configuration_sha256'][:12])),configuration_sha256=value['configuration_sha256'],products=products,positions=positions,manufacturing_mode='quantified-candidate',**lifecycle.contract.FLAGS)
     package['sha256']=lifecycle.contract.digest(package);return lifecycle.contract.validate_package(package)
 
 
@@ -120,8 +177,8 @@ def procedures(product):
         connector_status='Counted connector/cooling envelopes; exact current,voltage,creepage,EMC,IP,quick-disconnect and cable-bend approval open')
 
 
-def study():
-    value=product_definition();package=lifecycle_package();value.update(lifecycle_package=package,planning_bundle=lifecycle.planning_bundle(package),procedures=[procedures(p) for p in value['products']],
+def study(candidate=None,*,beam=None,selection=None,allow_incomplete=False):
+    value=product_definition(candidate,beam=beam,selection=selection,allow_incomplete=allow_incomplete);package=lifecycle_package(candidate,beam=beam,selection=selection,allow_incomplete=allow_incomplete);value.update(lifecycle_package=package,planning_bundle=lifecycle.planning_bundle(package),procedures=[procedures(p) for p in value['products']],
         source_consistent=True,whole_system_manufacturable=False,scope='Quantified engineering stock and native lifecycle input for three bounded units. Geometry/process proposals have unresolved structural, magnetic, electrical and physical qualification gates.')
     return value
 

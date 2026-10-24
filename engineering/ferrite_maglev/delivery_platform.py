@@ -204,7 +204,8 @@ def resource_schedule(tasks,capacities,*,shift_hours=8.):
     if len(done)!=len(by):raise ValueError('cyclic task graph')
     result=sorted(done.values(),key=lambda t:(t['start_h'],t['id']));delivery_schedule.verify_schedule(result,capacities);return result
 
-def project_twin(plan,*,configuration_sha256,unit_costs=None,workfront_m=100.,resources=None):
+def project_twin(plan,*,configuration_sha256,unit_costs=None,workfront_m=100.,resources=None,
+                 beam_span_m=25.,procurement_lead_days=None):
     """Any-city revision -> quantities, tasks, procurement, monthly planned cash.
 
     Unpriced scope is explicit and prevents a complete-cost assertion. Qualified
@@ -212,31 +213,59 @@ def project_twin(plan,*,configuration_sha256,unit_costs=None,workfront_m=100.,re
     """
     validate(plan)
     if not re.fullmatch('[0-9a-f]{64}',configuration_sha256):raise ValueError('controlled engineering candidate required')
-    finite(workfront_m,minimum=25,maximum=1000);rates=unit_costs or {}
+    finite(workfront_m,minimum=25,maximum=1000);finite(beam_span_m,minimum=5,maximum=50);rates=unit_costs or {}
+    leads=dict(guidebeam=90.,support=60.,station=180.)
+    if procurement_lead_days is not None:
+        if not isinstance(procurement_lead_days,dict) or not set(procurement_lead_days)<=set(leads):raise ValueError('known material procurement lead times required')
+        for name,days in procurement_lead_days.items():leads[name]=finite(days,minimum=.001,maximum=3650)
     resources=resources or dict(design=2,ground=2,foundation=4,casting=4,transport=2,crane=2,installation=2,inspection=2)
-    tasks=[];quantities=[];procurement=[]
+    tasks=[];quantities=[];procurement=[];material_needs=[]
+    consumption_stage=dict(guidebeam='cast',support='foundations',station='interfaces')
     stages=[('investigate',8,'ground',False),('foundations',24,'foundation',False),('cast',16,'casting',False),('cure',168,None,True),('transport',8,'transport',False),('erect',16,'crane',False),('interfaces',16,'installation',False),('survey-and-test',8,'inspection',False)]
     for line in plan['lines']:
-        bays=math.ceil(line['length_m']/25);beams=2*bays;supports=bays+1
-        quantities.extend([dict(id=line['id']+'/beam',product='guidebeam',quantity=beams,unit='unit'),dict(id=line['id']+'/support',product='support',quantity=supports,unit='unit'),dict(id=line['id']+'/station',product='station',quantity=len(line['stops']),unit='unit')])
+        bays=math.ceil(line['length_m']/beam_span_m);beams=2*bays;supports=bays+1
+        line_quantities=[dict(id=line['id']+'/beam',line_id=line['id'],product='guidebeam',quantity=beams,unit='unit'),dict(id=line['id']+'/support',line_id=line['id'],product='support',quantity=supports,unit='unit'),dict(id=line['id']+'/station',line_id=line['id'],product='station',quantity=len(line['stops']),unit='unit')]
+        quantities.extend(line_quantities)
         release=line['id']+'/controlled-design'
         tasks.append(dict(id=release,hours=40.,resource='design',depends=[],engineering_release=False,planned_only=True,cost_usd=0.))
+        availability={}
+        for quantity in line_quantities:
+            uid=quantity['id']+'/material-availability';availability[quantity['product']]=uid
+            tasks.append(dict(id=uid,line=line['id'],product=quantity['product'],quantity_id=quantity['id'],
+                hours=24*leads[quantity['product']],resource=None,depends=[release],continuous=True,
+                task_kind='planned-procurement-lead-time',engineering_release=False,planned_only=True,cost_usd=0.))
         n=math.ceil(line['length_m']/workfront_m)
         for i in range(n):
             previous=release;length=min(workfront_m,line['length_m']-i*workfront_m)
             for stage,hours,res,continuous in stages:
                 uid=f'{line["id"]}/workfront-{i:04d}/{stage}'
+                for product,first_stage in consumption_stage.items():
+                    if stage!=first_stage:continue
+                    need=uid+'/material-need'
+                    tasks.append(dict(id=need,line=line['id'],product=product,consuming_task_id=uid,
+                        hours=.001,resource=None,depends=[previous,availability[product]],continuous=True,
+                        task_kind='planned-first-material-consumption-check',engineering_release=False,planned_only=True,cost_usd=0.))
+                    material_needs.append(dict(id=need,line_id=line['id'],product=product,consuming_task_id=uid,availability_task_id=availability[product]))
+                    previous=need
                 tasks.append(dict(id=uid,line=line['id'],chainage_m=i*workfront_m,length_m=length,hours=hours*length/workfront_m if not continuous else hours,
                     resource=res,depends=[previous],continuous=continuous,engineering_release=False,planned_only=True,cost_usd=0.));previous=uid
     scheduled=resource_schedule(tasks,resources);by={t['id']:t for t in scheduled};monthly={};missing=[]
     for q in quantities:
         rate=rates.get(q['product']);q['unit_rate_usd']=rate;q['unquoted']=True;q['cost_usd']=None if rate is None else q['quantity']*finite(rate)
-        line=q['id'].split('/')[0];completion=max(t['end_h'] for t in scheduled if t['id'].startswith(line+'/'))/24
-        lead={'guidebeam':90.,'support':60.,'station':180.}[q['product']]
-        row=dict(id=q['id'],product=q['product'],quantity=q['quantity'],unit=q['unit'],need_by_day=completion,lead_days=lead,order_by_day=max(0.,completion-lead),cost_usd=q['cost_usd'],supplier_qualified=False)
+        line=q['line_id'];completion=max(t['end_h'] for t in scheduled if t.get('line')==line or t['id']==line+'/controlled-design')/24
+        arrival=by[q['id']+'/material-availability']
+        needs=[need for need in material_needs if need['line_id']==line and need['product']==q['product']]
+        first=min(by[need['consuming_task_id']]['start_h'] for need in needs)/24
+        lead=leads[q['product']]
+        row=dict(id=q['id'],product=q['product'],quantity=q['quantity'],unit=q['unit'],need_by_day=first,
+            lead_days=lead,order_by_day=arrival['start_h']/24,planned_arrival_day=arrival['end_h']/24,
+            availability_task_id=arrival['id'],material_need_task_ids=[need['id'] for need in needs],
+            first_consuming_task_ids=[need['consuming_task_id'] for need in needs if by[need['consuming_task_id']]['start_h']/24==first],
+            cost_usd=q['cost_usd'],supplier_qualified=False,actual_receipt_recorded=False)
+        if row['order_by_day']<0 or row['planned_arrival_day']>first+1e-9 or not math.isclose(row['planned_arrival_day']-row['order_by_day'],lead,abs_tol=1e-9):raise ValueError('material availability must precede first consumption')
         procurement.append(row)
         if rate is None:missing.append(q['id']);continue
-        for day,fraction in ((row['order_by_day'],.3),(completion,.6),(completion+90,.1)):
+        for day,fraction in ((row['order_by_day'],.3),(row['planned_arrival_day'],.6),(completion+90,.1)):
             month=math.floor(day/30)+1;monthly[month]=monthly.get(month,0.)+q['cost_usd']*fraction
     manufacturing_tasks=[dict(manufacturing_uid=q['id'],title='Draft '+q['product']+' delivery',asset_id=q['id'],quantity=q['quantity'],unit=q['unit'],configuration_sha256=configuration_sha256) for q in quantities]
     bundle=dict(project_twin=dict(city=plan['city'],revision_id=plan['revision_sha256']),manufacturing_tasks=manufacturing_tasks,
@@ -246,10 +275,13 @@ def project_twin(plan,*,configuration_sha256,unit_costs=None,workfront_m=100.,re
     total=math.fsum(q['cost_usd'] for q in quantities if q['cost_usd'] is not None)
     if not math.isclose(total,math.fsum(monthly.values()),abs_tol=1e-6):raise ValueError('planned procurement cash does not reconcile')
     return dict(schema='osr-owner-builder-delivery-twin/1',city=plan['city'],planning_revision_sha256=plan['revision_sha256'],configuration_sha256=configuration_sha256,
-        quantities=quantities,tasks=scheduled,resources=resources,procurement=procurement,monthly_cash=[dict(month=k,cash_usd=v) for k,v in sorted(monthly.items())],
+        quantities=quantities,tasks=scheduled,resources=resources,procurement=procurement,material_need_tasks=material_needs,
+        selected_beam_span_m=beam_span_m,monthly_cash=[dict(month=k,cash_usd=v) for k,v in sorted(monthly.items())],
         priced_subtotal_usd=total,unpriced_scope=missing,registered_scope_priced=not missing,complete_cost_known=False,
         excluded_scope=['qualified site/utility/land works','complete station/depot/factory/vehicle scope','grid/evacuation/assurance/finance actuals'],completion_calendar_days=max(t['end_h'] for t in scheduled)/24,
-        planning_bundle=bundle,actual_records=[],physical_releases=0,scope='Generic any-city planned workfronts and constrained resources; geometric/site/method/price acceptance and native actual transactions remain separate.',**FLAGS)
+        planning_bundle=bundle,actual_records=[],physical_releases=0,
+        procurement_scope='Bulk planned guidebeam fabrication inputs first consumed atcast, support material atfoundations and station equipment atinterfaces. Lead times constrain explicit material-need predecessors; no actual receipt or supplier commitment inferred.',
+        scope='Generic any-city planned workfronts and constrained resources; geometric/site/method/price acceptance and native actual transactions remain separate.',**FLAGS)
 
 def planning_layers(plan,path):
     """Sixteen named GIS layers, with unavailable/sampled inputs explicit."""
