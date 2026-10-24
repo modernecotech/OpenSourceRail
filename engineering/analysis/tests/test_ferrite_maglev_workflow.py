@@ -102,6 +102,129 @@ def test_first_pass_inventory_and_reader_use_refreshed_overview(tmp_path, monkey
     assert workflow.run(state=tmp_path/'state', stage_list=stages)['state'] == 'idle; sources unchanged'
     assert not built
 
+
+def test_readme_coverage_follows_publishers_before_reader_and_then_stays_idle(tmp_path, monkeypatch):
+    """An early valid audit becomes stale when later packets replace READMEs."""
+    from hashlib import sha256
+    from engineering.ferrite_maglev import capability_migration, pilot_release
+
+    selected = {'v04-capability-migration', 'connected-pilot-delivery',
+                'primary-overview', 'research-readme-context-coverage',
+                'markdown-inventory', 'primary-reader-book'}
+
+    def exercise(root, *, old_order):
+        base = root/'docs/design-engine/ferrite-maglev'
+        coverage = base/'research-closure/readme-coverage.json'
+        inventory, reader = root/'docs/INDEX.md', root/'docs/reader.txt'
+        readmes = [root/'README.md', base/'capability-migration/README.md',
+                   base/'pilot-delivery/README.md']
+        built = []
+        for path in readmes:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text('# Previous '+path.parent.name+'\n')
+        coverage.parent.mkdir(parents=True)
+
+        def snapshot():
+            return {path.relative_to(root).as_posix(): sha256(path.read_bytes()).hexdigest()
+                    for path in readmes}
+
+        coverage.write_text(json.dumps(snapshot(), sort_keys=True))
+        initial_coverage = coverage.read_bytes()
+        monkeypatch.setattr(model, 'ROOT', root)
+        monkeypatch.setattr(model, 'load', lambda: None)
+        monkeypatch.setattr(model, 'sources', lambda **_: {'input.toml': 'unchanged'})
+        monkeypatch.setattr(workflow, 'BASE', base)
+        monkeypatch.setattr(workflow, 'STATE', root/'staging')
+
+        def publisher(module, folder, title):
+            wanted = '# Current '+title+'\n'
+
+            def verify():
+                if not (base/folder/'README.md').exists() or (base/folder/'README.md').read_text() != wanted:
+                    raise ValueError('stale packet README')
+
+            def publish(target):
+                target.mkdir(parents=True)
+                (target/'README.md').write_text(wanted)
+                (target/'manifest.json').write_text('{}\n')
+                built.append(folder)
+
+            monkeypatch.setattr(module, 'verify', verify)
+            monkeypatch.setattr(module, 'publish', publish)
+
+        publisher(capability_migration, 'capability-migration', 'migration')
+        publisher(pilot_release, 'pilot-delivery', 'delivery')
+
+        def document(command, *, cwd, check, capture_output, text):
+            assert Path(cwd) == root and check and capture_output and text
+            checking = command[-1] == '--check'
+
+            def current_coverage():
+                if json.loads(coverage.read_text()) != snapshot():
+                    raise subprocess.CalledProcessError(1, command, stderr='stale README coverage')
+
+            if command[1:3] == ['-m', 'engineering.maglev_research.readme_context']:
+                assert command[3:] in (['--check'], ['--write'])
+                if checking:
+                    current_coverage()
+                else:
+                    coverage.write_text(json.dumps(snapshot(), sort_keys=True))
+                    built.append('coverage')
+            else:
+                script = Path(command[1])
+                assert script.parent == root/'tools/automation'
+                assert command[2:] in ([], ['--check'])
+                if script.name == 'generate-public-overview.py':
+                    target, wanted = readmes[0], '# Current overview\n'
+                elif script.name == 'generate-doc-index.py':
+                    target, wanted = inventory, ''.join(path.read_text() for path in readmes)
+                elif script.name == 'build-doc-book.py':
+                    # Both reader verification and publication reject an audit
+                    # invalidated by a later README publisher.
+                    current_coverage()
+                    target, wanted = reader, inventory.read_text()+coverage.read_text()
+                else:
+                    pytest.fail('unexpected document generator: '+script.name)
+                if checking:
+                    if not target.exists() or target.read_text() != wanted:
+                        raise subprocess.CalledProcessError(1, command, stderr='stale document')
+                else:
+                    target.write_text(wanted)
+                    built.append(script.name)
+            return subprocess.CompletedProcess(command, 0, stdout='', stderr='')
+
+        monkeypatch.setattr(workflow.subprocess, 'run', document)
+        stages = [row for row in workflow.stages(workflow.delivery.OUTPUT) if row[0] in selected]
+        assert len(stages) == len(selected)
+        if old_order:
+            coverage_stage = next(row for row in stages if row[0] == 'research-readme-context-coverage')
+            stages = [coverage_stage]+[row for row in stages if row is not coverage_stage]
+            with pytest.raises(subprocess.CalledProcessError) as error:
+                workflow.run(state=root/'state', stage_list=stages)
+            assert error.value.stderr == 'stale README coverage'
+            journal = json.loads((root/'state/latest.json').read_text())
+            assert journal['state'] == 'held'
+            assert journal['stages'][-1]['id'] == 'primary-reader-book'
+            assert not reader.exists()
+            assert coverage.read_bytes() == initial_coverage
+            assert json.loads(coverage.read_text()) != snapshot()
+            assert {'capability-migration', 'pilot-delivery'} <= set(built)
+        else:
+            result = workflow.run(state=root/'state', stage_list=stages)
+            assert result['state'] == 'implemented studies current; engineering closure open'
+            assert json.loads(coverage.read_text()) == snapshot()
+            assert coverage.read_bytes() != initial_coverage
+            assert 'Previous' not in reader.read_text()
+            assert reader.read_text() == inventory.read_text()+coverage.read_text()
+            assert {'capability-migration', 'pilot-delivery', 'coverage', 'build-doc-book.py'} <= set(built)
+            built.clear()
+            assert workflow.run(state=root/'state', stage_list=stages)['state'] == 'idle; sources unchanged'
+            assert not built
+
+    exercise(tmp_path/'early-audit', old_order=True)
+    exercise(tmp_path/'current-order', old_order=False)
+
+
 def test_successful_execution_with_failed_verification_still_holds(tmp_path):
     def reject():
         raise ValueError('result rejected')
