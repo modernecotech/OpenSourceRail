@@ -43,7 +43,9 @@ def test_suburban_booster_has_actual_stock_and_losses():
 def test_lifecycle_does_not_omit_maintenance_renewal_idle(profile):
     r=l.loss_model(profile);s=r['lifecycle']
     assert s['annual_maintenance_allowance_usd']>0 and s['converter_renewal_present_usd']>0
-    assert s['additional_idle_control_kwh_per_year']>0
+    idle=s['idle_accounting']
+    assert idle['full_year_station_idle_kwh']>0
+    assert idle['idle_already_inside_trip_dc_kwh']+idle['annual_idle_reconciliation_kwh']==pytest.approx(idle['full_year_station_idle_kwh'])
     assert s['installed_lifetime_cost_usd']>r['all_profile_assets_allowance_usd']
     assert not r['cost_is_quote'] and not r['qualified']
 
@@ -52,3 +54,22 @@ def test_actual_duty_idle_accounting_subtracts_trip_component_once():
     assert r['full_year_station_idle_kwh']==pytest.approx(4*14*35*8760/1000)
     assert r['idle_already_inside_trip_dc_kwh']==pytest.approx(10000*140*14*35/3.6e6)
     assert r['additional_idle_kwh']+r['idle_already_inside_trip_dc_kwh']==pytest.approx(r['full_year_station_idle_kwh'])
+
+def test_overlapping_trip_allocations_are_replaced_by_one_calendar_load(profile):
+    r=l.idle_control_energy(physical_station_groups=14,annual_mainline_legs=100000,runtime_s=400)
+    assert r['included_idle_exceeds_calendar_budget']
+    assert r['additional_idle_kwh']==0
+    assert r['duplicated_trip_idle_credit_kwh']>0
+    assert r['idle_already_inside_trip_dc_kwh']+r['annual_idle_reconciliation_kwh']==pytest.approx(14*35*8760/1000)
+    value=l.loss_model(profile,groups_per_direction=7);account=value['lifecycle']['idle_accounting']
+    assert account['installed_groups']==14
+    assert account['idle_already_inside_trip_dc_kwh']+account['annual_idle_reconciliation_kwh']==pytest.approx(account['full_year_station_idle_kwh'])
+    annual=value['lifecycle']['reference_annual_train_passages']
+    expected=(annual*value['net_grid_kwh_at_assumed_reuse']+account['annual_idle_reconciliation_kwh'])*l.load()['electricity_usd_per_kwh']
+    assert value['lifecycle']['annual_energy_allowance_usd']==pytest.approx(expected)
+
+def test_booster_installed_stock_and_trip_allocation_have_distinct_counts():
+    value=l.loss_model(l.reference_profile('suburban'),groups_per_direction=7)
+    r=value['lifecycle']['idle_accounting']
+    assert r['installed_groups']==value['station_converter_count']+2*value['booster_converter_count']
+    assert r['groups_inside_each_trip']==value['powered_groups']

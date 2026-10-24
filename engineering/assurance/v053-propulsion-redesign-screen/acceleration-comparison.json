@@ -1,0 +1,49 @@
+{
+  "conditional_force_n_per_car": 10091.606344001008,
+  "configuration_adopted": false,
+  "contexts": [
+    {
+      "acceleration_m_s2": 0.2,
+      "context": "current full-dynamics route request",
+      "ideal_force_margin_n_per_car": 2567.888043934081,
+      "inertial_force_required_n_per_car": 7523.7183000669265,
+      "key_path": [
+        "route_acceleration_m_s2"
+      ],
+      "source_path": "engineering/ferrite_maglev/full-dynamics.toml"
+    },
+    {
+      "acceleration_m_s2": 0.8,
+      "context": "existing station-study setting",
+      "ideal_force_margin_n_per_car": -20003.2668562667,
+      "inertial_force_required_n_per_car": 30094.873200267706,
+      "key_path": [
+        "motion",
+        "acceleration_m_s2"
+      ],
+      "source_path": "engineering/ferrite_maglev/station.toml"
+    },
+    {
+      "acceleration_m_s2": 1.0,
+      "context": "illustrative comparison only, not current requirement",
+      "ideal_force_margin_n_per_car": -27526.985156333623,
+      "inertial_force_required_n_per_car": 37618.59150033463,
+      "key_path": [],
+      "source_path": null
+    }
+  ],
+  "current_candidate_aw3_mass_kg_per_car": 37618.59150033463,
+  "design_complete": false,
+  "hypothesis_sha256": "2ccec6df01771f2c57d582deb1f7a0dcf44d8ff2ff4f4b8ce56da01609bcfc6a",
+  "ideal_acceleration_upper_bound_m_s2": 0.26826114273606544,
+  "inherited_resistance_proxy_at_20m_s_n_per_car": 1720.0,
+  "launch_profile_feasible": false,
+  "manufacturing_release": false,
+  "new_hypothesis_mass_reconciled": false,
+  "parent_configuration_sha256": "a79a21a0767355fcb6518471769e532a04e2e23f4bd33db90968ef4a385df5bd",
+  "physical_release": false,
+  "physical_validation": false,
+  "route02_margin_after_inherited_resistance_proxy_n_per_car": 847.888043934081,
+  "schema": "osr-propulsion-acceleration-comparison/1",
+  "scope": "One conditional40C map at20m/s andactualfinitegroupoverlap,1349A. CurrentcanonicalAW3comparisonmassonly; no reconciledchangedhypothesismass. Resistanceproxyisolderunqualifiedstationcontext. No fullprofile,grade,phase,currenttransient,installedlength,sharing,cooling,duty,launchacceptance."
+}

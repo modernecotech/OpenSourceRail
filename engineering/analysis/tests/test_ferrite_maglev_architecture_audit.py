@@ -7,6 +7,7 @@ OWNED_PACKETS=[
     ('corridor','corridor','result.json.gz',128*1024*1024),
     ('moving-train','moving_train','result.json.gz',128*1024*1024),
     ('assembled-body','assembled_body','native-mesh.json.gz',256*1024*1024),
+    ('full-dynamics','full_dynamics','study.json.gz',128*1024*1024),
 ]
 
 
@@ -43,7 +44,7 @@ def test_owned_archive_bounds_match_actual_publishers(packet,publisher,filename,
     module=importlib.import_module('engineering.ferrite_maglev.'+publisher)
     path=model.ROOT/'docs/design-engine/ferrite-maglev'/packet/filename
     assert architecture_audit.OWNED_GZIP_RAW_LIMITS[path]==module.MAX_RAW==raw_limit
-    assert len(architecture_audit.OWNED_GZIP_RAW_LIMITS)==len(OWNED_PACKETS)==3
+    assert len(architecture_audit.OWNED_GZIP_RAW_LIMITS)==len(OWNED_PACKETS)==4
 
 
 @pytest.mark.parametrize('packet,publisher,filename,raw_limit',OWNED_PACKETS)

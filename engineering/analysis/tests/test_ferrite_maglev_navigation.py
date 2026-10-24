@@ -89,7 +89,10 @@ def test_default_city_artifact_index_is_current_and_cannot_assert_acceptance():
 
 def test_readiness_is_current_and_keeps_all_requirements_open():
     # Readiness performs the same full cold verification as Workbench startup.
-    result = command('readiness',timeout=600)
+    # Measured detailed-candidate verification plus the connected pilot already
+    # exceed ten minutes before older native/closure checks. Keep every check
+    # and use the same bounded thirty-minute startup allowance as the browser.
+    result = command('readiness',timeout=1800)
     assert result.returncode==0, result.stderr
     data = json.loads(result.stdout)
     assert data['family']=='ferrite-pm-maglev-study' and data['source_current']

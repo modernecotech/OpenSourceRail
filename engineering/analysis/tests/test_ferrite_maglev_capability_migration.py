@@ -15,7 +15,11 @@ def test_source_presence_does_not_mark_tested(monkeypatch):
     monkeypatch.setattr(m.pilot_assurance,'study',lambda:dict(profiles=[]))
     value=m.study()
     assert not any(r['state']=='retained-and-tested' for r in value['capabilities'])
-    assert any(r['state']=='missing' for r in value['capabilities'])
+    assert all(r['executed_current'] is False and r['execution_receipt'] is None
+               and r['engineering_accepted'] is False for r in value['capabilities'])
+    retained={r['id'] for r in m.load()['capabilities'] if r['state']=='retained-and-tested'}
+    assert retained
+    assert all(r['state']=='retained-but-unconnected' for r in value['capabilities'] if r['id'] in retained)
     assert value['physical_release'] is False
 
 

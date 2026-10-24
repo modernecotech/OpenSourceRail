@@ -452,10 +452,12 @@ def economics(line,access_value,od,run,a):
     factory_startup_extra=(factory['unallocated_factory_usd']+factory['training_programme_usd']-factory['allocated_training_usd'])*(1+a['design_risk_reserve_fraction'])
     annual_factor=a['operating_hours_day']/a['simulation_hours']*a['annual_operating_days'];departed_events=run['events']
     # Mainline DC input already includes copper/converter heat: never add again.
-    idle_w=launch_optimisation.load()['idle_group_control_w'];full_idle=(4+terminal_positions/2)*8760*launch['station_converter_count']*idle_w/1000
-    included_idle=sum(r['runtime_s'] for r in departed_events if r['mainline'])*annual_factor*launch['station_converter_count']*idle_w/3.6e6
-    additional_idle=max(0.,full_idle-included_idle)
-    annual_energy=(run['charger_input_kwh']+run['fixed_traction_kwh'])*annual_factor+additional_idle
+    mainline=[r for r in departed_events if r['mainline']]
+    installed=(4+terminal_positions/2)*launch['station_converter_count']
+    if not installed.is_integer():raise ValueError('whole installed converter groups required')
+    standby=launch_optimisation.idle_control_energy(physical_station_groups=int(installed),trip_groups=launch['station_converter_count'],
+        annual_mainline_legs=len(mainline)*annual_factor,runtime_s=sum(r['runtime_s'] for r in mainline)/len(mainline) if mainline else 0.)
+    annual_energy=(run['charger_input_kwh']+run['fixed_traction_kwh'])*annual_factor+standby['annual_idle_reconciliation_kwh']
     staff=4*a['staff_per_shift_station']*a['shifts_per_day']+a['control_maintenance_management_staff'];annual_opex=staff*a['annual_staff_salary_usd']+annual_energy*a['energy_usd_kwh']+capital*a['maintenance_fraction_capital']
     build=delivery.construction(quantity_plan=civil);months=max(12,math.ceil((max(build['completion_calendar_day'],270)+90)/30));cash=[0.]*months
     def pay(day,amount):cash[min(months-1,max(0,math.ceil(day/30)-1))]+=amount
@@ -483,7 +485,8 @@ def economics(line,access_value,od,run,a):
         comparison_shared_supports=dict(allowance_usd=shared_supports,shared_scope_hypothesis_only=True,structural_equivalence_accepted=False,gate='Independent rail deck dead/live reactions, foundation and column design and ground evidence required'),
         comparison_energy_and_operation=rail_energy_comparison(line,run,a,annual_factor,rail_capital,staff),
         staff_positions=staff,annual_train_km=run['train_km']*annual_factor,annual_energy_kwh=annual_energy,annual_opex_usd=annual_opex,
-        additional_idle_energy=dict(full_year_station_group_idle_kwh=full_idle,already_counted_trip_idle_kwh=included_idle,additional_idle_kwh=additional_idle,overlapping_profile_idle_is_not_removal_credit=included_idle>full_idle),
+        additional_idle_energy=dict(**standby,full_year_station_group_idle_kwh=standby['full_year_station_idle_kwh'],already_counted_trip_idle_kwh=standby['idle_already_inside_trip_dc_kwh'],
+            physical_energy_removal_credit=False,duplicate_constant_load_allocations_corrected=True),
         launch_loss=launch,loss_scope='Exact controlled-mass leg DC import includes converter/copper losses once; additional idle energy separate. Terminal-loop longitudinal energy is only a mass-scaled allowance and retains an electrical/curved-motion gate.',
         monthly_schedule_cash_basis='Exact civil row cash assigned to actual planned cast/foundation/QA/transport/lift/stator/test finish dates; vehicle10/40/40/10 milestones, electrical30/70 deposit/delivery, station30/70 and risk reserve explicit. No signed payment terms.',
         full_line_construction=dict(calendar_days=build['completion_calendar_day'],tasks=len(build['tasks']),beam_units=build['quantities']['beams'],unique_supports=civil['supports'],curved_units=civil['curved_beam_count'],closing_units=civil['closing_beam_count'],quantity_scope=civil['quantity_scope']),

@@ -1,0 +1,28 @@
+Archive byte/source validation (standard library only):
+  python3 engineering/assurance/v053-propulsion-redesign-screen/verify.py
+
+Also compare the eight archived original source inputs to this checkout:
+  python3 engineering/assurance/v053-propulsion-redesign-screen/verify.py --check-current-sources
+
+Portable selected numerical replay (external NumPy/SciPy required):
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 tools/automation/osr-python engineering/assurance/v053-propulsion-redesign-screen/verify.py --check-current-sources --replay
+
+The verifier reconstructs the original eight source paths and the byte-identical executed run.py at build/propulsion-redesign-screen/run.py in a temporary directory. The new replay-selected.py invokes that original worker for resolved8mm-256-cold and resolved8mm-256-40 using the exact archived changed inputs. Complete coupon and identity results are compared exactly, excluding elapsed_host_s. Scalar corner-volume annotations added after the coupon execution are independently recalculated. No production/canonical path is written, no production candidate code is imported, and all release/adoption flags remain false.
+
+The selected-replay-receipt.json records the actual replay environment. The original exploratory campaign did not record external package versions; the replay receipt must not be presented as a retroactive original environment receipt. A different Python/NumPy/SciPy environment may require a new separately identified numerical comparison, never relabel this retained receipt.
+
+Original exploratory working directory:
+  /home/hayder/Documents/OpenSourceRail
+Original exploratory execution directory:
+  build/propulsion-redesign-screen/
+
+Actual original commands, in execution order:
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/run.py > build/propulsion-redesign-screen/run.log 2>&1
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/refine.py > build/propulsion-redesign-screen/refine.log 2>&1
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/final-refine.py > build/propulsion-redesign-screen/final-refine.log 2>&1
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/chamfer-refine.py > build/propulsion-redesign-screen/chamfer-refine.log 2>&1
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/final-operating.py > build/propulsion-redesign-screen/final-operating.log 2>&1
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/boundary-diagnostic.py > build/propulsion-redesign-screen/boundary-diagnostic.log 2>&1
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/archive.py
+
+Do not execute the copied original drivers at their archive location. They intentionally bind the original source tree and write to its build/ path. Use verify.py --replay, or restore source_archive_mapping and executed_file_mapping into an isolated working tree before a complete replay. The original latest result is executed/results.json; historical executed/results-prior*.json do not override its finer failure evidence.

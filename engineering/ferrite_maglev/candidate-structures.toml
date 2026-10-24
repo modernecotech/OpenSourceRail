@@ -1,0 +1,299 @@
+schema = "osr-candidate-structural-input/1"
+revision = "BAGHDAD-CANDIDATE-STRUCTURES-1"
+engineering_accepted = false
+site_accepted = false
+automatic_adoption = false
+
+[loads]
+gravity_m_s2 = 9.81
+normal_dynamic_factor = 1.30
+braking_deceleration_m_s2 = 1.0
+downgrade = 0.05
+lateral_acceleration_m_s2 = 0.8
+passenger_lateral_offset_m = 0.35
+capture_drop_m = 0.02
+capture_stroke_m = 0.04
+module_required_force_screen_n = 20000.0
+car_length_m = 17.0
+car_pitch_m = 17.5
+train_cars = 6
+wind_pressure_pa = 1000.0
+seismic_horizontal_acceleration_fraction_g = 0.20
+load_factor_dead = 1.35
+load_factor_live = 1.50
+
+[placement]
+retained_stock_floor_datum_m = 0.30
+unlocated_retained_centre_m = [0.0, 0.0, 1.0]
+unlocated_retained_box_m = [17.0, 2.65, 2.5]
+unlocated_retained_height_range_m = [0.4, 1.6]
+passenger_centre_m = [0.0, 0.0, 1.3]
+passenger_box_m = [17.0, 2.65, 1.2]
+placement_is_measured = false
+
+[steel]
+coupler_stiffness_assumption_n_m = 100000000.0
+young_pa = 200000000000.0
+density_kg_m3 = 7850.0
+stress_screen_pa = 237000000.0
+shear_screen_pa = 137000000.0
+aluminium_stress_screen_pa = 80000000.0
+bolt_shear_screen_pa = 140000000.0
+bolt_tension_screen_pa = 180000000.0
+fatigue_range_screens_pa = [60000000.0, 80000000.0, 100000000.0]
+fatigue_cycles = 2000000.0
+fatigue_reference_cycles = 2000000.0
+fatigue_slope = 3.0
+qualified_materials = false
+
+[joints]
+hardpoint_bolt_diameter_m = 0.012
+hardpoint_bolt_thread_area_m2 = 0.0000843
+hardpoint_bolt_x_m = [-0.175, -0.125, -0.075, -0.025, 0.025, 0.075, 0.125, 0.175]
+hardpoint_bolt_z_m = [-0.085, 0.085]
+loaded_joint_face_y_m = 1.232
+collector_centre_y_m = 0.88
+carrier_plate_width_m = 0.430
+carrier_flange_thickness_m = 0.032
+upright_width_m = 0.420
+upright_thickness_m = 0.012
+upright_service_hole_m = 0.032
+steel_stringer_wall_m = 0.004
+washer_outside_diameter_m = 0.040
+bolt_hole_diameter_m = 0.013
+collector_outside_m = [0.080, 0.080]
+collector_wall_m = 0.006
+prying_factor = 1.5
+minimum_bolt_edge_diameters = 2.0
+splice_transfer_fraction = 1.0
+splice_transfer_arm_m = 0.5
+friction_coefficient_assumed = 0.30
+bolt_preload_fraction = 0.50
+splice_old_bolt_diameter_m = 0.008
+splice_old_bolt_thread_area_m2 = 0.0000366
+splice_old_plate_m = [0.20, 0.008, 0.080]
+splice_old_bolts_per_cut = 8
+splice_old_vertical_row_pitch_m = 0.040
+
+[concrete]
+arithmetic_residual_pa = 0.00001
+density_kg_m3 = 2500.0
+young_pa = 34000000000.0
+strength_pa = 45000000.0
+transfer_strength_pa = 35000000.0
+transfer_compression_fraction = 0.60
+service_compression_fraction = 0.60
+transfer_tension_screen_pa = 1500000.0
+service_tension_screen_pa = 0.0
+rebar_design_stress_pa = 435000000.0
+cover_m = 0.050
+strand_diameter_m = 0.0152
+strand_area_m2 = 0.00014
+strand_strength_pa = 1860000000.0
+strand_initial_stress_fraction = 0.70
+prestress_loss_fraction = 0.20
+strand_clearance_m = 0.025
+strand_vertical_pitch_m = 0.045
+strand_transfer_length_m = 1.0
+end_debond_length_m = 1.5
+beam_live_deflection_divisor = 2000.0
+span_m = 25.0
+end_block_length_m = 0.4
+prestress_bottom_counts = [14, 18, 22, 26, 30, 34, 38]
+prestress_top_counts = [4, 8, 12]
+prestress_debond_counts = [0, 4, 8]
+
+[[beam_sections]]
+id = "narrow-deep-reference"
+width_m = 0.8
+depth_m = 2.5
+web_m = 0.10
+flange_m = 0.15
+
+[[beam_sections]]
+id = "narrow-shallow-rejected-control"
+width_m = 0.8
+depth_m = 1.8
+web_m = 0.12
+flange_m = 0.14
+
+[[beam_sections]]
+id = "wider-intermediate"
+width_m = 1.0
+depth_m = 2.2
+web_m = 0.12
+flange_m = 0.16
+
+[construction]
+lifting_support_fraction = 0.20
+transport_support_fraction = 0.18
+handling_dynamic_factor = 1.30
+transport_dynamic_factor = 1.20
+transverse_sweep_assumption_m = 0.015
+transport_crossfall = 0.06
+transport_support_width_m = 1.8
+temporary_bearing_width_m = 0.60
+temporary_brace_pitch_m = 5.0
+temporary_brace_force_screen_n = 50000.0
+lift_rigging_mass_kg = 3000.0
+crane_radius_m = 25.0
+crane_chart_capacities_kg = [90000.0, 60000.0, 45000.0]
+crane_chart_radii_m = [20.0, 25.0, 30.0]
+crane_chart_is_supplier_approved = false
+crane_chart_scope = "Explicit hypothetical hired-crane envelope; no extrapolation/interpolation and no claim that nominal300t rating applies at25m. Obtain configuration-specific signed chart/rigging/ground plan."
+
+[larger_crane_reference]
+id = "Liebherr-LTM1750-9.1-T204"
+url = "https://assets-cdn.liebherr.com/versions/019fb335-8d70-7247-8b5b-1a6146c33a97/original/"
+document_sha256 = "b1a00d43cea498bb64358b96e01aeac34df08255dc27ca7835f28e8c3feb0e99"
+accessed = "2026-10-23"
+table_page_printed = 26
+chart_radius_m = 26.0
+boom_m = 32.7
+ballast_t = 204.0
+chart_capacity_kg = 74900.0
+hook_block_kg = 2600.0
+hook_block_rating_kg = 95000.0
+manufacturer_max_outrigger_reaction_n = 2093000.0
+max_reaction_scope = "Manufacturer page8 global maximum, not a computed reaction for this lift. Conservative mat-area sensitivity only; actual outrigger reactions/ground treatment and mat bending must be designed."
+daily_hire_planning_usd = 25000.0
+setup_days = 2
+campaign_lift_days = 4
+campaign_span_count = 24
+price_is_quote = false
+supplier_approved = false
+scope = "Primary main-boom chart:26m row/32.7m column,204t ballast,360degreeEN. Uses nextlargerradius conservatively for25m; no interpolation/up-rating. Hookblock95t/2.6t listedpage8; reeving/wind/deflection/boomclearance and actual signed chart remain holds."
+
+[rail_support]
+beam_top_z_m = -1.60
+crossmember_pitch_m = 1.0
+crossmember_length_m = 2.90
+crossmember_width_m = 0.120
+crossmember_depth_m = 0.160
+crossmember_wall_m = 0.010
+crossmember_top_z_m = -1.85
+rail_riser_longitudinal_m = 0.080
+rail_riser_transverse_m = 0.020
+rail_riser_wall_m = 0.003
+inner_riser_centre_y_m = 0.420
+baseplate_m = [0.30, 0.25, 0.020]
+baseplates_per_crossmember = 2
+anchors_per_baseplate = 4
+anchor_diameter_m = 0.024
+anchor_thread_area_m2 = 0.000353
+concrete_anchor_breakout_qualified = false
+
+[bearings]
+pad_m = [0.30, 0.25, 0.04]
+transverse_centre_spacing_m = 0.40
+compression_screen_pa = 10000000.0
+movement_capacity_m = 0.030
+thermal_range_k = 50.0
+thermal_expansion_per_k = 0.000010
+shrinkage_movement_allowance_m = 0.010
+fixed_anchor_count_per_end = 8
+anchor_diameter_m = 0.024
+anchor_thread_area_m2 = 0.000353
+concrete_anchor_breakout_qualified = false
+
+[pier]
+height_m = 8.0
+outer_diameters_m = [1.6, 1.8, 2.0]
+inner_to_outer_ratio = 0.60
+longitudinal_bars = 32
+longitudinal_bar_diameter_m = 0.032
+hoop_diameter_m = 0.012
+hoop_pitch_m = 0.10
+effective_length_factor = 2.0
+cap_size_m = [1.5, 5.0, 1.1]
+guideway_centres_y_m = [-1.9, 1.9]
+
+[foundations]
+spread_sides_m = [6.0, 8.0, 10.0, 12.0]
+spread_depth_m = 1.5
+pile_diameter_m = 0.75
+pile_lengths_m = [20.0, 25.0, 30.0]
+pile_grid_counts = [2, 3]
+pile_spacing_diameters = 3.0
+pile_cap_depth_m = 1.6
+pile_group_efficiency = 0.75
+pile_rebar_fraction = 0.015
+punching_shear_screen_pa = 500000.0
+friction_coefficient_assumed = 0.35
+geotechnical_characteristic_values_measured = false
+
+[[soil_scenarios]]
+id = "soft-wet-desktop-sensitivity"
+allowable_bearing_pa = 50000.0
+pile_shaft_screen_pa = 15000.0
+pile_base_screen_pa = 800000.0
+effective_concrete_unit_weight_n_m3 = 15000.0
+
+[[soil_scenarios]]
+id = "intermediate-desktop-sensitivity"
+allowable_bearing_pa = 100000.0
+pile_shaft_screen_pa = 25000.0
+pile_base_screen_pa = 1200000.0
+effective_concrete_unit_weight_n_m3 = 20000.0
+
+[[soil_scenarios]]
+id = "firmer-desktop-sensitivity"
+allowable_bearing_pa = 150000.0
+pile_shaft_screen_pa = 40000.0
+pile_base_screen_pa = 2000000.0
+effective_concrete_unit_weight_n_m3 = 24525.0
+
+[rates]
+concrete_usd_m3 = 200.0
+fabricated_rebar_usd_kg = 2.0
+prestress_strand_usd_kg = 3.5
+fabricated_structural_steel_usd_kg = 4.5
+bearing_usd_unit = 2500.0
+formwork_usd_m2 = 45.0
+excavation_usd_m3 = 18.0
+pile_drilling_usd_m = 300.0
+foundation_old_allowance_usd = 30000.0
+column_cap_old_allowance_usd = 20000.0
+prices_are_quotes = false
+
+[[references]]
+id = "JRC68415"
+url = "https://publications.jrc.ec.europa.eu/repository/handle/JRC68415"
+accessed = "2026-10-23"
+scope = "European Commission2012 bridge worked examples: separate permanent/live/wind/fatigue/construction actions, concrete, foundations and seismic. Road-bridge examples; not a maglev or Iraq compliance route."
+
+[[references]]
+id = "FHWA-PSC"
+url = "https://www.fhwa.dot.gov/bridge/lrfd/pscustoc.cfm"
+accessed = "2026-10-23"
+scope = "Primary worked-example structure: transfer/service stresses, losses, flexure/shear, bearings, pier and footing. Our SI material limits/factors are explicitly unqualified inputs, not imported AASHTO acceptance."
+
+[[references]]
+id = "WSDOT-handling-2017"
+url = "https://www.wsdot.wa.gov/publications/fulltext/Bridge/designmemos/03-2017.pdf"
+accessed = "2026-10-23"
+scope = "Handling/shipping stages, transverse sweep/tilt, transport support parameters and strength at release must be stated; our simple roll/bending screens do not implement full PCI lateral-stability design."
+
+[[references]]
+id = "BCSA51-10"
+url = "https://www.steelconstruction.info/images/1/1c/BCSA_51-10.pdf"
+accessed = "2026-10-23"
+scope = "UK steelwork fabrication, bolting/tool access, preloaded/slip-resistant bridge joints, weld procedures and fatigue. Historical2010 guide, no current code compliance claim."
+
+[[references]]
+id = "RSSB-GMRT2100"
+url = "https://www.rssb.co.uk/standards-catalogue/CatalogueItem/gmrt2100-iss-6-2"
+accessed = "2026-10-23"
+scope = "Primary/secondary rail vehicle structure and passive-safety scope. No GB category or EN12663 load case is claimed; full standard and Iraqi applicability need independent review."
+
+[[references]]
+id = "ISRIC-SoilGrids"
+url = "https://docs.isric.org/globaldata/soilgrids/SoilGrids_faqs.html"
+accessed = "2026-10-23"
+scope = "Global pedological prediction maps with uncertainty; no bearing, pile resistance, groundwater, liquefaction or settlement values inferred. All50/100/150kPa scenarios are analyst hypotheses."
+
+[[references]]
+id = "Liebherr-crane-scope"
+url = "https://www.liebherr.com/en-ie/mobile-and-crawler-cranes/mobile-cranes/ltm-mobile-cranes/ltm-1300-6-3-5332106"
+accessed = "2026-10-23"
+scope = "Manufacturer300t maximum is at3m radius and configurations vary. This package uses explicitly hypothetical radius-specific capacities and retains signed lift-chart/ground approval as a hold."

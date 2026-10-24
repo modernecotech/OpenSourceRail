@@ -610,7 +610,17 @@ def primary_docs() -> list[Path]:
         'docs/design-engine/ferrite-maglev/pilot-variants/README.md',
         'docs/design-engine/ferrite-maglev/pilot-lifecycle/README.md',
         'docs/design-engine/ferrite-maglev/assurance-profiles/README.md',
-        'docs/design-engine/ferrite-maglev/capability-migration/README.md')]
+        'docs/design-engine/ferrite-maglev/capability-migration/README.md',
+        'docs/design-engine/ferrite-maglev/system-detailed/README.md',
+        'docs/design-engine/ferrite-maglev/candidate-magnetics/README.md',
+        'docs/design-engine/ferrite-maglev/candidate-native/README.md',
+        'docs/design-engine/ferrite-maglev/candidate-structures/README.md',
+        'docs/design-engine/ferrite-maglev/full-dynamics/README.md',
+        'docs/design-engine/ferrite-maglev/candidate-manufacturing/README.md',
+        'docs/design-engine/ferrite-maglev/candidate-lifecycle/README.md',
+        'docs/design-engine/ferrite-maglev/bim-field/README.md',
+        'docs/design-engine/ferrite-maglev/operations-crosscheck/README.md',
+        'docs/design-engine/ferrite-maglev/planning-platform/README.md')]
 
 def primary_images() -> list[tuple[Path, str]]:
     base = REPO_ROOT/'docs/design-engine/ferrite-maglev'
@@ -618,6 +628,9 @@ def primary_images() -> list[tuple[Path, str]]:
         ('baghdad-reference/station/overview.png', 'Partial six-car Baghdad station, magnetic guidebeams and island lift; acceptance remains open.'),
         ('native/interface/overview.png', 'Partial fixed magnetic interface; not a complete vehicle.'),
         ('beam-only/overview.png', 'Beam-only civil variant. Supports are envelopes; evacuation acceptance remains open.'),
+        ('planning-ui/planning-desktop.png','Actual editable owner/builder planning workspace; local proposals are not accepted routes.'),
+        ('candidate-native/overview.png','Exact dimensioned magnetic-module native solids; effective winding envelopes and physical qualification remain open.'),
+        ('candidate-structures/section.png','Candidate counted guidebeam section and prestress coordinates; no structural or site acceptance.'),
         ('system-development/entry/overview.png', 'Partial evacuation entry frame and empty cassette. No deployed or stowed mechanism is qualified.'),
         ('system-development/compact-support/overview.png', 'Compact pier and foundation envelope. Site capacity and structural acceptance remain open.'))]
 

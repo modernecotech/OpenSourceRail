@@ -4,12 +4,13 @@ Explicit simulator execution submits ERP business fixtures. It cannot commission
 equipment, approve engineering, send motion commands or release a railway.
 """
 from copy import deepcopy
-from datetime import date, timedelta, datetime
+from datetime import timedelta, datetime
 from pathlib import Path
 import json
 import re
 import frappe
 from osr_erpnext import maglev_lifecycle_contract as contract
+from osr_erpnext.maglev_manufacturing import stock_lines
 
 
 def _root():
@@ -98,6 +99,8 @@ def run_fixture(package,bundle,run_id):
     from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
     from frappe.utils import get_url_to_form
     frappe.flags.mute_emails=True
+    # Native posting/schedule dates use the site's configured timezone.
+    today=frappe.utils.getdate(frappe.utils.nowdate())
     setup.create_evaluation_company();setup.install()
     # Each explicit campaign has a distinct evaluation company. Native released
     # revision -> Item/BOM mappings are immutable and are never overwritten to
@@ -140,6 +143,7 @@ def run_fixture(package,bundle,run_id):
     parameter=insert('Quality Inspection Parameter',parameter='SIM software record pass code '+run_id)
     root=_root()/run_id;root.mkdir(parents=True,exist_ok=False);(root/'package.json').write_text(json.dumps(package,sort_keys=True));ledger=contract.Ledger(root/'lifecycle.sqlite',package)
     products=[];negative=[];evidence_bodies=[]
+    estimate_prices=insert('Price List',price_list_name='SIM unquoted stock estimates '+run_id,currency='USD',buying=1,selling=0,enabled=1)
     def event(position,serial,kind,data,actor='Administrator',refs=None):
         product=next(p for p in package['products'] if p['product_id']==position['product_id']);batch='SIM-BATCH-'+run_id+'-'+str(package['positions'].index(position))
         body=dict(environment='simulation',native_records=refs or data,physical_test=False)
@@ -152,31 +156,32 @@ def run_fixture(package,bundle,run_id):
         raise AssertionError('Unsafe action accepted: '+label)
     for number,position in enumerate(package['positions']):
         product=next(p for p in package['products'] if p['product_id']==position['product_id']);short=str(number)+'-'+run_id
-        raw=[]
+        raw=[];quantities=stock_lines(product);quantified=product.get('manufacturing_mode')=='quantified-candidate'
         for i,line in enumerate(product['bom']):
             # Each stock kit represents one exact source engineering BOM row.
             # Quantified engineering values remain in its immutable description;
             # allocated/missing parts are explicit unqualified kit allowances.
-            item=insert('Item',item_code='SIM-MAG-RAW-'+short+'-'+str(i),item_name=line['id'],item_group=group,stock_uom='Nos',is_stock_item=1,is_purchase_item=1,inspection_required_before_purchase=1 if i==0 else 0,
-                description='SOFTWARE FIXTURE KIT; engineering source '+line['source_sha256']+' / '+json.dumps(line['source'],sort_keys=True))
+            item=insert('Item',item_code='SIM-MAG-RAW-'+short+'-'+str(i),item_name=line['id'],item_group=group,stock_uom=quantities[i]['uom'],is_stock_item=1,is_purchase_item=1,inspection_required_before_purchase=1 if i==0 else 0,
+                description=('QUANTIFIED UNQUOTED SIMULATION STOCK; ' if quantified else 'SOFTWARE FIXTURE KIT; ')+'engineering source '+line['source_sha256']+' / '+json.dumps(line['source'],sort_keys=True))
             raw.append(item)
+            insert('Item Price',item_code=item.name,price_list=estimate_prices.name,price_list_rate=quantities[i]['rate'],uom=quantities[i]['uom'],buying=1)
         fg=insert('Item',item_code='SIM-MAG-FG-'+short,item_name=product['product_id'],item_group=group,stock_uom='Nos',is_stock_item=1,has_serial_no=1,has_batch_no=1,
             description='SIMULATED current product '+product['product_revision_sha256']+' / no physical manufacturing release')
         batch=insert('Batch',batch_id='SIM-BATCH-'+run_id+'-'+str(number),item=fg.name)
-        bom=insert('BOM',item=fg.name,company=company,quantity=1,currency='USD',items=[dict(item_code=x.name,qty=1,rate=1) for x in raw]);bom.submit()
+        bom=insert('BOM',item=fg.name,company=company,quantity=1,currency='USD',rm_cost_as_per='Price List',buying_price_list=estimate_prices.name,items=[dict(item_code=x.name,qty=q['quantity'],rate=q['rate']) for x,q in zip(raw,quantities)]);bom.submit()
         mapping=dict(schema='osr-execution-proposal/1',city='baghdad',asset_id=position['asset_id'],engineering_revision=product['product_revision_sha256'],engineering_sha256=package['configuration_sha256'],
             mapping=dict(review_reference='simulation-current-maglev-'+run_id,items=[dict(component_type_id=product['product_id'],erp_item_code=fg.name,uom='Nos',production_bom=bom.name,
-            conversion_rule='One explicit software fixture kit per engineering BOM row; detailed quantities and qualification remain source-bound.',inspection_reference='qualification/physical-unexecuted',drawing_reference='product-geometry-sha256:'+product['geometry_sha256'])]))
+            conversion_rule=('Net/cut-yield source quantities; gross material/process consumption per finished unit; unquoted rates; simulation only.' if quantified else 'One explicit software fixture kit per engineering BOM row; detailed quantities and qualification remain source-bound.'),inspection_reference='qualification/physical-unexecuted',drawing_reference='product-geometry-sha256:'+product['geometry_sha256'])]))
         mapping['sha256']=planning.digest(mapping);preview=integration.preview_execution(project.name,mapping);mapped=integration.apply_execution(project.name,mapping,preview['fingerprint'])
         assert integration.apply_execution(project.name,mapping,preview['fingerprint'])==mapped
-        mr=insert('Material Request',material_request_type='Purchase',company=company,schedule_date=str(date.today()),items=[dict(item_code=x.name,qty=4,warehouse=warehouse,project=project.name) for x in raw])
-        po=insert('Purchase Order',supplier=supplier.name,company=company,schedule_date=str(date.today()),items=[dict(item_code=x.name,qty=4,rate=1,warehouse=warehouse,project=project.name) for x in raw])
+        mr=insert('Material Request',material_request_type='Purchase',company=company,schedule_date=str(today),items=[dict(item_code=x.name,qty=q['purchase_quantity'],warehouse=warehouse,project=project.name) for x,q in zip(raw,quantities)])
+        po=insert('Purchase Order',supplier=supplier.name,company=company,schedule_date=str(today),items=[dict(item_code=x.name,qty=q['purchase_quantity'],rate=q['rate'],warehouse=warehouse,project=project.name) for x,q in zip(raw,quantities)])
         assert mr.docstatus==po.docstatus==0
         old='SIM-MAG-'+short+'-OLD';new='SIM-MAG-'+short+'-NEW'
         event(position,old,'purchase',dict(draft_material_request=mr.name,draft_purchase_order=po.name,bom_sha256=contract.digest(product['bom'])))
         # Explicit fixture execution, separate from the draft mapping/import.
         po.submit()
-        receipt=insert('Purchase Receipt',supplier=supplier.name,company=company,items=[dict(item_code=r.item_code,qty=4,rate=1,warehouse=warehouse,project=project.name,purchase_order=po.name,purchase_order_item=r.name) for r in po.items])
+        receipt=insert('Purchase Receipt',supplier=supplier.name,company=company,items=[dict(item_code=r.item_code,qty=r.qty,rate=r.rate,warehouse=warehouse,project=project.name,purchase_order=po.name,purchase_order_item=r.name) for r in po.items])
         event(position,old,'receive',dict(receipt=receipt.name))
         failed=_quality('Purchase Receipt',receipt.name,raw[0].name,receipt.items[0].name,'Fail',parameter.name,company,actor=users['inspector'])
         event(position,old,'inspect',dict(result='fail',inspection=failed.name),users['inspector'])
@@ -190,14 +195,14 @@ def run_fixture(package,bundle,run_id):
         # Position identity stays stable. An old serial is never renamed to free
         # a unique Asset key; the journal keeps every installation/removal.
         asset=insert('Asset',company=company,item_code=asset_item.name,asset_name='SIM '+position['asset_id'],asset_category=category.name,location=location.name,
-            purchase_date=str(date.today()-timedelta(days=1)),available_for_use_date=str(date.today()-timedelta(days=1)),is_existing_asset=1,gross_purchase_amount=1,calculate_depreciation=0,
+            purchase_date=str(today-timedelta(days=1)),available_for_use_date=str(today-timedelta(days=1)),is_existing_asset=1,gross_purchase_amount=sum(q['quantity']*q['rate'] for q in quantities),calculate_depreciation=0,
             custom_osr_asset_id=position['asset_id']+':'+run_id,custom_osr_pilot_revision=product['product_revision_sha256'])
         asset.submit();work_orders=[];stock_entries=[];finished_row=None;issue=None;repair=None
         for serial in (old,new):
             if serial==new:
                 event(position,new,'purchase',dict(draft_material_request=mr.name,draft_purchase_order=po.name,bom_sha256=contract.digest(product['bom'])))
                 event(position,new,'receive',dict(receipt=receipt.name));event(position,new,'inspect',dict(result='pass',inspection=passed.name),users['inspector'])
-            values=dict(bom=bom.name,quantity=1,source_warehouse=warehouse,wip_warehouse=warehouse,fg_warehouse=warehouse,start=str(date.today())+' 01:00:00')
+            values=dict(bom=bom.name,quantity=1,source_warehouse=warehouse,wip_warehouse=warehouse,fg_warehouse=warehouse,start=str(today)+' 01:00:00')
             prepared=components.preview(project.name,'manufacturing',serial.lower(),values)
             wo=frappe.get_doc('Work Order',components.apply(project.name,'manufacturing',serial.lower(),values,prepared['fingerprint'])['name']);wo.skip_transfer=1;wo.save();wo.submit()
             stock=frappe.get_doc(make_stock_entry(wo.name,'Manufacture',1))
@@ -232,19 +237,19 @@ def run_fixture(package,bundle,run_id):
                 made=integration.condition_event(alarm);assert integration.condition_event(alarm)['duplicate'];issue=made['issue']
                 refused('physical-ingress-'+str(number),lambda:integration.condition_event({**alarm,'environment':'physical'}))
                 frappe.set_user('Administrator');event(position,serial,'alarm',dict(incident_id=alarm['incident_id']),users['observer'])
-                proposal=dict(schema='osr-condition-repair/1',key='current-maglev-'+short,failure_date=str(date.today())+' 01:00:00',expected_downtime_hours=2,technician='Administrator',
+                proposal=dict(schema='osr-condition-repair/1',key='current-maglev-'+short,failure_date=str(today)+' 01:00:00',expected_downtime_hours=2,technician='Administrator',
                     description='SIM replacement workflow; consume one explicit software fixture consumable; physical handback remains open.',parts=[dict(item=raw[0].name,warehouse=warehouse,quantity=1)],
                     evidence_references=['removed-serial:'+old,'product-revision:'+product['product_revision_sha256'],'SIM:no-physical-work'])
                 prep=integration.preview_repair(issue,proposal);repair=integration.apply_repair(issue,proposal,prep['fingerprint'])['name']
                 event(position,serial,'maintain',dict(maintenance_case=repair));event(position,serial,'remove',dict(removal_record=repair))
-                doc=frappe.get_doc('Asset Repair',repair);doc.actions_performed='SIM business fixture replacement; physical QA and handback required.';doc.repair_status='Completed';doc.completion_date=str(date.today())+' 02:00:00';doc.save();doc.submit()
+                doc=frappe.get_doc('Asset Repair',repair);doc.actions_performed='SIM business fixture replacement; physical QA and handback required.';doc.repair_status='Completed';doc.completion_date=str(today)+' 02:00:00';doc.save();doc.submit()
                 assert doc.custom_osr_handback_required
                 assert not integration.apply_repair(issue,proposal,prep['fingerprint'])['automatic_handback']
                 frappe.db.commit();before=ledger.snapshot();ledger=contract.Ledger(root/'lifecycle.sqlite',package);assert before==ledger.snapshot()
         # A real independently reviewed revision disposition remains separate
         # from the plan, and never silently amends a purchase or product.
-        draft=insert('Purchase Order',supplier=supplier.name,company=company,schedule_date=str(date.today()),items=[dict(item_code=raw[0].name,qty=1,rate=1,warehouse=warehouse,project=project.name)])
-        request=dict(key='revision-'+short,mapping=mapped['mappings'][0],target=dict(kind='purchase-line',document=draft.name,line=draft.items[0].name),action='Request amendment',responsible='Administrator',due_date=str(date.today()+timedelta(days=5)),
+        draft=insert('Purchase Order',supplier=supplier.name,company=company,schedule_date=str(today),items=[dict(item_code=raw[0].name,qty=1,rate=1,warehouse=warehouse,project=project.name)])
+        request=dict(key='revision-'+short,mapping=mapped['mappings'][0],target=dict(kind='purchase-line',document=draft.name,line=draft.items[0].name),action='Request amendment',responsible='Administrator',due_date=str(today+timedelta(days=5)),
             rationale='Proposed current maglev product revision requires independent review; no automatic BOM/serial migration.',references=['SIM:unadopted-revision:'+run_id])
         d=disposition.preview(project.name,request);record=disposition.record(project.name,request,d['fingerprint'])
         refused('disposition-self-review-'+str(number),lambda:disposition.preview_decision(record['name'],dict(outcome='Endorse plan',rationale='Independent review required',references=['SIM:review'])))
@@ -258,12 +263,12 @@ def run_fixture(package,bundle,run_id):
             nonconformance=ncr.name,calibration_record='SIM-SOFTWARE-CODE-NO-PHYSICAL-CALIBRATION'),dict(inspection_id=identity['characteristics'][0]['inspection_id'],configuration_sha256=package['configuration_sha256'],part_revision=product['product_revision_sha256'],serial=new,batch=batch.name,unit='simulation-code',value=1))
         products.append(dict(product_id=product['product_id'],product_revision_sha256=product['product_revision_sha256'],asset_id=position['asset_id'],asset=asset.name,finished_item=fg.name,finished_row=finished_row,qa_parameter=parameter.name,
             material_request=mr.name,purchase_order=po.name,receipt=receipt.name,failed_inspection=failed.name,rework_task=rework.name,work_orders=work_orders,stock_entries=stock_entries,issue=issue,asset_repair=repair,
-            old_serial=old,current_serial=new,batch=batch.name,engineering_qa_identity=identity,engineering_qa_binding=qa_binding,serial_history=deepcopy(ledger.snapshot()['state']['positions'][position['asset_id']]),revision_disposition=record['name'],native_asset_identity=asset.custom_osr_asset_id,
+            old_serial=old,current_serial=new,batch=batch.name,bom=bom.name,manufacturing_mode=product.get('manufacturing_mode','software-fixture'),quantified_materials=[dict(q,item_code=x.name) for x,q in zip(raw,quantities)],engineering_qa_identity=identity,engineering_qa_binding=qa_binding,serial_history=deepcopy(ledger.snapshot()['state']['positions'][position['asset_id']]),revision_disposition=record['name'],native_asset_identity=asset.custom_osr_asset_id,
             links={dt:get_url_to_form(dt,name) for dt,name in [('Asset',asset.name),('Purchase Order',po.name),('Quality Inspection',failed.name),('Work Order',work_orders[-1]),('Issue',issue),('Asset Repair',repair)]},physical_release=False))
     # Real permission refusal over the existing scoped native feedback API.
-    frappe.set_user(users['reader']);refused('native-permission',lambda:components.preview(project.name,'manufacturing','forbidden',dict(bom=bom.name,quantity=1,source_warehouse=warehouse,wip_warehouse=warehouse,fg_warehouse=warehouse,start=str(date.today())+' 01:00:00')))
+    frappe.set_user(users['reader']);refused('native-permission',lambda:components.preview(project.name,'manufacturing','forbidden',dict(bom=bom.name,quantity=1,source_warehouse=warehouse,wip_warehouse=warehouse,fg_warehouse=warehouse,start=str(today)+' 01:00:00')))
     frappe.set_user('Administrator')
     result=dict(schema='osr-maglev-native-business-result/1',environment='simulation',run=run_id,configuration_sha256=package['configuration_sha256'],project=project.name,company=company,products=products,negative_controls=negative,
-        journal=ledger.snapshot(),evidence_bodies=evidence_bodies,users=users,physical_release=False,engineering_accepted=False,fixture_valuation='USD1 per software kit; not a product quote, financial forecast or real asset value')
+        journal=ledger.snapshot(),evidence_bodies=evidence_bodies,users=users,physical_release=False,engineering_accepted=False,fixture_valuation=('Source-quantified quantities and unquoted planning rates; simulation valuation, not supplier quotation or real accepted asset value' if package.get('manufacturing_mode')=='quantified-candidate' else 'USD1 per software kit; not a product quote, financial forecast or real asset value'))
     (root/'result.json').write_text(json.dumps(result,sort_keys=True,indent=2));(_root()/'current.json').write_text(json.dumps(dict(run=run_id,project=project.name)))
     frappe.db.commit();return result

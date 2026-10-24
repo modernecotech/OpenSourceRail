@@ -23,6 +23,8 @@ def primary_markdown() -> str:
     body = station_structure.body()
     hubs=interchange_hubs.read_summary()
     hub_conflicts=sum(len(row['spacing_conflicts']) for row in interchange_hubs.study()['baseline']['line_screens'])
+    from engineering.ferrite_maglev import candidate_magnetics
+    detailed=candidate_magnetics.definition()
     operating_mass=model.mass(current,current['mass']['ferrite_base'],50.)
     return f'''# OpenSourceRail v0.5.2 development — fixed-zone ferrite maglev
 
@@ -56,6 +58,12 @@ traction equipment from the train shifts electrical plant to stations. Support
 coils/drives, cooling, sensing, protection, doors, HVAC and emergency equipment
 remain necessary. Contactless running aims to reduce contact noise and wear;
 actual losses, acoustic performance and maintenance require measurement.
+
+## Current detailed candidate
+
+The [new detailed-system chain](design-engine/ferrite-maglev/system-detailed/README.md) accounts **{detailed['controlled_tare_kg']/1000:.3f}t tare/{detailed['controlled_aw3_kg']/1000:.3f}t AW3 per car** for one dimensioned candidate. Actual stock, current circuits, loads, manufacturing quantities and native identities agree on its revision. Corrected thin return-rail saturation prevents requiredAW3 support; propulsion demagnetisation/convergence failures and structural/protection holds remain; no complete engineered or adopted train is claimed. Earlier targets and actuator passes below retain their original configuration.
+
+The [owner/builder planner](workbench/planning/index.html) restores city edit proposals,16GIS layers and generic delivery workfront/procurement/cash plans. Independent SUMO, IFC/IDS/BCF, typed field negative controls and native business navigation have explicit bounded scopes.
 
 ## Body, civil works and local capability
 

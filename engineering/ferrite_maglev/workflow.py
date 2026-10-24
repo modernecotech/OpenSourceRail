@@ -104,6 +104,7 @@ def report_check(output):
 
 def stages(output):
     from . import pilot_product,pilot_actuators,launch_optimisation,pilot_corridor,pilot_variants,delivery_schedule,pilot_lifecycle,pilot_assurance,capability_migration,pilot_release
+    from . import candidate_native,candidate_magnetics,candidate_structures,full_dynamics,candidate_manufacturing,candidate_lifecycle,bim_field,operations_crosscheck,platform_publication,planning_ui,detailed_system
     def document(script, *args):
         subprocess.run([sys.executable, str(model.ROOT/'tools/automation'/script), *args], cwd=model.ROOT, check=True, capture_output=True, text=True)
     values = [
@@ -142,6 +143,17 @@ def stages(output):
         ('baghdad-complete-pilot-corridor',pilot_corridor.verify,lambda:fresh_packet('pilot-corridor',pilot_corridor.publish)),
         ('exact-actuator-pilot-finance',pilot_variants.verify,lambda:fresh_packet('pilot-variants',pilot_variants.publish)),
         ('serial-pilot-business-lifecycle',pilot_lifecycle.verify,lambda:fresh_packet('pilot-lifecycle',pilot_lifecycle.publish)),
+        ('dimensioned-candidate-magnetics',candidate_magnetics.verify,lambda:fresh_packet('candidate-magnetics',candidate_magnetics.publish)),
+        ('native-dimensioned-candidate',candidate_native.verify,lambda:fresh_packet('candidate-native',candidate_native.publish)),
+        ('candidate-loads-and-structures',candidate_structures.verify,lambda:fresh_packet('candidate-structures',candidate_structures.publish)),
+        ('continued-candidate-fault-dynamics',full_dynamics.verify,lambda:fresh_packet('full-dynamics',full_dynamics.publish)),
+        ('quantified-candidate-manufacturing',candidate_manufacturing.verify,lambda:fresh_packet('candidate-manufacturing',candidate_manufacturing.publish)),
+        ('quantified-candidate-native-chain',candidate_lifecycle.verify,lambda:fresh_packet('candidate-lifecycle',candidate_lifecycle.publish)),
+        ('candidate-bim-and-field-exchange',bim_field.verify,lambda:fresh_packet('bim-field',bim_field.publish)),
+        ('independent-sumo-operations',operations_crosscheck.verify,lambda:fresh_packet('operations-crosscheck',operations_crosscheck.publish)),
+        ('owner-builder-planning-platform',platform_publication.verify,lambda:fresh_packet('planning-platform',platform_publication.publish)),
+        ('planning-browser-evidence',planning_ui.verify,lambda:fresh_packet('planning-ui',planning_ui.publish)),
+        ('detailed-candidate-system',detailed_system.verify,lambda:fresh_packet('system-detailed',detailed_system.publish)),
         ('pilot-development-assurance',pilot_assurance.verify,lambda:fresh_packet('assurance-profiles',pilot_assurance.publish)),
         ('v04-capability-migration',capability_migration.verify,lambda:fresh_packet('capability-migration',capability_migration.publish)),
         ('connected-pilot-delivery',pilot_release.verify,lambda:fresh_packet('pilot-delivery',pilot_release.publish)),

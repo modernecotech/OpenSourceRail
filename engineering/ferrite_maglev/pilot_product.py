@@ -165,6 +165,8 @@ def redesigned_bay():
     plate_mass=4*.20*.008*.080*geometry.MATERIALS['steel']
     bolt_mass=16*geometry.MATERIALS['steel']*(math.pi*.008**2*.04/4+math.pi*.013**2*.005/4+math.pi*(.013**2-.008**2)*.006/4)
     v.update(id='segmented-collector-detachable-elbow-lateral-1',released_retention_ids=[p['id'] for p in released],
+        released_mating_interfaces=[dict(moving='hardpoint/1/06/carrier-flange',fixed='hardpoint/1/06/spreader',
+            release='Support assembly and remove16M12 retention bolts before normal separation')],
         new_interfaces=[dict(id='collector-splice-'+str(i),location_x_m=x,plates=2,plate_size_m=[.20,.008,.080],new_m8_bolts=8,qualified=False) for i,x in enumerate((0.,1.))],
         changed_hardware=dict(new_splice_plates=4,new_m8_bolts=16,reused_main_interface_m12_bolts=16,additional_stock_mass_kg_per_bay=plate_mass+bolt_mass,
             additional_stock_mass_kg_per_car=24*(plate_mass+bolt_mass),cut_gap_m=.010,removed_stock_mass_credit_kg=0.,
@@ -179,7 +181,13 @@ def bounds(p):
 
 def path_check(value=None):
     v=bay_definition() if value is None else value;a=load();delta=v.get('translation_m',[0.,0.,-a['replacement_drop_m']]);moving=[*v['retained_parts'],*[p for p in v['equipment'] if p['role']=='replaceable']]
-    collisions=[];checks=0;fixed_bounds=[(p['id'],bounds(p)) for p in v['fixed_parts']]
+    required=a['minimum_path_clearance_m'];collisions=[];checks=0;fixed_bounds=[(p['id'],bounds(p)) for p in v['fixed_parts']]
+    clearance_holds=[];release_checks=[];minimum=None
+    releases={(r['moving'],r['fixed']):r for r in v.get('released_mating_interfaces',[])}
+    if len(releases)!=len(v.get('released_mating_interfaces',[])):raise ValueError('duplicate mating-interface release')
+    used=set()
+    def separation(aa,bb):
+        return math.sqrt(math.fsum(max(aa[0][i]-bb[1][i],bb[0][i]-aa[1][i],0.)**2 for i in range(3)))
     # Straight translation: endpoint separation is an exact swept AABB test;
     # samples are review output, never a claim to resolve arbitrary motion.
     swept=[]
@@ -187,15 +195,40 @@ def path_check(value=None):
         initial=bounds(p);aa=[[initial[0][i]+min(0.,delta[i]) for i in range(3)],[initial[1][i]+max(0.,delta[i]) for i in range(3)]]
         for fixed_id,bb in fixed_bounds:
             checks+=1
+            pair=(p['id'],fixed_id);clearance=separation(aa,bb)
+            if pair in releases:
+                used.add(pair);record=releases[pair]
+                # A disconnected mating face starts at zero gap. It may only
+                # leave by its separating normal; penetration or tangential
+                # extraction cannot be excused as a mating contact.
+                depth=[min(initial[1][i],bb[1][i])-max(initial[0][i],bb[0][i]) for i in range(3)]
+                axes=[i for i in range(3) if
+                    (abs(initial[0][i]-bb[1][i])<=1e-9 and delta[i]>0) or
+                    (abs(initial[1][i]-bb[0][i])<=1e-9 and delta[i]<0)]
+                valid=bool(record.get('release')) and min(depth)<=1e-9 and bool(axes)
+                fraction=min((required/abs(delta[i]) for i in axes),default=float('inf'))
+                if fraction>1:valid=False
+                if valid:
+                    separated=[[initial[0][i]+delta[i]*fraction+min(0.,delta[i]*(1-fraction)) for i in range(3)],
+                               [initial[1][i]+delta[i]*fraction+max(0.,delta[i]*(1-fraction)) for i in range(3)]]
+                    clearance=separation(separated,bb);valid=clearance>=required-1e-9
+                release_checks.append(dict(moving=p['id'],fixed=fixed_id,release=record.get('release'),
+                    normal_separation_verified=valid,clearance_reached_at_path_fraction=fraction if math.isfinite(fraction) else None,
+                    initial_contact_is_not_clearance=True,physical_release_executed=False))
+                if not valid:clearance=0.
+            minimum=clearance if minimum is None else min(minimum,clearance)
+            if clearance<required-1e-9:clearance_holds.append(dict(moving=p['id'],fixed=fixed_id,clearance_m=clearance,required_m=required))
             if min(min(aa[1][i],bb[1][i])-max(aa[0][i],bb[0][i]) for i in range(3))>1e-9:
                 swept.append([p['id'],fixed_id])
                 for n in range(a['replacement_path_samples']):
                     pose=[[c+delta[i]*n/(a['replacement_path_samples']-1) for i,c in enumerate(q)] for q in initial]
                     depth=[min(pose[1][i],bb[1][i])-max(pose[0][i],bb[0][i]) for i in range(3)]
                     if min(depth)>1e-9 and len(collisions)<20:collisions.append(dict(step=n,moving=p['id'],fixed=fixed_id,aabb_overlap_m=depth))
+    if set(releases)!=used:raise ValueError('mating-interface release does not identify a tested pair')
     return dict(translation_m=delta,sampled_poses=a['replacement_path_samples'],pair_checks=checks,
-        conservative_swept_aabb_collisions=swept,sampled_collision_examples=collisions[:20],clear_under_declared_box_bounds=not swept,
-        motion_scope='Straight supported translation only; conservative exact swept AABBs. Removed cover/connectors/retention excluded by explicit steps. No flexible cable, lifting stability or magnetic/tool acceptance.',
+        conservative_swept_aabb_collisions=swept,sampled_collision_examples=collisions[:20],clear_under_declared_box_bounds=not swept and not clearance_holds,
+        minimum_required_clearance_m=required,minimum_conservative_clearance_m=minimum,clearance_holds=clearance_holds,released_mating_interfaces=release_checks,
+        motion_scope='Straight supported translation with declared minimum clearance; conservative swept AABB distances. Explicit disconnected mating faces first separate normally to the same clearance. Removed cover/connectors/retention require the declared steps. No flexible cable, lifting stability or magnetic/tool acceptance.',
         accepted=False)
 
 def study():

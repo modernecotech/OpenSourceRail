@@ -70,7 +70,7 @@ def render(result):
     gate_rows=''.join(f'<li>{g["id"]}: {escape(g["name"])} — OPEN</li>' for g in result['gates'])
     return f'''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OpenSourceRail {model.RELEASE_VERSION} — fixed-zone ferrite-maglev development</title>
 <style>body{{font:17px/1.6 system-ui;max-width:1120px;margin:40px auto;padding:0 24px;color:#172c42;background:#f9fbfd}}h1{{font-size:36px;line-height:1.15}}h2{{margin-top:36px}}.banner{{background:#e3f4f0;padding:20px;border-left:5px solid #087f78}}table{{display:block;overflow-x:auto;border-collapse:collapse;width:100%;font-size:15px}}td,th{{text-align:left;padding:10px;border-bottom:1px solid #cad5df}}img{{width:100%;height:auto}}code{{background:#e9eef3;padding:3px;overflow-wrap:anywhere}}a{{color:#006b67}}</style>
-<p>PRIMARY DEVELOPMENT · v{model.RELEASE_VERSION}</p><h1>Ferrite-maglev on independent fixed lines</h1>
+<p>PRIMARY DEVELOPMENT · v{model.RELEASE_VERSION}</p><p><strong>Latest dimensioned candidate:</strong> approximately25.6t tare/37.6t AW3 per car. Thin return-rail saturation prevents requiredAW3 support; propulsion demagnetisation/convergence and other mandatory design gates remain open. <a href="../system-detailed/README.md">Exact candidate, failures and detailed-system chain</a> · <a href="../../../workbench/planning/index.html">Owner/builder planner</a> · <a href="../candidate-native/README.md">Native module and assembly visibility video</a></p><h1>Ferrite-maglev on independent fixed lines</h1>
 <div class="banner">Six 17 m GFRP body studies, onboard ferrite PM-biased active support/guidance, station LSM launch/receiving braking, selected midway accelerator zones and coasting elsewhere. Junctions transfer passengers between fixed lines, without train-routing switches. Accepted engineering and physical releases: <strong>0</strong>. The published v0.5.1 configuration is retained as an identified comparison.</div>
 <p><a href="result.json">Current configuration, calculations and requirements</a> · <a href="manifest.json">Sources and payload receipt</a> · <a href="systems-register.json.gz">Systems responsibility register</a></p>
 <h2>Connected Baghdad digital pilot</h2>
@@ -205,7 +205,8 @@ def _check_connected_pilot(context):
 def closure_studies(*, _pilot=None):
     context=_verify_connected_pilot() if _pilot is None else _pilot
     _check_connected_pilot(context)
-    result=dict(line_capacity=line_capacity.read_summary(),hub_access=hub_access.read_summary(),
+    from . import detailed_system
+    result=dict(detailed_system=detailed_system.read_summary(),line_capacity=line_capacity.read_summary(),hub_access=hub_access.read_summary(),
                 qualification=qualification.read_summary(),assembled_body=assembled_body.read_summary(),
                 shared_hub_layout=shared_hub_layout.read_summary(),body_stiffness=body_stiffness.read_summary(),
                 stopped_recovery=stopped_recovery.read_summary(),drive_construction=drive_design.read_summary(),
@@ -258,6 +259,12 @@ def external_evidence(*, _pilot=None):
             for p in (base/'native/manifest.json',base/'coupled/receipt.json',base/'beam-only/manifest.json',base/'system-development/manifest.json',base/'baghdad-reference/manifest.json',base/'iterative/manifest.json',base/'station-powered/manifest.json',base/'station-structure/manifest.json',base/'station-protocol/manifest.json',base/'station-native/manifest.json',base/'moving-train/manifest.json',base/'system-campaign/manifest.json',base/'manufactured-dossier/manifest.json',base/'manufactured-native/manifest.json',base/'corridor/manifest.json',base/'booster-kit/manifest.json',base/'booster-native/manifest.json',base/'interchange-hubs/manifest.json',base/'line-capacity/manifest.json',base/'hub-access/manifest.json',base/'qualification/manifest.json',base/'assembled-body/manifest.json',base/'shared-hub-layout/manifest.json',base/'body-stiffness/manifest.json',base/'stopped-recovery/manifest.json',base/'drive-construction/manifest.json')}
     _check_connected_pilot(context)
     result.update(dict(context.manifest_sha256))
+    from . import detailed_system
+    detailed_system.verify()
+    result.update(detailed_system.sources())
+    for module in detailed_system.modules():
+        result[(module.OUTPUT/'manifest.json').relative_to(model.ROOT).as_posix()]=sha256((module.OUTPUT/'manifest.json').read_bytes()).hexdigest()
+    result[(detailed_system.OUTPUT/'manifest.json').relative_to(model.ROOT).as_posix()]=sha256((detailed_system.OUTPUT/'manifest.json').read_bytes()).hexdigest()
     return result
 
 

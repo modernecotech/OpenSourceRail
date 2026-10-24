@@ -182,7 +182,7 @@ def test_scheduler_has_exact_current_units_and_source_change_build_profile(tmp_p
     units=cli.units(output)
     assert set(units)=={'osr-primary-infrastructure.service','osr-primary-infrastructure.timer'}
     service=units['osr-primary-infrastructure.service']
-    assert 'Type=oneshot\n' in service and 'TimeoutStartSec=3600\n' in service
+    assert 'Type=oneshot\n' in service and 'TimeoutStartSec=14400\n' in service
     assert 'WorkingDirectory='+str(model.ROOT) in service
     assert '"'+str(model.ROOT/'tools/automation/ferrite-maglev-study.py')+'" cycle --output' in service
     assert '"'+str(output).replace('%','%%')+'"' in service
@@ -282,8 +282,8 @@ def test_actual_handler_allows_verified_blob_reads_but_blocks_external_connectio
     thread=threading.Thread(target=foreign.serve_forever,daemon=True);thread.start()
     script=r"""
 import assert from 'node:assert/strict';
-import {chromium} from '@playwright/test';
-const browser=await chromium.launch({headless:true});
+import {launchBrowser} from './tools/automation/tests/browser-launch.mjs';
+const browser=await launchBrowser({headless:true});
 try {
   const page=await browser.newPage();
   const response=await page.goto(process.argv[1]+'/docs/workbench/maglev/pilot.js');
@@ -313,7 +313,7 @@ try {
     return {digestMatches,revokedRefused,externalRefused,directive};
   },process.argv[2]);
   assert.deepEqual(result,{digestMatches:true,revokedRefused:true,externalRefused:true,directive:'connect-src'});
-  console.log(JSON.stringify(result));
+  console.log(JSON.stringify({...result,browser_environment:browser.osrRendering}));
 } finally {await browser.close();}
 """
     try:
@@ -321,7 +321,10 @@ try {
                                f'http://127.0.0.1:{foreign.server_port}'],cwd=model.ROOT,
                               capture_output=True,text=True,timeout=30)
         assert result.returncode==0,result.stdout+result.stderr
-        assert json.loads(result.stdout)['digestMatches'] is True
+        observed=json.loads(result.stdout)
+        assert observed['digestMatches'] is True
+        assert observed['browser_environment']['mode'] in {'device-isolated-software','software-requested'}
+        assert observed['browser_environment']['browser_version']
         assert received==[]
     finally:
         foreign.shutdown();foreign.server_close();thread.join()

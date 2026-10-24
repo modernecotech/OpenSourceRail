@@ -102,7 +102,7 @@ def main():
     paths.update(body_evidence_paths())
     for folder in ('reference','native','beam-only','system-development','baghdad-reference','coupled','iterative','station-powered','station-structure','station-protocol','station-native','moving-train','system-campaign','manufactured-dossier','manufactured-native','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness','stopped-recovery','drive-construction','pilot-product','pilot-actuators',
                    'launch-optimisation','delivery-schedule','pilot-corridor','pilot-variants','pilot-lifecycle',
-                   'assurance-profiles','capability-migration','pilot-delivery'):
+                   'assurance-profiles','capability-migration','pilot-delivery','candidate-native','candidate-magnetics','candidate-structures','full-dynamics','candidate-manufacturing','candidate-lifecycle','bim-field','operations-crosscheck','planning-platform','planning-ui','system-detailed'):
         packet=ROOT/'docs/design-engine/ferrite-maglev'/folder
         paths.update(p.relative_to(ROOT).as_posix() for p in packet.rglob('*') if p.is_file())
         for receipt in [*packet.rglob('manifest.json'),*packet.rglob('receipt.json')]:
@@ -112,7 +112,9 @@ def main():
     # Histories remain historical; their earlier source hashes are not rebound
     # to current files. The current profile packet identifies eligible executions.
     for name in ('engineering/assurance/v052-pilot-profiles',
-                 'engineering/assurance/v052-pilot-lifecycle-native','engineering/assurance/v052-pilot-ui',
+                 'engineering/assurance/v052-pilot-lifecycle-native','engineering/assurance/v053-candidate-lifecycle-native','engineering/assurance/v052-pilot-ui',
+                 'engineering/assurance/v052-pilot-body-axial','engineering/assurance/v053-detailed-body-axial',
+                 'engineering/assurance/v053-magnetic-redesign-bounds','engineering/assurance/v053-propulsion-redesign-screen',
                  'engineering/assurance/v052-pilot-actuator-crosscheck',
                  'docs/design-engine/ferrite-maglev/pilot-actuators-rejected-120turn',
                  'docs/design-engine/ferrite-maglev/pilot-actuators-python-observer-baseline',

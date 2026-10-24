@@ -35,18 +35,23 @@ def reference_profile(profile_id='urban',configuration_id='baghdad-30kwh-aw3'):
     cfg=product.configuration_profile(configuration_id);a=corridor.load()
     return corridor.profile(distance_m=a[profile_id+'_reference_distance_m'],runtime_s=a[profile_id+'_reference_runtime_s'],cars=6,car_mass_kg=cfg['controlled_aw3_kg'],mode=profile_id)
 
-def idle_control_energy(*,physical_station_groups,annual_mainline_legs,runtime_s,stations=1):
+def idle_control_energy(*,physical_station_groups,annual_mainline_legs,runtime_s,stations=1,trip_groups=None):
     """Annual base load less exactly the idle energy already inside trip DC.
 
     Two terminal events in each trip represent one two-direction station. This
     explicit reconciliation avoids counting the same idle watts twice.
     """
     if type(physical_station_groups) is not int or type(stations) is not int or min(physical_station_groups,stations)<1:raise ValueError('positive installed counts required')
+    trip_groups=physical_station_groups if trip_groups is None else trip_groups
+    if type(trip_groups) is not int or trip_groups<0:raise ValueError('nonnegative trip group count required')
     if any(type(x) not in (int,float) or not math.isfinite(x) or x<0 for x in (annual_mainline_legs,runtime_s)):raise ValueError('finite nonnegative actual duty required')
     watts=load()['idle_group_control_w'];full=stations*physical_station_groups*watts*8760/1000.
-    included=annual_mainline_legs*runtime_s*physical_station_groups*watts/3600000.
+    included=annual_mainline_legs*runtime_s*trip_groups*watts/3600000.
     return dict(full_year_station_idle_kwh=full,idle_already_inside_trip_dc_kwh=included,additional_idle_kwh=max(0.,full-included),
-        included_idle_exceeds_calendar_budget=included>full,scope='Idle35W/group is already included in each full-profile DC integral. Additional annual base load subtracts that same allocation once; actual active losses are additional.')
+        duplicated_trip_idle_credit_kwh=max(0.,included-full),annual_idle_reconciliation_kwh=full-included,
+        installed_groups=stations*physical_station_groups,groups_inside_each_trip=trip_groups,
+        included_idle_exceeds_calendar_budget=included>full,
+        scope='Replace trip-allocated constant35W/group with one actual installed calendar base load. A signed accounting correction removes overlapping trip allocations only; copper, mechanical and active incremental losses receive no credit.')
 
 def group_geometry(profile,groups_per_direction):
     """Whole2.5m cassettes; booster is a separately counted physical asset."""
@@ -115,10 +120,12 @@ def loss_model(profile,*,groups_per_direction=2,conductor_area_mm2=350.,turns=1,
     cooling=float(np.max(np.sum(copper_w+converter_w,axis=0)))/1000.*a['cooling_usd_per_peak_kw']
     capex=converter_capex+copper_capex+fixed_capex+cooling
     annual=2*a['reference_departures_per_direction_per_year'];net_kwh=(imported-a['regeneration_reuse_fraction']*returned)/3600000.
-    idle_hours=8760.-annual*profile['inputs']['runtime_s']/3600./2
-    # Each physical station direction handles one departure OR arrival per run;
-    # conservative additional annual idle energy is separate from trip heat.
-    idle_kwh=max(0.,idle_hours)*len(terminal)*a['idle_group_control_w']/1000.
+    # Every trip contains departure and arrival groups; annual stock contains
+    # their equivalent two-direction station plus both booster directions.
+    # Reconcile the constant idle baseline once even when trip windows overlap.
+    standby=idle_control_energy(physical_station_groups=len(terminal)+2*len(booster),
+        trip_groups=len(groups),annual_mainline_legs=annual,runtime_s=profile['inputs']['runtime_s'])
+    idle_kwh=standby['annual_idle_reconciliation_kwh']
     annual_maint=converter_capex*a['annual_converter_maintenance_fraction']+(capex-converter_capex)*a['annual_other_maintenance_fraction']
     disc=a['discount_fraction'];annuity=sum((1+disc)**-year for year in range(1,a['life_years']+1))
     energy_cost=(annual*net_kwh+idle_kwh)*a['electricity_usd_per_kwh'];renewal=converter_capex/(1+disc)**a['converter_renewal_year']
@@ -135,7 +142,7 @@ def loss_model(profile,*,groups_per_direction=2,conductor_area_mm2=350.,turns=1,
         maximum_adiabatic_event_rise_c=float(rise.max()),force_balance_residual_n=residual,limits=limits,feasible=all(limits.values()),
         station_installed_allowance_usd=capex if not booster else None,all_profile_assets_allowance_usd=capex,converter_allowance_usd=converter_capex,
         lifecycle=dict(years=a['life_years'],discount_fraction=disc,reference_annual_train_passages=annual,annual_maintenance_allowance_usd=annual_maint,
-            annual_energy_allowance_usd=energy_cost,additional_idle_control_kwh_per_year=idle_kwh,converter_renewal_present_usd=renewal,
+            annual_energy_allowance_usd=energy_cost,additional_idle_control_kwh_per_year=standby['additional_idle_kwh'],idle_accounting=standby,converter_renewal_present_usd=renewal,
             installed_lifetime_cost_usd=capex+annuity*(annual_maint+energy_cost)+renewal),
         cost_is_quote=False,selected_for_city_defaults=False,qualified=False,**FLAGS)
     if record_trace:result['trace']=dict(time_s=time.tolist(),motor_force_n=force.tolist(),speed_m_s=speed.tolist(),groups=[dict(**g,R_ohm=R[i],L_h=L[i],psi_wb=psi[i].tolist(),q_a=current[i].tolist(),phase_voltage_v=voltage[i].tolist(),copper_w=copper_w[i].tolist()) for i,g in enumerate(groups)])

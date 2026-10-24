@@ -1,0 +1,9 @@
+Run from repository root with the exact source_sha256 inventory in manifest.json. All writes remain in ignored build/propulsion-redesign-screen/.
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/run.py > build/propulsion-redesign-screen/run.log 2>&1
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/refine.py > build/propulsion-redesign-screen/refine.log 2>&1
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/final-refine.py > build/propulsion-redesign-screen/final-refine.log 2>&1
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/chamfer-refine.py > build/propulsion-redesign-screen/chamfer-refine.log 2>&1
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/final-operating.py > build/propulsion-redesign-screen/final-operating.log 2>&1
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/boundary-diagnostic.py > build/propulsion-redesign-screen/boundary-diagnostic.log 2>&1
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 PYTHONPATH=. tools/automation/osr-python build/propulsion-redesign-screen/archive.py
+No production/canonical edits, no adoption, all release flags false.

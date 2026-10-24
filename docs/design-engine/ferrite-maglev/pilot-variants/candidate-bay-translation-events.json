@@ -1,6 +1,6 @@
 {
   "automatic_adoption": false,
-  "definition_sha256": "dc02a62d8da6cb90b3adcf8ae55f0573dda7fc6081fe3a7bbde10d36449f04b3",
+  "definition_sha256": "bc5b06f154a6fb2a144a238080c889c4468b7d2d873fa4295530c7f6f124049c",
   "design_complete": false,
   "frames": [
     {
@@ -377,9 +377,23 @@
   "path_checks": {
     "accepted": false,
     "clear_under_declared_box_bounds": true,
+    "clearance_holds": [],
     "conservative_swept_aabb_collisions": [],
-    "motion_scope": "Straight supported translation only; conservative exact swept AABBs. Removed cover/connectors/retention excluded by explicit steps. No flexible cable, lifting stability or magnetic/tool acceptance.",
+    "minimum_conservative_clearance_m": 0.004999999999999893,
+    "minimum_required_clearance_m": 0.005,
+    "motion_scope": "Straight supported translation with declared minimum clearance; conservative swept AABB distances. Explicit disconnected mating faces first separate normally to the same clearance. Removed cover/connectors/retention require the declared steps. No flexible cable, lifting stability or magnetic/tool acceptance.",
     "pair_checks": 173925,
+    "released_mating_interfaces": [
+      {
+        "clearance_reached_at_path_fraction": 0.005555555555555556,
+        "fixed": "hardpoint/1/06/spreader",
+        "initial_contact_is_not_clearance": true,
+        "moving": "hardpoint/1/06/carrier-flange",
+        "normal_separation_verified": true,
+        "physical_release_executed": false,
+        "release": "Support assembly and remove16M12 retention bolts before normal separation"
+      }
+    ],
     "sampled_collision_examples": [],
     "sampled_poses": 41,
     "translation_m": [

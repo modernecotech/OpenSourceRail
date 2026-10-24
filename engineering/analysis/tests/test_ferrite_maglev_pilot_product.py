@@ -76,6 +76,31 @@ def test_rotated_cylinder_bounds_use_declared_axis():
     b=p.bounds(dict(kind='cylinder',at_m=[0,0,0],size_m=[.02,.02,.2],cylinder_axis='y'))
     assert b==[[0,0,0],[.02,.2,.02]]
 
+@pytest.mark.parametrize('clearance,passes',[(.0049,False),(.005,True),(.0051,True)])
+def test_swept_path_applies_configured_clearance_even_without_overlap(clearance,passes):
+    v=dict(retained_parts=[dict(id='moving',kind='box',at_m=[0,0,0],size_m=[.1,.1,.1])],equipment=[],
+        fixed_parts=[dict(id='nearby',kind='box',at_m=[.1+clearance,.2,0],size_m=[.1,.1,.1])],translation_m=[0,.9,0])
+    result=p.path_check(v)
+    assert result['conservative_swept_aabb_collisions']==[]
+    assert result['minimum_required_clearance_m']==.005
+    assert result['clear_under_declared_box_bounds'] is passes
+    assert result['minimum_conservative_clearance_m']==pytest.approx(clearance)
+
+def test_mating_face_needs_explicit_release_and_normal_breakaway():
+    v=dict(retained_parts=[dict(id='moving',kind='box',at_m=[0,.1,0],size_m=[.1,.1,.1])],equipment=[],
+        fixed_parts=[dict(id='mount',kind='box',at_m=[0,0,0],size_m=[.1,.1,.1])],translation_m=[0,.9,0])
+    assert not p.path_check(v)['clear_under_declared_box_bounds']
+    v['released_mating_interfaces']=[dict(moving='moving',fixed='mount',release='Independently support and remove retention bolts')]
+    result=p.path_check(v)
+    assert result['clear_under_declared_box_bounds']
+    release=result['released_mating_interfaces'][0]
+    assert release['normal_separation_verified'] and not release['physical_release_executed']
+    assert release['clearance_reached_at_path_fraction']==pytest.approx(.005/.9)
+    v['translation_m']=[.9,0,0]
+    assert not p.path_check(v)['clear_under_declared_box_bounds']
+    v['translation_m']=[0,.9,0];v['retained_parts'][0]['at_m'][1]=.099
+    assert not p.path_check(v)['clear_under_declared_box_bounds']
+
 def test_publication_detects_coherently_rehashed_ledger(tmp_path):
     p.publish(tmp_path);assert p.verify(tmp_path)['verified']
     m=json.loads((tmp_path/'manifest.json').read_text());r=json.loads(gzip.decompress((tmp_path/'study.json.gz').read_bytes()))

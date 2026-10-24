@@ -1,5 +1,5 @@
 // Browser acceptance for the static primary study; no external requests or live I/O.
-import { chromium } from "@playwright/test";
+import { launchBrowser } from "./browser-launch.mjs";
 import { spawn } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
@@ -37,7 +37,7 @@ try {
       reject(new Error(`HTTP exit ${code}`));
     });
   });
-  browser = await chromium.launch({ headless: true });
+  browser = await launchBrowser({ headless: true });
   const page = await browser.newPage({
     viewport: { width: 1440, height: 1000 },
   });
@@ -957,6 +957,7 @@ try {
       physical_output_authorised: false,
       structural_acceptance: false,
     },
+    browser_environment: browser.osrRendering,
     javascript_errors: errors,
     external_requests: external,
     failed_requests: failures,

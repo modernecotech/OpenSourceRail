@@ -1,0 +1,93 @@
+{
+  "design_complete": false,
+  "input_packet": {
+    "fields": [
+      "configuration_sha256",
+      "unit_serial",
+      "sequence",
+      "captured_ns",
+      "valid_until_ns",
+      "dual_gap_m",
+      "dual_lateral_m",
+      "dual_current_a",
+      "bus_v",
+      "coil_temperature_c",
+      "reserve_energy_j",
+      "brake_and_capture_state"
+    ],
+    "stale_response": "remove propulsion demand; independent local reserve/capture state continues; never interpret no duties as safe",
+    "units": "SI;2currentaxes;4physicalgaps"
+  },
+  "local_mcu": {
+    "model": "STM32H753XI",
+    "role": "Prototype target for2currentcircuits/module at20kHz, independent gap/current acquisition and reserve fallback",
+    "rust_target": "thumbv7em-none-eabihf",
+    "target_build_and_timing_measured": false
+  },
+  "manufacturing_release": false,
+  "output_packet": {
+    "fields": [
+      "configuration_sha256",
+      "sequence",
+      "current_demands_a",
+      "kernel_status",
+      "reserve_active",
+      "brake_request",
+      "capture_load_n"
+    ],
+    "hardware_addresses": [],
+    "physical_outputs_enabled": false
+  },
+  "physical_release": false,
+  "physical_validation": false,
+  "sbc": {
+    "model": "Raspberry Pi Compute Module5, industrial carrier TBD",
+    "role": "1kHz supervisory allocation, configuration and event logging; no direct gates",
+    "target_timing_measured": false
+  },
+  "sources": [
+    {
+      "id": "stm32h753",
+      "scope": "Selected candidate MCU: Cortex-M7, ADC/PWM/watchdog resources; no measured railway execution claim",
+      "url": "https://www.st.com/resource/en/datasheet/stm32h753xi.pdf"
+    },
+    {
+      "id": "stm32-independent-watchdog",
+      "scope": "Independent watchdog uses separate low-speed clock; actual timeout tolerance and reset paths need target tests",
+      "url": "https://www.st.com/content/ccc/resource/training/technical/product_training/group0/98/3f/88/10/52/e1/46/9d/STM32H7-WDG_TIMERS-Independent_Watchdog_IWDG/files/STM32H7-WDG_TIMERS-Independent_Watchdog_IWDG.pdf/_jcr_content/translations/en.STM32H7-WDG_TIMERS-Independent_Watchdog_IWDG.pdf"
+    },
+    {
+      "id": "cm5",
+      "scope": "Selected supervisory SBC: CM5, thermal throttling and published operating range; no fast-loop guarantee",
+      "url": "https://datasheets.raspberrypi.com/cm5/cm5-datasheet.pdf"
+    }
+  ],
+  "timing": {
+    "allocation_period_s": 0.001,
+    "current_period_s": 5e-05,
+    "host_wall_time_is_not_target_latency": true,
+    "required_target_evidence": [
+      "ADC aperture/skew",
+      "interrupt/DMA worst-case latency",
+      "PWM/update delay",
+      "watchdogmin/max overtemperature",
+      "brownout/EMI",
+      "reserve switchover under load"
+    ],
+    "virtual_clock_only": true
+  },
+  "topology": {
+    "cars": 6,
+    "current_circuits_per_module": 2,
+    "modules_per_car": 24,
+    "physical_coils_per_module": 3,
+    "primary_local_nodes": 144,
+    "reserve_independence_qualified": false
+  },
+  "watchdog": {
+    "external_gate_interlock": "unimplemented target circuit; must preserve independent reserve path",
+    "independent_clock": true,
+    "reset_does_not_remove_support_power": true,
+    "study_timeout_s": 0.002
+  }
+}

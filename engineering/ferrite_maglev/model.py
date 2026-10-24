@@ -393,8 +393,9 @@ def sources(*,include_generated=True):
         'docs/workbench/maglev/index.html', 'docs/workbench/maglev/app.js', 'docs/workbench/maglev/pilot.js', 'docs/workbench/maglev/app.css')]
     from . import navigation
     paths += navigation.source_paths()
-    from . import pilot_lifecycle,pilot_assurance
-    paths += pilot_lifecycle.source_paths()+pilot_assurance.source_paths()
+    from . import pilot_lifecycle,pilot_assurance,candidate_authority,candidate_native,bim_field,platform_publication,full_dynamics
+    paths += pilot_lifecycle.source_paths()+pilot_assurance.source_paths()+candidate_native.source_paths()+bim_field.source_paths()+platform_publication.source_paths()+full_dynamics.source_paths()
+    paths += [ROOT/name for name in candidate_authority.sources()]
     def included(path):
         name=path.relative_to(ROOT).as_posix()
         return include_generated or not (

@@ -238,13 +238,15 @@ def test_cli_primary_and_unsupported_commands_fail_closed():
 
 
 def test_scheduled_cycle_idles_without_rewriting_unchanged_results(tmp_path):
+    from engineering.ferrite_maglev import pilot_assurance
     command=[str(ROOT/'tools/automation/osr-python'),str(ROOT/'tools/automation/ferrite-maglev-study.py'),'cycle','--output',str(tmp_path/'primary')]
     # A complete cold cycle verifies native bodies, fitted hubs, report mirrors
-    # and the reader PDF. Its combined verification exceeds the former10min
-    # budget; retain every stage and assertion with a bounded one-hour allowance.
-    first=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=3600)
+    # and the reader PDF. Fresh report verification alone takes about15min;
+    # repeated mirrors/book checks plus the dependency build exceed one hour.
+    # Retain every stage and assertion under a bounded two-hour cycle deadline.
+    first=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=pilot_assurance.COLD_CYCLE_TIMEOUT_SECONDS)
     assert first.returncode==0,first.stderr
     path=tmp_path/'primary/result.json';before=(path.stat().st_mtime_ns,path.read_bytes())
-    second=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=3600)
+    second=subprocess.run(command,cwd=ROOT,text=True,capture_output=True,timeout=pilot_assurance.COLD_CYCLE_TIMEOUT_SECONDS)
     assert second.returncode==0 and json.loads(second.stdout)['state']=='idle; sources unchanged'
     assert (path.stat().st_mtime_ns,path.read_bytes())==before

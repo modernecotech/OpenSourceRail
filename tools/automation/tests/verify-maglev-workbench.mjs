@@ -1,5 +1,5 @@
 // Exercise the actual primary server and default UI, including city changes.
-import { chromium } from '@playwright/test';
+import { launchBrowser } from './browser-launch.mjs';
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -27,7 +27,7 @@ try {
     });
     server.once('exit', code => { clearTimeout(timer); reject(Error(`Server exited ${code}: ${stderr}`)); });
   });
-  browser = await chromium.launch({headless:true});
+  browser = await launchBrowser({headless:true});
   const page = await browser.newPage({viewport:{width:1440,height:1000}});
   const errors=[], failures=[], external=[];
   page.on('pageerror', error => errors.push(String(error)));
@@ -374,7 +374,7 @@ try {
     assert.equal((await page.request.get(origin+path)).status(),404);
   }
   assert.deepEqual(errors,[]); assert.deepEqual(failures,[]); assert.deepEqual(external,[]);
-  const result={primary_ui:true,cities:266,exercised,images:10,pilot_packets:9,candidate_finance_separate:true,current_candidate_media_verified:true,coupled_images_and_magnetic_holds:true,independent_module_force_visible:true,pilot_access_and_resource_charts:true,native_workbench_screenshot:true,pilot_visual_tampering_held:true,missing_video_digest_held:true,pilot_image_decode_required:true,pilot_error_recovery:true,unselected_interchange_investigation:true,interchange_payload_tampering_held:true,interchange_inflate_budget_held:true,quantity_costs:true,eight_term_subtotal:true,operating_access_and_capacity:true,station_electrical_separate:true,headway_and_coast_holds:true,omitted_rescue_cost_rejected:true,fixed_line_transfer_conflicts_visible:true,complete_cost_unknown:true,manufacturing_and_map_links:true,receipt_tampering_held:true,links:true,mobile:true,private_paths_rejected:true,errors,external,physical_release:false};
+  const result={browser_environment:browser.osrRendering,primary_ui:true,cities:266,exercised,images:10,pilot_packets:9,candidate_finance_separate:true,current_candidate_media_verified:true,coupled_images_and_magnetic_holds:true,independent_module_force_visible:true,pilot_access_and_resource_charts:true,native_workbench_screenshot:true,pilot_visual_tampering_held:true,missing_video_digest_held:true,pilot_image_decode_required:true,pilot_error_recovery:true,unselected_interchange_investigation:true,interchange_payload_tampering_held:true,interchange_inflate_budget_held:true,quantity_costs:true,eight_term_subtotal:true,operating_access_and_capacity:true,station_electrical_separate:true,headway_and_coast_holds:true,omitted_rescue_cost_rejected:true,fixed_line_transfer_conflicts_visible:true,complete_cost_unknown:true,manufacturing_and_map_links:true,receipt_tampering_held:true,links:true,mobile:true,private_paths_rejected:true,errors,external,physical_release:false};
   await writeFile(output+'/checks.json',JSON.stringify(result,null,2)+'\n');
   console.log(JSON.stringify(result));
 } finally {

@@ -20,6 +20,7 @@ OWNED_GZIP_RAW_LIMITS={
     ROOT/'docs/design-engine/ferrite-maglev/corridor/result.json.gz':128*1024*1024,
     ROOT/'docs/design-engine/ferrite-maglev/moving-train/result.json.gz':128*1024*1024,
     ROOT/'docs/design-engine/ferrite-maglev/assembled-body/native-mesh.json.gz':256*1024*1024,
+    ROOT/'docs/design-engine/ferrite-maglev/full-dynamics/study.json.gz':128*1024*1024,
 }
 TEXT={'.py','.rs','.md','.toml','.json','.sh','.js','.mjs','.html','.yaml','.yml','.txt','.svg','.csv','.proto'}
 

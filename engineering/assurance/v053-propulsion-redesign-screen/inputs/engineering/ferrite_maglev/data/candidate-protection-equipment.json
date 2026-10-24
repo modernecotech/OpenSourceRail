@@ -1,0 +1,464 @@
+{
+  "schema": "osr-candidate-protection-equipment/1",
+  "revision": "RESERVE-CAPTURE-BRAKE-CONTACT-2",
+  "coordinate_frame": "Per car: x longitudinal from car centre, y left, z up from finished floor; every location/box is a provisional packaging allocation",
+  "scope": "Counted provisional protection hardware with explicit inner-return-web contact planes and added steel hangers/ties. Native fit, welds, joints, rail anchors, actuation and qualified capacity remain open. All prices are unquoted allocations.",
+  "rows": [
+    {
+      "id": "protection/independent-reserve-battery",
+      "quantity_per_car": 1,
+      "unit": "assembly",
+      "unit_mass_kg": 12.0,
+      "unit_cost_usd": 1050.0,
+      "positions_m": [
+        [
+          0.0,
+          0.0,
+          -0.3
+        ]
+      ],
+      "envelope_m": [
+        0.6,
+        0.4,
+        0.15
+      ],
+      "ratings": {
+        "gross_energy_kwh": 1.5,
+        "usable_fraction": 0.8,
+        "nominal_bus_v": 192.0,
+        "peak_output_kw": 30.0
+      },
+      "substitution": "incremental; independent of the services battery, no shared-energy credit"
+    },
+    {
+      "id": "protection/reserve-converter-contactors",
+      "quantity_per_car": 1,
+      "unit": "assembly",
+      "unit_mass_kg": 24.0,
+      "unit_cost_usd": 6000.0,
+      "positions_m": [
+        [
+          0.0,
+          0.45,
+          -0.3
+        ]
+      ],
+      "envelope_m": [
+        0.6,
+        0.3,
+        0.2
+      ],
+      "ratings": {
+        "bus_v": 192.0,
+        "conversion_efficiency": 0.9,
+        "transfer_delay_s": 0.002
+      },
+      "substitution": "incremental independent path; existing primary current stages remain counted"
+    },
+    {
+      "id": "protection/independent-sensing-controller",
+      "quantity_per_car": 1,
+      "unit": "assembly",
+      "unit_mass_kg": 12.0,
+      "unit_cost_usd": 3600.0,
+      "positions_m": [
+        [
+          0.0,
+          -0.45,
+          -0.3
+        ]
+      ],
+      "envelope_m": [
+        0.6,
+        0.3,
+        0.2
+      ],
+      "ratings": {
+        "sensing_channels": 288,
+        "current_period_s": 5e-05,
+        "watchdog_timeout_s": 0.002,
+        "auxiliary_power_w": 120.0
+      },
+      "substitution": "incremental independent reserve sensing/controller; no credit for primary observer electronics"
+    },
+    {
+      "id": "protection/capture-shoe",
+      "quantity_per_car": 8,
+      "unit": "assembly",
+      "unit_mass_kg": 8.0,
+      "unit_cost_usd": 1200.0,
+      "positions_m": [
+        [
+          -5.0,
+          -0.4595,
+          -0.862
+        ],
+        [
+          -5.0,
+          0.4595,
+          -0.862
+        ],
+        [
+          -2.0,
+          -0.4595,
+          -0.862
+        ],
+        [
+          -2.0,
+          0.4595,
+          -0.862
+        ],
+        [
+          2.0,
+          -0.4595,
+          -0.862
+        ],
+        [
+          2.0,
+          0.4595,
+          -0.862
+        ],
+        [
+          5.0,
+          -0.4595,
+          -0.862
+        ],
+        [
+          5.0,
+          0.4595,
+          -0.862
+        ]
+      ],
+      "envelope_m": [
+        0.35,
+        0.04,
+        0.12
+      ],
+      "ratings": {
+        "vertical_stiffness_n_m": 10000000.0,
+        "vertical_damping_n_s_m": 20000.0,
+        "maximum_normal_force_n": 50000.0,
+        "maximum_compression_m": 0.008,
+        "engagement_drop_m": 0.005
+      },
+      "substitution": "incremental explicit hardware; any earlier capture allowance requires documented same-scope substitution by the shared ledger",
+      "contact_interface": {
+        "type": "compression pad onto top of inner L-return web",
+        "fixed_top_z_m": -0.927,
+        "moving_underside_z_m": -0.922,
+        "initial_clearance_m": 0.005,
+        "qualified": false,
+        "fit_verified": false
+      }
+    },
+    {
+      "id": "protection/independent-guideway-brake",
+      "quantity_per_car": 4,
+      "unit": "assembly",
+      "unit_mass_kg": 30.0,
+      "unit_cost_usd": 3000.0,
+      "positions_m": [
+        [
+          -4.0,
+          -0.4165,
+          -1.0435
+        ],
+        [
+          -4.0,
+          0.4165,
+          -1.0435
+        ],
+        [
+          4.0,
+          -0.4165,
+          -1.0435
+        ],
+        [
+          4.0,
+          0.4165,
+          -1.0435
+        ]
+      ],
+      "envelope_m": [
+        0.5,
+        0.03,
+        0.2
+      ],
+      "ratings": {
+        "clamp_normal_n": 50000.0,
+        "friction_coefficient": 0.2,
+        "thermal_effective_mass_kg": 15.0,
+        "thermal_specific_heat_j_kg_k": 500.0,
+        "vehicle_heat_fraction": 0.3,
+        "temperature_screen_c": 180.0,
+        "engagement_delay_s": 0.05
+      },
+      "substitution": "incremental spring-applied clamp study; no credit for receiver LSM or unbuilt hardware",
+      "contact_interface": {
+        "type": "paired inward web-face friction pads, closing toward stationary wear strips",
+        "fixed_abs_y_m": 0.4355,
+        "initial_moving_pad_abs_y_m": 0.4315,
+        "stroke_m": 0.004,
+        "force_z_m": -1.0435,
+        "qualified": false,
+        "fit_verified": false,
+        "magnetic_influence_of_added_strip_qualified": false
+      }
+    },
+    {
+      "id": "protection/reserve-wiring-services",
+      "quantity_per_car": 1,
+      "unit": "kit",
+      "unit_mass_kg": 12.0,
+      "unit_cost_usd": 1200.0,
+      "positions_m": [
+        [
+          0.0,
+          0.0,
+          -0.4
+        ]
+      ],
+      "envelope_m": [
+        10.0,
+        1.6,
+        0.08
+      ],
+      "ratings": {
+        "unqualified": true
+      },
+      "substitution": "incremental independent routing, isolation and cooling allowance"
+    },
+    {
+      "id": "protection/capture-hanger-kit",
+      "quantity_per_car": 8,
+      "unit": "kit",
+      "unit_mass_kg": 10.22,
+      "unit_cost_usd": 900.0,
+      "positions_m": [
+        [
+          -5.0,
+          -0.4595,
+          -0.577
+        ],
+        [
+          -5.0,
+          0.4595,
+          -0.577
+        ],
+        [
+          -2.0,
+          -0.4595,
+          -0.577
+        ],
+        [
+          -2.0,
+          0.4595,
+          -0.577
+        ],
+        [
+          2.0,
+          -0.4595,
+          -0.577
+        ],
+        [
+          2.0,
+          0.4595,
+          -0.577
+        ],
+        [
+          5.0,
+          -0.4595,
+          -0.577
+        ],
+        [
+          5.0,
+          0.4595,
+          -0.577
+        ]
+      ],
+      "envelope_m": [
+        0.35,
+        0.08,
+        0.45
+      ],
+      "ratings": {
+        "unqualified": true
+      },
+      "material": "S235 steel allocation, density7850kg/m3",
+      "stock": [
+        {
+          "id": "cheek",
+          "quantity": 2,
+          "size_m": [
+            0.12,
+            0.008,
+            0.45
+          ]
+        },
+        {
+          "id": "top-spreader",
+          "size_m": [
+            0.35,
+            0.08,
+            0.008
+          ]
+        },
+        {
+          "id": "lower-seat",
+          "size_m": [
+            0.35,
+            0.04,
+            0.008
+          ]
+        }
+      ],
+      "hardware_mass_kg_per_kit": 0.8,
+      "substitution": "incremental counted real stock; no inherited budget credit",
+      "fit_verified": false,
+      "joint_and_buckling_qualified": false
+    },
+    {
+      "id": "protection/brake-hanger-kit",
+      "quantity_per_car": 4,
+      "unit": "kit",
+      "unit_mass_kg": 13.234399999999999,
+      "unit_cost_usd": 1100.0,
+      "positions_m": [
+        [
+          -4.0,
+          -0.4165,
+          -0.6185
+        ],
+        [
+          -4.0,
+          0.4165,
+          -0.6185
+        ],
+        [
+          4.0,
+          -0.4165,
+          -0.6185
+        ],
+        [
+          4.0,
+          0.4165,
+          -0.6185
+        ]
+      ],
+      "envelope_m": [
+        0.35,
+        0.08,
+        0.65
+      ],
+      "ratings": {
+        "unqualified": true
+      },
+      "material": "S235 steel allocation, density7850kg/m3",
+      "stock": [
+        {
+          "id": "cheek",
+          "quantity": 2,
+          "size_m": [
+            0.12,
+            0.008,
+            0.65
+          ]
+        },
+        {
+          "id": "top-spreader",
+          "size_m": [
+            0.35,
+            0.08,
+            0.008
+          ]
+        },
+        {
+          "id": "lower-seat",
+          "size_m": [
+            0.35,
+            0.04,
+            0.008
+          ]
+        }
+      ],
+      "hardware_mass_kg_per_kit": 0.8,
+      "substitution": "incremental counted real stock; no inherited budget credit",
+      "fit_verified": false,
+      "joint_and_buckling_qualified": false
+    },
+    {
+      "id": "protection/brake-cross-tie",
+      "quantity_per_car": 2,
+      "unit": "RHS assembly",
+      "unit_mass_kg": 13.213352800000003,
+      "unit_cost_usd": 500.0,
+      "positions_m": [
+        [
+          -4.0,
+          0.0,
+          -1.0435
+        ],
+        [
+          4.0,
+          0.0,
+          -1.0435
+        ]
+      ],
+      "envelope_m": [
+        0.1,
+        0.833,
+        0.06
+      ],
+      "ratings": {
+        "unqualified": true
+      },
+      "material": "S235 RHS100x60x6 allocation",
+      "stock": [
+        {
+          "id": "cross-tie",
+          "outer_m": [
+            0.1,
+            0.833,
+            0.06
+          ],
+          "inner_m": [
+            0.088,
+            0.833,
+            0.048
+          ]
+        }
+      ],
+      "hardware_mass_kg_per_unit": 1.6,
+      "scope": "Paired50kN transverse brake normal reactions close through this counted tie, not through unbraced thin vertical hangers. Friction loads still enter hanger/chassis joints. Native clearance and joints unqualified.",
+      "fit_verified": false
+    }
+  ],
+  "design_complete": false,
+  "physical_validation": false,
+  "manufacturing_release": false,
+  "physical_release": false,
+  "guideway_rows": [
+    {
+      "id": "protection/inner-web-brake-wear-strip",
+      "quantity_per_track": 2,
+      "length_unit_m": 1.0,
+      "unit": "metre",
+      "section_m": [
+        0.012,
+        0.2
+      ],
+      "density_kg_m3": 7850.0,
+      "mass_kg_per_track_m": 37.68,
+      "centres_y_m": [
+        -0.4415,
+        0.4415
+      ],
+      "centre_z_m": -1.0435,
+      "material": "steel wear-strip allocation",
+      "unit_cost_usd_per_kg": 2.0,
+      "anchorage_mass_and_cost_included": false,
+      "scope": "12x200mm strips on inboard faces of inner L-return webs; no concrete-sidewall attachment is assumed. Railweb, stripfasteners, friction/wear and magnetic influence remain unqualified.",
+      "fit_verified": false
+    }
+  ]
+}

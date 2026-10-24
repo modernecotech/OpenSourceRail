@@ -236,22 +236,22 @@ def unit_procedures(package=None):
 
 def native_sources():return sources()
 
-def verify_native(raw=RAW):
-    raw=Path(raw);m=json.loads((raw/'manifest.json').read_bytes())
+def verify_native(raw=RAW,*,package=None,source_sha256=None):
+    raw=Path(raw);m=json.loads((raw/'manifest.json').read_bytes());package=package or lifecycle_package();expected_sources=source_sha256 if source_sha256 is not None else native_sources()
     required={'native-result.json','native-log.txt','fuxa-project.json','workbench.png','fuxa.png'}
-    if m.get('schema')!='osr-maglev-native-lifecycle/1' or m.get('source_sha256')!=native_sources() or m.get('source_unchanged') is not True:raise ValueError('native lifecycle receipt missing/stale')
+    if m.get('schema')!='osr-maglev-native-lifecycle/1' or m.get('source_sha256')!=expected_sources or m.get('source_unchanged') is not True:raise ValueError('native lifecycle receipt missing/stale')
     if set(m.get('files_sha256',{}))!=required or set(x.name for x in raw.iterdir())!=required|{'manifest.json'}:raise ValueError('native lifecycle payload coverage differs')
     if any(m.get(k) is not False for k in FLAGS):raise ValueError('native business receipt cannot release railway')
     for n,h in m['files_sha256'].items():
         if (raw/n).is_symlink() or not (raw/n).is_file() or digest(raw/n)!=h:raise ValueError('native lifecycle evidence altered')
     r=json.loads((raw/'native-result.json').read_bytes())
-    if r.get('configuration_sha256')!=lifecycle_package()['configuration_sha256'] or r.get('environment')!='simulation' or r.get('passed') is not True:raise ValueError('native lifecycle identity/result differs')
+    if r.get('configuration_sha256')!=package['configuration_sha256'] or r.get('environment')!='simulation' or r.get('passed') is not True:raise ValueError('native lifecycle identity/result differs')
     expected={'native-erp-manufacture','native-receipt-quality-fail-rework','native-revision-disposition','native-alarm-repair','independent-business-review','restart-replay','permission-refusal','late-failure-refusal','removed-serial-history','fuxa-observation-only','workbench-authentication'}
     if {x['id'] for x in r.get('checks',[]) if x.get('passed') is True}!=expected:raise ValueError('native lifecycle check coverage differs')
     if len(r.get('products',[]))!=3 or any(x.get('physical_release') is not False for x in r['products']):raise ValueError('all three exact products and physical holds required')
     for row in r['products']:
         if not all(row.get(k) for k in ('product_revision_sha256','asset','purchase_order','receipt','failed_inspection','rework_task','work_orders','stock_entries','issue','asset_repair','old_serial','current_serial','serial_history')):raise ValueError('native document/serial chain incomplete')
-    package=lifecycle_package();expected_products={x['product_id']:x for x in package['products']};positions={x['asset_id']:x for x in package['positions']}
+    expected_products={x['product_id']:x for x in package['products']};positions={x['asset_id']:x for x in package['positions']}
     if len({x['asset_id'] for x in r['products']})!=3 or {x['asset_id'] for x in r['products']}!=set(positions):raise ValueError('native controlled position coverage differs')
     records={(x['doctype'],x['name']):x for x in r.get('native_documents',[])}
     if len(records)!=len(r.get('native_documents',[])):raise ValueError('duplicate native document readback')

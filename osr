@@ -15,6 +15,7 @@ Usage: ./osr [COMMAND] [arguments]
 
   (no command)       Show ferrite-PM maglev development status
   workbench          Open the design UI at 127.0.0.1:8090
+  plan ...           Build/check/serve planning or compile exported city edits
   infrastructure ... Run/check the primary infrastructure study
   design [action]    Build, run, check, verify, status or release-check
   sim [city] ...     Replay city energy/charging (Baghdad default)
@@ -47,6 +48,9 @@ case "$command_name" in
         ;;
     workbench)
         exec npm run workbench -- "$@"
+        ;;
+    plan)
+        exec tools/automation/osr-python tools/automation/planning-workspace.py "$@"
         ;;
     sim)
         if (( $# == 0 )); then set -- baghdad; fi

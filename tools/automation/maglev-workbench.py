@@ -21,7 +21,7 @@ class Handler(SimpleHTTPRequestHandler):
             self.send_header('Location', '/docs/workbench/maglev/')
             self.end_headers()
             return None
-        allowed = ('/docs/workbench/maglev/', '/docs/design-engine/ferrite-maglev/')
+        allowed = ('/docs/workbench/maglev/', '/docs/workbench/planning/', '/docs/design-engine/ferrite-maglev/')
         exact = {'/engineering/ferrite_maglev/city-index.json', '/engineering/ferrite_maglev/city-index.md',
                  '/OpenSourceRail-Book.pdf', '/OpenSourceRail maglev station concept.png',
                  '/Vertical spiral escape chute concept.png'}

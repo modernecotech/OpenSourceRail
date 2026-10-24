@@ -233,12 +233,22 @@ def test_engineering_profile_runs_guards_then_both_exact_e2e_tests():
           'engineering/analysis/tests/test_ferrite_maglev.py::test_scheduled_cycle_idles_without_rewriting_unchanged_results')
     assert commands[0]==prefix+tests+['--deselect='+node for node in slow]
     assert commands[1:3]==[prefix+[node] for node in slow]
+    assert p.command_timeout(commands[2]) > 2*p.COLD_CYCLE_TIMEOUT_SECONDS
+    assert all(p.command_timeout(command)==7200 for i,command in enumerate(commands) if i!=2)
     observer='engineering/ferrite_maglev/observer-prototype/Cargo.toml'
     assert commands[3:]==[
         ['cargo','fmt','--manifest-path',observer,'--','--check'],
         ['cargo','clippy','--locked','--manifest-path',observer,'--all-targets','--','-D','warnings'],
         ['cargo','test','--locked','--manifest-path',observer,'--all-targets'],
-        ['tools/automation/osr-python','engineering/ferrite_maglev/observer-prototype/tests/differential.py']]
+        ['tools/automation/osr-python','engineering/ferrite_maglev/observer-prototype/tests/differential.py'],
+        ['cargo','fmt','--manifest-path','engineering/ferrite_maglev/full-dynamics-kernel/Cargo.toml','--','--check'],
+        ['cargo','clippy','--locked','--manifest-path','engineering/ferrite_maglev/full-dynamics-kernel/Cargo.toml','--all-targets','--','-D','warnings'],
+        ['cargo','test','--locked','--manifest-path','engineering/ferrite_maglev/full-dynamics-kernel/Cargo.toml','--all-targets'],
+        ['node','tools/automation/tests/verify-planning-workspace.mjs','build/planning-browser'],
+        ['cargo','fmt','--all','--','--check'],
+        ['cargo','clippy','--locked','--workspace','--all-targets','--','-D','warnings'],
+        ['cargo','test','--locked','--workspace','--all-targets'],
+        ['cargo','check','--locked','-p','osr-maglev-control','--no-default-features']]
     # These four GSN solutions still cite the complete guard-suite command0.
     import tomllib
     case=tomllib.loads(p.CASE.read_text())

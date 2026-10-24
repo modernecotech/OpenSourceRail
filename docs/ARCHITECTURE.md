@@ -12,10 +12,16 @@ moving running-gear parts and practical local manufacture. A 99% elevated-mainli
 planning target still depends on route rights, utilities, ground, curvature,
 station access, evacuation and recovery.
 
+## Current detailed candidate
+
+The [candidate chain](design-engine/ferrite-maglev/system-detailed/README.md) accounts approximately25.6t tare/37.6t AW3 per car and carries one revision through magnetic geometry, currents, mechanical/civil loads, manufacturing, native purchasing and BIM/field records. Corrected thin return-rail saturation prevents required AW3 support; propulsion demagnetisation/convergence and structural/protection failures also remain. No complete train, manufacturing release or cost advantage has been established. Earlier base and94ad actuator configurations remain identified comparisons, not interchangeable evidence.
+
+The [planning workspace](workbench/planning/index.html) supports city proposals independently of hardware acceptance; its generic delivery adapter and authenticated business navigation do not grant construction or motion authority.
+
 ## Configuration and interfaces
 
 Baghdad uses six 17 m bodies. The 104.5 m coupled footprint is an assumption until
-couplers and gangways are resolved. The central study targets 14.2 t tare/car,
+couplers and gangways are resolved. The historical target study targets 14.2 t tare/car,
 including a 5.2 t equipped GFRP sandwich body, 3 t ferrite, 30 kWh services storage
 and 1.8 t growth reserve. Four doors per car are the body-study basis. No complete
 weighed body, load-bearing joint set or qualified magnetic circuit establishes
@@ -67,8 +73,7 @@ wayside LSM bridges use indexed three-phase winding groups. Their
 [winding schedule](design-engine/ferrite-maglev/drive-construction/winding-schedule.csv)
 and [connections](design-engine/ferrite-maglev/drive-construction/connections.csv)
 retain material, converter, sensing, DC and braking quantities. Measured magnetic
-maps, complete wiring/PCB drawings, thermal design, installed timing and actuator
-dynamics in the moving train remain open. A station propulsion fault must not
+maps, complete wiring/PCB drawings, thermal design, installed timing and physical actuator validation and complete routing/thermal design remain open. Later candidate dynamics integrates actual currents with its declared geometry-derived plant; that does not qualify this older50-turn construction case. A station propulsion fault must not
 remove onboard support.
 
 The [UK procurement supplement](../engineering/ferrite_maglev/README.md#uk-power-module-procurement)

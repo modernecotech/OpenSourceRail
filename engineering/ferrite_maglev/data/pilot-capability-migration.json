@@ -12,7 +12,7 @@
       "current_sources": [
         "engineering/ferrite_maglev/cities.py"
       ],
-      "decision": "Current266city planning; former route editor is not restored.",
+      "decision": "Current266city generation retains primary geographical identities; a separate16layer stop/service/OD proposal workspace is now restored.",
       "execution_profile": "engineering",
       "id": "city-generation",
       "owner": "City planning",
@@ -25,30 +25,34 @@
     {
       "acceptance_test": "Verify1km resource schedule, procurement dates and monthly finance; reject revision mismatches.",
       "current_sources": [
-        "engineering/ferrite_maglev/delivery_schedule.py"
+        "engineering/ferrite_maglev/delivery_platform.py",
+        "engineering/ferrite_maglev/platform_publication.py"
       ],
-      "decision": "Pilot resource schedule, procurement and monthly cash replace the old delivery model; catalogue-wide ERP twins remain open.",
+      "decision": "Generic any-city revision compiler now emits planned workfront/resource/procurement/monthlycash and retainedERPadapter inputs. Missing rates and actual native records remain explicit; no complete city delivery acceptance.",
       "execution_profile": "engineering",
       "id": "project-twin",
       "owner": "Delivery engineering",
       "state": "replaced",
       "tests": [
-        "engineering/analysis/tests/test_ferrite_maglev_delivery_schedule.py"
+        "engineering/analysis/tests/test_ferrite_maglev_delivery_platform.py"
       ],
       "title": "Generatable project digital twin"
     },
     {
       "acceptance_test": "Open current pilot and native authenticated workflow; preserve permissions and reject unsafe paths.",
       "current_sources": [
-        "tools/automation/maglev-workbench.py"
+        "tools/automation/maglev-workbench.py",
+        "docs/workbench/planning/planning.js",
+        "engineering/ferrite_maglev/platform_publication.py"
       ],
-      "decision": "Current evidence review plus isolated native pilot; full former GIS/OCC/HR navigation is unconnected.",
-      "execution_profile": null,
+      "decision": "Separate editable owner/builder GIS workspace, evidence viewer and authenticated native owner/builder/operator/people/observation navigation. CompleteOCC/HR federation remains open.",
+      "execution_profile": "engineering",
       "id": "workbench",
       "owner": "Platform integration",
-      "state": "retained-but-unconnected",
+      "state": "replaced",
       "tests": [
-        "tools/automation/tests/verify-maglev-workbench.mjs"
+        "tools/automation/tests/verify-planning-workspace.mjs",
+        "engineering/analysis/tests/test_ferrite_maglev_delivery_platform.py"
       ],
       "title": "Integrated Workbench"
     },
@@ -70,55 +74,66 @@
     {
       "acceptance_test": "Restore editable maglev route/service revisions with GIS provenance and merge/review tests.",
       "current_sources": [
-        "engineering/ferrite_maglev/cities.py"
+        "engineering/ferrite_maglev/delivery_platform.py",
+        "engineering/ferrite_maglev/platform_publication.py",
+        "docs/workbench/planning/planning.js"
       ],
-      "decision": "The current front door is read-only; the former16layer editor and OD revision UI are absent.",
-      "execution_profile": null,
+      "decision": "16named source-bound GIS layers; unavailable/sampled layers labelled. Stop/service/dwell/OD and straight-chord proposals, immutable revisions, stale/tampered refusal and local export/import are implemented. General alignment/OD calibration and engineering adoption remain open.",
+      "execution_profile": "engineering",
       "id": "interactive-planning",
       "owner": "GIS and transport planning",
-      "state": "missing",
-      "tests": [],
+      "state": "replaced",
+      "tests": [
+        "engineering/analysis/tests/test_ferrite_maglev_delivery_platform.py",
+        "tools/automation/tests/verify-planning-workspace.mjs"
+      ],
       "title": "Interactive network and service planning"
     },
     {
       "acceptance_test": "Replay exact equipment identity through Rust loops and coupled plant with adverse controls and energy accounting.",
       "current_sources": [
-        "engineering/ferrite_maglev/pilot_actuators.py"
+        "engineering/ferrite_maglev/full_dynamics.py",
+        "engineering/ferrite_maglev/candidate_authority.py"
       ],
-      "decision": "Current Rust support/current/launch loops and bounded plant replace wheel-specific interfaces; physical plant validation stays open.",
+      "decision": "ActualRust two-circuit support/guidance/current dynamics,realizablybounded preferred allocation,live numerical authority and postfault integration replace earlier detection-only coupons. Failed maps/capture/thermal/designcases remain failures; no physical acceptance.",
       "execution_profile": "engineering",
       "id": "software-loop",
       "owner": "Control integration",
       "state": "replaced",
       "tests": [
-        "engineering/analysis/tests/test_ferrite_maglev_pilot_actuators.py"
+        "engineering/analysis/tests/test_ferrite_maglev_full_dynamics.py",
+        "engineering/analysis/tests/test_ferrite_maglev_candidate_authority.py"
       ],
       "title": "Software in the loop"
     },
     {
       "acceptance_test": "Generate same-stop SUMO demand/dwell scenario and compare timings within a declared bound.",
       "current_sources": [
-        "engineering/ferrite_maglev/pilot_corridor.py"
+        "engineering/ferrite_maglev/operations_crosscheck.py"
       ],
-      "decision": "Independent SUMO timing cross-check is not migrated; Rust/Python comparisons are not SUMO evidence.",
-      "execution_profile": null,
+      "decision": "Executed independentSUMO Railcustom timing/block/berth,dwell/receiverdelay and over-capacity controls use identical passenger stops and candidate mass. Kinematictraction is explicit; magnetic/Rust/HW and whole-fleet physical assurance are not inferred.",
+      "execution_profile": "engineering",
       "id": "sumo-crosscheck",
       "owner": "Operations modelling",
-      "state": "missing",
-      "tests": [],
+      "state": "replaced",
+      "tests": [
+        "engineering/analysis/tests/test_ferrite_maglev_operations_crosscheck.py"
+      ],
       "title": "Independent operations cross-check"
     },
     {
       "acceptance_test": "Reconcile serial/typeIDs, quantities and field records through IFC/IDS/BCF without autoaccepting estimates.",
       "current_sources": [
-        "engineering/ferrite_maglev/cities.py"
+        "engineering/ferrite_maglev/bim_field.py"
       ],
-      "decision": "Current plans retain geography; complete IFC4.3/IDS/BCF and field acceptance federation is unconnected.",
-      "execution_profile": null,
+      "decision": "One magnetic module and25m concretebox in actualIFC4.3 with reopenedvolumes,executedIDS1staleidentityrefusal,BCF3schema-valid issues and typed unaccepted field readings. Wholecity IFC/physicalas-built federation remains open.",
+      "execution_profile": "engineering",
       "id": "civil-bim-gis",
       "owner": "Civil information management",
-      "state": "retained-but-unconnected",
-      "tests": [],
+      "state": "replaced",
+      "tests": [
+        "engineering/analysis/tests/test_ferrite_maglev_bim_field.py"
+      ],
       "title": "Civil BIM, GIS and field evidence"
     },
     {
@@ -170,16 +185,19 @@
     {
       "acceptance_test": "Reconcile quantities/monthly cash, funding gap, DSCR and independent comparison quantities without principal double count.",
       "current_sources": [
-        "engineering/ferrite_maglev/delivery_schedule.py",
+        "engineering/ferrite_maglev/candidate_economics.py",
+        "engineering/ferrite_maglev/candidate_manufacturing.py",
         "engineering/ferrite_maglev/launch_optimisation.py"
       ],
-      "decision": "Pilot quantities and computed launch losses feed cash/revenue/debt sensitivities; catalogue allowances retain their separate identity.",
+      "decision": "Counted newcandidate quantities,cutyield/prices,commonhotel assumptions and single calendarstandby reconciliation. No newpilotfinance adoption whilemandatorypropulsion/fullserviceduty fail; priorconfiguration finance remains separate.",
       "execution_profile": "engineering",
       "id": "cost-propagation",
       "owner": "Project economics",
       "state": "replaced",
       "tests": [
-        "engineering/analysis/tests/test_ferrite_maglev_delivery_schedule.py"
+        "engineering/analysis/tests/test_ferrite_maglev_candidate_economics.py",
+        "engineering/analysis/tests/test_ferrite_maglev_candidate_manufacturing.py",
+        "engineering/analysis/tests/test_ferrite_maglev_launch_optimisation.py"
       ],
       "title": "Automatic cost propagation"
     },

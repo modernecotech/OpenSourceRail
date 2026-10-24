@@ -1,0 +1,70 @@
+schema = "osr-station-powered-study/1"
+revision = "A-station-powered-development"
+status = "conditional-numerical-study-not-qualified-hardware"
+
+[vehicle]
+cars = 6
+car_mass_kg = 26200.0
+body_length_m = 17.0
+coupling_gap_m = 0.5
+magnetic_band_m_per_car = 12.0
+pole_pitch_m = 0.25
+combined_motor_face_width_m = 1.0
+
+[motion]
+distance_m = 1000.0
+runtime_s = 90.0
+acceleration_m_s2 = 0.8
+deceleration_m_s2 = 0.8
+jerk_m_s3 = 0.6
+speed_limit_kmh = 80.0
+resistance_constant_n_per_car = 1000.0
+resistance_quadratic_n_per_car = 1.8
+motoring_efficiency = 0.85
+generating_efficiency = 0.85
+overlap_sample_interval_s = 0.01
+published_trace_interval_s = 0.1
+
+[station]
+winding_start_m = -125.0
+winding_end_m = 75.0
+electrical_section_m = 12.5
+mechanical_cassette_m = 2.5
+equivalent_envelope_force_n_m = 4000.0
+dwell_s = 60.0
+connected_charging_s = 45.0
+scheduled_headway_s = 190.0
+release_allowance_s = 5.0
+hot_services_kw_per_car = 60.0
+services_battery_kwh_per_car = 30.0
+battery_eol_fraction = 0.8
+soc_low = 0.2
+soc_high = 0.8
+protected_services_reserve_minutes = 10.0
+independent_shore_supply_during_disconnected_dwell = false
+
+[cost]
+currency = "USD"
+basis = "unquoted-repeat-manufacture-target-rates"
+estimating_reserve_fraction = 0.20
+stator_usd_per_direction_m = [750.0, 1250.0, 2000.0]
+supply_rectifier_dc_usd = [250000.0, 400000.0, 650000.0]
+brake_chopper_resistor_usd = [60000.0, 120000.0, 200000.0]
+charging_interfaces_usd = [120000.0, 240000.0, 400000.0]
+motion_sensing_safety_usd = [80000.0, 150000.0, 250000.0]
+thermal_installation_acceptance_usd = [150000.0, 250000.0, 400000.0]
+bridge_usd_per_kw_equivalent = [40.0, 80.0, 120.0]
+routing_assemblies_usd = [120000.0, 300000.0, 600000.0]
+fixed_group_bridges = 4
+fixed_group_kw_equivalent_per_bridge = 2500.0
+routed_bank_counts = [8, 10]
+routed_kw_equivalent_per_bank = 1000.0
+independent_kw_equivalent_per_section = 800.0
+charging_rate_basis = "60-second-connected-case; 45-second interface and corrected 4.67C battery require separate rating and quote"
+
+[validation]
+magnetic_force_map_validated = false
+electrical_current_voltage_thermal_duty_validated = false
+route_gradient_and_rescue_accepted = false
+cost_rates_are_quotes = false
+hardware_io_enabled = false

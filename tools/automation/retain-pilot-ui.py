@@ -14,7 +14,7 @@ def sources():
     v=json.loads((packet/'study.json').read_bytes())
     paths=[packet/'manifest.json',root/'docs/design-engine/ferrite-maglev/reference/manifest.json',
         *(root/r['packet']/'manifest.json' for r in v['components']),
-        *(root/n for n in ['docs/workbench/maglev/index.html','docs/workbench/maglev/app.js','docs/workbench/maglev/pilot.js','docs/workbench/maglev/app.css','tools/automation/maglev-workbench.py','tools/automation/tests/verify-maglev-workbench.mjs','tools/automation/tests/verify-maglev-v05.mjs','package.json','package-lock.json','tools/automation/retain-pilot-ui.py','tools/automation/osr-python'])]
+        *(root/n for n in ['docs/workbench/maglev/index.html','docs/workbench/maglev/app.js','docs/workbench/maglev/pilot.js','docs/workbench/maglev/app.css','tools/automation/maglev-workbench.py','tools/automation/tests/verify-maglev-workbench.mjs','tools/automation/tests/verify-maglev-v05.mjs','tools/automation/tests/browser-launch.mjs','package.json','package-lock.json','tools/automation/retain-pilot-ui.py','tools/automation/osr-python'])]
     return {p.relative_to(root).as_posix():digest(p) for p in paths}
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('action',choices=('prepare','retain','verify'))

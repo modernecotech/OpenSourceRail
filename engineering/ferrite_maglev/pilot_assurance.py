@@ -26,6 +26,8 @@ PROOFS = (
     ('osr-maglev-control', 'kani_maglev_replayed_drive_frame_has_no_duties', 'replayed current-loop sequence refusal'),
 )
 PROFILES = ('engineering', 'delivery-lifecycle', 'control-formal')
+COLD_CYCLE_TEST = 'engineering/analysis/tests/test_ferrite_maglev.py::test_scheduled_cycle_idles_without_rewriting_unchanged_results'
+COLD_CYCLE_TIMEOUT_SECONDS = 7200
 
 
 def encoded(value):
@@ -44,7 +46,7 @@ def commands(profile):
         tests = sorted((ROOT/'engineering/analysis/tests').glob('test_ferrite_maglev*.py'))
         observer='engineering/ferrite_maglev/observer-prototype/Cargo.toml'
         slow=('engineering/analysis/tests/test_ferrite_maglev.py::test_primary_publication_tamper_stale_and_source_binding',
-              'engineering/analysis/tests/test_ferrite_maglev.py::test_scheduled_cycle_idles_without_rewriting_unchanged_results')
+              COLD_CYCLE_TEST)
         pytest=python+['-m','pytest','-q']
         # Guard failures should precede full publication/refresh campaigns.
         # The two exact functions remain required as separate executions.
@@ -54,15 +56,32 @@ def commands(profile):
                 ['cargo','fmt','--manifest-path',observer,'--','--check'],
                 ['cargo','clippy','--locked','--manifest-path',observer,'--all-targets','--','-D','warnings'],
                 ['cargo','test','--locked','--manifest-path',observer,'--all-targets'],
-                python+['engineering/ferrite_maglev/observer-prototype/tests/differential.py']]
+                python+['engineering/ferrite_maglev/observer-prototype/tests/differential.py'],
+                ['cargo','fmt','--manifest-path','engineering/ferrite_maglev/full-dynamics-kernel/Cargo.toml','--','--check'],
+                ['cargo','clippy','--locked','--manifest-path','engineering/ferrite_maglev/full-dynamics-kernel/Cargo.toml','--all-targets','--','-D','warnings'],
+                ['cargo','test','--locked','--manifest-path','engineering/ferrite_maglev/full-dynamics-kernel/Cargo.toml','--all-targets'],
+        ['node','tools/automation/tests/verify-planning-workspace.mjs','build/planning-browser'],
+        ['cargo','fmt','--all','--','--check'],
+        ['cargo','clippy','--locked','--workspace','--all-targets','--','-D','warnings'],
+        ['cargo','test','--locked','--workspace','--all-targets'],
+        ['cargo','check','--locked','-p','osr-maglev-control','--no-default-features']]
     if profile == 'delivery-lifecycle':
         return [python+['tools/automation/pilot-lifecycle-native.py', 'verify'],
-                python+['-m', 'pytest', '-q', 'engineering/analysis/tests/test_ferrite_maglev_pilot_lifecycle.py']]
+                python+['tools/automation/pilot-lifecycle-native.py','verify','--candidate'],
+                python+['-m', 'pytest', '-q', 'engineering/analysis/tests/test_ferrite_maglev_pilot_lifecycle.py','engineering/analysis/tests/test_ferrite_maglev_candidate_lifecycle.py']]
     raise ValueError('unknown development profile')
 
 
 def source_paths():
     return [Path(__file__), CASE, ROOT/'engineering/analysis/tests/test_ferrite_maglev_pilot_assurance.py']
+
+
+def command_timeout(command):
+    # This one test runs two complete cold cycles, including a report mirror
+    # and reader-book verification. The outer runner must cover both inner
+    # deadlines; unrelated commands retain their existing bounded allowance.
+    scheduled = ['tools/automation/osr-python','-m','pytest','-q',COLD_CYCLE_TEST]
+    return 2*COLD_CYCLE_TIMEOUT_SECONDS+3600 if command == scheduled else 7200
 
 
 def sources(profile=None):
@@ -73,6 +92,7 @@ def sources(profile=None):
         observer_lock=ROOT/'engineering/ferrite_maglev/observer-prototype/Cargo.lock'
         if observer_lock.is_file():
             paths.add(observer_lock)
+        paths.add(ROOT/'engineering/ferrite_maglev/full-dynamics-kernel/Cargo.lock')
     # Scope dependencies conservatively; no generated packet or receipt is an
     # implementation input. A changed dependency invalidates retained execution.
     folders = ['crates'] if profile == 'control-formal' else ['crates', 'engineering/ferrite_maglev', 'engineering/analysis/tests']
@@ -139,7 +159,7 @@ def run(profile, raw=RAW):
         started = datetime.now(timezone.utc).isoformat()
         with log.open('wb') as stream:
             try:
-                result = subprocess.run(command, cwd=ROOT, stdout=stream, stderr=subprocess.STDOUT, timeout=7200)
+                result = subprocess.run(command, cwd=ROOT, stdout=stream, stderr=subprocess.STDOUT, timeout=command_timeout(command))
                 code = result.returncode
             except (OSError, subprocess.TimeoutExpired) as exc:
                 stream.write(str(exc).encode()); code = 125

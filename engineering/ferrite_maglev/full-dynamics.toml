@@ -1,0 +1,160 @@
+schema = "osr-full-dynamics-input/1"
+revision = "CONTINUED-LIFT-GUIDANCE-FAULT-1"
+mechanical_step_s = 0.001
+current_step_s = 0.00005
+duration_s = 16.0
+settle_s = 0.5
+fault_time_s = 1.0
+trace_interval_s = 0.02
+gravity_m_s2 = 9.81
+ambient_c = 40.0
+support_bus_v = 192.0
+current_limit_a = 120.0
+current_kp_v_per_a = 2.0
+current_ki_v_per_a_s = 40.0
+temperature_screen_c = 120.0
+nominal_gap_m = 0.008
+minimum_gap_m = 0.002
+maximum_gap_m = 0.030
+sensor_disagreement_m = 0.0005
+maximum_module_force_n = 20000.0
+maximum_guidance_force_n = 4000.0
+force_slew_n_s = 2000000.0
+preferred_current_fraction = 0.9
+preferred_negative_current_fraction = 0.6
+coupler_damping_n_s_m = 100000.0
+coupler_force_screen_n = 200000.0
+authority_update_s = 0.01
+service_battery_kwh_per_car = 30.0
+service_battery_usable_fraction = 0.8
+station_charge_kw_per_car = 50.0
+minimum_departure_kwh_per_car = 5.0
+station_dwell_s = 20.0
+dispatch_basis_s = 240.0
+route_stops_m = [0.0, 2013.884567, 4027.769134, 6041.653701]
+berth_tolerance_m = 0.5
+route_speed_limit_m_s = 18.0
+route_acceleration_m_s2 = 0.2
+route_service_deceleration_m_s2 = 0.6
+route_speed_gain_s_inv = 0.5
+body_mode_gains = [12000000.0, 6000000.0, 60000000.0, 5000000.0, 40000000.0]
+body_mode_damping = [900000.0, 300000.0, 3000000.0, 600000.0, 2500000.0]
+reserve_gap_gain_a_m = 3000.0
+reserve_gap_damping_a_s_m = 75.0
+reserve_lateral_gain_a_m = 2500.0
+reserve_lateral_damping_a_s_m = 60.0
+reserve_transfer_delay_s = 0.002
+stop_speed_m_s = 0.05
+stop_vertical_speed_m_s = 0.03
+stable_stop_hold_s = 0.5
+maximum_body_roll_rad = 0.05
+maximum_body_pitch_rad = 0.03
+maximum_body_yaw_rad = 0.03
+contact_lateral_clearance_m = 0.010
+contact_lateral_stiffness_n_m = 5000000.0
+contact_lateral_damping_n_s_m = 10000.0
+mechanical_relative_energy_tolerance = 0.02
+rl_energy_absolute_tolerance_j = 0.00001
+receiver_q_current_limit_a = 4000.0
+receiver_resistance_ohm = 0.012
+receiver_inductance_h = 0.00015
+receiver_flux_linkage_wb = 0.12
+receiver_pole_pitch_m = 0.25
+receiver_bus_v = 2400.0
+receiver_brake_force_n_per_car = 20000.0
+receiver_brake_start_s = 1.0
+receiver_resistor_thermal_capacity_j_k = 1000000.0
+receiver_resistor_temperature_screen_c = 180.0
+receiver_scope = "Bounded six independently phased dq receiver circuits; R/L/flux and resistor mass are provisional electrical fixtures, not an issued shared-candidate station motor design. No receiver credit in independent-stop acceptance."
+
+[coupler]
+attachment_z_m = -0.3
+scope = "Provisional drawgear force-transfer height; spring/damping and installed joints are unqualified. Exact source-bound body EA is in series with the retained100MN/m coupler hypothesis. No undisclosed coupler equipment mass or strength credit."
+
+[guideway]
+damping_fraction = 0.03
+joint_rotation_screen_rad = 0.002
+support_reaction_screen_n = 2000000.0
+torsion_screen_nm = 300000.0
+scope = "Exact section/E/G/area/inertias/distributed mass/polar mass come from candidate_structures.dynamics_properties for the same configuration. Repeated pinned first modes about dead-load-cambered geometry; screens/damping remain unqualified. No cracking, soil, nonlinear joints, higher beam modes or flexible shell qualification."
+
+[[cases]]
+id = "straight-supported-stop"
+fault = "none"
+speed_m_s = 12.0
+curve_radius_m = 0.0
+[[cases]]
+id = "peak-current-main-power-loss"
+fault = "main-power-loss"
+speed_m_s = 12.0
+curve_radius_m = 0.0
+current_scale = 1.4
+fault_time_s = 0.01
+[[cases]]
+id = "midspan-main-power-loss"
+fault = "main-power-loss"
+speed_m_s = 12.0
+curve_radius_m = 0.0
+initial_front_m = 112.5
+[[cases]]
+id = "handover-inverter-loss"
+fault = "inverter-loss"
+speed_m_s = 12.0
+curve_radius_m = 0.0
+fault_module = 12
+[[cases]]
+id = "receiver-braking-loss"
+fault = "receiver-loss"
+speed_m_s = 12.0
+curve_radius_m = 0.0
+[[cases]]
+id = "sensing-disagreement"
+fault = "sensing-disagreement"
+speed_m_s = 12.0
+curve_radius_m = 0.0
+[[cases]]
+id = "sensing-dropout-independent-reserve"
+fault = "sensing-dropout"
+speed_m_s = 12.0
+curve_radius_m = 0.0
+[[cases]]
+id = "watchdog-stale-map"
+fault = "watchdog-delay"
+speed_m_s = 12.0
+curve_radius_m = 0.0
+sensor_delay_s = 0.005
+[[cases]]
+id = "nonuniform-map-errors"
+fault = "map-errors"
+speed_m_s = 12.0
+curve_radius_m = 0.0
+sensor_delay_s = 0.002
+map_error_fraction = 0.1
+[[cases]]
+id = "reserve-depletion-capture"
+fault = "reserve-depletion"
+speed_m_s = 8.0
+curve_radius_m = 0.0
+reserve_fraction = 0.0001
+[[cases]]
+id = "no-capture-negative-control"
+fault = "no-capture"
+speed_m_s = 8.0
+curve_radius_m = 0.0
+reserve_fraction = 0.0
+[[cases]]
+id = "asymmetric-load"
+fault = "none"
+speed_m_s = 8.0
+curve_radius_m = 0.0
+payload_lateral_offset_m = 0.25
+[[cases]]
+id = "urban-curve"
+fault = "none"
+speed_m_s = 8.0
+curve_radius_m = 300.0
+[[cases]]
+id = "terminal-loop-low-speed"
+fault = "none"
+speed_m_s = 2.0
+curve_radius_m = 50.0

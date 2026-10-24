@@ -1,0 +1,14 @@
+Archive validation (standard library only):
+  python3 engineering/assurance/v053-magnetic-redesign-bounds/verify.py
+
+Validate current repository inputs and perform a portable numerical replay:
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 tools/automation/osr-python engineering/assurance/v053-magnetic-redesign-bounds/verify.py --check-current-sources --replay
+
+The replay reconstructs all nine original source paths in a new temporary directory, including build/magnetic-redesign-bounds/run.py. It executes the byte-identical driver with the same Python interpreter and BLAS/OMP limits. NumPy/SciPy are external runtime dependencies; their executed versions are recorded in results.json. The complete result is compared, excluding elapsed_s only. It never imports current candidate code or writes production/canonical paths.
+
+Actual original command:
+  OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 tools/automation/osr-python build/magnetic-redesign-bounds/run.py
+
+Do not execute the archived run.py directly at its archive location: it intentionally infers the repository root from its original path. Use verify.py --replay, or restore source_archive_mapping from archive-receipt.json into an isolated working tree first. All input SHA256 values and the exact original execution path are retained. The original generated README is preserved as executed-README.md; the concise archive README is a separate later document.
+
+This appendix is exploratory and unreleased. It does not rebind the main a79 candidate or qualify its guidance, propulsion, civil, manufacturing, software or physical system.

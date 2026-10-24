@@ -19,7 +19,7 @@ def units(output):
             '[Unit]\nDescription=OpenSourceRail v0.5 primary infrastructure study refresh\n'
             '[Service]\nType=oneshot\nWorkingDirectory='+str(model.ROOT).replace('%','%%')+'\n'
             'ExecStart='+arg(sys.executable)+' '+arg(entry)+' cycle --output '+arg(output)+'\n'
-            'TimeoutStartSec=3600\nUMask=0077\n',
+            'TimeoutStartSec=14400\nUMask=0077\n',
         'osr-primary-infrastructure.timer':
             '[Unit]\nDescription=OpenSourceRail v0.5 source-change study refresh\n'
             '[Timer]\nOnBootSec=2min\nOnUnitActiveSec=15min\nPersistent=true\n'
@@ -28,7 +28,7 @@ def units(output):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system','iterate','station','structure','protocol','drives','moving','campaign','dossier','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness','stopped-recovery','pilot-product','pilot-actuators','launch-optimisation','pilot-corridor','pilot-variants','delivery-schedule','pilot-lifecycle','pilot-assurance','capability-migration','pilot-delivery'))
+    parser.add_argument('action',nargs='?',default='run',choices=('run','verify','check','status','readiness','release-check','cycle','build','install','native','coupled','catalogue','evacuation-native','system','iterate','station','structure','protocol','drives','moving','campaign','dossier','corridor','booster-kit','booster-native','interchange-hubs','line-capacity','hub-access','qualification','assembled-body','shared-hub-layout','body-stiffness','stopped-recovery','pilot-product','pilot-actuators','launch-optimisation','pilot-corridor','pilot-variants','delivery-schedule','pilot-lifecycle','pilot-assurance','capability-migration','pilot-delivery','candidate-native','candidate-magnetics','candidate-structures','full-dynamics','candidate-manufacturing','candidate-lifecycle','bim-field','operations-crosscheck','planning-platform','planning-ui','detailed-system'))
     parser.add_argument('--output',type=Path,default=delivery.OUTPUT)
     args=parser.parse_args()
     if args.action=='install':
@@ -84,6 +84,10 @@ def main():
     elif args.action in {'pilot-product','pilot-actuators','launch-optimisation','pilot-corridor','pilot-variants','delivery-schedule','pilot-lifecycle','pilot-assurance','capability-migration','pilot-delivery'}:
         import importlib
         result=importlib.import_module('engineering.ferrite_maglev.'+args.action.replace('-','_')).publish()
+    elif args.action in {'candidate-native','candidate-magnetics','candidate-structures','full-dynamics','candidate-manufacturing','candidate-lifecycle','bim-field','operations-crosscheck','planning-platform','planning-ui','detailed-system'}:
+        import importlib
+        name='platform_publication' if args.action=='planning-platform' else args.action.replace('-','_')
+        result=importlib.import_module('engineering.ferrite_maglev.'+name).publish()
     elif args.action=='coupled':
         from engineering.ferrite_maglev import coupled
         result=coupled.publish(model.ROOT/'docs/design-engine/ferrite-maglev/coupled')

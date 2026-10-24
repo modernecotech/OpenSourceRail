@@ -7,6 +7,14 @@ active support/guidance and services storage remain independent. Structural GFRP
 sandwich bodies, repeated narrow concrete guidebeams and Rust control packages
 are the leading studies. **Accepted engineering and physical releases: zero.**
 
+## Detailed candidate and remaining design gates
+
+The [new detailed-system packet](../../docs/design-engine/ferrite-maglev/system-detailed/README.md) uses one exact candidate for dimensioned magnetic cores/windings, mass and inertia, actual Rust lift/guidance currents, structural/civil loads, quantitative purchasing, native lifecycle and IFC/IDS/BCF field exchange. Current accounted mass is approximately25.6t tare/37.6t AW3 per car. Corrected25mm return-rail flux areas fail required AW3 lift within current/material limits. All three passive propulsion-band alternatives also retain failed applicable field/demagnetisation evidence. This blocks adoption and a new complete-service/finance claim. The old94ad actuator pass is retained as a separate configuration.
+
+[Actual native module and visibility video](../../docs/design-engine/ferrite-maglev/candidate-native/README.md) · [Continued fault trajectories](../../docs/design-engine/ferrite-maglev/full-dynamics/README.md) · [Structural alternatives](../../docs/design-engine/ferrite-maglev/candidate-structures/README.md) · [Quantified manufacturing](../../docs/design-engine/ferrite-maglev/candidate-manufacturing/README.md).
+
+The [owner/builder workspace](../../docs/workbench/planning/index.html) restores city stop/service/OD edit proposals and16 named GIS layers. Its immutable compiler supplies generic planned workfronts, resources, procurement and monthly cash to the retained ERP adapter. Missing prices and independent physical acceptance remain explicit.
+
 ## Run and inspect
 
 The [connected Baghdad pilot](../../docs/design-engine/ferrite-maglev/pilot-delivery/README.md) joins controlled product accounting, coupled actuator experiments, launch segmentation, construction/procurement cash, access and service modelling, and serial-specific native business execution. Earlier mass targets are retained as benchmarks; the component-accounted product exposes its overrun and missing equipment definitions.
@@ -15,6 +23,11 @@ The [migration register](../../docs/design-engine/ferrite-maglev/capability-migr
 
 ```bash
 ./osr build
+./osr design detailed-system
+./osr design candidate-native
+./osr design full-dynamics
+./osr design operations-crosscheck
+./osr plan serve
 ./osr design station
 ./osr design structure
 ./osr design protocol
@@ -66,7 +79,7 @@ remain additional engineering work.
 
 The [stopped-controller recovery study](../../docs/design-engine/ferrite-maglev/stopped-recovery/README.md) executes fresh-epoch reconciliation for stationary consists at declared berths. It retains complete checkpoints and event histories, repeats every replay during verification, and requires new contracts after recovery. Moving recovery, multi-controller handover, authenticated installed storage and physical interfaces remain open.
 
-The [support/launch construction design](../../docs/design-engine/ferrite-maglev/drive-construction/README.md) defines the provisional coil and conductor quantities, local current/commutation software, converter/sensor purchasing families, winding schedule and electrical connections. `drive_design.py` derives R/L/material, phase uncertainty, fixed-group voltage/current, copper heat and DC/braking duties on current urban/suburban profiles. It executes `drives.rs` against an independent RL/alpha-beta coupon plant. Those local loops are not yet coupled to the ideal-force moving train. SBC supervision, local MCU loops and independent hardware protection/power remain separate; the larger winding's failed fit and magnetic/electronic qualification holds stay visible.
+The [support/launch construction design](../../docs/design-engine/ferrite-maglev/drive-construction/README.md) defines the provisional coil and conductor quantities, local current/commutation software, converter/sensor purchasing families, winding schedule and electrical connections. `drive_design.py` derives R/L/material, phase uncertainty, fixed-group voltage/current, copper heat and DC/braking duties on current urban/suburban profiles. It executes `drives.rs` against an independent RL/alpha-beta coupon plant. Those original RL coupons remain separate from the old ideal-force moving train. The later pilot actuator and dimensioned-candidate dynamics couple actual Rust current loops to their own declared nonlinear plants; neither inherits physical magnetic validation. SBC supervision, local MCU loops and independent hardware protection/power remain separate; the larger winding's failed fit and magnetic/electronic qualification holds stay visible.
 
 ## Current inputs and design records
 
@@ -122,7 +135,7 @@ The separate [Baghdad interchange investigation](../../docs/design-engine/ferrit
 | Native geometry | Partial panel/interface/civil/station definitions, export/reopening checks, retained images and visibility sequences | Complete production geometry, joints, equipment, drawings and qualified manufacturing tolerances |
 | Rust support control | Module allocation, virtual replay, protection interfaces and support-preserving stop obligations | Actual magnetic/sensor plant, independent protection, physical I/O and measured timing |
 | Launch ownership | Offline corridor/receiving-berth reservation, committed occupancy and full-clearance protocol checks | Authenticated complete-consist sensing, real receiving readiness, independent stopping and qualified system integration |
-| Moving six-car replay | Six independent rigid-car states, actual Rust support allocation, repeated vertical flexible spans, longitudinal spring/damper chain, numerical controls and rejected comparisons | Measured magnetic maps, shared-field phase, normal/thrust coupling, flexible bodies, lateral/torsional/joint/soil/contact response and physical timing |
+| Moving six-car replay | Six independent rigid-car states, actual Rust support allocation, repeated vertical flexible spans, longitudinal spring/damper chain, numerical controls and rejected comparisons | Measured magnetic maps, qualified shared-field phase/normal-thrust coupling, flexible bodies and physical timing; later candidate lateral/torsional/joint/contact studies have their own unqualified scope |
 | Manufactured details | Counted frame stock, supported panels, joints, couplers, stator/bearing interfaces and handling/emergency load paths | Orthotropic laminates, joined load transfer, tolerances, fatigue/crash, calibrated limits and independent qualification |
 | Integrated campaign | Actual Rust resource ownership and station control over incoming trip, dwell, next departure and negative cases | Authenticated sensors/plant, distributed handover, real receiving readiness and independent physical protection |
 | Adaptive design | Previous-result-guided vehicle/beam/gain proposals, ancestry, Pareto observations and separate confirmation | Completed parts and qualified evaluators/plant before manufacturing or operating selection |
@@ -194,8 +207,8 @@ Checked 22 October 2026. This supplements the [40-line construction BOM](../../d
 
 | BOM family | British manufacturing candidate | Imported comparison | Confirmation needed |
 |---|---|---|---|
-| LSM-IGBT: 96 proposed single-switch modules/station | Dynex 3.3 kV IGBT family | Infineon FZ1500R33HE3BPSA1, 3.3 kV/1500 A catalogue reference | Exact part, manufacturing site, lifecycle, switching/thermal duty, SOA and parallel sharing |
-| LSM-BRIDGE: four custom converters/station | Dynex custom power-assembly capability; UK manufacturing scope to specify | Nidec M700 remains an industrial integration reference, without a selected 2400 V catalogue configuration | Complete topology, UK operations, gate/protection design, cooling, insulation, testing and quote |
+| LSM-IGBT: topology-specific switch modules; old96-module count is not current procurement | Dynex 3.3 kV IGBT family | Infineon FZ1500R33HE3BPSA1, 3.3 kV/1500 A catalogue reference | Exact part, manufacturing site, lifecycle, switching/thermal duty, SOA and parallel sharing |
+| LSM-BRIDGE:140 groups/station in the retained5m-group/350m-per-direction actuator case; new1350A group remains unqualified | Dynex custom power-assembly capability; UK manufacturing scope to specify | Nidec M700 remains an industrial integration reference, without a selected 2400 V catalogue configuration | Complete topology, UK operations, gate/protection design, cooling, insulation, testing and quote |
 
 Dynex's current company page describes in-house UK manufacturing and semiconductor fabrication/assembly capability. It also states that higher volumes can be outsourced to China. Treat Lincoln manufacture as a procurement requirement for the proposed order, not an automatic property of every Dynex-branded device. Its current finder includes 3.3 kV modules, but an exact suitable part remains unselected. [Dynex company and manufacturing](https://www.dynexsemi.com/About-Dynex), [current module finder](https://www.dynexsemi.com/IGBT/IGBT-Module-Products).
 
