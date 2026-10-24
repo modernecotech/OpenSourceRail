@@ -109,6 +109,9 @@ def stages(output):
     from . import candidate_native,candidate_magnetics,candidate_structures,full_dynamics,candidate_manufacturing,candidate_lifecycle,bim_field,operations_crosscheck,platform_publication,planning_ui,detailed_system
     def document(script, *args):
         subprocess.run([sys.executable, str(model.ROOT/'tools/automation'/script), *args], cwd=model.ROOT, check=True, capture_output=True, text=True)
+    def readme_coverage(check):
+        subprocess.run([sys.executable,'-m','engineering.maglev_research.readme_context',
+            '--check' if check else '--write'],cwd=model.ROOT,check=True,capture_output=True,text=True)
     values = [
         ('primary-host-configuration', lambda: document('validate-host-manifests.py'), lambda: document('validate-host-manifests.py')),
         ('native-interface-and-bay', lambda: geometry.verify_native(BASE/'native'), native),
@@ -158,6 +161,7 @@ def stages(output):
         ('detailed-candidate-system',detailed_system.verify,lambda:fresh_packet('system-detailed',detailed_system.publish)),
         ('coordinated-candidate-campaign',design_search.verify,design_search.build_default),
         ('research-closure-programme',lambda:research_closure.publish(check=True),research_closure.publish),
+        ('research-readme-context-coverage',lambda:readme_coverage(True),lambda:readme_coverage(False)),
         ('pilot-development-assurance',pilot_assurance.verify,lambda:fresh_packet('assurance-profiles',pilot_assurance.publish)),
         ('v04-capability-migration',capability_migration.verify,lambda:fresh_packet('capability-migration',capability_migration.publish)),
         ('connected-pilot-delivery',pilot_release.verify,lambda:fresh_packet('pilot-delivery',pilot_release.publish)),
