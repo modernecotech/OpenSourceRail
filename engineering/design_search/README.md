@@ -91,7 +91,7 @@ Source changes use isolated worktrees. Only the coordinator publishes.
 
 Role instructions inherit parent permissions. Where available, the campaign
 runs its verifier using a read-only filesystem and isolated network through
-Bubblewrap, with only its private output writable. The attempt receipt records
+Bubblewrap, with its private output and temporary scratch writable. The attempt receipt records
 actual isolation. Source and result checks still run if isolation is unavailable;
 the receipt does not mislabel that fallback as an enforced sandbox.
 

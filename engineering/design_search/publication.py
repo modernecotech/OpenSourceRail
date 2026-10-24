@@ -93,12 +93,26 @@ This publication binds evaluator sources and campaign membership. A source revis
         'campaign.json':contracts.encoded(definition)}
     # Keep worker inputs, results, logs and receipts available after a fresh clone.
     buffer=io.BytesIO()
-    folder=Path(state)/'campaigns'/campaign_id
+    state=Path(state);folder=state/'campaigns'/campaign_id
+    retained={path.relative_to(state).as_posix():path for path in folder.rglob('*')
+              if path.is_file() and path.name!='runner.lock'}
+    if folder.is_dir():
+        # Exact caches may refer to a sealed worker in an earlier campaign.
+        # Retain that package too, so the publication survives a fresh clone.
+        for row in value['results']+value['confirmations']:
+            receipt=state/'cache-receipts'/(row['evaluation_id']+'.json')
+            record=json.loads(receipt.read_bytes());retained[receipt.relative_to(state).as_posix()]=receipt
+            attempt=campaign._relative_attempt(state,record['attempt_path'])
+            retained.update({path.relative_to(state).as_posix():path for path in attempt.rglob('*') if path.is_file()})
+        records=[('selection',value[name]['selection_id']) for name in ('next_experiment','integrated_baseline')]
+        for row in value['candidates']:records.extend([('candidate',row['candidate_id']),('candidate-context',contracts.identity(row))])
+        for row in value['results']+value['confirmations']:records.extend([('evaluation',row['evaluation_id']),('evaluation-request',row['evaluation_id'])])
+        for kind,key in records:
+            path=state/'registry'/kind/(key+'.json');retained[path.relative_to(state).as_posix()]=path
     with tarfile.open(fileobj=buffer,mode='w') as archive:
-        for path in sorted(folder.rglob('*')):
-            if not path.is_file() or path.name in ('runner.lock',):continue
+        for name,path in sorted(retained.items()):
             if path.is_symlink():raise ValueError('ordinary campaign evidence files required')
-            raw=path.read_bytes();info=tarfile.TarInfo(path.relative_to(folder).as_posix())
+            raw=path.read_bytes();info=tarfile.TarInfo(name)
             info.size=len(raw);info.mode=0o644;info.mtime=0;archive.addfile(info,io.BytesIO(raw))
     files['run-evidence.tar.gz']=gzip.compress(buffer.getvalue(),mtime=0)
     receipt=dict(schema='osr-design-comparison-publication/1',campaign_id=campaign_id,
