@@ -138,7 +138,10 @@ def verify(output=OUTPUT):
     for name,digest in receipt['files_sha256'].items():
         if Path(name).is_absolute() or '..' in Path(name).parts or sha256((output/name).read_bytes()).hexdigest()!=digest:
             raise ValueError('candidate comparison payload differs: '+name)
-    value=json.loads(gzip.decompress((output/'comparison.json.gz').read_bytes()))
+    with gzip.open(output/'comparison.json.gz','rb') as stream:
+        raw=stream.read(campaign.COMPARISON_MAX_BYTES+1)
+    if len(raw)>campaign.COMPARISON_MAX_BYTES:raise ValueError('published comparison exceeds aggregate byte budget')
+    value=json.loads(raw)
     definition=json.loads((output/'campaign.json').read_bytes())
     if (definition.get('source_sha256')!=receipt['source_sha256'] or definition.get('campaign_id')!=receipt['campaign_id']
             or contracts.identity({key:item for key,item in definition.items() if key!='campaign_id'})!=receipt['campaign_id']):
