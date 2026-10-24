@@ -26,11 +26,11 @@ that sample is not an established continuous thermal rating.
 
 | Physical ID prefix | Carrier and beam | Counted wall | AW3 subtotal t/car | Mechanical utilisation | Live beam deflection mm / limit ratio | Required / sampled lift kN |
 |---|---|---:|---:|---:|---:|---:|
-| `3e1cf259` | Retained rigid; deep 25 m | No added carrier walls | 37.619 | 14.251 | 8.255 / 0.660 | 19.983 / 3.064 |
-| `7a3bfa30` | Four yaw groups; shallow 25 m | 6 mm | 38.406 | 14.549 | 19.083 / 1.527 | 20.401 / 3.064 |
-| `c78627ed` | Four yaw groups; deep 25 m, revised from `7a3bfa30` | 6 mm | 38.406 | 14.549 | 8.428 / 0.674 | 20.401 / 3.064 |
-| `fb2e6115` | Five yaw/slide groups; wider 20 m | 6 mm | 38.497 | 14.631 | 4.374 / 0.437 | 20.449 / 3.064 |
-| `d045027b` | Five yaw/slide groups; wider 20 m, revised from `fb2e6115` | 8 mm | 38.765 | 14.747 | 4.405 / 0.440 | 20.592 / 3.064 |
+| `ed05b47c` | Retained rigid; deep 25 m | No added carrier walls | 37.619 | 14.251 | 8.255 / 0.660 | 19.983 / 3.064 |
+| `65987a41` | Four yaw groups; shallow 25 m | 6 mm | 38.406 | 14.549 | 19.083 / 1.527 | 20.401 / 3.064 |
+| `a5977148` | Four yaw groups; deep 25 m, revised from `65987a41` | 6 mm | 38.406 | 14.549 | 8.428 / 0.674 | 20.401 / 3.064 |
+| `d5bdd99a` | Five yaw/slide groups; wider 20 m | 6 mm | 38.497 | 14.631 | 4.374 / 0.437 | 20.449 / 3.064 |
+| `30152e6e` | Five yaw/slide groups; wider 20 m, revised from `d5bdd99a` | 8 mm | 38.765 | 14.747 | 4.405 / 0.440 | 20.592 / 3.064 |
 
 Deepening the shallow beam reduces calculated live deflection **55.84%** at
 unchanged vehicle subtotal. It adds **6.642 tonnes per span**, or **2.655 m³ of
@@ -86,7 +86,7 @@ The next bounded work should:
    station spacing or dwell must carry platform, charging, fleet, evacuation and
    civil consequences in a separate versioned specification.
 
-The [research twin](design-search-twins/3e1cf25953f94d91e7e38e4a5da42d99eae6151bbd638a5342eb777484458674/README.md)
+The [research twin](design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md)
 compiles the selected known-stock component scope. Native geometry and business
 records retain the same physical candidate identity and the failed engineering
 evidence. They do not replace the missing installed design or physical evidence.

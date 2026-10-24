@@ -47,7 +47,7 @@ def _default_plan():
 
 def _additional_materials(materialized):
     rates=manufacturing.structures.load()['rates'];rows=[]
-    for part in materialized.get('additional_stock',[]):
+    for part in manufacturing.additional_carrier_stock(materialized):
         rows.append(manufacturing._line(part['id']+'/material','added-carrier-steel','kg',part['mass_kg'],
             rates['fabricated_structural_steel_usd_kg'],[part['id']],
             'cut exact counted wall stock, fixture and weld; bearing/slide interfaces remain unqualified',

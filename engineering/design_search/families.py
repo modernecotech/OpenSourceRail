@@ -27,12 +27,13 @@ def physical_module(module):
         'lift_pole_area_m2','guide_pole_area_m2','mass_kg')}
 
 
-def _box(uid,size,at,material='carrier-steel',density=7850.):
+def _box(uid,size,at,material='carrier-steel',density=7850.,*,role=None):
     volume=math.prod(size);mass=volume*density;cg=[at[i]+size[i]/2 for i in range(3)]
     inertia=[[mass*sum(size[k]**2 for k in range(3) if k!=i)/12 if i==j else 0. for j in range(3)] for i in range(3)]
-    geometry=dict(id=uid,kind='box',frame_id='vehicle',material_id=material,size_m=list(size),at_m=list(at),role='added-carrier-stock')
+    geometry=dict(id=uid,kind='box',frame_id='vehicle',material_id=material,size_m=list(size),at_m=list(at))
+    if role is not None:geometry['role']=role
     item=dict(id=uid,geometry_id=uid,scope='vehicle-per-car',frame_id='vehicle',quantity=1,status='known',
-        unit_mass_kg=mass,cg_m=cg,inertia_kg_m2=inertia,basis='exact solid-box integral at declared steel density')
+        unit_mass_kg=mass,cg_m=cg,inertia_kg_m2=inertia,basis='exact solid-box integral at declared material density')
     return geometry,item
 
 
@@ -41,10 +42,10 @@ def _tube(uid,length,at,axis,wall):
     breadth,depth=.08,.12;u,v=[i for i in range(3) if i!=axis];parts=[]
     for side in (0,1):
         size=[0.,0.,0.];size[axis]=length;size[u]=wall;size[v]=depth;pos=list(at);pos[u]+=side*(breadth-wall)
-        parts.append(_box(uid+'/u'+str(side),size,pos))
+        parts.append(_box(uid+'/u'+str(side),size,pos,role='added-carrier-stock'))
     for side in (0,1):
         size=[0.,0.,0.];size[axis]=length;size[u]=breadth-2*wall;size[v]=wall;pos=list(at);pos[u]+=wall;pos[v]+=side*(depth-wall)
-        parts.append(_box(uid+'/v'+str(side),size,pos))
+        parts.append(_box(uid+'/v'+str(side),size,pos,role='added-carrier-stock'))
     return parts
 
 
@@ -111,7 +112,7 @@ def _build(mode,count,section_id,*,requirement_revision,wall=.006,lineage=None,s
         ([end,b-2*tw,h-2*tf],[-span/2,-b/2+tw,top-h+tf]),
         ([end,b-2*tw,h-2*tf],[span/2-end,-b/2+tw,top-h+tf])]
     for number,(size,at) in enumerate(concrete_parts):
-        part,item=_box('guidebeam/concrete/'+str(number),size,at,'concrete',a['concrete']['density_kg_m3']);part['frame_id']='guidebeam';item['frame_id']='guidebeam';item['scope']='guideway-per-span'
+        part,item=_box('guidebeam/concrete/'+str(number),size,at,'concrete',a['concrete']['density_kg_m3'],role='guidebeam-concrete-stock');part['frame_id']='guidebeam';item['frame_id']='guidebeam';item['scope']='guideway-per-span'
         geometry.append(part);inventory.append(item)
     for system in ('reinforcement-and-prestress-detail','return-rail-anchors-and-bearing-detail'):
         inventory.append(dict(id='guidebeam/'+system,scope='guideway-per-span',frame_id='guidebeam',quantity=1,status='unknown',
@@ -171,19 +172,26 @@ def materialize(candidate,*,allow_incomplete=False):
     value['controlled_aw3_kg']=props['known_mass_subtotal_kg'];value['controlled_tare_kg']=props['known_mass_subtotal_kg']-value['passenger_payload_kg']
     value['mass_is_lower_bound']=props['total_mass_kg'] is None;value['unknown_installed_stock_ids']=whole['unknown_stock_ids'];value['complete_installed_distribution']=whole['complete_installed_distribution']
     value['inventory_by_scope']=whole['scopes']
-    value['additional_physical_regions']=[deepcopy(row) for row in candidate['geometry'] if row.get('role')=='added-carrier-stock']
+    inventory={row['geometry_id']:row for row in candidate['installed_inventory'] if row.get('geometry_id') is not None and row['status']=='known'}
+    eligible={part['id']:part for part in candidate['geometry'] if part.get('kind')=='box' and part.get('frame_id')=='vehicle'
+        and part.get('material_id')=='carrier-steel' and part['id'] in inventory
+        and inventory[part['id']]['scope']=='vehicle-per-car' and inventory[part['id']]['frame_id']=='vehicle'}
+    labelled={part['id']:part for part in candidate['geometry'] if part.get('role')=='added-carrier-stock'}
+    if set(labelled)!=set(eligible):
+        raise UnsupportedCandidateDomain('carrier-stock role differs from actual vehicle/material/inventory scope')
+    value['additional_physical_regions']=[deepcopy(part) for part in candidate['geometry'] if part['id'] in eligible]
     value['architecture']=deepcopy(candidate['architecture'])
     value['design_search_bundle']=deepcopy(candidate)
     value['allow_incomplete_diagnostic']=allow_incomplete
     value['diagnostic_mass_state']=known_mass_state(candidate)
-    inventory={row['geometry_id']:row for row in candidate['installed_inventory'] if row.get('geometry_id') is not None and row['status']=='known'}
+    materials={row['id']:row for row in candidate['materials']}
     value['additional_stock']=[]
     for part in value['additional_physical_regions']:
-        item=inventory[part['id']]
+        item=inventory[part['id']];material_id=part['material_id'];density=materials[material_id]['density_kg_m3']
         value['additional_stock'].append(dict(id=part['id'],kind=part['kind'],size_m=part['size_m'],at_m=part['at_m'],
-            material='declared-carrier-steel',density_kg_m3=7850.,volume_m3=math.prod(part['size_m']),mass_kg=item['unit_mass_kg'],cg_m=item['cg_m'],inertia_kg_m2=item['inertia_kg_m2']))
+            material='declared-carrier-steel',material_id=material_id,density_kg_m3=density,volume_m3=math.prod(part['size_m']),mass_kg=item['unit_mass_kg'],cg_m=item['cg_m'],inertia_kg_m2=item['inertia_kg_m2']))
         value['manufacturing_bom'].append(dict(id=part['id'],component_scope='added-carrier-stock',quantity_per_car=1,unit='part',mass_kg=item['unit_mass_kg'],
-            material='declared-carrier-steel',geometry_part_ids=[part['id']],origin_confirmed=False,price_is_quote=False,qa_requirements=['Countedstockonly; joint/bearing/installedfit and qualification remain open.']))
+            material='declared-carrier-steel',material_id=material_id,geometry_part_ids=[part['id']],origin_confirmed=False,price_is_quote=False,qa_requirements=['Countedstockonly; joint/bearing/installedfit and qualification remain open.']))
     # Component identity hashes actual component geometry, independent of the
     # whole candidate, requirement revision or numerical core-path hypothesis.
     beam_component=dict(selection=candidate['architecture']['guidebeam'],

@@ -60,6 +60,63 @@ def module_materials(candidate):
     return rows
 
 
+def additional_carrier_stock(candidate):
+    """Validate added vehicle steel against the common physical inventory.
+
+    A role label alone is insufficient: guidebeam stock must never become a
+    second vehicle/carrier quantity merely because it was mislabelled upstream.
+    """
+    parts=candidate.get('additional_stock',[])
+    if not isinstance(parts,list):raise ValueError('explicit additional vehicle stock list required')
+    bundle=candidate.get('design_search_bundle')
+    if bundle is None:
+        if parts:raise ValueError('additional carrier stock requires its physical candidate inventory')
+        return []
+    from engineering.design_search.contracts import validate_candidate
+    validate_candidate(bundle)
+    if bundle['candidate_id']!=candidate['configuration_sha256']:
+        raise ValueError('additional carrier stock candidate identity differs')
+    geometry={row['id']:row for row in bundle['geometry']}
+    materials={row['id']:row for row in bundle['materials']}
+    expected={}
+    for row in bundle['installed_inventory']:
+        source=geometry.get(row.get('geometry_id'))
+        if row['status']!='known' or row['scope']!='vehicle-per-car' or source is None or source['material_id']!='carrier-steel':continue
+        if row['frame_id']!='vehicle' or source['frame_id']!='vehicle' or row['quantity']!=1:
+            raise ValueError('carrier stock requires one actual vehicle-frame solid per inventory item')
+        if source['id'] in expected:raise ValueError('duplicate carrier stock inventory geometry')
+        expected[source['id']]=(source,row)
+    if len({part.get('id') for part in parts})!=len(parts) or {part.get('id') for part in parts}!=set(expected):
+        raise ValueError('additional stock must exactly cover known vehicle carrier-steel inventory')
+    checked=[]
+    for part in parts:
+        source,item=expected[part['id']]
+        if (source['kind']!='box' or part.get('kind')!='box' or part.get('equivalent_box') or
+                part.get('material_id')!='carrier-steel' or part.get('material') not in ('carrier-steel','declared-carrier-steel') or
+                part.get('size_m')!=source['size_m'] or part.get('at_m')!=source['at_m'] or
+                part.get('scope',item['scope'])!='vehicle-per-car' or part.get('frame_id',item['frame_id'])!='vehicle'):
+            raise ValueError('added carrier stock must preserve actual vehicle steel geometry and material')
+        density=materials['carrier-steel'].get('density_kg_m3');volume=math.prod(source['size_m'])
+        if type(density) not in (int,float) or not math.isfinite(density) or density<=0:
+            raise ValueError('declared positive carrier-steel density required')
+        mass=volume*density;centre=[source['at_m'][i]+source['size_m'][i]/2 for i in range(3)]
+        inertia=[[mass*sum(source['size_m'][k]**2 for k in range(3) if k!=i)/12 if i==j else 0. for j in range(3)] for i in range(3)]
+        for actual,target in ((part.get('density_kg_m3'),density),(part.get('volume_m3'),volume),
+                              (part.get('mass_kg'),mass),(item['unit_mass_kg'],mass)):
+            if type(actual) not in (int,float) or not math.isfinite(actual) or not math.isclose(actual,target,rel_tol=1e-10,abs_tol=1e-9):
+                raise ValueError('added carrier steel volume/density/mass differs from physical inventory')
+        for recorded in (part,item):
+            if (not isinstance(recorded.get('cg_m'),list) or len(recorded['cg_m'])!=3 or
+                    not isinstance(recorded.get('inertia_kg_m2'),list) or len(recorded['inertia_kg_m2'])!=3):
+                raise ValueError('actual added carrier stock CG/inertia required')
+            if any(not math.isclose(recorded['cg_m'][i],centre[i],rel_tol=0.,abs_tol=1e-9) for i in range(3)):
+                raise ValueError('added carrier stock CG differs from actual solid')
+            if any(len(recorded['inertia_kg_m2'][i])!=3 or any(not math.isclose(recorded['inertia_kg_m2'][i][j],inertia[i][j],rel_tol=1e-10,abs_tol=1e-9) for j in range(3)) for i in range(3)):
+                raise ValueError('added carrier stock inertia differs from actual solid')
+        checked.append(dict(deepcopy(part),scope='vehicle-per-car',frame_id='vehicle'))
+    return checked
+
+
 def selected_beam(candidate,*,beam=None,selection=None,allow_incomplete=False):
     """Resolve one named, same-candidate section/span; never trust foreign rows."""
     requested=selection
@@ -133,6 +190,7 @@ def launch_materials(candidate):
 
 def product_definition(candidate=None,*,beam=None,selection=None,allow_incomplete=False):
     candidate=magnetics.definition() if candidate is None else candidate
+    additional_carrier_stock(candidate)
     resolved=selected_beam(candidate,beam=beam,selection=selection,allow_incomplete=allow_incomplete)
     key=platform.digest(dict(candidate=candidate,selection=resolved['selection'],allow_incomplete=allow_incomplete,source_sha256=sources()))
     if key in _PRODUCT_CACHE:return deepcopy(_PRODUCT_CACHE[key])

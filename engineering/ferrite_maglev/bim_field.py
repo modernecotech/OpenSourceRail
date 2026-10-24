@@ -101,6 +101,7 @@ def _solids(f,part):
 
 def exchange_parts(candidate,*,beam=None,selection=None,include_rail_and_supports=False,allow_incomplete=False):
     if type(include_rail_and_supports) is not bool:raise ValueError('explicit civil exchange scope required')
+    added=manufacturing.additional_carrier_stock(candidate)
     parts=[dict(p,exchange_scope='one magnetic module, module-local frame') for p in candidate['module']['parts']]
     resolved=manufacturing.selected_beam(candidate,beam=beam,selection=selection,allow_incomplete=allow_incomplete)
     geometry=manufacturing._civil_geometry(resolved);density=resolved['assumptions']['concrete']['density_kg_m3']
@@ -115,7 +116,7 @@ def exchange_parts(candidate,*,beam=None,selection=None,include_rail_and_support
         if part['material']=='concrete':row['mass_kg']=part['volume_m3']*density
         if 'cg_m' in part:row['cg_m']=[x+y for x,y in zip(part['cg_m'],offset)]
         parts.append(row)
-    for part in candidate.get('additional_stock',[]):
+    for part in added:
         if part.get('kind') not in {'box','cylinder'} or part.get('equivalent_box'):
             raise ValueError('additional exchange stock needs actual supported primitive geometry')
         row=dict(part,at_m=[part['at_m'][0],part['at_m'][1]+8.,part['at_m'][2]],
