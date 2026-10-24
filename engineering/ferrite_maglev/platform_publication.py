@@ -5,12 +5,15 @@ import argparse
 import gzip
 import json
 import re
+from threading import RLock
 from . import model, delivery_platform as platform
 
 ROOT=model.ROOT
 OUTPUT=ROOT/'docs/design-engine/ferrite-maglev/planning-platform'
 SCHEMA='osr-owner-builder-publication/1'
 UI=ROOT/'docs/workbench/planning'
+_PAYLOAD_CACHE=None
+_PAYLOAD_CACHE_LOCK=RLock()
 
 def folders():
     index=json.loads((Path(__file__).parent/'city-index.json').read_bytes())
@@ -30,7 +33,7 @@ def source_paths():
 
 def sources():return {p.relative_to(ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in source_paths()}
 
-def payload():
+def _generate_payload():
     files={};rows=[]
     for folder in folders():
         p=platform.baseline(folder);platform.validate(p);layers=platform.planning_layers(p,folder);slug=p['city']
@@ -55,6 +58,25 @@ def payload():
         'Native owner, builder, operator, workforce and observation links use the isolated loopback stack and its existing authentication. The people link requires the relevant ERP module. This does not claim full OCC/HR federation or deployment permissions.','',
         'Primary geography and population sources remain in each city input receipt. All design, physical and procurement release flags remain false.',''])).encode()
     return files
+
+def payload():
+    """Fresh-source, one-snapshot process cache; retained output is never input."""
+    global _PAYLOAD_CACHE
+    with _PAYLOAD_CACHE_LOCK:
+        before=dict(sources());key=tuple(sorted(before.items()))
+        cached=_PAYLOAD_CACHE
+        if cached is None or cached[0]!=key:
+            files=_generate_payload()
+            if any(not isinstance(name,str) or not isinstance(raw,bytes) for name,raw in files.items()):
+                raise ValueError('immutable planning payload bytes required')
+            snapshot=tuple(files.items())
+            if sources()!=before:raise ValueError('planning source changed during generation')
+            cached=(key,snapshot)
+        # A cache hit still checks the live full source mapping, while the
+        # cached tuple/bytes and copied return mapping cannot be caller-poisoned.
+        if sources()!=before:raise ValueError('planning source changed during payload retrieval')
+        _PAYLOAD_CACHE=cached
+        return dict(cached[1])
 
 def publish(output=OUTPUT):
     before=sources();files=payload()
