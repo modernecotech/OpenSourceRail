@@ -149,7 +149,11 @@ def materialize(candidate,*,allow_incomplete=False):
             material='declared-carrier-steel',geometry_part_ids=[part['id']],origin_confirmed=False,price_is_quote=False,qa_requirements=['Countedstockonly; joint/bearing/installedfit and qualification remain open.']))
     # Component identity hashes actual component geometry, independent of the
     # whole candidate, requirement revision or numerical core-path hypothesis.
-    value['component_ids']=dict(magnetic_module=identity(physical_module(source['module'])),propulsion_band=identity(source['propulsion_band']),guidebeam=identity(geometry['guidebeam/section-definition']['definition']))
+    beam_component=dict(selection=candidate['architecture']['guidebeam'],
+        geometry=[part for part in candidate['geometry'] if part['id'].startswith('guidebeam/')],
+        materials=[row for row in candidate['materials'] if row['id']=='concrete'],
+        installed_inventory=[row for row in candidate['installed_inventory'] if row['scope']=='guideway-per-span'])
+    value['component_ids']=dict(magnetic_module=identity(physical_module(source['module'])),propulsion_band=identity(source['propulsion_band']),guidebeam=identity(beam_component))
     from engineering.ferrite_maglev import candidate_magnetics, candidate_structures
     span=candidate['architecture']['guidebeam']['span_m'];guideway=candidate_magnetics.guideway_definition(span,variant_id=source['variant_id'])
     guideway['source_configuration_sha256']=source['configuration_sha256'];guideway['configuration_sha256']=candidate['candidate_id'];guideway['candidate_id']=candidate['candidate_id'];guideway['span_m']=span

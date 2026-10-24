@@ -236,5 +236,7 @@ def validate_result(value):
     if any(value.get(key)!=request[key] for key in ('evaluation_id','candidate_id','requirement_revision','purpose')):raise ValueError('result/request binding differs')
     if value['execution_status'] not in EXECUTION or value['numerical_status'] not in NUMERICAL or value['screen_status'] not in SCREENS or value['maturity'] not in MATURITY:raise ValueError('typed states required')
     if value['screen_status']=='pass' and (value['execution_status']!='executed' or value['numerical_status']!='converged'):raise ValueError('unexecuted/nonconverged result cannot pass')
+    if value['screen_status']=='pass' and any(isinstance(row,dict) and row.get('state') in ('fail','unknown','not-assessed') for row in value['constraints']):
+        raise ValueError('overall pass contradicts an explicit failed or unknown constraint')
     if any(value.get(key) is not False for key in FLAGS):raise ValueError('numerical result cannot assert acceptance')
     encoded(value);return value

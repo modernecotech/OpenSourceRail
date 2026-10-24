@@ -71,6 +71,12 @@ def test_nonconvergence_and_unexecuted_results_cannot_pass():
         with pytest.raises(ValueError):c.make_result(request(simple()),execution_status=execution,numerical_status=numerical,screen_status='pass')
 
 
+@pytest.mark.parametrize('state',['fail','unknown','not-assessed'])
+def test_overall_pass_cannot_hide_a_failed_or_unknown_constraint(state):
+    with pytest.raises(ValueError,match='contradicts'):
+        c.make_result(request(simple()),execution_status='executed',numerical_status='converged',screen_status='pass',constraints=[{'id':'critical','state':state}])
+
+
 def test_coupling_converges_with_real_inventory_and_explicit_residuals():
     def update(candidate,state):return {'state':dict(mass_kg=12.,heat_w=10.,temperature_c=45.,deformation_m=.0001,gap_m=.0079)}
     value=coupling.iterate(simple(),update,max_iterations=40)
@@ -136,6 +142,7 @@ def test_span_revision_rebuilds_geometry_and_identity(real_families):
     assert changed['lineage']['parent_candidate_ids']==[original['candidate_id']]
     native=families.materialize(changed,allow_incomplete=True)
     assert native['guideway_definition']['span_m']==20.
+    assert native['component_ids']['guidebeam']!=families.materialize(original,allow_incomplete=True)['component_ids']['guidebeam']
     assert c.mass_properties(changed,'guideway-per-span')['known_mass_subtotal_kg']<c.mass_properties(original,'guideway-per-span')['known_mass_subtotal_kg']
 
 
