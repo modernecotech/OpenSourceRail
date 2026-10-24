@@ -67,6 +67,14 @@ def test_summary_retains_unknown_mass_and_all_stock_scopes(comparison):
     assert all(value[key] is False for key in contracts.FLAGS)
 
 
+def test_large_diagnostic_traces_stay_in_evidence_instead_of_workbench_payload(comparison):
+    comparison['results'][0]['diagnostics']=[{'scope':'calculated stock','mass_state':{'trace':'x'*10000}}]
+    view=publication.summary(comparison)
+    diagnostic=view['candidates'][0]['evaluations'][0]['diagnostics'][0]
+    assert diagnostic['scope']=='calculated stock' and diagnostic['detailed_records']==['mass_state']
+    assert diagnostic['evidence_reference']=='comparison.json.gz' and len(json.dumps(view))<10000
+
+
 def test_malicious_html_stays_in_inert_escaped_json(comparison,tmp_path):
     publication.publish(comparison['campaign_id'],output=tmp_path)
     page=(tmp_path/'index.html').read_text();scripts=Scripts();scripts.feed(page)
@@ -99,7 +107,7 @@ const document={getElementById:id=>elements[id],createElement:tag=>new Element(t
 vm.runInNewContext(input.script,{document,JSON},{timeout:1000});
 if(elements.candidate.children.find(el=>el.tag==='h2').textContent!==input.payload)throw Error('Label not preserved as text');
 if(created.some(el=>el.tag==='img'))throw Error('Untrusted image element created');
-if(!elements.candidate.children.some(el=>el.tag==='pre'&&el.textContent.includes('unweighed-pump')))throw Error('Unknown inventory hidden');
+if(!created.some(el=>el.tag==='pre'&&el.textContent.includes('unweighed-pump')))throw Error('Unknown inventory hidden');
 process.stdout.write('safe-text-render');'''
     result=subprocess.run([node,'-e',driver],input=json.dumps({'script':scripts.scripts[1][1],'data':scripts.scripts[0][1],'payload':PAYLOAD}),
         text=True,capture_output=True,timeout=10,check=True)

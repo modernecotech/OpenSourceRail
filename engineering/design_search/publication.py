@@ -11,6 +11,17 @@ from . import campaign, contracts, selection
 OUTPUT = campaign.ROOT/'docs/design-engine/design-search'
 
 
+def _diagnostics(rows):
+    brief=[]
+    for row in rows:
+        if not isinstance(row,dict):brief.append(row);continue
+        keep={key:value for key,value in row.items() if len(contracts.encoded(value))<=8192}
+        omitted=sorted(set(row)-set(keep))
+        if omitted:keep.update(detailed_records=omitted,evidence_reference='comparison.json.gz')
+        brief.append(keep)
+    return brief
+
+
 def summary(value):
     """Expose engineering context without turning omitted stock into zero."""
     rows=[]
@@ -21,8 +32,8 @@ def summary(value):
             mass=contracts.mass_properties(candidate),
             inventory=contracts.inventory_summary(candidate),
             evaluations=[{key:row[key] for key in ('evaluation_id','execution_status','numerical_status',
-                'screen_status','maturity','metrics','constraints','diagnostics')} |
-                dict(evaluator=row['request']['evaluator_id'],hypothesis=row['request']['hypothesis']) for row in results],
+                'screen_status','maturity','metrics','constraints')} |
+                dict(evaluator=row['request']['evaluator_id'],hypothesis=row['request']['hypothesis'],diagnostics=_diagnostics(row['diagnostics'])) for row in results],
             baseline_rejections=value['integrated_baseline']['rejections'].get(candidate['candidate_id'],[])))
     return dict(campaign_id=value['campaign_id'],candidates=rows,
         next_experiment=value['next_experiment'],integrated_baseline=value['integrated_baseline'],
@@ -34,7 +45,7 @@ def summary(value):
 PAGE='''<!doctype html>
 <html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>OpenSourceRail candidate comparison</title>
-<style>body{font:17px/1.5 system-ui;max-width:1100px;margin:2rem auto;padding:0 1rem;color:#16313d;background:#fafbf9}a{color:#006d74}h1,h2{line-height:1.2}select{font:inherit;max-width:100%;padding:.6rem}article{background:white;border:1px solid #c5d4d4;padding:1rem;margin:1rem 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.83rem}table{border-collapse:collapse;width:100%}td,th{text-align:left;padding:.5rem;border-bottom:1px solid #ddd}code{overflow-wrap:anywhere}.hold{background:#fff3dc;padding:1rem}svg{width:100%;max-width:460px;height:190px}</style>
+<style>body{font:17px/1.5 system-ui;max-width:1100px;margin:2rem auto;padding:0 1rem;color:#16313d;background:#fafbf9;overflow-wrap:anywhere}a{color:#006d74}h1,h2{line-height:1.2}select{font:inherit;max-width:100%;box-sizing:border-box;padding:.6rem}article{background:white;border:1px solid #c5d4d4;padding:1rem;margin:1rem 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.83rem}table{border-collapse:collapse;width:100%;table-layout:fixed}td,th{text-align:left;padding:.5rem;border-bottom:1px solid #ddd;overflow-wrap:anywhere}code{overflow-wrap:anywhere}.hold{background:#fff3dc;padding:1rem}svg{width:100%;max-width:460px;height:190px}</style>
 <nav><a href="../../workbench/maglev/">System Workbench</a> · <a href="../../../engineering/design_search/README.md">Reproduction and contracts</a> · <a href="comparison.json.gz">Complete evidence</a></nav>
 <h1>Connected engineering alternatives</h1>
 <p>Simple fixed lines, affordable construction and high passenger throughput guide the comparison. Every domain uses one physical candidate identity. Unknown installed equipment remains visible.</p>
@@ -51,13 +62,17 @@ $('scope').textContent=data.confirmation_scope+' '+data.twin_scope;
 for(const c of data.candidates){const o=node('option',c.label||c.candidate_id.slice(0,16),$('choice'));o.value=c.candidate_id;}
 function show(){const c=data.candidates.find(c=>c.candidate_id===$('choice').value), p=$('candidate');p.replaceChildren();
 node('h2',c.label||'Candidate',p);node('code',c.candidate_id,p);
-node('h3','Architecture and mass',p);node('pre',JSON.stringify({architecture:c.architecture,mass:c.mass,inventory:c.inventory},null,2),p);
+node('h3','Architecture and mass',p);const a=c.architecture, carrier=a.carrier||{},beam=a.guidebeam||{};
+const wall=carrier.mode==='rigid-existing-hardpoints'?'retained hardpoints, no added carrier walls':(1000*carrier.wall_m).toFixed(1)+' mm counted carrier wall';
+node('p',a.cars+' cars; '+carrier.mode+', '+carrier.count_per_car+' carrier groups/car; '+wall+'; '+beam.section_id+', '+beam.span_m+' m span.',p);
+node('p','Known AW3 stock subtotal: '+(c.mass.known_mass_subtotal_kg/1000).toFixed(3)+' t/car. Complete installed mass distribution: '+(c.mass.complete_installed_distribution?'defined':'unresolved')+'. Unknown stock: '+c.inventory.unknown_stock_ids.length+' entries; unlocated stock: '+c.inventory.unlocated_stock_ids.length+' entries.',p);
+const inventory=node('details',undefined,p);node('summary','Dimensions, mass breakdown and unresolved inventory',inventory);node('pre',JSON.stringify({architecture:c.architecture,mass:c.mass,inventory:c.inventory},null,2),inventory);
 node('h3','Evaluated constraints',p);const t=node('table',undefined,p),head=node('tr',undefined,t);for(const v of ['Evaluator','Execution','Numerical','Screen','Maturity'])node('th',v,head);
 for(const r of c.evaluations){const tr=node('tr',undefined,t);for(const k of ['evaluator','execution_status','numerical_status','screen_status','maturity'])node('td',r[k],tr);const d=node('details',undefined,p);node('summary',r.evaluator+' — margins, assumptions and reasons',d);node('pre',JSON.stringify(r,null,2),d);}
-node('h3','Why this is not an integrated baseline',p);node('pre',JSON.stringify(c.baseline_rejections,null,2),p);
+node('h3','Why this is not an integrated baseline',p);const rejected=node('details',undefined,p);node('summary',c.baseline_rejections.length+' recorded selection rejection reasons',rejected);node('pre',JSON.stringify(c.baseline_rejections,null,2),rejected);
 node('h3','Revision and assembly consequences',p);node('pre',JSON.stringify(c.lineage,null,2),p);
 node('p','Yaw bearings, slides, retention, cooling and complete removal paths require installed detail. Partial stock drawings cannot establish a complete assembly sequence or a complete cost.',p);
-const a=node('a','Research twin, when compiled',p);a.href='../design-search-twins/'+c.candidate_id+'/README.md';}
+const link=node('a','Research twin, when compiled',p);link.href='../design-search-twins/'+c.candidate_id+'/README.md';}
 $('choice').value=data.next_experiment.selected_candidate_id||data.candidates[0].candidate_id;$('choice').onchange=show;show();
 </script></html>'''
 
