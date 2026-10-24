@@ -4,6 +4,7 @@ import json
 import re
 
 from .contracts import FLAGS, PHYSICAL_KEYS, UNITS, encoded, identity, validate_candidate, validate_request, validate_result
+from .storage import ImmutableConflict, atomic_immutable
 
 
 class IdentityCollision(ValueError):
@@ -36,11 +37,10 @@ class ImmutableRegistry:
             key=self.KEYS[kind]
             if value[key]!=identity({name:item for name,item in value.items() if name!=key}):raise IdentityCollision('record payload digest differs')
         path=self._path(kind,value[self.KEYS[kind]]);payload=encoded(value)
-        path.parent.mkdir(parents=True,exist_ok=True)
         try:
-            with path.open('xb') as target:target.write(payload)
-        except FileExistsError:
-            if path.read_bytes()!=payload:raise IdentityCollision('immutable '+kind+' record differs: '+value[self.KEYS[kind]])
+            atomic_immutable(path,payload)
+        except ImmutableConflict as error:
+            raise IdentityCollision('immutable '+kind+' record differs: '+value[self.KEYS[kind]]) from error
         return path
 
     def read(self,kind,record_id):

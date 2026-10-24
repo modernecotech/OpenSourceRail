@@ -18,6 +18,8 @@ Usage: ./osr [COMMAND] [arguments]
   plan ...           Build/check/serve planning or compile exported city edits
   infrastructure ... Run/check the primary infrastructure study
   design [action]    Build, run, check, verify, status or release-check
+  design campaign ... Create/run/compare/publish bounded candidate campaigns
+  twin compile ...   Compile a candidate-bound research CAD/BOM/IFC package
   sim [city] ...     Replay city energy/charging (Baghdad default)
   city <slug>        Generate formation, service, charging and cost planning
   build              Rebuild native kits, replays, cities and design report
@@ -38,7 +40,16 @@ fi
 
 case "$command_name" in
     infrastructure|design)
+        if [[ "$command_name" == design && "${1:-}" == campaign ]]; then
+            case "${2:-}" in
+                create|run|compare|tasks|publish|-h|--help)
+                    exec tools/automation/osr-python -m engineering.design_search "$@" ;;
+            esac
+        fi
         exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py "$@"
+        ;;
+    twin)
+        exec tools/automation/osr-python -m engineering.design_search twin "$@"
         ;;
     readiness)
         exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py readiness "$@"

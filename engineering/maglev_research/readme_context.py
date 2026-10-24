@@ -70,6 +70,8 @@ def category(name):
         return 'manual-current-entrypoint'
     if name == 'README.md':
         return 'project-frontdoor'
+    if name == 'engineering/design_search/README.md':
+        return 'candidate-design-method'
     if name in {'cities/catalogue/README.md', 'docs/capabilities/README.md'}:
         return 'generated-navigation-index'
     if name == 'docs/design-engine/ferrite-maglev/research-closure/README.md':

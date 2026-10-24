@@ -27,8 +27,7 @@ def evaluator_catalogue():
 def source_snapshot(evaluator_id):
     if evaluator_id not in IDS:raise ValueError('unknown evaluator')
     from engineering.ferrite_maglev import candidate_magnetics as magnetic, candidate_structures as structures
-    paths={Path(__file__),Path(contracts.__file__),Path(families.__file__),Path(coupling.__file__),*magnetic.source_paths(),
-           Path(structures.__file__),structures.INPUT}
+    paths={Path(__file__),Path(contracts.__file__),Path(families.__file__),Path(coupling.__file__),*magnetic.source_paths(),*structures.source_paths()}
     if evaluator_id in ('mechanical','civil'):
         paths.add(ROOT/'engineering/design_search/geometry.py')
     if evaluator_id=='mechanical':paths.add(ROOT/'engineering/maglev_research/carrier_geometry.py')
@@ -165,11 +164,17 @@ def evaluate(candidate,evaluator_id,*,purpose='diagnostic',hypothesis=None,setti
     before=source_snapshot(evaluator_id)
     try:
         if before!=request['evaluator_sources']:raise ValueError('evaluator sources changed after request identity was created')
+        families.validate_supported(candidate)
         response=ADAPTERS[evaluator_id](candidate,request)
         response.setdefault('metrics',{}).update(known_vehicle_mass_kg=contracts.mass_properties(candidate)['known_mass_subtotal_kg'],
             known_guidebeam_mass_kg=contracts.mass_properties(candidate,'guideway-per-span')['known_mass_subtotal_kg'])
         if before!=source_snapshot(evaluator_id):raise ValueError('evaluator sources changed during execution')
         return contracts.make_result(request,execution_status='executed',maturity='numerical-screen',**response)
+    except families.UnsupportedCandidateDomain as error:
+        return contracts.make_result(request,execution_status='refused',numerical_status='invalid',screen_status='unknown',
+            constraints=[dict(id='supported-physical-family-domain',state='unknown')],
+            diagnostics=[dict(error_type='UnsupportedCandidateDomain',message=str(error),
+                scope='No source geometry was substituted for the requested physical candidate.')])
     except (ValueError,RuntimeError,KeyError,TypeError) as error:
         return contracts.make_result(request,execution_status='error',numerical_status='invalid',screen_status='unknown',
             diagnostics=[dict(error_type=type(error).__name__,message=str(error))])

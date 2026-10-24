@@ -107,7 +107,14 @@ def validate_candidate(candidate):
         if not row.get('scope') or not row.get('basis'):raise ValueError('inventory scope/basis required')
         if row['status']=='unknown':
             if row.get('unit_mass_kg') is not None:raise ValueError('unknown stock cannot assert mass')
-        elif finite(row.get('unit_mass_kg'),'unit mass')<0:raise ValueError('nonnegative mass required')
+        else:
+            finite(row.get('unit_mass_kg'),'known physical stock unit mass',True)
+            if row.get('geometry_id') not in geometry:raise ValueError('known physical stock requires a geometry reference')
+            stock=geometry[row['geometry_id']]
+            if stock['kind'] in ('unresolved-interface','unresolved-equipment'):
+                raise ValueError('unresolved physical geometry must retain unknown inventory status')
+            if stock['kind']=='unlocated-mass-budget' and (row.get('cg_m') is not None or row.get('inertia_kg_m2') is not None):
+                raise ValueError('unlocated mass budget cannot assert installed CG or inertia')
         if row.get('frame_id') not in frames:raise ValueError('inventory frame required')
         if row.get('geometry_id') is not None and row['geometry_id'] not in geometry:raise ValueError('unknown inventory geometry')
         if row.get('cg_m') is not None:vector(row['cg_m'],'stock CG')

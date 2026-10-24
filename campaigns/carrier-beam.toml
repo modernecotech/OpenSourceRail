@@ -1,0 +1,40 @@
+schema = "osr-design-campaign/1"
+name = "Three carrier and guidebeam research alternatives"
+requirement_revision = "BAGHDAD-CANDIDATE-REQUIREMENTS-1"
+requirement_ids = ["MAG-001", "OPS-002"]
+purpose = "next-experiment"
+evaluators = ["definition", "mechanical", "civil", "magnetic", "coupling"]
+allowed_variables = ["carrier architecture and count", "counted carrier stock", "guidebeam section and span"]
+fixed_interfaces = ["six-car Baghdad context", "120 AW2 passengers/car", "120 A support current limit", "same physical magnetic module", "independent onboard support", "unknown installed stock stays unknown"]
+
+[budget]
+max_candidates = 6
+max_generations = 2
+max_workers = 2
+job_timeout_s = 300
+total_runtime_s = 1800
+memory_mb = 3072
+
+[hypothesis]
+flux_allocation = "original-branch-flux"
+
+[scenario]
+curve_radius_m = 150.0
+tolerance_reserve_m = 0.002
+passenger_load = "AW3"
+purpose = "carrier-guidebeam component research in six-car context"
+
+[policy]
+policy_id = "declared-relative-constraint-and-known-stock-next-experiment-v1"
+minimum_maturity = "numerical-screen"
+require_confirmation = true
+
+[policy.objectives]
+constraint_violation = 1.0
+vehicle_mass_lower_bound_kg = 0.00001
+
+[policy.metric_aggregation]
+constraint_violation = "max"
+
+[policy.required_hypothesis]
+flux_allocation = "original-branch-flux"

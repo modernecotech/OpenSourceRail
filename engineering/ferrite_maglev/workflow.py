@@ -103,6 +103,8 @@ def report_check(output):
 
 
 def stages(output):
+    from engineering.maglev_research import research_closure
+    from engineering.design_search import publication as design_search
     from . import pilot_product,pilot_actuators,launch_optimisation,pilot_corridor,pilot_variants,delivery_schedule,pilot_lifecycle,pilot_assurance,capability_migration,pilot_release
     from . import candidate_native,candidate_magnetics,candidate_structures,full_dynamics,candidate_manufacturing,candidate_lifecycle,bim_field,operations_crosscheck,platform_publication,planning_ui,detailed_system
     def document(script, *args):
@@ -154,6 +156,8 @@ def stages(output):
         ('owner-builder-planning-platform',platform_publication.verify,lambda:fresh_packet('planning-platform',platform_publication.publish)),
         ('planning-browser-evidence',planning_ui.verify,lambda:fresh_packet('planning-ui',planning_ui.publish)),
         ('detailed-candidate-system',detailed_system.verify,lambda:fresh_packet('system-detailed',detailed_system.publish)),
+        ('coordinated-candidate-campaign',design_search.verify,design_search.build_default),
+        ('research-closure-programme',lambda:research_closure.publish(check=True),research_closure.publish),
         ('pilot-development-assurance',pilot_assurance.verify,lambda:fresh_packet('assurance-profiles',pilot_assurance.publish)),
         ('v04-capability-migration',capability_migration.verify,lambda:fresh_packet('capability-migration',capability_migration.publish)),
         ('connected-pilot-delivery',pilot_release.verify,lambda:fresh_packet('pilot-delivery',pilot_release.publish)),
@@ -183,6 +187,8 @@ def input_sources():
            and not any(part in {'target','__pycache__'} for part in p.parts)]
     launcher=model.ROOT/'tools/automation/osr-python'
     if launcher.is_file():paths.append(launcher)
+    research=model.ROOT/'engineering/maglev_research'
+    paths.extend(p for p in research.rglob('*') if p.is_file() and p.suffix in {'.py','.toml'} and '__pycache__' not in p.parts)
     values.update({p.relative_to(model.ROOT).as_posix():sha256(p.read_bytes()).hexdigest() for p in paths})
     return values
 

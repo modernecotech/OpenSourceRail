@@ -54,6 +54,16 @@ def test_mass_cg_inertia_and_unknown_stock_are_explicit():
     unknown=c.mass_properties(simple(True));assert unknown['total_mass_kg'] is None;assert unknown['known_mass_subtotal_kg']==0.;assert unknown['unknown_stock_ids']==['block']
 
 
+@pytest.mark.parametrize('change',['zero-mass','unresolved-geometry','unlocated-cg'])
+def test_known_inventory_cannot_hide_unresolved_stock(change):
+    candidate=simple();part=candidate['geometry'][0];row=candidate['installed_inventory'][0]
+    if change=='zero-mass':row['unit_mass_kg']=0.
+    elif change=='unresolved-geometry':part['kind']='unresolved-interface'
+    else:part['kind']='unlocated-mass-budget'
+    candidate['candidate_id']=c.identity(dict(units=c.UNITS,**{key:candidate[key] for key in c.PHYSICAL_KEYS}))
+    with pytest.raises(ValueError):c.validate_candidate(candidate)
+
+
 @pytest.mark.parametrize('matrix', [[[1.,2.,0.],[2.,1.,0.],[0.,0.,1.]],[[1.,0.,0.],[0.,1.,0.],[0.,0.,3.]]])
 def test_impossible_inertias_are_rejected(matrix):
     candidate=simple();candidate['installed_inventory'][0]['inertia_kg_m2']=matrix

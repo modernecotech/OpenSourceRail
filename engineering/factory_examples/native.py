@@ -283,46 +283,66 @@ def export_native(model_path, output):
 
 
 def generate(model_path, output, root):
-    work = root / "build/factory-examples-native" / Path(output).name
+    root, model_path, output = Path(root).resolve(), Path(model_path).resolve(), Path(output).resolve()
+    work = root / "build/factory-examples-native" / output.name
     work.mkdir(parents=True, exist_ok=True)
-    script, ok = work / "generate.py", work / "completed"
-    ok.unlink(missing_ok=True)
-    script.write_text(
-        "import sys\nfrom pathlib import Path\n"
-        "sys.path[:0]="
-        + repr([str(root)])
-        + "\n"
-        "from engineering.factory_examples.native import export_native\n"
-        "export_native("
-        + repr(str(model_path.resolve()))
-        + ","
-        + repr(str(output.resolve()))
-        + ")\n"
-        "Path(" + repr(str(ok.resolve())) + ").write_text('complete')\n"
-    )
     binary = shutil.which("FreeCADCmd") or shutil.which("freecadcmd")
-    command = (
-        [binary]
-        if binary
-        else [
-            "flatpak",
-            "run",
-            "--filesystem=" + str(root),
-            "--command=FreeCADCmd",
-            "org.freecad.FreeCAD",
-        ]
-    )
-    with (work / "freecad.log").open("w") as log:
-        subprocess.run(
-            [*command, str(script.resolve())],
-            cwd=root,
-            stdout=log,
-            stderr=subprocess.STDOUT,
-            timeout=600,
-            check=True,
+
+    def execute(input_path, native_output, script_folder):
+        script, ok = script_folder / "generate.py", script_folder / "completed"
+        ok.unlink(missing_ok=True)
+        script.write_text(
+            "import sys\nfrom pathlib import Path\n"
+            "sys.path[:0]=" + repr([str(root)]) + "\n"
+            "from engineering.factory_examples.native import export_native\n"
+            "export_native(" + repr(str(input_path)) + "," + repr(str(native_output)) + ")\n"
+            "Path(" + repr(str(ok)) + ").write_text('complete')\n"
         )
-    if not ok.is_file():
-        raise RuntimeError(
-            "Native CAD incomplete; inspect " + str(work / "freecad.log")
-        )
-    return json.loads((output / "native-cad.json").read_text())
+        command = ([binary] if binary else [
+            "flatpak", "run", "--filesystem=" + str(root),
+            "--command=FreeCADCmd", "org.freecad.FreeCAD",
+        ])
+        with (work / "freecad.log").open("w") as log:
+            subprocess.run([*command, str(script)], cwd=root, stdout=log,
+                           stderr=subprocess.STDOUT, timeout=600, check=True)
+        if not ok.is_file():
+            raise RuntimeError("Native CAD incomplete; inspect " + str(work / "freecad.log"))
+        return json.loads((native_output / "native-cad.json").read_text())
+
+    # A directly installed FreeCADCmd keeps the original input/output paths.
+    if binary:
+        return execute(model_path, output, work)
+
+    # Flatpak has a private /tmp and cannot generally see a pytest/user output
+    # outside the explicitly shared repository. Stage BOTH sides of the actual
+    # native execution under that shared root; retain exact input/export bytes.
+    input_sha256 = digest(model_path)
+    with tempfile.TemporaryDirectory(prefix="flatpak-stage-", dir=work) as temporary:
+        stage = Path(temporary)
+        staged_input, staged_output = stage / "definition.json", stage / "native-output"
+        shutil.copyfile(model_path, staged_input)
+        if digest(staged_input) != input_sha256:
+            raise ValueError("Native staged input differs from requested source")
+        receipt = execute(staged_input, staged_output, stage)
+        if (digest(model_path) != input_sha256 or receipt.get("input_sha256") != input_sha256
+                or receipt.get("fcstd_reopened") is not True or receipt.get("step_reopened") is not True):
+            raise ValueError("Native staged execution input or reopen evidence differs")
+        files = receipt.get("files_sha256")
+        if not isinstance(files, dict) or not {"model.FCStd", "model.step"} <= files.keys():
+            raise ValueError("Native staged CAD/STEP file inventory missing")
+        for name, expected in files.items():
+            relative = Path(name)
+            if relative.is_absolute() or ".." in relative.parts or relative.as_posix() != name:
+                raise ValueError("Native staged export requires ordinary relative files")
+            source_file = staged_output / relative
+            if source_file.is_symlink() or not source_file.is_file() or digest(source_file) != expected:
+                raise ValueError("Native staged CAD/STEP bytes differ")
+        output.mkdir(parents=True, exist_ok=True)
+        for name in [*files, "native-cad.json"]:
+            target = output / name
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(staged_output / name, target)
+        for name, expected in files.items():
+            if digest(output / name) != expected:
+                raise ValueError("Copied native CAD/STEP bytes differ")
+        return receipt

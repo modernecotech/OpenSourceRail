@@ -600,6 +600,8 @@ def primary_docs() -> list[Path]:
     return [REPO_ROOT/path for path in (
         'docs/open-source-rail-overview.md', 'engineering/ferrite_maglev/README.md',
         'crates/osr-maglev-control/README.md', 'docs/ARCHITECTURE.md', 'docs/ROADMAP.md',
+        'engineering/design_search/README.md',
+        'docs/design-engine/design-search/README.md',
         'docs/first-adoptable-product.md',
         'docs/design-engine/ferrite-maglev/pilot-delivery/README.md',
         'docs/design-engine/ferrite-maglev/pilot-product/README.md',

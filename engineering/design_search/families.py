@@ -9,6 +9,10 @@ EYE=[[1.,0.,0.],[0.,1.,0.],[0.,0.,1.]]
 DEFAULT_REQUIREMENT_REVISION='BAGHDAD-CANDIDATE-REQUIREMENTS-1'
 
 
+class UnsupportedCandidateDomain(ValueError):
+    """A valid physical bundle which these registered native adapters cannot solve."""
+
+
 @lru_cache(maxsize=1)
 def _native():
     from engineering.ferrite_maglev import candidate_magnetics as magnetic, candidate_structures as structures
@@ -69,6 +73,14 @@ def _carrier_stock(mode,count,wall=.006):
 
 
 def _build(mode,count,section_id,*,requirement_revision,wall=.006,lineage=None,span_m=25.):
+    if mode not in ('rigid-existing-hardpoints','fixed-yaw-pivots','yaw-and-lateral-slide'):
+        raise UnsupportedCandidateDomain('unsupported carrier architecture')
+    if type(count) is not int or (count!=1 if mode=='rigid-existing-hardpoints' else not 2<=count<=5):
+        raise UnsupportedCandidateDomain('unsupported carrier count')
+    if type(wall) not in (int,float) or not any(math.isclose(wall,value,rel_tol=0.,abs_tol=1e-12) for value in (.006,.008,.010)):
+        raise UnsupportedCandidateDomain('unsupported carrier stock wall')
+    if mode=='rigid-existing-hardpoints' and wall!=.006:
+        raise UnsupportedCandidateDomain('rigid reference has no added RHS wall variable')
     from engineering.ferrite_maglev import candidate_structures as structures
     definition,native_mass=_native();a=structures.load();section=next(row for row in a['beam_sections'] if row['id']==section_id)
     materials=[dict(id='source-region',density_kg_m3=None,basis='Current native signed-stock integrals; per-region source density retained'),
@@ -90,7 +102,7 @@ def _build(mode,count,section_id,*,requirement_revision,wall=.006,lineage=None,s
             unit_mass_kg=region['mass_kg'],cg_m=None if unlocated else region['cg_m'],inertia_kg_m2=None if unlocated else region['inertia_kg_m2'],
             basis='Retained unlocated mass is counted; actual installed CG/inertia unknown.' if unlocated else region['distribution']))
     added_parts,added_inventory=_carrier_stock(mode,count,wall);geometry+=added_parts;inventory+=added_inventory
-    if type(span_m) not in (float,int) or not 15.<=span_m<=35.:raise ValueError('bounded15..35m span required')
+    if type(span_m) not in (float,int) or not 15.<=span_m<=35.:raise UnsupportedCandidateDomain('bounded15..35m span required')
     span=float(span_m);b,h,tw,tf=[section[key] for key in ('width_m','depth_m','web_m','flange_m')]
     geometry.append(dict(id='guidebeam/section-definition',kind='hollow-concrete-section',frame_id='guidebeam',material_id='concrete',definition=deepcopy(section)))
     top=a['rail_support']['beam_top_z_m'];end=a['concrete']['end_block_length_m']
@@ -121,8 +133,33 @@ def initial_families(requirement_revision=DEFAULT_REQUIREMENT_REVISION):
         ('yaw-and-lateral-slide',5,'wider-intermediate',20.))]
 
 
+@lru_cache(maxsize=128)
+def _supported_identity(mode,count,section_id,span_m,wall):
+    # Context metadata is deliberately absent: the physical identity is shared
+    # by requirement/lineage variants and by numerical flux hypotheses.
+    return _build(mode,count,section_id,requirement_revision='adapter-domain-check',wall=wall,span_m=span_m)['candidate_id']
+
+
+def validate_supported(candidate):
+    """Reject valid but unsupported physical edits rather than ignoring them.
+
+    The current adapters support only counted instances of the registered
+    source-stock families. New dimensions, materials, frames, equipment or
+    closures require a registered physical adapter before evaluation/export.
+    """
+    validate_candidate(candidate)
+    try:
+        carrier=candidate['architecture']['carrier'];beam=candidate['architecture']['guidebeam']
+        expected=_supported_identity(carrier['mode'],carrier['count_per_car'],beam['section_id'],beam['span_m'],carrier['wall_m'])
+    except (KeyError,StopIteration,TypeError) as error:
+        raise UnsupportedCandidateDomain('candidate is outside the registered physical family domain') from error
+    if candidate['candidate_id']!=expected:
+        raise UnsupportedCandidateDomain('physical stock/material/inventory differs from the declared registered family; no canonical geometry substitution is permitted')
+    return candidate
+
+
 def materialize(candidate,*,allow_incomplete=False):
-    validate_candidate(candidate);source,_=_native();geometry={row['id']:row for row in candidate['geometry']}
+    validate_supported(candidate);source,_=_native();geometry={row['id']:row for row in candidate['geometry']}
     if geometry['magnetic-module']['definition']!=physical_module(source['module']) or geometry['propulsion-band']['definition']!=source['propulsion_band']:
         raise ValueError('changed magnetic geometry needs an explicit new physical adapter')
     span=candidate['architecture']['guidebeam']['span_m']
@@ -163,7 +200,7 @@ def materialize(candidate,*,allow_incomplete=False):
 
 
 def with_beam_selection(candidate,*,section_id=None,span_m=None):
-    validate_candidate(candidate);carrier=candidate['architecture']['carrier'];beam=candidate['architecture']['guidebeam']
+    validate_supported(candidate);carrier=candidate['architecture']['carrier'];beam=candidate['architecture']['guidebeam']
     return _build(carrier['mode'],carrier['count_per_car'],section_id or beam['section_id'],
         requirement_revision=candidate['requirement_revision'],wall=carrier['wall_m'],span_m=beam['span_m'] if span_m is None else span_m,
         lineage=dict(parent_candidate_ids=[candidate['candidate_id']],operation='physical-beam-revision',reason='Rebuild actual section/span stock; recalculate selected-beam loads and all downstream quantities.'))
@@ -171,7 +208,7 @@ def with_beam_selection(candidate,*,section_id=None,span_m=None):
 
 def known_mass_state(candidate,*,unlocated_height_m=1.):
     """Disclosed evaluation-only placement, never a completed physical inventory."""
-    value=deepcopy(candidate)
+    validate_supported(candidate);value=deepcopy(candidate)
     for row in value['installed_inventory']:
         if row['status']=='known' and row.get('cg_m') is None:
             row['cg_m']=[0.,0.,unlocated_height_m];m=row['unit_mass_kg'];size=[17.,2.65,2.5]
@@ -226,7 +263,7 @@ def selected_beam(candidate):
 
 
 def propose_revision(candidate,results,*,trial_index=0):
-    validate_candidate(candidate)
+    validate_supported(candidate)
     if type(trial_index) is not int or not 0<=trial_index<2:return None
     failures=[row for row in results if row.get('candidate_id')==candidate['candidate_id'] and row.get('screen_status')=='fail']
     if not failures:return None

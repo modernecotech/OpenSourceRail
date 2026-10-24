@@ -160,6 +160,22 @@ def compile(candidate,evaluations,*,output,plan=None,export_native=True,allow_in
         scope='Source-bound next-experiment stock/coupon twin and common-geography planned delivery. Missing installed parts, unknown mass/CG/inertia, failed engineering screens, native stock gaps and independent acceptance remain holds.',**FLAGS)
     files['twin.json']=summary
     for name,value in files.items():(output/name).write_bytes(encoded(value))
+    native_links=(' · [FCStd]('+native_result['relative_directory']+'/model.FCStd) · [STEP]('
+        +native_result['relative_directory']+'/model.step)') if export_native else ''
+    (output/'README.md').write_text(f'''# Candidate research twin
+
+OpenSourceRail develops simple fixed-line ferrite maglev for affordable construction, local repair and high normal passenger throughput. This package compiles one physical candidate into connected known-stock CAD, manufacturing quantities, field exchange and draft construction records.
+
+Candidate `{candidate['candidate_id']}`; requirements `{candidate['requirement_revision']}`. Selected guidebeam: **{beam['selection']['section_id']}, {beam['selection']['span_m']:g} m span**. **Complete installed design and physical acceptance remain open.**
+
+[Candidate](candidate.json) · [Engineering results](evaluations.json) · [Manufacturing BOM](manufacturing-bom.json) · [Assembly scope](assembly.json) · [Draft delivery](delivery.json) · [IFC/IDS/BCF](bim/README.md){native_links}
+
+The native package contains **{len(parts)} known stock parts**: one magnetic module coupon, one selected beam/span and counted per-car carrier stock in declared review poses. Native CAD execution: **{native_result['execution_status']}**. Missing installed bearings, slides, retention, reinforcement detail, wiring, cooling and protection are enumerated in the candidate inventory. Unlocated retained allocations have no claimed installed CG/inertia. No placeholder solids replace missing equipment.
+
+The construction comparison uses one declared retained Baghdad line. Quantities use the selected span, and material arrival constrains first consumption. Rates are planning assumptions; complete installed cost, supplier quotes and site acceptance remain unknown. Failed or unknown engineering screens are retained. This research package does not change the six-car Baghdad service baseline or qualification dispositions.
+
+[Campaign contracts and reproduction](../../../../engineering/design_search/README.md) · [Parent comparison](../../design-search/index.html)
+''')
     if sources()!=before:raise ValueError('twin engineering sources changed during export')
     all_files={path.relative_to(output).as_posix():sha256(path.read_bytes()).hexdigest()
                for path in output.rglob('*') if path.is_file()}
@@ -204,13 +220,33 @@ def read_retained(output):
         if value['candidate_id']!=candidate['candidate_id'] or value['requirement_revision']!=candidate['requirement_revision']:
             raise ValueError('retained twin contains mixed evaluation identities')
     if summary['evaluation_ids']!=[value['evaluation_id'] for value in evaluations]:raise ValueError('retained twin evaluation inventory differs')
+    if summary['retained_failed_or_unknown_evaluations']!=[row['evaluation_id'] for row in evaluations if row['screen_status']!='pass']:
+        raise ValueError('retained twin evaluation disposition differs')
     geometry=json.loads((output/'native-definition.json').read_bytes())
     parts=bim_field.exchange_parts(materialized,beam=beam,include_rail_and_supports=True,allow_incomplete=allow_incomplete)
+    additional=_additional_materials(materialized)
+    expected_bom=dict(configuration_sha256=candidate['candidate_id'],bounded_products=products,
+        additional_known_stock_lines=additional,installed_inventory=candidate['installed_inventory'],
+        unknown_installed_stock_ids=materialized['unknown_installed_stock_ids'],complete_product_cost=False)
+    if encoded(expected_bom)!=(output/'manufacturing-bom.json').read_bytes():raise ValueError('retained manufacturing BOM differs from selected candidate')
+    if encoded(_assembly(candidate,products,parts,additional))!=(output/'assembly.json').read_bytes():raise ValueError('retained assembly differs from selected candidate')
+    planning=json.loads((output/'planning-revision.json').read_bytes());delivery_platform.validate(planning)
+    expected_delivery=delivery_platform.project_twin(planning,configuration_sha256=candidate['candidate_id'],
+        unit_costs=dict(guidebeam=products['products'][1]['estimated_material_process_cost_usd']),
+        beam_span_m=beam['selection']['span_m'],procurement_lead_days=dict(
+            guidebeam=max(row['lead_time_days'] for row in products['products'][1]['cut_schedule'])))
+    if encoded(expected_delivery)!=(output/'delivery.json').read_bytes():raise ValueError('retained delivery differs from selected candidate')
     if summary['geometry_sha256']!=digest(geometry) or geometry['candidate_id']!=candidate['candidate_id']:
         raise ValueError('retained twin native definition identity differs')
     expected_parts=[dict(part,role=part.get('role','selected-candidate-stock'),
         basis='Candidate '+candidate['candidate_id']+'; '+part['exchange_scope']) for part in parts]
     if encoded(geometry['parts'])!=encoded(expected_parts):raise ValueError('retained native/IFC selected stock geometry differs')
+    if (summary['known_native_parts']!=len(parts) or summary['unknown_installed_stock_ids']!=materialized['unknown_installed_stock_ids']
+            or summary['complete_installed_distribution']!=materialized['complete_installed_distribution']):
+        raise ValueError('retained twin stock completeness differs')
+    requested=manifest['native_execution_requested']
+    if type(requested) is not bool or summary['native']['execution_status']!=('executed' if requested else 'not-run'):
+        raise ValueError('retained native execution disposition differs')
     if summary['native']['execution_status']=='executed':
         relative=Path(summary['native']['relative_directory'])
         if relative.is_absolute() or '..' in relative.parts:raise ValueError('owned native export directory required')
@@ -221,5 +257,7 @@ def read_retained(output):
             if sha256((folder/name).read_bytes()).hexdigest()!=expected:raise ValueError('retained native CAD/STEP bytes differ')
     elif manifest['native_execution_requested']:
         raise ValueError('requested native execution lacks its receipt')
-    bim_field.verify(output/'bim',materialized,beam=beam,include_rail_and_supports=True,allow_incomplete=allow_incomplete)
+    bim_check=bim_field.verify(output/'bim',materialized,beam=beam,include_rail_and_supports=True,allow_incomplete=allow_incomplete)
+    if summary['bim']!=bim_check or summary['digital_exports_executed']!=(requested and bim_check['verified']):
+        raise ValueError('retained export execution differs')
     return summary

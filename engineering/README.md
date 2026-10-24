@@ -12,6 +12,11 @@ manufacturing quantities and the evidence workflow. Station LSMs launch and
 receive the train; onboard active PM support and services remain independent
 through the unpowered coast.
 
+The [candidate design loop](design_search/README.md) connects bounded specialist
+tasks, actual domain evaluators, reproducible comparison and candidate-bound
+CAD/BOM/BIM/delivery research packages. It keeps digital execution separate from
+physical qualification and never treats unknown equipment as zero mass.
+
 [Operating calculations](ferrite_maglev/station.py) address jerk-limited motion,
 magnetic overlap, station power, charging and reservation boundaries.
 [Structure and production studies](ferrite_maglev/station_structure.py) calculate

@@ -13,6 +13,8 @@ cargo clippy --locked --manifest-path "$observer_manifest" --all-targets -- -D w
 cargo test --locked --manifest-path "$observer_manifest" --all-targets
 tools/automation/osr-python engineering/ferrite_maglev/observer-prototype/tests/differential.py
 tools/automation/osr-python -m pytest -q engineering/analysis/tests/test_ferrite_maglev*.py
+tools/automation/osr-python -m pytest -q engineering/design_search/tests
+tools/automation/osr-python -m pytest -q engineering/maglev_research/tests
 tools/automation/osr-python -m engineering.ferrite_maglev.pilot_assurance verify --require-executed
 tools/automation/osr-python tools/automation/validate-host-manifests.py
 tools/automation/osr-python tools/automation/capabilities.py --check

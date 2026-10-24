@@ -50,6 +50,16 @@ def test_three_variants_use_real_ifc_and_different_selected_stock_without_adopti
         for row in delivery['procurement']:
             assert row['planned_arrival_day']<=row['need_by_day']
         twin.read_retained(output)
+        if not results:
+            # A forged receipt alone must not permit a foreign downstream config.
+            manifest_path=output/'manifest.json';original_manifest=manifest_path.read_bytes()
+            for name,message in [('manufacturing-bom.json','manufacturing BOM'),('assembly.json','assembly'),('delivery.json','delivery')]:
+                path=output/name;original=path.read_bytes();changed=json.loads(original)
+                changed['configuration_sha256']='f'*64;path.write_bytes(twin.encoded(changed))
+                receipt=json.loads(original_manifest);receipt['files_sha256'][name]=sha256(path.read_bytes()).hexdigest()
+                manifest_path.write_bytes(twin.encoded(receipt))
+                with pytest.raises(ValueError,match=message):twin.read_retained(output)
+                path.write_bytes(original);manifest_path.write_bytes(original_manifest)
         results.append((summary,products,delivery))
     assert len({row[0]['candidate_id'] for row in results})==3
     assert len({row[1]['products'][1]['geometry_sha256'] for row in results})==3

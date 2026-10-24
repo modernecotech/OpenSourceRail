@@ -381,6 +381,9 @@ def sources(*,include_generated=True):
     paths+=list(Path(__file__).parent.glob('*.toml'))
     paths+=list((Path(__file__).parent/'data').glob('*.json'))
     paths+=list((ROOT/'engineering/analysis/tests').glob('test_ferrite_maglev_*.py'))
+    paths+=list((ROOT/'engineering/design_search').rglob('*.py'))
+    paths+=list((ROOT/'campaigns').glob('*.toml'))
+    paths+=list((ROOT/'.codex').rglob('*.toml'))+[ROOT/'AGENTS.md']
     from . import transition,cities
     extra=transition.sources()
     paths += [ROOT/name for name in extra]

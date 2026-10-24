@@ -12,6 +12,27 @@ the tested digital scope. Accepted engineering and physical releases remain zero
 
 ## Primary maglev closure queue
 
+The [coordinated design loop](../engineering/design_search/README.md) implements
+the first carrier/guidebeam campaign. Its development packages are tracked below;
+implemented software does not close physical requirements.
+
+| Package | Implemented in this iteration | Remaining completion gate |
+|---|---|---|
+| Dependable evaluators | Local moving-load prestress envelopes; procurement before first consumption; explicit beam/span selection; regression cases | Material, joint, supplier and site correlation |
+| Common contracts | Physical, evaluation and selection identities; complete/unknown inventory; source-bound registry; rigid transforms and conservative stock sweeps | More physical families and complete installed inventories |
+| Domain adapters | Current nonlinear magnetic plant and actual native structural/civil chain | Independent spatial field benchmarks, installed joint models, repeated electrothermal duty |
+| Campaign runner | Bounded tasks/dependencies, numerical workers, resource limits, restart, immutable evidence and failure-directed revisions | Broader capabilities and measured input ingestion |
+| Multi-option comparison | Three carrier/beam families, bounded revisions, Pareto next experiment and separately gated integrated ranking | A candidate surviving simultaneous support, guidance, thermal, mass and operation requirements |
+| Research twin | Selected native CAD/STEP, BOM, IFC/IDS/BCF, assembly scope and material-constrained draft delivery | Complete installation, manufacturing release and full route/fault confirmation |
+
+The primary context remains six cars and 180-second headway for 14,400 normal
+passengers/hour/direction. Changed speed, station spacing and formation are
+explicit research alternatives, with complete service and civil consequences.
+The immediate experiment priority remains geometry-resolved magnetic forces on
+the same physical stock, followed by counted joints/cooling and coupled gap,
+temperature and deformation maps. No integrated survivor is implied by a
+completed digital campaign.
+
 The [design completion execution plan](design-engine/ferrite-maglev/research-closure/README.md)
 preserves all 576 qualification tasks across eight workstreams and orders the
 next magnetic, propulsion and curve-layout experiments. Additional bounded
