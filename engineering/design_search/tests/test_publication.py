@@ -41,7 +41,7 @@ def comparison(monkeypatch):
         integrated_baseline={'status':'no-eligible-candidate','selected_candidate_id':None,'rejections':{physical['candidate_id']:['unknown-installed-stock']}},
         qualification={'physical_accepted':False,'tasks_on_hold':576})
     monkeypatch.setattr(publication.campaign,'compare',lambda *args,**kwargs:deepcopy(value))
-    monkeypatch.setattr(publication.campaign,'definition',lambda *args,**kwargs:{'campaign_id':value['campaign_id'],'schema':'test-immutable-campaign'})
+    monkeypatch.setattr(publication.campaign,'definition',lambda *args,**kwargs:{'campaign_id':value['campaign_id'],'schema':'test-immutable-campaign','source_sha256':{'publication.py':'c'*64}})
     monkeypatch.setattr(publication.campaign,'source_epoch',lambda:{'publication.py':'c'*64})
     return value
 

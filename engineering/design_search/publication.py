@@ -115,9 +115,11 @@ This publication binds evaluator sources and campaign membership. A source revis
             raw=path.read_bytes();info=tarfile.TarInfo(name)
             info.size=len(raw);info.mode=0o644;info.mtime=0;archive.addfile(info,io.BytesIO(raw))
     files['run-evidence.tar.gz']=gzip.compress(buffer.getvalue(),mtime=0)
+    before=definition['source_sha256']
     receipt=dict(schema='osr-design-comparison-publication/1',campaign_id=campaign_id,
-        source_sha256=campaign.source_epoch(),files_sha256={k:sha256(v).hexdigest() for k,v in files.items()},**contracts.FLAGS)
+        source_sha256=before,files_sha256={k:sha256(v).hexdigest() for k,v in files.items()},**contracts.FLAGS)
     files['manifest.json']=contracts.encoded(receipt)
+    if campaign.source_epoch()!=before:raise ValueError('campaign sources changed during publication')
     output=Path(output)
     if check:
         for name,raw in files.items():
@@ -137,11 +139,18 @@ def verify(output=OUTPUT):
         if Path(name).is_absolute() or '..' in Path(name).parts or sha256((output/name).read_bytes()).hexdigest()!=digest:
             raise ValueError('candidate comparison payload differs: '+name)
     value=json.loads(gzip.decompress((output/'comparison.json.gz').read_bytes()))
+    definition=json.loads((output/'campaign.json').read_bytes())
+    if (definition.get('source_sha256')!=receipt['source_sha256'] or definition.get('campaign_id')!=receipt['campaign_id']
+            or contracts.identity({key:item for key,item in definition.items() if key!='campaign_id'})!=receipt['campaign_id']):
+        raise ValueError('published campaign definition or source binding differs')
     if value['campaign_id']!=receipt['campaign_id']:raise ValueError('comparison campaign differs')
     if any(receipt.get(key) is not False or value.get(key) is not False for key in contracts.FLAGS):
         raise ValueError('research publication cannot assert physical or engineering acceptance')
     for row in value['candidates']:contracts.validate_candidate(row)
-    for row in value['results']+value['confirmations']:contracts.validate_result(row)
+    for row in value['results']+value['confirmations']:
+        contracts.validate_result(row)
+        if any(receipt['source_sha256'].get(name)!=digest for name,digest in row['request']['evaluator_sources'].items()):
+            raise ValueError('published evaluator sources differ from campaign')
     for name,rows,purpose in [('next_experiment',value['results'],'next-experiment'),
                              ('integrated_baseline',value['results']+value['confirmations'],'integrated-baseline')]:
         if selection.select(value['candidates'],rows,purpose=purpose,policy=value[name]['policy'])!=value[name]:
