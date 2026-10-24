@@ -1,0 +1,450 @@
+{
+  "admission_requirements": [
+    {
+      "evidence": "One revised configuration digest with complete installed mass/CG/inertia, tolerances and protection equipment counted once.",
+      "id": "candidate-definition",
+      "requires": []
+    },
+    {
+      "evidence": "Same-revision finite-geometry support/guidance maps over actual gaps/current/temperature with converged flux topology and within-drive current/thermal/material limits; actual 144-module inverse and static guideway equilibrium.",
+      "id": "maps-and-initial-equilibrium",
+      "requires": [
+        "candidate-definition"
+      ]
+    },
+    {
+      "evidence": "Same-revision rigid or articulated module, capture and brake geometry fits urban/terminal curves with tolerance and load paths; count added mechanisms/mass.",
+      "id": "curve-and-contact-fit",
+      "requires": [
+        "candidate-definition"
+      ]
+    },
+    {
+      "evidence": "Same-revision converged useful-field map, located group phase/R/L/flux, voltage/current limits, thermal repeated duty, receiver braking and support/reserve independence.",
+      "id": "propulsion-and-electrical-transients",
+      "requires": [
+        "candidate-definition",
+        "maps-and-initial-equilibrium"
+      ]
+    },
+    {
+      "evidence": "Current-based six-car motion and post-injection trajectories under all named faults with nonzero frames, energy balances and verified supported/captured stop outcomes.",
+      "id": "continued-fault-motion",
+      "requires": [
+        "maps-and-initial-equilibrium",
+        "curve-and-contact-fit",
+        "propulsion-and-electrical-transients"
+      ]
+    },
+    {
+      "evidence": "Actual front/tail authority and complete poses through four stops, receiving braking, dwell, services/charging, terminal return and repeated dispatch on the same revised installed mass/maps.",
+      "id": "four-stop-electromechanical",
+      "requires": [
+        "continued-fault-motion"
+      ]
+    },
+    {
+      "evidence": "Calibrated rigs, actual target timing/protection, serial-specific hardware and independent G0\u2013G5 dispositions. Numerical screening gives no release authority.",
+      "id": "physical-qualification",
+      "requires": [
+        "four-stop-electromechanical"
+      ]
+    }
+  ],
+  "cases": 14,
+  "configuration_sha256": "a79a21a0767355fcb6518471769e532a04e2e23f4bd33db90968ef4a385df5bd",
+  "continued_post_fault_cases": 0,
+  "curve_optimisation": {
+    "cases": [
+      {
+        "adopted": false,
+        "continuous_recentered_rigid_span_limit_m": 5.366509480099705,
+        "hardware_revision_required": true,
+        "lateral_gap_allowance_m": 0.006,
+        "optimal_lateral_translation_m": 0.02541878536762439,
+        "optimal_maximum_mismatch_m": 0.02500211841160547,
+        "original_geometry_screen_pass": false,
+        "original_maximum_mismatch_m": 0.05042090377922986,
+        "radius_m": 300.0,
+        "recentered_geometry_screen_pass": false,
+        "recentered_maximum_gap_m": 0.03300211841160547,
+        "recentered_minimum_gap_m": -0.01700211841160547
+      },
+      {
+        "adopted": false,
+        "continuous_recentered_rigid_span_limit_m": 2.190758772663024,
+        "hardware_revision_required": true,
+        "lateral_gap_allowance_m": 0.006,
+        "optimal_lateral_translation_m": 0.15296035167804067,
+        "optimal_maximum_mismatch_m": 0.1504602891749155,
+        "original_geometry_screen_pass": false,
+        "original_maximum_mismatch_m": 0.30342064085295617,
+        "radius_m": 50.0,
+        "recentered_geometry_screen_pass": false,
+        "recentered_maximum_gap_m": 0.1584602891749155,
+        "recentered_minimum_gap_m": -0.1424602891749155
+      }
+    ],
+    "original_minimum_radius_m": 2520.8363333333336,
+    "recentered_minimum_radius_m": 1250.006099999516,
+    "scope": "Exact rigid-array lateral chord screen on undeformed rail only. Recentring cannot close current support or physical fit; no altered geometry is adopted."
+  },
+  "design_complete": false,
+  "eligible_for_adoption": false,
+  "full_line_propulsion_map_accepted": false,
+  "full_line_rerun_ready": false,
+  "full_line_static_support_valid": false,
+  "full_line_terminal_state": "hold-known-propulsion-field-failure",
+  "full_trip_executed": false,
+  "manufacturing_release": false,
+  "meaningful_motion_cases": 0,
+  "next_experiment": "Revise magnetic/support geometry and counted installed mass; retain actual same-revision maps and prove static equilibrium before rerunning known pre-motion holds.",
+  "physical_release": false,
+  "physical_validation": false,
+  "provenance": {
+    "manifest_sha256": "68624e66997e76e41bf5995354e55d2cc36b4a7f2bb19e6308287770b7afdcd1",
+    "original_source_files_verified": 66,
+    "solver_rerun": false,
+    "study_sha256": "b2c95ed6fa4fdc0e9891b80372d1ed88a68cf1245bc4ef3254eab61c666b1b24"
+  },
+  "rows": [
+    {
+      "attempted_initial_inverse": {
+        "admissible": false,
+        "current_limit_ratio": 2.25,
+        "drive_limit_a": 120.0,
+        "invalid_modules": 144,
+        "peak_current_a": 270.0,
+        "peak_force_residual_n": 12194.095392019815
+      },
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "straight-supported-stop",
+      "maximum_gap_m": 0.009955064241930899,
+      "minimum_gap_m": 0.005966817634806027,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-support-current-or-field-capacity",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    },
+    {
+      "attempted_initial_inverse": {
+        "admissible": false,
+        "current_limit_ratio": 2.25,
+        "drive_limit_a": 120.0,
+        "invalid_modules": 144,
+        "peak_current_a": 270.0,
+        "peak_force_residual_n": 12194.095392019815
+      },
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "peak-current-main-power-loss",
+      "maximum_gap_m": 0.009955064241930899,
+      "minimum_gap_m": 0.005966817634806027,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-support-current-or-field-capacity",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    },
+    {
+      "attempted_initial_inverse": {
+        "admissible": false,
+        "current_limit_ratio": 2.0000000000000004,
+        "drive_limit_a": 120.0,
+        "invalid_modules": 144,
+        "peak_current_a": 240.00000000000003,
+        "peak_force_residual_n": 12251.836200278369
+      },
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "midspan-main-power-loss",
+      "maximum_gap_m": 0.009955064241930897,
+      "minimum_gap_m": 0.005966817634806028,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-support-current-or-field-capacity",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    },
+    {
+      "attempted_initial_inverse": {
+        "admissible": false,
+        "current_limit_ratio": 2.25,
+        "drive_limit_a": 120.0,
+        "invalid_modules": 144,
+        "peak_current_a": 270.0,
+        "peak_force_residual_n": 12194.095392019815
+      },
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "handover-inverter-loss",
+      "maximum_gap_m": 0.009955064241930899,
+      "minimum_gap_m": 0.005966817634806027,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-support-current-or-field-capacity",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    },
+    {
+      "attempted_initial_inverse": {
+        "admissible": false,
+        "current_limit_ratio": 2.25,
+        "drive_limit_a": 120.0,
+        "invalid_modules": 144,
+        "peak_current_a": 270.0,
+        "peak_force_residual_n": 12194.095392019815
+      },
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "receiver-braking-loss",
+      "maximum_gap_m": 0.009955064241930899,
+      "minimum_gap_m": 0.005966817634806027,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-support-current-or-field-capacity",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    },
+    {
+      "attempted_initial_inverse": {
+        "admissible": false,
+        "current_limit_ratio": 2.25,
+        "drive_limit_a": 120.0,
+        "invalid_modules": 144,
+        "peak_current_a": 270.0,
+        "peak_force_residual_n": 12194.095392019815
+      },
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "sensing-disagreement",
+      "maximum_gap_m": 0.009955064241930899,
+      "minimum_gap_m": 0.005966817634806027,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-support-current-or-field-capacity",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    },
+    {
+      "attempted_initial_inverse": {
+        "admissible": false,
+        "current_limit_ratio": 2.25,
+        "drive_limit_a": 120.0,
+        "invalid_modules": 144,
+        "peak_current_a": 270.0,
+        "peak_force_residual_n": 12194.095392019815
+      },
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "sensing-dropout-independent-reserve",
+      "maximum_gap_m": 0.009955064241930899,
+      "minimum_gap_m": 0.005966817634806027,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-support-current-or-field-capacity",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    },
+    {
+      "attempted_initial_inverse": {
+        "admissible": false,
+        "current_limit_ratio": 2.25,
+        "drive_limit_a": 120.0,
+        "invalid_modules": 144,
+        "peak_current_a": 270.0,
+        "peak_force_residual_n": 12194.095392019815
+      },
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "watchdog-stale-map",
+      "maximum_gap_m": 0.009955064241930899,
+      "minimum_gap_m": 0.005966817634806027,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-support-current-or-field-capacity",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    },
+    {
+      "attempted_initial_inverse": {
+        "admissible": false,
+        "current_limit_ratio": 2.25,
+        "drive_limit_a": 120.0,
+        "invalid_modules": 144,
+        "peak_current_a": 270.0,
+        "peak_force_residual_n": 12194.095392019815
+      },
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "nonuniform-map-errors",
+      "maximum_gap_m": 0.009955064241930899,
+      "minimum_gap_m": 0.005966817634806027,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-support-current-or-field-capacity",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    },
+    {
+      "attempted_initial_inverse": {
+        "admissible": false,
+        "current_limit_ratio": 2.25,
+        "drive_limit_a": 120.0,
+        "invalid_modules": 144,
+        "peak_current_a": 270.0,
+        "peak_force_residual_n": 12194.095392019815
+      },
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "reserve-depletion-capture",
+      "maximum_gap_m": 0.009955064241930899,
+      "minimum_gap_m": 0.005966817634806027,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-support-current-or-field-capacity",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    },
+    {
+      "attempted_initial_inverse": {
+        "admissible": false,
+        "current_limit_ratio": 2.25,
+        "drive_limit_a": 120.0,
+        "invalid_modules": 144,
+        "peak_current_a": 270.0,
+        "peak_force_residual_n": 12194.095392019815
+      },
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "no-capture-negative-control",
+      "maximum_gap_m": 0.009955064241930899,
+      "minimum_gap_m": 0.005966817634806027,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-support-current-or-field-capacity",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    },
+    {
+      "attempted_initial_inverse": {
+        "admissible": false,
+        "current_limit_ratio": 2.25,
+        "drive_limit_a": 120.0,
+        "invalid_modules": 144,
+        "peak_current_a": 270.0,
+        "peak_force_residual_n": 14040.590678190503
+      },
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "asymmetric-load",
+      "maximum_gap_m": 0.0099740848386448,
+      "minimum_gap_m": 0.005961388278626384,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-support-current-or-field-capacity",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    },
+    {
+      "attempted_initial_inverse": null,
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "urban-curve",
+      "maximum_gap_m": 0.05835482614158144,
+      "minimum_gap_m": -0.04235482614158144,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-curve-or-gap-geometry",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    },
+    {
+      "attempted_initial_inverse": null,
+      "executed_peak_current_a": 0.0,
+      "executed_steps": 0,
+      "id": "terminal-loop-low-speed",
+      "maximum_gap_m": 0.31139640327929935,
+      "minimum_gap_m": -0.29539640327929934,
+      "post_fault_steps": 0,
+      "terminal_state": "hold-initial-curve-or-gap-geometry",
+      "unexecuted_screens": [
+        "counted_contact_geometry_verified",
+        "initial_equilibrium",
+        "nonlinear_electromechanical_energy",
+        "terminal_supported_or_captured",
+        "wayside_map_and_group_composition"
+      ]
+    }
+  ],
+  "schema": "osr-dynamics-readiness/1",
+  "support_deficit": {
+    "aw3_mass_kg_per_car": 37618.59150033463,
+    "caveat": "Sample is from an invalid material/current map, not an available physical support rating. Ratios only size the next research target.",
+    "force_shortfall_n": 12334.750237165386,
+    "modules_per_car": 24,
+    "required_average_module_support_n": 15376.59927576178,
+    "required_to_sampled_force_ratio": 5.055017221649182,
+    "sample_covers_fraction": 0.19782326274127973,
+    "sampled_current_a": 108.0,
+    "sampled_nominal_capacity_n": 3041.849038596394
+  },
+  "terminal_counts": {
+    "hold-initial-curve-or-gap-geometry": 2,
+    "hold-initial-support-current-or-field-capacity": 12
+  }
+}

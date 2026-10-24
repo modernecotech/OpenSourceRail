@@ -1,5 +1,11 @@
 # License Texts And Path Mapping
 
+<!-- osr-system-context:start -->
+OpenSourceRail develops an open, locally buildable urban railway with fixed linear motors at stations and, where needed, located boosters. Trains coast between powered zones while onboard ferrite support, guidance and passenger services remain independently powered; passengers transfer between fixed lines at junctions. Simple vehicles, repeated civil works and repairable local production aim for high useful passenger throughput and affordable construction, operation and debt repayment. Current studies and digital workflows support development; an accepted physical railway has not been established.
+
+[Project introduction](../README.md) · [Engineering approach and current status](../engineering/ferrite_maglev/README.md)
+<!-- osr-system-context:end -->
+
 This directory contains the complete license texts used by
 OpenSourceRail:
 

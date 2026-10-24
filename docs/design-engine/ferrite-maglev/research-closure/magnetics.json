@@ -1,0 +1,763 @@
+{
+  "archive_semantic_checks_passed": true,
+  "baseline_failure_invariant": true,
+  "best_fitting_guidance": {
+    "combined_screen_pass": false,
+    "controlled_aw3_kg": 50241.676367491906,
+    "copper_fill_pass": true,
+    "current_a": [
+      48.649029117414166,
+      62.788369755813534
+    ],
+    "current_density_a_mm2": [
+      2.070171451804858,
+      4.685699235508473
+    ],
+    "current_density_pass": false,
+    "equilibrium_c": [
+      55.80510714672033,
+      498.33751650335
+    ],
+    "fixed_load_required_conductor_area_mm2": [
+      12.973074431310444,
+      16.743565268216944
+    ],
+    "fixed_load_required_cooling_at120c_w_k": [
+      5.790192690726379,
+      49.88232583353327
+    ],
+    "fixed_load_required_guide_fill": 0.6821015960208862,
+    "id": "guide-w22.5-s2.40-n200-a13.4-wide",
+    "map_pass": true,
+    "module_mass_kg": 961.9340457866954,
+    "nominal_fit": true,
+    "required_guide_cooling_ratio": 2.771240324085182,
+    "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+    "thermal_pass": false
+  },
+  "canonical_configuration_sha256": "a79a21a0767355fcb6518471769e532a04e2e23f4bd33db90968ef4a385df5bd",
+  "closure_gates": [
+    {
+      "evidence": "Independent finite geometry nonlinear spatial maps and rig correlation; same-network energy checks cannot close this gate.",
+      "id": "MAG-TOPOLOGY",
+      "state": "open"
+    },
+    {
+      "evidence": "One exact counted candidate must meet simultaneous AW3 lift and lateral force, current density, fill, field and repeated thermal duty.",
+      "id": "MAG-JOINT-DUTY",
+      "state": "failed"
+    },
+    {
+      "evidence": "Recount copper, insulation, manifolds, coldplates, cooling power and protection, then rerun joint support demand.",
+      "id": "MAG-MASS-FEEDBACK",
+      "state": "open"
+    },
+    {
+      "evidence": "Gap, current, temperature and fault maps need calibrated force/linkage/loss/demagnetisation data before dynamics adoption.",
+      "id": "MAG-DYNAMIC-MAPS",
+      "state": "open"
+    }
+  ],
+  "complete_system_feasible": false,
+  "conditional_topology_1_3_aw3_passes": 15,
+  "configuration_adopted": false,
+  "engineering_accepted": false,
+  "executed": {
+    "exact_baseline_asymmetric_controls": 9,
+    "guidance_winding_cases": 20,
+    "original_geometry_winding_cases": 78,
+    "refinement_topology_cases": 118
+  },
+  "executed_case_records": 225,
+  "guidance_cases": [
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 48218.39928117662,
+      "copper_fill_pass": true,
+      "current_a": [
+        71.05556291277134,
+        109.75692431266218
+      ],
+      "current_density_a_mm2": [
+        3.023640975011546,
+        6.65193480682801
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        74.17315956775464,
+        17977.02144293547
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        18.948150110072355,
+        29.268513150043248
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        11.774224828838307,
+        78.55002082943848
+      ],
+      "fixed_load_required_guide_fill": 0.905345081972173,
+      "id": "guide-w22.5-s2.20-n140-a16.5-fit",
+      "map_pass": false,
+      "module_mass_kg": 877.630833856892,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 4.3638900460799155,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 48215.82012842169,
+      "copper_fill_pass": true,
+      "current_a": [
+        71.02915472480656,
+        76.81329779193557
+      ],
+      "current_density_a_mm2": [
+        3.022517222332194,
+        6.6794171992987454
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        74.14460342683802,
+        24239.384055662053
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        18.941107926615082,
+        20.483546077849486
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        11.76547454528118,
+        78.85755968299215
+      ],
+      "fixed_load_required_guide_fill": 0.9051500697237954,
+      "id": "guide-w22.5-s2.20-n200-a11.5-fit",
+      "map_pass": false,
+      "module_mass_kg": 877.5233691587698,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 4.380975537944008,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 48602.35625280051,
+      "copper_fill_pass": true,
+      "current_a": [
+        76.80175124334053,
+        80.56326712256171
+      ],
+      "current_density_a_mm2": [
+        3.268159627376193,
+        6.012184113624008
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        80.77815933297055,
+        null
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        20.48046699822414,
+        21.48353789934979
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        13.755563994718022,
+        80.26141470144032
+      ],
+      "fixed_load_required_guide_fill": 0.8274799405249109,
+      "id": "guide-w22.5-s2.20-n200-a13.4-wide",
+      "map_pass": false,
+      "module_mass_kg": 893.6290410078875,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 4.458967483413351,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 48594.73575533462,
+      "copper_fill_pass": true,
+      "current_a": [
+        76.63994191644338,
+        57.468396813538725
+      ],
+      "current_density_a_mm2": [
+        3.2612741241039735,
+        6.049304927740918
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        80.58113405410492,
+        null
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        20.4373178443849,
+        15.32490581694366
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        13.697663391392556,
+        80.64919981423608
+      ],
+      "fixed_load_required_guide_fill": 0.826375669534089,
+      "id": "guide-w22.5-s2.20-n280-a9.5-wide",
+      "map_pass": false,
+      "module_mass_kg": 893.311520280142,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 4.480511100790894,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 48721.18556948187,
+      "copper_fill_pass": false,
+      "current_a": [
+        79.3232641424087,
+        82.23864540130766
+      ],
+      "current_density_a_mm2": [
+        3.3754580486131363,
+        5.671630717331563
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        83.93540472124849,
+        8655.020151335402
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        21.152870437975654,
+        21.93030544034871
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        14.673621412686131,
+        77.28965394841703
+      ],
+      "fixed_load_required_guide_fill": 0.8446880549419239,
+      "id": "guide-w22.5-s2.20-n200-a14.5-wide",
+      "map_pass": false,
+      "module_mass_kg": 898.5802625362775,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 4.293869663800946,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 49853.02291553768,
+      "copper_fill_pass": true,
+      "current_a": [
+        44.90928953585918,
+        86.34970260096209
+      ],
+      "current_density_a_mm2": [
+        1.9110335972706034,
+        5.2333153091492175
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        53.354873202663725,
+        497.1601885657205
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        11.97581054289578,
+        23.026587360256556
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        4.93420320315707,
+        49.834259043412814
+      ],
+      "fixed_load_required_guide_fill": 0.7607494615394995,
+      "id": "guide-w22.5-s2.40-n140-a16.5-fit",
+      "map_pass": true,
+      "module_mass_kg": 945.7401519552693,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 2.7685699468562674,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 49850.37928396388,
+      "copper_fill_pass": true,
+      "current_a": [
+        44.88380188646118,
+        60.42881950599156
+      ],
+      "current_density_a_mm2": [
+        1.9099490164451565,
+        5.254679957042745
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        53.33898221752003,
+        501.8417029536109
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        11.969013836389648,
+        16.114351868264418
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        4.928604114168185,
+        50.02448168032079
+      ],
+      "fixed_load_required_guide_fill": 0.7605484362827688,
+      "id": "guide-w22.5-s2.40-n200-a11.5-fit",
+      "map_pass": true,
+      "module_mass_kg": 945.6300006396941,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 2.779137871128933,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 50241.676367491906,
+      "copper_fill_pass": true,
+      "current_a": [
+        48.649029117414166,
+        62.788369755813534
+      ],
+      "current_density_a_mm2": [
+        2.070171451804858,
+        4.685699235508473
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        55.80510714672033,
+        498.33751650335
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        12.973074431310444,
+        16.743565268216944
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        5.790192690726379,
+        49.88232583353327
+      ],
+      "fixed_load_required_guide_fill": 0.6821015960208862,
+      "id": "guide-w22.5-s2.40-n200-a13.4-wide",
+      "map_pass": true,
+      "module_mass_kg": 961.9340457866954,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 2.771240324085182,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 50233.87916283839,
+      "copper_fill_pass": true,
+      "current_a": [
+        48.57414459172329,
+        44.81531569003143
+      ],
+      "current_density_a_mm2": [
+        2.066984876243544,
+        4.717401651582256
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        55.75369681329049,
+        505.7710552521236
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        12.953105224459543,
+        11.950750850675048
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        5.772380942855874,
+        50.18228463648458
+      ],
+      "fixed_load_required_guide_fill": 0.6815917958712083,
+      "id": "guide-w22.5-s2.40-n280-a9.5-wide",
+      "map_pass": true,
+      "module_mass_kg": 961.6091622594658,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 2.787904702026921,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 50363.261146589066,
+      "copper_fill_pass": false,
+      "current_a": [
+        49.815981135247156,
+        63.51966208168094
+      ],
+      "current_density_a_mm2": [
+        2.1198289844786022,
+        4.380666350460754
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        56.61890460870106,
+        437.5046323474732
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        13.284261636065908,
+        16.938576555114917
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        6.0713048243746695,
+        47.17820734758466
+      ],
+      "fixed_load_required_guide_fill": 0.6900459918472452,
+      "id": "guide-w22.5-s2.40-n200-a14.5-wide",
+      "map_pass": true,
+      "module_mass_kg": 967.000078249077,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 2.621011519310259,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 49866.61098593768,
+      "copper_fill_pass": true,
+      "current_a": [
+        57.477949421932834,
+        95.96666701473266
+      ],
+      "current_density_a_mm2": [
+        2.445870188167355,
+        5.816161637256525
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        62.577075789175616,
+        968.2449620373098
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        15.32745317918209,
+        25.591111203928712
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        8.082527547604103,
+        61.55270405462547
+      ],
+      "fixed_load_required_guide_fill": 0.8454758737800784,
+      "id": "guide-w25.0-s2.40-n140-a16.5-fit",
+      "map_pass": true,
+      "module_mass_kg": 946.3063215552693,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 3.4195946697014152,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 49863.96735436388,
+      "copper_fill_pass": true,
+      "current_a": [
+        57.427375121908206,
+        67.14323200737186
+      ],
+      "current_density_a_mm2": [
+        2.443718090293966,
+        5.83854191368451
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        62.534101885274595,
+        982.0209840636013
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        15.313966699175522,
+        17.904861868632498
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        8.068310327203974,
+        61.75880189015133
+      ],
+      "fixed_load_required_guide_fill": 0.8450550668975856,
+      "id": "guide-w25.0-s2.40-n200-a11.5-fit",
+      "map_pass": true,
+      "module_mass_kg": 946.1961702396941,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 3.4310445494528516,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 50255.26443789191,
+      "copper_fill_pass": true,
+      "current_a": [
+        64.89859994029223,
+        72.08249318412486
+      ],
+      "current_density_a_mm2": [
+        2.761642550650733,
+        5.37929053612872
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        69.44887966749585,
+        1327.964111006422
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        17.30629331741126,
+        19.221998182433296
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        10.30422462441475,
+        65.74275200085351
+      ],
+      "fixed_load_required_guide_fill": 0.7830683267820282,
+      "id": "guide-w25.0-s2.40-n200-a13.4-wide",
+      "map_pass": true,
+      "module_mass_kg": 962.5002153866953,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 3.6523751111585288,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 50247.46723323839,
+      "copper_fill_pass": true,
+      "current_a": [
+        64.75000873010337,
+        51.41732774994632
+      ],
+      "current_density_a_mm2": [
+        2.755319520429931,
+        5.4123502894680335
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        69.29980239981222,
+        1363.774445843647
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        17.266668994694232,
+        13.711287399985684
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        10.257093734294113,
+        66.05664512401216
+      ],
+      "fixed_load_required_guide_fill": 0.7820011578715679,
+      "id": "guide-w25.0-s2.40-n280-a9.5-wide",
+      "map_pass": true,
+      "module_mass_kg": 962.1753318594658,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 3.669813618000676,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 50376.84921698906,
+      "copper_fill_pass": false,
+      "current_a": [
+        67.2141496629467,
+        73.61331378261704
+      ],
+      "current_density_a_mm2": [
+        2.860176581401987,
+        5.076780260870141
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        71.83592290020388,
+        1101.1180493759698
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        17.92377324345245,
+        19.630217008697876
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        11.052641384133274,
+        63.363303799811476
+      ],
+      "fixed_load_required_guide_fill": 0.7996983997957726,
+      "id": "guide-w25.0-s2.40-n200-a14.5-wide",
+      "map_pass": true,
+      "module_mass_kg": 967.566247849077,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 3.520183544433971,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 49880.19905633768,
+      "copper_fill_pass": true,
+      "current_a": [
+        108.72087300865434,
+        144.4304022505608
+      ],
+      "current_density_a_mm2": [
+        4.626420128027844,
+        8.7533577121552
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        142.5174924575238,
+        null
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        28.99223280230782,
+        38.51477393348288
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        28.918151178319363,
+        139.41951084608343
+      ],
+      "fixed_load_required_guide_fill": 1.2724461976412555,
+      "id": "guide-w27.5-s2.40-n140-a16.5-fit",
+      "map_pass": false,
+      "module_mass_kg": 946.8724911552694,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 7.745528380337968,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 49877.55542476388,
+      "copper_fill_pass": true,
+      "current_a": [
+        108.67315629363331,
+        101.07003495649899
+      ],
+      "current_density_a_mm2": [
+        4.624389629516311,
+        8.788698691869477
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        142.39395822364753,
+        null
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        28.979508344968885,
+        26.952009321733062
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        28.89277286168875,
+        139.93914262126128
+      ],
+      "fixed_load_required_guide_fill": 1.2720529321872405,
+      "id": "guide-w27.5-s2.40-n200-a11.5-fit",
+      "map_pass": true,
+      "module_mass_kg": 946.7623398396942,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 7.774396812292293,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 50268.8525082919,
+      "copper_fill_pass": true,
+      "current_a": [
+        115.77620618137257,
+        105.72379718664367
+      ],
+      "current_density_a_mm2": [
+        4.926647071547769,
+        7.889835610943557
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        162.3802933879362,
+        null
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        30.873654981699353,
+        28.193012583104977
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        32.79316168066107,
+        141.42747458233126
+      ],
+      "fixed_load_required_guide_fill": 1.148530708455304,
+      "id": "guide-w27.5-s2.40-n200-a13.4-wide",
+      "map_pass": true,
+      "module_mass_kg": 963.0663849866953,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 7.857081921240625,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 50261.0553036384,
+      "copper_fill_pass": true,
+      "current_a": [
+        115.63326243465511,
+        75.45004909859983
+      ],
+      "current_density_a_mm2": [
+        4.920564358921494,
+        7.942110431431561
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        161.94409739955827,
+        null
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        30.835536649241362,
+        20.120013092959955
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        32.71223514523713,
+        142.23830318929362
+      ],
+      "fixed_load_required_guide_fill": 1.1475124892431487,
+      "id": "guide-w27.5-s2.40-n280-a9.5-wide",
+      "map_pass": true,
+      "module_mass_kg": 962.7415014594659,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 7.902127954960757,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    },
+    {
+      "combined_screen_pass": false,
+      "controlled_aw3_kg": 50390.43728738907,
+      "copper_fill_pass": false,
+      "current_a": [
+        118.00374985731074,
+        107.18440121961194
+      ],
+      "current_density_a_mm2": [
+        5.021436164140883,
+        7.392027670318065
+      ],
+      "current_density_pass": false,
+      "equilibrium_c": [
+        169.37607103087208,
+        null
+      ],
+      "fixed_load_required_conductor_area_mm2": [
+        31.467666628616197,
+        28.58250699189652
+      ],
+      "fixed_load_required_cooling_at120c_w_k": [
+        34.0671873033461,
+        134.33471212791702
+      ],
+      "fixed_load_required_guide_fill": 1.164397983651599,
+      "id": "guide-w27.5-s2.40-n200-a14.5-wide",
+      "map_pass": true,
+      "module_mass_kg": 968.132417449077,
+      "nominal_fit": true,
+      "required_guide_cooling_ratio": 7.463039562662057,
+      "scope": "Sizing lower bounds at archived force, mass and current only; winding/cooling redesign must recount mass and resolve both forces.",
+      "thermal_pass": false
+    }
+  ],
+  "guidance_combined_passes": 0,
+  "original_1_3_aw3_passes": 0,
+  "original_static_passes": 4,
+  "physical_validation": false,
+  "schema": "osr-magnetic-research-closure/1",
+  "source_sha256": {
+    "engineering/assurance/v053-pole-return-research/archive/manifest.json": "5bb87fd8345e5b9f044b2cb2309cda93cd90e7263a93432100060172b8cd1f60",
+    "engineering/maglev_research/magnetic_research_closure.py": "202f3fda99ac95a867d5116cbff12914819ac7dc494429bed9734272af36405f"
+  }
+}

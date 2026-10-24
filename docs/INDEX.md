@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **615**.
+Indexed Markdown files: **623**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **615**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 55 |
+| [docs](#docs) | 63 |
 | [engineering](#engineering) | 12 |
 | [tools](#tools) | 2 |
 
@@ -659,6 +659,14 @@ Indexed Markdown files: **615**.
 | [`docs/design-engine/ferrite-maglev/planning-platform/README.md`](../docs/design-engine/ferrite-maglev/planning-platform/README.md) | Owner/builder planning and delivery platform |
 | [`docs/design-engine/ferrite-maglev/planning-ui/README.md`](../docs/design-engine/ferrite-maglev/planning-ui/README.md) | Planning workspace browser evidence |
 | [`docs/design-engine/ferrite-maglev/qualification/README.md`](../docs/design-engine/ferrite-maglev/qualification/README.md) | Qualification and design closure worklist |
+| [`docs/design-engine/ferrite-maglev/research-closure/README.md`](../docs/design-engine/ferrite-maglev/research-closure/README.md) | Design completion and optimisation execution plan |
+| [`docs/design-engine/ferrite-maglev/research-closure/carrier-geometry.md`](../docs/design-engine/ferrite-maglev/research-closure/carrier-geometry.md) | Finite magnetic carriers and terminal curves |
+| [`docs/design-engine/ferrite-maglev/research-closure/dynamics.md`](../docs/design-engine/ferrite-maglev/research-closure/dynamics.md) | Six-car admission and curve optimisation |
+| [`docs/design-engine/ferrite-maglev/research-closure/magnetics.md`](../docs/design-engine/ferrite-maglev/research-closure/magnetics.md) | Magnetic research closure and bounded optimisation |
+| [`docs/design-engine/ferrite-maglev/research-closure/propulsion.md`](../docs/design-engine/ferrite-maglev/research-closure/propulsion.md) | Propulsion research closure workstream |
+| [`docs/design-engine/ferrite-maglev/research-closure/readme-coverage.md`](../docs/design-engine/ferrite-maglev/research-closure/readme-coverage.md) | README introductions and current system context |
+| [`docs/design-engine/ferrite-maglev/research-closure/service-envelope.md`](../docs/design-engine/ferrite-maglev/research-closure/service-envelope.md) | Conditional service specification tradeoffs |
+| [`docs/design-engine/ferrite-maglev/research-closure/support-architecture.md`](../docs/design-engine/ferrite-maglev/research-closure/support-architecture.md) | Counted support and guidance architecture continuation |
 | [`docs/design-engine/ferrite-maglev/shared-hub-layout/README.md`](../docs/design-engine/ferrite-maglev/shared-hub-layout/README.md) | Baghdad shared-hub station and approach geometry |
 | [`docs/design-engine/ferrite-maglev/station-powered/README.md`](../docs/design-engine/ferrite-maglev/station-powered/README.md) | Station-powered maglev study |
 | [`docs/design-engine/ferrite-maglev/station-protocol/README.md`](../docs/design-engine/ferrite-maglev/station-protocol/README.md) | Station launch and controller executable evidence |

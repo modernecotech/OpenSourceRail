@@ -1,5 +1,11 @@
 # OpenSourceRail engineering
 
+<!-- osr-system-context:start -->
+OpenSourceRail develops an open, locally buildable urban railway with fixed linear motors at stations and, where needed, located boosters. Trains coast between powered zones while onboard ferrite support, guidance and passenger services remain independently powered; passengers transfer between fixed lines at junctions. Simple vehicles, repeated civil works and repairable local production aim for high useful passenger throughput and affordable construction, operation and debt repayment. Current studies and digital workflows support development; an accepted physical railway has not been established.
+
+[Project introduction](../README.md) · [Engineering approach and current status](ferrite_maglev/README.md)
+<!-- osr-system-context:end -->
+
 The [station-powered ferrite maglev package](ferrite_maglev/README.md) owns current
 requirements, configuration, mechanical/civil studies, city planning,
 manufacturing quantities and the evidence workflow. Station LSMs launch and
@@ -14,6 +20,11 @@ capacity. [Native CAD utilities](factory_examples/native.py) construct and reope
 partial material definitions. [Regression tests](analysis/tests/) cover numerical
 controls, source/evidence binding, offline Rust integration and publication.
 
-The current coupled replay covers one stationary rigid car and vertical beam;
-it does not demonstrate the moving six-car train. No complete manufacturing
-design, qualified construction process or physical release is claimed.
+The current [dimensioned six-car dynamics](../docs/design-engine/ferrite-maglev/full-dynamics/README.md)
+attempts fourteen cases using actual current-based magnetic/electrical models.
+Twelve stop at initial support/current checks and two at curve/gap geometry;
+none supplies continued post-fault motion. The older coupled replay covers one
+stationary rigid car and vertical beam and remains separate evidence. The
+[research closure programme](../docs/design-engine/ferrite-maglev/research-closure/README.md)
+orders the next magnetic, propulsion, route and qualification work. No complete
+manufacturing design, qualified construction process or physical release is claimed.

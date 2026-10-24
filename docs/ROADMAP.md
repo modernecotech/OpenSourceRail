@@ -12,6 +12,24 @@ the tested digital scope. Accepted engineering and physical releases remain zero
 
 ## Primary maglev closure queue
 
+The [design completion execution plan](design-engine/ferrite-maglev/research-closure/README.md)
+preserves all 576 qualification tasks across eight workstreams and orders the
+next magnetic, propulsion and curve-layout experiments. Additional bounded
+optimisation has executed 240 magnetic cases with no joint-screen survivor and
+28 propulsion duty comparisons with 17 conditional coupon passes. Neither
+changes the canonical candidate or completes the four-stop electromechanical
+journey. Exact-source audits and negative controls accompany the new results.
+
+The next executed design round adds 256 counted support/cooling cases, 18
+separate-guidance material bounds and 160 finite-carrier/curve cases. Service
+comparisons vary speed, station spacing, dwell and formation at both the current
+comparison mass and the proposed support material-mass floor. Normal passenger
+capacity, complete tail clearance, charging, added platform/powered-zone scope
+and thermal failures stay visible. The [research specification](../engineering/maglev_research/design-intent.toml)
+records these alternatives; no integrated configuration or low-cost advantage
+is accepted. [README coverage](design-engine/ferrite-maglev/research-closure/readme-coverage.md)
+maintains current introductions without altering frozen scientific packets.
+
 The city briefs show current line/service tables, energy, local production routes and low/reference/high CAPEX/OPEX/debt sensitivities. The [connected Baghdad pilot](design-engine/ferrite-maglev/pilot-delivery/README.md) develops walking catchments, explicitly synthetic OD/accessibility, resource-constrained construction, procurement/monthly cash and serial asset/QA/maintenance interfaces for a selected current line. The native lifecycle campaign uses simulated assets in isolated business applications; it does not commission a railway. Extending that pilot across the whole catalogue, restoring the interactive GIS editor and independent SUMO comparison, and qualifying observed demand, sites and equipment remain separate work. Station-led GOA4 dispatch and the progressive-departure candidate retain their independent protection and acceptance gates. Whole-life affordability, owner-held design knowledge and domestic capability remain central selection criteria.
 
 | Package | Evidence required for closure |
