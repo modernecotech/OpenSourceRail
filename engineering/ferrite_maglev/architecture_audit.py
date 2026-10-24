@@ -21,6 +21,7 @@ OWNED_GZIP_RAW_LIMITS={
     ROOT/'docs/design-engine/ferrite-maglev/moving-train/result.json.gz':128*1024*1024,
     ROOT/'docs/design-engine/ferrite-maglev/assembled-body/native-mesh.json.gz':256*1024*1024,
     ROOT/'docs/design-engine/ferrite-maglev/full-dynamics/study.json.gz':128*1024*1024,
+    ROOT/'docs/design-engine/design-search/comparison.json.gz':256*1024*1024,
 }
 TEXT={'.py','.rs','.md','.toml','.json','.sh','.js','.mjs','.html','.yaml','.yml','.txt','.svg','.csv','.proto'}
 
@@ -55,7 +56,9 @@ def scan(paths):
                 if path.suffix=='.gz' and total>raw_limit:
                     raise ValueError('bounded evidence audit exceeded: '+str(path))
                 lowered=(tail+block).lower()
-                if any(token in lowered for token in tokens):found=True;break
+                # Finish scanning even after a finding, so an early token
+                # cannot bypass the decompressed evidence size bound.
+                if any(token in lowered for token in tokens):found=True
                 tail=block[-max(map(len,tokens)):]
         if found:findings.append(str(path))
 
