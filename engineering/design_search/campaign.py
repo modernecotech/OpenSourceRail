@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[2]
 STATE = ROOT / 'build/design-search'
 ROLES = ('coordinator', 'magnetics', 'electrical', 'mechanical', 'civil', 'twin', 'service', 'verifier')
 SCHEMA = 'osr-design-campaign/1'
+COMPARISON_MAX_BYTES = 256*1024**2
 
 
 def _write(path, value):
@@ -458,7 +459,7 @@ def run(campaign_id,*,state=STATE,max_jobs=None):
 
 def compare(campaign_id,*,state=STATE):
     campaign=definition(campaign_id,state=state);folder=Path(state)/'campaigns'/campaign_id;spec=campaign['specification']
-    value=_json(folder/'comparison.json');journal=_json(folder/'journal.json');store=registry.ImmutableRegistry(Path(state)/'registry')
+    value=_json(folder/'comparison.json',maximum=COMPARISON_MAX_BYTES);journal=_json(folder/'journal.json');store=registry.ImmutableRegistry(Path(state)/'registry')
     if (value.get('schema')!='osr-design-campaign-comparison/1' or value.get('campaign_id')!=campaign_id or journal['campaign_id']!=campaign_id or journal['state']!='completed' or
         value.get('comparison_sha256')!=contracts.identity({k:v for k,v in value.items() if k!='comparison_sha256'}) or any(value.get(flag) is not False for flag in contracts.FLAGS)):
         raise ValueError('campaign comparison identity/state differs')

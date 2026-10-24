@@ -123,6 +123,15 @@ def test_comparison_recomputes_selection_even_after_rehash(setup_campaign):
     with pytest.raises(ValueError,match='selection'):c.compare(identity,state=state)
 
 
+def test_aggregate_comparison_can_exceed_individual_worker_file_budget(setup_campaign):
+    state,definition,_,_=setup_campaign;identity=definition['campaign_id'];c.run(identity,state=state)
+    path=state/'campaigns'/identity/'comparison.json'
+    # Aggregate records include several candidates/results; worker records stay bounded.
+    with path.open('ab') as stream:stream.write(b' '*(65*1024**2))
+    with pytest.raises(ValueError,match='bounded ordinary'):c._json(path)
+    assert c.compare(identity,state=state)['campaign_id']==identity
+
+
 def test_comparison_cannot_promote_requirement_dispositions(setup_campaign):
     state,definition,_,_=setup_campaign;identity=definition['campaign_id'];c.run(identity,state=state)
     path=state/'campaigns'/identity/'comparison.json';value=json.loads(path.read_bytes())
