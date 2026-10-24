@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/hayder/Documents/OpenSourceRail/build/pole-return-research/run_guidance.py", line 98, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/home/hayder/Documents/OpenSourceRail/build/pole-return-research/run_guidance.py", line 82, in main
+    context,fit=winding_context(width,scale,turns,area,large);a,v,m,*_=context;aw3=parent['controlled_aw3_kg']+24*(m['mass_kg']-parent['module']['mass_kg']);target=aw3*r.G/24
+                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/hayder/Documents/OpenSourceRail/build/pole-return-research/run_guidance.py", line 30, in winding_context
+    added.append(cm._box(p['id'],p['size_m'],p['at_m'],'counted-copper-enamel-fluid-pack',packmass/pack_volume,'new-winding',
+                 ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        mixture=True,scope='Actual pack envelope; countedCu/enamel/fluid mixture, not resolved individualturnCAD'))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _box() got multiple values for argument 'scope'

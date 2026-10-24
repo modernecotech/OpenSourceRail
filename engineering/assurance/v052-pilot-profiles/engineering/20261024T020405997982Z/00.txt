@@ -1,0 +1,126 @@
+........................................................................ [  6%]
+........................................................................ [ 12%]
+........................................................................ [ 18%]
+.................................................F...................... [ 24%]
+........................................................................ [ 30%]
+........................................................................ [ 36%]
+........................................................................ [ 42%]
+........................................................................ [ 48%]
+........................................................................ [ 54%]
+........................................................................ [ 60%]
+........................................................................ [ 66%]
+........................................................................ [ 72%]
+........................................................................ [ 78%]
+........................................................................ [ 85%]
+........................................................................ [ 91%]
+........................................................................ [ 97%]
+.............................F...                                        [100%]
+=================================== FAILURES ===================================
+__________________ test_source_presence_does_not_mark_tested ___________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f825d3c4210>
+
+    def test_source_presence_does_not_mark_tested(monkeypatch):
+        monkeypatch.setattr(m.pilot_assurance,'study',lambda:dict(profiles=[]))
+        value=m.study()
+        assert not any(r['state']=='retained-and-tested' for r in value['capabilities'])
+>       assert any(r['state']=='missing' for r in value['capabilities'])
+E       assert False
+E        +  where False = any(<generator object test_source_presence_does_not_mark_tested.<locals>.<genexpr> at 0x7f8246a65490>)
+
+engineering/analysis/tests/test_ferrite_maglev_capability_migration.py:18: AssertionError
+_ test_actual_handler_allows_verified_blob_reads_but_blocks_external_connections _
+
+endpoint = <function endpoint.<locals>.request at 0x7f82491845e0>
+
+    def test_actual_handler_allows_verified_blob_reads_but_blocks_external_connections(endpoint):
+        """Image/media permission does not grant fetch permission for a Blob URL.
+    
+        Exercise Chromium with the real Handler's CSP. The independent other-origin
+        listener proves a rejected network request never reaches its destination.
+        Navigating to source text avoids starting unrelated city/design readers.
+        """
+        received=[]
+        class Foreign(BaseHTTPRequestHandler):
+            def do_GET(self):
+                received.append(self.path)
+                self.send_response(200);self.end_headers();self.wfile.write(b'must not be fetched')
+            def log_message(self,*args):
+                pass
+        foreign=ThreadingHTTPServer(('127.0.0.1',0),Foreign)
+        thread=threading.Thread(target=foreign.serve_forever,daemon=True);thread.start()
+        script=r"""
+    import assert from 'node:assert/strict';
+    import {chromium} from '@playwright/test';
+    const browser=await chromium.launch({headless:true});
+    try {
+      const page=await browser.newPage();
+      const response=await page.goto(process.argv[1]+'/docs/workbench/maglev/pilot.js');
+      assert.ok(response.headers()['content-security-policy'].includes("connect-src 'self' blob:"));
+      const result=await page.evaluate(async foreign=>{
+        const content=new Uint8Array([0,1,2,253,254,255]);
+        const url=URL.createObjectURL(new Blob([content],{type:'video/mp4'}));
+        const retained=new Uint8Array(await(await fetch(url)).arrayBuffer());
+        const sha=bytes=>crypto.subtle.digest('SHA-256',bytes).then(buffer=>
+          [...new Uint8Array(buffer)].map(n=>n.toString(16).padStart(2,'0')).join(''));
+        const digestMatches=(await sha(retained))===(await sha(content));
+        URL.revokeObjectURL(url);
+        let revokedRefused=false;
+        try {await fetch(url);} catch {revokedRefused=true;}
+        let timer;
+        const violation=new Promise((resolve,reject)=>{
+          timer=setTimeout(()=>reject(Error('External connect-src refusal was not observed')),3000);
+          document.addEventListener('securitypolicyviolation',event=>{
+            if(event.blockedURI.startsWith(foreign)) {
+              clearTimeout(timer);resolve(event.effectiveDirective);
+            }
+          });
+        });
+        let externalRefused=false;
+        try {await fetch(foreign+'/must-not-arrive');} catch {externalRefused=true;}
+        const directive=await violation;
+        return {digestMatches,revokedRefused,externalRefused,directive};
+      },process.argv[2]);
+      assert.deepEqual(result,{digestMatches:true,revokedRefused:true,externalRefused:true,directive:'connect-src'});
+      console.log(JSON.stringify(result));
+    } finally {await browser.close();}
+    """
+        try:
+>           result=subprocess.run(['node','--input-type=module','-e',script,endpoint.origin,
+                                   f'http://127.0.0.1:{foreign.server_port}'],cwd=model.ROOT,
+                                  capture_output=True,text=True,timeout=30)
+
+engineering/analysis/tests/test_ferrite_maglev_workflow.py:320: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/lib64/python3.13/subprocess.py:556: in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/subprocess.py:1222: in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/lib64/python3.13/subprocess.py:2155: in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Popen: returncode: -9 args: ['node', '--input-type=module', '-e', '\nimport...>
+endtime = 1503476.388597018, orig_timeout = 30
+stdout_seq = [b'{"digestMatches":true,"revokedRefused":true,"externalRefused":true,"directive":"connect-src"}\n']
+stderr_seq = [], skip_check_and_raise = False
+
+    def _check_timeout(self, endtime, orig_timeout, stdout_seq, stderr_seq,
+                       skip_check_and_raise=False):
+        """Convenience for checking if a timeout has expired."""
+        if endtime is None:
+            return
+        if skip_check_and_raise or _time() > endtime:
+>           raise TimeoutExpired(
+                    self.args, orig_timeout,
+                    output=b''.join(stdout_seq) if stdout_seq else None,
+                    stderr=b''.join(stderr_seq) if stderr_seq else None)
+E           subprocess.TimeoutExpired: Command '['node', '--input-type=module', '-e', '\nimport assert from \'node:assert/strict\';\nimport {chromium} from \'@playwright/test\';\nconst browser=await chromium.launch({headless:true});\ntry {\n  const page=await browser.newPage();\n  const response=await page.goto(process.argv[1]+\'/docs/workbench/maglev/pilot.js\');\n  assert.ok(response.headers()[\'content-security-policy\'].includes("connect-src \'self\' blob:"));\n  const result=await page.evaluate(async foreign=>{\n    const content=new Uint8Array([0,1,2,253,254,255]);\n    const url=URL.createObjectURL(new Blob([content],{type:\'video/mp4\'}));\n    const retained=new Uint8Array(await(await fetch(url)).arrayBuffer());\n    const sha=bytes=>crypto.subtle.digest(\'SHA-256\',bytes).then(buffer=>\n      [...new Uint8Array(buffer)].map(n=>n.toString(16).padStart(2,\'0\')).join(\'\'));\n    const digestMatches=(await sha(retained))===(await sha(content));\n    URL.revokeObjectURL(url);\n    let revokedRefused=false;\n    try {await fetch(url);} catch {revokedRefused=true;}\n    let timer;\n    const violation=new Promise((resolve,reject)=>{\n      timer=setTimeout(()=>reject(Error(\'External connect-src refusal was not observed\')),3000);\n      document.addEventListener(\'securitypolicyviolation\',event=>{\n        if(event.blockedURI.startsWith(foreign)) {\n          clearTimeout(timer);resolve(event.effectiveDirective);\n        }\n      });\n    });\n    let externalRefused=false;\n    try {await fetch(foreign+\'/must-not-arrive\');} catch {externalRefused=true;}\n    const directive=await violation;\n    return {digestMatches,revokedRefused,externalRefused,directive};\n  },process.argv[2]);\n  assert.deepEqual(result,{digestMatches:true,revokedRefused:true,externalRefused:true,directive:\'connect-src\'});\n  console.log(JSON.stringify(result));\n} finally {await browser.close();}\n', 'http://127.0.0.1:46859', 'http://127.0.0.1:43289']' timed out after 30 seconds
+
+/usr/lib64/python3.13/subprocess.py:1269: TimeoutExpired
+=========================== short test summary info ============================
+FAILED engineering/analysis/tests/test_ferrite_maglev_capability_migration.py::test_source_presence_does_not_mark_tested
+FAILED engineering/analysis/tests/test_ferrite_maglev_workflow.py::test_actual_handler_allows_verified_blob_reads_but_blocks_external_connections
+2 failed, 1183 passed, 2 deselected in 3578.38s (0:59:38)

@@ -4,7 +4,7 @@ Exact development execution; engineering, delivery and formal profiles are separ
 
 | Profile | Digital execution | Commands |
 |---|---|---:|
-| engineering | hold | 0 |
+| engineering | executed-current | 15 |
 | delivery-lifecycle | executed-current | 3 |
 | control-formal | executed-current | 5 |
 

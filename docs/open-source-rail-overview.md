@@ -31,6 +31,12 @@ coils/drives, cooling, sensing, protection, doors, HVAC and emergency equipment
 remain necessary. Contactless running aims to reduce contact noise and wear;
 actual losses, acoustic performance and maintenance require measurement.
 
+## Current detailed candidate
+
+The [new detailed-system chain](design-engine/ferrite-maglev/system-detailed/README.md) accounts **25.619t tare/37.619t AW3 per car** for one dimensioned candidate. Actual stock, current circuits, loads, manufacturing quantities and native identities agree on its revision. Corrected thin return-rail saturation prevents requiredAW3 support; propulsion demagnetisation/convergence failures and structural/protection holds remain; no complete engineered or adopted train is claimed. Earlier targets and actuator passes below retain their original configuration.
+
+The [owner/builder planner](workbench/planning/index.html) restores city edit proposals,16GIS layers and generic delivery workfront/procurement/cash plans. Independent SUMO, IFC/IDS/BCF, typed field negative controls and native business navigation have explicit bounded scopes.
+
 ## Body, civil works and local capability
 
 Baghdad uses six 17 m bodies. The central tare target is 14.2 t/car,

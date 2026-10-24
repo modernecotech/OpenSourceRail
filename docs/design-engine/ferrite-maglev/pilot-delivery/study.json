@@ -4217,13 +4217,13 @@
       "digital_packet_verified": true,
       "engineering_accepted": false,
       "id": "assurance-profiles",
-      "manifest_sha256": "46a12f2d10a1efe2d8d948c2684b20d8eb3bd8a1d9e4da2ea02c8fac81fe8a99",
+      "manifest_sha256": "d17d3b535a2ddacf5ee7b07f6d7da8a85964983a557bcdb7753a6a501c090815",
       "module": "pilot_assurance",
       "packet": "docs/design-engine/ferrite-maglev/assurance-profiles",
       "physical_release": false,
       "scope": "Separate executed engineering, delivery and formal control profiles",
       "summary": {
-        "all_profiles_executed": false,
+        "all_profiles_executed": true,
         "design_complete": false,
         "external_gates": [
           "measured magnetic maps",
@@ -4265,36 +4265,36 @@
         "physical_validation": false,
         "profiles": [
           {
-            "digital_state": "hold",
-            "executions": 0,
+            "digital_state": "executed-current",
+            "executions": 15,
             "id": "engineering",
             "independent_acceptance": false,
-            "receipt": null,
-            "receipt_sha256": null
+            "receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T040054997722Z/receipt.json",
+            "receipt_sha256": "1a49a007e555a92ead3be165d2fab4a0ff6653d4afa34464a7e7487714cc2d91"
           },
           {
             "digital_state": "executed-current",
             "executions": 3,
             "id": "delivery-lifecycle",
             "independent_acceptance": false,
-            "receipt": "engineering/assurance/v052-pilot-profiles/delivery-lifecycle/20261024T013242942501Z/receipt.json",
-            "receipt_sha256": "2958b7973b815c1c864eb4806a90d1915ebd6e6d2fca3d95758d84b5cd3f2bf5"
+            "receipt": "engineering/assurance/v052-pilot-profiles/delivery-lifecycle/20261024T035815904988Z/receipt.json",
+            "receipt_sha256": "b71fddd6db7685b439d59f68730929161368d6ce827602158cd33404407c762b"
           },
           {
             "digital_state": "executed-current",
             "executions": 5,
             "id": "control-formal",
             "independent_acceptance": false,
-            "receipt": "engineering/assurance/v052-pilot-profiles/control-formal/20261023T230638120995Z/receipt.json",
-            "receipt_sha256": "cca7a0eeff211014b62e6946b2450df5f94ca41f26b476ea80e898a643dd18ed"
+            "receipt": "engineering/assurance/v052-pilot-profiles/control-formal/20261024T035812205903Z/receipt.json",
+            "receipt_sha256": "210ec89d857a6601bc397e1399d43bace8cac50de93f49d70a405b2fe16552fe"
           }
         ],
         "schema": "osr-pilot-assurance/1",
         "scope": "Exact development execution; engineering, delivery and formal profiles are separate. No SIL, hardware, site or operational acceptance.",
         "source_sha256": {
-          "engineering/analysis/tests/test_ferrite_maglev_pilot_assurance.py": "822c6f99c517fd65e43ec6bd0d831b9aeab1f6f8ee4ef19341ed916de8c29cb6",
+          "engineering/analysis/tests/test_ferrite_maglev_pilot_assurance.py": "ec4988107d5f155a997c62deee3ed032a2f35a859f8b9f4165e9318bdb2f5a7c",
           "engineering/ferrite_maglev/data/pilot-assurance-case.toml": "42fc702d6830b79f6cc99900550251b02f5bf6d7b22eb3d924a0f42b5b36d711",
-          "engineering/ferrite_maglev/pilot_assurance.py": "1dc863544ada88b477274f5d8b1a222f2deb0624ceda7117544ebffdd3b2c9da"
+          "engineering/ferrite_maglev/pilot_assurance.py": "b988abde90ff56cd2a5aa9d38d76ed6d0619c63cbc43b406ca45d74a8ad4eb0c"
         }
       }
     },
@@ -4302,7 +4302,7 @@
       "digital_packet_verified": true,
       "engineering_accepted": false,
       "id": "capability-migration",
-      "manifest_sha256": "1e577b01de0c65992fd1dead6d30c369be93389b313332466f906ed9c580c6c5",
+      "manifest_sha256": "2f62e7bae14fe847737174d6268cc20c257b7b6aa107f83dc71a7a1271afb2ef",
       "module": "capability_migration",
       "packet": "docs/design-engine/ferrite-maglev/capability-migration",
       "physical_release": false,
@@ -4323,12 +4323,12 @@
             ],
             "decision": "Current266city generation retains primary geographical identities; a separate16layer stop/service/OD proposal workspace is now restored.",
             "engineering_accepted": false,
-            "executed_current": false,
+            "executed_current": true,
             "execution_profile": "engineering",
-            "execution_receipt": null,
+            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T040054997722Z/receipt.json",
             "id": "city-generation",
             "owner": "City planning",
-            "state": "retained-but-unconnected",
+            "state": "retained-and-tested",
             "tests": [
               "engineering/analysis/tests/test_ferrite_maglev_cities.py"
             ],
@@ -4342,9 +4342,9 @@
             ],
             "decision": "Generic any-city revision compiler now emits planned workfront/resource/procurement/monthlycash and retainedERPadapter inputs. Missing rates and actual native records remain explicit; no complete city delivery acceptance.",
             "engineering_accepted": false,
-            "executed_current": false,
+            "executed_current": true,
             "execution_profile": "engineering",
-            "execution_receipt": null,
+            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T040054997722Z/receipt.json",
             "id": "project-twin",
             "owner": "Delivery engineering",
             "state": "replaced",
@@ -4362,9 +4362,9 @@
             ],
             "decision": "Separate editable owner/builder GIS workspace, evidence viewer and authenticated native owner/builder/operator/people/observation navigation. CompleteOCC/HR federation remains open.",
             "engineering_accepted": false,
-            "executed_current": false,
+            "executed_current": true,
             "execution_profile": "engineering",
-            "execution_receipt": null,
+            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T040054997722Z/receipt.json",
             "id": "workbench",
             "owner": "Platform integration",
             "state": "replaced",
@@ -4383,7 +4383,7 @@
             "engineering_accepted": false,
             "executed_current": true,
             "execution_profile": "delivery-lifecycle",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/delivery-lifecycle/20261024T013242942501Z/receipt.json",
+            "execution_receipt": "engineering/assurance/v052-pilot-profiles/delivery-lifecycle/20261024T035815904988Z/receipt.json",
             "id": "business-lifecycle",
             "owner": "Owner/operator platform",
             "state": "retained-and-tested",
@@ -4401,9 +4401,9 @@
             ],
             "decision": "16named source-bound GIS layers; unavailable/sampled layers labelled. Stop/service/dwell/OD and straight-chord proposals, immutable revisions, stale/tampered refusal and local export/import are implemented. General alignment/OD calibration and engineering adoption remain open.",
             "engineering_accepted": false,
-            "executed_current": false,
+            "executed_current": true,
             "execution_profile": "engineering",
-            "execution_receipt": null,
+            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T040054997722Z/receipt.json",
             "id": "interactive-planning",
             "owner": "GIS and transport planning",
             "state": "replaced",
@@ -4421,9 +4421,9 @@
             ],
             "decision": "ActualRust two-circuit support/guidance/current dynamics,realizablybounded preferred allocation,live numerical authority and postfault integration replace earlier detection-only coupons. Failed maps/capture/thermal/designcases remain failures; no physical acceptance.",
             "engineering_accepted": false,
-            "executed_current": false,
+            "executed_current": true,
             "execution_profile": "engineering",
-            "execution_receipt": null,
+            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T040054997722Z/receipt.json",
             "id": "software-loop",
             "owner": "Control integration",
             "state": "replaced",
@@ -4440,9 +4440,9 @@
             ],
             "decision": "Executed independentSUMO Railcustom timing/block/berth,dwell/receiverdelay and over-capacity controls use identical passenger stops and candidate mass. Kinematictraction is explicit; magnetic/Rust/HW and whole-fleet physical assurance are not inferred.",
             "engineering_accepted": false,
-            "executed_current": false,
+            "executed_current": true,
             "execution_profile": "engineering",
-            "execution_receipt": null,
+            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T040054997722Z/receipt.json",
             "id": "sumo-crosscheck",
             "owner": "Operations modelling",
             "state": "replaced",
@@ -4458,9 +4458,9 @@
             ],
             "decision": "One magnetic module and25m concretebox in actualIFC4.3 with reopenedvolumes,executedIDS1staleidentityrefusal,BCF3schema-valid issues and typed unaccepted field readings. Wholecity IFC/physicalas-built federation remains open.",
             "engineering_accepted": false,
-            "executed_current": false,
+            "executed_current": true,
             "execution_profile": "engineering",
-            "execution_receipt": null,
+            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T040054997722Z/receipt.json",
             "id": "civil-bim-gis",
             "owner": "Civil information management",
             "state": "replaced",
@@ -4477,9 +4477,9 @@
             ],
             "decision": "Current guidebeam/hub definitions replace old platform and bogie-change products; all45former families are not reproduced.",
             "engineering_accepted": false,
-            "executed_current": false,
+            "executed_current": true,
             "execution_profile": "engineering",
-            "execution_receipt": null,
+            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T040054997722Z/receipt.json",
             "id": "station-geometry",
             "owner": "Station and civil engineering",
             "state": "replaced",
@@ -4513,9 +4513,9 @@
             ],
             "decision": "Current composite body and magnetic bays replace the [historical wheel/traction product](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/README.md); stock geometry is not a manufactured train release.",
             "engineering_accepted": false,
-            "executed_current": false,
+            "executed_current": true,
             "execution_profile": "engineering",
-            "execution_receipt": null,
+            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T040054997722Z/receipt.json",
             "id": "trainset",
             "owner": "Mechanical product engineering",
             "state": "replaced",
@@ -4533,9 +4533,9 @@
             ],
             "decision": "Counted newcandidate quantities,cutyield/prices,commonhotel assumptions and single calendarstandby reconciliation. No newpilotfinance adoption whilemandatorypropulsion/fullserviceduty fail; priorconfiguration finance remains separate.",
             "engineering_accepted": false,
-            "executed_current": false,
+            "executed_current": true,
             "execution_profile": "engineering",
-            "execution_receipt": null,
+            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T040054997722Z/receipt.json",
             "id": "cost-propagation",
             "owner": "Project economics",
             "state": "replaced",
@@ -4555,7 +4555,7 @@
             "engineering_accepted": false,
             "executed_current": true,
             "execution_profile": "control-formal",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/control-formal/20261023T230638120995Z/receipt.json",
+            "execution_receipt": "engineering/assurance/v052-pilot-profiles/control-formal/20261024T035812205903Z/receipt.json",
             "id": "assurance",
             "owner": "Independent assurance",
             "state": "retained-and-tested",
@@ -4573,7 +4573,7 @@
             "engineering_accepted": false,
             "executed_current": true,
             "execution_profile": "delivery-lifecycle",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/delivery-lifecycle/20261024T013242942501Z/receipt.json",
+            "execution_receipt": "engineering/assurance/v052-pilot-profiles/delivery-lifecycle/20261024T035815904988Z/receipt.json",
             "id": "integrated-testing",
             "owner": "Platform verification",
             "state": "replaced",
@@ -4612,13 +4612,13 @@
           "engineering/analysis/tests/test_ferrite_maglev_candidate_authority.py": "25cc4250a53af5b865ae152a48cdcf437fb6c0db5135c9c1e447ce697b97cb39",
           "engineering/analysis/tests/test_ferrite_maglev_candidate_economics.py": "497cd8b9f26099307b7a5af2f73d321eb1145c7c6f033f54cbbebe34e6d1c59e",
           "engineering/analysis/tests/test_ferrite_maglev_candidate_manufacturing.py": "6906452a6547748b312cf605958b6e0451c438711838ffdfb239c8edcfe95681",
-          "engineering/analysis/tests/test_ferrite_maglev_capability_migration.py": "228c9a71ea89d2ce86b9a666934f1bf56d74a6837746cb40bb568647be20c1a2",
+          "engineering/analysis/tests/test_ferrite_maglev_capability_migration.py": "85fb555427cea8a3e8b1f8888695ef02f762fe24161a8572b416b92ec08b5b7c",
           "engineering/analysis/tests/test_ferrite_maglev_cities.py": "7ec306aed5273ffe83b3302f89109fc04d4bab1f7427794fd05f8b8b63d42d1d",
           "engineering/analysis/tests/test_ferrite_maglev_delivery_platform.py": "51a5e906071e989807e0be728d9491529f44eaa1aea8475b7a354cbab72af7cf",
           "engineering/analysis/tests/test_ferrite_maglev_full_dynamics.py": "457370bd24de5baeca1e57cd1fe868ee8dd2031c92dfae12bef242c1d0a01aa9",
           "engineering/analysis/tests/test_ferrite_maglev_launch_optimisation.py": "342c0debc2b2517e4288a145d820a6acd92299ea2f8021e4fca072f85196b568",
           "engineering/analysis/tests/test_ferrite_maglev_operations_crosscheck.py": "067e32a5297d3535efe8524788fe2110711398ff0e5d27ef898f543c712bd465",
-          "engineering/analysis/tests/test_ferrite_maglev_pilot_assurance.py": "822c6f99c517fd65e43ec6bd0d831b9aeab1f6f8ee4ef19341ed916de8c29cb6",
+          "engineering/analysis/tests/test_ferrite_maglev_pilot_assurance.py": "ec4988107d5f155a997c62deee3ed032a2f35a859f8b9f4165e9318bdb2f5a7c",
           "engineering/analysis/tests/test_ferrite_maglev_pilot_lifecycle.py": "6c6655cd7993d6b63ad54bb9b2023a622f77a9e5872074dae019f0e30f126066",
           "engineering/analysis/tests/test_ferrite_maglev_pilot_product.py": "3a70ae1428de1fe11c918b4fadfbd953f29aaced702600f519a3b52ef69c2032",
           "engineering/ferrite_maglev/assembled_body.py": "55bb73f9eae0378772321597f8f9452102807c75231a95d4310ac7b53c8fde7f",
@@ -4634,7 +4634,7 @@
           "engineering/ferrite_maglev/hub_access.py": "d0c9255d49b2febf3dd5152b47735b9c4bdf906d7c16d5059ed684dd3f933421",
           "engineering/ferrite_maglev/launch_optimisation.py": "471a594454a5b94b2aa9d6a35f3304dd4823963a41a758d4639dc143f93307f3",
           "engineering/ferrite_maglev/operations_crosscheck.py": "d5ef908ec6c39441a62b31b6ed80ff4b0f6ed86ceb89fd9469d077912608fabf",
-          "engineering/ferrite_maglev/pilot_assurance.py": "1dc863544ada88b477274f5d8b1a222f2deb0624ceda7117544ebffdd3b2c9da",
+          "engineering/ferrite_maglev/pilot_assurance.py": "b988abde90ff56cd2a5aa9d38d76ed6d0619c63cbc43b406ca45d74a8ad4eb0c",
           "engineering/ferrite_maglev/pilot_lifecycle.py": "4da63e8341ffd12c61aeb55b9015568d510876c63c368fd7fc5f70fee86c0b2a",
           "engineering/ferrite_maglev/pilot_product.py": "cdee17a69d8a860b70c1c4a05c950d4c3d666a7439495dd619a7704a87c318a1",
           "engineering/ferrite_maglev/platform_publication.py": "168eb29562852348a4758476a2a9228760eed3b7c7742757d319bad1ea0f73b1",
@@ -4648,8 +4648,8 @@
           "deliberately-retired": 0,
           "missing": 0,
           "replaced": 11,
-          "retained-and-tested": 2,
-          "retained-but-unconnected": 1
+          "retained-and-tested": 3,
+          "retained-but-unconnected": 0
         }
       }
     }
@@ -4709,11 +4709,11 @@
         "assurance-profiles"
       ],
       "id": "lifecycle-and-assurance",
-      "state": "execution-hold"
+      "state": "executed-current"
     }
   ],
   "digital_packets_verified": 9,
-  "digital_profiles_executed": false,
+  "digital_profiles_executed": true,
   "external_inputs": [
     "qualified force/loss and material maps",
     "measured mass/CG/inertia",
@@ -4732,7 +4732,7 @@
   "physical_release": false,
   "physical_validation": false,
   "qualification_progress": {
-    "completed_scoped_digital_subtasks": 8,
+    "completed_scoped_digital_subtasks": 9,
     "digital_subtasks": [
       {
         "id": "pilot/controlled-product",
@@ -4814,18 +4814,18 @@
       },
       {
         "id": "pilot/assurance-profiles",
-        "manifest_sha256": "46a12f2d10a1efe2d8d948c2684b20d8eb3bd8a1d9e4da2ea02c8fac81fe8a99",
+        "manifest_sha256": "d17d3b535a2ddacf5ee7b07f6d7da8a85964983a557bcdb7753a6a501c090815",
         "parent_task_ids": [
           "group/control-protection/design",
           "group/industrial-recovery-assurance/design"
         ],
         "physical_acceptance": false,
         "scope": "Separate executed engineering, delivery and formal control profiles",
-        "state": "execution-hold"
+        "state": "completed-digital-packet"
       },
       {
         "id": "pilot/capability-migration",
-        "manifest_sha256": "1e577b01de0c65992fd1dead6d30c369be93389b313332466f906ed9c580c6c5",
+        "manifest_sha256": "2f62e7bae14fe847737174d6268cc20c257b7b6aa107f83dc71a7a1271afb2ef",
         "parent_task_ids": [
           "group/industrial-recovery-assurance/design"
         ],

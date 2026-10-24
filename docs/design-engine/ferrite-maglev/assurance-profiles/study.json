@@ -1,5 +1,5 @@
 {
-  "all_profiles_executed": false,
+  "all_profiles_executed": true,
   "design_complete": false,
   "external_gates": [
     "measured magnetic maps",
@@ -41,35 +41,35 @@
   "physical_validation": false,
   "profiles": [
     {
-      "digital_state": "hold",
-      "executions": 0,
+      "digital_state": "executed-current",
+      "executions": 15,
       "id": "engineering",
       "independent_acceptance": false,
-      "receipt": null,
-      "receipt_sha256": null
+      "receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T040054997722Z/receipt.json",
+      "receipt_sha256": "1a49a007e555a92ead3be165d2fab4a0ff6653d4afa34464a7e7487714cc2d91"
     },
     {
       "digital_state": "executed-current",
       "executions": 3,
       "id": "delivery-lifecycle",
       "independent_acceptance": false,
-      "receipt": "engineering/assurance/v052-pilot-profiles/delivery-lifecycle/20261024T013242942501Z/receipt.json",
-      "receipt_sha256": "2958b7973b815c1c864eb4806a90d1915ebd6e6d2fca3d95758d84b5cd3f2bf5"
+      "receipt": "engineering/assurance/v052-pilot-profiles/delivery-lifecycle/20261024T035815904988Z/receipt.json",
+      "receipt_sha256": "b71fddd6db7685b439d59f68730929161368d6ce827602158cd33404407c762b"
     },
     {
       "digital_state": "executed-current",
       "executions": 5,
       "id": "control-formal",
       "independent_acceptance": false,
-      "receipt": "engineering/assurance/v052-pilot-profiles/control-formal/20261023T230638120995Z/receipt.json",
-      "receipt_sha256": "cca7a0eeff211014b62e6946b2450df5f94ca41f26b476ea80e898a643dd18ed"
+      "receipt": "engineering/assurance/v052-pilot-profiles/control-formal/20261024T035812205903Z/receipt.json",
+      "receipt_sha256": "210ec89d857a6601bc397e1399d43bace8cac50de93f49d70a405b2fe16552fe"
     }
   ],
   "schema": "osr-pilot-assurance/1",
   "scope": "Exact development execution; engineering, delivery and formal profiles are separate. No SIL, hardware, site or operational acceptance.",
   "source_sha256": {
-    "engineering/analysis/tests/test_ferrite_maglev_pilot_assurance.py": "822c6f99c517fd65e43ec6bd0d831b9aeab1f6f8ee4ef19341ed916de8c29cb6",
+    "engineering/analysis/tests/test_ferrite_maglev_pilot_assurance.py": "ec4988107d5f155a997c62deee3ed032a2f35a859f8b9f4165e9318bdb2f5a7c",
     "engineering/ferrite_maglev/data/pilot-assurance-case.toml": "42fc702d6830b79f6cc99900550251b02f5bf6d7b22eb3d924a0f42b5b36d711",
-    "engineering/ferrite_maglev/pilot_assurance.py": "1dc863544ada88b477274f5d8b1a222f2deb0624ceda7117544ebffdd3b2c9da"
+    "engineering/ferrite_maglev/pilot_assurance.py": "b988abde90ff56cd2a5aa9d38d76ed6d0619c63cbc43b406ca45d74a8ad4eb0c"
   }
 }

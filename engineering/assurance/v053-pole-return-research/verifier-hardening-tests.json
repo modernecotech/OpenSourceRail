@@ -1,0 +1,166 @@
+{
+  "checks": 34,
+  "checks_detail": [
+    {
+      "state": "accepted",
+      "test": "valid-current-archive"
+    },
+    {
+      "reason": "unexpected archive schema",
+      "state": "rejected",
+      "test": "unexpected-schema"
+    },
+    {
+      "reason": "unexpected/missing evidence member",
+      "state": "rejected",
+      "test": "unlisted-nested-manifest"
+    },
+    {
+      "state": "accepted",
+      "test": "listed-nested-manifest-is-hashed"
+    },
+    {
+      "reason": "archive bytes differ: evidence/manifest.json",
+      "state": "rejected",
+      "test": "listed-nested-manifest-tamper"
+    },
+    {
+      "reason": "nonordinary or symlink member: README.md",
+      "state": "rejected",
+      "test": "symlink-member"
+    },
+    {
+      "reason": "nonordinary or symlink member: inputs",
+      "state": "rejected",
+      "test": "symlink-directory"
+    },
+    {
+      "reason": "nonordinary or symlink archive member: /home/hayder/Documents/OpenSourceRail/build/pole-return-research/verifier-test-w_koqrkk/link",
+      "state": "rejected",
+      "test": "symlink-archive-root"
+    },
+    {
+      "reason": "nonordinary or symlink ancestor: /home/hayder/Documents/OpenSourceRail/build/pole-return-research/verifier-test-biekvlpw/parent-link",
+      "state": "rejected",
+      "test": "symlink-ancestor"
+    },
+    {
+      "reason": "nonordinary or symlink member: evidence/fifo",
+      "state": "rejected",
+      "test": "special-fifo-member"
+    },
+    {
+      "reason": "archive member byte limit exceeded",
+      "state": "rejected",
+      "test": "individual-byte-limit"
+    },
+    {
+      "reason": "archive count/total byte limit exceeded",
+      "state": "rejected",
+      "test": "total-byte-limit"
+    },
+    {
+      "reason": "archive count/total byte limit exceeded",
+      "state": "rejected",
+      "test": "member-count-limit"
+    },
+    {
+      "reason": "archive directory/depth limit exceeded",
+      "state": "rejected",
+      "test": "directory-count-limit"
+    },
+    {
+      "reason": "archive directory/depth limit exceeded",
+      "state": "rejected",
+      "test": "directory-depth-limit"
+    },
+    {
+      "reason": "raw receipt byte limit exceeded",
+      "state": "rejected",
+      "test": "negative-raw-size"
+    },
+    {
+      "reason": "raw receipt byte limit exceeded",
+      "state": "rejected",
+      "test": "boolean-raw-size"
+    },
+    {
+      "reason": "raw receipt byte limit exceeded",
+      "state": "rejected",
+      "test": "oversized-raw-size"
+    },
+    {
+      "reason": "unsafe archive path: '../outside'",
+      "state": "rejected",
+      "test": "unsafe-raw-path"
+    },
+    {
+      "reason": "invalid member hash or root self-inventory",
+      "state": "rejected",
+      "test": "invalid-hash"
+    },
+    {
+      "reason": "research cannot assert release/adoption: manufacturing_release",
+      "state": "rejected",
+      "test": "release-claim"
+    },
+    {
+      "reason": "duplicate JSON key: schema",
+      "state": "rejected",
+      "test": "duplicate-json-key"
+    },
+    {
+      "reason": "nonfinite JSON number: NaN",
+      "state": "rejected",
+      "test": "nonfinite-json-number"
+    },
+    {
+      "reason": "nonfinite JSON number: Infinity",
+      "state": "rejected",
+      "test": "overflow-json-number"
+    },
+    {
+      "state": "rejected",
+      "test": "unsafe-name-''"
+    },
+    {
+      "state": "rejected",
+      "test": "unsafe-name-'.'"
+    },
+    {
+      "state": "rejected",
+      "test": "unsafe-name-'..'"
+    },
+    {
+      "state": "rejected",
+      "test": "unsafe-name-'a/../b'"
+    },
+    {
+      "state": "rejected",
+      "test": "unsafe-name-'/absolute'"
+    },
+    {
+      "state": "rejected",
+      "test": "unsafe-name-'a\\\\b'"
+    },
+    {
+      "state": "rejected",
+      "test": "unsafe-name-'a//b'"
+    },
+    {
+      "state": "rejected",
+      "test": "unsafe-name-'./a'"
+    },
+    {
+      "state": "rejected",
+      "test": "unsafe-name-'a\\x00b'"
+    },
+    {
+      "state": "rejected",
+      "test": "unsafe-name-'a\\nb'"
+    }
+  ],
+  "numerical_experiments_added": false,
+  "passed": true,
+  "schema": "osr-portable-verifier-hardening-tests/1"
+}
