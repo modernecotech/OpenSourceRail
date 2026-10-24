@@ -123,6 +123,16 @@ def test_comparison_recomputes_selection_even_after_rehash(setup_campaign):
     with pytest.raises(ValueError,match='selection'):c.compare(identity,state=state)
 
 
+def test_new_campaign_marks_reused_confirmations_completed(setup_campaign):
+    state,definition,calls,_=setup_campaign;c.run(definition['campaign_id'],state=state)
+    assert len(calls)==3
+    path=state.parent/'campaign.toml';path.write_text('name="second campaign using identical evaluations"\n'+path.read_text())
+    second=c.create(path,state=state);assert second['campaign_id']!=definition['campaign_id']
+    journal=c.run(second['campaign_id'],state=state)
+    assert len(calls)==3 and all(job['state']=='completed' for job in journal['jobs'].values())
+    assert c.compare(second['campaign_id'],state=state)['integrated_baseline']['selected_candidate_id'] is None
+
+
 def test_aggregate_comparison_can_exceed_individual_worker_file_budget(setup_campaign):
     state,definition,_,_=setup_campaign;identity=definition['campaign_id'];c.run(identity,state=state)
     path=state/'campaigns'/identity/'comparison.json'

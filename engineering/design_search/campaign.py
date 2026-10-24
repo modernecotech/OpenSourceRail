@@ -372,7 +372,9 @@ def run(campaign_id,*,state=STATE,max_jobs=None):
             store.store('evaluation-request',request);key=request['evaluation_id']
             job=journal['jobs'].setdefault(key,dict(candidate_id=candidate['candidate_id'],evaluation_id=key,evaluator_id=request['evaluator_id'],purpose=request['purpose'],role=role,state='planned',attempts=[]))
             cached=_cached(store,state,request)
-            if cached is not None:return cached
+            if cached is not None:
+                job['state']='completed'
+                return cached
             for name in reversed(job['attempts']):
                 attempt=folder/name
                 recovered=_recover(attempt,candidate,request)
@@ -446,6 +448,8 @@ def run(campaign_id,*,state=STATE,max_jobs=None):
                     if not execute_batch([(chosen,request,'verify',original,sandbox)]):return stop('verifier-interruption-or-tool-error')
                     confirmed.append(results[request['evaluation_id']])
             if source_epoch()!=campaign['source_sha256']:raise ValueError('campaign sources changed before publication')
+            if any(job['state']!='completed' for job in journal['jobs'].values()):
+                raise ValueError('campaign still contains unfinished digital jobs')
             baseline=selection.select(candidates,primary+confirmed,purpose='integrated-baseline',policy=_baseline_policy(spec,primary,confirmed));store.store('selection',baseline)
             comparison=dict(schema='osr-design-campaign-comparison/1',campaign_id=campaign_id,candidates=candidates,results=primary,confirmations=confirmed,
                 next_experiment=next_choice,integrated_baseline=baseline,qualification=dict(linked_requirement_ids=spec['requirement_ids'],physical_accepted=False,dispositions_changed=False),**contracts.FLAGS)
