@@ -14,6 +14,7 @@ import gzip
 import io
 
 import numpy as np
+from engineering.design_search import geometry as rigid_geometry
 
 ROOT=Path(__file__).resolve().parents[2]
 INPUT=Path(__file__).with_name('candidate-structures.toml')
@@ -48,7 +49,8 @@ def source_paths():
     return sorted({Path(__file__),INPUT,TEST,*candidate_magnetics.source_paths(),
         DATA/'candidate-retained-body-stock.json',DATA/'candidate-replaced-cartridges.json',
         DATA/'candidate-protection-equipment.json',DATA/'candidate-parent-94ad.json',DATA/'candidate-attachment-equipment.json',
-        ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/site-context.json'})
+        ROOT/'cities/catalogue/west-asia/Iraq/Baghdad/site-context.json',
+        Path(rigid_geometry.__file__),ROOT/'engineering/design_search/tests/test_geometry.py'})
 
 
 def _finite(value):
@@ -115,13 +117,54 @@ def validate_candidate(candidate):
     return candidate
 
 
-def mass_properties(candidate,a=None):
+def _diagnostic_mass_properties(candidate,allow_incomplete):
+    """Consume known family stock only with two explicit diagnostic opt-ins."""
+    if allow_incomplete is not True or candidate.get('allow_incomplete_diagnostic') is not True:
+        raise ValueError('incomplete installed stock requires explicit diagnostic permission')
+    state=candidate['diagnostic_mass_state'];bundle=candidate.get('design_search_bundle',{})
+    inventory=bundle.get('installed_inventory')
+    inventory_hash=sha256(encoded(inventory)+b'\n').hexdigest()
+    if (state.get('candidate_id')!=candidate['configuration_sha256'] or bundle.get('candidate_id')!=candidate['configuration_sha256'] or
+        state.get('source_inventory_sha256')!=inventory_hash or state.get('diagnostic_known_stock_only') is not True or
+        state.get('complete_installed_distribution') is not False or state.get('physical_accepted') is not False or not isinstance(inventory,list)):
+        raise ValueError('candidate-bound incomplete mass/inventory contract required')
+    regions=deepcopy(state['regions']);ids=[r['id'] for r in regions]
+    if len(set(ids))!=len(ids) or ids.count('native/AW3-passengers')!=1:raise ValueError('unique known stock and one explicit passenger region required')
+    for region in regions:
+        mass=region['mass_kg'];cg=np.asarray(region['cg_m']);I=np.asarray(region['inertia_kg_m2'])
+        if (not _finite(mass) or mass<=0 or cg.shape!=(3,) or not np.isfinite(cg).all() or I.shape!=(3,3) or
+            not np.isfinite(I).all() or not np.allclose(I,I.T,rtol=0.,atol=1e-7) or np.linalg.eigvalsh(I).min()<-1e-7):
+            raise ValueError('finite positive placed diagnostic material regions required')
+    empty=_combine([r for r in regions if r['id']!='native/AW3-passengers']);laden=_combine(regions)
+    for name,actual in (('empty',empty),('laden',laden)):
+        recorded=state[name]
+        if (not math.isclose(actual['mass_kg'],recorded['mass_kg'],rel_tol=1e-12,abs_tol=1e-7) or
+            not np.allclose(actual['cg_m'],recorded['cg_m'],rtol=0.,atol=1e-8) or
+            not np.allclose(actual['inertia_kg_m2'],recorded['inertia_kg_m2'],rtol=1e-10,atol=1e-5)):
+            raise ValueError('diagnostic mass/CG/inertia differs from actual known regions')
+    if (not math.isclose(empty['mass_kg'],candidate['controlled_tare_kg'],abs_tol=1e-6) or
+        not math.isclose(laden['mass_kg'],candidate['controlled_aw3_kg'],abs_tol=1e-6)):
+        raise ValueError('diagnostic native tare/AW3 ledgers differ')
+    unlocated=sum(r['mass_kg'] for r in regions if 'unlocated' in r['id'])
+    return dict(empty=empty,laden=laden,regions=regions,known_stock_mass_kg=empty['mass_kg'],
+        new_module_mass_kg=sum(r['mass_kg'] for r in regions if r['id'].startswith('native/module/')),
+        supplemental_mass_kg=sum(r['mass_kg'] for r in regions if r['id'].startswith('native/protection/')),
+        propulsion_band_mass_kg=sum(r['mass_kg'] for r in regions if 'propulsion' in r['id']),
+        unlocated_retained_mass_kg=unlocated,retained_placement_height_sensitivity=[],
+        complete_installed_distribution=False,diagnostic_known_stock_only=True,unknown_stock_ids=state['unknown_stock_ids'],
+        source_candidate_id=state['candidate_id'],source_inventory_sha256=inventory_hash,
+        scope='Explicit known-stock-only family diagnostic: actual native/carrier placements retained, unknown stock never remapped into residual mass. Not a complete installed mass or accepted design.')
+
+
+def mass_properties(candidate,a=None,*,allow_incomplete=False):
     """Independent native-stock integration, never inherited20k/600k inertias.
 
     Module physical regions are transformed at each actual mounting point.
     Unlocated retained equipment is counted in full with disclosed placement.
     """
     a=load() if a is None else a;validate_candidate(candidate)
+    if 'diagnostic_mass_state' in candidate:
+        return _diagnostic_mass_properties(candidate,allow_incomplete)
     stock=json.loads((DATA/'candidate-retained-body-stock.json').read_text());regions=[]
     for p in stock['parts']:
         v,c,I=primitive(p);rho=p['density_assumption_kg_m3'];c[2]-=a['placement']['retained_stock_floor_datum_m']
@@ -131,9 +174,8 @@ def mass_properties(candidate,a=None):
     if not math.isclose(retained_mass,stock['mass_kg_per_car'],abs_tol=1e-7):raise ValueError('retained snapshot primitive mass mismatch')
     module=candidate['module'];parts=module['parts'];module_mass=0
     for placement in candidate['module_placements']:
-        rotation=np.asarray(placement.get('rotation_matrix',np.eye(3)),dtype=float)
-        if rotation.shape!=(3,3) or not np.allclose(rotation@rotation.T,np.eye(3),atol=1e-10):raise ValueError('orthonormal module placement axes required')
-        origin=np.asarray(placement['centre_m'])
+        pose=rigid_geometry.rigid_transform(placement.get('rotation_matrix'),placement['centre_m'])
+        rotation=np.asarray(pose['rotation_matrix']);origin=np.asarray(pose['translation_m'])
         for p in parts:
             if 'mass_kg' in p and 'cg_m' in p and 'inertia_kg_m2' in p:
                 mass=p['mass_kg'];c=np.asarray(p['cg_m']);I=np.asarray(p['inertia_kg_m2'])
@@ -314,39 +356,19 @@ def hardpoint_geometry(a=None):
 
 
 def _bounds(part):
-    size=np.asarray(part['size_m'],dtype=float)
-    if part['kind']=='cylinder':
-        axis='xyz'.index(part.get('cylinder_axis','z'));diameter=size[0];run=size[2];size=np.full(3,diameter);size[axis]=run
-    at=np.asarray(part['at_m'],dtype=float)
-    return at,at+size
+    return rigid_geometry.transformed_bounds(part)
 
 
 def _inside(point,part):
-    lo,hi=_bounds(part);p=np.asarray(point)
-    if np.any(p<lo-1e-10) or np.any(p>hi+1e-10):return False
-    if part['kind']=='cylinder':
-        axis='xyz'.index(part.get('cylinder_axis','z'));indices=[i for i in range(3) if i!=axis];centre=(lo+hi)/2
-        if sum((p[i]-centre[i])**2 for i in indices)>(part['size_m'][0]/2)**2:return False
-    for hole in part.get('holes',[]):
-        axis='xyz'.index(hole.get('axis','z'));start=lo[axis]+hole.get('start_m',0.);end=start+hole.get('length_m',hi[axis]-lo[axis]);indices=[i for i in range(3) if i!=axis]
-        if start-1e-10<=p[axis]<=end+1e-10 and sum((p[i]-lo[i]-hole['xyz'[i]+'_m'])**2 for i in indices)<(hole['diameter_m']/2)**2:return False
-    return True
+    return rigid_geometry.inside_material(point,part)
 
 
-def collision_witness(first,second):
-    """Actual positive-volume overlap witness, accounting for drilled voids."""
-    alo,ahi=_bounds(first);blo,bhi=_bounds(second);lo=np.maximum(alo,blo);hi=np.minimum(ahi,bhi)
-    if np.any(hi-lo<=1e-9):return None
-    # Not a full Boolean solver: any reported witness is actually in both
-    # materials. An unreported AABB overlap remains an unresolved near-contact.
-    for fx in (.5,.1,.9,.3,.7):
-        for fy,fz in ((.5,.5),(.1,.1),(.9,.9),(.1,.9),(.9,.1)):
-            point=lo+(hi-lo)*np.array([fx,fy,fz])
-            if _inside(point,first) and _inside(point,second):return dict(point_m=point.tolist(),overlap_bounds_m=[lo.tolist(),hi.tolist()])
-    return None
+def collision_witness(first,second,first_transform=None,second_transform=None):
+    """Actual material witness after explicit proper rigid placements."""
+    return rigid_geometry.collision_witness(first,second,first_transform,second_transform)
 
 
-def interface_clearance(candidate,guideway,a=None):
+def interface_clearance(candidate,guideway,a=None,*,poses=None,max_translation_step_m=.05,max_rotation_step_rad=.02,clearance_m=0.):
     """Continuous rail vs moving vehicle/attachments, plus module-stock fit.
 
     This does not exempt conflicting historic parts. Named joint contacts are
@@ -364,35 +386,55 @@ def interface_clearance(candidate,guideway,a=None):
             operations.append(op)
     added=[]
     for placement in candidate['module_placements']:
-        if not np.allclose(placement.get('rotation_matrix',np.eye(3)),np.eye(3)):raise ValueError('clearance checker requires explicit axis-aligned placement')
+        transform=rigid_geometry.rigid_transform(placement.get('rotation_matrix'),placement['centre_m'])
         for p in candidate['module']['parts']:
             if p.get('equivalent_box'):continue
-            q=deepcopy(p);q['id']=placement['id']+'/'+p['id'];q['at_m']=(np.asarray(p['at_m'])+placement['centre_m']).tolist();added.append(q)
+            q=deepcopy(p);q['id']=placement['id']+'/'+p['id'];q['rigid_transform']=rigid_geometry.compose_transform(transform,p.get('rigid_transform'));q['_assembly_id']=placement['id'];added.append(q)
     # Dedicated propulsion arrays are vehicle parts too, not fixed wayside rail.
     added.extend(deepcopy(candidate.get('propulsion_band',{}).get('parts',[])))
-    fixed=guideway['parts'];findings=[];counts=dict(rail_retained=0,rail_added=0,added_retained=0,module_internal=0);near_count=0
+    fixed=guideway['parts'];findings=[];counts=dict(rail_retained=0,rail_added=0,added_retained=0,module_internal=0,inter_module=0);near_count=0
+    base_retained,base_added=retained,added
+    path=[rigid_geometry.rigid_transform()] if poses is None else poses
+    # Validate timing/step limits and conservative intersample enclosures before
+    # interpreting any sampled results. A lack of material witnesses is not a
+    # continuous swept-clearance pass.
+    swept=None if poses is None else rigid_geometry.swept_clearance(base_retained+base_added,fixed,path,
+        max_translation_step_m=max_translation_step_m,max_rotation_step_rad=max_rotation_step_rad,clearance_m=clearance_m)
+    sample_index=0
     def check(first,second,kind):
         nonlocal near_count
         witness=collision_witness(first,second)
         if witness:
             counts[kind]+=1
-            if len(findings)<160:findings.append(dict(kind=kind,first=first['id'],second=second['id'],**witness))
-        else:
-            lo,hi=_bounds(first);lo2,hi2=_bounds(second)
-            if np.all(np.minimum(hi,hi2)-np.maximum(lo,lo2)>0):near_count+=1
-    # Vectorised broad-phase avoids O(material regions²) scalar checking.
+            if len(findings)<160:findings.append(dict(kind=kind,first=first['id'],second=second['id'],sample_index=sample_index,**witness))
+        elif rigid_geometry.obb_overlap(first,second):near_count+=1
     def compare(left,right,kind):
+        if not right:return
         bounds=[_bounds(p) for p in right];los=np.asarray([x[0] for x in bounds]);his=np.asarray([x[1] for x in bounds])
         for p in left:
             lo,hi=_bounds(p);matches=np.where(np.all(np.minimum(hi,his)-np.maximum(lo,los)>1e-9,axis=1))[0]
             for i in matches:check(p,right[int(i)],kind)
-    compare(fixed,retained,'rail_retained');compare(fixed,added,'rail_added');compare(added,retained,'added_retained')
+    for sample_index,pose in enumerate(path):
+        def placed(part):
+            q=deepcopy(part);q['rigid_transform']=rigid_geometry.compose_transform(pose,part.get('rigid_transform'));return q
+        retained=[placed(p) for p in base_retained];added=[placed(p) for p in base_added]
+        compare(fixed,retained,'rail_retained');compare(fixed,added,'rail_added');compare(added,retained,'added_retained')
+        # Different independently placed modules may collide after rotation,
+        # even though each module's local stock is internally unchanged.
+        bounds=[_bounds(p) for p in added];los=np.asarray([x[0] for x in bounds]);his=np.asarray([x[1] for x in bounds])
+        for i,p in enumerate(added):
+            matches=np.where(np.all(np.minimum(his[i],his[i+1:])-np.maximum(los[i],los[i+1:])>1e-9,axis=1))[0]
+            for index in matches:
+                q=added[i+1+int(index)]
+                if p.get('_assembly_id')!=q.get('_assembly_id'):check(p,q,'inter_module')
     module_parts=[p for p in candidate['module']['parts'] if not p.get('equivalent_box')]
     for i,p in enumerate(module_parts):
         for q in module_parts[i+1:]:check(p,q,'module_internal')
-    return dict(counts=counts,material_interference_count=sum(counts.values()),findings=findings,retained_machining_operations_applied=operations,unresolved_overlapping_bounds_without_sample_witness=near_count,
-        passed_no_material_witness=sum(counts.values())==0,clearance_tolerance_approved=False,
-        scope='Box/cylinder point-in-material witnesses account for drilled voids; a material witness is a definite interference. Absence is bounded AABB/point screening, not continuous swept native collision/tolerance acceptance. Rails extend continuously across25m, so their static overlap also obstructs through motion.')
+    return dict(counts=counts,material_interference_count=sum(counts.values()),findings=findings,retained_machining_operations_applied=operations,
+        unresolved_overlapping_bounds_without_sample_witness=near_count,passed_no_material_witness=sum(counts.values())==0,
+        sampled_pose_count=len(path),swept_path_assessed=swept is not None,swept_clearance=swept,
+        continuous_clearance_screen=False if swept is None else swept['continuous_envelopes_separated'],clearance_tolerance_approved=False,
+        scope='Proper rigid module placements and optional sampled body motion; transformed OBBs enclose actual drilled box/cylinder stock. Material witnesses prove interference. Unresolved sampled/intersample envelopes block continuous clearance; no native deformation/tolerance acceptance.')
 
 
 def mechanical(candidate,mass,loads,a=None):
@@ -567,7 +609,17 @@ def return_rail_and_attachments(candidate,span_m=25.,a=None):
     """New L-return steel plus real transverse supports; no old steel allowance."""
     from . import candidate_magnetics
     a=load() if a is None else a;r=a['rail_support'];rho=a['steel']['density_kg_m3']
-    guideway=candidate_magnetics.guideway_definition(span_m,variant_id=candidate['variant_id'])
+    reference=candidate_magnetics.guideway_definition(span_m,variant_id=candidate['variant_id'])
+    guideway=deepcopy(candidate.get('guideway_definition',reference))
+    if 'guideway_definition' in candidate:
+        source=candidate.get('source_candidate_configuration_sha256')
+        module_hash=sha256(encoded(candidate['module'])).hexdigest()
+        if (guideway.get('source_configuration_sha256')!=source or source!=reference['configuration_sha256'] or
+            guideway.get('guideway_source_module_sha256')!=module_hash or guideway.get('span_m')!=span_m or
+            encoded(guideway.get('parts'))!=encoded(reference['parts']) or encoded(guideway.get('faces'))!=encoded(reference['faces'])):
+            raise ValueError('explicit guideway inheritance lacks exact source module/rail/span identity')
+        canonical=candidate_magnetics.definition(candidate['variant_id'])
+        if encoded(canonical['module'])!=encoded(candidate['module']):raise ValueError('changed magnetic module cannot inherit the canonical reaction rail')
     if guideway['configuration_sha256']!=candidate['configuration_sha256']:raise ValueError('return rail and vehicle candidate identity differ; source changed or candidate is stale')
     rows=guideway['parts'];rail_volume=math.fsum(p['volume_m3'] for p in rows)
     rail_mass=math.fsum(p['mass_kg'] for p in rows)
@@ -625,18 +677,35 @@ def _simple_beam(loads,L,x):
     return R,right,M,V
 
 
-def moving_envelope(candidate,loads,span_m=25.,dead_n_m=0.,step_m=.25):
+def _prestress_sections(span_m,concrete):
+    transfer=concrete['strand_transfer_length_m'];debond=concrete['end_debond_length_m']
+    special=[0.,transfer,debond,debond+transfer,span_m-transfer,span_m-debond,span_m-debond-transfer,span_m]
+    return np.unique(np.r_[np.linspace(0,span_m,201),[x for x in special if 0<=x<=span_m]])
+
+
+def moving_envelope(candidate,loads,span_m=25.,dead_n_m=0.,step_m=.25,*,section_positions_m=None):
     """Exact module point forces scanned across one candidate-specific span."""
     if not _finite(step_m) or not 0<step_m<=1:raise ValueError('bounded moving-load step required')
-    L=span_m;x=np.linspace(0,L,201);cars=candidate['cars'];pitch=load()['loads']['car_pitch_m'];case=next(c for c in loads['cases'] if c['id']=='AW3-vertical-dynamic')
+    if not _finite(span_m) or not 0<span_m<=200 or not _finite(dead_n_m) or dead_n_m<0:raise ValueError('positive bounded span and nonnegative dead load required')
+    L=span_m;reference=load();x=_prestress_sections(L,reference['concrete']) if section_positions_m is None else np.asarray(section_positions_m,dtype=float)
+    if x.ndim!=1 or len(x)<2 or not np.isfinite(x).all() or np.any(np.diff(x)<=0) or x[0]!=0 or x[-1]!=L:raise ValueError('ordered service sections must cover the entire span')
+    cars=candidate['cars'];pitch=reference['loads']['car_pitch_m'];case=next(c for c in loads['cases'] if c['id']=='AW3-vertical-dynamic')
     # Train coordinate origin is the rear car centre; translate through every
     # module entering/leaving the span. Preserve actual asymmetric forces.
     train=[(car*pitch+m['at_m'][0],m['force_n'][2],m['at_m'][1]) for car in range(cars) for m in case['modules']]
     earliest=min(p for p,F,y in train);latest=max(p for p,F,y in train);offsets=np.arange(-latest,L-earliest+step_m/2,step_m)
     result=dict(max_moment_nm=0.,max_live_moment_nm=0.,max_shear_n=0.,max_end_reaction_n=0.,max_torsion_nm=0.,max_live_deflection_times_EI_n_m3=0.,critical_points=[],critical_offset_m=None)
+    # Every section has its own governing train placement. The unloaded span
+    # is essential: removing live moment can govern eccentric-prestress stress.
+    service_min=dead_n_m*x*(L-x)/2;service_max=service_min.copy()
+    minimum_offsets=[None]*len(x);maximum_offsets=[None]*len(x)
     for offset in offsets:
         active=[(p+offset,F,y) for p,F,y in train if 0<=p+offset<=L];pts=[(p,F) for p,F,y in active]
         left,right,M,V=_simple_beam((pts,dead_n_m),L,x);live=_simple_beam((pts,0.),L,x)[2]
+        lower=M<service_min;upper=M>service_max
+        for index in np.flatnonzero(lower):minimum_offsets[int(index)]=float(offset)
+        for index in np.flatnonzero(upper):maximum_offsets[int(index)]=float(offset)
+        service_min=np.minimum(service_min,M);service_max=np.maximum(service_max,M)
         peak=float(np.max(M));torque=abs(sum(F*y for p,F,y in active))
         if peak>result['max_moment_nm']:result.update(max_moment_nm=peak,critical_points=[dict(x_m=p,force_n=F,y_m=y) for p,F,y in active],critical_offset_m=float(offset),critical_moment_samples_nm=M.tolist())
         result['max_live_moment_nm']=max(result['max_live_moment_nm'],float(np.max(live)))
@@ -653,6 +722,9 @@ def moving_envelope(candidate,loads,span_m=25.,dead_n_m=0.,step_m=.25):
     # torsion envelope; local load sharing along the rail remains unverified.
     result['max_torsion_nm']=max(result['max_torsion_nm'],2*max(abs(c['target_wrench'][3]) for c in loads['cases']))
     result.update(x_samples_m=x.tolist(),scan_step_m=step_m,positions=len(offsets),span_m=L,dead_udl_n_m=dead_n_m,
+        service_moment_min_nm=service_min.tolist(),service_moment_max_nm=service_max.tolist(),
+        service_min_governing_offsets_m=minimum_offsets,service_max_governing_offsets_m=maximum_offsets,
+        unloaded_span_included=True,section_envelope_scope='Section-specific signed moments over every sampled train position plus the unloaded dead-load span; spatial and train-placement discretisation remain explicit.',
         equilibrium_control=dict(point_midspan_reactions_n=[.5,.5],point_midspan_moment_per_n_m=L/4,udl_moment_per_n_m=L*L/8),
         scope='Candidate six-car module force pattern scanned at0.25m; exact point-load equilibrium per placement. Scan discretisation and simply supported single-span/static factors do not validate train-track dynamics or continuous guideway behavior.')
     return result
@@ -681,8 +753,38 @@ def _handling_moment(w,L,support_fraction):
     return min(moments),max(moments)
 
 
+def service_moment_bounds(envelope,positions,span_m,dead_n_m):
+    """Section-local signed envelope, never one globally critical train position.
+
+    Legacy scalar-only envelopes retain API compatibility through a conservative
+    signed global bound. They cannot recover a missing local train placement.
+    """
+    x=np.asarray(positions,dtype=float)
+    if x.ndim!=1 or not np.isfinite(x).all() or np.any(x<0) or np.any(x>span_m):raise ValueError('finite in-span service sections required')
+    if 'service_moment_min_nm' not in envelope:
+        bound=max(abs(float(envelope['max_moment_nm'])),abs(float(envelope.get('min_moment_nm',0.))))
+        if not math.isfinite(bound):raise ValueError('finite conservative legacy moment bound required')
+        return [[dict(moment_nm=lo,train_offset_m=None,basis='legacy-global-conservative-bound'),dict(moment_nm=hi,train_offset_m=None,basis='legacy-global-conservative-bound')]
+                for lo,hi in [(-bound,bound) for _ in x]]
+    grid=np.asarray(envelope['x_samples_m'],dtype=float);low=np.asarray(envelope['service_moment_min_nm'],dtype=float);high=np.asarray(envelope['service_moment_max_nm'],dtype=float)
+    if (grid.ndim!=1 or len(grid)<2 or low.shape!=grid.shape or high.shape!=grid.shape or not np.isfinite([grid,low,high]).all()
+            or np.any(np.diff(grid)<=0) or np.any(low>high) or not math.isclose(envelope['span_m'],span_m,abs_tol=1e-10)
+            or not math.isclose(envelope['dead_udl_n_m'],dead_n_m,rel_tol=1e-12,abs_tol=1e-9)
+            or envelope.get('unloaded_span_included') is not True):raise ValueError('consistent section-wise service envelope required')
+    minimum=envelope['service_min_governing_offsets_m'];maximum=envelope['service_max_governing_offsets_m']
+    if len(minimum)!=len(grid) or len(maximum)!=len(grid):raise ValueError('governing section offsets required')
+    result=[]
+    for xx in x:
+        index=int(np.argmin(abs(grid-xx)))
+        if abs(grid[index]-xx)>1e-9:raise ValueError('service envelope must explicitly sample each prestress section; interpolation could underbound local extremes')
+        result.append([dict(moment_nm=float(low[index]),train_offset_m=minimum[index],basis='unloaded-dead-span' if minimum[index] is None else 'section-minimum-train-position'),
+            dict(moment_nm=float(high[index]),train_offset_m=maximum[index],basis='unloaded-dead-span' if maximum[index] is None else 'section-maximum-train-position')])
+    return result
+
+
 def prestress_design(section,envelope,dead_n_m,a=None):
     a=load() if a is None else a;c=a['concrete'];L=c['span_m'];sp=section_properties(section);area=sp['area_m2'];Z=sp['Z_m3'];h=section['depth_m'];trials=[]
+    service_x=_prestress_sections(L,c);service=service_moment_bounds(envelope,service_x,L,dead_n_m)
     # Transfer/handling checks use actual strand forces and positions. Debonded
     # strands develop after their declared debond and transfer lengths.
     for nb in c['prestress_bottom_counts']:
@@ -693,15 +795,16 @@ def prestress_design(section,envelope,dead_n_m,a=None):
                 if debond>nb:continue
                 stages=[];initial=c['strand_area_m2']*c['strand_strength_pa']*c['strand_initial_stress_fraction']
                 for stage,kind,factor,loss in [('release','overhang',1.,0.),('lifting','overhang',a['construction']['handling_dynamic_factor'],0.),('transport','transport',a['construction']['transport_dynamic_factor'],0.),('service','service',1.,c['prestress_loss_fraction'])]:
-                    stresses=[];limits=c['transfer_strength_pa']*c['transfer_compression_fraction'] if stage!='service' else c['strength_pa']*c['service_compression_fraction']
+                    stresses=[];stress_records=[];limits=c['transfer_strength_pa']*c['transfer_compression_fraction'] if stage!='service' else c['strength_pa']*c['service_compression_fraction']
                     tensile=c['transfer_tension_screen_pa'] if stage!='service' else c['service_tension_screen_pa']
-                    for xx in np.linspace(0,L,51):
+                    for section_index,xx in enumerate(service_x):
                         if kind=='service':
-                            p=[(r['x_m'],r['force_n']) for r in envelope['critical_points']];M=float(_simple_beam((p,dead_n_m),L,[xx])[2][0])
+                            moment_cases=service[section_index]
                         else:
                             frac=a['construction']['transport_support_fraction'] if kind=='transport' else a['construction']['lifting_support_fraction']
                             s=frac*L;w=dead_n_m*factor;R=w*L/2
                             M=-w*xx*xx/2+(R*(xx-s) if xx>s else 0)+(R*(xx-(L-s)) if xx>L-s else 0)
+                            moment_cases=[dict(moment_nm=M,train_offset_m=None,basis='construction-stage')]
                         Ps=0.;Pe=0.;bottom_seen=0
                         for strand in coords:
                             start=0.
@@ -710,11 +813,13 @@ def prestress_design(section,envelope,dead_n_m,a=None):
                                 bottom_seen+=1
                             transfer=max(0.,min(1.,(min(xx,L-xx)-start)/c['strand_transfer_length_m']))
                             P=initial*(1-loss)*transfer;Ps+=P;Pe+=P*(h/2-strand['z_m'])
-                        top=Ps/area-Pe/Z+M/Z;bottom=Ps/area+Pe/Z-M/Z
-                        stresses.extend([top,bottom])
+                        for moment_case in moment_cases:
+                            M=moment_case['moment_nm'];top=Ps/area-Pe/Z+M/Z;bottom=Ps/area+Pe/Z-M/Z
+                            for face,stress in (('top',top),('bottom',bottom)):
+                                stresses.append(stress);stress_records.append(dict(x_m=float(xx),face=face,stress_pa=stress,**moment_case))
                     arithmetic=c['arithmetic_residual_pa']
                     stages.append(dict(id=stage,maximum_compression_pa=max(stresses),minimum_compression_pa=min(stresses),compression_limit_pa=limits,tensile_limit_pa=-tensile,
-                        arithmetic_residual_pa=arithmetic,passed=bool(max(stresses)<=limits+arithmetic and min(stresses)>=-tensile-arithmetic)))
+                        arithmetic_residual_pa=arithmetic,governing_maximum=stress_records[int(np.argmax(stresses))],governing_minimum=stress_records[int(np.argmin(stresses))],passed=bool(max(stresses)<=limits+arithmetic and min(stresses)>=-tensile-arithmetic)))
                 # An independently imposed accidental capture envelope is kept
                 # apart from ordinary live demand and cannot be hidden by a pass.
                 totalP=initial*(nb+nt)*(1-c['prestress_loss_fraction']);ecc=sum(initial*(1-c['prestress_loss_fraction'])*(h/2-s['z_m']) for s in coords)/totalP
@@ -761,7 +866,7 @@ def beam_design(candidate,loads,rail,a=None):
         cc=loads['capture'];capture_case=dict(id='AW3-vertical-dynamic',modules=[dict(at_m=p,force_n=f) for p,f in zip(cc['points_m'],cc['forces_n'])],target_wrench=cc['target_wrench'])
         rebarmass=0.;strandmass=0.;previous=None
         for iteration in range(5):
-            dead=(concrete_mass+rail['steel_mass_kg']+rebarmass+strandmass)*g/L;envelope=moving_envelope(candidate,loads,L,dead);capture_envelope=moving_envelope(candidate,dict(cases=[capture_case]),L,dead)
+            dead=(concrete_mass+rail['steel_mass_kg']+rebarmass+strandmass)*g/L;envelope=moving_envelope(candidate,loads,L,dead,section_positions_m=_prestress_sections(L,c));capture_envelope=moving_envelope(candidate,dict(cases=[capture_case]),L,dead,section_positions_m=_prestress_sections(L,c))
             z=.8*h;Ak=sp['torsion_midline_area_m2'];required=max(max(envelope['max_shear_n'],capture_envelope['max_shear_n'])/(z*c['rebar_design_stress_pa']),envelope['max_torsion_nm']/(2*Ak*c['rebar_design_stress_pa']))
             d=.012;legarea=2*math.pi*d*d/4;pitches=[.10,.125,.15,.20,.25];pitch=max([p for p in pitches if legarea/p>=required] or [.10])
             count=math.ceil(L/pitch)+1;cut=2*(b-2*c['cover_m']+h-2*c['cover_m'])+20*d
@@ -772,8 +877,8 @@ def beam_design(candidate,loads,rail,a=None):
             rebarmass,strandmass=newrebar,newstrand
             if totals==previous:break
             previous=totals
-        dead=(concrete_mass+rail['steel_mass_kg']+rebarmass+strandmass)*g/L;envelope=moving_envelope(candidate,loads,L,dead)
-        capture_envelope=moving_envelope(candidate,dict(cases=[capture_case]),L,dead)
+        dead=(concrete_mass+rail['steel_mass_kg']+rebarmass+strandmass)*g/L;envelope=moving_envelope(candidate,loads,L,dead,section_positions_m=_prestress_sections(L,c))
+        capture_envelope=moving_envelope(candidate,dict(cases=[capture_case]),L,dead,section_positions_m=_prestress_sections(L,c))
         # Maximum live deflection integrates the retained exact critical pattern
         # and explicitly reports the uncracked elastic section assumption.
         points=[(r['x_m'],r['force_n']) for r in envelope['critical_points']];xx=np.linspace(0,L,501);M=_simple_beam((points,0),L,xx)[2]
@@ -792,7 +897,7 @@ def beam_design(candidate,loads,rail,a=None):
         if ps['selected']:
             sel=ps['selected'];P=sel['effective_prestress_n'];ecc=sel['eccentricity_m'];Mcap=capture_envelope['max_moment_nm'];capture_stresses=[P/sp['area_m2']-P*ecc/sp['Z_m3']+Mcap/sp['Z_m3'],P/sp['area_m2']+P*ecc/sp['Z_m3']-Mcap/sp['Z_m3']]
         capture_pass=bool(capture_stresses and min(capture_stresses)>=-c['arithmetic_residual_pa'] and max(capture_stresses)<=c['strength_pa']*c['service_compression_fraction']+c['arithmetic_residual_pa'])
-        rows.append(dict(id=sec['id'],section=sec,properties=sp,concrete_volume_m3=volume,end_infill_volume_m3=infill,concrete_mass_kg=concrete_mass,
+        rows.append(dict(id=sec['id'],section_id=sec['id'],span_m=L,configuration_sha256=candidate['configuration_sha256'],section=sec,properties=sp,concrete_volume_m3=volume,end_infill_volume_m3=infill,concrete_mass_kg=concrete_mass,
             reaction_rail_and_attachment_steel_mass_kg=rail['steel_mass_kg'],reinforcement_mass_kg=rebarmass,strand_mass_kg=strandmass,gross_mass_kg=grossmass,
             dead_load_n_m=dead,moving_load=envelope,capture_moving_load=capture_envelope,prestress=ps,
             capture_stress_screen=dict(face_stresses_pa=capture_stresses,passed=capture_pass,force_capability_qualified=False,scope='Independent moving8shoe energy-average pattern. Actual50k shoe rating failure remains separate; no clipped force is used to make the concrete screen pass.'),
@@ -811,6 +916,38 @@ def beam_design(candidate,loads,rail,a=None):
             passed_implemented_screens=bool(ps['passed'] and capture_pass and deflection<=L/c['beam_live_deflection_divisor'] and crossstress<=a['steel']['stress_screen_pa'] and stirrup_capacity>=max(envelope['max_shear_n'],capture_envelope['max_shear_n']) and capacity is not None and suspended<=capacity),
             accepted=False))
     return rows
+
+
+def selected_beam(candidate,*,selection=None,section_id=None,span_m=None,a=None,allow_incomplete=False):
+    """Resolve one explicit beam/span for analysis, quantities and geometry.
+
+    An architecture declaration and an explicit selection must agree. The legacy
+    choice is named by ID, independent of the configured section-list ordering.
+    """
+    architecture=candidate.get('architecture',{}).get('guidebeam')
+    parameters=deepcopy(load() if a is None else a)
+    default=dict(section_id='narrow-deep-reference',span_m=parameters['concrete']['span_m'])
+    if section_id is not None or span_m is not None:
+        keyword=dict(section_id=section_id or (selection or architecture or default)['section_id'],span_m=span_m if span_m is not None else (selection or architecture or default)['span_m'])
+        if selection is not None and keyword!=selection:raise ValueError('conflicting explicit beam selections')
+        selection=keyword
+    def checked(value):
+        if not isinstance(value,dict) or set(value)!={'section_id','span_m'} or not isinstance(value['section_id'],str):raise ValueError('explicit beam section/span required')
+        if not _finite(value['span_m']) or not 15<=value['span_m']<=35:raise ValueError('selected beam span must be within declared15..35m trial domain')
+        return dict(section_id=value['section_id'],span_m=float(value['span_m']))
+    chosen=checked(selection if selection is not None else architecture if architecture is not None else default)
+    if architecture is not None and checked(architecture)!=chosen:raise ValueError('explicit beam selection differs from candidate architecture')
+    a=parameters;sections=[section for section in a['beam_sections'] if section['id']==chosen['section_id']]
+    if len(sections)!=1:raise ValueError('one named configured beam section required')
+    if chosen['span_m']<=2*a['concrete']['end_block_length_m']:raise ValueError('beam end blocks overlap at the selected span')
+    a['concrete']['span_m']=chosen['span_m'];a['beam_sections']=sections
+    mass=mass_properties(candidate,a,allow_incomplete=allow_incomplete);loads=load_cases(candidate,mass,a)
+    rail=return_rail_and_attachments(candidate,chosen['span_m'],a)
+    beams=beam_design(candidate,loads,rail,a)
+    matches=[beam for beam in beams if beam['section_id']==chosen['section_id'] and beam['span_m']==chosen['span_m']]
+    if len(matches)!=1:raise ValueError('selected beam evaluator did not return the exact section/span')
+    beam=next(iter(matches))
+    return dict(beam=beam,rail_and_attachments=rail,selection=chosen,assumptions=a,configuration_sha256=candidate['configuration_sha256'])
 
 
 def dynamics_properties(candidate=None,section_id='narrow-deep-reference'):
@@ -977,9 +1114,21 @@ def _bom(beams,substructures,bearings):
     return rows
 
 
-def geometry_definition(value):
+def geometry_definition(value,*,beam=None,selection=None):
     """Counted representative physical units; alternatives are kept separate."""
-    beam=value['civil']['beam_variants'][0];s=beam['section'];L=25.;b=s['width_m'];h=s['depth_m'];tw=s['web_m'];tf=s['flange_m'];top=value['assumptions']['rail_support']['beam_top_z_m'];bottom=top-h;parts=[]
+    selected=selection or value.get('beam_selection') or dict(section_id='narrow-deep-reference',span_m=25.)
+    if not isinstance(selected,dict) or set(selected)!={'section_id','span_m'}:raise ValueError('named structural geometry section/span required')
+    matches=[row for row in value['civil']['beam_variants'] if row['id']==selected['section_id']]
+    if len(matches)!=1:raise ValueError('one exact named beam geometry required')
+    resolved=next(iter(matches))
+    if beam is not None and encoded(beam)!=encoded(resolved):raise ValueError('supplied beam geometry differs from the selected computed row')
+    beam=resolved;L=selected['span_m']
+    if (not _finite(L) or not 0<L<=100 or value['assumptions']['concrete']['span_m']!=L or
+        beam.get('span_m',L)!=L or beam.get('configuration_sha256',value['configuration_sha256'])!=value['configuration_sha256'] or
+        value['civil']['rail_and_attachments']['guideway']['span_m']!=L or
+        value['civil']['rail_and_attachments']['guideway']['configuration_sha256']!=value['configuration_sha256']):
+        raise ValueError('beam/rail/geometry span and candidate identity differ')
+    s=beam['section'];b=s['width_m'];h=s['depth_m'];tw=s['web_m'];tf=s['flange_m'];top=value['assumptions']['rail_support']['beam_top_z_m'];bottom=top-h;parts=[]
     def add(uid,size,at,material):parts.append(dict(id=uid,kind='box',size_m=size,at_m=at,material=material,volume_m3=math.prod(size)))
     add('girder/bottom-flange',[L,b,tf],[-L/2,-b/2,bottom],'concrete')
     add('girder/top-flange',[L,b,tf],[-L/2,-b/2,top-tf],'concrete')
@@ -991,7 +1140,7 @@ def geometry_definition(value):
     if not math.isclose(actual,beam['concrete_volume_m3'],abs_tol=1e-9):raise ValueError('drawn concrete does not match counted section')
     return dict(schema='osr-candidate-structural-geometry/1',configuration_sha256=value['configuration_sha256'],parts=parts,
         prestress_coordinates=beam['prestress']['selected']['strand_coordinates'] if beam['prestress']['selected'] else [],
-        reference_frame='x centred on25m span,y acrosssingletrainbeam,z fromvehiclefinishedfloor',
+        reference_frame=f'x centred on{L:g}m span,y acrosssingletrainbeam,z fromvehiclefinishedfloor',span_m=L,section_id=selected['section_id'],
         net_manufactured_solids_complete=False,
         explicit_holds=['Fixed RHS crossmembers require engineered cast-in web blockouts/infill/anchors; concrete volume is gross conservative stock, not net Boolean concrete around steel.',
             'Rail joints, clips, anchors, rebar bends/hooks/strand terminations, local stiffeners and concrete cover tolerance require detailed native geometry.',

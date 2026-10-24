@@ -314,3 +314,155 @@ def test_publication_rejects_rehashed_quantity_and_geometry_forgery(tmp_path,mon
     with pytest.raises(ValueError,match='pixels'):structures.verify(tmp_path)
     structures.publish(tmp_path);m=json.loads((tmp_path/'manifest.json').read_text());m['configuration_sha256']='0'*64;(tmp_path/'manifest.json').write_bytes(structures.encoded(m))
     with pytest.raises(ValueError,match='stale'):structures.verify(tmp_path)
+
+
+def test_each_section_uses_its_own_governing_train_position():
+    # A single load's largest whole-beam moment occurs atmidspan. Near theend,
+    # however, that same load must sit at the section being checked, notmidspan.
+    case=dict(id='AW3-vertical-dynamic',modules=[dict(at_m=[0,0,0],force_n=[0,0,150000.])],target_wrench=[0,0,150000.,0,0,0])
+    envelope=structures.moving_envelope(dict(cars=1),dict(cases=[case]),10.,1000.,.1)
+    section=.2
+    local=structures.service_moment_bounds(envelope,[section],10.,1000.)
+    expected=150000.*section*(10-section)/10+1000.*section*(10-section)/2
+    assert local[0][1]['moment_nm']==pytest.approx(expected)
+    assert local[0][1]['train_offset_m']==pytest.approx(section)
+    global_points=[(r['x_m'],r['force_n']) for r in envelope['critical_points']]
+    old=structures._simple_beam((global_points,1000.),10.,[section])[2][0]
+    assert local[0][1]['moment_nm']>old*1.8
+    assert local[0][0]['moment_nm']==pytest.approx(1000.*section*(10-section)/2)
+
+
+def test_unloaded_end_transfer_stress_cannot_be_hidden_by_midspan_train():
+    # Independent closed-form fixture. The threshold deliberately lies between
+    # the former wrong-position stress and the actual unloaded prestress stress.
+    a=deepcopy(structures.load());c=a['concrete']
+    c.update(span_m=10.,prestress_bottom_counts=[4],prestress_top_counts=[0],prestress_debond_counts=[0],service_tension_screen_pa=500000.)
+    section=dict(id='oracle',width_m=1.,depth_m=1.,web_m=.1,flange_m=.2)
+    case=dict(id='AW3-vertical-dynamic',modules=[dict(at_m=[0,0,0],force_n=[0,0,150000.])],target_wrench=[0,0,150000.,0,0,0])
+    envelope=structures.moving_envelope(dict(cars=1),dict(cases=[case]),10.,1000.,.1)
+    result=structures.prestress_design(section,envelope,1000.,a)
+    stage=result['selected']['stages'][-1]
+    # Four fully transferred bottom strands atx1m; no live load governs.
+    A=1.-.8*.6;I=(1.-.8*.6**3)/12;Z=I/.5
+    strand_z=.05+.0152/2
+    force=4*.00014*1860e6*.7*.8
+    moment=1000.*1.*9./2
+    expected=force/A-force*(.5-strand_z)/Z+moment/Z
+    assert stage['governing_minimum']['x_m']==pytest.approx(1.)
+    assert stage['governing_minimum']['face']=='top'
+    assert stage['minimum_compression_pa']==pytest.approx(expected)
+    assert not stage['passed']
+    wrong=deepcopy(envelope)
+    points=[(r['x_m'],r['force_n']) for r in envelope['critical_points']]
+    pattern=structures._simple_beam((points,1000.),10.,envelope['x_samples_m'])[2].tolist()
+    wrong['service_moment_min_nm']=pattern;wrong['service_moment_max_nm']=pattern
+    for key in ('service_min_governing_offsets_m','service_max_governing_offsets_m'):
+        wrong[key]=[envelope['critical_offset_m']]*len(pattern)
+    old_stage=structures.prestress_design(section,wrong,1000.,a)['selected']['stages'][-1]
+    assert old_stage['passed']
+    assert old_stage['minimum_compression_pa']>-500000.
+
+
+def test_prestress_envelope_rejects_mismatched_span_and_unsampled_section():
+    case=dict(id='AW3-vertical-dynamic',modules=[dict(at_m=[0,0,0],force_n=[0,0,100])],target_wrench=[0,0,100,0,0,0])
+    envelope=structures.moving_envelope(dict(cars=1),dict(cases=[case]),25.,10.,.5)
+    with pytest.raises(ValueError,match='consistent'):structures.service_moment_bounds(envelope,[1.],24.,10.)
+    with pytest.raises(ValueError,match='explicitly sample'):structures.service_moment_bounds(envelope,[.01],25.,10.)
+
+
+def test_interface_clearance_accepts_rotated_modules_and_rejects_reflections(candidate):
+    from engineering.design_search.geometry import rigid_transform
+    angle=.03;c,s=math.cos(angle),math.sin(angle)
+    changed=deepcopy(candidate)
+    changed['module_placements'][0]['rotation_matrix']=[[c,-s,0],[s,c,0],[0,0,1]]
+    guideway=magnetics.guideway_definition(25,variant_id=candidate['variant_id'])
+    result=structures.interface_clearance(changed,guideway)
+    assert result['sampled_pose_count']==1
+    assert result['clearance_tolerance_approved'] is False
+    changed['module_placements'][0]['rotation_matrix']=[[-1,0,0],[0,1,0],[0,0,1]]
+    with pytest.raises(ValueError,match='proper orthonormal'):structures.interface_clearance(changed,guideway)
+
+
+def test_selected_beam_explicit_span_propagates_to_geometry_and_end_infill(candidate):
+    bundle=structures.selected_beam(candidate,section_id='wider-intermediate',span_m=20.)
+    beam=bundle['beam'];rail=bundle['rail_and_attachments']
+    assert beam['section_id']=='wider-intermediate' and beam['span_m']==20.
+    assert rail['guideway']['span_m']==20.
+    assert beam['moving_load']['span_m']==20.
+    assert bundle['assumptions']['concrete']['span_m']==20.
+    value=dict(configuration_sha256=candidate['configuration_sha256'],assumptions=bundle['assumptions'],civil=dict(beam_variants=[beam],rail_and_attachments=rail))
+    geometry=structures.geometry_definition(value,selection=bundle['selection'])
+    assert geometry['span_m']==20. and geometry['section_id']=='wider-intermediate'
+    concrete=[p for p in geometry['parts'] if p['material']=='concrete']
+    assert sum(p['volume_m3'] for p in concrete)==pytest.approx(beam['concrete_volume_m3'])
+    assert len([p for p in concrete if p['id'].startswith('girder/end-infill')])==2
+    value['civil']['rail_and_attachments']['guideway']['span_m']=25.
+    with pytest.raises(ValueError,match='span and candidate'):structures.geometry_definition(value,selection=bundle['selection'])
+
+
+def test_selected_beam_rejects_unknown_mixed_or_unsupported_selection(candidate):
+    for choice in (dict(section_id='missing',span_m=25.),dict(section_id='narrow-deep-reference',span_m=50.)):
+        with pytest.raises(ValueError):structures.selected_beam(candidate,selection=choice)
+    changed=deepcopy(candidate);changed['architecture']=dict(guidebeam=dict(section_id='narrow-deep-reference',span_m=20.))
+    with pytest.raises(ValueError,match='architecture'):structures.selected_beam(changed,selection=dict(section_id='wider-intermediate',span_m=20.))
+
+
+def test_explicit_guideway_binding_cannot_relabel_a_different_module(candidate):
+    from hashlib import sha256
+    changed=deepcopy(candidate);old=changed['configuration_sha256'];changed['configuration_sha256']='a'*64
+    changed['source_candidate_configuration_sha256']=old
+    rail=magnetics.guideway_definition(20.,variant_id=candidate['variant_id'])
+    rail.update(configuration_sha256=changed['configuration_sha256'],source_configuration_sha256=old,guideway_source_module_sha256=sha256(structures.encoded(changed['module'])).hexdigest())
+    changed['guideway_definition']=rail
+    bound=structures.return_rail_and_attachments(changed,20.)
+    assert bound['guideway']['configuration_sha256']=='a'*64
+    forged=deepcopy(changed);forged['module']['parts'][0]['size_m'][0]*=2
+    forged['guideway_definition']['guideway_source_module_sha256']=sha256(structures.encoded(forged['module'])).hexdigest()
+    with pytest.raises(ValueError,match='changed magnetic module'):structures.return_rail_and_attachments(forged,20.)
+    forged=deepcopy(changed);forged['guideway_definition']['parts'][0]['mass_kg']+=1
+    with pytest.raises(ValueError,match='source module/rail/span'):structures.return_rail_and_attachments(forged,20.)
+
+
+def test_trial_span_retains_exact_strand_transfer_and_debond_boundaries():
+    case=dict(id='AW3-vertical-dynamic',modules=[dict(at_m=[0,0,0],force_n=[0,0,100])],target_wrench=[0,0,100,0,0,0])
+    envelope=structures.moving_envelope(dict(cars=1),dict(cases=[case]),17.,100.,.5)
+    for x in (1.,1.5,2.5,14.5,15.5,16.):
+        assert any(abs(sample-x)<1e-12 for sample in envelope['x_samples_m'])
+
+
+def diagnostic_candidate(candidate):
+    base=structures.mass_properties(candidate);changed=deepcopy(candidate)
+    regions=[dict(deepcopy(region),id='native/'+region['id']) for region in base['regions']]
+    regions.append(structures._uniform_region('carrier/new-known-stock',100.,[7.,0.,1.],[1.,1.,1.],'Synthetic explicit known stock'))
+    empty=structures._combine([r for r in regions if r['id']!='native/AW3-passengers']);laden=structures._combine(regions)
+    inventory=[dict(id='carrier/new-known-stock',mass_kg=100.),dict(id='joint/unknown',mass_kg=None)]
+    inventory_hash=__import__('hashlib').sha256(structures.encoded(inventory)+b'\n').hexdigest()
+    changed.update(controlled_tare_kg=empty['mass_kg'],controlled_aw3_kg=laden['mass_kg'],allow_incomplete_diagnostic=True,
+        design_search_bundle=dict(candidate_id=changed['configuration_sha256'],installed_inventory=inventory),
+        diagnostic_mass_state=dict(candidate_id=changed['configuration_sha256'],source_inventory_sha256=inventory_hash,
+            empty=empty,laden=laden,regions=regions,diagnostic_known_stock_only=True,unknown_stock_ids=['joint/unknown'],
+            complete_installed_distribution=False,physical_accepted=False))
+    return changed,base
+
+
+def test_diagnostic_carrier_stock_keeps_real_placement_and_requires_opt_in(candidate):
+    changed,base=diagnostic_candidate(candidate)
+    with pytest.raises(ValueError,match='explicit diagnostic permission'):structures.mass_properties(changed)
+    mass=structures.mass_properties(changed,allow_incomplete=True)
+    expected=(base['laden']['mass_kg']*base['laden']['cg_m'][0]+100.*7.)/(base['laden']['mass_kg']+100.)
+    assert mass['laden']['cg_m'][0]==pytest.approx(expected)
+    assert mass['unlocated_retained_mass_kg']==pytest.approx(base['unlocated_retained_mass_kg'])
+    assert mass['unknown_stock_ids']==['joint/unknown']
+    assert mass['complete_installed_distribution'] is False
+    assert mass['diagnostic_known_stock_only'] is True
+    changed['allow_incomplete_diagnostic']=False
+    with pytest.raises(ValueError,match='explicit diagnostic permission'):structures.mass_properties(changed,allow_incomplete=True)
+
+
+def test_diagnostic_mass_source_identity_and_recomputed_regions_are_checked(candidate):
+    changed,_=diagnostic_candidate(candidate)
+    changed['design_search_bundle']['installed_inventory'][0]['mass_kg']=0.
+    with pytest.raises(ValueError,match='mass/inventory contract'):structures.mass_properties(changed,allow_incomplete=True)
+    changed,_=diagnostic_candidate(candidate)
+    changed['diagnostic_mass_state']['regions'][-1]['cg_m'][0]=0.
+    with pytest.raises(ValueError,match='actual known regions'):structures.mass_properties(changed,allow_incomplete=True)
