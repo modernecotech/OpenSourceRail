@@ -103,7 +103,9 @@ The six-car Baghdad context retains 120 normal passengers per car and a 14,400 p
 
 This publication binds evaluator sources and campaign membership. A source revision requires a new campaign; interrupted jobs resume only with matching inputs. The digital jobs complete independently of the held physical qualification programme.
 '''
-    files={'index.html':PAGE.replace('__DATA__',data).encode(),
+    page,script=PAGE.split('<script>\n',1);script,tail=script.split('</script>',1)
+    files={'index.html':(page.replace('__DATA__',data)+'<script src="app.js"></script>'+tail).encode(),
+        'app.js':script.encode(),
         'README.md':readme.encode(), 'comparison.json.gz':gzip.compress(contracts.encoded(value),mtime=0),
         'campaign.json':contracts.encoded(definition)}
     # Keep worker inputs, results, logs and receipts available after a fresh clone.

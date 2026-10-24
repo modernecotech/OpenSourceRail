@@ -85,8 +85,9 @@ def test_malicious_html_stays_in_inert_escaped_json(comparison,tmp_path):
     decoded=json.loads(data[1]);assert decoded['candidates'][0]['label']==PAYLOAD
     assert decoded['candidates'][0]['evaluations'][0]['diagnostics']==[PAYLOAD]
     assert decoded['candidates'][0]['mass']['total_mass_kg'] is None
-    assert '.innerHTML' not in scripts.scripts[1][1]
-    assert '.textContent' in scripts.scripts[1][1]
+    assert scripts.scripts[1][0]=={'src':'app.js'} and not scripts.scripts[1][1]
+    script=(tmp_path/'app.js').read_text()
+    assert '.innerHTML' not in script and '.textContent' in script
 
 
 def test_browser_script_renders_labels_as_text_without_html_execution(comparison,tmp_path):
@@ -109,7 +110,7 @@ if(elements.candidate.children.find(el=>el.tag==='h2').textContent!==input.paylo
 if(created.some(el=>el.tag==='img'))throw Error('Untrusted image element created');
 if(!created.some(el=>el.tag==='pre'&&el.textContent.includes('unweighed-pump')))throw Error('Unknown inventory hidden');
 process.stdout.write('safe-text-render');'''
-    result=subprocess.run([node,'-e',driver],input=json.dumps({'script':scripts.scripts[1][1],'data':scripts.scripts[0][1],'payload':PAYLOAD}),
+    result=subprocess.run([node,'-e',driver],input=json.dumps({'script':(tmp_path/'app.js').read_text(),'data':scripts.scripts[0][1],'payload':PAYLOAD}),
         text=True,capture_output=True,timeout=10,check=True)
     assert result.stdout=='safe-text-render'
 
@@ -122,7 +123,7 @@ def test_publication_is_deterministic_and_check_preserves_files(comparison,tmp_p
     assert {path.name:path.read_bytes() for path in tmp_path.iterdir()}==before
 
 
-@pytest.mark.parametrize('name',['index.html','README.md','comparison.json.gz','campaign.json','manifest.json'])
+@pytest.mark.parametrize('name',['index.html','app.js','README.md','comparison.json.gz','campaign.json','manifest.json'])
 def test_publication_check_rejects_tampered_output(comparison,tmp_path,name):
     publication.publish(comparison['campaign_id'],output=tmp_path)
     path=tmp_path/name;path.write_bytes(path.read_bytes()+b'tampered')
