@@ -426,7 +426,8 @@ class TripService:
                 result = dict(status='held', error=str(error), physical_accepted=False)
         result = deepcopy(result)
         result.update(jobs=self.jobs()[:12], limits=dict(max_workers=self.max_workers, max_jobs=32,
-                      request_bytes=MAX_BODY, campaign_seconds=1200, setup_seconds=1200, small_job_seconds=300),
+                      request_bytes=MAX_BODY, campaign_seconds=1200, setup_seconds=1200,
+                      magnetic_confirmation_seconds=1200, small_job_seconds=300),
                       restart_required=restart, physical_accepted=False)
         return result
 
