@@ -1,13 +1,30 @@
 name: Trip dynamics contracts and native methods
 on:
   push:
-    paths: ['engineering/trip_dynamics/**', '.github/workflows/trip-dynamics.yml']
+    paths: ['engineering/trip_dynamics/**', 'docs/workbench/trip/**', 'tools/automation/maglev-workbench.py', 'tools/automation/tests/verify-trip-workbench.mjs', 'osr', '.github/workflows/trip-dynamics.yml']
   pull_request:
-    paths: ['engineering/trip_dynamics/**', '.github/workflows/trip-dynamics.yml']
+    paths: ['engineering/trip_dynamics/**', 'docs/workbench/trip/**', 'tools/automation/maglev-workbench.py', 'tools/automation/tests/verify-trip-workbench.mjs', 'osr', '.github/workflows/trip-dynamics.yml']
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
+  trip-workbench-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: node tools/automation/tests/verify-trip-workbench.mjs build/trip-workbench-browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trip-workbench-browser
+          path: build/trip-workbench-browser
   contracts-and-retained-evidence:
     runs-on: ubuntu-latest
     timeout-minutes: 15
