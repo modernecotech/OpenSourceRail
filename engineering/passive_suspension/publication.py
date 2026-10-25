@@ -63,6 +63,11 @@ def readme(summary, native_record):
     selected=summary['next_experiment']['selected_candidate_id']
     chosen=next((r for r in summary['reports'] if r['candidate_id']==selected),None)
     chosen_name=chosen['sample_id'] if chosen else 'None'
+    curve_text=('; '.join(f'{row["radius_m"]:g} m radius: {row["necessary_overlap_margin_m"]*1000:.1f} mm'
+                          for row in chosen['curves']) if chosen else 'No selected coupon')
+    facing_text=(f'{chosen["stock"]["guideway_facing_kg_per_route_m"]:.1f} kg of facing steel per route metre '
+                 f'({chosen["stock"]["guideway_facing_kg_per_beam_span"]/1000:.3f} t per selected span)'
+                 if chosen else 'No selected facing quantities')
     candidate_link=f'[Candidate](candidates/{selected}.json)' if selected else 'No numerical selection'
     native_links='Native CAD was not executed; no substitute export is issued.'
     if native_record['execution_status']=='executed':
@@ -102,6 +107,8 @@ The map-bound control analysis is **{summary['controls']['execution_status']}**.
 The simple steel-facing reference uses factory datums and static shim adjustment, with final survey after beam placement. Magnetic attraction loads the underside facings downward, through tensile attachments into the concrete. The attachment screen calculates demands and simple strip bending; anchor/concrete capacity and fatigue remain open. Capture, emergency braking and parking remain separate functions.
 
 Short blocks attached to one rigid 17 m frame retain that frame's curve error. The D stock can only receive independent-carrier geometry credit if its required yaw and translation can actually be supplied. The 150/250/500/1,000 m radius cases are explicit route alternatives, not adopted changes to Baghdad. Lower speed or closer stations cannot repair inadequate stationary lift. Gravity assistance is a later route comparison and supplies no net energy on a return to the same elevation.
+
+For the selected coupon, the necessary overlap margins after the declared 6 mm lateral displacement are **{curve_text}**. Positive overlap alone does not prove adequate lateral force, damping or fault retention. Its two passive facing banks require **{facing_text}**, excluding anchors, grout, shims and corrosion allowance. This makes the rail/route consequences visible alongside the vehicle stock; complete installed cost remains unknown.
 
 Next, correlate one representative onboard assembly against a finite steel-faced test section: lift, lateral/roll stiffness, coil authority, signed flux linkage, damping, drag and stationary hot-weather heat. Use the recorded datum, stock and measurement plan. No physical test has been executed by this campaign. Native coupon execution: **{native_record['execution_status']}**. {native_links}
 
@@ -167,7 +174,7 @@ def publish(source, destination, *, export_native=True):
 
 The system coordinator composes physical candidates, sources, mass feedback, deterministic jobs and publication. Magnetics owns a transverse P1 finite-element evaluator, analytical fixtures and mesh/domain checks. Controls owns map-bound equilibria, finite-RL actuation, RMS heating and reciprocal shunt diagnostics. Mechanical owns exact stock, curve overlap, tensile facing attachments, compliant-mount bounds and assembly datums. A separate specialist reviews integration; only the coordinator publishes.
 
-The four work packages are implemented and tested. Numerical workers evaluate ordinary samples without creating agent conversations for each solve. The campaign has at most 12 physical candidates, one sequential numerical worker, bounded mesh nodes and at most 1,000 map solves. Trials, refused geometry and unresolved derivatives remain visible. Interrupted completed evaluations are cached only by exact immutable identities. Shared source work was developed in separate Git worktrees.
+The four work packages are implemented and tested. Numerical workers evaluate ordinary samples without creating agent conversations for each solve. The campaign has at most 12 physical candidates, one sequential numerical worker, bounded mesh nodes and at most 1,000 map solves. Trials, refused geometry and unresolved derivatives remain visible. Interrupted completed evaluations are cached only by exact immutable identities. Shared source work was developed in separate Git worktrees. The integration reviewer followed a read-only instruction; no independent operating-system sandbox is asserted. Source hashes before/after execution check integrity.
 
 Completed digital work does not complete the existing physical qualification programme. Next work is finite-length/solid-steel nonlinear correlation, complete installed equipment, multiaxis/multisupport control, stiffness/thermal/mass feedback, then full formation, route and fault confirmation. The representative bench test is planned and unexecuted; supplier/site/material evidence remains held. No unattended agent is authorised to alter acceptance or manufacturing release.
 ''')

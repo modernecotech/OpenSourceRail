@@ -96,3 +96,27 @@ def test_replacement_mass_sources_include_each_actual_canonical_input():
     sources=campaign.sources()
     assert set(campaign.canonical.sources()).issubset(sources)
     assert 'engineering/ferrite_maglev/data/candidate-parent-94ad.json' in sources
+
+
+def test_ordinary_guideway_rejects_permanent_magnet_even_with_rehashed_geometry():
+    value=geometry.candidate('B')
+    next(q for q in value['regions'] if q['material']=='ferrite')['group']='guideway'
+    value['physical_geometry_sha256']=identity(geometry.physical_definition(value))
+    value.pop('geometry_sha256')
+    value['geometry_sha256']=identity(value)
+    with pytest.raises(ValueError,match='only passive steel'):
+        campaign.common_candidate(value,'requirements')
+
+
+def test_actual_map_cannot_be_reused_under_different_solver_settings():
+    from engineering.passive_suspension.tests.test_fields import fixture
+    value=fixture()
+    axes=dict(gaps_m=[.03],laterals_m=[0.],currents_A=[0.],temperatures_C=[20.])
+    settings=dict(mesh_size_m=.02,outer_margin_m=.1,check_convergence=False,max_solves=100)
+    actual=campaign.fields.field_map(value,**axes,settings=settings)
+    request=dict(settings=settings,scenario=axes,hypothesis=dict(common_current_port={'lift':1.}))
+    campaign._validate_map(actual,request,value)
+    changed=deepcopy(request)
+    changed['settings'].update(mesh_size_m=.005,check_convergence=True,steel_model='nonlinear_repo_proxy')
+    with pytest.raises(ValueError,match='constituent settings'):
+        campaign._validate_map(actual,changed,value)
