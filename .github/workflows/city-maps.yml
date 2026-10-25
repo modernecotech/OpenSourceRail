@@ -1,9 +1,9 @@
 name: Offline city map context
 on:
   push:
-    paths: ['engineering/city_maps/**', 'engineering/ferrite_maglev/cartography.py', 'cities/catalogue/**/map-context.json.gz', 'cities/catalogue/**/network.svg', 'tools/automation/check-city-maps.py', '.github/workflows/city-maps.yml']
+    paths: ['engineering/city_maps/**', 'engineering/ferrite_maglev/cartography.py', 'engineering/ferrite_maglev/cities.py', 'cities/catalogue/**/map-context.json.gz', 'cities/catalogue/**/network.svg', 'tools/automation/check-city-maps.py', '.github/workflows/city-maps.yml']
   pull_request:
-    paths: ['engineering/city_maps/**', 'engineering/ferrite_maglev/cartography.py', 'cities/catalogue/**/map-context.json.gz', 'cities/catalogue/**/network.svg', 'tools/automation/check-city-maps.py', '.github/workflows/city-maps.yml']
+    paths: ['engineering/city_maps/**', 'engineering/ferrite_maglev/cartography.py', 'engineering/ferrite_maglev/cities.py', 'cities/catalogue/**/map-context.json.gz', 'cities/catalogue/**/network.svg', 'tools/automation/check-city-maps.py', '.github/workflows/city-maps.yml']
 permissions:
   contents: read
 jobs:
@@ -17,5 +17,5 @@ jobs:
           python-version: '3.13'
       - run: python -m pip install -r engineering/city_maps/requirements.txt pytest==9.1.1
       - run: python -m pytest -q engineering/city_maps/tests
-      - name: Verify retained city layers without network access
+      - name: Verify retained city layers offline
         run: python tools/automation/check-city-maps.py
