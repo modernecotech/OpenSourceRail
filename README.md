@@ -1,10 +1,20 @@
 # OpenSourceRail
 
-**OpenSourceRail develops simple, affordable urban transport that communities can build, operate and maintain locally.** The current v0.5.2 research design uses ferrite permanent-magnet-biased active support, six-car trains and fixed linear motors at stations for launch and receiving braking. Trains coast between these finite powered zones while independent onboard support, guidance and passenger services remain powered. Longer legs may need separately counted midpoint accelerators.
+**OpenSourceRail aims to make useful city-wide urban transport achievable for everyday travel, with systems that communities can build, operate and maintain locally.** Open designs, local production and training are intended to develop lasting productive capability.
+
+The programme links three products under development:
+
+- **[An owner, builder and operator platform](docs/design-engine/ferrite-maglev/planning-platform/README.md):** geographic planning, a design studio, delivery planning and business/operating workflows.
+- **[Reference hardware and local manufacturing studies](docs/design-engine/ferrite-maglev/candidate-manufacturing/README.md):** repeated vehicle, guideway and station equipment, with factory processes and procurement scope.
+- **[Open train-control software](crates/osr-maglev-control/README.md):** inspectable train and station controls with explicit development, verification and deployment boundaries.
+
+The intended workflow carries a versioned design through consistent CAD, bills of materials and component-level BIM into procurement, construction tasks, resource and cash plans, then quality assurance tied to serial assets, operations, maintenance and staff training. Current digital studies and simulated pilot workflows exercise parts of this chain; complete city-wide integration and physical acceptance remain open. Business approval cannot release railway hardware or authorise train movement.
+
+The current v0.5.2 hardware research uses ferrite permanent-magnet-biased active support, six-car trains and fixed linear motors at stations for launch and receiving braking. Trains coast between these finite powered zones while independent onboard support, guidance and passenger services remain powered. Longer legs may need separately counted midpoint accelerators.
 
 **All permanent magnets and suspension/guidance control coils stay on the train.** The ordinary guideway is a concrete beam with attached passive steel facings. Its attachments transfer magnetic forces into the concrete; powered station launch/receiving equipment is a separate interface.
 
-The ethos is **simple equipment, low whole-life cost and high passenger throughput**. Repeated elevated concrete beams, repairable GFRP bodies, standardised magnetic assemblies and open controls aim to retain design knowledge and productive capability in-country. Stations, speeds, dwell times and train frequency must work together: a higher maximum speed alone does not deliver more passengers. **CAPEX, OPEX and debt repayment must be affordable together**, with complete equipment, maintenance and recovery counted.
+The ethos is **simple equipment, low whole-life cost and high normal passenger throughput**. Compare station spacing, acceleration, dwell, charging and frequency at equal service, counting **CAPEX, OPEX and debt repayment together**. Normal-capacity targets are comparison requirements, not demonstrated operating capacity or demand forecasts. Complete equipment, maintenance and recovery must be counted. Complete installed costs remain unknown, and savings are unproven.
 
 The repository contains engineering studies, planning tools and executed digital evidence. The current accounted train still fails magnetic support checks; its complete four-stop electromechanical journey is unexecuted. The [design completion plan](docs/design-engine/ferrite-maglev/research-closure/README.md) records what has been tested, what is proposed and the evidence needed next.
 
@@ -32,6 +42,8 @@ The guideway target is one concrete beam per direction, with necessary reaction 
 *Illustrative concept; no qualified train installation or walkway-removal approval is claimed.*
 
 ## Current design and evidence
+
+The [electropermanent-magnet study](docs/design-engine/electropermanent/README.md) investigates slow bias/load trim and retention/latch candidates. Fast active coils remain needed for stabilisation; no replacement configuration is adopted.
 
 The [neodymium and lightweight-vehicle study](docs/design-engine/vehicle-optimisation/README.md) compares named NdFeB grades and full rotating Halbach arrays with ferrite controls, then feeds aluminium-extrusion frames, doors, glazing and HVAC alternatives into the same mass comparison. It retains hot-condition material failures, incomplete control windings and installation uncertainty. Lower magnetic stock mass is promising; a complete replacement configuration remains unadopted.
 
