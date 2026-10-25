@@ -82,3 +82,12 @@ def test_offline_check_requires_context_that_renderer_can_use(tmp_path,monkeypat
     path=tmp_path/'city.json';path.write_text(json.dumps(design))
     monkeypatch.setattr(command,'proposal',lambda p:design)
     with pytest.raises(ValueError,match='roads or place'):command.acquire(path,tmp_path/'cache',check=True)
+
+
+def test_named_street_with_short_vertices_is_labelled_along_its_full_length(tmp_path,monkeypatch):
+    design,geo,context=fixture(tmp_path,monkeypatch)
+    coordinates=[[44.+i*.001,33.+i*.001] for i in range(101)]
+    context['layers']['roads'][0]['geometry']['coordinates']=coordinates
+    result=render.render(design,geo,tmp_path/'map.svg')
+    assert result['street_label_count']>=1
+    assert 'Real Road' in (tmp_path/'map.svg').read_text()

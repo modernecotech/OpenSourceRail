@@ -201,28 +201,46 @@ def render(design, geojson, output, *, context_path=None):
             continue
         x,y=project(feature['geometry']['coordinates'])
         importance=0 if p.get('kind_detail')=='city' else 1 if p.get('kind_detail')=='town' else 2
-        labels.append((importance,name,x,y,21 if importance==0 else 16))
+        labels.append((importance,name,x,y,21 if importance==0 else 16,0.))
     for feature in layers.get('roads',[]):
         name=_name(feature.get('properties',{}));g=feature['geometry']
         if not name or g['type'] not in ('LineString','MultiLineString'):continue
         for line in ([g['coordinates']] if g['type']=='LineString' else g['coordinates']):
             if len(line)<2:continue
             coordinates=[project(p) for p in line]
-            a,b=max(zip(coordinates,coordinates[1:]),key=lambda pair:math.dist(*pair))
-            if math.dist(a,b)>len(name)*6+20:
-                labels.append((3,name,(a[0]+b[0])/2,(a[1]+b[1])/2,12))
-    used=[];names=set();label_count=0
+            segments=[math.dist(a,b) for a,b in zip(coordinates,coordinates[1:])]
+            length=sum(segments)
+            if length>len(name)*6+20:
+                position=length/2
+                for (a,b),distance in zip(zip(coordinates,coordinates[1:]),segments):
+                    if position>distance:
+                        position-=distance;continue
+                    fraction=position/distance if distance else 0.
+                    angle=math.degrees(math.atan2(b[1]-a[1],b[0]-a[0]))
+                    if angle>90:angle-=180
+                    if angle< -90:angle+=180
+                    labels.append((3,name,a[0]+fraction*(b[0]-a[0]),a[1]+fraction*(b[1]-a[1]),12,angle))
+                    break
+    used=[];names=set();label_count=0;place_labels=0;street_labels=0
     rows.append('<g id="basemap-labels" text-anchor="middle">')
-    for priority,name,x,y,size in sorted(labels):
+    for priority,name,x,y,size,angle in sorted(labels):
+        if priority<3 and place_labels>=140:continue
         if not (LEFT+20<x<LEFT+PLOT_W-20 and TOP+20<y<TOP+PLOT_H-20):continue
         key=(name,round(x/200),round(y/200))
-        width=min(len(name)*size*.58,350);box=(x-width/2,y-size,x+width/2,y+size*.3)
+        width=min(len(name)*size*.58,350)
+        radians=math.radians(angle)
+        half_w=(abs(math.cos(radians))*width+abs(math.sin(radians))*size)/2
+        half_h=(abs(math.sin(radians))*width+abs(math.cos(radians))*size)/2
+        box=(x-half_w,y-half_h,x+half_w,y+half_h)
         if key in names or any(box[0]<b[2]+5 and box[2]>b[0]-5 and box[1]<b[3]+5 and box[3]>b[1]-5 for b in used):continue
         names.add(key);used.append(box);label_count+=1
+        if priority==3:street_labels+=1
+        else:place_labels+=1
         # Two passes also retain readable halos in CairoSVG/PDF converters
         # that do not implement SVG2 paint-order.
-        rows.append(f'<text x="{x:.2f}" y="{y:.2f}" font-size="{size}" fill="#f8f7f3" stroke="#f8f7f3" stroke-width="3" stroke-linejoin="round">{escape(name)}</text>')
-        rows.append(f'<text x="{x:.2f}" y="{y:.2f}" font-size="{size}" fill="#485157">{escape(name)}</text>')
+        transform=f'transform="rotate({angle:.2f} {x:.2f} {y:.2f})"' if angle else ''
+        rows.append(f'<text x="{x:.2f}" y="{y:.2f}" {transform} font-size="{size}" fill="#f8f7f3" stroke="#f8f7f3" stroke-width="3" stroke-linejoin="round">{escape(name)}</text>')
+        rows.append(f'<text x="{x:.2f}" y="{y:.2f}" {transform} font-size="{size}" fill="#485157">{escape(name)}</text>')
         if label_count>=220:break
     rows.append('</g><g id="current-proposal">')
     lines=route_lines(geojson);line_names=list(dict.fromkeys(name for name,_ in lines))
@@ -257,7 +275,7 @@ def render(design, geojson, output, *, context_path=None):
         '<text x="40" y="1178" font-size="14">Geographic context only; no building, utility, water or construction clearance is established.</text>', '</g></svg>']
     output.parent.mkdir(parents=True,exist_ok=True)
     output.write_text('\n'.join(rows)+'\n')
-    return dict(metadata,label_count=label_count,drawn_paths=drawn_paths,
+    return dict(metadata,label_count=label_count,place_label_count=place_labels,street_label_count=street_labels,drawn_paths=drawn_paths,
                 building_display_minimum_area_px2=1.5,unsupported_place_labels_retained_not_rendered=unsupported,
                 label_policy='Source English/Latin names with verified static-font coverage; other scripts retained in context, no invented translation',
                 projection='EPSG:3857',context_file=context_path.name)
