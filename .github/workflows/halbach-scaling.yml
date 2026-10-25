@@ -1,0 +1,24 @@
+name: Larger Halbach and lighter vehicle contracts
+on:
+  push:
+    paths: ['engineering/halbach_scaling/**', 'engineering/vehicle_optimisation/**', 'engineering/passive_suspension/**', 'engineering/magnetic_confirmation/**', '.github/workflows/halbach-scaling.yml']
+  pull_request:
+    paths: ['engineering/halbach_scaling/**', 'engineering/vehicle_optimisation/**', 'engineering/passive_suspension/**', 'engineering/magnetic_confirmation/**', '.github/workflows/halbach-scaling.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  contracts-and-independent-fixtures:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: sudo apt-get update && sudo apt-get install -y libglu1-mesa
+      - run: python -m pip install -r engineering/trip_dynamics/requirements.txt
+      - run: python -m pytest -q engineering/halbach_scaling/tests
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
