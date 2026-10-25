@@ -99,6 +99,7 @@ def select_experiments(magnets,bodies,rows):
     """
     by_m={b['physical_id']:b for b in magnets};by_b={b['candidate_id']:b for b in bodies}
     eligible=[r for r in rows if r['next_capacity_experiment_eligible']
+              and by_b[r['body_candidate_id']]['thermal'].get('comparisons')
               and r['support_sensitivities'][2]['observed_2D_headroom_N']>=0
               and r['support_sensitivities'][2]['member_necessary_pass'] is not False
               and (r.get('sampled_peak_structure') or {}).get('member_level_necessary_pass') is True]
