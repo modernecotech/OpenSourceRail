@@ -115,6 +115,8 @@ These are zero-current brackets of checked force samples only. Missing brackets 
 
 The simple steel-facing reference uses factory datums and static shim adjustment, with final survey after beam placement. Magnetic attraction loads the underside facings downward, through tensile attachments into the concrete. The attachment screen calculates demands and simple strip bending; anchor/concrete capacity and fatigue remain open. Capture, emergency braking and parking remain separate functions.
 
+The two bank positions are proposals within the vehicle envelope. A matching concrete cross-section and installed attachment geometry have not been generated; existing guidebeam mass and capacity are not transferred to this arrangement. The native coupon includes no concrete beam.
+
 Short blocks attached to one rigid 17 m frame retain that frame's curve error. The D stock can only receive independent-carrier geometry credit if its required yaw and translation can actually be supplied. The 150/250/500/1,000 m radius cases are explicit route alternatives, not adopted changes to Baghdad. Lower speed or closer stations cannot repair inadequate stationary lift. Gravity assistance is a later route comparison and supplies no net energy on a return to the same elevation.
 
 For the selected coupon, the necessary overlap margins after the declared 6 mm lateral displacement are **{curve_text}**. Positive overlap alone does not prove adequate lateral force, damping or fault retention. Its two passive facing banks require **{facing_text}**, excluding anchors, grout, shims and corrosion allowance. This makes the rail/route consequences visible alongside the vehicle stock; complete installed cost remains unknown.
@@ -139,6 +141,7 @@ Campaign `{summary['campaign_id']}`. All engineering acceptance, adoption and ph
 
 def publish(source, destination, *, export_native=True):
     source,destination=Path(source),Path(destination)
+    before=campaign.sources() | {Path(__file__).resolve().relative_to(campaign.ROOT).as_posix():sha256(Path(__file__).read_bytes()).hexdigest()}
     campaign.verify(source)
     if destination.exists():raise ValueError('Publish to a new owned directory')
     destination.mkdir(parents=True)
@@ -189,9 +192,10 @@ Completed digital work does not complete the existing physical qualification pro
 ''')
     files={p.relative_to(destination).as_posix():sha256(p.read_bytes()).hexdigest()
            for p in sorted(destination.rglob('*')) if p.is_file()}
+    current=campaign.sources() | {Path(__file__).resolve().relative_to(campaign.ROOT).as_posix():sha256(Path(__file__).read_bytes()).hexdigest()}
+    if current!=before:raise ValueError('Publication sources changed during native/render execution')
     manifest=dict(schema='osr-passive-suspension-publication/1',candidate_id=selected,
-        campaign_id=summary['campaign_id'],source_sha256=summary['source_sha256'] | {
-            Path(__file__).resolve().relative_to(campaign.ROOT).as_posix():sha256(Path(__file__).read_bytes()).hexdigest()},
+        campaign_id=summary['campaign_id'],source_sha256=before,
         files_sha256=files,**FLAGS)
     manifest['publication_id']=identity(manifest)
     (destination/'manifest.json').write_bytes(encoded(manifest))
