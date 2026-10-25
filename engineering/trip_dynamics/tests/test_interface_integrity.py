@@ -54,3 +54,11 @@ def test_changed_or_invalid_envelope_is_held(tmp_path, kind):
 
 def test_missing_packet_remains_accessible_as_held(tmp_path):
     assert primary_integrity(tmp_path)['state'] == 'held'
+
+
+@pytest.mark.parametrize('value', [None, [], ['source.py'], {'source.py':None}, {'source.py':'bad-digest'}])
+def test_malformed_receipt_remains_accessible_as_held(tmp_path, value):
+    _, _, receipt, manifest = packet(tmp_path)
+    manifest['source_sha256'] = value
+    receipt.write_text(json.dumps(manifest))
+    assert primary_integrity(tmp_path)['state'] == 'held'

@@ -2,6 +2,7 @@
 from hashlib import sha256
 import json
 from pathlib import Path, PurePosixPath
+import re
 
 
 def _digest(path):
@@ -31,13 +32,24 @@ def primary_integrity(root, *, source_provider=None):
     root = Path(root).resolve(); folder = root/'docs/design-engine/ferrite-maglev/reference'
     issues = []; source_count = payload_count = 0
     try:
-        manifest = json.loads((folder/'manifest.json').read_bytes())
+        receipt = _ordinary(root, 'docs/design-engine/ferrite-maglev/reference/manifest.json')
+        if receipt.stat().st_size > 16*1024*1024:
+            raise ValueError('bounded primary receipt required')
+        manifest = json.loads(receipt.read_bytes())
+        if not isinstance(manifest, dict):
+            raise ValueError('primary receipt object required')
         if manifest.get('schema') != 'osr-primary-infrastructure-publication/1' or manifest.get('family') != 'ferrite-pm-maglev-study':
             raise ValueError('not the current primary publication schema')
         for name in ('design_complete', 'physical_validation', 'manufacturing_release', 'physical_release'):
             if manifest.get(name) is not False:
                 raise ValueError('research packet cannot assert '+name)
-        expected = manifest['source_sha256']; source_count = len(expected)
+        expected, payload = manifest['source_sha256'], manifest['files_sha256']
+        for mapping in (expected, payload):
+            if not isinstance(mapping, dict) or not mapping or not all(
+                    isinstance(name, str) and isinstance(digest, str) and re.fullmatch('[0-9a-f]{64}', digest)
+                    for name, digest in mapping.items()):
+                raise ValueError('explicit source and payload SHA256 mappings required')
+        source_count = len(expected)
         if source_provider is None:
             from engineering.ferrite_maglev import model
             if root == model.ROOT.resolve():
@@ -49,7 +61,7 @@ def primary_integrity(root, *, source_provider=None):
             for name, digest in expected.items():
                 if _digest(_ordinary(root, name)) != digest:
                     issues.append('source differs: '+name)
-        payload = manifest['files_sha256']; payload_count = len(payload)
+        payload_count = len(payload)
         actual = {p.name for p in folder.iterdir() if p.is_file()}
         if actual != set(payload)|{'manifest.json'}:
             issues.append('primary payload inventory differs')
