@@ -220,9 +220,33 @@ def structure_screen(frame, aw3_kg):
 def _system_modes():
     fitout = next(q for q in equipment.equipment_candidates() if q['id']=='aluminium-sandwich-ES2-reference/solar-laminated-6.76mm')
     climates = {q['id']:q for q in hvac.candidates()}
+    # A new quantity proposal, not a new manufacturer rating or an installed
+    # package. Only known extensive unit properties scale with unit count.
+    base = climates['bus-ul700-electric-two']; count = 5
+    five = deepcopy(base)
+    five.update(id='bus-ul700-electric-five-proposal', units_per_car=count,
+        architecture='unqualified five-package electric-compressor roof proposal',
+        package_hardware_mass_range_kg_per_car=[count*x for x in base['package_unit_mass_range_kg']],
+        package_capacity_kWthermal=[count*x/base['units_per_car'] for x in base['package_capacity_kWthermal']],
+        nominal_evaporator_air_m3_h=count*base['nominal_evaporator_air_m3_h']/base['units_per_car'],
+        roof_projected_package_area_m2=count*math.prod(base['package_unit_envelope_m'][:2]),
+        external_installation_allowances=None, provisional_installed_mass_scenario_kg=None,
+        allowance_basis='No two-unit installation band transferred. Five-package mounts, reinforcement, ducting, supply, wiring, access and condenser recirculation require new identification.',
+        break_even_all_additional_hardware_mass_kg=[800.-count*x for x in reversed(base['package_unit_mass_range_kg'])],
+        installed_HVAC_mass_saving_established=False,
+        quantity_proposal=dict(source_candidate_id=base['id'], source_units=base['units_per_car'], proposed_units=count,
+            unchanged_unit_properties=['package_unit_mass_range_kg','package_unit_envelope_m','source_id','compressor_supply',
+                                      'nominal_capacity_ambient_C','full_cooling_ambient_limit_C','published_operating_or_reduced_limit_C'],
+            scaled_properties=['package_hardware_mass_range_kg_per_car','package_capacity_kWthermal',
+                               'nominal_evaporator_air_m3_h','roof_projected_package_area_m2'],
+            supplier_order_or_50C_rating_confirmed=False))
+    five['unknown_items'] += ['five-package roof/guidebeam/magnet/cassette clearance and reinforced support',
+                             'five-package supply/inverter/battery and fan heat',
+                             'five-package ducts, condensate, fresh-air distribution and condenser recirculation']
+    climates[five['id']] = five
     return [dict(id='retained-equipment', fitout=None, climate=None),
             *[dict(id=key, fitout=fitout, climate=climates[key]) for key in
-              ('bus-ul700-electric-two','bus-ul500-electric-three','bus-ul700-electric-three')]]
+              ('bus-ul700-electric-two','bus-ul700-electric-three','bus-ul700-electric-five-proposal')]]
 
 
 def _changes(frame, mode, root):
@@ -264,9 +288,22 @@ def _thermal(mode):
     loads = [hvac.heat_load(hvac.default_scenario(name='AW2-50C-matched', **common)),
              hvac.heat_load(hvac.default_scenario(name='AW3-50C-humid-doors60s-matched', passengers=160,
                  outdoor_RH=.30, door_open_s=60., **common))]
+    comparisons = []
+    for load in loads:
+        row = hvac.assess(climate, load)
+        nominal = climate['package_capacity_kWthermal']
+        headroom = None if nominal is None else nominal[0]-load['total_kWthermal']
+        row.update(nominal_capacity_necessary_screen='unknown-nameplate' if headroom is None else
+                       'conditional-nameplate-covers-case' if headroom >= 0 else 'nominal-nameplate-insufficient',
+                   nominal_capacity_necessary_pass=None if headroom is None else headroom >= 0,
+                   nominal_headroom_kWthermal=headroom,
+                   actual_50C_capacity_verified=False,
+                   nameplate_screen_basis='Same declared occupied-car load against scaled nominal catalogue thermal capacity; no ambient derating, fan-heat, sensible/latent, ventilation or failed-unit qualification')
+        comparisons.append(row)
     return dict(complete_equipment_rating_known=False, loads=loads,
-        comparisons=[hvac.assess(climate, load) for load in loads],
+        comparisons=comparisons,
         passenger_ventilation_reduced=False, thermal_load_depends_on_body_mass=False,
+        blower_heat_basis='Retained 1000 W whole-car scenario; actual package-count-dependent blower/auxiliary heat is unknown and requires reassessment',
         complete_installed_hvac_mass_kg=None, complete_electric_input_kW=None, **FLAGS)
 
 
@@ -356,7 +393,8 @@ def compose(vehicle, magnetic_bundle, modules=24, *, root=ROOT):
             reserve_factor=RESERVE, structure=structure_screen(vehicle['frame'], aw3),
             actual_installed_mass_known=False, **FLAGS))
     climate = vehicle['HVAC']
-    band = None if climate is None else [x-climate['package_hardware_mass_range_kg_per_car'][i]
+    band = None if climate is None or climate['provisional_installed_mass_scenario_kg'] is None else [
+        x-climate['package_hardware_mass_range_kg_per_car'][i]
         for i, x in enumerate(climate['provisional_installed_mass_scenario_kg'])]
     value = dict(schema='osr-halbach-scaling-composition/1', body_candidate_id=vehicle['candidate_id'],
         magnet_component_id=magnetic_bundle['physical_id'],

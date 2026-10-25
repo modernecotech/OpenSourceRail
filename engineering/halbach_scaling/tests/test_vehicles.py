@@ -7,7 +7,7 @@ from types import ModuleType
 import pytest
 
 from engineering.halbach_scaling import vehicles as v
-from engineering.vehicle_optimisation import equipment, magnets
+from engineering.vehicle_optimisation import equipment, hvac, magnets
 
 ROOT = v.ROOT
 
@@ -102,6 +102,49 @@ def test_same_equipment_has_same_hot_load_across_body_mass_options():
     assert thermal['thermal_load_depends_on_body_mass'] is False
     assert thermal['loads'][1]['total_kWthermal']>thermal['loads'][0]['total_kWthermal']
     assert all(not c['complete_mass_and_electric_input_known'] for c in thermal['comparisons'])
+
+
+def test_five_package_quantity_scales_known_unit_properties_but_not_installation_or_hot_rating():
+    before=hvac.candidates()
+    base=next(q for q in before if q['id']=='bus-ul700-electric-two')
+    rows=v.variants(ROOT)
+    body=next(q for q in rows if q['name']=='6082-six-cell-deep/bus-ul700-electric-five-proposal')
+    five=body['HVAC']
+    assert len(rows)==12 and not any('ul500' in q['name'] for q in rows)
+    assert five['units_per_car']==5
+    assert five['package_unit_mass_range_kg']==base['package_unit_mass_range_kg']==[192,192]
+    assert five['package_hardware_mass_range_kg_per_car']==[960,960]
+    assert five['package_capacity_kWthermal']==[165,165]
+    assert five['nominal_evaporator_air_m3_h']==pytest.approx(5*base['nominal_evaporator_air_m3_h']/2)
+    assert five['roof_projected_package_area_m2']==pytest.approx(5*math.prod(base['package_unit_envelope_m'][:2]))
+    assert five['package_unit_envelope_m']==base['package_unit_envelope_m']
+    assert five['rated_fresh_air_m3_h'] is None  # evaporator air is not delivered fresh air
+    assert five['provisional_installed_mass_scenario_kg'] is None
+    assert five['external_installation_allowances'] is None
+    assert five['break_even_all_additional_hardware_mass_kg']==[-160,-160]
+    assert five['installed_HVAC_mass_saving_established'] is False
+    assert five['package_electrical_input_kWe'] is None
+    assert before==hvac.candidates()  # no mutation of the legacy catalogue
+    hot=body['thermal']['comparisons'][1]
+    assert hot['needed_kWthermal']==pytest.approx(132.1,abs=.1)
+    assert hot['nominal_capacity_necessary_pass'] and hot['nominal_headroom_kWthermal']>0
+    assert hot['actual_50C_capacity_verified'] is False and hot['thermal_screen']=='unknown'
+    for mode in ('bus-ul700-electric-two','bus-ul700-electric-three'):
+        control=next(q for q in rows if q['name']=='6082-six-cell-deep/'+mode)['thermal']['comparisons'][1]
+        assert control['nominal_capacity_necessary_pass'] is False
+        assert control['nominal_capacity_necessary_screen']=='nominal-nameplate-insufficient'
+
+
+def test_five_package_hardware_is_heavier_than_removed_hvac_and_has_no_transferred_band(monkeypatch):
+    small,_=_magnetic_adapter(monkeypatch)
+    body=next(q for q in v.variants(ROOT) if q['name']=='6082-six-cell-deep/bus-ul700-electric-five-proposal')
+    result=v.compose(body,small,root=ROOT)
+    row=next(q for q in result['ledger']['changes'] if q['id']=='hvac')
+    assert row['removed_kg_per_car']==800 and row['added_known_kg_per_car']==960
+    assert row['delta_known_comparison_kg']==160
+    assert result['HVAC_external_installation_scenario_band_kg'] is None
+    assert result['installed_aw3_kg_per_car'] is None
+    assert result['total_equipped_mass_bounded'] is False
 
 
 def test_rehashed_vehicle_geometry_material_accounting_or_payload_change_is_refused():
