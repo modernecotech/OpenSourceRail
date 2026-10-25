@@ -92,9 +92,9 @@ def _simplify(points, tolerance=.3):
     return [points[i] for i in sorted(keep)]
 
 
-def _paths(geometry, project):
+def _paths(geometry, project, min_area=0.):
     if geometry['type'] == 'GeometryCollection':
-        return [path for child in geometry['geometries'] for path in _paths(child,project)]
+        return [path for child in geometry['geometries'] for path in _paths(child,project,min_area)]
     kind = geometry['type']; coordinates = geometry['coordinates']
     if kind == 'LineString': groups = [[coordinates]]
     elif kind == 'MultiLineString': groups = [[line] for line in coordinates]
@@ -104,9 +104,13 @@ def _paths(geometry, project):
     closed = kind in ('Polygon', 'MultiPolygon')
     result = []
     for group in groups:
+        projected=[[project(p) for p in ring] for ring in group]
+        if closed and min_area:
+            areas=[abs(sum(a[0]*b[1]-b[0]*a[1] for a,b in zip(ring,ring[1:])))/2 for ring in projected]
+            if not areas or areas[0]-sum(areas[1:])<min_area:continue
         parts = []
-        for ring in group:
-            points = _simplify([project(p) for p in ring])
+        for ring in projected:
+            points = _simplify(ring)
             if not points: continue
             parts.append('M'+'L'.join(f'{x:.2f},{y:.2f}' for x,y in points)+('Z' if closed else ''))
         result.append(''.join(parts))
@@ -159,7 +163,9 @@ def render(design, geojson, output, *, context_path=None):
         '<text x="40" y="45" font-size="30" font-weight="bold">'+escape(design['name'])+' · proposed PM-maglev network</text>',
         '<text x="40" y="78" font-size="17">Current geographic corridors and proposed stops · city background restored from OpenStreetMap</text>',
         '<g clip-path="url(#map-clip)"><rect x="40" y="110" width="1520" height="910" fill="#f2f0e9"/>']
+    drawn_paths={}
     for layer in ('earth','landcover','landuse','water','buildings','roads'):
+        drawn_paths[layer]=0
         rows.append(f'<g id="basemap-{layer}" data-feature-count="{counts.get(layer,0)}">')
         for feature in layers.get(layer,[]):
             properties=feature.get('properties',{});kind=properties.get('kind','')
@@ -175,7 +181,8 @@ def render(design, geojson, output, *, context_path=None):
                 detail=properties.get('kind_detail','')
                 colour,width=('#dfae6d',2.5) if detail in ('motorway','trunk','primary') else ('#c7b99e',1.6) if detail in ('secondary','tertiary') else ('#bcbcbc',.7) if kind=='rail' else ('#fff',.8)
                 style=f'fill="none" stroke="{colour}" stroke-width="{width}"'+(' stroke-dasharray="3 3"' if kind=='rail' else '')
-            for path in _paths(geometry,project):
+            for path in _paths(geometry,project,1.5 if layer=='buildings' else 0.):
+                drawn_paths[layer]+=1
                 rows.append(f'<path d="{path}" {style} fill-rule="evenodd"/>')
         rows.append('</g>')
     # Named locations and a bounded set of street labels, with deterministic
@@ -245,7 +252,8 @@ def render(design, geojson, output, *, context_path=None):
         '<text x="40" y="1178" font-size="14">Geographic context only; no building, utility, water or construction clearance is established.</text>', '</g></svg>']
     output.parent.mkdir(parents=True,exist_ok=True)
     output.write_text('\n'.join(rows)+'\n')
-    return dict(metadata,label_count=label_count,unsupported_place_labels_retained_not_rendered=unsupported,
+    return dict(metadata,label_count=label_count,drawn_paths=drawn_paths,
+                building_display_minimum_area_px2=1.5,unsupported_place_labels_retained_not_rendered=unsupported,
                 label_policy='Source English/Latin names with verified static-font coverage; other scripts retained in context, no invented translation',
                 projection='EPSG:3857',context_file=context_path.name)
 
