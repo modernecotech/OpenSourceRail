@@ -70,7 +70,8 @@ def source_paths():
         'tools/automation/tests/verify-trip-workbench.mjs',
         'engineering/trip_dynamics/interactive.py', 'engineering/trip_dynamics/interactive_worker.py',
         'engineering/trip_dynamics/experiments.py', 'engineering/trip_dynamics/setup_tools.py',
-        'engineering/trip_dynamics/interface_integrity.py', 'engineering/trip_dynamics/__main__.py')]
+        'engineering/trip_dynamics/interface_integrity.py', 'engineering/trip_dynamics/__main__.py',
+        'engineering/trip_dynamics/README.md')]
 
 
 def identity():
