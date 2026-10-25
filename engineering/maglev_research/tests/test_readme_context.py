@@ -2,6 +2,7 @@
 from hashlib import sha256
 import json
 from pathlib import Path
+import subprocess
 
 import pytest
 
@@ -162,5 +163,28 @@ def test_repository_coverage_accounts_for_all_current_readmes_and_receipts():
     assert report['current_source_packet_readmes_preserved']
     assert report['categories']['generated-city-brief'] == 266
     assert report['categories']['generated-city-package'] == 266
-    assert report['categories']['retained-design-evidence'] == 45
-    assert report['categories']['retained-assurance-evidence'] == 7
+    published = {
+        name.decode() for name in subprocess.check_output([
+            'git', 'ls-files', '-z', '--cached', '--others', '--exclude-standard',
+            '--', 'docs/design-engine', 'engineering/assurance'], cwd=r.ROOT).split(b'\0')
+        if name and 'README' in Path(name.decode()).name and name.decode().endswith('.md')
+    }
+    programme = 'docs/design-engine/ferrite-maglev/research-closure/README.md'
+    expected = {
+        'retained-design-evidence': {name for name in published
+            if name.startswith('docs/design-engine/') and name != programme},
+        'retained-assurance-evidence': {name for name in published
+            if name.startswith('engineering/assurance/')},
+    }
+    for category, paths in expected.items():
+        assert {row['path'] for row in report['readmes'] if row['category'] == category} == paths
+        assert report['categories'][category] == len(paths)
+    assert len(expected['retained-design-evidence']) >= 45
+    assert len(expected['retained-assurance-evidence']) >= 7
+    assert 'docs/design-engine/design-search/README.md' in expected['retained-design-evidence']
+    assert any(name.startswith('docs/design-engine/design-search-twins/') and name.endswith('/bim/README.md')
+               for name in expected['retained-design-evidence'])
+    assert any(name.startswith('engineering/assurance/v053-design-search-replay/')
+               for name in expected['retained-assurance-evidence'])
+    assert next(row for row in report['readmes'] if row['path'] == 'engineering/design_search/README.md')['category'] == 'candidate-design-method'
+    assert sum(report['categories'].values()) == report['readme_count']

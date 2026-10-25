@@ -4,22 +4,23 @@ OpenSourceRail develops an open, locally buildable urban railway with fixed line
 
 [Project introduction](../../../../README.md) · [System approach](../../../../engineering/README.md) · [Detailed implementation and current design gates](../../../../engineering/ferrite_maglev/README.md)
 
-All **601 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. Existing generated city introductions and their primary-method links remain intact. The project front door is maintained separately.
+All **606 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. Existing generated city introductions and their primary-method links remain intact. The project front door is maintained separately.
 
-Existing local navigation reaches current context from **548 documents**. This page supplies an explicit current-context route for the remaining **53 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
+Existing local navigation reaches current context from **549 documents**. This page supplies an explicit current-context route for the remaining **57 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
 Source-bound city, design and archived research documents retain their exact README payloads and original scope. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.
 
 | README class | Documents |
 |---|---:|
+| candidate-design-method | 1 |
 | current-research-programme | 1 |
 | generated-city-brief | 266 |
 | generated-city-package | 266 |
 | generated-navigation-index | 2 |
 | manual-current-entrypoint | 13 |
 | project-frontdoor | 1 |
-| retained-assurance-evidence | 7 |
-| retained-design-evidence | 45 |
+| retained-assurance-evidence | 8 |
+| retained-design-evidence | 48 |
 
 Regenerate and check with:
 
@@ -575,6 +576,9 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [deployment/supervision/README.md](../../../../deployment/supervision/README.md) | manual-current-entrypoint | [System approach](../../../../engineering/README.md) | [project](../../../../README.md) |
 | [docs/README.md](../../../README.md) | manual-current-entrypoint | [System approach](../../../../engineering/README.md) | [project](../../../../README.md) |
 | [docs/capabilities/README.md](../../../capabilities/README.md) | generated-navigation-index | [System approach](../../../../engineering/README.md) | Via this coverage page |
+| [docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md](../../design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md) | retained-design-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
+| [docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md](../../design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md) | retained-design-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
+| [docs/design-engine/design-search/README.md](../../design-search/README.md) | retained-design-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/ferrite-maglev/assembled-body/README.md](../assembled-body/README.md) | retained-design-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/ferrite-maglev/assurance-profiles/README.md](../assurance-profiles/README.md) | retained-design-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/ferrite-maglev/baghdad-reference/README.md](../baghdad-reference/README.md) | retained-design-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
@@ -624,11 +628,13 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [engineering/README.md](../../../../engineering/README.md) | manual-current-entrypoint | [System approach](../../../../engineering/README.md) | Current system introduction |
 | [engineering/assurance/v052-drives-development/README.md](../../../../engineering/assurance/v052-drives-development/README.md) | retained-assurance-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [engineering/assurance/v052-pilot-actuator-crosscheck/README.md](../../../../engineering/assurance/v052-pilot-actuator-crosscheck/README.md) | retained-assurance-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
+| [engineering/assurance/v053-design-search-replay/f60de0526feabfb9b2b9b590f9aaa53fe64d9c40cc22a6afe7d7f7f8f5853d9a/README.md](../../../../engineering/assurance/v053-design-search-replay/f60de0526feabfb9b2b9b590f9aaa53fe64d9c40cc22a6afe7d7f7f8f5853d9a/README.md) | retained-assurance-evidence | [System approach](../../../../engineering/README.md) | [project](../../../../README.md) |
 | [engineering/assurance/v053-magnetic-redesign-bounds/README.md](../../../../engineering/assurance/v053-magnetic-redesign-bounds/README.md) | retained-assurance-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [engineering/assurance/v053-magnetic-redesign-bounds/executed-README.md](../../../../engineering/assurance/v053-magnetic-redesign-bounds/executed-README.md) | retained-assurance-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [engineering/assurance/v053-pole-return-research/README.md](../../../../engineering/assurance/v053-pole-return-research/README.md) | retained-assurance-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [engineering/assurance/v053-pole-return-research/archive/README.md](../../../../engineering/assurance/v053-pole-return-research/archive/README.md) | retained-assurance-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [engineering/assurance/v053-propulsion-redesign-screen/README.md](../../../../engineering/assurance/v053-propulsion-redesign-screen/README.md) | retained-assurance-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
+| [engineering/design_search/README.md](../../../../engineering/design_search/README.md) | candidate-design-method | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [engineering/ferrite_maglev/README.md](../../../../engineering/ferrite_maglev/README.md) | manual-current-entrypoint | [System approach](../../../../engineering/README.md) | Current system introduction |
 | [engineering/ferrite_maglev/observer-prototype/README.md](../../../../engineering/ferrite_maglev/observer-prototype/README.md) | manual-current-entrypoint | [System approach](../../../../engineering/README.md) | [project](../../../../README.md) |
 | [tools/README.md](../../../../tools/README.md) | manual-current-entrypoint | [System approach](../../../../engineering/README.md) | [project](../../../../README.md) |

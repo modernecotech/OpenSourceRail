@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **623**.
+Indexed Markdown files: **630**.
 
 ## Sections
 
@@ -21,13 +21,13 @@ Indexed Markdown files: **623**.
 |---|---:|
 | [.github](#.github) | 1 |
 | [LICENSES](#licenses) | 1 |
-| [Repository Root](#repository-root) | 5 |
+| [Repository Root](#repository-root) | 6 |
 | [cities](#cities) | 533 |
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 63 |
-| [engineering](#engineering) | 12 |
+| [docs](#docs) | 67 |
+| [engineering](#engineering) | 14 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -46,6 +46,7 @@ Indexed Markdown files: **623**.
 
 | File | Title |
 |---|---|
+| [`AGENTS.md`](../AGENTS.md) | OpenSourceRail engineering work |
 | [`CHANGELOG.md`](../CHANGELOG.md) | OpenSourceRail changelog |
 | [`CONTRIBUTING.md`](../CONTRIBUTING.md) | Contributing To OpenSourceRail |
 | [`GOVERNANCE.md`](../GOVERNANCE.md) | OpenSourceRail Governance |
@@ -621,6 +622,10 @@ Indexed Markdown files: **623**.
 | [`docs/ROADMAP.md`](../docs/ROADMAP.md) | Roadmap |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Capability Directory |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Primary maglev capability directory |
+| [`docs/design-engine/design-search/README.md`](../docs/design-engine/design-search/README.md) | Coordinated design research |
+| [`docs/design-engine/design-search-interpretation.md`](../docs/design-engine/design-search-interpretation.md) | First carrier and guidebeam campaign: engineering interpretation |
+| [`docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md`](../docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md) | Candidate research twin |
+| [`docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md`](../docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md) | Candidate BIM and field exchange |
 | [`docs/design-engine/ferrite-maglev/assembled-body/README.md`](../docs/design-engine/ferrite-maglev/assembled-body/README.md) | Joined structural-body candidate |
 | [`docs/design-engine/ferrite-maglev/assurance-profiles/README.md`](../docs/design-engine/ferrite-maglev/assurance-profiles/README.md) | Pilot development assurance profiles |
 | [`docs/design-engine/ferrite-maglev/baghdad-reference/README.md`](../docs/design-engine/ferrite-maglev/baghdad-reference/README.md) | Baghdad six-car native reference study |
@@ -686,12 +691,14 @@ Indexed Markdown files: **623**.
 | [`engineering/README.md`](../engineering/README.md) | OpenSourceRail engineering |
 | [`engineering/assurance/v052-drives-development/README.md`](../engineering/assurance/v052-drives-development/README.md) | Active-control and launch construction execution evidence |
 | [`engineering/assurance/v052-pilot-actuator-crosscheck/README.md`](../engineering/assurance/v052-pilot-actuator-crosscheck/README.md) | Independent final actuator cross-check |
+| [`engineering/assurance/v053-design-search-replay/f60de0526feabfb9b2b9b590f9aaa53fe64d9c40cc22a6afe7d7f7f8f5853d9a/README.md`](../engineering/assurance/v053-design-search-replay/f60de0526feabfb9b2b9b590f9aaa53fe64d9c40cc22a6afe7d7f7f8f5853d9a/README.md) | Independent research-campaign replay and stock audit |
 | [`engineering/assurance/v053-magnetic-redesign-bounds/README.md`](../engineering/assurance/v053-magnetic-redesign-bounds/README.md) | Magnetic redesign bounds — research appendix |
 | [`engineering/assurance/v053-magnetic-redesign-bounds/executed-README.md`](../engineering/assurance/v053-magnetic-redesign-bounds/executed-README.md) | Isolated magnetic redesign bounds |
 | [`engineering/assurance/v053-pole-return-research/README.md`](../engineering/assurance/v053-pole-return-research/README.md) | Supplementary pole-face and return-path study |
 | [`engineering/assurance/v053-pole-return-research/archive/README.md`](../engineering/assurance/v053-pole-return-research/archive/README.md) | Pole-face and 25 mm return-path research — 24 October 2026 |
 | [`engineering/assurance/v053-propulsion-redesign-screen/README.md`](../engineering/assurance/v053-propulsion-redesign-screen/README.md) | Propulsion redesign screen — research appendix |
 | [`engineering/assurance/v053-propulsion-redesign-screen/executed/findings.md`](../engineering/assurance/v053-propulsion-redesign-screen/executed/findings.md) | Isolated propulsion redesign screen — not adopted |
+| [`engineering/design_search/README.md`](../engineering/design_search/README.md) | Coordinated candidate design |
 | [`engineering/ferrite_maglev/README.md`](../engineering/ferrite_maglev/README.md) | OpenSourceRail v0.5 fixed-zone ferrite-maglev engineering |
 | [`engineering/ferrite_maglev/city-index.md`](../engineering/ferrite_maglev/city-index.md) | v0.5 maglev catalogue planning index |
 | [`engineering/ferrite_maglev/observer-prototype/README.md`](../engineering/ferrite_maglev/observer-prototype/README.md) | Delayed-map normal-wrench Rust research prototype |

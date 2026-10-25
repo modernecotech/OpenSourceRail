@@ -1,0 +1,55 @@
+....................................................F................... [  5%]
+........................................................................ [ 11%]
+........................................................................ [ 17%]
+........................................................................ [ 23%]
+........................................................................ [ 29%]
+........................................................................ [ 35%]
+........................................................................ [ 41%]
+........................................................................ [ 47%]
+........................................................................ [ 53%]
+........................................................................ [ 59%]
+........................................................................ [ 65%]
+........................................................................ [ 71%]
+........................................................................ [ 77%]
+........................................................................ [ 82%]
+........................................................................ [ 88%]
+........................................................................ [ 94%]
+...............................................................          [100%]
+=================================== FAILURES ===================================
+___________ test_current_tree_contains_only_current_vehicle_sources ____________
+
+    def test_current_tree_contains_only_current_vehicle_sources():
+>       assert architecture_audit.verify(model.ROOT)['current_only']
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+engineering/analysis/tests/test_ferrite_maglev_architecture_audit.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+engineering/ferrite_maglev/architecture_audit.py:66: in verify
+    findings=scan(files(root))
+             ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+paths = [PosixPath('/home/hayder/Documents/OpenSourceRail/.codex/agents/civil.toml'), PosixPath('/home/hayder/Documents/OpenSo...il/.codex/agents/mechanical.toml'), PosixPath('/home/hayder/Documents/OpenSourceRail/.codex/agents/service.toml'), ...]
+
+    def scan(paths):
+        findings=[]
+        for path in paths:
+            path=Path(path)
+            compressed_text=path.suffix=='.gz' and Path(path.stem).suffix.lower() in TEXT
+            if not compressed_text and path.suffix.lower() not in TEXT and path.name not in {'osr','Cargo.lock'}:continue
+            tokens=[s.lower().encode() for s in TOKENS]
+            # ASCII identity tokens can be scanned in bounded byte blocks without
+            # decoding gigabytes of numeric geospatial CSV or copying whole files.
+            total=0;tail=b'';found=False;raw_limit=gzip_raw_limit(path)
+            opener=gzip.open if path.suffix=='.gz' else open
+            with opener(path,'rb') as stream:
+                while block:=stream.read(1024*1024):
+                    total+=len(block)
+                    if path.suffix=='.gz' and total>raw_limit:
+>                       raise ValueError('bounded evidence audit exceeded: '+str(path))
+E                       ValueError: bounded evidence audit exceeded: /home/hayder/Documents/OpenSourceRail/docs/design-engine/design-search/comparison.json.gz
+
+engineering/ferrite_maglev/architecture_audit.py:56: ValueError
+=========================== short test summary info ============================
+FAILED engineering/analysis/tests/test_ferrite_maglev_architecture_audit.py::test_current_tree_contains_only_current_vehicle_sources
+1 failed, 1214 passed, 2 deselected in 3569.67s (0:59:29)

@@ -4,6 +4,6 @@ IFC4.3 ADD2 actual component geometry, materials, configuration/part/serial iden
 
 The typed field adapter executes synthetic readings and rejects wrong units, out-of-range values, stale revisions and automatic acceptance. Every result awaits independent inspection. The7.5–8.5mm gap band is a provisional exercise limit, not an approved manufacturing tolerance.
 
-Scope: one magnetic module and25m concrete box. Reaction-rail, station/depot, whole-city federation and physical as-built validation remain further work.
+Scope: one magnetic module and selected 25m narrow-deep-reference beam with counted concrete endinfills. Return rails and their support stock remain in the structural packet. Reinforcement/strand native detailing, station/depot, whole-city federation and physical as-built validation remain further work.
 
 [IfcTester](https://docs.ifcopenshell.org/ifctester.html), [BCF3 specification](https://github.com/buildingSMART/BCF-XML/tree/release_3_0).
