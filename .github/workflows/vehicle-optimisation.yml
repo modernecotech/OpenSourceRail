@@ -37,7 +37,7 @@ jobs:
           python-version: '3.13'
       - run: python -m pip install numpy==2.3.5 scipy==1.16.3 pytest==9.1.1
       - name: Named magnets, physical takeoffs, occupied HVAC and identity gates
-        run: python -m pytest -q engineering/vehicle_optimisation/tests engineering/passive_suspension/tests
+        run: python -m pytest --import-mode=importlib -q engineering/vehicle_optimisation/tests engineering/passive_suspension/tests
       - name: Rebuild derived reports and verify the retained native package
         run: |
           python - <<'PY'
