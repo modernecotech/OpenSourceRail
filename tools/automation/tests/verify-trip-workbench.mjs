@@ -56,6 +56,8 @@ try{
  assert.equal(await page.locator('#vehicle option').count(),2);assert.ok((await page.locator('.scope-notice').innerText()).includes('No qualified train'));
  assert.ok((await page.locator('#tools').innerText()).includes('Template-only'));assert.ok((await page.locator('#digital-plan').innerText()).includes('Every installed item'));
  await page.selectOption('#vehicle',ids[1]);await page.selectOption('#mode','benchmark');await page.selectOption('#distance','1500');await page.selectOption('#load','empty');await page.selectOption('#temperature','50');await page.selectOption('#timestep','0.0005');
+ await page.locator('#vehicle-details > summary').click();
+ await page.waitForFunction(()=>document.querySelector('#vehicle-detail').textContent.includes('GFRP / NdFeB <source option>'));
  assert.ok((await page.locator('#vehicle-detail').innerText()).includes('GFRP / NdFeB <source option>'));assert.equal(await page.locator('#vehicle-detail script').count(),0);assert.ok((await page.locator('#vehicle-detail').innerText()).includes('Unknown'));
  await page.click('#run-experiment');await page.waitForFunction(()=>document.querySelector('#result-summary').textContent.includes('Ideal benchmark result'),undefined,{timeout:15000});
  assert.deepEqual(requests.at(-1),{action:'experiment',parameters:{vehicle_id:ids[1],mode:'benchmark',distance_m:1500,load_case:'empty',temperature_C:50,mechanical_step_s:.0005}});
