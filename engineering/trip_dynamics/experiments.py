@@ -299,18 +299,29 @@ def execute(request, output, root=ROOT):
                 execution = 'refused'
             else:
                 result = _benchmark(root,output,vehicle,case)
+                # A successful worker process can still report a held,
+                # interrupted or failed integration. Keep its raw result and
+                # partial trace, and propagate the numerical disposition.
+                native_state=result.get('state')
+                summary=result.get('summary')
+                completed=summary.get('completed') if isinstance(summary,dict) else None
+                if native_state=='held' and completed is False:
+                    execution='refused'
+                elif native_state!='completed' or completed is not True:
+                    execution='failed'
         elif action=='fixture':
             result = _fixture(params.get('fixture','nonlinear-magnetics'),output,root)
         elif action=='probe':
             result = probe(root)
         elif action=='setup-tools':
-            from .setup_tools import install, ensure_chrono
-            result = install(root/'build/trip-dynamics/tools')
-            result['chrono_environment']=ensure_chrono(root,result['micromamba'],output)
-            result['chrono_environment_installed']=result['chrono_environment']['created']
-            result['existing_private_chrono']=_probe_chrono(root)
-            if result['existing_private_chrono'].get('available') is not True:
-                raise RuntimeError('locked private environment exists but native Chrono probe failed')
+            from .setup_tools import install, ensure_chrono, private_setup_lock
+            with private_setup_lock(root):
+                result = install(root/'build/trip-dynamics/tools')
+                result['chrono_environment']=ensure_chrono(root,result['micromamba'],output)
+                result['chrono_environment_installed']=result['chrono_environment']['created']
+                result['existing_private_chrono']=_probe_chrono(root)
+                if result['existing_private_chrono'].get('available') is not True:
+                    raise RuntimeError('locked private environment exists but native Chrono probe failed')
             result['scope']='Pinned fixed private GetDP/micromamba and locked Chrono environment; setup logs/receipt retained with this job; no global environment changed'
         elif action=='verify':
             from .campaign import verify

@@ -1,5 +1,7 @@
 """Download exact solver bootstraps into an explicit private directory."""
 import argparse
+from contextlib import contextmanager
+import fcntl
 from hashlib import sha256
 import json
 import os
@@ -8,6 +10,32 @@ import subprocess
 import tarfile
 from urllib.parse import urldefrag
 import urllib.request
+
+
+@contextmanager
+def private_setup_lock(root):
+    """One setup transaction per private toolchain, released by the kernel.
+
+    Keep the lock file: deleting it could let another process lock a different
+    inode. No user-selected lock path enters the browser request contract.
+    """
+    folder=Path(root).resolve()/'build/trip-dynamics'
+    if any(p.is_symlink() for p in [folder,*folder.parents]):
+        raise ValueError('ordinary private toolchain lock directory required')
+    folder.mkdir(parents=True,exist_ok=True)
+    fd=os.open(folder/'setup.lock',os.O_CREAT|os.O_RDWR|os.O_CLOEXEC|os.O_NOFOLLOW,0o600)
+    with os.fdopen(fd,'a+b') as stream:
+        acquired=False
+        try:
+            try:
+                fcntl.flock(stream,fcntl.LOCK_EX|fcntl.LOCK_NB)
+                acquired=True
+            except BlockingIOError as error:
+                raise RuntimeError('another private tool setup is already active; this job made no tool changes') from error
+            yield
+        finally:
+            if acquired:
+                fcntl.flock(stream,fcntl.LOCK_UN)
 
 
 def install(output):
@@ -29,8 +57,10 @@ def install(output):
         if not target.exists():
             request = urllib.request.Request(url, headers={'User-Agent':'OpenSourceRail-trip-toolchain/1'})
             temporary = target.with_suffix(target.suffix+'.pending')
+            owned=False
             try:
                 with urllib.request.urlopen(request, timeout=30) as response, temporary.open('xb') as stream:
+                    owned=True
                     count = 0
                     while True:
                         chunk = response.read(1024*1024)
@@ -42,8 +72,10 @@ def install(output):
                 if temporary.stat().st_size != expected['bytes'] or sha256(temporary.read_bytes()).hexdigest() != expected['sha256']:
                     raise ValueError('solver archive differs from its exact download pin')
                 temporary.rename(target)
+                owned=False
             finally:
-                temporary.unlink(missing_ok=True)
+                if owned:
+                    temporary.unlink(missing_ok=True)
         if target.is_symlink() or sha256(target.read_bytes()).hexdigest() != expected['sha256']:
             raise ValueError('existing private solver archive differs')
         destination = output/subfolder
@@ -193,6 +225,11 @@ if __name__ == '__main__':
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--source-root', type=Path, default=Path(__file__).resolve().parents[2])
     args = parser.parse_args()
-    tools=install(args.output)
-    tools['chrono']=ensure_chrono(args.source_root,tools['micromamba'],args.output/'logs')
+    with private_setup_lock(args.source_root):
+        tools=install(args.output)
+        tools['chrono']=ensure_chrono(args.source_root,tools['micromamba'],args.output/'logs')
+        from engineering.trip_dynamics.experiments import _probe_chrono
+        tools['native_chrono']=_probe_chrono(args.source_root)
+        if tools['native_chrono'].get('available') is not True:
+            raise RuntimeError('locked private environment exists but native Chrono probe failed')
     print(json.dumps(tools, indent=2))

@@ -118,6 +118,33 @@ def test_unavailable_native_benchmark_fails_without_substitute(tmp_path,retained
     assert not result['physical_accepted'] and not (tmp_path/'job/trace.png').exists()
 
 
+@pytest.mark.parametrize('state,completed,expected',[
+    ('completed',True,'completed'),('failed',False,'failed'),
+    ('interrupted',False,'failed'),('held',False,'refused'),
+    ('completed',False,'failed'),('held',True,'failed'),
+    ('unknown',False,'failed')])
+def test_native_returned_disposition_propagates_without_losing_raw_results(
+        tmp_path,retained_root,monkeypatch,state,completed,expected):
+    raw=dict(state=state,summary=dict(completed=completed),
+        error=None if completed else 'mocked bounded native disposition',
+        trace=[dict(time_s=0.,mocked_test_state=True)],
+        physical_accepted=False,journey_accepted=False,engineering_qualified=False)
+    def native(root,output,vehicle,case):
+        # The native transport validator is independent; this regression tests
+        # its returned integration state, not subprocess exit status.
+        e._write(output/'benchmark-result.json',raw)
+        (output/'trace.png').write_bytes(b'mocked trace artifact for disposition test')
+        return deepcopy(raw)
+    monkeypatch.setattr(e,'_benchmark',native)
+    result=e.execute({'action':'experiment','parameters':{'mode':'benchmark'}},tmp_path/'job',retained_root)
+    assert result['execution_status']==expected
+    assert result['result']==raw
+    assert json.loads((tmp_path/'job/result.json').read_text())==raw
+    assert json.loads((tmp_path/'job/benchmark-result.json').read_text())==raw
+    assert {'benchmark-result.json','trace.png'}<={x['path']for x in result['outputs']}
+    assert not result['journey_accepted'] and not result['physical_accepted']
+
+
 def test_laminate_fixture_executes_analytical_not_code_aster(tmp_path,retained_root):
     result=e.execute({'action':'fixture','parameters':{'fixture':'laminate'}},tmp_path/'job',retained_root)
     assert result['execution_status']=='completed'
@@ -136,17 +163,27 @@ def test_existing_job_and_symlink_output_refused(tmp_path,retained_root):
 
 def test_setup_uses_fixed_private_tools_with_per_job_logs_and_existing_chrono(tmp_path,retained_root,monkeypatch):
     from engineering.trip_dynamics import setup_tools
+    real_lock=setup_tools.private_setup_lock
+    monkeypatch.setattr(setup_tools,'private_setup_lock',lambda root:real_lock(tmp_path))
+    def assert_locked():
+        with pytest.raises(RuntimeError,match='already active'):
+            with real_lock(tmp_path):pytest.fail('setup transaction phase ran without the kernel lock')
     destinations=[]
     def install(path):
+        assert_locked()
         destinations.append(path)
         return dict(global_environment_modified=False,micromamba='pinned-private-mamba')
     monkeypatch.setattr(setup_tools,'install',install)
     calls=[]
     def ensure(root,micromamba,logs):
+        assert_locked()
         calls.append((root,micromamba,logs))
         return dict(created=False,reused=True)
     monkeypatch.setattr(setup_tools,'ensure_chrono',ensure)
-    monkeypatch.setattr(e,'_probe_chrono',lambda root:dict(available=True,fallback=False,solver_id='a'*64))
+    def probe(root):
+        assert_locked()
+        return dict(available=True,fallback=False,solver_id='a'*64)
+    monkeypatch.setattr(e,'_probe_chrono',probe)
     result=e.execute({'action':'setup-tools','parameters':{}},tmp_path/'job',retained_root)
     assert destinations==[retained_root/'build/trip-dynamics/tools']
     assert calls==[(retained_root,'pinned-private-mamba',tmp_path/'job')]
@@ -260,3 +297,43 @@ def test_private_tool_install_reuses_exact_executable_and_refuses_mismatch(tmp_p
     binary.write_bytes(b'foreign binary')
     with pytest.raises(ValueError,match='leaving it unchanged'):tools.install(out)
     assert binary.read_bytes()==b'foreign binary'
+
+
+def test_setup_lock_is_nonblocking_and_released_after_normal_exit(tmp_path):
+    from engineering.trip_dynamics.setup_tools import private_setup_lock
+    with private_setup_lock(tmp_path):
+        with pytest.raises(RuntimeError,match='already active'):
+            with private_setup_lock(tmp_path):pytest.fail('contending setup must not enter')
+    with private_setup_lock(tmp_path):pass
+
+
+def test_setup_kernel_lock_releases_when_holder_is_cancelled(tmp_path):
+    import select,subprocess,sys
+    from engineering.trip_dynamics.setup_tools import private_setup_lock
+    with private_setup_lock(tmp_path):pass
+    lock=tmp_path/'build/trip-dynamics/setup.lock'
+    code='import fcntl,sys; f=open(sys.argv[1],"a+b"); fcntl.flock(f,fcntl.LOCK_EX); print("locked",flush=True); sys.stdin.read()'
+    process=subprocess.Popen([sys.executable,'-c',code,str(lock)],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+    try:
+        assert select.select([process.stdout],[],[],5)[0], 'lock holder startup timed out'
+        assert process.stdout.readline().strip()=='locked'
+        with pytest.raises(RuntimeError,match='already active'):
+            with private_setup_lock(tmp_path):pytest.fail('active setup must exclude another process')
+        process.terminate();process.wait(timeout=5)
+        with private_setup_lock(tmp_path):pass
+    finally:
+        if process.poll() is None:process.kill();process.wait(timeout=5)
+        for stream in (process.stdin,process.stdout,process.stderr):stream.close()
+
+
+def test_failed_exclusive_download_open_never_removes_another_calls_pending_file(tmp_path,monkeypatch):
+    import io
+    from engineering.trip_dynamics import setup_tools as tools
+    source=tmp_path/'source';source.mkdir();out=tmp_path/'tools';out.mkdir()
+    (source/'solver-environment.json').write_text(json.dumps({'getdp':dict(
+        bytes=1,sha256=sha256(b'x').hexdigest(),url='https://example.invalid/test')}))
+    monkeypatch.setattr(tools,'__file__',str(source/'setup_tools.py'))
+    monkeypatch.setattr(tools.urllib.request,'urlopen',lambda *a,**kw:io.BytesIO(b'x'))
+    pending=out/'getdp-3.5.0-Linux64c.tgz.pending';pending.write_bytes(b'owned by another call')
+    with pytest.raises(FileExistsError):tools.install(out)
+    assert pending.read_bytes()==b'owned by another call'
