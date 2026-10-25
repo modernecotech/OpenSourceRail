@@ -33,6 +33,8 @@ The guideway target is one concrete beam per direction, with necessary reaction 
 
 ## Current design and evidence
 
+The [neodymium and lightweight-vehicle study](docs/design-engine/vehicle-optimisation/README.md) compares named NdFeB grades and full rotating Halbach arrays with ferrite controls, then feeds aluminium-extrusion frames, doors, glazing and HVAC alternatives into the same mass comparison. It retains hot-condition material failures, incomplete control windings and installation uncertainty. Lower magnetic stock mass is promising; a complete replacement configuration remains unadopted.
+
 The [onboard-magnet/passive-facing campaign](docs/design-engine/passive-suspension/README.md) investigates shared lift and lateral alignment, load-dependent low-current operation, damping and simple compliant mounting. Exact counted stock, a transverse finite-element model and map-bound controls share the common candidate contracts. Failed support, unresolved derivatives, curve fit and missing installed equipment remain visible; no replacement train or changed Baghdad service specification is adopted.
 
 The [coordinated candidate campaign](engineering/design_search/README.md) connects physical carrier alternatives, selected guidebeam dimensions, nonlinear magnetic screens and draft manufacturing/construction outputs through one candidate identity. Separate evaluation and selection identities preserve modelling assumptions and ranking policy. The [comparison Workbench](docs/design-engine/design-search/index.html) retains failed calculations, missing installed stock and revision ancestry. A next-experiment selection is a research priority; an integrated design still requires complete inventory, coupled calculations and independent domain confirmation.
