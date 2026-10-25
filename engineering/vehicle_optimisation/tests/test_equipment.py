@@ -73,6 +73,29 @@ def test_same_stiffness_full_chassis_not_automatically_lighter(chassis):
     assert len({round(c['counted_material_mass_kg'],6) for c in chassis})==3
 
 
+def test_each_member_preserves_its_own_attachment_datum_without_mutating_neighbour(chassis):
+    raw=json.loads((e.ROOT/'engineering/ferrite_maglev/data/candidate-retained-body-stock.json').read_text())
+    groups={}
+    for p in raw['parts']:
+        if p['role'] in ('primary-frame','provisional-replaced-stringers'):
+            groups.setdefault(p['parent_member_id'],[]).append(p)
+    for c in chassis:
+        for q in c['stock_parts']:
+            if not q['id'].startswith('extrusion/'):continue
+            ps=groups[q['source_member']]
+            low=[min(p['at_m'][i] for p in ps) for i in range(3)]
+            high=[max(p['at_m'][i]+p['size_m'][i] for p in ps) for i in range(3)]
+            name=q['source_member']
+            if 'lower-stringer' in name or 'roof-longitudinal' in name:
+                assert q['at_m'][2]+q['depth_m']==pytest.approx(high[2])
+                assert q['at_m'][0]==pytest.approx(low[0])
+            else:
+                assert q['at_m']==pytest.approx(low)
+            if 'roof-longitudinal' in name:
+                if high[1]<0:assert q['at_m'][1]==pytest.approx(low[1])
+                else:assert q['at_m'][1]+q['width_m']==pytest.approx(high[1])
+
+
 def test_roof_support_and_joint_failure_are_distinct(chassis):
     for c in chassis:
         s=c['screens']

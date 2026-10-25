@@ -158,8 +158,6 @@ def chassis_candidates(*,root=ROOT,comparison_mass_kg_per_car=37618.591500334303
             if 'lower-stringer' in old['id']:
                 h*=depth_scale
                 if identity.startswith('6005A'):b*=1.20
-            if 'lower-stringer' in old['id']:
-                at[2]+=old['depth_m']-h
             if 'roof-longitudinal' in old['id']:
                 # Dedicated hanging-load rail, kept inside the old outer top
                 # and side datum. This is geometry, not a body-shell FE result.
@@ -175,6 +173,8 @@ def chassis_candidates(*,root=ROOT,comparison_mass_kg_per_car=37618.591500334303
             # Preserve the top/outer side datum of roof rails, not their centre
             # after increasing section depth into the cabin.
             at=list(old['at_m']);cross=[i for i in range(3) if i!=axis]
+            if 'lower-stringer' in old['id']:
+                at[2]+=old['depth_m']-h
             if 'roof-longitudinal' in old['id']:
                 at[2]+=old['depth_m']-h
                 if at[1]>0:at[1]+=old['width_m']-b
