@@ -2,6 +2,8 @@
 
 **OpenSourceRail develops simple, affordable urban transport that communities can build, operate and maintain locally.** The current v0.5.2 research design uses ferrite permanent-magnet-biased active support, six-car trains and fixed linear motors at stations for launch and receiving braking. Trains coast between these finite powered zones while independent onboard support, guidance and passenger services remain powered. Longer legs may need separately counted midpoint accelerators.
 
+**All permanent magnets and suspension/guidance control coils stay on the train.** The ordinary guideway is a concrete beam with attached passive steel facings. Its attachments transfer magnetic forces into the concrete; powered station launch/receiving equipment is a separate interface.
+
 The ethos is **simple equipment, low whole-life cost and high passenger throughput**. Repeated elevated concrete beams, repairable GFRP bodies, standardised magnetic assemblies and open controls aim to retain design knowledge and productive capability in-country. Stations, speeds, dwell times and train frequency must work together: a higher maximum speed alone does not deliver more passengers. **CAPEX, OPEX and debt repayment must be affordable together**, with complete equipment, maintenance and recovery counted.
 
 The repository contains engineering studies, planning tools and executed digital evidence. The current accounted train still fails magnetic support checks; its complete four-stop electromechanical journey is unexecuted. The [design completion plan](docs/design-engine/ferrite-maglev/research-closure/README.md) records what has been tested, what is proposed and the evidence needed next.
@@ -30,6 +32,8 @@ The guideway target is one concrete beam per direction, with necessary reaction 
 *Illustrative concept; no qualified train installation or walkway-removal approval is claimed.*
 
 ## Current design and evidence
+
+The [onboard-magnet/passive-facing campaign](docs/design-engine/passive-suspension/README.md) investigates shared lift and lateral alignment, load-dependent low-current operation, damping and simple compliant mounting. Exact counted stock, a transverse finite-element model and map-bound controls share the common candidate contracts. Failed support, unresolved derivatives, curve fit and missing installed equipment remain visible; no replacement train or changed Baghdad service specification is adopted.
 
 The [coordinated candidate campaign](engineering/design_search/README.md) connects physical carrier alternatives, selected guidebeam dimensions, nonlinear magnetic screens and draft manufacturing/construction outputs through one candidate identity. Separate evaluation and selection identities preserve modelling assumptions and ranking policy. The [comparison Workbench](docs/design-engine/design-search/index.html) retains failed calculations, missing installed stock and revision ancestry. A next-experiment selection is a research priority; an integrated design still requires complete inventory, coupled calculations and independent domain confirmation.
 

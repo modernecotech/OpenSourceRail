@@ -6,6 +6,13 @@ whether carrier and beam changes help one consistent physical configuration.
 It retains added material, unresolved mechanisms and failures alongside useful
 improvements. The six-car Baghdad context remains explicit.
 
+The subsequent [onboard-magnet/passive-facing study](passive-suspension/README.md)
+investigates a simpler magnetic interface through the same candidate contracts.
+All permanent magnets and suspension/guidance coils remain onboard; the ordinary
+concrete guidebeam carries attached passive steel facings. That new bounded
+experiment retains its own source epoch and does not replace this historical
+carrier/beam campaign or adopt an integrated train.
+
 The [comparison Workbench](design-search/index.html),
 [source and payload receipt](design-search/manifest.json) and
 [complete results](design-search/comparison.json.gz) identify the exact campaign,

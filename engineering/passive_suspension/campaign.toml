@@ -1,0 +1,42 @@
+schema = "osr-passive-suspension-campaign/1"
+requirement_revision = "passive-steel-facing-six-car-research-2026-10-25"
+purpose = "next-experiment"
+maximum_physical_candidates = 12
+maximum_map_solves = 1000
+
+[context]
+cars = 6
+body_length_m = 17.0
+normal_passengers_per_car = 120
+comparison_pphpd = 14400
+headway_s = 180
+ordinary_guideway = "Concrete beam with attached passive steel facings"
+all_permanent_magnets_on_train = true
+all_suspension_guidance_power_on_train = true
+station_propulsion = "Separate finite launch/receiving zones; retained interface"
+physical_configuration_adopted = false
+
+[fields]
+mesh_size_m = 0.005
+outer_margin_m = 0.25
+max_nodes = 180000
+check_convergence = true
+steel_model = "linear_bound"
+steel_relative_permeability = 1000.0
+force_relative_tolerance = 0.08
+force_absolute_tolerance_N = 2.0
+linkage_relative_tolerance = 0.05
+
+[map]
+gaps_m = [0.004, 0.008, 0.012, 0.020]
+laterals_m = [0.0]
+currents_A = [-12.0, 0.0, 12.0]
+temperatures_C = [20.0, 50.0]
+
+[selection]
+policy_id = "bounded-research-next-experiment-v1"
+description = "Pareto compare negative zero-current support ratio and counted onboard stock. Unknown installed equipment, 3D losses, coupled control and physical qualification prohibit integrated adoption."
+
+[selection.objectives]
+negative_reference_support_ratio = 1.0
+known_train_stock_tonnes_per_car = 0.01
