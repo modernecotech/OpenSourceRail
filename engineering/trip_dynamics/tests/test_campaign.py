@@ -2,6 +2,7 @@ from hashlib import sha256
 import json
 import os
 from pathlib import Path
+import shutil
 
 import pytest
 
@@ -74,3 +75,13 @@ def test_option_review_uses_upper_installation_band_and_never_selects(packet):
             assert context['AW3_kg_per_car'] == max(context['AW3_band_kg_per_car'])
             assert context['AW3_kg_per_car']-context['empty_kg_per_car'] == pytest.approx(12000.)
         assert row['dynamic_execution'] == 'not-run'
+
+
+def test_evidence_packet_is_portable_to_another_retained_source_root(packet, tmp_path):
+    alternate = tmp_path/'another-checkout'
+    sources = json.loads((packet/'manifest.json').read_bytes())['source_sha256']
+    for name in sources:
+        destination = alternate/name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(ROOT/name, destination)
+    assert campaign.verify(packet, root=alternate)['physical_accepted'] is False

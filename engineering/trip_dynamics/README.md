@@ -45,6 +45,8 @@ The common right-handed frame is x along travel, y left and z up. Magnetic maps 
 
 Reduced structural models retain equipped mass and inertia congruence, equilibrium, boundary/load/fault applicability, mass-normalised modes and attachment virtual work. Imported numerical checks and checked source files have distinct dispositions. Immutable modal snapshots prevent later data mutation from silently changing the attachment model. The synthetic laminate/beam coupon is independent of the vehicle and does not count as a Code_Aster execution.
 
+The first modal exchange accepts three translational DOFs per node. Reconstruction of module orientation and general moment transfer still needs a verified interface. Likewise, available magnetic energy/flux ports do not by themselves establish energy reciprocity or closed-loop stability; joint confirmation remains required.
+
 The existing Rust current-loop ABI executes at 50 µs inside a declared mechanical clock. Its electrical fixture retains current, voltage, copper heat, field energy and sensor-loss refusal. It does not invent a current-to-force law. Full moving station-drive, field-energy, battery, HVAC and repeated thermal coupling remains gated until matched component data exists.
 
 Expensive magnetic and structural solves belong offline. Their reduced models may enter the moving simulation only after domain and convergence checks. The current first campaign explicitly refuses all unevaluated criteria instead of manufacturing a successful launch-to-arrival trace.

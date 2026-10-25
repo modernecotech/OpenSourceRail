@@ -198,6 +198,7 @@ def _publication(root,relative,needed):
         bindings[path.relative_to(root).as_posix()]=digest;data[name]=_json(path)
     for name,digest in manifest.get('source_sha256',{}).items():
         if sha256(_path(root,name).read_bytes()).hexdigest()!=digest:raise ValueError('publication implementation source differs: '+name)
+        bindings[name]=digest
     for flag in ('physical_accepted','engineering_accepted','configuration_adopted','physical_validation','physical_release'):
         if manifest.get(flag,False) is not False:raise ValueError('unexpected accepted publication')
     bindings[(base/'manifest.json').relative_to(root).as_posix()]=sha256((base/'manifest.json').read_bytes()).hexdigest()
@@ -269,7 +270,9 @@ def current_magnetic_evidence(root:Path)->dict:
                         for f in points[v['sample_id']]],
                 published_hot_support_bounds=r['hot_support_bounds'],guidance_validated=False,thermal_screen_pass=None,
                 source='docs/design-engine/vehicle-optimisation/summary.json'))
-    result=dict(schema='osr-current-magnetic-evidence/1',root=str(root),records=records,force_maps=[],errors=errors,
+    # Source bindings are repository-relative. A checkout path is provenance
+    # of the caller, not a physical/evaluation property of this evidence.
+    result=dict(schema='osr-current-magnetic-evidence/1',records=records,force_maps=[],errors=errors,
                 source_sha256=bindings,full_journey_executed=False,physical_accepted=False,
                 limitations=['Existing scalar/network/transverse2D diagnostics are not nonlinear3D journey force maps',
                              'Absent guidance, moment, velocity/drag or repeated thermal duty is unknown, never zero'])
