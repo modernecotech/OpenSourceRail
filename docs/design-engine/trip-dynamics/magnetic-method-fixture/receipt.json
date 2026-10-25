@@ -1,0 +1,105 @@
+{
+  "candidate_force_map_generated": false,
+  "candidate_id": null,
+  "exact_B_T": 0.8754310550833011,
+  "exact_air_pressure_force_N": 3049.327270869067,
+  "getdp_executable_sha256": "49d44b1dfe13d9f9b63f8dfe37914af8947f856feebac13fbb6989a41aa88e51",
+  "getdp_version": "3.5.0",
+  "gmsh_version": "4.14.1",
+  "limitations": [
+    "No actual PM/coil/steel grade",
+    "No fringing/open-boundary validation",
+    "No candidate3D geometry",
+    "No field/force/loss map or journey qualified"
+  ],
+  "manufactured_law": "B(H)=mu0*H+1.5T*tanh(H/1500A_per_m)",
+  "passed": true,
+  "physical_accepted": false,
+  "records": [
+    {
+      "air_pressure_force_N": 3049.327269823832,
+      "command": [
+        "/home/hayder/Documents/OpenSourceRail/build/trip-dynamics/tools/getdp-3.5.0-Linux64/bin/getdp",
+        "slab.pro",
+        "-msh",
+        "slab.msh",
+        "-solve",
+        "Solve",
+        "-pos",
+        "Results"
+      ],
+      "elapsed_s": 0.10410608300298918,
+      "files_sha256": {
+        "air-force.txt": "a43e13a17de1ac1cfd47a128b046308d43d66d350a742a24c352ed116707e758",
+        "field.pos": "c987668141df06014cffcc2b4511d649fcc0b4ed4a0ed89ae8dead0b012ba82e",
+        "getdp.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "getdp.stdout.log": "983625052294d4e99c7517de3b33f5e1bb1c6746abfc2340ac0b7a6eb67b6d15",
+        "gmsh.log": "00ce092c860f90f2ca2449777de57d214776a8526c90d0230953430e81d7c56c",
+        "mean-Bz.txt": "24a4f43f1f3a9c359e3b0255b656ea48029faa3959dfd31d58423064b4fb4d0c",
+        "slab.geo": "f1d99145a7c4988322c50c53add5ced167669b1b9dde838d08e8e39d3af7be81",
+        "slab.msh": "a2ba2afe781c72d07636d8fbe9ed77da74628da4ad9aaf3fc5acdc9cb79f41b9",
+        "slab.pre": "8f1237408ee734f649837d60eba1cf52e1766901096822eace7d3d229757b8b1",
+        "slab.pro": "1988b8b25d4d0c6028e1ff58742a892d23bcf8f84dda42d151db0f95984f5ed2",
+        "slab.res": "f3a11d912a8ca58dfa43cbe22fb84e542ba2bf077b82e42d07d63624216f5d64"
+      },
+      "mean_air_Bz_T": 0.8754310549336128,
+      "mesh_size_m": 0.025,
+      "name": "coarse",
+      "nonlinear_converged": true,
+      "nonlinear_iterations": 19,
+      "relative_B_error": 1.7098811255777946e-10,
+      "relative_force_error": 3.4277558569328903e-10,
+      "residual_absolute": 6.73296344427044e-11,
+      "residual_relative": 2.221350068969581e-08,
+      "returncode": 0,
+      "tetrahedra": 631
+    },
+    {
+      "air_pressure_force_N": 3049.327269821324,
+      "command": [
+        "/home/hayder/Documents/OpenSourceRail/build/trip-dynamics/tools/getdp-3.5.0-Linux64/bin/getdp",
+        "slab.pro",
+        "-msh",
+        "slab.msh",
+        "-solve",
+        "Solve",
+        "-pos",
+        "Results"
+      ],
+      "elapsed_s": 0.40572447900194675,
+      "files_sha256": {
+        "air-force.txt": "85e9d55b5598169354fda03068ec953334f69d91050ea153d4cab87c1886abaf",
+        "field.pos": "84cbac91d46391357684352a48ad4f17df677d7da40688bdd1c3dd39adffb4c9",
+        "getdp.stderr.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "getdp.stdout.log": "288f2df89bbef3c3341868804fe81f998d379a1bfbba18087ef4e4e0b7bc03d9",
+        "gmsh.log": "1aba9fe502e587091e98c0353bd219b0cf75c0aaab79d720465696e765253fd6",
+        "mean-Bz.txt": "2a78cc2997431ba17343e2d41d06336cc7b1d1b63909262742f03ad3da1ae72b",
+        "slab.geo": "0911fa31b42e459654d4a5dbf5f89de69b2c5c7a6f919d1a71801f24cdf6f199",
+        "slab.msh": "77b5d94fabea17316f16ba1134dc0d27fcd24269a22d5cefe90edcafda3ea15c",
+        "slab.pre": "16e0bbba0bd31d29ed416d6a13d2796a4c385d8c80310b989a321f07f0dcd6d2",
+        "slab.pro": "1988b8b25d4d0c6028e1ff58742a892d23bcf8f84dda42d151db0f95984f5ed2",
+        "slab.res": "bf84310c13b48097bbc34513bf0afc6dadb9d0a441cbae35abfad8be6352fbe8"
+      },
+      "mean_air_Bz_T": 0.875431054933253,
+      "mesh_size_m": 0.0125,
+      "name": "fine",
+      "nonlinear_converged": true,
+      "nonlinear_iterations": 19,
+      "relative_B_error": 1.713991171214957e-10,
+      "relative_force_error": 3.4359803890993135e-10,
+      "residual_absolute": 2.920287123323945e-11,
+      "residual_relative": 1.755814735813292e-08,
+      "returncode": 0,
+      "tetrahedra": 2849
+    }
+  ],
+  "relative_mesh_force_difference": 8.224540750668858e-13,
+  "schema": "osr-nonlinear3d-method-fixture/1",
+  "scope": "Manufactured uniform-flux nonlinear3D tetrahedral scalar-potential method check; air Maxwell pressure integral, not net train/body force",
+  "source_reference": "https://getdp.info/doc/texinfo/getdp.html",
+  "source_sha256": {
+    "run_fixture.py": "3ce5f8d9ae384b37093ea4c593eb567abdd110d40410a62602ce3385b665485b",
+    "slab.geo": "2e6e589b08c3e22b563c5b9c7bacfba07b98983a6b2ad5a79a1cd5db74557aee",
+    "slab.pro": "1988b8b25d4d0c6028e1ff58742a892d23bcf8f84dda42d151db0f95984f5ed2"
+  }
+}

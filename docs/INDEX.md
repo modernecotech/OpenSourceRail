@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **635**.
+Indexed Markdown files: **638**.
 
 ## Sections
 
@@ -26,8 +26,8 @@ Indexed Markdown files: **635**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 71 |
-| [engineering](#engineering) | 15 |
+| [docs](#docs) | 72 |
+| [engineering](#engineering) | 17 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -681,6 +681,7 @@ Indexed Markdown files: **635**.
 | [`docs/design-engine/ferrite-maglev/system-detailed/README.md`](../docs/design-engine/ferrite-maglev/system-detailed/README.md) | Detailed candidate and system simulation |
 | [`docs/design-engine/passive-suspension/README.md`](../docs/design-engine/passive-suspension/README.md) | Onboard magnets and passive steel facings |
 | [`docs/design-engine/passive-suspension/plan.md`](../docs/design-engine/passive-suspension/plan.md) | Bounded specialist campaign |
+| [`docs/design-engine/trip-dynamics/README.md`](../docs/design-engine/trip-dynamics/README.md) | Six-car journey simulation programme |
 | [`docs/design-engine/vehicle-optimisation/README.md`](../docs/design-engine/vehicle-optimisation/README.md) | Neodymium Halbach arrays and lighter vehicle equipment |
 | [`docs/design-engine/vehicle-optimisation/plan.md`](../docs/design-engine/vehicle-optimisation/plan.md) | Coordinated next design work |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoptable product: the delivery platform |
@@ -707,6 +708,8 @@ Indexed Markdown files: **635**.
 | [`engineering/ferrite_maglev/README.md`](../engineering/ferrite_maglev/README.md) | OpenSourceRail v0.5 fixed-zone ferrite-maglev engineering |
 | [`engineering/ferrite_maglev/city-index.md`](../engineering/ferrite_maglev/city-index.md) | v0.5 maglev catalogue planning index |
 | [`engineering/ferrite_maglev/observer-prototype/README.md`](../engineering/ferrite_maglev/observer-prototype/README.md) | Delayed-map normal-wrench Rust research prototype |
+| [`engineering/trip_dynamics/README.md`](../engineering/trip_dynamics/README.md) | Six-car trip dynamics |
+| [`engineering/trip_dynamics/fixtures/structures/README.md`](../engineering/trip_dynamics/fixtures/structures/README.md) | Structural exchange fixtures |
 
 ## tools
 
