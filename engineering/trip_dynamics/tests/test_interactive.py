@@ -119,6 +119,27 @@ def test_real_subprocess_refusal_is_completed_calculation_and_durable(repository
         reopened.close()
 
 
+def test_live_service_owns_job_root_until_its_workers_close(repository):
+    first = api.TripService(repository)
+    try:
+        job = submit(first, 'fixture')
+        wait_for(first, job['job_id'], lambda row: row['state'] == 'running')
+        with pytest.raises(ValueError, match='Another live Workbench'):
+            api.TripService(repository)
+        # A second constructor must not enter recovery and cancel live jobs.
+        assert first.job(job['job_id'])['state'] == 'running'
+        first.cancel(job['job_id'])
+        wait_for(first, job['job_id'])
+    finally:
+        first.close()
+    second = api.TripService(repository)
+    try:
+        assert second.job(job['job_id'])['state'] == 'cancelled'
+        assert (second.output_root/'.service.lock').is_file()
+    finally:
+        second.close()
+
+
 @pytest.mark.parametrize('value', [
     {'action': 'shell', 'parameters': {}},
     {'action': 'probe', 'parameters': {'command': 'touch forbidden'}},
@@ -135,7 +156,8 @@ def test_invalid_client_requests_never_create_job_or_process(repository, value):
     try:
         with pytest.raises((ValueError, TypeError)):
             service.submit(value)
-        assert service.jobs() == [] and list(service.output_root.iterdir()) == []
+        assert service.jobs() == []
+        assert {path.name for path in service.output_root.iterdir()} == {'.service.lock'}
     finally:
         service.close()
 

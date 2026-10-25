@@ -9,6 +9,7 @@ from __future__ import annotations
 from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
 from datetime import datetime, timezone
+import fcntl
 from hashlib import sha256
 import ipaddress
 import json
@@ -339,8 +340,19 @@ class TripService:
         self._jobs, self._events = {}, {}
         self._closed = False
         self._code_epoch = _code_snapshot()
-        self._recover()
-        self._executor = ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix='trip-job')
+        lock_path = _ordinary(self.output_root / '.service.lock', self.output_root)
+        self._service_lock = lock_path.open('a+b')
+        try:
+            fcntl.flock(self._service_lock.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as error:
+            self._service_lock.close()
+            raise RequestError('Another live Workbench owns this job directory; reuse that server or choose a separate server-managed job root') from error
+        try:
+            self._recover()
+            self._executor = ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix='trip-job')
+        except BaseException:
+            self._service_lock.close()
+            raise
 
     def _directory(self, job_id):
         if not isinstance(job_id, str) or not JOB_RE.fullmatch(job_id):
@@ -621,7 +633,14 @@ class TripService:
             self._closed = True
             for event in self._events.values():
                 event.set()
-        self._executor.shutdown(wait=True, cancel_futures=False)
+        try:
+            self._executor.shutdown(wait=True, cancel_futures=False)
+        finally:
+            # Keep the kernel owner lock until every owned worker/controller is
+            # stopped. Never unlink it: another opener must lock the same inode.
+            if not self._service_lock.closed:
+                fcntl.flock(self._service_lock.fileno(), fcntl.LOCK_UN)
+                self._service_lock.close()
 
 
 def check_request(value):
