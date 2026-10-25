@@ -68,6 +68,12 @@ def readme(summary, native_record):
     facing_text=(f'{chosen["stock"]["guideway_facing_kg_per_route_m"]:.1f} kg of facing steel per route metre '
                  f'({chosen["stock"]["guideway_facing_kg_per_beam_span"]/1000:.3f} t per selected span)'
                  if chosen else 'No selected facing quantities')
+    brackets=[]
+    for row in summary['controls'].get('force_only_load_brackets',[]):
+        gaps='; '.join(f'{item["gaps_m"][0]*1000:g}–{item["gaps_m"][1]*1000:g}' for item in row['intervals']) or 'None in checked points'
+        brackets.append(f'| {row["temperature_C"]:g} | {row["load_case"]} | {gaps} |')
+    bracket_table=('\n| Material temperature, °C | Declared load | Point-force gap bracket, mm |\n'
+                   '|---:|---|---|\n'+'\n'.join(brackets)+'\n') if brackets else ''
     candidate_link=f'[Candidate](candidates/{selected}.json)' if selected else 'No numerical selection'
     native_links='Native CAD was not executed; no substitute export is issued.'
     if native_record['execution_status']=='executed':
@@ -101,6 +107,9 @@ The declared policy selected **{chosen_name}** for a next experiment: {candidate
 The field solves use an explicit provisional constant-permeability steel assumption, finite transverse width and infinite travel length. The same selected physical geometry also receives a retained nonlinear-material sensitivity calculation. Neither material hypothesis is a proven universal force bound. Mesh, boundary, contour and derivative checks have separate dispositions in the raw records. A numerically converged field is not a measured material model. Three-dimensional ends, joints, demagnetisation correlation, saturation, magnetic drag, eddy/hysteresis loss, roll, multiple supports and faults still need work. Longitudinal invariance in a 2D equation does not establish zero travel drag.
 
 The map-bound control analysis is **{summary['controls']['execution_status']}**. Its exact disposition is in `summary.json`. A zero-current force balance, when present inside a valid map, still requires active stabilisation. Nonconverged or unresolved derivative maps receive no equilibrium or control credit. Checked point forces may bracket a necessary load balance over two sampled gaps; those intervals are reported separately and do not establish an equilibrium or stability. The centred map tangent is not a finite-displacement guidance demonstration; additional ±6 mm points at 50°C are retained separately. The material-temperature samples do not establish a repeated hot-weather thermal equilibrium. Zero mean current is not zero RMS heating. An added resistor winding cannot supply static stability; useful damping requires validated signed flux gradients, inductance, resistance and thermal duty. The C reference point has zero shunt current and receives no passive-damping credit.
+
+{bracket_table}
+These are zero-current brackets of checked force samples only. Missing brackets do not justify extrapolation. The full empty-to-loaded range and hot reserve therefore remain open, alongside the unresolved lateral/cross-coupled derivatives. No closed-loop or passive-damping performance is claimed from this map.
 
 ## Manufacturing, route and next test
 
