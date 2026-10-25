@@ -181,9 +181,13 @@ def render(design, geojson, output, *, context_path=None):
                 detail=properties.get('kind_detail','')
                 colour,width=('#dfae6d',2.5) if detail in ('motorway','trunk','primary') else ('#c7b99e',1.6) if detail in ('secondary','tertiary') else ('#bcbcbc',.7) if kind=='rail' else ('#fff',.8)
                 style=f'fill="none" stroke="{colour}" stroke-width="{width}"'+(' stroke-dasharray="3 3"' if kind=='rail' else '')
-            for path in _paths(geometry,project,1.5 if layer=='buildings' else 0.):
+            paths=_paths(geometry,project,1.5 if layer=='buildings' else 0.)
+            if paths:
                 drawn_paths[layer]+=1
-                rows.append(f'<path d="{path}" {style} fill-rule="evenodd"/>')
+                # One SVG element per source feature; independent M-started
+                # subpaths retain disconnected streets without90,000 copies
+                # of the same stroke attributes in a large city.
+                rows.append(f'<path d="{"".join(paths)}" {style} fill-rule="evenodd"/>')
         rows.append('</g>')
     # Named locations and a bounded set of street labels, with deterministic
     # collision suppression. No invented streets or labels fill missing data.
