@@ -95,11 +95,23 @@ def test_missing_pmtiles_entry_is_different_from_io_error(tmp_path):
 def test_offline_context_digests_and_attribution(tmp_path):
     bbox=[0.,0.,1.,1.];tiles=b.tiles_for_bounds(bbox,0)
     packet=dict(schema=b.SCHEMA,bounds_wsen=bbox,zoom=0,
-        source=dict(url=b.PINNED,header_sha256=b.HEADER_SHA256,metadata_sha256=b.METADATA_SHA256,archive_size_bytes=b.ARCHIVE_SIZE),
+        source=dict(url=b.PINNED,header_sha256=b.HEADER_SHA256,metadata_sha256=b.METADATA_SHA256,archive_size_bytes=b.ARCHIVE_SIZE,whole_archive_checksum_verified=False),
         attribution=b.ATTRIBUTION,layers={'places':[dict(type='Feature',geometry=dict(type='Point',coordinates=[.5,.5]),properties={'name':'Fixture'})]},
-        receipt=dict(tiles=[dict(z=z,x=x,y=y,status='present',sha256='a'*64,bytes=8) for z,x,y in tiles],feature_counts={'places':1}))
+        receipt=dict(extractor_sha256='b'*64,packages={'pmtiles':'3.8.1','mapbox-vector-tile':'2.2.0'},tiles=[dict(z=z,x=x,y=y,status='present',sha256='a'*64,bytes=8) for z,x,y in tiles],feature_counts={'places':1},retained_range_bytes=1307,
+            ranges=[dict(url=b.PINNED,archive_size=b.ARCHIVE_SIZE,offset=o,length=n,http_status=206,
+                         content_range=f'bytes {o}-{o+n-1}/{b.ARCHIVE_SIZE}',sha256=h)
+                    for o,n,h in ((0,127,b.HEADER_SHA256),(138780946777,1180,b.METADATA_SHA256))]))
     packet['context_sha256']=b.digest(b.encoded(packet));path=tmp_path/'context.json.gz';path.write_bytes(gzip.compress(b.encoded(packet),mtime=0))
     assert b.load(path)['layers']['places'][0]['properties']['name']=='Fixture'
+    packet['source']['whole_archive_checksum_verified']=True
+    packet['context_sha256']=b.digest(b.encoded({k:v for k,v in packet.items() if k!='context_sha256'}))
+    path.write_bytes(gzip.compress(b.encoded(packet)))
+    with pytest.raises(b.BasemapError,match='whole-archive'):b.load(path)
+    packet['source']['whole_archive_checksum_verified']=False
+    packet['receipt']['ranges']=[]
+    packet['context_sha256']=b.digest(b.encoded({k:v for k,v in packet.items() if k!='context_sha256'}))
+    path.write_bytes(gzip.compress(b.encoded(packet)))
+    with pytest.raises(b.BasemapError,match='range evidence'):b.load(path)
     packet['layers']['places'][0]['properties']['name']='Changed'
     path.write_bytes(gzip.compress(b.encoded(packet)))
     with pytest.raises(b.BasemapError,match='digest'):b.load(path)

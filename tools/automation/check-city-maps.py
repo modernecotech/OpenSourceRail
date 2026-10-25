@@ -20,7 +20,7 @@ def main():
         context=basemap.load(context_path)
         report=json.loads((path.parent/'engineering/maglev/summary.json').read_bytes())
         design=json.loads(path.read_bytes())
-        design['stations']=[s for line in report['lines'] for s in line['stations']]
+        design['stations']=[dict(s,line=line['line']) for line in report['lines'] for s in line['stations']]
         geo=path.with_name(design['city']['slug']+'.corridor.geojson')
         bounds,zoom=render.viewport(design,geo)
         if bounds!=context['bounds_wsen'] or zoom!=context['zoom']:raise ValueError('stale city viewport: '+str(path))
@@ -37,6 +37,9 @@ def main():
         if not context['layers'].get('roads') or not context['layers'].get('places'):raise ValueError('missing roads/place context')
         label_nodes=svg.findall('.//s:g[@id="basemap-labels"]/s:text',ns)
         if not label_nodes:raise ValueError('map has no rendered place labels')
+        expected_terminals=sum(2 for line in design['lines'] if line['shape']=='radial')
+        actual_terminals=len(svg.findall('.//s:g[@id="current-proposal"]/s:rect',ns))
+        if actual_terminals!=expected_terminals:raise ValueError('terminal ownership/markers differ: '+str(path))
         labels+=len(label_nodes)//2;tiles+=len(context['receipt']['tiles'])
         for name,count in context['receipt']['feature_counts'].items():totals[name]=totals.get(name,0)+count
     print(json.dumps(dict(city_maps=len(paths),offline=True,projection='EPSG:3857',

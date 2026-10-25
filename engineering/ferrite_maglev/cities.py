@@ -532,7 +532,7 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
     output = Path(output_dir) if output_dir else city_dir/'engineering/maglev'
     output.mkdir(parents=True, exist_ok=True)
     mapped=deepcopy(design)
-    if use_operating:mapped['stations']=[s for l in lines for s in l['stations']]
+    if use_operating:mapped['stations']=[dict(s,line=l['line']) for l in lines for s in l['stations']]
     map_receipt=cartography.render(mapped,city_dir/(slug+'.corridor.geojson'),output/'network.svg')
     report.update(network_file='network.svg',network_sha256=digest(output/'network.svg'),map_context=map_receipt)
     (output/'manufacturing.json').write_text(json.dumps(programme,ensure_ascii=False,sort_keys=True,indent=2)+'\n')

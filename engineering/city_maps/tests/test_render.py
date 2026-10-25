@@ -66,3 +66,19 @@ def test_viewport_keeps_stops_and_routes_inside_and_bounds_download(tmp_path,mon
     assert len(basemap.tiles_for_bounds(bounds,zoom))<=64
     for s in design['stations']:
         assert bounds[0]<s['lon']<bounds[2] and bounds[1]<s['lat']<bounds[3]
+
+
+def test_static_names_use_source_supported_script_without_fake_translation():
+    assert render._name({'name':'लखनऊ','name:en':'Lucknow'})=='Lucknow'
+    assert render._name({'name':'लखनऊ'}) is None
+    assert render._name({'name':'\ue000'}) is None
+    assert render._name({'name':'São Paulo'})=='São Paulo'
+
+
+def test_offline_check_requires_context_that_renderer_can_use(tmp_path,monkeypatch):
+    from engineering.city_maps import __main__ as command
+    design,geo,context=fixture(tmp_path,monkeypatch)
+    context['layers'].pop('roads')
+    path=tmp_path/'city.json';path.write_text(json.dumps(design))
+    monkeypatch.setattr(command,'proposal',lambda p:design)
+    with pytest.raises(ValueError,match='roads or place'):command.acquire(path,tmp_path/'cache',check=True)

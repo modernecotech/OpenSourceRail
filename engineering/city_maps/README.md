@@ -18,4 +18,6 @@ build/city-maps/venv/bin/python -m pytest -q engineering/city_maps/tests
 
 Use `--city baghdad` for one city. Existing valid inputs are reused; extraction is bounded to one zoom and at most 64 tiles per city. The renderer reads only retained local inputs. Labels and outlines are generalised map context, with incomplete source coverage possible; neither detailed buildings nor absence of a mapped feature provides clearance evidence.
 
+Static labels use source-provided English or Latin-script names supported by the export fonts. Other scripts remain in the retained context and the map receipt counts omitted place labels; no translation is invented. This avoids unreadable square glyphs in offline PDF/image exports.
+
 Map data © [OpenStreetMap contributors](https://www.openstreetmap.org/copyright), [Natural Earth](https://www.naturalearthdata.com/about/terms-of-use/) and [Protomaps](https://docs.protomaps.com/basemaps/downloads). The downloadable Protomaps basemap is distributed as an ODbL Produced Work and explicitly supports regional extraction. Attribution is visible on every map. [Project approach](../../README.md).

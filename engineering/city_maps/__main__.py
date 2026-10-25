@@ -39,6 +39,8 @@ def acquire(path,cache,*,check=False):
     output = path.with_name('map-context.json.gz')
     if output.exists():
         context = basemap.load(output)
+        if not context['layers'].get('roads') or not context['layers'].get('places'):
+            raise ValueError('city basemap lacks roads or place context: '+str(path))
         if context['bounds_wsen']==bounds and context['zoom']==zoom:
             return dict(city=mapped['city']['slug'],state='verified-existing',zoom=zoom)
         if check:raise ValueError('stale basemap viewport: '+str(path))
@@ -58,6 +60,7 @@ def main():
     parser.add_argument('--workers',type=int,default=2,choices=(1,2))
     args=parser.parse_args()
     paths=sorted((ROOT/'cities/catalogue').glob('*/*/*/city.json'))
+    paths.sort(key=lambda p:(p.parent.name not in ('Baghdad','Lucknow'),str(p)))
     if args.city:
         paths=[p for p in paths if json.loads(p.read_bytes())['city']['slug']==args.city]
         if len(paths)!=1:parser.error('one known city slug required')

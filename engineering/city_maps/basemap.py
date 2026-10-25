@@ -86,6 +86,16 @@ class RangeSource:
 
     def __call__(self,offset,length):
         if type(offset) is not int or type(length) is not int or offset<0 or not 0<length<=MAX_RANGE or offset+length>ARCHIVE_SIZE:
+            raise BudgetExceeded('invalid or excessive archive byte range')
+        # Pair the payload and receipt under a per-range lock. Two city
+        # workers must never observe the interval between these two writes.
+        import fcntl
+        with (self.cache/f'{offset}-{length}.lock').open('a') as lock:
+            fcntl.flock(lock,fcntl.LOCK_EX)
+            return self._range(offset,length)
+
+    def _range(self,offset,length):
+        if type(offset) is not int or type(length) is not int or offset<0 or not 0<length<=MAX_RANGE or offset+length>ARCHIVE_SIZE:
             raise BudgetExceeded("invalid or excessive archive byte range")
         key=f"{offset}-{length}";path=self.cache/(key+'.bin');receipt=self.cache/(key+'.json')
         if key in self.used:
@@ -145,12 +155,23 @@ def extract(bounds_wsen,zoom,output_gz,cache_dir,archive_url=PINNED,*,offline=Fa
     Missing PMTiles entries are retained as missing. HTTP, archive, decoding or
     budget errors propagate and never become an apparently empty city context.
     """
+    before=digest(Path(__file__).read_bytes())
     from pmtiles.reader import Reader
     from pmtiles.tile import Compression,TileType
     import mapbox_vector_tile
     from shapely.geometry import shape,mapping,box
     tiles=tiles_for_bounds(bounds_wsen,zoom)
-    source=RangeSource(cache_dir,archive_url,offline=offline);reader=Reader(source)
+    source=RangeSource(cache_dir,archive_url,offline=offline)
+    def paged(offset,length):
+        if (offset,length)==(0,127):return source(offset,length)
+        # Adjacent Hilbert-ordered city tiles share small archive pages.
+        # This reduces HTTP latency without requesting another zoom/region
+        # or bypassing the declared total-byte/request budgets.
+        page=128*1024;start=offset//page*page
+        end=min(ARCHIVE_SIZE,((offset+length+page-1)//page)*page)
+        if end-start>MAX_RANGE:return source(offset,length)
+        return source(start,end-start)[offset-start:offset-start+length]
+    reader=Reader(paged)
     raw_header=source(0,127)
     if digest(raw_header)!=HEADER_SHA256:raise BasemapError("pinned archive header differs")
     header=reader.header()
@@ -204,8 +225,9 @@ def extract(bounds_wsen,zoom,output_gz,cache_dir,archive_url=PINNED,*,offline=Fa
                      retained_range_bytes=source.total_bytes,coordinates_decoded=counter[0],
                      packages={k:importlib.metadata.version(k) for k in ('pmtiles','mapbox-vector-tile','shapely','protobuf','numpy','pyclipper')},
                      extraction_method='Exact206 range read; official PMTiles/MVT; clipped WGS84 GeoJSON',
-                     extractor_sha256=digest(Path(__file__).read_bytes()),
+                     extractor_sha256=before,
                      no_hidden_renderer_network=True))
+    if digest(Path(__file__).read_bytes())!=before:raise BasemapError('extractor source changed during acquisition')
     packet['context_sha256']=digest(encoded(packet));raw=encoded(packet)
     if len(raw)>MAX_RAW_PACKET:raise BudgetExceeded("context packet size budget exceeded")
     output=Path(output_gz);output.parent.mkdir(parents=True,exist_ok=True)
@@ -224,6 +246,29 @@ def load(path):
     if src.get('url')!=PINNED or src.get('header_sha256')!=HEADER_SHA256 or src.get('metadata_sha256')!=METADATA_SHA256 or src.get('archive_size_bytes')!=ARCHIVE_SIZE:
         raise BasemapError("context archive pin differs")
     receipt=packet['receipt']
+    if (not re.fullmatch('[0-9a-f]{64}',receipt.get('extractor_sha256',''))
+            or not {'pmtiles','mapbox-vector-tile'}<=set(receipt.get('packages',{}))):
+        raise BasemapError('extractor source and package identities required')
+    if src.get('whole_archive_checksum_verified') is not False:
+        raise BasemapError('partial extraction cannot claim whole-archive verification')
+    ranges=receipt.get('ranges',[])
+    if not ranges or len(ranges)>MAX_REQUESTS:raise BasemapError('bounded archive range evidence required')
+    keys=set();etags=set();total=0
+    for row in ranges:
+        offset,length=row.get('offset'),row.get('length')
+        if type(offset) is not int or type(length) is not int or offset<0 or not 0<length<=MAX_RANGE or offset+length>ARCHIVE_SIZE:
+            raise BasemapError('invalid retained archive range')
+        if ((offset,length) in keys or row.get('url')!=PINNED or row.get('archive_size')!=ARCHIVE_SIZE
+                or row.get('http_status')!=206 or row.get('content_range')!=f'bytes {offset}-{offset+length-1}/{ARCHIVE_SIZE}'
+                or not re.fullmatch('[0-9a-f]{64}',row.get('sha256',''))):raise BasemapError('archive range provenance differs')
+        keys.add((offset,length));total+=length
+        if row.get('etag'):etags.add(row['etag'])
+    if len(etags)>1 or total>MAX_BYTES or receipt.get('retained_range_bytes')!=total:
+        raise BasemapError('archive range budget/identity differs')
+    if not any(r['offset']==0 and r['length']==127 and r['sha256']==HEADER_SHA256 for r in ranges):
+        raise BasemapError('pinned archive header range required')
+    if not any(r['offset']==138780946777 and r['length']==1180 and r['sha256']==METADATA_SHA256 for r in ranges):
+        raise BasemapError('pinned archive metadata range required')
     if [(r['z'],r['x'],r['y']) for r in receipt['tiles']]!=tiles:raise BasemapError("context viewport tile inventory differs")
     if any(r['status'] not in ('present','missing') or (r['status']=='missing' and (r['sha256'] is not None or r['bytes']!=0)) for r in receipt['tiles']):
         raise BasemapError("tile disposition differs")

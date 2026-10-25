@@ -8,6 +8,7 @@ from html import escape
 import json
 import math
 from pathlib import Path
+import unicodedata
 
 WIDTH, HEIGHT = 1600, 1200
 LEFT, TOP, PLOT_W, PLOT_H = 40, 110, 1520, 910
@@ -115,7 +116,13 @@ def _paths(geometry, project):
 def _name(properties):
     for key in ('name:en', 'pgf:name:en', 'name'):
         value = properties.get(key)
-        if isinstance(value, str) and value.strip(): return value.strip()
+        if isinstance(value, str) and value.strip():
+            # Use an actual source English/Latin name. Other scripts remain
+            # in the context packet; absent fonts/shaping must not yield
+            # square boxes or an invented translation in static exports.
+            if all((not unicodedata.category(ch).startswith('L') or 'LATIN' in unicodedata.name(ch,''))
+                   and not unicodedata.category(ch).startswith('C') for ch in value):
+                return value.strip()
     return None
 
 
@@ -173,11 +180,13 @@ def render(design, geojson, output, *, context_path=None):
         rows.append('</g>')
     # Named locations and a bounded set of street labels, with deterministic
     # collision suppression. No invented streets or labels fill missing data.
-    labels=[]
+    labels=[];unsupported=0
     for feature in layers.get('places',[]):
         if feature['geometry']['type']!='Point':continue
         p=feature.get('properties',{});name=_name(p)
-        if not name:continue
+        if not name:
+            unsupported+=int(any(isinstance(p.get(k),str) for k in ('name:en','pgf:name:en','name')))
+            continue
         x,y=project(feature['geometry']['coordinates'])
         importance=0 if p.get('kind_detail')=='city' else 1 if p.get('kind_detail')=='town' else 2
         labels.append((importance,name,x,y,21 if importance==0 else 16))
@@ -236,7 +245,9 @@ def render(design, geojson, output, *, context_path=None):
         '<text x="40" y="1178" font-size="14">Geographic context only; no building, utility, water or construction clearance is established.</text>', '</g></svg>']
     output.parent.mkdir(parents=True,exist_ok=True)
     output.write_text('\n'.join(rows)+'\n')
-    return dict(metadata,label_count=label_count,projection='EPSG:3857',context_file=context_path.name)
+    return dict(metadata,label_count=label_count,unsupported_place_labels_retained_not_rendered=unsupported,
+                label_policy='Source English/Latin names with verified static-font coverage; other scripts retained in context, no invented translation',
+                projection='EPSG:3857',context_file=context_path.name)
 
 
 def source_paths():
