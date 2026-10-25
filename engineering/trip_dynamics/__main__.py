@@ -7,7 +7,27 @@ import sys
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
-    commands = parser.add_subparsers(dest='command', required=True)
+    commands = parser.add_subparsers(dest='command')
+    source_root = Path(__file__).resolve().parents[2]
+    for name in ('status','catalogue','cases','simulate','fixture','execute-job','setup-tools','validate-map','validate-modal'):
+        p = commands.add_parser(name)
+        p.add_argument('--source-root', type=Path, default=source_root)
+        if name in ('simulate','fixture','execute-job','setup-tools','validate-map','validate-modal'):
+            p.add_argument('--output', required=True, type=Path)
+        if name in ('simulate','validate-map','validate-modal'):
+            p.add_argument('--vehicle-id')
+            p.add_argument('--load-case', choices=('empty','AW3'), default='AW3')
+            p.add_argument('--temperature-C', '--temperature', dest='temperature_C', type=float, choices=(20.,50.), default=20.)
+        if name == 'simulate':
+            p.add_argument('--mode', choices=('evidence','benchmark'), default='evidence')
+            p.add_argument('--distance-m', type=int, choices=(1500,2000), default=2000)
+            p.add_argument('--mechanical-step-s', type=float, choices=(.001,.0005), default=.001)
+        if name == 'fixture':
+            p.add_argument('fixture', choices=('current','laminate','nonlinear-magnetics'), nargs='?', default='nonlinear-magnetics')
+        if name == 'execute-job':
+            p.add_argument('--request', required=True, type=Path)
+        if name in ('validate-map','validate-modal'):
+            p.add_argument('--model', required=True, type=Path, help='Inline upload JSON; declared source-file paths are never followed')
     for name in ('run', 'verify'):
         p = commands.add_parser(name)
         p.add_argument('--output', required=True, type=Path)
@@ -22,8 +42,40 @@ def main(argv=None):
     p = commands.add_parser('evaluate')
     p.add_argument('--candidate', required=True, type=Path); p.add_argument('--scenario', required=True, type=Path)
     p.add_argument('--registry', required=True, type=Path); p.add_argument('--output', required=True, type=Path)
-    commands.add_parser('plan'); commands.add_parser('probe')
+    commands.add_parser('plan')
+    p = commands.add_parser('probe')
+    p.add_argument('--source-root', type=Path, default=source_root)
     args = parser.parse_args(argv)
+    if args.command is None:
+        args.command='status';args.source_root=source_root
+    if args.command in ('status','catalogue','cases','simulate','fixture','execute-job','setup-tools','validate-map','validate-modal'):
+        from . import experiments
+        if args.command in ('status','catalogue'):
+            answer=getattr(experiments,args.command)(args.source_root)
+        elif args.command=='cases':
+            answer=experiments.cases()
+        else:
+            def upload(path):
+                if path.is_symlink() or not path.is_file() or path.stat().st_size>4*1024*1024:
+                    raise ValueError('bounded ordinary request/model JSON required')
+                return json.loads(path.read_bytes())
+            parameters={}
+            action=args.command
+            if args.command=='execute-job':
+                request=upload(args.request)
+            else:
+                if args.command in ('simulate','validate-map','validate-modal'):
+                    parameters=dict(load_case=args.load_case,temperature_C=args.temperature_C)
+                    if args.vehicle_id is not None:parameters['vehicle_id']=args.vehicle_id
+                if args.command=='simulate':
+                    action='experiment'
+                    parameters.update(mode=args.mode,distance_m=args.distance_m,mechanical_step_s=args.mechanical_step_s)
+                if args.command=='fixture':parameters['fixture']=args.fixture
+                if args.command in ('validate-map','validate-modal'):parameters['model_data']=upload(args.model)
+                request=dict(action=action,parameters=parameters)
+            answer=experiments.execute(request,args.output,args.source_root)
+        print(json.dumps(answer,sort_keys=True,indent=2,allow_nan=False))
+        return 0
     if args.command == 'benchmark-worker':
         from engineering.design_search.contracts import encoded, identity
         from engineering.design_search.storage import atomic_immutable
@@ -56,6 +108,12 @@ def main(argv=None):
     elif args.command == 'probe':
         from .chrono_runner import solver_info
         answer = solver_info()
+        # Campaigns invoke this command under native PyChrono and require its
+        # original exact solver receipt. Ordinary CLI users also see the
+        # actually installed private environment, without an ideal fallback.
+        if answer.get('available') is not True:
+            from .experiments import probe
+            answer=probe(args.source_root)
     else:
         from . import campaign
         answer = campaign.run(args.output, root=args.source_root, chrono_python=args.chrono_python,
