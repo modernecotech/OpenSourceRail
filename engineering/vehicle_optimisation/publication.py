@@ -76,7 +76,7 @@ OpenSourceRail aims for simple construction, low whole-life cost and high passen
 
 The retained earlier Halbach implementations use ferrite in station-propulsion coupons; the previous passive-facing campaign used a three-piece tilted-pole perturbation. Neither supplies a named-grade NdFeB transverse comparison. The new 4/8-segment arrays complete a full magnetic rotation across the vehicle, with equal-volume controls, smaller-volume revisions, iron-backed and no-yoke alternatives. Independent analytical/strong-side reversal tests check that the implementation is an actual Halbach arrangement.
 
-Arnold N42SH and N35UH data distinguish published minimum remanence/coercivity from typical density and temperature coefficients. Named chemistry, density and source hashes are retained. The frozen field solver's legacy internal recoil branch name is`ferrite`; an explicit adapter supplies the actual NdFeB laws and creates no extra ferrite stock. Manufacturer curves and our linear-recoil interpolation do not replace batch measurements. [Material/source declarations](magnetic-worker.json).
+Arnold N42SH and N35UH data distinguish published minimum remanence/coercivity from typical density and temperature coefficients. Named chemistry, density and source hashes are retained. The frozen field solver's legacy internal recoil branch name is `ferrite`; an explicit adapter supplies the actual NdFeB laws and creates no extra ferrite stock. Manufacturer curves and our linear-recoil interpolation do not replace batch measurements. [Material/source declarations](magnetic-worker.json).
 
 | 12 mm, 80°C comparison | Known support stock, t/car | Upward force, kN/module | Recoil screen margin, kA/m | Point disposition |
 |---|---:|---:|---:|---|
@@ -88,13 +88,13 @@ The full N35UH eight-segment array has substantial capacity, but over-supports t
 
 Only actual canonical support stock, exact frame IDs and eligible 500 kg door/500 kg fixed-glazing/800 kg HVAC ancestor allowances are replaced. The 5.2 t equipped-body aggregate and already-consumed frame budgets are never subtracted again. All other stock, propulsion, reserve and unlocated allocations stay. Hardware estimates and allocation substitutions are not weighed savings.
 
-The declared next **magnetic experiment** uses`{report['sample_id']}` in the`{report['mode']}` comparison context. Its AW3 material/allocation scenario is **{report['comparison_aw3_mass_band_kg'][0]/1000:.3f}–{report['comparison_aw3_mass_band_kg'][1]/1000:.3f} t/car**, with the HVAC installation band included once. Complete installed mass, CG, inertia and cost remain unknown.
+The declared next **magnetic experiment** uses `{report['sample_id']}` in the `{report['mode']}` comparison context. Its AW3 material/allocation scenario is **{report['comparison_aw3_mass_band_kg'][0]/1000:.3f}–{report['comparison_aw3_mass_band_kg'][1]/1000:.3f} t/car**, with the HVAC installation band included once. Complete installed mass, CG, inertia and cost remain unknown.
 
-At 80°C the sampled force is **{bounds[1]['force_N_per_module']/1000:.3f} kN/module** against **{bounds[1]['required_N_per_module']/1000:.3f}kN** at the upper mass scenario. The observed mesh/domain/air-contour force spread is **{quality['observed_force_variation_N']:.1f}N/module**. That variation prevents a marginal nominal ratio from becoming a robust reserve claim: support states at the low/high installation scenarios are **{bounds[0]['state']} / {bounds[1]['state']}**. This estimate also excludes physical material, installation and 3D uncertainty.
+At 80°C the sampled force is **{bounds[1]['force_N_per_module']/1000:.3f} kN/module** against **{bounds[1]['required_N_per_module']/1000:.3f} kN** at the upper mass scenario. The observed mesh/domain/air-contour force spread is **{quality['observed_force_variation_N']:.1f} N/module**. That variation prevents a marginal nominal ratio from becoming a robust reserve claim: support states at the low/high installation scenarios are **{bounds[0]['state']} / {bounds[1]['state']}**. This estimate also excludes physical material, installation and 3D uncertainty.
 
 ## Aluminium extrusions are quantified
 
-The comparison replaces 260 exact old frame-stock IDs representing 65 members, approximately **{al['removed_counted_frame_kg']:,.1f}kg/car**. Panels, magnetic collectors, existing hardpoints and separately counted fasteners remain. New profiles match declared section-stiffness screens and include 130 end joints, 520 M8 bolts/crush sleeves, 260 gussets, isolation/bond material and 24 load spreaders.
+The comparison replaces 260 exact old frame-stock IDs representing 65 members, approximately **{al['removed_counted_frame_kg']:,.1f} kg/car**. Panels, magnetic collectors, existing hardpoints and separately counted fasteners remain. New profiles match declared section-stiffness screens and include 130 end joints, 520 M8 bolts/crush sleeves, 260 gussets, isolation/bond material and 24 load spreaders.
 
 | Aluminium frame proposal | Counted stock, kg/car | Change from removed frame, kg/car |
 |---|---:|---:|
@@ -108,11 +108,11 @@ The lighter door/window takeoff retains all four openings and includes skins, co
 
 Two current UL700EM electric-compressor bus packages total **{specific['package_hardware_mass_range_kg_per_car'][0]:g} kg** and 66 kW nominal thermal capacity. The explicit installation scenario is **469–624 kg/car**, leaving a useful target below the inherited 800 kg allowance. Rail adaptation, full 50°C capacity/power maps, fresh-air/filter pressure, failed-unit duty and possible recovery hardware remain unknown. Their 400 V AC supply also needs a counted compatible train supply; low-voltage auxiliary current is not compressor power.
 
-At the retained indoor conditions and ventilation scenario, the one-car 50°C AW2 load is **{loads['AW2-50C-clear']:.1f}kW thermal** with clear glazing, **{loads['AW2-50C-solar-control']:.1f}kW** with proposed solar-control glass and **{loads['AW2-50C-solar-control-recovery']:.1f}kW** with explicitly assumed recovery plus fan power. The humid AW3 closed stationary case reaches **{loads['AW3-50C-humid-closed-stationary']:.1f}kW**. Nominal cooling capacity, electrical input and ambient derating are different quantities. Passenger heat and fresh-air demand do not fall with structural mass; reducing ventilation receives no comfort/compliance credit.
+At the retained indoor conditions and ventilation scenario, the one-car 50°C AW2 load is **{loads['AW2-50C-clear']:.1f} kW thermal** with clear glazing, **{loads['AW2-50C-solar-control']:.1f} kW** with proposed solar-control glass and **{loads['AW2-50C-solar-control-recovery']:.1f} kW** with explicitly assumed recovery plus fan power. The humid AW3 closed stationary case reaches **{loads['AW3-50C-humid-closed-stationary']:.1f} kW**. Nominal cooling capacity, electrical input and ambient derating are different quantities. Passenger heat and fresh-air demand do not fall with structural mass; reducing ventilation receives no comfort/compliance credit.
 
 ## What is still blocking
 
-The retained 0.55 winding-fill screen is not met by the counted packs. The half-volume +20 A experiment adds only **{authority['delta_F_z_N']:.1f}N/module**, while reaching **{authority['current_density_A_per_mm2']:g} A/mm²** and **{authority['DC_copper_power_W']:.1f}W/module** DC copper heat. It is a one-sided observation, not a validated derivative, controller or repeated thermal duty. A useful segmented/differential trim winding and its installation must be designed before motion credit.
+The retained 0.55 winding-fill screen is not met by the counted packs. The half-volume +20 A experiment adds only **{authority['delta_F_z_N']:.1f} N/module**, while reaching **{authority['current_density_A_per_mm2']:g} A/mm²** and **{authority['DC_copper_power_W']:.1f} W/module** DC copper heat. It is a one-sided observation, not a validated derivative, controller or repeated thermal duty. A useful segmented/differential trim winding and its installation must be designed before motion credit.
 
 Passive lateral alignment, roll/multisupport stability, fault handling and finite-end/joint magnetic drag remain unresolved. A matching concrete cross-section and attachment load path have not been generated; existing beam mass/capacity is not transferred. The ordinary guideway remains passive. No route/speed reduction or passenger-capacity cut is adopted to obtain a passing score.
 
@@ -120,7 +120,7 @@ The native package is **one selected magnetic coupon and same-length steel facin
 
 ## Reproduce
 
-Use fresh output directories for a new execution. The following runs32 reference points, three bounded volume/current refinements and one nonlinear confirmation. Ingestion rejects relabelled temperatures/gaps, altered recipes and missing/duplicate coverage.
+Use fresh output directories for a new execution. The following runs 32 reference points, three bounded volume/current refinements and one nonlinear confirmation. Ingestion rejects relabelled temperatures/gaps, altered recipes and missing/duplicate coverage.
 
 ```bash
 OPENBLAS_NUM_THREADS=1 .venv/bin/python - <<'PY'
@@ -138,7 +138,7 @@ result = magnets.evaluate_reference(value, temperature_C=80., settings=dict(stee
 campaign.run('build/vehicle-optimisation/replay', worker_study=p/'study.json',
              refinements=p/'refinements.json', nonlinear=p/'nonlinear.json')
 PY
-OPENBLAS_NUM_THREADS=1 .venv/bin/python -m pytest -q engineering/vehicle_optimisation/tests
+OPENBLAS_NUM_THREADS=1 .venv/bin/python -m pytest --import-mode=importlib -q engineering/vehicle_optimisation/tests engineering/passive_suspension/tests
 OPENBLAS_NUM_THREADS=1 .venv/bin/python -m engineering.vehicle_optimisation.campaign verify --output docs/design-engine/vehicle-optimisation
 ```
 
