@@ -338,6 +338,7 @@ class TripService:
         self._lock = threading.RLock()
         self._jobs, self._events = {}, {}
         self._closed = False
+        self._code_epoch = _code_snapshot()
         self._recover()
         self._executor = ThreadPoolExecutor(max_workers=max_workers, thread_name_prefix='trip-job')
 
@@ -384,26 +385,44 @@ class TripService:
                     progress=dict(phase='recovery-held', message=str(error)), physical_accepted=False)
 
     def catalogue(self):
+        if self.restart_required():
+            raise RequestError('Workbench source changed; restart the server before requesting a current catalogue or submitting work')
         from . import experiments
         return experiments.catalogue(self.root)
 
-    def status(self):
-        from . import experiments
+    def restart_required(self):
         try:
-            result = experiments.status(self.root)
-        except (OSError, ValueError, RuntimeError) as error:
-            result = dict(status='held', error=str(error), physical_accepted=False)
+            return _code_snapshot() != self._code_epoch
+        except (OSError, ValueError):
+            return True
+
+    def status(self):
+        restart = self.restart_required()
+        if restart:
+            result = dict(schema='osr-trip-interactive-status/1', status='held',
+                          error='Workbench source changed; restart the server before submitting work',
+                          physical_accepted=False)
+        else:
+            try:
+                from . import experiments
+                result = experiments.status(self.root)
+            except (OSError, ValueError, RuntimeError) as error:
+                result = dict(status='held', error=str(error), physical_accepted=False)
         result = deepcopy(result)
         result.update(jobs=self.jobs()[:12], limits=dict(max_workers=self.max_workers, max_jobs=32,
                       request_bytes=MAX_BODY, campaign_seconds=1200, setup_seconds=1200, small_job_seconds=300),
-                      physical_accepted=False)
+                      restart_required=restart, physical_accepted=False)
         return result
 
     def submit(self, value):
+        if self.restart_required():
+            raise RequestError('Workbench source changed; restart the server before submitting work')
         command = validate_command(value)
         snapshot, catalogue = source_snapshot(self.root)
         command = validate_command(command, catalogue)
         with self._lock:
+            if self.restart_required():
+                raise RequestError('Workbench source changed; restart the server before submitting work')
             if self._closed:
                 raise RequestError('job service is closed')
             if sum(v['state'] not in TERMINAL for v in self._jobs.values()) >= 32:

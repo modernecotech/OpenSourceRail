@@ -206,6 +206,25 @@ def test_source_inventory_addition_is_detected(repository):
         api.verify_snapshot(snapshot, repository)
 
 
+def test_service_epoch_refuses_new_work_but_keeps_existing_jobs_readable(repository):
+    service = api.TripService(repository)
+    try:
+        job = wait_for(service, submit(service)['job_id'])
+        assert service.status()['restart_required'] is False
+        (repository/'engineering/trip_dynamics/experiments.py').write_text(FAKE_EXPERIMENTS+'\n# new implementation epoch\n')
+        assert service.status()['restart_required'] is True
+        assert service.status()['status'] == 'held'
+        before = set(service.output_root.iterdir())
+        with pytest.raises(ValueError, match='restart the server'):
+            submit(service)
+        assert set(service.output_root.iterdir()) == before
+        assert service.job(job['job_id'])['state'] == 'completed'
+        assert service.logs(job['job_id'])['text']
+        assert service.cancel(job['job_id'])['state'] == 'completed'
+    finally:
+        service.close()
+
+
 def test_queued_request_tamper_is_refused_before_launch(repository):
     service = api.TripService(repository, max_workers=1)
     try:
