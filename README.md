@@ -43,7 +43,9 @@ The guideway target is one concrete beam per direction, with necessary reaction 
 
 ## Current design and evidence
 
-The [electropermanent-magnet study](docs/design-engine/electropermanent/README.md) investigates slow bias/load trim and retention/latch candidates. Fast active coils remain needed for stabilisation; no replacement configuration is adopted.
+The [electropermanent-magnet study](docs/design-engine/electropermanent/README.md) investigates slow bias/load trim and retention/latch candidates. Both rail coupons fail the declared zero-current retention bound at 12 mm. Fast active coils remain needed for stabilisation; no replacement configuration is adopted.
+
+The [finite 3D Halbach confirmation](docs/design-engine/magnetic-confirmation/README.md) reached full-source convergence in three bounded static cases. Mesh and air-contour force differences remain unresolved; these calculations do not establish a complete force map or stable levitation.
 
 The [neodymium and lightweight-vehicle study](docs/design-engine/vehicle-optimisation/README.md) compares named NdFeB grades and full rotating Halbach arrays with ferrite controls, then feeds aluminium-extrusion frames, doors, glazing and HVAC alternatives into the same mass comparison. It retains hot-condition material failures, incomplete control windings and installation uncertainty. Lower magnetic stock mass is promising; a complete replacement configuration remains unadopted.
 
