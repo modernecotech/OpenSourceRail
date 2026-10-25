@@ -74,6 +74,8 @@ def category(name):
         return 'candidate-design-method'
     if name == 'engineering/city_maps/README.md':
         return 'city-map-method'
+    if name in {'engineering/electropermanent/README.md', 'engineering/magnetic_confirmation/README.md'}:
+        return 'magnetic-research-method'
     if name in {'engineering/trip_dynamics/README.md',
                 'engineering/trip_dynamics/fixtures/structures/README.md',
                 'engineering/trip_dynamics/fixtures/magnetics/README.md',

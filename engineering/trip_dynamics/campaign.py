@@ -28,7 +28,8 @@ def digest(path):
 
 def source_snapshot(root, vehicle=None, magnetics=None):
     code = Path(__file__).parent
-    mapping = {p.relative_to(code.parents[1]).as_posix(): digest(p) for p in code.rglob('*')
+    packages = [code, code.parent/'electropermanent', code.parent/'magnetic_confirmation']
+    mapping = {p.relative_to(code.parents[1]).as_posix(): digest(p) for package in packages for p in package.rglob('*')
                if p.is_file() and '__pycache__' not in p.parts and p.suffix in
                {'.py', '.json', '.toml', '.pro', '.geo', '.comm', '.mail', '.export', '.md', '.txt', '.lock', '.explicit', '.sh', '.yml'}}
     root = Path(root).resolve()

@@ -33,7 +33,10 @@ from engineering.design_search.storage import atomic_immutable
 SCHEMA = 'osr-trip-interactive-request/1'
 CODE_ROOT = Path(__file__).resolve().parents[2]
 ACTIONS = frozenset({'experiment', 'campaign', 'fixture', 'verify', 'probe',
-                     'setup-tools', 'validate-map', 'validate-modal'})
+                     'setup-tools', 'validate-map', 'validate-modal',
+                     'epm-screen', 'magnetic-confirmation'})
+PUBLICATIONS = {'electropermanent': 'docs/design-engine/electropermanent',
+                'magnetic-confirmation': 'docs/design-engine/magnetic-confirmation'}
 TERMINAL = frozenset({'completed', 'failed', 'cancelled', 'interrupted'})
 ACCEPTANCE = frozenset({'physical_accepted', 'engineering_accepted', 'configuration_adopted',
                        'physical_release', 'physical_validation', 'manufacturing_release',
@@ -109,7 +112,8 @@ def _no_acceptance(value):
 
 def _code_snapshot():
     code = {}
-    paths = list((CODE_ROOT / 'engineering/trip_dynamics').rglob('*'))
+    paths = [p for name in ('trip_dynamics', 'electropermanent', 'magnetic_confirmation')
+             for p in (CODE_ROOT/'engineering'/name).rglob('*')]
     paths += [CODE_ROOT / 'engineering/design_search' / name
               for name in ('contracts.py', 'storage.py', 'registry.py')]
     suffixes = {'.py', '.json', '.toml', '.geo', '.pro', '.comm', '.mail', '.export',
@@ -331,7 +335,7 @@ class TripService:
         # silently discard pyvenv.cfg and its installed worker dependencies.
         self.python = str(proposed.absolute() if proposed.is_file() else Path(sys.executable).absolute())
         self.max_workers = max_workers
-        self.deadlines = {a: 1200. if a in {'campaign', 'setup-tools'} else 300. for a in ACTIONS}
+        self.deadlines = {a: 1200. if a in {'campaign', 'setup-tools', 'magnetic-confirmation'} else 300. for a in ACTIONS}
         for action, value in (deadlines or {}).items():
             if action not in ACTIONS or type(value) not in (int, float) or not math.isfinite(value) or not 0 < value <= self.deadlines[action]:
                 raise ValueError('deadline override may only shorten a known action budget')
@@ -690,7 +694,7 @@ def check_request(value):
     validate_command({k: value[k] for k in ('action', 'parameters')})
     if value.get('physical_accepted') is not False:
         raise RequestError('interactive work cannot qualify physical design')
-    cap = 1200 if value['action'] in {'campaign', 'setup-tools'} else 300
+    cap = 1200 if value['action'] in {'campaign', 'setup-tools', 'magnetic-confirmation'} else 300
     if type(value.get('deadline_s')) not in (int, float) or not 0 < value['deadline_s'] <= cap:
         raise RequestError('bounded action deadline required')
     return value
@@ -727,6 +731,57 @@ def _reply(handler, code, value):
     handler.end_headers(); handler.wfile.write(raw)
 
 
+def publication_path(root, family, relative):
+    """Serve only receipt-bound public research files and their declared sources.
+
+    This checks bytes and declared source bindings, without rerunning numerical
+    workers or granting engineering acceptance. Local job files use their own
+    separate, UUID-bound route.
+    """
+    root = Path(root).resolve()
+    if family not in PUBLICATIONS:
+        raise KeyError('unknown public research family')
+    rel = PurePosixPath(relative)
+    if not relative or '\\' in relative or '\0' in relative or rel.is_absolute() or '..' in rel.parts or rel.as_posix() != relative:
+        raise RequestError('ordinary public research filename required')
+    folder = _ordinary(root/PUBLICATIONS[family], root)
+    manifest = _read(folder/'manifest.json', folder, MAX_BODY)
+    if not isinstance(manifest, dict) or not isinstance(manifest.get('schema'), str) or manifest.get('physical_accepted') is not False:
+        raise RequestError('unaccepted research publication receipt required')
+    _no_acceptance(manifest)
+    sources, files = manifest.get('source_sha256'), manifest.get('files_sha256')
+    for mapping in (sources, files):
+        if not isinstance(mapping, dict) or not mapping or len(mapping) > 10000:
+            raise RequestError('bounded explicit public source/payload inventory required')
+        if not all(isinstance(n, str) and isinstance(h, str) and re.fullmatch('[0-9a-f]{64}', h) for n,h in mapping.items()):
+            raise RequestError('public research SHA256 inventory differs')
+    for name, expected in sources.items():
+        source = _ordinary(root/name, root)
+        if not source.is_file() or source.stat().st_size > MAX_FILE or sha256(source.read_bytes()).hexdigest() != expected:
+            raise RequestError('public research source changed: '+name)
+    if relative != 'manifest.json' and relative not in files:
+        raise KeyError('file is absent from the public receipt')
+    path = _ordinary(folder/relative, folder)
+    if not path.is_file() or path.stat().st_size > MAX_FILE:
+        raise RequestError('bounded public research file required')
+    if relative != 'manifest.json' and sha256(path.read_bytes()).hexdigest() != files[relative]:
+        raise RequestError('public research payload changed: '+relative)
+    return path
+
+
+def _serve_research_file(handler, path):
+    handler.send_response(200)
+    handler.send_header('Content-Type', mimetypes.guess_type(path.name)[0] or 'application/octet-stream')
+    handler.send_header('Content-Length', str(path.stat().st_size))
+    handler.send_header('X-Content-Type-Options', 'nosniff')
+    handler.send_header('Content-Security-Policy', "sandbox; default-src 'none'; img-src 'self' data:; style-src 'unsafe-inline'")
+    handler.send_header('Cache-Control', 'no-store')
+    handler.end_headers()
+    with path.open('rb') as source:
+        while chunk := source.read(64*1024):
+            handler.wfile.write(chunk)
+
+
 def handle_api(handler):
     url = urlsplit(handler.path)
     if not (url.path == '/api/trip' or url.path.startswith('/api/trip/')):
@@ -758,6 +813,9 @@ def handle_api(handler):
                 if document != {}:
                     raise RequestError('cancel request body must be empty object')
                 _reply(handler, 200, service.cancel(parts[3])); return True
+        elif len(parts) >= 5 and parts[:3] == ['api', 'trip', 'publications'] and not query:
+            path = publication_path(service.root, parts[3], unquote('/'.join(parts[4:])))
+            _serve_research_file(handler, path); return True
         elif parts == ['api', 'trip', 'status'] and not query:
             value = service.status()
             value['publication_integrity'] = deepcopy(getattr(handler.server, 'publication_integrity', None))

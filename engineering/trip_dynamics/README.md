@@ -18,6 +18,8 @@ The historical 9.49 t native-material subtotal, canonical 25.619/37.619 t empty/
 
 ```bash
 ./osr trip catalogue
+./osr trip epm --output build/trip-dynamics/epm-screen
+./osr trip magnetic-confirmation --output build/trip-dynamics/finite-confirmation
 ./osr trip simulate --mode evidence --distance-m 2000 --load-case AW3 \
   --temperature 50 --output build/trip-dynamics/selected-evidence
 ./osr trip simulate --mode benchmark --distance-m 1500 --load-case empty \
@@ -25,6 +27,8 @@ The historical 9.49 t native-material subtotal, canonical 25.619/37.619 t empty/
 ```
 
 Choose a fresh output directory for each CLI experiment. Browser jobs receive private server-owned directories, bounded concurrency and deadlines; closing the server cancels its active jobs and retains their inputs and logs. Reopening the server recovers the job inventory. The solver setup action downloads pinned tools and creates the isolated locked Chrono environment; it does not install Code_Aster. Vehicle/equipment inspection does not silently compose a new physical candidate.
+
+The magnetic research actions use separate, source-bound candidates. The [EPM screen](../electropermanent/README.md) counts pulse and magnetic stock and evaluates necessary electrical/load-line conditions; missing hysteresis, retained-force and hardware data remain open. [Finite Halbach confirmation](../magnetic_confirmation/README.md) uses nonlinear PM-source continuation with mesh, domain and air-contour comparisons at one zero-current operating point. These outputs cannot replace the complete magnetic maps, equipped body or fast control required by the journey preflight. Published reports are available through the Workbench's bounded public-research API links.
 
 Opening the Workbench checks source and payload integrity without repeating every engineering calculation. Status reports distinguish those checks from numerical reproduction. `tools/automation/osr-python tools/automation/maglev-workbench.py --verify-full` retains the full existing startup verification; trip packet verification is also an explicit action on the page.
 

@@ -4,6 +4,13 @@ from engineering.design_search.contracts import identity
 
 def tasks():
     rows = [
+        dict(id='electropermanent-bias', owner='magnetics-and-electrical', prerequisites=[],
+             question='Compare onboard EPM bias/load trim and separate retention functions alongside the fixed NdFeB Halbach array.',
+             variables=['hard/low-coercivity magnet branches', 'keepers and load lines', 'pulse winding/voltage/capacitance',
+                        'both programming polarities', 'gap and temperature', 'drivers/protection/retention stock'],
+             outputs=['source-bound pulse/energy and load-line screens', 'measured hysteresis/minor-loop plan',
+                      'retained-state and hard-magnet demagnetisation envelope', 'complete added installation ledger'],
+             completion='Count all added hardware and confirm repeatable programmed states across working gaps and temperatures. Retain fast active suspension and separate parking/capture qualification.'),
         dict(id='equipped-car', owner='vehicle-and-assembly', prerequisites=[],
              question='Close one complete 17 m equipped car and its mass distribution.',
              variables=['GFRP layup/core/stiffeners', 'aluminium extrusions/joints', 'four retained door openings',
