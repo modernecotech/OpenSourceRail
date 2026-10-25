@@ -1418,7 +1418,7 @@
       "digital_packet_verified": true,
       "engineering_accepted": false,
       "id": "coupled-actuators",
-      "manifest_sha256": "ab7b0eec349097cd7aeea6e53757087ab802dfc8e8ba319e4515e908ea00af98",
+      "manifest_sha256": "2d553f493ae9f488a1d3b33a658cd847d92d15d8a1e1ae28b4f3b7cf0c36f009",
       "module": "pilot_actuators",
       "packet": "docs/design-engine/ferrite-maglev/pilot-actuators",
       "physical_release": false,
@@ -1609,7 +1609,7 @@
           "Whole equipped-body mass/CG/inertia and joined load paths remain unaccepted",
           "One-frame normal-wrench observer uses unqualified calibrated phase/current/gap maps; full0.9/1.0/1.1scale cases are required, not a physical robustness proof"
         ],
-        "manifest_sha256": "ab7b0eec349097cd7aeea6e53757087ab802dfc8e8ba319e4515e908ea00af98",
+        "manifest_sha256": "2d553f493ae9f488a1d3b33a658cd847d92d15d8a1e1ae28b4f3b7cf0c36f009",
         "manufacturing_release": false,
         "model_feasibility": true,
         "negative_controls": 9,
@@ -3372,7 +3372,7 @@
       "digital_packet_verified": true,
       "engineering_accepted": false,
       "id": "pilot-corridor",
-      "manifest_sha256": "0f6df1846ad8d06aacf297cba051ce0cd50c80fc029c23646e507c70204576cf",
+      "manifest_sha256": "753199ccd76fdb62eeaa77de4d47c4ae7457cbc7c54d38aae8aed9b6439f5f0c",
       "module": "pilot_corridor",
       "packet": "docs/design-engine/ferrite-maglev/pilot-corridor",
       "physical_release": false,
@@ -3631,7 +3631,7 @@
       "digital_packet_verified": true,
       "engineering_accepted": false,
       "id": "candidate-finance",
-      "manifest_sha256": "30033316caba117692149ded8b1cd9bd563fd0db6bf4e0477cfc965e1afb0915",
+      "manifest_sha256": "e62258627bba9d08682651e88c7da30f28b86a42cc5f8a54fe2ab6e1907d4b84",
       "module": "pilot_variants",
       "packet": "docs/design-engine/ferrite-maglev/pilot-variants",
       "physical_release": false,
@@ -3696,7 +3696,7 @@
           "hotel_kw_per_car": 60.0,
           "nominal_maximum_observed_gap_s": 240.9999999999999,
           "role": "Retained separate GFRP/50turn financial planning case; no actuator pass inherited",
-          "source_packet_manifest_sha256": "0f6df1846ad8d06aacf297cba051ce0cd50c80fc029c23646e507c70204576cf"
+          "source_packet_manifest_sha256": "753199ccd76fdb62eeaa77de4d47c4ae7457cbc7c54d38aae8aed9b6439f5f0c"
         },
         "candidate_name": "baghdad-30kwh-aw3/steel-wall-004/higher-copper-140t20mm2",
         "component_changes": {
@@ -4217,13 +4217,13 @@
       "digital_packet_verified": true,
       "engineering_accepted": false,
       "id": "assurance-profiles",
-      "manifest_sha256": "efe44e2b61b825b2c3330c4c6924fcbb765355df508f53bde690d159e88d41aa",
+      "manifest_sha256": "7d7c1495592226f4dccd2414affadbdccad6b9ca0710bf7ac2eabbe74a40d88b",
       "module": "pilot_assurance",
       "packet": "docs/design-engine/ferrite-maglev/assurance-profiles",
       "physical_release": false,
       "scope": "Separate executed engineering, delivery and formal control profiles",
       "summary": {
-        "all_profiles_executed": true,
+        "all_profiles_executed": false,
         "design_complete": false,
         "external_gates": [
           "measured magnetic maps",
@@ -4265,20 +4265,20 @@
         "physical_validation": false,
         "profiles": [
           {
-            "digital_state": "executed-current",
-            "executions": 15,
+            "digital_state": "hold",
+            "executions": 0,
             "id": "engineering",
             "independent_acceptance": false,
-            "receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T220545560242Z/receipt.json",
-            "receipt_sha256": "b9f750c0fd7aa3f356bdd435734253a8f4bb31e559d7a05113f42783378ec33e"
+            "receipt": null,
+            "receipt_sha256": null
           },
           {
-            "digital_state": "executed-current",
-            "executions": 3,
+            "digital_state": "hold",
+            "executions": 0,
             "id": "delivery-lifecycle",
             "independent_acceptance": false,
-            "receipt": "engineering/assurance/v052-pilot-profiles/delivery-lifecycle/20261024T220422881575Z/receipt.json",
-            "receipt_sha256": "5be4f2df3cc4919010a2e1611dfbaa3ef4b77b1ae724efcdab3e84e5ffd920c1"
+            "receipt": null,
+            "receipt_sha256": null
           },
           {
             "digital_state": "executed-current",
@@ -4302,7 +4302,7 @@
       "digital_packet_verified": true,
       "engineering_accepted": false,
       "id": "capability-migration",
-      "manifest_sha256": "a71385ddaa3cd058233ad434e3381a16b36355e86f08165f981600c78b74c1fc",
+      "manifest_sha256": "690465a266c6c8e41df857afadad09436594dd0ca3241a2c41b6ffb3101c3e92",
       "module": "capability_migration",
       "packet": "docs/design-engine/ferrite-maglev/capability-migration",
       "physical_release": false,
@@ -4323,12 +4323,12 @@
             ],
             "decision": "Current266city generation retains primary geographical identities; a separate16layer stop/service/OD proposal workspace is now restored.",
             "engineering_accepted": false,
-            "executed_current": true,
+            "executed_current": false,
             "execution_profile": "engineering",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T220545560242Z/receipt.json",
+            "execution_receipt": null,
             "id": "city-generation",
             "owner": "City planning",
-            "state": "retained-and-tested",
+            "state": "retained-but-unconnected",
             "tests": [
               "engineering/analysis/tests/test_ferrite_maglev_cities.py"
             ],
@@ -4342,9 +4342,9 @@
             ],
             "decision": "Generic any-city revision compiler now emits planned workfront/resource/procurement/monthlycash and retainedERPadapter inputs. Missing rates and actual native records remain explicit; no complete city delivery acceptance.",
             "engineering_accepted": false,
-            "executed_current": true,
+            "executed_current": false,
             "execution_profile": "engineering",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T220545560242Z/receipt.json",
+            "execution_receipt": null,
             "id": "project-twin",
             "owner": "Delivery engineering",
             "state": "replaced",
@@ -4362,9 +4362,9 @@
             ],
             "decision": "Separate editable owner/builder GIS workspace, evidence viewer and authenticated native owner/builder/operator/people/observation navigation. CompleteOCC/HR federation remains open.",
             "engineering_accepted": false,
-            "executed_current": true,
+            "executed_current": false,
             "execution_profile": "engineering",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T220545560242Z/receipt.json",
+            "execution_receipt": null,
             "id": "workbench",
             "owner": "Platform integration",
             "state": "replaced",
@@ -4381,12 +4381,12 @@
             ],
             "decision": "Test scope is serial cartridge and beam simulation in native ERPNext/FUXA; entire-city HR/accounts and evaluator bindings remain open.",
             "engineering_accepted": false,
-            "executed_current": true,
+            "executed_current": false,
             "execution_profile": "delivery-lifecycle",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/delivery-lifecycle/20261024T220422881575Z/receipt.json",
+            "execution_receipt": null,
             "id": "business-lifecycle",
             "owner": "Owner/operator platform",
-            "state": "retained-and-tested",
+            "state": "retained-but-unconnected",
             "tests": [
               "engineering/analysis/tests/test_ferrite_maglev_pilot_lifecycle.py"
             ],
@@ -4401,9 +4401,9 @@
             ],
             "decision": "16named source-bound GIS layers; unavailable/sampled layers labelled. Stop/service/dwell/OD and straight-chord proposals, immutable revisions, stale/tampered refusal and local export/import are implemented. General alignment/OD calibration and engineering adoption remain open.",
             "engineering_accepted": false,
-            "executed_current": true,
+            "executed_current": false,
             "execution_profile": "engineering",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T220545560242Z/receipt.json",
+            "execution_receipt": null,
             "id": "interactive-planning",
             "owner": "GIS and transport planning",
             "state": "replaced",
@@ -4421,9 +4421,9 @@
             ],
             "decision": "ActualRust two-circuit support/guidance/current dynamics,realizablybounded preferred allocation,live numerical authority and postfault integration replace earlier detection-only coupons. Failed maps/capture/thermal/designcases remain failures; no physical acceptance.",
             "engineering_accepted": false,
-            "executed_current": true,
+            "executed_current": false,
             "execution_profile": "engineering",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T220545560242Z/receipt.json",
+            "execution_receipt": null,
             "id": "software-loop",
             "owner": "Control integration",
             "state": "replaced",
@@ -4440,9 +4440,9 @@
             ],
             "decision": "Executed independentSUMO Railcustom timing/block/berth,dwell/receiverdelay and over-capacity controls use identical passenger stops and candidate mass. Kinematictraction is explicit; magnetic/Rust/HW and whole-fleet physical assurance are not inferred.",
             "engineering_accepted": false,
-            "executed_current": true,
+            "executed_current": false,
             "execution_profile": "engineering",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T220545560242Z/receipt.json",
+            "execution_receipt": null,
             "id": "sumo-crosscheck",
             "owner": "Operations modelling",
             "state": "replaced",
@@ -4458,9 +4458,9 @@
             ],
             "decision": "One magnetic module and25m concretebox in actualIFC4.3 with reopenedvolumes,executedIDS1staleidentityrefusal,BCF3schema-valid issues and typed unaccepted field readings. Wholecity IFC/physicalas-built federation remains open.",
             "engineering_accepted": false,
-            "executed_current": true,
+            "executed_current": false,
             "execution_profile": "engineering",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T220545560242Z/receipt.json",
+            "execution_receipt": null,
             "id": "civil-bim-gis",
             "owner": "Civil information management",
             "state": "replaced",
@@ -4477,9 +4477,9 @@
             ],
             "decision": "Current guidebeam/hub definitions replace old platform and bogie-change products; all45former families are not reproduced.",
             "engineering_accepted": false,
-            "executed_current": true,
+            "executed_current": false,
             "execution_profile": "engineering",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T220545560242Z/receipt.json",
+            "execution_receipt": null,
             "id": "station-geometry",
             "owner": "Station and civil engineering",
             "state": "replaced",
@@ -4513,9 +4513,9 @@
             ],
             "decision": "Current composite body and magnetic bays replace the [historical wheel/traction product](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/README.md); stock geometry is not a manufactured train release.",
             "engineering_accepted": false,
-            "executed_current": true,
+            "executed_current": false,
             "execution_profile": "engineering",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T220545560242Z/receipt.json",
+            "execution_receipt": null,
             "id": "trainset",
             "owner": "Mechanical product engineering",
             "state": "replaced",
@@ -4533,9 +4533,9 @@
             ],
             "decision": "Counted newcandidate quantities,cutyield/prices,commonhotel assumptions and single calendarstandby reconciliation. No newpilotfinance adoption whilemandatorypropulsion/fullserviceduty fail; priorconfiguration finance remains separate.",
             "engineering_accepted": false,
-            "executed_current": true,
+            "executed_current": false,
             "execution_profile": "engineering",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/engineering/20261024T220545560242Z/receipt.json",
+            "execution_receipt": null,
             "id": "cost-propagation",
             "owner": "Project economics",
             "state": "replaced",
@@ -4571,9 +4571,9 @@
             ],
             "decision": "Current disposable native scenario exercises ERPNext/FUXA/Workbench with faults/recovery; broad former editor coverage is not restored.",
             "engineering_accepted": false,
-            "executed_current": true,
+            "executed_current": false,
             "execution_profile": "delivery-lifecycle",
-            "execution_receipt": "engineering/assurance/v052-pilot-profiles/delivery-lifecycle/20261024T220422881575Z/receipt.json",
+            "execution_receipt": null,
             "id": "integrated-testing",
             "owner": "Platform verification",
             "state": "replaced",
@@ -4627,7 +4627,7 @@
           "engineering/ferrite_maglev/candidate_economics.py": "8fa08be5eed1a2de33b783dda2662957d7d8ed811c90e5172cee6d53701d6c82",
           "engineering/ferrite_maglev/candidate_manufacturing.py": "bbbb786dd77c9d1acb2343619a2c3345b22c4de4e0d4c322ed562fca9cf81392",
           "engineering/ferrite_maglev/capability_migration.py": "f59e7adef1da16dd096b8f02f002d60d0d1b0053cadef2bb948c4b13f0061708",
-          "engineering/ferrite_maglev/cities.py": "43d0d5caca1f44af5cd2eef3466be12aa660988b81496eda2c2958df2b424161",
+          "engineering/ferrite_maglev/cities.py": "5e9242e9c5850c545835047797f7924149463371a80e7a31a09d6b1e85f14f02",
           "engineering/ferrite_maglev/data/pilot-capability-migration.json": "0f9e2331188326076532e951be1fc209c57fc80ead86f360987e1c915477f00d",
           "engineering/ferrite_maglev/delivery_platform.py": "a4ffc1450e9f021f6c440c9201bda2419c93721515e1910336faee919d23ef9d",
           "engineering/ferrite_maglev/full_dynamics.py": "8800cd2b6c71a721604bd4bb51673096cd176cba798440c5054414dee6f4622e",
@@ -4648,8 +4648,8 @@
           "deliberately-retired": 0,
           "missing": 0,
           "replaced": 11,
-          "retained-and-tested": 3,
-          "retained-but-unconnected": 0
+          "retained-and-tested": 1,
+          "retained-but-unconnected": 2
         }
       }
     }
@@ -4709,11 +4709,11 @@
         "assurance-profiles"
       ],
       "id": "lifecycle-and-assurance",
-      "state": "executed-current"
+      "state": "execution-hold"
     }
   ],
   "digital_packets_verified": 9,
-  "digital_profiles_executed": true,
+  "digital_profiles_executed": false,
   "external_inputs": [
     "qualified force/loss and material maps",
     "measured mass/CG/inertia",
@@ -4732,7 +4732,7 @@
   "physical_release": false,
   "physical_validation": false,
   "qualification_progress": {
-    "completed_scoped_digital_subtasks": 9,
+    "completed_scoped_digital_subtasks": 8,
     "digital_subtasks": [
       {
         "id": "pilot/controlled-product",
@@ -4747,7 +4747,7 @@
       },
       {
         "id": "pilot/coupled-actuators",
-        "manifest_sha256": "ab7b0eec349097cd7aeea6e53757087ab802dfc8e8ba319e4515e908ea00af98",
+        "manifest_sha256": "2d553f493ae9f488a1d3b33a658cd847d92d15d8a1e1ae28b4f3b7cf0c36f009",
         "parent_task_ids": [
           "group/magnetic-circuit/design",
           "group/energy-services/design",
@@ -4770,7 +4770,7 @@
       },
       {
         "id": "pilot/pilot-corridor",
-        "manifest_sha256": "0f6df1846ad8d06aacf297cba051ce0cd50c80fc029c23646e507c70204576cf",
+        "manifest_sha256": "753199ccd76fdb62eeaa77de4d47c4ae7457cbc7c54d38aae8aed9b6439f5f0c",
         "parent_task_ids": [
           "group/station-egress/design",
           "group/energy-services/design",
@@ -4782,7 +4782,7 @@
       },
       {
         "id": "pilot/candidate-finance",
-        "manifest_sha256": "30033316caba117692149ded8b1cd9bd563fd0db6bf4e0477cfc965e1afb0915",
+        "manifest_sha256": "e62258627bba9d08682651e88c7da30f28b86a42cc5f8a54fe2ab6e1907d4b84",
         "parent_task_ids": [
           "group/energy-services/design",
           "group/industrial-recovery-assurance/design"
@@ -4814,18 +4814,18 @@
       },
       {
         "id": "pilot/assurance-profiles",
-        "manifest_sha256": "efe44e2b61b825b2c3330c4c6924fcbb765355df508f53bde690d159e88d41aa",
+        "manifest_sha256": "7d7c1495592226f4dccd2414affadbdccad6b9ca0710bf7ac2eabbe74a40d88b",
         "parent_task_ids": [
           "group/control-protection/design",
           "group/industrial-recovery-assurance/design"
         ],
         "physical_acceptance": false,
         "scope": "Separate executed engineering, delivery and formal control profiles",
-        "state": "completed-digital-packet"
+        "state": "execution-hold"
       },
       {
         "id": "pilot/capability-migration",
-        "manifest_sha256": "a71385ddaa3cd058233ad434e3381a16b36355e86f08165f981600c78b74c1fc",
+        "manifest_sha256": "690465a266c6c8e41df857afadad09436594dd0ca3241a2c41b6ffb3101c3e92",
         "parent_task_ids": [
           "group/industrial-recovery-assurance/design"
         ],

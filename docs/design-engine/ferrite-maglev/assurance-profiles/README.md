@@ -4,8 +4,8 @@ Exact development execution; engineering, delivery and formal profiles are separ
 
 | Profile | Digital execution | Commands |
 |---|---|---:|
-| engineering | executed-current | 15 |
-| delivery-lifecycle | executed-current | 3 |
+| engineering | hold | 0 |
+| delivery-lifecycle | hold | 0 |
 | control-formal | executed-current | 5 |
 
 Run an explicit profile with `./osr assurance run <profile>`.

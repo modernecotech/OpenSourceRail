@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **634**.
+Indexed Markdown files: **635**.
 
 ## Sections
 
@@ -27,7 +27,7 @@ Indexed Markdown files: **634**.
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
 | [docs](#docs) | 71 |
-| [engineering](#engineering) | 14 |
+| [engineering](#engineering) | 15 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -702,6 +702,7 @@ Indexed Markdown files: **634**.
 | [`engineering/assurance/v053-pole-return-research/archive/README.md`](../engineering/assurance/v053-pole-return-research/archive/README.md) | Pole-face and 25 mm return-path research — 24 October 2026 |
 | [`engineering/assurance/v053-propulsion-redesign-screen/README.md`](../engineering/assurance/v053-propulsion-redesign-screen/README.md) | Propulsion redesign screen — research appendix |
 | [`engineering/assurance/v053-propulsion-redesign-screen/executed/findings.md`](../engineering/assurance/v053-propulsion-redesign-screen/executed/findings.md) | Isolated propulsion redesign screen — not adopted |
+| [`engineering/city_maps/README.md`](../engineering/city_maps/README.md) | City maps with retained geographic context |
 | [`engineering/design_search/README.md`](../engineering/design_search/README.md) | Coordinated candidate design |
 | [`engineering/ferrite_maglev/README.md`](../engineering/ferrite_maglev/README.md) | OpenSourceRail v0.5 fixed-zone ferrite-maglev engineering |
 | [`engineering/ferrite_maglev/city-index.md`](../engineering/ferrite_maglev/city-index.md) | v0.5 maglev catalogue planning index |

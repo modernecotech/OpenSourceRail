@@ -4,15 +4,16 @@ OpenSourceRail develops an open, locally buildable urban railway with fixed line
 
 [Project introduction](../../../../README.md) · [System approach](../../../../engineering/README.md) · [Detailed implementation and current design gates](../../../../engineering/ferrite_maglev/README.md)
 
-All **608 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. Existing generated city introductions and their primary-method links remain intact. The project front door is maintained separately.
+All **609 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. Existing generated city introductions and their primary-method links remain intact. The project front door is maintained separately.
 
-Existing local navigation reaches current context from **551 documents**. This page supplies an explicit current-context route for the remaining **57 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
+Existing local navigation reaches current context from **552 documents**. This page supplies an explicit current-context route for the remaining **57 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
 Source-bound city, design and archived research documents retain their exact README payloads and original scope. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.
 
 | README class | Documents |
 |---|---:|
 | candidate-design-method | 1 |
+| city-map-method | 1 |
 | current-research-programme | 1 |
 | generated-city-brief | 266 |
 | generated-city-package | 266 |
@@ -636,6 +637,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [engineering/assurance/v053-pole-return-research/README.md](../../../../engineering/assurance/v053-pole-return-research/README.md) | retained-assurance-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [engineering/assurance/v053-pole-return-research/archive/README.md](../../../../engineering/assurance/v053-pole-return-research/archive/README.md) | retained-assurance-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [engineering/assurance/v053-propulsion-redesign-screen/README.md](../../../../engineering/assurance/v053-propulsion-redesign-screen/README.md) | retained-assurance-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
+| [engineering/city_maps/README.md](../../../../engineering/city_maps/README.md) | city-map-method | [System approach](../../../../engineering/README.md) | [project](../../../../README.md) |
 | [engineering/design_search/README.md](../../../../engineering/design_search/README.md) | candidate-design-method | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [engineering/ferrite_maglev/README.md](../../../../engineering/ferrite_maglev/README.md) | manual-current-entrypoint | [System approach](../../../../engineering/README.md) | Current system introduction |
 | [engineering/ferrite_maglev/observer-prototype/README.md](../../../../engineering/ferrite_maglev/observer-prototype/README.md) | manual-current-entrypoint | [System approach](../../../../engineering/README.md) | [project](../../../../README.md) |

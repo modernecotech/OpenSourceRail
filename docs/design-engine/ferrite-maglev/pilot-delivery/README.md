@@ -2,7 +2,7 @@
 
 Connected provisional digital pilot. Packet integrity, implemented design resolution, physical verification and independent acceptance are separate states.
 
-Verified digital packets: **9**. All three development profiles executed against current sources: **True**. Physical releases: **0**.
+Verified digital packets: **9**. All three development profiles executed against current sources: **False**. Physical releases: **0**.
 
 | Deliverable | Digital state |
 |---|---|
@@ -11,7 +11,7 @@ Verified digital packets: **9**. All three development profiles executed against
 | three-pilot-kits | provisional-definitions-delivered |
 | coupled-actuator-and-launch-search | model-pass-provisional |
 | baghdad-pilot-delivery-and-finance | provisional-pilot-delivered |
-| lifecycle-and-assurance | executed-current |
+| lifecycle-and-assurance | execution-hold |
 
 ## Inspect the connected evidence
 
@@ -25,7 +25,7 @@ Verified digital packets: **9**. All three development profiles executed against
 - [assurance-profiles](../assurance-profiles/README.md): Separate executed engineering, delivery and formal control profiles.
 - [capability-migration](../capability-migration/README.md): Actual v0.4 capability dispositions and three-product boundary.
 
-Digital completion is recorded separately: 9 scoped digital subtasks completed; 576 broader qualification tasks tracked; 0 full qualification tasks completed and 0 physical acceptances. The structured study links every subtask to its qualification parents and exact packet receipt.
+Digital completion is recorded separately: 8 scoped digital subtasks completed; 576 broader qualification tasks tracked; 0 full qualification tasks completed and 0 physical acceptances. The structured study links every subtask to its qualification parents and exact packet receipt.
 
 Actual module-force screen: passed; observed peak 14247.581406153944N against the declared 20000N study bound. A controller's requested-force clamp does not bound actual magnetic-force overshoot. This screen does not qualify the physical attachments.
 
