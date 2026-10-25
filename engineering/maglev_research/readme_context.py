@@ -72,6 +72,8 @@ def category(name):
         return 'project-frontdoor'
     if name == 'engineering/design_search/README.md':
         return 'candidate-design-method'
+    if name == 'engineering/city_maps/README.md':
+        return 'city-map-method'
     if name in {'cities/catalogue/README.md', 'docs/capabilities/README.md'}:
         return 'generated-navigation-index'
     if name == 'docs/design-engine/ferrite-maglev/research-closure/README.md':
