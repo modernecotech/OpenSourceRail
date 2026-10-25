@@ -134,16 +134,129 @@ def test_existing_job_and_symlink_output_refused(tmp_path,retained_root):
     assert (tmp_path/'used/kept').read_text()=='retained'
 
 
-def test_setup_scope_keeps_installer_under_job_and_reports_existing_chrono(tmp_path,retained_root,monkeypatch):
+def test_setup_uses_fixed_private_tools_with_per_job_logs_and_existing_chrono(tmp_path,retained_root,monkeypatch):
     from engineering.trip_dynamics import setup_tools
     destinations=[]
     def install(path):
         destinations.append(path)
-        return dict(global_environment_modified=False)
+        return dict(global_environment_modified=False,micromamba='pinned-private-mamba')
     monkeypatch.setattr(setup_tools,'install',install)
+    calls=[]
+    def ensure(root,micromamba,logs):
+        calls.append((root,micromamba,logs))
+        return dict(created=False,reused=True)
+    monkeypatch.setattr(setup_tools,'ensure_chrono',ensure)
     monkeypatch.setattr(e,'_probe_chrono',lambda root:dict(available=True,fallback=False,solver_id='a'*64))
     result=e.execute({'action':'setup-tools','parameters':{}},tmp_path/'job',retained_root)
-    assert destinations==[tmp_path/'job/tools']
+    assert destinations==[retained_root/'build/trip-dynamics/tools']
+    assert calls==[(retained_root,'pinned-private-mamba',tmp_path/'job')]
     assert result['result']['global_environment_modified'] is False
     assert result['result']['chrono_environment_installed'] is False
     assert result['result']['existing_private_chrono']['available'] is True
+
+
+def _tiny_locked_root(root):
+    folder=root/'engineering/trip_dynamics';folder.mkdir(parents=True)
+    packages=[]
+    for name in ('python','pychrono'):
+        url='https://conda.anaconda.org/'+('projectchrono' if name=='pychrono' else 'conda-forge')+'/linux-64/'+name+'-1.0-test.conda'
+        packages.append(dict(name=name,version='1.0',build='test',url=url,sha256=sha256(name.encode()).hexdigest(),md5='a'*32))
+    (folder/'solver-environment.json').write_text(json.dumps({'packages':packages}))
+    (folder/'environment-linux-64.lock').write_text('@EXPLICIT\n'+'\n'.join(x['url']+'#'+x['md5']for x in packages)+'\n')
+    return packages
+
+
+def _tiny_environment(root,packages):
+    prefix=root/'build/trip-dynamics/environment/chrono'
+    metadata=prefix/'conda-meta';metadata.mkdir(parents=True)
+    for package in packages:
+        relative='bin/python3.12' if package['name']=='python' else 'lib/python3.12/site-packages/pychrono/_core.so'
+        data=package['name'].encode();path=prefix/relative;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(data)
+        row={**package,'paths_data':{'paths':[dict(_path=relative,sha256_in_prefix=sha256(data).hexdigest())]}}
+        (metadata/(package['name']+'.json')).write_text(json.dumps(row))
+    (prefix/'bin/python').write_bytes(b'python');(prefix/'bin/python').chmod(0o755)
+    return prefix
+
+
+def test_locked_chrono_create_uses_exact_explicit_file_private_prefix_and_no_user_config(tmp_path,monkeypatch):
+    from engineering.trip_dynamics import setup_tools as tools
+    packages=_tiny_locked_root(tmp_path)
+    mamba=tmp_path/'micromamba';mamba.write_text('test executable');mamba.chmod(0o755)
+    calls=[]
+    def run(command,**kwargs):
+        calls.append((command,kwargs));_tiny_environment(tmp_path,packages)
+        kwargs['stdout'].write(b'mocked package manager test only\n')
+        return type('Process',(),{'returncode':0})()
+    monkeypatch.setattr(tools.subprocess,'run',run)
+    monkeypatch.setenv('CONDA_PREFIX','do-not-use-user-prefix')
+    monkeypatch.setenv('MAMBA_ROOT_PREFIX','do-not-use-user-root')
+    result=tools.ensure_chrono(tmp_path,mamba,tmp_path/'job')
+    command,settings=calls[0]
+    assert command==[str(mamba),'create','--no-rc','--no-env','--root-prefix',
+        str(tmp_path/'build/trip-dynamics/environment/mamba-root'),'--prefix',
+        str(tmp_path/'build/trip-dynamics/environment/chrono'),'--file',
+        str(tmp_path/'engineering/trip_dynamics/environment-linux-64.lock'),'--yes']
+    assert settings['timeout']==1000
+    assert not any(k.startswith(('CONDA_','MAMBA_'))for k in settings['env'])
+    assert result['created'] and not result['reused'] and result['package_count']==2
+    assert not result['global_environment_modified'] and not result['code_aster_installed']
+    assert (tmp_path/'job/chrono-setup-stdout.txt').read_bytes().startswith(b'mocked')
+
+
+def test_matching_locked_environment_reused_without_package_manager_or_rewrites(tmp_path,monkeypatch):
+    from engineering.trip_dynamics import setup_tools as tools
+    packages=_tiny_locked_root(tmp_path);prefix=_tiny_environment(tmp_path,packages)
+    before={p.relative_to(prefix).as_posix():(p.read_bytes(),p.stat().st_mtime_ns)for p in prefix.rglob('*')if p.is_file()}
+    def no_create(*a,**kw):raise AssertionError('matching environment must not execute package manager')
+    monkeypatch.setattr(tools.subprocess,'run',no_create)
+    result=tools.ensure_chrono(tmp_path,tmp_path/'unused-mamba',tmp_path/'logs')
+    after={p.relative_to(prefix).as_posix():(p.read_bytes(),p.stat().st_mtime_ns)for p in prefix.rglob('*')if p.is_file()}
+    assert before==after and result['reused'] and not result['created']
+    assert not (tmp_path/'logs').exists()
+
+
+@pytest.mark.parametrize('corruption',['package','runtime','partial'])
+def test_existing_mismatch_is_preserved_not_removed_or_repaired(tmp_path,monkeypatch,corruption):
+    from engineering.trip_dynamics import setup_tools as tools
+    packages=_tiny_locked_root(tmp_path);prefix=_tiny_environment(tmp_path,packages)
+    if corruption=='package':
+        path=prefix/'conda-meta/python.json';row=json.loads(path.read_text());row['version']='foreign';path.write_text(json.dumps(row))
+    if corruption=='runtime':(prefix/'bin/python3.12').write_bytes(b'foreign interpreter')
+    if corruption=='partial':(prefix/'conda-meta/python.json').unlink()
+    before={p.relative_to(prefix).as_posix():p.read_bytes()for p in prefix.rglob('*')if p.is_file()}
+    monkeypatch.setattr(tools.subprocess,'run',lambda *a,**kw:pytest.fail('must not install into mismatched environment'))
+    with pytest.raises(ValueError,match='differ'):
+        tools.ensure_chrono(tmp_path,tmp_path/'unused-mamba',tmp_path/'logs')
+    assert before=={p.relative_to(prefix).as_posix():p.read_bytes()for p in prefix.rglob('*')if p.is_file()}
+
+
+def test_explicit_lock_must_agree_with_sha256_package_pins(tmp_path):
+    from engineering.trip_dynamics import setup_tools as tools
+    _tiny_locked_root(tmp_path)
+    lock=tmp_path/'engineering/trip_dynamics/environment-linux-64.lock'
+    lock.write_text(lock.read_text().replace('#'+'a'*32,'#'+'f'*32,1))
+    with pytest.raises(ValueError,match='disagrees'):
+        tools.ensure_chrono(tmp_path,tmp_path/'unused-mamba',tmp_path/'logs')
+    assert not (tmp_path/'build').exists()
+
+
+def test_private_tool_install_reuses_exact_executable_and_refuses_mismatch(tmp_path,monkeypatch):
+    import io,tarfile
+    from engineering.trip_dynamics import setup_tools as tools
+    source=tmp_path/'source';source.mkdir();out=tmp_path/'tools';out.mkdir()
+    pins={}
+    for key,name,member in [('getdp','getdp-3.5.0-Linux64c.tgz','getdp-3.5.0-Linux64/bin/getdp'),
+                            ('micromamba','micromamba-2.9.0-0.tar.bz2','bin/micromamba')]:
+        path=out/name;data=('pinned-'+key).encode()
+        with tarfile.open(path,'w:gz' if key=='getdp' else 'w:bz2') as archive:
+            info=tarfile.TarInfo(member);info.size=len(data);info.mode=0o755;archive.addfile(info,io.BytesIO(data))
+        pins[key]=dict(bytes=path.stat().st_size,sha256=sha256(path.read_bytes()).hexdigest(),url='https://example.invalid/not-used')
+    (source/'solver-environment.json').write_text(json.dumps(pins));monkeypatch.setattr(tools,'__file__',str(source/'setup_tools.py'))
+    tools.install(out)
+    binary=out/'getdp-3.5.0-Linux64/bin/getdp';before=(binary.read_bytes(),binary.stat().st_mtime_ns)
+    (out/'micromamba-2.9.0-0.tar.bz2').rename(out/'micromamba-pinned.tar.bz2')
+    monkeypatch.setattr(tools.urllib.request,'urlopen',lambda *a,**kw:pytest.fail('matching retained pinned archive must reuse offline'))
+    tools.install(out);assert before==(binary.read_bytes(),binary.stat().st_mtime_ns)
+    binary.write_bytes(b'foreign binary')
+    with pytest.raises(ValueError,match='leaving it unchanged'):tools.install(out)
+    assert binary.read_bytes()==b'foreign binary'

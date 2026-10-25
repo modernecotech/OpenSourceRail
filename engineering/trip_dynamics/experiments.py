@@ -304,11 +304,14 @@ def execute(request, output, root=ROOT):
         elif action=='probe':
             result = probe(root)
         elif action=='setup-tools':
-            from .setup_tools import install
-            result = install(output/'tools')
-            result['chrono_environment_installed']=False
+            from .setup_tools import install, ensure_chrono
+            result = install(root/'build/trip-dynamics/tools')
+            result['chrono_environment']=ensure_chrono(root,result['micromamba'],output)
+            result['chrono_environment_installed']=result['chrono_environment']['created']
             result['existing_private_chrono']=_probe_chrono(root)
-            result['scope']='Pinned GetDP/micromamba tools installed under this job only; existing private Chrono state reported separately'
+            if result['existing_private_chrono'].get('available') is not True:
+                raise RuntimeError('locked private environment exists but native Chrono probe failed')
+            result['scope']='Pinned fixed private GetDP/micromamba and locked Chrono environment; setup logs/receipt retained with this job; no global environment changed'
         elif action=='verify':
             from .campaign import verify
             result = verify(root/'docs/design-engine/trip-dynamics',root=root)
