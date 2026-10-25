@@ -202,7 +202,7 @@ def extract(bounds_wsen,zoom,output_gz,cache_dir,archive_url=PINNED,*,offline=Fa
                      feature_counts={k:len(v) for k,v in sorted(layers.items())},
                      network_requests=source.requests,network_bytes=source.network_bytes,
                      retained_range_bytes=source.total_bytes,coordinates_decoded=counter[0],
-                     packages={k:importlib.metadata.version(k) for k in ('pmtiles','mapbox-vector-tile')},
+                     packages={k:importlib.metadata.version(k) for k in ('pmtiles','mapbox-vector-tile','shapely','protobuf','numpy','pyclipper')},
                      extraction_method='Exact206 range read; official PMTiles/MVT; clipped WGS84 GeoJSON',
                      extractor_sha256=digest(Path(__file__).read_bytes()),
                      no_hidden_renderer_network=True))

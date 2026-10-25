@@ -458,7 +458,7 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
         lines.append(line_plan(c, a, f,line,operating['stations'] if operating else stations,line['service'],evaluate,operating=operating))
     source_paths = [*calculation_dependencies(),design_path,ASSUMPTIONS,Path(__file__),
                     model.INPUT,model.POLICY,Path(model.__file__),manufacturing.INPUT,Path(manufacturing.__file__),ROOT/'VERSION']
-    for name in ('corridors.json', slug+'.stations.json', slug+'.corridor.geojson', 'alignment-policy.toml','site-context.json'):
+    for name in ('corridors.json', slug+'.stations.json', slug+'.corridor.geojson', 'alignment-policy.toml','site-context.json','map-context.json.gz'):
         path = city_dir/name
         if path.is_file(): source_paths.append(path)
     sources = {p.relative_to(ROOT).as_posix(): digest(p) for p in source_paths}
@@ -533,8 +533,8 @@ def generate(city_dir, context=None, output_dir=None, *, assumptions=None, evalu
     output.mkdir(parents=True, exist_ok=True)
     mapped=deepcopy(design)
     if use_operating:mapped['stations']=[s for l in lines for s in l['stations']]
-    cartography.render(mapped,city_dir/(slug+'.corridor.geojson'),output/'network.svg')
-    report.update(network_file='network.svg',network_sha256=digest(output/'network.svg'))
+    map_receipt=cartography.render(mapped,city_dir/(slug+'.corridor.geojson'),output/'network.svg')
+    report.update(network_file='network.svg',network_sha256=digest(output/'network.svg'),map_context=map_receipt)
     (output/'manufacturing.json').write_text(json.dumps(programme,ensure_ascii=False,sort_keys=True,indent=2)+'\n')
     report['manufacturing_file']='manufacturing.json'
     report['manufacturing_sha256']=digest(output/'manufacturing.json')
@@ -736,7 +736,7 @@ def generate_all(output_root=None,*,workers=None):
 def calculation_dependencies():
     """Transitive shared computational inputs used by generation and replay."""
     from . import station,station_structure,closure
-    return [*optimisation.calculation_dependencies(),Path(cartography.__file__),Path(station.__file__),station.INPUT,*station_structure.source_paths(),*operating_plan.source_paths(),*city_brief.source_paths(),Path(closure.__file__),closure.INPUT]
+    return [*optimisation.calculation_dependencies(),*cartography.source_paths(),Path(station.__file__),station.INPUT,*station_structure.source_paths(),*operating_plan.source_paths(),*city_brief.source_paths(),Path(closure.__file__),closure.INPUT]
 
 
 def source_paths():
@@ -752,7 +752,7 @@ def source_paths():
         directory=design.parent
         slug=city_slug(design)
         paths.update((design,directory/'README.md'))
-        for name in ('corridors.json',slug+'.stations.json',slug+'.corridor.geojson','alignment-policy.toml',
+        for name in ('corridors.json',slug+'.stations.json',slug+'.corridor.geojson','alignment-policy.toml','map-context.json.gz',
                      'engineering/maglev/summary.json','engineering/maglev/retained-records.json','engineering/maglev/manufacturing.json','engineering/maglev/network.svg','engineering/maglev/README.md'):
             candidate=directory/name
             if candidate.is_file():
