@@ -393,7 +393,12 @@ def sources(*,include_generated=True):
     paths+=list((ROOT/'crates/osr-maglev-control').rglob('*.rs'))+[ROOT/'crates/osr-maglev-control/Cargo.toml']
     paths += [ROOT/name for name in ('tools/automation/maglev-workbench.py', 'install.sh',
         'tools/automation/generate-public-overview.py', 'tools/automation/build-doc-book.py',
-        'docs/workbench/maglev/index.html', 'docs/workbench/maglev/app.js', 'docs/workbench/maglev/pilot.js', 'docs/workbench/maglev/app.css')]
+        'docs/workbench/maglev/index.html', 'docs/workbench/maglev/app.js', 'docs/workbench/maglev/pilot.js', 'docs/workbench/maglev/app.css',
+        'docs/workbench/trip/index.html', 'docs/workbench/trip/app.js', 'docs/workbench/trip/app.css',
+        'tools/automation/tests/verify-trip-workbench.mjs')]
+    paths += [p for p in (ROOT/'engineering/trip_dynamics').rglob('*')
+              if p.is_file() and '__pycache__' not in p.parts and p.suffix in
+              {'.py', '.json', '.toml', '.pro', '.geo', '.comm', '.mail', '.export', '.md', '.txt', '.lock', '.explicit', '.sh', '.yml'}]
     from . import navigation
     paths += navigation.source_paths()
     from . import pilot_lifecycle,pilot_assurance,candidate_authority,candidate_native,bim_field,platform_publication,full_dynamics

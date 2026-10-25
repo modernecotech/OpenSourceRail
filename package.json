@@ -6,7 +6,7 @@
   "scripts": {
     "workbench": "tools/automation/osr-python tools/automation/maglev-workbench.py --port 8090",
     "frontend:build": "tools/automation/osr-python tools/automation/ferrite-maglev-study.py run",
-    "test:frontend": "node tools/automation/tests/verify-maglev-v05.mjs build/maglev-test-browser && node tools/automation/tests/verify-maglev-workbench.mjs build/maglev-test-workbench-browser",
+    "test:frontend": "node tools/automation/tests/verify-maglev-v05.mjs build/maglev-test-browser && node tools/automation/tests/verify-maglev-workbench.mjs build/maglev-test-workbench-browser && node tools/automation/tests/verify-trip-workbench.mjs build/trip-workbench-browser",
     "format:design": "prettier --write \"docs/workbench/maglev/*.{js,css,html}\"",
     "format:design:check": "prettier --check \"docs/workbench/maglev/*.{js,css,html}\""
   },

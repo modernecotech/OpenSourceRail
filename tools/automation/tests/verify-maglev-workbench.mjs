@@ -17,10 +17,9 @@ let stderr = '';
 server.stderr.on('data', chunk => { stderr += String(chunk); });
 try {
   const origin = await new Promise((accept,reject) => {
-    // The server verifies every source-bound packet before binding. The expanded
-    // native body, pilot and hub checks can exceed ten minutes on a cold process.
-    // Allow thirty minutes for complete verification; UI assertion bounds stay unchanged.
-    const timer = setTimeout(() => reject(Error('Primary server startup timeout: '+stderr)),1800000);
+    // Default startup checks source/payload integrity, without rerunning native studies.
+    // Full numerical reproduction remains an explicit --verify-full action.
+    const timer = setTimeout(() => reject(Error('Primary server startup timeout: '+stderr)),120000);
     server.stdout.on('data', chunk => {
       const match = String(chunk).match(/http:\/\/127\.0\.0\.1:\d+/);
       if (match) { clearTimeout(timer); accept(match[0]); }

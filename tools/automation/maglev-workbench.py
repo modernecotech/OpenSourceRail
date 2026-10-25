@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Loopback, read-only primary v0.5 design review UI."""
+"""Loopback research Workbench with bounded private trip jobs and public evidence."""
 import argparse
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -14,6 +14,23 @@ class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(ROOT), **kwargs)
 
+    def _trip_api(self):
+        if not urlsplit(self.path).path.startswith('/api/trip/'):
+            return False
+        if getattr(self.server, 'trip_service', None) is None:
+            self.send_error(503, 'Trip service is not configured')
+            return True
+        from engineering.trip_dynamics.interactive import handle_api
+        return handle_api(self)
+
+    def do_GET(self):
+        if not self._trip_api():
+            super().do_GET()
+
+    def do_POST(self):
+        if not self._trip_api():
+            self.send_error(501, 'Only the bounded trip job API accepts POST')
+
     def send_head(self):
         name = unquote(urlsplit(self.path).path)
         if name == '/':
@@ -21,12 +38,14 @@ class Handler(SimpleHTTPRequestHandler):
             self.send_header('Location', '/docs/workbench/maglev/')
             self.end_headers()
             return None
-        allowed = ('/docs/workbench/maglev/', '/docs/workbench/planning/', '/docs/design-engine/ferrite-maglev/',
+        allowed = ('/docs/workbench/maglev/', '/docs/workbench/planning/', '/docs/workbench/trip/',
+                   '/docs/design-engine/ferrite-maglev/', '/docs/design-engine/trip-dynamics/',
+                   '/docs/design-engine/passive-suspension/', '/docs/design-engine/vehicle-optimisation/',
                    '/docs/design-engine/design-search/', '/docs/design-engine/design-search-twins/')
         exact = {'/engineering/ferrite_maglev/city-index.json', '/engineering/ferrite_maglev/city-index.md',
                  '/OpenSourceRail-Book.pdf', '/OpenSourceRail maglev station concept.png',
                  '/Vertical spiral escape chute concept.png', '/engineering/design_search/README.md',
-                 '/docs/design-engine/design-search-interpretation.md'}
+                 '/docs/design-engine/design-search-interpretation.md', '/engineering/trip_dynamics/README.md'}
         lexical = ROOT/name.lstrip('/')
         path = lexical.resolve()
         roots = [ROOT/p.lstrip('/') for p in allowed]
@@ -57,16 +76,27 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--host', default='127.0.0.1', choices=('127.0.0.1', 'localhost'))
     parser.add_argument('--port', type=int, default=8090)
+    parser.add_argument('--verify-full', action='store_true',
+                        help='reproduce the full existing engineering verification before listening')
     args = parser.parse_args()
-    from engineering.ferrite_maglev import delivery
-    delivery.verify()
+    from engineering.trip_dynamics.interface_integrity import primary_integrity
+    integrity = primary_integrity(ROOT)
+    if args.verify_full:
+        from engineering.ferrite_maglev import delivery
+        delivery.verify()
+        integrity['numerical_verification_executed'] = True
+    from engineering.trip_dynamics.interactive import TripService
     server = ThreadingHTTPServer((args.host, args.port), Handler)
+    server.publication_integrity = integrity
+    server.trip_service = TripService(ROOT)
     print(f'Primary maglev Workbench: http://{args.host}:{server.server_port}/', flush=True)
+    print(f'Trip tools: http://{args.host}:{server.server_port}/docs/workbench/trip/ · publication integrity: {integrity["state"]}', flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
         pass
     finally:
+        server.trip_service.close()
         server.server_close()
 
 

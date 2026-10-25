@@ -8,6 +8,7 @@ from . import cities, model
 
 OUTPUT = model.ROOT/'docs/capabilities'
 CAPABILITIES = (
+    ('trip-research-tools','engineering/trip_dynamics/README.md','./osr trip','Local Workbench and CLI for source-bound vehicle/equipment comparisons, bounded private journey jobs, fixtures, solver setup, model imports and logs; candidate evidence preflights and ideal-support Chrono benchmarks retain separate meanings.'),
     ('detailed-system','engineering/ferrite_maglev/detailed_system.py','./osr design detailed-system','Exact candidate geometry,magnetics,dynamics,structures,quantitative manufacturing,native chain,BIM and economics; mandatory failures block adoption.'),
     ('owner-builder-planning','engineering/ferrite_maglev/platform_publication.py','./osr plan serve','Editable city stop/service/OD proposals,16GISlayers,immutable revisions,generic resource/procurement/monthlycash adapter and native owner/builder/operator navigation.'),
     ('independent-operations','engineering/ferrite_maglev/operations_crosscheck.py','./osr design operations-crosscheck','Executed independent SUMO railway blocks,dwell/receiverdelay and capacitynegativecontrols; kinematic timing, notmagneticforce orphysicalGoA4 qualification.'),

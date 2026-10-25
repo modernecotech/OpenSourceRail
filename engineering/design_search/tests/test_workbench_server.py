@@ -18,6 +18,12 @@ def endpoint(tmp_path,monkeypatch):
         'docs/design-engine/design-search/manifest.json':'{}',
         'docs/design-engine/design-search-twins/'+'a'*64+'/README.md':'# Research twin',
         'docs/design-engine/design-search-interpretation.md':'# Interpretation',
+        'docs/workbench/trip/index.html':'<script src="app.js"></script>',
+        'docs/workbench/trip/app.js':'window.tripToolsLoaded=true;',
+        'docs/design-engine/trip-dynamics/summary.json':'{}',
+        'docs/design-engine/vehicle-optimisation/README.md':'# Equipment options',
+        'docs/design-engine/passive-suspension/README.md':'# Magnetic options',
+        'engineering/trip_dynamics/README.md':'# Trip tools',
         'engineering/design_search/README.md':'# Candidate contracts',
         'engineering/design_search/contracts.py':'private source', 'build/private.txt':'private run data',
         '.codex/config.toml':'private configuration'}
@@ -38,7 +44,11 @@ def endpoint(tmp_path,monkeypatch):
     '/docs/design-engine/design-search/index.html','/docs/design-engine/design-search/app.js',
     '/docs/design-engine/design-search/manifest.json',
     '/docs/design-engine/design-search-twins/'+'a'*64+'/README.md',
-    '/docs/design-engine/design-search-interpretation.md','/engineering/design_search/README.md'])
+    '/docs/design-engine/design-search-interpretation.md','/engineering/design_search/README.md',
+    '/docs/workbench/trip/index.html','/docs/workbench/trip/app.js',
+    '/docs/design-engine/trip-dynamics/summary.json',
+    '/docs/design-engine/vehicle-optimisation/README.md',
+    '/docs/design-engine/passive-suspension/README.md','/engineering/trip_dynamics/README.md'])
 def test_public_candidate_assets_are_served_with_existing_content_policy(endpoint,path):
     status,headers,body=endpoint(path)
     assert status==200 and body and headers['X-Content-Type-Options']=='nosniff'

@@ -136,7 +136,9 @@ The [UK procurement supplement](engineering/ferrite_maglev/README.md#uk-power-mo
 ./osr design iterate           # bounded vehicle/beam/Rust study and confirmation
 ./osr city baghdad             # regenerate Baghdad planning and costing
 ./osr sim baghdad --cycles 2   # offline services-energy replay
-./osr workbench                # local review UI
+./osr trip                     # journey evidence, options and private solver status
+./osr trip simulate --mode evidence --output build/trip-dynamics/my-case
+./osr workbench                # local review UI and trip job controls
 ./osr test                     # current automated checks
 bash tools/automation/test-maglev-research.sh  # design alternatives, source/mass gates and README coverage
 ./osr readiness                # source and acceptance gates
@@ -146,6 +148,8 @@ bash tools/automation/test-maglev-research.sh  # design alternatives, source/mas
 The [stopped-controller recovery study](docs/design-engine/ferrite-maglev/stopped-recovery/README.md) tests local recovery from prepared and committed checkpoints, including two trains and adverse evidence. A new fenced epoch, quarantine and complete fresh stopped proofs are required; old contracts stay retired and fresh prepare/commit is mandatory. Moving recovery, cross-controller handover and installed authentication remain open.
 
 The dependency runner resumes implemented work after interruption and holds downstream output when a prerequisite fails. The Workbench has no live train-control authority. A committed coasting train needs protected receiving capability; a receiver fault, stranded train and stationary recovery each require an engineered response.
+
+The Workbench's **Trip simulations and research tools** page connects the journey programme to selected-case controls, source-bound vehicle/equipment comparisons, private solver setup, fixtures, model imports, progress, logs, results and cancellation. Evidence cases refuse motion when required models are missing; native Chrono benchmarks use explicitly ideal support and prescribed force. See the [commands and interface boundaries](engineering/trip_dynamics/README.md#run-and-verify).
 
 ## Find your way
 

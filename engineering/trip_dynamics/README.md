@@ -14,6 +14,20 @@ The historical 9.49 t native-material subtotal, canonical 25.619/37.619 t empty/
 
 ## Run and verify
 
+`./osr trip` shows the published packet and private solver status. `./osr workbench` opens the local Workbench; choose **Trip simulations and research tools** to compare the retained vehicle, magnet and equipment options, submit a selected case, inspect logs/results and cancel an owned job. The page also exposes the digital task plan, numerical fixtures and bounded JSON magnetic/modal imports. Imported data is checked numerically without reading client-supplied file paths or granting physical acceptance.
+
+```bash
+./osr trip catalogue
+./osr trip simulate --mode evidence --distance-m 2000 --load-case AW3 \
+  --temperature 50 --output build/trip-dynamics/selected-evidence
+./osr trip simulate --mode benchmark --distance-m 1500 --load-case empty \
+  --output build/trip-dynamics/selected-method-test
+```
+
+Choose a fresh output directory for each CLI experiment. Browser jobs receive private server-owned directories, bounded concurrency and deadlines; closing the server cancels its active jobs and retains their inputs and logs. Reopening the server recovers the job inventory. The solver setup action downloads pinned tools and creates the isolated locked Chrono environment; it does not install Code_Aster. Vehicle/equipment inspection does not silently compose a new physical candidate.
+
+Opening the Workbench checks source and payload integrity without repeating every engineering calculation. Status reports distinguish those checks from numerical reproduction. `tools/automation/osr-python tools/automation/maglev-workbench.py --verify-full` retains the full existing startup verification; trip packet verification is also an explicit action on the page.
+
 Use the existing engineering environment, or install `requirements.txt` in a separate virtual environment. PyChrono must be the **Project Chrono conda package**; the similarly named PyPI package is unrelated. The separately retained Linux runtime lock pins the actual executed conda packages. Do not install its dependencies over the main engineering environment.
 
 ```bash
