@@ -120,9 +120,24 @@ The native package is **one selected magnetic coupon and same-length steel facin
 
 ## Reproduce
 
-Run the frozen magnetic worker with `magnets.study(output=...)` for 32 checked points. Copy the tracked `engineering/vehicle_optimisation/recipes/refinement_recipe.py` into that private output directory and execute it for the three bounded refinements. Run `magnets.evaluate_reference(N35-H8,temperature_C=80,settings={{'steel_model':'nonlinear_repo_proxy'}})` for the remaining confirmation. Every raw input, source and operating point is retained here; production ingestion rejects relabelled temperatures/gaps, altered recipes and missing/duplicate coverage.
+Use fresh output directories for a new execution. The following runs32 reference points, three bounded volume/current refinements and one nonlinear confirmation. Ingestion rejects relabelled temperatures/gaps, altered recipes and missing/duplicate coverage.
 
 ```bash
+OPENBLAS_NUM_THREADS=1 .venv/bin/python - <<'PY'
+from pathlib import Path
+import runpy, shutil
+from engineering.vehicle_optimisation import magnets, campaign
+p = Path('build/vehicle-optimisation/replay-worker')
+p.mkdir(parents=True, exist_ok=True)
+magnets.study(p)
+shutil.copyfile('engineering/vehicle_optimisation/recipes/refinement_recipe.py', p/'refinement_recipe.py')
+runpy.run_path(str(p/'refinement_recipe.py'), run_name='__main__')
+value = next(v for v in magnets.candidates() if v['sample_id'] == 'N35-H8')
+result = magnets.evaluate_reference(value, temperature_C=80., settings=dict(steel_model='nonlinear_repo_proxy'))
+(p/'nonlinear.json').write_bytes(magnets.encoded(result))
+campaign.run('build/vehicle-optimisation/replay', worker_study=p/'study.json',
+             refinements=p/'refinements.json', nonlinear=p/'nonlinear.json')
+PY
 OPENBLAS_NUM_THREADS=1 .venv/bin/python -m pytest -q engineering/vehicle_optimisation/tests
 OPENBLAS_NUM_THREADS=1 .venv/bin/python -m engineering.vehicle_optimisation.campaign verify --output docs/design-engine/vehicle-optimisation
 ```
