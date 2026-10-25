@@ -49,7 +49,9 @@ def source_snapshot(root=ROOT):
 def unaccepted(value):
     if isinstance(value,dict):
         for key,child in value.items():
-            if key in FLAGS and child is not False:raise ValueError('research cannot assert acceptance: '+key)
+            assertions=set(FLAGS)|{'design_complete','physical_release','manufacturing_release',
+                                   'physical_validation','stable_hover_established','full_route_qualification'}
+            if key in assertions and child is not False:raise ValueError('research cannot assert acceptance: '+key)
             unaccepted(child)
     elif isinstance(value,list):
         for child in value:unaccepted(child)
