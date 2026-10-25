@@ -65,7 +65,12 @@ def source_paths():
         'tools/automation/check-readmes.py', 'tools/automation/generate-doc-index.py',
         'tools/automation/generate-design-index.py', 'tools/automation/package-maglev-release.py',
         'tools/automation/validate-host-manifests.py', 'tools/automation/retain-pilot-ui.py', 'deployment/maglev.toml',
-        'deployment/hosts.toml', 'deployment/components.toml')]
+        'deployment/hosts.toml', 'deployment/components.toml',
+        'docs/workbench/trip/index.html', 'docs/workbench/trip/app.js', 'docs/workbench/trip/app.css',
+        'tools/automation/tests/verify-trip-workbench.mjs',
+        'engineering/trip_dynamics/interactive.py', 'engineering/trip_dynamics/interactive_worker.py',
+        'engineering/trip_dynamics/experiments.py', 'engineering/trip_dynamics/setup_tools.py',
+        'engineering/trip_dynamics/interface_integrity.py', 'engineering/trip_dynamics/__main__.py')]
 
 
 def identity():
