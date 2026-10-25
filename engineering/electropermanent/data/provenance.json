@@ -1,0 +1,46 @@
+{
+  "schema": "osr-epm-material-provenance/1",
+  "retrieved_date": "2026-10-25",
+  "cast_alnico5": {
+    "id": "EA-cast-Alnico5-typical",
+    "source": "https://eamagnetics.com/product/alnico",
+    "section": "Cast Alnico Magnets, Alnico 5 row",
+    "Br_T": 1.25,
+    "normal_Hc_A_per_m": 51000.0,
+    "reported_Hci_A_per_m": 51000.0,
+    "density_kg_per_m3": 7300.0,
+    "basis": "Manufacturer table typical values; not a batch certificate, recoil curve, knee or switching loop. Cast grade, not the separately tabulated sintered Alnico5.",
+    "reference_temperature_basis": "Room-reference comparison; table does not guarantee a measured20C switching domain",
+    "recoil_relative_permeability": null,
+    "hysteresis_model": null,
+    "qualified": false
+  },
+  "magnetizing_guidance": {
+    "source": "https://www.arnoldmagnetics.com/products/alnico-magnets/",
+    "section": "MAGNETIZATION",
+    "Alnico5_recommended_magnetizing_H_A_per_m": 240000.0,
+    "basis": "General Alnico5 magnetizing guidance, not an identified pulse requirement for this assembled cassette",
+    "additional_source": "https://www.arnoldmagnetics.com/resources/magnetizing/",
+    "limitation": "Conductive fixturing can shield short pulses; pulse duration and minor loops require measurement"
+  },
+  "literature": [
+    {
+      "id": "Knaian2010",
+      "url": "https://cba.mit.edu/docs/theses/10.06.knaian.pdf",
+      "sha256": "0b8647b9a4f932bbc4daa243bf33b14e5013f09df115497fea331abb26781b6e",
+      "pages": "76-85, figures3-1/3-2, equations3.1-3.25",
+      "scope": "Parallel hard/soft magnets, keeper circuit and electrical model; its small device materials/measurements are not these train components"
+    },
+    {
+      "id": "Pechhacker2023",
+      "doi": "10.1016/j.ifacol.2023.10.180",
+      "url": "https://www.acin.tuwien.ac.at/file/publications/iat/pre_post_print/2023_pechhacker_ifac.pdf",
+      "sha256": "718659ab0acc871d4b3eaabc6eecb308d4760be1102c6f267950e6796f5a916e",
+      "scope": "Identified laboratory EPM hysteresis with separate100Hz Lorentz stabilization and slow outer trim;19N/s is not a train actuator rating"
+    }
+  ],
+  "supplier_quote": null,
+  "supplier_origin": null,
+  "installed_cost": null,
+  "physical_accepted": false
+}
