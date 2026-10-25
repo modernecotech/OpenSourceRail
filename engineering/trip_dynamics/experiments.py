@@ -20,7 +20,11 @@ FLAGS = dict(configuration_adopted=False, engineering_accepted=False,
              physical_accepted=False, journey_accepted=False,
              complete_equipped_vehicle=False, physical_release=False)
 ACTIONS = {'experiment', 'campaign', 'fixture', 'verify', 'probe', 'setup-tools',
-           'validate-map', 'validate-modal'}
+           'validate-map', 'validate-modal', 'epm-screen', 'magnetic-confirmation'}
+RESEARCH_ACTIONS = {'epm-screen','magnetic-confirmation'}
+RESEARCH_PUBLICATIONS = {
+    'electropermanent':'/api/trip/publications/electropermanent/README.md',
+    'magnetic-confirmation':'/api/trip/publications/magnetic-confirmation/README.md'}
 CHOICES = dict(mode=['evidence', 'benchmark'], distance_m=[1500, 2000],
                load_case=['empty', 'AW3'], temperature_C=[20, 50],
                mechanical_step_s=[.001, .0005])
@@ -80,6 +84,16 @@ def catalogue(root=ROOT):
         digest=manifest['files_sha256'][name]
         products[name]=json.loads(_checked(root,publication+name,digest))
         bindings[publication+name]=digest
+    from engineering.electropermanent.catalogue import candidates
+    epm=candidates(Path(root))
+    if not isinstance(epm,list) or len(epm)!=3 or any(not isinstance(x,dict) for x in epm):
+        raise ValueError('electropermanent catalogue must contain three explicit candidate bundles')
+    epm_ids=[x.get('candidate_id') for x in epm]
+    if (any(not isinstance(x,str) or len(x)!=64 or any(c not in '0123456789abcdef' for c in x) for x in epm_ids)
+            or len(set(epm_ids))!=len(epm_ids)):
+        raise ValueError('unique electropermanent physical candidate identities required')
+    if any(x.get('physical_accepted') is not False for x in epm):
+        raise ValueError('electropermanent research catalogue cannot assert physical acceptance')
     rows = []
     for v in [definitions['canonical'], *definitions['alternatives']]:
         records = [x for x in magnetic['records'] if x['candidate_id'] == v['candidate_id']]
@@ -102,6 +116,7 @@ def catalogue(root=ROOT):
                            target_is_candidate_performance=False),
         fixtures=['current', 'laminate', 'nonlinear-magnetics'],
         magnets=magnetic['records'], equipment=products['equipment.json'], HVAC=products['HVAC.json'],
+        electropermanent=epm,research_publications=deepcopy(RESEARCH_PUBLICATIONS),
         source_sha256=bindings,
         model_upload_scope='Inline numerical/schema checks only; uploaded source paths are never read',
         requested_gfrp_optimisation=definitions['requested_gfrp_optimisation'], **FLAGS)
@@ -122,6 +137,7 @@ def status(root=ROOT):
     return dict(schema='osr-trip-interactive-status/1', publication=publication,
         canonical_vehicle_id=cat['canonical_vehicle_id'], known_vehicle_count=len(cat['vehicles']),
         available_actions=sorted(ACTIONS), evidence_behavior='Completed preflight; motion refused when required evidence is missing',
+        research_publications=deepcopy(RESEARCH_PUBLICATIONS),
         benchmark_behavior='Real private Chrono numerical method with ideal support and prescribed force; never candidate travel',
         tools=dict(chrono=dict(environment_present=(root/'build/trip-dynamics/environment/chrono/bin/python').is_file(),probed=False),
                    getdp=dict(executable_present=(root/'build/trip-dynamics/tools/getdp-3.5.0-Linux64/bin/getdp').is_file(),probed=False)), **FLAGS)
@@ -335,6 +351,29 @@ def execute(request, output, root=ROOT):
             archive = root/'docs/design-engine/trip-dynamics/finite-coupon-artifacts.tar.gz'
             result = run(output/'campaign',root=root,chrono_python=_chrono_python(root),
                 getdp=getdp,finite_coupon_archive=archive if archive.is_file() else None)
+        elif action=='epm-screen':
+            from engineering.electropermanent.publication import run
+            result=run(output/'electropermanent',root=root)
+            if not isinstance(result,dict):
+                raise TypeError('electropermanent publication must return its raw manifest object')
+            if result.get('execution_status') in ('failed','interrupted'):
+                execution='failed'
+        elif action=='magnetic-confirmation':
+            from engineering.magnetic_confirmation import run
+            reuse=root/'build/trip-dynamics/finite-coupon3d-v2'
+            if reuse.exists() and (reuse.is_symlink() or not reuse.is_dir()):
+                raise ValueError('fixed reused magnetic mesh directory is not an ordinary directory')
+            result=run(output/'magnetic-confirmation',root=root,
+                getdp=root/'build/trip-dynamics/tools/getdp-3.5.0-Linux64/bin/getdp',
+                reuse_mesh_root=reuse if reuse.is_dir() else None,
+                cases=('coarse','fine','expanded'))
+            if not isinstance(result,dict) or not isinstance(result.get('rows'),list):
+                raise TypeError('magnetic confirmation must return its raw case collection')
+            row_cases=[row.get('case') if isinstance(row,dict) else None for row in result['rows']]
+            if (len(row_cases)!=3 or set(row_cases)!=set(('coarse','fine','expanded')) or
+                    result.get('execution_status') in ('failed','interrupted') or
+                    any(row.get('execution_status') not in ('completed','nonconverged') for row in result['rows'])):
+                execution='failed'
         elif action=='validate-map':
             from .magnetic_maps import validate_force_map
             valid = validate_force_map(params['model_data'],expected_identity={'candidate_id':vehicle['candidate_id']})
@@ -351,7 +390,7 @@ def execute(request, output, root=ROOT):
             valid = validate_modal_model(params['model_data'],vehicle,case)
             result = dict(valid=True,receipt=valid.receipt(),source_verified=False,accepted_for_dynamics=False, **FLAGS)
     except (ValueError, RuntimeError, OSError, KeyError, TypeError, subprocess.TimeoutExpired) as error:
-        execution='refused' if isinstance(error,(ValueError,KeyError,TypeError)) else 'failed'
+        execution='failed' if action in RESEARCH_ACTIONS else 'refused' if isinstance(error,(ValueError,KeyError,TypeError)) else 'failed'
         result=dict(valid=False,reason=str(error),accepted_for_dynamics=False, **FLAGS)
     if source_snapshot(root,definitions,magnetic) != before:
         execution='failed'
@@ -370,6 +409,10 @@ def execute(request, output, root=ROOT):
         scenario_id=None if case is None else case['scenario_id'],scenario=case,
         comparison_mass_context=None if vehicle is None else comparison(vehicle),
         installed_mass_known=False,source_sha256=before,outputs=artifacts,result=result, **FLAGS)
+    if action in RESEARCH_ACTIONS:
+        answer.update(motion_executed=False,research_scope=(
+            'Retained-state, winding/pulse and mass research screens; not a hover or journey' if action=='epm-screen'
+            else 'Finite nonlinear magnetic coupon confirmation; not a whole-train force map or journey'))
     answer['evaluation_id']=identity(answer)
     _write(output/'execution.json',answer)
     return answer

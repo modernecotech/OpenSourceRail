@@ -9,10 +9,10 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest='command')
     source_root = Path(__file__).resolve().parents[2]
-    for name in ('status','catalogue','cases','simulate','fixture','execute-job','setup-tools','validate-map','validate-modal'):
+    for name in ('status','catalogue','cases','simulate','fixture','execute-job','setup-tools','validate-map','validate-modal','epm','magnetic-confirmation'):
         p = commands.add_parser(name)
         p.add_argument('--source-root', type=Path, default=source_root)
-        if name in ('simulate','fixture','execute-job','setup-tools','validate-map','validate-modal'):
+        if name in ('simulate','fixture','execute-job','setup-tools','validate-map','validate-modal','epm','magnetic-confirmation'):
             p.add_argument('--output', required=True, type=Path)
         if name in ('simulate','validate-map','validate-modal'):
             p.add_argument('--vehicle-id')
@@ -48,7 +48,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if args.command is None:
         args.command='status';args.source_root=source_root
-    if args.command in ('status','catalogue','cases','simulate','fixture','execute-job','setup-tools','validate-map','validate-modal'):
+    if args.command in ('status','catalogue','cases','simulate','fixture','execute-job','setup-tools','validate-map','validate-modal','epm','magnetic-confirmation'):
         from . import experiments
         if args.command in ('status','catalogue'):
             answer=getattr(experiments,args.command)(args.source_root)
@@ -60,7 +60,7 @@ def main(argv=None):
                     raise ValueError('bounded ordinary request/model JSON required')
                 return json.loads(path.read_bytes())
             parameters={}
-            action=args.command
+            action='epm-screen' if args.command=='epm' else args.command
             if args.command=='execute-job':
                 request=upload(args.request)
             else:
