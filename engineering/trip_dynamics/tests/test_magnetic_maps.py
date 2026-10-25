@@ -137,11 +137,14 @@ def test_real_publications_preserve_distinct_candidates_and_never_create_3d_maps
     canonical=next(r for r in evidence['records'] if r['family']=='canonical-ferrite')
     assert canonical['points'][0]['force_z_N']==pytest.approx(3064.0009882082604)
     assert canonical['mass_aw3_kg_band']==pytest.approx([37618.5915003343]*2)
-    vehicle=dict(candidate_id=canonical['candidate_id'],comparison_aw3_kg_per_car=canonical['mass_aw3_kg_band'][0])
+    vehicle=dict(candidate_id=canonical['candidate_id'],comparison_aw3_kg_per_car=canonical['mass_aw3_kg_band'][0],mass_ledger_id=canonical['mass_ledger_id'])
     gates=m.assess_magnetic_readiness(evidence,vehicle,dict(candidate_id=canonical['candidate_id'],load_case='AW3',temperature_C=20.))
-    assert next(g for g in gates if g['id']=='published-canonical-support-screen')['state']=='fail'
+    assert next(g for g in gates if g['id']=='published-canonical-support-screen')['state']=='unknown'
+    at_reference=m.assess_magnetic_readiness(evidence,vehicle,dict(candidate_id=canonical['candidate_id'],load_case='AW3',temperature_C=40.))
+    assert next(g for g in at_reference if g['id']=='published-canonical-support-screen')['state']=='fail'
     assert next(g for g in gates if g['id']=='magnetic-nonlinear3d-map')['state']=='unknown'
     assert next(g for g in gates if g['id']=='magnetic-moving-losses')['state']=='unknown'
+    assert next(g for g in gates if g['id']=='magnetic-thermal-duty')['state']=='unknown'
 
 
 @pytest.mark.skipif(not HAS_EVIDENCE,reason='Explicit retained publication root required')

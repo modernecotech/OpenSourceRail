@@ -10,6 +10,9 @@ from hashlib import sha256
 import json
 import math
 from pathlib import Path, PurePosixPath
+import re
+
+from engineering.design_search.contracts import identity as design_identity
 
 ROOT = Path(__file__).resolve().parents[2]
 PINS = Path(__file__).parent / 'fixtures/structures/publication-pins.json'
@@ -112,6 +115,8 @@ def current_vehicle_definitions(root: Path = ROOT) -> dict:
         body_family='retained-GFRP-panels/steel-frame', magnetic_family='canonical-ferrite',
         comparison_empty_kg_per_car=empty,
         comparison_aw3_kg_per_car=float(definition['controlled_aw3_kg']),
+        mass_ledger_id=design_identity(dict(tare=empty, aw3=float(definition['controlled_aw3_kg']),
+                                            configuration=definition['configuration_sha256'])),
         comparison_mass_basis='Retained canonical allocations plus counted module/protection/propulsion stock; not a weighed equipped car',
         installed_empty_kg_per_car=None, installed_aw3_kg_per_car=None,
         cg_m=None, inertia_kg_m2=None, modules_per_car=len(definition['module_placements']),
@@ -155,6 +160,7 @@ def current_vehicle_definitions(root: Path = ROOT) -> dict:
             body_family=chassis['id'] if isinstance(chassis, dict) else chassis, magnetic_family=row['sample_id'],
             comparison_empty_kg_per_car=ledger['comparison_empty_kg_per_car'],
             comparison_aw3_kg_per_car=ledger['comparison_aw3_kg_per_car'],
+            mass_ledger_id=ledger['ledger_id'],
             comparison_aw3_mass_band_kg=bounds,
             provisional_installation_addition_kg=row['provisional_installation_addition_kg'],
             comparison_mass_basis='Disjoint replacement ledger retains other canonical allocations; reported band adds provisional installation scenarios, not measured hardware',
@@ -190,17 +196,35 @@ def structural_readiness(vehicle: dict, scenario: dict) -> list[dict]:
     mass_key = 'installed_empty_kg_per_car' if load == 'empty' else 'installed_aw3_kg_per_car'
     mass = vehicle.get(mass_key)
     unknown = vehicle.get('unknown_installed_inventory', [])
+    identifier = vehicle.get('candidate_id')
+    identity_valid = isinstance(identifier, str) and re.fullmatch('[0-9a-f]{64}', identifier) is not None
+    formation_valid = (type(vehicle.get('cars')) is int and vehicle['cars'] > 0
+                       and type(vehicle.get('car_length_m')) in (int, float)
+                       and math.isfinite(vehicle['car_length_m']) and vehicle['car_length_m'] > 0
+                       and type(scenario.get('cars')) is int and scenario['cars'] > 0
+                       and type(scenario.get('car_length_m')) in (int, float)
+                       and math.isfinite(scenario['car_length_m']) and scenario['car_length_m'] > 0)
+    mass_state = 'unknown'
+    if mass is not None or vehicle.get('complete_equipped_vehicle') is True:
+        try:
+            from .flexible_body import _equipped
+            checked_mass, _, _ = _equipped(vehicle, load)
+            if type(mass) not in (int, float) or not math.isfinite(mass) or not math.isclose(mass, checked_mass, rel_tol=1e-9):
+                raise ValueError('installed and equipped load-case masses disagree')
+            mass_state = 'pass'
+        except (ValueError, KeyError, TypeError):
+            mass_state = 'fail'
     return [
         gate('body/load-case', 'pass' if load in ('empty', 'AW3', 'asymmetric') else 'fail',
              'Explicit empty, AW3 or asymmetric passenger load case required'),
-        gate('body/scenario-identity', 'pass' if scenario.get('scenario_id') == vehicle.get('candidate_id') else 'fail',
+        gate('body/scenario-identity', 'pass' if identity_valid and scenario.get('candidate_id') == identifier else 'fail',
              'Scenario must identify exactly the physical vehicle; force maps from another candidate do not transfer',
-             candidate_id=vehicle.get('candidate_id'), scenario_id=scenario.get('scenario_id')),
-        gate('body/formation', 'pass' if scenario.get('cars') == vehicle.get('cars') and scenario.get('car_length_m') == vehicle.get('car_length_m') else 'fail',
+             candidate_id=vehicle.get('candidate_id'), scenario_candidate_id=scenario.get('candidate_id'), scenario_id=scenario.get('scenario_id')),
+        gate('body/formation', 'pass' if formation_valid and scenario.get('cars') == vehicle.get('cars') and scenario.get('car_length_m') == vehicle.get('car_length_m') else 'fail',
              'Formation and body length must match the selected inventory'),
         gate('body/equipped-inventory', 'pass' if vehicle.get('complete_equipped_vehicle') is True and not unknown else 'unknown',
              'Counted material and retained budgets do not establish installed equipment', unresolved=unknown),
-        gate('body/equipped-mass-inertia', 'pass' if mass is not None and vehicle.get('cg_m') is not None and vehicle.get('inertia_kg_m2') is not None else 'unknown',
+        gate('body/equipped-mass-inertia', mass_state,
              'Motion/flexible-body import requires equipped load-case mass, CG and full inertia', mass_kg_per_car=mass),
         gate('body/asymmetric-load', 'unknown' if load == 'asymmetric' else 'pass',
              'Asymmetric passenger placement and resulting equilibrium/inertia need an explicit model'),

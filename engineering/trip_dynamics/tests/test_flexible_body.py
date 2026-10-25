@@ -27,7 +27,7 @@ def exchange():
         unknown_installed_inventory=[],equipped_properties={'empty':dict(
             mass_kg_per_car=4.,cg_m=[0.,0.,0.],inertia_kg_m2=(8*np.eye(3)).tolist())},
         structural_context={'empty':context})
-    scenario = dict(scenario_id=ids['candidate_id'],load_case='empty',cars=1,
+    scenario = dict(scenario_id='route-load-environment',candidate_id=ids['candidate_id'],load_case='empty',cars=1,
                     car_length_m=2.,temperature_C=20.,mode='benchmark')
     K = np.diag((2*np.pi*np.arange(1,13))**2)
     model = dict(schema='osr-reduced-flexible-body/1', **ids,
@@ -138,6 +138,41 @@ def test_unvalidated_or_unknown_attachment_refuses(exchange):
     with pytest.raises(ValueError,match='validate'):f.attachment_operator(model,'centre')
     model=f.validate_modal_model(model,vehicle,scenario)
     with pytest.raises(ValueError,match='unknown attachment'):f.attachment_operator(model,'absent')
+
+
+def test_validated_snapshot_is_immutable_and_flag_cannot_be_forged(exchange):
+    model, vehicle, scenario = exchange
+    checked = f.validate_modal_model(model, vehicle, scenario)
+    assert checked.receipt()['validation_scope'] == 'numerical-only'
+    assert not hasattr(checked, '__dict__')
+    copy = checked['shapes_dof_by_mode']; copy[0][0] = 100.
+    np.testing.assert_allclose(f.attachment_operator(checked, 'centre'), .25*np.eye(3))
+    forged = deepcopy(model); forged['_numerically_validated'] = True
+    with pytest.raises(ValueError, match='validate'):
+        f.attachment_operator(forged, 'centre')
+    with pytest.raises(ValueError, match='internal validation'):
+        f.validate_modal_model(signed(forged), vehicle, scenario)
+    with pytest.raises(AttributeError):
+        checked._payload = b'changed'
+
+
+@pytest.mark.parametrize('which', ['stiffness', 'damping'])
+def test_large_eigenvalue_cannot_hide_negative_energy(exchange, which):
+    model, vehicle, scenario = exchange
+    if which == 'stiffness':
+        model['physical_stiffness_matrix_N_m'][10][10] = -1.
+        model['physical_stiffness_matrix_N_m'][11][11] = 1e14
+    else:
+        model['modal_damping_s1'] = np.diag([-.1, .2, 1e14]).tolist()
+    with pytest.raises(ValueError, match=which+' eigenvalue'):
+        f.validate_modal_model(signed(model), vehicle, scenario)
+
+
+def test_healthy_modal_body_requires_explicit_fault_applicability(exchange):
+    model, vehicle, scenario = exchange
+    scenario['fault'] = {'id': 'support-boundary-loss'}
+    with pytest.raises(ValueError, match='fault/boundary'):
+        f.validate_modal_model(model, vehicle, scenario)
 
 
 def test_executed_laminate_fixture_against_independent_cantilever_formula():

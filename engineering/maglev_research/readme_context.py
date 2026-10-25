@@ -74,6 +74,11 @@ def category(name):
         return 'candidate-design-method'
     if name == 'engineering/city_maps/README.md':
         return 'city-map-method'
+    if name in {'engineering/trip_dynamics/README.md',
+                'engineering/trip_dynamics/fixtures/structures/README.md',
+                'engineering/trip_dynamics/fixtures/magnetics/README.md',
+                'engineering/trip_dynamics/fixtures/chrono/README.md'}:
+        return 'trip-dynamics-method'
     if name in {'cities/catalogue/README.md', 'docs/capabilities/README.md'}:
         return 'generated-navigation-index'
     if name == 'docs/design-engine/ferrite-maglev/research-closure/README.md':

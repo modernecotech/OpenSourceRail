@@ -8,6 +8,8 @@ translation matrix units are deliberately not inferred from an external solver.
 from __future__ import annotations
 
 from copy import deepcopy
+from collections.abc import Mapping
+from dataclasses import dataclass
 from hashlib import sha256
 import json
 import math
@@ -21,6 +23,44 @@ from .vehicle import _checked, identity
 UNITS = dict(position='m', physical_mass='kg', physical_stiffness='N/m',
              shape='kg^-0.5', modal_mass='1', modal_stiffness='s^-2',
              modal_damping='s^-1', modal_coordinate='m*kg^0.5', force='N')
+
+_VALIDATION_AUTHORITY = object()
+
+
+@dataclass(frozen=True, init=False, slots=True)
+class ValidatedModal(Mapping):
+    """Immutable checked snapshot. Public reads return independent JSON data."""
+    _payload: bytes
+    _context_id: str
+    _source_checked: bool
+
+    def __init__(self, payload, context_id, source_checked, *, authority=None):
+        if authority is not _VALIDATION_AUTHORITY:
+            raise TypeError('create a modal snapshot with load_modal/validate_modal_model')
+        object.__setattr__(self, '_payload', bytes(payload))
+        object.__setattr__(self, '_context_id', context_id)
+        object.__setattr__(self, '_source_checked', bool(source_checked))
+
+    def as_dict(self):
+        return json.loads(self._payload)
+
+    def __getitem__(self, key):
+        if key == '_numerically_validated':
+            return True
+        return self.as_dict()[key]
+
+    def __iter__(self):
+        return iter([*self.as_dict(), '_numerically_validated'])
+
+    def __len__(self):
+        return len(self.as_dict())+1
+
+    def receipt(self):
+        value = self.as_dict()
+        return dict(model_id=value['model_id'], candidate_id=value['candidate_id'],
+                    context_id=self._context_id, source_checked=self._source_checked,
+                    validation_scope='source-and-numerical' if self._source_checked else 'numerical-only',
+                    physical_accepted=False)
 
 
 def _array(value, shape, label):
@@ -52,20 +92,22 @@ def _equipped(vehicle, load):
     return float(mass), cg, inertia
 
 
-def validate_modal_model(data: dict, vehicle: dict, scenario: dict) -> dict:
-    """Validate a small exported modal model; return a defensive data copy.
+def validate_modal_model(data: dict, vehicle: dict, scenario: dict) -> ValidatedModal:
+    """Validate a small exported modal model; return an immutable snapshot.
 
     Source files are checked by ``load_modal``. Calling this lower-level function
     validates numerical/identity content only. Numerical agreement does not
     establish measured material properties or installed structural acceptance.
     """
+    if not isinstance(data, dict) or any(str(k).startswith('_') for k in data):
+        raise ValueError('ordinary model data cannot assert internal validation fields')
     value = deepcopy(data)
     if value.get('schema') != 'osr-reduced-flexible-body/1' or value.get('units') != UNITS:
         raise ValueError('explicit reduced-model schema and exact SI units required')
     for key in ('candidate_id', 'geometry_id', 'material_id'):
         if not re.fullmatch('[0-9a-f]{64}', str(value.get(key, ''))) or value[key] != vehicle.get(key):
             raise ValueError(key + ' does not identify the selected vehicle')
-    if scenario.get('scenario_id') != value['candidate_id']:
+    if scenario.get('candidate_id') != value['candidate_id']:
         raise ValueError('scenario physical candidate mismatch')
     if value.get('model_id') != identity({k: v for k, v in value.items() if k != 'model_id'}):
         raise ValueError('model content identity changed')
@@ -75,6 +117,11 @@ def validate_modal_model(data: dict, vehicle: dict, scenario: dict) -> dict:
     if benchmark != (vehicle.get('scope') == 'benchmark-coupon') or benchmark and scenario.get('mode') != 'benchmark':
         raise ValueError('benchmark coupon cannot become evidence for an actual body')
     applicability = value['applicability']
+    fault = scenario.get('fault')
+    if fault is not None:
+        allowed = applicability.get('fault_ids', [])
+        if not isinstance(fault, dict) or not isinstance(allowed, list) or fault.get('id') not in allowed:
+            raise ValueError('modal fault/boundary applicability is not established')
     for key in ('cars', 'car_length_m', 'load_case'):
         if applicability.get(key) != scenario.get(key):
             raise ValueError('modal applicability mismatch: ' + key)
@@ -116,7 +163,10 @@ def validate_modal_model(data: dict, vehicle: dict, scenario: dict) -> dict:
                                     (Km, 'modal stiffness', True), (C, 'damping', False)]:
         _same(matrix, matrix.T, label + ' symmetry')
         eigen = np.linalg.eigvalsh(matrix)
-        bad = eigen[0] <= 0 if positive else eigen[0] < -1e-8 * max(1., abs(eigen[-1]))
+        # A large unrelated eigenvalue must never hide negative energy.
+        # Negative near-zero values require an upstream rounding/error
+        # disposition; they do not receive an implicit stability pass here.
+        bad = eigen[0] <= 0 if positive else eigen[0] < 0
         if bad:
             raise ValueError('nonphysical ' + label + ' eigenvalue')
     _same(phi.T @ M @ phi, np.eye(modes), 'mass normalisation')
@@ -155,11 +205,12 @@ def validate_modal_model(data: dict, vehicle: dict, scenario: dict) -> dict:
         position = _array(attachment['position_m'], (3,), 'attachment position')
         _same(position, sum((a * coordinates[ids.index(n)] for a, n in zip(w, names)), np.zeros(3)), 'interpolated attachment position')
         _same(position, _array(required[attachment['id']], (3,), 'equipped attachment'), 'equipped attachment position')
-    value['_numerically_validated'] = True
-    return value
+    payload = json.dumps(value, sort_keys=True, separators=(',', ':'), allow_nan=False).encode()
+    return ValidatedModal(payload, identity(dict(vehicle=vehicle, scenario=scenario)), False,
+                          authority=_VALIDATION_AUTHORITY)
 
 
-def load_modal(path: Path, vehicle: dict, scenario: dict) -> dict:
+def load_modal(path: Path, vehicle: dict, scenario: dict) -> ValidatedModal:
     """Import bounded JSON, checking all declared neighboring source files."""
     path = Path(path)
     if path.is_symlink() or not path.is_file() or path.stat().st_size > 16 * 1024 * 1024:
@@ -169,13 +220,17 @@ def load_modal(path: Path, vehicle: dict, scenario: dict) -> dict:
         raise ValueError('modal mesh/material/equilibrium source bindings required')
     for name, digest in value['source_sha256'].items():
         _checked(path.parent, name, digest)
-    return validate_modal_model(value, vehicle, scenario)
+    valid = validate_modal_model(value, vehicle, scenario)
+    for name, digest in value['source_sha256'].items():
+        _checked(path.parent, name, digest)
+    return ValidatedModal(valid._payload, valid._context_id, True, authority=_VALIDATION_AUTHORITY)
 
 
-def attachment_operator(model: dict, attachment_id: str) -> np.ndarray:
+def attachment_operator(model: ValidatedModal, attachment_id: str) -> np.ndarray:
     """3 x modes: displacement=Hq; conjugate generalised force=H.T F."""
-    if model.get('_numerically_validated') is not True:
+    if type(model) is not ValidatedModal:
         raise ValueError('load/validate modal model before attachment interpolation')
+    model = model.as_dict()
     ids = [x['id'] for x in model['nodes']]
     matches = [x for x in model['attachments'] if x['id'] == attachment_id]
     if len(matches) != 1:

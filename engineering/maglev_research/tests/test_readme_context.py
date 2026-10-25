@@ -25,6 +25,7 @@ def test_owned_block_is_idempotent_and_preserves_title_and_local_scope():
 @pytest.mark.parametrize('name', [
     'README.md', 'cities/catalogue/README.md',
     'engineering/city_maps/README.md',
+    'engineering/trip_dynamics/README.md',
     'cities/catalogue/west-asia/Iraq/Baghdad/README.md',
     'docs/design-engine/ferrite-maglev/full-dynamics/README.md',
     'engineering/assurance/v053-pole-return-research/archive/README.md',

@@ -20,7 +20,7 @@ SCHEMA="osr-magnetic-force-map/1"
 IDENTITY_KEYS=("candidate_id","geometry_id","material_id","evaluation_id")
 REQUIRED_AXES=("gap_m","lateral_m","longitudinal_m","roll_rad","pitch_rad","yaw_rad","temperature_C","v_m_s")
 UNITS=dict(position="m",angle="rad",current="A",temperature="degC",velocity="m/s",force="N",moment="N*m")
-FRAME=dict(name="module-local",handedness="right",axes=dict(x="travel",y="transverse-right",z="up"),
+FRAME=dict(name="module-local",handedness="right",axes=dict(x="travel",y="transverse-left",z="up"),
            rotation_convention="intrinsic-XYZ-roll-pitch-yaw",gap_positive="train-away-from-guideway",moment_origin_m=[0.,0.,0.])
 G=9.80665
 
@@ -231,6 +231,7 @@ def current_magnetic_evidence(root:Path)->dict:
                          numerical_usable=variant['static_map_valid'],method='reluctance-network; not FE/measured validated',
                          published_support_screen_pass=variant['screen_pass'])],
             published_aw3_requirement_N=peak['required_aw3_upward_n'],thermal_screen_pass=variant['thermal']['thermal_screen_pass'],
+            thermal_required_lift_reference=deepcopy(variant['thermal']),
             guidance_validated=False,source='docs/design-engine/ferrite-maglev/candidate-magnetics/study.json.gz'))
     passive=load('docs/design-engine/passive-suspension',['summary.json'])
     if passive:
@@ -281,7 +282,8 @@ def assess_magnetic_readiness(evidence:dict,vehicle:dict,scenario:dict)->list[di
     def gate(name,state,reason,**values):gates.append(dict(id=name,state=state,reason=reason,values=values))
     cid=vehicle.get('candidate_id',vehicle.get('configuration_sha256'))
     scenario_candidate=scenario.get('candidate_id')
-    gate('magnetic-scenario-binding','unknown' if scenario_candidate is None else 'pass' if scenario_candidate==cid else 'fail',
+    valid_cid=isinstance(cid,str) and re.fullmatch('[0-9a-f]{64}',cid) is not None
+    gate('magnetic-scenario-binding','fail' if not valid_cid else 'unknown' if scenario_candidate is None else 'pass' if scenario_candidate==cid else 'fail',
          'Route/load/environment scenario must bind this same physical candidate; scenario_id is a separate identity',
          vehicle_candidate_id=cid,scenario_candidate_id=scenario_candidate)
     records=[r for r in evidence.get('records',[]) if r['candidate_id']==cid]
@@ -296,15 +298,17 @@ def assess_magnetic_readiness(evidence:dict,vehicle:dict,scenario:dict)->list[di
                          vehicle.get('controlled_tare_kg' if load=='empty' else 'controlled_aw3_kg'))
         band=record[mass_key]
         mismatch=(scenario_candidate not in (None,cid) or mass is None or type(mass) not in (float,int) or not math.isfinite(mass) or not band[0]-1e-7<=mass<=band[1]+1e-7
-                  or vehicle.get('mass_ledger_id',record['mass_ledger_id'])!=record['mass_ledger_id'])
+                  or vehicle.get('mass_ledger_id')!=record['mass_ledger_id'])
         gate('magnetic-mass-ledger','unknown' if mismatch else 'pass',
              'Vehicle mass must match its own published comparison ledger' if mismatch else 'Matching comparison mass; installed unknowns remain',
              supplied_mass_kg=mass,published_mass_band_kg=band,mass_ledger_id=record['mass_ledger_id'])
         points=[p for p in record['points'] if p['temperature_C']==temp and (scenario.get('gap_m') is None or p['gap_m']==scenario['gap_m'])]
         if record['family']=='canonical-ferrite':
             p=record['points'][0]
-            gate('published-canonical-support-screen','fail','Retained canonical peak-current support screen fails; this is not a3D journey result',
-                 force_N=p['force_z_N'],published_AW3_requirement_N=record['published_aw3_requirement_N'],point_temperature_C=p['temperature_C'],point_currents_A=p['currents_A'])
+            matched = temp == p['temperature_C'] and not mismatch and load != 'asymmetric'
+            gate('published-canonical-support-screen','fail' if matched else 'unknown',
+                 'Retained canonical peak-current support screen fails at its published condition; other temperatures are unevaluated, not extrapolated',
+                 force_N=p['force_z_N'],published_AW3_requirement_N=record['published_aw3_requirement_N'],point_temperature_C=p['temperature_C'],point_currents_A=p['currents_A'],requested_temperature_C=temp,condition_matches=matched)
         if not points or mismatch or load=='asymmetric':
             gate('magnetic-load-support','unknown','No matching temperature/gap/mass/asymmetric distribution supports a load assessment; no extrapolation',temperature_C=temp,load_case=load)
         else:
@@ -317,7 +321,10 @@ def assess_magnetic_readiness(evidence:dict,vehicle:dict,scenario:dict)->list[di
                      force_N=p['force_z_N'],required_mean_force_N=required,observed_force_variation_N=variation,
                      gap_m=p['gap_m'],temperature_C=p['temperature_C'],modules_per_car=record['modules_per_car'])
         if record.get('winding_fill_pass') is False:gate('magnetic-winding-fill','fail','Counted winding exceeds retained fill screen')
-        if record.get('thermal_screen_pass') is False:gate('magnetic-thermal-duty','fail','Published repeated thermal/current screen fails for this candidate')
+        if record.get('thermal_screen_pass') is False:
+            gate('magnetic-thermal-duty','unknown',
+                 'The retained required-lift thermal screen failed at its own current/duty; this journey has no matched thermal execution',
+                 published_required_lift_screen_pass=False, published_reference=record.get('thermal_required_lift_reference'))
     valid_maps=[]
     for value in evidence.get('force_maps',[]):
         try:

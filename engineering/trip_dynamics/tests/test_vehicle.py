@@ -73,13 +73,27 @@ def test_replacement_removals_are_disjoint(catalogue):
 
 def test_readiness_cannot_silently_combine_magnet_candidate_and_canonical_mass(catalogue):
     c = catalogue['canonical']
-    scenario = dict(scenario_id=c['candidate_id'],cars=6,car_length_m=17.,load_case='AW3')
+    scenario = dict(scenario_id='route-load-environment',candidate_id=c['candidate_id'],cars=6,car_length_m=17.,load_case='AW3')
     gates = {x['id']:x['state'] for x in vehicle.structural_readiness(c, scenario)}
     assert gates['body/scenario-identity']=='pass'
     assert gates['body/equipped-mass-inertia']=='unknown'
     assert gates['body/equipped-inventory']=='unknown'
-    scenario['scenario_id']=catalogue['alternatives'][0]['candidate_id']
+    scenario['candidate_id']=catalogue['alternatives'][0]['candidate_id']
     assert next(x for x in vehicle.structural_readiness(c,scenario) if x['id']=='body/scenario-identity')['state']=='fail'
+
+
+def test_missing_fields_do_not_match_through_none_equality():
+    gates = {x['id']: x['state'] for x in vehicle.structural_readiness({}, {})}
+    assert gates['body/scenario-identity'] == gates['body/formation'] == 'fail'
+
+
+def test_nonfinite_claimed_equipped_mass_cannot_pass(catalogue):
+    from copy import deepcopy
+    c = deepcopy(catalogue['canonical'])
+    c.update(installed_aw3_kg_per_car=float('nan'), cg_m=[0., 0., 0.], inertia_kg_m2=[[0.,0.,0.]]*3)
+    case = dict(candidate_id=c['candidate_id'], cars=6, car_length_m=17., load_case='AW3')
+    gates = {x['id']: x['state'] for x in vehicle.structural_readiness(c, case)}
+    assert gates['body/equipped-mass-inertia'] == 'fail'
 
 
 @pytest.mark.parametrize('corrupt', ['payload', 'manifest', 'bound-source'])

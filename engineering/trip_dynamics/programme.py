@@ -1,0 +1,56 @@
+"""Bounded digital jobs alongside, not in place of, physical qualification."""
+from engineering.design_search.contracts import identity
+
+
+def tasks():
+    rows = [
+        dict(id='equipped-car', owner='vehicle-and-assembly', prerequisites=[],
+             question='Close one complete 17 m equipped car and its mass distribution.',
+             variables=['GFRP layup/core/stiffeners', 'aluminium extrusions/joints', 'four retained door openings',
+                        'glazing retention', 'HVAC/ducts/supply', 'solar/roof hardware', 'seats', 'services/capture'],
+             outputs=['native selected geometry', 'disjoint installed BOM', 'mass/CG/inertia', 'maintenance envelopes'],
+             completion='Every installed item is counted, positioned and source-bound; unknown items prevent completion.'),
+        dict(id='magnetic-3d', owner='magnetics', prerequisites=[],
+             question='Evaluate actual onboard PM/coil geometry against passive steel facings.',
+             variables=['named NdFeB and ferrite grades', 'Halbach segment geometry', 'pole/facing section',
+                        'gap', 'offset', 'current', 'temperature'],
+             outputs=['nonlinear finite-end force/moment maps', 'flux/energy/loss ports', 'mesh/domain/contour confirmation'],
+             completion='All six wrench outputs and required derivatives/ports cover the declared operating domain without extrapolation.'),
+        dict(id='composite-structure', owner='structures', prerequisites=['equipped-car'],
+             question='Size and reduce the loaded body, attachments and joints.',
+             variables=['ply counts/angles', 'sandwich core', 'stiffener spacing', 'opening radii', 'bond/bolt detail'],
+             outputs=['Code_Aster static/modal models', 'validated reduction matrices', 'attachment transfer',
+                      'deflection/stress/buckling/fatigue limits'],
+             completion='Equipped inertia, static preload, modes and magnetic-gap deformation are consistent with the same candidate.'),
+        dict(id='station-and-services', owner='electrical-and-thermal', prerequisites=['equipped-car', 'magnetic-3d'],
+             question='Close moving station drive and onboard repeated duty at 20/50 C.',
+             variables=['winding', 'voltage/current limits', 'receiving protection', 'cooling', 'HVAC duty'],
+             outputs=['position/speed/phase maps', 'Rust current-loop coupling', 'battery/DC/thermal balances'],
+             completion='Simultaneous force, current, voltage, power, cooling and receiving-brake limits are satisfied or failed explicitly.'),
+        dict(id='single-car-confirmation', owner='dynamics', prerequisites=['magnetic-3d', 'composite-structure', 'station-and-services'],
+             question='Establish stationary hover, then controlled single-car motion.',
+             variables=['control parameters within mapped bounds', 'mechanical/current clock ratio'],
+             outputs=['gap/mode/force/current/energy traces', 'time-step and mode-count convergence', 'failure dispositions'],
+             completion='Empty/AW3 and hot/asymmetric/fault cases are actually integrated; no ideal support substitute.'),
+        dict(id='six-car-journey', owner='systems-and-independent-verifier', prerequisites=['single-car-confirmation'],
+             question='Confirm the six-car 1.5/2 km launch/coast/arrival campaign.',
+             variables=['couplers', 'explicit service alternatives after equal-throughput comparison'],
+             outputs=['all nine case reports', 'full per-module gap/current/thermal extrema', 'comfort and failure/capture evidence'],
+             completion='Independent reproduction agrees, all parts share one candidate and unknown criteria remain unevaluated.'),
+        dict(id='coupled-optimisation', owner='systems-and-economics', prerequisites=['six-car-journey'],
+             question='Keep mass/cost/manufacture/maintenance Pareto alternatives at equal passenger service.',
+             variables=['body families', 'magnetic stock', 'steel facing', 'station hardware', 'explicit speed/spacing alternatives'],
+             outputs=['complete mass/force/thermal/deflection residuals', 'candidate-specific BOM/civil/service costs', 'selection policy'],
+             completion='No failed/unknown integrated candidate is selected; missing prices or equipment never become zero.'),
+    ]
+    for row in rows:
+        row.update(candidate_policy='exact candidate/requirements/model identities required',
+                   budget=dict(max_variants=3, maximum_solver_seconds_per_trial=300, maximum_numerical_workers=2),
+                   execution='planned', physical_accepted=False)
+        row['task_id'] = identity(row)
+    return dict(schema='osr-trip-digital-programme/1', tasks=rows,
+                independent_physical_qualification_changed=False, integrated_candidate_selected=None,
+                fixed_service=dict(cars=6, body_length_m=17., normal_passengers_per_car=120,
+                                   normal_pphpd=14400, comparison_headway_s=180.),
+                guideway='concrete beam and passive steel facings; all PMs and support/guidance coils onboard',
+                source_development_separate_from_numerical_workers=True)
