@@ -3,6 +3,13 @@
   "capabilities": [
     {
       "engineering_accepted": false,
+      "entry": "./osr trip",
+      "id": "trip-research-tools",
+      "scope": "Local Workbench and CLI for source-bound vehicle/equipment comparisons, bounded private journey jobs, fixtures, solver setup, model imports and logs; candidate evidence preflights and ideal-support Chrono benchmarks retain separate meanings.",
+      "source": "engineering/trip_dynamics/README.md"
+    },
+    {
+      "engineering_accepted": false,
       "entry": "./osr design detailed-system",
       "id": "detailed-system",
       "scope": "Exact candidate geometry,magnetics,dynamics,structures,quantitative manufacturing,native chain,BIM and economics; mandatory failures block adoption.",
@@ -329,7 +336,7 @@
   "inventory": {
     "canonical_items": 53,
     "planned_ebom_objects": 53,
-    "primary_capabilities": 46,
+    "primary_capabilities": 47,
     "primary_work_packages": 11,
     "requirements": 72,
     "system_items": 53,
@@ -367,6 +374,9 @@
     "deployment/components.toml": "9667af9f778f4d5b1a809431e62ef5f22b09e18992a122c263d8625b9fffd302",
     "deployment/hosts.toml": "6b6e53dabdf9e593b59020efda8eddd0de6202f3c25f971d54974b72af42a89a",
     "deployment/maglev.toml": "d9721599b91fa5fd0df2ecbe78085fe5435e4753b4eca9683b3b8f683316ae6e",
+    "docs/workbench/trip/app.css": "8506ab7c848a93da48160045e85f49b5ef76519fc2db7548050866cc2f148397",
+    "docs/workbench/trip/app.js": "d2ff5e0538474c2423eba80ee3b1ba1eea4f52021b2cf20946f84be7d9c4fe99",
+    "docs/workbench/trip/index.html": "06dff7890aef232bed3f9f241c46c45216c11e681a22dad23302041e26e0363d",
     "engineering/analysis/tests/test_ferrite_maglev_coupled.py": "3ed7e26a6ce1c9159ded6cbf66d45fb73e4940fa3c70123195cc9cfc7091eef0",
     "engineering/analysis/tests/test_ferrite_maglev_evacuation.py": "96d843140d5ba100198b3391a675b03797c6441b8fc974e4180d3ddc86e72b14",
     "engineering/analysis/tests/test_ferrite_maglev_geometry_field.py": "1ae65fbbef81d64ef007a6ed9a5b259f6168a875ec5d3113a2a4609451643d62",
@@ -401,7 +411,7 @@
     "engineering/ferrite_maglev/manufactured_native.py": "398afdac45c5077809f89a6e16478c7f480e2f2aec45dd22cbe742ca13fc51d0",
     "engineering/ferrite_maglev/model.py": "ad080a6654895a6f151dcbfc72c6135efa157066c9288df5a4e5fcc600ecb345",
     "engineering/ferrite_maglev/moving_train.py": "644f9dac51f3de0759700cdd87dff1c72e6d242b88ccdb3152d03c8bb279c7ce",
-    "engineering/ferrite_maglev/navigation.py": "7e4a0657abf277aee28afa1c5a181a31cb84265fcd44cbf786ee43595365804e",
+    "engineering/ferrite_maglev/navigation.py": "e844e3edbd71021a74297b2a936b050d8d4b927f3514588b4243614325019c97",
     "engineering/ferrite_maglev/operations_crosscheck.py": "d5ef908ec6c39441a62b31b6ed80ff4b0f6ed86ceb89fd9469d077912608fabf",
     "engineering/ferrite_maglev/optimisation.py": "e87603d4989ccd51c321cf211e36691890747cffcfba4224c7ebb33a95ea7b4c",
     "engineering/ferrite_maglev/optimisation.toml": "34048ad9ce9cd5ddec1a8269bc61a7864fb762649511b53d62de5b7f27960ec9",
@@ -428,6 +438,13 @@
     "engineering/ferrite_maglev/system_development.toml": "9202297367aaf388284d43d3943597339d32fb5d03499bcc1dce2340551ec461",
     "engineering/ferrite_maglev/transition.py": "95259cc981932b0d8ba4e7573e37185527d6a690eb31694513aea90719779d87",
     "engineering/ferrite_maglev/workflow.py": "3a6428abf23119137db0137f7840e53e6e7d9ea45b42aeada0d957deb995b073",
+    "engineering/trip_dynamics/README.md": "31f803bccbabb6355ad223b83aba1470d08ff8c99660780fbd69ba6594cbf070",
+    "engineering/trip_dynamics/__main__.py": "9cc45905f51ea8e000d056e5cd62f47f36b64a54637631c7658dc7fee2dc80b1",
+    "engineering/trip_dynamics/experiments.py": "6353f26e736fc9822e27900da1cdb18dd598b0fd6f6862d973841bbbe005ef24",
+    "engineering/trip_dynamics/interactive.py": "d618e919137472f87c9fff16eabc418c2dfee016a74f668f9e2fc7c5c66bb573",
+    "engineering/trip_dynamics/interactive_worker.py": "f66bab4cf90788ff284389dc078fbce9c21b06d39cce6b7dd04bfd42a9d87b0c",
+    "engineering/trip_dynamics/interface_integrity.py": "00da67c113cc41e54b5c74bfe1a76f07dbee7936b8aa1dd96ce5737de3dc78f1",
+    "engineering/trip_dynamics/setup_tools.py": "d25eb1287429ec84ffe4d974c85fa511f2458016f2a3251dd22d815a8e0fddbc",
     "ferrite-maglev-study.toml": "a1effd80c4a5390b3c615b5833258e88ed1e687cfad065c65260b8149ae50839",
     "lib/templates/infrastructure.toml": "0bebf8fbfd6b4dd05e53394171caadcc90b5d28154e31a8aa61794a57c898d12",
     "tools/automation/capabilities.py": "57f2a8331d5789dc56e60727b35d152bc341ef00f24b7fa90d0becd6102eac0c",
@@ -435,10 +452,11 @@
     "tools/automation/check-readmes.py": "c250c17952c819ebf1b819538e6751e3ad587a8225f07213439152d3f65d9542",
     "tools/automation/generate-design-index.py": "0cf4c2e8a7a0cf1bb53a2c67a8a755436675e1e9e5d954e34de35106d9ce81f1",
     "tools/automation/generate-doc-index.py": "c346909f8ca559e7b8a69a42225b21ded056306ab90aa406c0818d75b49daf6a",
-    "tools/automation/maglev-workbench.py": "4f595a1d882c74b1532dfc6d09c3a03d4bb340f9c0e1bc182782f56896e7d5fb",
+    "tools/automation/maglev-workbench.py": "b9d717609e11ac3353e713b7ebdf8f89b51d789c496699f13930a37574944516",
     "tools/automation/package-maglev-release.py": "671c2b568b2b480143c9dd61171aca04a834a89447095b65840432a42b5db3a9",
     "tools/automation/retain-pilot-ui.py": "f022f83f9b59af388d20c3ce58d9f0fd43ba5b53ac1a5c9876d7176c4e5d46da",
     "tools/automation/test-maglev.sh": "42946d2f3eadfb0a2145cd8885da1a18f01204c53a28d5fd8bb0cf3713ff3622",
+    "tools/automation/tests/verify-trip-workbench.mjs": "8e2460e692cd52fd94098437313f5f73ad1ffe056abc2ef2086f3c60d349eea6",
     "tools/automation/validate-host-manifests.py": "f34c50cfc006c4355d54f83ff1508aa0a1d24d0a646f26871332bd1c7fad3f42"
   }
 }

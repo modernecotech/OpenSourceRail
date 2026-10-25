@@ -48,4 +48,4 @@ The independent ideal target at 20 m/s and 0.8 m/s² is 100 s for 1.5 km and 125
 
 The Rust current fixture executes the existing 50 µs controller/plant ABI and sensor-loss refusal; it is not a magnetic force model. The composite coupon is an analytical/finite-element method check, not an accepted body. Code_Aster and complete nonlinear candidate maps have their own explicit execution and applicability dispositions.
 
-Every unexecuted field in the report is marked unevaluated. The task graph adds digital execution contracts while leaving physical qualification unchanged. Campaign `74a5ab02f2d40c01a82106d83ba312ec18ad55fbdcb9124eeda660b650b64735`; engineering acceptance, configuration adoption and physical release remain false.
+Every unexecuted field in the report is marked unevaluated. The task graph adds digital execution contracts while leaving physical qualification unchanged. Campaign `019219316193c9cfc234ca0330442f23a0828e2519468f295b3c892083fa640a`; engineering acceptance, configuration adoption and physical release remain false.
