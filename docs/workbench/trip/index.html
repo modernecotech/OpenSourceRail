@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Trip Workbench · OpenSourceRail</title>
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="eyebrow">OpenSourceRail / Digital engineering</p>
+      <h1>Trip Workbench</h1>
+      <p class="lede">Run bounded six-car studies, inspect their evidence and keep the next engineering steps visible.</p>
+      <nav aria-label="Workbench navigation">
+        <a href="../maglev/">Engineering</a>
+        <a href="../planning/">City planning</a>
+        <a href="../../design-engine/trip-dynamics/README.md">Trip report</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <aside class="scope-notice" aria-label="Engineering scope">
+      <strong>No qualified train or completed operating design.</strong>
+      <p>Six 17 m cars, 120 normal passengers per car and the 14,400 passengers/hour/direction comparison at 180-second headway remain the service context. Equipped mass, centre of gravity, inertia and installed cost remain incomplete. Source integrity and completed calculations do not establish physical acceptance.</p>
+    </aside>
+
+    <section aria-labelledby="published-heading">
+      <div class="section-heading"><div><p class="eyebrow">Retained evidence</p><h2 id="published-heading">Published study</h2></div><button id="refresh" class="secondary" type="button">Refresh status</button></div>
+      <p id="connection-status" role="status" aria-live="polite">Connecting to the local job service…</p>
+      <p id="publication-status">Checking retained report bytes…</p>
+      <div id="published-metrics" class="metrics"></div>
+      <div class="report-links">
+        <a href="../../design-engine/trip-dynamics/README.md">Read method and findings</a>
+        <a href="../../design-engine/trip-dynamics/summary.json">Summary JSON</a>
+        <a href="../../design-engine/trip-dynamics/manifest.json">Integrity receipt</a>
+      </div>
+      <details><summary>Published benchmark traces</summary><figure id="published-figure" hidden><img id="published-plot" alt="Retained Chrono benchmark traces using ideal support and prescribed station forces"><figcaption>Actual numerical benchmark samples. Ideal support and prescribed forces provide no magnetic, electrical, thermal or operating capability credit.</figcaption></figure><p id="plot-status">Plot is shown only after its retained payload hash matches.</p></details>
+      <h3>Solver availability</h3>
+      <div id="tools" class="tool-grid"><p class="muted">Availability is unknown until the local service responds.</p></div>
+      <p class="small muted">Code_Aster models in this programme remain templates unless an identified execution says otherwise. Tool availability alone does not validate a model.</p>
+    </section>
+
+    <div class="workspace-grid">
+      <section aria-labelledby="experiment-heading">
+        <p class="eyebrow">One bounded request</p><h2 id="experiment-heading">Run a study</h2>
+        <form id="experiment-form">
+          <fieldset id="run-fields" disabled>
+            <legend>Vehicle and scenario</legend>
+            <label for="vehicle">Source-bound vehicle comparison</label><select id="vehicle" name="vehicle_id" required><option value="">Loading catalogue…</option></select>
+            <div class="form-grid">
+              <label for="mode">Study mode<select id="mode" name="mode"><option value="evidence">Evidence preflight</option><option value="benchmark">Ideal Chrono benchmark</option></select></label>
+              <label for="distance">Station spacing<select id="distance" name="distance_m"><option value="2000">2 km</option><option value="1500">1.5 km</option></select></label>
+              <label for="load">Load case<select id="load" name="load_case"><option value="AW3">AW3 comparison load</option><option value="empty">Empty comparison load</option></select></label>
+              <label for="temperature">Declared ambient<select id="temperature" name="temperature_C"><option value="20">20°C</option><option value="50">50°C</option></select></label>
+              <label for="timestep">Mechanical timestep<select id="timestep" name="mechanical_step_s"><option value="0.001">1 ms</option><option value="0.0005">0.5 ms</option></select></label>
+            </div>
+            <p id="mode-description" class="mode-note" aria-live="polite">Evidence preflight checks the selected candidate's prerequisites. A held preflight produces no simulated travel or hover.</p>
+            <p class="small">Both modes retain a 20 m/s, 0.8 m/s² reference and common 350 m station zones. These targets do not prove installed force authority, comfort or full-train magnetic overlap.</p>
+            <button id="run-experiment" type="submit">Run evidence preflight</button>
+          </fieldset>
+        </form>
+        <p id="request-status" role="status" aria-live="polite"></p>
+        <p id="request-error" class="error" role="alert" hidden></p>
+        <details id="vehicle-details"><summary>Selected vehicle scope and quantities</summary><div id="vehicle-detail"><p>Choose a catalogue entry to inspect its actual comparison basis.</p></div></details>
+      </section>
+
+      <section aria-labelledby="job-heading" class="job-panel">
+        <div class="section-heading"><div><p class="eyebrow">Local execution</p><h2 id="job-heading">Job progress</h2></div><button id="cancel-job" class="danger secondary" type="button" disabled>Cancel job</button></div>
+        <p id="job-status" role="status" aria-live="polite">No job selected.</p>
+        <p id="job-progress" class="muted"></p>
+        <dl id="job-identity" class="facts"></dl>
+        <div id="result-summary"></div>
+        <figure id="result-figure" hidden><img id="result-plot" alt="Plot produced by the selected job"><figcaption id="result-caption"></figcaption></figure>
+        <ul id="job-files" class="file-list"></ul>
+        <details><summary>Worker logs</summary><label for="log-stream">Stream<select id="log-stream"><option value="stdout">Standard output</option><option value="stderr">Standard error</option></select></label><pre id="job-log" aria-label="Selected worker log">No worker log available.</pre></details>
+        <details><summary>Result JSON and execution scope</summary><pre id="result-json">No result available.</pre></details>
+        <h3>Recent jobs</h3><div id="jobs" class="job-list"><p class="muted">No retained jobs loaded.</p></div>
+      </section>
+    </div>
+
+    <section aria-labelledby="actions-heading">
+      <p class="eyebrow">Explicit local actions</p><h2 id="actions-heading">Campaign and numerical checks</h2>
+      <p>Jobs run in bounded local workers. A full campaign keeps evidence preflights separate from ideal benchmarks; failed, refused and interrupted work remains visible. Preparing tools uses the isolated tool environment.</p>
+      <div class="action-grid">
+        <div><h3>Whole programme</h3><p>Run the defined campaign or verify an existing result without inventing missing inputs.</p><div class="button-row"><button type="button" data-action="campaign" disabled>Run full campaign</button><button type="button" data-action="verify" class="secondary" disabled>Verify retained results</button></div></div>
+        <div><h3>Toolchain</h3><p>Probe the actual solvers or set up supported tools in their isolated environment. Setup may download locked dependencies; it does not install Code_Aster.</p><div class="button-row"><button type="button" data-action="probe" class="secondary" disabled>Probe tools</button><button type="button" data-action="setup-tools" class="secondary" disabled>Set up isolated solvers</button></div></div>
+        <div><h3>Method fixtures</h3><label for="fixture">Fixture<select id="fixture"><option value="nonlinear-magnetics">Nonlinear magnetics</option><option value="current">Current-loop controller</option><option value="laminate">Laminate structure</option></select></label><button id="run-fixture" type="button" data-action="fixture" class="secondary" disabled>Run selected fixture</button></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="comparisons-heading">
+      <p class="eyebrow">Separate identified alternatives</p><h2 id="comparisons-heading">Vehicle, magnets and equipment</h2>
+      <p>Compare each option's own ledger and applicability. Material or allocation reductions are not measured installed savings. Door, glazing and HVAC choices retain passenger heat, ventilation and hot stationary cases.</p>
+      <div id="comparisons" class="comparison-grid"></div>
+      <div class="report-links"><a href="../../design-engine/vehicle-optimisation/README.md">Vehicle and services study</a><a href="../../design-engine/passive-suspension/README.md">Magnetic and suspension study</a><a href="/api/trip/catalogue">Catalogue JSON and source bindings</a></div>
+    </section>
+
+    <section aria-labelledby="import-heading">
+      <p class="eyebrow">Inspect supplied data</p><h2 id="import-heading">Check a force map or modal model</h2>
+      <p class="mode-note">Imported-data checks cover schema and numerical properties. They do <strong>not</strong> establish checked source execution, candidate applicability or engineering acceptance. A successful check does not admit a journey.</p>
+      <form id="import-form"><fieldset id="import-fields" disabled><legend>Bounded JSON import</legend><div class="form-grid"><label for="import-kind">Model type<select id="import-kind"><option value="validate-map">Force map</option><option value="validate-modal">Modal model</option></select></label><label for="model-file">JSON document<input id="model-file" type="file" accept="application/json,.json" required></label></div><p class="small">The request uses the selected vehicle, load and ambient above. Only the document is sent; paths in uploaded JSON cannot request filesystem access.</p><button type="submit" class="secondary">Check imported model</button></fieldset></form>
+    </section>
+
+    <section aria-labelledby="plan-heading">
+      <p class="eyebrow">Engineering work still open</p><h2 id="plan-heading">Digital completion plan</h2>
+      <p>Numerical execution contracts add evidence; independent physical qualification remains unchanged. No incomplete integrated candidate is automatically selected.</p>
+      <ol id="digital-plan" class="plan"><li>Loading the retained task graph…</li></ol>
+      <a href="../../design-engine/trip-dynamics/digital-programme.json">Full task contracts and budgets</a>
+    </section>
+  </main>
+  <footer>OpenSourceRail · Simple construction, local repair, low whole-life cost and high passenger throughput. Research results do not authorise train movement, construction or purchasing.</footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
