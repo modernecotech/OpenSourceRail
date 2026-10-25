@@ -131,9 +131,15 @@ def _frame(kind, root):
     if kind == 'retained-frame':
         return None
     dimensions = {'6082-six-cell-compact': (.20, .32, .003, .002),
-                  '6082-six-cell-deep': (.22, .36, .003, .002)}
+                  '6082-six-cell-deep': (.22, .36, .003, .002),
+                  '6082-six-cell-deep-40kn': (.22, .36, .003, .002),
+                  '6082-six-cell-deep-70kn': (.22, .36, .003, .002)}
     if kind not in dimensions:
         raise ValueError('bounded frame family required')
+    roof_dimensions = {'6082-six-cell-deep-40kn': (.10, .25, .0045),
+                       '6082-six-cell-deep-70kn': (.14, .30, .005)}
+    design_force = {'6082-six-cell-deep-40kn': 40000., '6082-six-cell-deep-70kn': 70000.}.get(kind)
+    spreader_t = {'6082-six-cell-deep-40kn': .024, '6082-six-cell-deep-70kn': .032}.get(kind, .018)
     members, stock = [], []
     for previous in old:
         name = previous['id']
@@ -141,7 +147,7 @@ def _frame(kind, root):
             b, h, t, w = dimensions[kind]
             section = extrusion_section(b, h, t, web_m=w)
         elif 'roof-longitudinal' in name:
-            section = extrusion_section(.10, .25, .0025)
+            section = extrusion_section(*roof_dimensions.get(kind, (.10, .25, .0025)))
         else:
             b, h = previous['width_m'], previous['depth_m']
             t = equipment.same_stiffness_wall(b, h, previous['reference_EI_N_m2'], min_wall_m=.0015)
@@ -153,8 +159,8 @@ def _frame(kind, root):
             section=section, reference_EI_N_m2=previous['reference_EI_N_m2'], proposed_EI_N_m2=proposed,
             stiffness_necessary_pass=all(a >= b*(1-1e-9) for a, b in zip(proposed, previous['reference_EI_N_m2']))))
         stock.extend(_frame_stock_member(previous, section))
-    # Reuse the prior counted end-detail inventory. Only its 6082 18 mm
-    # spreader option is retained; member profiles above are newly generated.
+    # Reuse the counted end-detail inventory. Reinforced recipes replace only
+    # its roof spreader thickness and regenerate the exact added plate stock.
     joint_reference = next(c for c in equipment.chassis_candidates(root=root) if c['id']=='6082-T6-deep-stringers')
     for original in joint_reference['stock_parts']:
         if original['id'].startswith('extrusion/'):
@@ -165,6 +171,15 @@ def _frame(kind, root):
             'unqualified-bond-stock' if 'bond' in part['id'] else
             'unqualified-steel-joint-stock' if part['density_kg_m3']==7850. else
             'unqualified-aluminium-joint-stock')
+        if part['id']=='hardpoints/roof-spreader' and design_force is not None:
+            part['parent_source_detail_id'] = part['source_detail_id']
+            part['source_detail_id'] = 'halbach-scaling/'+kind+'/roof-spreader'
+            part['size_m'] = [.30, .22, spreader_t]
+            part['thickness_m'] = spreader_t
+            part['volume_m3_each'] = math.prod(part['size_m'])
+            part['total_volume_m3'] = part['quantity']*part['volume_m3_each']
+            part['unit_mass_kg'] = part['volume_m3_each']*part['density_kg_m3']
+            part['total_mass_kg'] = part['quantity']*part['unit_mass_kg']
         part['installed_position_m'] = None
         stock.append(part)
     value = dict(id=kind, material=deepcopy(MATERIAL), members=members, stock_parts=stock,
@@ -172,11 +187,17 @@ def _frame(kind, root):
         removed_counted_frame_kg=joint_reference['removed_counted_frame_kg'],
         counted_material_mass_kg=math.fsum(p['total_mass_kg'] for p in stock),
         engineering_member_count=65, lower_rail_cell_count=6, member_end_count=130,
-        joint_bolt_count=520, roof_spreader_count=24, roof_spreader_thickness_m=.018,
-        budget=dict(max_section_families=2, maximum_seconds_per_trial=300),
+        joint_bolt_count=520, roof_spreader_count=24, roof_spreader_thickness_m=spreader_t,
+        design_force_N_per_module=design_force,
+        design_force_basis=None if design_force is None else
+            'Declared local 40/70 kN magnetic-module force hypothesis; not a certified fault, impact, capture or ultimate load bound',
+        design_force_bound_qualified=False,
+        budget=dict(max_section_families=4, maximum_seconds_per_trial=300),
         unknown_installed_inventory=[dict(id='frame/global-shear-torsion-crash-fatigue-and-joints', mass_kg=None),
             dict(id='frame/actual-lateral-restraint-and-brace-load-path', mass_kg=None),
             dict(id='frame/deeper-rail-floor-door-equipment-packing', mass_kg=None),
+            dict(id='frame/roof-headroom-HVAC-magnetic-mount-fit-and-CG', mass_kg=None),
+            dict(id='frame/local-magnetic-load-joints-retention-and-fire-path', mass_kg=None),
             dict(id='frame/corrosion-extrusion-splices-manufacturing-tolerances', mass_kg=None)],
         installed_mass_kg=None, installed_CG_m=None, installed_inertia_kg_m2=None,
         hold='Section stiffness and local loads do not qualify the body, bracing, attachments, crash or fatigue', **FLAGS)
@@ -187,17 +208,34 @@ def _frame(kind, root):
     return value
 
 
-def structure_screen(frame, aw3_kg):
+def structure_screen(frame, aw3_kg, *, magnetic_force_N_per_module=None):
+    """Necessary mean-weight or explicit local force-magnitude checks.
+
+    The applied local load is the greater of the 1.3 AW3 mean support demand
+    and a provided magnetic-force hypothesis. A low/zero provided force cannot
+    remove gravity. Explicit force is not factored again or certified here.
+    """
     mass = _positive(aw3_kg, 'AW3 mass')
+    mean_force = mass*G*RESERVE/24
+    provided = None if magnetic_force_N_per_module is None else ledger.number(
+        magnetic_force_N_per_module, 'explicit magnetic-force magnitude')
+    force = mean_force if provided is None else max(mean_force, provided)
+    load = dict(mean_weight_requirement_N_per_module=mean_force,
+        provided_magnetic_force_N_per_module=provided, applied_force_N_per_module=force,
+        load_basis='1.3 AW3 mean module support' if provided is None else
+            'Maximum of 1.3 AW3 mean module support and explicit magnetic-force magnitude',
+        explicit_magnetic_force_additional_factor=None if provided is None else 1.,
+        magnetic_force_fault_bound_qualified=False)
     if frame is None:
         return dict(state='unknown-retained-body-load-path', reference_aw3_kg=mass,
-                    member_level_necessary_pass=None, global_body_qualified=False, **FLAGS)
+                    member_level_necessary_pass=None, global_body_qualified=False, **load, **FLAGS)
     E = frame['material']['young_Pa'];allow = frame['material']['proof_strength_Pa']*.5/1.5
-    force = mass*G*RESERVE/24;pitch = 17/12
+    pitch = 17/12
     roof = next(q for q in frame['members'] if 'roof-longitudinal' in q['id'])['section']
     rail = next(q for q in frame['members'] if 'lower-stringer' in q['id'])['section']
     sigma = force*pitch/(4*roof['Z_vertical_m3']);deflection = force*pitch**3/(48*E*roof['I_strong_m4'])
-    plate = 6*(force*.08/2)/(.22*.018**2)
+    spreader_t = frame['roof_spreader_thickness_m']
+    plate = 6*(force*.08/2)/(.22*spreader_t**2)
     compression = 250000.;axial = compression/rail['area_m2']
     critical = rail['elastic_local_plate_critical_Pa']
     euler_17 = math.pi**2*E*min(rail['I_strong_m4'], rail['I_weak_m4'])/17**2
@@ -208,13 +246,14 @@ def structure_screen(frame, aw3_kg):
         reference_aw3_kg=mass, roof_force_N_per_module=force, roof_pitch_m=pitch,
         matched_both_axis_section_stiffness=matched, roof_stress_Pa=sigma, roof_deflection_m=deflection,
         roof_HAZ_allowable_Pa=allow, spreader_stress_Pa=plate, spreader_allowable_Pa=80e6,
+        spreader_thickness_m=spreader_t,
         spreader_material_basis='Retained unqualified 80 MPa plate-detail hypothesis, not 6082 certificate',
         coupler_compression_N_per_rail=compression, rail_axial_stress_Pa=axial,
         rail_local_plate_critical_Pa=critical, rail_Euler_17m_N=euler_17, rail_Euler_assumed_2m_N=euler_2,
         full_length_unbraced_Euler_screen_pass=compression <= euler_17,
         hypothetical_2m_braced_Euler_screen_pass=compression <= euler_2,
         actual_bracing_qualified=False, global_body_qualified=False,
-        member_level_necessary_pass=passed, **FLAGS)
+        member_level_necessary_pass=passed, **load, **FLAGS)
 
 
 def _system_modes():
@@ -313,9 +352,13 @@ def _variants(root_name, source_key):
     if source_key != identity(bindings):
         raise ValueError('vehicle source identity changed before generation')
     base = canonical.definition();result = []
-    for kind in ('retained-frame','6082-six-cell-compact','6082-six-cell-deep'):
+    modes = _system_modes()
+    for kind in ('retained-frame','6082-six-cell-compact','6082-six-cell-deep',
+                 '6082-six-cell-deep-40kn','6082-six-cell-deep-70kn'):
         frame = _frame(kind, root)
-        for mode in _system_modes():
+        selected_modes = modes if kind in ('retained-frame','6082-six-cell-compact','6082-six-cell-deep') else [
+            q for q in modes if q['id']=='bus-ul700-electric-five-proposal']
+        for mode in selected_modes:
             changes = _changes(frame, mode, root)
             provisional = ledger.compose(base['controlled_tare_kg'], changes,
                 unresolved=[dict(id='retained/unlocated-equipment-and-mounting-locations', mass_kg=None)])
@@ -347,7 +390,7 @@ def _variants(root_name, source_key):
 
 
 def variants(root=ROOT):
-    """Twelve named physical alternatives; independent of magnetic evaluations."""
+    """Fourteen named alternatives, including two reinforced hot-duty frames."""
     root = Path(root).resolve()
     return [json.loads(raw) for raw in _variants(str(root), identity(sources(root)))]
 
@@ -388,9 +431,12 @@ def compose(vehicle, magnetic_bundle, modules=24, *, root=ROOT):
     points = []
     for extra in UNCLOSED_MASS_KG:
         aw3 = mass['comparison_aw3_kg_per_car']+extra
+        declared_force = None if vehicle['frame'] is None else vehicle['frame']['design_force_N_per_module']
         points.append(dict(unclosed_additional_mass_kg_per_car=extra, comparison_aw3_kg_per_car=aw3,
             comparison_train_aw3_kg=6*aw3, required_force_N_per_module=aw3*G*RESERVE/modules,
             reserve_factor=RESERVE, structure=structure_screen(vehicle['frame'], aw3),
+            declared_force_hypothesis_structure=None if declared_force is None else structure_screen(
+                vehicle['frame'], aw3, magnetic_force_N_per_module=declared_force),
             actual_installed_mass_known=False, **FLAGS))
     climate = vehicle['HVAC']
     band = None if climate is None or climate['provisional_installed_mass_scenario_kg'] is None else [

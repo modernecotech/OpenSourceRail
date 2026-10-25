@@ -52,9 +52,9 @@ def test_invalid_extrusion_dimensions_are_refused(args,kw):
     with pytest.raises(ValueError):v.extrusion_section(*args,**kw)
 
 
-def test_twelve_variants_preserve_fixed_passenger_and_door_service():
+def test_fourteen_variants_preserve_fixed_passenger_and_door_service():
     rows=v.variants(ROOT)
-    assert len(rows)==12 and len({q['candidate_id'] for q in rows})==12
+    assert len(rows)==14 and len({q['candidate_id'] for q in rows})==14
     for q in rows:
         v.validate(q,ROOT)
         assert q['service']['cars']==6 and q['service']['body_length_m']==17
@@ -93,6 +93,55 @@ def test_new_frame_stock_closes_but_failed_compact_stiffness_is_retained():
     assert higher['spreader_stress_Pa']>higher['spreader_allowable_Pa']
 
 
+@pytest.mark.parametrize('name,target,roof,plate',[
+    ('6082-six-cell-deep-40kn',40000.,(.10,.25,.0045),.024),
+    ('6082-six-cell-deep-70kn',70000.,(.14,.30,.005),.032),
+])
+def test_counted_reinforcement_closes_exact_profile_and_spreader_mass(name,target,roof,plate):
+    rows=v.variants(ROOT)
+    original=next(q['frame'] for q in rows if q['name']=='6082-six-cell-deep/retained-equipment')
+    proposed=next(q['frame'] for q in rows if q['name']==name+'/bus-ul700-electric-five-proposal')
+    assert proposed['design_force_N_per_module']==target
+    assert proposed['design_force_bound_qualified'] is False
+    length=sum(q['length_m'] for q in original['members'] if 'roof-longitudinal' in q['id'])
+    area=lambda b,h,t:b*h-(b-2*t)*(h-2*t)
+    delta_roof=length*(area(*roof)-area(.10,.25,.0025))*2710
+    delta_plate=24*.30*.22*(plate-.018)*2700
+    assert proposed['counted_material_mass_kg']-original['counted_material_mass_kg']==pytest.approx(delta_roof+delta_plate)
+    assert proposed['counted_material_mass_kg']==pytest.approx(sum(q['total_mass_kg'] for q in proposed['stock_parts']))
+    spreader=next(q for q in proposed['stock_parts'] if q['id']=='hardpoints/roof-spreader')
+    assert spreader['quantity']==24 and spreader['size_m']==[.30,.22,plate]
+    assert spreader['total_mass_kg']==pytest.approx(24*.30*.22*plate*2700)
+    assert max(q['section']['wall_m'] for q in proposed['members'])<=.005
+    assert [q for q in proposed['members'] if 'lower-stringer' in q['id']]==[
+        q for q in original['members'] if 'lower-stringer' in q['id']]
+    checked=v.structure_screen(proposed,35000,magnetic_force_N_per_module=target)
+    assert checked['member_level_necessary_pass']
+    assert checked['roof_stress_Pa']<=checked['roof_HAZ_allowable_Pa']
+    assert checked['roof_deflection_m']<=.002
+    assert checked['spreader_stress_Pa']<=checked['spreader_allowable_Pa']
+    assert not checked['global_body_qualified'] and not checked['full_length_unbraced_Euler_screen_pass']
+
+
+def test_peak_magnetic_force_cannot_be_hidden_by_mean_weight_screen():
+    rows=v.variants(ROOT)
+    old=next(q['frame'] for q in rows if q['name']=='6082-six-cell-deep/retained-equipment')
+    medium=next(q['frame'] for q in rows if q['name']=='6082-six-cell-deep-40kn/bus-ul700-electric-five-proposal')
+    strong=next(q['frame'] for q in rows if q['name']=='6082-six-cell-deep-70kn/bus-ul700-electric-five-proposal')
+    assert v.structure_screen(old,35000)['member_level_necessary_pass']
+    assert not v.structure_screen(old,35000,magnetic_force_N_per_module=40000)['member_level_necessary_pass']
+    assert not v.structure_screen(old,35000,magnetic_force_N_per_module=70000)['member_level_necessary_pass']
+    assert not v.structure_screen(medium,35000,magnetic_force_N_per_module=70000)['member_level_necessary_pass']
+    checked=v.structure_screen(strong,35000,magnetic_force_N_per_module=70000)
+    assert checked['member_level_necessary_pass'] and checked['applied_force_N_per_module']==70000
+    for low in (0.,1.,1000.):
+        below=v.structure_screen(strong,35000,magnetic_force_N_per_module=low)
+        assert below['applied_force_N_per_module']==below['mean_weight_requirement_N_per_module']
+    for bad in (-1.,True,float('nan'),float('inf')):
+        with pytest.raises(ValueError):v.structure_screen(strong,35000,magnetic_force_N_per_module=bad)
+    assert v.structure_screen(None,35000,magnetic_force_N_per_module=70000)['member_level_necessary_pass'] is None
+
+
 def test_same_equipment_has_same_hot_load_across_body_mass_options():
     rows=[q for q in v.variants(ROOT) if q['name'].endswith('/bus-ul700-electric-two')]
     assert len(rows)==3
@@ -110,7 +159,7 @@ def test_five_package_quantity_scales_known_unit_properties_but_not_installation
     rows=v.variants(ROOT)
     body=next(q for q in rows if q['name']=='6082-six-cell-deep/bus-ul700-electric-five-proposal')
     five=body['HVAC']
-    assert len(rows)==12 and not any('ul500' in q['name'] for q in rows)
+    assert len(rows)==14 and not any('ul500' in q['name'] for q in rows)
     assert five['units_per_car']==5
     assert five['package_unit_mass_range_kg']==base['package_unit_mass_range_kg']==[192,192]
     assert five['package_hardware_mass_range_kg_per_car']==[960,960]
@@ -216,3 +265,21 @@ def test_real_new_magnetic_catalogue_composes_without_a_mocked_admission_boundar
     assert b['comparison_aw3_kg_per_car']-a['comparison_aw3_kg_per_car']==pytest.approx(expected)
     assert a['magnet_component_id']==small['physical_id'] and b['magnet_component_id']==large['physical_id']
     assert a['ledger']['payload_kg']==12000 and a['installed_aw3_kg_per_car'] is None
+
+
+def test_reinforcement_mass_reenters_mean_support_and_peak_hypotheses_stay_separate():
+    from engineering.halbach_scaling import candidates
+    module=next(q for q in candidates.candidates(ROOT) if q['physical_id']==candidates.PARENT_ID)
+    rows=v.variants(ROOT)
+    old=next(q for q in rows if q['name']=='6082-six-cell-deep/bus-ul700-electric-five-proposal')
+    new=next(q for q in rows if q['name']=='6082-six-cell-deep-70kn/bus-ul700-electric-five-proposal')
+    before=v.compose(old,module,root=ROOT);after=v.compose(new,module,root=ROOT)
+    added=new['frame']['counted_material_mass_kg']-old['frame']['counted_material_mass_kg']
+    assert after['comparison_aw3_kg_per_car']-before['comparison_aw3_kg_per_car']==pytest.approx(added)
+    for a,b in zip(before['support_requirements_by_unclosed_mass'],after['support_requirements_by_unclosed_mass']):
+        assert b['required_force_N_per_module']-a['required_force_N_per_module']==pytest.approx(added*9.80665*1.3/24)
+        assert b['structure']['provided_magnetic_force_N_per_module'] is None
+        peak=b['declared_force_hypothesis_structure']
+        assert peak['provided_magnetic_force_N_per_module']==70000
+        assert peak['applied_force_N_per_module']>=b['required_force_N_per_module']
+        assert not peak['magnetic_force_fault_bound_qualified'] and not after['overall_structure_qualified']
