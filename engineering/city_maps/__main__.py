@@ -13,19 +13,21 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def proposal(path):
     """Use the same current stop generator as the city compiler, without duty."""
-    from engineering.ferrite_maglev import cities, model, operating_plan
+    from engineering.ferrite_maglev import cities, operating_plan
     path = Path(path)
     design = json.loads(path.read_bytes()); mapped = deepcopy(design)
     assumptions = tomllib.loads(cities.ASSUMPTIONS.read_text())
     if assumptions.get('operating_plan',{}).get('enabled',False):
-        c = model.load()[1]
         features = json.loads(path.with_name(design['city']['slug']+'.corridor.geojson').read_bytes())['features']
         mapped['stations'] = []
         for line in design['lines']:
-            formation = cities.formation(c,line['capacity'],[])
-            stations = [s for s in design['stations'] if s['line']==line['name']]
-            planned = operating_plan.plan_line(c,formation,line,stations,features,
-                interchanges=design.get('interchanges',[]),service_class=line.get('maglev_service_class','urban'))
+            stations = sorted((s for s in deepcopy(design['stations']) if s['line']==line['name']),key=lambda s:s['s_m'])
+            route = operating_plan.route_path(features,line)
+            # This is precisely plan_line's station-layout stage. No vehicle
+            # duty, SciPy trajectory or electrical simulation belongs in a
+            # basemap acquisition job.
+            planned = operating_plan.passenger_layout(route,line,stations,
+                design.get('interchanges',[]),service_class=line.get('maglev_service_class','urban'))
             mapped['stations'].extend(planned['stations'])
     return mapped
 
