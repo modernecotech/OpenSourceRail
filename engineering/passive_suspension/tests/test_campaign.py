@@ -120,3 +120,18 @@ def test_actual_map_cannot_be_reused_under_different_solver_settings():
     changed['settings'].update(mesh_size_m=.005,check_convergence=True,steel_model='nonlinear_repo_proxy')
     with pytest.raises(ValueError,match='constituent settings'):
         campaign._validate_map(actual,changed,value)
+
+
+def test_publication_refuses_source_changes_during_render(bookkeeping_run,tmp_path,monkeypatch):
+    out,_,_=bookkeeping_run
+    before=campaign.sources()
+    actual_diagram=publication.diagram
+    def changed(value):
+        result=actual_diagram(value)
+        monkeypatch.setattr(campaign,'sources',lambda:before|{'changed-during-render.py':'a'*64})
+        return result
+    monkeypatch.setattr(publication,'diagram',changed)
+    target=tmp_path/'interrupted-publication'
+    with pytest.raises(ValueError,match='sources changed'):
+        publication.publish(out,target,export_native=False)
+    assert not (target/'manifest.json').exists()
