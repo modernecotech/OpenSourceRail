@@ -12,7 +12,7 @@ The repository contains engineering studies, planning tools and executed digital
 
 *Illustrative development concept. Baghdad uses six 17 m bodies; complete engineering and physical acceptance remain open.*
 
-**[Calculations, native CAD, images and videos](docs/design-engine/ferrite-maglev/reference/index.html) · [City packages](engineering/ferrite_maglev/city-index.md) · [Implementation and open work](engineering/ferrite_maglev/README.md)**
+**[Calculations, native CAD, images and videos](docs/design-engine/ferrite-maglev/reference/index.html) · [City packages](engineering/ferrite_maglev/city-index.md) · [City map sources](engineering/city_maps/README.md) · [Implementation and open work](engineering/ferrite_maglev/README.md)**
 
 ## Why this design
 
