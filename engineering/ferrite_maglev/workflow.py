@@ -160,7 +160,6 @@ def stages(output):
         ('planning-browser-evidence',planning_ui.verify,lambda:fresh_packet('planning-ui',planning_ui.publish)),
         ('detailed-candidate-system',detailed_system.verify,lambda:fresh_packet('system-detailed',detailed_system.publish)),
         ('coordinated-candidate-campaign',design_search.verify,design_search.build_default),
-        ('research-closure-programme',lambda:research_closure.publish(check=True),research_closure.publish),
         ('pilot-development-assurance',pilot_assurance.verify,lambda:fresh_packet('assurance-profiles',pilot_assurance.publish)),
         ('v04-capability-migration',capability_migration.verify,lambda:fresh_packet('capability-migration',capability_migration.publish)),
         ('connected-pilot-delivery',pilot_release.verify,lambda:fresh_packet('pilot-delivery',pilot_release.publish)),
@@ -168,6 +167,9 @@ def stages(output):
         ('primary-capability-directory', lambda: navigation.publish(check=True), navigation.publish),
         ('primary-report', lambda: report_check(delivery.OUTPUT), lambda: delivery.publish()),
         ('primary-overview', lambda: document('generate-public-overview.py', '--check'), lambda: document('generate-public-overview.py')),
+        # Programme audit consumes README source bindings from the primary
+        # report and overview; refresh these before checking the programme.
+        ('research-closure-programme',lambda:research_closure.publish(check=True),research_closure.publish),
         # Coverage includes README payload bindings emitted by the migration and
         # delivery publishers; audit after all publishers and before the reader.
         ('research-readme-context-coverage',lambda:readme_coverage(True),lambda:readme_coverage(False)),

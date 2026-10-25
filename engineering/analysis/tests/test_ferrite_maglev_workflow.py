@@ -225,6 +225,114 @@ def test_readme_coverage_follows_publishers_before_reader_and_then_stays_idle(tm
     exercise(tmp_path/'current-order', old_order=False)
 
 
+
+def test_programme_follows_primary_readme_source_refresh_and_then_stays_idle(tmp_path, monkeypatch):
+    """A method edit invalidates a primary source receipt before programme audit."""
+    from hashlib import sha256
+    from engineering.maglev_research import readme_context, research_closure
+
+    name = 'engineering/trip_dynamics/README.md'
+    selected = {'primary-report', 'primary-overview', 'research-closure-programme',
+                'research-readme-context-coverage'}
+    monkeypatch.setattr(model, 'load', lambda: None)
+    monkeypatch.setattr(workflow, 'input_sources', lambda: {'method-source': 'unchanged-during-run'})
+    monkeypatch.setattr(readme_context, 'inventory', lambda root: [name])
+
+    def exercise(root, *, old_order):
+        method = root/name
+        method.parent.mkdir(parents=True)
+        method.write_text('# Previous trip method\n')
+        reference = root/'docs/design-engine/ferrite-maglev/reference/manifest.json'
+        reference.parent.mkdir(parents=True)
+
+        def snapshot():
+            return {name: sha256(method.read_bytes()).hexdigest()}
+
+        reference.write_text(json.dumps({'source_sha256': snapshot()}))
+        original_reference = reference.read_bytes()
+        method.write_text('# Current trip method\n')
+        initial = readme_context.audit(root)
+        assert initial['current'] is False
+        assert initial['readmes'][0]['retained_bindings'][0]['receipt'] == reference.relative_to(root).as_posix()
+        assert 'retained numerical source/payload receipt' in initial['errors'][0]
+        monkeypatch.setattr(model, 'ROOT', root)
+        events = []
+        published = {}
+
+        def verify_report(output):
+            if json.loads(reference.read_text())['source_sha256'] != snapshot():
+                raise ValueError('stale primary method source binding')
+
+        def report():
+            reference.write_text(json.dumps({'source_sha256': snapshot()}))
+            events.append('primary-report')
+
+        def programme(*, check=False):
+            audit = readme_context.audit(root)
+            if not audit['current']:
+                raise ValueError('README system context is incomplete: '+str(audit['errors']))
+            wanted = {'method': snapshot(), 'overview': (root/'README.md').read_text()}
+            if check:
+                if published.get('programme') != wanted:
+                    raise ValueError('stale research programme')
+            else:
+                published['programme'] = wanted
+                events.append('research-closure-programme')
+
+        def document(command, **kwargs):
+            checking = command[-1] == '--check'
+            if command[1:3] == ['-m', 'engineering.maglev_research.readme_context']:
+                assert readme_context.audit(root)['current']
+                assert 'programme' in published
+                if checking:
+                    if published.get('coverage') != published['programme']:
+                        raise subprocess.CalledProcessError(1, command, stderr='stale coverage')
+                else:
+                    published['coverage'] = published['programme']
+                    events.append('research-readme-context-coverage')
+            else:
+                assert Path(command[1]).name == 'generate-public-overview.py'
+                target = root/'README.md'
+                wanted = '# Current overview\n'
+                if checking:
+                    if not target.is_file() or target.read_text() != wanted:
+                        raise subprocess.CalledProcessError(1, command, stderr='stale overview')
+                else:
+                    target.write_text(wanted)
+                    events.append('primary-overview')
+            return subprocess.CompletedProcess(command, 0, stdout='', stderr='')
+
+        monkeypatch.setattr(workflow, 'report_check', verify_report)
+        monkeypatch.setattr(workflow.delivery, 'publish', report)
+        monkeypatch.setattr(research_closure, 'publish', programme)
+        monkeypatch.setattr(workflow.subprocess, 'run', document)
+        stages = [row for row in workflow.stages(workflow.delivery.OUTPUT) if row[0] in selected]
+        assert [row[0] for row in stages] == ['primary-report', 'primary-overview',
+            'research-closure-programme', 'research-readme-context-coverage']
+        if old_order:
+            programme_stage = next(row for row in stages if row[0] == 'research-closure-programme')
+            stages = [programme_stage]+[row for row in stages if row is not programme_stage]
+            with pytest.raises(ValueError, match='README system context is incomplete'):
+                workflow.run(state=root/'state', stage_list=stages)
+            journal = json.loads((root/'state/latest.json').read_text())
+            assert journal['state'] == 'held'
+            assert journal['stages'][-1]['id'] == 'research-closure-programme'
+            assert reference.read_bytes() == original_reference
+            assert not events
+        else:
+            result = workflow.run(state=root/'state', stage_list=stages)
+            assert result['state'] == 'implemented studies current; engineering closure open'
+            assert readme_context.audit(root)['current']
+            assert events == ['primary-report', 'primary-overview',
+                'research-closure-programme', 'research-readme-context-coverage']
+            events.clear()
+            assert workflow.run(state=root/'state', stage_list=stages)['state'] == 'idle; sources unchanged'
+            assert not events
+
+    exercise(tmp_path/'old-order', old_order=True)
+    exercise(tmp_path/'current-order', old_order=False)
+
+
 def test_successful_execution_with_failed_verification_still_holds(tmp_path):
     def reject():
         raise ValueError('result rejected')
