@@ -1,0 +1,45 @@
+name: Passive steel-facing suspension research
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/passive-suspension.yml'
+      - 'engineering/passive_suspension/**'
+      - 'engineering/design_search/**'
+      - 'engineering/ferrite_maglev/**'
+      - 'engineering/factory_examples/**'
+      - 'engineering/analysis/tests/test_ferrite_maglev_candidate_magnetics.py'
+      - 'docs/design-engine/passive-suspension/**'
+  pull_request:
+    paths:
+      - '.github/workflows/passive-suspension.yml'
+      - 'engineering/passive_suspension/**'
+      - 'engineering/design_search/**'
+      - 'engineering/ferrite_maglev/**'
+      - 'engineering/factory_examples/**'
+      - 'engineering/analysis/tests/test_ferrite_maglev_candidate_magnetics.py'
+      - 'docs/design-engine/passive-suspension/**'
+permissions:
+  contents: read
+jobs:
+  numerical-contracts-and-retained-coupon:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install the numerical test environment used for this campaign
+        run: python -m pip install numpy==2.3.5 scipy==1.16.3 pytest==9.1.1
+      - name: Analytical fixtures, field/control interfaces and immutable contracts
+        run: python -m pytest -q engineering/passive_suspension/tests
+      - name: Verify the retained source-bound numerical and native coupon package
+        run: |
+          python - <<'PY'
+          from engineering.passive_suspension import publication
+          print(publication.verify('docs/design-engine/passive-suspension'))
+          PY
