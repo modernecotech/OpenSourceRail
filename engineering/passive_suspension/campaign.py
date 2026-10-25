@@ -33,7 +33,10 @@ ROTATION = [[1., 0., 0.], [0., 1., 0.], [0., 0., 1.]]
 
 
 def sources():
-    paths = set(Path(__file__).parent.glob('*.py')) | {SPEC}
+    # Rendering/layout changes invalidate the publication, not expensive field
+    # work. Its generator is independently bound by the publication manifest.
+    paths = {Path(__file__).with_name(name) for name in
+             ('__init__.py','campaign.py','geometry.py','fields.py','controls.py')} | {SPEC}
     paths.update((ROOT/'engineering/design_search').glob('*.py'))
     paths.update(ROOT/p for p in (
         'engineering/ferrite_maglev/candidate-magnetics.toml',

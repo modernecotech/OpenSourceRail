@@ -35,7 +35,7 @@ REFERENCES = [
 def diagram(value):
     """A labelled local section derived directly from solved region rectangles."""
     colours={'steel':'#708799','ferrite':'#ba4254','copper':'#df9b3c'}
-    scale=1100.;ox=470.;oz=225.
+    scale=900.;ox=470.;oz=225.
     items=['<svg xmlns="http://www.w3.org/2000/svg" width="940" height="490" viewBox="0 0 940 490">',
            '<rect width="940" height="490" fill="#f5f7fa"/>',
            '<g font-family="sans-serif" fill="#17324a">',
@@ -174,7 +174,9 @@ Completed digital work does not complete the existing physical qualification pro
     files={p.relative_to(destination).as_posix():sha256(p.read_bytes()).hexdigest()
            for p in sorted(destination.rglob('*')) if p.is_file()}
     manifest=dict(schema='osr-passive-suspension-publication/1',candidate_id=selected,
-        campaign_id=summary['campaign_id'],source_sha256=summary['source_sha256'],files_sha256=files,**FLAGS)
+        campaign_id=summary['campaign_id'],source_sha256=summary['source_sha256'] | {
+            Path(__file__).resolve().relative_to(campaign.ROOT).as_posix():sha256(Path(__file__).read_bytes()).hexdigest()},
+        files_sha256=files,**FLAGS)
     manifest['publication_id']=identity(manifest)
     (destination/'manifest.json').write_bytes(encoded(manifest))
     return verify(destination)
@@ -186,6 +188,8 @@ def verify(destination):
     if manifest['publication_id']!=identity({k:v for k,v in manifest.items() if k!='publication_id'}):
         raise ValueError('Publication manifest identity differs')
     if any(manifest.get(flag) is not False for flag in FLAGS):raise ValueError('Research cannot assert acceptance')
+    expected_sources=campaign.sources() | {Path(__file__).resolve().relative_to(campaign.ROOT).as_posix():sha256(Path(__file__).read_bytes()).hexdigest()}
+    if manifest['source_sha256']!=expected_sources:raise ValueError('Publication generator/evaluator sources differ')
     actual={p.relative_to(destination).as_posix() for p in destination.rglob('*') if p.is_file() and p.name!='manifest.json'}
     if actual!=set(manifest['files_sha256']):raise ValueError('Publication file set differs')
     for name,expected in manifest['files_sha256'].items():
