@@ -1,0 +1,13 @@
+{
+  "bootstrap_archive_sha256": "8761c382127e6363bd9e0a2451aa3ef90d071a79133f736e2f759a3bf13040dd",
+  "bootstrap_url": "https://micro.mamba.pm/api/micromamba/linux-64/latest",
+  "commands": [
+    "build/trip-dynamics/tools/micromamba/bin/micromamba create -y -p build/trip-dynamics/environment/chrono --file engineering/trip_dynamics/fixtures/chrono/environment-linux-64.explicit",
+    "PYTHONPATH=. build/trip-dynamics/environment/chrono/bin/python -m pytest -q engineering/trip_dynamics/tests/test_chrono_runner.py",
+    "PYTHONPATH=. build/trip-dynamics/environment/chrono/bin/python -m engineering.trip_dynamics.chrono_runner --info"
+  ],
+  "micromamba_version": "2.9.0",
+  "official_installation": "https://api.projectchrono.org/10.0.0/pychrono_installation.html",
+  "schema": "osr-chrono-setup/1",
+  "scope": "CPU native rigid-body benchmark only; no system or main .venv installation"
+}

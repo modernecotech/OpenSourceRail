@@ -1,0 +1,68 @@
+{
+  "backend": {
+    "available": true,
+    "backend": "Project Chrono/PyChrono",
+    "build": "py312h98ab86c_1198",
+    "executable": "/home/hayder/Documents/OpenSourceRail/build/trip-dynamics/environment/chrono/bin/python3.12",
+    "fallback": false,
+    "native_binary_sha256": {
+      "_core.so": "d7ba69ed08a5a713ce25d3a3b42111a951a0b681dbbd1e4b3f7a3ba1409d50fd"
+    },
+    "official_sources": [
+      "https://api.projectchrono.org/10.0.0/pychrono_installation.html",
+      "https://github.com/projectchrono/chrono/blob/10.0.0/src/demos/python/mbs/demo_MBS_spring.py",
+      "https://api.projectchrono.org/10.0.0/classchrono_1_1_ch_link_mate_generic.html"
+    ],
+    "package_sha256": "988e6abf4325f33b03c00a6b863f238e494096ac6e2c2e2352fbc9d2d09c5f4e",
+    "package_url": "https://conda.anaconda.org/projectchrono/linux-64/pychrono-10.0.0-py312h98ab86c_1198.conda",
+    "python": "3.12.15 (main, Oct 13 2026, 16:52:04) [GCC 15.3.0]",
+    "solver": "ChSolverMINRES",
+    "solver_id": "43da16457c4f1f327c564104b1fd70df9a990b15392ebba3358adbd435197d2c",
+    "solver_iterations": 200,
+    "solver_tolerance": 1e-12,
+    "system": "ChSystemNSC",
+    "timestepper": "ChTimestepperEulerImplicitLinearized",
+    "version": "10.0.0"
+  },
+  "gravity": {
+    "0.001": {
+      "t_s": 1.0000000000000007,
+      "vz_m_s": -9.806649999999605,
+      "z_m": -1.9082283249998335
+    },
+    "0.002": {
+      "t_s": 1.0000000000000007,
+      "vz_m_s": -9.806649999999802,
+      "z_m": -1.9131316499999715
+    }
+  },
+  "physical_accepted": false,
+  "schema": "osr-chrono-native-fixtures/1",
+  "scope": "Synthetic numerical fixtures; no magnetic train validation",
+  "source_sha256": {
+    "chrono_runner.py": "0bd7cb0da6d89170997c1d407e4dbc96e2a0a42b0f2ec2bbc64497e669fda20d",
+    "formation.py": "620172bef404aec4d5e998c9085eb05a4f5ce55ab9d70d3c90b9e847d0c8e061"
+  },
+  "unequal_mass_coupler": {
+    "0.001": {
+      "COM_displacement_m": 0.667000000000017,
+      "coupler_force_N": -658.3317761525446,
+      "displacement_m": [
+        0.7071002112129996,
+        0.6469498943935257
+      ],
+      "extension_m": 0.060150316819473915,
+      "t_s": 1.9999999999998905
+    },
+    "0.002": {
+      "COM_displacement_m": 0.6673333333333511,
+      "coupler_force_N": -659.053782328849,
+      "displacement_m": [
+        0.7074817775151925,
+        0.6472591112424304
+      ],
+      "extension_m": 0.06022266627276185,
+      "t_s": 2.0000000000000013
+    }
+  }
+}

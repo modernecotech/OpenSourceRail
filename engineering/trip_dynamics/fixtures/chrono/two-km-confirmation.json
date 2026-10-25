@@ -1,0 +1,284 @@
+{
+  "backend": {
+    "available": true,
+    "backend": "Project Chrono/PyChrono",
+    "build": "py312h98ab86c_1198",
+    "executable": "/home/hayder/Documents/OpenSourceRail/build/trip-dynamics/environment/chrono/bin/python3.12",
+    "fallback": false,
+    "native_binary_sha256": {
+      "_core.so": "d7ba69ed08a5a713ce25d3a3b42111a951a0b681dbbd1e4b3f7a3ba1409d50fd"
+    },
+    "official_sources": [
+      "https://api.projectchrono.org/10.0.0/pychrono_installation.html",
+      "https://github.com/projectchrono/chrono/blob/10.0.0/src/demos/python/mbs/demo_MBS_spring.py",
+      "https://api.projectchrono.org/10.0.0/classchrono_1_1_ch_link_mate_generic.html"
+    ],
+    "package_sha256": "988e6abf4325f33b03c00a6b863f238e494096ac6e2c2e2352fbc9d2d09c5f4e",
+    "package_url": "https://conda.anaconda.org/projectchrono/linux-64/pychrono-10.0.0-py312h98ab86c_1198.conda",
+    "python": "3.12.15 (main, Oct 13 2026, 16:52:04) [GCC 15.3.0]",
+    "solver": "ChSolverMINRES",
+    "solver_id": "43da16457c4f1f327c564104b1fd70df9a990b15392ebba3358adbd435197d2c",
+    "solver_iterations": 200,
+    "solver_tolerance": 1e-12,
+    "system": "ChSystemNSC",
+    "timestepper": "ChTimestepperEulerImplicitLinearized",
+    "version": "10.0.0"
+  },
+  "coarse_confirmation": {
+    "coarse_dt_s": 0.01,
+    "coarse_scenario_id": "c36598e1fd8e44df0c4311b5613327924ee7292c7de2bece8c9269393ae44c62",
+    "executed": true,
+    "fine_dt_s": 0.001,
+    "fine_scenario_id": "c36598e1fd8e44df0c4311b5613327924ee7292c7de2bece8c9269393ae44c62",
+    "matched_trace_samples": 1251,
+    "maximum_coupler_extension_difference_m": 4.624900952876487e-06,
+    "maximum_coupler_peak_difference_N": 86.37082083531322,
+    "maximum_position_difference_m": 6.001255314913578e-08,
+    "maximum_sampled_trajectory_difference_m": 0.0900241776514008,
+    "maximum_speed_difference_m_s": 4.351422005234304e-08,
+    "physical_accepted": false,
+    "scope": "Two executed numerical samples; no continuum convergence proof",
+    "work_residual_difference_J": 32503.514470807655
+  },
+  "fine_confirmation": {
+    "coarse_dt_s": 0.001,
+    "coarse_scenario_id": "c36598e1fd8e44df0c4311b5613327924ee7292c7de2bece8c9269393ae44c62",
+    "executed": true,
+    "fine_dt_s": 0.0005,
+    "fine_scenario_id": "c36598e1fd8e44df0c4311b5613327924ee7292c7de2bece8c9269393ae44c62",
+    "matched_trace_samples": 1251,
+    "maximum_coupler_extension_difference_m": 2.5595886654627975e-07,
+    "maximum_coupler_peak_difference_N": 4.549686422450122,
+    "maximum_position_difference_m": 1.1162001101183705e-08,
+    "maximum_sampled_trajectory_difference_m": 0.005001326331893097,
+    "maximum_speed_difference_m_s": 2.185201641056932e-09,
+    "physical_accepted": false,
+    "scope": "Two executed numerical samples; no continuum convergence proof",
+    "work_residual_difference_J": 1805.7519217282124
+  },
+  "inputs": {
+    "effective_scenario_id": "09d3e5a839c06db8453b51a5ccd3f647ee1f4dbb19510495e50e66f2b29c69ef",
+    "scenario": {
+      "acceleration_m_s2": 0.8,
+      "candidate_id": null,
+      "car_length_m": 17.0,
+      "cars": 6,
+      "case_id": "native-2km-declared-comparison-masses",
+      "distance_m": 2000,
+      "fault": null,
+      "load_case": "AW3",
+      "max_speed_m_s": 20.0,
+      "mode": "benchmark",
+      "powered_zone_m": 350.0,
+      "scenario_id": "c36598e1fd8e44df0c4311b5613327924ee7292c7de2bece8c9269393ae44c62",
+      "schema": "osr-trip-scenario/1",
+      "temperature_C": 20.0,
+      "vehicle_id": "numerical-fixture-declared-37619kg-per-car"
+    },
+    "scenario_id": "c36598e1fd8e44df0c4311b5613327924ee7292c7de2bece8c9269393ae44c62",
+    "solver_id": "43da16457c4f1f327c564104b1fd70df9a990b15392ebba3358adbd435197d2c",
+    "source_sha256": {
+      "chrono_runner.py": "0bd7cb0da6d89170997c1d407e4dbc96e2a0a42b0f2ec2bbc64497e669fda20d",
+      "formation.py": "620172bef404aec4d5e998c9085eb05a4f5ce55ab9d70d3c90b9e847d0c8e061"
+    },
+    "source_vehicle_id": "numerical-fixture-declared-37619kg-per-car",
+    "vehicle": {
+      "body_height_m": 3.2,
+      "body_length_m": 17.0,
+      "body_width_m": 2.8,
+      "coupler_damping_Ns_per_m": 100000.0,
+      "coupler_scope": "Linear axial spring/damper benchmark; actual coupler design/rating unknown",
+      "coupler_stiffness_N_per_m": 1000000.0,
+      "coupling_gap_m": 0.5,
+      "frame": "right-handed x forward, y left, z up",
+      "inertia_scope": "Uniform rigid cuboid hypothesis; actual installed inertia unknown",
+      "masses_kg": [
+        37619.0,
+        37619.0,
+        37619.0,
+        37619.0,
+        37619.0,
+        37619.0
+      ],
+      "schema": "osr-chrono-formation/1",
+      "vehicle_id": "b9f77f9230760d829f213202573ba6c00f5640344c8163ac542a020b66323599"
+    },
+    "vehicle_id": "b9f77f9230760d829f213202573ba6c00f5640344c8163ac542a020b66323599"
+  },
+  "physical_accepted": false,
+  "runs": [
+    {
+      "dt_s": 0.01,
+      "evaluation_id": "ff294796da0ed0977fd635d90ccb23d6ce075c7b175326d6fd37221f10c8cb73",
+      "execution_wall_s": 1.4637611049984116,
+      "summary": {
+        "absolute_external_work_J": 90285600.00423591,
+        "actual_steps": 12500,
+        "completed": true,
+        "damper_heat_J": 15.108638227620114,
+        "elapsed_simulation_s": 125.0,
+        "external_work_J": 36130.12506070057,
+        "final_coupler_spring_energy_J": 4.3175366108082237e-10,
+        "final_kinetic_energy_J": 6.249236004754995e-08,
+        "longitudinal_impulse_residual_Ns": 7.501797022631956e-06,
+        "maximum_COM_trajectory_error_m": 0.10000000093896233,
+        "maximum_support_constraint_position_error_m": 2.0797167589583135e-14,
+        "minimum_nonzero_active_body_overlap_m": 12.600000000938735,
+        "peak_coupler_extension_m": [
+          0.0021915213858392235,
+          0.0016654578805628262,
+          0.0014044923552205546,
+          0.0016618566330635076,
+          0.002174512117562699
+        ],
+        "peak_coupler_force_N": [
+          2842.004263857589,
+          1860.65217431306,
+          1520.1945818969166,
+          1855.1142307174473,
+          2691.749927220499
+        ],
+        "peak_station_force_N_per_car": [
+          31451.950819369624,
+          31451.950819369624,
+          31451.950819369624,
+          31451.950819369624,
+          31451.950819369624,
+          31451.575631864063
+        ],
+        "peak_station_force_density_N_per_m_per_car": [
+          1850.1147540805662,
+          1850.1147540805662,
+          1850.1147540805662,
+          1850.1147540805662,
+          1850.1147540805662,
+          1850.1147540805662
+        ],
+        "relative_work_energy_residual": 0.00040000859960741947,
+        "station_force_outside_active_body_overlap": false,
+        "terminal_distance_tolerance_m": 0.2,
+        "terminal_max_distance_error_m": 3.338141141284723e-08,
+        "terminal_max_speed_m_s": 1.0165491663020428e-06,
+        "terminal_screen_pass": true,
+        "terminal_speed_tolerance_m_s": 0.05,
+        "work_energy_residual_J": -36115.01642241003
+      }
+    },
+    {
+      "dt_s": 0.001,
+      "evaluation_id": "f325296600d88ef59dda6a9e6e4fea221f57fc47c52d4c6e4784b5423d59cb76",
+      "execution_wall_s": 14.767482608003775,
+      "summary": {
+        "absolute_external_work_J": 90285600.00411855,
+        "actual_steps": 125000,
+        "completed": true,
+        "damper_heat_J": 14.97496872949842,
+        "elapsed_simulation_s": 125.0,
+        "external_work_J": 3626.476920399878,
+        "final_coupler_spring_energy_J": 8.977026752939634e-11,
+        "final_kinetic_energy_J": 6.79164017253725e-08,
+        "longitudinal_impulse_residual_Ns": 6.242159002766909e-05,
+        "maximum_COM_trajectory_error_m": 0.010000009159512047,
+        "maximum_support_constraint_position_error_m": 2.236757943552086e-16,
+        "minimum_nonzero_active_body_overlap_m": 12.510000009156784,
+        "peak_coupler_extension_m": [
+          0.002188144471773512,
+          0.0016608329796099497,
+          0.0014004776084846071,
+          0.0016574800736179895,
+          0.0021720762269978877
+        ],
+        "peak_coupler_force_N": [
+          2755.633443022276,
+          1835.4762321557416,
+          1504.3725029808998,
+          1830.3865191054313,
+          2642.5791878747164
+        ],
+        "peak_station_force_N_per_car": [
+          31480.98040930915,
+          31480.98040930915,
+          31480.98040930915,
+          31480.98040930915,
+          31480.98040930915,
+          31480.585879350412
+        ],
+        "peak_station_force_density_N_per_m_per_car": [
+          1851.8223770181853,
+          1851.8223770181853,
+          1851.8223770181853,
+          1851.8223770181853,
+          1851.8223770181853,
+          1851.8223770181858
+        ],
+        "relative_work_energy_residual": 4.000086338726915e-05,
+        "station_force_outside_active_body_overlap": false,
+        "terminal_distance_tolerance_m": 0.2,
+        "terminal_max_distance_error_m": 3.007698978763074e-08,
+        "terminal_max_speed_m_s": 1.0600633863543859e-06,
+        "terminal_screen_pass": true,
+        "terminal_speed_tolerance_m_s": 0.05,
+        "work_energy_residual_J": -3611.5019516023735
+      }
+    },
+    {
+      "dt_s": 0.0005,
+      "evaluation_id": "6548e4f37f91ad34c14ff5f0a930597432ad6426541f82fe15917cf3411a440f",
+      "execution_wall_s": 29.76869259501109,
+      "summary": {
+        "absolute_external_work_J": 90285600.0046136,
+        "actual_steps": 250000,
+        "completed": true,
+        "damper_heat_J": 14.968142405192923,
+        "elapsed_simulation_s": 125.0,
+        "external_work_J": 1820.7181723476601,
+        "final_coupler_spring_energy_J": 1.2494595402317615e-10,
+        "final_kinetic_energy_J": 6.818109505505711e-08,
+        "longitudinal_impulse_residual_Ns": 8.744188967326795e-05,
+        "maximum_COM_trajectory_error_m": 0.005000015050882212,
+        "maximum_support_constraint_position_error_m": 5.867798386853803e-17,
+        "minimum_nonzero_active_body_overlap_m": 12.505000015059522,
+        "peak_coupler_extension_m": [
+          0.0021879806328684026,
+          0.0016605770207434034,
+          0.0014002392833845079,
+          0.0016572409879245242,
+          0.0021719630169627635
+        ],
+        "peak_coupler_force_N": [
+          2751.083756599826,
+          1834.1061805291047,
+          1503.5059842887222,
+          1829.046307947735,
+          2639.9273866175577
+        ],
+        "peak_station_force_N_per_car": [
+          31482.5947338689,
+          31482.5947338689,
+          31482.5947338689,
+          31482.5947338689,
+          31482.5947338689,
+          31482.199136346288
+        ],
+        "peak_station_force_density_N_per_m_per_car": [
+          1851.9173372864059,
+          1851.9173372864059,
+          1851.9173372864059,
+          1851.9173372864059,
+          1851.9173372864059,
+          1851.917337286406
+        ],
+        "relative_work_energy_residual": 2.000042121647181e-05,
+        "station_force_outside_active_body_overlap": false,
+        "terminal_distance_tolerance_m": 0.2,
+        "terminal_max_distance_error_m": 4.123899088881444e-08,
+        "terminal_max_speed_m_s": 1.0622485879954428e-06,
+        "terminal_screen_pass": true,
+        "terminal_speed_tolerance_m_s": 0.05,
+        "work_energy_residual_J": -1805.750029874161
+      }
+    }
+  ],
+  "schema": "osr-chrono-benchmark-confirmation/1",
+  "scope": "Executed genuine six-body/coupler2km benchmark, prescribed ideal force and support, declared numerical comparison masses. Not an equipped train or completed journey."
+}
