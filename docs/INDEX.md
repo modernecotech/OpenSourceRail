@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **632**.
+Indexed Markdown files: **634**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **632**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 69 |
+| [docs](#docs) | 71 |
 | [engineering](#engineering) | 14 |
 | [tools](#tools) | 2 |
 
@@ -681,6 +681,8 @@ Indexed Markdown files: **632**.
 | [`docs/design-engine/ferrite-maglev/system-detailed/README.md`](../docs/design-engine/ferrite-maglev/system-detailed/README.md) | Detailed candidate and system simulation |
 | [`docs/design-engine/passive-suspension/README.md`](../docs/design-engine/passive-suspension/README.md) | Onboard magnets and passive steel facings |
 | [`docs/design-engine/passive-suspension/plan.md`](../docs/design-engine/passive-suspension/plan.md) | Bounded specialist campaign |
+| [`docs/design-engine/vehicle-optimisation/README.md`](../docs/design-engine/vehicle-optimisation/README.md) | Neodymium Halbach arrays and lighter vehicle equipment |
+| [`docs/design-engine/vehicle-optimisation/plan.md`](../docs/design-engine/vehicle-optimisation/plan.md) | Coordinated next design work |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoptable product: the delivery platform |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail v0.5.2 development — fixed-zone ferrite maglev |
 | [`docs/releases/v0.5.1.md`](../docs/releases/v0.5.1.md) | OpenSourceRail v0.5.1 |
