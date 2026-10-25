@@ -78,6 +78,31 @@ def test_gzip_decompression_budget():
     with pytest.raises(b.BudgetExceeded):b._inflate(gzip.compress(b'a'*1000),100)
 
 
+def test_invalid_bowtie_polygon_is_repaired_with_explicit_provenance():
+    source=dict(type='Polygon',coordinates=[[[0,0],[2,2],[0,2],[2,0],[0,0]]])
+    fixed,record=b._background_geometry(source,source,z=1,x=1,y=0,layer='landuse',feature_id=42)
+    assert fixed.is_valid and not fixed.is_empty
+    assert fixed.geom_type=='MultiPolygon' and fixed.area==pytest.approx(2.)
+    assert record['original_geometry_sha256']==b.digest(b.encoded(source))
+    assert record['feature_id']==42 and (record['z'],record['x'],record['y'])==(1,1,0)
+    assert 'Self-intersection' in record['explain_validity']
+    assert record['original_planar_area_deg2']==0
+    assert record['result_planar_area_deg2']==pytest.approx(2.)
+    assert record['relative_area_change'] is None
+    assert record['result_geometry_type']=='MultiPolygon'
+    assert record['scope']==b.REPAIR_SCOPE
+    assert record['original_invalid_area_is_not_authoritative']
+
+
+def test_valid_polygon_not_changed_and_invalid_nonpolygon_fails():
+    polygon=dict(type='Polygon',coordinates=[[[0,0],[2,0],[2,2],[0,2],[0,0]]])
+    fixed,record=b._background_geometry(polygon,polygon,z=1,x=1,y=0,layer='landuse',feature_id=None)
+    assert fixed.area==pytest.approx(4.) and record is None
+    invalid=dict(type='LineString',coordinates=[[1,1],[1,1]])
+    with pytest.raises(b.BasemapError,match='nonpolygon'):
+        b._background_geometry(invalid,invalid,z=1,x=1,y=0,layer='roads',feature_id=3)
+
+
 def test_missing_pmtiles_entry_is_different_from_io_error(tmp_path):
     from pmtiles.writer import Writer
     from pmtiles.reader import Reader,MemorySource

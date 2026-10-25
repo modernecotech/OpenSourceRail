@@ -32,6 +32,7 @@ MAX_TILES = 64
 MAX_FEATURES = 250000
 MAX_COORDINATES = 2000000
 MAX_RAW_PACKET = 96*1024*1024
+REPAIR_SCOPE = "Background cartography only; planar WGS84 degree-squared areas are not survey/engineering areas or clearance evidence"
 
 
 class BasemapError(ValueError):pass
@@ -149,6 +150,33 @@ def _coordinates(value,transform,counter):
     return [_coordinates(item,transform,counter) for item in value]
 
 
+def _background_geometry(projected,original,*,z,x,y,layer,feature_id):
+    """Explicit repair for generalised source polygons only, with provenance."""
+    from shapely.geometry import shape
+    from shapely import make_valid
+    from shapely.validation import explain_validity
+    geographic=shape(projected)
+    if geographic.is_valid:return geographic,None
+    if geographic.geom_type not in ('Polygon','MultiPolygon'):
+        raise BasemapError("invalid decoded nonpolygon source feature geometry")
+    reason=explain_validity(geographic)
+    before=geographic.area
+    repaired=make_valid(geographic)
+    if repaired.is_empty or not repaired.is_valid:
+        raise BasemapError("source polygon could not be explicitly repaired")
+    after=repaired.area
+    return repaired,dict(z=z,x=x,y=y,layer=layer,feature_id=feature_id,
+        original_geometry_sha256=digest(encoded(original)),
+        projected_geometry_sha256=digest(encoded(projected)),
+        original_geometry_type=geographic.geom_type,
+        explain_validity=reason,method='shapely.make_valid',
+        result_geometry_type=repaired.geom_type,
+        original_planar_area_deg2=before,result_planar_area_deg2=after,
+        planar_area_change_deg2=after-before,
+        relative_area_change=None if before==0 else (after-before)/before,
+        original_invalid_area_is_not_authoritative=True,scope=REPAIR_SCOPE)
+
+
 def extract(bounds_wsen,zoom,output_gz,cache_dir,archive_url=PINNED,*,offline=False):
     """Acquire at most64 tiles; layers maps names to GeoJSON Feature lists.
 
@@ -159,7 +187,7 @@ def extract(bounds_wsen,zoom,output_gz,cache_dir,archive_url=PINNED,*,offline=Fa
     from pmtiles.reader import Reader
     from pmtiles.tile import Compression,TileType
     import mapbox_vector_tile
-    from shapely.geometry import shape,mapping,box
+    from shapely.geometry import mapping,box
     tiles=tiles_for_bounds(bounds_wsen,zoom)
     source=RangeSource(cache_dir,archive_url,offline=offline)
     def paged(offset,length):
@@ -180,7 +208,7 @@ def extract(bounds_wsen,zoom,output_gz,cache_dir,archive_url=PINNED,*,offline=Fa
     raw_meta=source(header['metadata_offset'],header['metadata_length'])
     if METADATA_SHA256 is None or digest(raw_meta)!=METADATA_SHA256:raise BasemapError("pinned archive metadata differs or is not pinned")
     meta=json.loads(_inflate(raw_meta,MAX_RANGE) if header['internal_compression']==Compression.GZIP else raw_meta)
-    layers={};records=[];seen=set();counter=[0];clip=box(*bounds_wsen);feature_count=0
+    layers={};records=[];repairs=[];seen=set();counter=[0];clip=box(*bounds_wsen);feature_count=0
     for z,x,y in tiles:
         raw=reader.get(z,x,y)
         if raw is None:
@@ -200,8 +228,9 @@ def extract(bounds_wsen,zoom,output_gz,cache_dir,archive_url=PINNED,*,offline=Fa
                 geom=f['geometry']
                 if geom['type']=='GeometryCollection':raise BasemapError("unexpected vector geometry collection")
                 projected=dict(type=geom['type'],coordinates=_coordinates(geom['coordinates'],transform,counter))
-                geographic=shape(projected)
-                if not geographic.is_valid:raise BasemapError("invalid decoded source feature geometry")
+                geographic,repair=_background_geometry(projected,geom,z=z,x=x,y=y,
+                    layer=name,feature_id=f.get('id'))
+                if repair is not None:repairs.append(repair)
                 clipped=geographic.intersection(clip)
                 if clipped.is_empty:continue
                 # A polygon touching the viewport only at a point/edge is not
@@ -220,6 +249,7 @@ def extract(bounds_wsen,zoom,output_gz,cache_dir,archive_url=PINNED,*,offline=Fa
                     metadata=meta,whole_archive_checksum_verified=False),
         attribution=ATTRIBUTION,
         receipt=dict(tiles=records,ranges=sorted(source.used.values(),key=lambda r:r['offset']),
+                     geometry_repairs=repairs,geometry_repair_count=len(repairs),
                      feature_counts={k:len(v) for k,v in sorted(layers.items())},
                      network_requests=source.requests,network_bytes=source.network_bytes,
                      retained_range_bytes=source.total_bytes,coordinates_decoded=counter[0],
@@ -246,6 +276,22 @@ def load(path):
     if src.get('url')!=PINNED or src.get('header_sha256')!=HEADER_SHA256 or src.get('metadata_sha256')!=METADATA_SHA256 or src.get('archive_size_bytes')!=ARCHIVE_SIZE:
         raise BasemapError("context archive pin differs")
     receipt=packet['receipt']
+    repairs=receipt.get('geometry_repairs',[])
+    if not isinstance(repairs,list) or len(repairs)>MAX_FEATURES or receipt.get('geometry_repair_count',len(repairs))!=len(repairs):
+        raise BasemapError('geometry repair inventory/count differs')
+    for repair in repairs:
+        if ((repair.get('z'),repair.get('x'),repair.get('y')) not in tiles
+                or repair.get('layer') not in LAYERS
+                or repair.get('original_geometry_type') not in ('Polygon','MultiPolygon')
+                or repair.get('method')!='shapely.make_valid' or not repair.get('explain_validity')
+                or not re.fullmatch('[0-9a-f]{64}',repair.get('original_geometry_sha256',''))
+                or not re.fullmatch('[0-9a-f]{64}',repair.get('projected_geometry_sha256',''))
+                or repair.get('scope')!=REPAIR_SCOPE
+                or repair.get('original_invalid_area_is_not_authoritative') is not True):
+            raise BasemapError('geometry repair provenance differs')
+        before,after,delta=(repair.get(k) for k in ('original_planar_area_deg2','result_planar_area_deg2','planar_area_change_deg2'))
+        if any(type(v) not in (int,float) or not math.isfinite(v) for v in (before,after,delta)) or min(before,after)<0 or not math.isclose(after-before,delta,rel_tol=1e-12,abs_tol=1e-18):
+            raise BasemapError('geometry repair planar area record differs')
     if (not re.fullmatch('[0-9a-f]{64}',receipt.get('extractor_sha256',''))
             or not {'pmtiles','mapbox-vector-tile'}<=set(receipt.get('packages',{}))):
         raise BasemapError('extractor source and package identities required')
