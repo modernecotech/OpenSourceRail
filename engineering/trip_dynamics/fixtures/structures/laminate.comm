@@ -1,0 +1,40 @@
+# UNEXECUTED Code_Aster template. Synthetic coupon, not an equipped body.
+# See README.md for exact command and boundary differences from a free plate.
+from code_aster.Commands import *
+DEBUT()
+mesh = LIRE_MAILLAGE(FORMAT='ASTER', UNITE=20)
+model = AFFE_MODELE(MAILLAGE=mesh, AFFE=_F(TOUT='OUI',
+                    PHENOMENE='MECANIQUE', MODELISATION='DKT'))
+ply = DEFI_MATERIAU(ELAS_ORTH=_F(E_L=25.e9, E_T=8.e9, E_N=8.e9,
+    NU_LT=.25, NU_LN=.25, NU_TN=.30, G_LT=4.e9, G_LN=4.e9,
+    G_TN=3.e9, RHO=1900.))
+laminate = DEFI_COMPOSITE(COUCHE=(
+    _F(EPAIS=.001, MATER=ply, ORIENTATION=0.),
+    _F(EPAIS=.001, MATER=ply, ORIENTATION=90.),
+    _F(EPAIS=.001, MATER=ply, ORIENTATION=90.),
+    _F(EPAIS=.001, MATER=ply, ORIENTATION=0.)))
+material = AFFE_MATERIAU(MAILLAGE=mesh,
+                        AFFE=_F(TOUT='OUI', MATER=laminate))
+element = AFFE_CARA_ELEM(MODELE=model,
+    COQUE=_F(TOUT='OUI', EPAIS=.004, COQUE_NCOU=4, VECTEUR=(1., 0., 0.)))
+# Cylindrical bending: restrain transverse motion and transverse curvature.
+# Root edge is clamped. Synthetic supports do not represent body attachments.
+bc = AFFE_CHAR_MECA(MODELE=model, DDL_IMPO=(
+    _F(TOUT='OUI', DY=0., DRX=0.),
+    _F(GROUP_NO='CLAMP', DX=0., DZ=0., DRY=0., DRZ=0.)))
+# Five equal tip-node forces: total -0.1 N.
+load = AFFE_CHAR_MECA(MODELE=model,
+    FORCE_NODALE=_F(GROUP_NO='TIP', FZ=-.02))
+static = MECA_STATIQUE(MODELE=model, CHAM_MATER=material, CARA_ELEM=element,
+                      EXCIT=(_F(CHARGE=bc), _F(CHARGE=load)))
+ASSEMBLAGE(MODELE=model, CHAM_MATER=material, CARA_ELEM=element,
+    CHARGE=bc, NUME_DDL=CO('numbering'),
+    MATR_ASSE=(_F(MATRICE=CO('stiffness'), OPTION='RIGI_MECA'),
+               _F(MATRICE=CO('mass'), OPTION='MASS_MECA')))
+modes = CALC_MODES(TYPE_RESU='DYNAMIQUE', MATR_RIGI=stiffness,
+    MATR_MASS=mass, OPTION='PLUS_PETITE', CALC_FREQ=_F(NMAX_FREQ=6))
+modes = NORM_MODE(MODE=modes, NORME='MASS_GENE')
+IMPR_RESU(FORMAT='RESULTAT', UNITE=8,
+    RESU=(_F(RESULTAT=static, NOM_CHAM='DEPL'),
+          _F(RESULTAT=modes, NOM_CHAM='DEPL')))
+FIN()

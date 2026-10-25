@@ -1,0 +1,26 @@
+{
+  "container_probe": {
+    "command": [
+      "docker",
+      "image",
+      "ls",
+      "--format",
+      "{{.Repository}}:{{.Tag}}"
+    ],
+    "exit_code": 1,
+    "images_known": false,
+    "stderr": "permission denied while trying to connect to the docker API at unix:///run/user/1000/docker.sock"
+  },
+  "date": "2026-10-25",
+  "executed_code_aster": false,
+  "path_executables": {
+    "apptainer": null,
+    "as_run": null,
+    "code_aster": null,
+    "podman": null,
+    "run_aster": null,
+    "singularity": null
+  },
+  "schema": "osr-structural-tool-probe/1",
+  "scope": "Bounded availability probe; no install, pull or solver execution"
+}

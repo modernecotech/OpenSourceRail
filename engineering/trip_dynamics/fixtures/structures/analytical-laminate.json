@@ -1,0 +1,99 @@
+{
+  "A_N_m": [
+    [
+      67346938.7755102,
+      8163265.306122449,
+      0.0
+    ],
+    [
+      8163265.306122449,
+      67346938.7755102,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      16000000.0
+    ]
+  ],
+  "B_N": [
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      0.0
+    ]
+  ],
+  "D_N_m": [
+    [
+      124.48979591836735,
+      10.884353741496598,
+      0.0
+    ],
+    [
+      10.884353741496598,
+      55.102040816326536,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      21.333333333333336
+    ]
+  ],
+  "EI_N_m2": 12.448979591836736,
+  "code_aster_executed": false,
+  "configuration_adopted": false,
+  "elements": 24,
+  "engineering_accepted": false,
+  "executed": true,
+  "first_frequency_analytical_hz": 2.2648057832753827,
+  "frequencies_FE_hz": [
+    2.2648058483222155,
+    14.193309943473762,
+    39.74195318235222
+  ],
+  "lamina": {
+    "E1_Pa": 25000000000.0,
+    "E2_Pa": 8000000000.0,
+    "G12_Pa": 4000000000.0,
+    "basis": "Declared synthetic orthotropic benchmark constants, not measured material",
+    "density_kg_m3": 1900.0,
+    "nu12": 0.25
+  },
+  "laminate_deg": [
+    0,
+    90,
+    90,
+    0
+  ],
+  "length_m": 1.0,
+  "limitations": [
+    "Cylindrical bending and small-displacement thin beam only",
+    "No transverse shear, delamination, joint, body torsion, prestress or actual equipped inertia",
+    "Not a Code_Aster execution and not evidence of a qualified composite vehicle"
+  ],
+  "material_mass_kg": 0.76,
+  "physical_accepted": false,
+  "ply_thickness_m": 0.001,
+  "schema": "osr-analytical-laminate-coupon/1",
+  "scope": "benchmark-coupon",
+  "solver": "Classical laminate theory + consistent-mass Euler-Bernoulli beam FE (NumPy/SciPy)",
+  "source_sha256": {
+    "engineering/trip_dynamics/flexible_body.py": "51bac42b094a32faab0c37bb0b865c3f2ec00bb375589b3d82e7e4dde64493fe"
+  },
+  "thickness_m": 0.004,
+  "tip_deflection_FE_m": 0.002677595628363797,
+  "tip_deflection_analytical_m": 0.0026775956284153003,
+  "tip_force_N": 0.1,
+  "width_m": 0.1
+}
