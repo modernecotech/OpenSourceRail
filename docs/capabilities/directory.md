@@ -4,6 +4,8 @@ Implemented digital capabilities for v0.5. Every engineering/physical acceptance
 
 | Capability | Entry | Implemented scope |
 |---|---|---|
+| [electropermanent-research](../../engineering/electropermanent/README.md) | `./osr trip epm --output build/epm-case` | Counted onboard EPM/Halbach alternatives, pulse energy/current and load-line necessary screens; switching, retained force and physical acceptance remain open. |
+| [finite-magnetic-confirmation](../../engineering/magnetic_confirmation/README.md) | `./osr trip magnetic-confirmation --output build/finite-confirmation` | Finite NdFeB nonlinear continuation, independent constitutive derivative checks and mesh/domain/air-contour comparisons; no complete force-map or train acceptance. |
 | [trip-research-tools](../../engineering/trip_dynamics/README.md) | `./osr trip` | Local Workbench and CLI for source-bound vehicle/equipment comparisons, bounded private journey jobs, fixtures, solver setup, model imports and logs; candidate evidence preflights and ideal-support Chrono benchmarks retain separate meanings. |
 | [detailed-system](../../engineering/ferrite_maglev/detailed_system.py) | `./osr design detailed-system` | Exact candidate geometry,magnetics,dynamics,structures,quantitative manufacturing,native chain,BIM and economics; mandatory failures block adoption. |
 | [owner-builder-planning](../../engineering/ferrite_maglev/platform_publication.py) | `./osr plan serve` | Editable city stop/service/OD proposals,16GISlayers,immutable revisions,generic resource/procurement/monthlycash adapter and native owner/builder/operator navigation. |

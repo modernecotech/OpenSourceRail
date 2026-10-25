@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **638**.
+Indexed Markdown files: **642**.
 
 ## Sections
 
@@ -26,8 +26,8 @@ Indexed Markdown files: **638**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 72 |
-| [engineering](#engineering) | 17 |
+| [docs](#docs) | 74 |
+| [engineering](#engineering) | 19 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -626,6 +626,7 @@ Indexed Markdown files: **638**.
 | [`docs/design-engine/design-search-interpretation.md`](../docs/design-engine/design-search-interpretation.md) | First carrier and guidebeam campaign: engineering interpretation |
 | [`docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md`](../docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md) | Candidate research twin |
 | [`docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md`](../docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md) | Candidate BIM and field exchange |
+| [`docs/design-engine/electropermanent/README.md`](../docs/design-engine/electropermanent/README.md) | Electropermanent next experiments |
 | [`docs/design-engine/ferrite-maglev/assembled-body/README.md`](../docs/design-engine/ferrite-maglev/assembled-body/README.md) | Joined structural-body candidate |
 | [`docs/design-engine/ferrite-maglev/assurance-profiles/README.md`](../docs/design-engine/ferrite-maglev/assurance-profiles/README.md) | Pilot development assurance profiles |
 | [`docs/design-engine/ferrite-maglev/baghdad-reference/README.md`](../docs/design-engine/ferrite-maglev/baghdad-reference/README.md) | Baghdad six-car native reference study |
@@ -679,6 +680,7 @@ Indexed Markdown files: **638**.
 | [`docs/design-engine/ferrite-maglev/stopped-recovery/README.md`](../docs/design-engine/ferrite-maglev/stopped-recovery/README.md) | Stopped progressive-controller recovery |
 | [`docs/design-engine/ferrite-maglev/system-campaign/README.md`](../docs/design-engine/ferrite-maglev/system-campaign/README.md) | Integrated station, interlocking and recovery study |
 | [`docs/design-engine/ferrite-maglev/system-detailed/README.md`](../docs/design-engine/ferrite-maglev/system-detailed/README.md) | Detailed candidate and system simulation |
+| [`docs/design-engine/magnetic-confirmation/README.md`](../docs/design-engine/magnetic-confirmation/README.md) | Finite 3D magnetic continuation confirmation |
 | [`docs/design-engine/passive-suspension/README.md`](../docs/design-engine/passive-suspension/README.md) | Onboard magnets and passive steel facings |
 | [`docs/design-engine/passive-suspension/plan.md`](../docs/design-engine/passive-suspension/plan.md) | Bounded specialist campaign |
 | [`docs/design-engine/trip-dynamics/README.md`](../docs/design-engine/trip-dynamics/README.md) | Six-car journey simulation programme |
@@ -705,9 +707,11 @@ Indexed Markdown files: **638**.
 | [`engineering/assurance/v053-propulsion-redesign-screen/executed/findings.md`](../engineering/assurance/v053-propulsion-redesign-screen/executed/findings.md) | Isolated propulsion redesign screen — not adopted |
 | [`engineering/city_maps/README.md`](../engineering/city_maps/README.md) | City maps with retained geographic context |
 | [`engineering/design_search/README.md`](../engineering/design_search/README.md) | Coordinated candidate design |
+| [`engineering/electropermanent/README.md`](../engineering/electropermanent/README.md) | Electropermanent next experiments |
 | [`engineering/ferrite_maglev/README.md`](../engineering/ferrite_maglev/README.md) | OpenSourceRail v0.5 fixed-zone ferrite-maglev engineering |
 | [`engineering/ferrite_maglev/city-index.md`](../engineering/ferrite_maglev/city-index.md) | v0.5 maglev catalogue planning index |
 | [`engineering/ferrite_maglev/observer-prototype/README.md`](../engineering/ferrite_maglev/observer-prototype/README.md) | Delayed-map normal-wrench Rust research prototype |
+| [`engineering/magnetic_confirmation/README.md`](../engineering/magnetic_confirmation/README.md) | Finite 3D magnetic confirmation |
 | [`engineering/trip_dynamics/README.md`](../engineering/trip_dynamics/README.md) | Six-car trip dynamics |
 | [`engineering/trip_dynamics/fixtures/structures/README.md`](../engineering/trip_dynamics/fixtures/structures/README.md) | Structural exchange fixtures |
 
