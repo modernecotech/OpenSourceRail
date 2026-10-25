@@ -31,11 +31,7 @@ Opening the Workbench checks source and payload integrity without repeating ever
 Use the existing engineering environment, or install `requirements.txt` in a separate virtual environment. PyChrono must be the **Project Chrono conda package**; the similarly named PyPI package is unrelated. The separately retained Linux runtime lock pins the actual executed conda packages. Do not install its dependencies over the main engineering environment.
 
 ```bash
-.venv/bin/python engineering/trip_dynamics/setup_tools.py \
-  --output build/trip-dynamics/tools
-build/trip-dynamics/tools/micromamba/bin/micromamba create \
-  --prefix "$PWD/build/trip-dynamics/environment/chrono" \
-  --file engineering/trip_dynamics/environment-linux-64.lock
+./osr trip setup-tools --output build/trip-dynamics/tool-setup
 
 OPENBLAS_NUM_THREADS=1 .venv/bin/python -m engineering.trip_dynamics run \
   --output build/trip-dynamics/new-campaign \

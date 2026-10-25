@@ -48,7 +48,6 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y libglu1-mesa
       - run: python -m pip install -r engineering/trip_dynamics/requirements.txt
       - run: python engineering/trip_dynamics/setup_tools.py --output build/trip-dynamics/tools
-      - run: build/trip-dynamics/tools/micromamba/bin/micromamba create --prefix "$PWD/build/trip-dynamics/environment/chrono" --file engineering/trip_dynamics/environment-linux-64.lock --yes
       - run: build/trip-dynamics/environment/chrono/bin/python -m pytest -q engineering/trip_dynamics/tests/test_chrono_runner.py
       - run: python -m engineering.trip_dynamics run --output build/trip-dynamics/ci --chrono-python "$PWD/build/trip-dynamics/environment/chrono/bin/python" --getdp "$PWD/build/trip-dynamics/tools/getdp-3.5.0-Linux64/bin/getdp" --finite-coupon-archive docs/design-engine/trip-dynamics/finite-coupon-artifacts.tar.gz
       - run: python -m engineering.trip_dynamics verify --output build/trip-dynamics/ci
