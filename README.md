@@ -43,6 +43,8 @@ The guideway target is one concrete beam per direction, with necessary reaction 
 
 ## Current design and evidence
 
+The [larger Halbach and lighter rolling-stock campaign](docs/design-engine/halbach-scaling/README.md) expands onboard neodymium volume from 6 to 24 litres per module and compares segmentation, pole periods, back iron and differential control windings alongside aluminium frames, doors, glazing and HVAC. An enlarged 12-litre differential array reaches **30.8–31.5 kN** in one converged finite 3D calculation at 12 mm and 80°C. Stronger magnetic pull requires counted attachment reinforcement; proposed larger operating gaps, lateral stability, thermal duty and complete installed mass remain unresolved. This is a separate research comparison; the canonical train is unchanged.
+
 The [electropermanent-magnet study](docs/design-engine/electropermanent/README.md) investigates slow bias/load trim and retention/latch candidates. Both rail coupons fail the declared zero-current retention bound at 12 mm. Fast active coils remain needed for stabilisation; no replacement configuration is adopted.
 
 The [finite 3D Halbach confirmation](docs/design-engine/magnetic-confirmation/README.md) reached full-source convergence in three bounded static cases. Mesh and air-contour force differences remain unresolved; these calculations do not establish a complete force map or stable levitation.

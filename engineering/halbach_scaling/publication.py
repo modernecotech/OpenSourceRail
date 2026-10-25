@@ -22,15 +22,21 @@ def environment():
     return dict(python=sys.version,platform=platform.platform(),numpy=numpy.__version__,scipy=scipy.__version__)
 
 
-def compare(transverse,root=ROOT):
+def compare(transverse,root=ROOT,*,operating_dir=None):
     screen.verify(transverse,root)
     raw=json.loads((Path(transverse)/'result.json').read_bytes())
     mags=candidates.candidates(root);bodies=vehicles.variants(root)
-    rows=coupling.comparison_rows(mags,bodies,raw['rows'],root=root)
+    additional=list(raw['authority_rows'])
+    operating_id=None
+    if operating_dir is not None:
+        operating.verify(operating_dir,root=root)
+        op=json.loads((Path(operating_dir)/'result.json').read_bytes());operating_id=op['request_id']
+        additional.extend(r['result'] for r in op['rows'])
+    rows=coupling.comparison_rows(mags,bodies,raw['rows'],root=root,additional_field_rows=additional)
     selection=coupling.select_experiments(mags,bodies,rows)
     return dict(schema='osr-halbach-scaling-comparison/1',screen_id=raw['screen_id'],magnetic_candidates=mags,
                 vehicle_candidates=bodies,comparisons=rows,selection=selection,environment=environment(),
-                source_sha256=source_snapshot(root),**FLAGS)
+                load_profile_request_id=operating_id,source_sha256=source_snapshot(root),**FLAGS)
 
 
 def _archive(paths):
@@ -66,7 +72,7 @@ def _plot(value):
     for p in value.get('gap_profiles',[]):
         if p['temperature_C']!=80:continue
         label=next(m['recipe_id'] for m in value['magnetic_candidates'] if m['physical_id']==p['candidate_id'])
-        axes[1].plot([q['gap_m']*1000 for q in p['points']],[q['force_N']/1000 for q in p['points']],'o-',label=label)
+        axes[1].plot([q['gap_m']*1000 for q in p['points']],[None if q['force_N'] is None else q['force_N']/1000 for q in p['points']],'o-',label=label)
         for load in p['loads']:
             axes[1].axhline(load['mean_weight_N_per_module']/1000,linestyle='--',alpha=.5,label=label+' '+load['load_case'])
     axes[1].set(xlabel='Exploratory magnetic gap (mm)',ylabel='Lift or mean weight (kN/module)',title='Capacity and zero-current crossing are separate')
@@ -87,46 +93,62 @@ def _readme(v):
       'The old uniform-coil control remains as a failed winding-fill example. New packs use declared spacing/insulation geometry; insulation mass and qualification remain unknown. Differential coils use opposite winding senses around phase-shifted half-arrays, with an explicitly counted central slot and end turns. Signed ±15 A trials retain the original 3.75 A/mm² continuous conductor screen. I²R is reported, but cooling and fast-control qualification remain open.','',
       '![Executed magnetic and gap comparisons](comparison.png)','',
       '## Selected next experiments','',
-      'Selection is for the next experiment only. It favours the smallest counted PM volume meeting 1.3 AW3 support in the +2 tonne unclosed-mass sensitivity, rejects known member and nominal hot-cooling failures, then compares lower accounted mass and fewer PM pieces. Unknown cost, global body/brace strength, thermal derating and actual installation never become zero.','',
+      'Selection is for the next experiment only. It favours the smallest counted PM volume meeting 1.3 AW3 support in the +2 tonne unclosed-mass sensitivity, requires local member checks at the largest observed magnetic force, rejects known nominal hot-cooling failures, then compares lower accounted mass and fewer PM pieces. Unknown or failed local members cannot win through a fallback. Unknown cost, global body/brace strength, thermal derating and actual installation never become zero.','',
       '| Purpose | Magnetic recipe | Body/equipment option | Accounted AW3 t/car | Hot 12 mm 2D lift kN/module | +2 t / 1.3 support demand kN/module |','|---|---|---|---:|---:|---:|']
     for selected in v['selection']['selected']:
         r=by_c[selected['comparison_id']];m=by_m[selected['magnet_component_id']];b=by_b[selected['body_candidate_id']]
         f=r['force_point'];lines.append(f"| {selected['purpose']} | {m['recipe_id']} | {b['name']} | {r['comparison_aw3_kg_per_car']/1000:.3f} | {f['force_N']/1000:.3f} | {r['support_sensitivities'][2]['required_force_N_per_module']/1000:.3f} |")
     lines+=['','The 0/1/2/3 tonne values are **additional unknown-mass sensitivities**, not actual equipment, confidence bounds or a completed vehicle inventory. The mass figure is an accounted retained-allocation/material comparison. It is not a rigorous bound on the actual installed train.','',
       '## Lighter body and equipment consequences','',
-      'The deep six-cell 6082 extrusion frame counts every wall/web, 130 member-end connections, 520 bolts, spreaders and isolation material. It replaces only the 260 exact old frame-stock IDs; panels, collectors, hardpoints and other equipment remain. The compact alternative is retained as a stiffness failure. Local section/roof/spreader screens do not establish global body, joints, fatigue or bracing; the unbraced 17 m Euler case remains a failed sensitivity.','',
+      'The deep six-cell 6082 extrusion frame counts every wall/web, 130 member-end connections, 520 bolts, spreaders and isolation material. It replaces only the 260 exact old frame-stock IDs; panels, collectors, hardpoints and other equipment remain. The compact alternative is retained as a stiffness failure. Larger arrays also overload the original lightweight roof/spreader at small gaps: reinforcement is counted separately, with 40/70 kN per-module design hypotheses. These are observed-load comparisons, not proven bounds on faults or unsampled currents/gaps. Local section/roof/spreader screens do not establish global body, joints, fatigue or bracing; the unbraced 17 m Euler case remains a failed sensitivity.','',
       '| Body option | Counted frame kg/car | Removed stock kg/car | Necessary member disposition |','|---|---:|---:|---|']
+    seen_frames=set()
     for b in v['vehicle_candidates']:
-        if not b['name'].endswith('/retained-equipment'):continue
         f=b['frame']
-        if f:lines.append(f"| {b['name'].split('/')[0]} | {f['counted_material_mass_kg']:.2f} | {f['removed_counted_frame_kg']:.2f} | {'pass local screens; global held' if vehicles.structure_screen(f,35000)['member_level_necessary_pass'] else 'fail stiffness/member screen'} |")
+        if f and f['frame_id'] not in seen_frames:
+            seen_frames.add(f['frame_id']);force=f.get('design_force_N_per_module')
+            checked=vehicles.structure_screen(f,35000,magnetic_force_N_per_module=force)
+            reference='1.3 × 35 t mean weight' if force is None else f'{force/1000:.0f} kN/module hypothesis'
+            lines.append(f"| {b['name'].split('/')[0]} | {f['counted_material_mass_kg']:.2f} | {f['removed_counted_frame_kg']:.2f} | {reference}: {'pass local screens; global held' if checked['member_level_necessary_pass'] else 'fail stiffness/member screen'} |")
     lines+=['','Lighter door leaves and solar-control glazing retain the passenger openings and disjoint old door/window removal accounts. Passenger heat and fresh-air loads do not fall with structural mass. The two- and three-UL700 controls fail the severe humid 60-second door-load scenario even against nominal capacity. The five-unit proposal counts 960 kg and 165 kW nominal thermal capacity; its real 50°C rating, electrical input, roof fit, ventilation and installation remain unqualified. Old two-unit installation bands are not transferred to five units.','',
       '## Operating gap and control','',
-      'A larger array can over-support an empty vehicle at 12 mm. The 12/28/44/60 mm, 20/80°C profiles therefore compare mean weight crossings separately from the 1.3 reserve screen. A sampled crossing is neither a solved stable equilibrium nor an accepted operating gap. Larger gap travel has boarding-height, sensor, curve, capture and support-arm consequences that remain unresolved. Log-interpolated proposed states receive no force credit until the separate finite solve evaluates them.','',
+      'A larger array can over-support an empty vehicle at 12 mm. The 12/28/44/60 mm, 20/80°C profiles therefore compare mean weight crossings separately from the 1.3 reserve screen. A sampled crossing is neither a solved stable equilibrium nor an accepted operating gap. Larger gap travel has boarding-height, sensor, curve, capture and support-arm consequences that remain unresolved. Log-interpolated proposed states receive no force credit until the separate finite solve evaluates them. Reinforcing the body changes proposed gaps; the table below preserves the actual evaluated component poses and reports their force/load residuals against the revised mass rather than relabelling them as newly solved poses.','',
+      'The 1.3 reserve comparison above uses the **12 mm capacity sample**. It does not establish actuator reserve at the larger proposed operating gap. Signed-current samples, lateral/yaw stiffness, damping, voltage reserve, repeated heating, mechanical gap travel and fault control still need to agree in one operating envelope.','',
       '## Finite 3D confirmation','',
       '| Case | Gap mm | Numerical disposition | Full source | Fz contour 1 / 2 kN |','|---|---:|---|---|---|']
     for row in v['finite']['rows']:
         a=row.get('analysis',{});forces=a.get('air_contour_results',[])
         force=' / '.join(f'{f["force_N"][2]/1000:.3f}' for f in forces) if forces else 'unevaluated'
         lines.append(f"| {row['case']} | {row['gap_m']*1000:.3f} | {row['execution_status']} | {row.get('full_source_converged',False)} | {force} |")
-    lines+=['','The finite solver includes all magnetic steel, including onboard back iron, with exact material-volume and closed-domain checks. Pose, candidate and evaluation identities remain distinct. The 80°C / zero-current continuation must reach full source before numerical force credit. Mesh, material, contour, local peak and current-map uncertainty remain separate. The steel curve is the retained unvalidated isotropic 50 Hz proxy, not a measured DC or temperature-dependent law.','',
+    lines+=['','| Case | Actual / currently proposed gap mm | Fz minus revised mean AW3 weight kN, contours 1 / 2 | Minimum Fz minus +2 t / 1.3 demand kN |','|---|---:|---|---:|']
+    for state in v['finite_plan']:
+        residuals=state['finite_minus_mean_weight_N']
+        reserve=state['minimum_finite_minus_plus_2t_reserve_N']
+        lines.append(f"| {state['case']} | {state['gap_m']*1000:.3f} / {state['current_proposed_gap_m']*1000:.3f} | "+
+            ('unevaluated' if residuals is None else ' / '.join(f'{q/1000:+.3f}' for q in residuals))+' | '+
+            ('unevaluated' if reserve is None else f'{reserve/1000:+.3f}')+' |')
+    lines+=['','| Selected composition | Largest sampled absolute force kN/module | Local member screen at that load and +2 t mean reserve |','|---|---:|---|']
+    for selected in v['selection']['selected']:
+        r=by_c[selected['comparison_id']]
+        lines.append(f"| {selected['purpose']} | {r['sampled_peak_magnetic_load']['observed_absolute_Fz_N_per_module']/1000:.3f} | {'pass necessary checks; global held' if r['sampled_peak_structure']['member_level_necessary_pass'] else 'fail'} |")
+    lines+=['','The finite solver includes all magnetic steel in the declared component, including onboard back iron, with exact material-volume and closed-domain checks. Nearby vehicle joints, reinforcement, wiring, body deformation and the assembled field interaction remain unevaluated. Pose, candidate and evaluation identities remain distinct. The 80°C / zero-current continuation must reach full source before numerical force credit. Mesh, material, contour, local peak and current-map uncertainty remain separate. The steel curve is the retained unvalidated isotropic 50 Hz proxy, not a measured DC or temperature-dependent law.','',
       'Postprocess-only checks on the previous converged solution increase face quadrature density without rerunning its field solve. Those diagnostics can separate sampling effects from field-mesh error; they do not make the original candidate or new candidates qualified. [Quadrature diagnostics](quadrature.json).','',
       'Reproduce with `python -m engineering.halbach_scaling --help`. Stages use immutable fresh directories, bounded ordinary workers and explicit source/solver IDs. Independent differentiation, analytical field/force, geometry/accounting, source/tamper and interruption fixtures accompany the implementation. All accepted physical configurations remain unchanged.','']
     return '\n'.join(lines).encode()
 
 
 def publish(output,*,transverse,operating_dir,finite_dir,quadrature_dir,root=ROOT):
-    before=source_snapshot(root);value=compare(transverse,root)
+    before=source_snapshot(root);value=compare(transverse,root,operating_dir=operating_dir)
     operating.verify(operating_dir,root=root);op=json.loads((Path(operating_dir)/'result.json').read_bytes())
     selected_ids=[r['magnet_component_id'] for r in value['selection']['selected']]
     op_request=json.loads((Path(operating_dir)/'request.json').read_bytes())
     if [b['physical_id'] for b in op_request['bundles']]!=selected_ids:raise ValueError('operating candidates differ from declared selection')
     profiles=coupling.gap_profiles(op,value['selection'],value['comparisons']);plan=coupling.finite_plan(value['magnetic_candidates'],value['selection'],value['comparisons'],profiles)
     finite.verify(finite_dir,root);fin=json.loads((Path(finite_dir)/'result.json').read_bytes());fr=json.loads((Path(finite_dir)/'request.json').read_bytes())
-    if fr['candidates']!=[p['candidate'] for p in plan] or fr['gaps_m']!=[p['gap_m'] for p in plan]:raise ValueError('finite candidates/gaps differ from reproducible selection plan')
+    states=coupling.evaluated_finite_states(fr,fin,plan,value['selection'],value['comparisons'],profiles)
     finite.verify(quadrature_dir,root);quad=json.loads((Path(quadrature_dir)/'result.json').read_bytes())
     raw=json.loads((Path(transverse)/'result.json').read_bytes())
-    value.update(gap_profiles=profiles,finite=fin,finite_plan=plan,counts=dict(physical_geometries=len(value['magnetic_candidates']),
+    value.update(gap_profiles=profiles,finite=fin,finite_plan=states,next_gap_proposals=plan,counts=dict(physical_geometries=len(value['magnetic_candidates']),
         transverse_field_solves_started=raw['counts']['field_solves_started'],operating_new_points_requested=op['new_field_points'],
         finite_cases=len(fin['rows']),finite_full_source=sum(r.get('full_source_converged',False) for r in fin['rows'])))
     value['study_id']=identity(value);unaccepted(value)

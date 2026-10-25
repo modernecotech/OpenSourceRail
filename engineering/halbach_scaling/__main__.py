@@ -13,16 +13,17 @@ def main():
         parser=sub.add_parser(name);parser.add_argument('--root',type=Path,default=ROOT);parser.add_argument('--output',type=Path,required=True)
         if name in ('compare','operating','finite','publish'):parser.add_argument('--transverse',type=Path,required=True)
         if name in ('finite','publish'):parser.add_argument('--operating',type=Path,required=True)
+        if name=='compare':parser.add_argument('--operating',type=Path)
         if name=='finite':parser.add_argument('--getdp',type=Path,required=True)
         if name=='publish':
             parser.add_argument('--finite',type=Path,required=True);parser.add_argument('--quadrature',type=Path,required=True)
     args=p.parse_args();root=args.root;out=args.output
     if args.command=='screen':result=screen.run(out,root)
     elif args.command=='compare':
-        value=publication.compare(args.transverse,root);out.mkdir(parents=True,exist_ok=False);write(out/'comparison.json',value)
+        value=publication.compare(args.transverse,root,operating_dir=args.operating);out.mkdir(parents=True,exist_ok=False);write(out/'comparison.json',value)
         result={'comparisons':len(value['comparisons']),'selection':value['selection']}
     elif args.command in ('operating','finite'):
-        value=publication.compare(args.transverse,root);by_m={m['physical_id']:m for m in value['magnetic_candidates']}
+        value=publication.compare(args.transverse,root,operating_dir=args.operating if args.command=='finite' else None);by_m={m['physical_id']:m for m in value['magnetic_candidates']}
         if args.command=='operating':
             raw=json.loads((args.transverse/'result.json').read_bytes())
             result=operating.run(out,root=root,bundles=[by_m[s['magnet_component_id']] for s in value['selection']['selected']],baseline_rows=raw['rows'])
