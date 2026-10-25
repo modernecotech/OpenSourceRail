@@ -24,6 +24,7 @@ from engineering.design_search.contracts import encoded, identity
 FAKE_EXPERIMENTS = '''from pathlib import Path
 from hashlib import sha256
 import json,subprocess,sys,time
+from engineering.design_search.contracts import encoded
 def catalogue(root):
     root=Path(root)
     return {'vehicles':[{'candidate_id':'a'*64}], 'source_sha256':{'data.json':sha256((root/'data.json').read_bytes()).hexdigest()},'physical_accepted':False}
@@ -47,7 +48,11 @@ def execute(request,output,root):
         tool.parent.mkdir(parents=True,exist_ok=True);tool.write_bytes(b'unexpected-tool-change')
     if request['action']=='validate-modal':
         return {'execution_status':'failed','physical_accepted':False}
-    return {'execution_status':'refused','result':{'gates':[{'state':'unknown'}]},'physical_accepted':False,'engineering_accepted':False}
+    (output/'trace.png').write_bytes(b'original fixture image bytes')
+    result={'execution_status':'refused','result':{'gates':[{'state':'unknown'}]},'physical_accepted':False,'engineering_accepted':False}
+    result['outputs']=[{'path':p.name,'bytes':p.stat().st_size,'sha256':sha256(p.read_bytes()).hexdigest()} for p in sorted(output.iterdir()) if p.is_file()]
+    (output/'execution.json').write_bytes(encoded(result))
+    return result
 '''
 
 
@@ -327,6 +332,40 @@ def test_result_tamper_hidden_and_paths_logs_and_symlinks_refused(repository):
         (directory / 'stdout.log').write_bytes(b'x' * (api.MAX_LOG_RETURN + 2))
         log = service.logs(job['job_id'])
         assert log['truncated'] is True and len(log['text']) == api.MAX_LOG_RETURN
+    finally:
+        service.close()
+
+
+def test_completed_trace_and_execution_receipt_tamper_cannot_be_served(repository):
+    service = api.TripService(repository)
+    try:
+        job = wait_for(service, submit(service)['job_id'])
+        assert all(item['verified'] for item in job['outputs'])
+        trace = service.output_path(job['job_id'], 'outputs/trace.png')
+        receipt = service.output_path(job['job_id'], 'outputs/execution.json')
+        trace.write_bytes(b'different image')
+        receipt.write_bytes(b'{"execution_status":"accepted"}\n')
+        for name in ('outputs/trace.png', 'outputs/execution.json'):
+            with pytest.raises(ValueError, match='bytes/digest differ'):
+                service.output_path(job['job_id'], name)
+        changed = {item['path']: item for item in service.job(job['job_id'])['outputs']}
+        assert changed['outputs/trace.png']['integrity'] == 'held'
+        assert changed['outputs/trace.png']['url'] is None
+        assert changed['outputs/execution.json']['verified'] is False
+    finally:
+        service.close()
+
+
+def test_interrupted_forensic_outputs_are_available_but_not_verified(repository):
+    service = api.TripService(repository)
+    try:
+        job = wait_for(service, submit(service, 'verify')['job_id'])
+        assert job['state'] == 'interrupted'
+        path = service.output_path(job['job_id'], 'outputs/partial.json')
+        path.write_bytes(b'partial forensic bytes')
+        assert service.output_path(job['job_id'], 'outputs/partial.json').read_bytes() == b'partial forensic bytes'
+        outputs = service.job(job['job_id'])['outputs']
+        assert all(item['integrity'] == 'unverified-forensic' and item['verified'] is False for item in outputs)
     finally:
         service.close()
 

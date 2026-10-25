@@ -554,6 +554,34 @@ class TripService:
         _no_acceptance(value)
         return value
 
+    def _check_completed_artifact(self, job_id, path, wrapped=None):
+        """Compare served bytes with the immutable worker result's inventory."""
+        wrapped = self._result(job_id) if wrapped is None else wrapped
+        if wrapped is None:
+            raise RequestError('completed artifact lacks a bound worker result')
+        directory = self._directory(job_id)
+        name = path.relative_to(directory).as_posix()
+        if name == 'result.json':
+            expected = encoded(wrapped)  # _result already checked its content ID
+            digest, size = sha256(expected).hexdigest(), len(expected)
+        elif name == 'outputs/execution.json':
+            # The CLI receipt cannot list itself; its exact value is embedded
+            # inside the independently sealed outer worker result.
+            expected = encoded(wrapped['result'])
+            digest, size = sha256(expected).hexdigest(), len(expected)
+        else:
+            inventory = wrapped.get('result', {}).get('outputs', [])
+            matches = [row for row in inventory if isinstance(row, dict)
+                       and 'outputs/' + str(row.get('path', '')) == name]
+            if len(matches) != 1:
+                raise RequestError('completed artifact is absent from the bound output inventory')
+            digest, size = matches[0].get('sha256'), matches[0].get('bytes')
+            if not isinstance(digest, str) or not re.fullmatch('[0-9a-f]{64}', digest) or type(size) is not int or not 0 <= size <= MAX_FILE:
+                raise RequestError('completed artifact inventory record is invalid')
+        if path.stat().st_size != size or sha256(path.read_bytes()).hexdigest() != digest:
+            raise RequestError('completed artifact bytes/digest differ: ' + name)
+        return digest
+
     def _outputs(self, job_id):
         directory = self._directory(job_id)
         paths = list((directory / 'outputs').rglob('*')) if (directory / 'outputs').is_dir() and not (directory / 'outputs').is_symlink() else []
@@ -568,7 +596,15 @@ class TripService:
                 if size > MAX_FILE:
                     raise RequestError('output file exceeds size budget')
                 name = path.relative_to(directory).as_posix()
-                result.append(dict(path=name, bytes=size, url='/api/trip/jobs/' + job_id + '/files/' + quote(name, safe='/')))
+                item = dict(path=name, bytes=size, url='/api/trip/jobs/' + job_id + '/files/' + quote(name, safe='/'),
+                            integrity='unverified-forensic', verified=False)
+                if self._jobs.get(job_id, {}).get('state') == 'completed':
+                    try:
+                        item['sha256'] = self._check_completed_artifact(job_id, path)
+                        item.update(integrity='verified', verified=True)
+                    except (OSError, ValueError, KeyError, TypeError) as error:
+                        item.update(integrity='held', error=str(error), url=None)
+                result.append(item)
             except (OSError, ValueError):
                 continue
         return result
@@ -626,7 +662,10 @@ class TripService:
             raise RequestError('ordinary relative artifact name required')
         if job_id not in self._jobs or relative not in {v['path'] for v in self._outputs(job_id)}:
             raise KeyError('unknown owned artifact')
-        return _ordinary(self._directory(job_id) / relative, self.output_root)
+        path = _ordinary(self._directory(job_id) / relative, self.output_root)
+        if self._jobs[job_id]['state'] == 'completed':
+            self._check_completed_artifact(job_id, path)
+        return path
 
     def close(self):
         with self._lock:
