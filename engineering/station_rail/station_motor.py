@@ -214,15 +214,16 @@ def campaign_cases():
 def run(output,root=ROOT,*,getdp=None,cases=None):
     root=Path(root).resolve();output=Path(output).resolve()
     if output.exists():raise ValueError('Preserve previous native run; use a fresh directory')
-    output.mkdir(parents=True);source=source_map(root,(PRODUCER,TEMPLATE));d=definition()
+    output.mkdir(parents=True);source=source_map(root,(PRODUCER,));d=definition();template_sha=digest(root/TEMPLATE)
     getdp=Path(getdp) if getdp else root/'build/trip-dynamics/tools/getdp-3.5.0-Linux64/bin/getdp'
     cases=campaign_cases() if cases is None else cases
     (output/'input.json').write_bytes(encoded(dict(definition=d,cases=cases,source_sha256=source)))
     rows=[]
     for i,c in enumerate(cases):rows.append(solve(output/f'case-{i:02d}-{c["case_id"][:8]}',c,d,getdp))
-    if source_map(root,(PRODUCER,TEMPLATE))!=source:raise ValueError('Native motor source changed during execution')
+    if source_map(root,(PRODUCER,))!=source or digest(root/TEMPLATE)!=template_sha:raise ValueError('Native motor source changed during execution')
     result=dict(schema='osr-native-current-excited-LIM/1',motor_component_id=d['motor_component_id'],definition=d,
         execution='completed',cases=rows,case_count=len(rows),source_sha256=source,
+        method_reference=dict(url=REFERENCE,official_template_sha256=template_sha,template_path_at_execution=TEMPLATE),
         numerical_validity='requires independent mesh, sign, power and boundary assessment',
         complete_installed_motor_map=False,actual_installed_force_N=None,**FLAGS)
     result['evaluation_id']=identity(result);(output/'result.json').write_bytes(encoded(result))
