@@ -266,7 +266,9 @@ def _resource_events(profile,zone,dwell_s,*,delay_first_dwell_s=0.,architecture=
                         rear_clearance_included=True,enforced=True))
             delayed+=extra
     conflicts=[];minimum_gap=None
-    for resource in {(r['station'],r['resource']) for r in events if r['enforced']}:
+    # Conflict arrays are public evaluation inputs. A hash-seeded set order
+    # would give identical physics a different evaluation identity per process.
+    for resource in sorted({(r['station'],r['resource']) for r in events if r['enforced']}):
         rows=sorted([r for r in events if (r['station'],r['resource'])==resource and r['enforced']],key=lambda r:r['start_s'])
         for first,second in zip(rows,rows[1:]):
             gap=second['start_s']-first['end_s'];minimum_gap=gap if minimum_gap is None else min(minimum_gap,gap)

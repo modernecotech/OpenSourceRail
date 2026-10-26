@@ -2,6 +2,9 @@
 from copy import deepcopy
 from pathlib import Path
 import math
+import os
+import subprocess
+import sys
 import pytest
 from scipy.integrate import solve_ivp
 
@@ -139,3 +142,24 @@ def test_invalid_or_mixed_vehicle_cannot_enter_service(vehicle,campaign):
 def test_stopping_bound_never_credits_leader_motion():
     assert s.stopping_distance_m(15)>.5*15**2/.6
     assert s.stopping_distance_m(15,grade_permille=10)>s.stopping_distance_m(15)
+
+
+def test_fresh_process_hash_seeds_preserve_complete_evaluation_identity():
+    """Set iteration previously changed the order of retained conflict arrays."""
+    module_root=Path(s.__file__).resolve().parents[2]
+    code="""import json,sys
+from pathlib import Path
+from engineering.comfort_design import service
+v={'candidate_id':'a'*64,'body_candidate_id':'b'*64,'magnet_component_id':'c'*64,
+   'mass':{'accounted_tare_kg_per_car':17356.03179,'accounted_cap_loaded_kg_per_car':20806.03179}}
+r=service.evaluate(v,root=Path(sys.argv[1]))
+print(json.dumps({'evaluation_id':r['evaluation_id'],'campaign':r['station_resource_campaign']},sort_keys=True))
+"""
+    outputs=[]
+    for seed in ('1','937'):
+        env=dict(os.environ,PYTHONHASHSEED=seed,
+                 PYTHONPATH=os.pathsep.join((str(module_root),str(ROOT))))
+        run=subprocess.run([sys.executable,'-c',code,str(ROOT)],cwd=module_root,env=env,
+                           capture_output=True,text=True,check=True,timeout=60)
+        outputs.append(run.stdout)
+    assert outputs[0]==outputs[1]
