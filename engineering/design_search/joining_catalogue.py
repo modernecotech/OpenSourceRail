@@ -42,7 +42,7 @@ def catalogue():
     records=[
       dict(id='bonded-flange-dp490',sources=['dp490','hexcel'],family='bonded-flange',
         density_kg_m3=None,mixture_volume_B_to_A=[2,1],worklife_s=5400,worklife_temperature_C=22.,
-        strength_time_reference_s=86400,strength_time_temperature_C=23.,full_coupon_cure_s=604800,
+        strength_time_reference_s=86400,strength_time_temperature_C=23.,strength_time_basis='Supplier coupon threshold1000psi, not an assembly release criterion',full_coupon_cure_s=604800,
         coupon=dict(kind='overlap shear',standard='ASTM D1002 / ISO4587 as printed',substrate='sandblasted aluminium',
           width_m=.025,overlap_m=.0127,bondline_m=[.00013,.00020],substrate_thickness_m=[.0013,.0016],
           test_temperature_C=22.,reported_psi=3336.,typical_stress_Pa=3336*6894.757293168),
@@ -130,7 +130,7 @@ def attachment_plan(strategy,support_points_m,*,overlap_m=.1,width_m=.05,bondlin
         work='Test actual substrate/preparation/cure; assess peel, shear, bearing, pullout and failure mode at room and hot/wet conditions.'),
       dict(id='joint-fatigue-and-failure',status='planned',work='Apply service spectrum, vibration, preload/creep, disbond/fastener-loss and retention cases; inspect damage and repairability.'),
       dict(id='process-fit',status='planned',work='Confirm cure/core compatibility, electrical/corrosion isolation, tolerances, installation tools, removal access, sealing and fire/thermal behaviour.')]
-    value=dict(schema='osr-counted-attachment-research-plan/1',strategy=strategy,support_points_m=deepcopy(support_points_m),
+    value=dict(schema='osr-counted-attachment-research-plan/1',catalogue_id=catalogue()['catalogue_id'],source_entry_ids={'bonded-flange':['bonded-flange-dp490'],'bond-plus-bolts':['hybrid-bond-positive-fasteners','potted-core-insert-ec3500'],'potted-insert':['potted-core-insert-ec3500'],'clip-plus-positive-retention':['removable-panel-retention'],'welded-node':['welded-al-extrusion-node']}[strategy],strategy=strategy,support_points_m=deepcopy(support_points_m),
         proposed_geometry=dict(overlap_m=overlap_m,width_m=width_m,bondline_m=bondline_m,core_thickness_m=core_thickness_m,
             pot_outer_diameter_m=pot_outer_diameter_m,insert_outer_diameter_m=insert_outer_diameter_m),
         stock=rows,known_stock_mass_subtotal_kg=sum(r['mass_kg'] for r in rows if r['mass_kg'] is not None),
@@ -149,7 +149,7 @@ def glazing_plan(width_m,height_m,thickness_m,*,product='polycarbonate-flat-wind
     if len(temperature_C)!=2 or temperature_C[1]<temperature_C[0]:raise ValueError('Ordered temperature endpoints required')
     measured=e['expansion_measurement_range_C'];inside=temperature_C[0]>=measured[0] and temperature_C[1]<=measured[1]
     dt=temperature_C[1]-temperature_C[0]
-    return dict(product=product,sheet_mass_kg=width_m*height_m*thickness_m*e['density_kg_m3'],
+    return dict(product=product,catalogue_id=catalogue()['catalogue_id'],sheet_mass_kg=width_m*height_m*thickness_m*e['density_kg_m3'],
         free_expansion_width_m=e['thermal_expansion_per_K']*width_m*dt if inside else None,
         free_expansion_height_m=e['thermal_expansion_per_K']*height_m*dt if inside else None,
         thermal_model_domain='within published CTE measurement range' if inside else 'outside published CTE range; no extrapolation',
