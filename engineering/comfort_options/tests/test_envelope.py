@@ -86,7 +86,7 @@ def test_mass_reduction_does_not_hide_global_stiffness_loss(rows):
 
 
 def test_nominal_roof_deflection_failure_retains_reference_failure(rows):
-    roof = [r for r in rows if r["role"] == "roof"]
+    roof = [r for r in rows[:18] if r["role"] == "roof"]
     assert all(r["necessary_screen"] == "fail" for r in roof)
     ref = next(r for r in roof if r["physical_definition"]["skin_kind"] == "retained")
     f = next(f for f in ref["evaluation"]["local_fixtures"] if f["span_m"] == 2.125 and f["imposed_pressure_Pa"] == 1500)
@@ -124,8 +124,8 @@ def test_frame_reactions_and_source_parts_are_preserved(rows):
 
 
 def test_source_and_identity_contract_rejects_quantity_or_mass_credit_edits(rows):
-    assert len(rows) == 18
-    assert len({r["physical_definition_id"] for r in rows}) == 18
+    assert len(rows) == 22
+    assert len({r["physical_definition_id"] for r in rows}) == 22
     for r in rows:
         assert e.validate(r, root=MAIN) == r
     for key, value in (("counted_mass_kg", 0), ("applied_to_current_parent", True),
@@ -171,6 +171,79 @@ def test_identical_copied_sources_produce_portable_public_records(rows, tmp_path
     assert str(MAIN) not in encoded
     assert str(e.ROOT) not in encoded
     assert str(tmp_path) not in encoded
+
+
+def test_second_iteration_preserves_original_physical_ids_and_numerical_fixtures(rows):
+    # Retained from the independently executed first iteration at d4f459555c.
+    assert e._hash([r["physical_definition_id"] for r in rows[:18]]) == "5001cb411a2410c597c814053f6d5dd83960804b1e62c7af239c867c54da899b"
+    assert e._hash([r["evaluation"] for r in rows[:18]]) == "d1582280a9675aa5dc63f33cda80d49e73dd844d60d0b527a1e88514a6da0080"
+
+
+def test_new_roof_rails_are_added_and_weighed_without_old_panel_double_count(rows):
+    parent = next(r for r in rows if r["id"] == "roof/aluminium/0.9mm/core-60")
+    for r in rows[18:]:
+        assert r["source_parent_id"] == parent["physical_definition_id"]
+        assert r["physical_definition"]["source_parent_id"] == r["source_parent_id"]
+        d = r["physical_definition"]["added_crossrails"]
+        assert d["count"] == 8 and d["end_joint_count"] == 16
+        assert d["span_m"] == 2.65 and d["nominal_new_panel_span_m"] == 1.0625
+        assert d["original_ribs_retained"]
+        s = {p["id"]: p for p in r["stock_parts"]}
+        assert not set(s) & set(r["replacement_scope_part_ids"])
+        assert s["crossrail/RHS"]["quantity"] == 8
+        b, h, t = d["width_m"], d["depth_m"], d["wall_m"]
+        assert s["crossrail/RHS"]["total_mass_kg"] == pytest.approx(
+            (b * h - (b - 2 * t) * (h - 2 * t)) * 2.65 * 2710 * 8)
+        assert len(s["crossrail/RHS"]["at_local_m"]) == 8
+        assert s["crossrail/end-shoe"]["quantity"] == 16
+        assert s["crossrail/end-gusset"]["quantity"] == 32
+        assert s["crossrail/M8-shank"]["quantity"] == 64
+        assert s["crossrail-panel/clip-plate"]["quantity"] == 48
+        assert s["crossrail-panel/insert"]["quantity"] == 48
+        assert r["counted_mass_kg"] == pytest.approx(parent["counted_mass_kg"] +
+            r["evaluation"]["additional_stock_mass_kg"] - r["evaluation"]["displaced_additional_insert_foam_kg"])
+        assert r["counted_mass_kg"] > parent["counted_mass_kg"]
+        assert r["counted_mass_kg"] == pytest.approx(r["evaluation"]["panel_and_clip_mass_kg"] +
+                                                     r["evaluation"]["crossrail_and_joint_mass_kg"])
+
+
+def test_crossrail_force_balance_own_weight_and_independent_beam_relations(rows):
+    r = rows[-1]
+    f = r["evaluation"]["crossrail_fixtures"][-1]
+    rail, panel = f["rail"], f["panel"]
+    d = r["physical_definition"]["added_crossrails"]
+    b, h, t, L = d["width_m"], d["depth_m"], d["wall_m"] * 0.9, d["span_m"]
+    I = (b * h**3 - (b - 2 * t) * (h - 2 * t)**3) / 12
+    q = ((1500 + r["evaluation"]["panel_and_clip_mass_kg"] * e.G / 45.05) * 1.0625 +
+         r["evaluation"]["crossrail_and_joint_mass_kg"] * e.G / (8 * L))
+    assert rail["line_load_N_m"] == pytest.approx(q)
+    assert rail["end_reaction_N"] == pytest.approx(q * L / 2)
+    assert rail["bending_stress_Pa"] == pytest.approx(q * L**2 / 8 * (h / 2) / I)
+    assert rail["bending_deflection_m"] == pytest.approx(5 * q * L**4 / (384 * 69e9 * I))
+    assert rail["shear_deflection_m"] == pytest.approx(q * L**2 / (8 * (69e9 / 2.66) * 2 * t * (h - 2 * t)))
+    assert rail["deflection_m"] == pytest.approx(rail["bending_deflection_m"] + rail["shear_deflection_m"])
+    assert f["panel_plus_rail_deflection_upper_bound_m"] == pytest.approx(rail["deflection_m"] + panel["total_deflection_m"])
+    assert abs(f["force_balance_residual_N"]) < 1e-7
+
+
+def test_only_deepest_crossrail_passes_both_nominal_and_reduced_wall_fixtures(rows):
+    alternatives = rows[18:]
+    assert [r["necessary_screen"] for r in alternatives] == ["fail", "fail", "fail", "pass"]
+    marginal = alternatives[2]["evaluation"]["crossrail_fixtures"]
+    assert all(f["necessary_screen"] == "pass" for f in marginal if f["wall_sensitivity_factor"] == 1)
+    assert any(f["necessary_screen"] == "fail" for f in marginal if f["wall_sensitivity_factor"] == 0.9)
+    for r in alternatives:
+        for f in r["evaluation"]["crossrail_fixtures"]:
+            assert f["panel"]["span_m"] == 1.0625
+            assert f["panel"]["actual_face_strength_Pa"] is None
+            assert f["rail"]["actual_joint_capacity_N"] is None
+        assert r["evaluation"]["added_support_connections_and_clearance_screen"] == "unknown"
+        assert not r["physical_accepted"] and not r["global_body_qualified"]
+        assert r["installed_mass_kg"] is None and not r["mass_saving_credited_to_current_parent"]
+    passed = alternatives[-1]
+    assert passed["counted_mass_kg"] == pytest.approx(494.7175173670769)
+    assert passed["conditional_counted_stock_saving_kg"] == pytest.approx(23.357482632923166)
+    assert all(f["necessary_screen"] == "pass" for f in passed["evaluation"]["crossrail_fixtures"])
 
 
 def test_bad_strip_inputs_and_fresh_records(rows):

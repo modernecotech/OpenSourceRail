@@ -72,6 +72,20 @@ ROLES = {
                  core_density=80, bond_m_total=0.0007, counted_reference_kg=518.075,
                  pressures_Pa=[750.0, 1500.0], nominal_support_span_m=2.125),
 }
+CROSSRAIL_SOURCES = {
+    "6082-thin-sheet": {
+        "url": "https://aluminum.yieh.com/Upfiles/EDUp/files/6000%20Series/TDS/AA6082/TDS-YIEH-6082-Coil%20%26%20Sheet.pdf",
+        "sha256": "5ca52d88dea4b4a7120b4fcb475c477c9472b144bcc6b472169d4fe9ead7dfa4",
+        "document": "Yieh 6082 coil/sheet technical data, pages 1-2, retrieved 2026-10-26",
+        "basis": "T6 sheet 0.5-1.5 mm minimum proof 260 MPa; 0.9 mm x <=1000 mm width tolerance +/-0.04 mm",
+        "scope": "New crossrail proposals only; no supplier certificate, hot-strength or bond qualification",
+    },
+    "6082-hollow-crossrails": {
+        "url": equipment.HYDRO_6082,
+        "basis": "Retained Hydro hollow T6 <=5 mm minimum proof 250 MPa; conservative E69 GPa",
+        "scope": "Sharp-corner RHS necessary fixture; actual extrusion radii/tolerances and joints unknown",
+    },
+}
 
 
 def _hash(value):
@@ -263,6 +277,185 @@ def _evaluate(role, t, core_density, face_E, mass, reference):
                              "Tiled-panel continuity and global carbody modal/coupler/crash load paths require a new compatible body model"])
 
 
+def _crossrail_stock(depth, width, wall):
+    """Eight complete new crossrails and bounded interface stock; retain old ribs."""
+    count, ends = 8, 16
+    section = equipment.rhs_properties(width, depth, wall)
+    rows = [
+        _stock("crossrail/RHS", section["area_m2"] * WIDTH_M, 2710.0, count,
+               size_m=[width, WIDTH_M, depth], wall_m=wall, axis=1,
+               at_local_m=[[-8.5 + (i + 0.5) * 2.125 - width / 2, -WIDTH_M / 2, -depth - 0.002]
+                           for i in range(count)],
+               local_frame="Travel x; lateral y; retained roof underside z=0; proposed datum only"),
+        _stock("crossrail/end-shoe", 0.006 * (2 * 0.1 - 0.006) * 0.1, 2710.0, ends,
+               basis="Two nonoverlapping angle legs, unqualified end shoe"),
+        _stock("crossrail/end-gusset", depth * 0.080 * 0.004, 2710.0, 2 * ends,
+               size_m=[depth, 0.080, 0.004]),
+        _stock("crossrail/M8-shank", math.pi * 0.008**2 / 4 * (width + 0.020), 7850.0, 4 * ends),
+        _stock("crossrail/M8-head-nut-envelope", math.pi * 0.014**2 / 4 * 0.012, 7850.0, 4 * ends),
+        _stock("crossrail/M8-crush-sleeve", math.pi * (0.014**2 - 0.009**2) / 4 * width, 7850.0, 4 * ends),
+        _stock("crossrail/end-isolator", 0.1 * 0.1 * 0.002, 1900.0, ends),
+        _stock("crossrail/end-bedding-bond", 0.1 * 0.1 * 0.0005, 1200.0, ends),
+        _stock("crossrail/roof-bearing-isolator", width * WIDTH_M * 0.002, 1900.0, count),
+        _stock("crossrail/roof-bearing-bond", width * WIDTH_M * 0.0002, 1200.0, count),
+    ]
+    for p in rows:
+        p["load_owner"] = "crossrail"
+    # Two additional clips/inserts per panel at the new intermediate rail.
+    clips, c, t = 2 * PANEL_COUNT, 0.040, 0.0009
+    panel_rows = [
+        _stock("crossrail-panel/clip-plate", 0.080 * 0.030 * 0.003, 2710.0, clips),
+        _stock("crossrail-panel/insert", math.pi * (0.020**2 - 0.008**2) / 4 * (c + 2 * t), 2710.0, clips),
+        _stock("crossrail-panel/M6-shank", math.pi * 0.006**2 / 4 * (c + 2 * t + 0.012), 7850.0, clips),
+        _stock("crossrail-panel/M6-head-nut-envelope", math.pi * 0.011**2 / 4 * 0.009, 7850.0, clips),
+        _stock("crossrail-panel/washer", math.pi * (0.030**2 - 0.009**2) / 4 * 0.002, 7850.0, 2 * clips),
+    ]
+    for p in panel_rows:
+        p["load_owner"] = "panel"
+    return rows + panel_rows
+
+
+def crossrail_fixture(depth_m, width_m, wall_m, imposed_pressure_Pa,
+                      panel_mass_kg, rail_and_joint_mass_kg, panel_skin_m=0.00086):
+    """Conservative simply-supported panel/rail screen with explicit load split.
+
+    New rails collect half the total panel load; retained ribs collect the rest.
+    Rail/joint self-weight loads the new rails once. Joint weights are spread
+    along the beam, conservatively moving end hardware into the loaded span.
+    """
+    for v, n in ((panel_mass_kg, "panel mass"), (rail_and_joint_mass_kg, "rail mass"),
+                 (imposed_pressure_Pa, "imposed pressure")):
+        _positive(v, n)
+    section = equipment.rhs_properties(width_m, depth_m, wall_m)
+    panel_span, span = 1.0625, WIDTH_M
+    panel_dead = panel_mass_kg * G / AREA_M2
+    pressure = imposed_pressure_Pa + panel_dead
+    # Include the supplier sheet lower thickness and a core -0.5 mm sensitivity.
+    panel = sandwich_strip(panel_skin_m, 0.0395, 69e9, CORES[60]["shear_modulus_min_Pa"], panel_span, pressure)
+    face_allow = 260e6 * 0.5 / 1.5
+    core_allow = CORES[60]["shear_strength_min_Pa"] / 2
+    panel.update(face_strength_comparison_allowable_Pa=face_allow,
+                 face_strength_necessary_screen="pass" if panel["face_peak_bending_stress_Pa"] <= face_allow else "fail",
+                 face_strength_basis="6082-T6 sheet source, declared 0.5 strength retention /1.5 factor; actual batch unknown",
+                 core_shear_comparison_allowable_Pa=core_allow,
+                 core_shear_necessary_screen="pass" if panel["core_peak_shear_Pa"] <= core_allow else "fail")
+    rail_dead_line = rail_and_joint_mass_kg * G / (8 * span)
+    q = pressure * panel_span + rail_dead_line
+    moment, reaction = q * span**2 / 8, q * span / 2
+    bending = moment / section["Z_vertical_m3"]
+    web_area = 2 * wall_m * (depth_m - 2 * wall_m)
+    shear = reaction / web_area
+    bending_allow = 250e6 * 0.5 / 1.5
+    shear_allow = bending_allow / math.sqrt(3)
+    bending_deflection = 5 * q * span**4 / (384 * 69e9 * section["I_strong_m4"])
+    rail_G = 69e9 / (2 * (1 + 0.33))
+    shear_deflection = q * span**2 / (8 * rail_G * web_area)
+    deflection = bending_deflection + shear_deflection
+    critical = 4 * math.pi**2 * 69e9 / (12 * (1 - 0.33**2)) * (wall_m / max(depth_m - 2 * wall_m, width_m - 2 * wall_m))**2
+    combined = panel["total_deflection_m"] + deflection
+    valid = deflection / depth_m <= 0.5 and deflection / span <= 0.02
+    rail = dict(span_m=span, tributary_panel_length_m=panel_span,
+                line_load_N_m=q, panel_dead_pressure_Pa=panel_dead,
+                own_and_joint_dead_line_load_N_m=rail_dead_line,
+                end_reaction_N=reaction, bending_stress_Pa=bending,
+                bending_comparison_allowable_Pa=bending_allow,
+                bending_necessary_screen="pass" if bending <= bending_allow else "fail",
+                web_area_m2=web_area, web_shear_Pa=shear,
+                shear_comparison_allowable_Pa=shear_allow,
+                shear_necessary_screen="pass" if shear <= shear_allow else "fail",
+                elastic_local_plate_critical_Pa=critical,
+                local_plate_necessary_screen="pass" if bending <= critical else "fail",
+                bending_deflection_m=bending_deflection, shear_deflection_m=shear_deflection,
+                shear_modulus_hypothesis_Pa=rail_G,
+                deflection_m=deflection, declared_L_over_300_target_m=span / 300,
+                deflection_necessary_screen=("pass" if deflection <= span / 300 else "fail") if valid else "unknown",
+                numerical_validity="valid_linear_fixture" if valid else "outside_small_deflection_domain",
+                actual_joint_capacity_N=None, torsion_lateral_restraint_and_connections_screen="unknown")
+    retained_share = pressure * AREA_M2 / 2
+    residual = 8 * 2 * reaction + retained_share - (imposed_pressure_Pa * AREA_M2 + (panel_mass_kg + rail_and_joint_mass_kg) * G)
+    checks = [panel[k] for k in ("deflection_necessary_screen", "core_shear_necessary_screen", "face_strength_necessary_screen")]
+    checks += [rail[k] for k in ("bending_necessary_screen", "shear_necessary_screen", "local_plate_necessary_screen", "deflection_necessary_screen")]
+    combined_screen = "pass" if combined <= 0.010 else "fail"
+    checks.append(combined_screen)
+    return dict(imposed_pressure_Pa=imposed_pressure_Pa, panel=panel, rail=rail,
+                force_balance_residual_N=residual,
+                panel_plus_rail_deflection_upper_bound_m=combined,
+                declared_combined_deflection_target_m=0.010,
+                combined_deflection_necessary_screen=combined_screen,
+                necessary_screen="fail" if "fail" in checks else "unknown" if "unknown" in checks else "pass")
+
+
+def _crossrail_options(base, inputs):
+    records = []
+    for depth, width in ((0.080, 0.040), (0.100, 0.050), (0.120, 0.060), (0.150, 0.060)):
+        value = deepcopy(base)
+        additions = _crossrail_stock(depth, width, 0.003)
+        stock = value["stock_parts"]
+        # Only foam displaced by the 48 *additional* insert holes is removed.
+        foam = next(p for p in stock if p["id"] == "core/trimmed-foam")
+        displaced_each = 2 * math.pi * 0.020**2 / 4 * 0.040
+        foam["volume_m3_each"] -= displaced_each
+        foam["displaced_insert_volume_m3_each"] += displaced_each
+        foam["total_mass_kg"] = foam["volume_m3_each"] * foam["density_kg_m3"] * foam["quantity"]
+        stock.extend(additions)
+        panel_mass = math.fsum(p["total_mass_kg"] for p in stock if p.get("load_owner") != "crossrail")
+        rail_mass = math.fsum(p["total_mass_kg"] for p in stock if p.get("load_owner") == "crossrail")
+        total = panel_mass + rail_mass
+        fixtures = []
+        for wall_factor in (1.0, 0.9):
+            for pressure in ROLES["roof"]["pressures_Pa"]:
+                fixture = crossrail_fixture(depth, width, 0.003 * wall_factor, pressure, panel_mass, rail_mass)
+                fixture["wall_sensitivity_factor"] = wall_factor
+                fixtures.append(fixture)
+        cross_definition = dict(count=8, span_m=2.65, depth_m=depth, width_m=width,
+                                wall_m=0.003, material_intent="EN-AW-6082-T6 hollow extrusion",
+                                nominal_new_panel_span_m=1.0625, original_ribs_retained=True,
+                                new_panel_clips=48, end_joint_count=16,
+                                gross_under_roof_depth_hypothesis_m=depth + 0.012,
+                                headroom_HVAC_and_magnetic_clearance_qualified=False,
+                                exact_supplier_wall_tolerance_m=None,
+                                added_stock_ids=[p["id"] for p in additions])
+        definition = value["physical_definition"]
+        definition.update(stock_parts=stock, source_parent_id=base["physical_definition_id"],
+                          face_grade_intent="6082-T6 sheet, 0.9 mm nominal",
+                          added_crossrails=cross_definition)
+        physical_id = _hash(definition)
+        evaluation = deepcopy(base["evaluation"])
+        evaluation.update(reference_fixture=False, nominal_existing_support_span_m=1.0625,
+                          crossrail_fixtures=fixtures,
+                          additional_stock_mass_kg=math.fsum(p["total_mass_kg"] for p in additions),
+                          displaced_additional_insert_foam_kg=displaced_each * PANEL_COUNT * 60,
+                          panel_and_clip_mass_kg=panel_mass, crossrail_and_joint_mass_kg=rail_mass,
+                          scope="Added-rail fixtures govern this iteration; inherited local_fixtures are source-parent sensitivities at old spans",
+                          added_support_connections_and_clearance_screen="unknown")
+        # The inherited panel sensitivities remain visible, but are never used
+        # as if they describe the new intermediate rail or its self-weight.
+        evaluation["limitations"] += [
+            "Crossrail fixtures use sheet0.86/core39.5mm and RHS wall100/90% sensitivities; actual supplier tolerances still require confirmation",
+            "Eight new rails and16 end joints retain all old ribs and magnetic load paths",
+            "Declared 10mm panel-plus-rail deflection allowance does not establish actual HVAC/headroom clearance",
+            "No weld, fastener, bond-peel, local indentation, fire, hot-load or global-body acceptance"]
+        section_preserved = base["evaluation"]["global_stiffness_comparison"]["continuous_section_stiffness_necessary_screen"] == "pass"
+        necessary = "pass" if section_preserved and all(f["necessary_screen"] == "pass" for f in fixtures) else "fail"
+        sources = deepcopy(SOURCES) | deepcopy(CROSSRAIL_SOURCES)
+        value.update(id=f"roof/aluminium/0.9mm/core-60/crossrail-{depth * 1000:g}x{width * 1000:g}x3mm",
+                     name=f"Roof: Al0.9mm/H60 +8 RHS {depth * 1000:g}x{width * 1000:g}x3mm crossrails",
+                     envelope_id=physical_id, physical_definition_id=physical_id,
+                     source_parent_id=base["physical_definition_id"],
+                     counted_material_mass_kg=total, counted_mass_kg=total,
+                     conditional_counted_stock_saving_kg=ROLES["roof"]["counted_reference_kg"] - total,
+                     necessary_screen=necessary,
+                     necessary_screen_scope="Continuous-section EA/EI, reduced-span panels AND crossrail bending/shear/strength/local buckling/deflection, including 90% wall sensitivity; joints/clearance/global body unknown",
+                     sources=sources, evaluation=evaluation,
+                     evaluation_id=_hash(dict(physical_definition_id=physical_id, source_inputs=inputs,
+                                              material_sources=sources, result=evaluation)))
+        value["unknown_installed_inventory"] += [
+            dict(id="new-crossrail-end-joint-and-receiving-longitudinal-rail-qualification", mass_kg=None),
+            dict(id="new-crossrail-HVAC-headroom-wiring-and-magnetic-envelope-fit", mass_kg=None)]
+        records.append(value)
+    return records
+
+
 @lru_cache(maxsize=4)
 def _options(root_name, source_key):
     root = Path(root_name)
@@ -329,13 +522,15 @@ def _options(root_name, source_key):
                     dict(id="fire-smoke-thermal-finish-corrosion-and-wear-layers", mass_kg=None),
                     dict(id="global-continuity-bracing-impact-fatigue-and-repair-details", mass_kg=None)],
                 component_only=True, **FLAGS))
+    source_parent = next(r for r in records if r["id"] == "roof/aluminium/0.9mm/core-60")
+    records.extend(_crossrail_options(source_parent, inputs))
     if source_inputs(root) != inputs:
         raise ValueError("envelope sources changed during bounded execution")
     return records
 
 
 def options(root=ROOT):
-    """Eighteen source-bound component alternatives; no current parent mutation."""
+    """Twenty-two source-bound component alternatives; no current parent mutation."""
     root = Path(root).resolve()
     key = json.dumps(source_inputs(root), sort_keys=True)
     return deepcopy(_options(str(root), key))
