@@ -121,7 +121,7 @@ def formulation(c,d):
     s=r'''// A-u formulation follows the official GetDP magnetodynamics template.
 mu0=4.e-7*Pi;Freq=@FREQ@;sigma=@SIGMA@;
 Group { Air=Region[1];Plate=Region[2];Steel=Region[3];Coils=Region[{100,101,102,103,104,105}];Domain=Region[{Air,Plate,Steel,Coils}];Outer=Region[901]; }
-Function {nu[Domain]=1/mu0;nu[Steel]=1/(mu0*@MUR@);v[]=Vector[@SPEED@,0,0];@JS@}
+Function {nu[Region[{Air,Plate,Coils}]]=1/mu0;nu[Steel]=1/(mu0*@MUR@);v[]=Vector[@SPEED@,0,0];@JS@}
 Constraint {{Name Boundary;Case {{Region Outer;Value 0.;}}}}
 Jacobian {{Name Vol;Case {{Region All;Jacobian Vol;}}}}
 Integration {{Name Gauss;Case {{Type Gauss;Case {{GeoElement Triangle;NumberOfPoints 7;}}}}}}
