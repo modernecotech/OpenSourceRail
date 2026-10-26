@@ -340,7 +340,7 @@ def coupon_deck(kind='bending',mesh=20,core_id='al_5052_criii_31'):
     loads={};weights={};boundary=[];force=10.;gamma=1e-4
     if shear:
         for n,(x,y,z) in nodes.items():
-            if x in (0.,L) or y in (0.,B) or z in (0.,T):boundary += [f'{n},1,1,{gamma*z}',f'{n},2,3']
+            if x in (0.,L) or y in (0.,B) or z in (0.,T):boundary += [f'{n},1,1,{gamma*z:.14g}',f'{n},2,3']
         analytical=dict(expected_top_shear_force_N=gx*L*B*gamma,expected_shear_stress_Pa=gx*gamma,imposed_gamma=gamma,expected_top_displacement_m=gamma*T)
     else:
         clamp=[n for n,p in nodes.items() if p[0]==0.];boundary=[f'{n},1,3' for n in clamp]

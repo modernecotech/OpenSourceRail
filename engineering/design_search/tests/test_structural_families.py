@@ -87,3 +87,14 @@ def test_unsupported_layup_generates_a_model_job_without_inheriting_balanced_sti
     assert not r['dispatch_native_full_body']
     a=s.necessary_bounds(c,maximum_core_temperature_C=23.)
     assert r['candidate_id']==a['candidate_id'] and r['evaluation_id']!=a['evaluation_id']
+
+
+def test_shear_prescribed_values_fit_calculix_numeric_fields_and_retain_affine_field():
+    for kind in ('shear_L','shear_W'):
+        raw,d=s.coupon_deck(kind,2);nodes,_,_,boundary=s._read_deck(raw)
+        specified=[row for row in boundary if row[1:3]==['1','1']]
+        assert specified
+        for row in specified:
+            # CalculiX accepts at most20 characters per numeric data field.
+            assert all(len(field)<=20 for field in row)
+            assert float(row[3])==pytest.approx(d['analytical']['imposed_gamma']*nodes[int(row[0])][2],abs=1e-18)
