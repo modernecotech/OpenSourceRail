@@ -306,7 +306,7 @@ def _options(root_name, source_key):
                 name=f"{role.title()}: {kind}, {t * 1000:g} mm faces, core {density}",
                 envelope_id=physical_id, physical_definition_id=physical_id,
                 evaluation_id=evaluation_id, selection_id=None,
-                source_root=str(root), source_inputs=inputs, sources=deepcopy(SOURCES),
+                source_inputs=inputs, source_sha256=inputs, sources=deepcopy(SOURCES),
                 parent_revision=PARENT_REVISION, physical_definition=definition,
                 replacement_scope_part_ids=[p["id"] for p in retained],
                 stock_parts=parts, counted_material_mass_kg=mass, counted_mass_kg=mass,
@@ -341,12 +341,12 @@ def options(root=ROOT):
     return deepcopy(_options(str(root), key))
 
 
-def validate(record, root=None):
+def validate(record, root=ROOT):
     """Reproduce a component record, refusing changed quantities or mass credits."""
     if not isinstance(record, dict):
         raise ValueError("generated envelope component required")
     try:
-        root = Path(record["source_root"] if root is None else root).resolve()
+        root = Path(root).resolve()
         inputs = source_inputs(root)
         expected = next(r for r in _options(str(root), json.dumps(inputs, sort_keys=True))
                         if r["physical_definition_id"] == record["physical_definition_id"])

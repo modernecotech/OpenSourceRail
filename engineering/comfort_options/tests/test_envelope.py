@@ -1,6 +1,7 @@
 """Independent material-account, sandwich-strip and component-scope checks."""
 from copy import deepcopy
 import math
+import json
 from pathlib import Path
 import shutil
 
@@ -151,6 +152,25 @@ def test_no_cross_tree_evaluator_mix(tmp_path):
     target.write_text(target.read_text() + "\n# changed evaluator\n")
     with pytest.raises(ValueError, match="dependency differ"):
         e.source_inputs(tmp_path)
+
+
+def test_identical_copied_sources_produce_portable_public_records(rows, tmp_path):
+    inputs = e.source_inputs(MAIN)
+    for name in inputs:
+        dst = tmp_path / name
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        source = Path(e.__file__) if name == "engineering/comfort_options/envelope.py" else MAIN / name
+        shutil.copyfile(source, dst)
+    copied = e.options(root=tmp_path)
+    assert copied == rows
+    assert e.validate(copied[1], root=tmp_path) == rows[1]
+    for r in copied:
+        assert "source_root" not in r
+        assert r["source_sha256"] == r["source_inputs"]
+    encoded = json.dumps(copied)
+    assert str(MAIN) not in encoded
+    assert str(e.ROOT) not in encoded
+    assert str(tmp_path) not in encoded
 
 
 def test_bad_strip_inputs_and_fresh_records(rows):
