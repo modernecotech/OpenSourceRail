@@ -2,6 +2,8 @@ from copy import deepcopy
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
+from types import SimpleNamespace
 import numpy as np
 from engineering.design_search import grammar_structure as s
 
@@ -52,8 +54,27 @@ class AxialGraphTests(unittest.TestCase):
         lines=raw.splitlines()
         for i,line in enumerate(lines):
             if line!='*EQUATION':continue
-            terms=lines[i+2].split(',');residual=sum(float(terms[k+2])*U[int(terms[k])][int(terms[k+1])-1] for k in range(0,len(terms),3))
+            count=int(lines[i+1]);terms=[];j=i+2
+            while len(terms)<3*count:
+                values=lines[j].split(',');self.assertLessEqual(len(values),12);terms+=values;j+=1
+            self.assertEqual(len(terms),3*count)
+            residual=sum(float(terms[k+2])*U[int(terms[k])][int(terms[k+1])-1] for k in range(0,len(terms),3))
             self.assertAlmostEqual(residual,0.,places=13)
+
+    def test_oblique_tripod_MPCs_wrap_all_six_terms(self):
+        raw,_=s.deck(self.tripod,subdivisions=2);lines=raw.splitlines();oblique=0
+        for i,line in enumerate(lines):
+            if line=='*EQUATION' and lines[i+1]=='6':
+                oblique+=1;self.assertEqual(len(lines[i+2].split(',')),12);self.assertEqual(len(lines[i+3].split(',')),6)
+        self.assertGreater(oblique,0)
+
+    def test_tool_error_packet_always_has_unknown_numerical_validity(self):
+        with tempfile.TemporaryDirectory() as t:
+            out=Path(t)/'failure'
+            with patch.object(s.subprocess,'run',return_value=SimpleNamespace(returncode=201,stdout=b'input refused',stderr=b'')) as mocked:
+                result=s.run(self.axial,out,root=s.ROOT)
+            self.assertEqual(mocked.call_count,1);self.assertEqual(result['execution'],'tool_error');self.assertEqual(result['numerical_validity'],'unknown')
+            self.assertTrue((out/'manifest.json').is_file());self.assertFalse(result['physical_accepted'])
 
     def test_loaded_support_RF_is_not_double_counted(self):
         _,d=s.deck(self.axial);r=s.linear_reference(self.axial);u=r['displacements_m']['tip'][0]

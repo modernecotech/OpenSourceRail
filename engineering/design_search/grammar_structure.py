@@ -122,7 +122,11 @@ def deck(graph,subdivisions=1):
         if m['density_kg_m3'] is not None:lines += ['*DENSITY',f'{m["density_kg_m3"]:.14g}']
         lines += [f'*SOLID SECTION,ELSET=M{j},MATERIAL=MAT{j}',f'{m["area_m2"]:.14g}']
     lines+=['*ELSET,ELSET=ALLMEMBERS'];names=[f'M{i}' for i in range(len(groups))];lines += [','.join(names[i:i+16]) for i in range(0,len(names),16)]
-    for eq in eqs:lines += ['*EQUATION',str(len(eq)),','.join(f'{n},{d},{c:.14g}' for n,d,c in eq)]
+    for eq in eqs:
+        # CalculiX *EQUATION permits exactly four terms per continuation
+        # line (12 entries), except the final line which may be shorter.
+        lines += ['*EQUATION',str(len(eq))]
+        lines += [','.join(f'{n},{d},{c:.14g}' for n,d,c in eq[i:i+4]) for i in range(0,len(eq),4)]
     lines += ['*BOUNDARY']+[f'{base[key]},{d},{d}' for key,ds in s['supports'].items() for d in sorted(ds)]+['*NSET,NSET=OUTPUT']
     ids=sorted(ns);lines += [','.join(map(str,ids[i:i+16])) for i in range(0,len(ids),16)]
     supports=[base[key] for key,ds in s['supports'].items() if ds];lines += ['*NSET,NSET=SUPPORTS']+[','.join(map(str,supports[i:i+16])) for i in range(0,len(supports),16)]+['*STEP','*STATIC','*CLOAD']
@@ -178,11 +182,11 @@ def run(graph,output,*,subdivisions=1,root=ROOT,memory_mb=2048,timeout_s=45):
         raw,definition=deck(graph,subdivisions);(output/'graph.inp').write_text(raw);(output/'definition.json').write_bytes(encoded(definition));ccx='/usr/bin/ccx';finite=[n for n in resource.getrlimit(resource.RLIMIT_AS) if n!=resource.RLIM_INFINITY];cap=min([memory_mb*1024**2,*finite]);tool=dict(ccx_path=ccx,ccx_sha256=digest(ccx),OMP_threads=1,requested_memory_mb=memory_mb,RLIMIT_AS_bytes=cap,timeout_s=timeout_s)
         def bounded():resource.setrlimit(resource.RLIMIT_AS,(cap,cap))
         try:
-            proc=subprocess.run([ccx,'graph'],cwd=output,capture_output=True,timeout=timeout_s,preexec_fn=bounded,env={**os.environ,'OMP_NUM_THREADS':'1'});(output/'stdout.log').write_bytes(proc.stdout);(output/'stderr.log').write_bytes(proc.stderr);result=dict(execution='tool_error',returncode=proc.returncode,native_jobs_used=1)
+            proc=subprocess.run([ccx,'graph'],cwd=output,capture_output=True,timeout=timeout_s,preexec_fn=bounded,env={**os.environ,'OMP_NUM_THREADS':'1'});(output/'stdout.log').write_bytes(proc.stdout);(output/'stderr.log').write_bytes(proc.stderr);result=dict(execution='tool_error',numerical_validity='unknown',engineering_screen='unknown',returncode=proc.returncode,native_jobs_used=1)
             if proc.returncode==0:result.update(analyse(graph,definition,output/'graph.dat'))
         except subprocess.TimeoutExpired as e:
-            (output/'stdout.log').write_bytes(e.stdout or b'');(output/'stderr.log').write_bytes(e.stderr or b'');result=dict(execution='interrupted',reason='bounded native timeout',native_jobs_used=1)
-        except (OSError,ValueError,KeyError,subprocess.SubprocessError) as e:result=dict(execution='tool_error',reason=str(e),native_jobs_used=1)
+            (output/'stdout.log').write_bytes(e.stdout or b'');(output/'stderr.log').write_bytes(e.stderr or b'');result=dict(execution='interrupted',numerical_validity='unknown',engineering_screen='unknown',reason='bounded native timeout',native_jobs_used=1)
+        except (OSError,ValueError,KeyError,subprocess.SubprocessError) as e:result=dict(execution='tool_error',numerical_validity='unknown',engineering_screen='unknown',reason=str(e),native_jobs_used=1)
         if digest(ccx)!=tool['ccx_sha256']:raise ValueError('Axial solver binary changed during execution')
     for name,expected in sources.items():
         if digest(Path(root)/name)!=expected:raise ValueError('Graph source changed: '+name)
