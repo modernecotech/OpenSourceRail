@@ -218,11 +218,14 @@ def test_selection_cache_invalidates_physical_source_change(packet,monkeypatch):
 @pytest.fixture
 def reader_cache(packet):
     book=pytest.importorskip('engineering.development_baseline.book')
+    reader=pytest.importorskip('engineering.station_rail.reader')
     root, summary, _=packet
     for name in ('README.md','docs/ROADMAP.md'):
         target=root/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_text('# Synthetic reader fixture\n')
     source=root/'engineering/development_baseline/book.py'
     source.parent.mkdir(parents=True,exist_ok=True);source.write_bytes(Path(book.__file__).read_bytes())
+    reader_source=root/'engineering/station_rail/reader.py'
+    reader_source.parent.mkdir(parents=True,exist_ok=True);reader_source.write_bytes(Path(reader.__file__).read_bytes())
     write_json(root/OUTPUT/'cities.json',dict(summary,cities=[]))
     for name in ('vehicle-overview.svg','service-profile.svg','interface-section.svg'):
         (root/OUTPUT/name).write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>')
