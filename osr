@@ -1,101 +1,35 @@
 #!/usr/bin/env bash
-# Stable launcher for the user-local toolchain installed by ./install.sh.
+# Stable launcher for the explicitly selected development design.
 set -euo pipefail
-
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 NODE_VERSION="22.23.2"
 TOOL_ROOT="${HOME}/.local/share/opensource-rail/toolchains"
 export PATH="$ROOT/.venv/bin:$TOOL_ROOT/bin:$TOOL_ROOT/node-v$NODE_VERSION/bin:${HOME}/.cargo/bin:$PATH"
 export PLAYWRIGHT_BROWSERS_PATH="$TOOL_ROOT/playwright"
 cd "$ROOT"
-
-usage() {
+if [[ "${1:-}" == -h || "${1:-}" == --help || "${1:-}" == help ]]; then
     cat <<'EOF'
 Usage: ./osr [COMMAND] [arguments]
 
-  (no command)       Show ferrite-PM maglev development status
-  workbench          Open the design UI at 127.0.0.1:8090
-  plan ...           Build/check/serve planning or compile exported city edits
-  infrastructure ... Run/check the primary infrastructure study
-  design [action]    Build, run, check, verify, status or release-check
-  design campaign ... Create/run/compare/publish bounded candidate campaigns
-  twin compile ...   Compile a candidate-bound research CAD/BOM/IFC package
-  trip [action]      Status, catalogue, cases, selected experiments or fixtures
-  sim [city] ...     Replay city energy/charging (Baghdad default)
-  city <slug>        Generate formation, service, charging and cost planning
-  build              Rebuild native kits, replays, cities and design report
-  book [arguments]   Rebuild OpenSourceRail-Book.pdf
-  test               Verify Rust, Python, configuration and browser results
-  capabilities ...   Generate/check the capability directory
-  catalogue ...      Index, plan or regenerate selected cities
-  readiness [...]    Show source-bound readiness and outstanding gates
-  assurance ...      Run/publish/verify engineering, lifecycle or formal profiles
+  (no command)      Show the selected comfort/NdFeB development design
+  status/readiness  Show current candidate identities, evidence and open gates
+  build [--force]   Regenerate the selected current engineering/city package
+  design ...        Alias for current status/build/verify/readiness
+  infrastructure ... Alias for the same selected design
+  verify/check      Verify the current source-bound publication
+  workbench [...]   Serve the read-only current Workbench on 127.0.0.1:8090
+  city [slug]       Publish current selected-city analytical planning
+  sim [slug]        Evaluate current selected-city analytical planning
+  catalogue         Read the current city catalogue
+  trip/twin/plan    Inspect current integration status; unsupported jobs hold
+  book [--check]    Build/check the selected-design reader
+  test              Run current contracts, publication and browser checks
+  cycle             Restartable cached refresh of the current design
+  legacy [...]      Read-only historical status, verification and audit
+
+The default is a development selection. Physical and operating acceptance remain
+open. Historical regeneration requires an isolated checkout; no silent fallback.
 EOF
-}
-
-command_name="${1:-infrastructure}"
-if (( $# == 0 )); then
-    set -- infrastructure status
+    exit 0
 fi
-(( $# == 0 )) || shift
-
-case "$command_name" in
-    infrastructure|design)
-        if [[ "$command_name" == design && "${1:-}" == campaign ]]; then
-            case "${2:-}" in
-                create|run|compare|tasks|publish|-h|--help)
-                    exec tools/automation/osr-python -m engineering.design_search "$@" ;;
-            esac
-        fi
-        exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py "$@"
-        ;;
-    twin)
-        exec tools/automation/osr-python -m engineering.design_search twin "$@"
-        ;;
-    trip)
-        if (( $# == 0 )); then set -- status; fi
-        exec tools/automation/osr-python -m engineering.trip_dynamics "$@"
-        ;;
-    readiness)
-        exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py readiness "$@"
-        ;;
-    assurance)
-        exec tools/automation/osr-python -m engineering.ferrite_maglev.pilot_assurance "$@"
-        ;;
-    workbench)
-        exec npm run workbench -- "$@"
-        ;;
-    plan)
-        exec tools/automation/osr-python tools/automation/planning-workspace.py "$@"
-        ;;
-    sim)
-        if (( $# == 0 )); then set -- baghdad; fi
-        exec tools/automation/osr-python -m engineering.ferrite_maglev.cities --simulate "$@"
-        ;;
-    city)
-        exec tools/automation/osr-python -m engineering.ferrite_maglev.cities "$@"
-        ;;
-    build)
-        (( $# == 0 )) || { printf 'usage: ./osr build\n' >&2; exit 2; }
-        cargo build --locked -p osr-maglev-control --examples
-        exec tools/automation/osr-python tools/automation/ferrite-maglev-study.py build
-        ;;
-    book)
-        exec tools/automation/osr-python tools/automation/build-doc-book.py "$@"
-        ;;
-    capabilities|catalogue)
-        exec tools/automation/osr-python "tools/automation/$command_name.py" "$@"
-        ;;
-    test)
-        (( $# == 0 )) || { printf 'usage: ./osr test\n' >&2; exit 2; }
-        exec bash tools/automation/test-maglev.sh
-        ;;
-    -h|--help|help)
-        usage
-        ;;
-    *)
-        printf 'osr: unknown command: %s\n\n' "$command_name" >&2
-        usage >&2
-        exit 2
-        ;;
-esac
+exec tools/automation/osr-python -m engineering.development_baseline.entrypoint "$@"
