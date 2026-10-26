@@ -34,6 +34,19 @@ Reference calculations distinguish **required force** from available motor thrus
 
 The 266 city geographies and underlying maps are preserved as starting inputs. **City numerical regeneration is held** until the reference drive, braking, route and economic evidence is sufficient. Old fleet, station winding, CAPEX and OPEX figures are historical; they are not v0.6 results. See the [geographic catalogue and holds](docs/design-engine/current/cities.json).
 
+## Iterative design search
+
+The v0.6 generators are connected to the existing restartable campaign engine. They create physical body/motor/brake alternatives, execute candidate-specific native solvers, diagnose failures, generate another generation, preserve Pareto alternatives and compile matching research twins. [Executed campaign and next tasks](docs/design-engine/v06-optimisation/README.md) show the resulting changes and remaining evidence gates.
+
+```bash
+./osr design campaign create campaigns/v06-wheel-lim.toml
+./osr design campaign run <campaign-id>
+./osr design campaign compare <campaign-id>
+./osr design campaign publish <campaign-id>
+```
+
+Research ranking can select the next experiment while every complete design remains unqualified. The participating-panel trial remains numerically nonconverged in lateral motion; its vertical results are diagnostic, with no structural acceptance. Invalid numerical results cannot provide physical ranking values; unknown installed equipment and whole-life prices remain explicit.
+
 ## Use the repository
 
 ```bash

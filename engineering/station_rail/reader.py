@@ -12,7 +12,7 @@ def _inputs(root):
     root=Path(root)
     names=['engineering/station_rail/reader.py','engineering/development_baseline/book.py','engineering/development-baseline.toml',
         'README.md','docs/ROADMAP.md',OUTPUT+'/summary.json',OUTPUT+'/cities.json',OUTPUT+'/comparison.json',
-        'docs/design-engine/v06-physical-closure/summary.json',OUTPUT+'/vehicle-overview.svg',OUTPUT+'/service-profile.svg',OUTPUT+'/interface-section.svg']
+        'docs/design-engine/v06-physical-closure/summary.json','docs/design-engine/v06-optimisation/summary.json',OUTPUT+'/vehicle-overview.svg',OUTPUT+'/service-profile.svg',OUTPUT+'/interface-section.svg']
     return {name:digest(root/name) for name in names}
 
 def build(root=ROOT,output=None,check=False):
@@ -176,7 +176,22 @@ def build(root=ROOT,output=None,check=False):
     para('Wet/downhill uses adhesion0.05 on a2%downgrade; lost channel retains four discs/car. Assumed pad friction, piston pressure and ideal instantaneous WSP are not qualified hardware. The crowd failed-channel case needs over3km. Fault detection, authority, route speed and protected overrun must use a validated degraded stopping envelope.')
     para('Independent body verification rejected native rotational beam equations and an overly rigid solid-section fixture. Rejected results remain recorded. Counted post connections and actual floor cutouts/collars add77.154kg/car before unknown joining hardware; they are an unadopted alternative. Native stock fit-up does not prove body strength, fatigue or complete assembly.')
     para('Counted wheel, axle and disc rotation adds1,770.387kg/car equivalent inertial mass, with no added static weight. It now feeds launch work, coasting and brake energy. Exact findings, benchmark dispositions and compact source-bound evidence are in docs/design-engine/v06-physical-closure/.')
-    page('11. Reproduce and inspect')
+    page('11. Failure-driven candidate generations')
+    campaign=json.loads((root/'docs/design-engine/v06-optimisation/summary.json').read_bytes())
+    para(f"The existing design-search runner now executes generated wheel/LIM candidates through native body/motor solvers, brake models, civil moving loads and coupled service requirements. The bounded campaign completed{campaign['generations']}generations and{len(campaign['candidates'])}physical candidates without manually changing the reference geometry between trials.")
+    rows=[]
+    for c in campaign['candidates']:
+        body=next((x for x in c['body_cases'] if x['case']=='normal-fine'),{})
+        deflection='Unknown' if body.get('maximum_vertical_displacement_m') is None else f"{1000*body['maximum_vertical_displacement_m']:.1f}mm"
+        rows.append((f"g{c['generation']} /{c['candidate_id'][:10]}",f"{c['mass_kg_per_car']/1000:.3f}t",deflection,c['motor_numerical_status']))
+    table(['Generation /candidate','Accounted tare/car','Normal body deflection','Motor validity'],rows,[145,100,115,130])
+    para('The participating alternative remains numerically nonconverged in lateral displacement; its vertical values are diagnostic, not validated full-body improvement. It adds counted clamps and bolts to retained sandwich side regions around actual door/window apertures. Its synthetic laminate/core constants and ideal load transfer remain research hypotheses. Failed stiffness produces deeper counted sill stock; numerical failure produces a model/resource task. Additional hardware and material never become zero mass.')
+    para('LIM revisions change teeth, backiron, winding and matched fin/neck geometry. Current, slip and mesh are evaluation context; they do not create a different physical geometry. A linear-material field violation cannot be cured merely by raising current. Unknown nonlinear, finite-height, thermal and entry/exit behaviour blocks a qualified force map.')
+    para('Exact upstream result digests, candidate identities, source revisions and solver binaries enter each dependent cache key. The loop retains Pareto alternatives for diagnostic priority and counted quantities. Cost is unknown; this is not a whole-life economic winner.')
+    para('Each candidate generates matching native FreeCAD/STEP, reopened IFC, material takeoff and draft assembly, inspection, procurement and maintenance records for its known stock. Unlocated equipment and complete installed CG/inertia remain unresolved. The selected next experiment is a research twin; development and operating releases remain separate.')
+    para('Candidate-specific1.5/2/3km journeys remain held where position-dependent forces, qualified brakes/contact or flexible modes are missing. Typed next tasks carry source candidate/evaluation IDs and bounded scope. Campaign completion never closes an unqualified physical requirement.')
+    para('Campaign records and native research packages: docs/design-engine/v06-optimisation/. Run ./osr design campaign create/run/compare/publish. The266city geographies and all historical performance evidence remain preserved.')
+    page('12. Reproduce and inspect')
     para('Use ./osr status, ./osr readiness, ./osr build, ./osr verify, ./osr test, ./osr book --check and ./osr workbench. ./osr sim baghdad reports its deliberate city-evaluation hold. ./osr legacy verify checks retained source/payload bytes at their recorded Git revisions.')
     para('The v0.5 archive preserves magnetic development evidence; its source and results are not overwritten to match a wheel-supported train. Historical numerical regeneration belongs in a separate checkout of the pinned revision.')
     sub('Repository records')

@@ -71,6 +71,15 @@ class Handler(BaseHTTPRequestHandler):
                 read_packet(self.root)
                 self.respond(200, status(self.root))
                 return
+            if path=='/api/campaigns/current':
+                _,publication=read_packet(self.root)
+                relative='docs/design-engine/v06-optimisation/summary.json';source=checked_path(self.root,relative)
+                if publication.get('source_sha256',{}).get(relative)!=digest(source):raise CurrentUnavailable('Campaign summary lacks a current source binding')
+                value=json.loads(source.read_bytes())
+                if value.get('schema')!='osr-wheel-iterative-campaign-publication/1' or any(value.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):
+                    raise CurrentUnavailable('Unaccepted research campaign required')
+                self.respond(200,value)
+                return
             if path == '/api/cities':
                 read_packet(self.root)
                 from . import cities

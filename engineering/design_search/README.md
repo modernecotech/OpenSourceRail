@@ -1,4 +1,19 @@
-# Coordinated candidate design
+# Iterative physical design search
+
+OpenSourceRail develops simple, locally repairable transport and compares complete service consequences. The [v0.6 wheel/LIM campaign](../../campaigns/v06-wheel-lim.toml) now uses this coordinator for generated bodies, station motors, brakes, civil loads and research-twin exports. [Executed generations](../../docs/design-engine/v06-optimisation/README.md) preserve failed and unknown cases, source/tool/dependency identities, failure-driven revisions and explicit next engineering tasks.
+
+```bash
+./osr design campaign create campaigns/v06-wheel-lim.toml
+./osr design campaign run <campaign-id> [--max-jobs 1]
+./osr design campaign compare <campaign-id>
+./osr design campaign publish <campaign-id>
+```
+
+`wheel_families` owns physical composition; `wheel_evaluators` binds exact upstream evidence; `wheel_body`, `wheel_motor` and `wheel_brakes` generate/evaluate alternatives; `whole_system.evaluate_wheel` couples service and quantities through `wheel_system`; `wheel_twin` regenerates native known stock and delivery drafts. Numerical, design, evidence and system failures remain distinct. Same-model refinement cannot establish independent-domain qualification. Complete installed equipment, costs and physical release remain gated.
+
+The retained carrier/beam campaign below is historical maglev research, with independent family/evaluator IDs. Its numerical results do not describe the wheel-supported v0.6 train.
+
+## Coordinated candidate design
 
 OpenSourceRail aims for simple fixed lines, affordable construction and repair,
 local production and high passenger throughput. Ferrite support and guidance

@@ -252,6 +252,21 @@ async function start() {
       ),
     );
     renderGates(packet.gates || packet.readiness?.gates);
+    try {
+      const campaign = await request("/api/campaigns/current");
+      if (campaign.physical_accepted !== false || campaign.configuration_adopted !== false) throw Error("Research dispositions differ");
+      byId("campaign-status").textContent = `${campaign.generations} generations · ${campaign.candidates.length} candidates · integrated baseline: ${campaign.integrated_baseline.status}. Research selection; physical qualification remains open.`;
+      byId("campaign-rows").replaceChildren();
+      for (const candidate of campaign.candidates) {
+        const tr = document.createElement("tr");
+        for (const value of [`g${candidate.generation} / ${candidate.candidate_id.slice(0, 12)}`, `${format(candidate.mass_kg_per_car / 1000)} t/car`, `${candidate.body_engineering_screen} / ${candidate.body_numerical_validity}`, candidate.motor_numerical_status]) {
+          const td = document.createElement("td"); td.textContent = value; tr.append(td);
+        }
+        byId("campaign-rows").append(tr);
+      }
+    } catch (error) {
+      byId("campaign-status").textContent = "No current source-bound campaign publication is available.";
+    }
     for (const key of identityKeys)
       fact(byId("identities"), key.replaceAll("_", " "), current[key]);
     byId("native-scope").textContent =

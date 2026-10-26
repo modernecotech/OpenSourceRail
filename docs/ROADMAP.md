@@ -18,6 +18,12 @@ The [bounded campaign](design-engine/v06-physical-closure/README.md) adds 18 act
 
 Next, redesign the primary for force, steel cross-section, practical gaps and repeated heat together; obtain actual brake/adhesion/WSP curves; and resolve body-joint load paths using independently benchmarked models. Keep service alternatives explicit and compare whole-system quantities before changing the default.
 
+## Failure-driven campaign
+
+The [v0.6 campaign](design-engine/v06-optimisation/README.md) connects the existing immutable/restartable search to generated joined bodies, station LIMs, brakes, actual candidate mass/rotor energy, civil loads and known-stock research twins. Failures now produce physical revisions or bounded numerical/evidence tasks. The campaign budget limits execution; it does not close an unresolved requirement or promote a research winner to an operating design.
+
+Next extend validated physical families and full position/current/temperature motor maps, correlate structural joints and braking with hardware, and execute the same-candidate protected journey. Preserve competing cost/quantity alternatives and retain every failed or interrupted trial.
+
 ## Release gates
 
 | Gate | Required result |

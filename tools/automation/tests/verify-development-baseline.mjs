@@ -127,6 +127,14 @@ try {
   );
   assert.equal(await page.locator("#city").inputValue(), "baghdad");
   assert((await page.locator("#city option").count()) > 1);
+  const campaignResponse = await context.request.get(origin + "/api/campaigns/current");
+  assert.equal(campaignResponse.status(), 200, await campaignResponse.text());
+  const campaign = await campaignResponse.json();
+  assert.equal(campaign.physical_accepted, false);
+  assert.equal(campaign.configuration_adopted, false);
+  await page.waitForFunction((count) => document.querySelectorAll("#campaign-rows tr").length === count, campaign.candidates.length);
+  report.research_campaign_id = campaign.campaign_id;
+  report.research_candidates = campaign.candidates.length;
   const cityResponse = await context.request.get(origin + "/api/city/baghdad");
   assert.equal(cityResponse.status(), 503, await cityResponse.text());
   const city = await cityResponse.json();

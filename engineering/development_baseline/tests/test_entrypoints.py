@@ -229,6 +229,7 @@ def reader_cache(packet):
     write_json(root/OUTPUT/'cities.json',dict(summary,cities=[]))
     write_json(root/OUTPUT/'comparison.json',dict(alternatives=[]))
     write_json(root/'docs/design-engine/v06-physical-closure/summary.json',dict(scope='Synthetic cache-integrity fixture; no solver evidence'))
+    write_json(root/'docs/design-engine/v06-optimisation/summary.json',dict(scope='Synthetic campaign cache fixture; no solver evidence'))
     for name in ('vehicle-overview.svg','service-profile.svg','interface-section.svg'):
         (root/OUTPUT/name).write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>')
     pdf=root/'OpenSourceRail-Book.pdf'
@@ -274,3 +275,21 @@ def test_reader_cache_refuses_changed_native_followup(reader_cache):
     write_json(root/'docs/design-engine/v06-physical-closure/summary.json',dict(scope='Changed synthetic evidence'))
     with pytest.raises(ValueError,match='stale'):
         book.build(root=root,check=True)
+
+
+def test_campaign_api_requires_bound_research_bytes(packet):
+    root,_,manifest=packet
+    relative='docs/design-engine/v06-optimisation/summary.json'
+    value=dict(schema='osr-wheel-iterative-campaign-publication/1',physical_accepted=False,engineering_accepted=False,configuration_adopted=False,manufacturing_release=False,operating_release=False)
+    write_json(root/relative,value)
+    server=make_server(root=root,port=0);thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+    url='http://127.0.0.1:'+str(server.server_address[1])+'/api/campaigns/current'
+    try:
+        with pytest.raises(urllib.error.HTTPError) as caught:urllib.request.urlopen(url)
+        assert caught.value.code==503
+        manifest['source_sha256'][relative]=sha256((root/relative).read_bytes()).hexdigest();write_json(root/OUTPUT/'manifest.json',manifest)
+        with urllib.request.urlopen(url) as response:assert json.load(response)['configuration_adopted'] is False
+        value['physical_accepted']=True;write_json(root/relative,value)
+        with pytest.raises(urllib.error.HTTPError) as caught:urllib.request.urlopen(url)
+        assert caught.value.code==503
+    finally:server.shutdown();server.server_close();thread.join(timeout=2)
