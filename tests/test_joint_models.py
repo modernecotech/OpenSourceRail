@@ -52,3 +52,21 @@ class TransferFixtureTests(unittest.TestCase):
         self.assertLess(mx/d['regularizer_Nm_per_rad'],.002)
         for kind in ('four_bolt','finite_area'):
             self.assertEqual(j.deck(kind,1)[1]['load_amplitudes'],[1.]*6)
+
+    def test_richardson_recovers_manufactured_second_order_sequence(self):
+        cases=[]
+        for mesh in (2,3,4):
+            cases.append(dict(kind='finite_area',execution='completed',mesh_level=mesh,numerical_validity='valid',
+                compliance_matrix=(np.eye(6)*(1+1/mesh**2)).tolist(),modal_frequencies_Hz=[100.] *6,states=[dict(load=n) for n in ('Fx','Fy','Fz','Mx','My','Mz')]))
+        result=j.refinement_checks(cases)[0]
+        self.assertTrue(result['mesh_confirmed'])
+        for row in result['richardson']:
+            self.assertAlmostEqual(row['observed_order'],2.,places=10)
+            self.assertAlmostEqual(row['extrapolated_compliance'],1.,places=10)
+
+    def test_nonmonotonic_sequence_refuses_richardson_order(self):
+        cases=[]
+        for mesh,c in ((2,1.2),(3,1.0),(4,1.1)):
+            cases.append(dict(kind='finite_area',execution='completed',mesh_level=mesh,numerical_validity='valid',compliance_matrix=(np.eye(6)*c).tolist(),modal_frequencies_Hz=[100.]*6,states=[dict(load=str(i)) for i in range(6)]))
+        rows=j.refinement_checks(cases)[0]['richardson']
+        self.assertTrue(all(r['state']=='unknown' for r in rows))

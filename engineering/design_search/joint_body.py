@@ -9,6 +9,7 @@ from copy import deepcopy
 from pathlib import Path
 import re
 import numpy as np
+from math import isfinite
 from engineering.station_rail import ROOT,FLAGS,body_frame,body_solid_frame
 from engineering.station_rail.common import digest,identity,encoded
 from engineering.station_rail.vehicle import box,cylinder
@@ -106,8 +107,18 @@ def _energy_balance(raw,path):
         vector=np.zeros(3);vector[d-1]=f;external[:3]+=vector;external[3:]+=np.cross(nodes[n],vector)
     for n,vector in rf.items():reaction[:3]+=vector;reaction[3:]+=np.cross(nodes[n],vector)
     found=re.search(r'total internal energy[^\n]*\n\s*([\d.Ee+\-]+)',text,re.I);energy=float(found[1]) if found else None
+    force_scale=max(float(np.linalg.norm(external[:3])),1e-12);force_error=float(max(abs((external+reaction)[:3])))/force_scale;moment_error=float(max(abs((external+reaction)[3:])))/(17*force_scale)
     return dict(external_work_J=work,solid_internal_energy_J=energy,energy_relative_residual=abs(work-energy)/abs(work) if energy is not None and work else None,
-        applied_generalized_force=external.tolist(),support_generalized_reaction=reaction.tolist(),force_residual_N=(external+reaction)[:3].tolist(),moment_residual_Nm=(external+reaction)[3:].tolist())
+        applied_generalized_force=external.tolist(),support_generalized_reaction=reaction.tolist(),force_residual_N=(external+reaction)[:3].tolist(),moment_residual_Nm=(external+reaction)[3:].tolist(),
+        force_balance_relative_error_all_axes=force_error,moment_balance_relative_error_all_axes=moment_error,moment_residual_normalisation_m=17.)
+
+
+def _case_valid(case):
+    if case.get('execution')!='completed':return False
+    for key in ('force_balance_relative_error','force_balance_relative_error_all_axes','moment_balance_relative_error_all_axes','energy_relative_residual'):
+        value=case.get(key)
+        if not isinstance(value,(float,int)) or not isfinite(value) or value>=1e-4:return False
+    return True
 
 
 def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False):
@@ -126,7 +137,7 @@ def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False):
             r.update(_energy_balance(raw,output/name/'body.dat'))
             r['engineering_screen']='fail' if residual<1e-4 and r['maximum_vertical_displacement_m']>.0256 else 'unknown'
         cases.append(r)
-    refinement=wheel_body._displacement_refinement(cases);balanced=all(c['execution']=='completed' and c.get('force_balance_relative_error',1)<1e-4 for c in cases);converged=balanced and refinement['status']=='pass'
+    refinement=wheel_body._displacement_refinement(cases);balanced=all(_case_valid(c) for c in cases);converged=balanced and refinement['status']=='pass'
     missing=['Native per-axis joint fixtures do not qualify actual preload, slip, bearing, fatigue or failure','Linear synthetic laminate/core/bond and rigid intact bolt transfer; no physical correlation','Full-body stress/buckling/flexible modes and all installed mass properties','Dynamic bogie/door/cassette clearance, manufacturing and fire/thermal evidence']
     value=dict(schema='osr-four-bolt-body-evaluation/1',candidate_id=vehicle['candidate_id'],body_candidate_id=vehicle['body_candidate_id'],parameters=p,
         execution='completed' if all(c['execution']=='completed' for c in cases) else 'completed_with_errors',numerical_validity='mesh_confirmed' if converged else 'nonconverged' if balanced else 'unknown',

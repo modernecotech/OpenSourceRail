@@ -52,3 +52,10 @@ class FourBoltBodyTests(unittest.TestCase):
         self.assertNotIn('TYPE=C3D20R',raw)
         self.assertIn('J_BODY_ALL',raw)
         self.assertEqual(d['body_candidate_id'],self.car['body_candidate_id'])
+
+    def test_quality_requires_all_reactions_and_energy(self):
+        good=dict(execution='completed',force_balance_relative_error=1e-8,force_balance_relative_error_all_axes=1e-8,moment_balance_relative_error_all_axes=1e-8,energy_relative_residual=1e-8)
+        self.assertTrue(j._case_valid(good))
+        for key in ('force_balance_relative_error_all_axes','moment_balance_relative_error_all_axes','energy_relative_residual'):
+            self.assertFalse(j._case_valid({**good,key:.01}))
+            self.assertFalse(j._case_valid({**good,key:None}))

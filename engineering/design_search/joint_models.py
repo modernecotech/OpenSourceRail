@@ -6,6 +6,7 @@ bolt, adhesive, slip, preload, fatigue or vehicle joint model.
 """
 from pathlib import Path
 from math import isfinite
+from math import log
 import os, resource, subprocess, time, re
 import numpy as np
 from engineering.station_rail import FLAGS
@@ -42,7 +43,7 @@ def rank_and_work_checks(definition):
 
 
 def deck(kind='four_bolt',mesh=1,regularizer=REGULARIZER_NM_PER_RAD):
-    if mesh not in (1,2):raise ValueError('Two bounded native meshes only')
+    if mesh not in (1,2,3,4):raise ValueError('Bounded native mesh levels1..4 only')
     d=joint_definition(kind);cuts=sorted({-.04,-.02,0.,.02,.04}|({-.028,-.012,.012,.028} if kind=='finite_area' else set()))
     def refined(values):return sorted({a+(b-a)*i/mesh for a,b in zip(values,values[1:]) for i in range(mesh+1)})
     xs=refined(cuts);zs=xs;ys=[.004*i/mesh for i in range(mesh+1)]
@@ -143,15 +144,50 @@ def analyse(folder,definition):
 def result_list(a):return [float(x) for x in a]
 
 
-def run_benchmarks(output):
+def refinement_checks(cases):
+    """All-axis trends, including coupling and modes; no claimed stress limit."""
+    records=[]
+    for kind in KINDS:
+        rr=sorted([r for r in cases if r['kind']==kind and r['execution']=='completed'],key=lambda r:r['mesh_level'])
+        if len(rr)<2:continue
+        pairs=[]
+        for a,b in zip(rr,rr[1:]):
+            A,B=[np.array(r['compliance_matrix']) for r in (a,b)];di=np.maximum(np.abs(np.diag(B)),1e-30);change=np.abs(np.diag(A)-np.diag(B))/di
+            coupling=float(np.max(np.abs(A-B)/np.sqrt(np.outer(di,di))))
+            fa,fb=[np.array(r['modal_frequencies_Hz']) for r in (a,b)];modal=float(max(abs(fa-fb)/fb)) if len(fa)==len(fb)==6 and min(fb)>0 else None
+            pairs.append(dict(coarse_mesh=a['mesh_level'],fine_mesh=b['mesh_level'],diagonal_compliance_relative_change=change.tolist(),scaled_coupled_compliance_change=coupling,
+                modal_frequency_relative_change=modal,mesh_confirmed=bool(max(change)<.05 and coupling<.05 and modal is not None and modal<.05 and a['numerical_validity']==b['numerical_validity']=='valid')))
+        richardson=[]
+        if len(rr)>=3:
+            selected=rr[-3:];hs=[1/r['mesh_level'] for r in selected]
+            for j in range(6):
+                values=[r['compliance_matrix'][j][j] for r in selected];d0=values[0]-values[1];d1=values[1]-values[2];record=dict(axis=selected[0]['states'][j]['load'],mesh_levels=[r['mesh_level'] for r in selected],compliance_values=values,state='unknown')
+                if d0*d1>0:
+                    ratio=d0/d1
+                    def theoretical(p):return (hs[0]**p-hs[1]**p)/(hs[1]**p-hs[2]**p)
+                    if theoretical(.1)<=ratio<=theoretical(8.):
+                        lo,hi=.1,8.
+                        for _ in range(60):
+                            mid=(lo+hi)/2
+                            if theoretical(mid)<ratio:lo=mid
+                            else:hi=mid
+                        order=(lo+hi)/2;infinity=values[2]+(values[2]-values[1])/((hs[1]/hs[2])**order-1)
+                        record.update(state='conditional_asymptotic_estimate',observed_order=order,extrapolated_compliance=infinity,estimated_fine_relative_error=abs(values[2]-infinity)/max(abs(infinity),1e-30))
+                richardson.append(record)
+        records.append(dict(kind=kind,pairs=pairs,mesh_confirmed=pairs[-1]['mesh_confirmed'],richardson=richardson,
+            scope='Six-axis work-conjugate compliance and fixture-frequency trends; extrapolation assumes a smooth asymptotic sequence, not physical calibration',point_support_stress_convergence='not claimed'))
+    return records
+
+
+def run_benchmarks(output,*,plan=None):
     output=Path(output).resolve()
     if output.exists():raise ValueError('Fresh immutable run directory required')
     output.mkdir(parents=True);sources={PRODUCER:digest(__file__),'engineering/design_search/structural_families.py':digest(Path(__file__).with_name('structural_families.py'))}
     ccx=Path('/usr/bin/ccx').resolve();limits=[n for n in resource.getrlimit(resource.RLIMIT_AS) if n!=resource.RLIM_INFINITY]
     tool=dict(ccx_path=str(ccx),ccx_sha256=digest(ccx),OMP_threads=1,RLIMIT_AS_bytes=min([2*1024**3,*limits]),timeout_s=45)
-    results=[]
-    for kind in KINDS:
-        for mesh in (1,2):
+    results=[];plan=list(plan) if plan is not None else [(kind,mesh) for kind in KINDS for mesh in (1,2)]
+    if not 1<=len(plan)<=8 or len(set(plan))!=len(plan):raise ValueError('One to eight unique bounded native jobs required')
+    for kind,mesh in plan:
             raw,d=deck(kind,mesh);folder=output/f'{kind}-{mesh}';folder.mkdir();(folder/'joint.inp').write_text(raw);(folder/'definition.json').write_bytes(encoded(d));start=time.monotonic()
             def bounded():resource.setrlimit(resource.RLIMIT_AS,(tool['RLIMIT_AS_bytes'],tool['RLIMIT_AS_bytes']))
             r=dict(case=folder.name,kind=kind,mesh_level=mesh,execution='tool_error')
@@ -165,12 +201,11 @@ def run_benchmarks(output):
             r['runtime_s']=time.monotonic()-start;results.append(r)
     if sources[PRODUCER]!=digest(__file__) or sources['engineering/design_search/structural_families.py']!=digest(Path(__file__).with_name('structural_families.py')):raise ValueError('Source changed during native execution')
     if tool['ccx_sha256']!=digest(ccx):raise ValueError('CCX binary changed during native execution')
-    refinements=[]
-    for kind in KINDS:
-        rr=[r for r in results if r['kind']==kind]
-        if all(r['execution']=='completed' for r in rr):
-            a,b=[np.array(r['compliance_matrix']) for r in rr];di=np.abs(np.diag(b));change=np.abs(np.diag(a)-np.diag(b))/np.maximum(di,1e-30)
-            refinements.append(dict(kind=kind,diagonal_compliance_relative_change=change.tolist(),mesh_confirmed=bool(max(change)<.05),point_support_stress_convergence='not claimed'))
-    value=dict(schema='osr-transfer-joint-method-benchmarks/1',source_sha256=sources,tool=tool,tool_binary_unchanged=True,native_jobs=6,static_states=36,modal_jobs=6,cases=results,refinements=refinements,
+    refinements=refinement_checks(results)
+    value=dict(schema='osr-transfer-joint-method-benchmarks/1',source_sha256=sources,tool=tool,tool_binary_unchanged=True,native_jobs=len(plan),static_states=6*len(plan),modal_jobs=len(plan),cases=results,refinements=refinements,
         execution='completed' if all(r['execution']=='completed' for r in results) else 'completed_with_errors',scope='Synthetic transfer formulation benchmark; rank, force/moment balance, reciprocity, solid+regularizer energy and fixture modes; no body or physical joint acceptance',**FLAGS)
     value['evaluation_id']=identity(value);(output/'result.json').write_bytes(encoded(value));manifest=dict(schema='osr-transfer-joint-manifest/1',evaluation_id=value['evaluation_id'],source_sha256=sources,tool=tool,files_sha256={p.relative_to(output).as_posix():digest(p) for p in output.rglob('*') if p.is_file()},**FLAGS);manifest['manifest_id']=identity(manifest);(output/'manifest.json').write_bytes(encoded(manifest));return value
+
+
+def run_refinement(output):
+    return run_benchmarks(output,plan=[('finite_area',m) for m in (2,3,4)])
