@@ -105,6 +105,13 @@ def _drill(parts,holes):
     return changed,removed
 
 
+def _physical_body_parts(parts):
+    fields=('id','kind','at_m','size_m','axis','radius_m','inner_radius_m','length_m','holes','rectangular_cutouts',
+        'volume_m3','mass_kg','density_kg_m3','material','system','role','laminate_specification','source_part_id')
+    return [{key:deepcopy(p[key]) for key in fields if key in p} for p in parts
+        if p.get('system')!='bogies' and not p['id'].startswith('station-secondary/')]
+
+
 def materialize(base_vehicle,parameters,root=ROOT):
     p=_parameters(parameters)
     if 'wheel_body' in base_vehicle:raise ValueError('Materialize from the explicit unchanged base, not an already revised child')
@@ -126,7 +133,7 @@ def materialize(base_vehicle,parameters,root=ROOT):
                 q['source_part_id']=q.get('source_part_id',q['id']);q['id']+='-balanced-crossply';q['material']='proposed-E-glass-epoxy-balanced-crossply';q['laminate_specification']=dict(angles_deg=[0,90,90,0],total_thickness_m=.002)
     delta=sum(q['mass_kg'] for q in parts)-sum(q['mass_kg'] for q in base_vehicle['geometry_parts'])
     physical=dict(parent_candidate_id=base_vehicle['candidate_id'],parent_body_candidate_id=base_vehicle['body_candidate_id'],parameters=p,
-        geometry_parts=parts,unchanged_support_component_id=base_vehicle['support_component_id'],unchanged_propulsion_component_id=base_vehicle['propulsion_component_id'])
+        geometry_parts=_physical_body_parts(parts),support_interface_id=base_vehicle['support_component_id'])
     bodyid=identity(physical);candidate=identity(dict(parent_candidate_id=base_vehicle['candidate_id'],body_candidate_id=bodyid,support_component_id=v['support_component_id'],propulsion_component_id=v['propulsion_component_id']))
     v['candidate_id']=candidate;v['body_candidate_id']=bodyid;v['geometry_parts']=parts;v['body_physical_definition']=physical
     v['physical_definition']['body_revision']=dict(body_candidate_id=bodyid,parent_body_candidate_id=base_vehicle['body_candidate_id'],parameters=deepcopy(p))
@@ -250,6 +257,7 @@ def evaluate(vehicle,parameters,output,*,root=ROOT,confirmation=False):
     p=_parameters(parameters)
     if vehicle['body_candidate_id']!=identity(vehicle['body_physical_definition']):raise ValueError('Mixed or mutated physical body identity')
     if vehicle.get('wheel_body',{}).get('parameters')!=p:raise ValueError('Body evaluation parameters differ from physical child')
+    if _physical_body_parts(vehicle['geometry_parts'])!=vehicle['body_physical_definition']['geometry_parts']:raise ValueError('Actual car body stock differs from its declared body identity')
     output=Path(output).resolve()
     if output.exists():raise ValueError('Fresh immutable candidate-body run directory required')
     output.mkdir(parents=True);variant=_analysis_variant(vehicle);(output/'candidate.json').write_bytes(encoded(vehicle));before=digest(__file__)
@@ -275,7 +283,7 @@ def evaluate(vehicle,parameters,output,*,root=ROOT,confirmation=False):
         states=dict(execution='completed' if len(completed)==len(cases) else 'completed_with_errors',numerical_validity='unknown' if refinement is None else 'pass' if refinement<.02 else 'fail',engineering_screen=state,physical_acceptance='unknown'),
         metrics=dict(normal_deflection_m=normal['maximum_vertical_displacement_m'] if normal else None,normal_deflection_limit_m=.0256,refinement_fraction=refinement,
             accounted_tare_kg_per_car=vehicle['mass']['accounted_tare_kg_per_car'],stock_mass_delta_kg=vehicle['wheel_body']['stock_mass_delta_kg'],maximum_force_balance_residual=max((c.get('force_balance_relative_error',1) for c in cases),default=None)),
-        cases=cases,native_jobs_used=len(cases),runtime_s=sum(c['runtime_s'] for c in cases),constitutive_hypotheses=CONSTITUTIVE,
+        cases=cases,native_jobs_used=len(cases),runtime_s=sum(c['runtime_s'] for c in cases),constitutive_hypotheses=CONSTITUTIVE,model_domain='Linear global continuum response; finite-deformation effects, local hole bearing, material strength and actual connector stiffness remain unevaluated',
         missing_gates=missing,raw_packages=[dict(path=str(output/c['case']),case=c['case']) for c in cases],source_sha256={**vehicle['source_sha256'],PRODUCER:before},**FLAGS)
     if before!=digest(__file__):raise ValueError('Body adapter source changed during native execution')
     result['evaluation_id']=identity(result);(output/'result.json').write_bytes(encoded(result));manifest=dict(candidate_id=vehicle['candidate_id'],evaluation_id=result['evaluation_id'],source_sha256=result['source_sha256'],files_sha256={q.relative_to(output).as_posix():digest(q) for q in output.rglob('*') if q.is_file()},**FLAGS);manifest['manifest_id']=identity(manifest);(output/'manifest.json').write_bytes(encoded(manifest));return result

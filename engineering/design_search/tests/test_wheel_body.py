@@ -66,3 +66,14 @@ def test_diagnostic_lists_and_failure_reason_keys_do_not_force_spurious_revision
     assert w.revise(p,[dict(state='unknown',failure_reason=None)],1)==p
     assert w.revise(p,[dict(state='fail')],1)['sill_depth_m']>.35
     assert w.revise(p,[dict(metrics=dict(normal_deflection_m=.04))],1)['sill_depth_m']>.35
+
+
+def test_body_physical_projection_excludes_other_subsystems_and_evaluation_annotations():
+    p=w.initial_parameters()[1];v=w.materialize(base(),p,ROOT)
+    actual=w._physical_body_parts(v['geometry_parts'])
+    assert actual==v['body_physical_definition']['geometry_parts']
+    assert not any(q['id'].startswith(('bogie/','station-secondary/')) for q in actual)
+    assert all(not any(k.startswith('analysis_') for k in q) for q in actual)
+    changed=deepcopy(v['geometry_parts'])
+    next(q for q in changed if q['id']=='station-secondary/active-fin')['size_m'][2]*=1.1
+    assert w._physical_body_parts(changed)==actual
