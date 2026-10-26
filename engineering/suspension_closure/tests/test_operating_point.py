@@ -7,7 +7,7 @@ import pytest
 
 from engineering.suspension_closure import operating_point as op
 
-EVIDENCE=Path(os.environ.get('OSR_EVIDENCE_ROOT','/home/hayder/Documents/OpenSourceRail'))
+EVIDENCE=Path(os.environ.get('OSR_EVIDENCE_ROOT',str(op.ROOT)))
 
 
 @pytest.fixture(scope='module')
