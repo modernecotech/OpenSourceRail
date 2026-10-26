@@ -270,8 +270,9 @@ def main(argv=None, root=ROOT):
         if command == 'test':
             if rest:
                 return hold(root, command, 'Current tests take no extra arguments')
-            subprocess.run([sys.executable, '-m', 'pytest', '-q',
-                            str(Path(__file__).parent / 'tests')], cwd=root, check=True)
+            subprocess.run([sys.executable, '-m', 'pytest', '-q', '--import-mode=importlib',
+                            str(Path(__file__).parent / 'tests'),
+                            str(root / 'engineering/station_rail/tests')], cwd=root, check=True)
             emit(_module('publication').verify(root=root, output=root / OUTPUT))
             subprocess.run(['node', str(root / 'tools/automation/tests/verify-development-baseline.mjs')], cwd=root, check=True)
             return 0
