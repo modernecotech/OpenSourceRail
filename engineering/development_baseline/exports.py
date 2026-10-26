@@ -261,8 +261,9 @@ def write(output, record, *, root=ROOT, city_index=None, native_vehicle_folder=N
     output = Path(output).resolve()
     package = compile(record, root=root, city_index=city_index)
     output.mkdir(parents=True, exist_ok=False)
-    for name in ('manufacturing', 'procurement', 'assembly', 'civil', 'controls'):
+    for name in ('manufacturing', 'assembly', 'civil', 'controls'):
         (output / (name + '.json')).write_bytes(evaluate.encoded(package[name]))
+    (output / 'procurement.json.gz').write_bytes(gzip.compress(evaluate.encoded(package['procurement']), mtime=0))
     (output / 'engineering-bom.json.gz').write_bytes(gzip.compress(evaluate.encoded(package['bom']), mtime=0))
     cad = _native_cad(record, output, root, native_vehicle_folder)
     (output / 'cad.json').write_bytes(evaluate.encoded(cad))
@@ -291,9 +292,11 @@ def verify(output, record, *, root=ROOT, city_index=None):
     actual = {p.name: sha256(p.read_bytes()).hexdigest() for p in sorted(output.iterdir()) if p.is_file() and p.name != 'manifest.json'}
     if actual != m['files_sha256']:
         raise ValueError('current export payload differs')
-    for name in ('manufacturing', 'procurement', 'assembly', 'civil', 'controls'):
+    for name in ('manufacturing', 'assembly', 'civil', 'controls'):
         if json.loads((output / (name + '.json')).read_bytes()) != package[name]:
             raise ValueError('current export content differs: ' + name)
+    if json.loads(gzip.decompress((output / 'procurement.json.gz').read_bytes())) != package['procurement']:
+        raise ValueError('current export content differs: procurement')
     if json.loads(gzip.decompress((output / 'engineering-bom.json.gz').read_bytes())) != package['bom']:
         raise ValueError('current export BOM differs')
     for name in ('cad', 'bim'):

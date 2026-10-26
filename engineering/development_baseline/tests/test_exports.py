@@ -1,6 +1,7 @@
 """Delivery records must follow the selection without manufacturing acceptance."""
 from copy import deepcopy
 from pathlib import Path
+import gzip
 import json
 import os
 
@@ -71,6 +72,12 @@ def test_selected_primitive_export_reopens_and_payload_tampering_fails(tmp_path,
     target = tmp_path / 'selected'
     exports.write(target, current, root=root)
     assert exports.verify(target, current, root=root)['current'] is True
+    assert not (target / 'procurement.json').exists()
+    procurement_bytes = gzip.decompress((target / 'procurement.json.gz').read_bytes())
+    assert (target / 'procurement.json.gz').read_bytes() == gzip.compress(procurement_bytes, mtime=0)
+    procurement = json.loads(procurement_bytes)
+    assert procurement['stock_inventory_per_car'] == current['vehicle']['inventory']
+    assert procurement['baghdad_trainsets_analytical'] == 906
     bim = json.loads((target / 'bim.json').read_bytes())
     if bim['execution'] == 'completed':
         assert bim['native_reopened'] is True
