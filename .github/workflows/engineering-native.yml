@@ -1,9 +1,9 @@
 name: Engineering readiness and scheduled native methods
 on:
   push:
-    paths: ['engineering/engineering_status/**', 'engineering/suspension_closure/**', 'engineering/operating_confirmation/**', 'engineering/equipped_vehicle/**', 'engineering/thermal_closure/**', 'docs/workbench/trip/readiness/**', '.github/workflows/engineering-native.yml']
+    paths: ['engineering/engineering_status/**', 'engineering/suspension_closure/**', 'engineering/operating_confirmation/**', 'engineering/equipped_vehicle/**', 'engineering/thermal_closure/**', 'docs/workbench/trip/readiness/**', 'tools/automation/tests/verify-engineering-readiness.mjs', '.github/workflows/engineering-native.yml']
   pull_request:
-    paths: ['engineering/engineering_status/**', 'engineering/suspension_closure/**', 'engineering/operating_confirmation/**', 'engineering/equipped_vehicle/**', 'engineering/thermal_closure/**', 'docs/workbench/trip/readiness/**', '.github/workflows/engineering-native.yml']
+    paths: ['engineering/engineering_status/**', 'engineering/suspension_closure/**', 'engineering/operating_confirmation/**', 'engineering/equipped_vehicle/**', 'engineering/thermal_closure/**', 'docs/workbench/trip/readiness/**', 'tools/automation/tests/verify-engineering-readiness.mjs', '.github/workflows/engineering-native.yml']
   schedule:
     - cron: '17 3 * * 2'
   workflow_dispatch:

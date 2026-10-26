@@ -37,6 +37,8 @@ def study(root=ROOT):
         if not math.isclose(calculated,line['aw2_capacity_per_direction_hour'],rel_tol=1e-10):raise ValueError('retained city capacity/headway accounting differs')
         lines.append(dict(line=line['line'],selected_headway_s=headway,normal_passengers_per_train=count,
             capacity_pphpd=calculated,required_headway_s=count*3600/POLICY['target_pphpd'],
+            retained_original_target_pphpd=line['source_aw2_capacity_per_direction_hour'],
+            retained_original_target_met=line['retained_capacity_target_met'],
             capacity_target_screen_pass=calculated>=POLICY['target_pphpd'],actual_new_candidate_compatible=False,
             actual_support_braking_protection_qualified=False))
     pairs=[]
@@ -49,6 +51,7 @@ def study(root=ROOT):
     value=dict(schema='osr-equal-service-transfer-constraints/1',policy=POLICY,retained_lines=lines,retained_transfer_pairs=pairs,
         headway_comparisons=variants,retained_city_totals=city['totals'],
         retained_lines_below_target=sum(not x['capacity_target_screen_pass'] for x in lines),
+        retained_lines_below_original_targets=sum(not x['retained_original_target_met'] for x in lines),
         maximum_retained_horizontal_transfer_m=max(p['ordinary']['horizontal_walk_m'] for p in pairs),
         source_sha256={name:sha256((root/name).read_bytes()).hexdigest() for name in (CITY,ACCESS)},
         scope='Retained planning inputs and explicit new service constraints; no new operating, site or cost acceptance',**FLAGS)
