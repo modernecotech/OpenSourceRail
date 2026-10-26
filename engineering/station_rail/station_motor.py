@@ -50,7 +50,7 @@ def definition():
 
 def case(*,speed_m_s=20.,frequency_Hz=45.,current_peak_A=100.,gap_m=.015,
          temperature_C=80.,phase_direction=1,periods=3,mesh_m=.005,margin_m=.5):
-    if speed_m_s<0 or frequency_Hz<=0 or current_peak_A<=0 or gap_m<=0 or temperature_C not in (20.,80.) or phase_direction not in (-1,1) or periods not in (3,6) or mesh_m<=0:
+    if speed_m_s<0 or frequency_Hz<=0 or current_peak_A<0 or gap_m<=0 or temperature_C not in (20.,80.) or phase_direction not in (-1,1) or periods not in (3,6) or mesh_m<=0:
         raise ValueError('Declared positive motor research domain required')
     d=definition();r=dict(speed_m_s=speed_m_s,frequency_Hz=frequency_Hz,current_peak_A=current_peak_A,
         current_RMS_A=current_peak_A/sqrt(2),gap_each_side_m=gap_m,temperature_C=temperature_C,
@@ -191,7 +191,7 @@ def solve(folder,c,d,getdp):
         linear_material_domain_screen='pass' if B is not None and B<=d['linear_steel_peak_field_limit_T_hypothesis'] else 'fail',
         coil_resistance_ohm_at_temperature=coilR,primary_copper_loss_W_finite_model=copper,
         lumped_total_input_real_W=power.real+copper,
-        implied_balanced_phase_voltage_RMS_V_lower_bound=abs(complex(power.real+copper,-power.imag))/(3*c['current_RMS_A']),
+        implied_balanced_phase_voltage_RMS_V_lower_bound=abs(complex(power.real+copper,-power.imag))/(3*c['current_RMS_A']) if c['current_RMS_A'] else None,
         conditional_9m_force_N=f*scale,conditional_9m_secondary_Joule_W=joule*scale,
         conditional_9m_primary_copper_loss_W=copper*scale,
         extrapolation='Finite2D primary force scaled by active length; actual9m ends, finite height, current returns and primary circuit not confirmed',
@@ -206,7 +206,8 @@ def campaign_cases():
     base=[case(mesh_m=h) for h in (.01,.005,.0025)]
     base += [case(speed_m_s=0.,frequency_Hz=5.),case(speed_m_s=0.,frequency_Hz=5.,phase_direction=-1),
        case(speed_m_s=10.,frequency_Hz=25.),case(current_peak_A=50.),case(current_peak_A=150.),
-       case(temperature_C=20.),case(gap_m=.01),case(gap_m=.02),case(margin_m=1.),case(periods=6)]
+       case(temperature_C=20.),case(gap_m=.01),case(gap_m=.02),case(margin_m=1.),case(periods=6),case(current_peak_A=0.),
+       case(speed_m_s=0.,frequency_Hz=10.,current_peak_A=140.),case(frequency_Hz=50.,current_peak_A=140.)]
     return base
 
 

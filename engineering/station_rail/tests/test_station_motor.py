@@ -20,6 +20,11 @@ def test_peak_rms_and_three_phase_reversal_are_explicit():
     assert text!=m.formulation(m.case(phase_direction=-1),m.definition())
 
 def test_out_of_domain_values_fail_closed():
-    with pytest.raises(ValueError):m.case(current_peak_A=0)
+    with pytest.raises(ValueError):m.case(current_peak_A=-1)
     with pytest.raises(ValueError):m.case(temperature_C=50)
     assert len(m.campaign_cases())<=18
+
+
+def test_zero_source_is_valid_and_candidate_current_fits_copper_bound():
+    assert m.case(current_peak_A=0)['current_RMS_A']==0
+    assert m.case(current_peak_A=140)['wire_current_density_RMS_A_mm2']<4
