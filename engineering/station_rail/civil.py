@@ -26,15 +26,15 @@ def section(family):
     if family=='twin-beam':
         b,h=.35,1.3;A=2*b*h;I=2*b*h**3/12
         return dict(family=family,area_m2=A,I_m4=I,depth_m=h,c_top_m=h/2,c_bottom_m=h/2,
-            dimensions=dict(beam_width_m=b,depth_m=h,beam_centres_m=1.435),closed_torsion=False,
+            dimensions=dict(beam_width_m=b,depth_m=h,beam_centres_m=1.507),closed_torsion=False,
             access='Separate repeated transverse diaphragms and maintenance walkway interfaces required',erection_pieces_per_span=2)
     if family=='u-beam':
-        B,H,tb,tw=1.735,1.5,.20,.30
+        B,H,tb,tw=1.807,1.5,.20,.30
         pieces=[(B*tb,tb/2,B*tb**3/12),(2*tw*(H-tb),tb+(H-tb)/2,2*tw*(H-tb)**3/12)]
         A=sum(a for a,z,i in pieces);zbar=sum(a*z for a,z,i in pieces)/A
         I=sum(i+a*(z-zbar)**2 for a,z,i in pieces)
         return dict(family=family,area_m2=A,I_m4=I,depth_m=H,c_top_m=H-zbar,c_bottom_m=zbar,
-            dimensions=dict(outer_width_m=B,depth_m=H,bottom_m=tb,wall_m=tw,wall_centres_m=1.435),closed_torsion=False,
+            dimensions=dict(outer_width_m=B,depth_m=H,bottom_m=tb,wall_m=tw,wall_centres_m=1.507),closed_torsion=False,
             access='Open trough requires drainage and cross-tie/torsional design; no running walkway credited',erection_pieces_per_span=1)
     raise ValueError('Unknown conventional guideway family')
 

@@ -120,11 +120,8 @@ def underframe(config):
     # separated chords; a flange-only stiffness calculation is a necessary bound.
     for side in (-1,1):
         tube(parts,f'wheel-underframe/roof-chord/{side}',(-8.5,side*1.13-.06,3.51),17.,.12,.14,.006)
-    # Repeated shallow floor ties end at inner sill faces; no intersecting steel.
-    for n in range(15):
-        x=-7.875+n*1.125
-        if min(abs(x-c) for c in config['support']['bogie_centres_x_m'])<.45:continue
-        tube(parts,f'wheel-underframe/floor-tie/{n}',(x-.04,-1.01,.82),2.02,.08,.09,.004,along='y')
+    # Retained floor ribs remain; new overlapping ties are deliberately omitted.
+    # Connections from their underside to the deeper sills require new brackets.
     return parts
 
 
@@ -161,6 +158,22 @@ def _section_screen(mass_kg):
         deflection_limit_m_hypothesis=L/500,stress_screen='pass' if stress<=120e6 else 'fail',
         deflection_screen='pass' if deflection<=L/500 else 'fail',
         scope='Two new side sills only; uniform load and ideal supports, no shell stiffness credited. Not a whole-body, joint, buckling, fatigue or crash acceptance.')
+
+
+def _ideal_body_coupling_screen(mass_kg):
+    lower_A=2*(.18*.35-(.18-.016)*(.35-.016))
+    upper_A=2*(.12*.14-(.12-.012)*(.14-.012))
+    lower_z=.675;upper_z=3.58
+    neutral=(lower_A*lower_z+upper_A*upper_z)/(lower_A+upper_A)
+    I_lower=2*(.18*.35**3-(.18-.016)*(.35-.016)**3)/12
+    I_upper=2*(.12*.14**3-(.12-.012)*(.14-.012)**3)/12
+    I=I_lower+I_upper+lower_A*(lower_z-neutral)**2+upper_A*(upper_z-neutral)**2
+    sill=_section_screen(mass_kg)
+    return dict(ideal_I_m4=I,neutral_axis_m=neutral,
+        ideal_midspan_deflection_m=sill['midspan_deflection_m']*sill['section_I_m4']/I,
+        maximum_chord_stress_Pa=sill['max_bending_moment_Nm']*max(neutral-.50,3.65-neutral)/I,
+        engineering_screen='unknown',shear_transfer_and_joints_demonstrated=False,
+        scope='Necessary ideal fully-coupled chord bound only. Side posts, door openings, local buckling, connections and torsion must develop this stiffness in a real structure.')
 
 
 def build(root=ROOT):
@@ -229,6 +242,7 @@ def build(root=ROOT):
             nominal_necessary_screen='pass' if min_x>4.5 and axle_bottom>primary_top else 'fail',
             swept_curves_suspension_travel_wheel_wear_and_turnouts_qualified=False),
         underframe_screens={name:_section_screen(m) for name,m in [('empty',mass),('normal',mass+3450),('crowd_control',mass+12000)]},
+        ideal_body_coupling_screens={name:_ideal_body_coupling_screen(m) for name,m in [('empty',mass),('normal',mass+3450),('crowd_control',mass+12000)]},
         assembly_plan=[dict(operation='Factory body and equipment assembly',fixed_floor_datum_m=1.,supplier_interfaces_frozen=False),
             dict(operation='Roll passive bogies under supported car, lower body onto suspension/centre bearings, set ride height',jacks_and_lifting_tools_qualified=False),
             dict(operation='Install bolted passive fin cassette between bogies and set station clearance using surveyed datum',sweep_and_thermal_joint_verified=False)],
