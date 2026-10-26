@@ -45,3 +45,11 @@ def test_lim_secondary_slip_heat_is_positive_and_increases():
     assert large['adiabatic_temperature_rise_K']>small['adiabatic_temperature_rise_K']>0
     assert large['actual_secondary_temperature_C'] is None
     assert large['thermal_screen']=='unknown'
+
+
+def test_spreader_does_not_establish_instantaneous_active_plate_temperature():
+    p=op.profile(2000,23000)
+    all_stock=e.secondary_heat(p,207.067,slip=.25)
+    plate=e.secondary_heat(p,58.536,slip=.25)
+    assert plate['adiabatic_temperature_rise_K']>3*all_stock['adiabatic_temperature_rise_K']
+    assert all_stock['contact_conductance_W_K'] is None

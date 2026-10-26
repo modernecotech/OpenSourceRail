@@ -206,6 +206,7 @@ def brake_bound(speed_m_s=20., *, adhesion_coefficient=.05,downhill_grade_fracti
 
 
 def evaluate(vehicle, root=ROOT):
+    from . import electrical
     config=brief(root);sv=config['service'];vc=config['vehicle'];m=vehicle['mass']
     masses=dict(empty=m['accounted_tare_kg_per_car'],normal=m['accounted_cap_loaded_kg_per_car'],
                 crowd_control=m['accounted_160_control_kg_per_car'])
@@ -228,6 +229,17 @@ def evaluate(vehicle, root=ROOT):
     from .common import digest
     if digest(Path(root)/longest_source)!='cfa684ad551e9b4a9a1d63fbf95698eca0a8552300fec450abaee796bc56a30a':
         raise ValueError('Retained longest-gap metadata source differs')
+    environment=[]
+    for d in (1500.,2000.):
+        for loading,mass in masses.items():
+            for grade in (0.,.01,.02,-.01):
+                for wind in (0.,10.):
+                    pp=profile(d,mass,grade_fraction=grade,headwind_m_s=wind,loading=loading)
+                    environment.append(dict(profile=pp,reference_hotel_energy=None if not pp['reachable'] else
+                        electrical.charge_leg(pp['runtime_s'],root=root),
+                        adverse_hotel_energy=None if not pp['reachable'] else
+                        electrical.charge_leg(pp['runtime_s'],hotel_kW=50.,module_environment_C=50.,root=root),
+                        physical_journey_completed=False))
     brakes=[brake_bound(adhesion_coefficient=mu,downhill_grade_fraction=gr)
             for mu in (.03,.05,.1,.15) for gr in (0.,.01,.02,.04)]
     from . import electrical
@@ -240,7 +252,7 @@ def evaluate(vehicle, root=ROOT):
         airgap_each_side_m=config['propulsion']['primary_target_airgap_each_side_m'])
     critical_heat=chosen['receiving_mechanical_energy_J_per_car']
     result=dict(schema='osr-wheel-operations-evaluation/1',**{k:vehicle[k] for k in IDS},
-        profiles=profiles,longest_retained_gap_cases=longest,
+        profiles=profiles,reference_environment_cases=environment,longest_retained_gap_cases=longest,
         longest_retained_gap_context=dict(distance_m=longest_distance,city='Faisalabad',line='line-2',
             from_stop='line-2-operating-0005',to_stop='line-2-operating-0006',adjacent_gaps_scanned=17268,
             source_role='Geography only; old maglev performance is not reused'),
@@ -264,6 +276,6 @@ def evaluate(vehicle, root=ROOT):
         ],
         budget=dict(prototype_profiles=len(profiles),station_geometry_options=len(zones),
             grade_rolling_cases=len(sensitivity),independent_braking_cases=len(brakes),
-            service_battery_alternatives=2,secondary_slip_cases=5,longest_gap_cases=len(longest),conditional_drive_cases=len(drive_bounds['cases'])),
+            service_battery_alternatives=2,secondary_slip_cases=5,longest_gap_cases=len(longest),conditional_drive_cases=len(drive_bounds['cases']),reference_environment_cases=len(environment)),
         source_sha256={**source_map(root,PRODUCERS),**e['source_sha256'],longest_source:digest(Path(root)/longest_source)},**FLAGS)
     result['evaluation_id']=identity(result);return result

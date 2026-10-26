@@ -163,6 +163,8 @@ def secondary_heat(profile, secondary_aluminium_mass_kg, *, slip=.1,
         receiving_secondary_heat_J=None if receiving_mode!='friction-brake' else 0.,
         actual_secondary_temperature_C=None,
         thermal_screen='unknown',
+        heat_capacity_participation_hypothesis='All supplied aluminium mass is instantaneously isothermal; active-fin-only bound must also be inspected',
+        contact_conductance_W_K=None,
         reason='End effects, skin effect, actual slip map, joints, heat transfer and receiving motor losses require coupled electromagnetic/thermal calculation')
 
 
@@ -182,8 +184,17 @@ def evaluate(vehicle, profiles, root=ROOT):
         adverse=charge_leg(p['runtime_s'],hotel_kW=50.,root=root,module_environment_C=50.))
         for p in profiles if p['reachable']]
     sec=vehicle.get('propulsion',{}).get('secondary_aluminium_mass_kg',58.536)
-    heat=[dict(profile_id=reference['profile_id'],**secondary_heat(reference,sec,slip=s))
-          for s in (.02,.05,.1,.15,.25)]
+    active=vehicle.get('propulsion',{}).get('active_fin_aluminium_mass_kg',58.536)
+    heat=[]
+    for slip in (.02,.05,.1,.15,.25):
+        whole=secondary_heat(reference,sec,slip=slip)
+        local=secondary_heat(reference,active,slip=slip)
+        heat.append(dict(profile_id=reference['profile_id'],**whole,
+            active_fin_only_bound=dict(active_fin_aluminium_mass_kg=active,
+                adiabatic_temperature_rise_K=local['adiabatic_temperature_rise_K'],
+                initial_ambient_C=50.,contact_conductance_W_K=None,
+                actual_secondary_temperature_C=None,
+                note='Heat initially restricted to active plate; spreader/hanger heat capacity not credited before a transient conduction model exists.')))
     effective=default['gross_energy_kWh']*.8*.9*.7
     value=dict(schema='osr-wheel-electrical-evaluation/1',
         **{k:vehicle[k] for k in ('candidate_id','body_candidate_id','support_component_id','propulsion_component_id')},
