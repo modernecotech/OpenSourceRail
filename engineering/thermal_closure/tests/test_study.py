@@ -20,6 +20,9 @@ def test_linear_RL_step_matches_independent_ODE_and_signed_energy_conservation()
     assert result['copper_heat_J']==pytest.approx(integrated.y[2,-1],rel=1e-9)
     assert abs(result['energy_residual_J'])<1e-11
     assert result['actual_current_control_or_voltage_qualified'] is False
+    assert result['exits_retained_field_current_domain'] is True
+    assert result['current_limiting_modelled'] is False
+    assert result['force_credit_from_RL_diagnostic'] is False
     # Initially opposing I/V returns electrical energy rather than consuming it.
     short=s.linear_rl_step(**(p|dict(duration_s=.0001)))
     assert short['net_electrical_input_J']<0<short['copper_heat_J']

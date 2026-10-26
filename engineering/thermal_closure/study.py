@@ -290,6 +290,9 @@ def linear_rl_step(*,initial_A,voltage_V,resistance_ohm,inductance_H,duration_s)
     return dict(initial_A=initial,voltage_V=voltage,resistance_ohm=R,inductance_H=L,duration_s=dt,
         final_A=end,copper_heat_J=heat,net_electrical_input_J=energy,inductor_energy_change_J=stored,
         energy_residual_J=energy-heat-stored,model='Constant R/L fixed-gap generalized common-current port; PM-linked flux and motion fixed',
+        maximum_absolute_current_A=max(abs(initial),abs(end)),retained_field_current_domain_A=[-15.,15.],
+        exits_retained_field_current_domain=max(abs(initial),abs(end))>15.,
+        current_limiting_modelled=False,force_credit_from_RL_diagnostic=False,
         actual_current_control_or_voltage_qualified=False,**FLAGS)
 
 
