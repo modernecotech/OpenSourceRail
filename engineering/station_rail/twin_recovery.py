@@ -73,14 +73,16 @@ def _check_existing(output,candidate=None,results=None):
     if results is not None and evaluations!=results:raise ValueError('Existing twin evaluations differ')
     for r in evaluations:
         k.validate_result(r)
-        if r['candidate_id']!=stored['candidate_id']:raise ValueError('Mixed existing evaluation identity')
+        if r['candidate_id']!=stored['candidate_id'] or r['requirement_revision']!=stored['requirement_revision']:raise ValueError('Mixed existing evaluation/requirement identity')
     data=json.loads((output/'native-input.json').read_bytes());raw=json.loads((output/'native-result.json').read_bytes());bom=json.loads((output/'engineering-bom.json').read_bytes())
     for record in (data,bom):
         if record['candidate_id']!=stored['candidate_id'] or any(record.get(n) is not v for n,v in FLAGS.items()):raise ValueError('Existing native input/BOM identity or release differs')
     if data['parts']!=bom['known_geometric_occurrences']:raise ValueError('Native input and engineering BOM differ')
     expected={g['native_part']['id']:g['native_part'] for g in stored['geometry'] if g.get('native_part') is not None}
+    frames={g['native_part']['id']:g['frame_id'] for g in stored['geometry'] if g.get('native_part') is not None}
     if len(expected)!=len(data['parts']):raise ValueError('Candidate native occurrence count differs')
     for p in data['parts']:
+        if p['twin_frame']!=frames.get(p['id']):raise ValueError('Native occurrence frame differs from physical candidate')
         physical=deepcopy(p);physical.pop('twin_frame')
         if physical!=expected.get(p['id']):raise ValueError('Existing native occurrence differs from physical candidate')
     if (output/'worker.py').read_text()!=old.SCRIPT:raise ValueError('Existing native generation worker differs from frozen producer')
@@ -164,7 +166,7 @@ def ensure_all(campaign_id,*,root=ROOT,state=None,known_timeouts=None,timeout_s=
         elif output.exists():
             _check_existing(output,c,results)
             message=known_timeouts.get(c['candidate_id'])
-            if message!=TIMEOUT:raise ValueError('Unsealed prior export requires authenticated coordinator termination report; no cause assumed')
+            if message!=TIMEOUT:raise ValueError('Unsealed prior export requires explicit coordinator termination report; no cause assumed')
             result=recover(output,TimeoutError(message),root=root,timeout_s=timeout_s,reported_prior_timeout=True)
         else:
             try:old.compile(c,results,output=output,export_native=True,allow_incomplete=True)
