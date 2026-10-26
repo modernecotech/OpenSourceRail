@@ -67,10 +67,12 @@ def roof_revision(root=ROOT):
     for t,c in ((.0012,.040),(.0013,.040),(.0012,.045),(.0013,.045)):
         stock=_roof_stock(t,c);mass=_component_mass(stock)
         fixtures=[]
+        skin_tolerance=.00004 if t<=.0012 else .00005
         for pressure in (750.,1500.):
-            f=envelope.sandwich_strip(t-.00004,c-.0005,69e9,16e6,2.125,
+            f=envelope.sandwich_strip(t-skin_tolerance,c-.0005,69e9,16e6,2.125,
                                       pressure+mass*G/(17*2.65))
-            f.update(imposed_pressure_Pa=pressure,nominal_skin_m=t,minimum_skin_m=t-.00004,
+            f.update(imposed_pressure_Pa=pressure,nominal_skin_m=t,minimum_skin_m=t-skin_tolerance,skin_tolerance_m=skin_tolerance,
+                     skin_tolerance_basis='Yieh6082sheet table:width<=1000mm;>1.0..1.2mm+/-0.04mm,>1.2..1.5mm+/-0.05mm',
                      nominal_core_m=c,minimum_core_m=c-.0005,
                      shear_necessary_screen='pass' if f['core_peak_shear_Pa']<=.63e6/2 else 'fail',
                      face_necessary_screen='pass' if f['face_peak_bending_stress_Pa']<=260e6*.5/1.5 else 'fail')

@@ -90,3 +90,10 @@ def test_geometry_properties_of_a_real_drilled_panel():
     assert p['volume_m3']==pytest.approx(.12-math.pi*.01**2*.06)
     assert p['mass_kg']==pytest.approx(80*p['volume_m3'])
     assert p['cg_m'][0]>3.5 and p['cg_m'][1]>5.
+
+
+def test_roof_sheet_tolerance_uses_correct_supplier_thickness_band(car):
+    for proposal in car['components']['roof_revision']['variants']:
+        nominal=proposal['physical_definition']['skin_each_m']
+        expected=.00004 if nominal<=.0012 else .00005
+        assert all(f['skin_tolerance_m']==expected for f in proposal['fixtures'])
