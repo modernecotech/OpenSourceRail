@@ -13,6 +13,26 @@ concurrency:
   group: engineering-native-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 jobs:
+  readiness-browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: node tools/automation/tests/verify-engineering-readiness.mjs build/readiness-browser
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: readiness-browser
+          path: build/readiness-browser
   contracts:
     runs-on: ubuntu-latest
     timeout-minutes: 15
