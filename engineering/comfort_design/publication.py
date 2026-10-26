@@ -99,7 +99,15 @@ def readme(v):
         '```','',
         '[Compact results](summary.json) · [Source/payload receipt](manifest.json) · [Native FreeCAD model](vehicle.FCStd) · [Compressed STEP](vehicle.step.gz) · [Vehicle overview](vehicle-overview.svg) · [Coasting profile](service-profile.svg) · [Matched train/guideway section](interface-section.svg) · [Native CAD evidence](vehicle-artifacts.tar.gz) · [Rust method evidence](service-artifacts.tar.gz)','',
         f"Candidate: `{v['candidate_id']}`. Study: `{v['study_id']}`. Parent: `{v['parent_revision']}`. Engineering, manufacturing, operating and physical release flags remain false.",'']
-    return '\n'.join(lines)
+    text='\n'.join(lines)
+    if v['native_evidence']['execution']=='completed':
+        methods=v['native_evidence']['packages']
+        cad=methods['vehicle']['verification'];control=methods['service']['verification']
+        paragraph='\n'.join(['## Executed native evidence','',
+            f"Actual FreeCAD and STEP export/reopen checks passed for **{cad['primitive_count']:,} material primitives**, representing **{cad['defined_material_mass_kg']:,.3f} kg of defined material**. This is a subset of the accounted tare, with its own material-only CG/inertia; complete installed mass and CG remain unknown. The revised roof has zero native intersection volume with the checked primary longitudinal members; a full-body interference or structural release is not claimed.",'',
+            f"The current candidate-bound Rust package independently verifies **{control['controls']} executed controls**: nominal/journal120second departures and retained-authority receiving/brake/gap/integrity fault responses. Its healthy support and brake inputs remain explicit protocol fixtures. The native receipts, requests and logs are retained in the linked archives.",''])
+        text=text.replace('## Qualification and remaining work',paragraph+'\n## Qualification and remaining work')
+    return text
 
 
 def _payloads(v,native_paths):
