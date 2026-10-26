@@ -82,13 +82,15 @@ class FiniteBackingTests(unittest.TestCase):
         expected=sum(k['contact_area_m2']*k['depth_m']-4*pi*.0045**2*k['depth_m'] for k in patches)
         self.assertAlmostEqual(sum(q['volume_m3'] for q in added),expected,places=10)
         point_delta=j.materialize_body(self.base,j.default_parameters(),ROOT)['joint_body']['net_body_stock_delta_kg']
-        self.assertAlmostEqual(c['joint_body']['net_body_stock_delta_kg']-point_delta,f['added_stock_mass_kg']-f['removed_restored_panel_mass_kg']+f['restored_previous_panel_hole_mass_kg'],places=7)
+        self.assertAlmostEqual(c['joint_body']['net_body_stock_delta_kg']-point_delta,f['added_stock_mass_kg']-f['removed_restored_panel_mass_kg']+f['restored_previous_panel_hole_mass_kg']-f['removed_lap_notch_mass_kg'],places=7)
+        self.assertEqual(len(f['changed_lap_parent_ids']),12)
+        self.assertGreater(f['removed_lap_notch_mass_kg'],0)
         self.assertEqual(c['body_candidate_id'],identity(c['body_physical_definition']))
         self.assertNotEqual(c['body_candidate_id'],f['point_control_body_id'])
 
     def test_backing_material_does_not_overlap_retained_side_prisms(self):
         added=[q for q in self.car['geometry_parts'] if q['id'].startswith(('wheel-shell-clamp/finite/','finite-body-bond/'))]
-        retained=[q for q in self.car['geometry_parts'] if q.get('role')=='panel-side' and q['id'].startswith('comfort-shell/')]
+        retained=[q for q in self.car['geometry_parts'] if q.get('kind')=='box' and q['id'].startswith('comfort-shell/')]
         for a in added:
             for b in retained:
                 overlap=[min(a['at_m'][i]+a['size_m'][i],b['at_m'][i]+b['size_m'][i])-max(a['at_m'][i],b['at_m'][i]) for i in range(3)]

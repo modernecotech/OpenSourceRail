@@ -184,6 +184,14 @@ def _subtract_rectangle(rect,cut):
     return [r for r in ((x0,a,z0,z1),(b,x1,z0,z1),(a,b,z0,c),(a,b,d,z1)) if r[1]-r[0]>1e-10 and r[3]-r[2]>1e-10]
 
 
+def _subtract_box(bounds,cut):
+    lo=[max(bounds[i],cut[i]) for i in (0,2,4)];hi=[min(bounds[i+1],cut[i+1]) for i in (0,2,4)]
+    if any(b-a<1e-10 for a,b in zip(lo,hi)):return [bounds]
+    x0,x1,y0,y1,z0,z1=bounds;a,c,e=lo;b,d,f=hi
+    pieces=[(x0,a,y0,y1,z0,z1),(b,x1,y0,y1,z0,z1),(a,b,y0,c,z0,z1),(a,b,d,y1,z0,z1),(a,b,c,d,z0,e),(a,b,c,d,f,z1)]
+    return [p for p in pieces if min(p[1]-p[0],p[3]-p[2],p[5]-p[4])>1e-10]
+
+
 def materialize_finite_body(base_vehicle,parameters=None,root=ROOT):
     """Count real backing inserts and bonds; retain point-body as a control."""
     p=_finite_parameters(finite_parameters() if parameters is None else parameters);point_p={**{k:p[k] for k in default_parameters()},'joint':'four_bolt_rectangle'}
@@ -220,7 +228,22 @@ def materialize_finite_body(base_vehicle,parameters=None,root=ROOT):
         changed_parents.append(q.get('source_part_id',q['id']));removed_panel_mass+=q['mass_kg']-retained_volume*q['density_kg_m3']
         for j,(a,b,c,d) in enumerate(rects):
             r=deepcopy(q);r['id']=q.get('source_part_id',q['id'])+'-finite-segment-'+identity(rects)[:10]+f'-{j}';r['source_part_id']=q.get('source_part_id',q['id']);r['kind']='box';r['at_m']=[a,y0,c];r['size_m']=[b-a,ly,d-c];r['volume_m3']=(b-a)*ly*(d-c);r['mass_kg']=r['volume_m3']*r['density_kg_m3'];r['cg_m']=[a+(b-a)/2,y0+ly/2,c+(d-c)/2];r.pop('inertia_kg_m2',None);parts.append(r)
-    added,insert_hole_mass=wheel_body._drill(added,holes);parts.extend(added)
+    # Bottom inserts cross12 existing thin top-lap strips. Define their exact
+    # counted notches, rather than overlapping insert material or deleting a
+    # complete floor joint. Their revised joint strength remains unqualified.
+    trimmed=[];removed_lap_mass=0.;changed_laps=[]
+    for q in parts:
+        if '/lap/top/' not in q['id']:trimmed.append(q);continue
+        if q.get('kind')!='box' or q.get('holes') or q.get('rectangular_cutouts'):raise ValueError('Lap notch requires an explicit simple parent prism')
+        x,y,z=q['at_m'];lx,ly,lz=q['size_m'];bounds=[(x,x+lx,y,y+ly,z,z+lz)]
+        for patch in patches:
+            a,b,c,d=patch['footprint_xz_m'];lo,hi=sorted((patch['post_face_y_m'],patch['outer_face_y_m']));cut=(a,b,lo,hi,c,d);bounds=[p for old in bounds for p in _subtract_box(old,cut)]
+        volume=sum((b-a)*(d-c)*(f-e) for a,b,c,d,e,f in bounds)
+        if abs(volume-q['volume_m3'])<1e-12:trimmed.append(q);continue
+        removed_lap_mass+=q['mass_kg']-volume*q['density_kg_m3'];changed_laps.append(q['id'])
+        for k,(a,b,c,d,e,f) in enumerate(bounds):
+            r=deepcopy(q);r['id']=q['id']+'-finite-notch-'+identity(bounds)[:10]+f'-{k}';r['source_part_id']=q.get('source_part_id',q['id']);r['at_m']=[a,c,e];r['size_m']=[b-a,d-c,f-e];r['volume_m3']=(b-a)*(d-c)*(f-e);r['mass_kg']=r['volume_m3']*r['density_kg_m3'];r['cg_m']=[(a+b)/2,(c+d)/2,(e+f)/2];r.pop('inertia_kg_m2',None);trimmed.append(r)
+    parts=trimmed;added,insert_hole_mass=wheel_body._drill(added,holes);parts.extend(added)
     previous_mass=sum(q['mass_kg'] for q in v['geometry_parts']);extra=sum(q['mass_kg'] for q in parts)-previous_mass;delta=sum(q['mass_kg'] for q in parts)-sum(q['mass_kg'] for q in base_vehicle['geometry_parts'])
     physical=dict(parent_candidate_id=base_vehicle['candidate_id'],parent_body_candidate_id=base_vehicle['body_candidate_id'],point_transfer_control_body_id=point_id,parameters=p,geometry_parts=wheel_body._physical_body_parts(parts),support_interface_id=v['support_component_id'])
     v['geometry_parts']=parts;v['body_physical_definition']=physical;v['body_candidate_id']=identity(physical);v['candidate_id']=identity(dict(parent_candidate_id=base_vehicle['candidate_id'],body_candidate_id=v['body_candidate_id'],support_component_id=v['support_component_id'],propulsion_component_id=v['propulsion_component_id']))
@@ -230,7 +253,7 @@ def materialize_finite_body(base_vehicle,parameters=None,root=ROOT):
     v['axle_loads'].update(empty_kg_per_axle=v['mass']['accounted_tare_kg_per_car']/4,normal_kg_per_axle=v['mass']['accounted_cap_loaded_kg_per_car']/4,crowd_control_kg_per_axle=v['mass']['accounted_160_control_kg_per_car']/4)
     v['inventory']=[q for q in v['inventory'] if q['id']!='four-bolt-body-revision']+[dict(id='finite-backing-body-revision',system='body',mass_kg=delta,evidence_class='counted-stock-with-synthetic-intact-bond-and-rigid-post-face')]
     hypothesis='Explicit counted aluminium backing inserts, face/perimeter bonds and four bolt stacks per pad; intact no-slip perfect bonds. Finite post-face area follows existing frame section translation/rotation; local post-wall/bearing compliance and bolt preload/slip/failure are not resolved.'
-    v['joint_body'].update(parameters=p,net_body_stock_delta_kg=delta,finite_backing=dict(patches=patches,added_stock_mass_kg=sum(q['mass_kg'] for q in added),removed_restored_panel_mass_kg=removed_panel_mass,restored_previous_panel_hole_mass_kg=restored_panel_hole_mass,new_insert_hole_mass_kg=insert_hole_mass,point_control_body_id=point_id,changed_panel_parent_ids=sorted(set(changed_parents)),material='6082-T6-proposed',bond_material='synthetic-intact-epoxy-bond'),joint_hypothesis=hypothesis)
+    v['joint_body'].update(parameters=p,net_body_stock_delta_kg=delta,finite_backing=dict(patches=patches,added_stock_mass_kg=sum(q['mass_kg'] for q in added),removed_restored_panel_mass_kg=removed_panel_mass,restored_previous_panel_hole_mass_kg=restored_panel_hole_mass,removed_lap_notch_mass_kg=removed_lap_mass,changed_lap_parent_ids=changed_laps,new_insert_hole_mass_kg=insert_hole_mass,point_control_body_id=point_id,changed_panel_parent_ids=sorted(set(changed_parents)),material='6082-T6-proposed',bond_material='synthetic-intact-epoxy-bond'),joint_hypothesis=hypothesis)
     v['wheel_body'].update(stock_mass_delta_kg=delta,lineage='New finite-area backed four-bolt family; old point-control retained, no inherited numerical results',part_graph=dict(parts=[dict(id=q['id'],source_part_id=q.get('source_part_id'),mass_kg=q['mass_kg'],material=q.get('material')) for q in parts],pad_connections=v['wheel_body']['pads']))
     v['source_sha256'][PRODUCER]=digest(__file__);v['evaluation_id']=identity(v);return v
 
