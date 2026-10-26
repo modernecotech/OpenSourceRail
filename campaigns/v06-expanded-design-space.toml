@@ -1,0 +1,19 @@
+schema = "osr-expanded-design-space/1"
+name = "Material, load-path, joining and station-motor alternatives"
+purpose = "next-experiment"
+parent_publication = "docs/design-engine/v06-optimisation"
+maximum_structural_proposals = 12
+maximum_propulsion_proposals = 12
+maximum_native_motor_cases = 4
+maximum_native_coupon_cases = 4
+maximum_temperature_C = 80.0
+native_package_roots = ["build/v06-loop/expanded-motor-native-r1", "build/v06-loop/expanded-structural-coupons-r3"]
+
+fixed_interfaces = ["six 17m cars", "44 seats and two wheelchair places per car", "one-sided passenger doors", "160-person crowd structural control retained", "passive wheel bogies", "no onboard normal traction motor, traction battery or permanent magnet", "120s target headway; service feasibility remains open"]
+variable_groups = ["structural architecture and load paths", "core material, density and cell orientation", "face material, ply angles and thickness", "sections, crossmember pitch and opening reinforcement", "bond, bolts, inserts, edge closures and hardpoints", "passive fin and primary topology", "pole pitch, slots, return iron, conductor and circuits", "cooling and maintainability", "declared speed/acceleration/powered-zone requirement alternatives", "glazing retention and thermal movement", "modular HVAC with actual hot-weather capacity"]
+selection_rule = "Do not rank full-body performance before all-axis model validation; supplier typical properties are research inputs, not train design allowables."
+
+[[retained_failures]]
+directory = "build/v06-loop/expanded-structural-coupons-r1"
+source_commit = "e07be9359ca821c544677ef4630e9c2c4bdb6562"
+reason = "Two shear fixtures refused an overlong numeric field; original deck/log/source retained. Final rerun changes serialization and tool provenance only."

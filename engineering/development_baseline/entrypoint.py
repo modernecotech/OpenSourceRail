@@ -184,6 +184,11 @@ def main(argv=None, root=ROOT):
     if command in ('design', 'infrastructure'):
         command, rest = (rest[0], rest[1:]) if rest else ('status', [])
     try:
+        if command=='space':
+            from engineering.station_rail import design_space
+            if rest==['build']:emit(design_space.build(root));return 0
+            if rest==['verify']:emit(design_space.verify(root));return 0
+            raise ValueError('Use ./osr design space build or verify')
         if command=='campaign':
             from engineering.design_search import campaign
             if not rest:raise ValueError('Use campaign create/run/compare/publish')

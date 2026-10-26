@@ -49,6 +49,8 @@ The three-generation trial reduced the frame branch’s normal-load deflection f
 
 Research ranking can select the next experiment while every complete design remains unqualified. The participating-panel trial remains numerically nonconverged in lateral motion; its vertical results are diagnostic, with no structural acceptance. Invalid numerical results cannot provide physical ranking values; unknown installed equipment and whole-life prices remain explicit.
 
+The [broader design search](docs/design-engine/v06-design-space/README.md) adds aluminium, GFRP and hybrid load paths; PET/PVC foam and directional honeycomb; joints, inserts, floors and roof panels; alternative station-motor arrangements; and explicitly identified lower-speed service options. Primary supplier data guides necessary bounds and test plans. New structures require validated evaluators before full-body ranking. Run `./osr design space build` and `./osr design space verify` to reproduce the comparison.
+
 ## Use the repository
 
 ```bash

@@ -267,6 +267,13 @@ async function start() {
     } catch (error) {
       byId("campaign-status").textContent = "No current source-bound campaign publication is available.";
     }
+    try {
+      const space = await request("/api/design-space/current");
+      if (space.physical_accepted !== false || space.default_changed !== false) throw Error("Research dispositions differ");
+      byId("design-space-status").textContent = `${space.structural_proposals} structural and ${space.propulsion_proposals} propulsion proposals, with sourced cores, joints, glazing and HVAC leads. Full-body models and whole-system selection remain held.`;
+    } catch (error) {
+      byId("design-space-status").textContent = "No current source-bound design-space publication is available.";
+    }
     for (const key of identityKeys)
       fact(byId("identities"), key.replaceAll("_", " "), current[key]);
     byId("native-scope").textContent =

@@ -47,7 +47,7 @@ def build(root=ROOT,output=None,check=False):
     def clean(text):
         for c in ('\u2014','\u2013','\u2011','\u2212'):text=str(text).replace(c,'-')
         import re
-        if not re.fullmatch(r'[a-f0-9 ]{32,}',str(text)):
+        if not (re.fullmatch(r'[a-f0-9 ]{32,}',str(text)) or re.fullmatch(r'g\d+ / [a-f0-9]{10}',str(text))):
             text=re.sub(r'\b(give|and|at|The|is|of|by|from|to|for|cover|approximately|its|uses|with|within|over|a|A|about|including|limit)(?=\d)',r'\1 ',str(text))
             text=re.sub(r'(?<=\d)(?=[A-Za-z])',' ',text)
             text=re.sub(r'%(?=[A-Za-z])','% ',text)
@@ -183,7 +183,7 @@ def build(root=ROOT,output=None,check=False):
     for c in campaign['candidates']:
         body=next((x for x in c['body_cases'] if x['case']=='normal-fine'),{})
         deflection='Unknown' if body.get('maximum_vertical_displacement_m') is None else f"{1000*body['maximum_vertical_displacement_m']:.1f}mm"
-        rows.append((f"g{c['generation']} /{c['candidate_id'][:10]}",f"{c['mass_kg_per_car']/1000:.3f}t",deflection,c['motor_numerical_status']))
+        rows.append((f"g{c['generation']} / {c['candidate_id'][:10]}",f"{c['mass_kg_per_car']/1000:.3f}t",deflection,c['motor_numerical_status']))
     table(['Generation /candidate','Accounted tare/car','Normal deflection','Motor validity'],rows,[145,100,115,130])
     research=next((c for c in campaign['candidates'] if c['candidate_id']==campaign['next_experiment']['selected_candidate_id']),None)
     if research:
@@ -201,6 +201,7 @@ def build(root=ROOT,output=None,check=False):
     para('Inspect docs/design-engine/v06-optimisation/ and ./osr design campaign create/run/compare/publish. Typed next tasks retain candidate and trigger IDs with bounded scope. The266city packages and prior physical evidence remain preserved.')
     page('12. Reproduce and inspect')
     para('Use ./osr status, ./osr readiness, ./osr build, ./osr verify, ./osr test, ./osr book --check and ./osr workbench. ./osr sim baghdad reports its deliberate city-evaluation hold. ./osr legacy verify checks retained source/payload bytes at their recorded Git revisions.')
+    para('The broader design-space comparison adds supplier-bound PET/PVC and directional honeycomb cores, aluminium/GFRP load paths, joints/inserts, motor topologies, glazing and HVAC leads. Run ./osr design space build/verify. Necessary bounds and component fixtures guide the next experiments; they do not establish a complete train or silently change the default.')
     para('The v0.5 archive preserves magnetic development evidence; its source and results are not overwritten to match a wheel-supported train. Historical numerical regeneration belongs in a separate checkout of the pinned revision.')
     sub('Repository records')
     for text in ('engineering/development-baseline.toml','engineering/station_rail/brief.toml','docs/design-engine/current/README.md','docs/design-engine/current/evaluation.json.gz','docs/design-engine/current/comparison.json','docs/design-engine/current/manifest.json','docs/design-engine/current/exports/manifest.json','docs/archives/v0.5-maglev/manifest.json'):

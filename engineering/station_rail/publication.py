@@ -91,8 +91,9 @@ def sources(root,record,index,delivery):
         names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.toml','.js','.html','.css') and '__pycache__' not in p.parts]
     followup=root/'docs/design-engine/v06-physical-closure'
     if followup.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(followup.iterdir()) if p.is_file()]
-    campaign_folder=root/'docs/design-engine/v06-optimisation'
-    if campaign_folder.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(campaign_folder.rglob('*')) if p.is_file()]
+    for folder in ('v06-optimisation','v06-design-space'):
+        campaign_folder=root/'docs/design-engine'/folder
+        if campaign_folder.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(campaign_folder.rglob('*')) if p.is_file()]
     return evaluation.merge(*maps,{n:digest(root/n) for n in sorted(set(names))})
 
 def compact(record,index,natives,delivery):

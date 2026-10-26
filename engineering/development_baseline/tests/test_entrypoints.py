@@ -277,13 +277,15 @@ def test_reader_cache_refuses_changed_native_followup(reader_cache):
         book.build(root=root,check=True)
 
 
-def test_campaign_api_requires_bound_research_bytes(packet):
+@pytest.mark.parametrize('endpoint,relative,schema',[
+    ('campaigns','docs/design-engine/v06-optimisation/summary.json','osr-wheel-iterative-campaign-publication/1'),
+    ('design-space','docs/design-engine/v06-design-space/summary.json','osr-expanded-design-space-summary/1')])
+def test_campaign_api_requires_bound_research_bytes(packet,endpoint,relative,schema):
     root,_,manifest=packet
-    relative='docs/design-engine/v06-optimisation/summary.json'
-    value=dict(schema='osr-wheel-iterative-campaign-publication/1',physical_accepted=False,engineering_accepted=False,configuration_adopted=False,manufacturing_release=False,operating_release=False)
+    value=dict(schema=schema,physical_accepted=False,engineering_accepted=False,configuration_adopted=False,manufacturing_release=False,operating_release=False)
     write_json(root/relative,value)
     server=make_server(root=root,port=0);thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
-    url='http://127.0.0.1:'+str(server.server_address[1])+'/api/campaigns/current'
+    url='http://127.0.0.1:'+str(server.server_address[1])+'/api/'+endpoint+'/current'
     try:
         with pytest.raises(urllib.error.HTTPError) as caught:urllib.request.urlopen(url)
         assert caught.value.code==503

@@ -71,12 +71,14 @@ class Handler(BaseHTTPRequestHandler):
                 read_packet(self.root)
                 self.respond(200, status(self.root))
                 return
-            if path=='/api/campaigns/current':
+            if path in ('/api/campaigns/current','/api/design-space/current'):
                 _,publication=read_packet(self.root)
-                relative='docs/design-engine/v06-optimisation/summary.json';source=checked_path(self.root,relative)
+                campaign=path=='/api/campaigns/current'
+                relative='docs/design-engine/'+('v06-optimisation' if campaign else 'v06-design-space')+'/summary.json';source=checked_path(self.root,relative)
                 if publication.get('source_sha256',{}).get(relative)!=digest(source):raise CurrentUnavailable('Campaign summary lacks a current source binding')
                 value=json.loads(source.read_bytes())
-                if value.get('schema')!='osr-wheel-iterative-campaign-publication/1' or any(value.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):
+                schema='osr-wheel-iterative-campaign-publication/1' if campaign else 'osr-expanded-design-space-summary/1'
+                if value.get('schema')!=schema or any(value.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):
                     raise CurrentUnavailable('Unaccepted research campaign required')
                 self.respond(200,value)
                 return

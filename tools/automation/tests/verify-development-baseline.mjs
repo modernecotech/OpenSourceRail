@@ -135,6 +135,14 @@ try {
   await page.waitForFunction((count) => document.querySelectorAll("#campaign-rows tr").length === count, campaign.candidates.length);
   report.research_campaign_id = campaign.campaign_id;
   report.research_candidates = campaign.candidates.length;
+  const spaceResponse = await context.request.get(origin + "/api/design-space/current");
+  assert.equal(spaceResponse.status(), 200, await spaceResponse.text());
+  const space = await spaceResponse.json();
+  assert.equal(space.default_changed, false);
+  assert.equal(space.physical_accepted, false);
+  await page.waitForFunction(() => document.querySelector("#design-space-status").textContent.includes("structural and"));
+  report.structural_proposals = space.structural_proposals;
+  report.propulsion_proposals = space.propulsion_proposals;
   const cityResponse = await context.request.get(origin + "/api/city/baghdad");
   assert.equal(cityResponse.status(), 503, await cityResponse.text());
   const city = await cityResponse.json();

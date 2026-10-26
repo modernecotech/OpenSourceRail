@@ -24,6 +24,8 @@ The [v0.6 campaign](design-engine/v06-optimisation/README.md) connects the exist
 
 Next extend validated physical families and full position/current/temperature motor maps, correlate structural joints and braking with hardware, and execute the same-candidate protected journey. Preserve competing cost/quantity alternatives and retain every failed or interrupted trial.
 
+The [expanded design space](design-engine/v06-design-space/README.md) generates supplier-bound foam/honeycomb, aluminium/GFRP/hybrid, joining and motor alternatives. Necessary bounds reject the retained PVC core at the 80°C research condition; a PET revision preserves ancestry. New directional shear and sandwich-bending method fixtures pass, while new motor samples still fail thrust and material-domain screens. Resolve the diagnosed clamp rotational-restraint deficiency before ranking full-body material substitutions. Corrugated panels and hollow double-skin extrusions remain explicit geometry/data/model tasks.
+
 ## Release gates
 
 | Gate | Required result |
