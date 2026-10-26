@@ -9,7 +9,22 @@ import {launchBrowser} from './browser-launch.mjs';
 const root=resolve(import.meta.dirname,'../../..'),out=resolve(process.argv[2]||'build/readiness-browser');
 await mkdir(out,{recursive:true});
 const python=existsSync(resolve(root,'.venv/bin/python'))?resolve(root,'.venv/bin/python'):'python3';
-const server=spawn(python,['-u','tools/automation/maglev-workbench.py','--port','0'],{cwd:root,stdio:['ignore','pipe','pipe']});
+const host=`import importlib.util,sys
+from pathlib import Path
+from http.server import ThreadingHTTPServer
+root=Path(sys.argv[1]);sys.path.insert(0,str(root))
+spec=importlib.util.spec_from_file_location('readiness_test_workbench',root/'tools/automation/maglev-workbench.py')
+module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+from engineering.trip_dynamics.interactive import TripService
+from engineering.trip_dynamics.interface_integrity import primary_integrity
+server=ThreadingHTTPServer(('127.0.0.1',0),module.Handler)
+server.publication_integrity=primary_integrity(root)
+server.trip_service=TripService(root,output_root=Path(sys.argv[2])/'private-jobs',max_workers=1)
+print('http://127.0.0.1:'+str(server.server_port),flush=True)
+try: server.serve_forever()
+finally: server.trip_service.close();server.server_close()
+`;
+const server=spawn(python,['-u','-c',host,root,out],{cwd:root,stdio:['ignore','pipe','pipe']});
 let logs='',browser;
 server.stdout.on('data',chunk=>{logs+=chunk;});server.stderr.on('data',chunk=>{logs+=chunk;});
 try{
