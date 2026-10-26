@@ -25,6 +25,10 @@ def _bound(record):
 def compile(record, *, root=ROOT, city_index=None):
     """Return one candidate-bound package; no legacy component is a fallback."""
     evaluate.validate(record, root)
+    producer = 'engineering/development_baseline/exports.py'
+    producer_bytes = Path(__file__).read_bytes()
+    if (Path(root) / producer).is_symlink() or (Path(root) / producer).read_bytes() != producer_bytes:
+        raise ValueError('executed export producer differs from source root')
     car, service, interfaces = record['vehicle'], record['service'], record['interfaces']
     station, civil = service['selected_station'], interfaces['civil']
     common = dict(schema=SCHEMA, **_bound(record), evaluation_id=record['evaluation_id'],
@@ -100,7 +104,7 @@ def compile(record, *, root=ROOT, city_index=None):
             fully_installed_route_quantities=None, installed_price_per_direction_km_USD=None),
         controls=controls,
         source_sha256=evaluate._merge(record['source_sha256'], {
-            'engineering/development_baseline/exports.py': sha256((Path(root) / 'engineering/development_baseline/exports.py').read_bytes()).hexdigest()}),
+            producer: sha256(producer_bytes).hexdigest()}),
         **FLAGS)
 
 

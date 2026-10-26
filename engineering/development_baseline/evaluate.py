@@ -40,7 +40,14 @@ def _merge(*mappings):
 
 def sources(root=ROOT):
     root = Path(root).resolve()
-    return {name: sha256((root / name).read_bytes()).hexdigest() for name in PRODUCERS}
+    result = {}
+    for name in PRODUCERS:
+        executed = Path(__file__).with_name(Path(name).name).read_bytes()
+        path = root / name
+        if path.is_symlink() or path.read_bytes() != executed:
+            raise ValueError('executed current producer differs from source root: ' + name)
+        result[name] = sha256(executed).hexdigest()
+    return result
 
 
 def _fleet(network, root):
