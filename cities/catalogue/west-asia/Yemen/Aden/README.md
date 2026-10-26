@@ -1,111 +1,43 @@
-<!-- osr-maglev-primary:start -->
-# Aden — PM-maglev station-launched monorail
+# Aden — comfort-first OpenSourceRail development design
 
-**Country:** YE · **Retained population input:** 985,000
+OpenSourceRail seeks simple, affordable, locally maintainable transport: repeated lightweight trains, concrete beams with passive steel facings, onboard permanent magnets and suspension controls, and powered launch/receiving zones at stations. The current development default gives passengers four-abreast seating and a controlled low standing load. Transfers connect fixed lines.
 
-**Design objective: broad urban access with low CAPEX, low OPEX and affordable debt repayment, while building domestic manufacturing and maintenance capacity.**
+**Selected for development; physical operation is not yet established.** This city uses the same six-car comfort candidate as the system default. Existing geographic corridors and stops are retained.
 
-![Current geographic network proposal](engineering/maglev/network.svg)
+![Retained city geography and network context](engineering/maglev/network.svg)
 
-This brief restores network, service, energy, funding and local-production detail for the current PM-maglev city inputs. Old wheel/rail fleet, coverage, energy and savings figures are not transferred. Physical and manufacturing acceptance remain open.
+The retained map preserves its underlying city detail. Its older engineering annotations are historical; the current vehicle and service calculations below supersede those annotations. Route and station sites remain proposals.
 
-| City planning measure | Current result |
+
+| Current development basis | Result |
 |---|---:|
-| Fixed lines / mapped transfer junctions | 5 / 6 |
-| Measured corridor route length | 56.4 km, two directional guideways |
-| Proposed mainline line-stop packages | 34 |
-| Original station access records retained | 26 |
-| Additional terminal motor zones / midway boosters | 20 / 19 |
-| Provisional fleet / cars | 74 / 222 |
-| Equivalent scheduled train-km/day incl. loops | 24,544 |
-| Capacity-shortfall lines / transfer-spacing conflicts | 5 / 2 |
-| Accepted engineering / physical releases | 0 |
+| Formation | 6 × 17 m cars |
+| Per-car accommodation | 44 seats + 2 wheelchair places; no planned standing |
+| Passenger doors | Two doors on one side per car |
+| Accounted tare / cap-loaded material mass per car | 17.357 / 20.807 t |
+| Complete installed mass, CG and inertia | Unknown |
+| Launch-speed cap / target headway / dwell | 72 km/h / 120 s / 35 s |
+| Arithmetic normal capacity | 8,280 passengers/hour/direction |
+| Retained 14,400 pphpd comparison | Not met by this comfort capacity |
+| Lines / retained route / proposed stops | 5 / 56.4 km / 34 |
+| Peak active + spare + cold reserve trainsets | 114 + 16 + 5 |
+| Total trainsets / cars | 135 / 810 |
+| Additional stops imposed by this default | 0 |
+| Counted mainline station winding, directional | 48.6 km |
+| Mainline powered coverage / overlapping intervals | 38.4% / 0 |
 
-Line-stop packages count platforms on independent lines separately, not unique station buildings. Retained population is a planning input, not a measured catchment. Walking catchments, coverage, accessibility and paid-trip forecasts need regeneration against proposed sparse stops; no old coverage percentage is inherited.
+Fleet is recalculated from each actual coast/brake leg, retained terminal-time hypotheses, 35-second dwell, a 120-second target interval, 12% rounded-up spares and one cold reserve per line. Every reachable arrival selects the shortest full-engagement option from 350/450/600/800/900/1,000 m. These motors occupy substantial route length; each direction needs at least two independently routed train phase/current branches. Terminal motors and safe operational headway remain unqualified.
 
-## Lines and service
+Analytical result: **conditional-analytical-survivor**; 0 lines have unreachable coasting legs and 0 lines have station-library failures. Failed cases stay in the data; their complete fleet/quantity totals remain unknown.
 
-| Line | Route km | Stops | Cars / AW2 passengers | Peak / total trains | Headway s | AW2 passengers/h/direction | Service hours/day |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| line-1 | 17.1 | 10 | 3 / 360 | 17 / 20 | 270 | 4,800 | 20.5 |
-| line-2 | 13.7 | 8 | 3 / 360 | 14 / 17 | 280 | 4,629 | 20.5 |
-| line-3 | 15.1 | 9 | 3 / 360 | 16 / 19 | 260 | 4,985 | 20.5 |
-| line-4 | 4.6 | 3 | 3 / 360 | 6 / 8 | 270 | 4,800 | 20.5 |
-| line-5 | 5.9 | 4 | 3 / 360 | 8 / 10 | 250 | 5,184 | 20.5 |
+The selected prototype civil interface counts **865.1 tonnes of steel per directional kilometre**, before unclosed reinforcement, prestress, end blocks, bearings, piers and foundations. This heavy extrapolation is a redesign input, not an optimised viaduct or an installed bill. All current CAPEX, OPEX, debt service, imported-content and price-coverage totals remain unknown pending matched designs and quotations.
 
-Headways are the current exclusive protected-resource comparison, not an accepted timetable. Urban stops target1.5km minimum/about2km average; classified suburban legs target4–5km with located acceleration where needed. Junctions transfer passengers between fixed lines. Close transfer nodes, terminal loops and capacity shortfalls remain explicit design work.
+Stable multiaxis hover, a complete equipped vehicle, actual station thrust/electrical/thermal limits, fault stopping, civil acceptance and safe two-minute operation remain open. The mass ledger, energy requirements, winding layout, source hashes and failures are retained in the machine-readable record.
 
-## Why this architecture
+[Primary planning method](../../../../../docs/design-engine/current/README.md) · [Current calculation and source identities](engineering/current/summary.json) · [Historical ferrite planning package](engineering/maglev/README.md) · [Historical city front page at the pinned source](https://github.com/modernecotech/OpenSourceRail/blob/578ee3950b872bf30fbf9e4207b2bda85951bdd7/cities/catalogue/west-asia/Yemen/Aden/README.md)
 
-**The main proposition is useful city-wide reach with less construction capital, operating expenditure and long-term debt repayment.** PM-maglev station-launched monorail is the means being investigated. Affordability and domestic capability must be demonstrated at equal passenger service.
-
-| Intended advantage | Design mechanism | Evidence and cost test |
-|---|---|---|
-| Affordable reach | Compact repeated elevated beams, straight demand-led tangents and independent fixed lines with passenger transfers. | Compare complete CAPEX per route km and residents served; survey access, rights, ground and crossings. |
-| Simpler rolling stock | Station/located-booster LSMs replace onboard main traction motors and inverters; passive ferrite bias with active support remains. | Price retained coils, drives, sensing, braking, cooling, batteries, doors and HVAC; measure mass, energy and maintenance. |
-| Station-led GOA4 dispatch | Prepare receiving resources, prove doors/platform safe, commit launch, verify full-tail clearance, then consider the following departure. | Retain separation, stopping authority, receiving readiness, intrusion detection, integrity, protection and degraded recovery. |
-| Domestic productive capacity | Local precast units, GFRP bodies, steel carriers, winding cassettes, wiring, Rust integration and serial QA. | Audit imported raw materials, semiconductors and machine tools; count domestic value added rather than a local supplier address. |
-| Lower operating burden | Aim for less contact wear, fewer propulsion components per moving vehicle and repeatable wayside maintenance. | Include support power, launch losses, staff across shifts, rescue, maintenance, renewals and availability; no automatic saving percentage. |
-| Manageable repayment | Phase useful corridors; minimise whole-life public cash and foreign-currency borrowing alongside construction cost. | Separate resource cost, borrower cash, imported procurement and debt currency; demonstrate affordable annual funding before expansion. |
-| Open and repairable systems | Published hardware/process quantities, reproducible Rust tests, interchangeable interfaces and local tooling skills. | Qualify interfaces, independent assurance, spares and second sources; software licences alone do not qualify a train. |
-
-## CAPEX, OPEX and debt repayment
-
-**Affordability is a design objective:** maximise useful coverage and domestic capability per unit of construction capital, annual operating cash and debt repayment.
-
-These scope-covering scenarios add explicit allowances to the existing partial quantity bill. They are unquoted budget sensitivities; the complete engineered estimate and funding offer remain open. Values are constant USD.
-
-| Scenario | Budget CAPEX | Annual OPEX | Annual debt service | Annual OPEX + debt | 30-year operating life + construction borrower cash |
-|---|---:|---:|---:|---:|---:|
-| low | $527.0m | $16.9m | $16.9m | $33.8m | $1,266.2m |
-| base | $1,043.7m | $51.5m | $69.0m | $120.4m | $3,546.2m |
-| high | $2,287.5m | $168.6m | $255.6m | $424.2m | $10,790.4m |
-
-The combined annual figure excludes irregular renewal payments; those are included in the full cash schedule. Construction interest and fees are paid separately. Resource cost counts CAPEX once; borrower cash counts equity and loan repayments, avoiding a second count of financed principal.
-
-| Scenario | Debt / equity CAPEX | Foreign-currency debt | Total construction + repayment interest | Whole-life resource cost | Discounted resource cost |
-|---|---:|---:|---:|---:|---:|
-| low | $263.5m / $263.5m | $65.9m | $184.5m | $1,076.4m | $676.4m |
-| base | $730.6m / $313.1m | $365.3m | $776.5m | $2,755.0m | $1,588.6m |
-| high | $1,944.4m / $343.1m | $1,555.5m | $2,376.2m | $8,375.3m | $4,400.1m |
-
-[Every allowance, energy component, finance assumption and yearly cash flow](engineering/maglev/summary.json) → `affordability`. Five construction years and 30 operating years are hypotheses. No fare or subsidy revenue is assumed. Complete financing must address local-currency revenue, foreign-currency debt, lender terms, resilience and renewal funding.
-
-The same-service procurement sensitivity assumes 1.5× CAPEX and 1.1× OPEX, without changing coverage, timetable, loan rate or tenor. It illustrates the effect of procurement cost and foreign borrowing; it is not an independently priced alternative. Proven cost advantage and local-content percentages remain open.
-
-[Whole-life appraisal reference](https://www.gov.uk/government/publications/the-green-book--2/the-green-book-2026). [UKEF Buyer Credit](https://www.gov.uk/guidance/buyer-credit-facility) can finance up to85% of an eligible export contract, subject to assessment; that does not establish85% financing of this city programme. [UK content requirements](https://www.gov.uk/government/publications/ukefs-approach-to-foreign-content/ukefs-approach-to-foreign-content) need a transaction-specific content schedule. No UKEF approval, tariff, lender commitment or economic multiplier is assumed.
-
-## Energy and operating cost detail
-
-| Scenario | Annual services supply GWh | Positive traction GWh | Extra fixed-zone losses GWh | Station auxiliaries GWh | Electricity USD/kWh | Annual energy cost | Annual staff cost | Annual maintenance/admin allowance |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| low | 64.5 | 21.2 | 75.3 | 3.0 | 0.06 | $9.8m | $1.8m | $5.3m |
-| base | 64.5 | 21.2 | 112.9 | 7.4 | 0.12 | $24.7m | $5.9m | $20.9m |
-| high | 64.5 | 21.2 | 188.2 | 14.9 | 0.25 | $72.2m | $16.4m | $80.1m |
-
-Hot services and station auxiliary demand are conservative planning allowances, not measured consumption. Positive traction includes no regeneration credit. Additional winding/conversion losses use explicit8/12/20kWh per fixed-zone event, including separately counted boosters; these are sensitivities rather than measured route-specific loss maps. Reserve/depot movement, missed charging, wind, grade, full field maps, electrical diversity and supply resilience need further duty studies. No automatic solar or grid-independence credit is applied.
-
-## Station-led GOA4 operation
-
-Normal operation centres on the station: reserve a protected receiving path/berth, prove vehicle support and services ready, prove doors/platform safe, prepare and commit the finite powered launch, monitor coast/booster/arrival, then release each resource with valid train-identity and full-consist clearance evidence. A leading train leaving a station can make its berth available to the next train once its entire tail is proved clear and the following movement has protected authority. A launch command or elapsed timer alone does not release occupancy.
-
-Fixed lines eliminate mainline route-switch choices. Wayside launch/receive equipment concentrates primary propulsion and dispatch infrastructure at known sites. Independent onboard support/guidance current control and protection continue during coasting. Receiving plant must remain protected after launch; a fault cannot be resolved by simply cancelling a coasting train.
-
-Current city fleet/capacity calculations retain exclusive whole-leg reservation. The separate progressive-departure Rust candidate tests release behind a verified full tail, finite stopping envelopes and faults at180s headway. Local results have not qualified route-wide distributed detectors, cross-controller authority, degraded recovery or a city timetable. Driverless/GOA4 is the operating target, without operational authorisation or an assumed zero staff budget. [ORR unattended-operation principles](https://www.orr.gov.uk/sites/default/files/2024-07/railway-safety-principles-factors-for-safe-operation-of-goa4-uto.pdf) are a design reference for departure, passenger protection and degraded operation; they are not Iraqi operational approval.
-
-## Energy and local delivery
-
-Energy uses daily service windows capped by current resource headways, hot full-load services duty, positive traction without regeneration credit, charging conversion, additional fixed-zone losses and station auxiliaries. Each affordability case exposes its tariff and loss assumptions. PV, storage, backup, depot movements and electrical diversity need site sizing; no zero-grid-import promise is inherited.
-
-Factory routes cover precast mould/cage/cast/cure/survey, GFRP layup/cure/hardpoints, iron/carrier fabrication, ferrite cartridge assembly, coil winding/impregnation, LSM cassette and power-cabinet assembly, software/IO tests and serial QA. Erection requires surveyed access, crane-at-radius checks, temporary stability, positively locked connections and final alignment. Quantities, equipment leads and process steps are in the manufacturing bill.
-
-Prioritise machinery verified as made in Britain when UK capability is needed, and maximise qualified local manufacture/repair in the destination country. Imported inputs, machine tools, electronics and specialist services need order-specific origin and price records. Local-content percentages, jobs and economic multipliers remain unquantified.
-
-## Phased realisation and evidence
-
-Start with a useful connected corridor, its depot/energy/rescue access and the factory capacity it needs. Prove that service before committing the next production batch. Phase boundaries, minimum useful network, demand, procurement, lender terms and annual affordability require a city business case; the five-year drawdown is a sensitivity rather than an approved programme.
-
-[Full city design, limitations and open gates](engineering/maglev/README.md) · [Structured service, CAPEX/OPEX and annual debt cash flows](engineering/maglev/summary.json) · [Manufacturing bills and UK equipment leads](engineering/maglev/manufacturing.json) · [Preserved geography and demand](engineering/maglev/retained-records.json)
-
-Regenerate with `./osr city aden`. The same detailed template and whole-life arithmetic apply across the catalogue.
-<!-- osr-maglev-primary:end -->
+Candidate `957f7e4e2e0e98b575810fb0c568554968fc1eb0715fb673827a16bcf63d400b`  
+Body `1eca1897b983bf62ec315cdc39aca2e2387f93ad6ab0c195bc278e14c8fb120b`  
+Magnet `397ddf033ab98afaea053acaa3047249a3329f542f1f5e52a6eb1b466b9662e0`  
+Selection `c76af04990ab43d9644b884eb1a7d103851aa53fcc963505bdb0b7580ae74e77`  
+Evaluation `f58c469ec4a6b0d6cbe119bc2e655dccb25bda4948807f902291374ddc6c344e`

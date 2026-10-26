@@ -1,6 +1,6 @@
 # OpenSourceRail engineering work
 
-Develop simple fixed-zone ferrite maglev, affordable whole-life transport and high
+Develop simple station-powered PM-assisted maglev, affordable whole-life transport and high
 normal passenger throughput. Preserve local manufacture, repairability and open
 design knowledge. Wayside propulsion, independent onboard support and services,
 and passenger transfers between fixed lines are separate engineering interfaces.
@@ -15,10 +15,16 @@ and passenger transfers between fixed lines are separate engineering interfaces.
 - Count joints, fasteners, cooling, wiring, protection and maintenance envelopes.
   Unknown installed mass, price, thermal duty or origin remains unknown or bounded;
   it never becomes zero. Derived subtotals are not complete installed quantities.
-- Keep the six-car Baghdad context explicit: 120 AW2 passengers/car and the
-  14,400 passengers/hour/direction comparison require 180-second headway. Other
-  formations and service specifications are named alternatives with their full
-  platform, charging, civil, evacuation and fleet consequences.
+- The repository development default is engineering/development-baseline.toml:
+  six 17 m cars, 44 fixed seats plus two wheelchair places/car, no planned standing,
+  two doors on one side and a 120-second target (8,280 normal passengers/hour/
+  direction). The retained-stop network proposal uses a 72 km/h launch cap.
+  All permanent magnets and fast support controls stay onboard; ordinary guideway
+  is concrete with passive steel facings. Development selection is not acceptance.
+- Preserve the former 120-person/14,400 capacity comparison and 160-person crowd
+  structural control as explicitly named alternatives; seating policy does not
+  remove applicable crowd, evacuation or accidental-load verification. Different
+  formations require their complete platform, civil, fleet and service effects.
 
 ## Coordinated work
 
@@ -57,7 +63,9 @@ and passenger transfers between fixed lines are separate engineering interfaces.
   update main only within the user's authorized scope; never force-push around a
   conflicting update or publish an automatically accepted physical design.
 
-Current engineering: `engineering/ferrite_maglev/README.md`. Research evidence:
-`docs/design-engine/ferrite-maglev/research-closure/README.md`. Candidate campaigns:
+Current engineering: `docs/design-engine/current/README.md`; current adapters:
+`engineering/development_baseline/`. Historical evidence is pinned by
+`docs/archives/pre-comfort-default/manifest.json`; regenerate historical methods
+only in an isolated checkout. Candidate campaigns:
 `engineering/design_search/`. Project role files follow the
 [official Codex agent schema](https://learn.chatgpt.com/docs/agent-configuration/subagents).

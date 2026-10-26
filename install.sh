@@ -136,9 +136,10 @@ command_version_is() {
 
 native_ready() {
     local command_name
-    for command_name in curl git tar xz sha256sum cc c++ make pkg-config ffmpeg; do
+    for command_name in curl git tar xz sha256sum cc c++ make pkg-config ffmpeg pdftotext fc-match; do
         command -v "$command_name" >/dev/null 2>&1 || return 1
     done
+    fc-match DejaVuSans >/dev/null 2>&1 || return 1
     pkg-config --exists cairo || return 1
 }
 
@@ -168,7 +169,7 @@ playwright_ready() {
 build_ready() {
     [[ -x "$ROOT/target/release/examples/sbc_replay" \
         && -x "$ROOT/target/release/examples/coupled_bridge" \
-        && -f "$ROOT/docs/workbench/maglev/index.html" ]]
+        && -f "$ROOT/docs/workbench/current/index.html" ]]
 }
 
 show_core_status() {
@@ -187,8 +188,8 @@ show_core_status() {
         || status_line "JavaScript packages" no
     playwright_ready && status_line "Playwright Chromium" yes \
         || status_line "Playwright Chromium" no
-    build_ready && status_line "Primary maglev controls and Workbench" yes \
-        || status_line "Primary maglev controls and Workbench" no
+    build_ready && status_line "Current comfort design and Workbench" yes \
+        || status_line "Current comfort design and Workbench" no
 }
 
 run_root() {
@@ -207,19 +208,19 @@ install_native_packages() {
         debian)
             run_root apt-get update
             run_root env DEBIAN_FRONTEND=noninteractive apt-get install -y \
-                ca-certificates curl git build-essential pkg-config libcairo2-dev libssl-dev tar xz-utils ffmpeg
+                ca-certificates curl git build-essential pkg-config libcairo2-dev libssl-dev tar xz-utils ffmpeg poppler-utils fonts-dejavu-core fontconfig
             ;;
         redhat)
             run_root "$PACKAGE_MANAGER" install -y \
-                ca-certificates cairo-devel curl git gcc gcc-c++ make pkgconf-pkg-config openssl-devel tar xz ffmpeg
+                ca-certificates cairo-devel curl git gcc gcc-c++ make pkgconf-pkg-config openssl-devel tar xz ffmpeg poppler-utils dejavu-sans-fonts fontconfig
             ;;
         suse)
             run_root zypper --non-interactive install \
-                ca-certificates cairo-devel curl git gcc gcc-c++ make pkg-config libopenssl-devel tar xz ffmpeg
+                ca-certificates cairo-devel curl git gcc gcc-c++ make pkg-config libopenssl-devel tar xz ffmpeg poppler-tools dejavu-fonts fontconfig
             ;;
         arch)
             run_root pacman --sync --refresh --needed --noconfirm \
-                ca-certificates cairo curl git base-devel pkgconf openssl tar xz ffmpeg
+                ca-certificates cairo curl git base-devel pkgconf openssl tar xz ffmpeg poppler ttf-dejavu fontconfig
             ;;
     esac
 }
@@ -311,9 +312,9 @@ install_playwright() {
 }
 
 build_platform() {
-    section "Building primary ferrite-PM maglev controls"
+    section "Building support-control method kernels"
     (cd "$ROOT" && cargo build --locked --release -p osr-maglev-control --examples)
-    (cd "$ROOT" && tools/automation/osr-python tools/automation/ferrite-maglev-study.py verify)
+    (cd "$ROOT" && ./osr verify)
 }
 
 engineering_ready() {

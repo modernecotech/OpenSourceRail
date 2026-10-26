@@ -1,9 +1,12 @@
 # OpenSourceRail engineering
 
-<!-- osr-system-context:start -->
-OpenSourceRail develops an open, locally buildable urban railway with fixed linear motors at stations and, where needed, located boosters. Trains coast between powered zones while onboard ferrite support, guidance and passenger services remain independently powered; passengers transfer between fixed lines at junctions. Simple vehicles, repeated civil works and repairable local production aim for high useful passenger throughput and affordable construction, operation and debt repayment. Current studies and digital workflows support development; an accepted physical railway has not been established.
+**Current development default:** [comfort-first six-car design](../docs/design-engine/current/README.md), selected by [development-baseline.toml](development-baseline.toml). Use `./osr status`, `./osr build`, `./osr verify` and `./osr workbench`. New current adapters live in `engineering/development_baseline/`; the ferrite implementation below is a retained research method, not the default vehicle.
 
-[Project introduction](../README.md) · [Engineering approach and current status](ferrite_maglev/README.md)
+
+<!-- osr-system-context:start -->
+OpenSourceRail develops simple, affordable, locally maintainable urban transport. The development default is six 17 m comfort cars, each with 44 seats plus two wheelchair places and no planned standing; the 120-second service target gives 8,280 normal passengers/hour/direction. All permanent magnets and suspension controls remain onboard; concrete beams carry passive steel facings, while station windings provide launch and receiving power. Lightweight assemblies, repeated civil works and repairable local production support the low-cost ethos. Stable physical operation and manufacturing release remain open.
+
+[Project introduction](../README.md) · [Engineering approach and current status](../docs/design-engine/current/README.md)
 <!-- osr-system-context:end -->
 
 The [station-powered ferrite maglev package](ferrite_maglev/README.md) owns current

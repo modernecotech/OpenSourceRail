@@ -17,7 +17,7 @@ import subprocess
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[2]
-OUTPUT = Path('docs/design-engine/ferrite-maglev/research-closure')
+OUTPUT = Path('docs/design-engine/current')
 START = '<!-- osr-system-context:start -->'
 END = '<!-- osr-system-context:end -->'
 OWNED = (
@@ -28,15 +28,16 @@ OWNED = (
     'engineering/ferrite_maglev/observer-prototype/README.md',
     'tools/README.md', 'tools/reference-ma/README.md',
 )
-CONTEXT_TARGETS = {'README.md', 'engineering/README.md', 'engineering/ferrite_maglev/README.md'}
+CONTEXT_TARGETS = {'README.md', 'engineering/README.md', 'docs/design-engine/current/README.md'}
 INTRODUCTION = (
-    'OpenSourceRail develops an open, locally buildable urban railway with fixed linear '
-    'motors at stations and, where needed, located boosters. Trains coast between powered '
-    'zones while onboard ferrite support, guidance and passenger services remain independently '
-    'powered; passengers transfer between fixed lines at junctions. Simple vehicles, repeated '
-    'civil works and repairable local production aim for high useful passenger throughput '
-    'and affordable construction, operation and debt repayment. Current studies and digital '
-    'workflows support development; an accepted physical railway has not been established.'
+    'OpenSourceRail develops simple, affordable, locally maintainable urban transport. '
+    'The development default is six 17 m comfort cars, each with 44 seats plus two wheelchair '
+    'places and no planned standing; the 120-second service target gives 8,280 normal '
+    'passengers/hour/direction. All permanent magnets and suspension controls remain '
+    'onboard; concrete beams carry passive steel facings, while station windings provide '
+    'launch and receiving power. Lightweight assemblies, repeated civil works and '
+    'repairable local production support the low-cost ethos. Stable physical operation '
+    'and manufacturing release remain open.'
 )
 LINK = re.compile(r'(?<!!)\[[^\]\n]*\]\(([^\n]*?)\)')
 DIGEST = re.compile(r'[a-f0-9]{64}')
@@ -68,8 +69,12 @@ def inventory(root=ROOT):
 def category(name):
     if name in OWNED:
         return 'manual-current-entrypoint'
+    if name.startswith('docs/archives/'):
+        return 'historical-archive'
     if name == 'README.md':
         return 'project-frontdoor'
+    if name == 'engineering/development_baseline/README.md':
+        return 'current-development-adapters'
     if name == 'engineering/design_search/README.md':
         return 'candidate-design-method'
     if name == 'engineering/city_maps/README.md':
@@ -84,9 +89,11 @@ def category(name):
     if name in {'cities/catalogue/README.md', 'docs/capabilities/README.md'}:
         return 'generated-navigation-index'
     if name == 'docs/design-engine/ferrite-maglev/research-closure/README.md':
-        return 'current-research-programme'
+        return 'retained-design-evidence'
     if name.startswith('cities/catalogue/'):
-        return 'generated-city-package' if '/engineering/maglev/' in name else 'generated-city-brief'
+        return 'generated-city-package' if ('/engineering/maglev/' in name or '/engineering/current/' in name) else 'generated-city-brief'
+    if name == 'docs/design-engine/current/README.md':
+        return 'current-development-dossier'
     if name.startswith('docs/design-engine/'):
         return 'retained-design-evidence'
     if name.startswith('engineering/assurance/'):
@@ -97,7 +104,7 @@ def category(name):
 def introduction(name):
     parent = Path(name).parent
     route = Path(os.path.relpath('README.md', parent)).as_posix()
-    method = Path(os.path.relpath('engineering/ferrite_maglev/README.md', parent)).as_posix()
+    method = Path(os.path.relpath('docs/design-engine/current/README.md', parent)).as_posix()
     return '\n'.join((START, INTRODUCTION, '',
                       f'[Project introduction]({route}) · [Engineering approach and current status]({method})', END))
 
@@ -162,6 +169,7 @@ def bindings(root, names):
     result = {name: [] for name in names}
     manifests = list((root/'docs/design-engine').rglob('manifest.json'))
     manifests += list((root/'engineering/assurance').rglob('manifest.json'))
+    manifests += list((root/'cities/catalogue').glob('*/*/*/engineering/current/manifest.json'))
     manifests += list((root/'engineering/assurance').rglob('archive-receipt.json'))
     def add(path, expected, receipt, kind):
         try:
@@ -178,8 +186,8 @@ def bindings(root, names):
             raise ValueError('bounded ordinary publication receipt required')
         value = json.loads(receipt.read_bytes())
         for key, payload_relative in (('files_sha256', True), ('source_sha256', False)):
-            if key == 'source_sha256' and 'engineering/assurance' in receipt.relative_to(root).as_posix():
-                continue  # Frozen historical source paths are not current dependencies.
+            if key == 'source_sha256' and not receipt.is_relative_to(root/OUTPUT):
+                continue  # Historical sources are verified against their pinned Git revision, not current introductions.
             mapping = value.get(key)
             if isinstance(mapping, dict):
                 for name, expected in mapping.items():
@@ -265,10 +273,10 @@ def markdown(value):
         relative = Path(os.path.relpath(name, base)).as_posix().replace(' ', '%20')
         return '['+(label or name)+']('+relative+')'
     lines = ['# README introductions and current system context', '', INTRODUCTION, '',
-        link('README.md', 'Project introduction')+' · '+link('engineering/README.md', 'System approach')+' · '+link('engineering/ferrite_maglev/README.md', 'Detailed implementation and current design gates'), '',
-        f"All **{value['readme_count']} tracked or new README documents** are classified below. The **{value['owned_introductions_current']} manual entrypoints** carry a maintained concise introduction. Existing generated city introductions and their primary-method links remain intact. The project front door is maintained separately.", '',
+        link('README.md', 'Project introduction')+' · '+link('engineering/README.md', 'System approach')+' · '+link('docs/design-engine/current/README.md', 'Current design and engineering gates'), '',
+        f"All **{value['readme_count']} tracked or new README documents** are classified below. The **{value['owned_introductions_current']} manual entrypoints** carry a maintained concise introduction. Current city introductions use the selected comfort design; historical numerical packages remain intact. The project front door is maintained separately.", '',
         f"Existing local navigation reaches current context from **{value['existing_context_routes']} documents**. This page supplies an explicit current-context route for the remaining **{value['central_context_routes']} retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.", '',
-        'Source-bound city, design and archived research documents retain their exact README payloads and original scope. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.', '',
+        'Historical numerical city, design and research packets retain their exact README payloads and original scope. Historical source bindings resolve at the pinned Git revision. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.', '',
         '| README class | Documents |', '|---|---:|']
     lines += [f'| {kind} | {count} |' for kind,count in value['categories'].items()]
     lines += ['', 'Regenerate and check with:', '', '```bash',

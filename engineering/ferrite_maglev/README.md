@@ -1,9 +1,12 @@
-# OpenSourceRail v0.5 fixed-zone ferrite-maglev engineering
+# Historical reference: OpenSourceRail v0.5 fixed-zone ferrite-maglev engineering
+
+**Historical method and evidence.** The [current comfort/NdFeB development design](../../docs/design-engine/current/README.md) supersedes this reference as the repository default. The configuration, fleet, mass, acceptance statements and command examples below describe their retained source revision. Regenerate that historical pipeline in an isolated checkout of `578ee3950b872bf30fbf9e4207b2bda85951bdd7`; active-checkout `./osr legacy verify` checks its pinned evidence. Current commands use the new default and never substitute these ferrite quantities.
+
 
 <!-- osr-system-context:start -->
-OpenSourceRail develops an open, locally buildable urban railway with fixed linear motors at stations and, where needed, located boosters. Trains coast between powered zones while onboard ferrite support, guidance and passenger services remain independently powered; passengers transfer between fixed lines at junctions. Simple vehicles, repeated civil works and repairable local production aim for high useful passenger throughput and affordable construction, operation and debt repayment. Current studies and digital workflows support development; an accepted physical railway has not been established.
+OpenSourceRail develops simple, affordable, locally maintainable urban transport. The development default is six 17 m comfort cars, each with 44 seats plus two wheelchair places and no planned standing; the 120-second service target gives 8,280 normal passengers/hour/direction. All permanent magnets and suspension controls remain onboard; concrete beams carry passive steel facings, while station windings provide launch and receiving power. Lightweight assemblies, repeated civil works and repairable local production support the low-cost ethos. Stable physical operation and manufacturing release remain open.
 
-[Project introduction](../../README.md) · [Engineering approach and current status](README.md)
+[Project introduction](../../README.md) · [Engineering approach and current status](../../docs/design-engine/current/README.md)
 <!-- osr-system-context:end -->
 
 The primary design uses fixed linear synchronous motors at stations for launch
