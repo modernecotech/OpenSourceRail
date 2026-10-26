@@ -123,7 +123,10 @@ def read_packet(root=ROOT, output=OUTPUT):
         path = checked_path(root, relative)
         if not path.is_file() or digest(path) != expected:
             raise CurrentUnavailable('Current source changed: ' + relative)
-    result = json.loads((directory / 'summary.json').read_text())
+    summary_bytes = (directory / 'summary.json').read_bytes()
+    if sha256(summary_bytes).hexdigest() != bindings['summary.json']:
+        raise CurrentUnavailable('Current summary changed while reading')
+    result = json.loads(summary_bytes)
     check_identity(result, baseline)
     return result, manifest
 
@@ -215,6 +218,36 @@ def main(argv=None, root=ROOT):
             # Neither command is a native dynamic or operational qualification.
             result = module.publish_city(slug, root=root) if command == 'city' else module.evaluate_city(slug, root=root)
             emit(result)
+            return 0
+        if command == 'twin' and rest and rest[0] in ('compile', 'export'):
+            baseline = selected(root)
+            if len(rest) > 2 or (len(rest) == 2 and rest[1] != baseline['vehicle']['candidate_id']):
+                return hold(root, 'twin ' + ' '.join(rest),
+                            'Current twin exports require the exact selected physical candidate. Run ./osr build to regenerate them.')
+            verification = _module('publication').verify(root=root, output=root / OUTPUT)
+            read_packet(root)
+            directory = checked_path(root, OUTPUT + '/exports')
+            manifest = json.loads((directory / 'manifest.json').read_bytes())
+            for key in IDS:
+                if manifest.get(key) != baseline['vehicle'][key]:
+                    raise CurrentUnavailable('Current twin uses a different ' + key)
+            if manifest.get('selection_id') != baseline['selection_id']:
+                raise CurrentUnavailable('Current twin uses a different selection')
+            for key, value in FLAGS.items():
+                if manifest.get(key) is not value:
+                    raise CurrentUnavailable('Unsupported twin qualification disposition: ' + key)
+            artifacts = []
+            for name, expected in manifest['files_sha256'].items():
+                path = checked_path(root, OUTPUT + '/exports/' + name)
+                if digest(path) != expected:
+                    raise CurrentUnavailable('Current twin artifact changed: ' + name)
+                artifacts.append(str(path.relative_to(root)))
+            emit(dict(schema='osr-current-twin-entrypoint/1', execution='verified-published-export',
+                      action='read-only; ./osr build regenerates the selected exports',
+                      selection_id=baseline['selection_id'],
+                      **{key: baseline['vehicle'][key] for key in IDS},
+                      development_default=True, manifest=manifest,
+                      artifacts=artifacts, verification=verification, **FLAGS))
             return 0
         if command in ('trip', 'twin', 'plan', 'planning'):
             action = rest[0] if rest else 'status'

@@ -151,3 +151,28 @@ def test_actual_module_cli_defaults_to_new_design(packet):
     assert value['candidate_id'] == summary['candidate_id']
     assert value['publication_state'] == 'current'
     assert value['service']['normal_capacity_pphpd_arithmetic'] == 8280
+
+
+def test_twin_entrypoint_exposes_only_verified_selected_exports(packet, capsys, monkeypatch):
+    from types import SimpleNamespace
+    root, summary, _ = packet
+    folder = root / OUTPUT / 'exports'
+    folder.mkdir()
+    (folder/'civil.json').write_text('{"fixture":true}\n')
+    manifest = {key:summary[key] for key in ('selection_id', *cli.IDS)}
+    manifest.update(files_sha256={'civil.json':sha256((folder/'civil.json').read_bytes()).hexdigest()}, **FLAGS)
+    write_json(folder/'manifest.json', manifest)
+    calls=[]
+    def verified(**kwargs):
+        calls.append(kwargs)
+        return {'current':True}
+    monkeypatch.setattr(cli, '_module', lambda name: SimpleNamespace(verify=verified) if name=='publication' else None)
+    assert cli.main(['twin', 'compile'], root=root)==0
+    result=json.loads(capsys.readouterr().out)
+    assert result['execution']=='verified-published-export'
+    assert result['candidate_id']==summary['candidate_id']
+    assert result['artifacts']==[OUTPUT+'/exports/civil.json']
+    assert len(calls)==1
+    assert cli.main(['twin','compile','a'*64],root=root)==3
+    assert json.loads(capsys.readouterr().out)['execution']=='held'
+    assert len(calls)==1

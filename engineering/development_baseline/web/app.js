@@ -60,12 +60,14 @@ function renderGates(gates) {
       badge = document.createElement("span");
     name.textContent =
       gate.title ||
+      gate.gate ||
       gate.name ||
       gate.id ||
       gate.requirement ||
       "Engineering gate";
     const state = String(
       gate.engineering_screen ||
+        gate.state ||
         gate.screen ||
         gate.status ||
         gate.disposition ||

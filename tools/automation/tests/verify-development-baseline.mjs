@@ -107,6 +107,9 @@ try {
   assert.match(await page.locator("#vehicle-facts").innerText(), /20\.81 t/);
   assert.match(await page.locator("#network-facts").innerText(), /906/);
   assert((await page.locator("#gates tr").count()) >= 1);
+  assert.equal(await page.locator("#gates .screen.fail").count(), 2);
+  assert.match(await page.locator("#gates").innerText(), /capture-energy/);
+  assert.match(await page.locator("#gates").innerText(), /roof-hot-core/);
   assert.match(
     await page.locator("#city-status").innerText(),
     /selected-design analytical planning/,
