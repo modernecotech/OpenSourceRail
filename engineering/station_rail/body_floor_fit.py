@@ -60,6 +60,8 @@ def build(vehicle,root=ROOT):
         q=deepcopy(p);q['source_part_id']=p['id'];q['rectangular_cutouts']=cuts;q['kind']='box-with-rectangular-cutouts'
         q['id']='floor-fit/'+identity(dict(parent_part_id=p['id'],cuts=cuts))
         dv=sum(prod(c['size_m']) for c in cuts);q['volume_m3']-=dv;q['mass_kg']=q['volume_m3']*q['density_kg_m3']
+        q['cg_m']=[(p['volume_m3']*p['cg_m'][j]-sum(prod(c['size_m'])*(c['at_m'][j]+c['size_m'][j]/2) for c in cuts))/q['volume_m3'] for j in range(3)]
+        q.pop('inertia_kg_m2',None);q['inertia_scope']='Changed part inertia not recomputed; parent inertia cannot be reused'
         if q['volume_m3']<=0:raise ValueError('Cutout removes the complete parent part')
         changed.append(q);removed.append(dict(parent_part_id=p['id'],replacement_part_id=q['id'],removed_volume_m3=dv,removed_mass_kg=dv*p['density_kg_m3']))
     # The closed fit-up geometry has positive-area contact at all four collar
