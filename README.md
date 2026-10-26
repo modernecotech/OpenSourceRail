@@ -10,7 +10,7 @@ The programme links three products under development:
 
 The intended workflow carries a versioned design through consistent CAD, bills of materials and component-level BIM into procurement, construction tasks, resource and cash plans, then quality assurance tied to serial assets, operations, maintenance and staff training. Current digital studies and simulated pilot workflows exercise parts of this chain; complete city-wide integration and physical acceptance remain open. Business approval cannot release railway hardware or authorise train movement.
 
-The current v0.5.2 hardware research uses ferrite permanent-magnet-biased active support, six-car trains and fixed linear motors at stations for launch and receiving braking. Trains coast between these finite powered zones while independent onboard support, guidance and passenger services remain powered. Longer legs may need separately counted midpoint accelerators.
+The retained v0.5.2 comparison configuration uses ferrite permanent-magnet-biased active support, six-car trains and fixed linear motors at stations for launch and receiving braking. Current research also compares onboard neodymium Halbach and mixed-material alternatives. Trains are intended to coast between finite powered zones while independent onboard support, guidance and passenger services remain powered. Longer legs may need separately counted midpoint accelerators.
 
 **All permanent magnets and suspension/guidance control coils stay on the train.** The ordinary guideway is a concrete beam with attached passive steel facings. Its attachments transfer magnetic forces into the concrete; powered station launch/receiving equipment is a separate interface.
 

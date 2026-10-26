@@ -1,0 +1,57 @@
+name: Engineering readiness and scheduled native methods
+on:
+  push:
+    paths: ['engineering/engineering_status/**', 'engineering/suspension_closure/**', 'engineering/operating_confirmation/**', 'engineering/equipped_vehicle/**', 'engineering/thermal_closure/**', 'docs/workbench/trip/readiness/**', '.github/workflows/engineering-native.yml']
+  pull_request:
+    paths: ['engineering/engineering_status/**', 'engineering/suspension_closure/**', 'engineering/operating_confirmation/**', 'engineering/equipped_vehicle/**', 'engineering/thermal_closure/**', 'docs/workbench/trip/readiness/**', '.github/workflows/engineering-native.yml']
+  schedule:
+    - cron: '17 3 * * 2'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: engineering-native-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: sudo apt-get update && sudo apt-get install -y libglu1-mesa
+      - run: python -m pip install -r engineering/trip_dynamics/requirements.txt
+      - run: python -m pytest -q engineering/engineering_status/tests engineering/suspension_closure/tests engineering/operating_confirmation/tests engineering/equipped_vehicle/tests engineering/thermal_closure/tests
+        env:
+          OPENBLAS_NUM_THREADS: '1'
+          OMP_NUM_THREADS: '1'
+  native-methods:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: sudo apt-get update && sudo apt-get install -y libglu1-mesa calculix-ccx
+      - run: python -m pip install -r engineering/trip_dynamics/requirements.txt
+      - uses: actions/cache@v4
+        with:
+          path: |
+            build/trip-dynamics/tools
+            build/trip-dynamics/environment/chrono
+          key: native-methods-${{ runner.os }}-${{ hashFiles('engineering/trip_dynamics/environment-linux-64.lock', 'engineering/trip_dynamics/solver-environment.json', 'engineering/trip_dynamics/setup_tools.py') }}
+      - run: python engineering/trip_dynamics/setup_tools.py --output build/trip-dynamics/tools
+      - name: Execute native methods and retain failed workers
+        run: python -m engineering.engineering_status native --output build/engineering-native --chrono-python "$PWD/build/trip-dynamics/environment/chrono/bin/python" --getdp "$PWD/build/trip-dynamics/tools/getdp-3.5.0-Linux64/bin/getdp" --ccx /usr/bin/ccx
+      - name: Independently read back method results
+        run: python -m engineering.engineering_status verify-native --output build/engineering-native
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: engineering-native-methods
+          path: build/engineering-native
+          retention-days: 21
