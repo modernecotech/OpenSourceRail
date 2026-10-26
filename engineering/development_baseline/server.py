@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 from functools import partial
+from hashlib import sha256
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 import mimetypes
@@ -51,17 +52,23 @@ class Handler(BaseHTTPRequestHandler):
         if entry is None:
             raise CurrentUnavailable('Unknown selected city')
         summary_path = checked_path(self.root, entry['summary_path'])
-        value = json.loads(summary_path.read_text())
+        summary_bytes = summary_path.read_bytes()
+        value = json.loads(summary_bytes)
         manifest_path = summary_path.parent / 'manifest.json'
         if not manifest_path.is_file():
             raise CurrentUnavailable('Current city has no manifest')
-        manifest = json.loads(manifest_path.read_text())
+        manifest_bytes = manifest_path.read_bytes()
+        manifest = json.loads(manifest_bytes)
+        catalogue_receipt = json.loads(checked_path(self.root, 'docs/design-engine/current/city-catalogue-manifest.json').read_bytes())
+        if catalogue_receipt['files_sha256'].get(manifest_path.relative_to(self.root).as_posix()) != sha256(manifest_bytes).hexdigest():
+            raise CurrentUnavailable('Current city receipt differs from the bound catalogue')
         # City producers bind all physical IDs and selection. No fallback to
         # the old city's engineering/sim files is permitted.
         baseline = selected(self.root)
         check_identity(value, baseline)
         check_identity(manifest, baseline)
-        if digest(summary_path) != manifest['files_sha256'][summary_path.name]:
+        check_identity(catalogue_receipt, baseline)
+        if sha256(summary_bytes).hexdigest() != manifest['files_sha256'][summary_path.name]:
             raise CurrentUnavailable('Current city summary changed')
         for relative, expected in manifest.get('source_sha256', {}).items():
             if digest(checked_path(self.root, relative)) != expected:
@@ -86,7 +93,9 @@ class Handler(BaseHTTPRequestHandler):
             if path == '/api/cities':
                 read_packet(self.root)
                 from . import cities
-                self.respond(200, cities.read_catalogue(root=self.root))
+                value = cities.read_catalogue(root=self.root)
+                check_identity(value, selected(self.root))
+                self.respond(200, value)
                 return
             if path.startswith('/api/city/'):
                 read_packet(self.root)

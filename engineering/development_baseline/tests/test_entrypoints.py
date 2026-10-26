@@ -176,3 +176,44 @@ def test_twin_entrypoint_exposes_only_verified_selected_exports(packet, capsys, 
     assert cli.main(['twin','compile','a'*64],root=root)==3
     assert json.loads(capsys.readouterr().out)['execution']=='held'
     assert len(calls)==1
+
+
+def test_city_endpoint_rejects_manifest_rewritten_outside_bound_catalogue(packet, monkeypatch):
+    from functools import partial
+    from types import SimpleNamespace
+    from http.server import ThreadingHTTPServer
+    from engineering.development_baseline import server as web
+    from engineering import development_baseline
+    root, summary, manifest = packet
+    relative='cities/catalogue/region/country/baghdad/engineering/current/summary.json'
+    folder=(root/relative).parent
+    city={key:summary[key] for key in ('selection_id',*cli.IDS,'development_default',*FLAGS)}
+    city['totals']={'total_trainsets':906}
+    write_json(root/relative,city)
+    city_manifest=dict(city,files_sha256={'summary.json':sha256((root/relative).read_bytes()).hexdigest()},source_sha256={})
+    write_json(folder/'manifest.json',city_manifest)
+    receipt={key:summary[key] for key in ('selection_id',*cli.IDS,'development_default',*FLAGS)}
+    receipt['files_sha256']={(folder/'manifest.json').relative_to(root).as_posix():sha256((folder/'manifest.json').read_bytes()).hexdigest()}
+    write_json(root/OUTPUT/'city-catalogue-manifest.json',receipt)
+    manifest['files_sha256']['city-catalogue-manifest.json']=sha256((root/OUTPUT/'city-catalogue-manifest.json').read_bytes()).hexdigest()
+    write_json(root/OUTPUT/'manifest.json',manifest)
+    monkeypatch.setattr(development_baseline,'cities',SimpleNamespace(catalogue=lambda **kwargs:[{'slug':'baghdad','summary_path':relative}]),raising=False)
+    class Quiet(web.Handler):
+        def log_message(self,*args):pass
+    server=ThreadingHTTPServer(('127.0.0.1',0),partial(Quiet,root=root))
+    thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+    endpoint='http://127.0.0.1:'+str(server.server_address[1])+'/api/city/baghdad'
+    try:
+        with urllib.request.urlopen(endpoint) as response:
+            assert json.load(response)['totals']['total_trainsets']==906
+        # Alter both city output and its local receipt. Only the protected
+        # catalogue binding distinguishes this from a genuine regeneration.
+        city['totals']['total_trainsets']=1
+        write_json(root/relative,city)
+        city_manifest['files_sha256']['summary.json']=sha256((root/relative).read_bytes()).hexdigest()
+        write_json(folder/'manifest.json',city_manifest)
+        with pytest.raises(urllib.error.HTTPError) as caught:urllib.request.urlopen(endpoint)
+        assert caught.value.code==503
+        assert 'bound catalogue' in json.load(caught.value)['reason']
+    finally:
+        server.shutdown();server.server_close();thread.join(timeout=2)
