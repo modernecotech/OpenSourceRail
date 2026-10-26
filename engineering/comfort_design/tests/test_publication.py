@@ -57,3 +57,12 @@ def test_dossier_does_not_hide_failed_controls_or_city_cost_scope(proposal):
     assert '37.4' in text
     assert '8,280' in text and '14,400' in text
     assert 'operating' in text and 'unknown' in text
+
+
+def test_network_comparison_preserves_faster_retained_stop_alternative(proposal):
+    cases=proposal['whole_system_alternatives']['proposals']
+    fast=next(r for r in cases if r['launch_speed_m_s']==20 and r['maximum_station_spacing_m'] is None)
+    assert fast['total_trainsets']==906 and fast['additional_line_stop_sites']==0
+    assert fast['total_direction_winding_m']==390500
+    assert proposal['service']['selected_station']['length_m']==450
+    assert not proposal['whole_system_alternatives']['physical_accepted']

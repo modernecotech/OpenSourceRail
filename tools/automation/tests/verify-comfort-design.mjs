@@ -35,7 +35,7 @@ try{
  assert.match(await page.locator('#prototype').innerText(),/218\.7/);assert.match(await page.locator('#station').innerText(),/36 independently/);
  assert.equal(await page.locator('#stress tr').count(),6);assert.ok(await page.locator('#gates .fail').count()>=2);
  assert.match(await page.locator('#fleet').innerText(),/1,206/);assert.match(await page.locator('#fleet').innerText(),/120 additional/);
- assert.match(await page.locator('#price').innerText(),/37\.4/);
+ assert.match(await page.locator('#price').innerText(),/37\.4/);assert.equal(await page.locator('#network-cases tr').count(),6);assert.match(await page.locator('#network').innerText(),/906/);
  assert.ok(await page.locator('#scenarios tr').count()>10);
  await page.locator('#drag').selectOption('250');await page.locator('#dwell').selectOption('60');
  assert.ok(await page.locator('#scenarios tr').count()>10);

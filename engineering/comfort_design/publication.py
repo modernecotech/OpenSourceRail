@@ -7,7 +7,7 @@ from pathlib import Path
 import tempfile
 
 from . import ROOT, PARENT_REVISION, FLAGS
-from . import vehicle, service, interfaces, native_vehicle, report_service
+from . import vehicle, service, interfaces, native_vehicle, report_service, system_tradeoff
 from .common import encoded, identity, require_candidate, sources, inventory, package, unpack
 
 OUTPUT='docs/design-engine/ferrite-maglev/comfort-design'
@@ -36,8 +36,9 @@ def assemble(root=ROOT,native_paths=None):
     vehicle.validate(car,root=root)
     operations=service.evaluate(car,root=root);require_candidate(operations,car)
     domain=interfaces.evaluate(car,operations,root=root);require_candidate(domain,car)
+    alternatives=system_tradeoff.evaluate(car,root=root);require_candidate(alternatives,car)
     native=_native(native_paths,car,operations,root)
-    evidence=[car,operations,domain]
+    evidence=[car,operations,domain,alternatives]
     if native_paths:
         evidence.extend(p['manifest'] for p in native['packages'].values())
     system=dict(vehicle_candidate_id=car['candidate_id'],station_id=operations['selection']['selected_station_id'],
@@ -50,6 +51,7 @@ def assemble(root=ROOT,native_paths=None):
         magnet_component_id=car['magnet_component_id'],vehicle=car,service=operations,
         system_physical_definition=system,system_candidate_id=identity(system),
         interfaces=domain,native_evidence=native,source_sha256=sources(root,evidence),
+        whole_system_alternatives=alternatives,
         design_basis_selected=True,design_basis_scope='User-authorised 44-seat plus two-wheelchair six-car proposal with a 120-second target; existing city plans remain historical comparison inputs',
         physical_journey_execution='not-run; matched support/control/braking/structure acceptance prerequisites remain open',
         complete_engineering_design=False,**FLAGS)
@@ -61,6 +63,7 @@ def summary(v):
     return dict(study_id=v['study_id'],candidate_id=v['candidate_id'],system_candidate_id=v['system_candidate_id'],body_candidate_id=v['body_candidate_id'],
         magnet_component_id=v['magnet_component_id'],mass=deepcopy(v['vehicle']['mass']),
         service=service.summary(v['service']),interfaces=interfaces.summary(v['interfaces']),
+        whole_system=system_tradeoff.summary(v['whole_system_alternatives']),
         native=dict(execution=v['native_evidence']['execution'],physical_train_simulated=False),
         gates=deepcopy(v['interfaces']['gates']),geometry=deepcopy(v['vehicle']['interfaces']),
         inventory_coverage=deepcopy(v['vehicle']['coverage']),
@@ -83,6 +86,7 @@ def readme(v):
         'The section drawing retains a 12 mm magnetic-coupon reference, not an accepted operating gap. That PM state produces strong excess upward force for this lighter vehicle. Samples at 28/35.338 mm require a different relative car/facing pose; an eventual operating gap also determines the boarding-height datum. The required equilibrium, current authority and installed multiaxis map must be solved before any drawing pose becomes an operating configuration.','',
         '## Two-minute service, station resources and fleet','',
         report_service.markdown(v['service']),'',
+        system_tradeoff.markdown(v['whole_system_alternatives']),'',
         '## Coupled electrical, support and civil design','',
         interfaces.markdown(v['interfaces']),'',
         '## Qualification and remaining work','',
@@ -121,6 +125,7 @@ def _payloads(v,native_paths):
         missing_inventory=v['vehicle']['missing_inventory'],coverage=v['vehicle']['coverage'],
         source_evaluation_id=v['vehicle']['evaluation_id'],**FLAGS)
     files['engineering-bom.json.gz']=gzip.compress(encoded(bom),mtime=0)
+    files['network-tradeoff.json.gz']=gzip.compress(encoded(v['whole_system_alternatives']),mtime=0)
     files['assembly-plan.json']=encoded(dict(schema='osr-comfort-assembly-plan/1',**subject,
         vehicle_operations=v['vehicle']['assembly_plan'],
         system_operations=v['interfaces']['assembly_and_construction_plan'],
