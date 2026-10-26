@@ -218,7 +218,9 @@ def deck(variant,mass_kg,dx=.5,*,asymmetric=False,braking=False,joint_factor=1.)
     # Fix x/y at one end and y at the other; rotations stay free.
     support_sorted=sorted(mesh['supports'],key=lambda i:mesh['nodes'][i][0])
     lines += [f'{support_sorted[0]},1,2',f'{support_sorted[-1]},2,2']
-    allnodes=sorted(mesh['nodes']);lines+=['*NSET,NSET=ALLN',','.join(map(str,allnodes)),'*NSET,NSET=BEARERS',','.join(map(str,mesh['supports'])),'*STEP','*STATIC','*CLOAD']
+    allnodes=sorted(mesh['nodes']);lines+=['*NSET,NSET=ALLN']
+    lines += [','.join(map(str,allnodes[i:i+16])) for i in range(0,len(allnodes),16)]
+    lines += ['*NSET,NSET=BEARERS',','.join(map(str,mesh['supports'])),'*STEP','*STATIC','*CLOAD']
     totalz=0.;totalx=0.;floor=mesh['floor']
     for k,(x,ids) in enumerate(floor):
         prev=-8.5 if k==0 else (floor[k-1][0]+x)/2

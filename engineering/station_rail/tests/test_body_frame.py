@@ -43,3 +43,9 @@ def test_contact_and_refinement_cuts_do_not_create_zero_length_elements():
             a,m,b=[mesh['nodes'][i] for i in element['nodes']]
             assert sum((x-y)**2 for x,y in zip(a,b))>1e-14
             assert m==pytest.approx([(x+y)/2 for x,y in zip(a,b)],abs=1e-9)
+
+
+def test_native_input_records_obey_calculix_sixteen_field_limit():
+    alt=body_frame.build(current(),root=body_frame.ROOT)['variants'][1]
+    raw,_=body_frame.deck(alt,23000)
+    assert all(len(line.split(','))<=16 for line in raw.splitlines() if line and not line.startswith('*'))
