@@ -375,17 +375,26 @@ def _parse_coupon(path):
     return u,rf
 
 
+def _coupon_tool(ccx_path='/usr/bin/ccx'):
+    path=Path(ccx_path).resolve();finite=[n for n in resource.getrlimit(resource.RLIMIT_AS) if n!=resource.RLIM_INFINITY]
+    return dict(ccx_path=str(path),ccx_sha256=digest(path),OMP_threads=1,RLIMIT_AS_bytes=min([1024**3,*finite]),timeout_s=55)
+
+
+def _verify_coupon_tool(tool):
+    if digest(tool['ccx_path'])!=tool['ccx_sha256']:raise ValueError('Coupon CCX binary changed during execution')
+
+
 def run_coupon_benchmarks(output):
     output=Path(output).resolve()
     if output.exists():raise ValueError('Fresh immutable coupon package required')
-    output.mkdir(parents=True);source=digest(__file__);results=[]
+    output.mkdir(parents=True);source=digest(__file__);tool=_coupon_tool();results=[]
     for name,mesh in [('shear_L',2),('shear_W',2),('bending',20),('bending',40)]:
         raw,definition=coupon_deck(name,mesh);folder=output/(name+'-'+str(mesh));folder.mkdir();(folder/'coupon.inp').write_text(raw);(folder/'definition.json').write_bytes(encoded(definition))
         def bounded():
-            finite=[n for n in resource.getrlimit(resource.RLIMIT_AS) if n!=resource.RLIM_INFINITY];limit=min([1024**3,*finite]);resource.setrlimit(resource.RLIMIT_AS,(limit,limit))
+            limit=tool['RLIMIT_AS_bytes'];resource.setrlimit(resource.RLIMIT_AS,(limit,limit))
         started=time.monotonic()
         try:
-            proc=subprocess.run(['/usr/bin/ccx','coupon'],cwd=folder,capture_output=True,text=True,timeout=55,preexec_fn=bounded,env={**os.environ,'OMP_NUM_THREADS':'1'})
+            proc=subprocess.run([tool['ccx_path'],'coupon'],cwd=folder,capture_output=True,text=True,timeout=tool['timeout_s'],preexec_fn=bounded,env={**os.environ,'OMP_NUM_THREADS':str(tool['OMP_threads'])})
         except subprocess.TimeoutExpired as e:
             (folder/'stdout.log').write_bytes(e.stdout or b'');(folder/'stderr.log').write_bytes(e.stderr or b'');results.append(dict(case=folder.name,execution='interrupted',reason='55second native limit',runtime_s=time.monotonic()-started));continue
         except (OSError,subprocess.SubprocessError) as e:
@@ -404,9 +413,10 @@ def run_coupon_benchmarks(output):
             except ValueError as e:r.update(execution='numerical_error',reason=str(e))
         results.append(r)
     if source!=digest(__file__):raise ValueError('Coupon producer changed during execution')
-    value=dict(schema='osr-structural-core-coupons/1',execution='completed' if all(r['execution']=='completed' for r in results) else 'completed_with_errors',native_cases=4,cases=results,source_sha256={PRODUCER:source},sources=SOURCES,
+    _verify_coupon_tool(tool)
+    value=dict(schema='osr-structural-core-coupons/1',execution='completed' if all(r['execution']=='completed' for r in results) else 'completed_with_errors',native_cases=4,cases=results,tool=tool,tool_binary_unchanged=True,source_sha256={PRODUCER:source},sources=SOURCES,
         scope='Method benchmarks with manufacturer G_LT/G_WT and E_T, synthetic unreported regularisation and reference metal faces; no physical coupon or whole-body acceptance',**FLAGS)
-    value['evaluation_id']=identity(value);(output/'result.json').write_bytes(encoded(value));manifest=dict(schema='osr-structural-core-coupon-manifest/1',evaluation_id=value['evaluation_id'],files_sha256={p.relative_to(output).as_posix():digest(p) for p in output.rglob('*') if p.is_file()},source_sha256=value['source_sha256'],**FLAGS);manifest['manifest_id']=identity(manifest);(output/'manifest.json').write_bytes(encoded(manifest));return value
+    value['evaluation_id']=identity(value);(output/'result.json').write_bytes(encoded(value));manifest=dict(schema='osr-structural-core-coupon-manifest/1',evaluation_id=value['evaluation_id'],tool=tool,files_sha256={p.relative_to(output).as_posix():digest(p) for p in output.rglob('*') if p.is_file()},source_sha256=value['source_sha256'],**FLAGS);manifest['manifest_id']=identity(manifest);(output/'manifest.json').write_bytes(encoded(manifest));return value
 
 
 def concept_leads():

@@ -98,3 +98,14 @@ def test_shear_prescribed_values_fit_calculix_numeric_fields_and_retain_affine_f
             # CalculiX accepts at most20 characters per numeric data field.
             assert all(len(field)<=20 for field in row)
             assert float(row[3])==pytest.approx(d['analytical']['imposed_gamma']*nodes[int(row[0])][2],abs=1e-18)
+
+
+def test_coupon_tool_receipt_binds_binary_and_respects_inherited_limits(tmp_path,monkeypatch):
+    binary=tmp_path/'ccx-fixture';binary.write_bytes(b'fixture-binary-not-executed')
+    monkeypatch.setattr(s.resource,'getrlimit',lambda kind:(512*1024**2,1024**3))
+    tool=s._coupon_tool(binary)
+    assert tool['ccx_sha256']==s.digest(binary)
+    assert tool['RLIMIT_AS_bytes']==512*1024**2 and tool['OMP_threads']==1 and tool['timeout_s']==55
+    s._verify_coupon_tool(tool)
+    binary.write_bytes(b'changed-binary')
+    with pytest.raises(ValueError,match='binary changed'):s._verify_coupon_tool(tool)
