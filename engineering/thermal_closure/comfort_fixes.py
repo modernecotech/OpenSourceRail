@@ -182,9 +182,10 @@ def capture_response(candidate,mass_kg,*,active_count=None,gap_m=.005,strength_f
     residual=.5*mass*speed**2+mass*G*delta-.5*mass*velocity**2-work
     recovered_fraction=p.get('unloading_recoverable_energy_fraction_hypothesis',1.) if crush else None
     if crush and arrest:
-        recovered=work*recovered_fraction
+        conditional_recovered=work*recovered_fraction
+        recovered=work  # Strict energy-only bound: no damping/precrush dissipation is guaranteed.
         maximum_rebound_height_bound=recovered/(mass*G)
-    else:recovered=None;maximum_rebound_height_bound=None
+    else:recovered=None;conditional_recovered=None;maximum_rebound_height_bound=None
     gross_bolt_shear=peak/(4*math.pi*.012**2/4) if crush else None
     saddle_stress=peak*.08/4/(.35*.012**2/6) if crush else None
     verdict='pass' if arrest and peak<=force_limit and delta<=stroke+1e-9 else 'fail'
@@ -202,6 +203,8 @@ def capture_response(candidate,mass_kg,*,active_count=None,gap_m=.005,strength_f
         energy_balance_residual_J=residual,arrest_time_s=float(solution.t[-1]),
         rebound_recoverable_energy_fraction_hypothesis=recovered_fraction,
         rebound_energy_J_upper_bound=recovered,
+        rebound_energy_J_conditional_on_fraction=conditional_recovered,
+        rebound_bound_scope='Gravity-only total-loading-work bound; magnetic pull-in energy is additional and unknown',
         rebound_height_m_upper_bound=maximum_rebound_height_bound,
         secondary_latch_or_capture_needed=True,
         proposed_M12_gross_shank_shear_demand_Pa=gross_bolt_shear,

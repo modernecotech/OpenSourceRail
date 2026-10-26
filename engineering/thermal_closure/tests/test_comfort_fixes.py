@@ -56,6 +56,8 @@ def test_honeycomb_energy_and_timestep_confirmation():
     assert a['required_compression_m']==pytest.approx(b['required_compression_m'],rel=2e-5)
     assert abs(a['energy_balance_residual_J'])<.01
     assert a['rebound_height_m_upper_bound']>0
+    assert a['rebound_energy_J_upper_bound']==pytest.approx(a['absorbed_loading_work_J'])
+    assert a['rebound_energy_J_conditional_on_fraction']==pytest.approx(.1*a['rebound_energy_J_upper_bound'])
     assert a['occupant_acceleration_pulse_acceptance']=='unknown'
 
 
