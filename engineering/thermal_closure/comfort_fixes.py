@@ -314,6 +314,9 @@ def roof_equilibrium(candidate,*,outside_C=50.,inside_C=26.,solar_W_m2=900.,outs
         canopy_gap_h_W_m2K=None if not p['canopy'] else hv,
         outer_skin_temperature_C=Troof,canopy_temperature_C=screen_temperature,
         core_hot_C=core_hot,core_cold_C=core_cold,core_limit_C=limit,
+        modelled_region='Non-HVAC canopy-covered roof patch' if p['canopy'] else 'Exposed homogeneous roof patch',
+        modelled_area_m2=p['canopy_area_m2'] if p['canopy'] else ROOF_AREA,
+        under_HVAC_condenser_and_recirculation_temperature_C=None,
         finish_service_limit_C=finish_limit,roof_heat_flux_to_cabin_W_m2=q,
         necessary_core_temperature_screen='pass' if core_hot<=limit else 'fail',
         necessary_finish_temperature_screen='unknown' if finish_limit is None else 'pass' if surface_peak<=finish_limit else 'fail',
@@ -417,6 +420,8 @@ def summary(record):
         reference=next(r for r in rows if r['outside_h_W_m2K']==15 and r['longwave_environment_C']==50)
         roof_summary.append(dict(component_candidate_id=c['component_candidate_id'],name=c['physical_definition']['name'],
             counted_material_change_kg=c['net_counted_material_change_kg'],reference_hot_core_C=reference['core_hot_C'],
+            modelled_region=reference['modelled_region'],modelled_area_m2=reference['modelled_area_m2'],
+            under_HVAC_condenser_and_recirculation_temperature_C=None,
             maximum_studied_hot_core_C=max(r['core_hot_C'] for r in rows),
             cases=len(rows),necessary_core_passes=sum(r['necessary_core_temperature_screen']=='pass' for r in rows),
             installed_thermal_qualification=False))

@@ -105,6 +105,9 @@ def test_stagnant_warm_longwave_stress_and_blocked_vent_are_retained(car):
     vent=m.roof_equilibrium(canopy,outside_h_W_m2K=5,longwave_environment_C=60)
     blocked=m.roof_equilibrium(canopy,outside_h_W_m2K=5,longwave_environment_C=60,canopy_air_h_W_m2K=0)
     assert blocked['core_hot_C']>vent['core_hot_C']
+    assert vent['modelled_area_m2']<m.ROOF_AREA
+    assert vent['modelled_region']=='Non-HVAC canopy-covered roof patch'
+    assert vent['under_HVAC_condenser_and_recirculation_temperature_C'] is None
     assert canopy['physical_definition']['roof_HVAC_recirculation_access_wind_and_bridges_qualified'] is False
     assert canopy['net_counted_material_change_kg']>white['net_counted_material_change_kg']
 
