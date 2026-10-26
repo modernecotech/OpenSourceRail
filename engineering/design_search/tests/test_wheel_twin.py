@@ -20,6 +20,7 @@ def fixture():
 
 
 def test_export_omits_unknown_and_unlocated_stock_without_placeholder(tmp_path,monkeypatch):
+    monkeypatch.setattr(t,'_project',deepcopy)
     c,m=fixture();monkeypatch.setattr(t,'_materialize',lambda _:deepcopy(m))
     r=t.compile(c,[],output=tmp_path/'twin',export_native=False)
     assert r['verified'] and not r['complete_installed_twin']
@@ -33,6 +34,7 @@ def test_export_omits_unknown_and_unlocated_stock_without_placeholder(tmp_path,m
 
 
 def test_mixed_candidate_result_or_geometry_is_rejected(tmp_path,monkeypatch):
+    monkeypatch.setattr(t,'_project',deepcopy)
     c,m=fixture();other=deepcopy(c);other['architecture']['alternative']='other'
     other=k.make_candidate(requirement_revision=c['requirement_revision'],**{key:other[key] for key in k.PHYSICAL_KEYS})
     req=k.make_evaluation_request(other,evaluator_id='fixture',evaluator_sources={'fixture.py':'a'*64})
@@ -44,6 +46,7 @@ def test_mixed_candidate_result_or_geometry_is_rejected(tmp_path,monkeypatch):
 
 
 def test_retained_twin_payload_changes_are_detected(tmp_path,monkeypatch):
+    monkeypatch.setattr(t,'_project',deepcopy)
     c,m=fixture();monkeypatch.setattr(t,'_materialize',lambda _:deepcopy(m));out=tmp_path/'twin'
     t.compile(c,[],output=out,export_native=False)
     (out/'procurement.json').write_text('{}')

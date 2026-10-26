@@ -17,6 +17,11 @@ def _materialize(candidate):
     return materialize(candidate)
 
 
+def _project(part):
+    from .wheel_families import native_part
+    return native_part(part)
+
+
 def _sources(candidate):
     names={PRODUCER,'engineering/design_search/contracts.py','engineering/design_search/wheel_families.py'}
     return {name:sha256((ROOT/name).read_bytes()).hexdigest() for name in sorted(names) if (ROOT/name).is_file()}
@@ -27,15 +32,18 @@ def _parts(candidate, materialized):
         raise ValueError('Materialized wheel candidate identity differs')
     parts=[dict(deepcopy(p),twin_frame='vehicle') for p in materialized['geometry_parts']]
     parts += [dict(deepcopy(p),twin_frame='station') for p in materialized.get('wayside_parts',[])]
+    parts += [dict(deepcopy(p),twin_frame='guidebeam') for p in materialized.get('civil_parts',[])]
     if len({p['id'] for p in parts})!=len(parts):raise ValueError('Unique wheel occurrence IDs required')
     expected={g['native_part']['id']:g['native_part'] for g in candidate['geometry'] if g.get('native_part') is not None}
     if set(expected)!={p['id'] for p in parts}:raise ValueError('Candidate and materialized native stock inventory differ')
+    exported=[]
     for p in parts:
-        q=deepcopy(p);q.pop('twin_frame')
-        if q!=expected[p['id']]:raise ValueError('Materialized native stock differs from physical candidate')
+        q=deepcopy(p);frame=q.pop('twin_frame')
+        if _project(q)!=expected[p['id']]:raise ValueError('Materialized native stock differs from physical candidate')
+        p=dict(deepcopy(expected[p['id']]),twin_frame=frame);exported.append(p)
         if p['kind'] not in SUPPORTED:raise ValueError('Unsupported native primitive; no placeholder allowed: '+p['kind'])
         for field in ('volume_m3','mass_kg'):k.finite(p[field],field,True)
-    return parts
+    return exported
 
 
 SCRIPT=r'''
@@ -110,6 +118,41 @@ def _ifc(output,candidate,parts,native):
         maximum_relative_volume_error=max(errors,default=0.),representation='Faceted native BRep tessellation; curved surfaces approximated at0.15mm chord setting',**FLAGS)
 
 
+def _drafts(candidate,parts,identity):
+    groups={}
+    for p in parts:
+        key=(p['twin_frame'],p.get('system','known-stock'))
+        groups.setdefault(key,[]).append(p['id'])
+    grouping=[dict(frame=frame,system=system,occurrence_ids=ids) for (frame,system),ids in sorted(groups.items())]
+    def ids(predicate):return [p['id'] for p in parts if predicate(p)]
+    steps=[('stock','Check and prepare enumerated stock against native dimensions and cutout definitions',[],ids(lambda p:True)),
+      ('frame','Fixture and join chassis, posts and body members; hold until joining procedures and joint limits are approved',['stock'],ids(lambda p:any(t in p['id'] for t in ('frame','sill','bolster','post-connection')))),
+      ('panels','Fit floor, roof, glazing, doors and interior stock; qualify attachments and seals',['frame'],ids(lambda p:any(t in p['id'] for t in ('comfort-shell','floor-fit','collar')))),
+      ('running-gear','Mount and align bogies, brakes and passive secondary; qualify load paths and removal access',['frame'],ids(lambda p:p['id'].startswith(('bogie/','station-secondary/','secondary-')))),
+      ('wayside','Prepare guidebeam and station module interfaces; qualify rail and stator fastening/alignment',['stock'],ids(lambda p:p['twin_frame'] in ('station','guidebeam'))),
+      ('services','Install services only after unknown equipment, mounts, wiring and protection are designed',['panels','running-gear'],ids(lambda p:p.get('system') in ('services','electrical','hvac','battery'))),
+      ('qa','Execute approved continuity, insulation, pressure, brake and clearance checks; tests are not yet specified or executed',['services','wayside'],ids(lambda p:True)),
+      ('weigh','Measure complete mass, CG and inertia after all equipment and hardware is installed',['qa'],ids(lambda p:True))]
+    operations=[dict(operation_id=name,operation=text,prerequisite_operation_ids=prior,affected_occurrence_ids=affected,
+       performed=False,procedure_approved=False,estimated_labour_hours=None,approved_tools=None,installation_tolerances=None) for name,text,prior,affected in steps]
+    quantities={}
+    for p in parts:
+        key=(p['twin_frame'],p.get('material','unspecified material'))
+        row=quantities.setdefault(key,dict(frame=key[0],material=key[1],occurrence_ids=[],mass_kg=0.,volume_m3=0.))
+        row['occurrence_ids'].append(p['id']);row['mass_kg']+=p['mass_kg'];row['volume_m3']+=p['volume_m3']
+    procurement=[dict(row,quantity_basis='Known geometric occurrences only; yield and complete installed quantities unknown',unit_price=None,
+        estimated_total_cost=None,supplier=None,origin_evidence=None,lead_time_days=None) for row in quantities.values()]
+    quality=[dict(occurrence_id=p['id'],nominal_geometry_reference='engineering-bom.json',native_volume_m3=p['volume_m3'],
+        material=p.get('material'),inspection_method=None,tolerance_limits=None,measurement=None,accepted=False) for p in parts]
+    maintenance=[dict(frame=g['frame'],system=g['system'],occurrence_ids=g['occurrence_ids'],operation='Inspect, isolate and replace by an approved system-specific procedure',
+        procedure_approved=False,interval=None,replacement_life=None,tools=None,labour_hours=None,performed=False) for g in grouping]
+    base=dict(**identity,status='draft-research-plan',unknown_inventory_ids=[r['id'] for r in candidate['installed_inventory'] if r['status']=='unknown'],**FLAGS)
+    return dict(assembly=dict(base,groups=grouping,operations=operations),qa=dict(base,inspections=quality,
+        final_tests=['Dimensional and material inspection','Qualified joint tests','Electrical continuity and insulation','Brake pressure and response','Swept clearance','Final weighing and mass properties'],test_procedures_approved=False),
+        procurement=dict(base,material_quantities=procurement,estimated_total_cost=None,unknown_stock_priced=False),
+        maintenance=dict(base,system_plans=maintenance,scope='Draft known-stock systems; actual wear, service limits and qualification remain unknown'))
+
+
 def compile(candidate,results,*,output,export_native=True,allow_incomplete=True):
     k.validate_candidate(candidate)
     if candidate['architecture'].get('family')!='wheel_rail_station_lim':raise ValueError('Wheel-rail station LIM candidate required')
@@ -134,8 +177,7 @@ def compile(candidate,results,*,output,export_native=True,allow_incomplete=True)
     write('engineering-bom.json',dict(**identity,known_geometric_occurrences=parts,installed_inventory=candidate['installed_inventory'],unknown_stock_ids=unknown,unlocated_stock_ids=unlocated,**FLAGS))
     write('manufacturing-bom.json',dict(**identity,material_takeoff=[dict(occurrence_id=p['id'],material=p.get('material'),mass_kg=p['mass_kg'],volume_m3=p['volume_m3'],frame=p['twin_frame'],geometry_id=p['id'],primitive=p['kind']) for p in parts],
         scope='Counted material only; stock yield, tooling, labour, joints and complete installed prices unknown',**FLAGS))
-    for name,scope in [('assembly','Fitting order, joins, tooling and removal paths require engineering'),('qa','Dimensions, holes, material certificates and joints require inspection plans'),('procurement','Suppliers, origin evidence, quotes and lead times unknown'),('maintenance','Intervals, tools, safe isolation and replacement methods require qualification')]:
-        write(name+'.json',dict(**identity,status='draft-research-inventory',scope=scope,occurrence_ids=[p['id'] for p in parts],performed=False,**FLAGS))
+    for name,data in _drafts(candidate,parts,identity).items():write(name+'.json',data)
     write('native-input.json',dict(**identity,parts=parts,frames_separate=True,scope='Known occurrence stock in parent coordinate frames; no assembly clearance claim',**FLAGS))
     native_status=dict(execution='not-run',reason='Native export explicitly disabled',**FLAGS);ifc_status=dict(execution='not-run',reason='No native tessellation was generated',**FLAGS)
     if export_native:
@@ -149,11 +191,11 @@ def compile(candidate,results,*,output,export_native=True,allow_incomplete=True)
         ifc_status=_ifc(output,candidate,parts,raw)
     summary=dict(schema='osr-wheel-research-twin/1',**identity,known_geometric_occurrences=len(parts),omitted_unknown_inventory_ids=unknown,
         omitted_unlocated_inventory_ids=unlocated,inventory=inventory,native=native_status,IFC=ifc_status,evaluation_ids=[r['evaluation_id'] for r in results],
-        frames=dict(vehicle='Car reference',station='Separate wayside module reference; not an installed co-located assembly'),
-        vehicle_scope='One car known stock plus separate station module',scope='Known-stock research twin only; complete installed mass/CG/inertia, priced costs, manufacturing and physical acceptance remain open',**FLAGS)
+        frames=dict(vehicle='Car reference',station='Separate wayside module reference; not an installed co-located assembly',guidebeam='Separate selected concrete/rail span reference'),
+        vehicle_scope='One car known stock plus separate station module and selected guidebeam span',scope='Known-stock research twin only; complete installed mass/CG/inertia, priced costs, manufacturing and physical acceptance remain open',**FLAGS)
     write('twin.json',summary)
     links='[Native FreeCAD](wheel-stock.FCStd) · [STEP](wheel-stock.step) · [IFC](wheel-stock.ifc)' if export_native else 'Native CAD and IFC were not executed.'
-    (output/'README.md').write_text('# Wheel-rail known-stock research twin\n\nOpenSourceRail pursues simple, locally repairable station-powered transport. This package connects one wheel-rail candidate to known-stock geometry and draft delivery records.\n\nCandidate `'+candidate['candidate_id']+'`; requirements `'+candidate['requirement_revision']+'`. '+str(len(parts))+' known geometric occurrences, representing one car and a separate station module. Vehicle and station coordinates are separate frames, not an installed assembly clearance demonstration.\n\n'+links+'\n\n[Engineering BOM](engineering-bom.json) · [Manufacturing takeoff](manufacturing-bom.json) · [Assembly](assembly.json) · [QA](qa.json) · [Procurement](procurement.json) · [Maintenance](maintenance.json) · [Evidence summary](twin.json)\n\nUnknown and unlocated equipment is listed without placeholder solids. Complete installed mass, CG, inertia, cost, joining procedures and physical qualification remain open. All production and operating releases remain held.\n')
+    (output/'README.md').write_text('# Wheel-rail known-stock research twin\n\nOpenSourceRail pursues simple, locally repairable station-powered transport. This package connects one wheel-rail candidate to known-stock geometry and draft delivery records.\n\nCandidate `'+candidate['candidate_id']+'`; requirements `'+candidate['requirement_revision']+'`. '+str(len(parts))+' known geometric occurrences, representing one car, a separate station module and selected guidebeam stock. Vehicle and station coordinates are separate frames, not an installed assembly clearance demonstration.\n\n'+links+'\n\n[Engineering BOM](engineering-bom.json) · [Manufacturing takeoff](manufacturing-bom.json) · [Assembly](assembly.json) · [QA](qa.json) · [Procurement](procurement.json) · [Maintenance](maintenance.json) · [Evidence summary](twin.json)\n\nUnknown and unlocated equipment is listed without placeholder solids. Complete installed mass, CG, inertia, cost, joining procedures and physical qualification remain open. All production and operating releases remain held.\n')
     if _sources(candidate)!=sources:raise ValueError('Wheel twin sources changed during generation')
     manifest=dict(schema='osr-wheel-research-twin-manifest/1',**identity,source_sha256=sources,
         files_sha256={p.name:sha256(p.read_bytes()).hexdigest() for p in output.iterdir() if p.is_file()},**FLAGS)
