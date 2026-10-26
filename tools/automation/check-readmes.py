@@ -2,6 +2,8 @@
 """Check current README formatting, navigation and city publication scope."""
 from __future__ import annotations
 import argparse
+from functools import lru_cache
+from hashlib import sha256
 import json
 from pathlib import Path
 import subprocess
@@ -25,18 +27,57 @@ def normalized(text):
     return '\n'.join(line.rstrip() + ('  ' if line.endswith('  ') else '') for line in text.splitlines())+'\n'
 
 
+
+ARCHIVE = 'docs/archives/v0.5-maglev/manifest.json'
+ARCHIVE_REVISION = '92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164'
+
+
+@lru_cache(maxsize=4)
+def _historical_city_archive(path_name, signature):
+    path=Path(path_name);raw=path.read_bytes();value=json.loads(raw)
+    actual=path.stat()
+    if (actual.st_size,actual.st_mtime_ns,actual.st_ctime_ns)!=signature:
+        raise ValueError('historical city archive changed while reading')
+    unsigned={k:v for k,v in value.items() if k!='archive_id'}
+    expected=sha256((json.dumps(unsigned,sort_keys=True,separators=(',',':'),allow_nan=False)+'\n').encode()).hexdigest()
+    if (value.get('schema')!='osr-v05-git-archive/1' or value.get('revision')!=ARCHIVE_REVISION
+        or value.get('physical_accepted') is not False or value.get('archive_id')!=expected):
+        raise ValueError('historical v0.5 city archive identity differs')
+    return value['source_and_payload_sha256']
+
+
+def retained_city_readme(path):
+    """Validate frozen v0.5 bytes as historical records, not the current default."""
+    archive=REPO_ROOT/ARCHIVE
+    if not archive.is_file():return None
+    st=archive.stat();bindings=_historical_city_archive(str(archive),(st.st_size,st.st_mtime_ns,st.st_ctime_ns))
+    relative=path.relative_to(REPO_ROOT).as_posix()
+    if relative not in bindings:return None
+    names=[path]+[path.parent/'engineering/current'/n for n in ('README.md','summary.json','manifest.json')]
+    errors=[]
+    for source in names:
+        name=source.relative_to(REPO_ROOT).as_posix()
+        if name not in bindings or not source.is_file() or sha256(source.read_bytes()).hexdigest()!=bindings[name]:
+            errors.append('retained historical v0.5 city bytes differ from archive: '+name)
+    return errors
+
+
 def primary_city_readme(path,text):
-    """Check the generated current city package without accepting physical release."""
+    """Distinguish retained v0.5 records from any proposed current city package."""
     package = path.parent/'engineering/current'
     if not (path.parent/'city.json').is_file():
         return text,None
     errors=[]
     try:
+        historical=retained_city_readme(path)
+        if historical is not None:return text,historical
         current=(package/'README.md').read_text()
         summary=json.loads((package/'summary.json').read_text())
         if not current.startswith('# '):errors.append('city package README requires an H1')
         if '[Primary planning method]' not in current:errors.append('city package lacks a current common-method link')
-        if summary.get('development_default') is not True:errors.append('city is not the selected development default')
+        if summary.get('family')=='wheel_rail_station_lim':
+            errors.append('v0.6 city performance publication is held; preserve geographic inputs and historical records')
+        if summary.get('development_default') is not True:errors.append('city is not a retained declared development configuration')
         for flag in ('engineering_accepted','physical_accepted','installed_mass_complete','manufacturing_release','operating_release'):
             if summary.get(flag) is not False:errors.append('city cannot grant physical release: '+flag)
         if summary['vehicle']['cars']!=6 or summary['vehicle']['normal_passengers_per_car']!=46:
