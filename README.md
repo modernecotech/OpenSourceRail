@@ -1,29 +1,36 @@
 # OpenSourceRail
 
-OpenSourceRail develops simple, affordable urban transport that can be manufactured and maintained locally. Lightweight trains run on repeated concrete beams with passive steel facings. Permanent magnets, suspension controls and essential passenger services stay on the train; station windings provide launch and controlled arrival. Passengers transfer between fixed lines.
+OpenSourceRail develops simple, affordable urban transport that can be manufactured and maintained locally. **v0.6 is a station-powered freewheeling railway:** lightweight comfort cars run on passive steel-wheel bogies and conventional rails on precast concrete structures. Station linear-induction motors launch and receive the train through a passive onboard reaction element. There are no onboard traction motors, traction batteries or levitation magnets.
 
-Our approach is to compare the complete system: vehicle weight and comfort, magnetic support, station power, civil construction, service frequency and whole-life cost. Open calculations, reusable components and repairable assemblies are intended to keep cost and complexity down.
+The aim is low whole-life cost through repeated components, repairable assemblies, compact elevated stations and open engineering. We compare the complete railway: vehicles, civil works, station power, passenger service, maintenance and energy. Cost superiority remains to be demonstrated.
 
-## Current development default
+## v0.6 development basis
 
-The **comfort-first six-car design is the repository default**, selected by [development-baseline.toml](engineering/development-baseline.toml). The same vehicle, body and magnet identities drive the current engineering packet, all city calculations, delivery records, Workbench and reader. It is selected for development; stable physical operation and manufacturing release remain unestablished.
+[development-baseline.toml](engineering/development-baseline.toml) selects the new physical candidate. Its body, running gear and propulsion have separate identities. **This is a research and prototype design, with no manufacturing or operating release.**
 
-| Design choice | Default |
+| Design choice | Reference basis |
 |---|---|
-| Formation | Six 17 m cars; 104.5 m train including gaps |
-| Passengers per car | 44 fixed seats + two wheelchair places; no planned standing |
-| Seating | Four abreast where structure permits; wall seating at doors |
-| Passenger doors | Two on one side; platform and evacuation design must match |
-| Structure and fitout | Aluminium extrusion frame, retained GFRP sides, lightweight sandwich floor/roof and benches |
-| Windows | Retained laminated glass; plastic remains an unqualified alternative |
-| Suspension research | Onboard neodymium Halbach PM assembly with active stabilization still to close |
-| Service target | 120-second headway; 276 people/train; **8,280 passengers/hour/direction** |
-| Retained-stop network proposal | 72 km/h launch cap, 35-second dwell; station winding selected for each leg |
-| Accounted mass | 17.357 t tare/car; 20.807 t at the 46-person cap; complete installed mass/CG still unknown |
+| Formation | Six 17 m cars; approximately 104.5 m including gaps |
+| Comfort | 44 fixed seats + two wheelchair places/car; 276/train; no planned standing |
+| Layout | Four abreast where structure permits, wall benches at doors; two passenger doors on one side |
+| Body | Lightweight aluminium/GFRP architecture, sandwich floor/roof, lightweight benches and retained glazing |
+| Running gear | Twelve identical unpowered two-axle bogies: 24 axles, 48 wheels |
+| Propulsion | Station double-sided LIM reference; passive aluminium secondary on each car |
+| Ordinary guideway | Conventional rails and fastenings on precast concrete; box, twin-beam and U-beam comparisons |
+| Services | Flush solar roof and a separately sized auxiliary battery; HVAC, doors, ATP and emergency loads remain |
+| Automation | Existing station-led GoA4 architecture, continuous onboard ATP and independent mechanical brakes |
+| Service targets | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² service deceleration, 35 s dwell, 120 s headway |
+| Capacity arithmetic | **8,280 passengers/hour/direction** at 30 departures/hour; safe headway not yet established |
 
-The lower passenger cap is a comfort and load-management choice. It reduces normal load but also lowers capacity from the former 14,400 comparison. Two-minute departures remain a target supported by analytical and software-method tests, not a demonstrated safe operating headway. Crowd loading, accessibility, emergency exit and passenger admission still require verification.
+Removing propulsion does not remove passenger services or braking. Loss of station power leaves the train supported on its wheels; independent brakes must stop it. A train stopped outside a powered zone needs a protected rescue/tow system. Admission, crowd loading, high-platform accessibility, one-sided doors and evacuation remain requirements.
 
-Read the [current engineering dossier](docs/design-engine/current/README.md), [all-city comparison](docs/design-engine/current/cities.json), [remaining work](docs/ROADMAP.md) or [illustrated reader](OpenSourceRail-Book.pdf). [README coverage](docs/design-engine/current/readme-coverage.md) identifies historical documents without rewriting their evidence.
+## Current engineering
+
+The [current dossier](docs/design-engine/current/README.md) contains the mass ledger, reference 1.5–2 km calculations, battery duty, braking bounds, civil alternatives, readiness gates and [delivery drafts](docs/design-engine/current/exports/manifest.json). The [roadmap](docs/ROADMAP.md) and [illustrated reader](OpenSourceRail-Book.pdf) explain the remaining work.
+
+Reference calculations distinguish **required force** from available motor thrust. Station-only propulsion still needs a validated LIM map, practical clearance, thermal duty and receiving/fault evidence. Complete installed mass/CG/inertia, joined-body structure, wheel dynamics, hot-weather HVAC, independent braking, rescue and same-service economics remain open.
+
+The 266 city geographies and underlying maps are preserved as starting inputs. **City numerical regeneration is held** until the reference drive, braking, route and economic evidence is sufficient. Old fleet, station winding, CAPEX and OPEX figures are historical; they are not v0.6 results. See the [geographic catalogue and holds](docs/design-engine/current/cities.json).
 
 ## Use the repository
 
@@ -32,25 +39,19 @@ Read the [current engineering dossier](docs/design-engine/current/README.md), [a
 ./osr status
 ./osr readiness
 ./osr workbench
-./osr sim baghdad
 ./osr build
 ./osr verify
 ./osr book --check
 ./osr test
+./osr sim baghdad
 ```
 
-`./osr` and `./osr infrastructure` select the same current design. The Workbench opens the current candidate and its city packages. Build regenerates current analytical planning and delivery exports; unavailable physical adapters return an explicit hold. Numerical convergence or a completed software job never grants physical acceptance.
+`./osr sim baghdad` reports the city evaluation hold and its retained geographic inputs. Build regenerates reference analytical and delivery records. The CLI, Workbench and reader use the same selected candidate; unsupported physical jobs hold explicitly.
 
-The default Baghdad retained-stop calculation requires **906 six-car trainsets** and approximately **390.5 km of directional station winding** under its declared flat-route, drag, acceleration, dwell and reserve hypotheses. Four motor-interval overlaps, physical braking, hot-weather HVAC and actual costs remain open. Changing vehicle mass, load or service assumptions requires regeneration; the former fleet and financing totals do not transfer to this design.
+Rust `osr-atp`, interlocking, OCC, TCMS, door control and station SCADA remain the automation foundation. New wheel/station interface fixtures exercise readiness and independent brake demands. Historical `osr-maglev-control` healthy-gap fixtures do not qualify a wheel-supported train. Numerical or software execution alone never establishes physical acceptance.
 
-## What still needs to work
+## Historical designs and contributions
 
-One equipped physical configuration must establish stable multiaxis hover, control authority, thermal duty, complete mass/CG/inertia, structure and braking before a magnetic-force-driven journey can be demonstrated. Current capture-energy and hot-roof-core screens fail their declared cases. Supplier data, prototypes, site investigation and independent confirmation are required. See the [live design gates](docs/design-engine/current/summary.json).
+The [v0.5 maglev archive](docs/archives/v0.5-maglev/README.md) preserves the former selection and evidence at its recorded Git revision; the [earlier archive](docs/archives/pre-comfort-default/README.md) preserves preceding research. `./osr legacy verify` checks their exact source and payload bytes. Reproduce historical calculations in a separate checkout.
 
-Native FreeCAD/STEP evidence describes the exact retained material assembly. Actual Rust `osr-maglev-control` executions test protection protocols with synthetic healthy gaps and assumed braking. Ideal-force Chrono journeys are method benchmarks. None demonstrates this train hovering or completing a physical 2 km journey.
-
-## Historical methods and contributions
-
-The [pre-default archive](docs/archives/pre-comfort-default/README.md) pins the earlier reader, plans and numerical receipts to their real source revision. `./osr legacy verify` checks that historical evidence; regeneration belongs in an isolated checkout. The [ferrite reference implementation](engineering/ferrite_maglev/README.md) and [retained controller deployment settings](deployment/maglev.toml) remain available as named historical methods.
-
-Start with [engineering guidance](engineering/README.md), [project instructions](AGENTS.md), [tools](tools/README.md) and the [documentation index](docs/INDEX.md). Keep every output tied to its candidate and evaluation; unknown stock, performance and cost stay unknown.
+Start with [engineering guidance](engineering/README.md), [project instructions](AGENTS.md), [architecture](docs/ARCHITECTURE.md), [tools](tools/README.md) and the [documentation index](docs/INDEX.md). Unknown mass, performance, price and qualification stay unknown.

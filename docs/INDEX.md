@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **918**.
+Indexed Markdown files: **920**.
 
 ## Sections
 
@@ -26,8 +26,8 @@ Indexed Markdown files: **918**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 83 |
-| [engineering](#engineering) | 20 |
+| [docs](#docs) | 84 |
+| [engineering](#engineering) | 21 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -885,12 +885,13 @@ Indexed Markdown files: **918**.
 | [`docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md) | OpenSourceRail architecture |
 | [`docs/INDEX.md`](../docs/INDEX.md) | Generated Markdown Inventory |
 | [`docs/README.md`](../docs/README.md) | Technical documentation |
-| [`docs/ROADMAP.md`](../docs/ROADMAP.md) | Development roadmap |
+| [`docs/ROADMAP.md`](../docs/ROADMAP.md) | v0.6 engineering and prototype roadmap |
 | [`docs/archives/pre-comfort-default/README.md`](../docs/archives/pre-comfort-default/README.md) | Historical publications before the comfort default |
 | [`docs/archives/pre-comfort-default/ROADMAP.md`](../docs/archives/pre-comfort-default/ROADMAP.md) | Roadmap |
+| [`docs/archives/v0.5-maglev/README.md`](../docs/archives/v0.5-maglev/README.md) | Historical v0.5 maglev design |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Capability Directory |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Primary maglev capability directory |
-| [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | Current comfort-first development design |
+| [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | v0.6 station-powered freewheeling rail |
 | [`docs/design-engine/current/readme-coverage.md`](../docs/design-engine/current/readme-coverage.md) | README introductions and current system context |
 | [`docs/design-engine/design-search/README.md`](../docs/design-engine/design-search/README.md) | Coordinated design research |
 | [`docs/design-engine/design-search-interpretation.md`](../docs/design-engine/design-search-interpretation.md) | First carrier and guidebeam campaign: engineering interpretation |
@@ -982,12 +983,13 @@ Indexed Markdown files: **918**.
 | [`engineering/assurance/v053-propulsion-redesign-screen/executed/findings.md`](../engineering/assurance/v053-propulsion-redesign-screen/executed/findings.md) | Isolated propulsion redesign screen — not adopted |
 | [`engineering/city_maps/README.md`](../engineering/city_maps/README.md) | City maps with retained geographic context |
 | [`engineering/design_search/README.md`](../engineering/design_search/README.md) | Coordinated candidate design |
-| [`engineering/development_baseline/README.md`](../engineering/development_baseline/README.md) | Current development-design adapters |
+| [`engineering/development_baseline/README.md`](../engineering/development_baseline/README.md) | Current development selection adapters |
 | [`engineering/electropermanent/README.md`](../engineering/electropermanent/README.md) | Electropermanent next experiments |
 | [`engineering/ferrite_maglev/README.md`](../engineering/ferrite_maglev/README.md) | Historical reference: OpenSourceRail v0.5 fixed-zone ferrite-maglev engineering |
 | [`engineering/ferrite_maglev/city-index.md`](../engineering/ferrite_maglev/city-index.md) | v0.5 maglev catalogue planning index |
 | [`engineering/ferrite_maglev/observer-prototype/README.md`](../engineering/ferrite_maglev/observer-prototype/README.md) | Delayed-map normal-wrench Rust research prototype |
 | [`engineering/magnetic_confirmation/README.md`](../engineering/magnetic_confirmation/README.md) | Finite 3D magnetic confirmation |
+| [`engineering/station_rail/README.md`](../engineering/station_rail/README.md) | v0.6 station-powered freewheeling rail |
 | [`engineering/trip_dynamics/README.md`](../engineering/trip_dynamics/README.md) | Six-car trip dynamics |
 | [`engineering/trip_dynamics/fixtures/structures/README.md`](../engineering/trip_dynamics/fixtures/structures/README.md) | Structural exchange fixtures |
 

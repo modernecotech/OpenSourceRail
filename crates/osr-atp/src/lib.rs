@@ -74,6 +74,7 @@
 pub mod envelope;
 pub mod evaluate;
 pub mod state;
+pub mod wheel_station;
 
 // Kani bounded-model-checker harnesses. Gated by `#[cfg(kani)]` so
 // they compile only when `cargo kani` is driving the build and are

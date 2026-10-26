@@ -120,9 +120,10 @@ def state_of_charge(legs, *, initial_SOC=.9, minimum_SOC=.2, maximum_SOC=.9,
         bal=charge_leg(seconds,dwell_s,hotel_kW,charging_power_kW,root=root,parallel_strings=parallel_strings)
         arrival=energy-bal['energy_used_kWh_per_car'];lowest=min(lowest,arrival/effective)
         after=min(ceiling,arrival+bal['net_charge_energy_kWh_per_car'])
+        lowest=min(lowest,after/effective)
         rows.append(dict(leg=i,depart_SOC=energy/effective,arrival_SOC=arrival/effective,
             after_dwell_SOC=after/effective,arrival_energy_kWh=arrival,
-            floor_violated=arrival<floor,balance=bal))
+            floor_violated=arrival<floor or after<floor,arrival_floor_violated=arrival<floor,dwell_floor_violated=after<floor,balance=bal))
         energy=after
     missing=max(0.,ceiling-energy)
     allowed=min(charging_power_kW,battery['conservative_voltage_current_power_kW'])

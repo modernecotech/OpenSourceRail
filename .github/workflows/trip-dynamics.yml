@@ -1,4 +1,4 @@
-name: Trip dynamics contracts and native methods
+name: Retained v0.5 trip dynamics and magnetic methods
 on:
   push:
     paths: ['engineering/trip_dynamics/**', 'tools/automation/publish-physical-round.py', 'tools/automation/tests/test_physical_round_publication.py', 'engineering/suspension_closure/**', 'engineering/thermal_closure/**', 'engineering/design_search/whole_system.py', 'engineering/design_search/guideway_tradeoff.py', 'engineering/design_search/tests/test_whole_system.py', 'engineering/design_search/tests/test_guideway_tradeoff.py', 'engineering/electropermanent/**', 'engineering/magnetic_confirmation/**', 'docs/workbench/trip/**', 'tools/automation/maglev-workbench.py', 'tools/automation/tests/verify-trip-workbench.mjs', 'osr', '.github/workflows/trip-dynamics.yml']
@@ -15,6 +15,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -32,6 +34,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -44,6 +48,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -62,6 +68,8 @@ jobs:
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'

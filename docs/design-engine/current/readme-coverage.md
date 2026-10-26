@@ -1,12 +1,12 @@
 # README introductions and current system context
 
-OpenSourceRail develops simple, affordable, locally maintainable urban transport. The development default is six 17 m comfort cars, each with 44 seats plus two wheelchair places and no planned standing; the 120-second service target gives 8,280 normal passengers/hour/direction. All permanent magnets and suspension controls remain onboard; concrete beams carry passive steel facings, while station windings provide launch and receiving power. Lightweight assemblies, repeated civil works and repairable local production support the low-cost ethos. Stable physical operation and manufacturing release remain open.
+OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-powered rail. Six 17 m comfort cars carry 44 seats plus two wheelchair places/car and no planned standing; the 120-second target gives 8,280 passengers/hour/direction. Passive steel-wheel bogies run on conventional rails carried by precast concrete. Station LIMs act on passive onboard secondaries; there are no traction motors, traction batteries or suspension magnets onboard. Service batteries, independent brakes and the existing station-led GoA4 architecture remain. The reference design is research only; city numerical regeneration, economics and physical release remain open. Maglev documents below are retained historical research, not the selected v0.6 physical design.
 
 [Project introduction](../../../README.md) · [System approach](../../../engineering/README.md) · [Current design and engineering gates](README.md)
 
-All **890 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. Current city introductions use the selected comfort design; historical numerical packages remain intact. The project front door is maintained separately.
+All **892 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. Current city introductions use the selected comfort design; historical numerical packages remain intact. The project front door is maintained separately.
 
-Existing local navigation reaches current context from **830 documents**. This page supplies an explicit current-context route for the remaining **60 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
+Existing local navigation reaches current context from **832 documents**. This page supplies an explicit current-context route for the remaining **60 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
 Historical numerical city, design and research packets retain their exact README payloads and original scope. Historical source bindings resolve at the pinned Git revision. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.
 
@@ -14,12 +14,12 @@ Historical numerical city, design and research packets retain their exact README
 |---|---:|
 | candidate-design-method | 1 |
 | city-map-method | 1 |
-| current-development-adapters | 1 |
+| current-development-adapters | 2 |
 | current-development-dossier | 1 |
 | generated-city-brief | 266 |
 | generated-city-package | 532 |
 | generated-navigation-index | 2 |
-| historical-archive | 1 |
+| historical-archive | 2 |
 | magnetic-research-method | 2 |
 | manual-current-entrypoint | 13 |
 | project-frontdoor | 1 |
@@ -847,6 +847,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [deployment/supervision/README.md](../../../deployment/supervision/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [docs/README.md](../../README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [docs/archives/pre-comfort-default/README.md](../../archives/pre-comfort-default/README.md) | historical-archive | [System approach](../../../engineering/README.md) | [current](README.md) |
+| [docs/archives/v0.5-maglev/README.md](../../archives/v0.5-maglev/README.md) | historical-archive | [System approach](../../../engineering/README.md) | [current](README.md) |
 | [docs/capabilities/README.md](../../capabilities/README.md) | generated-navigation-index | [System approach](../../../engineering/README.md) | [current](README.md) |
 | [docs/design-engine/current/README.md](README.md) | current-development-dossier | [System approach](../../../engineering/README.md) | Current system introduction |
 | [docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md](../design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
@@ -919,11 +920,12 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [engineering/assurance/v053-propulsion-redesign-screen/README.md](../../../engineering/assurance/v053-propulsion-redesign-screen/README.md) | retained-assurance-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [engineering/city_maps/README.md](../../../engineering/city_maps/README.md) | city-map-method | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/design_search/README.md](../../../engineering/design_search/README.md) | candidate-design-method | [System approach](../../../engineering/README.md) | Via this coverage page |
-| [engineering/development_baseline/README.md](../../../engineering/development_baseline/README.md) | current-development-adapters | [System approach](../../../engineering/README.md) | [current](README.md) |
+| [engineering/development_baseline/README.md](../../../engineering/development_baseline/README.md) | current-development-adapters | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/electropermanent/README.md](../../../engineering/electropermanent/README.md) | magnetic-research-method | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [engineering/ferrite_maglev/README.md](../../../engineering/ferrite_maglev/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/ferrite_maglev/observer-prototype/README.md](../../../engineering/ferrite_maglev/observer-prototype/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/magnetic_confirmation/README.md](../../../engineering/magnetic_confirmation/README.md) | magnetic-research-method | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
+| [engineering/station_rail/README.md](../../../engineering/station_rail/README.md) | current-development-adapters | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/trip_dynamics/README.md](../../../engineering/trip_dynamics/README.md) | trip-dynamics-method | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/trip_dynamics/fixtures/structures/README.md](../../../engineering/trip_dynamics/fixtures/structures/README.md) | trip-dynamics-method | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [tools/README.md](../../../tools/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |

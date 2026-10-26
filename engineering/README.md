@@ -1,27 +1,25 @@
 # OpenSourceRail engineering
 
 <!-- osr-system-context:start -->
-OpenSourceRail develops simple, affordable, locally maintainable urban transport. The development default is six 17 m comfort cars, each with 44 seats plus two wheelchair places and no planned standing; the 120-second service target gives 8,280 normal passengers/hour/direction. All permanent magnets and suspension controls remain onboard; concrete beams carry passive steel facings, while station windings provide launch and receiving power. Lightweight assemblies, repeated civil works and repairable local production support the low-cost ethos. Stable physical operation and manufacturing release remain open.
+OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-powered rail. Six 17 m comfort cars carry 44 seats plus two wheelchair places/car and no planned standing; the 120-second target gives 8,280 passengers/hour/direction. Passive steel-wheel bogies run on conventional rails carried by precast concrete. Station LIMs act on passive onboard secondaries; there are no traction motors, traction batteries or suspension magnets onboard. Service batteries, independent brakes and the existing station-led GoA4 architecture remain. The reference design is research only; city numerical regeneration, economics and physical release remain open. Maglev documents below are retained historical research, not the selected v0.6 physical design.
 
 [Project introduction](../README.md) · [Engineering approach and current status](../docs/design-engine/current/README.md)
 <!-- osr-system-context:end -->
 
 ## Current ownership
 
-[development-baseline.toml](development-baseline.toml) selects the current six-car comfort/NdFeB development candidate. [development_baseline/](development_baseline/README.md) resolves that selection and publishes its matched service, city and delivery records. It does not qualify the physical railway or demonstrate economic superiority.
-
-The [physical-feasibility follow-up](../docs/design-engine/physical-feasibility-round/README.md) is the current P0 investigation: coupled guideway/material quantities, suspension force/current limitations, passive capture and roof alternatives, and equal-service comparisons. Its proposed parts remain research alternatives; the selected default and its failed/unknown physical gates stay explicit.
+[development-baseline.toml](development-baseline.toml) selects the v0.6 wheel/LIM research candidate. [station_rail/](station_rail/README.md) owns its physical definition, counted vehicle, service energy, conventional civil alternatives, reference motion and delivery records. [development_baseline/](development_baseline/README.md) supplies CLI and Workbench adapters. Lower whole-life cost and physical operation remain open.
 
 | Responsibility | Owner and boundary |
 |---|---|
-| Candidate registry and comparison | [design_search/](design_search/README.md); equal-service quantities and Pareto alternatives, never zero-valued unknown costs |
-| Installed vehicle | `equipped_vehicle/`, selected `comfort_design/` assembly and retained native CAD; incomplete installed stock/CG/inertia remain unknown |
-| Suspension | `suspension_closure/`, `magnetic_confirmation/`, `halbach_scaling/`; component field/current investigations with numerical validity limits |
-| Roof, HVAC and capture bounds | `thermal_closure/`; counted proposed stock and analytical/thermal/impact cases, not qualified safety hardware |
-| Coupled motion | [trip_dynamics/](trip_dynamics/README.md); physically matched inputs are required before a supported journey can execute |
-| Qualification and delivery | `assurance/`, current candidate-bound exports and authenticated measurements; manufacturing/operating releases remain held |
+| Vehicle and wheel support | `station_rail/vehicle.py`: passive bogies, revised load paths, fitout and accounted mass; complete installation, stiffness and wheel dynamics unqualified |
+| Station drive and services | `station_rail/operations.py`, `electrical.py`, `native_drive.py`: required force, finite zones, service SOC and conditional field/heat bounds; actual motor map unknown |
+| Conventional civil works | `station_rail/civil.py`: box, twin-beam and U-beam alternatives, moving axle envelopes, tendons and construction quantities; complete site and lateral/torsional design open |
+| Controls | Existing Rust ATP/interlocking/OCC/TCMS/doors/SCADA; new wheel-station interfaces require physical braking, sensing and fault evidence |
+| Comparison and delivery | Candidate-bound research exports and same-service comparison; missing equipment, prices, process qualification and releases remain explicit |
+| Geographic inputs | 266 city maps and route contexts retained; numerical city regeneration held pending reference physical and economic evidence |
 
-The global default is a starting candidate for city-specific design. Demand, grades, climate, stations, access, foundations, suppliers and economics need local evidence. Applying one configuration to a city catalogue is not proof of suitability.
+The [v0.5 maglev archive](../docs/archives/v0.5-maglev/README.md) preserves the former selected design and its scientific results. `comfort_design/`, `suspension_closure/`, `magnetic_confirmation/`, `halbach_scaling/`, `thermal_closure/` and existing magnetic `trip_dynamics/` packets remain historical methods. Their accepted inputs, costs and simulation assumptions cannot silently become v0.6 evidence.
 
 ## Historical research configuration - not the selected development baseline
 

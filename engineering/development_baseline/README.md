@@ -1,16 +1,7 @@
-# Current development-design adapters
+# Current development selection adapters
 
-OpenSourceRail seeks simple, affordable, locally maintainable urban transport. This package connects the selected six-car comfort/NdFeB design to current service, cities, delivery records, reader and Workbench. All magnets and suspension controls stay onboard; ordinary guideway is concrete with passive steel facings and stations provide propulsion.
+These adapters expose the [v0.6 wheel/LIM research selection](../development-baseline.toml) through the CLI, Workbench, reference evaluations, delivery drafts and reader. Vehicle, body, support and propulsion identities must match. All physical, manufacturing and operating release flags remain false.
 
-The authoritative input is [development-baseline.toml](../development-baseline.toml). The [current dossier](../../docs/design-engine/current/README.md) states the 44-seat plus two-wheelchair vehicle, one-sided doors, lightweight structure and 120-second target. Development adoption never grants physical, manufacturing or operating acceptance.
+The implementation lives in [station_rail](../station_rail/README.md). The selector supports an explicit family registry with retained v0.5 maglev evidence and an unbuilt LSM comparison; unsupported or mixed physical candidates fail closed. City numerical regeneration is held pending reference propulsion, braking, route and economic evidence.
 
-`selection` authenticates the retained body/magnet packet; `evaluate` regenerates the selected72km/h service; `cities` recalculates all route plans; `exports` compiles matched delivery records and verifies portable CAD/IFC; `publication` seals current evidence; `book` generates the reader; `entrypoint` and `server` expose the same default. Historical source-bound packets are checked at their original Git revision by `legacy`.
-
-```bash
-./osr status
-./osr build
-./osr verify
-./osr test
-```
-
-Unknown installed mass, current authority, cost or physical performance remains unknown. Native protection fixtures use synthetic healthy gaps and assumed braking; neither they nor ideal-force dynamics qualify the train.
+Use `./osr status`, `./osr build`, `./osr verify`, `./osr test` and `./osr workbench`. [Current dossier](../../docs/design-engine/current/README.md) · [Historical v0.5](../../docs/archives/v0.5-maglev/README.md) · [Project introduction](../../README.md).

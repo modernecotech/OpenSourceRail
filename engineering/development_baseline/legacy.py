@@ -83,7 +83,9 @@ def verify(root=ROOT):
 def main(argv=None,root=ROOT):
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',nargs='?',default='status')
     a=p.parse_args(argv)
-    if a.action in ('verify','audit'):result=verify(root)
+    if a.action in ('verify','audit'):
+        from engineering.station_rail.history import verify as verify_v05
+        result=dict(pre_comfort=verify(root),v05_maglev=verify_v05(root))
     elif a.action in ('status','readiness'):
         result=dict(source_revision=REVISION,role='Historical comparison only',current_default='engineering/development-baseline.toml',
             archive=OUTPUT+'/README.md',historical_writers_in_current_tree=False,physical_accepted=False)

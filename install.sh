@@ -313,7 +313,7 @@ install_playwright() {
 
 build_platform() {
     section "Building support-control method kernels"
-    (cd "$ROOT" && cargo build --locked --release -p osr-maglev-control --examples)
+    (cd "$ROOT" && cargo build --locked --release -p osr-atp --example wheel_station_contract)
     (cd "$ROOT" && ./osr verify)
 }
 

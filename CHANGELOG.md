@@ -1,5 +1,13 @@
 # OpenSourceRail changelog
 
+## 0.6.0 development — 26 October 2026
+
+- Select an independently identified wheel-supported station-LIM research train; retain six comfort cars and station-led GoA4.
+- Recalculate passive bogies, bogie load paths, service-only battery, independent friction braking, finite station geometry and three conventional concrete guideway families.
+- Execute native material CAD/STEP, limited underframe FEA, magnetic-diffusion method convergence and Rust wheel-interface/ATP fixtures. Missing full motor maps, structure, thermal performance and prices remain explicit.
+- Preserve v0.5 maglev source and city evidence at its Git revision. Hold all city performance regeneration pending reference propulsion, braking, route and economic evidence.
+- Update the selected CLI, Workbench, research delivery drafts and illustrated reader. No manufacturing or operating release is granted.
+
 ## 0.5.2 development — 23 October 2026
 
 - Connect the Baghdad pilot's equipment ledger, coupled actuator experiment,

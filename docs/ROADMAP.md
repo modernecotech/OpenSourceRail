@@ -1,42 +1,36 @@
-# Development roadmap
+# v0.6 engineering and prototype roadmap
 
-OpenSourceRail aims for simple, low-cost, locally maintainable urban transport with frequent comfortable service. The current default is the six-car comfort/NdFeB development design in [the authoritative selector](../engineering/development-baseline.toml). All PMs and support controls remain on the train; ordinary guideway is concrete and passive steel.
+OpenSourceRail v0.6 develops a station-powered, wheel-supported comfort train. [The selector](../engineering/development-baseline.toml) binds one physical candidate across the [current dossier](design-engine/current/README.md), Workbench, reader and delivery drafts. Six 17 m cars retain 44 seats plus two wheelchair places/car, zero planned standing, one-sided doors and station-led GoA4. Conventional wheel support replaces magnetic levitation; station-only propulsion remains the main new feasibility question.
 
-## Current digital baseline
+## Reference sprint
 
-- Six 17 m cars, 44 seats plus two wheelchair places/car, zero planned standing and two doors on one side.
-- Aluminium extrusion frame, lightweight sandwich floor/roof, counted bench stock and retained glazing references.
-- 120-second target, 8,280 normal passengers/hour/direction and a 72 km/h retained-stop network proposal.
-- Candidate-bound mass, service, civil-interface, control, manufacturing and procurement records; all city planning uses the same default.
-- Native material CAD/STEP and source-bound Rust protection-method fixtures, with clear scope limits.
+1. Preserve [v0.5 evidence](archives/v0.5-maglev/README.md) and identify the wheel/LIM candidate independently. Retain unchanged component identities and declare every changed interface.
+2. Recalculate the equipped 17 m car: passive bogies, concentrated support load paths, passive motor secondary, service battery, brakes, wiring, HVAC and roof. Separate counted material, supplier references and unlocated allocations. Complete installed mass, CG and inertia require closure.
+3. Compare box, twin-beam and U-beam concrete guideways under actual axle moving loads. Include rail/gauge fastenings, lateral and torsional loads, prestress, piers, foundations, containment, drainage, walkways, transport and erection.
+4. Establish a practical station LIM: full moving force/current/frequency/gap/temperature maps, unwanted normal forces, secondary/stator heat, voltage and switching. Compare single-sided LIM and LSM openly; never substitute prescribed acceleration for available thrust.
+5. Couple the same train, motor and independent brake models over 1.5 km, 2 km and the longest retained city gap. Save empty, normal, crowd and adverse cases, including failed arrival, wet rail, power/communications loss, occupied berth and off-zone recovery.
+6. Retain existing onboard ATP, interlocking, OCC, TCMS and station-led GoA4 architecture. Qualify physical brake profiles, localisation, integrity, timing and communications; execute fault injection and the existing formal assurance programme. New software predicates do not release a railway.
+7. Compare whole-life costs against v0.5 and a station-launch v0.4 derivative at equal route, passenger service and reliability. Supplier prices, installation, maintenance, peak supply and renewal costs remain unknown until supported.
 
-The [current dossier](design-engine/current/README.md), [city index](design-engine/current/cities.json) and [Workbench](workbench/current/index.html) share one selection. The [historical programme](archives/pre-comfort-default/README.md) remains evidence of earlier work rather than the current default.
+## Release gates
 
-## Work required for physical completion
-
-| Work package | Completion evidence |
+| Gate | Required result |
 |---|---|
-| Suspension and control | Converged installed 3D force/moment/current/temperature maps; stable equilibrium, lateral/rotational control and fault reserve |
-| Complete vehicle | Located installed stock, full CG/inertia; structural, fatigue, buckling, modal and passenger-load confirmation |
-| Capture and braking | Counted revised hardware; force/energy and retention tests; demonstrated stopping and holding across relevant conditions |
-| Thermal and HVAC | Roof/core temperature within material limits; qualified 50 C cooling capacity, ventilation, redundancy and essential-energy duty |
-| Station drive | Current/voltage/force/thermal envelopes for actual winding groups; phase handoff and overlapping station resources |
-| Coupled journey | Empty, capped-load, crowd-control and fault cases from verified hover through launch, coast and controlled arrival |
-| Civil and construction | Counted facing supports/anchors, beam prestress/rebar, piers, foundations, survey tolerances and erection stages |
-| Operations | Protected 120-second operation with dwell variation, receiving failures, evacuation, accessibility and realistic transfers |
-| Whole-system economics | Same-candidate priced vehicle/civil/station stock, factory labour, energy, renewals, fleet, crews and finance |
-| Prototype correlation | Authenticated measured force, temperature, geometry, mass and structural data linked to the selected parts |
+| Installed vehicle | Counted, located equipment and complete mass/CG/inertia; qualified body and bogie load paths |
+| Wheel/rail dynamics | Ride, hunting, curves, profiles, suspension, axle loads and containment |
+| Station drive | Independently validated thrust and duty, practical clearances, switching and fault response |
+| Independent stopping | Wet/hot brake/WSP performance, gradients, parking, channel failures and thermal reserve |
+| Passenger services | Delivered HVAC at 50°C, hot roof strength, cooled service battery and missed-charge/emergency endurance |
+| Protected journey | Same-candidate launch, coast, receive and safe fault stop with continuous ATP |
+| Civil and construction | Complete moving loads, prestress/fatigue, site foundations, transport, lifting and inspection |
+| Rescue/evacuation | Real off-zone towing, protected access, emergency communication and high-viaduct evacuation |
+| Economics | Same-service installed CAPEX, energy, availability, maintenance and renewals |
+| Prototype release | Reviewed drawings, processes, tolerances, supplier evidence and instrumented test plan |
 
-Capture energy and unshaded hot-roof-core cases presently fail; remaining physical gates are unknown. A development selection does not waive these results. The 46-person cap needs enforceable admission and compatible stations; it does not eliminate accidental or crowd loads. Glass and electropermanent magnets remain comparisons until their complete evidence supports selection.
+## Cities and publication
 
-## Execution discipline
+The 266 city geographies, station locations and underlying city details remain starting inputs. Numerical catalogue-wide regeneration is held until reference propulsion, braking, route and economic evidence permits it. Terrain, grades, climate, demand, transfer access and prices need city-specific assessment. No old fleet or financing number is relabelled v0.6.
 
-Fix bounded failures, keep unsuccessful trials, run independent confirmation and regenerate affected current outputs. Specialist agents develop evaluators and design alternatives; deterministic workers evaluate numerical samples. Preserve historical receipts against their original source revision. Publish physical acceptance only through the qualification process with measured evidence and review.
+v0.6 is selected for research because conventional wheel support removes the unresolved magnetic suspension and its continuous facing system. It may increase vehicle mass; station-only LIM, high platforms and recovery introduce their own costs. Lower whole-life cost is an explicit open decision, not a condition silently assumed passed.
 
-```bash
-./osr status
-./osr build
-./osr verify
-./osr test
-./osr legacy verify
-```
+[Current readiness](design-engine/current/summary.json) · [Project introduction](../README.md) · [README coverage](design-engine/current/readme-coverage.md).

@@ -227,6 +227,7 @@ def reader_cache(packet):
     reader_source=root/'engineering/station_rail/reader.py'
     reader_source.parent.mkdir(parents=True,exist_ok=True);reader_source.write_bytes(Path(reader.__file__).read_bytes())
     write_json(root/OUTPUT/'cities.json',dict(summary,cities=[]))
+    write_json(root/OUTPUT/'comparison.json',dict(alternatives=[]))
     for name in ('vehicle-overview.svg','service-profile.svg','interface-section.svg'):
         (root/OUTPUT/name).write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>')
     pdf=root/'OpenSourceRail-Book.pdf'

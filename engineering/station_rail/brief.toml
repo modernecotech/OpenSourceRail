@@ -40,10 +40,11 @@ secondary_bottom_above_rail_m = 0.020
 primary_target_airgap_each_side_m = 0.015
 secondary_mass_complete = false
 all_powered_traction_equipment_wayside = true
+reference_motor_type = "double-sided LIM; single-sided LIM and LSM are comparisons"
 [services]
 battery_role = "services and essential energy only; no wheel drive connection"
-gross_battery_kWh_target = 55.2
-battery_architecture_target = "high-power service pack; actual cell/topology, cooling and duty to be sourced"
+gross_battery_kWh_target = 82.8
+battery_architecture_target = "75 Toshiba Type3-20 reference modules, 25 series x 3 parallel; rail qualification and cooled enclosure open"
 reference_hotel_kW_per_car = 35.0
 adverse_hotel_kW_per_car = 50.0
 emergency_endurance_s_target = 1800.0
@@ -63,7 +64,7 @@ rolling_coefficient_hypothesis = 0.0025
 bearing_drag_N_per_car_hypothesis = 50.0
 quadratic_drag_N_per_car_per_m_s_squared_hypothesis = 1.8
 mainline_grade_fraction_hypothesis = 0.0
-station_winding_library_m = [350.0,450.0,600.0,800.0,900.0,1000.0,1200.0]
+station_winding_library_m = [350.0,450.0,600.0,800.0,900.0,1000.0]
 station_section_length_m = 12.5
 prototype_distances_m = [1500.0,2000.0]
 minimum_independent_train_phase_branches_per_direction = 2
@@ -74,9 +75,18 @@ route_and_terminal_timing_qualified = false
 ordinary_guideway = "concrete structure with conventional running rails and direct fastenings"
 rail_profile_reference = "60E1; exact supplier/grade and worn profile require qualification"
 span_options_m = [15.0,20.0,25.0,30.0]
-reference_span_m = 25.0
+reference_span_m = 20.0
+design_load_case = "crowd_control"
 powered_suspension_equipment = false
 magnetic_suspension_facings = false
+[automation]
+architecture = "station-led GoA4 with independent onboard ATP and mechanical braking"
+mainline_switches = false
+depot_switch_exceptions = true
+centre_platform_starting_requirement = true
+solar = "retained flush roof PV; energy yield not guaranteed"
+city_regeneration = "held until reference propulsion, braking, route and economic evidence is available"
+
 [acceptance]
 engineering_accepted = false
 physical_accepted = false

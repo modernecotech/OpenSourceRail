@@ -53,3 +53,12 @@ def test_spreader_does_not_establish_instantaneous_active_plate_temperature():
     plate=e.secondary_heat(p,58.536,slip=.25)
     assert plate['adiabatic_temperature_rise_K']>3*all_stock['adiabatic_temperature_rise_K']
     assert all_stock['contact_conductance_W_K'] is None
+
+
+def test_failed_charger_can_violate_reserve_during_dwell():
+    from engineering.station_rail.electrical import state_of_charge
+    result=state_of_charge([0.],initial_SOC=.21,hotel_kW=50.,charging_power_kW=0.,dwell_s=100.)
+    assert result['reserve_screen']=='fail'
+    assert result['legs'][0]['dwell_floor_violated']
+    assert not result['legs'][0]['arrival_floor_violated']
+    assert result['lowest_SOC']==result['final_SOC']

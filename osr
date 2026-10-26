@@ -11,16 +11,16 @@ if [[ "${1:-}" == -h || "${1:-}" == --help || "${1:-}" == help ]]; then
     cat <<'EOF'
 Usage: ./osr [COMMAND] [arguments]
 
-  (no command)      Show the selected comfort/NdFeB development design
+  (no command)      Show the v0.6 wheel/LIM research design
   status/readiness  Show current candidate identities, evidence and open gates
-  build [--force]   Regenerate the selected current engineering/city package
+  build [--force]   Regenerate reference engineering; preserve city evaluation holds
   design ...        Alias for current status/build/verify/readiness
   infrastructure ... Alias for the same selected design
   verify/check      Verify the current source-bound publication
   workbench [...]   Serve the read-only current Workbench on 127.0.0.1:8090
-  city [slug]       Publish current selected-city analytical planning
-  sim [slug]        Evaluate current selected-city analytical planning
-  catalogue         Read the current city catalogue
+  city [slug]       Inspect retained city geography and its evaluation hold
+  sim [slug]        Report city performance evidence hold (exit status 3)
+  catalogue         Read retained city geography and evaluation holds
   trip/twin/plan    Inspect current integration status; unsupported jobs hold
   book [--check]    Build/check the selected-design reader
   test              Run current contracts, publication and browser checks

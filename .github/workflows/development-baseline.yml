@@ -1,9 +1,12 @@
-name: Selected development design
+name: v0.6 wheel and station reference design
 on:
   pull_request:
     paths:
       - "engineering/development-baseline.toml"
       - "engineering/development_baseline/**"
+      - "engineering/station_rail/**"
+      - "crates/osr-atp/**"
+      - "Cargo.lock"
       - "docs/design-engine/current/**"
       - "docs/workbench/current/**"
       - "cities/**/engineering/current/**"
@@ -17,10 +20,15 @@ on:
     paths:
       - "engineering/development-baseline.toml"
       - "engineering/development_baseline/**"
+      - "engineering/station_rail/**"
+      - "crates/osr-atp/**"
+      - "Cargo.lock"
       - "docs/design-engine/current/**"
       - "docs/workbench/current/**"
       - "osr"
   workflow_dispatch:
+  schedule:
+    - cron: "45 3 * * *"
 permissions:
   contents: read
 jobs:
@@ -41,7 +49,7 @@ jobs:
       - run: .venv/bin/pip install pytest --requirement engineering/ferrite_maglev/requirements.txt
       - run: npm ci
       - run: npx playwright install --with-deps chromium
-      - run: .venv/bin/python -m pytest -q engineering/development_baseline/tests
+      - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/development_baseline/tests engineering/station_rail/tests
       - run: ./osr verify
       - run: npm run test:frontend
       - uses: actions/upload-artifact@v4
@@ -49,3 +57,24 @@ jobs:
         with:
           name: selected-development-workbench
           path: build/development-baseline-browser/
+
+  native-methods:
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y getdp gmsh calculix-ccx libglu1-mesa
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install pytest --requirement engineering/ferrite_maglev/requirements.txt
+      - run: .venv/bin/python tools/automation/v06-native-benchmarks.py --output build/v06-native-ci
+      - run: cargo test --locked -p osr-atp -p osr-interlocking -p osr-door-control -p osr-tcms -p osr-station-scada
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v06-native-methods-not-physical-qualification
+          path: build/v06-native-ci/
+          retention-days: 14

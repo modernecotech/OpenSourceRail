@@ -1,39 +1,30 @@
 # OpenSourceRail architecture
 
-OpenSourceRail develops simple, affordable, locally maintainable urban transport. The repository default is a comfort-first six-car train with onboard neodymium Halbach permanent magnets and active suspension/guidance controls. Ordinary guideway consists of concrete beams with passive steel facings. Finite station winding groups provide propulsion and controlled arrival; passenger transfers connect fixed lines.
+v0.6 is a station-powered freewheeling railway. Six lightweight 17 m comfort cars run on twelve passive steel-wheel bogies. Conventional rails on precast concrete support the train; station LIM primaries act on passive onboard aluminium secondaries. The train has no normal-service traction motor or traction battery. Service/essential power, sensing, communications and independent mechanical braking remain onboard.
 
-## Authoritative design
+## One physical candidate
 
-[development-baseline.toml](../engineering/development-baseline.toml) selects the exact body, magnet and retained-stop network proposal. The [current dossier](design-engine/current/README.md), [all-city index](design-engine/current/cities.json), [delivery exports](design-engine/current/exports/manifest.json), [Workbench](workbench/current/index.html) and [reader](../OpenSourceRail-Book.pdf) resolve to that same selection.
+[development-baseline.toml](../engineering/development-baseline.toml) resolves the selected `wheel_rail_station_lim` family through [the v0.6 engineering layer](../engineering/station_rail/README.md). Vehicle, body, support and propulsion identities are separate. Candidate identity describes physical stock; evaluation identity describes models and scenarios; selection identity records purpose and policy. The retained `pm_maglev_station_powered` and conceptual `wheel_rail_station_lsm` families remain explicit comparisons.
 
-Six 17 m cars carry 44 fixed seats plus two wheelchair places/car, with zero planned standing and two doors on one side. An aluminium extrusion frame, retained GFRP sides, lightweight sandwich floor/roof and benches form the counted body proposal. Laminated glass is retained; plastic glazing and EPM load trimming remain alternatives requiring evidence.
+Unchanged component records retain source identities. New bogies, concentrated structural supports, reaction fin and service supply produce a new complete vehicle identity. Counted geometry, supplier reference masses and unlocated allowances are distinguished. Unknown installed mass, force, cost and qualification never become zero.
 
-The target is 120-second headway, 276 normal passengers/train and 8,280 passengers/hour/direction. The retained-stop network proposal uses a 72 km/h launch cap and 35-second dwell. Existing route geometry is retained; longer finite station winding options are selected explicitly for each leg. Admission control, one-sided platforms, accessibility and evacuation must match the seating policy.
+## Station-led GoA4
 
-## Current component contracts
+Existing Rust ATP, interlocking, OCC, TCMS, door control, station SCADA and train-to-ground communication remain the foundation. Stations reserve route and receiving berth, prove train readiness, sequence motor sections and supervise arrival. Onboard ATP continuously enforces authority and speed using independent brake capability. It must stop the train on communications, authority, receiving or integrity failure. Mainline switches are excluded; depot exceptions remain explicit.
 
-| Domain | Current relationship and remaining boundary |
+Loss of propulsion does not remove wheel support. Motorless off-zone stopping still requires rescue/towing and evacuation provision. The new wheel/station adapter exercises protection predicates; no physical brake curve, operational GoA4 acceptance or full train motion is implied.
+
+## Coupled engineering
+
+| Domain | Required relationship |
 |---|---|
-| Vehicle | Counted material, supplier references and unlocated allocations; 17.357 t accounted tare and 20.807 t capped load/car. Complete installed stock, CG/inertia and joined structural modes unknown. |
-| Suspension | Onboard PMs/active controls against passive steel facings. Installed 3D force/current/temperature maps, operating gap, stability and reserve remain unqualified. |
-| Station drive | Selected 2 km prototype shares 800 m winding between launch and receipt, 12.5 m addresses, at least two concurrent train phase/current branches/direction. Actual switchgear, force, voltage and thermal duty remain open. |
-| Civil | New 2.26 m-facing envelope and counted supports; conservative prototype quantities. Rebar/prestress, anchors, moving loads, bearings, piers, foundations and site evidence remain open. |
-| Operations | Actual coast/brake leg requirements, resource screens and fleet are recalculated for every city. Rust protocol fixtures use synthetic healthy gaps and assumed braking; safe physical headway unknown. |
-| Delivery | Same-candidate engineering BOM, manufacturing, procurement, assembly, controls and partial IFC. Supplier prices, labour, dates, crews and releases unknown. |
-| Qualification | Execution, numerical validity, engineering screen and physical acceptance remain separate. Development selection grants no manufacturing or motion authority. |
+| Vehicle | Full fitout, bogies, service supply, thermal equipment and actual load paths feed mass and inertia |
+| Station motor | Force/current/frequency/gap/temperature map, normal forces, slip, heat and section handoff feed the journey |
+| Rail/civil | Moving axle reactions, alignment, deflection, torsion, rails/fasteners, piers, foundations and construction |
+| Journey | Same mass and geometry, wheel dynamics, independent brakes, service SOC, station power and protection |
+| Delivery | BOM, processes, procurement, assembly, CAD/IFC and maintenance share the selected physical IDs |
+| Economics | Equal passenger service, routes, reliability, life and price coverage; unavailable totals stay unknown |
 
-## Software and evidence
+The CLI, [current dossier](design-engine/current/README.md), Workbench and [reader](../OpenSourceRail-Book.pdf) resolve this selection. Build runs deterministic reference calculations and produces research delivery records. City performance publication remains held; retained city maps and route inputs are accessible without reusing old magnetic masses or fleet figures.
 
-`engineering/development_baseline/` authenticates the immutable physical packet and regenerates current service, cities and delivery records. `./osr`, infrastructure/design aliases, status, build, verify, reader and Workbench all use this selection. Unsupported physical adapters return a hold. Native car CAD/STEP is reverified from its portable archive; new Rust controls execute the actual selected analytical profile. Neither establishes stable hover or an end-to-end physical journey.
-
-The two current failed necessary screens are capture energy and unshaded hot-roof-core temperature. Remaining physical gates are unknown. A physical-force journey must start from demonstrated hover and use the same vehicle structure, mass, current, electrical, thermal and braking maps.
-
-Historical ferrite calculations, prior city quantities, deployment references and reader remain [pinned evidence](archives/pre-comfort-default/README.md). Their configuration and costs do not transfer silently to the new default. Regenerate historical pipelines only in an isolated checkout.
-
-```bash
-./osr status
-./osr build
-./osr verify
-./osr workbench
-./osr legacy verify
-```
+[The v0.5 archive](archives/v0.5-maglev/README.md) authenticates former sources and results at their Git revision. Historical numerical reproduction requires that pinned checkout. Ordinary current publication never rewrites historical scientific packets.
