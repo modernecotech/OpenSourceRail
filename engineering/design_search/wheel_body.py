@@ -109,7 +109,7 @@ def _physical_body_parts(parts):
     fields=('id','kind','at_m','size_m','axis','radius_m','inner_radius_m','length_m','holes','rectangular_cutouts',
         'volume_m3','mass_kg','density_kg_m3','material','system','role','laminate_specification','source_part_id')
     return [{key:deepcopy(p[key]) for key in fields if key in p} for p in parts
-        if p.get('system')!='bogies' and not p['id'].startswith('station-secondary/')]
+        if p.get('system') not in ('bogies','brake-housing-stock') and not p['id'].startswith('station-secondary/')]
 
 
 def materialize(base_vehicle,parameters,root=ROOT):
@@ -236,21 +236,28 @@ def _sandwich(raw,variant,vehicle,dx):
         actual_aperture_regions=len(parts),ideal_fastener_equations=equations,synthetic_materials=True,holes_resolved=False)
 
 
+def _address_space_bound():
+    inherited=resource.getrlimit(resource.RLIMIT_AS)
+    return min([3*1024**3,*[limit for limit in inherited if limit!=resource.RLIM_INFINITY]])
+
+
 def _memory_bound():
-    # Linux address-space limit for the numerical subprocess, not OS isolation.
-    resource.setrlimit(resource.RLIMIT_AS,(3*1024**3,3*1024**3))
+    # Respect stricter inherited limits; this is address space, not measured RSS.
+    bound=_address_space_bound();resource.setrlimit(resource.RLIMIT_AS,(bound,bound))
 
 
 def _native(raw,folder,timeout_s=150):
-    folder.mkdir();(folder/'body.inp').write_text(raw);started=time.monotonic()
+    folder.mkdir();(folder/'body.inp').write_text(raw);started=time.monotonic();bound=_address_space_bound()
     try:
         proc=subprocess.run(['/usr/bin/ccx','body'],cwd=folder,capture_output=True,text=True,timeout=timeout_s,preexec_fn=_memory_bound,env={**os.environ,'OMP_NUM_THREADS':'1'})
         (folder/'stdout.log').write_text(proc.stdout);(folder/'stderr.log').write_text(proc.stderr)
-        if proc.returncode or not(folder/'body.dat').is_file():return dict(execution='tool_error',returncode=proc.returncode,runtime_s=time.monotonic()-started)
-        actual=body_frame._read_dat(folder/'body.dat');return dict(execution='completed',runtime_s=time.monotonic()-started,**actual)
+        if proc.returncode or not(folder/'body.dat').is_file():return dict(execution='tool_error',returncode=proc.returncode,runtime_s=time.monotonic()-started,address_space_limit_bytes=bound)
+        actual=body_frame._read_dat(folder/'body.dat');return dict(execution='completed',runtime_s=time.monotonic()-started,address_space_limit_bytes=bound,**actual)
     except subprocess.TimeoutExpired as e:
         (folder/'stdout.log').write_bytes(e.stdout or b'');(folder/'stderr.log').write_bytes(e.stderr or b'');return dict(execution='interrupted',reason='bounded native timeout',runtime_s=time.monotonic()-started)
-    except ValueError as e:return dict(execution='numerical_error',reason=str(e),runtime_s=time.monotonic()-started)
+    except (OSError,subprocess.SubprocessError) as e:
+        (folder/'launch-error.log').write_text(str(e));return dict(execution='tool_error',reason=str(e),runtime_s=time.monotonic()-started,address_space_limit_bytes=bound)
+    except ValueError as e:return dict(execution='numerical_error',reason=str(e),runtime_s=time.monotonic()-started,address_space_limit_bytes=bound)
 
 
 def evaluate(vehicle,parameters,output,*,root=ROOT,confirmation=False):
@@ -261,8 +268,8 @@ def evaluate(vehicle,parameters,output,*,root=ROOT,confirmation=False):
     output=Path(output).resolve()
     if output.exists():raise ValueError('Fresh immutable candidate-body run directory required')
     output.mkdir(parents=True);variant=_analysis_variant(vehicle);(output/'candidate.json').write_bytes(encoded(vehicle));before=digest(__file__)
-    modes=[('normal','accounted_cap_loaded_kg_per_car',.6,False,False,1.),('crowd','accounted_160_control_kg_per_car',.6,False,False,1.)]
-    if confirmation:modes += [('normal-fine','accounted_cap_loaded_kg_per_car',.3,False,False,1.),('asymmetric-braking','accounted_cap_loaded_kg_per_car',.6,True,True,1.),('joint-sensitivity','accounted_cap_loaded_kg_per_car',.6,False,False,.1)]
+    modes=[('normal','accounted_cap_loaded_kg_per_car',.6,False,False,1.),('crowd','accounted_160_control_kg_per_car',.6,False,False,1.),('normal-fine','accounted_cap_loaded_kg_per_car',.3,False,False,1.)]
+    if confirmation:modes += [('asymmetric-braking','accounted_cap_loaded_kg_per_car',.6,True,True,1.),('joint-sensitivity','accounted_cap_loaded_kg_per_car',.6,False,False,.1)]
     cases=[]
     for label,key,dx,asym,brake,jf in modes:
         mass=vehicle['mass'][key]-6730.;raw,mesh=body_solid_frame.deck(variant,mass,dx,asymmetric=asym,braking=brake,joint_factor=jf)
@@ -270,20 +277,67 @@ def evaluate(vehicle,parameters,output,*,root=ROOT,confirmation=False):
         case=dict(case=label,mesh=mesh,sprung_mass_kg=mass,**_native(raw,output/label))
         if case['execution']=='completed':
             residual=abs(case['support_reaction_z_N']+mesh['applied_vertical_force_N'])/abs(mesh['applied_vertical_force_N'])
-            case.update(force_balance_relative_error=residual,numerical_validity='valid_equilibrium_only' if residual<1e-4 else 'invalid',engineering_screen='pass' if case['maximum_vertical_displacement_m']<=.0256 else 'fail')
+            case.update(force_balance_relative_error=residual,numerical_validity='valid_equilibrium_only' if residual<1e-4 else 'invalid',engineering_screen=('unknown' if residual>=1e-4 else 'pass' if case['maximum_vertical_displacement_m']<=.0256 else 'fail'))
         cases.append(case)
     completed=[c for c in cases if c['execution']=='completed'];normal=next((c for c in completed if c['case']=='normal'),None);fine=next((c for c in completed if c['case']=='normal-fine'),None)
     refinement=abs(normal['maximum_vertical_displacement_m']-fine['maximum_vertical_displacement_m'])/fine['maximum_vertical_displacement_m'] if normal and fine else None
     missing=['Qualified laminate/core/bond constants and hot/wet properties','Joint slip, preload, bearing, fastener-hole and fatigue evidence','Stress, local/global buckling, crash and flexible modes','Bogie movement/worn-wheel/rail/cassette swept clearances','Complete installed stock, mass/CG/inertia and manufacturing qualification']
     if p['family']=='participating_sandwich':missing+=['Balanced-skin continuum is lower fidelity than ply-resolved laminate; ideal pad transfer and perfect internal bond are upper-bound hypotheses','Detailed floor/roof sandwich-to-frame load transfer remains unqualified; frame ribs/chords participate, their panel skins are not credited']
+    balanced=len(completed)==len(cases) and all(c.get('force_balance_relative_error',1)<1e-4 for c in cases)
+    mesh_confirmed=balanced and refinement is not None and refinement<.02
     state='fail' if any(c.get('engineering_screen')=='fail' for c in cases) else 'unknown'
+    necessary='fail' if state=='fail' else 'pass' if mesh_confirmed and all(c.get('engineering_screen')=='pass' for c in cases) else 'unknown'
     result=dict(schema='osr-wheel-body-evaluation/1',candidate_id=vehicle['candidate_id'],body_candidate_id=vehicle['body_candidate_id'],parameters=p,
-        execution='completed' if len(completed)==len(cases) else 'completed_with_errors',numerical_validity='mesh_confirmed' if refinement is not None and refinement<.02 and all(c.get('force_balance_relative_error',1)<1e-4 for c in cases) else 'unconfirmed',
-        necessary_stiffness_screen=('fail' if state=='fail' else 'pass' if len(completed)==len(cases) else 'unknown'),engineering_screen=state,evidence_maturity='analytical_constitutive_native_global_screen',
-        states=dict(execution='completed' if len(completed)==len(cases) else 'completed_with_errors',numerical_validity='unknown' if refinement is None else 'pass' if refinement<.02 else 'fail',engineering_screen=state,physical_acceptance='unknown'),
+        execution='completed' if len(completed)==len(cases) else 'completed_with_errors',numerical_validity='mesh_confirmed' if mesh_confirmed else 'invalid' if not balanced else 'unconfirmed',
+        necessary_stiffness_screen=necessary,engineering_screen=state,evidence_maturity='analytical_constitutive_native_global_screen',
+        states=dict(execution='completed' if len(completed)==len(cases) else 'completed_with_errors',numerical_validity='pass' if mesh_confirmed else 'invalid' if not balanced else 'unknown',engineering_screen=state,physical_acceptance='unknown'),
         metrics=dict(normal_deflection_m=normal['maximum_vertical_displacement_m'] if normal else None,normal_deflection_limit_m=.0256,refinement_fraction=refinement,
             accounted_tare_kg_per_car=vehicle['mass']['accounted_tare_kg_per_car'],stock_mass_delta_kg=vehicle['wheel_body']['stock_mass_delta_kg'],maximum_force_balance_residual=max((c.get('force_balance_relative_error',1) for c in cases),default=None)),
         cases=cases,native_jobs_used=len(cases),runtime_s=sum(c['runtime_s'] for c in cases),constitutive_hypotheses=CONSTITUTIVE,model_domain='Linear global continuum response; finite-deformation effects, local hole bearing, material strength and actual connector stiffness remain unevaluated',
         missing_gates=missing,raw_packages=[dict(path=str(output/c['case']),case=c['case']) for c in cases],source_sha256={**vehicle['source_sha256'],PRODUCER:before},**FLAGS)
     if before!=digest(__file__):raise ValueError('Body adapter source changed during native execution')
     result['evaluation_id']=identity(result);(output/'result.json').write_bytes(encoded(result));manifest=dict(candidate_id=vehicle['candidate_id'],evaluation_id=result['evaluation_id'],source_sha256=result['source_sha256'],files_sha256={q.relative_to(output).as_posix():digest(q) for q in output.rglob('*') if q.is_file()},**FLAGS);manifest['manifest_id']=identity(manifest);(output/'manifest.json').write_bytes(encoded(manifest));return result
+
+
+def patch_deck():
+    """Uniaxial exact-field fixture for the synthetic balanced-skin continuum."""
+    nodes={};lookup={};elements=[]
+    def node(p):
+        key=tuple(round(x,12) for x in p)
+        if key not in lookup:lookup[key]=len(nodes)+1;nodes[lookup[key]]=list(p)
+        return lookup[key]
+    edges=((0,1),(1,2),(2,3),(3,0),(4,5),(5,6),(6,7),(7,4),(0,4),(1,5),(2,6),(3,7))
+    for i in range(8):
+        for j in range(2):
+            a,b=i/8,(i+1)/8;c,d=j*.05,(j+1)*.05
+            ps=[[a,0,c],[b,0,c],[b,.002,c],[a,.002,c],[a,0,d],[b,0,d],[b,.002,d],[a,.002,d]]
+            ps += [[(ps[a][k]+ps[b][k])/2 for k in range(3)] for a,b in edges]
+            elements.append([node(p) for p in ps])
+    lines=['*HEADING','Synthetic balanced-skin exact uniaxial continuum fixture','*NODE']+[str(n)+','+','.join(map(str,p)) for n,p in nodes.items()]
+    lines += ['*ELEMENT,TYPE=C3D20,ELSET=SKIN']
+    for i,ids in enumerate(elements,1):lines += [str(i)+','+','.join(map(str,ids[:15]))+',',','.join(map(str,ids[15:]))]
+    lines += ['*MATERIAL,NAME=SKIN','*ELASTIC,TYPE=ENGINEERING CONSTANTS',f'{SKIN_E},{SKIN_E},8e9,{SKIN_NU},.25,.25,4e9,3e9','3e9',
+        '*ORIENTATION,NAME=SKIN_AXES','1.,0.,0.,0.,0.,1.','*SOLID SECTION,ELSET=SKIN,MATERIAL=SKIN,ORIENTATION=SKIN_AXES','*BOUNDARY']
+    clamp=[n for n,p in nodes.items() if p[0]==0];tip=[n for n,p in nodes.items() if p[0]==1]
+    lines += [f'{n},1,1' for n in clamp]
+    anchor=lookup[(0.,0.,0.)];other=lookup[(0.,0.,.1)];lines += [f'{anchor},2,3',f'{other},2,2']
+    for name,ids in [('TIP',tip),('BEARERS',clamp)]:
+        lines += ['*NSET,NSET='+name]+[','.join(map(str,ids[i:i+16])) for i in range(0,len(ids),16)]
+    lines += ['*STEP','*STATIC','*DLOAD']
+    # Face4 is the x-positive surface for this explicitly listed brick ordering.
+    lines += [f'{i},P4,-5000000.' for i in (15,16)]
+    lines += ['*NODE PRINT,NSET=TIP','U','*NODE PRINT,NSET=BEARERS','RF','*END STEP','']
+    return '\n'.join(lines),dict(force_N=1000.,length_m=1.,area_m2=.1*.002,E_Pa=SKIN_E,expected_extension_m=1000./(SKIN_E*.1*.002),elements=len(elements))
+
+
+def run_patch_fixture(output):
+    output=Path(output).resolve()
+    if output.exists():raise ValueError('Fresh patch-fixture directory required')
+    output.mkdir(parents=True);raw,definition=patch_deck();(output/'definition.json').write_bytes(encoded(dict(**definition,source_sha256=digest(__file__))))
+    r=_native(raw,output/'native',60)
+    if r['execution']=='completed':
+        error=abs(r['maximum_longitudinal_displacement_m']-definition['expected_extension_m'])/definition['expected_extension_m'];force=abs(r['support_reaction_x_N']+1000.)/1000.
+        r.update(relative_extension_error=error,force_balance_relative_error=force,numerical_screen='pass' if error<.01 and force<1e-5 else 'fail')
+    result=dict(schema='osr-wheel-body-material-patch/1',definition=definition,native=r,native_jobs_used=1,
+        scope='Exact uniaxial homogeneous balanced-skin continuum field only; no certified laminate/core/joints or whole-body qualification',source_sha256=digest(__file__),**FLAGS)
+    result['evaluation_id']=identity(result);(output/'result.json').write_bytes(encoded(result));return result

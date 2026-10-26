@@ -77,3 +77,29 @@ def test_body_physical_projection_excludes_other_subsystems_and_evaluation_annot
     changed=deepcopy(v['geometry_parts'])
     next(q for q in changed if q['id']=='station-secondary/active-fin')['size_m'][2]*=1.1
     assert w._physical_body_parts(changed)==actual
+
+
+def test_inherited_native_address_limit_is_never_raised(monkeypatch):
+    monkeypatch.setattr(w.resource,'getrlimit',lambda kind:(512*1024**2,1024**3))
+    assert w._address_space_bound()==512*1024**2
+    monkeypatch.setattr(w.resource,'getrlimit',lambda kind:(w.resource.RLIM_INFINITY,w.resource.RLIM_INFINITY))
+    assert w._address_space_bound()==3*1024**3
+
+
+def test_material_patch_has_independent_axial_ea_and_no_rigid_section_constraints():
+    raw,d=w.patch_deck()
+    assert d['expected_extension_m']==pytest.approx(1000/(w.SKIN_E*.0002))
+    assert '*EQUATION' not in raw and 'TYPE=C3D20R' not in raw
+    assert '15,P4,-5000000.' in raw and '16,P4,-5000000.' in raw
+
+
+def test_small_displacement_with_failed_equilibrium_cannot_pass_a_screen(tmp_path,monkeypatch):
+    def unbalanced_stub(raw,folder,timeout_s=150):
+        folder.mkdir();(folder/'unit-test-stub.log').write_text('Contract test stub; no native evidence')
+        return dict(execution='completed',runtime_s=0.,maximum_vertical_displacement_m=.001,support_reaction_z_N=0.)
+    monkeypatch.setattr(w,'_native',unbalanced_stub)
+    p=w.default_parameters();r=w.evaluate(w.materialize(base(),p,ROOT),p,tmp_path/'invalid',root=ROOT)
+    assert r['native_jobs_used']==3
+    assert r['numerical_validity']=='invalid'
+    assert r['necessary_stiffness_screen']=='unknown' and r['engineering_screen']=='unknown'
+    assert not r['physical_accepted']
