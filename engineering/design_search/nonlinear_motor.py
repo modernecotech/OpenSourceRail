@@ -35,7 +35,8 @@ def _benchmark_mesh(output,c):
             lines=[]
             for dim,t in gmsh.model.getEntities(1):
                 bb=gmsh.model.getBoundingBox(dim,t)
-                if abs(bb[0]-x)<1e-7 and abs(bb[3]-x)<1e-7:lines.append(t)
+                if abs(bb[0]-x)<1e-6 and abs(bb[3]-x)<1e-6:lines.append(t)
+            if not lines:raise ValueError('Required MMF boundary has no mesh entity')
             gmsh.model.addPhysicalGroup(1,lines,tag)
         gmsh.model.mesh.setSize(gmsh.model.getEntities(0),min(c['mesh_m'],c['gap_m']/3));gmsh.option.setNumber('Mesh.MshFileVersion',2.2)
         gmsh.model.mesh.generate(2);gmsh.write(str(output/'model.msh'))
