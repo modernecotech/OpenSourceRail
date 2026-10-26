@@ -16,27 +16,35 @@ PRODUCERS=('engineering/station_rail/operations.py',)
 IDS=('candidate_id','body_candidate_id','support_component_id','propulsion_component_id')
 
 
-def _coast_distance(m,c,q,high,low):
+def _coast_time(m,c,q,high,low,linear=0.):
     if high==low:return 0.
     if q==0:
-        return m*(high*high-low*low)/(2*c)
-    return m/(2*q)*log((c+q*high*high)/(c+q*low*low))
+        return m*(high-low)/c
+    disc=4*q*c-linear*linear
+    if disc>0:
+        k=sqrt(disc)
+        return 2*m/k*(atan((2*q*high+linear)/k)-atan((2*q*low+linear)/k))
+    if abs(disc)<1e-20:
+        return 2*m*(1/(2*q*low+linear)-1/(2*q*high+linear))
+    k=sqrt(-disc)
+    def primitive(v):
+        z=2*q*v+linear
+        return log((z-k)/(z+k))/k
+    return m*(primitive(high)-primitive(low))
 
 
-def _coast_time(m,c,q,high,low):
+def _coast_distance(m,c,q,high,low,linear=0.):
     if high==low:return 0.
-    if q==0:return m*(high-low)/c
-    if c>0:return m/sqrt(c*q)*(atan(high*sqrt(q/c))-atan(low*sqrt(q/c)))
-    if c==0:return m/q*(1/low-1/high)
-    k=sqrt(-c/q)
-    return m/(2*q*k)*(log((high-k)/(high+k))-log((low-k)/(low+k)))
+    if q==0:return m*(high*high-low*low)/(2*c)
+    resistance=lambda v:c+linear*v+q*v*v
+    return m/(2*q)*log(resistance(high)/resistance(low))-linear/(2*q)*_coast_time(m,c,q,high,low,linear)
 
 
 def profile(distance_m, mass_kg_per_car, *, speed_cap_m_s=20.,
             acceleration_m_s2=.4,service_deceleration_m_s2=.6,
             rolling_coefficient=.0025,bearing_drag_N_per_car=50.,
             quadratic_drag_N_per_car_per_m_s_squared=1.8,
-            grade_fraction=0.,cars=6,loading=None):
+            grade_fraction=0.,headwind_m_s=0.,cars=6,loading=None):
     """Solve accelerate–natural coast–brake to rest, respecting the speed cap.
 
     Powered acceleration and braking are net kinematic *targets*. The returned
@@ -45,18 +53,19 @@ def profile(distance_m, mass_kg_per_car, *, speed_cap_m_s=20.,
     """
     nums=(distance_m,mass_kg_per_car,speed_cap_m_s,acceleration_m_s2,
           service_deceleration_m_s2,rolling_coefficient,bearing_drag_N_per_car,
-          quadratic_drag_N_per_car_per_m_s_squared,grade_fraction)
-    if any(not isfinite(x) for x in nums) or min(nums[:5])<=0 or min(nums[5:8])<0 or cars<1:
+          quadratic_drag_N_per_car_per_m_s_squared,grade_fraction,headwind_m_s)
+    if any(not isfinite(x) for x in nums) or min(nums[:5])<=0 or min(nums[5:8])<0 or headwind_m_s<0 or cars<1:
         raise ValueError('Positive finite route/mass/speed/acceleration; nonnegative drag required')
     m=mass_kg_per_car;a=acceleration_m_s2;b=service_deceleration_m_s2;q=quadratic_drag_N_per_car_per_m_s_squared
     constant=rolling_coefficient*m*G+bearing_drag_N_per_car
-    grade_force=m*G*grade_fraction;c=constant+grade_force
+    grade_force=m*G*grade_fraction;c=constant+grade_force+q*headwind_m_s**2
+    linear=2*q*headwind_m_s
     cap=speed_cap_m_s
     inputs=dict(distance_m=distance_m,mass_kg_per_car=m,speed_cap_m_s=cap,
         acceleration_m_s2=a,service_deceleration_m_s2=b,rolling_coefficient_hypothesis=rolling_coefficient,
         bearing_drag_N_per_car_hypothesis=bearing_drag_N_per_car,
         quadratic_drag_N_per_car_per_m_s_squared_hypothesis=q,
-        grade_fraction_hypothesis=grade_fraction,cars=cars,loading=loading)
+        grade_fraction_hypothesis=grade_fraction,headwind_m_s_hypothesis=headwind_m_s,cars=cars,loading=loading)
     v=dict(schema='osr-wheel-longitudinal-requirement/1',inputs=inputs,
         reachable=False,reason=None,runtime_s=None,peak_speed_m_s=None,
         arrival_speed_before_braking_m_s=None,launch_distance_m=None,
@@ -68,16 +77,18 @@ def profile(distance_m, mass_kg_per_car, *, speed_cap_m_s=20.,
         grade_force_N_per_car=grade_force,
         actual_traction_force_available_N=None,physical_journey_completed=False,
         evidence_maturity='analytical',numerical_validity='valid')
-    if c+q*cap*cap<=0:
+    if c+linear*cap+q*cap*cap<0:
         v['reason']='downhill_speed_cap_requires_distributed_braking'
         v['profile_id']=identity(v);return v
     peak=min(cap,sqrt(2*distance_m/(1/a+1/b)))
     xa=peak*peak/(2*a)
     if xa+peak*peak/(2*b)>=distance_m-1e-9:
         arrival=peak;xc=0.;xb=peak*peak/(2*b);tc=0.
+    elif c==0 and q==0:
+        arrival=peak;xb=peak*peak/(2*b);xc=distance_m-xa-xb;tc=xc/peak
     else:
-        low=0. if c>0 else sqrt(max(0.,-c/q))*(1+1e-12)+1e-9
-        maxdistance=xa+_coast_distance(m,c,q,peak,low)+low*low/(2*b)
+        low=0. if c>0 else max(0.,(-linear+sqrt(linear*linear-4*q*c))/(2*q))*(1+1e-12)+1e-9
+        maxdistance=xa+_coast_distance(m,c,q,peak,low,linear)+low*low/(2*b)
         if distance_m>maxdistance+1e-8:
             v['reason']='coast_stops_before_receiving_zone'
             v['maximum_flat_coast_reach_m']=maxdistance
@@ -85,29 +96,29 @@ def profile(distance_m, mass_kg_per_car, *, speed_cap_m_s=20.,
         hi=peak
         for _ in range(80):
             mid=(low+hi)/2
-            covered=xa+_coast_distance(m,c,q,peak,mid)+mid*mid/(2*b)
+            covered=xa+_coast_distance(m,c,q,peak,mid,linear)+mid*mid/(2*b)
             # Covered decreases as receiving speed increases, provided natural
             # deceleration is below requested service braking. Verify below.
             if covered>distance_m:low=mid
             else:hi=mid
         arrival=(low+hi)/2
         xb=arrival*arrival/(2*b);xc=distance_m-xa-xb
-        tc=_coast_time(m,c,q,peak,arrival)
+        tc=_coast_time(m,c,q,peak,arrival,linear)
     # If natural resistance alone exceeds requested net brake deceleration, the
     # requested phase needs forward traction and isn't a receiving-brake case.
-    if max(c,c+q*arrival*arrival)>=m*b:
+    if max(c,c+linear*arrival+q*arrival*arrival)>=m*b:
         v['reason']='natural_deceleration_exceeds_service_brake_target'
         v['profile_id']=identity(v);return v
     ta=peak/a;tb=arrival/b
     launch_ke=.5*m*peak*peak
-    launch_work=launch_ke+c*xa+q*peak**4/(4*a)
+    launch_work=launch_ke+c*xa+linear*peak**3/(3*a)+q*peak**4/(4*a)
     receive_ke=.5*m*arrival*arrival
-    brake_work=receive_ke-c*xb-q*arrival**4/(4*b)
+    brake_work=receive_ke-c*xb-linear*arrival**3/(3*b)-q*arrival**4/(4*b)
     # Exact energy accounting by phase. Coast work is its kinetic energy loss;
     # subtract grade potential to isolate nonnegative dissipative resistance.
     grade_work=grade_force*distance_m
     dissipated=launch_work-brake_work-grade_work
-    max_force=m*a+c+q*peak*peak
+    max_force=m*a+c+linear*peak+q*peak*peak
     result=dict(reachable=True,reason='kinematic_targets_require_actual_drive_and_brake_maps',
         runtime_s=ta+tc+tb,peak_speed_m_s=peak,
         arrival_speed_before_braking_m_s=arrival,launch_distance_m=xa,
@@ -118,7 +129,7 @@ def profile(distance_m, mass_kg_per_car, *, speed_cap_m_s=20.,
         peak_launch_force_N_per_car=max_force,
         peak_launch_power_W_per_car=max_force*peak,
         peak_receiving_brake_force_N_per_car=m*b-c,
-        peak_receiving_brake_power_W_per_car=max(0.,(m*b-c-q*arrival*arrival)*arrival),
+        peak_receiving_brake_power_W_per_car=max(0.,(m*b-c-linear*arrival-q*arrival*arrival)*arrival),
         launch_mechanical_energy_kWh_train=launch_work*cars/3.6e6,
         receiving_mechanical_energy_kWh_train=brake_work*cars/3.6e6,
         rolling_bearing_aerodynamic_dissipation_J_per_car=dissipated,
@@ -209,13 +220,25 @@ def evaluate(vehicle, root=ROOT):
     sensitivity=[profile(d,masses['normal'],rolling_coefficient=rr,grade_fraction=gr,
                         loading='normal')
         for d in (1500.,2000.) for rr in (.001,.0025,.005) for gr in (-.02,-.01,0.,.01,.02)]
+    longest_distance=2999.9312214890124
+    longest=[profile(longest_distance,mass,grade_fraction=grade,headwind_m_s=wind,loading=loading)
+             for loading,mass in masses.items() for grade in (0.,.01,.02,-.01) for wind in (0.,10.)]
+    longest_source='cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/maglev/summary.json'
+    from pathlib import Path
+    from .common import digest
+    if digest(Path(root)/longest_source)!='cfa684ad551e9b4a9a1d63fbf95698eca0a8552300fec450abaee796bc56a30a':
+        raise ValueError('Retained longest-gap metadata source differs')
     brakes=[brake_bound(adhesion_coefficient=mu,downhill_grade_fraction=gr)
             for mu in (.03,.05,.1,.15) for gr in (0.,.01,.02,.04)]
     from . import electrical
     e=electrical.evaluate(vehicle,profiles,root)
     critical_heat=chosen['receiving_mechanical_energy_J_per_car']
     result=dict(schema='osr-wheel-operations-evaluation/1',**{k:vehicle[k] for k in IDS},
-        profiles=profiles,selected_scenario=dict(profile=chosen,inputs=chosen['inputs']),
+        profiles=profiles,longest_retained_gap_cases=longest,
+        longest_retained_gap_context=dict(distance_m=longest_distance,city='Faisalabad',line='line-2',
+            from_stop='line-2-operating-0005',to_stop='line-2-operating-0006',adjacent_gaps_scanned=17268,
+            source_role='Geography only; old maglev performance is not reused'),
+        selected_scenario=dict(profile=chosen,inputs=chosen['inputs']),
         selected_station=selected,station_options=zones,grade_and_rolling_sensitivity=sensitivity,
         brake_envelopes=brakes,electrical=e,
         service=dict(cars=6,passengers_per_car=46,headway_s=120.,dwell_s=35.,
@@ -235,6 +258,6 @@ def evaluate(vehicle, root=ROOT):
         ],
         budget=dict(prototype_profiles=len(profiles),station_geometry_options=len(zones),
             grade_rolling_cases=len(sensitivity),independent_braking_cases=len(brakes),
-            service_battery_alternatives=2,secondary_slip_cases=5),
-        source_sha256={**source_map(root,PRODUCERS),**e['source_sha256']},**FLAGS)
+            service_battery_alternatives=2,secondary_slip_cases=5,longest_gap_cases=len(longest)),
+        source_sha256={**source_map(root,PRODUCERS),**e['source_sha256'],longest_source:digest(Path(root)/longest_source)},**FLAGS)
     result['evaluation_id']=identity(result);return result

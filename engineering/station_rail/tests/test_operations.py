@@ -58,3 +58,15 @@ def test_wet_downhill_brake_no_regen_credit():
 def test_inputs_fail_closed():
     with pytest.raises(ValueError):op.profile(2000,-1)
     with pytest.raises(ValueError):op.profile(2000,20000,rolling_coefficient=-1)
+
+
+def test_headwind_increases_energy_and_can_destroy_coast_reach():
+    calm=op.profile(2000,23000)
+    wind=op.profile(2000,23000,headwind_m_s=10)
+    assert wind['reachable']
+    assert wind['runtime_s']>calm['runtime_s']
+    assert wind['launch_mechanical_energy_J_per_car']>calm['launch_mechanical_energy_J_per_car']
+    assert abs(wind['phase_distance_residual_m'])<1e-8
+    no_drag=op.profile(2000,23000,rolling_coefficient=0,bearing_drag_N_per_car=0,quadratic_drag_N_per_car_per_m_s_squared=0)
+    assert no_drag['reachable']
+    assert no_drag['runtime_s']==pytest.approx(125+100/6)
