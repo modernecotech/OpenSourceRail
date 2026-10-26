@@ -23,3 +23,20 @@ def test_overlap_positions_generate_real_distinct_finite_geometry():
     assert [r['secondary_start_x_m'] for r in rows]==[-.15,.10,.35]
     assert all(r['secondary_length_m']==.3 for r in rows)
     assert len({r['case_id'] for r in rows})==3
+
+
+def test_native_tool_location_is_relative_to_the_imported_repository():
+    assert n.TOOLS==n.ROOT
+    assert n.GETDP==n.ROOT/'build/trip-dynamics/tools/getdp-3.5.0-Linux64/bin/getdp'
+
+
+def test_historical_snapshot_verification_needs_no_git_branch(tmp_path):
+    from engineering.station_rail.common import encoded,identity,digest
+    snapshot=tmp_path/'snapshot';snapshot.mkdir();(snapshot/'producer.py').write_text('retained source\n')
+    raw=tmp_path/'raw';raw.mkdir();r=dict(execution='refused',**n.FLAGS);r['evaluation_id']=identity(r);(raw/'result.json').write_bytes(encoded(r))
+    receipt=dict(source_sha256={'producer.py':digest(snapshot/'producer.py')},files_sha256={'result.json':digest(raw/'result.json')},**n.FLAGS)
+    receipt['manifest_id']=identity(receipt);(raw/'manifest.json').write_bytes(encoded(receipt))
+    assert n.verify(raw,root=tmp_path/'no-repository',source_snapshot=snapshot)['verified']
+    (snapshot/'producer.py').write_text('modified source\n')
+    with pytest.raises(ValueError,match='source differs'):n.verify(raw,source_snapshot=snapshot)
+    with pytest.raises(ValueError,match='one historical'):n.verify(raw,source_snapshot=snapshot,source_revision='revision')

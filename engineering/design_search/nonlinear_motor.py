@@ -12,7 +12,7 @@ from engineering.station_rail.common import encoded,identity,digest,source_map
 from engineering.station_rail import long_motor,station_motor
 from . import lim_materials as mat
 PRODUCER='engineering/design_search/nonlinear_motor.py'
-TOOLS=Path('/home/hayder/Documents/OpenSourceRail');GETDP=TOOLS/'build/trip-dynamics/tools/getdp-3.5.0-Linux64/bin/getdp'
+TOOLS=ROOT;GETDP=TOOLS/'build/trip-dynamics/tools/getdp-3.5.0-Linux64/bin/getdp'
 PRODUCERS=(PRODUCER,'engineering/design_search/lim_materials.py',mat.DATA,long_motor.PRODUCER,station_motor.PRODUCER)
 MU0=4e-7*pi
 
@@ -171,20 +171,22 @@ def run_overlap(c,output,*,root=ROOT,nonlinear=False):
     return _seal(output,r,sources)
 
 
-def verify(output,*,root=ROOT,source_revision=None):
-    """Verify current or explicitly pinned historical producer bytes."""
+def verify(output,*,root=ROOT,source_revision=None,source_snapshot=None):
+    """Verify live, Git-pinned or separately archived historical producer bytes."""
+    if source_revision is not None and source_snapshot is not None:raise ValueError('Choose one historical source mechanism')
     output=Path(output);m=json.loads((output/'manifest.json').read_bytes());r=json.loads((output/'result.json').read_bytes())
     if m['manifest_id']!=identity({n:v for n,v in m.items() if n!='manifest_id'}):raise ValueError('Native method manifest differs')
     if r['evaluation_id']!=identity({n:v for n,v in r.items() if n!='evaluation_id'}):raise ValueError('Native method result differs')
     if {p.name:digest(p) for p in output.iterdir() if p.is_file() and p.name!='manifest.json'}!=m['files_sha256']:raise ValueError('Native method payload differs')
     for name,expected in m['source_sha256'].items():
-        if source_revision is None:actual=digest(Path(root)/name)
+        if source_snapshot is not None:actual=digest(Path(source_snapshot)/name)
+        elif source_revision is None:actual=digest(Path(root)/name)
         else:
             from hashlib import sha256
             actual=sha256(subprocess.check_output(['git','show',source_revision+':'+name],cwd=root)).hexdigest()
         if actual!=expected:raise ValueError('Native method source differs: '+name)
     if any(record.get(n) is not v for record in (r,m) for n,v in FLAGS.items()):raise ValueError('Method fixture cannot qualify railway hardware')
-    return dict(verified=True,evaluation_id=r['evaluation_id'],execution=r['execution'],source_revision=source_revision,**FLAGS)
+    return dict(verified=True,evaluation_id=r['evaluation_id'],execution=r['execution'],source_revision=source_revision,source_snapshot=str(source_snapshot) if source_snapshot is not None else None,**FLAGS)
 
 
 def energy_gradient(minus,centre,plus):
