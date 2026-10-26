@@ -176,9 +176,30 @@ def _parse_nodes(raw):
     return nodes
 
 
+def _solid_element_ids(raw):
+    """Read the trusted full-integration twenty-node element records exactly."""
+    ids=[];pending=[];active=False
+    for line in raw.splitlines():
+        if line.startswith('*'):
+            if pending:raise ValueError('Incomplete quadratic solid element record')
+            active=line.upper().startswith('*ELEMENT,')
+            if active and 'TYPE=C3D20,' not in line.upper():raise ValueError('Full-integration C3D20 frame required')
+            continue
+        if not active or not line.strip():continue
+        pending.extend(int(value) for value in line.split(',') if value.strip())
+        if len(pending)==21:ids.append(pending[0]);pending=[]
+        elif len(pending)>21:raise ValueError('Quadratic solid element record is too long')
+    if pending or len(ids)!=len(set(ids)):raise ValueError('Incomplete or colliding element IDs')
+    return ids
+
+
 def _sandwich(raw,variant,vehicle,dx):
     """Actual side rectangles + counted plates; ideal fastener pads to frame."""
-    frame=body_frame._mesh(variant,dx);nbase=max(frame['nodes']);oldnodes=_parse_nodes(raw);nextnode=max(oldnodes);nextel=1000000
+    frame=body_frame._mesh(variant,dx);nbase=max(frame['nodes']);oldnodes=_parse_nodes(raw);nextnode=max(oldnodes)
+    # CalculiX sizes integration arrays by maximum element label, not count.
+    # Dense continuation changes no coordinates, connectivity or quadrature and
+    # avoids allocating arrays for an otherwise fictitious million elements.
+    nextel=max(_solid_element_ids(raw))
     parts=[q for q in vehicle['geometry_parts'] if q.get('role')=='panel-side' or q['id'].startswith('wheel-shell-clamp/') and '/plate' in q['id']]
     xs={x for q in parts for x in (q['at_m'][0],q['at_m'][0]+q['size_m'][0])};zs={z for q in parts for z in (q['at_m'][2],q['at_m'][2]+q['size_m'][2])}
     for pad in vehicle['wheel_body']['pads']:

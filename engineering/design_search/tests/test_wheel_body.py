@@ -50,6 +50,10 @@ def test_frame_variant_restores_only_declared_hole_stiffness_upper_bound():
     assert m['actual_aperture_regions']>100 and m['ideal_fastener_equations']==240
     assert '*ELASTIC,TYPE=ENGINEERING CONSTANTS' in added
     assert m['holes_resolved'] is False
+    ids=w._solid_element_ids(added)
+    assert len(ids)==mesh['solid_elements']+m['side_solid_elements']
+    assert set(ids)==set(range(1,len(ids)+1))
+    assert max(ids)<20000
 
 
 def test_balanced_crossply_extensional_property_and_evaluation_constants_do_not_change_physical_id(monkeypatch):
