@@ -5,6 +5,10 @@ on:
       - "engineering/development-baseline.toml"
       - "engineering/development_baseline/**"
       - "engineering/station_rail/**"
+      - "engineering/design_search/**"
+      - "campaigns/whole-railway-architecture-search.toml"
+      - "tests/test_joint*.py"
+      - "tools/automation/architecture-native-benchmarks.py"
       - "crates/osr-atp/**"
       - "Cargo.lock"
       - "docs/design-engine/current/**"
@@ -21,6 +25,10 @@ on:
       - "engineering/development-baseline.toml"
       - "engineering/development_baseline/**"
       - "engineering/station_rail/**"
+      - "engineering/design_search/**"
+      - "campaigns/whole-railway-architecture-search.toml"
+      - "tests/test_joint*.py"
+      - "tools/automation/architecture-native-benchmarks.py"
       - "crates/osr-atp/**"
       - "Cargo.lock"
       - "docs/design-engine/current/**"
@@ -50,6 +58,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/development_baseline/tests engineering/station_rail/tests
+      - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_architecture.py engineering/design_search/tests/test_architecture_demand.py engineering/design_search/tests/test_capabilities.py engineering/design_search/tests/test_nonlinear_motor.py tests/test_joint_models.py tests/test_joint_body.py
       - run: ./osr verify
       - run: npm run test:frontend
       - uses: actions/upload-artifact@v4
@@ -71,10 +80,18 @@ jobs:
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/ferrite_maglev/requirements.txt
       - run: .venv/bin/python tools/automation/v06-native-benchmarks.py --output build/v06-native-ci
+      - run: .venv/bin/python -c "from engineering.trip_dynamics.setup_tools import install; install('build/trip-dynamics/tools')"
+      - run: .venv/bin/python tools/automation/architecture-native-benchmarks.py --output build/architecture-native-ci
       - run: cargo test --locked -p osr-atp -p osr-interlocking -p osr-door-control -p osr-tcms -p osr-station-scada
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: v06-native-methods-not-physical-qualification
           path: build/v06-native-ci/
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: architecture-native-methods-not-physical-qualification
+          path: build/architecture-native-ci/
           retention-days: 14

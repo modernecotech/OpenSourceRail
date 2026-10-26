@@ -86,12 +86,13 @@ def sources(root,record,index,delivery):
     names=['AGENTS.md','README.md','VERSION','Cargo.toml','Cargo.lock','package.json','package-lock.json','docs/ROADMAP.md','docs/ARCHITECTURE.md',
         'engineering/development-baseline.toml','engineering/maglev_research/readme_context.py','osr','install.sh',
         '.github/workflows/development-baseline.yml','tools/automation/default-design.py','tools/automation/default-design-workbench.py',
-        'tools/automation/default-design-cycle.py','tools/automation/tests/verify-development-baseline.mjs','tools/automation/v06-native-benchmarks.py']
+        'tools/automation/default-design-cycle.py','tools/automation/tests/verify-development-baseline.mjs','tools/automation/v06-native-benchmarks.py',
+        'tools/automation/architecture-native-benchmarks.py']
     for directory in ('engineering/station_rail','engineering/development_baseline'):
         names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.toml','.js','.html','.css') and '__pycache__' not in p.parts]
     followup=root/'docs/design-engine/v06-physical-closure'
     if followup.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(followup.iterdir()) if p.is_file()]
-    for folder in ('v06-optimisation','v06-design-space'):
+    for folder in ('v06-optimisation','v06-design-space','v06-architecture'):
         campaign_folder=root/'docs/design-engine'/folder
         if campaign_folder.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(campaign_folder.rglob('*')) if p.is_file()]
     return evaluation.merge(*maps,{n:digest(root/n) for n in sorted(set(names))})
@@ -141,7 +142,9 @@ def readme(record,summary):
       'v0.6 is chosen for prototype investigation to remove the unproven levitation system and repeated magnetic-facing assemblies. It is heavier than the v0.5 accounted car and lighter than the optimistic stripped-v0.4 mass proxy. No same-service supplier-priced whole-life superiority is established. See the explicit comparison and open price coverage.','',
       f"All **{summary['cities']['city_count']} city geographies and maps are preserved**; **zero city performance packages are regenerated**. A metadata scan of 17,268 adjacent operating-stop gaps finds a longest retained gap of approximately 3 km in Faisalabad. Reference adverse cases test that distance; uphill unreachable cases and downhill speed-cap violations are retained. Historical city fleet, windings and finance figures are not v0.6 results.",'',
       '[Geographic catalogue and holds](cities.json) · [Workbench](../../workbench/current/index.html) · [Native controls](native-controls.tar.gz)','',
-      '## Iterative alternatives','', 'The [failure-driven campaign](../v06-optimisation/README.md) generates body/motor/brake revisions, reruns native solvers, propagates the same mass into civil/service calculations and compiles matching research twins. The research winner is the next experiment; no qualified replacement is silently promoted. The comparison exposes normal/crowd deflection, additional mass and changed thrust requirements; conditional motor results remain outside their declared linear-steel domain. Participating-panel lateral displacement remains nonconverged under mesh refinement; its vertical values are diagnostic rather than validated full-body performance.','', '## Readiness and reproduction','', '| Gate | State | Evidence still needed |','|---|---|---|']
+      '## Iterative alternatives','', 'The [failure-driven campaign](../v06-optimisation/README.md) generates body/motor/brake revisions, reruns native solvers, propagates the same mass into civil/service calculations and compiles matching research twins. The research winner is the next experiment; no qualified replacement is silently promoted. The comparison exposes normal/crowd deflection, additional mass and changed thrust requirements; conditional motor results remain outside their declared linear-steel domain. Participating-panel lateral displacement remains nonconverged under mesh refinement; its vertical values are diagnostic rather than validated full-body performance.','',
+      'The [whole-railway architecture campaign](../v06-architecture/README.md) tests seven propulsion families, different speed/formation/powered-track arrangements and civil sections. It compares analytical demand and conditional quantities while keeping new equipment mass and actual motor capability unknown. Repaired finite-area joint/body and generic nonlinear magnetic method checks retain their independent numerical and engineering dispositions. No architecture is qualified, no city performance is regenerated and the selected v0.6 reference is preserved.','',
+      '## Readiness and reproduction','', '| Gate | State | Evidence still needed |','|---|---|---|']
     lines += [f"| {g['gate']} | **{g['state']}** | {g['reason']} |" for g in record['gates']]
     lines += ['','```bash','./osr status','./osr build','./osr verify','./osr test','./osr book --check','./osr sim baghdad  # explicit city evaluation hold','./osr legacy verify','```','',
       '[Source/payload receipt](manifest.json) · [README context](readme-coverage.md) · [Roadmap](../../ROADMAP.md) · [Project ethos](../../../README.md)','']

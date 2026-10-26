@@ -12,7 +12,8 @@ def _inputs(root):
     root=Path(root)
     names=['engineering/station_rail/reader.py','engineering/development_baseline/book.py','engineering/development-baseline.toml',
         'README.md','docs/ROADMAP.md',OUTPUT+'/summary.json',OUTPUT+'/cities.json',OUTPUT+'/comparison.json',
-        'docs/design-engine/v06-physical-closure/summary.json','docs/design-engine/v06-optimisation/summary.json',OUTPUT+'/vehicle-overview.svg',OUTPUT+'/service-profile.svg',OUTPUT+'/interface-section.svg']
+        'docs/design-engine/v06-physical-closure/summary.json','docs/design-engine/v06-optimisation/summary.json',
+        'docs/design-engine/v06-architecture/summary.json','docs/design-engine/v06-architecture/native-index.json',OUTPUT+'/vehicle-overview.svg',OUTPUT+'/service-profile.svg',OUTPUT+'/interface-section.svg']
     return {name:digest(root/name) for name in names}
 
 def build(root=ROOT,output=None,check=False):
@@ -199,7 +200,16 @@ def build(root=ROOT,output=None,check=False):
     para('Exact dependency digests, source revisions and solver identities bind caches and restart. The Pareto comparison ranks diagnostic priority and counted quantities. Prices and complete installed equipment remain unknown; research selection cannot satisfy integrated acceptance.')
     para('Every candidate generates native FreeCAD/STEP, reopened IFC, material takeoff and draft assembly, QA, procurement and maintenance records for known stock. Unknown equipment has no placeholder solids. Position-dependent journeys, joint/fatigue checks, qualified brakes and complete mass/CG/inertia remain open.')
     para('Inspect docs/design-engine/v06-optimisation/ and ./osr design campaign create/run/compare/publish. Typed next tasks retain candidate and trigger IDs with bounded scope. The266city packages and prior physical evidence remain preserved.')
-    page('12. Reproduce and inspect')
+    page('12. Challenge the railway architecture')
+    architecture=json.loads((root/'docs/design-engine/v06-architecture/summary.json').read_bytes())
+    para(f"The umbrella research campaign executes{architecture['evaluation_cases']}analytical cases across{architecture['physical_definitions']}physical definitions and{architecture['generations']}generations. It preserves the selected v0.6 reference while testing different propulsion distribution, powered-track length, speed, formation and concrete sections.")
+    table(['Family','Research arrangement'],[(r['family_id'],r['label']) for r in architecture['families']],[50,440])
+    para('Required-force trajectories compare4/6/8cars,1.5/2/3km station spacing and43.2/57.6/72km/h caps on a6km comparison ring. New drive and recovery equipment remains unweighed. Changed station density changes access service. Protected headway, actual available thrust and complete installed costs remain unknown; no economic winner or physical journey is claimed.')
+    para('Six-axis finite-area joint fixtures now check work, equilibrium, reciprocity and modal refinement. The counted whole-body alternative adds113.008kg/car of known stock. After a retained3GiB allocation failure, a separately recorded5GiB resource revision completes the finer mesh without changing physics or limits. The vertical mesh change is1.43%; normal deflection28.018mm still fails25.6mm. Perfect bonds and ideal section transfer require physical calibration and local joint/strength/fatigue checks.')
+    para('The nonlinear DC magnetic method reproduces a generic49-point material circuit and its independent coenergy-gradient force. It is not selected motor steel or a moving nonlinear LIM. Spatial entry/centre/exit controls remain linear. Full nonlinear moving thrust, losses, inverter and thermal maps are still needed before a motor can supply a physical journey.')
+    para('Capability admission binds geometry, interfaces, evaluator, benchmark, source and validity domain. Unsupported configurations generate bounded implementation or measurement tasks. M1 component correlation, M2 passive-carriage launch/coast/stop and M3 integrated pilot plans require measured data, uncertainty and independent review; none is marked complete.')
+    para('Inspect docs/design-engine/v06-architecture/. Run ./osr design architecture run/publish/verify. Exact-source caching and an interrupted-run receipt demonstrate restart. The Workbench exposes all seven families, and scheduled CI runs bounded joint and nonlinear magnetic method checks.')
+    page('13. Reproduce and inspect')
     para('Use ./osr status, ./osr readiness, ./osr build, ./osr verify, ./osr test, ./osr book --check and ./osr workbench. ./osr sim baghdad reports its deliberate city-evaluation hold. ./osr legacy verify checks retained source/payload bytes at their recorded Git revisions.')
     para('The broader design-space comparison adds supplier-bound PET/PVC and directional honeycomb cores, aluminium/GFRP load paths, joints/inserts, motor topologies, glazing and HVAC leads. Run ./osr design space build/verify. Necessary bounds and component fixtures guide the next experiments; they do not establish a complete train or silently change the default.')
     para('The v0.5 archive preserves magnetic development evidence; its source and results are not overwritten to match a wheel-supported train. Historical numerical regeneration belongs in a separate checkout of the pinned revision.')

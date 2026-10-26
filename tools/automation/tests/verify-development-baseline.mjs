@@ -127,22 +127,51 @@ try {
   );
   assert.equal(await page.locator("#city").inputValue(), "baghdad");
   assert((await page.locator("#city option").count()) > 1);
-  const campaignResponse = await context.request.get(origin + "/api/campaigns/current");
+  const campaignResponse = await context.request.get(
+    origin + "/api/campaigns/current",
+  );
   assert.equal(campaignResponse.status(), 200, await campaignResponse.text());
   const campaign = await campaignResponse.json();
   assert.equal(campaign.physical_accepted, false);
   assert.equal(campaign.configuration_adopted, false);
-  await page.waitForFunction((count) => document.querySelectorAll("#campaign-rows tr").length === count, campaign.candidates.length);
+  await page.waitForFunction(
+    (count) => document.querySelectorAll("#campaign-rows tr").length === count,
+    campaign.candidates.length,
+  );
   report.research_campaign_id = campaign.campaign_id;
   report.research_candidates = campaign.candidates.length;
-  const spaceResponse = await context.request.get(origin + "/api/design-space/current");
+  const spaceResponse = await context.request.get(
+    origin + "/api/design-space/current",
+  );
   assert.equal(spaceResponse.status(), 200, await spaceResponse.text());
   const space = await spaceResponse.json();
   assert.equal(space.default_changed, false);
   assert.equal(space.physical_accepted, false);
-  await page.waitForFunction(() => document.querySelector("#design-space-status").textContent.includes("structural and"));
+  await page.waitForFunction(() =>
+    document
+      .querySelector("#design-space-status")
+      .textContent.includes("structural and"),
+  );
   report.structural_proposals = space.structural_proposals;
   report.propulsion_proposals = space.propulsion_proposals;
+  const architectureResponse = await context.request.get(
+    origin + "/api/architectures/current",
+  );
+  assert.equal(
+    architectureResponse.status(),
+    200,
+    await architectureResponse.text(),
+  );
+  const architecture = await architectureResponse.json();
+  assert.equal(architecture.development_default_changed, false);
+  assert.equal(architecture.physical_accepted, false);
+  await page.waitForFunction(
+    (count) =>
+      document.querySelectorAll("#architecture-rows tr").length === count,
+    architecture.families.length,
+  );
+  report.architecture_cases = architecture.evaluation_cases;
+  report.architecture_families = architecture.families.length;
   const cityResponse = await context.request.get(origin + "/api/city/baghdad");
   assert.equal(cityResponse.status(), 503, await cityResponse.text());
   const city = await cityResponse.json();

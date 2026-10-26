@@ -51,6 +51,16 @@ Research ranking can select the next experiment while every complete design rema
 
 The [broader design search](docs/design-engine/v06-design-space/README.md) adds aluminium, GFRP and hybrid load paths; PET/PVC foam and directional honeycomb; joints, inserts, floors and roof panels; alternative station-motor arrangements; and explicitly identified lower-speed service options. Primary supplier data guides necessary bounds and test plans. New structures require validated evaluators before full-body ranking. Run `./osr design space build` and `./osr design space verify` to reproduce the comparison.
 
+The [whole-railway architecture campaign](docs/design-engine/v06-architecture/README.md) goes further: **509 analytical cases, 174 physical definitions and seven propulsion families** compare station-only launch, lower speeds, boosters, recovery drives, distributed wayside power and onboard wheel traction. It varies formation, powered length and guideway sections while retaining mandatory safety and accessibility. The selected v0.6 reference is preserved. Required forces, conditional fleet counts and material quantities are compared; complete installed mass, validated available thrust and whole-life prices remain unknown.
+
+Foundation work now includes six-axis joint fixtures, a counted finite-area body alternative and a nonlinear magnetic method benchmark. The revised body's mesh trend is confirmed, but **28.0 mm normal deflection still fails the 25.6 mm screen**. The magnetic benchmark uses a generic material in a DC circuit; it does not establish a nonlinear moving LIM. [M1–M3 prototype plans](docs/design-engine/v06-architecture/prototype-program.json) specify the measurements still needed. No complete railway is qualified.
+
+```bash
+./osr design architecture run
+./osr design architecture publish
+./osr design architecture verify
+```
+
 ## Use the repository
 
 ```bash

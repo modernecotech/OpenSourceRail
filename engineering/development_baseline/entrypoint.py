@@ -184,6 +184,21 @@ def main(argv=None, root=ROOT):
     if command in ('design', 'infrastructure'):
         command, rest = (rest[0], rest[1:]) if rest else ('status', [])
     try:
+        if command=='architecture':
+            from engineering.design_search import railway_architecture as architecture,architecture_publication
+            if rest in (['build'],['publish']):emit(architecture_publication.build(root));return 0
+            if rest==['verify']:emit(architecture_publication.verify(root));return 0
+            if rest and rest[0]=='run' and len(rest) in (1,3):
+                limit=None
+                if len(rest)==3:
+                    if rest[1]!='--max-cases':raise ValueError('Use --max-cases N')
+                    limit=int(rest[2])
+                result=architecture.evaluate_campaign(root,max_new_cases=limit)
+                if result.get('state')=='interrupted':
+                    from engineering.station_rail.common import encoded
+                    target=root/'build/v06-architecture/umbrella-interruption-final.json';target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(encoded(result));emit(result);return 3
+                emit(dict(campaign_id=result['campaign_id'],contract_id=result['contract_id'],evaluation_cases=len(result['cases']),physical_definitions=result['distinct_physical_candidates'],integrated_selection=result['integrated_selection'],physical_accepted=False));return 0
+            raise ValueError('Use ./osr design architecture run [--max-cases N], publish or verify')
         if command=='space':
             from engineering.station_rail import design_space
             if rest==['build']:emit(design_space.build(root));return 0

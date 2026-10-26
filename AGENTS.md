@@ -1,9 +1,12 @@
 # OpenSourceRail engineering work
 
-Develop simple station-powered wheel-supported rail vehicles, affordable whole-life transport and high
-normal passenger throughput. Preserve local manufacture, repairability and open
-design knowledge. Wayside propulsion, passive wheel bogies and independent onboard services,
-and passenger transfers between fixed lines are separate engineering interfaces.
+Develop affordable whole-life transport and high normal passenger throughput,
+using simple station-powered wheel-supported vehicles as the v0.6 reference.
+Preserve local manufacture, repairability and open design knowledge. Explicit
+research configurations may challenge propulsion distribution, onboard traction,
+formation, bogies, speed, station spacing and civil sections. Mandatory safety,
+passenger protection and accessibility are never financial trade-offs. Research
+alternatives do not silently change the selected reference or inherit its results.
 
 ## Configuration discipline
 
@@ -25,6 +28,13 @@ and passenger transfers between fixed lines are separate engineering interfaces.
   are absent; independently sized service batteries, braking and rescue remain.
   The former PM-assisted maglev is retained historical research. Development
   selection is not physical acceptance.
+- The umbrella research campaign is campaigns/whole-railway-architecture-search.toml.
+  It separates mandatory requirements, project preferences and revisable design
+  hypotheses. An onboard recovery or wheel-traction comparison is permitted only
+  under a new research configuration with its mass, energy, running gear,
+  protection, recovery, manufacturing and whole-system consequences explicit.
+  Capability declarations, test plans and software tests never become measured
+  physical evidence or automatic native-evaluator admission.
 - Preserve the former 120-person/14,400 capacity comparison and 160-person crowd
   structural control as explicitly named alternatives; seating policy does not
   remove applicable crowd, evacuation or accidental-load verification. Different

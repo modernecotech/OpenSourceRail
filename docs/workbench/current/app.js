@@ -254,25 +254,69 @@ async function start() {
     renderGates(packet.gates || packet.readiness?.gates);
     try {
       const campaign = await request("/api/campaigns/current");
-      if (campaign.physical_accepted !== false || campaign.configuration_adopted !== false) throw Error("Research dispositions differ");
-      byId("campaign-status").textContent = `${campaign.generations} generations · ${campaign.candidates.length} candidates · integrated baseline: ${campaign.integrated_baseline.status}. Research selection; physical qualification remains open.`;
+      if (
+        campaign.physical_accepted !== false ||
+        campaign.configuration_adopted !== false
+      )
+        throw Error("Research dispositions differ");
+      byId("campaign-status").textContent =
+        `${campaign.generations} generations · ${campaign.candidates.length} candidates · integrated baseline: ${campaign.integrated_baseline.status}. Research selection; physical qualification remains open.`;
       byId("campaign-rows").replaceChildren();
       for (const candidate of campaign.candidates) {
         const tr = document.createElement("tr");
-        for (const value of [`g${candidate.generation} / ${candidate.candidate_id.slice(0, 12)}`, `${format(candidate.mass_kg_per_car / 1000)} t/car`, `${candidate.body_engineering_screen} / ${candidate.body_numerical_validity}`, candidate.motor_numerical_status]) {
-          const td = document.createElement("td"); td.textContent = value; tr.append(td);
+        for (const value of [
+          `g${candidate.generation} / ${candidate.candidate_id.slice(0, 12)}`,
+          `${format(candidate.mass_kg_per_car / 1000)} t/car`,
+          `${candidate.body_engineering_screen} / ${candidate.body_numerical_validity}`,
+          candidate.motor_numerical_status,
+        ]) {
+          const td = document.createElement("td");
+          td.textContent = value;
+          tr.append(td);
         }
         byId("campaign-rows").append(tr);
       }
     } catch (error) {
-      byId("campaign-status").textContent = "No current source-bound campaign publication is available.";
+      byId("campaign-status").textContent =
+        "No current source-bound campaign publication is available.";
     }
     try {
       const space = await request("/api/design-space/current");
-      if (space.physical_accepted !== false || space.default_changed !== false) throw Error("Research dispositions differ");
-      byId("design-space-status").textContent = `${space.structural_proposals} structural and ${space.propulsion_proposals} propulsion proposals, with sourced cores, joints, glazing and HVAC leads. Full-body models and whole-system selection remain held.`;
+      if (space.physical_accepted !== false || space.default_changed !== false)
+        throw Error("Research dispositions differ");
+      byId("design-space-status").textContent =
+        `${space.structural_proposals} structural and ${space.propulsion_proposals} propulsion proposals, with sourced cores, joints, glazing and HVAC leads. Full-body models and whole-system selection remain held.`;
     } catch (error) {
-      byId("design-space-status").textContent = "No current source-bound design-space publication is available.";
+      byId("design-space-status").textContent =
+        "No current source-bound design-space publication is available.";
+    }
+    try {
+      const architecture = await request("/api/architectures/current");
+      if (
+        architecture.physical_accepted !== false ||
+        architecture.development_default_changed !== false
+      )
+        throw Error("Research dispositions differ");
+      byId("architecture-status").textContent =
+        `${architecture.evaluation_cases} analytical cases · ${architecture.physical_definitions} physical definitions · ${architecture.generations} generations. No qualified architecture selected.`;
+      byId("architecture-rows").replaceChildren();
+      for (const family of architecture.families) {
+        const row = document.createElement("tr");
+        for (const value of [
+          `${family.family_id} — ${family.label}`,
+          family.cases,
+          family.target_reached_at_comparison_mass,
+          family.physical_journeys,
+        ]) {
+          const cell = document.createElement("td");
+          cell.textContent = value;
+          row.append(cell);
+        }
+        byId("architecture-rows").append(row);
+      }
+    } catch (error) {
+      byId("architecture-status").textContent =
+        "No current source-bound architecture publication is available.";
     }
     for (const key of identityKeys)
       fact(byId("identities"), key.replaceAll("_", " "), current[key]);

@@ -28,6 +28,12 @@ The [expanded design space](design-engine/v06-design-space/README.md) generates 
 
 ## Release gates
 
+The [umbrella architecture search](design-engine/v06-architecture/README.md) now runs above component campaigns. Its 509 analytical cases cover seven propulsion families, four/six/eight-car formations, three speed/spacing requirements, powered-track/recovery arrangements and alternative precast sections. It separates mandatory requirements, preferences and revisable hypotheses. Quantity comparisons and explicit unpriced cost expressions do not select an economic winner; installed mass, protected service and native force maps remain holds.
+
+The joint model now has six-axis, energy, reciprocity and modal checks with three-dimensional refinement. A counted finite-area body revision reaches the declared displacement mesh trend but fails normal vertical stiffness at 28.018 mm against 25.6 mm. Its ideal bond/section transfer needs local strength, slip, fatigue and measurement validation. A generic nonlinear magnetic circuit passes independent field/coenergy method checks; supplier-specific moving LIM, losses and repeated thermal duty remain open. Scheduled native CI repeats bounded method fixtures.
+
+Next execute the [M1/M2/M3 programme](design-engine/v06-architecture/prototype-program.json): measured component/joint/brake correlation, a protected passive-carriage launch/coast/stop demonstrator, then an integrated full-sized pilot with recovery. Plans and simulations do not count as completed physical milestones. Reusable native adapters, installed equipment geometry and same-candidate coupled journeys are required before full-system selection.
+
 | Gate | Required result |
 |---|---|
 | Installed vehicle | Counted, located equipment and complete mass/CG/inertia; qualified body and bogie load paths |
