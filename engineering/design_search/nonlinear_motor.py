@@ -81,9 +81,9 @@ Formulation{{Name Mag;Type FemEquation;Quantity{{Name p;Type Local;NameOfSpace P
  Integral{[jac[-{d p}]*{d p},{d p}];In Domain;Jacobian Vol;Integration Gauss;}
  }}}
 Resolution{{Name Solve;System{{Name S;NameOfFormulation Mag;}}Operation{
- Evaluate[$initial=1];InitSolution[S];Generate[S];Solve[S];PostOperation[Guard];Test[#10>@HMAX@]{Error["Material table domain exceeded before nonlinear evaluation"];}
+ Evaluate[$initial=1];InitSolution[S];Generate[S];Solve[S];PostOperation[Guard];Print[{#10},Format "HGuard %.16g"];Test[#10>@HMAX@]{Error["Material table domain exceeded before nonlinear evaluation"];}
  Evaluate[$initial=0];Generate[S];GetResidual[S,$r0];Evaluate[$r=$r0,$i=0];
- While[$r>1.e-10 && $r/Max[$r0,1.e-30]>1.e-8 && $i<40]{Solve[S];PostOperation[Guard];Test[#10>@HMAX@]{Error["Material table domain exceeded before nonlinear evaluation"];}Generate[S];GetResidual[S,$r];Evaluate[$i=$i+1];Print[{$i,$r,$r/Max[$r0,1.e-30]},Format "NL %g %.16g %.16g"];}
+ While[$r>1.e-10 && $r/Max[$r0,1.e-30]>1.e-8 && $i<40]{Solve[S];PostOperation[Guard];Print[{#10},Format "HGuard %.16g"];Test[#10>@HMAX@]{Error["Material table domain exceeded before nonlinear evaluation"];}Generate[S];GetResidual[S,$r];Evaluate[$i=$i+1];Print[{$i,$r,$r/Max[$r0,1.e-30]},Format "NL %g %.16g %.16g"];}
  Test[$r>1.e-8 && $r/Max[$r0,1.e-30]>1.e-7]{Error["Nonlinear residual did not converge"];}
  SaveSolution[S];
  }}}
@@ -121,9 +121,9 @@ def run_benchmark(c,output,*,root=ROOT):
         selected_rail_steel_qualified=False,moving_nonlinear_LIM_validated=False,core_loss_thermal_3D_accepted=False,**FLAGS)
     try:
         exact=mat.circuit(curve,c['NI_Aturn'],c['gap_m'],c['core_length_m'],c['section_height_m']*c['depth_m'])
-        result['independent_circuit_reference']=exact
         if c['linear']:
-            b=c['NI_Aturn']/(c['core_length_m']/(MU0*1000)+c['gap_m']/MU0);exact=dict(B_T=b,attraction_N=c['section_height_m']*c['depth_m']*b*b/(2*MU0))
+            b=c['NI_Aturn']/(c['core_length_m']/(MU0*1000)+c['gap_m']/MU0);exact=dict(B_T=b,attraction_N=c['section_height_m']*c['depth_m']*b*b/(2*MU0),coenergy_J=.5*c['NI_Aturn']*b*c['section_height_m']*c['depth_m'])
+        result['independent_circuit_reference']=exact
         result['mesh']=_benchmark_mesh(output,c);(output/'model.pro').write_text(benchmark_formulation(c,curve))
         proc=subprocess.run([str(GETDP),'model.pro','-msh','model.msh','-solve','Solve','-pos','Result','-v','4'],cwd=output,capture_output=True,text=True,timeout=90,preexec_fn=_limits,env={**os.environ,'OMP_NUM_THREADS':'1','OPENBLAS_NUM_THREADS':'1'})
         (output/'stdout.log').write_text(proc.stdout);(output/'stderr.log').write_text(proc.stderr)
@@ -139,12 +139,12 @@ def run_benchmark(c,output,*,root=ROOT):
 
 
 def overlap_case(position='centred',*,current_peak_A=50.):
-    d=station_motor.definition();L=.5;fin=.3;start={'entry':-.15,'centred':.10,'exit':.35}[position]
+    d=station_motor.definition();L=.5;fin=.3;start={'entry':-.15,'centred':.10,'exit':.35,'zero-overlap':-.31}[position]
     c=dict(speed_m_s=10.,frequency_Hz=30.,current_peak_A=current_peak_A,current_RMS_A=current_peak_A/sqrt(2),phase_direction=1,temperature_C=80.,
         gap_each_side_m=.015,periods=1,active_length_m=L,secondary_length_m=fin,secondary_start_x_m=start,secondary_end_x_m=start+fin,
         mesh_m=.01,plate_gap_mesh_m=.00375,transverse_outer_air_margin_m=.2,outer_margin_m=.5,aluminium_conductivity_S_m=20e6,
         wire_current_density_RMS_A_mm2=current_peak_A/sqrt(2)/25.)
-    c['position']=position;c['case_id']=identity(c);return c
+    c['position']=position;c['actual_longitudinal_overlap_m']=max(0.,min(L,start+fin)-max(0.,start));c['case_id']=identity(c);return c
 
 
 def run_overlap(c,output,*,root=ROOT,nonlinear=False):
@@ -169,3 +169,28 @@ def run_overlap(c,output,*,root=ROOT,nonlinear=False):
     except Exception as error:r.update(execution='tool_error',reason=str(error))
     if sources!=source_map(root,PRODUCERS):raise ValueError('Source changed during execution')
     return _seal(output,r,sources)
+
+
+def verify(output,*,root=ROOT,source_revision=None):
+    """Verify current or explicitly pinned historical producer bytes."""
+    output=Path(output);m=json.loads((output/'manifest.json').read_bytes());r=json.loads((output/'result.json').read_bytes())
+    if m['manifest_id']!=identity({n:v for n,v in m.items() if n!='manifest_id'}):raise ValueError('Native method manifest differs')
+    if r['evaluation_id']!=identity({n:v for n,v in r.items() if n!='evaluation_id'}):raise ValueError('Native method result differs')
+    if {p.name:digest(p) for p in output.iterdir() if p.is_file() and p.name!='manifest.json'}!=m['files_sha256']:raise ValueError('Native method payload differs')
+    for name,expected in m['source_sha256'].items():
+        if source_revision is None:actual=digest(Path(root)/name)
+        else:
+            from hashlib import sha256
+            actual=sha256(subprocess.check_output(['git','show',source_revision+':'+name],cwd=root)).hexdigest()
+        if actual!=expected:raise ValueError('Native method source differs: '+name)
+    if any(record.get(n) is not v for record in (r,m) for n,v in FLAGS.items()):raise ValueError('Method fixture cannot qualify railway hardware')
+    return dict(verified=True,evaluation_id=r['evaluation_id'],execution=r['execution'],source_revision=source_revision,**FLAGS)
+
+
+def energy_gradient(minus,centre,plus):
+    if any(r['execution']!='completed' or r['numerical_validity']!='valid' for r in (minus,centre,plus)):raise ValueError('Valid native coenergy fixtures required')
+    a=minus['case'];b=centre['case'];c=plus['case'];delta=(c['gap_m']-a['gap_m'])/2
+    if delta<=0 or abs(b['gap_m']-(a['gap_m']+c['gap_m'])/2)>1e-12 or len({r['case']['NI_Aturn'] for r in (minus,centre,plus)})!=1:raise ValueError('Symmetric same-current gap perturbation required')
+    force=-(plus['coenergy_J']-minus['coenergy_J'])/(2*delta);stress=centre['attraction_from_gap_stress_N']
+    return dict(native_coenergy_gradient_attraction_N=force,native_gap_stress_attraction_N=stress,relative_difference=abs(force-stress)/stress,
+        scope='Independent fixed-current energy derivative versus airgap Maxwell pressure; uniform ideal fixture only',**FLAGS)
