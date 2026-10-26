@@ -11,11 +11,12 @@ def evaluate(record,root=ROOT):
        ('v0.4 station-launch mass proxy',23680.,.0025,50.,'26,250kg/car controlled budget less2,570kg traction/battery categories; assumes replacing shared auxiliaries is free, so optimistic. Original16.5m LM3 requires redesign for17m comfort service.')]
     for name,tare,rr,bearing,scope in assumptions:
         loaded=tare+46*75
-        cases=[profile(d,loaded,rolling_coefficient=rr,bearing_drag_N_per_car=bearing,loading='46 people/car') for d in (1500.,2000.)]
+        rot=(record['service']['rotating_stock']['equivalent_inertial_mass_kg_per_car'] if name=='v0.6 wheel/LIM' else 0.)
+        cases=[profile(d,loaded,rolling_coefficient=rr,bearing_drag_N_per_car=bearing,loading='46 people/car',rotating_equivalent_mass_kg_per_car=rot) for d in (1500.,2000.)]
         rows.append(dict(name=name,accounted_tare_kg_per_car=tare,comparison_normal_loaded_kg_per_car=loaded,
             passengers_per_car=46,people_per_train=276,headway_s=120.,capacity_pphpd=8280.,
             launch_cap_m_s=20.,acceleration_m_s2=.4,service_deceleration_m_s2=.6,dwell_s=35.,
-            scope=scope,profiles=cases,actual_vehicle_price_USD=None,installed_guideway_USD_per_directional_km=None,
+            scope=scope,profiles=cases,rotating_inertial_mass_kg_per_car=rot,rotating_stock_coverage='counted current wheel stock' if name=='v0.6 wheel/LIM' else 'zero for maglev; unresolved in v0.4 mass proxy',actual_vehicle_price_USD=None,installed_guideway_USD_per_directional_km=None,
             station_equipment_price_USD=None,annual_OPEX_USD=None,whole_life_cost_USD=None,
             prices_and_service_reliability_comparable=False,physical_accepted=False))
     civil=record['civil'];rate=civil['reference_rates_per_directional_km'];selected=civil['selected_reference'];ref=next(r for r in civil['alternatives'] if r['family']=='box-beam' and r['span_m']==25.)

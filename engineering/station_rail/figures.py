@@ -35,7 +35,7 @@ def write(record,output):
     axes[0].set_ylim(-.15,4.3);axes[0].set_ylabel('Height above rail (m)');axes[0].set_title('v0.6 counted material - service equipment and residual accounts are not complete geometry',loc='left')
     axes[1].add_patch(Rectangle((-8.5,-1.325),17,2.65,fill=False,edgecolor='#5d7e88',linewidth=1));axes[1].set_ylim(-1.6,1.6);axes[1].set_ylabel('Across car (m)');axes[1].set_xlabel('Along car (m); roof, skin and floor omitted in top projection')
     fig.tight_layout();save(fig,'vehicle-overview.svg')
-    p=record['service']['selected_scenario']['profile'];i=p['inputs'];m=i['mass_kg_per_car'];c=p['constant_wheel_drag_N_per_car']+p['grade_force_N_per_car'];q=i['quadratic_drag_N_per_car_per_m_s_squared_hypothesis']
+    p=record['service']['selected_scenario']['profile'];i=p['inputs'];m=i.get('effective_inertial_mass_kg_per_car',i['mass_kg_per_car']);c=p['constant_wheel_drag_N_per_car']+p['grade_force_N_per_car'];q=i['quadratic_drag_N_per_car_per_m_s_squared_hypothesis']
     peak=p['peak_speed_m_s'];arrival=p['arrival_speed_before_braking_m_s'];xs=[];ts=[];vs=[]
     from .operations import _coast_distance
     for j in range(81):

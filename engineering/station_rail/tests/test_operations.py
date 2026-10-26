@@ -83,3 +83,13 @@ def test_closed_form_coast_matches_independent_velocity_quadrature():
     numeric_time=sum(m/(c+q*(lo+(i+.5)*dv+wind)**2)*dv for i in range(n))
     assert numeric_distance==pytest.approx(p['coast_distance_m'],rel=1e-7)
     assert numeric_time==pytest.approx(p['coast_time_s'],rel=1e-7)
+
+
+def test_rotors_add_acceleration_energy_without_adding_axle_weight():
+    a=op.profile(2000,23000)
+    b=op.profile(2000,23000,rotating_equivalent_mass_kg_per_car=1770.)
+    assert b['constant_wheel_drag_N_per_car']==a['constant_wheel_drag_N_per_car']
+    assert b['inputs']['mass_kg_per_car']==23000
+    assert b['inputs']['effective_inertial_mass_kg_per_car']==24770
+    assert b['peak_launch_force_N_per_car']-a['peak_launch_force_N_per_car']==pytest.approx(1770*.4)
+    assert b['launch_mechanical_energy_J_per_car']-a['launch_mechanical_energy_J_per_car']==pytest.approx(.5*1770*20**2)

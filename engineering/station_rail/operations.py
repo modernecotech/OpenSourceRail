@@ -12,7 +12,7 @@ from . import ROOT,FLAGS
 from .common import brief, identity, source_map
 
 G=9.80665
-PRODUCERS=('engineering/station_rail/operations.py','engineering/station_rail/native_drive.py')
+PRODUCERS=('engineering/station_rail/operations.py','engineering/station_rail/native_drive.py','engineering/station_rail/braking.py')
 IDS=('candidate_id','body_candidate_id','support_component_id','propulsion_component_id')
 
 
@@ -44,7 +44,7 @@ def profile(distance_m, mass_kg_per_car, *, speed_cap_m_s=20.,
             acceleration_m_s2=.4,service_deceleration_m_s2=.6,
             rolling_coefficient=.0025,bearing_drag_N_per_car=50.,
             quadratic_drag_N_per_car_per_m_s_squared=1.8,
-            grade_fraction=0.,headwind_m_s=0.,cars=6,loading=None):
+            grade_fraction=0.,headwind_m_s=0.,cars=6,loading=None,rotating_equivalent_mass_kg_per_car=0.):
     """Solve accelerate–natural coast–brake to rest, respecting the speed cap.
 
     Powered acceleration and braking are net kinematic *targets*. The returned
@@ -53,15 +53,16 @@ def profile(distance_m, mass_kg_per_car, *, speed_cap_m_s=20.,
     """
     nums=(distance_m,mass_kg_per_car,speed_cap_m_s,acceleration_m_s2,
           service_deceleration_m_s2,rolling_coefficient,bearing_drag_N_per_car,
-          quadratic_drag_N_per_car_per_m_s_squared,grade_fraction,headwind_m_s)
-    if any(not isfinite(x) for x in nums) or min(nums[:5])<=0 or min(nums[5:8])<0 or headwind_m_s<0 or cars<1:
+          quadratic_drag_N_per_car_per_m_s_squared,grade_fraction,headwind_m_s,rotating_equivalent_mass_kg_per_car)
+    if any(not isfinite(x) for x in nums) or min(nums[:5])<=0 or min(nums[5:8])<0 or headwind_m_s<0 or rotating_equivalent_mass_kg_per_car<0 or cars<1:
         raise ValueError('Positive finite route/mass/speed/acceleration; nonnegative drag required')
-    m=mass_kg_per_car;a=acceleration_m_s2;b=service_deceleration_m_s2;q=quadratic_drag_N_per_car_per_m_s_squared
-    constant=rolling_coefficient*m*G+bearing_drag_N_per_car
-    grade_force=m*G*grade_fraction;c=constant+grade_force+q*headwind_m_s**2
+    physical_mass=mass_kg_per_car;m=physical_mass+rotating_equivalent_mass_kg_per_car;a=acceleration_m_s2;b=service_deceleration_m_s2;q=quadratic_drag_N_per_car_per_m_s_squared
+    constant=rolling_coefficient*physical_mass*G+bearing_drag_N_per_car
+    grade_force=physical_mass*G*grade_fraction;c=constant+grade_force+q*headwind_m_s**2
     linear=2*q*headwind_m_s
     cap=speed_cap_m_s
-    inputs=dict(distance_m=distance_m,mass_kg_per_car=m,speed_cap_m_s=cap,
+    inputs=dict(distance_m=distance_m,mass_kg_per_car=physical_mass,effective_inertial_mass_kg_per_car=m,
+        rotating_equivalent_mass_kg_per_car=rotating_equivalent_mass_kg_per_car,speed_cap_m_s=cap,
         acceleration_m_s2=a,service_deceleration_m_s2=b,rolling_coefficient_hypothesis=rolling_coefficient,
         bearing_drag_N_per_car_hypothesis=bearing_drag_N_per_car,
         quadratic_drag_N_per_car_per_m_s_squared_hypothesis=q,
@@ -208,21 +209,23 @@ def brake_bound(speed_m_s=20., *, adhesion_coefficient=.05,downhill_grade_fracti
 def evaluate(vehicle, root=ROOT):
     from . import electrical
     config=brief(root);sv=config['service'];vc=config['vehicle'];m=vehicle['mass']
+    from .braking import rotating_stock
+    rotors=rotating_stock(vehicle);rot=rotors['equivalent_inertial_mass_kg_per_car']
     masses=dict(empty=m['accounted_tare_kg_per_car'],normal=m['accounted_cap_loaded_kg_per_car'],
                 crowd_control=m['accounted_160_control_kg_per_car'])
     profiles=[]
     for distance in sv['prototype_distances_m']:
         for loading,mass in masses.items():
-            profiles.append(profile(distance,mass,cars=vc['cars'],loading=loading))
+            profiles.append(profile(distance,mass,cars=vc['cars'],loading=loading,rotating_equivalent_mass_kg_per_car=rot))
     chosen=next(p for p in profiles if p['inputs']['distance_m']==2000 and p['inputs']['loading']=='normal')
     zones=[station_zone(chosen,length) for length in sv['station_winding_library_m']]
     survivors=[z for z in zones if z['nominal_resource_screen']=='pass']
     selected=min(survivors,key=lambda z:z['length_m']) if survivors else None
     sensitivity=[profile(d,masses['normal'],rolling_coefficient=rr,grade_fraction=gr,
-                        loading='normal')
+                        loading='normal',rotating_equivalent_mass_kg_per_car=rot)
         for d in (1500.,2000.) for rr in (.001,.0025,.005) for gr in (-.02,-.01,0.,.01,.02)]
     longest_distance=2999.9312214890124
-    longest=[profile(longest_distance,mass,grade_fraction=grade,headwind_m_s=wind,loading=loading)
+    longest=[profile(longest_distance,mass,grade_fraction=grade,headwind_m_s=wind,loading=loading,rotating_equivalent_mass_kg_per_car=rot)
              for loading,mass in masses.items() for grade in (0.,.01,.02,-.01) for wind in (0.,10.)]
     longest_source='cities/catalogue/south-asia/Pakistan/Faisalabad/engineering/maglev/summary.json'
     from pathlib import Path

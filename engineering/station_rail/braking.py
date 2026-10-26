@@ -68,7 +68,7 @@ def force_state(spec,mass_kg,speed_m_s,time_s,*,grade_down_fraction=0.,rail_adhe
     pad_normal=spec['opposed_pistons_per_caliper_hypothesis']*pressure*pi*spec['piston_diameter_m_hypothesis']**2/4*rise
     torque=available_discs*pad*pad_normal*spec['effective_friction_radius_m']
     command=torque/radius
-    grade_force=m*G*grade_down_fraction
+    grade_force=m*G*grade_down_fraction/sqrt(1+grade_down_fraction**2)
     a=(wayside_force_N+grade_force-command)/dynamic
     contact=-rot*a-command
     normal=m*G/sqrt(1+grade_down_fraction**2);limit=mu*normal
@@ -111,27 +111,28 @@ def native_run(output,vehicle,*,dt_s=.01,root=ROOT):
             c,system=new_system();system.SetGravitationalAcceleration(c.ChVector3d(0,0,0))
             model=formation.build(system,c,[eff]*6);bodies=model['bodies'];starts=model['initial_positions_m']
             for body in bodies:body.SetPosDt(c.ChVector3d(20.,0,0))
-            initial=6*.5*eff*20**2;heat=gravity_work=0.;trace=[];next_sample=0.;peaktemp=50.;limited=0;state='running';reason=None
+            initial=6*.5*eff*20**2;heat=gravity_work=path_trapezoidal=0.;trace=[];next_sample=0.;peaktemp=50.;limited=0;state='running';reason=None
             while system.GetChTime()<400:
                 t=system.GetChTime();speed=float(bodies[0].GetPosDt().x)
                 f=force_state(spec,m,speed,t+dt_s/2,rail_adhesion=mu,grade_down_fraction=grade,available_discs=discs)
                 if not f['valid']:state='outside-model-domain';reason=f['reason'];break
                 # Every car is identically loaded; longitudinal couplers retain
                 # physical links but do not create an invented braking floor.
-                old=[float(b.GetPos().x) for b in bodies];h=dt_s
+                old=[float(b.GetPos().x) for b in bodies];old_speed=[float(b.GetPosDt().x) for b in bodies];h=dt_s
                 if f['acceleration_m_s2']<0:h=min(h,speed/-f['acceleration_m_s2'])
                 if h<1e-9:state='stopped';break
                 for body,index in zip(bodies,model['accumulators']):
                     body.EmptyAccumulator(index);body.AccumulateForce(index,c.ChVector3d(f['downhill_gravity_N_per_car']-f['torque_equivalent_brake_force_N_per_car'],0,0),body.GetPos(),False)
                 system.Update();system.DoStepDynamics(h)
-                moved=sum(float(b.GetPos().x)-x for b,x in zip(bodies,old))
+                moved=sum(.5*(float(b.GetPosDt().x)+v)*h for b,v in zip(bodies,old_speed))
+                path_trapezoidal+=moved/6
                 heat+=f['torque_equivalent_brake_force_N_per_car']*moved
                 gravity_work+=f['downhill_gravity_N_per_car']*moved
-                delta=heat/6/(spec['counted_disc_stock_kg_per_car']*spec['steel_specific_heat_J_kg_K_hypothesis'])
+                delta=heat/6/(spec['counted_disc_stock_kg_per_car']*discs/8*spec['steel_specific_heat_J_kg_K_hypothesis'])
                 peaktemp=max(peaktemp,50.+delta)
                 limited+=f['adhesion_limiter_active']
                 if t>=next_sample:
-                    trace.append(dict(time_s=system.GetChTime(),front_translation_m=float(bodies[0].GetPos().x)-starts[0],speed_m_s=float(bodies[0].GetPosDt().x),
+                    trace.append(dict(time_s=system.GetChTime(),force_evaluation_time_s=t+dt_s/2,front_translation_m=float(bodies[0].GetPos().x)-starts[0],speed_m_s=float(bodies[0].GetPosDt().x),
                         wheel_speed_rad_s=float(bodies[0].GetPosDt().x)/spec['rotors']['radius_m'],force=f,
                         total_disc_heat_J=heat,lumped_disc_temperature_C=50.+delta))
                     next_sample+=.25
@@ -145,7 +146,10 @@ def native_run(output,vehicle,*,dt_s=.01,root=ROOT):
                 physical_translational_mass_kg_per_car=m,effective_inertial_mass_kg_per_car=eff,
                 initial_translational_plus_rotational_energy_J=initial,total_disc_heat_J=heat,gravity_work_J=gravity_work,
                 final_kinetic_energy_J=kinetic,energy_residual_J=initial+gravity_work-heat-kinetic,
-                lumped_disc_temperature_C_hypothesis=peaktemp,adhesion_limited_steps=limited,trace=trace,
+                lumped_disc_temperature_C_hypothesis=peaktemp,active_disc_heat_capacity_J_K_per_car=spec['counted_disc_stock_kg_per_car']*discs/8*spec['steel_specific_heat_J_kg_K_hypothesis'],
+                integrated_path_from_velocity_m=path_trapezoidal,native_position_minus_trapezoidal_path_m=float(bodies[0].GetPos().x)-starts[0]-path_trapezoidal,
+                work_quadrature='Trapezoidal Chrono velocity work; Euler native position error recorded separately',
+                adhesion_limited_steps=limited,trace=trace,
                 station_propulsion_credited=False,qualified_braking_floor=False)
             cases.append(row)
     if before!=source_map(root,PRODUCERS):raise ValueError('Braking producer changed during execution')
@@ -162,6 +166,30 @@ def verify(output,vehicle,root=ROOT):
     if {x.name:digest(x) for x in p.iterdir() if x.is_file() and x.name!='manifest.json'}!=m['files_sha256']:raise ValueError('Brake payload differs')
     if any(r[k]!=vehicle[k] for k in IDS) or r['specification']!=definition(vehicle):raise ValueError('Brake candidate differs')
     if len(r['cases'])!=12 or any(r.get(k) is not v for k,v in FLAGS.items()):raise ValueError('Brake case inventory/disposition differs')
+    def finite_tree(value):
+        if isinstance(value,float) and not isfinite(value):raise ValueError('Nonfinite brake evidence')
+        if isinstance(value,dict):
+            for x in value.values():finite_tree(x)
+        elif isinstance(value,list):
+            for x in value:finite_tree(x)
+    finite_tree(r)
+    expected={(load,name) for load in ('empty','normal','crowd_control') for name in ('dry','wet-downhill','one-channel-lost','insufficient-adhesion')}
+    if {(c['load'],c['case']) for c in r['cases']}!=expected:raise ValueError('Brake scenario inventory differs')
     for case in r['cases']:
+        key={'empty':'accounted_tare_kg_per_car','normal':'accounted_cap_loaded_kg_per_car','crowd_control':'accounted_160_control_kg_per_car'}[case['load']]
+        physical=vehicle['mass'][key];eff=physical+r['specification']['rotors']['equivalent_inertial_mass_kg_per_car']
+        if case['physical_translational_mass_kg_per_car']!=physical or case['effective_inertial_mass_kg_per_car']!=eff:raise ValueError('Brake mass differs')
+        initial=6*.5*eff*20**2
+        if abs(case['initial_translational_plus_rotational_energy_J']-initial)>1e-6:raise ValueError('Brake initial energy differs')
+        recomputed=initial+case['gravity_work_J']-case['total_disc_heat_J']-case['final_kinetic_energy_J']
+        if abs(recomputed-case['energy_residual_J'])>1e-6:raise ValueError('Brake energy evidence differs')
+        if case['state']=='stopped' and (abs(case['final_speed_m_s'])>1e-6 or not case['stop_distance_m']>0):raise ValueError('Brake stopped state inconsistent')
+        heat_capacity=r['specification']['counted_disc_stock_kg_per_car']*case['working_discs_per_car']/8*r['specification']['steel_specific_heat_J_kg_K_hypothesis']
+        if abs(case['lumped_disc_temperature_C_hypothesis']-(50+case['total_disc_heat_J']/6/heat_capacity))>1e-7:raise ValueError('Brake active-disc thermal capacity differs')
+        for sample in case['trace']:
+            actual=sample['force']
+            check=force_state(r['specification'],case['physical_translational_mass_kg_per_car'],actual['disc_heat_rate_W_per_car']/actual['torque_equivalent_brake_force_N_per_car'] if actual['torque_equivalent_brake_force_N_per_car'] else 20.,sample['force_evaluation_time_s'],grade_down_fraction=case['grade_down_fraction'],rail_adhesion=case['adhesion_hypothesis'],available_discs=case['working_discs_per_car'])
+            for key in ('applied_brake_torque_Nm_per_car','rail_contact_force_N_per_car','acceleration_m_s2'):
+                if abs(check[key]-actual[key])>1e-7:raise ValueError('Brake force trace differs')
         if abs(case['energy_residual_J'])>1e-5*case['initial_translational_plus_rotational_energy_J']:raise ValueError('Brake energy balance invalid')
     return r
