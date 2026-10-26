@@ -1,8 +1,8 @@
 # OpenSourceRail engineering work
 
-Develop simple station-powered PM-assisted maglev, affordable whole-life transport and high
+Develop simple station-powered wheel-supported rail vehicles, affordable whole-life transport and high
 normal passenger throughput. Preserve local manufacture, repairability and open
-design knowledge. Wayside propulsion, independent onboard support and services,
+design knowledge. Wayside propulsion, passive wheel bogies and independent onboard services,
 and passenger transfers between fixed lines are separate engineering interfaces.
 
 ## Configuration discipline
@@ -19,8 +19,12 @@ and passenger transfers between fixed lines are separate engineering interfaces.
   six 17 m cars, 44 fixed seats plus two wheelchair places/car, no planned standing,
   two doors on one side and a 120-second target (8,280 normal passengers/hour/
   direction). The retained-stop network proposal uses a 72 km/h launch cap.
-  All permanent magnets and fast support controls stay onboard; ordinary guideway
-  is concrete with passive steel facings. Development selection is not acceptance.
+  Version 0.6 uses passive wheel bogies on conventional rails carried by concrete.
+  Station double-sided linear-induction motors act on passive onboard aluminium
+  secondaries. Onboard traction motors, traction batteries and permanent magnets
+  are absent; independently sized service batteries, braking and rescue remain.
+  The former PM-assisted maglev is retained historical research. Development
+  selection is not physical acceptance.
 - Preserve the former 120-person/14,400 capacity comparison and 160-person crowd
   structural control as explicitly named alternatives; seating policy does not
   remove applicable crowd, evacuation or accidental-load verification. Different
@@ -49,7 +53,7 @@ and passenger transfers between fixed lines are separate engineering interfaces.
 - Track execution, numerical validity, engineering screen, evidence maturity,
   selection purpose and physical acceptance separately. A completed calculation
   can fail its engineering screen without losing its useful digital evidence.
-- Couple mass, force, current, heat, cooling, deformation and gap with explicit
+- Couple mass, force, current, heat, cooling, deformation and clearances with explicit
   residuals and budgets. Numerical convergence alone does not establish feasibility.
 - Preserve historical source-bound archives. Regenerate affected current packets
   with their generators after changing implementation inputs; record a hold when

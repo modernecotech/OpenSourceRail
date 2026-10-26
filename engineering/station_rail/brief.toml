@@ -1,0 +1,85 @@
+schema = "osr-station-rail-brief/1"
+version = "0.6.0"
+revision = "WHEEL-STATION-COMFORT-1"
+parent_maglev_revision = "92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164"
+parent_wheel_revision = "205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e"
+[vehicle]
+cars = 6
+body_length_m = 17.0
+coupling_gap_m = 0.5
+body_width_m = 2.65
+fixed_seats_per_car = 44
+wheelchair_places_per_car = 2
+normal_people_per_car = 46
+planned_standing_per_car = 0
+crowd_control_people_per_car = 160
+passenger_mass_kg = 75.0
+passenger_doors_per_car = 2
+passenger_door_sides = 1
+floor_top_above_rail_m = 1.0
+onboard_traction_motors = 0
+onboard_traction_battery_kWh = 0.0
+onboard_permanent_magnets = 0
+[support]
+family = "two-passive-two-axle-bogies-per-car"
+track_gauge_m = 1.435
+bogie_centres_x_m = [-6.4,6.4]
+bogie_wheelbase_m = 2.1
+wheel_new_diameter_m = 0.760
+wheel_worn_diameter_m = 0.680
+reference_bogie_pair_mass_kg = 6730.0
+reference_mass_status = "v0.4 category allowance; new detailed stock and residual must reconcile"
+secondary_suspension = "passive mechanical with levelling and emergency bearers; supplier freeze open"
+[propulsion]
+family = "wayside-double-sided-linear-induction"
+secondary = "passive aluminium fin with counted hangers and passive heat spreading"
+secondary_length_m = 9.0
+secondary_height_m = 0.16
+secondary_thickness_m = 0.015
+secondary_bottom_above_rail_m = 0.020
+primary_target_airgap_each_side_m = 0.015
+secondary_mass_complete = false
+all_powered_traction_equipment_wayside = true
+[services]
+battery_role = "services and essential energy only; no wheel drive connection"
+gross_battery_kWh_target = 55.2
+battery_architecture_target = "high-power service pack; actual cell/topology, cooling and duty to be sourced"
+reference_hotel_kW_per_car = 35.0
+adverse_hotel_kW_per_car = 50.0
+emergency_endurance_s_target = 1800.0
+charging_power_kW_per_car_target = 200.0
+charging_efficiency_hypothesis = 0.95
+battery_end_of_life_fraction = 0.8
+hot_battery_capacity_fraction_hypothesis = 0.9
+minimum_SOC = 0.2
+maximum_SOC = 0.9
+[service]
+headway_s = 120.0
+dwell_s = 35.0
+launch_speed_cap_m_s = 20.0
+acceleration_m_s2 = 0.4
+service_deceleration_m_s2 = 0.6
+rolling_coefficient_hypothesis = 0.0025
+bearing_drag_N_per_car_hypothesis = 50.0
+quadratic_drag_N_per_car_per_m_s_squared_hypothesis = 1.8
+mainline_grade_fraction_hypothesis = 0.0
+station_winding_library_m = [350.0,450.0,600.0,800.0,900.0,1000.0,1200.0]
+station_section_length_m = 12.5
+prototype_distances_m = [1500.0,2000.0]
+minimum_independent_train_phase_branches_per_direction = 2
+spare_fraction_hypothesis = 0.12
+cold_reserve_per_line_hypothesis = 1
+route_and_terminal_timing_qualified = false
+[civil]
+ordinary_guideway = "concrete structure with conventional running rails and direct fastenings"
+rail_profile_reference = "60E1; exact supplier/grade and worn profile require qualification"
+span_options_m = [15.0,20.0,25.0,30.0]
+reference_span_m = 25.0
+powered_suspension_equipment = false
+magnetic_suspension_facings = false
+[acceptance]
+engineering_accepted = false
+physical_accepted = false
+installed_mass_complete = false
+manufacturing_release = false
+operating_release = false
