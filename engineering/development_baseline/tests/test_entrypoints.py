@@ -217,3 +217,52 @@ def test_city_endpoint_rejects_manifest_rewritten_outside_bound_catalogue(packet
         assert 'bound catalogue' in json.load(caught.value)['reason']
     finally:
         server.shutdown();server.server_close();thread.join(timeout=2)
+
+
+@pytest.fixture
+def reader_cache(packet):
+    book=pytest.importorskip('engineering.development_baseline.book')
+    root, summary, _=packet
+    for name in ('README.md','docs/ROADMAP.md'):
+        target=root/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_text('# Synthetic reader fixture\n')
+    source=root/'engineering/development_baseline/book.py'
+    source.parent.mkdir(parents=True,exist_ok=True);source.write_bytes(Path(book.__file__).read_bytes())
+    write_json(root/OUTPUT/'cities.json',dict(summary,cities=[]))
+    for name in ('vehicle-overview.svg','service-profile.svg','interface-section.svg'):
+        (root/OUTPUT/name).write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>')
+    pdf=root/'OpenSourceRail-Book.pdf'
+    # Cache validation tests inspect an opaque digest, never fabricate a native
+    # rendering or a physical acceptance result from these synthetic bytes.
+    pdf.write_bytes(b'Synthetic cached-reader bytes, not a rendered PDF\n')
+    receipt={key:summary[key] for key in ('selection_id',*cli.IDS,'development_default',*FLAGS)}
+    receipt.update(schema='osr-current-reader/1',source_sha256=book._inputs(root),pdf_sha256=sha256(pdf.read_bytes()).hexdigest(),pages=1)
+    receipt['receipt_id']=cli.selection.identity(receipt)
+    write_json(root/book.RECEIPT,receipt)
+    assert book.build(root=root,check=True)['cached'] is True
+    return root,book,receipt
+
+
+@pytest.mark.parametrize('field', ['candidate_id','body_candidate_id','magnet_component_id','development_default','physical_accepted','receipt_id'])
+def test_reader_cache_refuses_forged_identity_or_disposition(reader_cache,field):
+    root,book,receipt=reader_cache
+    receipt[field]='0'*64 if field.endswith('_id') else not receipt[field]
+    # A recomputed content hash must not legitimize the wrong physical identity
+    # or grant a disposition. The receipt_id case separately tests raw tamper.
+    if field!='receipt_id':receipt['receipt_id']=cli.selection.identity({k:v for k,v in receipt.items() if k!='receipt_id'})
+    write_json(root/book.RECEIPT,receipt)
+    with pytest.raises(ValueError,match='missing/stale'):
+        book.build(root=root,check=True)
+
+
+def test_reader_cannot_rebind_changed_current_payload_as_a_cached_publication(reader_cache):
+    root,book,receipt=reader_cache
+    summary=json.loads((root/OUTPUT/'summary.json').read_bytes())
+    summary['gates'][0]['engineering_screen']='pass'
+    write_json(root/OUTPUT/'summary.json',summary)
+    # Even a newly self-consistent reader receipt cannot bypass the dossier's
+    # authoritative payload binding and invent an improved engineering screen.
+    receipt['source_sha256']=book._inputs(root)
+    receipt['receipt_id']=cli.selection.identity({k:v for k,v in receipt.items() if k!='receipt_id'})
+    write_json(root/book.RECEIPT,receipt)
+    with pytest.raises(cli.CurrentUnavailable,match='modified'):
+        book.build(root=root,check=True)
