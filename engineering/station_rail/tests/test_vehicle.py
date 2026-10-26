@@ -57,3 +57,15 @@ def test_new_underframe_does_not_interpenetrate_retained_shell():
             depths=[min(a['at_m'][i]+a['size_m'][i],b['at_m'][i]+b['size_m'][i])-max(a['at_m'][i],b['at_m'][i]) for i in range(3)]
             if min(depths)>1e-7:collisions.append((a['id'],b['id']))
     assert not collisions
+
+
+def test_candidate_identity_survives_serialization_and_binds_actual_dependency():
+    import json
+    from engineering.station_rail.common import identity
+    v=json.loads(json.dumps(vehicle.build()))
+    expected=identity({key:v[key] for key in ('physical_definition','body_candidate_id','support_component_id','propulsion_component_id')})
+    assert expected==v['candidate_id']
+    assert 'engineering/station_rail/electrical.py' in v['source_sha256']
+    assert vehicle.PARENT_MANIFEST in v['source_sha256']
+    assert v['residual_overlap_unresolved']['overlap_possible']
+    assert v['retained_component_ancestry']['unchanged_component_design_ids']['floor_component_id']

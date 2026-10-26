@@ -16,7 +16,7 @@ def test_three_families_and_complete_quantity_boundaries():
     assert {r['family'] for r in c['alternatives']}=={'twin-beam','box-beam','u-beam'}
     assert c['candidate_id']==v['candidate_id']
     r=c['selected_reference']
-    assert r['running_rail_kg']==3010.5
+    assert r['running_rail_kg']==2*civil.RAIL_KG_M*r['span_m']
     assert r['direct_fastener_anchors']==r['direct_fastener_sets']*2
     assert r['prestress_kg']>0
     assert r['actual_installed_cost_USD'] is None
@@ -30,5 +30,25 @@ def test_interior_pier_checks_entire_formation_on_both_spans():
     arbitrary_head_pose=axle_N*len([a for a in offsets if a<=30.])
     assert reaction['maximum_live_reaction_N']>arbitrary_head_pose
     c=civil.evaluate(v)
-    assert c['executed_case_count']==36
+    assert c['executed_case_count']==39
     assert c['control_alternatives']['crowd_control'][0]['load_case']=='crowd_control'
+
+
+def test_crowd_checks_fixed_normal_beam_not_resized_tendons():
+    c=civil.evaluate(vehicle.build())
+    for base,control in zip(c['alternatives'],c['control_alternatives']['crowd_control']):
+        assert control['prestress_strands']==base['prestress_strands']
+        assert control['physical_civil_component_id']==base['physical_civil_component_id']
+        assert control['prestress_design_policy']=='fixed-normal-design-stock'
+        assert control['max_service_tension_Pa']>=base['max_service_tension_Pa']
+
+
+def test_selected_reference_is_same_crowd_sized_beam_at_all_loads():
+    c=civil.evaluate(vehicle.build());ref=c['selected_reference']
+    assert ref['load_case']=='crowd_control'
+    assert c['civil_component_id']==ref['physical_civil_component_id']
+    for case in c['selected_physical_load_checks'].values():
+        assert case['prestress_strands']==ref['prestress_strands']
+        assert case['physical_civil_component_id']==c['civil_component_id']
+    assert ref['span_m']==20.
+    assert ref['necessary_longitudinal_screen']=='pass'

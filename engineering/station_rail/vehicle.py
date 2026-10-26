@@ -17,6 +17,9 @@ from . import ROOT, FLAGS
 from .common import brief, identity, source_map
 
 PARENT = 'docs/design-engine/ferrite-maglev/comfort-design/design.json.gz'
+PARENT_MANIFEST='docs/design-engine/ferrite-maglev/comfort-design/manifest.json'
+PARENT_MANIFEST_SHA='6516dcc9d2a64d5357260b76a161368e02fdd2e0e956805717fca888dbcac60a'
+PARENT_PAYLOAD_SHA='203bd023e431bbc2f6f8f816d24a47c23586a156c31c4b552855fbae025cec37'
 PARENT_REVISION = '92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164'
 PRODUCER = 'engineering/station_rail/vehicle.py'
 ALUMINIUM_DENSITY = 2710.
@@ -29,8 +32,9 @@ def _read_parent(root):
     # The immutable publication itself binds the compressed design bytes.
     receipt_path=Path(root)/'docs/design-engine/ferrite-maglev/comfort-design/manifest.json'
     receipt_raw=receipt_path.read_bytes() if receipt_path.is_file() else subprocess.check_output(['git','show',PARENT_REVISION+':docs/design-engine/ferrite-maglev/comfort-design/manifest.json'],cwd=root)
+    if sha256(receipt_raw).hexdigest()!=PARENT_MANIFEST_SHA:raise ValueError('Retained source receipt differs from pinned publication')
     expected=json.loads(receipt_raw)['files_sha256']['design.json.gz']
-    if sha256(raw).hexdigest()!=expected:raise ValueError('Retained comfort stock differs from source publication')
+    if sha256(raw).hexdigest()!=expected or expected!=PARENT_PAYLOAD_SHA:raise ValueError('Retained comfort stock differs from source publication')
     return _parent(raw),expected
 
 
@@ -213,16 +217,11 @@ def build(root=ROOT):
     bogie_material=sum(p['mass_kg'] for p in bogie)
     bogie_account=config['support']['reference_bogie_pair_mass_kg']
     if bogie_material>bogie_account:raise ValueError('Bogie stock exceeds retained reference account; resize or increase the reference explicitly')
-    # Service pack is an independent proposal. Its whole installed mass is an
-    # explicit allowance until cell/case/cooling/mounts are all located.
-    battery_mass=1345.
-    battery_basis='1345kg service-pack account:75Type3-20 modules1050kg plus295kg enclosure, BMS, cooling, DC/DC, contactors, wiring and mounts; supplier freeze and complete placement open'
-    try:
-        from .electrical import battery_definition
-        battery=battery_definition(root)
-        battery_mass=battery['mass_kg'];battery_basis=battery
-    except ImportError:
-        battery=None
+    # Missing physical equipment definition is a failure, never a fallback to
+    # a convenient mass allowance or different candidate identity.
+    from .electrical import battery_definition
+    battery=battery_definition(root)
+    battery_mass=battery['mass_kg'];battery_basis=battery
     coating_mass=17*2.65*.0008*1326.56
     inventory=[dict(id='retained-comfort/'+system,evidence_class='mixed-counted-stock-and-retained-account',mass_kg=sum(r['mass_kg'] for r in retained if r['system']==system),
         system=system,basis='Source-bound comfort stock excluding every magnetic, old propulsion, old hardpoint and old capture occurrence; body and service residuals are still unresolved') for system in sorted({r['system'] for r in retained})]
@@ -233,6 +232,10 @@ def build(root=ROOT):
         dict(id='service-battery',system='services',evidence_class='supplier-cell-and-installed-pack-account',mass_kg=battery_mass,basis=battery_basis),
         dict(id='white-roof-finish',system='roof-thermal',evidence_class='counted-coating-stock',mass_kg=coating_mass,thickness_m=.0008,density_kg_m3=1326.56),
         dict(id='new-frame-joints-and-fin-retention',system='attachments',evidence_class='explicit-unlocated-allocation',mass_kg=180.,basis='New bogie-pivot/secondary suspension/body joints, fin positive-retention and flexible thermal joints; not counted as already located material')]
+    # Finalise occurrence metadata before hashing the physical definition.
+    # Do not mutate nested shared rows after deriving the candidate identity.
+    for row in inventory:
+        row['part_id']=row['id'];row['subsystem']=row['system']
     mass=sum(r['mass_kg'] for r in inventory)
     definition=dict(schema='osr-station-rail-physical/1',revision=config['revision'],vehicle=config['vehicle'],support=config['support'],propulsion=config['propulsion'],
         source_body_candidate_id=parent['body_candidate_id'],body_retained_mass_kg=retained_mass,
@@ -246,7 +249,7 @@ def build(root=ROOT):
     axle_bottom=config['support']['wheel_new_diameter_m']/2-.075
     primary_top=.20
     min_x=min(abs(c)-config['support']['bogie_wheelbase_m']/2 for c in config['support']['bogie_centres_x_m'])
-    sources=source_map(root,(PRODUCER,));sources[PARENT]=parent_sha
+    sources=source_map(root,(PRODUCER,'engineering/station_rail/electrical.py'));sources[PARENT]=parent_sha;sources[PARENT_MANIFEST]=PARENT_MANIFEST_SHA
     allparts=parts+bogie+frame+fin
     located_mass=sum(p['mass_kg'] for p in allparts)
     cg=[sum(p['mass_kg']*p['cg_m'][i] for p in allparts)/located_mass for i in range(3)]
@@ -280,9 +283,15 @@ def build(root=ROOT):
             dict(operation='Install bolted passive fin cassette between bogies and set station clearance using surveyed datum',sweep_and_thermal_joint_verified=False)],
         missing_inventory=['Supplier bogies/suspension/brake/WSP detail and complete drawings','Unallocated body/services and interior residuals','Complete service-pack enclosure/cooling and installation','Bogie pivots and new underframe joints/fatigue','Fin expansion joints, crosswind and swept-station clearance','Couplers, buffers, emergency access and rescue qualification'],
         source_sha256=sources,**FLAGS)
-    for row in value['inventory']:
-        row['part_id']=row['id'];row['subsystem']=row['system']
     value['body_candidate_ancestry']={'retained_parent_body_candidate_id':parent['body_candidate_id'],'new_support_loadpath_requires_new_body_candidate':True}
+    old_body=parent['physical_definition']['body']
+    value['retained_component_ancestry']=dict(source_revision=PARENT_REVISION,parent_vehicle_candidate_id=parent['candidate_id'],
+        unchanged_component_design_ids={key:old_body[key] for key in ('door_component_id','floor_component_id','glazing_component_id','paired_seat_component_id','layout_id')},
+        occurrence_mapping='For each comfort-shell/* material occurrence remove that prefix to obtain the exact original source occurrence ID; placements are translated+1m in z. Lower stringers removed; roof core changed toHP60 and finish added.',
+        source_body_candidate_id=parent['body_candidate_id'],whole_body_reused=False)
+    value['residual_overlap_unresolved']=dict(retained_noninterior_account_kg=4778.253763406856,new_explicit_service_pack_kg=battery_mass,
+        overlap_possible=True,overlap_amount_kg=None,
+        reason='Inherited residual expressly includes services/cooling/electronics/contingency. The new service pack is added conservatively without inventing an untraceable subtraction; total account can overlap and is not a definitive installed mass.')
     value['service_pack_fit']={'state':'unknown','reason':'Single central pack envelope intersects passive-fin hangers/floor ties; split-cassette routing, mounts and removal require design before installed mass properties can be claimed'}
     value['evaluation_id']=identity(value)
     return value

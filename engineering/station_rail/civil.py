@@ -74,7 +74,7 @@ def interior_pier_train_reaction(span,offsets,axle_N):
         load_factor=1.3)
 
 
-def alternative(vehicle,span,family,load='normal'):
+def alternative(vehicle,span,family,load='normal',fixed_strands=None):
     s=section(family);offsets,axle_N=axle_train(vehicle,load)
     env=moving_envelope(span,offsets,axle_N)
     # Track direct fastening every <=0.6m on each rail. A set has two anchors;
@@ -101,7 +101,8 @@ def alternative(vehicle,span,family,load='normal'):
         r['required_effective_prestress_N']=r['max_total_moment_Nm']*cb/I/(1/A+r['e_m']*cb/I)
     effective_required=max(r['required_effective_prestress_N'] for r in env)
     strand_area=.00014;fpk=1860e6;initial_fraction=.70;loss_fraction=.20
-    strands=math.ceil(effective_required/((1-loss_fraction)*initial_fraction*fpk*strand_area))
+    strands=(math.ceil(effective_required/((1-loss_fraction)*initial_fraction*fpk*strand_area)) if fixed_strands is None else fixed_strands)
+    if not isinstance(strands,int) or strands<=0:raise ValueError('Positive integer strand count required')
     initial=strands*strand_area*fpk*initial_fraction;effective=initial*(1-loss_fraction)
     prestress_kg=strands*strand_area*span*7850
     anchorage_kg=strands*2*4.5
@@ -131,7 +132,7 @@ def alternative(vehicle,span,family,load='normal'):
     row=dict(family=family,span_m=span,load_case=load,section=s,concrete_m3=concrete_m3,concrete_mass_kg=concrete_kg,
         running_rail_kg=rail,rail_profile='60E1-reference',rail_reference_url=RAIL_REFERENCE,direct_fastener_sets=sets,direct_fastener_kg=fastener_kg,
         direct_fastener_anchors=sets*2,reinforcement_kg=reinforcement_kg,reinforcement_basis='120kg/m³ declared preliminary rate; detailed bar schedule unknown',
-        prestress_kg=prestress_kg,prestress_strands=strands,prestress_initial_N=initial,prestress_effective_N=effective,
+        prestress_kg=prestress_kg,prestress_strands=strands,prestress_design_policy='resize-for-this-load' if fixed_strands is None else 'fixed-normal-design-stock',prestress_initial_N=initial,prestress_effective_N=effective,
         prestress_reference=dict(strand_area_m2=strand_area,fpk_Pa_hypothesis=fpk,initial_fraction_hypothesis=initial_fraction,loss_fraction_hypothesis=loss_fraction,parabolic_eccentricity_max_m=emax),
         prestress_anchorage_kg=anchorage_kg,diaphragms=diaphragm_count,diaphragm_definition=dict(clear_width_m=diaphragm_width,thickness_m=diaphragm_thickness,height_m=diaphragm_height,quantity=diaphragm_count),counted_steel_kg=allsteel,total_counted_span_mass_kg=concrete_kg+allsteel,
         quantities_maturity='Analytical section/tendon stock and declared detailing accounts; not a supplier or fabrication BOM',
@@ -150,19 +151,25 @@ def alternative(vehicle,span,family,load='normal'):
             settlement_lateral_seismic_uplift_qualified=False,actual_footing_or_pile_quantity=None) for p in (100.,200.,300.)],
         actual_installed_cost_USD=None,engineering_screen='unknown',**FLAGS)
     row['necessary_longitudinal_screen']='pass' if all(row[k]=='pass' for k in ('service_tension_screen','service_compression_screen','release_tension_screen','release_compression_screen','deflection_screen')) else 'fail'
+    row['physical_civil_component_id']=identity(dict(family=family,span_m=span,section=s,prestress=dict(strands=strands,strand_area_m2=strand_area,grade_fpk_Pa=fpk,parabolic_eccentricity_max_m=emax),rail_profile='60E1',direct_fastener_sets=sets,direct_fastener_account_kg=fastener_kg,reinforcement_account_kg=reinforcement_kg,diaphragms=row['diaphragm_definition']))
     row['alternative_id']=identity(row)
     return row
 
 
 def evaluate(vehicle,root=ROOT):
     config=brief(root);rows=[alternative(vehicle,L,family) for family in ('twin-beam','box-beam','u-beam') for L in config['civil']['span_options_m']]
-    controls={load:[alternative(vehicle,L,family,load) for family in ('twin-beam','box-beam','u-beam') for L in config['civil']['span_options_m']] for load in ('empty','crowd_control')}
-    selected=next(r for r in rows if r['family']=='box-beam' and r['span_m']==config['civil']['reference_span_m'])
+    controls={load:[alternative(vehicle,base['span_m'],base['family'],load,fixed_strands=base['prestress_strands']) for base in rows] for load in ('empty','crowd_control')}
+    design_load=config['civil']['design_load_case']
+    if design_load!='crowd_control':raise ValueError('Selected civil reference must include the retained crowd structural control')
+    selected=alternative(vehicle,config['civil']['reference_span_m'],'box-beam',design_load)
+    selected_controls={load:(selected if load==design_load else alternative(vehicle,selected['span_m'],selected['family'],load,fixed_strands=selected['prestress_strands'])) for load in ('empty','normal','crowd_control')}
     quantities=('concrete_m3','concrete_mass_kg','running_rail_kg','direct_fastener_sets','direct_fastener_kg','direct_fastener_anchors','reinforcement_kg','prestress_kg','prestress_anchorage_kg','counted_steel_kg','total_counted_span_mass_kg')
     rates={k:selected[k]*1000/selected['span_m'] for k in quantities}
     v=dict(schema='osr-station-rail-civil/1',candidate_id=vehicle['candidate_id'],body_candidate_id=vehicle['body_candidate_id'],support_component_id=vehicle['support_component_id'],propulsion_component_id=vehicle['propulsion_component_id'],
-        civil_component_id=identity(dict(family='box-beam',physical_section=selected['section'],span_m=selected['span_m'],rails='60E1',fastener_spacing_m=.6,prestress_strands=selected['prestress_strands'],prestress_reference=selected['prestress_reference'],reinforcement_account_kg=selected['reinforcement_kg'])),
-        selected_reference=selected,alternatives=rows,control_alternatives=controls,executed_case_count=len(rows)+sum(len(r) for r in controls.values()),reference_rates_per_directional_km=rates,
+        civil_component_id=selected['physical_civil_component_id'],
+        selected_reference=selected,alternatives=rows,control_alternatives=controls,selected_physical_load_checks=selected_controls,
+        comparison_control_scope='Normal-sized family alternatives checked with fixed normal tendon stock; selected reference is separately sized for crowd control and checked unchanged at all three loads',
+        executed_case_count=len(rows)+sum(len(r) for r in controls.values())+len(selected_controls),reference_rates_per_directional_km=rates,
         magnetic_suspension_facings=False,powered_suspension_equipment=False,
         historical_maglev_reference=dict(span_m=25.,interface_steel_kg=21627.329,anchors=408,crossmembers=51,
             comparison_scope='Historic structural/interface steel versus new rail/fastener/reinforcement/tendon preliminary stock; boundaries differ and neither is complete installed infrastructure'),
