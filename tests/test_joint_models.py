@@ -3,6 +3,7 @@ from pathlib import Path
 import tempfile
 import numpy as np
 from engineering.design_search import joint_models as j
+from engineering.design_search.structural_families import _read_deck
 
 
 class TransferFixtureTests(unittest.TestCase):
@@ -70,3 +71,16 @@ class TransferFixtureTests(unittest.TestCase):
             cases.append(dict(kind='finite_area',execution='completed',mesh_level=mesh,numerical_validity='valid',compliance_matrix=(np.eye(6)*c).tolist(),modal_frequencies_Hz=[100.]*6,states=[dict(load=str(i)) for i in range(6)]))
         rows=j.refinement_checks(cases)[0]['richardson']
         self.assertTrue(all(r['state']=='unknown' for r in rows))
+
+    def test_load_port_is_centre_of_front_y_face(self):
+        _,d=j.deck('four_bolt',1)
+        self.assertEqual(d['nodes'][d['translation_ref']],[0.,.004,0.])
+        self.assertEqual(d['nodes'][d['rotation_ref']],[0.,.004,0.])
+
+    def test_thirds_refinement_has_no_collapsed_solid_cells(self):
+        raw,d=j.deck('finite_area',3);nodes,elements,_,_=_read_deck(raw)
+        self.assertEqual(len(elements),d['solid_elements'])
+        for e in elements:
+            p=[np.array(nodes[n]) for n in e[1:9]]
+            jac=np.linalg.det(np.array([p[1]-p[0],p[3]-p[0],p[4]-p[0]]))
+            self.assertGreater(jac,1e-14)

@@ -45,7 +45,9 @@ def rank_and_work_checks(definition):
 def deck(kind='four_bolt',mesh=1,regularizer=REGULARIZER_NM_PER_RAD):
     if mesh not in (1,2,3,4):raise ValueError('Bounded native mesh levels1..4 only')
     d=joint_definition(kind);cuts=sorted({-.04,-.02,0.,.02,.04}|({-.028,-.012,.012,.028} if kind=='finite_area' else set()))
-    def refined(values):return sorted({a+(b-a)*i/mesh for a,b in zip(values,values[1:]) for i in range(mesh+1)})
+    # Shared interval endpoints must be merged geometrically, including thirds.
+    # Distinct floating encodings of the same cut otherwise form zero-width cells.
+    def refined(values):return sorted({round(a+(b-a)*i/mesh,12) for a,b in zip(values,values[1:]) for i in range(mesh+1)})
     xs=refined(cuts);zs=xs;ys=[.004*i/mesh for i in range(mesh+1)]
     ns,es=_coupon_mesh(xs,ys,zs);groups={'PLATE':[e['id'] for e in es]};lookup={tuple(round(x,12) for x in p):n for n,p in ns.items()}
     def merge(nodes,elements):
@@ -64,7 +66,7 @@ def deck(kind='four_bolt',mesh=1,regularizer=REGULARIZER_NM_PER_RAD):
             a,b,c=pad['at_m'];lx,ly,lz=pad['size_m'];pp,ee=_coupon_mesh([x for x in xs if a-1e-10<=x<=a+lx+1e-10],[b+ly*i/mesh for i in range(mesh+1)],[z for z in zs if c-1e-10<=z<=c+lz+1e-10]);groups['PAD']+=merge(pp,ee)
     # The plate grid has pad boundary cuts; pad interfaces share the same nodes.
     supported=[n for n,p in ns.items() if abs(p[1]+.002)<1e-10] if kind=='finite_area' else [lookup[tuple(p)] for p in d['transfer_points_m']]
-    ref=len(ns)+1;rot=ref+1;ns[ref]=[0.,0.,.004];ns[rot]=[0.,0.,.004]
+    ref=len(ns)+1;rot=ref+1;ns[ref]=[0.,.004,0.];ns[rot]=[0.,.004,0.]
     lines=['*HEADING','Six-axis synthetic joint fixture; SI N-m-Pa','*NODE']+[str(n)+','+','.join(f'{x:.14g}' for x in p) for n,p in ns.items()]
     for group,ids in groups.items():
         lines.append('*ELEMENT,TYPE=C3D20,ELSET='+group)
@@ -127,12 +129,14 @@ def analyse(folder,definition):
         for n,f in state['rf'].items():reaction[:3]+=f;reaction[3:]+=np.cross(np.array(ns[n])-np.array(ns[d['translation_ref']]),f)
         reg_moment=-d['regularizer_Nm_per_rad']*q[3];reaction[3]+=reg_moment
         external=.5*float(applied@q);reg=.5*d['regularizer_Nm_per_rad']*q[3]**2;solid=state.get('solid_energy_J')
-        residual=reaction+applied
+        residual=reaction+applied;length=.08
+        force_scale=max(float(np.linalg.norm(applied[:3])),float(np.linalg.norm(applied[3:]))/length,1e-12);moment_scale=force_scale*length
         results.append(dict(load=d['load_order'][j],load_amplitude=load,generalized_displacement=q.tolist(),reaction=result_list(reaction),
             force_residual_N=result_list(residual[:3]),moment_residual_Nm=result_list(residual[3:]),external_work_J=external,solid_energy_J=solid,regularizer_energy_J=reg,
-            regularizer_energy_fraction=reg/abs(external) if external else None,energy_relative_residual=abs(external-reg-solid)/abs(external) if solid is not None and external else None))
+            regularizer_energy_fraction=reg/abs(external) if external else None,energy_relative_residual=abs(external-reg-solid)/abs(external) if solid is not None and external else None,
+            force_relative_residual=float(max(abs(residual[:3])))/force_scale,moment_relative_residual=float(max(abs(residual[3:])))/moment_scale,force_residual_scale_N=force_scale,moment_residual_scale_Nm=moment_scale))
     scales=np.sqrt(np.maximum(np.abs(np.diag(C)),1e-30));reciprocity=float(np.max(np.abs(C-C.T)/np.outer(scales,scales)))
-    finite=all(isfinite(x) for x in C.flat);equilibrium=max(max(abs(x) for x in r['force_residual_N']+r['moment_residual_Nm'])/max(r['load_amplitude'],1e-12) for r in results)
+    finite=all(isfinite(x) for x in C.flat);equilibrium=max(max(r['force_relative_residual'],r['moment_relative_residual']) for r in results)
     energy=max((r['energy_relative_residual'] if r['energy_relative_residual'] is not None else float('inf')) for r in results)
     mechanism=d['kind']=='two_bolt_control';regmax=max(r['regularizer_energy_fraction'] or 0 for r in results)
     return dict(execution='completed',numerical_validity='valid' if finite and equilibrium<1e-4 and energy<1e-4 and reciprocity<1e-4 else 'unknown',
@@ -179,12 +183,13 @@ def refinement_checks(cases):
     return records
 
 
-def run_benchmarks(output,*,plan=None):
+def run_benchmarks(output,*,plan=None,timeout_s=45):
     output=Path(output).resolve()
     if output.exists():raise ValueError('Fresh immutable run directory required')
     output.mkdir(parents=True);sources={PRODUCER:digest(__file__),'engineering/design_search/structural_families.py':digest(Path(__file__).with_name('structural_families.py'))}
     ccx=Path('/usr/bin/ccx').resolve();limits=[n for n in resource.getrlimit(resource.RLIMIT_AS) if n!=resource.RLIM_INFINITY]
-    tool=dict(ccx_path=str(ccx),ccx_sha256=digest(ccx),OMP_threads=1,RLIMIT_AS_bytes=min([2*1024**3,*limits]),timeout_s=45)
+    if timeout_s not in (45,90):raise ValueError('Explicit45/90second bounded resource revision required')
+    tool=dict(ccx_path=str(ccx),ccx_sha256=digest(ccx),OMP_threads=1,RLIMIT_AS_bytes=min([2*1024**3,*limits]),timeout_s=timeout_s)
     results=[];plan=list(plan) if plan is not None else [(kind,mesh) for kind in KINDS for mesh in (1,2)]
     if not 1<=len(plan)<=8 or len(set(plan))!=len(plan):raise ValueError('One to eight unique bounded native jobs required')
     for kind,mesh in plan:
@@ -192,11 +197,11 @@ def run_benchmarks(output,*,plan=None):
             def bounded():resource.setrlimit(resource.RLIMIT_AS,(tool['RLIMIT_AS_bytes'],tool['RLIMIT_AS_bytes']))
             r=dict(case=folder.name,kind=kind,mesh_level=mesh,execution='tool_error')
             try:
-                proc=subprocess.run([str(ccx),'joint'],cwd=folder,capture_output=True,timeout=45,preexec_fn=bounded,env={**os.environ,'OMP_NUM_THREADS':'1'})
+                proc=subprocess.run([str(ccx),'joint'],cwd=folder,capture_output=True,timeout=tool['timeout_s'],preexec_fn=bounded,env={**os.environ,'OMP_NUM_THREADS':'1'})
                 (folder/'stdout.log').write_bytes(proc.stdout);(folder/'stderr.log').write_bytes(proc.stderr);r['returncode']=proc.returncode
                 if proc.returncode==0:r.update(analyse(folder,d))
             except subprocess.TimeoutExpired as e:
-                (folder/'stdout.log').write_bytes(e.stdout or b'');(folder/'stderr.log').write_bytes(e.stderr or b'');r.update(execution='interrupted',reason='45second native job limit')
+                (folder/'stdout.log').write_bytes(e.stdout or b'');(folder/'stderr.log').write_bytes(e.stderr or b'');r.update(execution='interrupted',reason=str(tool['timeout_s'])+'second native job limit')
             except (OSError,ValueError,KeyError) as e:r.update(execution='tool_error',reason=str(e))
             r['runtime_s']=time.monotonic()-start;results.append(r)
     if sources[PRODUCER]!=digest(__file__) or sources['engineering/design_search/structural_families.py']!=digest(Path(__file__).with_name('structural_families.py')):raise ValueError('Source changed during native execution')
@@ -208,4 +213,4 @@ def run_benchmarks(output,*,plan=None):
 
 
 def run_refinement(output):
-    return run_benchmarks(output,plan=[('finite_area',m) for m in (2,3,4)])
+    return run_benchmarks(output,plan=[('finite_area',m) for m in (2,3,4)],timeout_s=90)

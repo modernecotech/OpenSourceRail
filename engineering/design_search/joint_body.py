@@ -121,11 +121,22 @@ def _case_valid(case):
     return True
 
 
+def _verify_sources(sources,root):
+    for name,expected in sources.items():
+        path=Path(root)/name
+        if not path.is_file() or digest(path)!=expected:raise ValueError('Declared source differs from executed source root: '+name)
+
+
 def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False):
     """Explicit opt-in native run. Coordinator freezes source before dispatch."""
     p=_parameters(parameters);output=Path(output).resolve()
     if output.exists():raise ValueError('Fresh immutable native body directory required')
-    output.mkdir(parents=True);sources={**vehicle['source_sha256'],PRODUCER:digest(__file__)};(output/'candidate.json').write_bytes(encoded(vehicle));cases=[]
+    sources={**vehicle['source_sha256'],PRODUCER:digest(__file__)};_verify_sources(sources,root)
+    # Helpers are imported from this worktree. Their bytes must also equal the
+    # declared root; isolated checkouts are not an OS-enforced sandbox.
+    for module in (wheel_body,body_frame,body_solid_frame,joint_models):
+        if digest(module.__file__)!=sources[module.PRODUCER]:raise ValueError('Imported helper differs from declared source: '+module.PRODUCER)
+    output.mkdir(parents=True);(output/'candidate.json').write_bytes(encoded(vehicle));cases=[]
     tool=dict(ccx_path='/usr/bin/ccx',ccx_sha256=digest('/usr/bin/ccx'),OMP_threads=1,RLIMIT_AS_bytes=wheel_body._address_space_bound(),timeout_s=150)
     modes=[('normal','normal',.6,False,False,1.),('normal-fine','normal',.3,False,False,1.),('crowd','crowd',.6,False,False,1.)]
     if confirmation:modes += [('asymmetric-braking','normal',.6,True,True,1.),('joint-sensitivity','normal',.6,False,False,.1)]
@@ -144,5 +155,6 @@ def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False):
         engineering_screen='fail' if any(c.get('engineering_screen')=='fail' for c in cases) else 'unknown',displacement_refinement=refinement,cases=cases,
         native_jobs_used=len(cases),source_sha256=sources,tool=tool,constitutive_hypotheses=wheel_body.CONSTITUTIVE,joint_hypothesis=vehicle['joint_body']['joint_hypothesis'],missing_gates=missing,**FLAGS)
     if digest(__file__)!=sources[PRODUCER]:raise ValueError('Body adapter changed during execution')
+    _verify_sources(sources,root)
     if digest(tool['ccx_path'])!=tool['ccx_sha256']:raise ValueError('Native body CCX changed during execution')
     value['tool_binary_unchanged']=True;value['evaluation_id']=identity(value);(output/'result.json').write_bytes(encoded(value));manifest=dict(evaluation_id=value['evaluation_id'],candidate_id=vehicle['candidate_id'],source_sha256=sources,tool=tool,files_sha256={q.relative_to(output).as_posix():digest(q) for q in output.rglob('*') if q.is_file()},**FLAGS);manifest['manifest_id']=identity(manifest);(output/'manifest.json').write_bytes(encoded(manifest));return value

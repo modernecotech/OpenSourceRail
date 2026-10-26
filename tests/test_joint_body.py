@@ -1,6 +1,7 @@
 import unittest
 from pathlib import Path
 from copy import deepcopy
+import tempfile
 from engineering.station_rail import vehicle
 from engineering.station_rail.common import identity
 from engineering.design_search import joint_body as j,wheel_body
@@ -59,3 +60,11 @@ class FourBoltBodyTests(unittest.TestCase):
         for key in ('force_balance_relative_error_all_axes','moment_balance_relative_error_all_axes','energy_relative_residual'):
             self.assertFalse(j._case_valid({**good,key:.01}))
             self.assertFalse(j._case_valid({**good,key:None}))
+
+    def test_provenance_guard_rejects_stale_helper(self):
+        from engineering.station_rail.common import digest
+        with tempfile.TemporaryDirectory() as t:
+            path=Path(t)/'helper.py';path.write_text('a=1\n');sources={'helper.py':digest(path)}
+            j._verify_sources(sources,t)
+            path.write_text('a=2\n')
+            with self.assertRaisesRegex(ValueError,'Declared source differs'):j._verify_sources(sources,t)
