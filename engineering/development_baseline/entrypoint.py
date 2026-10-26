@@ -198,8 +198,15 @@ def main(argv=None, root=ROOT):
             if action=='compare' and len(rest)==2:
                 result=campaign.compare(rest[1]);emit(dict(campaign_id=rest[1],candidate_count=len(result['candidates']),primary_jobs=len(result['results']),next_experiment=result['next_experiment'],integrated_baseline=result['integrated_baseline']));return 0
             if action=='publish' and len(rest)==2:
-                from engineering.design_search.wheel_publication import publish
-                emit(publish(rest[1]));return 0
+                from engineering.design_search import wheel_publication as pub
+                from engineering.station_rail import twin_recovery
+                twin_recovery.ensure_all(rest[1])
+                target=pub.OUTPUT
+                if target.exists() and not (target/'manifest.json').is_file():
+                    import shutil,time
+                    preserved=root/'build/v06-loop/incomplete-publications'/str(time.time_ns());preserved.parent.mkdir(parents=True,exist_ok=True);shutil.move(target,preserved)
+                pub.publish(rest[1])
+                emit(twin_recovery.bind_publication(target));return 0
             raise ValueError('Use campaign create PATH, run ID [--max-jobs N], compare ID or publish ID')
         if command == 'legacy':
             return _module('legacy').main(rest, root=root)
