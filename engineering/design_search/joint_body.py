@@ -76,6 +76,7 @@ def materialize_body(base_vehicle,parameters,root=ROOT):
 
 
 def body_deck(vehicle,parameters,*,dx=.6,load='normal',asymmetric=False,braking=False,joint_factor=1.):
+    if parameters.get('joint')=='bonded_backing_insert_four_bolt':return _finite_body_deck(vehicle,parameters,dx=dx,load=load,asymmetric=asymmetric,braking=braking,joint_factor=joint_factor)
     p=_parameters(parameters)
     if p!=vehicle.get('joint_body',{}).get('parameters') or identity(vehicle['body_physical_definition'])!=vehicle['body_candidate_id']:raise ValueError('Mixed four-bolt physical identity/parameters')
     if wheel_body._physical_body_parts(vehicle['geometry_parts'])!=vehicle['body_physical_definition']['geometry_parts']:raise ValueError('Physical geometry differs from body definition')
@@ -127,9 +128,9 @@ def _verify_sources(sources,root):
         if not path.is_file() or digest(path)!=expected:raise ValueError('Declared source differs from executed source root: '+name)
 
 
-def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False):
+def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False,case_labels=None):
     """Explicit opt-in native run. Coordinator freezes source before dispatch."""
-    p=_parameters(parameters);output=Path(output).resolve()
+    p=_finite_parameters(parameters) if parameters.get('joint')=='bonded_backing_insert_four_bolt' else _parameters(parameters);output=Path(output).resolve()
     if output.exists():raise ValueError('Fresh immutable native body directory required')
     sources={**vehicle['source_sha256'],PRODUCER:digest(__file__)};_verify_sources(sources,root)
     # Helpers are imported from this worktree. Their bytes must also equal the
@@ -140,6 +141,10 @@ def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False):
     tool=dict(ccx_path='/usr/bin/ccx',ccx_sha256=digest('/usr/bin/ccx'),OMP_threads=1,RLIMIT_AS_bytes=wheel_body._address_space_bound(),timeout_s=150)
     modes=[('normal','normal',.6,False,False,1.),('normal-fine','normal',.3,False,False,1.),('crowd','crowd',.6,False,False,1.)]
     if confirmation:modes += [('asymmetric-braking','normal',.6,True,True,1.),('joint-sensitivity','normal',.6,False,False,.1)]
+    if case_labels is not None:
+        selected=list(case_labels)
+        if not selected or len(selected)!=len(set(selected)) or set(selected)-{m[0] for m in modes}:raise ValueError('Explicit unique available body cases required')
+        modes=[m for m in modes if m[0] in selected]
     for name,load,dx,asym,brake,jf in modes:
         raw,definition=body_deck(vehicle,p,dx=dx,load=load,asymmetric=asym,braking=brake,joint_factor=jf)
         r=dict(case=name,mesh=definition,**wheel_body._native(raw,output/name));(output/name/'definition.json').write_bytes(encoded(definition))
@@ -151,10 +156,106 @@ def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False):
     refinement=wheel_body._displacement_refinement(cases);balanced=all(_case_valid(c) for c in cases);converged=balanced and refinement['status']=='pass'
     missing=['Native per-axis joint fixtures do not qualify actual preload, slip, bearing, fatigue or failure','Linear synthetic laminate/core/bond and rigid intact bolt transfer; no physical correlation','Full-body stress/buckling/flexible modes and all installed mass properties','Dynamic bogie/door/cassette clearance, manufacturing and fire/thermal evidence']
     value=dict(schema='osr-four-bolt-body-evaluation/1',candidate_id=vehicle['candidate_id'],body_candidate_id=vehicle['body_candidate_id'],parameters=p,
-        execution='completed' if all(c['execution']=='completed' for c in cases) else 'completed_with_errors',numerical_validity='mesh_confirmed' if converged else 'nonconverged' if balanced else 'unknown',
+        execution='completed' if all(c['execution']=='completed' for c in cases) else 'completed_with_errors',numerical_validity='mesh_confirmed' if converged else 'nonconverged' if balanced and refinement['status']=='fail' else 'unconfirmed' if balanced else 'unknown',
         engineering_screen='fail' if any(c.get('engineering_screen')=='fail' for c in cases) else 'unknown',displacement_refinement=refinement,cases=cases,
-        native_jobs_used=len(cases),source_sha256=sources,tool=tool,constitutive_hypotheses=wheel_body.CONSTITUTIVE,joint_hypothesis=vehicle['joint_body']['joint_hypothesis'],missing_gates=missing,**FLAGS)
+        native_jobs_used=len(cases),source_sha256=sources,tool=tool,constitutive_hypotheses={**wheel_body.CONSTITUTIVE,'joint':vehicle['joint_body']['joint_hypothesis']},joint_hypothesis=vehicle['joint_body']['joint_hypothesis'],missing_gates=missing,**FLAGS)
     if digest(__file__)!=sources[PRODUCER]:raise ValueError('Body adapter changed during execution')
     _verify_sources(sources,root)
     if digest(tool['ccx_path'])!=tool['ccx_sha256']:raise ValueError('Native body CCX changed during execution')
     value['tool_binary_unchanged']=True;value['evaluation_id']=identity(value);(output/'result.json').write_bytes(encoded(value));manifest=dict(evaluation_id=value['evaluation_id'],candidate_id=vehicle['candidate_id'],source_sha256=sources,tool=tool,files_sha256={q.relative_to(output).as_posix():digest(q) for q in output.rglob('*') if q.is_file()},**FLAGS);manifest['manifest_id']=identity(manifest);(output/'manifest.json').write_bytes(encoded(manifest));return value
+
+
+def finite_parameters():
+    return {**default_parameters(),'joint':'bonded_backing_insert_four_bolt','face_bond_thickness_m':.00025,'perimeter_bond_thickness_m':.00025,'insert_height_m':.08,'insert_material':'6082-T6-proposed'}
+
+
+def _finite_parameters(parameters):
+    p=deepcopy(parameters);wanted=finite_parameters()
+    if set(p)!=set(wanted):raise ValueError('Explicit finite backing insert parameters required')
+    for key in ('joint','face_bond_thickness_m','perimeter_bond_thickness_m','insert_height_m','insert_material'):
+        if p[key]!=wanted[key]:raise ValueError('Outside counted finite insert family: '+key)
+    _parameters({**{k:p[k] for k in default_parameters()},'joint':'four_bolt_rectangle'})
+    return p
+
+
+def _subtract_rectangle(rect,cut):
+    x0,x1,z0,z1=rect;a,b,c,d=cut;a=max(a,x0);b=min(b,x1);c=max(c,z0);d=min(d,z1)
+    if b-a<1e-10 or d-c<1e-10:return [rect]
+    return [r for r in ((x0,a,z0,z1),(b,x1,z0,z1),(a,b,z0,c),(a,b,d,z1)) if r[1]-r[0]>1e-10 and r[3]-r[2]>1e-10]
+
+
+def materialize_finite_body(base_vehicle,parameters=None,root=ROOT):
+    """Count real backing inserts and bonds; retain point-body as a control."""
+    p=_finite_parameters(finite_parameters() if parameters is None else parameters);point_p={**{k:p[k] for k in default_parameters()},'joint':'four_bolt_rectangle'}
+    v=materialize_body(base_vehicle,point_p,root);point_id=v['body_candidate_id'];variant=wheel_body._analysis_variant(v);posts={m['id']:m for m in variant['members']};patches=[];added=[];holes=[]
+    for i,pad in enumerate(v['wheel_body']['pads']):
+        m=posts[pad['post_id']];side=pad['side'];x=pad['x_m'];z=pad['z_m'];w=min(.08,max(q['at_m'][0]+q['size_m'][0] for q in m['stock'])-min(q['at_m'][0] for q in m['stock']))
+        near=min(q['at_m'][1] for q in m['stock']) if side<0 else max(q['at_m'][1]+q['size_m'][1] for q in m['stock']);outer=side*1.325;lo,hi=sorted((near,outer));depth=hi-lo;h=p['insert_height_m'];b=p['face_bond_thickness_m'];e=p['perimeter_bond_thickness_m'];x0=x-w/2;z0=z-h/2
+        if depth<=2*b or w<=2*e or h<=2*e:raise ValueError('Nonpositive finite backing material')
+        patch=dict(pad_index=i,post_id=pad['post_id'],end=pad['end'],side=side,footprint_xz_m=[x0,x0+w,z0,z0+h],post_face_y_m=near,outer_face_y_m=outer,contact_area_m2=w*h,depth_m=depth)
+        patches.append(patch);name='wheel-shell-clamp/finite/'+str(i)+'/plate-backing-insert'
+        added.append(box(name,(x0+e,lo+b,z0+e),(w-2*e,depth-2*b,h-2*e),system='body-panel-connections'))
+        strips=[((x0,lo,z0),(w,b,h)),((x0,hi-b,z0),(w,b,h)),((x0,lo+b,z0),(e,depth-2*b,h)),((x0+w-e,lo+b,z0),(e,depth-2*b,h)),((x0+e,lo+b,z0),(w-2*e,depth-2*b,e)),((x0+e,lo+b,z0+h-e),(w-2*e,depth-2*b,e))]
+        for j,(at,size) in enumerate(strips):
+            q=box(f'finite-body-bond/{i}/{j}',at,size,density=1100.,material='synthetic-intact-epoxy-bond',system='body-panel-connections');q['role']='panel-side';added.append(q)
+        for xx,zz in pad['bolt_axes']:holes.append(dict(x_m=xx,z_m=zz,y_low_m=lo,y_high_m=hi,radius_m=.0045))
+    # Restore only old panel-hole stock before replacing its complete local
+    # sandwich patch. Post/outer-plate holes remain exactly as counted.
+    parts=[];removed_panel_mass=0.;restored_panel_hole_mass=0.;changed_parents=[]
+    for original in v['geometry_parts']:
+        if original.get('role')!='panel-side':parts.append(deepcopy(original));continue
+        q=deepcopy(original)
+        if q.get('rectangular_cutouts'):raise ValueError('Finite insert requires explicit original panel prisms')
+        if 'analysis_uncut_volume_m3' in q:
+            restored_panel_hole_mass+=q['analysis_uncut_mass_kg']-q['mass_kg']
+            q['volume_m3']=q.pop('analysis_uncut_volume_m3');q['mass_kg']=q.pop('analysis_uncut_mass_kg');q.pop('holes',None)
+        x0,y0,z0=q['at_m'];lx,ly,lz=q['size_m'];rects=[(x0,x0+lx,z0,z0+lz)]
+        for patch in patches:
+            low,high=sorted((patch['post_face_y_m'],patch['outer_face_y_m']))
+            if not min(y0+ly,high)>max(y0,low)+1e-10:continue
+            if (y0<low-1e-8 or y0+ly>high+1e-8) and any(_subtract_rectangle(rect,patch['footprint_xz_m'])!=[rect] for rect in rects):raise ValueError('Panel layer only partially intersects finite backing depth; explicit3D cut required')
+            rects=[r for old in rects for r in _subtract_rectangle(old,patch['footprint_xz_m'])]
+        retained_volume=sum((b-a)*ly*(d-c) for a,b,c,d in rects)
+        if abs(retained_volume-q['volume_m3'])<1e-10:parts.append(q);continue
+        changed_parents.append(q.get('source_part_id',q['id']));removed_panel_mass+=q['mass_kg']-retained_volume*q['density_kg_m3']
+        for j,(a,b,c,d) in enumerate(rects):
+            r=deepcopy(q);r['id']=q.get('source_part_id',q['id'])+'-finite-segment-'+identity(rects)[:10]+f'-{j}';r['source_part_id']=q.get('source_part_id',q['id']);r['kind']='box';r['at_m']=[a,y0,c];r['size_m']=[b-a,ly,d-c];r['volume_m3']=(b-a)*ly*(d-c);r['mass_kg']=r['volume_m3']*r['density_kg_m3'];r['cg_m']=[a+(b-a)/2,y0+ly/2,c+(d-c)/2];r.pop('inertia_kg_m2',None);parts.append(r)
+    added,insert_hole_mass=wheel_body._drill(added,holes);parts.extend(added)
+    previous_mass=sum(q['mass_kg'] for q in v['geometry_parts']);extra=sum(q['mass_kg'] for q in parts)-previous_mass;delta=sum(q['mass_kg'] for q in parts)-sum(q['mass_kg'] for q in base_vehicle['geometry_parts'])
+    physical=dict(parent_candidate_id=base_vehicle['candidate_id'],parent_body_candidate_id=base_vehicle['body_candidate_id'],point_transfer_control_body_id=point_id,parameters=p,geometry_parts=wheel_body._physical_body_parts(parts),support_interface_id=v['support_component_id'])
+    v['geometry_parts']=parts;v['body_physical_definition']=physical;v['body_candidate_id']=identity(physical);v['candidate_id']=identity(dict(parent_candidate_id=base_vehicle['candidate_id'],body_candidate_id=v['body_candidate_id'],support_component_id=v['support_component_id'],propulsion_component_id=v['propulsion_component_id']))
+    v['physical_definition']['body_revision']=dict(body_candidate_id=v['body_candidate_id'],parent_body_candidate_id=base_vehicle['body_candidate_id'],parameters=p);v['physical_definition']['geometry_definition_id']=identity(parts)
+    for key in ('accounted_tare_kg_per_car','accounted_cap_loaded_kg_per_car','accounted_160_control_kg_per_car'):v['mass'][key]+=extra
+    v['mass']['accounted_tare_kg_six_cars']=6*v['mass']['accounted_tare_kg_per_car'];v['mass']['located_material_kg']=sum(q['mass_kg'] for q in parts)
+    v['axle_loads'].update(empty_kg_per_axle=v['mass']['accounted_tare_kg_per_car']/4,normal_kg_per_axle=v['mass']['accounted_cap_loaded_kg_per_car']/4,crowd_control_kg_per_axle=v['mass']['accounted_160_control_kg_per_car']/4)
+    v['inventory']=[q for q in v['inventory'] if q['id']!='four-bolt-body-revision']+[dict(id='finite-backing-body-revision',system='body',mass_kg=delta,evidence_class='counted-stock-with-synthetic-intact-bond-and-rigid-post-face')]
+    hypothesis='Explicit counted aluminium backing inserts, face/perimeter bonds and four bolt stacks per pad; intact no-slip perfect bonds. Finite post-face area follows existing frame section translation/rotation; local post-wall/bearing compliance and bolt preload/slip/failure are not resolved.'
+    v['joint_body'].update(parameters=p,net_body_stock_delta_kg=delta,finite_backing=dict(patches=patches,added_stock_mass_kg=sum(q['mass_kg'] for q in added),removed_restored_panel_mass_kg=removed_panel_mass,restored_previous_panel_hole_mass_kg=restored_panel_hole_mass,new_insert_hole_mass_kg=insert_hole_mass,point_control_body_id=point_id,changed_panel_parent_ids=sorted(set(changed_parents)),material='6082-T6-proposed',bond_material='synthetic-intact-epoxy-bond'),joint_hypothesis=hypothesis)
+    v['wheel_body'].update(stock_mass_delta_kg=delta,lineage='New finite-area backed four-bolt family; old point-control retained, no inherited numerical results',part_graph=dict(parts=[dict(id=q['id'],source_part_id=q.get('source_part_id'),mass_kg=q['mass_kg'],material=q.get('material')) for q in parts],pad_connections=v['wheel_body']['pads']))
+    v['source_sha256'][PRODUCER]=digest(__file__);v['evaluation_id']=identity(v);return v
+
+
+def _finite_body_deck(vehicle,parameters,*,dx=.6,load='normal',asymmetric=False,braking=False,joint_factor=1.):
+    p=_finite_parameters(parameters)
+    if p!=vehicle.get('joint_body',{}).get('parameters') or identity(vehicle['body_physical_definition'])!=vehicle['body_candidate_id']:raise ValueError('Mixed finite backing physical identity')
+    if wheel_body._physical_body_parts(vehicle['geometry_parts'])!=vehicle['body_physical_definition']['geometry_parts']:raise ValueError('Finite backing physical stock differs')
+    keys=dict(empty='accounted_tare_kg_per_car',normal='accounted_cap_loaded_kg_per_car',crowd='accounted_160_control_kg_per_car')
+    if load not in keys:raise ValueError('Explicit body load required')
+    variant=wheel_body._analysis_variant(vehicle);mass=vehicle['mass'][keys[load]]-6730.;raw,mesh=body_solid_frame.deck(variant,mass,dx,asymmetric=asymmetric,braking=braking,joint_factor=joint_factor)
+    original_nodes=wheel_body._parse_nodes(raw);copy=deepcopy(vehicle);copy['wheel_body']['pads']=[];raw,extra=wheel_body._sandwich(raw,variant,copy,dx);nodes=wheel_body._parse_nodes(raw);new_nodes={n:xyz for n,xyz in nodes.items() if n not in original_nodes};frame=body_frame._mesh(variant,dx);nbase=max(frame['nodes']);equations=[];records=[];used=set()
+    for patch in vehicle['joint_body']['finite_backing']['patches']:
+        pad=vehicle['wheel_body']['pads'][patch['pad_index']];m=next(m for m in variant['members'] if m['id']==patch['post_id']);z=m['start_m'][2] if patch['end']==0 else m['end_m'][2]
+        refs=[n for n,xyz in frame['nodes'].items() if abs(xyz[0]-m['start_m'][0])<1e-8 and abs(xyz[1]-m['start_m'][1])<1e-8 and abs(xyz[2]-z)<1e-8]
+        master=min(refs);origin=frame['nodes'][master];rot=nbase+master;x0,x1,z0,z1=patch['footprint_xz_m'];contacts=[]
+        for n,xyz in new_nodes.items():
+            if abs(xyz[1]-patch['post_face_y_m'])>1e-8 or not x0-1e-9<=xyz[0]<=x1+1e-9 or not z0-1e-9<=xyz[2]<=z1+1e-9:continue
+            if n in used:raise ValueError('Overlapping finite backing transfer footprints')
+            used.add(n);contacts.append(n);r=[xyz[j]-origin[j] for j in range(3)];cross={0:[(2,-r[2]),(3,r[1])],1:[(3,-r[0]),(1,r[2])],2:[(1,-r[1]),(2,r[0])]}
+            for j in range(3):equations.append([(n,j+1,1.),(master,j+1,-1.)]+[(rot,d,c) for d,c in cross[j] if abs(c)>1e-12])
+        if len(contacts)<8 or joint_models.rank_and_work_checks(dict(transfer_points_m=[nodes[n] for n in contacts]))['rank']!=6:raise ValueError('Finite transfer face missing positive-area mesh support')
+        records.append(dict(pad_index=patch['pad_index'],contact_nodes=len(contacts),contact_area_m2=patch['contact_area_m2'],post_id=patch['post_id']))
+    inserts=[]
+    for eq in equations:inserts += ['*EQUATION',str(len(eq)),','.join(f'{n},{d},{c:.12g}' for n,d,c in eq)]
+    ids=wheel_body._solid_element_ids(raw);inserts+=['*ELSET,ELSET=J_BODY_ALL']+[','.join(map(str,ids[i:i+16])) for i in range(0,len(ids),16)]
+    raw=raw.replace('*STEP','\n'.join(inserts)+'\n*STEP',1).replace('*END STEP','*EL PRINT,ELSET=J_BODY_ALL,TOTALS=ONLY\nELSE\n*END STEP')
+    return raw,dict(**mesh,**extra,sprung_mass_kg=mass,load=load,body_candidate_id=vehicle['body_candidate_id'],finite_area_transfer=records,finite_area_equations=len(equations),no_additional_global_supports=True,joint_hypothesis=vehicle['joint_body']['joint_hypothesis'],stress='Hole bearing/adhesive peel/post-wall stress and strength are held',modes='Not computed; complete installed mass/mode validation held')

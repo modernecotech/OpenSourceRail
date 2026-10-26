@@ -2,6 +2,7 @@ import unittest
 from pathlib import Path
 from copy import deepcopy
 import tempfile
+from math import pi
 from engineering.station_rail import vehicle
 from engineering.station_rail.common import identity
 from engineering.design_search import joint_body as j,wheel_body
@@ -68,3 +69,36 @@ class FourBoltBodyTests(unittest.TestCase):
             j._verify_sources(sources,t)
             path.write_text('a=2\n')
             with self.assertRaisesRegex(ValueError,'Declared source differs'):j._verify_sources(sources,t)
+
+
+class FiniteBackingTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.base=vehicle.build(ROOT);cls.car=j.materialize_finite_body(cls.base,root=ROOT)
+
+    def test_counted_insert_bond_cut_volume_and_mass(self):
+        c=self.car;f=c['joint_body']['finite_backing'];patches=f['patches'];self.assertEqual(len(patches),40)
+        added=[q for q in c['geometry_parts'] if q['id'].startswith(('wheel-shell-clamp/finite/','finite-body-bond/'))]
+        expected=sum(k['contact_area_m2']*k['depth_m']-4*pi*.0045**2*k['depth_m'] for k in patches)
+        self.assertAlmostEqual(sum(q['volume_m3'] for q in added),expected,places=10)
+        point_delta=j.materialize_body(self.base,j.default_parameters(),ROOT)['joint_body']['net_body_stock_delta_kg']
+        self.assertAlmostEqual(c['joint_body']['net_body_stock_delta_kg']-point_delta,f['added_stock_mass_kg']-f['removed_restored_panel_mass_kg']+f['restored_previous_panel_hole_mass_kg'],places=7)
+        self.assertEqual(c['body_candidate_id'],identity(c['body_physical_definition']))
+        self.assertNotEqual(c['body_candidate_id'],f['point_control_body_id'])
+
+    def test_backing_material_does_not_overlap_retained_side_prisms(self):
+        added=[q for q in self.car['geometry_parts'] if q['id'].startswith(('wheel-shell-clamp/finite/','finite-body-bond/'))]
+        retained=[q for q in self.car['geometry_parts'] if q.get('role')=='panel-side' and q['id'].startswith('comfort-shell/')]
+        for a in added:
+            for b in retained:
+                overlap=[min(a['at_m'][i]+a['size_m'][i],b['at_m'][i]+b['size_m'][i])-max(a['at_m'][i],b['at_m'][i]) for i in range(3)]
+                self.assertFalse(all(x>1e-8 for x in overlap),(a['id'],b['id']))
+
+    def test_finite_native_transfer_is_area_and_no_extra_global_support(self):
+        raw,d=j.body_deck(self.car,j.finite_parameters(),dx=.6)
+        self.assertTrue(d['no_additional_global_supports'])
+        self.assertEqual(len(d['finite_area_transfer']),40)
+        self.assertTrue(all(k['contact_nodes']>=8 and k['contact_area_m2']>0 for k in d['finite_area_transfer']))
+        self.assertEqual(d['ideal_fastener_equations'],0)
+        self.assertGreater(d['finite_area_equations'],40*4*3)
+        self.assertIn('TYPE=C3D20,',raw)
