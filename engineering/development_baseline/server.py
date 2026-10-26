@@ -114,7 +114,7 @@ class Handler(BaseHTTPRequestHandler):
                 _, manifest = read_packet(self.root)
                 bindings = manifest.get('workbench_files_sha256', {})
                 expected = bindings.get(target.name) or bindings.get(str(target.relative_to(self.root)))
-                if expected and digest(target) != expected:
+                if not expected or digest(target) != expected:
                     raise CurrentUnavailable('Current Workbench asset changed')
             self.respond(200, target.read_bytes(), mimetypes.guess_type(str(target))[0] or 'application/octet-stream')
         except (OSError, ValueError, KeyError) as exc:

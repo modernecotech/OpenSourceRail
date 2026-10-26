@@ -1,0 +1,50 @@
+name: Selected development design
+on:
+  pull_request:
+    paths:
+      - "engineering/development-baseline.toml"
+      - "engineering/development_baseline/**"
+      - "docs/design-engine/current/**"
+      - "docs/workbench/current/**"
+      - "cities/**/engineering/current/**"
+      - "tools/automation/default-design*.py"
+      - "tools/automation/tests/verify-development-baseline.mjs"
+      - "osr"
+      - "package.json"
+      - ".github/workflows/development-baseline.yml"
+  push:
+    branches: [main]
+    paths:
+      - "engineering/development-baseline.toml"
+      - "engineering/development_baseline/**"
+      - "docs/design-engine/current/**"
+      - "docs/workbench/current/**"
+      - "osr"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  current-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install pytest
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: .venv/bin/python -m pytest -q engineering/development_baseline/tests
+      - run: ./osr verify
+      - run: npm run test:frontend
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: selected-development-workbench
+          path: build/development-baseline-browser/
