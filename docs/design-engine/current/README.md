@@ -19,6 +19,8 @@ OpenSourceRail develops simple, affordable, locally maintainable urban transport
 
 The lower passenger count is a comfort and normal-load choice. The former 14,400 pphpd comparison is not achieved by this seating capacity. Enforceable admission, crowd loading, accessible boarding, one-sided platform compatibility and evacuation remain design requirements.
 
+[Latest coupled physical-feasibility investigation](../physical-feasibility-round/README.md) records new native field checks, guideway fit failures, capture/roof alternatives and equal-service comparisons. Those research alternatives have not replaced this selected baseline.
+
 ## Recalculated service and cities
 
 All **266 city packages** use this default and retain their existing route geography and stops. Baghdad requires **906 trainsets (791 active, 101 spare, 14 cold reserve), 5,436 cars and 390,500 m of directional station winding** under the declared flat-route and drag hypotheses. No additional passenger stops are imposed. Its four motor-interval overlaps and 36.743% mainline powered coverage require physical resource/handoff design; they are not qualified infrastructure.
