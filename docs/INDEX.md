@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **644**.
+Indexed Markdown files: **645**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **644**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 76 |
+| [docs](#docs) | 77 |
 | [engineering](#engineering) | 19 |
 | [tools](#tools) | 2 |
 
@@ -639,6 +639,7 @@ Indexed Markdown files: **644**.
 | [`docs/design-engine/ferrite-maglev/candidate-native/README.md`](../docs/design-engine/ferrite-maglev/candidate-native/README.md) | Exact candidate native module |
 | [`docs/design-engine/ferrite-maglev/candidate-structures/README.md`](../docs/design-engine/ferrite-maglev/candidate-structures/README.md) | Candidate-specific structural design study |
 | [`docs/design-engine/ferrite-maglev/capability-migration/README.md`](../docs/design-engine/ferrite-maglev/capability-migration/README.md) | v0.4 capability migration to station-powered maglev |
+| [`docs/design-engine/ferrite-maglev/comfort-options/README.md`](../docs/design-engine/ferrite-maglev/comfort-options/README.md) | Seat-led comfort and lightweight equipment options |
 | [`docs/design-engine/ferrite-maglev/corridor/README.md`](../docs/design-engine/ferrite-maglev/corridor/README.md) | Fixed-line urban and suburban operational studies |
 | [`docs/design-engine/ferrite-maglev/delivery-schedule/README.md`](../docs/design-engine/ferrite-maglev/delivery-schedule/README.md) | Resource-loaded Baghdad delivery study |
 | [`docs/design-engine/ferrite-maglev/drive-construction/README.md`](../docs/design-engine/ferrite-maglev/drive-construction/README.md) | Active support/guidance and station launch construction |
