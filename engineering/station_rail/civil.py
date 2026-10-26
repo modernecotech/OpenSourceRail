@@ -81,7 +81,13 @@ def alternative(vehicle,span,family,load='normal'):
     # the 8kg/set account includes plate, clip, pad and bolts, not priced goods.
     sets=2*(math.ceil(span/.6)+1);fastener_kg=sets*8.
     diaphragm_count=math.ceil(span/2.5)+1 if family=='twin-beam' else 2
-    diaphragm_m3=(diaphragm_count*.18*1.085*.65 if family=='twin-beam' else 2*.15*max(0.,s['dimensions']['outer_width_m']-2*.18)*.8)
+    if family=='twin-beam':
+        diaphragm_width=s['dimensions']['beam_centres_m']-s['dimensions']['beam_width_m']
+        diaphragm_thickness,diaphragm_height=.18,.65
+    else:
+        diaphragm_width=s['dimensions']['outer_width_m']-2*s['dimensions']['wall_m']
+        diaphragm_thickness,diaphragm_height=.15,.8
+    diaphragm_m3=diaphragm_count*diaphragm_thickness*diaphragm_width*diaphragm_height
     concrete_m3=s['area_m2']*span+diaphragm_m3
     concrete_kg=concrete_m3*2500
     rail=2*RAIL_KG_M*span
@@ -127,7 +133,7 @@ def alternative(vehicle,span,family,load='normal'):
         direct_fastener_anchors=sets*2,reinforcement_kg=reinforcement_kg,reinforcement_basis='120kg/m³ declared preliminary rate; detailed bar schedule unknown',
         prestress_kg=prestress_kg,prestress_strands=strands,prestress_initial_N=initial,prestress_effective_N=effective,
         prestress_reference=dict(strand_area_m2=strand_area,fpk_Pa_hypothesis=fpk,initial_fraction_hypothesis=initial_fraction,loss_fraction_hypothesis=loss_fraction,parabolic_eccentricity_max_m=emax),
-        prestress_anchorage_kg=anchorage_kg,diaphragms=diaphragm_count,counted_steel_kg=allsteel,total_counted_span_mass_kg=concrete_kg+allsteel,
+        prestress_anchorage_kg=anchorage_kg,diaphragms=diaphragm_count,diaphragm_definition=dict(clear_width_m=diaphragm_width,thickness_m=diaphragm_thickness,height_m=diaphragm_height,quantity=diaphragm_count),counted_steel_kg=allsteel,total_counted_span_mass_kg=concrete_kg+allsteel,
         quantities_maturity='Analytical section/tendon stock and declared detailing accounts; not a supplier or fabrication BOM',
         moving_load_envelope=env,maximum_live_moment_Nm=max(r['max_live_moment_Nm'] for r in env),
         max_service_tension_Pa=max_tension,max_service_compression_Pa=max_compression,max_release_compression_Pa=max_release_compression,max_release_tension_Pa=max_release_tension,

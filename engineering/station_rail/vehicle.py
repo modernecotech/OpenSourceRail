@@ -115,11 +115,9 @@ def underframe(config):
         tube(parts,f'wheel-underframe/bolster/{b}',(c-.15,-1.01,.6645),2.02,.30,.13,.010,along='y')
         for side in (-1,1):
             parts.append(box(f'wheel-underframe/load-spreader/{b}/{side}',(c-.27,side*1.10-.09,.7945),(.54,.18,.015)))
-    # Continuous roof chords make the intended body participation explicit.
-    # The retained side posts and their joints must transfer shear between the
-    # separated chords; a flange-only stiffness calculation is a necessary bound.
-    for side in (-1,1):
-        tube(parts,f'wheel-underframe/roof-chord/{side}',(-8.3,side*1.0-.06,3.45),16.6,.12,.14,.006)
+    # Retain the original100x250x4.5mm roof longitudinal pair. Its actual
+    # counted stock supplies the upper chord hypothesis; duplicating it would
+    # add mass and interfere with the existing frame. Shear transfer is open.
     # Cassette ties are below the retained floor ribs and butt against the
     # inner sill faces; hangers meet their underside at an explicit datum.
     for n in range(10):
@@ -192,16 +190,16 @@ def _section_screen(mass_kg):
 
 def _ideal_body_coupling_screen(mass_kg):
     lower_A=2*(.18*.35-(.18-.016)*(.35-.016))
-    upper_A=2*(.12*.14-(.12-.012)*(.14-.012))
-    lower_z=.6195;upper_z=3.52
+    upper_A=2*(.10*.25-(.10-.009)*(.25-.009))
+    lower_z=.6195;upper_z=3.6293
     neutral=(lower_A*lower_z+upper_A*upper_z)/(lower_A+upper_A)
     I_lower=2*(.18*.35**3-(.18-.016)*(.35-.016)**3)/12
-    I_upper=2*(.12*.14**3-(.12-.012)*(.14-.012)**3)/12
+    I_upper=2*(.10*.25**3-(.10-.009)*(.25-.009)**3)/12
     I=I_lower+I_upper+lower_A*(lower_z-neutral)**2+upper_A*(upper_z-neutral)**2
     sill=_section_screen(mass_kg)
     return dict(ideal_I_m4=I,neutral_axis_m=neutral,
         ideal_midspan_deflection_m=sill['midspan_deflection_m']*sill['section_I_m4']/I,
-        maximum_chord_stress_Pa=sill['max_bending_moment_Nm']*max(neutral-.4445,3.59-neutral)/I,
+        maximum_chord_stress_Pa=sill['max_bending_moment_Nm']*max(neutral-.4445,3.7543-neutral)/I,
         engineering_screen='unknown',shear_transfer_and_joints_demonstrated=False,
         scope='Necessary ideal fully-coupled chord bound only. Side posts, door openings, local buckling, connections and torsion must develop this stiffness in a real structure.')
 
