@@ -97,3 +97,15 @@ def test_primitive_definition_uses_selected_civil_dimensions(current):
     assert parts[1]['size_m'][0] == 20.
     assert parts[1]['size_m'][1:] == [.5, .035]
     assert all('selected-' in p['id'] for p in parts)
+
+
+def test_portable_native_cad_verifies_without_private_build_folder(current, root):
+    # This deliberately supplies no private build directory. The authenticated
+    # published archive contains the original native reopen receipt and geometry.
+    portable = exports._verify_cad_archive(current, root)
+    assert portable['source_archive'] == 'docs/design-engine/ferrite-maglev/comfort-design/vehicle-artifacts.tar.gz'
+    assert portable['verification']['native_reopen_established'] is True
+    assert portable['verification']['candidate_id'] == current['candidate_id']
+    assert len(portable['geometry_sha256']) == 64
+    assert len(portable['source_archive_sha256']) == 64
+    assert 'source_package' not in portable

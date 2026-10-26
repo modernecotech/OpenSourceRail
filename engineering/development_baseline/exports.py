@@ -9,6 +9,8 @@ from pathlib import Path
 import gzip
 import json
 import math
+import tarfile
+import tempfile
 import uuid
 
 from engineering.comfort_design import native_vehicle
@@ -108,6 +110,46 @@ def compile(record, *, root=ROOT, city_index=None):
         **FLAGS)
 
 
+def _verify_cad_archive(record, root):
+    """Verify the retained portable packet without depending on a build folder."""
+    root = Path(root).resolve()
+    manifest_path = record['selection']['source_manifest']
+    manifest_bytes = (root / manifest_path).read_bytes()
+    if sha256(manifest_bytes).hexdigest() != record['selection']['source_manifest_sha256']:
+        raise ValueError('selected source CAD publication manifest differs')
+    manifest = json.loads(manifest_bytes)
+    relative = (Path(manifest_path).parent / 'vehicle-artifacts.tar.gz').as_posix()
+    archive = root / relative
+    digest = sha256(archive.read_bytes()).hexdigest()
+    if digest != manifest['files_sha256']['vehicle-artifacts.tar.gz']:
+        raise ValueError('selected source CAD archive differs')
+    with tempfile.TemporaryDirectory(prefix='osr-current-cad-') as tmp:
+        directory = Path(tmp)
+        size = 0
+        names = set()
+        with tarfile.open(archive, 'r:gz') as package:
+            for member in package:
+                name = Path(member.name)
+                if (not member.isfile() or len(name.parts) != 2 or name.parts[0] != 'vehicle'
+                    or name.name in names or name.name in ('.', '..') or name.is_absolute()):
+                    raise ValueError('ordinary unique vehicle CAD archive members required')
+                names.add(name.name)
+                size += member.size
+                if size > native_vehicle.MAX_BYTES:
+                    raise ValueError('retained native CAD package exceeds its byte budget')
+                stream = package.extractfile(member)
+                (directory / name.name).write_bytes(stream.read())
+        checked = native_vehicle.verify_export(directory, record['vehicle'], root=root)
+        request = json.loads((directory / 'request.json').read_bytes())
+        for key in ('candidate_id', 'body_candidate_id', 'magnet_component_id'):
+            if request.get(key) != record[key]:
+                raise ValueError('portable native CAD identity differs: ' + key)
+        files = {name: sha256((directory / name).read_bytes()).hexdigest()
+            for name in ('request.json', 'manifest.json', 'geometry.json.gz', 'native-result.json', 'model.FCStd', 'model.step.gz')}
+    return dict(source_archive=relative, source_archive_sha256=digest,
+        geometry_sha256=request['geometry_sha256'], files_sha256=files, verification=checked)
+
+
 def _native_cad(record, output, root, folder):
     """Reuse physical geometry only after the existing native verifier matches it."""
     if folder is None:
@@ -119,14 +161,16 @@ def _native_cad(record, output, root, folder):
     for key in ('candidate_id', 'body_candidate_id', 'magnet_component_id'):
         if request.get(key) != record[key]:
             raise ValueError('native CAD identity differs: ' + key)
-    # The preserved package is not rewritten; this is a selected-reference receipt.
+    # Match the private input to the immutable public packet. The current
+    # receipt points to that portable packet, never to the private build path.
     files = {name: sha256((folder / name).read_bytes()).hexdigest()
         for name in ('request.json', 'manifest.json', 'geometry.json.gz', 'native-result.json', 'model.FCStd', 'model.step.gz')}
+    portable = _verify_cad_archive(record, root)
+    if files != portable['files_sha256'] or request['geometry_sha256'] != portable['geometry_sha256']:
+        raise ValueError('private CAD package differs from its selected published archive')
     return dict(**_bound(record), execution='completed' if checked['native_reopen_established'] else checked['execution_status'],
         native_reopen_established=checked['native_reopen_established'],
-        geometry_sha256=request['geometry_sha256'],
-        source_package=str(folder.resolve().relative_to(Path(root).resolve())) if folder.resolve().is_relative_to(Path(root).resolve()) else str(folder.resolve()),
-        files_sha256=files, verification=checked,
+        **portable,
         scope='Exact unchanged physical-car material geometry and native reopen receipt; new service selection is bound by this reference, not retroactively written into the historical package', **FLAGS)
 
 
@@ -258,6 +302,8 @@ def verify(output, record, *, root=ROOT, city_index=None):
             raise ValueError('current native export identity or acceptance differs')
     cad = json.loads((output / 'cad.json').read_bytes())
     if cad['execution'] == 'completed':
-        native_vehicle.verify_export(Path(root) / cad['source_package'], record['vehicle'], root=root)
+        portable = _verify_cad_archive(record, root)
+        if any(cad.get(k) != v for k, v in portable.items()):
+            raise ValueError('current CAD reference differs from its selected portable archive')
     return dict(current=True, export_id=m['export_id'], selection_id=record['selection_id'],
         cad_execution=m['cad_execution'], bim_execution=m['bim_execution'], **FLAGS)
