@@ -131,13 +131,13 @@ PostProcessing {{ {{ Name Result;NameOfFormulation Diffusion;
  Quantity {{
  {{ Name Joule;Value {{ Integral {{ [.5*sigma*Re[CompZ[Dt[{{a}}]]*Conj[CompZ[Dt[{{a}}]]]]];In Plate;Jacobian Vol;Integration Gauss; }} }} }}
  {{ Name ForceX;Value {{ Integral {{ [.5*sigma*Re[CompZ[Dt[{{a}}]]*Conj[CompY[{{d a}}]]]];In Plate;Jacobian Vol;Integration Gauss; }} }} }}
- {{ Name Error;Value {{ Integral {{ [Re[(CompZ[{{a}}]-exact[])*Conj[CompZ[{{a}}]-exact[]]]];In Plate;Jacobian Vol;Integration Gauss; }} }} }}
+ {{ Name PotentialError;Value {{ Integral {{ [Re[(CompZ[{{a}}]-exact[])*Conj[CompZ[{{a}}]-exact[]]]];In Plate;Jacobian Vol;Integration Gauss; }} }} }}
  }}
 }} }}
 PostOperation {{ {{ Name Result;NameOfPostProcessing Result;Operation {{
  Print[Joule[Plate],OnGlobal,File "joule.txt",Format Table];
  Print[ForceX[Plate],OnGlobal,File "force.txt",Format Table];
- Print[Error[Plate],OnGlobal,File "error.txt",Format Table];
+ Print[PotentialError[Plate],OnGlobal,File "error.txt",Format Table];
 }} }} }}
 '''
     return geo,pro
