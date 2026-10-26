@@ -93,19 +93,30 @@ def alternative(vehicle,span,family,load='normal',fixed_strands=None):
     rail=2*RAIL_KG_M*span
     reinforcement_kg=concrete_m3*120.
     # These are reference detailing rates, NOT a resolved bar bending schedule.
-    q=(concrete_kg+rail+fastener_kg+reinforcement_kg)*G/span
+    # Tendon sizing is coupled to its own dead weight. End anchorage weight is
+    # conservatively spread over the span for bending; none of the counted
+    # rail/fastener/reinforcement/tendon/anchor stock is omitted from gravity.
+    base_dead_kg=concrete_kg+rail+fastener_kg+reinforcement_kg
     emax=s['depth_m']*.30;A=s['area_m2'];I=s['I_m4'];cb=s['c_bottom_m'];ct=s['c_top_m']
-    for r in env:
-        x=r['x_m'];r['self_moment_Nm']=q*x*(span-x)/2;r['e_m']=emax*4*x*(span-x)/span**2
-        r['max_total_moment_Nm']=r['self_moment_Nm']+r['max_live_moment_Nm']
-        r['required_effective_prestress_N']=r['max_total_moment_Nm']*cb/I/(1/A+r['e_m']*cb/I)
-    effective_required=max(r['required_effective_prestress_N'] for r in env)
     strand_area=.00014;fpk=1860e6;initial_fraction=.70;loss_fraction=.20
-    strands=(math.ceil(effective_required/((1-loss_fraction)*initial_fraction*fpk*strand_area)) if fixed_strands is None else fixed_strands)
-    if not isinstance(strands,int) or strands<=0:raise ValueError('Positive integer strand count required')
+    if fixed_strands is not None and (not isinstance(fixed_strands,int) or fixed_strands<=0):
+        raise ValueError('Positive integer fixed strand count required')
+    strands=0 if fixed_strands is None else fixed_strands
+    for sizing_iteration in range(1,17):
+        prestress_kg=strands*strand_area*span*7850
+        anchorage_kg=strands*2*4.5
+        q=(base_dead_kg+prestress_kg+anchorage_kg)*G/span
+        for r in env:
+            x=r['x_m'];r['self_moment_Nm']=q*x*(span-x)/2;r['e_m']=emax*4*x*(span-x)/span**2
+            r['max_total_moment_Nm']=r['self_moment_Nm']+r['max_live_moment_Nm']
+            r['required_effective_prestress_N']=r['max_total_moment_Nm']*cb/I/(1/A+r['e_m']*cb/I)
+        effective_required=max(r['required_effective_prestress_N'] for r in env)
+        needed=math.ceil(effective_required/((1-loss_fraction)*initial_fraction*fpk*strand_area))
+        if fixed_strands is not None or needed==strands:break
+        strands=needed
+    else:raise ValueError('Tendon/self-weight sizing failed to stabilise within16 integer iterations')
+    if strands<=0:raise ValueError('Positive strand count required')
     initial=strands*strand_area*fpk*initial_fraction;effective=initial*(1-loss_fraction)
-    prestress_kg=strands*strand_area*span*7850
-    anchorage_kg=strands*2*4.5
     for r in env:
         e=r['e_m'];m=r['max_total_moment_Nm'];mmin=r['self_moment_Nm']
         # Compression negative, tension positive. Each section gets both train
@@ -135,6 +146,8 @@ def alternative(vehicle,span,family,load='normal',fixed_strands=None):
         prestress_kg=prestress_kg,prestress_strands=strands,prestress_design_policy='resize-for-this-load' if fixed_strands is None else 'fixed-normal-design-stock',prestress_initial_N=initial,prestress_effective_N=effective,
         prestress_reference=dict(strand_area_m2=strand_area,fpk_Pa_hypothesis=fpk,initial_fraction_hypothesis=initial_fraction,loss_fraction_hypothesis=loss_fraction,parabolic_eccentricity_max_m=emax),
         prestress_anchorage_kg=anchorage_kg,diaphragms=diaphragm_count,diaphragm_definition=dict(clear_width_m=diaphragm_width,thickness_m=diaphragm_thickness,height_m=diaphragm_height,quantity=diaphragm_count),counted_steel_kg=allsteel,total_counted_span_mass_kg=concrete_kg+allsteel,
+        uniform_counted_dead_load_N_m=q,prestress_sizing_iterations=sizing_iteration,
+        counted_dead_weight_distribution='All counted span stock including tendon and end anchorage spread uniformly; end-weight bending treatment conservative',
         quantities_maturity='Analytical section/tendon stock and declared detailing accounts; not a supplier or fabrication BOM',
         moving_load_envelope=env,maximum_live_moment_Nm=max(r['max_live_moment_Nm'] for r in env),
         max_service_tension_Pa=max_tension,max_service_compression_Pa=max_compression,max_release_compression_Pa=max_release_compression,max_release_tension_Pa=max_release_tension,

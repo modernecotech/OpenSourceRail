@@ -52,3 +52,18 @@ def test_selected_reference_is_same_crowd_sized_beam_at_all_loads():
         assert case['physical_civil_component_id']==c['civil_component_id']
     assert ref['span_m']==20.
     assert ref['necessary_longitudinal_screen']=='pass'
+
+
+def test_tendon_and_anchorage_weight_feed_back_into_all_dead_load_moments():
+    c=civil.evaluate(vehicle.build())
+    cases=[*c['alternatives'],*c['selected_physical_load_checks'].values()]
+    for r in cases:
+        expected=r['total_counted_span_mass_kg']*civil.G/r['span_m']
+        assert abs(r['uniform_counted_dead_load_N_m']-expected)<1e-8
+        for station in r['moving_load_envelope']:
+            x=station['x_m']
+            assert abs(station['self_moment_Nm']-expected*x*(r['span_m']-x)/2)<1e-6
+    selected=c['selected_reference']
+    assert selected['prestress_strands']==26
+    assert selected['prestress_sizing_iterations']>=2
+    assert all(r['necessary_longitudinal_screen']=='pass' for r in c['selected_physical_load_checks'].values())
