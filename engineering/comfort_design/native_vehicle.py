@@ -114,9 +114,16 @@ def _shape(part,App,Part,cache):
 
 
 def _native_properties(shape,rho):
-    cg=[v/1000 for v in tuple(shape.CenterOfMass)];matrix=shape.MatrixOfInertia
-    return dict(volume_m3=shape.Volume/1e9,mass_kg=shape.Volume/1e9*rho,cg_m=cg,
-        inertia_kg_m2=[[getattr(matrix,'A'+str(i+1)+str(j+1))/1e15*rho for j in range(3)] for i in range(3)])
+    # FreeCAD compounds expose their solids, not a single CenterOfMass. Each
+    # solid's matrix is central; aggregate with exact parallel-axis shifts.
+    regions=[]
+    for i,solid in enumerate(shape.Solids):
+        matrix=solid.MatrixOfInertia;volume=solid.Volume/1e9
+        regions.append(dict(id=str(i),volume_m3=volume,mass_kg=volume*rho,
+            cg_m=[v/1000 for v in tuple(solid.CenterOfMass)],
+            inertia_kg_m2=[[getattr(matrix,'A'+str(j+1)+str(k+1))/1e15*rho for k in range(3)] for j in range(3)]))
+    if not regions:raise ValueError('native material group contains no solid')
+    return _aggregate(regions)
 
 
 def _worker(output):
@@ -215,8 +222,13 @@ def run_export(vehicle,output,root=ROOT,seconds=600):
         with (output/'solver.log').open('w') as log:
             code=subprocess.run([*command,str(script)],cwd=root,stdout=log,stderr=subprocess.STDOUT,timeout=seconds).returncode
         status='completed' if code==0 and (output/'completed').is_file() else 'tool-error'
+        if status!='completed':reason='Native worker did not complete; inspect solver.log even when FreeCAD returned zero'
     except subprocess.TimeoutExpired:status='interrupted';reason='native budget exceeded'
     except OSError as error:reason=str(error)
+    # These are application-generated backups/cache in this fresh private job,
+    # not design records. The actual input, result and log remain retained.
+    for path in output.glob('*.FCBak'):path.unlink()
+    shutil.rmtree(output/'__pycache__',ignore_errors=True)
     result=dict(candidate_id=vehicle['candidate_id'],body_candidate_id=vehicle['body_candidate_id'],
         execution_status=status,returncode=code,elapsed_seconds=time.monotonic()-start,reason=reason,
         source_sha256=vehicle['source_sha256'],scope='Native export/reopen; no physical qualification',**FLAGS)
