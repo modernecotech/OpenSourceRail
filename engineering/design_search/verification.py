@@ -14,8 +14,8 @@ def request_for(candidate, primary):
     sources[Path(__file__).relative_to(ROOT).as_posix()] = sha256(Path(__file__).read_bytes()).hexdigest()
     return contracts.make_evaluation_request(candidate, evaluator_id=primary['request']['evaluator_id'],
         evaluator_sources=sources, purpose='confirmation', hypothesis=primary['request']['hypothesis'],
-        settings=dict(confirmation_of=primary['evaluation_id'], primary_result_sha256=primary['result_sha256'], verification_scope='arithmetic-source-only'),
-        scenario=dict(independent_check='stock-integrals-and-source-integrity'),
+        settings=dict(confirmation_of=primary['evaluation_id'], primary_result_sha256=primary['result_sha256'], verification_scope='same-model-refinement' if primary['request']['evaluator_id']=='wheel-motor' else 'arithmetic-source-only'),
+        scenario=dict(independent_check='same-model-finer-native-samples' if primary['request']['evaluator_id']=='wheel-motor' else 'stock-integrals-and-source-integrity'),
         environment=primary['request']['environment'])
 
 
@@ -26,6 +26,10 @@ def confirm(candidate, request, primary):
         raise ValueError('verifier input mixes candidate contexts')
     sources_match = all((ROOT/name).is_file() and sha256((ROOT/name).read_bytes()).hexdigest() == expected
                         for name, expected in request['evaluator_sources'].items())
+    if primary['request']['evaluator_id']=='wheel-motor':
+        if not sources_match:raise ValueError('Confirmation source differs')
+        from .wheel_confirmation import confirm as native_confirm
+        return native_confirm(candidate,request,primary)
     materials = {row['id']:row for row in candidate['materials']}
     geometry = {row['id']:row for row in candidate['geometry']}
     checks = []; unknown = []

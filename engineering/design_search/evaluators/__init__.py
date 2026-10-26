@@ -16,15 +16,21 @@ DEPENDENCIES={'definition':[],'mechanical':['definition'],'civil':['mechanical']
               'magnetic':['definition','civil'],'coupling':['civil','magnetic']}
 
 
-def evaluator_ids():return list(IDS)
+def evaluator_ids():
+    from ..wheel_evaluators import IDS as wheel_ids
+    return list(IDS)+list(wheel_ids)
 
 
 def evaluator_catalogue():
+    from ..wheel_evaluators import catalogue
     return [dict(id=name,dependencies=DEPENDENCIES[name],maximum_maturity='numerical-screen',
-        physical_accepted=False,uses_current_candidate_stock=True,ideal_force_channel=False) for name in IDS]
+        physical_accepted=False,uses_current_candidate_stock=True,ideal_force_channel=False) for name in IDS]+catalogue()
 
 
 def source_snapshot(evaluator_id):
+    if evaluator_id.startswith('wheel-'):
+        from ..wheel_evaluators import source_snapshot as wheel
+        return wheel(evaluator_id)
     if evaluator_id not in IDS:raise ValueError('unknown evaluator')
     from engineering.ferrite_maglev import candidate_magnetics as magnetic, candidate_structures as structures
     paths={Path(__file__),Path(contracts.__file__),Path(families.__file__),Path(coupling.__file__),*magnetic.source_paths(),*structures.source_paths()}
@@ -35,6 +41,9 @@ def source_snapshot(evaluator_id):
 
 
 def request_for(candidate,evaluator_id,*,purpose='diagnostic',hypothesis=None,settings=None,scenario=None,mesh=None,environment=None):
+    if evaluator_id.startswith('wheel-'):
+        from ..wheel_evaluators import request_for as wheel
+        return wheel(candidate,evaluator_id,purpose=purpose,hypothesis=hypothesis,settings=settings,scenario=scenario,mesh=mesh,environment=environment)
     env=dict(python=sys.version.split()[0],numpy=np.__version__,system=platform.system(),machine=platform.machine())
     if environment is not None:
         if not isinstance(environment,dict):raise ValueError('explicit environment mapping required')
@@ -161,6 +170,9 @@ ADAPTERS=dict(definition=_definition,mechanical=_mechanical,civil=_civil,magneti
 
 def evaluate(candidate,evaluator_id,*,purpose='diagnostic',hypothesis=None,settings=None,scenario=None,mesh=None,environment=None):
     request=request_for(candidate,evaluator_id,purpose=purpose,hypothesis=hypothesis,settings=settings,scenario=scenario,mesh=mesh,environment=environment)
+    if evaluator_id.startswith('wheel-'):
+        from ..wheel_evaluators import evaluate as wheel
+        return wheel(candidate,request)
     before=source_snapshot(evaluator_id)
     try:
         if before!=request['evaluator_sources']:raise ValueError('evaluator sources changed after request identity was created')

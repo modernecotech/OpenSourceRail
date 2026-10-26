@@ -37,7 +37,12 @@ def select(candidates,results,*,purpose,policy):
             contexts={identity({key:row['request'][key] for key in ('hypothesis','settings','mesh','scenario','evaluator_sources','environment')})
                       for row in primary if row['request']['evaluator_id']==name}
             if len(contexts)>1:reasons.append('ambiguous-primary-context:'+name)
-        for result in primary:
+        providers=policy.get('objective_evaluators')
+        objective_rows=[row for row in primary if providers is None or row['request']['evaluator_id'] in providers]
+        for result in objective_rows:
+            if result['execution_status']!='executed' or result['numerical_status']!='converged':
+                if any(name in result['metrics'] for name in objective_weights):reasons.append('invalid-or-unexecuted-objective:'+result['request']['evaluator_id'])
+                continue
             for name,value in result['metrics'].items():
                 if name in metrics and metrics[name]!=value:
                     aggregation=policy.get('metric_aggregation',{}).get(name)

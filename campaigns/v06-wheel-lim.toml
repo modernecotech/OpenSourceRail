@@ -1,0 +1,39 @@
+schema = "osr-design-campaign/1"
+name = "Failure-driven v0.6 wheel-rail, joined body and station LIM"
+family = "wheel_rail_station_lim"
+requirement_revision = "V06-WHEEL-LIM-COMFORT-1"
+requirement_ids = ["V06-BODY-LOADPATH", "V06-STATION-DRIVE", "V06-INDEPENDENT-BRAKING", "V06-COMMON-TWIN", "V06-SERVICE-120"]
+purpose = "next-experiment"
+evaluators = ["wheel-definition", "wheel-body", "wheel-motor", "wheel-brakes", "wheel-civil", "wheel-system"]
+allowed_variables = ["counted load-bearing body and joining stock", "participating GFRP panel construction", "LIM teeth/slots/backiron/winding", "passive secondary and mounting transition", "brake actuator geometry", "crowd-sized concrete beam family/span"]
+fixed_interfaces = ["6 x 17m; 44 seats + 2 wheelchair places/car", "no planned standing; 160-person crowd control retained", "no onboard traction motors, traction battery or PMs", "15mm nominal motor gap; clearance remains unqualified", "20m/s, 0.4m/s2, 0.6m/s2, 35s dwell, 120s target", "unknown price or equipment mass is never zero", "research selection cannot release a railway"]
+
+[budget]
+max_candidates = 4
+max_generations = 2
+max_workers = 2
+job_timeout_s = 600
+total_runtime_s = 2400
+memory_mb = 3072
+
+[hypothesis]
+steel = "linear-mu-r-1000-with-1.3T-domain-bound"
+joints = "ideal-bond/rigid-contact numerical hypotheses; unqualified"
+
+[scenario]
+distance_m = 2000.0
+brake_stopping_budget_m = 1000.0
+normal_passengers_per_car = 46
+crowd_passengers_per_car = 160
+maximum_temperature_C = 80.0
+
+[policy]
+policy_id = "v06-diagnostic-penalty-material-quantity-pareto-1"
+objective_evaluators = ["wheel-system"]
+minimum_maturity = "numerical-screen"
+require_confirmation = true
+
+[policy.objectives]
+research_penalty = 1.0
+accounted_vehicle_mass_kg = 0.00001
+bare_primary_mass_kg_per_m = 0.0001

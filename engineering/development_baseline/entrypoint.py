@@ -184,6 +184,23 @@ def main(argv=None, root=ROOT):
     if command in ('design', 'infrastructure'):
         command, rest = (rest[0], rest[1:]) if rest else ('status', [])
     try:
+        if command=='campaign':
+            from engineering.design_search import campaign
+            if not rest:raise ValueError('Use campaign create/run/compare/publish')
+            action=rest[0]
+            if action=='create' and len(rest)==2:emit(campaign.create(root/rest[1]));return 0
+            if action=='run' and len(rest) in (2,4):
+                limit=None
+                if len(rest)==4:
+                    if rest[2]!='--max-jobs':raise ValueError('Use --max-jobs N')
+                    limit=int(rest[3])
+                journal=campaign.run(rest[1],max_jobs=limit);emit(journal);return 0 if journal['state']=='completed' else 3
+            if action=='compare' and len(rest)==2:
+                result=campaign.compare(rest[1]);emit(dict(campaign_id=rest[1],candidate_count=len(result['candidates']),primary_jobs=len(result['results']),next_experiment=result['next_experiment'],integrated_baseline=result['integrated_baseline']));return 0
+            if action=='publish' and len(rest)==2:
+                from engineering.design_search.wheel_publication import publish
+                emit(publish(rest[1]));return 0
+            raise ValueError('Use campaign create PATH, run ID [--max-jobs N], compare ID or publish ID')
         if command == 'legacy':
             return _module('legacy').main(rest, root=root)
         if command in ('status', 'readiness'):

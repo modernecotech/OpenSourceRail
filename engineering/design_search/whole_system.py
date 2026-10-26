@@ -236,3 +236,9 @@ def main():
     print(json.dumps({k:v[k] for k in ('evaluation_id','budget') if k in v},sort_keys=True))
 
 if __name__=='__main__':main()
+
+
+def evaluate_wheel(candidate, car, parameters, dependencies, request):
+    """Candidate-bound v0.6 coupling; historical accounting remains separate."""
+    from .wheel_system import evaluate
+    return evaluate(candidate,car,parameters,dependencies,request)

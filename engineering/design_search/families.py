@@ -127,7 +127,11 @@ def _build(mode,count,section_id,*,requirement_revision,wall=.006,lineage=None,s
         source_bindings=dict(source_candidate_configuration_sha256=definition['configuration_sha256'],source_sha256=definition['source_sha256']))
 
 
-def initial_families(requirement_revision=DEFAULT_REQUIREMENT_REVISION):
+def initial_families(requirement_revision=DEFAULT_REQUIREMENT_REVISION,*,family=None):
+    if family=='wheel_rail_station_lim':
+        from .wheel_families import initial_families as wheel
+        return wheel(requirement_revision)
+    if family not in (None,'pm_maglev_station_powered'):raise UnsupportedCandidateDomain('Unknown physical family')
     return [_build(mode,count,section,requirement_revision=requirement_revision,span_m=span) for mode,count,section,span in (
         ('rigid-existing-hardpoints',1,'narrow-deep-reference',25.),
         ('fixed-yaw-pivots',4,'narrow-shallow-rejected-control',25.),
@@ -149,6 +153,9 @@ def validate_supported(candidate):
     closures require a registered physical adapter before evaluation/export.
     """
     validate_candidate(candidate)
+    if candidate['architecture'].get('family')=='wheel_rail_station_lim':
+        from .wheel_families import validate_supported as wheel
+        return wheel(candidate)
     try:
         carrier=candidate['architecture']['carrier'];beam=candidate['architecture']['guidebeam']
         expected=_supported_identity(carrier['mode'],carrier['count_per_car'],beam['section_id'],beam['span_m'],carrier['wall_m'])
@@ -160,6 +167,11 @@ def validate_supported(candidate):
 
 
 def materialize(candidate,*,allow_incomplete=False):
+    if candidate['architecture'].get('family')=='wheel_rail_station_lim':
+        from .wheel_families import materialize as wheel
+        value=wheel(candidate)
+        if not allow_incomplete:raise UnknownInstalledStock('Wheel research twin retains unknown installed stock and mass distribution')
+        return value
     validate_supported(candidate);source,_=_native();geometry={row['id']:row for row in candidate['geometry']}
     if geometry['magnetic-module']['definition']!=physical_module(source['module']) or geometry['propulsion-band']['definition']!=source['propulsion_band']:
         raise ValueError('changed magnetic geometry needs an explicit new physical adapter')
@@ -271,6 +283,9 @@ def selected_beam(candidate):
 
 
 def propose_revision(candidate,results,*,trial_index=0):
+    if candidate['architecture'].get('family')=='wheel_rail_station_lim':
+        from .wheel_families import propose_revision as wheel
+        return wheel(candidate,results,trial_index=trial_index)
     validate_supported(candidate)
     if type(trial_index) is not int or not 0<=trial_index<2:return None
     failures=[row for row in results if row.get('candidate_id')==candidate['candidate_id'] and row.get('screen_status')=='fail']

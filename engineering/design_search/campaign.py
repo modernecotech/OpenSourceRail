@@ -82,7 +82,7 @@ def load_spec(path):
 def create(spec_path, *, state=STATE):
     spec = load_spec(spec_path)
     before=source_epoch()
-    candidates = families.initial_families(requirement_revision=spec['requirement_revision'])
+    candidates = families.initial_families(requirement_revision=spec['requirement_revision'],family=spec.get('family'))
     if len(candidates) > spec['budget']['max_candidates']: raise ValueError('initial family exceeds trial budget')
     epoch = source_epoch()
     if epoch!=before:raise ValueError('campaign sources changed during definition')
@@ -90,6 +90,9 @@ def create(spec_path, *, state=STATE):
     definition = dict(schema=SCHEMA, specification=spec, source_sha256=epoch,
         candidate_context_ids=contexts, physical_candidate_ids=[candidate['candidate_id'] for candidate in candidates],
         physical_accepted=False, engineering_accepted=False, configuration_adopted=False)
+    if spec.get('family')=='wheel_rail_station_lim':
+        from .wheel_evaluators import toolchain
+        definition['native_environment']=dict(toolchain=toolchain(),python=sys.version.split()[0])
     definition['campaign_id'] = contracts.identity(definition)
     folder = Path(state) / 'campaigns' / definition['campaign_id']
     _exclusive(folder / 'definition.json', definition)
@@ -123,6 +126,9 @@ def definition(campaign_id, *, state=STATE):
         raise ValueError('campaign definition identity differs')
     if value['source_sha256'] != source_epoch():
         raise ValueError('campaign implementation changed; create a new campaign instead of mixing revisions')
+    if value['specification'].get('family')=='wheel_rail_station_lim':
+        from .wheel_evaluators import toolchain
+        if value.get('native_environment')!=dict(toolchain=toolchain(),python=sys.version.split()[0]):raise ValueError('Native environment changed; create a new campaign')
     return value
 
 
@@ -406,26 +412,32 @@ def run(campaign_id,*,state=STATE,max_jobs=None):
             for generation in range(budget['max_generations']):
                 current=[c for c in candidates if c.get('lineage',{}).get('generation',0)==generation]
                 if not current:break
-                requests=[]
-                for candidate in current:
-                    for name in spec['evaluators']:
-                        request=evaluators.request_for(candidate,name,purpose='diagnostic',hypothesis=spec.get('hypothesis',{}),scenario=spec.get('scenario',{}),
-                            settings=dict(coupling_context_id=contracts.identity(dict(candidate_id=candidate['candidate_id'],requirements=spec['requirement_revision'],scenario=spec.get('scenario',{})))))
-                        requests.append((candidate,request));cached=register(candidate,request,available[name].get('role',name))
-                        if cached is not None:results[request['evaluation_id']]=cached;journal['jobs'][request['evaluation_id']]['state']='completed'
-                pending=[(c,r) for c,r in requests if r['evaluation_id'] not in results]
+                # Construct an exact request only after its upstream evidence
+                # exists. Wheel jobs bind full validated dependency records,
+                # including their result digests, into the cache identity.
+                pending=[(candidate,name) for candidate in current for name in spec['evaluators']]
                 while pending:
                     if runtime.remaining()<1:return stop('campaign-runtime-budget-exhausted')
                     if max_jobs is not None and completed>=max_jobs:return stop('invocation-job-limit')
-                    ready=[]
-                    for candidate,request in pending:
-                        names={row['request']['evaluator_id'] for row in results.values() if row['candidate_id']==candidate['candidate_id'] and row['purpose']!='confirmation'}
-                        if set(available[request['evaluator_id']].get('dependencies',[]))<=names:ready.append((candidate,request))
+                    ready=[];cached_keys=set()
+                    for candidate,name in pending:
+                        upstream={row['request']['evaluator_id']:row for row in results.values() if row['candidate_id']==candidate['candidate_id'] and row['purpose']!='confirmation'}
+                        needed=available[name].get('dependencies',[])
+                        if not set(needed)<=set(upstream):continue
+                        settings=dict(coupling_context_id=contracts.identity(dict(candidate_id=candidate['candidate_id'],requirements=spec['requirement_revision'],scenario=spec.get('scenario',{}))))
+                        if name.startswith('wheel-'):settings['dependency_results']={key:upstream[key] for key in needed}
+                        request=evaluators.request_for(candidate,name,purpose='diagnostic',hypothesis=spec.get('hypothesis',{}),scenario=spec.get('scenario',{}),settings=settings)
+                        cached=register(candidate,request,available[name].get('role',name))
+                        if cached is not None:
+                            results[request['evaluation_id']]=cached;journal['jobs'][request['evaluation_id']]['state']='completed';cached_keys.add((candidate['candidate_id'],name))
+                        else:ready.append((candidate,request))
+                    pending=[(c,n) for c,n in pending if (c['candidate_id'],n) not in cached_keys]
+                    if cached_keys:continue
                     if not ready:journal['state']='blocked-tool-dependency';runtime.settle();return journal
                     count=min(budget['max_workers'],len(ready),max_jobs-completed if max_jobs is not None else budget['max_workers'])
                     batch=ready[:count]
                     if not execute_batch([(c,r,'evaluate',None,False) for c,r in batch]):return stop('worker-interruption-or-tool-error')
-                    finished={r['evaluation_id'] for c,r in batch};pending=[(c,r) for c,r in pending if r['evaluation_id'] not in finished]
+                    finished={(c['candidate_id'],r['evaluator_id']) for c,r in batch};pending=[(c,n) for c,n in pending if (c['candidate_id'],n) not in finished]
                 if generation+1<budget['max_generations']:
                     for candidate in current:
                         if len(candidates)>=budget['max_candidates']:break
