@@ -184,6 +184,24 @@ def main(argv=None, root=ROOT):
     if command in ('design', 'infrastructure'):
         command, rest = (rest[0], rest[1:]) if rest else ('status', [])
     try:
+        if command=='adaptive':
+            from engineering.design_search import adaptive_campaign,adaptive_publication,body_revision,design_variables,requirement_policy,section_proposals
+            if rest==['plan']:
+                from engineering.station_rail import vehicle
+                emit(dict(specification=adaptive_campaign.specification(root),variables=design_variables.catalogue(),requirements=requirement_policy.catalogue(),
+                    body_experiments=body_revision.plan(vehicle.build(root),root=root),
+                    additional_section_definitions=section_proposals.generate(vehicle.build(root),samples=adaptive_campaign.specification(root)['exploration']['section_samples'],root=root),physical_accepted=False));return 0
+            if rest==['publish']:emit(adaptive_publication.build(root));return 0
+            if rest==['verify']:emit(adaptive_publication.verify(root));return 0
+            if rest and rest[0]=='run' and len(rest) in (1,3):
+                limit=None
+                if len(rest)==3:
+                    if rest[1]!='--max-jobs':raise ValueError('Use --max-jobs N')
+                    limit=int(rest[2])
+                r=adaptive_campaign.run(root,maximum_new_jobs=limit)
+                emit(dict(campaign_id=r['campaign_id'],contract_id=r['contract_id'],new_native_jobs=r['new_native_jobs'],reused_native_jobs=r['reused_native_jobs'],
+                    frontier_items=len(r['frontier']),search_status=r['search_status'],integrated_selection=None,physical_accepted=False));return 0
+            raise ValueError('Use ./osr design adaptive plan, run [--max-jobs N], publish or verify')
         if command=='architecture':
             from engineering.design_search import railway_architecture as architecture,architecture_publication
             if rest in (['build'],['publish']):emit(architecture_publication.build(root));return 0

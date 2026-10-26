@@ -65,6 +65,20 @@ alternatives do not silently change the selected reference or inherit its result
   can fail its engineering screen without losing its useful digital evidence.
 - Couple mass, force, current, heat, cooling, deformation and clearances with explicit
   residuals and budgets. Numerical convergence alone does not establish feasibility.
+- Use engineering/design_search/requirement_policy.py to distinguish supported
+  obligations from advisory targets, revisable hypotheses and model domains.
+  A provisional L/500 comparison is not a universal body rejection rule. Derive
+  quantitative functional limits from actual interfaces, loads and evidence.
+- Use campaigns/adaptive-railway-design.toml and `./osr design adaptive` for
+  ongoing function-first design. Earlier bounded wheel/LIM campaigns retain
+  their original parameter/screening contracts for historical reproduction;
+  do not let those contracts define the complete current search space.
+- Extend design_variables.py across materials, cores, load paths, joints, fitout,
+  running gear, propulsion, service, civil and manufacturing as needed. Example
+  values and current solver construction bounds are not the complete design
+  space. Repeated unsuccessful local changes should trigger a new family or
+  evaluator/measurement task. Preserve pending work across invocation budgets;
+  never claim a working solution by weakening an evidenced obligation.
 - Preserve historical source-bound archives. Regenerate affected current packets
   with their generators after changing implementation inputs; record a hold when
   dependencies or physical measurements are unavailable. Do not edit receipts to

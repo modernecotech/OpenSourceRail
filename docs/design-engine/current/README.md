@@ -59,6 +59,8 @@ The [failure-driven campaign](../v06-optimisation/README.md) generates body/moto
 
 The [whole-railway architecture campaign](../v06-architecture/README.md) tests seven propulsion families, different speed/formation/powered-track arrangements and civil sections. It compares analytical demand and conditional quantities while keeping new equipment mass and actual motor capability unknown. Repaired finite-area joint/body and generic nonlinear magnetic method checks retain their independent numerical and engineering dispositions. No architecture is qualified, no city performance is regenerated and the selected v0.6 reference is preserved.
 
+The [function-first adaptive generator](../v06-adaptive-design/README.md) separates mandatory obligations, advisory targets, revisable hypotheses and numerical model domains. Its extensible material/structure/joining/equipment/system variables drive coupled revision tasks. New thinner/deeper sill experiments redistribute counted material, with native normal/fine/crowd cases and matched mass, axle, demand and civil calculations. Provisional deflection alone neither rejects nor accepts a car; local stability, strength, joints, clearances and correlation remain open.
+
 ## Readiness and reproduction
 
 | Gate | State | Evidence still needed |

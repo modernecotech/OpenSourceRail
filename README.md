@@ -36,7 +36,9 @@ The 266 city geographies and underlying maps are preserved as starting inputs. *
 
 ## Iterative design search
 
-The v0.6 generators are connected to the existing restartable campaign engine. They create physical body/motor/brake alternatives, execute candidate-specific native solvers, diagnose failures, generate another generation, preserve Pareto alternatives and compile matching research twins. [Executed campaign and next tasks](docs/design-engine/v06-optimisation/README.md) show the resulting changes and remaining evidence gates.
+**Start ongoing design work with `./osr design adaptive plan` and `./osr design adaptive run`.** This function-first workflow treats provisional targets as hypotheses, resumes pending work and advances to new definitions. It can broaden the physical family or commission missing models when local changes are ineffective.
+
+The retained bounded v0.6 campaign connects the earlier body/motor/brake generators to restartable native execution and research-twin exports. Its original parameter bounds and screening criteria remain reproducible; [its publication](docs/design-engine/v06-optimisation/README.md) records that earlier experiment. These commands reproduce that component campaign:
 
 ```bash
 ./osr design campaign create campaigns/v06-wheel-lim.toml
@@ -53,12 +55,20 @@ The [broader design search](docs/design-engine/v06-design-space/README.md) adds 
 
 The [whole-railway architecture campaign](docs/design-engine/v06-architecture/README.md) goes further: **509 analytical cases, 174 physical definitions and seven propulsion families** compare station-only launch, lower speeds, boosters, recovery drives, distributed wayside power and onboard wheel traction. It varies formation, powered length and guideway sections while retaining mandatory safety and accessibility. The selected v0.6 reference is preserved. Required forces, conditional fleet counts and material quantities are compared; complete installed mass, validated available thrust and whole-life prices remain unknown.
 
-Foundation work now includes six-axis joint fixtures, a counted finite-area body alternative and a nonlinear magnetic method benchmark. The revised body's mesh trend is confirmed, but **28.0 mm normal deflection still fails the 25.6 mm screen**. The magnetic benchmark uses a generic material in a DC circuit; it does not establish a nonlinear moving LIM. [M1–M3 prototype plans](docs/design-engine/v06-architecture/prototype-program.json) specify the measurements still needed. No complete railway is qualified.
+Foundation work includes six-axis joint fixtures, a counted finite-area body alternative and a nonlinear magnetic method benchmark. The former body's mesh trend is confirmed at **28.0 mm normal deflection**, above its provisional 25.6 mm comparison. That comparison is advisory in the new policy; actual functional limits require their own justification. The magnetic benchmark uses a generic material in a DC circuit; it does not establish a nonlinear moving LIM. [M1–M3 prototype plans](docs/design-engine/v06-architecture/prototype-program.json) specify the measurements still needed.
+
+The [adaptive generator](docs/design-engine/v06-adaptive-design/README.md) opens **102 variables across 14 domains**, including materials, honeycombs, layups, structures, joints, running gear, propulsion, fitout and whole-railway arrangements. It separates real obligations, preferences, revisable assumptions and numerical validity. Failures generate different physical, model-development or measurement tasks; repeated unsuccessful local changes escalate to new load paths and architecture. Pending work survives resource budgets.
+
+Six new native body cases demonstrate material redistribution: a deeper, thinner sill saves **48 kg/car** relative to the previous jointed body and reduces calculated normal bending from **28.018 to 19.793 mm**. Another option saves 19 kg/car with a shallower envelope. Actual mass changes feed axle, propulsion/energy and civil calculations. Thin-wall stability, strength, fatigue, clearances and physical correlation remain necessary work; no complete railway is qualified.
 
 ```bash
 ./osr design architecture run
 ./osr design architecture publish
 ./osr design architecture verify
+./osr design adaptive plan
+./osr design adaptive run --max-jobs 1
+./osr design adaptive publish
+./osr design adaptive verify
 ```
 
 ## Use the repository

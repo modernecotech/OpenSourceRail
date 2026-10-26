@@ -7,6 +7,8 @@ on:
       - "engineering/station_rail/**"
       - "engineering/design_search/**"
       - "campaigns/whole-railway-architecture-search.toml"
+      - "campaigns/adaptive-railway-design.toml"
+      - "tests/test_body_revision.py"
       - "tests/test_joint*.py"
       - "tools/automation/architecture-native-benchmarks.py"
       - "crates/osr-atp/**"
@@ -27,6 +29,8 @@ on:
       - "engineering/station_rail/**"
       - "engineering/design_search/**"
       - "campaigns/whole-railway-architecture-search.toml"
+      - "campaigns/adaptive-railway-design.toml"
+      - "tests/test_body_revision.py"
       - "tests/test_joint*.py"
       - "tools/automation/architecture-native-benchmarks.py"
       - "crates/osr-atp/**"
@@ -59,6 +63,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/development_baseline/tests engineering/station_rail/tests
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_architecture.py engineering/design_search/tests/test_architecture_demand.py engineering/design_search/tests/test_capabilities.py engineering/design_search/tests/test_nonlinear_motor.py tests/test_joint_models.py tests/test_joint_body.py
+      - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_requirement_policy.py engineering/design_search/tests/test_design_variables.py engineering/design_search/tests/test_revision_planner.py engineering/design_search/tests/test_adaptive_campaign.py engineering/design_search/tests/test_section_proposals.py tests/test_body_revision.py
       - run: ./osr verify
       - run: npm run test:frontend
       - uses: actions/upload-artifact@v4

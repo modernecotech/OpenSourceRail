@@ -232,6 +232,8 @@ def reader_cache(packet):
     write_json(root/'docs/design-engine/v06-optimisation/summary.json',dict(scope='Synthetic campaign cache fixture; no solver evidence'))
     for name in ('summary.json','native-index.json'):
         write_json(root/'docs/design-engine/v06-architecture'/name,dict(scope='Synthetic architecture cache fixture; no solver evidence'))
+    for name in ('summary.json','requirement-policy.json'):
+        write_json(root/'docs/design-engine/v06-adaptive-design'/name,dict(scope='Synthetic adaptive cache fixture; no solver evidence'))
     for name in ('vehicle-overview.svg','service-profile.svg','interface-section.svg'):
         (root/OUTPUT/name).write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>')
     pdf=root/'OpenSourceRail-Book.pdf'
@@ -275,7 +277,9 @@ def test_reader_cannot_rebind_changed_current_payload_as_a_cached_publication(re
 @pytest.mark.parametrize('relative',[
     'docs/design-engine/v06-physical-closure/summary.json',
     'docs/design-engine/v06-architecture/summary.json',
-    'docs/design-engine/v06-architecture/native-index.json'])
+    'docs/design-engine/v06-architecture/native-index.json',
+    'docs/design-engine/v06-adaptive-design/summary.json',
+    'docs/design-engine/v06-adaptive-design/requirement-policy.json'])
 def test_reader_cache_refuses_changed_native_followup(reader_cache,relative):
     root,book,_=reader_cache
     write_json(root/relative,dict(scope='Changed synthetic evidence'))
@@ -286,7 +290,8 @@ def test_reader_cache_refuses_changed_native_followup(reader_cache,relative):
 @pytest.mark.parametrize('endpoint,relative,schema',[
     ('campaigns','docs/design-engine/v06-optimisation/summary.json','osr-wheel-iterative-campaign-publication/1'),
     ('design-space','docs/design-engine/v06-design-space/summary.json','osr-expanded-design-space-summary/1'),
-    ('architectures','docs/design-engine/v06-architecture/summary.json','osr-railway-architecture-summary/1')])
+    ('architectures','docs/design-engine/v06-architecture/summary.json','osr-railway-architecture-summary/1'),
+    ('adaptive','docs/design-engine/v06-adaptive-design/summary.json','osr-adaptive-design-summary/1')])
 def test_campaign_api_requires_bound_research_bytes(packet,endpoint,relative,schema):
     root,_,manifest=packet
     value=dict(schema=schema,physical_accepted=False,engineering_accepted=False,configuration_adopted=False,manufacturing_release=False,operating_release=False)

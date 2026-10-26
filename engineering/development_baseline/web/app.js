@@ -318,6 +318,36 @@ async function start() {
       byId("architecture-status").textContent =
         "No current source-bound architecture publication is available.";
     }
+    try {
+      const adaptive = await request("/api/adaptive/current");
+      if (
+        adaptive.physical_accepted !== false ||
+        adaptive.selected_reference_changed !== false
+      )
+        throw Error("Research dispositions differ");
+      byId("adaptive-status").textContent =
+        `${adaptive.variable_count} extensible variables · ${Object.keys(adaptive.domains).length} domains · ${adaptive.native_case_count} native cases. Search: ${adaptive.search_status}.`;
+      byId("adaptive-rows").replaceChildren();
+      for (const candidate of adaptive.rows) {
+        const row = document.createElement("tr");
+        for (const value of [
+          candidate.section,
+          `${format(candidate.accounted_tare_kg_per_car / 1000)} t`,
+          candidate.normal_vertical_displacement_m === null
+            ? "Unconfirmed"
+            : `${format(candidate.normal_vertical_displacement_m * 1000)} mm`,
+          candidate.integrated_suitability,
+        ]) {
+          const cell = document.createElement("td");
+          cell.textContent = value;
+          row.append(cell);
+        }
+        byId("adaptive-rows").append(row);
+      }
+    } catch (error) {
+      byId("adaptive-status").textContent =
+        "No current source-bound adaptive publication is available.";
+    }
     for (const key of identityKeys)
       fact(byId("identities"), key.replaceAll("_", " "), current[key]);
     byId("native-scope").textContent =

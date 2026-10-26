@@ -172,6 +172,20 @@ try {
   );
   report.architecture_cases = architecture.evaluation_cases;
   report.architecture_families = architecture.families.length;
+  const adaptiveResponse = await context.request.get(
+    origin + "/api/adaptive/current",
+  );
+  assert.equal(adaptiveResponse.status(), 200, await adaptiveResponse.text());
+  const adaptive = await adaptiveResponse.json();
+  assert.equal(adaptive.physical_accepted, false);
+  assert.equal(adaptive.selected_reference_changed, false);
+  assert.equal(adaptive.integrated_selection, null);
+  await page.waitForFunction(
+    (count) => document.querySelectorAll("#adaptive-rows tr").length === count,
+    adaptive.rows.length,
+  );
+  report.adaptive_variables = adaptive.variable_count;
+  report.adaptive_native_cases = adaptive.native_case_count;
   const cityResponse = await context.request.get(origin + "/api/city/baghdad");
   assert.equal(cityResponse.status(), 503, await cityResponse.text());
   const city = await cityResponse.json();

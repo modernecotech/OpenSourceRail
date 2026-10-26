@@ -71,14 +71,15 @@ class Handler(BaseHTTPRequestHandler):
                 read_packet(self.root)
                 self.respond(200, status(self.root))
                 return
-            if path in ('/api/campaigns/current','/api/design-space/current','/api/architectures/current'):
+            if path in ('/api/campaigns/current','/api/design-space/current','/api/architectures/current','/api/adaptive/current'):
                 _,publication=read_packet(self.root)
                 campaign=path=='/api/campaigns/current'
                 architecture=path=='/api/architectures/current'
-                relative='docs/design-engine/'+('v06-optimisation' if campaign else 'v06-architecture' if architecture else 'v06-design-space')+'/summary.json';source=checked_path(self.root,relative)
+                adaptive=path=='/api/adaptive/current'
+                relative='docs/design-engine/'+('v06-optimisation' if campaign else 'v06-adaptive-design' if adaptive else 'v06-architecture' if architecture else 'v06-design-space')+'/summary.json';source=checked_path(self.root,relative)
                 if publication.get('source_sha256',{}).get(relative)!=digest(source):raise CurrentUnavailable('Campaign summary lacks a current source binding')
                 value=json.loads(source.read_bytes())
-                schema='osr-wheel-iterative-campaign-publication/1' if campaign else 'osr-railway-architecture-summary/1' if architecture else 'osr-expanded-design-space-summary/1'
+                schema='osr-wheel-iterative-campaign-publication/1' if campaign else 'osr-adaptive-design-summary/1' if adaptive else 'osr-railway-architecture-summary/1' if architecture else 'osr-expanded-design-space-summary/1'
                 if value.get('schema')!=schema or any(value.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):
                     raise CurrentUnavailable('Unaccepted research campaign required')
                 self.respond(200,value)

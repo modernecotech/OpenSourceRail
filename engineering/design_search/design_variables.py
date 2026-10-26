@@ -121,10 +121,10 @@ def catalogue():
             note='Some local stock generators exist; full new topology, laminate, core, joint and installed assembly require appropriate native adapters')
     for name,examples in [('body.sill.depth_m',[.35,.60,.65]),('body.sill.wall_m',[.008,.012,.016])]:
         add(name,'body','number','m',examples=examples,minimum=0.,dependencies=['body.section_family'],
-            support='bounded-existing-research-adapter',adapter='engineering.design_search.joint_body:materialize_finite_body',
+            support='bounded-existing-research-adapter',adapter='engineering.design_search.body_revision:materialize',
             effects=['counted-stock-and-floor-fit','mass-CG-inertia','all-axis-structure-and-joints','civil','motor-thrust-and-braking','manufacturing'],
-            compatibility=['Exact existing depth/wall pairs only: (.35,.008),(.60,.012),(.60,.016),(.65,.016)','Floor, bogie, capture and station motor envelope'],
-            note='Depth and wall are coupled. Other values/shapes need a generator/domain extension; intact synthetic bonds are unqualified')
+            compatibility=['Continuous depth .35–.65m, wall .004–.016m and fixed .18m width; positive hollow section','Floor, bogie, capture and station motor envelope'],
+            note='Depth and wall are coupled in the new counted RHS redistribution adapter: continuous depth .35–.65m and wall .004–.016m at .18m width. These are current construction/model limits, not universal design constraints. Thin-wall buckling, strength, ideal bonds and swept clearance remain unqualified; other shapes/materials require an adapter extension.')
     for name,kind,unit,examples in [
         ('joint.family','identifier','1',['bonded overlap','bolted insert','riveted flange','hybrid retained joint','co-cured flange']),
         ('joint.overlap_m','number','m',[.04,.08,.16]),('joint.bond_thickness_m','number','m',[.00025,.0005]),
