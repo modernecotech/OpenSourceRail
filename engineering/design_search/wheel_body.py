@@ -8,7 +8,7 @@ The trusted frozen C3D20 frame producer supplies actual tube walls and supports.
 from copy import deepcopy
 from math import ceil,pi,prod,isfinite
 from pathlib import Path
-import json,os,re,subprocess,time
+import json,os,re,subprocess,time,resource
 from engineering.station_rail import ROOT,FLAGS,body_frame,body_floor_fit,body_solid_frame
 from engineering.station_rail.common import encoded,identity,digest
 from engineering.station_rail.vehicle import box,cylinder,tube
@@ -44,9 +44,15 @@ def _parameters(parameters):
 def revise(parameters,diagnostics,generation):
     p=_parameters(parameters)
     if generation<1:raise ValueError('Positive revision generation required')
-    state=json.dumps(diagnostics,sort_keys=True,default=str).lower()
-    # Follow explicit engineering failures, rather than reward missing evidence.
-    failed=('fail' in state or any(float(diagnostics.get(k,0) or 0)>.0256 for k in ('maximum_vertical_displacement_m','normal_deflection_m')))
+    def failure(value):
+        if isinstance(value,dict):
+            for key,child in value.items():
+                if key in ('maximum_vertical_displacement_m','normal_deflection_m') and isinstance(child,(int,float)) and child>.0256:return True
+                if failure(child):return True
+        elif isinstance(value,(list,tuple)):return any(failure(child) for child in value)
+        elif isinstance(value,str):return value.lower() in ('fail','failed') or value.lower().startswith('failed-')
+        return False
+    failed=failure(diagnostics)
     if failed:
         sizes=[(.35,.008),(.60,.012),(.60,.016),(.65,.016)];i=sizes.index((p['sill_depth_m'],p['sill_wall_m']))
         if i<len(sizes)-1:p['sill_depth_m'],p['sill_wall_m']=sizes[i+1]
@@ -122,7 +128,9 @@ def materialize(base_vehicle,parameters,root=ROOT):
     physical=dict(parent_candidate_id=base_vehicle['candidate_id'],parent_body_candidate_id=base_vehicle['body_candidate_id'],parameters=p,
         geometry_parts=parts,unchanged_support_component_id=base_vehicle['support_component_id'],unchanged_propulsion_component_id=base_vehicle['propulsion_component_id'])
     bodyid=identity(physical);candidate=identity(dict(parent_candidate_id=base_vehicle['candidate_id'],body_candidate_id=bodyid,support_component_id=v['support_component_id'],propulsion_component_id=v['propulsion_component_id']))
-    v['candidate_id']=candidate;v['body_candidate_id']=bodyid;v['geometry_parts']=parts;v['physical_definition']=physical
+    v['candidate_id']=candidate;v['body_candidate_id']=bodyid;v['geometry_parts']=parts;v['body_physical_definition']=physical
+    v['physical_definition']['body_revision']=dict(body_candidate_id=bodyid,parent_body_candidate_id=base_vehicle['body_candidate_id'],parameters=deepcopy(p))
+    v['physical_definition']['geometry_definition_id']=identity(parts)
     for key in ('accounted_tare_kg_per_car','accounted_cap_loaded_kg_per_car','accounted_160_control_kg_per_car'):v['mass'][key]+=delta
     v['mass']['accounted_tare_kg_six_cars']=6*v['mass']['accounted_tare_kg_per_car'];v['mass']['located_material_kg']=sum(q['mass_kg'] for q in parts);v['mass']['located_material_CG_m']=None
     v['mass'].update(installed_tare_kg_per_car=None,installed_loaded_kg_per_car=None,CG_m=None,inertia_kg_m2=None)
@@ -196,7 +204,7 @@ def _sandwich(raw,variant,vehicle,dx):
         extra.append('*ELEMENT,TYPE=C3D20,ELSET=P_'+mat)
         for eid,ids in group:extra += [str(eid)+','+','.join(map(str,ids[:15]))+',',','.join(map(str,ids[15:]))]
     extra += ['*MATERIAL,NAME=SKIN','*ELASTIC,TYPE=ENGINEERING CONSTANTS',f'{SKIN_E},{SKIN_E},8e9,{SKIN_NU},.25,.25,4e9,3e9','3e9',
-        '*ORIENTATION,NAME=SKIN_AXES','1.,0.,0.,0.,0.,1.','*MATERIAL,NAME=CORE','*ELASTIC','80e6,.25','*MATERIAL,NAME=BOND','*ELASTIC','1.5e9,.30']
+        '*ORIENTATION,NAME=SKIN_AXES','1.,0.,0.,0.,0.,1.','*MATERIAL,NAME=CORE','*ELASTIC',f"{CONSTITUTIVE['foam_E_Pa']},{CONSTITUTIVE['foam_nu']}",'*MATERIAL,NAME=BOND','*ELASTIC',f"{CONSTITUTIVE['bond_E_Pa']},{CONSTITUTIVE['bond_nu']}"]
     for mat in groups:extra += [f'*SOLID SECTION,ELSET=P_{mat},MATERIAL={mat}'+(',ORIENTATION=SKIN_AXES' if mat=='SKIN' else '')]
     masters={}
     for i,m in enumerate(variant['members']):
@@ -221,10 +229,15 @@ def _sandwich(raw,variant,vehicle,dx):
         actual_aperture_regions=len(parts),ideal_fastener_equations=equations,synthetic_materials=True,holes_resolved=False)
 
 
+def _memory_bound():
+    # Linux address-space limit for the numerical subprocess, not OS isolation.
+    resource.setrlimit(resource.RLIMIT_AS,(3*1024**3,3*1024**3))
+
+
 def _native(raw,folder,timeout_s=150):
     folder.mkdir();(folder/'body.inp').write_text(raw);started=time.monotonic()
     try:
-        proc=subprocess.run(['/usr/bin/ccx','body'],cwd=folder,capture_output=True,text=True,timeout=timeout_s,env={**os.environ,'OMP_NUM_THREADS':'1'})
+        proc=subprocess.run(['/usr/bin/ccx','body'],cwd=folder,capture_output=True,text=True,timeout=timeout_s,preexec_fn=_memory_bound,env={**os.environ,'OMP_NUM_THREADS':'1'})
         (folder/'stdout.log').write_text(proc.stdout);(folder/'stderr.log').write_text(proc.stderr)
         if proc.returncode or not(folder/'body.dat').is_file():return dict(execution='tool_error',returncode=proc.returncode,runtime_s=time.monotonic()-started)
         actual=body_frame._read_dat(folder/'body.dat');return dict(execution='completed',runtime_s=time.monotonic()-started,**actual)
@@ -235,7 +248,7 @@ def _native(raw,folder,timeout_s=150):
 
 def evaluate(vehicle,parameters,output,*,root=ROOT,confirmation=False):
     p=_parameters(parameters)
-    if vehicle['body_candidate_id']!=identity(vehicle['physical_definition']):raise ValueError('Mixed or mutated physical body identity')
+    if vehicle['body_candidate_id']!=identity(vehicle['body_physical_definition']):raise ValueError('Mixed or mutated physical body identity')
     if vehicle.get('wheel_body',{}).get('parameters')!=p:raise ValueError('Body evaluation parameters differ from physical child')
     output=Path(output).resolve()
     if output.exists():raise ValueError('Fresh immutable candidate-body run directory required')

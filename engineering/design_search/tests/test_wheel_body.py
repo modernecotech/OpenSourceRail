@@ -19,6 +19,9 @@ def test_materialized_children_count_floor_fit_and_derive_mass_without_reusing_b
         assert not v['installed_mass_complete'] and v['mass']['CG_m'] is None
         assert v['support_component_id']==b['support_component_id']
         assert v['seating_layout']==b['seating_layout']
+        assert v['physical_definition']['vehicle']==b['physical_definition']['vehicle']
+        assert v['physical_definition']['support']==b['physical_definition']['support']
+        assert v['physical_definition']['propulsion']==b['physical_definition']['propulsion']
     shell=children[1]
     assert shell['wheel_body']['shell_hardware_mass_kg']>0 and shell['wheel_body']['drilled_material_removed_kg']>0
     assert len(shell['wheel_body']['pads'])==40
@@ -34,7 +37,7 @@ def test_failed_generation_revises_physical_sill_stock_and_preserves_passenger_p
     with pytest.raises(ValueError):w.materialize(a,p,ROOT)
 
 def test_candidate_bound_evaluator_rejects_mutation_before_native_execution(tmp_path):
-    p=w.default_parameters();v=w.materialize(base(),p,ROOT);v['physical_definition']['parameters']['sill_wall_m']=.01
+    p=w.default_parameters();v=w.materialize(base(),p,ROOT);v['body_physical_definition']['parameters']['sill_wall_m']=.01
     with pytest.raises(ValueError,match='identity'):w.evaluate(v,p,tmp_path/'bad',root=ROOT)
 
 def test_frame_variant_restores_only_declared_hole_stiffness_upper_bound():
@@ -56,3 +59,10 @@ def test_balanced_crossply_extensional_property_and_evaluation_constants_do_not_
     monkeypatch.setitem(w.CONSTITUTIVE,'foam_E_Pa',100e6)
     other=w.materialize(b,p,ROOT)
     assert a['candidate_id']==other['candidate_id']
+
+
+def test_diagnostic_lists_and_failure_reason_keys_do_not_force_spurious_revision():
+    p=w.default_parameters()
+    assert w.revise(p,[dict(state='unknown',failure_reason=None)],1)==p
+    assert w.revise(p,[dict(state='fail')],1)['sill_depth_m']>.35
+    assert w.revise(p,[dict(metrics=dict(normal_deflection_m=.04))],1)['sill_depth_m']>.35
