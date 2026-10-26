@@ -26,44 +26,37 @@ def write_json(path, value):
 
 
 @pytest.fixture
-def packet(tmp_path):
-    import tomllib
-    # A small synthetic source tests contract plumbing without granting any
-    # real engineering acceptance or mutating the retained solver packages.
-    template = Path(__file__).resolve().parents[3] / 'development-baseline.toml'
-    if not template.is_file():
-        template = Path(__file__).resolve().parents[2] / 'development-baseline.toml'
-    raw = template.read_text()
-    selection = tomllib.loads(raw)
-    car = dict(candidate_id=selection['vehicle_candidate_id'],
-               body_candidate_id=selection['body_candidate_id'],
-               magnet_component_id=selection['magnet_component_id'],
-               mass=dict(accounted_tare_kg_per_car=17356.683728076856), **FLAGS)
-    source = dict(vehicle=car, whole_system_alternatives=dict(proposals=[dict(
-        proposal_id=selection['network_proposal_id'], launch_speed_m_s=20.,
-        maximum_station_spacing_m=None)]))
-    data = tmp_path / selection['source_design']
-    data.parent.mkdir(parents=True)
-    data.write_bytes(gzip.compress(encoded(source)))
-    source_manifest = tmp_path / selection['source_manifest']
-    write_json(source_manifest, dict(files_sha256={data.name:sha256(data.read_bytes()).hexdigest()}))
-    selector = tmp_path / INPUT
-    selector.parent.mkdir(parents=True, exist_ok=True)
-    selector.write_text(raw.replace(selection['source_manifest_sha256'], sha256(source_manifest.read_bytes()).hexdigest()))
-    baseline = cli.selected(tmp_path)
-    common = dict(selection_id=baseline['selection_id'], development_default=True,
-                  **{k:car[k] for k in cli.IDS}, **FLAGS)
-    summary = dict(schema='osr-current-design/1', **common,
-                   mass=car['mass'], service=selection['service'],
-                   gates=[dict(id='capture-energy', engineering_screen='fail', reason='Physical energy rating missing')])
-    output = tmp_path / OUTPUT
-    write_json(output/'summary.json', summary)
+def packet(tmp_path, monkeypatch):
+    from engineering.development_baseline.selection import identity
+    # This fixture exercises fail-closed front-door plumbing only. It grants no
+    # engineering validity and supplies no historical magnetic component ID.
+    selection = dict(schema='osr-development-baseline-selection/1', revision='V06-FIXTURE',
+        family='wheel_rail_station_lim', source_brief='engineering/station_rail/brief.toml',
+        network_proposal_id='e'*64,
+        vehicle=dict(cars=6,body_length_m=17.,normal_passengers_per_car=46,
+                     fixed_seats_per_car=44,wheelchair_places_per_car=2,
+                     standing_passengers_per_car=0,passenger_doors_total_per_car=2),
+        service=dict(headway_s=120.,dwell_s=35.,launch_speed_cap_m_s=20.,
+                     normal_capacity_pphpd_arithmetic=8280.),acceptance=FLAGS)
+    (tmp_path/INPUT).parent.mkdir(parents=True)
+    (tmp_path/INPUT).write_text('family="wheel_rail_station_lim"\nsource_brief="engineering/station_rail/brief.toml"\n')
+    source=tmp_path/selection['source_brief'];source.parent.mkdir(parents=True);source.write_text('version="0.6.0"\n')
+    car=dict(candidate_id='a'*64,body_candidate_id='b'*64,support_component_id='c'*64,
+             propulsion_component_id='d'*64,mass=dict(accounted_tare_kg_per_car=22000.),**FLAGS)
+    baseline=dict(selection_id=identity(selection),selection=selection,vehicle=car,source_sha256={},**FLAGS)
+    monkeypatch.setattr(cli.selection,'load',lambda root:baseline)
+    write_json(tmp_path/'synthetic-baseline.json',baseline)
+    common=dict(selection_id=baseline['selection_id'],development_default=True,
+                **{k:car[k] for k in cli.IDS},**FLAGS)
+    summary=dict(schema='osr-current-design/1',**common,mass=car['mass'],service=selection['service'],
+                 gates=[dict(id='wheelrail-braking',engineering_screen='unknown',reason='Measured brake envelope missing')])
+    output=tmp_path/OUTPUT;write_json(output/'summary.json',summary)
     (tmp_path/'source.txt').write_text('fixture source\n')
-    manifest = dict(schema='osr-current-publication/1', **common,
-                    files_sha256={'summary.json':sha256((output/'summary.json').read_bytes()).hexdigest()},
-                    source_sha256={'source.txt':sha256((tmp_path/'source.txt').read_bytes()).hexdigest()})
-    write_json(output/'manifest.json', manifest)
-    return tmp_path, summary, manifest
+    manifest=dict(schema='osr-current-publication/1',**common,
+        files_sha256={'summary.json':sha256((output/'summary.json').read_bytes()).hexdigest()},
+        source_sha256={'source.txt':sha256((tmp_path/'source.txt').read_bytes()).hexdigest()})
+    write_json(output/'manifest.json',manifest)
+    return tmp_path,summary,manifest
 
 
 def test_no_argument_status_uses_explicit_selected_default(packet, capsys):
@@ -103,7 +96,7 @@ def test_mixed_or_modified_packets_are_rejected(packet, mutation):
         outside.write_bytes(original.read_bytes())
         original.unlink(); original.symlink_to(outside)
     else:
-        summary['candidate_id' if mutation == 'identity' else 'physical_accepted'] = 'a'*64 if mutation == 'identity' else True
+        summary['candidate_id' if mutation == 'identity' else 'physical_accepted'] = '0'*64 if mutation == 'identity' else True
         write_json(root/OUTPUT/'summary.json', summary)
         manifest['files_sha256']['summary.json'] = sha256((root/OUTPUT/'summary.json').read_bytes()).hexdigest()
         write_json(root/OUTPUT/'manifest.json', manifest)
@@ -144,13 +137,19 @@ def test_server_is_read_only_and_refuses_tampering(packet):
         server.shutdown(); server.server_close(); thread.join(timeout=2)
 
 
-def test_actual_module_cli_defaults_to_new_design(packet):
-    root, summary, _ = packet
-    result = subprocess.run([sys.executable, '-m', 'engineering.development_baseline.entrypoint', '--root', str(root)], check=True, capture_output=True, text=True)
-    value = json.loads(result.stdout)
-    assert value['candidate_id'] == summary['candidate_id']
-    assert value['publication_state'] == 'current'
-    assert value['service']['normal_capacity_pphpd_arithmetic'] == 8280
+def test_actual_cli_process_preserves_explicit_selected_contract(packet):
+    root,summary,_=packet
+    # A fresh process independently checks the same CLI implementation against
+    # this synthetic contract; real default selection is covered by browser CI.
+    code=("import json; from pathlib import Path; from engineering.development_baseline import entrypoint as c; "
+          "r=Path("+repr(str(root))+"); c.selection.load=lambda root:json.loads((r/'synthetic-baseline.json').read_text()); "
+          "raise SystemExit(c.main([],root=r))")
+    result=subprocess.run([sys.executable,'-c',code],check=True,capture_output=True,text=True)
+    value=json.loads(result.stdout)
+    assert value['candidate_id']==summary['candidate_id']
+    assert value['publication_state']=='current'
+    assert value['family']=='wheel_rail_station_lim'
+    assert value['service']['normal_capacity_pphpd_arithmetic']==8280
 
 
 def test_twin_entrypoint_exposes_only_verified_selected_exports(packet, capsys, monkeypatch):
@@ -173,50 +172,47 @@ def test_twin_entrypoint_exposes_only_verified_selected_exports(packet, capsys, 
     assert result['candidate_id']==summary['candidate_id']
     assert result['artifacts']==[OUTPUT+'/exports/civil.json']
     assert len(calls)==1
-    assert cli.main(['twin','compile','a'*64],root=root)==3
+    assert cli.main(['twin','compile','0'*64],root=root)==3
     assert json.loads(capsys.readouterr().out)['execution']=='held'
     assert len(calls)==1
 
 
-def test_city_endpoint_rejects_manifest_rewritten_outside_bound_catalogue(packet, monkeypatch):
-    from functools import partial
+def test_city_endpoint_returns_explicit_hold_without_reading_old_fleet(packet, monkeypatch):
     from types import SimpleNamespace
-    from http.server import ThreadingHTTPServer
-    from engineering.development_baseline import server as web
     from engineering import development_baseline
-    root, summary, manifest = packet
-    relative='cities/catalogue/region/country/baghdad/engineering/current/summary.json'
-    folder=(root/relative).parent
-    city={key:summary[key] for key in ('selection_id',*cli.IDS,'development_default',*FLAGS)}
-    city['totals']={'total_trainsets':906}
-    write_json(root/relative,city)
-    city_manifest=dict(city,files_sha256={'summary.json':sha256((root/relative).read_bytes()).hexdigest()},source_sha256={})
-    write_json(folder/'manifest.json',city_manifest)
-    receipt={key:summary[key] for key in ('selection_id',*cli.IDS,'development_default',*FLAGS)}
-    receipt['files_sha256']={(folder/'manifest.json').relative_to(root).as_posix():sha256((folder/'manifest.json').read_bytes()).hexdigest()}
-    write_json(root/OUTPUT/'city-catalogue-manifest.json',receipt)
-    manifest['files_sha256']['city-catalogue-manifest.json']=sha256((root/OUTPUT/'city-catalogue-manifest.json').read_bytes()).hexdigest()
-    write_json(root/OUTPUT/'manifest.json',manifest)
-    monkeypatch.setattr(development_baseline,'cities',SimpleNamespace(catalogue=lambda **kwargs:[{'slug':'baghdad','summary_path':relative}]),raising=False)
-    class Quiet(web.Handler):
-        def log_message(self,*args):pass
-    server=ThreadingHTTPServer(('127.0.0.1',0),partial(Quiet,root=root))
+    root,summary,_=packet
+    record=dict(execution='held',reason='v0.6 city performance regeneration is held',
+                totals=None,performance_evaluated=False,geography=dict(map_available=True),
+                **{key:summary[key] for key in ('selection_id',*cli.IDS,'development_default',*FLAGS)})
+    monkeypatch.setattr(development_baseline,'cities',SimpleNamespace(
+        catalogue=lambda **kwargs:[dict(slug='baghdad',execution='held',historical_summary_path='must-not-read.json')],
+        evaluate_city=lambda *args,**kwargs:record),raising=False)
+    server=make_server(root=root,port=0)
     thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     endpoint='http://127.0.0.1:'+str(server.server_address[1])+'/api/city/baghdad'
     try:
-        with urllib.request.urlopen(endpoint) as response:
-            assert json.load(response)['totals']['total_trainsets']==906
-        # Alter both city output and its local receipt. Only the protected
-        # catalogue binding distinguishes this from a genuine regeneration.
-        city['totals']['total_trainsets']=1
-        write_json(root/relative,city)
-        city_manifest['files_sha256']['summary.json']=sha256((root/relative).read_bytes()).hexdigest()
-        write_json(folder/'manifest.json',city_manifest)
         with pytest.raises(urllib.error.HTTPError) as caught:urllib.request.urlopen(endpoint)
         assert caught.value.code==503
-        assert 'bound catalogue' in json.load(caught.value)['reason']
+        value=json.load(caught.value)
+        assert value['execution']=='held'
+        assert value['totals'] is None
+        assert value['performance_evaluated'] is False
+        assert value['candidate_id']==summary['candidate_id']
     finally:
         server.shutdown();server.server_close();thread.join(timeout=2)
+
+
+def test_selection_cache_invalidates_physical_source_change(packet,monkeypatch):
+    root,_,_=packet
+    value=cli.selection.load(root);calls=[]
+    def load(source):
+        calls.append(str(source));return value
+    monkeypatch.setattr(cli.selection,'load',load)
+    cli.selected(root)
+    count=len(calls)
+    producer=root/'engineering/station_rail/vehicle.py';producer.write_text('# revised physical generator\n')
+    cli.selected(root)
+    assert len(calls)==count+1
 
 
 @pytest.fixture
@@ -242,7 +238,7 @@ def reader_cache(packet):
     return root,book,receipt
 
 
-@pytest.mark.parametrize('field', ['candidate_id','body_candidate_id','magnet_component_id','development_default','physical_accepted','receipt_id'])
+@pytest.mark.parametrize('field', ['candidate_id','body_candidate_id','support_component_id','propulsion_component_id','development_default','physical_accepted','receipt_id'])
 def test_reader_cache_refuses_forged_identity_or_disposition(reader_cache,field):
     root,book,receipt=reader_cache
     receipt[field]='0'*64 if field.endswith('_id') else not receipt[field]

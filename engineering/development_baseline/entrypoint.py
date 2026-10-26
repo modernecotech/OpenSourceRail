@@ -17,7 +17,7 @@ import sys
 from . import FLAGS, INPUT, OUTPUT, ROOT
 from . import selection
 
-IDS = ('candidate_id', 'body_candidate_id', 'magnet_component_id')
+IDS = ('candidate_id', 'body_candidate_id', 'support_component_id', 'propulsion_component_id')
 
 
 class CurrentUnavailable(ValueError):
@@ -75,8 +75,15 @@ def _selection_stamps(root):
     import tomllib
     selector = checked_path(root, INPUT)
     config = tomllib.loads(selector.read_text())
-    return tuple(stamp(checked_path(root, p)) for p in
-                 (INPUT, config['source_manifest'], config['source_design']))
+    if config.get('family') != 'wheel_rail_station_lim':
+        raise CurrentUnavailable('The current front door requires the explicit v0.6 wheel-supported selector')
+    # Physical definitions are generated from the selected source. A running
+    # Workbench must invalidate its cached selection when those producers change,
+    # including a rebuild that leaves the selector TOML unchanged.
+    paths = [INPUT, config['source_brief']]
+    paths += [p.relative_to(root).as_posix() for p in
+              sorted((root / 'engineering/station_rail').glob('*.py'))]
+    return tuple((p, stamp(checked_path(root, p))) for p in sorted(set(paths)))
 
 
 def selected(root=ROOT):
@@ -218,7 +225,7 @@ def main(argv=None, root=ROOT):
             # Neither command is a native dynamic or operational qualification.
             result = module.publish_city(slug, root=root) if command == 'city' else module.evaluate_city(slug, root=root)
             emit(result)
-            return 0
+            return 3 if result.get('execution') == 'held' else 0
         if command == 'twin' and rest and rest[0] in ('compile', 'export'):
             baseline = selected(root)
             if len(rest) > 2 or (len(rest) == 2 and rest[1] != baseline['vehicle']['candidate_id']):

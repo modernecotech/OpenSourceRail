@@ -6,7 +6,8 @@ const identityKeys = [
   "selection_id",
   "candidate_id",
   "body_candidate_id",
-  "magnet_component_id",
+  "support_component_id",
+  "propulsion_component_id",
 ];
 const qualificationKeys = [
   "engineering_accepted",
@@ -32,7 +33,11 @@ function validated(value, expected) {
 async function request(url) {
   const response = await fetch(url, { cache: "no-store" });
   const value = await response.json();
-  if (!response.ok) throw Error(value.reason || "Current record unavailable");
+  if (!response.ok) {
+    const error = Error(value.reason || "Current record unavailable");
+    error.record = value;
+    throw error;
+  }
   return value;
 }
 function fact(container, label, value) {
@@ -110,7 +115,7 @@ async function showCity(slug) {
       current,
     );
     byId("city-status").textContent =
-      (city.name || city.city_name || slug) +
+      (city.name || city.city?.name || city.city_name || slug) +
       " · selected-design analytical planning";
     byId("city-details").textContent = JSON.stringify(
       city.totals ||
@@ -129,6 +134,18 @@ async function showCity(slug) {
     if (path) byId("city-link").href = "/" + path;
   } catch (error) {
     byId("city-status").textContent = "Held: " + error.message;
+    const record = error.record;
+    byId("city-link").hidden = !record?.geography?.map_available;
+    if (record?.geography) {
+      byId("city-details").textContent = JSON.stringify(
+        { geography: record.geography, historical: record.historical },
+        null,
+        2,
+      );
+      byId("city-link").href = "/" + record.geography.map_path;
+      byId("city-link").textContent =
+        "Preserved city map · historical engineering labels";
+    }
   }
 }
 async function start() {
@@ -136,6 +153,10 @@ async function start() {
     current = validated(await request("/api/default-design"));
     if (current.publication_state !== "current")
       throw Error("The selected publication is not current.");
+    if (current.family !== "wheel_rail_station_lim")
+      throw Error(
+        "The selected family is not v0.6 station-launched wheel rail.",
+      );
     const packet = validated(current.publication, current),
       v = current.vehicle,
       s = current.service;
@@ -163,6 +184,13 @@ async function start() {
         " / train",
     );
     fact(vf, "Standing passengers", "0");
+    fact(vf, "Support", "Passive wheel bogies; conventional rails");
+    fact(vf, "Onboard traction motors / traction battery", "None");
+    fact(
+      vf,
+      "Services battery",
+      "Retained for HVAC, doors and essential systems",
+    );
     fact(
       vf,
       "Passenger doors",
@@ -185,17 +213,24 @@ async function start() {
     fact(
       nf,
       "2 km station example",
-      s.prototype_shared_winding_m + " m shared winding",
+      readable(
+        packet.service?.shared_winding_m ?? s.prototype_shared_winding_m,
+      ) + " m shared winding",
     );
     fact(
       nf,
       "Sections / direction",
-      s.prototype_shared_winding_m / s.station_section_m,
+      (packet.service?.shared_winding_m ?? s.prototype_shared_winding_m) /
+        (s.station_section_m ?? s.station_section_length_m),
     );
     fact(
       nf,
       "Independent branches",
-      "At least " + s.minimum_phase_branches_per_direction + " / direction",
+      "At least " +
+        (s.minimum_phase_branches_per_direction ??
+          s.minimum_independent_train_phase_branches_per_direction ??
+          2) +
+        " / direction",
     );
     fact(
       vf,
@@ -213,7 +248,7 @@ async function start() {
         baghdad.total_trainsets ||
           baghdad.fleet ||
           baghdad.trainsets ||
-          "See current city record",
+          "Held pending v0.6 physical evaluation",
       ),
     );
     renderGates(packet.gates || packet.readiness?.gates);
@@ -231,7 +266,7 @@ async function start() {
     byId("loading").hidden = true;
     byId("design").hidden = false;
     try {
-      const catalogue = await request("/api/cities");
+      const catalogue = validated(await request("/api/cities"), current);
       const rows = Array.isArray(catalogue)
         ? catalogue
         : catalogue.cities || catalogue.entries || [];
@@ -240,7 +275,11 @@ async function start() {
       for (const row of rows) {
         const option = document.createElement("option");
         option.value = row.slug;
-        option.textContent = row.name || row.slug;
+        option.textContent =
+          (row.name || row.slug) +
+          (row.execution === "held"
+            ? " · geography available, evaluation held"
+            : "");
         byId("city").append(option);
       }
       byId("city").value = "baghdad";
@@ -250,6 +289,7 @@ async function start() {
       await showCity("baghdad");
     } catch (error) {
       byId("city-status").textContent = "Held: " + error.message;
+      byId("city-link").hidden = true;
     }
   } catch (error) {
     byId("loading").hidden = true;

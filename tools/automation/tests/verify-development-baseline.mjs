@@ -81,6 +81,10 @@ try {
   report.selection_id = current.selection_id;
   report.candidate_id = current.candidate_id;
   assert.equal(current.development_default, true);
+  assert.equal(current.family, "wheel_rail_station_lim");
+  for (const id of ["support_component_id", "propulsion_component_id"])
+    assert.match(current[id], /^[a-f0-9]{64}$/);
+  assert.equal("magnet_component_id" in current, false);
   assert.equal(current.publication_state, "current");
   assert.equal(current.service.launch_speed_cap_m_s, 20);
   assert.equal(current.service.headway_s, 120);
@@ -103,27 +107,42 @@ try {
   assert.equal(await page.locator("#headway").innerText(), "120");
   assert.equal(await page.locator("#capacity").innerText(), "8,280");
   assert.match(await page.locator("#physical").innerText(), /not established/);
-  assert.match(await page.locator("#vehicle-facts").innerText(), /17\.36 t/);
-  assert.match(await page.locator("#vehicle-facts").innerText(), /20\.81 t/);
-  assert.match(await page.locator("#network-facts").innerText(), /906/);
+  const mass = current.publication.mass || current.mass;
+  const massText = (v) =>
+    (v / 1000).toLocaleString("en-GB", { maximumFractionDigits: 2 }) + " t";
+  const facts = await page.locator("#vehicle-facts").innerText();
+  assert(facts.includes(massText(mass.accounted_tare_kg_per_car)));
+  assert(facts.includes(massText(mass.accounted_cap_loaded_kg_per_car)));
+  assert.match(facts, /Passive wheel bogies/);
+  assert.match(facts, /Services battery/);
+  assert.match(
+    await page.locator("#network-facts").innerText(),
+    /Held pending v0.6 physical evaluation/,
+  );
   assert((await page.locator("#gates tr").count()) >= 1);
-  assert.equal(await page.locator("#gates .screen.fail").count(), 2);
-  assert.match(await page.locator("#gates").innerText(), /capture-energy/);
-  assert.match(await page.locator("#gates").innerText(), /roof-hot-core/);
+  assert.match(await page.locator("#gates").innerText(), /unknown|fail/);
   assert.match(
     await page.locator("#city-status").innerText(),
-    /selected-design analytical planning/,
+    /Held:.*v0.6 city performance regeneration is held/s,
   );
   assert.equal(await page.locator("#city").inputValue(), "baghdad");
   assert((await page.locator("#city option").count()) > 1);
   const cityResponse = await context.request.get(origin + "/api/city/baghdad");
-  assert.equal(cityResponse.status(), 200, await cityResponse.text());
+  assert.equal(cityResponse.status(), 503, await cityResponse.text());
   const city = await cityResponse.json();
   assert.equal(city.selection_id, current.selection_id);
   assert.equal(city.candidate_id, current.candidate_id);
-  assert.equal(city.totals.total_trainsets, 906);
+  assert.equal(city.execution, "held");
+  assert.equal(city.performance_evaluated, false);
+  assert.equal(city.totals, null);
+  assert.equal(city.geography.underlying_city_details_preserved, true);
+  assert.match(
+    await page.locator("#city-link").innerText(),
+    /Preserved city map/,
+  );
   report.city_count = await page.locator("#city option").count();
-  report.baghdad_trainsets = city.totals.total_trainsets;
+  report.baghdad_performance_state = "held";
+  report.city_performance_packages_written = 0;
   await page.screenshot({ path: output + "/desktop.png", fullPage: true });
   await page.setViewportSize({ width: 390, height: 844 });
   assert.equal(
@@ -151,11 +170,13 @@ try {
     410,
   );
   // A forged disposition or mixed candidate must hide every design result.
-  for (const mutation of ["acceptance", "identity"]) {
+  for (const mutation of ["acceptance", "identity", "support", "propulsion"]) {
     await page.route("**/api/default-design", async (route) => {
       const value = structuredClone(current);
       if (mutation === "acceptance") value.physical_accepted = true;
-      else value.publication.body_candidate_id = "0".repeat(64);
+      else if (mutation === "identity")
+        value.publication.body_candidate_id = "0".repeat(64);
+      else value.publication[mutation + "_component_id"] = "0".repeat(64);
       await route.fulfill({
         status: 200,
         contentType: "application/json",
@@ -193,7 +214,8 @@ try {
   report.checks = [
     "current default identities",
     "72kmh/120s/8280",
-    "906 Baghdad fleet",
+    "wheel support and passive secondary identities",
+    "266 geographic contexts held without reusing historical fleet",
     "current city source bindings",
     "desktop/mobile rendering",
     "read-only API",

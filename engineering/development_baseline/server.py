@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import argparse
 from functools import partial
-from hashlib import sha256
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 import mimetypes
@@ -51,29 +50,11 @@ class Handler(BaseHTTPRequestHandler):
         entry = next((row for row in catalogue if row['slug'] == slug), None)
         if entry is None:
             raise CurrentUnavailable('Unknown selected city')
-        summary_path = checked_path(self.root, entry['summary_path'])
-        summary_bytes = summary_path.read_bytes()
-        value = json.loads(summary_bytes)
-        manifest_path = summary_path.parent / 'manifest.json'
-        if not manifest_path.is_file():
-            raise CurrentUnavailable('Current city has no manifest')
-        manifest_bytes = manifest_path.read_bytes()
-        manifest = json.loads(manifest_bytes)
-        catalogue_receipt = json.loads(checked_path(self.root, 'docs/design-engine/current/city-catalogue-manifest.json').read_bytes())
-        if catalogue_receipt['files_sha256'].get(manifest_path.relative_to(self.root).as_posix()) != sha256(manifest_bytes).hexdigest():
-            raise CurrentUnavailable('Current city receipt differs from the bound catalogue')
-        # City producers bind all physical IDs and selection. No fallback to
-        # the old city's engineering/sim files is permitted.
-        baseline = selected(self.root)
-        check_identity(value, baseline)
-        check_identity(manifest, baseline)
-        check_identity(catalogue_receipt, baseline)
-        if sha256(summary_bytes).hexdigest() != manifest['files_sha256'][summary_path.name]:
-            raise CurrentUnavailable('Current city summary changed')
-        for relative, expected in manifest.get('source_sha256', {}).items():
-            if digest(checked_path(self.root, relative)) != expected:
-                raise CurrentUnavailable('Current city source changed: ' + relative)
-        return value
+        if entry.get('execution') == 'held':
+            # The v0.6 catalogue exposes preserved geography, never old city
+            # performance as if it belonged to the new physical candidate.
+            return cities.evaluate_city(slug, root=self.root)
+        raise CurrentUnavailable('No v0.6 city performance packet is authorized; regenerate the geographic hold register')
 
     def do_GET(self):
         path = unquote(urlsplit(self.path).path)
@@ -99,7 +80,8 @@ class Handler(BaseHTTPRequestHandler):
                 return
             if path.startswith('/api/city/'):
                 read_packet(self.root)
-                self.respond(200, self.city_summary(path.removeprefix('/api/city/')))
+                value = self.city_summary(path.removeprefix('/api/city/'))
+                self.respond(503 if value.get('execution') == 'held' else 200, value)
                 return
             if path.startswith('/api/'):
                 self.hold('No current-design read-only endpoint exists here. Historical execution is isolated.', 410)
