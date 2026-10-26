@@ -66,7 +66,7 @@ def deck(variant,mass,dx=.6,asymmetric=False,braking=False,joint_factor=1.,mesh_
     else:
         lines += [f'{i},3,3' for i in base['supports']];support=sorted(base['supports'],key=lambda i:nodes[i][0]);lines += [f'{support[0]},1,2',f'{support[-1]},2,2']
     lines += ['*NSET,NSET=FRAME']
-    refs=sorted(base['nodes']);lines += [','.join(map(str,refs[i:i+16])) for i in range(0,len(refs),16)]
+    refs=sorted(set(lookup.values()) | port_refs);lines += [','.join(map(str,refs[i:i+16])) for i in range(0,len(refs),16)]
     lines += ['*NSET,NSET=BEARERS',','.join(map(str,base['supports'])),'*STEP','*STATIC','*CLOAD'];total=0.;long=0.
     for k,(x,ids) in enumerate(base['floor']):
         prev=-8.5 if k==0 else (base['floor'][k-1][0]+x)/2;nxt=8.5 if k==len(base['floor'])-1 else (base['floor'][k+1][0]+x)/2
@@ -82,8 +82,28 @@ def deck(variant,mass,dx=.6,asymmetric=False,braking=False,joint_factor=1.,mesh_
     expected=sum(m['mass_kg']/2710 for i,m in enumerate(members) if i in variant['supported_member_indices'])
     if abs(volume-expected)>1e-8:raise ValueError('Explicit tube-wall volume differs from stock')
     return '\n'.join(lines),dict(nodes=len(nodes),solid_elements=len(solids),meshed_volume_m3=volume,expected_stock_volume_m3=expected,
-        applied_vertical_force_N=total,applied_longitudinal_force_N=long,rigid_section_ports=True,rigid_ports_only_at_contacts_supports_loads=True,rotational_equation_dofs_used=False)
+        applied_vertical_force_N=total,applied_longitudinal_force_N=long,rigid_section_ports=True,rigid_ports_only_at_contacts_supports_loads=True,rotational_equation_dofs_used=False,displacement_output_scope='All actual solid nodes and active translational port nodes; rotation-variable nodes excluded')
 
+
+def sill_stock_options(vehicle):
+    """Three counted geometric alternatives; no structural or clearance pass."""
+    from .vehicle import tube
+    old=[m for m in body_frame.members_from_stock(vehicle['geometry_parts']) if m['id'].startswith('wheel-underframe/sill/')]
+    options=[]
+    for height,wall in ((.65,.012),(.65,.016),(.60,.016)):
+        stock=[]
+        label=f'180x{round(height*1000)}x{round(wall*1000)}mm'
+        for i,m in enumerate(old):
+            top=max(p['at_m'][2]+p['size_m'][2] for p in m['stock']);width=.18
+            tube(stock,f'wheel-underframe/sill/alternative-{label}/{i}',(m['start_m'][0],m['start_m'][1]-width/2,top-height),m['length_m'],width,height,wall)
+        physical=dict(parent_candidate_id=vehicle['candidate_id'],replaced_part_ids=[p['id'] for m in old for p in m['stock']],new_stock=stock)
+        options.append(dict(alternative_id=identity(physical),name=label,physical_definition=physical,
+            counted_material_mass_delta_kg=sum(p['mass_kg'] for p in stock)-sum(m['mass_kg'] for m in old),
+            minimum_nominal_sill_bottom_m=min(p['at_m'][2] for p in stock),
+            new_section_properties=[{k:m[k] for k in ('id','area_m2','I_about_local_1_m4','I_about_local_2_m4','mass_kg')} for m in body_frame.members_from_stock(stock)],
+            execution='definition-only',structural_screen='unknown',clearance_screen='unknown',
+            scope='Deep sills preserve width/top and require new bogie wear, suspension, wheel, rail and swept-envelope verification; no default adoption',**FLAGS))
+    return options
 
 def run_benchmark(output):
     from .vehicle import tube
@@ -133,7 +153,7 @@ def run(output,vehicle,root=ROOT):
             change=abs(cs[0]['maximum_vertical_displacement_m']-cs[1]['maximum_vertical_displacement_m'])/cs[1]['maximum_vertical_displacement_m'];refinement.append(dict(variant=v['name'],relative_deflection_change=change,numerical_screen='pass' if change<.02 and all(c['numerical_validity']=='equilibrium-pass' for c in cs) else 'fail'))
     if sources!={**body_frame.build(vehicle,root)['source_sha256'],PRODUCER:digest(__file__)}:raise ValueError('Solid frame source changed')
     result=dict(schema='osr-v06-native-solid-frame/1',parent_candidate_id=vehicle['candidate_id'],execution='completed' if all(c['execution']=='completed' for c in cases) else 'completed-with-errors',
-        source_sha256=sources,cases=cases,refinement=refinement,independent_benchmark=benchmark,scope='Explicit hollow stock C3D20R, rigid contact/load/support-section and finite-contact port upper bound. No joints, stresses/buckling/fatigue or whole equipped-body qualification.',**FLAGS)
+        source_sha256=sources,cases=cases,refinement=refinement,independent_benchmark=benchmark,next_experiment_stock_options=sill_stock_options(vehicle),scope='Explicit hollow stock C3D20R, rigid contact/load/support-section and finite-contact port upper bound. No joints, stresses/buckling/fatigue or whole equipped-body qualification.',**FLAGS)
     result['evaluation_id']=identity(result);(output/'result.json').write_bytes(encoded(result));m=dict(source_sha256=sources,files_sha256={p.relative_to(output).as_posix():digest(p) for p in sorted(output.rglob('*')) if p.is_file()},**FLAGS);m['manifest_id']=identity(m);(output/'manifest.json').write_bytes(encoded(m));return result
 
 
