@@ -149,7 +149,7 @@ def _mesh(variant,dx):
             for y in (-.55,.55):cuts[i].add(y-m['start_m'][1])
     nodes={};points={};end_ids={};n=0;elements=[];eid=0
     for i in sorted(active):
-        m=members[i];values=sorted(round(x,9) for x in cuts[i]);cuts[i]=values
+        m=members[i];values=sorted({round(x,9) for x in cuts[i]});cuts[i]=values
         for u in values:
             p=list(m['start_m']);p[m['axis']]+=u;n+=1;nodes[n]=p;points[i,u]=n
         end_ids[i]=[points[i,u] for u in values]

@@ -33,3 +33,13 @@ def test_applied_loads_and_actual_bogie_supports_are_explicit():
     assert len(mesh['support_nodes'])==4
     assert '*BEAM SECTION' in raw and 'SECTION=BOX' in raw
     assert 'SECTION=RECT' in raw
+
+
+def test_contact_and_refinement_cuts_do_not_create_zero_length_elements():
+    d=body_frame.build(current(),root=body_frame.ROOT)
+    for alt in d['variants']:
+        mesh=body_frame._mesh(alt,.3)
+        for element in mesh['elements']:
+            a,m,b=[mesh['nodes'][i] for i in element['nodes']]
+            assert sum((x-y)**2 for x,y in zip(a,b))>1e-14
+            assert m==pytest.approx([(x+y)/2 for x,y in zip(a,b)],abs=1e-9)
