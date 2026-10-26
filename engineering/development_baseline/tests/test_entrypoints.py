@@ -228,6 +228,7 @@ def reader_cache(packet):
     reader_source.parent.mkdir(parents=True,exist_ok=True);reader_source.write_bytes(Path(reader.__file__).read_bytes())
     write_json(root/OUTPUT/'cities.json',dict(summary,cities=[]))
     write_json(root/OUTPUT/'comparison.json',dict(alternatives=[]))
+    write_json(root/'docs/design-engine/v06-physical-closure/summary.json',dict(scope='Synthetic cache-integrity fixture; no solver evidence'))
     for name in ('vehicle-overview.svg','service-profile.svg','interface-section.svg'):
         (root/OUTPUT/name).write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>')
     pdf=root/'OpenSourceRail-Book.pdf'
@@ -265,4 +266,11 @@ def test_reader_cannot_rebind_changed_current_payload_as_a_cached_publication(re
     receipt['receipt_id']=cli.selection.identity({k:v for k,v in receipt.items() if k!='receipt_id'})
     write_json(root/book.RECEIPT,receipt)
     with pytest.raises(cli.CurrentUnavailable,match='modified'):
+        book.build(root=root,check=True)
+
+
+def test_reader_cache_refuses_changed_native_followup(reader_cache):
+    root,book,_=reader_cache
+    write_json(root/'docs/design-engine/v06-physical-closure/summary.json',dict(scope='Changed synthetic evidence'))
+    with pytest.raises(ValueError,match='stale'):
         book.build(root=root,check=True)

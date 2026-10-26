@@ -12,7 +12,7 @@ def _inputs(root):
     root=Path(root)
     names=['engineering/station_rail/reader.py','engineering/development_baseline/book.py','engineering/development-baseline.toml',
         'README.md','docs/ROADMAP.md',OUTPUT+'/summary.json',OUTPUT+'/cities.json',OUTPUT+'/comparison.json',
-        OUTPUT+'/vehicle-overview.svg',OUTPUT+'/service-profile.svg',OUTPUT+'/interface-section.svg']
+        'docs/design-engine/v06-physical-closure/summary.json',OUTPUT+'/vehicle-overview.svg',OUTPUT+'/service-profile.svg',OUTPUT+'/interface-section.svg']
     return {name:digest(root/name) for name in names}
 
 def build(root=ROOT,output=None,check=False):
@@ -160,7 +160,23 @@ def build(root=ROOT,output=None,check=False):
     para('A prototype package needs reviewed drawings, tolerances, joining, tooling, BOM, procurement, inspection and an instrumented test programme. Development adoption does not grant manufacturing, physical motion or operating release.')
     page('9. Evidence gaps and next work')
     table(['Gate','State','Required evidence'],[(g['gate'],g['state'],g['reason']) for g in summary['gates']],[110,55,325])
-    page('10. Reproduce and inspect')
+    page('10. Native motor, body and brake follow-up')
+    followup=json.loads((root/'docs/design-engine/v06-physical-closure/summary.json').read_bytes());motor=followup['motor']
+    para('The bounded follow-up adds18current-excited GetDP motor cases and24actual Chrono brake executions. These are component/reduced-model experiments, not a physically coupled launch-coast-arrival journey.')
+    table(['Executed comparison','Result'],[
+        ('Full12.5m primary and9m secondary',f"{motor['force_N_full_geometry_2D']/1000:.3f}kN/car versus{motor['required_force_N_per_car']/1000:.3f}kN required"),
+        ('Peak steel field','2.240T exceeds declared1.3T linear-domain bound'),
+        ('Bare primary copper and steel',f"{followup['motor_primary_bare_stock_kg_per_m']:.1f}kg/m, excluding cooling, supports and power equipment"),
+        ('Full motor heat at tested point','52.1kW secondary plus43.6kW primary copper per engaged module')],[240,250])
+    para('Successful zero-current, phase-reversal and energy checks do not repair the force deficit or out-of-domain steel. Winding regrouping can reduce an arithmetic voltage requirement at much higher converter current, but finite-overlap current sharing and thermal duty are unknown. Installed available force stays unknown.')
+    rows=[]
+    for case in followup['brake_cases']:
+        if case['load']=='normal':rows.append((case['case'],'Cannot stop' if case['stop_distance_m'] is None else f"{case['stop_distance_m']:.1f}m"))
+    table(['Normal-load braking from20m/s','5ms Chrono result'],rows,[300,190])
+    para('Wet/downhill uses adhesion0.05 on a2%downgrade; lost channel retains four discs/car. Assumed pad friction, piston pressure and ideal instantaneous WSP are not qualified hardware. The crowd failed-channel case needs over3km. Fault detection, authority, route speed and protected overrun must use a validated degraded stopping envelope.')
+    para('Independent body verification rejected native rotational beam equations and an overly rigid solid-section fixture. Rejected results remain recorded. Counted post connections and actual floor cutouts/collars add77.154kg/car before unknown joining hardware; they are an unadopted alternative. Native stock fit-up does not prove body strength, fatigue or complete assembly.')
+    para('Counted wheel, axle and disc rotation adds1,770.387kg/car equivalent inertial mass, with no added static weight. It now feeds launch work, coasting and brake energy. Exact findings, benchmark dispositions and compact source-bound evidence are in docs/design-engine/v06-physical-closure/.')
+    page('11. Reproduce and inspect')
     para('Use ./osr status, ./osr readiness, ./osr build, ./osr verify, ./osr test, ./osr book --check and ./osr workbench. ./osr sim baghdad reports its deliberate city-evaluation hold. ./osr legacy verify checks retained source/payload bytes at their recorded Git revisions.')
     para('The v0.5 archive preserves magnetic development evidence; its source and results are not overwritten to match a wheel-supported train. Historical numerical regeneration belongs in a separate checkout of the pinned revision.')
     sub('Repository records')

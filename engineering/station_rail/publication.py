@@ -89,6 +89,8 @@ def sources(root,record,index,delivery):
         'tools/automation/default-design-cycle.py','tools/automation/tests/verify-development-baseline.mjs','tools/automation/v06-native-benchmarks.py']
     for directory in ('engineering/station_rail','engineering/development_baseline'):
         names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.toml','.js','.html','.css') and '__pycache__' not in p.parts]
+    followup=root/'docs/design-engine/v06-physical-closure'
+    if followup.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(followup.iterdir()) if p.is_file()]
     return evaluation.merge(*maps,{n:digest(root/n) for n in sorted(set(names))})
 
 def compact(record,index,natives,delivery):
@@ -99,7 +101,7 @@ def compact(record,index,natives,delivery):
             drive_convergence=natives['drive']['convergence_screen'],
             scope='Actual FreeCAD/STEP export and reopen, limited CalculiX underframe fixtures, GetDP manufactured conductive-slab convergence and Rust ATP/interface regressions. No complete physical train journey.',
             physical_train_simulated=False),known_gate_counts=dict(Counter(g['state'] for g in record['gates'])),
-        current_outputs=dict(exports=OUTPUT+'/exports/manifest.json',reader='OpenSourceRail-Book.pdf'),
+        current_outputs=dict(exports=OUTPUT+'/exports/manifest.json',reader='OpenSourceRail-Book.pdf',physical_followup='docs/design-engine/v06-physical-closure/README.md'),
         economics_acceptance='unknown',city_performance_packages_written=0)
     return value
 
@@ -118,11 +120,12 @@ def readme(record,summary):
       f"| Service-only battery | {b['gross_energy_kWh']:.1f} kWh, {b['mass_kg']:.0f} kg/car reference account; cooled installation and rail approval open |",
       '| Service targets | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² braking, 35 s dwell, 120 s headway; 8,280 pphpd arithmetic |','',
       '## Reference journey and power','',
-      f"The 2 km, normal-load point-mass requirement takes **{p['runtime_s']:.3f} s**, reaching 20 m/s and arriving at **{p['arrival_speed_before_braking_m_s']:.3f} m/s** before braking. Required peak launch force is **{p['peak_launch_force_N_per_car']/1000:.3f} kN/car**, mechanical power **{p['peak_launch_power_W_per_car']/1000:.1f} kW/car**. Actual available thrust, current, voltage and full motor efficiency remain unknown.",'',
+      f"The 2 km, normal-load longitudinal requirement, including counted wheel/axle/disc rotational inertia, takes **{p['runtime_s']:.3f} s**, reaching 20 m/s and arriving at **{p['arrival_speed_before_braking_m_s']:.3f} m/s** before braking. Required peak launch force is **{p['peak_launch_force_N_per_car']/1000:.3f} kN/car**, mechanical power **{p['peak_launch_power_W_per_car']/1000:.1f} kW/car**. Actual available thrust, current, voltage and full motor efficiency remain unknown.",'',
       f"Full-train engagement requires **{z['required_shared_winding_m']:.1f} m** of shared launch/receiving winding; the library chooses **{z['length_m']:.0f} m**, **{z['sections_per_direction']} sections/direction** at 12.5 m and at least two independently controlled train branches. The **{z['nominal_resource_interval_s']:.2f} s** nominal berth interval is a necessary resource screen, not verified two-minute operation.",'',
       'Reference profiles cover empty, 46-person and 160-person structural-control loads at 1.5 and 2 km, with grade/wind, charge and independent wet/downhill stopping bounds. A 0.05 adhesion hypothesis on a 2% downgrade gives approximately 700 m stopping from 20 m/s including one second response. Supplier brakes, WSP, uncertainties and actual routes must establish the protection envelope. Receiving motor recovery receives no safety credit.','',
       'The 82.8 kWh service reference uses 75 industrial Type3-20 modules plus explicit enclosure/cooling/conversion accounts. The 200 kW charging target passes a catalogue voltage/current necessary bound; available charge power versus SOC/temperature remains unknown. A 50°C environment exceeds the module ambient catalogue range. Normal 35 kW/car hotel duty balances in the prototype calculation; 50 kW/car adverse duty needs more charging. Solar yield is not guaranteed or credited to make the balance pass.','',
       'The actual GetDP conductive-slab benchmark converges against its exact imposed-field solution. It has no real primary winding, steel/end geometry, current-to-force map or finite-height return currents. Its conditional thrust is not available station thrust. Active-plate-only and all-aluminium heat-capacity bounds expose the dependence on thermal connection; actual temperatures remain unknown.','',
+      'The [native physical follow-up](../v06-physical-closure/README.md) adds 18 current-excited LIM cases, 24 reduced Chrono brake runs and native body-interface/fit-up experiments. The tested full primary fails force and steel-field screens. Its raw field calculations remain conditional; the default geometry and acceptance holds are unchanged.','',
       '[Prototype/fault test plan](prototype-test-plan.json) · [Full evaluation](evaluation.json.gz) · [Motor method evidence](native-drive.tar.gz) · [Speed requirement](service-profile.svg) · [Equal-service comparison](comparison.json)','',
       '## Vehicle and civil design','',
       'New bogie hardpoints, deep side sills and retained roof longitudinal members replace the magnetic carrier arrangement. The isolated side sills fail their declared stiffness screen; ideal whole-body chord coupling is an upper stiffness bound, with shear transfer, openings and joints unqualified. Native CAD is counted material geometry, not a complete installed or collision-free certified vehicle. Split battery cassettes, brakes, suspension, couplers, frame joints and maintenance paths still need detailed installation.','',

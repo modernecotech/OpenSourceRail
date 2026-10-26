@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **920**.
+Indexed Markdown files: **921**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **920**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 84 |
+| [docs](#docs) | 85 |
 | [engineering](#engineering) | 21 |
 | [tools](#tools) | 2 |
 
@@ -960,6 +960,7 @@ Indexed Markdown files: **920**.
 | [`docs/design-engine/passive-suspension/plan.md`](../docs/design-engine/passive-suspension/plan.md) | Bounded specialist campaign |
 | [`docs/design-engine/physical-feasibility-round/README.md`](../docs/design-engine/physical-feasibility-round/README.md) | Coupled physical feasibility and whole-system review follow-up |
 | [`docs/design-engine/trip-dynamics/README.md`](../docs/design-engine/trip-dynamics/README.md) | Six-car journey simulation programme |
+| [`docs/design-engine/v06-physical-closure/README.md`](../docs/design-engine/v06-physical-closure/README.md) | v0.6 native physical follow-up |
 | [`docs/design-engine/vehicle-optimisation/README.md`](../docs/design-engine/vehicle-optimisation/README.md) | Neodymium Halbach arrays and lighter vehicle equipment |
 | [`docs/design-engine/vehicle-optimisation/plan.md`](../docs/design-engine/vehicle-optimisation/plan.md) | Coordinated next design work |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoptable product: the delivery platform |

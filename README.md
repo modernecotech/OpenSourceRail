@@ -28,6 +28,8 @@ Removing propulsion does not remove passenger services or braking. Loss of stati
 
 The [current dossier](docs/design-engine/current/README.md) contains the mass ledger, reference 1.5–2 km calculations, battery duty, braking bounds, civil alternatives, readiness gates and [delivery drafts](docs/design-engine/current/exports/manifest.json). The [roadmap](docs/ROADMAP.md) and [illustrated reader](OpenSourceRail-Book.pdf) explain the remaining work.
 
+The [native follow-up campaign](docs/design-engine/v06-physical-closure/README.md) executes current-excited motor FEM, reduced Chrono braking and body-interface experiments. The tested full LIM delivers a conditional **7.17 kN/car against 11.10 kN required** and exceeds its steel-model field limit. This geometry needs redesign. Wet/downhill and failed-channel braking also require larger protection margins; these simulations do not qualify brake hardware.
+
 Reference calculations distinguish **required force** from available motor thrust. Station-only propulsion still needs a validated LIM map, practical clearance, thermal duty and receiving/fault evidence. Complete installed mass/CG/inertia, joined-body structure, wheel dynamics, hot-weather HVAC, independent braking, rescue and same-service economics remain open.
 
 The 266 city geographies and underlying maps are preserved as starting inputs. **City numerical regeneration is held** until the reference drive, braking, route and economic evidence is sufficient. Old fleet, station winding, CAPEX and OPEX figures are historical; they are not v0.6 results. See the [geographic catalogue and holds](docs/design-engine/current/cities.json).

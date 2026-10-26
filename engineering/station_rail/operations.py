@@ -255,7 +255,7 @@ def evaluate(vehicle, root=ROOT):
         airgap_each_side_m=config['propulsion']['primary_target_airgap_each_side_m'])
     critical_heat=chosen['receiving_mechanical_energy_J_per_car']
     result=dict(schema='osr-wheel-operations-evaluation/1',**{k:vehicle[k] for k in IDS},
-        profiles=profiles,reference_environment_cases=environment,longest_retained_gap_cases=longest,
+        profiles=profiles,rotating_stock=rotors,reference_environment_cases=environment,longest_retained_gap_cases=longest,
         longest_retained_gap_context=dict(distance_m=longest_distance,city='Faisalabad',line='line-2',
             from_stop='line-2-operating-0005',to_stop='line-2-operating-0006',adjacent_gaps_scanned=17268,
             source_role='Geography only; old maglev performance is not reused'),

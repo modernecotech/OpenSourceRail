@@ -63,3 +63,12 @@ def test_selector_cannot_relabel_unchanged_physics(tmp_path,monkeypatch,current,
     assert selection.load(tmp_path)['vehicle']['candidate_id']==current['candidate_id']
     text=(tmp_path/INPUT).read_text();assert old in text;(tmp_path/INPUT).write_text(text.replace(old,new))
     with pytest.raises(ValueError,match='mirrors'):selection.load(tmp_path)
+
+
+def test_current_comparison_carries_the_same_counted_rotors(current):
+    result=comparison.evaluate(current)
+    selected=result['alternatives'][0]['profiles'][1]
+    reference=current['service']['selected_scenario']['profile']
+    assert selected['inputs']['rotating_equivalent_mass_kg_per_car']>1700
+    assert selected['peak_launch_force_N_per_car']==pytest.approx(reference['peak_launch_force_N_per_car'])
+    assert selected['runtime_s']==pytest.approx(reference['runtime_s'])

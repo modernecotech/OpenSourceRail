@@ -12,6 +12,12 @@ OpenSourceRail v0.6 develops a station-powered, wheel-supported comfort train. [
 6. Retain existing onboard ATP, interlocking, OCC, TCMS and station-led GoA4 architecture. Qualify physical brake profiles, localisation, integrity, timing and communications; execute fault injection and the existing formal assurance programme. New software predicates do not release a railway.
 7. Compare whole-life costs against v0.5 and a station-launch v0.4 derivative at equal route, passenger service and reliability. Supplier prices, installation, maintenance, peak supply and renewal costs remain unknown until supported.
 
+## Executed native follow-up
+
+The [bounded campaign](design-engine/v06-physical-closure/README.md) adds 18 actual current-excited GetDP motor cases, 24 reduced Chrono braking runs, body connectivity checks and native floor fit-up. Counted wheel rotational inertia now feeds the service requirements. The tested full station primary fails its force and linear-steel domain screens. Independent verification rejected invalid body interfaces; frame/joint qualification remains open. None of these executions grants a physical journey or operating release.
+
+Next, redesign the primary for force, steel cross-section, practical gaps and repeated heat together; obtain actual brake/adhesion/WSP curves; and resolve body-joint load paths using independently benchmarked models. Keep service alternatives explicit and compare whole-system quantities before changing the default.
+
 ## Release gates
 
 | Gate | Required result |
