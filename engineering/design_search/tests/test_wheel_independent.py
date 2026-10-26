@@ -104,3 +104,41 @@ def test_dependency_result_digest_cannot_be_reused_after_payload_change():
     changed['metrics']['constraint_violation'] = 0.
     with pytest.raises(ValueError, match='payload digest'):
         k.validate_result(changed)
+
+
+@pytest.mark.parametrize('mutation', ['payload', 'candidate', 'source', 'tool', 'inventory'])
+def test_wheel_dependency_adapter_refuses_mixed_or_stale_evidence(monkeypatch, mutation):
+    from engineering.design_search import wheel_evaluators as w
+    c = stock()
+    sources = {'fixture-wheel-method.py': 'a'*64}
+    monkeypatch.setattr(w, 'source_snapshot', lambda _: deepcopy(sources))
+    tools = {'getdp': {'binary_sha256': 'b'*64}}
+    parent = k.make_evaluation_request(c, evaluator_id='wheel-definition', evaluator_sources=sources,
+                                      environment=dict(native_tools=tools))
+    dep = k.make_result(parent, execution_status='executed', numerical_status='converged',
+                        screen_status='unknown')
+    deps = {'wheel-definition': dep}
+    request = k.make_evaluation_request(c, evaluator_id='wheel-body', evaluator_sources=sources,
+        settings=dict(dependency_results=deps), environment=dict(native_tools=tools))
+    assert w.validate_dependencies(c, request) == deps
+    if mutation == 'payload':
+        deps['wheel-definition']['metrics']['fabricated_objective'] = 0.
+    elif mutation == 'candidate':
+        foreign = stock(1.2)
+        req = k.make_evaluation_request(foreign, evaluator_id='wheel-definition', evaluator_sources=sources,
+                                        environment=dict(native_tools=tools))
+        deps['wheel-definition'] = k.make_result(req, execution_status='executed', numerical_status='converged', screen_status='unknown')
+    elif mutation == 'source':
+        monkeypatch.setattr(w, 'source_snapshot', lambda _: {'fixture-wheel-method.py': 'c'*64})
+    elif mutation == 'tool':
+        request = deepcopy(request)
+        request['environment']['native_tools'] = {'getdp': {'binary_sha256': 'c'*64}}
+    else:
+        deps['unrequested-wheel-result'] = dep
+    # make_evaluation_request deep-copies settings; install the explicitly
+    # changed dependency mapping to exercise the adapter's own evidence guard.
+    if mutation != 'tool':
+        request = deepcopy(request)
+        request['settings']['dependency_results'] = deps
+    with pytest.raises(ValueError):
+        w.validate_dependencies(c, request)
