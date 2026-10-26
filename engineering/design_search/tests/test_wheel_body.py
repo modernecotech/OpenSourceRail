@@ -107,3 +107,20 @@ def test_small_displacement_with_failed_equilibrium_cannot_pass_a_screen(tmp_pat
     assert r['numerical_validity']=='invalid'
     assert r['necessary_stiffness_screen']=='unknown' and r['engineering_screen']=='unknown'
     assert not r['physical_accepted']
+
+
+def test_vertical_stability_cannot_mask_a_diverging_lateral_response():
+    cases=[dict(case='normal',execution='completed',maximum_vertical_displacement_m=.03173507,maximum_longitudinal_displacement_m=.005321738,maximum_lateral_displacement_m=.03825581),
+        dict(case='normal-fine',execution='completed',maximum_vertical_displacement_m=.03224427,maximum_longitudinal_displacement_m=.005362038,maximum_lateral_displacement_m=.2539229)]
+    r=w._displacement_refinement(cases)
+    assert r['components']['vertical']['state']=='pass'
+    assert r['components']['longitudinal']['state']=='pass'
+    assert r['components']['lateral']['state']=='fail' and r['status']=='fail'
+
+
+def test_sub_tenth_mm_refinement_noise_does_not_create_relative_zero_failures():
+    a=dict(case='normal',execution='completed',maximum_vertical_displacement_m=0.,maximum_longitudinal_displacement_m=0.,maximum_lateral_displacement_m=0.)
+    b={**a,'case':'normal-fine','maximum_vertical_displacement_m':.00005,'maximum_longitudinal_displacement_m':.00005,'maximum_lateral_displacement_m':.00005}
+    r=w._displacement_refinement([a,b])
+    assert r['status']=='pass' and all(c['below_absolute_noise_floor'] for c in r['components'].values())
+    assert w._displacement_refinement([a])['status']=='unknown'

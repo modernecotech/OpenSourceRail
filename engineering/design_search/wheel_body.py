@@ -281,6 +281,25 @@ def _native(raw,folder,timeout_s=150):
     except ValueError as e:return dict(execution='numerical_error',reason=str(e),runtime_s=time.monotonic()-started,address_space_limit_bytes=bound)
 
 
+def _displacement_refinement(cases):
+    """Necessary trends in all three normal-load displacement maxima."""
+    coarse=next((c for c in cases if c['case']=='normal' and c['execution']=='completed'),None)
+    fine=next((c for c in cases if c['case']=='normal-fine' and c['execution']=='completed'),None)
+    rows={}
+    for name,key,limit in [('vertical','maximum_vertical_displacement_m',.02),
+            ('longitudinal','maximum_longitudinal_displacement_m',.05),('lateral','maximum_lateral_displacement_m',.05)]:
+        a=coarse.get(key) if coarse else None;b=fine.get(key) if fine else None
+        row=dict(coarse_m=a,fine_m=b,relative_limit=limit,absolute_noise_floor_m=.0001,state='unknown')
+        if a is not None and b is not None:
+            absolute=abs(a-b);relative=absolute/max(abs(b),1e-12)
+            noise=absolute<=.0001+1e-12
+            row.update(absolute_change_m=absolute,relative_change_fraction=relative,
+                below_absolute_noise_floor=noise,state='pass' if noise or relative<limit else 'fail')
+        rows[name]=row
+    status='fail' if any(r['state']=='fail' for r in rows.values()) else 'pass' if all(r['state']=='pass' for r in rows.values()) else 'unknown'
+    return dict(components=rows,status=status,scope='Coarse/fine normal-load displacement maxima only; not stress/mode/field-norm convergence or physical validation')
+
+
 def evaluate(vehicle,parameters,output,*,root=ROOT,confirmation=False):
     p=_parameters(parameters)
     if vehicle['body_candidate_id']!=identity(vehicle['body_physical_definition']):raise ValueError('Mixed or mutated physical body identity')
@@ -301,18 +320,20 @@ def evaluate(vehicle,parameters,output,*,root=ROOT,confirmation=False):
             case.update(force_balance_relative_error=residual,numerical_validity='valid_equilibrium_only' if residual<1e-4 else 'invalid',engineering_screen=('unknown' if residual>=1e-4 else 'pass' if case['maximum_vertical_displacement_m']<=.0256 else 'fail'))
         cases.append(case)
     completed=[c for c in cases if c['execution']=='completed'];normal=next((c for c in completed if c['case']=='normal'),None);fine=next((c for c in completed if c['case']=='normal-fine'),None)
-    refinement=abs(normal['maximum_vertical_displacement_m']-fine['maximum_vertical_displacement_m'])/fine['maximum_vertical_displacement_m'] if normal and fine else None
+    refinement_record=_displacement_refinement(cases)
+    refinement=refinement_record['components']['vertical'].get('relative_change_fraction')
     missing=['Qualified laminate/core/bond constants and hot/wet properties','Joint slip, preload, bearing, fastener-hole and fatigue evidence','Stress, local/global buckling, crash and flexible modes','Bogie movement/worn-wheel/rail/cassette swept clearances','Complete installed stock, mass/CG/inertia and manufacturing qualification']
     if p['family']=='participating_sandwich':missing+=['Balanced-skin continuum is lower fidelity than ply-resolved laminate; ideal pad transfer and perfect internal bond are upper-bound hypotheses','Detailed floor/roof sandwich-to-frame load transfer remains unqualified; frame ribs/chords participate, their panel skins are not credited']
     balanced=len(completed)==len(cases) and all(c.get('force_balance_relative_error',1)<1e-4 for c in cases)
-    mesh_confirmed=balanced and refinement is not None and refinement<.02
+    mesh_confirmed=balanced and refinement_record['status']=='pass'
+    numerical='mesh_confirmed' if mesh_confirmed else 'invalid' if not balanced else 'nonconverged' if refinement_record['status']=='fail' else 'unconfirmed'
     state='fail' if any(c.get('engineering_screen')=='fail' for c in cases) else 'unknown'
     necessary='fail' if state=='fail' else 'pass' if mesh_confirmed and all(c.get('engineering_screen')=='pass' for c in cases) else 'unknown'
     result=dict(schema='osr-wheel-body-evaluation/1',candidate_id=vehicle['candidate_id'],body_candidate_id=vehicle['body_candidate_id'],parameters=p,
-        execution='completed' if len(completed)==len(cases) else 'completed_with_errors',numerical_validity='mesh_confirmed' if mesh_confirmed else 'invalid' if not balanced else 'unconfirmed',
+        execution='completed' if len(completed)==len(cases) else 'completed_with_errors',numerical_validity=numerical,
         necessary_stiffness_screen=necessary,engineering_screen=state,evidence_maturity='analytical_constitutive_native_global_screen',
-        states=dict(execution='completed' if len(completed)==len(cases) else 'completed_with_errors',numerical_validity='pass' if mesh_confirmed else 'invalid' if not balanced else 'unknown',engineering_screen=state,physical_acceptance='unknown'),
-        metrics=dict(normal_deflection_m=normal['maximum_vertical_displacement_m'] if normal else None,normal_deflection_limit_m=.0256,refinement_fraction=refinement,
+        states=dict(execution='completed' if len(completed)==len(cases) else 'completed_with_errors',numerical_validity='pass' if mesh_confirmed else 'invalid' if not balanced else 'nonconverged' if refinement_record['status']=='fail' else 'unknown',engineering_screen=state,physical_acceptance='unknown'),
+        metrics=dict(normal_deflection_m=normal['maximum_vertical_displacement_m'] if normal else None,normal_deflection_limit_m=.0256,refinement_fraction=refinement,displacement_refinement=refinement_record,
             accounted_tare_kg_per_car=vehicle['mass']['accounted_tare_kg_per_car'],stock_mass_delta_kg=vehicle['wheel_body']['stock_mass_delta_kg'],maximum_force_balance_residual=max((c.get('force_balance_relative_error',1) for c in cases),default=None)),
         cases=cases,native_jobs_used=len(cases),runtime_s=sum(c['runtime_s'] for c in cases),constitutive_hypotheses=CONSTITUTIVE,model_domain='Linear global continuum response; finite-deformation effects, local hole bearing, material strength and actual connector stiffness remain unevaluated',
         missing_gates=missing,raw_packages=[dict(path=str(output/c['case']),case=c['case']) for c in cases],source_sha256={**vehicle['source_sha256'],PRODUCER:before},**FLAGS)
