@@ -70,3 +70,16 @@ def test_headwind_increases_energy_and_can_destroy_coast_reach():
     no_drag=op.profile(2000,23000,rolling_coefficient=0,bearing_drag_N_per_car=0,quadratic_drag_N_per_car_per_m_s_squared=0)
     assert no_drag['reachable']
     assert no_drag['runtime_s']==pytest.approx(125+100/6)
+
+
+def test_closed_form_coast_matches_independent_velocity_quadrature():
+    p=op.profile(2000,23000,headwind_m_s=7,grade_fraction=.001)
+    assert p['reachable']
+    m=23000;q=1.8;wind=7
+    c=.0025*m*op.G+50+m*op.G*.001
+    lo=p['arrival_speed_before_braking_m_s'];hi=p['peak_speed_m_s']
+    n=4000;dv=(hi-lo)/n
+    numeric_distance=sum(m*(lo+(i+.5)*dv)/(c+q*(lo+(i+.5)*dv+wind)**2)*dv for i in range(n))
+    numeric_time=sum(m/(c+q*(lo+(i+.5)*dv+wind)**2)*dv for i in range(n))
+    assert numeric_distance==pytest.approx(p['coast_distance_m'],rel=1e-7)
+    assert numeric_time==pytest.approx(p['coast_time_s'],rel=1e-7)

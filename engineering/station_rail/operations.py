@@ -12,7 +12,7 @@ from . import ROOT,FLAGS
 from .common import brief, identity, source_map
 
 G=9.80665
-PRODUCERS=('engineering/station_rail/operations.py',)
+PRODUCERS=('engineering/station_rail/operations.py','engineering/station_rail/native_drive.py')
 IDS=('candidate_id','body_candidate_id','support_component_id','propulsion_component_id')
 
 
@@ -232,6 +232,12 @@ def evaluate(vehicle, root=ROOT):
             for mu in (.03,.05,.1,.15) for gr in (0.,.01,.02,.04)]
     from . import electrical
     e=electrical.evaluate(vehicle,profiles,root)
+    from .native_drive import conditional_map
+    drive_bounds=conditional_map(chosen['peak_launch_force_N_per_car'],
+        length_m=config['propulsion']['secondary_length_m'],
+        height_m=config['propulsion']['secondary_height_m'],
+        thickness_m=config['propulsion']['secondary_thickness_m'],
+        airgap_each_side_m=config['propulsion']['primary_target_airgap_each_side_m'])
     critical_heat=chosen['receiving_mechanical_energy_J_per_car']
     result=dict(schema='osr-wheel-operations-evaluation/1',**{k:vehicle[k] for k in IDS},
         profiles=profiles,longest_retained_gap_cases=longest,
@@ -240,7 +246,7 @@ def evaluate(vehicle, root=ROOT):
             source_role='Geography only; old maglev performance is not reused'),
         selected_scenario=dict(profile=chosen,inputs=chosen['inputs']),
         selected_station=selected,station_options=zones,grade_and_rolling_sensitivity=sensitivity,
-        brake_envelopes=brakes,electrical=e,
+        brake_envelopes=brakes,electrical=e,station_drive_bound_map=drive_bounds,
         service=dict(cars=6,passengers_per_car=46,headway_s=120.,dwell_s=35.,
             normal_capacity_pphpd_arithmetic=8280.,launch_speed_cap_m_s=20.,
             physical_headway_qualified=False),
@@ -258,6 +264,6 @@ def evaluate(vehicle, root=ROOT):
         ],
         budget=dict(prototype_profiles=len(profiles),station_geometry_options=len(zones),
             grade_rolling_cases=len(sensitivity),independent_braking_cases=len(brakes),
-            service_battery_alternatives=2,secondary_slip_cases=5,longest_gap_cases=len(longest)),
+            service_battery_alternatives=2,secondary_slip_cases=5,longest_gap_cases=len(longest),conditional_drive_cases=len(drive_bounds['cases'])),
         source_sha256={**source_map(root,PRODUCERS),**e['source_sha256'],longest_source:digest(Path(root)/longest_source)},**FLAGS)
     result['evaluation_id']=identity(result);return result
