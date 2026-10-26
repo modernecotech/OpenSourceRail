@@ -69,3 +69,16 @@ def test_verifier_rejects_a_forged_seating_result(campaign,tmp_path,monkeypatch)
     for name,raw in p.payloads(changed).items():(tmp_path/name).write_bytes(raw)
     monkeypatch.setattr(p,'assemble',lambda root:campaign)
     with pytest.raises(ValueError,match='deterministic replay'):p.verify(tmp_path)
+
+
+def test_next_components_remain_separate_from_vehicle_mass(campaign):
+    policy=campaign['selection']
+    assert policy['next_door_component_id'] is not None
+    assert all(policy['next_panel_component_ids'].values())
+    assert len(policy['next_bench_component_ids'])==1
+    assert not policy['bench_fixture_selection_is_installed_seat_acceptance']
+    for c in campaign['comparisons']:
+        assert c['mass']['actual_installed_tare_kg_per_car'] is None
+    retained=next(r for r in p.summary(campaign)['comparisons'] if r['role']=='door-bench-default' and r['HVAC_units']==5 and r['glazing'].startswith('Retained'))
+    assert retained['accounted_tare_kg']==pytest.approx(17543.914278039738)
+    assert all(not option['mass_saving_credited_to_current_parent'] for option in campaign['envelope_options'])

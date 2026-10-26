@@ -30,10 +30,12 @@ try{
  const origin=await new Promise((yes,no)=>{const timer=setTimeout(()=>no(new Error(logs)),30000);server.stdout.on('data',b=>{const m=String(b).match(/http:\/\/127\.0\.0\.1:\d+/);if(m){clearTimeout(timer);yes(m[0]);}});server.once('exit',c=>{clearTimeout(timer);no(new Error('Server exited '+c+logs));});});
  browser=await launchBrowser();const page=await browser.newPage({viewport:{width:1440,height:1100}}),errors=[],requests=[];
  page.on('pageerror',e=>errors.push(String(e)));page.on('request',r=>requests.push({url:r.url(),method:r.method()}));
- await page.goto(origin+'/docs/workbench/trip/readiness/comfort/');
+ await page.goto(origin+'/docs/workbench/trip/readiness/');
+ await page.getByRole('link',{name:'Seat-led comfort options',exact:true}).click();
+ assert.equal(new URL(page.url()).pathname,'/docs/workbench/trip/readiness/comfort/');
  await page.locator('#integrity').filter({hasText:'Retained comfort payload verified'}).waitFor();
  assert.match(await page.locator('#metrics').innerText(),/44 \+ 2/);assert.match(await page.locator('#tradeoff').innerText(),/5,520/);assert.match(await page.locator('#tradeoff').innerText(),/69 seconds/);
- assert.match(await page.locator('#bench-note').innerText(),/4 wall-bench/);assert.equal(await page.locator('#components tr').count(),30);
+ assert.match(await page.locator('#bench-note').innerText(),/4 wall-bench/);assert.equal(await page.locator('#components tr').count(),36);
  await page.locator('#recipe').selectOption('wheelchair-door-bay-alternative');assert.match(await page.locator('#metrics').innerText(),/48 \+ 2/);assert.match(await page.locator('#tradeoff').innerText(),/75 seconds/);
  await page.locator('#recipe').selectOption('door-bench-default');
  const windows=await page.locator('#window option').evaluateAll(opts=>opts.map(o=>({id:o.value,label:o.textContent})));

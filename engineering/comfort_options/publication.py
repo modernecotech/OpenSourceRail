@@ -73,6 +73,8 @@ def assemble(root=ROOT):
     for component in furniture:
         seats_doors.validate(component, root=root)
     bench_finalists=[r for r in furniture if r['component']=='bench' and r['necessary_screen']=='pass']
+    door_finalists=sorted([r for r in furniture if r['component']=='door' and r['necessary_screen']=='pass'], key=lambda r:r['counted_mass_kg'])
+    panel_finalists={kind:sorted([r for r in panels if r['component']==kind and r['necessary_screen']=='pass'], key=lambda r:r['counted_mass_kg']) for kind in ('floor','roof')}
     parent = systems.parent_evidence(root)
     source = _bindings(root, list(all_layouts.values())+records+panels+furniture+[parent])
     policy = dict(purpose='next component design and comfort/service comparison',
@@ -80,6 +82,9 @@ def assemble(root=ROOT):
         integrated_candidate_selected=False, primary_recipe='door-bench-default',
         primary_HVAC_quantity=5, primary_glazing='retained glass reference; PC remains an unqualified alternative',
         next_bench_component_ids=[r['component_id'] for r in bench_finalists],
+        next_door_component_id=door_finalists[0]['component_id'] if door_finalists else None,
+        next_panel_component_ids={k:rows[0]['physical_definition_id'] if rows else None for k,rows in panel_finalists.items()},
+        component_selection_rule='Lowest counted mass among necessary-fixture survivors, per separate component scope; installed cost and whole-body compatibility unknown',
         bench_fixture_selection_is_installed_seat_acceptance=False,
         capacity_is_derived_from_fitted_seating=True, standing_passengers_default=0,
         primary_layout_id=bench['layout_id'], alternative_layout_id=access['layout_id'])
@@ -93,7 +98,7 @@ def assemble(root=ROOT):
             comfort_is_qualified=False, retained_normal_reference_passengers_per_car=120,
             retained_credible_AW3_control_passengers_per_car=160, throughput_reference_pphpd=14400),
         budgets=dict(layout_family_variants=72, additional_explicit_layouts=len(all_layouts)-72,
-            glazing_variants=33, coupled_comparisons_max=36, panel_variants_max=24,
+            glazing_variants=33, coupled_comparisons_max=36, panel_variants_max=24, seating_door_variants_max=14,
             numerical_workers='Deterministic analytical layout, stock, plate and service screens',
             new_native_field_solves=0, reused_field_states='Only exact retained zero-current 80C PM samples; no force/current extrapolation'),
         layout_family_ids=[r['layout_id'] for r in layouts], layouts=list(all_layouts.values()),
@@ -158,6 +163,7 @@ def readme(value):
     alternate=next(r for r in s['comparisons'] if r['role']=='wheelchair-door-bay-alternative' and r['HVAC_units']==5 and r['glazing'].startswith('Retained'))
     lines=['# Seat-led comfort and lightweight equipment options','',
         'OpenSourceRail investigates simple, locally maintainable trains on concrete beams with passive steel facings. Permanent magnets and suspension controls stay onboard; stations provide propulsion. This study tests a less crowded cabin concept with more seating, while showing its mass and passenger-throughput consequences. No comfort, structural or operating qualification is claimed.','',
+        '[System ethos and current status](../../../../README.md) · [Engineering readiness](../engineering-readiness/README.md)','',
         f"**Research default: {primary['seats']} fixed seats + two wheelchair users, zero standing = {primary['cap']} people/car.** The default is 2+2 seating with local access/post clearances: seven complete four-place rows and six two-place rows, plus four wall-bench seats. A declared 450 mm clear pan, 800 mm pitch and 650 mm aisle are retained. Wall benches occupy the opposite side of the two door zones; wheelchair bays use the end regions. These dimensions are hypotheses, not accessibility approval.",'',
         f"The alternative places wheelchair bays opposite the doors: {alternate['seats']} fixed seats + two wheelchair users = {alternate['cap']} people/car. Those two bays replace the door-zone benches. The wider-pan control fails the retained clear width; the 2.65 m exterior width is not usable interior width.",'',
         '## Complete-system comparison','',
@@ -200,8 +206,8 @@ def readme(value):
     for r in frames:
         components.append(f"| {r['id']} | {r['counted_material_mass_kg']:.2f} kg | {r['ancestor_frame_counted_kg']:.2f} kg |")
     components += ['',
-        'One two-place bench fixture reaches 11.47 kg and 4.59 mm combined deflection under the declared 1.5 kN/place load. All three door options fail the declared 1 kPa/10 mm strip-deflection fixture; thinner leaves save only about 1–2 kg per opening and keep the 41 kg operator reference. These fixture failures require redesign or better matched analysis, rather than crediting the lighter stock.', '',
-        'The 0.9 mm aluminium-skin/H80 floor counts 530.54 kg versus 700.53 kg retained floor stock and passes the declared necessary fixture. Roof options, including the retained reference under this particular strip/support hypothesis, fail the 2.125 m span-deflection target. Global two-way action, actual supports and attachments need a matched model.']
+        'One two-place bench fixture reaches 11.47 kg and 4.59 mm combined deflection under the declared 1.5 kN/place load. The first three door options fail the declared 1 kPa/10 mm strip-deflection fixture. The next iteration retains those failures and adds 60/80 mm-core doors: 22.93/27.49 kg per two-leaf opening and 6.65/3.63 mm deflection. Both pass that necessary fixture, keep the 41 kg operator reference and are heavier than the 20.45 kg reference leaf stock with explicit fasteners. Their 61/81 mm leaf depths need a new track, opening, access and egress interface evaluation.', '',
+        'The 0.9 mm aluminium-skin/H80 floor counts 530.54 kg versus 700.53 kg retained floor stock and passes the declared necessary fixture. The first roof options, including the retained reference under this particular strip/support hypothesis, fail the 2.125 m span-deflection target. A second iteration adds eight counted transverse aluminium crossrails and counts their joint stock and checks panel/rail forces and deflection separately. Any saving must include those supports; the 150×60×3 mm rail option reaches 494.72 kg total roof stock, only 23.36 kg below the retained reference after 95.28 kg of added rails, joints and clips. It passes the declared fixture with a proposed 162 mm depth. Global two-way action, actual attachments, headroom and HVAC clearance still need a matched model.']
     components += ['', 'Panel comparisons use declared continuous-section stiffness and local strip loads; tiled joint continuity and whole-body participation remain unknown. Bench loads and door-pressure fixtures are declared research hypotheses, not acceptance criteria. Source material URLs and temperature limitations are included with each record.','',
         'Primary material references: [coated rail polycarbonate](https://plaskolite.com/docs/default-source/pds/pds183_tuf_tg.pdf), [Divinycell H core](https://diab-media.azureedge.net/eyajkrhd/diab-divinycell-h-may-2026-rev26-si.pdf) and [glass-epoxy plate comparator](https://www.hippe.de/en/products/detail/product/ep-gc-202-as). Their published coupon properties do not qualify the new assemblies.','']
     return '\n'.join(lines).replace('## What this does to the suspension gap', '\n'.join(components)+'\n## What this does to the suspension gap')
