@@ -26,7 +26,7 @@ def materialize(vehicle,parameters):
         for i in range(8):
             volume=pi*((d/2+.02)**2-(d/2)**2)*.08
             extra.append(dict(id=f'wheel-brake-additional-housing/{i}',kind='annular-cylinder',
-                at_m=[-7.45+(i//2)*4.95,-.9 if i%2 else .82,.60],axis=[0,1,0],
+                at_m=[(-7.45,-5.35,5.35,7.45)[i//2],-.9 if i%2 else .82,.60],axis=[0,1,0],
                 radius_m=d/2+.02,inner_radius_m=d/2,length_m=.08,volume_m3=volume,
                 density_kg_m3=2710.,mass_kg=volume*2710.,material='aluminium',system='brake-housing-stock',
                 cg_m=None,inertia_kg_m2=None,role='unqualified-additional-housing-stock'))
