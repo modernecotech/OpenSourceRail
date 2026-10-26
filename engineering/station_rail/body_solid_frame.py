@@ -1,4 +1,4 @@
-"""Explicit C3D20R tube walls with translation-only rigid section-port equations.
+"""Explicit C3D20 tube walls with translation-only rigid section-port equations.
 
 Avoids unsupported static B32R rotational equations in CalculiX. Actual wall
 volume is meshed. Rigid contact/load/support sections and connected ports are a joint upper
@@ -50,12 +50,12 @@ def deck(variant,mass,dx=.6,asymmetric=False,braking=False,joint_factor=1.,mesh_
         cross={0:[(2,-r[2]),(3,r[1])],1:[(3,-r[0]),(1,r[2])],2:[(1,-r[1]),(2,r[0])]}
         for j in range(3):equations.append([(nid,j+1,1.),(centreid,j+1,-1.)]+[(rot,k,c) for k,c in cross[j] if abs(c)>1e-12])
     for eq in base['equations']:equations.append([(rotations[k] if d>3 else k,d-3 if d>3 else d,c) for k,d,c in eq])
-    lines=['*HEADING','Actual stock C3D20R tube-wall frame, translation-only section equations','*NODE']
+    lines=['*HEADING','Actual stock C3D20 tube-wall frame, translation-only section equations','*NODE']
     lines += [str(k)+','+','.join(f'{v:.12g}' for v in p) for k,p in sorted(nodes.items())]
     grouped={}
     for eid,(i,ids) in enumerate(solids,1):grouped.setdefault(i,[]).append((eid,ids))
     for i,es in grouped.items():
-        lines += [f'*ELEMENT,TYPE=C3D20R,ELSET=M{i}']
+        lines += [f'*ELEMENT,TYPE=C3D20,ELSET=M{i}']
         for eid,ids in es:lines += [str(eid)+','+','.join(map(str,ids[:15]))+',',','.join(map(str,ids[15:]))]
     for name,factor in [('AL',1.),('JOINT',joint_factor)]:lines += [f'*MATERIAL,NAME={name}','*ELASTIC',f'{69e9*factor},.33']
     for i in grouped:lines += [f'*SOLID SECTION,ELSET=M{i},MATERIAL='+('JOINT' if members[i]['effective_joint'] else 'AL')]
@@ -81,7 +81,7 @@ def deck(variant,mass,dx=.6,asymmetric=False,braking=False,joint_factor=1.,mesh_
     lines += ['*NODE PRINT,NSET=FRAME','U','*NODE PRINT,NSET=BEARERS','RF','*END STEP','']
     expected=sum(m['mass_kg']/2710 for i,m in enumerate(members) if i in variant['supported_member_indices'])
     if abs(volume-expected)>1e-8:raise ValueError('Explicit tube-wall volume differs from stock')
-    return '\n'.join(lines),dict(nodes=len(nodes),solid_elements=len(solids),meshed_volume_m3=volume,expected_stock_volume_m3=expected,
+    return '\n'.join(lines),dict(nodes=len(nodes),solid_elements=len(solids),meshed_volume_m3=volume,expected_stock_volume_m3=expected,element_formulation='C3D20 full integration',
         applied_vertical_force_N=total,applied_longitudinal_force_N=long,rigid_section_ports=True,rigid_ports_only_at_contacts_supports_loads=True,rotational_equation_dofs_used=False,displacement_output_scope='All actual solid nodes and active translational port nodes; rotation-variable nodes excluded')
 
 
@@ -153,7 +153,9 @@ def run(output,vehicle,root=ROOT):
             change=abs(cs[0]['maximum_vertical_displacement_m']-cs[1]['maximum_vertical_displacement_m'])/cs[1]['maximum_vertical_displacement_m'];refinement.append(dict(variant=v['name'],relative_deflection_change=change,numerical_screen='pass' if change<.02 and all(c['numerical_validity']=='equilibrium-pass' for c in cs) else 'fail'))
     if sources!={**body_frame.build(vehicle,root)['source_sha256'],PRODUCER:digest(__file__)}:raise ValueError('Solid frame source changed')
     result=dict(schema='osr-v06-native-solid-frame/1',parent_candidate_id=vehicle['candidate_id'],execution='completed' if all(c['execution']=='completed' for c in cases) else 'completed-with-errors',
-        source_sha256=sources,cases=cases,refinement=refinement,independent_benchmark=benchmark,next_experiment_stock_options=sill_stock_options(vehicle),scope='Explicit hollow stock C3D20R, rigid contact/load/support-section and finite-contact port upper bound. No joints, stresses/buckling/fatigue or whole equipped-body qualification.',**FLAGS)
+        source_sha256=sources,cases=cases,refinement=refinement,independent_benchmark=benchmark,next_experiment_stock_options=sill_stock_options(vehicle),
+        rejected_previous_formulation=dict(element='C3D20R',source_revision='6c9cbd6a53',retained_run='build/v06-closure-round/body-solid-r3',
+            disposition='Rejected for quantitative connected-frame displacement',reason='Single-cell reduced-integration foot blocks developed a local nonphysical very-large-displacement mode; reaction balance and axial mesh refinement did not establish element-formulation validity'),scope='Explicit hollow stock C3D20, rigid contact/load/support-section and finite-contact port upper bound. No joints, stresses/buckling/fatigue or whole equipped-body qualification.',**FLAGS)
     result['evaluation_id']=identity(result);(output/'result.json').write_bytes(encoded(result));m=dict(source_sha256=sources,files_sha256={p.relative_to(output).as_posix():digest(p) for p in sorted(output.rglob('*')) if p.is_file()},**FLAGS);m['manifest_id']=identity(m);(output/'manifest.json').write_bytes(encoded(m));return result
 
 

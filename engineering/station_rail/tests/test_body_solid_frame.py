@@ -8,7 +8,9 @@ def test_explicit_hollow_wall_volume_and_translation_only_constraints():
     for v in d['variants']:
         raw,m=body_solid_frame.deck(v,16000,.6)
         assert m['meshed_volume_m3']==pytest.approx(m['expected_stock_volume_m3'])
-        assert '*ELEMENT,TYPE=C3D20R' in raw and '*BEAM SECTION' not in raw
+        assert '*ELEMENT,TYPE=C3D20,' in raw and '*BEAM SECTION' not in raw
+        assert 'TYPE=C3D20R' not in raw
+        assert m['element_formulation']=='C3D20 full integration'
         lines=iter(raw.splitlines())
         for line in lines:
             if line=='*EQUATION':
