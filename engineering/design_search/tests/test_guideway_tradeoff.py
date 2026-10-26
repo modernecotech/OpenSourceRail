@@ -66,3 +66,26 @@ def test_support_pitch_is_not_a_free_cost_or_stiffness_saving():
     assert b['facing_anchors_per25m']<a['facing_anchors_per25m']
     assert b['local_fixture']['plate_elastic_deflection_m']>7*a['local_fixture']['plate_elastic_deflection_m']
     assert b['necessary_screens']['local_elastic_deflection']=='fail'
+
+
+def test_integral_ribs_reduce_concrete_but_keep_cages_feet_and_unknowns():
+    p=parent();continuous=study.evaluate_variant(study.definition('dual-use-steel-box',.035,1.5,.55,.3,p),p,70000.)
+    discrete=study.evaluate_variant(study.definition('dual-use-steel-box',.035,1.5,.55,.3,p,rib_width_x_m=.20),p,70000.)
+    assert discrete['additional_concrete_m3_per25m']<continuous['additional_concrete_m3_per25m']/4
+    assert discrete['all_support_anchors_per25m']==continuous['all_support_anchors_per25m']
+    assert discrete['local_fixture']['RC_effective_longitudinal_width_m']==.20
+    assert discrete['local_fixture']['RC_tie_yield_bound_N']>70000.
+    assert discrete['local_fixture']['actual_shear_cracking_anchorage_and_fatigue_qualified'] is False
+    assert any(s['id']=='protection-nib/U16-rebar' for s in discrete['stock'])
+    assert any(s['id']=='head/rib-closed10-yield-truss-ties' for s in discrete['stock'])
+    assert all(s['quantity']>0 and s['counted_mass_kg']>0 for s in discrete['stock'])
+    assert discrete['physical_definition']['guideway_candidate_id']!=continuous['physical_definition']['guideway_candidate_id']
+
+
+def test_narrow_rib_cannot_hide_insufficient_cage_space_or_stiffness():
+    p=parent();d=study.definition('concrete-ledges',.035,.5,.55,.3,p,rib_width_x_m=.10)
+    r=study.evaluate_variant(d,p,70000.)
+    assert d['rib_transverse_bar_count']==0
+    assert r['necessary_screens']['rib_cage_fit']=='fail'
+    assert r['necessary_screens']['RC_fixture_flexure']=='fail'
+    assert r['engineering_screen']=='failed-necessary-screen'

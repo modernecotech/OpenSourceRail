@@ -117,7 +117,7 @@ def _parent(root):
             numerical_force_convergence_established=False),source_sha256=sources)
 
 
-def definition(family,face_thickness,pitch,head_depth,rebar_pitch,parent):
+def definition(family,face_thickness,pitch,head_depth,rebar_pitch,parent,rib_width_x_m=None):
     if family not in ('concrete-ledges','embedded-edge-stiffeners','dual-use-steel-box'):
         raise ValueError('unknown physical guideway family')
     for value,name in [(face_thickness,'face thickness'),(pitch,'anchor pitch'),(head_depth,'head depth'),(rebar_pitch,'rebar pitch')]:positive(value,name)
@@ -139,6 +139,16 @@ def definition(family,face_thickness,pitch,head_depth,rebar_pitch,parent):
         reserve_includes_complete_load_and_faults=False)
     if family=='embedded-edge-stiffeners':value['edge_RHS_m']=[.075,.15,.006]
     if family=='dual-use-steel-box':value['steel_box_top_thickness_m']=.008;value['steel_box_web_height_m']=.15;value['steel_box_web_thickness_m']=.006
+    if rib_width_x_m is not None:
+        rib_width_x_m=positive(rib_width_x_m,'integral crosshead width')
+        n=math.ceil(25./pitch)+1
+        value.update(integral_crosshead_width_x_m=rib_width_x_m,
+            integral_crosshead_centres_x_m=[rib_width_x_m/2+i*(25.-rib_width_x_m)/(n-1) for i in range(n)],
+            rib_transverse_bar_count=max(0,math.floor((rib_width_x_m-2*.04-2*.01+.016)/(.016+.016)+1e-9)),
+            rib_closed_tie_diameter_m=.010,rib_closed_tie_pitch_m=.075,
+            independent_protection_nibs=dict(count=102,length_x_m=.20,width_y_m=.20,height_z_m=.22,
+                centres_abs_y_m=.46,bottom_z_m=-1.60,post_base_z_m=-1.38),
+            end_overhang_and_adjacent_span_interface_qualified=False)
     value['guideway_candidate_id']=identity(value)
     return value
 
@@ -149,7 +159,8 @@ def evaluate_variant(value,parent,force_N=40000.):
     if value['magnet_component_id']!=parent['magnet_component_id'] or value['parent_vehicle_candidate_id']!=parent['candidate_id']:
         raise ValueError('guideway belongs to another train or magnet')
     P=positive(force_N,'local module force');s=value['span_m'];t=value['facing_thickness_m'];p=value['anchor_pitch_m'];d=value['new_head_depth_m']
-    n=math.ceil(s/p)+1;bars=math.ceil(s/value['transverse_rebar_pitch_m'])+1
+    n=math.ceil(s/p)+1;rib_width=value.get('integral_crosshead_width_x_m')
+    bars=math.ceil(s/value['transverse_rebar_pitch_m'])+1 if rib_width is None else n*value['rib_transverse_bar_count']
     faces=2*s*.5*t;top=-1.16+t+d;stem_height=(-1.16+t)-(-1.6)
     channel_height=max(0.,min(-.90,top)-(-1.16+t))
     new_concrete_volume=s*(.72*stem_height+2.26*d-2*(.60-.36)*channel_height+(1.-.72)*.22)
@@ -196,19 +207,42 @@ def evaluate_variant(value,parent,force_N=40000.):
         plate_stress=6*(P*transverse_span/8)/(1.*t*t)
         stiffener_stress=P*p/4/(I/max(z,t+h+tt-z));weld_m=8*s+2*n*2*(width+h)
     else:plate_delta=plate['deflection_m'];stiffener_stress=plate_stress;longitudinal_delta=0.
+    if rib_width is not None:
+        # Discrete heads/stems, with separate102small cast protection feet.
+        # Feet abut the narrow stem at |y|=.36 and lie below the head, so
+        # no overlapping material volume is credited twice.
+        coverage=n*rib_width/s
+        old_pedestal_overhang=s*(1.-.72)*.22
+        feet_volume=102*.20*.20*.22
+        rows[1]['unit_volume_m3']=(rows[1]['unit_volume_m3']-old_pedestal_overhang)*coverage+feet_volume
+        rows[1]['counted_mass_kg']=rows[1]['unit_volume_m3']*RHO_CONCRETE
+        distribution=next(r for r in rows if r['id']=='head/longitudinal-distribution-bar')
+        distribution['quantity']=12*n;distribution['unit_volume_m3']=math.pi*.012**2/4*(rib_width+.24)
+        distribution['counted_mass_kg']=distribution['quantity']*distribution['unit_volume_m3']*RHO_STEEL
+        rows.extend([_stock('protection-nib/U16-rebar',204,math.pi*.016**2/4*1.20),
+                     _stock('protection-nib/closed10-tie',204,math.pi*.010**2/4*.66)])
     # Root of each RC cantilever is narrowed by the explicit brake/capture slot.
     depth=max(0.,top-(-.90));effective_depth=depth-.040
-    As=math.pi*.016**2/4/value['transverse_rebar_pitch_m'];fy=400e6;fc=30e6
+    fixture_width=1. if rib_width is None else rib_width
+    As=math.pi*.016**2/4/value['transverse_rebar_pitch_m'] if rib_width is None else value['rib_transverse_bar_count']*math.pi*.016**2/4
+    fy=400e6;fc=30e6
     M=P*(.88-.36);force_tension=As*fy
-    compression_block=force_tension/(.85*fc)
+    compression_block=force_tension/(.85*fc*fixture_width)
     moment_capacity=0. if effective_depth<=0 else force_tension*(effective_depth-compression_block/2)
-    gross_I=depth**3/12
+    gross_I=fixture_width*depth**3/12
     concrete_delta=None if gross_I<=0 else 3*P*(.88-.36)**3/(3*E_CONCRETE*gross_I)
-    shear_stress=None if effective_depth<=0 else P/effective_depth
+    shear_stress=None if effective_depth<=0 else P/(fixture_width*effective_depth)
     combined=None if concrete_delta is None else plate_delta+longitudinal_delta+concrete_delta
     stiffness_ok=combined is not None and combined<=.001
     flexure_ok=effective_depth>0 and compression_block<=.4*effective_depth and M<=moment_capacity
-    shear_ok=shear_stress is not None and shear_stress<=.4e6
+    tie_yield_bound=None;strut_bound=None
+    if rib_width is not None:
+        tie_pitch=value['rib_closed_tie_pitch_m'];tie_area=2*math.pi*.010**2/4
+        tie_yield_bound=tie_area/tie_pitch*fy*max(0.,effective_depth)
+        strut_bound=.2*fc*fixture_width*max(0.,effective_depth)
+        tie_length=2*(max(0.,rib_width-.08)+max(0.,depth-.08))+.20
+        rows.append(_stock('head/rib-closed10-yield-truss-ties',2*n*(math.ceil(.73/tie_pitch)+1),math.pi*.010**2/4*tie_length))
+    shear_ok=shear_stress is not None and (shear_stress<=.4e6 or (tie_yield_bound is not None and min(tie_yield_bound,strut_bound)>=P))
     steel_ok=max(plate_stress,stiffener_stress)<=237e6
     # At least one neighbouring station can share a 1m load; no such sharing
     # is credited to the anchor fixture: two anchors carry one module force.
@@ -217,7 +251,9 @@ def evaluate_variant(value,parent,force_N=40000.):
     magnetic_ok=t>=bounds[1]['conditional_one_section_minimum_thickness_m'] and .35>=bounds[1]['minimum_effective_working_area_m2']
     checks=dict(local_steel_stress=steel_ok,local_elastic_deflection=stiffness_ok,
                 RC_fixture_flexure=flexure_ok,RC_fixture_shear=shear_ok,
+                rib_cage_fit=rib_width is None or value['rib_transverse_bar_count']>=1,
                 anchor_shank_stress=anchor_stress<=237e6,anchor_shank_top_cover_fit=d>=.35+.04,conditional_single_return_flux_capacity=magnetic_ok)
+    rows=[r for r in rows if r['quantity']>0]
     steel=sum(r['counted_mass_kg'] for r in rows if r['material']=='steel')
     added_concrete=sum(r['counted_mass_kg']/RHO_CONCRETE for r in rows if r['material']=='concrete')
     baseline=parent['baseline'];saved=baseline['complete_counted_steel_stock_kg_per_span']-steel
@@ -232,7 +268,9 @@ def evaluate_variant(value,parent,force_N=40000.):
         all_support_anchors_per25m=4*n+204,baseline_support_anchors_per25m=baseline['anchors_per_span'],
         retained_protection_wear_fasteners_per25m=204,
         full_width_RHS_crossmembers_per25m=0,internal_steel_box_diaphragms_per25m=2*n if family=='dual-use-steel-box' else 0,
-        transverse_rebar_occurrences_per25m=bars,longitudinal_distribution_bar_occurrences_per25m=12,
+        integral_concrete_crossheads_per25m=0 if rib_width is None else n,
+        discrete_head_coverage_fraction=1. if rib_width is None else n*rib_width/s,
+        transverse_rebar_occurrences_per25m=bars,longitudinal_distribution_bar_occurrences_per25m=12 if rib_width is None else 12*n,
         working_face_factory_panels_per25m=10,working_face_internal_joints_per25m=8,
         declared_longitudinal_and_diaphragm_weld_m_per25m=weld_m,
         local_fixture=dict(module_force_N_hypothesis=P,force_is_a_qualified_limit=False,
@@ -241,9 +279,11 @@ def evaluate_variant(value,parent,force_N=40000.):
             longitudinal_stiffener_deflection_m=longitudinal_delta,RC_gross_deflection_times3_m=concrete_delta,
             total_elastic_component_deflection_m=combined,deflection_screen_m=.001,
             steel_stress_Pa=max(plate_stress,stiffener_stress),steel_screen_Pa=237e6,
-            RC_effective_root_depth_m=effective_depth,RC_As_m2_per_m=As,RC_demand_moment_Nm=M,
+            RC_effective_root_depth_m=effective_depth,RC_effective_longitudinal_width_m=fixture_width,RC_As_m2_in_fixture=As,RC_demand_moment_Nm=M,
             RC_fixture_moment_capacity_Nm=moment_capacity,RC_shear_stress_Pa=shear_stress,
-            RC_shear_screen_Pa_hypothesis=.4e6,anchor_shank_stress_Pa=anchor_stress,
+            RC_shear_screen_Pa_hypothesis=.4e6,RC_tie_yield_bound_N=tie_yield_bound,
+            RC_concrete_strut_bound_N_hypothesis=strut_bound,
+            actual_shear_cracking_anchorage_and_fatigue_qualified=False,anchor_shank_stress_Pa=anchor_stress,
             RC_strength_properties_and_cracked_creep_factor_qualified=False),
         magnetic_capacity_bounds=bounds,necessary_screens={k:'pass' if ok else 'fail' for k,ok in checks.items()},
         engineering_screen='conditional-necessary-survivor' if all(checks.values()) else 'failed-necessary-screen',
@@ -253,7 +293,7 @@ def evaluate_variant(value,parent,force_N=40000.):
             extra_steel_or_rebar_needs_separate_installed_field_model=True,
             complete_multiaxis_current_temperature_map_available=False),
         assembly=dict(factory_operations=dict(plate_panels=10,facing_anchor_placements=4*n,
-            protection_anchor_placements=204,transverse_bar_placements=bars,distribution_bar_placements=12,
+            protection_anchor_placements=204,transverse_bar_placements=bars,distribution_bar_placements=12 if rib_width is None else 12*n,
             continuous_weld_length_m=weld_m),field_operations=dict(span_lifts=1,working_face_joint_locations=8,
             actual_site_bolts_torque_tasks_and_alignment=None),
             actual_fabrication_hours=None,actual_erection_hours=None,
@@ -282,9 +322,14 @@ def pareto(rows):
 
 def build(root=ROOT):
     parent=_parent(root);rows=[]
+    definitions=[]
     for family,t,p,d,r in product(('concrete-ledges','embedded-edge-stiffeners','dual-use-steel-box'),
         (.012,.020,.028,.035),(.25,.5,1.,1.5),(.35,.45,.55),(.15,.30)):
-        value=definition(family,t,p,d,r,parent)
+        definitions.append(definition(family,t,p,d,r,parent))
+    for family,t,p,d,w in product(('concrete-ledges','embedded-edge-stiffeners','dual-use-steel-box'),
+        (.020,.035),(.5,.75,1.,1.5),(.45,.55),(.10,.15,.20)):
+        definitions.append(definition(family,t,p,d,.30,parent,rib_width_x_m=w))
+    for value in definitions:
         nominal=evaluate_variant(value,parent,40000.);fault=evaluate_variant(value,parent,70000.)
         nominal.pop('evaluation_id')
         nominal['nominal40kN_screen']=nominal['engineering_screen'];nominal['fault70kN_screen']=fault['engineering_screen']
