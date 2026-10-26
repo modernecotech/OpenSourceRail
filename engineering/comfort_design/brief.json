@@ -17,25 +17,41 @@
   },
   "component_design_basis": {
     "layout_recipe": "door-bench-default",
-    "seating": "Passing two-place 30mm-core sandwich bench fixture on 50mm-deep aluminium supports",
+    "seating": "Passing sandwich construction with counted paired and single-seat derivatives at retained-post clearances; exact fitted inventory governs",
     "doors": "Smallest passing 60mm-core two-leaf fixture; retain 41kg operator reference and unresolved depth compatibility",
     "glazing": "Retained laminated-glass assembly reference; rail polycarbonate remains a separate unqualified option",
     "floor": "Passing 0.9mm aluminium-skin H80-core panel component",
-    "roof": "Passing aluminium-skin H60 panel with eight counted 150x60x3mm transverse crossrails",
+    "roof": "Revised continuous aluminium-skin H60 sandwich on retained ribs; exact skin/core/datum shims in the candidate. Original added-crossrail proposal is retained as a rejected interference control.",
     "frame": "6082 six-cell 40kN module-reaction frame; complete body and load paths still require verification",
     "magnetics": "Exact retained 12L differential N35UH support assembly; no unsupported force/current interpolation",
-    "HVAC": "Retain five identified package references until actual 50C capacity and power are known"
+    "HVAC": "Retain five identified package references until actual 50C capacity and power are known",
+    "assembly_revision_authority": "Counted revisions needed to solve matched assembly conflicts are allowed; retain failed geometry, rerun necessary load/clearance screens and create new body/candidate identities."
   },
   "campaign": {
     "ordinary_workers": 1,
     "service_variants_max": 144,
-    "station_spacing_m": [1000, 1500, 2000],
-    "speed_caps_m_s": [10, 12, 15, 20],
+    "station_spacing_m": [
+      1000,
+      1500,
+      2000
+    ],
+    "speed_caps_m_s": [
+      10,
+      12,
+      15,
+      20
+    ],
     "native_CAD_budget_s": 600,
     "numerical_and_physical_acceptance_separate": true,
     "retained_normal_reference_passengers_per_car": 120,
     "retained_credible_overcrowding_control_per_car": 160,
     "previous_throughput_comparison_pphpd": 14400,
-    "revision_rule": "This is an explicit 120-second comfort-service proposal. Historical city plans and physical crowd loads are preserved. Complete installed mass, stable suspension, guaranteed braking, fault protection and supplier/site evidence remain gates."
+    "revision_rule": "This is an explicit 120-second comfort-service proposal. Historical city plans and physical crowd loads are preserved. Complete installed mass, stable suspension, guaranteed braking, fault protection and supplier/site evidence remain gates.",
+    "shared_station_winding_options_m": [
+      350,
+      450,
+      600
+    ],
+    "service_variant_scope": "Up to144 primary speed/spacing/dwell/drag cases, with up to3 shared winding arrangements per case; all actual comparison counts and failures retained."
   }
 }
