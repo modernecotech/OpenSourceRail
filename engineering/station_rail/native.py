@@ -28,6 +28,14 @@ for p in inputs['parts']:
     origin=A.Vector(*[x*1000 for x in p['at_m']])
     if p['kind']=='box':
         sh=Part.makeBox(*[x*1000 for x in p['size_m']],origin)
+        for hole in p.get('holes',[]):
+            axis=hole.get('axis','z');index='xyz'.index(axis)
+            start=list(p['at_m'])
+            for j,key in enumerate(('x_m','y_m','z_m')):
+                if j!=index:start[j]+=hole.get(key,0.)
+            direction=[0.,0.,0.];direction[index]=1.
+            cutter=Part.makeCylinder(hole['diameter_m']*500,hole.get('length_m',p['size_m'][index])*1000,A.Vector(*[x*1000 for x in start]),A.Vector(*direction))
+            sh=sh.cut(cutter)
     else:
         axis=A.Vector(*p['axis'])
         sh=Part.makeCylinder(p['radius_m']*1000,p['length_m']*1000,origin,axis)
