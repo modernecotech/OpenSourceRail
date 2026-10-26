@@ -13,12 +13,15 @@ from pathlib import Path
 def units(root, python=None):
     root = Path(root).resolve()
     interpreter = Path(python) if python else root / '.venv/bin/python'
+    if any(c in str(root) for c in ('\n','\r','\0')):
+        raise ValueError('Ordinary single-line working directory required')
+    directory = str(root).replace('%', '%%')
     def arg(value):
         return '"' + str(value).replace('\\', '\\\\').replace('"', '\\"').replace('%', '%%') + '"'
     return {
         'osr-development-baseline.service':
             '[Unit]\nDescription=OpenSourceRail selected development design refresh\n'
-            '[Service]\nType=oneshot\nWorkingDirectory=' + arg(root) + '\n'
+            '[Service]\nType=oneshot\nWorkingDirectory=' + directory + '\n'
             'ExecStart=' + arg(interpreter) + ' ' + arg(root / 'tools/automation/default-design.py') + ' cycle\n'
             'TimeoutStartSec=14400\nUMask=0077\n',
         'osr-development-baseline.timer':
