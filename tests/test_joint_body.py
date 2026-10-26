@@ -3,6 +3,7 @@ from pathlib import Path
 from copy import deepcopy
 import tempfile
 from math import pi
+import resource
 from engineering.station_rail import vehicle
 from engineering.station_rail.common import identity
 from engineering.design_search import joint_body as j,wheel_body
@@ -11,6 +12,15 @@ ROOT=Path('/home/hayder/Documents/OpenSourceRail')
 
 
 class BodyMeshRevisionTests(unittest.TestCase):
+    def test_resource_cap_respects_both_inherited_limits(self):
+        GiB=1024**3
+        self.assertEqual(j._native_memory_limit(5120,(2*GiB,4*GiB)),2*GiB)
+        self.assertEqual(j._native_memory_limit(5120,(resource.RLIM_INFINITY,4*GiB)),4*GiB)
+        self.assertEqual(j._native_memory_limit(5120,(resource.RLIM_INFINITY,resource.RLIM_INFINITY)),5*GiB)
+        self.assertEqual(j._native_memory_limit(3072,(4*GiB,4*GiB)),3*GiB)
+        for value in (2048,4096,6144,True,5120.,'5120',None):
+            with self.assertRaises(ValueError):j._native_memory_limit(value)
+
     def test_bounded_finer_pair_preserves_loads_material_and_case_budget(self):
         override={'normal':.3,'normal-fine':.2};cases=j._evaluation_cases(case_labels=['normal','normal-fine'],mesh_override=override)
         self.assertEqual(cases,[('normal','normal',.3,False,False,1.),('normal-fine','normal',.2,False,False,1.)])

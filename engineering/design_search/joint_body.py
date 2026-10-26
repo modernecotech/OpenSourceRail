@@ -10,6 +10,7 @@ from pathlib import Path
 import re
 import numpy as np
 from math import isfinite
+import os,resource,subprocess,time
 from engineering.station_rail import ROOT,FLAGS,body_frame,body_solid_frame
 from engineering.station_rail.common import digest,identity,encoded
 from engineering.station_rail.vehicle import box,cylinder
@@ -128,6 +129,37 @@ def _verify_sources(sources,root):
         if not path.is_file() or digest(path)!=expected:raise ValueError('Declared source differs from executed source root: '+name)
 
 
+def _verify_loaded_sources(sources):
+    for module in (wheel_body,body_frame,body_solid_frame,joint_models):
+        if digest(module.__file__)!=sources[module.PRODUCER]:raise ValueError('Imported helper differs from declared source: '+module.PRODUCER)
+
+
+def _native_memory_limit(memory_mb,inherited=None):
+    if isinstance(memory_mb,bool) or not isinstance(memory_mb,int) or memory_mb not in (3072,5120):raise ValueError('Explicit supported native body memory limits are3072 or5120MiB')
+    inherited=resource.getrlimit(resource.RLIMIT_AS) if inherited is None else inherited
+    return min([memory_mb*1024**2,*[n for n in inherited if n!=resource.RLIM_INFINITY]])
+
+
+def _native_body(raw,folder,tool):
+    """Resource-only runner; frozen frame parser and CCX input are reused."""
+    if digest(tool['ccx_path'])!=tool['ccx_sha256']:raise ValueError('CCX binary differs before native body run')
+    source=digest(__file__);parser=digest(body_frame.__file__);folder.mkdir();(folder/'body.inp').write_text(raw);start=time.monotonic()
+    def bounded():resource.setrlimit(resource.RLIMIT_AS,(tool['RLIMIT_AS_bytes'],tool['RLIMIT_AS_bytes']))
+    try:
+        proc=subprocess.run([tool['ccx_path'],'body'],cwd=folder,capture_output=True,timeout=tool['timeout_s'],preexec_fn=bounded,env={**os.environ,'OMP_NUM_THREADS':str(tool['OMP_threads'])})
+        (folder/'stdout.log').write_bytes(proc.stdout);(folder/'stderr.log').write_bytes(proc.stderr)
+        result=dict(execution='tool_error',returncode=proc.returncode)
+        if proc.returncode==0 and (folder/'body.dat').is_file():result.update(execution='completed',**body_frame._read_dat(folder/'body.dat'))
+    except subprocess.TimeoutExpired as e:
+        (folder/'stdout.log').write_bytes(e.stdout or b'');(folder/'stderr.log').write_bytes(e.stderr or b'');result=dict(execution='interrupted',reason='150second native body limit')
+    except (OSError,subprocess.SubprocessError) as e:
+        (folder/'launch-error.log').write_text(str(e));result=dict(execution='tool_error',reason=str(e))
+    except ValueError as e:result=dict(execution='numerical_error',reason=str(e))
+    if digest(__file__)!=source or digest(body_frame.__file__)!=parser:raise ValueError('Native body source/parser changed during execution')
+    if digest(tool['ccx_path'])!=tool['ccx_sha256']:raise ValueError('CCX binary changed during native body run')
+    return dict(**result,runtime_s=time.monotonic()-start,address_space_limit_bytes=tool['RLIMIT_AS_bytes'],requested_memory_mb=tool['requested_memory_mb'])
+
+
 def _evaluation_cases(confirmation=False,case_labels=None,mesh_override=None):
     modes=[('normal','normal',.6,False,False,1.),('normal-fine','normal',.3,False,False,1.),('crowd','crowd',.6,False,False,1.)]
     if confirmation:modes += [('asymmetric-braking','normal',.6,True,True,1.),('joint-sensitivity','normal',.6,False,False,.1)]
@@ -143,22 +175,21 @@ def _evaluation_cases(confirmation=False,case_labels=None,mesh_override=None):
     return cases
 
 
-def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False,case_labels=None,mesh_override=None):
+def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False,case_labels=None,mesh_override=None,memory_mb=3072):
     """Explicit opt-in native run. Coordinator freezes source before dispatch."""
     p=_finite_parameters(parameters) if parameters.get('joint')=='bonded_backing_insert_four_bolt' else _parameters(parameters);output=Path(output).resolve()
-    modes=_evaluation_cases(confirmation,case_labels,mesh_override)
+    modes=_evaluation_cases(confirmation,case_labels,mesh_override);bound=_native_memory_limit(memory_mb)
     if output.exists():raise ValueError('Fresh immutable native body directory required')
     sources={**vehicle['source_sha256'],PRODUCER:digest(__file__)};_verify_sources(sources,root)
     # Helpers are imported from this worktree. Their bytes must also equal the
     # declared root; isolated checkouts are not an OS-enforced sandbox.
-    for module in (wheel_body,body_frame,body_solid_frame,joint_models):
-        if digest(module.__file__)!=sources[module.PRODUCER]:raise ValueError('Imported helper differs from declared source: '+module.PRODUCER)
+    _verify_loaded_sources(sources)
     output.mkdir(parents=True);(output/'candidate.json').write_bytes(encoded(vehicle));cases=[]
-    tool=dict(ccx_path='/usr/bin/ccx',ccx_sha256=digest('/usr/bin/ccx'),OMP_threads=1,RLIMIT_AS_bytes=wheel_body._address_space_bound(),timeout_s=150)
+    tool=dict(ccx_path='/usr/bin/ccx',ccx_sha256=digest('/usr/bin/ccx'),OMP_threads=1,RLIMIT_AS_bytes=bound,requested_memory_mb=memory_mb,timeout_s=150)
     for name,load,dx,asym,brake,jf in modes:
         raw,definition=body_deck(vehicle,p,dx=dx,load=load,asymmetric=asym,braking=brake,joint_factor=jf)
         definition.update(mesh_target_dx_m=dx,asymmetric_load=asym,braking_load=brake,joint_modulus_factor=jf)
-        r=dict(case=name,mesh=definition,**wheel_body._native(raw,output/name));(output/name/'definition.json').write_bytes(encoded(definition))
+        r=dict(case=name,mesh=definition,**_native_body(raw,output/name,tool));(output/name/'definition.json').write_bytes(encoded(definition))
         if r['execution']=='completed':
             residual=abs(r['support_reaction_z_N']+definition['applied_vertical_force_N'])/abs(definition['applied_vertical_force_N']);r['force_balance_relative_error']=residual
             r.update(_energy_balance(raw,output/name/'body.dat'))
@@ -166,12 +197,13 @@ def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False,case_
         cases.append(r)
     refinement=wheel_body._displacement_refinement(cases);balanced=all(_case_valid(c) for c in cases);converged=balanced and refinement['status']=='pass'
     missing=['Native per-axis joint fixtures do not qualify actual preload, slip, bearing, fatigue or failure','Linear synthetic laminate/core/bond and rigid intact bolt transfer; no physical correlation','Full-body stress/buckling/flexible modes and all installed mass properties','Dynamic bogie/door/cassette clearance, manufacturing and fire/thermal evidence']
-    value=dict(schema='osr-four-bolt-body-evaluation/1',candidate_id=vehicle['candidate_id'],body_candidate_id=vehicle['body_candidate_id'],parameters=p,mesh_override=deepcopy(mesh_override or {}),selected_case_labels=[m[0] for m in modes],
+    value=dict(schema='osr-four-bolt-body-evaluation/1',candidate_id=vehicle['candidate_id'],body_candidate_id=vehicle['body_candidate_id'],parameters=p,mesh_override=deepcopy(mesh_override or {}),selected_case_labels=[m[0] for m in modes],requested_memory_mb=memory_mb,actual_address_space_limit_bytes=bound,
         execution='completed' if all(c['execution']=='completed' for c in cases) else 'completed_with_errors',numerical_validity='mesh_confirmed' if converged else 'nonconverged' if balanced and refinement['status']=='fail' else 'unconfirmed' if balanced else 'unknown',
         engineering_screen='fail' if any(c.get('engineering_screen')=='fail' for c in cases) else 'unknown',displacement_refinement=refinement,cases=cases,
         native_jobs_used=len(cases),source_sha256=sources,tool=tool,constitutive_hypotheses={**wheel_body.CONSTITUTIVE,'joint':vehicle['joint_body']['joint_hypothesis']},joint_hypothesis=vehicle['joint_body']['joint_hypothesis'],missing_gates=missing,**FLAGS)
     if digest(__file__)!=sources[PRODUCER]:raise ValueError('Body adapter changed during execution')
     _verify_sources(sources,root)
+    _verify_loaded_sources(sources)
     if digest(tool['ccx_path'])!=tool['ccx_sha256']:raise ValueError('Native body CCX changed during execution')
     value['tool_binary_unchanged']=True;value['evaluation_id']=identity(value);(output/'result.json').write_bytes(encoded(value));manifest=dict(evaluation_id=value['evaluation_id'],candidate_id=vehicle['candidate_id'],source_sha256=sources,tool=tool,files_sha256={q.relative_to(output).as_posix():digest(q) for q in output.rglob('*') if q.is_file()},**FLAGS);manifest['manifest_id']=identity(manifest);(output/'manifest.json').write_bytes(encoded(manifest));return value
 
