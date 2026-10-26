@@ -198,17 +198,21 @@ def _files(output):
         for p in sorted(output.rglob('*')) if p.is_file() and p != output / 'manifest.json'}
 
 
-def run_native(output, root=ROOT):
-    """Execute the unchanged Rust kernel with the newly selected actual profile."""
-    root, output = Path(root).resolve(), Path(output).resolve()
-    record = build(root)
-    output.mkdir(parents=True, exist_ok=False)
-    request = dict(schema='osr-current-native-request/1', selection_id=record['selection_id'],
+def _native_request(record):
+    return dict(schema='osr-current-native-request/1', selection_id=record['selection_id'],
         evaluation_id=record['evaluation_id'], candidate_id=record['candidate_id'],
         service_evaluation_id=record['service']['evaluation_id'],
         scenario_id=record['service']['selected_scenario']['scenario_id'],
         station_id=record['service']['selected_station']['station_id'],
         source_sha256=record['source_sha256'], **FLAGS)
+
+
+def run_native(output, root=ROOT):
+    """Execute the unchanged Rust kernel with the newly selected actual profile."""
+    root, output = Path(root).resolve(), Path(output).resolve()
+    record = build(root)
+    output.mkdir(parents=True, exist_ok=False)
+    request = _native_request(record)
     (output / 'request.json').write_bytes(encoded(request))
     method = service_model.run_native(record['vehicle'], record['service'], output / 'method', root=root)
     result = dict(schema='osr-current-native-controls/1', **{k: request[k] for k in
@@ -239,7 +243,12 @@ def verify_native(output, record=None, root=ROOT):
     manifest = json.loads((output / 'manifest.json').read_bytes())
     result = json.loads((output / 'result.json').read_bytes())
     request = json.loads((output / 'request.json').read_bytes())
-    if manifest['source_sha256'] != record['source_sha256'] or manifest['files_sha256'] != _files(output):
+    if request != _native_request(record):
+        raise ValueError('current native request differs from the selected evaluation')
+    if (manifest.get('schema') != 'osr-current-native-manifest/1' or result.get('schema') != 'osr-current-native-controls/1'
+        or manifest['source_sha256'] != record['source_sha256'] or result['source_sha256'] != record['source_sha256']
+        or manifest['selection_id'] != record['selection_id'] or manifest['evaluation_id'] != result['evaluation_id']
+        or manifest['files_sha256'] != _files(output)):
         raise ValueError('current native sources or payload differ')
     for key, value in FLAGS.items():
         if result.get(key) is not value or manifest.get(key) is not value or request.get(key) is not value:
