@@ -45,3 +45,10 @@ class TransferFixtureTests(unittest.TestCase):
             p=Path(t)/'test.dat';p.write_text(raw);states,f=j._parse(p)
         self.assertEqual(len(states),1)
         self.assertEqual(f,[.3183])
+
+    def test_soft_control_loads_remain_small_rotation(self):
+        _,d=j.deck('two_bolt_control',1);fz=d['load_amplitudes'][2];mx=d['load_amplitudes'][3]
+        self.assertLess(.004*fz/d['regularizer_Nm_per_rad'],.002)
+        self.assertLess(mx/d['regularizer_Nm_per_rad'],.002)
+        for kind in ('four_bolt','finite_area'):
+            self.assertEqual(j.deck(kind,1)[1]['load_amplitudes'],[1.]*6)

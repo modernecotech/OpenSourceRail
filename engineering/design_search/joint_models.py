@@ -85,7 +85,10 @@ def deck(kind='four_bolt',mesh=1,regularizer=REGULARIZER_NM_PER_RAD):
     lines += [','.join(map(str,supported[i:i+16])) for i in range(0,len(supported),16)]
     loads=[]
     for j in range(6):
-        load=1e-5 if kind=='two_bolt_control' and j==3 else 1.;loads.append(load)
+        # Fz at the front face also excites Mx through the4mm offset.
+        # Keep the deliberate soft-mode diagnostic inside small rotation;
+        # all reported compliances are divided by this load amplitude.
+        load=(1e-5 if j==3 else 1e-3 if j==2 else 1.) if kind=='two_bolt_control' else 1.;loads.append(load)
         lines += ['*STEP','*STATIC','*CLOAD,OP=NEW',f'{ref if j<3 else rot},{j%3+1},{load:.14g}','*NODE PRINT,NSET=REFS','U','*NODE PRINT,NSET=SUPPORTS','RF','*EL PRINT,ELSET=SOLIDS,TOTALS=ONLY','ELSE','*END STEP']
     lines += ['*STEP','*FREQUENCY','6','*END STEP','']
     d.update(mesh_level=mesh,nodes=ns,supported_nodes=supported,translation_ref=ref,rotation_ref=rot,solid_elements=len(es),native_element_kind='C3D20',regularizer_Nm_per_rad=regularizer,load_amplitudes=loads,
