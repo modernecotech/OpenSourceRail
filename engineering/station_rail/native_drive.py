@@ -8,6 +8,7 @@ import cmath
 from math import pi,sqrt
 from pathlib import Path
 import json
+import os
 import shutil
 import subprocess
 from . import ROOT,FLAGS
@@ -147,7 +148,7 @@ def run(output,root=ROOT,*,getdp=None,gmsh='gmsh'):
     if output.exists():raise ValueError('Retain immutable previous run; choose a fresh output directory')
     output.mkdir(parents=True)
     getdp=Path(getdp) if getdp else root/'build/trip-dynamics/tools/getdp-3.5.0-Linux64/bin/getdp'
-    gmsh=shutil.which(gmsh) or gmsh
+    gmsh=shutil.which(gmsh) or str(root/'.venv/bin/gmsh') if gmsh=='gmsh' else gmsh
     source=source_map(root,PRODUCERS)
     inp=exact_slab()
     (output/'inputs.json').write_bytes(encoded(dict(benchmark=inp,source_sha256=source)))
@@ -160,7 +161,8 @@ def run(output,root=ROOT,*,getdp=None,gmsh='gmsh'):
                   [str(getdp),'slab.pro','-msh','slab.msh','-solve','Solve','-pos','Result','-v','4']]
         logs=[]
         for index,command in enumerate(commands):
-            result=subprocess.run(command,cwd=folder,capture_output=True,text=True,timeout=180)
+            result=subprocess.run(command,cwd=folder,capture_output=True,text=True,timeout=180,
+                env={**os.environ,'PATH':str(root/'.venv/bin')+os.pathsep+os.environ.get('PATH','')})
             log=result.stdout+result.stderr;(folder/f'command-{index}.log').write_text(log)
             logs.append(dict(argv=command,exit_code=result.returncode))
             if result.returncode:raise RuntimeError(f'Native diffusion run failed; retained {folder}/command-{index}.log')
