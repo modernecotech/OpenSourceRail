@@ -146,6 +146,18 @@ def _worker(output):
         obj.Shape=Part.makeBox(*(x*1000 for x in size),App.Vector(*((centre[j]-size[j]/2)*1000 for j in range(3))))
         obj.addProperty('App::PropertyBool','MaterialGeometry');obj.MaterialGeometry=False
         obj.addProperty('App::PropertyString','CandidateId');obj.CandidateId=request['candidate_id']
+    # The integration-critical roof/stringer check uses actual native solids,
+    # including the new perimeter bearing. Full-body contact remains separate.
+    roof_parts=[p for p in parts if p['id'].startswith('roof/')]
+    stringer_parts=[p for p in parts if 'replacement-frame/extrusion/frame/roof-longitudinal' in p['id']]
+    if not roof_parts or len(stringer_parts)!=8:raise ValueError('critical roof/longitudinal material identities missing')
+    roof_shape=Part.makeCompound([_shape(p,App,Part,cache) for p in roof_parts])
+    rail_shape=Part.makeCompound([_shape(p,App,Part,cache) for p in stringer_parts])
+    roof_common=roof_shape.common(rail_shape).Volume/1e9
+    if roof_common>1e-12:raise ValueError('revised roof still intersects retained primary roof longitudinals')
+    critical_fit=dict(actual_native_boolean_executed=True,roof_part_ids=[p['id'] for p in roof_parts],
+        longitudinal_part_ids=[p['id'] for p in stringer_parts],positive_common_volume_m3=roof_common,
+        nominal_clearance_screen='pass',manufacturing_tolerance_or_dynamic_clearance_qualified=False)
     doc.recompute();doc.saveAs(str(output/'model.FCStd'));App.closeDocument(doc.Name)
     _canonicalise_fcstd(output/'model.FCStd')
     reopened=App.openDocument(str(output/'model.FCStd'))
@@ -172,7 +184,7 @@ def _worker(output):
         execution_status='completed',native_engine='FreeCAD '+'.'.join(App.Version()[:3]),
         material_group_count=len(checks),primitive_count=len(parts),native_checks=checks,
         equipment_context_count=len(geometry.get('contexts',[])),equipment_contexts_excluded_from_mass_and_STEP=True,
-        freecad_reopened=True,step_reopened=True,step_total_volume_m3=step_volume,
+        freecad_reopened=True,step_reopened=True,step_total_volume_m3=step_volume,critical_roof_fit=critical_fit,
         defined_material_properties=actual_total,whole_equipped_mass_kg=None,
         complete_installed_mass_known=False,full_global_interference_check_executed=False,
         scope='Native material primitives with proposed placements. Compound overlaps at unresolved joints are not removed; no complete installed mass or collision-free assembly claim.',**FLAGS)
