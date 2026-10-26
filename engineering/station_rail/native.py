@@ -46,10 +46,13 @@ Import.export(objects,str(folder/'vehicle.step'))
 A.closeDocument(doc.Name)
 reopened=A.openDocument(str(folder/'vehicle.FCStd'))
 reopenedvol=sum(obj.Shape.Volume for obj in reopened.Objects if hasattr(obj,'Shape'))/1e9
+step_shape=Part.Shape();step_shape.read(str(folder/'vehicle.step'))
+step_volume=step_shape.Volume/1e9
 result={'FreeCAD_version':list(A.Version()),'part_count':len(inputs['parts']),'material_groups':len(groups),
         'native_material_kg':mass,'native_volume_m3':volume,'reopened_volume_m3':reopenedvol,
         'part_volume_mismatch_ids':mismatch,'all_part_volumes_match':not mismatch,
         'reopened_volume_matches':abs(reopenedvol-volume)<1e-8,
+        'step_reopened_volume_m3':step_volume,'step_reopened_volume_matches':abs(step_volume-volume)<1e-8,
         'complete_installed_geometry':False,'interference_and_removal_qualified':False}
 (folder/'cad-result.json').write_text(json.dumps(result,sort_keys=True,indent=2)+'\n')
 A.closeDocument(reopened.Name)
@@ -124,13 +127,13 @@ def run(output,root=ROOT):
     output.mkdir(parents=True,exist_ok=True);v=vehicle.build(root)
     ids={k:v[k] for k in ('candidate_id','body_candidate_id','support_component_id','propulsion_component_id')}
     inputs=dict(schema='osr-station-rail-native-input/1',**ids,parts=v['geometry_parts'])
-    (output/'input.json').write_bytes(encoded(inputs));(output/'freecad.py').write_text(FREECAD_SCRIPT)
-    proc=subprocess.run(['flatpak','run','--filesystem='+str(output),'--command=FreeCADCmd','org.freecad.FreeCAD',str(output/'freecad.py')],cwd=output,capture_output=True,text=True,timeout=300)
+    (output/'input.json').write_bytes(encoded(inputs));(output/'worker.py').write_text(FREECAD_SCRIPT)
+    proc=subprocess.run(['flatpak','run','--filesystem='+str(output),'--command=FreeCADCmd','org.freecad.FreeCAD',str(output/'worker.py')],cwd=output,capture_output=True,text=True,timeout=300)
     (output/'freecad.stdout.log').write_text(proc.stdout);(output/'freecad.stderr.log').write_text(proc.stderr)
     if proc.returncode or not (output/'cad-result.json').is_file():raise RuntimeError('Native FreeCAD execution failed; inspect logs')
     cad=json.loads((output/'cad-result.json').read_bytes())
     expected=v['mass']['located_material_kg']
-    if not cad['all_part_volumes_match'] or not cad['reopened_volume_matches'] or abs(cad['native_material_kg']-expected)>1e-5:raise ValueError('Native material geometry does not reconcile with candidate stock')
+    if not cad['all_part_volumes_match'] or not cad['reopened_volume_matches'] or not cad['step_reopened_volume_matches'] or abs(cad['native_material_kg']-expected)>1e-5:raise ValueError('Native material geometry does not reconcile with candidate stock')
     fixtures=[_run_ccx(output/name,v,dx) for name,dx in (('sill-coarse',.2),('sill-fine',.1))]
     result=dict(schema='osr-station-rail-native/1',**ids,execution='completed',CAD=cad,underframe_fixtures=fixtures,
         deflection_refinement_change_fraction=abs(fixtures[-1]['maximum_midspan_vertical_displacement_m']-fixtures[0]['maximum_midspan_vertical_displacement_m'])/fixtures[-1]['maximum_midspan_vertical_displacement_m'],
