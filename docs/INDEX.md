@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **642**.
+Indexed Markdown files: **643**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **642**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 74 |
+| [docs](#docs) | 75 |
 | [engineering](#engineering) | 19 |
 | [tools](#tools) | 2 |
 
@@ -680,6 +680,7 @@ Indexed Markdown files: **642**.
 | [`docs/design-engine/ferrite-maglev/stopped-recovery/README.md`](../docs/design-engine/ferrite-maglev/stopped-recovery/README.md) | Stopped progressive-controller recovery |
 | [`docs/design-engine/ferrite-maglev/system-campaign/README.md`](../docs/design-engine/ferrite-maglev/system-campaign/README.md) | Integrated station, interlocking and recovery study |
 | [`docs/design-engine/ferrite-maglev/system-detailed/README.md`](../docs/design-engine/ferrite-maglev/system-detailed/README.md) | Detailed candidate and system simulation |
+| [`docs/design-engine/halbach-scaling/README.md`](../docs/design-engine/halbach-scaling/README.md) | Larger Halbach arrays and lighter rolling stock |
 | [`docs/design-engine/magnetic-confirmation/README.md`](../docs/design-engine/magnetic-confirmation/README.md) | Finite 3D magnetic continuation confirmation |
 | [`docs/design-engine/passive-suspension/README.md`](../docs/design-engine/passive-suspension/README.md) | Onboard magnets and passive steel facings |
 | [`docs/design-engine/passive-suspension/plan.md`](../docs/design-engine/passive-suspension/plan.md) | Bounded specialist campaign |
