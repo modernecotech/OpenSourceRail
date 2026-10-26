@@ -94,19 +94,21 @@ def deck(kind='four_bolt',mesh=1,regularizer=REGULARIZER_NM_PER_RAD):
 
 
 def _parse(path):
-    cases=[];mode=None;current=None;frequencies=[];energy_next=False;freq=False
+    cases=[];mode=None;current=None;frequencies=[];energy_next=False;freq=False;modal=False
     for line in Path(path).read_text().splitlines():
         low=line.lower();f=line.split()
+        if 'E I G E N V A L U E   O U T P U T' in line:modal=True;mode=None
+        if modal:
+            if 'MODE NO' in line and 'EIGENVALUE' in line:freq=True
+            elif freq and len(f)==5 and f[0].isdigit() and len(frequencies)<6:frequencies.append(float(f[3]))
+            elif frequencies and not f:freq=False
+            continue
         if 'displacements' in low:
-            current=dict(u={},rf={});cases.append(current);mode='u';freq=False
+            current=dict(u={},rf={});cases.append(current);mode='u'
         elif 'forces' in low and current is not None:mode='rf'
         elif 'total internal energy' in low:mode=None;energy_next=True
         elif energy_next and len(f)==1:
             try:current['solid_energy_J']=float(f[0]);energy_next=False
-            except ValueError:pass
-        elif 'eigenvalue' in low and 'frequency' in low:freq=True;mode=None
-        elif freq and len(f)>=4 and f[0].isdigit():
-            try:frequencies.append(float(f[3]))
             except ValueError:pass
         elif mode and len(f)==4 and f[0].isdigit():current[mode][int(f[0])]=list(map(float,f[1:]))
     return cases,frequencies

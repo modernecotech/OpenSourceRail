@@ -1,4 +1,6 @@
 import unittest
+from pathlib import Path
+import tempfile
 import numpy as np
 from engineering.design_search import joint_models as j
 
@@ -36,3 +38,10 @@ class TransferFixtureTests(unittest.TestCase):
         a=j.joint_definition('finite_area');b=j.joint_definition('finite_area')
         self.assertEqual(a,b)
         self.assertGreater(j.deck('finite_area',2)[1]['solid_elements'],j.deck('finite_area',1)[1]['solid_elements'])
+
+    def test_modal_shapes_are_not_extra_static_cases(self):
+        raw='displacements\n1 1.0 0.0 0.0\n E I G E N V A L U E   O U T P U T\n MODE NO EIGENVALUE FREQUENCY\n 1 4.0 2.0 .3183 0.0\n\ndisplacements\n1 99.0 0.0 0.0\n'
+        with tempfile.TemporaryDirectory() as t:
+            p=Path(t)/'test.dat';p.write_text(raw);states,f=j._parse(p)
+        self.assertEqual(len(states),1)
+        self.assertEqual(f,[.3183])
