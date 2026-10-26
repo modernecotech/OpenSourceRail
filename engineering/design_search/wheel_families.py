@@ -159,13 +159,14 @@ def propose_revision(candidate,results,*,trial_index=0):
     if not diagnostics:return None
     byname={r['request']['evaluator_id']:r for r in results if r['purpose']!='confirmation'}
     b=byname.get('wheel-body',{});br=next((d.get('native',{}) for d in b.get('diagnostics',[])),{})
-    body_diagnostic=dict(engineering_screen=b.get('screen_status'),normal_deflection_m=br.get('metrics',{}).get('normal_deflection_m'))
+    body_diagnostic=dict(engineering_screen=b.get('screen_status') if b.get('numerical_status')=='converged' else 'unknown',normal_deflection_m=br.get('metrics',{}).get('normal_deflection_m') if b.get('numerical_status')=='converged' else None)
     m=byname.get('wheel-motor',{});mr=next((d.get('native',{}) for d in m.get('diagnostics',[])),{})
     motor_diagnostic=dict(engineering_screen=m.get('screen_status'),reasons=mr.get('failure_reasons',[]))
     p['body']=wheel_body.revise(p['body'],body_diagnostic,trial_index+1)
-    p['motor']=wheel_motor.revise(p['motor'],motor_diagnostic,trial_index+1)
+    if m.get('screen_status')=='fail':p['motor']=wheel_motor.revise(p['motor'],motor_diagnostic,trial_index+1)
     p['brakes']=wheel_brakes.revise(p['brakes'],diagnostics.get('wheel-brakes',[]),trial_index+1)
-    return make(p,requirement_revision=candidate['requirement_revision'],label='v06/revision-'+str(trial_index+1)+'/'+p['motor']['physical'].get('name','motor'),
+    revised=make(p,requirement_revision=candidate['requirement_revision'],label='v06/revision-'+str(trial_index+1)+'/'+p['motor']['physical'].get('name','motor'),
         lineage=dict(parent_candidate_ids=[candidate['candidate_id']],generation=trial_index+1,operation='failure-driven-wheel-revision',
             trigger_evaluation_ids=[r['evaluation_id'] for r in results if r['screen_status'] in ('fail','unknown')],
             reason='Change generated stock after typed native diagnostics; numerical and evidence gaps remain explicit'))
+    return revised if revised['candidate_id']!=candidate['candidate_id'] else None

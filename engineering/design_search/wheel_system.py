@@ -17,7 +17,16 @@ def evaluate(candidate,car,parameters,dependencies,request):
             # No force/deflection from an invalid numerical/material model is
             # used as a physical objective. This is an explicit diagnostic cost.
             penalty+=3.;kind='numerical-failure'
-        elif result['screen_status']=='fail':penalty+=1.;kind='design-failure'
+        elif result['screen_status']=='fail':
+            contribution=1.
+            if name=='wheel-body':
+                raw=result['diagnostics'][0].get('native',{})
+                values=[c.get('maximum_vertical_displacement_m') for c in raw.get('cases',[]) if c.get('execution')=='completed']
+                if values:contribution=max(1.,max(values)/.0256)
+            elif name=='wheel-brakes':
+                values=[d['native']['stop_distance_m'] for d in result['diagnostics'] if d.get('reason')!='adhesion-incompatible' and d.get('native',{}).get('stop_distance_m') is not None]
+                contribution=1.+max([0.,*[max(0.,v/request['scenario'].get('brake_stopping_budget_m',1000.)-1) for v in values]])
+            penalty+=contribution;kind='design-failure'
         else:penalty+=.25;kind='evidence-gap'
         if name=='wheel-definition':continue
         tasks.append(dict(candidate_id=candidate['candidate_id'],trigger_evaluation_id=result['evaluation_id'],

@@ -113,7 +113,7 @@ def publish(campaign_id,*,state=campaign.STATE,output=OUTPUT):
             target=evidence/(attempt.parent.name+'.tar.gz')
             if not target.exists():target.write_bytes(archive(attempt,compact=True))
     (out/'native-evidence.tar.gz').write_bytes(archive(evidence))
-    patch=ROOT/'build/v06-loop/material-patch-r2'
+    patch=ROOT/'build/v06-loop/material-patch-r3'
     if patch.is_dir():(out/'material-patch.tar.gz').write_bytes(archive(patch))
     preliminary=ROOT/'build/v06-loop/preliminary-campaign.json.gz'
     if preliminary.is_file():(out/'preliminary-resource-failure.json.gz').write_bytes(preliminary.read_bytes())

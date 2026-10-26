@@ -37,3 +37,10 @@ def test_altered_physical_part_cannot_use_unchanged_materialization(candidates):
     changed=deepcopy(candidates[0]);g=next(x for x in changed['geometry'] if x.get('kind')=='box')
     g['native_part']['size_m'][0]*=1.01
     with pytest.raises(ValueError):f.materialize(changed)
+
+
+def test_invalid_body_displacement_requests_model_work_without_a_physical_mutation(candidates):
+    parent=candidates[0]
+    request=k.make_evaluation_request(parent,evaluator_id='wheel-body',evaluator_sources={'test.py':'a'*64})
+    invalid=k.make_result(request,execution_status='executed',numerical_status='invalid',screen_status='fail',diagnostics=[dict(native=dict(metrics=dict(normal_deflection_m=1e9)))])
+    assert f.propose_revision(parent,[invalid],trial_index=0) is None

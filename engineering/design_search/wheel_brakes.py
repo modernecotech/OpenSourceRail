@@ -12,7 +12,8 @@ def default_parameters():return dict(piston_diameter_m=.1,maximum_pressure_Pa=.6
 
 def revise(parameters,diagnostics,generation):
     p=deepcopy(parameters)
-    if generation>0 and p['piston_diameter_m']<.14:p['piston_diameter_m']=.14
+    triggered=any(isinstance(d,dict) and d.get('reason')=='one-channel-lost' and d.get('native',{}).get('necessary_stopping_screen')=='fail' for d in diagnostics if isinstance(d,dict)) if isinstance(diagnostics,list) else False
+    if triggered and generation>0 and p['piston_diameter_m']<.14:p['piston_diameter_m']=.14
     return p
 
 

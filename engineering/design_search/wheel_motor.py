@@ -14,7 +14,7 @@ from engineering.station_rail.common import encoded,identity,digest,source_map
 from engineering.station_rail import station_motor as base,long_motor as native
 PRODUCER='engineering/design_search/wheel_motor.py'
 PRODUCERS=(PRODUCER,base.PRODUCER,native.PRODUCER)
-TOOLS_ROOT=Path('/home/hayder/Documents/OpenSourceRail')
+TOOLS_ROOT=ROOT
 GETDP=TOOLS_ROOT/'build/trip-dynamics/tools/getdp-3.5.0-Linux64/bin/getdp'
 LIMIT_BYTES=3*1024**3
 
