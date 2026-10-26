@@ -1,0 +1,57 @@
+schema = "osr-development-baseline-selection/1"
+revision = "COMFORT-NDFEB-120S-1"
+family = "comfort-ndfeb-station-powered"
+selected_for_development = true
+source_revision = "578ee3950b872bf30fbf9e4207b2bda85951bdd7"
+source_manifest = "docs/design-engine/ferrite-maglev/comfort-design/manifest.json"
+source_manifest_sha256 = "6516dcc9d2a64d5357260b76a161368e02fdd2e0e956805717fca888dbcac60a"
+source_design = "docs/design-engine/ferrite-maglev/comfort-design/design.json.gz"
+vehicle_candidate_id = "957f7e4e2e0e98b575810fb0c568554968fc1eb0715fb673827a16bcf63d400b"
+body_candidate_id = "1eca1897b983bf62ec315cdc39aca2e2387f93ad6ab0c195bc278e14c8fb120b"
+magnet_component_id = "397ddf033ab98afaea053acaa3047249a3329f542f1f5e52a6eb1b466b9662e0"
+network_proposal_id = "524328a271df27ee726e544460a6bed8603912c2d1b4b47b086db8aff0e6497b"
+
+[vehicle]
+cars = 6
+body_length_m = 17.0
+fixed_seats_per_car = 44
+wheelchair_places_per_car = 2
+standing_passengers_per_car = 0
+normal_passengers_per_car = 46
+passenger_mass_kg_hypothesis = 75.0
+retained_crowd_control_per_car = 160
+passenger_doors_total_per_car = 2
+passenger_door_sides = 1
+permanent_magnets_location = "train-only"
+ordinary_guideway = "concrete-beam-with-passive-steel-facings"
+
+[service]
+headway_s = 120.0
+launch_speed_cap_m_s = 20.0
+dwell_s = 35.0
+acceleration_m_s2_hypothesis = 0.4
+deceleration_m_s2_hypothesis = 0.6
+constant_drag_N_per_car_hypothesis = 1000.0
+quadratic_drag_N_per_car_per_m_s_squared_hypothesis = 1.8
+grade_fraction_hypothesis = 0.0
+retain_existing_stops = true
+station_winding_library_m = [350.0,450.0,600.0,800.0,900.0,1000.0]
+prototype_station_spacing_m = 2000.0
+prototype_shared_winding_m = 800.0
+station_section_m = 12.5
+minimum_phase_branches_per_direction = 2
+normal_capacity_pphpd_arithmetic = 8280.0
+
+[acceptance]
+engineering_accepted = false
+physical_accepted = false
+installed_mass_complete = false
+manufacturing_release = false
+operating_release = false
+
+[outputs]
+publication = "docs/design-engine/current"
+workbench = "docs/workbench/current"
+city_package_subdirectory = "engineering/current"
+reader = "OpenSourceRail-Book.pdf"
+legacy_revision = "578ee3950b872bf30fbf9e4207b2bda85951bdd7"
