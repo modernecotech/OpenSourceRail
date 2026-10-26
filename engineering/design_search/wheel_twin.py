@@ -34,7 +34,12 @@ def _parts(candidate, materialized):
     parts += [dict(deepcopy(p),twin_frame='station') for p in materialized.get('wayside_parts',[])]
     parts += [dict(deepcopy(p),twin_frame='guidebeam') for p in materialized.get('civil_parts',[])]
     if len({p['id'] for p in parts})!=len(parts):raise ValueError('Unique wheel occurrence IDs required')
-    expected={g['native_part']['id']:g['native_part'] for g in candidate['geometry'] if g.get('native_part') is not None}
+    native_geometry=[g for g in candidate['geometry'] if g.get('native_part') is not None]
+    expected={g['native_part']['id']:g['native_part'] for g in native_geometry}
+    if len(expected)!=len(native_geometry):raise ValueError('Unique native physical occurrence IDs required')
+    for g in native_geometry:
+        rows=[r for r in candidate['installed_inventory'] if r.get('geometry_id')==g['id']]
+        if len(rows)!=1 or rows[0]['status']!='known' or rows[0]['quantity']!=1:raise ValueError('Native occurrence requires one known counted inventory item')
     if set(expected)!={p['id'] for p in parts}:raise ValueError('Candidate and materialized native stock inventory differ')
     exported=[]
     for p in parts:
@@ -171,7 +176,8 @@ def compile(candidate,results,*,output,export_native=True,allow_incomplete=True)
     def write(name,data):(output/name).write_bytes(k.encoded(data))
     write('candidate.json',candidate);write('evaluations.json',results)
     unknown=[r['id'] for r in candidate['installed_inventory'] if r['status']=='unknown']
-    unlocated=[r['id'] for r in candidate['installed_inventory'] if r['status']=='known' and r.get('cg_m') is None]
+    native_ids={g['id'] for g in candidate['geometry'] if g.get('native_part') is not None}
+    unlocated=[r['id'] for r in candidate['installed_inventory'] if r['status']=='known' and r.get('cg_m') is None and r.get('geometry_id') not in native_ids]
     identity=dict(candidate_id=candidate['candidate_id'],requirement_revision=candidate['requirement_revision'],
         component_ids={key:materialized[key] for key in ('body_candidate_id','support_component_id','propulsion_component_id') if key in materialized})
     write('engineering-bom.json',dict(**identity,known_geometric_occurrences=parts,installed_inventory=candidate['installed_inventory'],unknown_stock_ids=unknown,unlocated_stock_ids=unlocated,**FLAGS))
