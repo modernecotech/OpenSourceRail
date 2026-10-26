@@ -45,6 +45,8 @@ The v0.6 generators are connected to the existing restartable campaign engine. T
 ./osr design campaign publish <campaign-id>
 ```
 
+The three-generation trial reduced the frame branch’s normal-load deflection from about 110 mm to 23 mm. Its 33.6 mm crowd-load result still fails the 25.6 mm screen, and additional mass raises the required motor thrust. All tested motors remain outside the declared linear-steel domain; no viable complete train is claimed.
+
 Research ranking can select the next experiment while every complete design remains unqualified. The participating-panel trial remains numerically nonconverged in lateral motion; its vertical results are diagnostic, with no structural acceptance. Invalid numerical results cannot provide physical ranking values; unknown installed equipment and whole-life prices remain explicit.
 
 ## Use the repository

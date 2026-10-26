@@ -178,19 +178,27 @@ def build(root=ROOT,output=None,check=False):
     para('Counted wheel, axle and disc rotation adds1,770.387kg/car equivalent inertial mass, with no added static weight. It now feeds launch work, coasting and brake energy. Exact findings, benchmark dispositions and compact source-bound evidence are in docs/design-engine/v06-physical-closure/.')
     page('11. Failure-driven candidate generations')
     campaign=json.loads((root/'docs/design-engine/v06-optimisation/summary.json').read_bytes())
-    para(f"The existing design-search runner now executes generated wheel/LIM candidates through native body/motor solvers, brake models, civil moving loads and coupled service requirements. The bounded campaign completed{campaign['generations']}generations and{len(campaign['candidates'])}physical candidates without manually changing the reference geometry between trials.")
+    para(f"The existing runner completed{campaign['generations']}generations and{len(campaign['candidates'])}physical wheel/LIM candidates. Code generated each revision from recorded failures; the reference geometry was not manually edited between trials.")
     rows=[]
     for c in campaign['candidates']:
         body=next((x for x in c['body_cases'] if x['case']=='normal-fine'),{})
         deflection='Unknown' if body.get('maximum_vertical_displacement_m') is None else f"{1000*body['maximum_vertical_displacement_m']:.1f}mm"
         rows.append((f"g{c['generation']} /{c['candidate_id'][:10]}",f"{c['mass_kg_per_car']/1000:.3f}t",deflection,c['motor_numerical_status']))
-    table(['Generation /candidate','Accounted tare/car','Normal body deflection','Motor validity'],rows,[145,100,115,130])
-    para('The participating alternative remains numerically nonconverged in lateral displacement; its vertical values are diagnostic, not validated full-body improvement. It adds counted clamps and bolts to retained sandwich side regions around actual door/window apertures. Its synthetic laminate/core constants and ideal load transfer remain research hypotheses. Failed stiffness produces deeper counted sill stock; numerical failure produces a model/resource task. Additional hardware and material never become zero mass.')
-    para('LIM revisions change teeth, backiron, winding and matched fin/neck geometry. Current, slip and mesh are evaluation context; they do not create a different physical geometry. A linear-material field violation cannot be cured merely by raising current. Unknown nonlinear, finite-height, thermal and entry/exit behaviour blocks a qualified force map.')
-    para('Exact upstream result digests, candidate identities, source revisions and solver binaries enter each dependent cache key. The loop retains Pareto alternatives for diagnostic priority and counted quantities. Cost is unknown; this is not a whole-life economic winner.')
-    para('Each candidate generates matching native FreeCAD/STEP, reopened IFC, material takeoff and draft assembly, inspection, procurement and maintenance records for its known stock. Unlocated equipment and complete installed CG/inertia remain unresolved. The selected next experiment is a research twin; development and operating releases remain separate.')
-    para('Candidate-specific1.5/2/3km journeys remain held where position-dependent forces, qualified brakes/contact or flexible modes are missing. Typed next tasks carry source candidate/evaluation IDs and bounded scope. Campaign completion never closes an unqualified physical requirement.')
-    para('Campaign records and native research packages: docs/design-engine/v06-optimisation/. Run ./osr design campaign create/run/compare/publish. The266city geographies and all historical performance evidence remain preserved.')
+    table(['Generation /candidate','Accounted tare/car','Normal deflection','Motor validity'],rows,[145,100,115,130])
+    research=next((c for c in campaign['candidates'] if c['candidate_id']==campaign['next_experiment']['selected_candidate_id']),None)
+    if research:
+        crowd=next((c for c in research['body_cases'] if c['case']=='crowd'),{})
+        running=next((c for c in research['motor_cases'] if c['speed_m_s']==20),{})
+        crowd_value=crowd.get('maximum_vertical_displacement_m');force_value=running.get('metrics',{}).get('force_N');required_value=research.get('motor_required_force_N')
+        crowd_text='Unknown' if crowd_value is None else f'{1000*crowd_value:.1f}mm'
+        force_text='Unknown' if force_value is None else f'{force_value/1000:.3f}kN'
+        required_text='Unknown' if required_value is None else f'{required_value/1000:.3f}kN'
+        para(f"The next experiment accounts for{research['mass_kg_per_car']/1000:.3f}t/car. Its crowd deflection is{crowd_text} against25.6mm. Required thrust is{required_text}/car; the conditional calculation is{force_text}. Invalid motor fields cannot establish available thrust or physical feasibility.")
+    para('The lighter participating-panel branch remains laterally nonconverged. Its vertical values are diagnostic. Synthetic laminate/core constants and ideal clamp transfer are unqualified; invalid body results trigger model work rather than unsupported geometry revisions.')
+    para('Valid frame failures generate deeper/thicker counted stock. Motor revisions change teeth, backiron and windings; matched fin/neck geometry, car mass, rotor energy, brakes and civil loads propagate together. The fixed linear-steel limit cannot be relaxed to manufacture a pass.')
+    para('Exact dependency digests, source revisions and solver identities bind caches and restart. The Pareto comparison ranks diagnostic priority and counted quantities. Prices and complete installed equipment remain unknown; research selection cannot satisfy integrated acceptance.')
+    para('Every candidate generates native FreeCAD/STEP, reopened IFC, material takeoff and draft assembly, QA, procurement and maintenance records for known stock. Unknown equipment has no placeholder solids. Position-dependent journeys, joint/fatigue checks, qualified brakes and complete mass/CG/inertia remain open.')
+    para('Inspect docs/design-engine/v06-optimisation/ and ./osr design campaign create/run/compare/publish. Typed next tasks retain candidate and trigger IDs with bounded scope. The266city packages and prior physical evidence remain preserved.')
     page('12. Reproduce and inspect')
     para('Use ./osr status, ./osr readiness, ./osr build, ./osr verify, ./osr test, ./osr book --check and ./osr workbench. ./osr sim baghdad reports its deliberate city-evaluation hold. ./osr legacy verify checks retained source/payload bytes at their recorded Git revisions.')
     para('The v0.5 archive preserves magnetic development evidence; its source and results are not overwritten to match a wheel-supported train. Historical numerical regeneration belongs in a separate checkout of the pinned revision.')
