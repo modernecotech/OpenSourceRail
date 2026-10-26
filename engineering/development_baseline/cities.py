@@ -325,6 +325,8 @@ def evaluate_city(citypath_or_slug, baseline=None, root=ROOT, civil=None):
     source.update({citypath.relative_to(root).as_posix():_digest(citypath),
                    context_path.relative_to(root).as_posix():_digest(context_path),
                    CODE:_digest(__file__),
+                   'engineering/development_baseline/selection.py':_digest(selection.__file__),
+                   'engineering/development_baseline/__init__.py':_digest(Path(__file__).parent/'__init__.py'),
                    'engineering/comfort_design/service.py':_digest(service.__file__)})
     ids = {key:vehicle[key] for key in ('candidate_id','body_candidate_id','magnet_component_id')}
     capacity = v['cars']*v['normal_passengers_per_car']*3600/s['headway_s']
@@ -420,6 +422,7 @@ def city_readme(value, detailed=False):
     if detailed: maplink='../maglev/network.svg'
     legacy='../maglev/README.md' if detailed else 'engineering/maglev/README.md'
     summary='summary.json' if detailed else 'engineering/current/summary.json'
+    method=os.path.relpath('docs/design-engine/current/README.md',value['city_path']+('/'+PACKAGE if detailed else ''))
     intro=(f'# {name} — comfort-first OpenSourceRail development design\n\n'
            'OpenSourceRail seeks simple, affordable, locally maintainable transport: repeated lightweight trains, '
            'concrete beams with passive steel facings, onboard permanent magnets and suspension controls, '
@@ -458,7 +461,7 @@ def city_readme(value, detailed=False):
           'Stable multiaxis hover, a complete equipped vehicle, actual station thrust/electrical/thermal limits, '
           'fault stopping, civil acceptance and safe two-minute operation remain open. The mass ledger, energy requirements, '
           'winding layout, source hashes and failures are retained in the machine-readable record.','',
-          f"[Current calculation and source identities]({summary}) · [Historical ferrite planning package]({legacy}) · "
+          f"[Primary planning method]({method}) · [Current calculation and source identities]({summary}) · [Historical ferrite planning package]({legacy}) · "
           f"[Historical city front page at the pinned source](https://github.com/modernecotech/OpenSourceRail/blob/{LEGACY_REVISION}/{value['city_path']}/README.md)", '',
           f"Candidate `{value['candidate_id']}`  ",f"Body `{value['body_candidate_id']}`  ",
           f"Magnet `{value['magnet_component_id']}`  ",f"Selection `{value['selection_id']}`  ",

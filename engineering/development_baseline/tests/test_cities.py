@@ -120,6 +120,7 @@ class CurrentCities(unittest.TestCase):
             text=(output/'README.md').read_text()
             self.assertIn('engineering/maglev/network.svg',text)
             self.assertIn('Historical ferrite planning package',text)
+            self.assertIn('Primary planning method](../../../../../docs/design-engine/current/README.md)',text)
             self.assertIn('physical operation is not yet established',text)
             self.assertEqual(manifest['candidate_id'],value['candidate_id'])
             self.assertFalse(value['physical_accepted'])
