@@ -37,7 +37,7 @@ jobs:
           node-version: "22"
           cache: npm
       - run: python -m venv .venv
-      - run: .venv/bin/pip install pytest
+      - run: .venv/bin/pip install pytest --requirement engineering/ferrite_maglev/requirements.txt
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: .venv/bin/python -m pytest -q engineering/development_baseline/tests
