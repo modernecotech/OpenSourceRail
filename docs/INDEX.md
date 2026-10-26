@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **643**.
+Indexed Markdown files: **644**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **643**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 75 |
+| [docs](#docs) | 76 |
 | [engineering](#engineering) | 19 |
 | [tools](#tools) | 2 |
 
@@ -642,6 +642,7 @@ Indexed Markdown files: **643**.
 | [`docs/design-engine/ferrite-maglev/corridor/README.md`](../docs/design-engine/ferrite-maglev/corridor/README.md) | Fixed-line urban and suburban operational studies |
 | [`docs/design-engine/ferrite-maglev/delivery-schedule/README.md`](../docs/design-engine/ferrite-maglev/delivery-schedule/README.md) | Resource-loaded Baghdad delivery study |
 | [`docs/design-engine/ferrite-maglev/drive-construction/README.md`](../docs/design-engine/ferrite-maglev/drive-construction/README.md) | Active support/guidance and station launch construction |
+| [`docs/design-engine/ferrite-maglev/engineering-readiness/README.md`](../docs/design-engine/ferrite-maglev/engineering-readiness/README.md) | Current engineering readiness |
 | [`docs/design-engine/ferrite-maglev/full-dynamics/README.md`](../docs/design-engine/ferrite-maglev/full-dynamics/README.md) | Continued six-car fault dynamics |
 | [`docs/design-engine/ferrite-maglev/hub-access/README.md`](../docs/design-engine/ferrite-maglev/hub-access/README.md) | Baghdad physical interchange access-kit study |
 | [`docs/design-engine/ferrite-maglev/interchange-hubs/README.md`](../docs/design-engine/ferrite-maglev/interchange-hubs/README.md) | Baghdad interchange-hub investigation |

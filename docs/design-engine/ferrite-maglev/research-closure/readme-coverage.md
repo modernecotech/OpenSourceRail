@@ -4,9 +4,9 @@ OpenSourceRail develops an open, locally buildable urban railway with fixed line
 
 [Project introduction](../../../../README.md) · [System approach](../../../../engineering/README.md) · [Detailed implementation and current design gates](../../../../engineering/ferrite_maglev/README.md)
 
-All **617 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. Existing generated city introductions and their primary-method links remain intact. The project front door is maintained separately.
+All **618 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. Existing generated city introductions and their primary-method links remain intact. The project front door is maintained separately.
 
-Existing local navigation reaches current context from **556 documents**. This page supplies an explicit current-context route for the remaining **61 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
+Existing local navigation reaches current context from **557 documents**. This page supplies an explicit current-context route for the remaining **61 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
 Source-bound city, design and archived research documents retain their exact README payloads and original scope. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.
 
@@ -22,7 +22,7 @@ Source-bound city, design and archived research documents retain their exact REA
 | manual-current-entrypoint | 13 |
 | project-frontdoor | 1 |
 | retained-assurance-evidence | 8 |
-| retained-design-evidence | 54 |
+| retained-design-evidence | 55 |
 | trip-dynamics-method | 2 |
 
 Regenerate and check with:
@@ -598,6 +598,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [docs/design-engine/ferrite-maglev/corridor/README.md](../corridor/README.md) | retained-design-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/ferrite-maglev/delivery-schedule/README.md](../delivery-schedule/README.md) | retained-design-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/ferrite-maglev/drive-construction/README.md](../drive-construction/README.md) | retained-design-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
+| [docs/design-engine/ferrite-maglev/engineering-readiness/README.md](../engineering-readiness/README.md) | retained-design-evidence | [System approach](../../../../engineering/README.md) | [project](../../../../README.md) |
 | [docs/design-engine/ferrite-maglev/full-dynamics/README.md](../full-dynamics/README.md) | retained-design-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/ferrite-maglev/hub-access/README.md](../hub-access/README.md) | retained-design-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/ferrite-maglev/interchange-hubs/README.md](../interchange-hubs/README.md) | retained-design-evidence | [System approach](../../../../engineering/README.md) | Via this coverage page |

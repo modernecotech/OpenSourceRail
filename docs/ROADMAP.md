@@ -10,6 +10,10 @@ explicitly classified suburban 4–5 km alternatives. [Implemented work](../engi
 and the [current report](design-engine/ferrite-maglev/reference/index.html) identify
 the tested digital scope. Accepted engineering and physical releases remain zero.
 
+<!-- osr-current-engineering:start -->
+The [current engineering readiness register](design-engine/ferrite-maglev/engineering-readiness/README.md) connects **504 composed alternatives** to eight explicit evidence gates, equipped-stock accounting, operating-point magnetic studies and hot-weather duty. The [readiness Workbench](workbench/trip/readiness/index.html) shows the same generated records. Complete installed mass, stable multiaxis hover and a physically driven 2 km journey remain open; native-method passes do not qualify a train.
+<!-- osr-current-engineering:end -->
+
 ## Primary maglev closure queue
 
 The [coordinated design loop](../engineering/design_search/README.md) implements

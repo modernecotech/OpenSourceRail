@@ -41,6 +41,10 @@ The guideway target is one concrete beam per direction, with necessary reaction 
 
 *Illustrative concept; no qualified train installation or walkway-removal approval is claimed.*
 
+<!-- osr-current-engineering:start -->
+The [current engineering readiness register](docs/design-engine/ferrite-maglev/engineering-readiness/README.md) connects **504 composed alternatives** to eight explicit evidence gates, equipped-stock accounting, operating-point magnetic studies and hot-weather duty. The [readiness Workbench](docs/workbench/trip/readiness/index.html) shows the same generated records. Complete installed mass, stable multiaxis hover and a physically driven 2 km journey remain open; native-method passes do not qualify a train.
+<!-- osr-current-engineering:end -->
+
 ## Current design and evidence
 
 The [larger Halbach and lighter rolling-stock campaign](docs/design-engine/halbach-scaling/README.md) expands onboard neodymium volume from 6 to 24 litres per module and compares segmentation, pole periods, back iron and differential control windings alongside aluminium frames, doors, glazing and HVAC. An enlarged 12-litre differential array reaches **30.8–31.5 kN** in one converged finite 3D calculation at 12 mm and 80°C. Stronger magnetic pull requires counted attachment reinforcement; proposed larger operating gaps, lateral stability, thermal duty and complete installed mass remain unresolved. This is a separate research comparison; the canonical train is unchanged.
