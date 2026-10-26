@@ -151,8 +151,8 @@ def run_overlap(c,output,*,root=ROOT,nonlinear=False):
     output=Path(output);root=Path(root)
     if output.exists():raise ValueError('Fresh immutable output required')
     output.mkdir(parents=True);sources=source_map(root,PRODUCERS);d=station_motor.definition();d.update(secondary_length_m=c['secondary_length_m'])
-    (output/'input.json').write_bytes(encoded(dict(case=c,definition=d,source_sha256=sources,getdp_sha256=digest(GETDP))))
-    r=dict(kind='linear-finite-overlap-method-control',case=c,execution='planned',numerical_validity='unknown',available_installed_force_N=None,
+    (output/'input.json').write_bytes(encoded(dict(case=c,definition=d,requested_nonlinear=nonlinear,source_sha256=sources,getdp_sha256=digest(GETDP))))
+    r=dict(kind='linear-finite-overlap-method-control',case=c,requested_nonlinear=nonlinear,execution='planned',numerical_validity='unknown',available_installed_force_N=None,
         force_scaling_applied=False,nonlinear_machine_gate='held',supplier_material_gate='held',loss_thermal_3D_gate='held',**FLAGS)
     if nonlinear:r.update(execution='refused',reason='Moving nonlinear A-u transient/circuit/energy/force implementation not independently validated; constant-mu phasor substitution prohibited');return _seal(output,r,sources)
     try:
