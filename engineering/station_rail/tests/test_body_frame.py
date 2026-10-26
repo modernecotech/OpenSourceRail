@@ -54,3 +54,11 @@ def test_native_input_records_obey_calculix_sixteen_field_limit():
 def test_nonfinite_native_response_cannot_become_a_completed_screen(tmp_path):
     dat=tmp_path/'frame.dat';dat.write_text('displacements\n1 nan 0 0\n')
     with pytest.raises(ValueError,match='Nonfinite'):body_frame._read_dat(dat)
+
+
+def test_post_base_geometry_cannot_silently_claim_floor_fit():
+    alt=body_frame.build(current(),root=body_frame.ROOT)['variants'][1]
+    assert alt['installation_clearance_screen']=='hold'
+    assert len(alt['installation_clashes'])==68
+    assert all('/floor/' in c['parent_part_id'] for c in alt['installation_clashes'])
+    assert not alt['floor_and_lap_cutouts_sealing_and_reinforcement_qualified']

@@ -113,6 +113,14 @@ def build(vehicle,root=ROOT):
         lower=next(i for i,m in enumerate(ms) if m['id'].startswith('wheel-underframe/sill/'))
         supported=next(c for c in comps if lower in c)
         roof=[i for i,m in enumerate(ms) if '/roof-longitudinal-' in m['id']]
+        clashes=[]
+        for added in extra:
+            for old in vehicle['geometry_parts']:
+                if old.get('kind')!='box':continue
+                depths=[min(added['at_m'][k]+added['size_m'][k],old['at_m'][k]+old['size_m'][k])-max(added['at_m'][k],old['at_m'][k]) for k in range(3)]
+                if min(depths)>1e-8:
+                    volume=depths[0]*depths[1]*depths[2]
+                    clashes.append(dict(added_part_id=added['id'],parent_part_id=old['id'],overlap_volume_m3=volume,classification='Floor/lap fit-up requires cutout and reinforcement design; no mass saving credited'))
         newmass=sum(p['mass_kg'] for p in extra)
         # A new physical alternative retains the unchanged installed accounts;
         # new joint stock is added conservatively, with no guessed subtraction.
@@ -122,7 +130,9 @@ def build(vehicle,root=ROOT):
             members=ms,contacts=cs,component_count=len(comps),supported_member_indices=supported,
             disconnected_member_ids=[ms[i]['id'] for i in range(len(ms)) if i not in supported],
             both_roof_chords_connected=all(i in supported for i in roof),
-            added_material_parts=extra,existing_attachment_allowance_reconciled=False,
+            added_material_parts=extra,existing_attachment_allowance_reconciled=False,installation_clashes=clashes,
+            installation_clearance_screen='hold' if clashes else 'not-assessed',
+            floor_and_lap_cutouts_sealing_and_reinforcement_qualified=False,
             applicability='No panel shear, glazing/doors or adhesive stiffness credited. Added blocks are manufacturable-stock proposals; welding/bolting, fatigue and thermal joints unqualified.',**FLAGS))
     value=dict(schema='osr-v06-body-frame-definition/1',**{k:vehicle[k] for k in IDS},variants=variants,
         assumptions=dict(E_Pa=69e9,nu=.33,density_kg_m3=2710.,frame_model='3D beam reduction of actual four-wall extrusion stock',
