@@ -72,12 +72,15 @@ def assemble(root=ROOT):
     furniture = seats_doors.options(root=root)
     for component in furniture:
         seats_doors.validate(component, root=root)
+    bench_finalists=[r for r in furniture if r['component']=='bench' and r['necessary_screen']=='pass']
     parent = systems.parent_evidence(root)
     source = _bindings(root, list(all_layouts.values())+records+panels+furniture+[parent])
     policy = dict(purpose='next component design and comfort/service comparison',
         rule='Retain door-bench and wheelchair-door-bay alternatives; compare glass, thin-PC control and subdivided thicker PC. Keep five HVAC references by default until hot-condition ratings exist.',
         integrated_candidate_selected=False, primary_recipe='door-bench-default',
         primary_HVAC_quantity=5, primary_glazing='retained glass reference; PC remains an unqualified alternative',
+        next_bench_component_ids=[r['component_id'] for r in bench_finalists],
+        bench_fixture_selection_is_installed_seat_acceptance=False,
         capacity_is_derived_from_fitted_seating=True, standing_passengers_default=0,
         primary_layout_id=bench['layout_id'], alternative_layout_id=access['layout_id'])
     policy['selection_id'] = identity(policy)
@@ -165,7 +168,7 @@ def readme(value):
             lines.append(f"| {r['role']} ({r['seats']} seats + 2 wheelchair users) | {r['cap']} | {r['accounted_tare_kg']/1000:.3f} t | {r['accounted_loaded_kg']/1000:.3f} t | {r['capacity_at_180s_pphpd']:,.0f} pphpd | {r['required_headway_s']:g} s |")
     lines += ['', 'These are accounted material/reference totals, not complete installed mass. The retained 800 kg interior account remains: identified seat stock resolves part of it, with no saving claimed for unlocated interior equipment. Wheelchair devices, luggage, remaining equipment, egress hardware, CG and full inertia remain unresolved. The 160-person crowd/control load is retained; a proposed cap does not physically enforce boarding limits.','',
         '## Lightweight parts: what was counted','',
-        '- **Seats and benches:** 2 mm GFRP pan/back stock, foam pads, aluminium RHS supports and M8 fastener stock are counted. Bonds, seat restraints, load capacity, fire performance and complete installed joints remain open. Thin material takeoffs are not structurally validated seat assemblies.',
+        '- **Seats and benches:** the layout ledger counts 2 mm GFRP pan/back stock, foam pads, aluminium RHS supports and M8 fastener stock. That thin construction fails the separate 1.5 kN/place component fixture. A 30 mm-core sandwich on deeper aluminium rails is the next structural experiment, not an installed-seat release. Bonds, seat restraints, backrest loads, fire performance and complete joints remain open.',
         '- **Doors:** two doors on one side replace four total doors. The ordinary platform already used two active doors, so normal boarding frontage is retained. Deleted openings receive counted opaque infill; the existing aperture frames remain. Platform side, terminal turnback, rescue access and emergency egress need a route-wide design.',
         '- **Windows:** 33 glazing cases compare the exact laminated-glass stock against coated rail-polycarbonate proposals, including retention, seals and subdividing mullions. Thin PC gives a density saving but may leave the linear plate model domain. A thicker, subdivided option can exceed the glass stock mass. Typical supplier material properties do not qualify the proposed window system.',
         '- **Floors, roof and aluminium chassis:** separate panel/member alternatives count material and added interfaces. Necessary bending/shear fixtures do not establish local passenger loads, complete body modes, fatigue, fire or hot-weather performance. Their prospective savings are not subtracted from the same-parent vehicle comparison.',
@@ -191,6 +194,14 @@ def readme(value):
         '|---|---|---:|---|']
     for r in value['envelope_options']+value['seating_door_options']:
         components.append(f"| {r['name']} | {r['mass_basis']} | {r['counted_mass_kg']:.2f} kg | {r['necessary_screen']} |")
+    frames=value['envelope_options'][0]['frame_context']['aluminium_frame_comparisons']
+    components += ['', 'The retained aluminium-frame comparisons keep the magnetic design reactions fixed:', '',
+        '| Frame interface | Counted frame stock | Replaced ancestor stock |', '|---|---:|---:|']
+    for r in frames:
+        components.append(f"| {r['id']} | {r['counted_material_mass_kg']:.2f} kg | {r['ancestor_frame_counted_kg']:.2f} kg |")
+    components += ['',
+        'One two-place bench fixture reaches 11.47 kg and 4.59 mm combined deflection under the declared 1.5 kN/place load. All three door options fail the declared 1 kPa/10 mm strip-deflection fixture; thinner leaves save only about 1–2 kg per opening and keep the 41 kg operator reference. These fixture failures require redesign or better matched analysis, rather than crediting the lighter stock.', '',
+        'The 0.9 mm aluminium-skin/H80 floor counts 530.54 kg versus 700.53 kg retained floor stock and passes the declared necessary fixture. Roof options, including the retained reference under this particular strip/support hypothesis, fail the 2.125 m span-deflection target. Global two-way action, actual supports and attachments need a matched model.']
     components += ['', 'Panel comparisons use declared continuous-section stiffness and local strip loads; tiled joint continuity and whole-body participation remain unknown. Bench loads and door-pressure fixtures are declared research hypotheses, not acceptance criteria. Source material URLs and temperature limitations are included with each record.','',
         'Primary material references: [coated rail polycarbonate](https://plaskolite.com/docs/default-source/pds/pds183_tuf_tg.pdf), [Divinycell H core](https://diab-media.azureedge.net/eyajkrhd/diab-divinycell-h-may-2026-rev26-si.pdf) and [glass-epoxy plate comparator](https://www.hippe.de/en/products/detail/product/ep-gc-202-as). Their published coupon properties do not qualify the new assemblies.','']
     return '\n'.join(lines).replace('## What this does to the suspension gap', '\n'.join(components)+'\n## What this does to the suspension gap')
