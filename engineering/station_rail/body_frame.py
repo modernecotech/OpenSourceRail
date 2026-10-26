@@ -7,7 +7,7 @@ credited. A compliant-connection sensitivity never establishes a real joint law.
 """
 from collections import defaultdict
 from pathlib import Path
-from math import ceil,sqrt
+from math import ceil,sqrt,isfinite
 import json,os,re,subprocess
 from . import ROOT,FLAGS
 from .common import encoded,identity,digest,source_map
@@ -245,6 +245,7 @@ def _read_dat(path):
             try:target.append([int(fields[0]),*[float(x) for x in fields[1:]]])
             except ValueError:pass
     if not displacements:raise ValueError('No native frame displacements')
+    if any(not isfinite(value) for row in displacements+reactions for value in row):raise ValueError('Nonfinite native frame response')
     return dict(maximum_vertical_displacement_m=max(abs(r[3]) for r in displacements),
         maximum_longitudinal_displacement_m=max(abs(r[1]) for r in displacements),
         maximum_lateral_displacement_m=max(abs(r[2]) for r in displacements),
@@ -290,15 +291,24 @@ def run(output,vehicle,root=ROOT):
             (folder/'stdout.log').write_text(proc.stdout);(folder/'stderr.log').write_text(proc.stderr)
             if proc.returncode or not (folder/'frame.dat').is_file():
                 cases.append(dict(variant=variant['name'],case=label,execution='tool-error',returncode=proc.returncode,log_path=folder.relative_to(output).as_posix()));continue
-            actual=_read_dat(folder/'frame.dat');residual=actual['support_reaction_z_N']+mesh['total_vertical_load_N']
+            try:actual=_read_dat(folder/'frame.dat')
+            except ValueError as error:
+                cases.append(dict(variant=variant['name'],case=label,execution='numerical-error',reason=str(error),log_path=folder.relative_to(output).as_posix()));continue
+            residual=actual['support_reaction_z_N']+mesh['total_vertical_load_N']
             actual.update(vertical_force_balance_residual_N=residual,vertical_force_balance_relative_error=abs(residual)/abs(mesh['total_vertical_load_N']))
             cases.append(dict(variant=variant['name'],alternative_id=variant['alternative_id'],case=label,loading=load,execution='completed',mesh=mesh,
                 **actual,deflection_limit_m_hypothesis=.0256,necessary_deflection_screen='pass' if actual['maximum_vertical_displacement_m']<=.0256 else 'fail',
                 numerical_validity='not yet independently confirmed',engineering_screen='unknown',physical_accepted=False))
     if build(vehicle,root)['source_sha256']!=before:raise ValueError('Body frame sources changed during native execution')
+    refinement=[]
+    for variant in definition['variants']:
+        pair=[c for c in cases if c['variant']==variant['name'] and c['case'] in ('normal-coarse','normal-fine') and c['execution']=='completed']
+        if len(pair)==2:
+            coarse,fine=pair;relative=abs(coarse['maximum_vertical_displacement_m']-fine['maximum_vertical_displacement_m'])/fine['maximum_vertical_displacement_m']
+            refinement.append(dict(variant=variant['name'],relative_deflection_change=relative,numerical_screen='pass' if relative<.02 and max(c['vertical_force_balance_relative_error'] for c in pair)<1e-4 else 'nonconverged-or-equilibrium-unconfirmed'))
     result=dict(schema='osr-v06-native-body-frame/1',**{k:vehicle[k] for k in IDS},definition_id=definition['evaluation_id'],
         execution='completed' if all(c['execution']=='completed' for c in cases) else 'completed-with-tool-errors',native_solver='CalculiX B32R box/rectangular 3D beams',
-        cases=cases,independent_benchmark=benchmark,alternatives=[{k:v for k,v in a.items() if k not in ('members','contacts')} for a in definition['variants']],
+        cases=cases,refinement=refinement,independent_benchmark=benchmark,alternatives=[{k:v for k,v in a.items() if k not in ('members','contacts')} for a in definition['variants']],
         source_sha256=before,scope='Stock-derived frame and counted added post joints. Fully rigid contact-offset connections are an upper stiffness bound; panels excluded. Joint, buckling, fatigue, crash, flexible modes and equipped structure remain unqualified.',**FLAGS)
     result['evaluation_id']=identity(result);(output/'result.json').write_bytes(encoded(result));m=dict(source_sha256=before,files_sha256={p.relative_to(output).as_posix():digest(p) for p in sorted(output.rglob('*')) if p.is_file()},**FLAGS);m['manifest_id']=identity(m);(output/'manifest.json').write_bytes(encoded(m));return result
 

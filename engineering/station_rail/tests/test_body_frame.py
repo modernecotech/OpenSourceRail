@@ -49,3 +49,8 @@ def test_native_input_records_obey_calculix_sixteen_field_limit():
     alt=body_frame.build(current(),root=body_frame.ROOT)['variants'][1]
     raw,_=body_frame.deck(alt,23000)
     assert all(len(line.split(','))<=16 for line in raw.splitlines() if line and not line.startswith('*'))
+
+
+def test_nonfinite_native_response_cannot_become_a_completed_screen(tmp_path):
+    dat=tmp_path/'frame.dat';dat.write_text('displacements\n1 nan 0 0\n')
+    with pytest.raises(ValueError,match='Nonfinite'):body_frame._read_dat(dat)
