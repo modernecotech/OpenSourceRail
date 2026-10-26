@@ -85,6 +85,7 @@ def _ifc(output,candidate,parts,native):
     api('aggregate.assign_object',f,products=[site],relating_object=project)
     meshes={r['id']:r for r in native['rows']}
     for p in parts:
+        if time.monotonic()-started>60:raise TimeoutError('Bounded60s IFC export/verification budget exhausted')
         obj=api('root.create_entity',f,ifc_class='IfcBuildingElementProxy',name=p['id'])
         api('spatial.assign_container',f,products=[obj],relating_structure=site)
         row=meshes[p['id']]
@@ -151,6 +152,8 @@ def compile(candidate,results,*,output,export_native=True,allow_incomplete=True)
         frames=dict(vehicle='Car reference',station='Separate wayside module reference; not an installed co-located assembly'),
         vehicle_scope='One car known stock plus separate station module',scope='Known-stock research twin only; complete installed mass/CG/inertia, priced costs, manufacturing and physical acceptance remain open',**FLAGS)
     write('twin.json',summary)
+    links='[Native FreeCAD](wheel-stock.FCStd) · [STEP](wheel-stock.step) · [IFC](wheel-stock.ifc)' if export_native else 'Native CAD and IFC were not executed.'
+    (output/'README.md').write_text('# Wheel-rail known-stock research twin\n\nOpenSourceRail pursues simple, locally repairable station-powered transport. This package connects one wheel-rail candidate to known-stock geometry and draft delivery records.\n\nCandidate `'+candidate['candidate_id']+'`; requirements `'+candidate['requirement_revision']+'`. '+str(len(parts))+' known geometric occurrences, representing one car and a separate station module. Vehicle and station coordinates are separate frames, not an installed assembly clearance demonstration.\n\n'+links+'\n\n[Engineering BOM](engineering-bom.json) · [Manufacturing takeoff](manufacturing-bom.json) · [Assembly](assembly.json) · [QA](qa.json) · [Procurement](procurement.json) · [Maintenance](maintenance.json) · [Evidence summary](twin.json)\n\nUnknown and unlocated equipment is listed without placeholder solids. Complete installed mass, CG, inertia, cost, joining procedures and physical qualification remain open. All production and operating releases remain held.\n')
     if _sources(candidate)!=sources:raise ValueError('Wheel twin sources changed during generation')
     manifest=dict(schema='osr-wheel-research-twin-manifest/1',**identity,source_sha256=sources,
         files_sha256={p.name:sha256(p.read_bytes()).hexdigest() for p in output.iterdir() if p.is_file()},**FLAGS)
