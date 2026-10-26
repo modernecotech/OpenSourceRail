@@ -16,11 +16,11 @@ class ComponentTests(unittest.TestCase):
         cls.benches=[r for r in cls.records if r['component']=='bench']
         cls.doors=[r for r in cls.records if r['component']=='door']
 
-    def test_twelve_bounded_records_with_one_necessary_fixture_survivor(self):
-        self.assertEqual((12,9,3),(len(self.records),len(self.benches),len(self.doors)))
-        self.assertEqual(1,sum(r['necessary_screen']=='pass' for r in self.records))
+    def test_fourteen_bounded_records_preserve_failures_and_add_passing_revisions(self):
+        self.assertEqual((14,9,5),(len(self.records),len(self.benches),len(self.doors)))
+        self.assertEqual(3,sum(r['necessary_screen']=='pass' for r in self.records))
         self.assertEqual(self.records,sd.options(root=self.root))
-        self.assertEqual(12,len({r['component_id'] for r in self.records}))
+        self.assertEqual(14,len({r['component_id'] for r in self.records}))
         for record in self.records:
             self.assertTrue(sd.validate(record,root=self.root))
 
@@ -83,13 +83,37 @@ class ComponentTests(unittest.TestCase):
         for r in self.doors:
             self.assertEqual(41.,r['supplier_operator_reference_mass_kg'])
             self.assertAlmostEqual(r['counted_mass_kg']+41.,r['material_plus_operator_reference_kg'])
+        for r in self.doors[:3]:
             self.assertEqual('fail',r['necessary_screen'])
             self.assertFalse(r['fixture_checks']['research_deflection'])
-        for r in self.doors[1:]:
+        for r in self.doors[1:3]:
             self.assertLess(r['counted_mass_kg'],baseline['counted_mass_kg'])
             self.assertGreater(r['physical_definition']['core_m'],baseline['physical_definition']['core_m'])
             self.assertLess(r['fixture']['total_deflection_m'],baseline['fixture']['total_deflection_m'])
             self.assertIn('track recess',' '.join(r['unknown']))
+
+    def test_deeper_revisions_improve_same_load_fixture_with_counted_mass_penalty(self):
+        parent=self.doors[2]
+        for r,core in zip(self.doors[3:],(.060,.080)):
+            self.assertEqual(2,r['design_iteration'])
+            self.assertEqual(parent['component_id'],r['parent_component_id'])
+            self.assertTrue(r['revision_rationale'])
+            definition=r['physical_definition']; old=parent['physical_definition']
+            for key in ('leaf_size_m','leaves','window_size_m','window_void_m2_each','skin_each_m',
+                        'operator_reference_mass_kg','operator_reference_width_m','proposed_clear_width_m'):
+                self.assertEqual(old[key],definition[key])
+            self.assertEqual(core,definition['core_m'])
+            self.assertEqual([.03,core,.0012],definition['edge_RHS_m'])
+            self.assertEqual(1000.,r['fixture']['pressure_Pa'])
+            self.assertEqual('pass',r['necessary_screen'])
+            self.assertTrue(all(r['fixture_checks'].values()))
+            self.assertLessEqual(r['fixture']['total_deflection_m'],.010)
+            self.assertGreater(r['counted_mass_kg'],parent['counted_mass_kg'])
+            self.assertGreater(r['leaf_depth_m'],r['retained_reference_leaf_depth_m'])
+            self.assertIn('HVAC',' '.join(r['unknown']))
+            self.assertFalse(r['applied_to_composed_vehicle'])
+        self.assertLess(self.doors[4]['fixture']['total_deflection_m'],self.doors[3]['fixture']['total_deflection_m'])
+        self.assertGreater(self.doors[4]['counted_mass_kg'],self.doors[3]['counted_mass_kg'])
 
     def test_room_temperature_properties_and_holds_are_not_vehicle_acceptance(self):
         for r in self.records:

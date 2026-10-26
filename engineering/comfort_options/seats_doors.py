@@ -1,4 +1,4 @@
-"""Twelve source-bound seat/door component fixtures, separate from vehicle mass.
+"""Fourteen source-bound seat/door component fixtures, separate from vehicle mass.
 
 Loads, supports and deflection screens are research hypotheses, not rail
 standards. Passing these simple elastic fixtures does not qualify a component.
@@ -145,7 +145,7 @@ def _bench(panel,depth,m,sources):
                  'Actual seat/back contours, upholstery, assembly access and matching carrier/body interfaces']),sources)
 
 
-def _door(kind,skin,core,edge_wall,m,sources):
+def _door(kind,skin,core,edge_wall,m,sources,parent_component_id=None):
     # One opening contains two0.7x2.1m leaves with one0.5m2 window per leaf.
     width=.7;height=2.1;window_area=.5;opaque=width*height-window_area
     edge_depth=core # Cold-formed/extruded edge envelope is a new detail.
@@ -193,6 +193,11 @@ def _door(kind,skin,core,edge_wall,m,sources):
                              reference='ES2 operator27kg +hanger14kg at1300mm; proposed1400mm integration unqualified'),
         retained_reference_leaf_stock_per_door_kg=baseline_opaque,
         reference_scope='Matches original Al0.8mm/25mm core/30x25x2mm edge opaque stock before adding explicit common fastener stock. No original allocation is removed again.',
+        design_iteration=1 if parent_component_id is None else 2,
+        parent_component_id=parent_component_id,
+        revision_rationale=None if parent_component_id is None else
+            'Earlier40mm core fixture failed the unchanged1kPa/10mm deflection screen. Increase core and matching edge depth while retaining skins, window void, pressure, operator reference and all stock-counting rules.',
+        leaf_depth_m=total_depth,retained_reference_leaf_depth_m=.0266,
         necessary_screen='pass' if all(checks.values()) else 'fail',fixture_checks=checks,
         fixture=dict(pressure_Pa=pressure,span_m=height,full_panel_I_m4=full_I,window_ligament_I_m4=window_I,
                      bending_deflection_m=bending,core_shear_deflection_m=shear,total_deflection_m=total,
@@ -203,6 +208,7 @@ def _door(kind,skin,core,edge_wall,m,sources):
         materials=m,comparison_scope='Current leaf-stock construction plus two deeper-core/lightened-edge alternatives; no change to composed mass or41kg operator reference',
         unknown=['Actual hanger/roller/guide loads and window-frame/racking load path; uniform fixture pressure is not route wind qualification',
                  'Leaf depth, track recess, seals, latches, anti-trap, emergency egress and operator compatibility',
+                 'Deeper leaf/track sweep may conflict with passenger clearances, HVAC ducts and emergency egress; no matched installation envelope exists',
                  'Fire, fatigue, impact, corrosion, coating and hot/wet bond/core properties',
                  'Glazing/retention owned separately; no pane mass or stiffness credit here']),sources)
 
@@ -219,6 +225,10 @@ def options(*,root=ROOT):
            ('Retained Al0.8mm/core25mm/edge2mm',.0008,.025,.002),
            ('Al0.6mm/core35mm/edge1.5mm',.0006,.035,.0015),
            ('Al0.5mm/core40mm/edge1.2mm',.0005,.040,.0012))]
+    parent=doors[-1]['component_id']
+    doors += [_door(kind,.0005,core,.0012,m,sources,parent) for kind,core in (
+              ('Revision2 Al0.5mm/core60mm/edge1.2mm',.060),
+              ('Revision2 Al0.5mm/core80mm/edge1.2mm',.080))]
     return benches+doors
 
 
