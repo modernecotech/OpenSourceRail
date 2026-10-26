@@ -79,6 +79,7 @@ def readme(v):
         '## Vehicle design and assembly','',
         'The body uses an aluminium extrusion frame with retained GFRP side/end structure, the selected aluminium-skin floor, a revised sandwich roof on the retained ribs, explicitly fitted paired/single seats, deeper door panels and retained laminated-glass references. The original added-crossrail roof is preserved as a rejected interference control. Polycarbonate remains an alternative until stiffness, retention, optics and emergency release are established.','',
         'The component definitions, material quantities, occurrences, transforms, assembly dependencies, retained interfaces, missing equipment and installation clashes are in [the complete dossier](design.json.gz). Native CAD and portable geometry represent their declared material/reference scope; equipment envelopes are labelled and do not invent the mass distribution of unweighed assemblies.','',
+        '[Engineering BOM and unresolved inventory](engineering-bom.json.gz) · [Assembly/construction plan](assembly-plan.json) · [Matched station and civil definitions](station-civil.json). These are candidate-bound research/manufacturing-planning inputs; fabrication release remains held.','',
         'The section drawing retains a 12 mm magnetic-coupon reference, not an accepted operating gap. That PM state produces strong excess upward force for this lighter vehicle. Samples at 28/35.338 mm require a different relative car/facing pose; an eventual operating gap also determines the boarding-height datum. The required equilibrium, current authority and installed multiaxis map must be solved before any drawing pose becomes an operating configuration.','',
         '## Two-minute service, station resources and fleet','',
         report_service.markdown(v['service']),'',
@@ -105,7 +106,7 @@ def readme(v):
         cad=methods['vehicle']['verification'];control=methods['service']['verification']
         paragraph='\n'.join(['## Executed native evidence','',
             f"Actual FreeCAD and STEP export/reopen checks passed for **{cad['primitive_count']:,} material primitives**, representing **{cad['defined_material_mass_kg']:,.3f} kg of defined material**. This is a subset of the accounted tare, with its own material-only CG/inertia; complete installed mass and CG remain unknown. The revised roof has zero native intersection volume with the checked primary longitudinal members; a full-body interference or structural release is not claimed.",'',
-            f"The current candidate-bound Rust package independently verifies **{control['controls']} executed controls**: nominal/journal120second departures and retained-authority receiving/brake/gap/integrity fault responses. Its healthy support and brake inputs remain explicit protocol fixtures. The native receipts, requests and logs are retained in the linked archives.",''])
+            f"The current candidate-bound Rust package independently verifies **{control['controls']} executed controls**: nominal/journal 120-second departures and retained-authority receiving/brake/gap/integrity fault responses. Its healthy support and brake inputs remain explicit protocol fixtures. The native receipts, requests and logs are retained in the linked archives.",''])
         text=text.replace('## Qualification and remaining work',paragraph+'\n## Qualification and remaining work')
     return text
 
@@ -114,6 +115,20 @@ def _payloads(v,native_paths):
     files={'design.json.gz':gzip.compress(encoded(v),mtime=0),'summary.json':encoded(summary(v)),
            'README.md':readme(v).encode(),'interface-section.svg':interfaces.render_section_svg(v['interfaces']).encode(),
            'service-profile.svg':report_service.render_profile_svg(v['service']).encode()}
+    subject={k:v[k] for k in ('candidate_id','body_candidate_id','magnet_component_id','system_candidate_id')}
+    bom=dict(schema='osr-comfort-engineering-bom/1',**subject,
+        mass=v['vehicle']['mass'],occurrences=v['vehicle']['inventory'],
+        missing_inventory=v['vehicle']['missing_inventory'],coverage=v['vehicle']['coverage'],
+        source_evaluation_id=v['vehicle']['evaluation_id'],**FLAGS)
+    files['engineering-bom.json.gz']=gzip.compress(encoded(bom),mtime=0)
+    files['assembly-plan.json']=encoded(dict(schema='osr-comfort-assembly-plan/1',**subject,
+        vehicle_operations=v['vehicle']['assembly_plan'],
+        system_operations=v['interfaces']['assembly_and_construction_plan'],
+        material_supplier_and_release_requirements=v['interfaces']['procurement_and_economics'],**FLAGS))
+    files['station-civil.json']=encoded(dict(schema='osr-comfort-station-civil/1',**subject,
+        station_id=v['service']['selection']['selected_station_id'],
+        station=v['service']['selected_station'],civil=v['interfaces']['civil'],
+        power_and_electrical_requirements=v['interfaces']['station'],**FLAGS))
     for label,directory in native_paths.items():
         files[label+'-artifacts.tar.gz']=package(directory,label)
     # Direct access to actual export artifacts without requiring an archive reader.
