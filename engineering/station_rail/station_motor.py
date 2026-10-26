@@ -207,7 +207,7 @@ def campaign_cases():
     base += [case(speed_m_s=0.,frequency_Hz=5.),case(speed_m_s=0.,frequency_Hz=5.,phase_direction=-1),
        case(speed_m_s=10.,frequency_Hz=25.),case(current_peak_A=50.),case(current_peak_A=150.),
        case(temperature_C=20.),case(gap_m=.01),case(gap_m=.02),case(margin_m=1.),case(periods=6),case(current_peak_A=0.),
-       case(speed_m_s=0.,frequency_Hz=10.,current_peak_A=140.),case(frequency_Hz=50.,current_peak_A=140.)]
+       case(speed_m_s=0.,frequency_Hz=10.,current_peak_A=140.),case(speed_m_s=0.,frequency_Hz=20.,current_peak_A=140.),case(frequency_Hz=50.,current_peak_A=140.)]
     return base
 
 
