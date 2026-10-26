@@ -17,15 +17,17 @@ OpenSourceRail aims for simple, affordable urban transport, repeated precast civ
 
 ## Reference journey and power
 
-The 2 km, normal-load point-mass requirement takes **147.920 s**, reaching 20 m/s and arriving at **16.266 m/s** before braking. Required peak launch force is **10.395 kN/car**, mechanical power **207.9 kW/car**. Actual available thrust, current, voltage and full motor efficiency remain unknown.
+The 2 km, normal-load longitudinal requirement, including counted wheel/axle/disc rotational inertia, takes **147.362 s**, reaching 20 m/s and arriving at **16.559 m/s** before braking. Required peak launch force is **11.103 kN/car**, mechanical power **222.1 kW/car**. Actual available thrust, current, voltage and full motor efficiency remain unknown.
 
-Full-train engagement requires **817.0 m** of shared launch/receiving winding; the library chooses **900 m**, **72 sections/direction** at 12.5 m and at least two independently controlled train branches. The **84.97 s** nominal berth interval is a necessary resource screen, not verified two-minute operation.
+Full-train engagement requires **825.0 m** of shared launch/receiving winding; the library chooses **900 m**, **72 sections/direction** at 12.5 m and at least two independently controlled train branches. The **85.46 s** nominal berth interval is a necessary resource screen, not verified two-minute operation.
 
 Reference profiles cover empty, 46-person and 160-person structural-control loads at 1.5 and 2 km, with grade/wind, charge and independent wet/downhill stopping bounds. A 0.05 adhesion hypothesis on a 2% downgrade gives approximately 700 m stopping from 20 m/s including one second response. Supplier brakes, WSP, uncertainties and actual routes must establish the protection envelope. Receiving motor recovery receives no safety credit.
 
 The 82.8 kWh service reference uses 75 industrial Type3-20 modules plus explicit enclosure/cooling/conversion accounts. The 200 kW charging target passes a catalogue voltage/current necessary bound; available charge power versus SOC/temperature remains unknown. A 50°C environment exceeds the module ambient catalogue range. Normal 35 kW/car hotel duty balances in the prototype calculation; 50 kW/car adverse duty needs more charging. Solar yield is not guaranteed or credited to make the balance pass.
 
 The actual GetDP conductive-slab benchmark converges against its exact imposed-field solution. It has no real primary winding, steel/end geometry, current-to-force map or finite-height return currents. Its conditional thrust is not available station thrust. Active-plate-only and all-aluminium heat-capacity bounds expose the dependence on thermal connection; actual temperatures remain unknown.
+
+The [native physical follow-up](../v06-physical-closure/README.md) adds 18 current-excited LIM cases, 24 reduced Chrono brake runs and native body-interface/fit-up experiments. The tested full primary fails force and steel-field screens. Its raw field calculations remain conditional; the default geometry and acceptance holds are unchanged.
 
 [Prototype/fault test plan](prototype-test-plan.json) · [Full evaluation](evaluation.json.gz) · [Motor method evidence](native-drive.tar.gz) · [Speed requirement](service-profile.svg) · [Equal-service comparison](comparison.json)
 
