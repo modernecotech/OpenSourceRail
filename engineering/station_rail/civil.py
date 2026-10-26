@@ -65,6 +65,15 @@ def moving_envelope(span,offsets,axle_N,sections=41):
     return rows
 
 
+def interior_pier_train_reaction(span,offsets,axle_N):
+    """Exact piecewise-linear influence extrema for two adjacent simple spans."""
+    translations=sorted({point-a for a in offsets for point in (-span,0.,span)})
+    reaction,pose=max((sum(axle_N*max(0.,1.-abs(a+t)/span) for a in offsets),t) for t in translations)
+    return dict(maximum_live_reaction_N=reaction,critical_train_translation_m=pose,
+        influence='triangular support influence over both adjacent equal simply supported spans',
+        load_factor=1.3)
+
+
 def alternative(vehicle,span,family,load='normal'):
     s=section(family);offsets,axle_N=axle_train(vehicle,load)
     env=moving_envelope(span,offsets,axle_N)
@@ -110,6 +119,7 @@ def alternative(vehicle,span,family,load='normal'):
             x=r['x_m'];u=min(x,span-x)/2
             return r['max_total_moment_Nm']*u/(35e9*I)
         integral+=(val(r0)+val(r1))*.5*(r1['x_m']-r0['x_m'])
+    pier_reaction=interior_pier_train_reaction(span,offsets,axle_N)
     allsteel=rail+fastener_kg+reinforcement_kg+prestress_kg+anchorage_kg
     maxlift=(concrete_kg+reinforcement_kg+prestress_kg+anchorage_kg)/s['erection_pieces_per_span']
     row=dict(family=family,span_m=span,load_case=load,section=s,concrete_m3=concrete_m3,concrete_mass_kg=concrete_kg,
@@ -128,8 +138,9 @@ def alternative(vehicle,span,family,load='normal'):
         construction=dict(erection_pieces_per_span=s['erection_pieces_per_span'],reference_max_piece_kg=maxlift,
             minimum_crane_hook_capacity_kg_hypothesis=maxlift*1.25,rigging_fraction_hypothesis=.25,crane_radius_capacity_confirmed=False,
             factory_labour_h=None,field_labour_h=None,temporary_stability_qualified=False),
-        foundation_scenarios=[dict(allowable_bearing_kPa_hypothesis=p,dead_plus_train_support_reaction_N=(concrete_kg+allsteel)*G+axle_N*len([a for a in offsets if a<=span]),
-            minimum_gravity_bearing_area_m2=((concrete_kg+allsteel)*G+axle_N*len([a for a in offsets if a<=span]))/(p*1000),
+        interior_pier_train_reaction=pier_reaction,
+        foundation_scenarios=[dict(allowable_bearing_kPa_hypothesis=p,dead_plus_train_support_reaction_N=(concrete_kg+allsteel)*G+pier_reaction['maximum_live_reaction_N'],
+            minimum_gravity_bearing_area_m2=((concrete_kg+allsteel)*G+pier_reaction['maximum_live_reaction_N'])/(p*1000),
             settlement_lateral_seismic_uplift_qualified=False,actual_footing_or_pile_quantity=None) for p in (100.,200.,300.)],
         actual_installed_cost_USD=None,engineering_screen='unknown',**FLAGS)
     row['necessary_longitudinal_screen']='pass' if all(row[k]=='pass' for k in ('service_tension_screen','service_compression_screen','release_tension_screen','release_compression_screen','deflection_screen')) else 'fail'
@@ -139,16 +150,17 @@ def alternative(vehicle,span,family,load='normal'):
 
 def evaluate(vehicle,root=ROOT):
     config=brief(root);rows=[alternative(vehicle,L,family) for family in ('twin-beam','box-beam','u-beam') for L in config['civil']['span_options_m']]
+    controls={load:[alternative(vehicle,L,family,load) for family in ('twin-beam','box-beam','u-beam') for L in config['civil']['span_options_m']] for load in ('empty','crowd_control')}
     selected=next(r for r in rows if r['family']=='box-beam' and r['span_m']==config['civil']['reference_span_m'])
     quantities=('concrete_m3','concrete_mass_kg','running_rail_kg','direct_fastener_sets','direct_fastener_kg','direct_fastener_anchors','reinforcement_kg','prestress_kg','prestress_anchorage_kg','counted_steel_kg','total_counted_span_mass_kg')
     rates={k:selected[k]*1000/selected['span_m'] for k in quantities}
     v=dict(schema='osr-station-rail-civil/1',candidate_id=vehicle['candidate_id'],body_candidate_id=vehicle['body_candidate_id'],support_component_id=vehicle['support_component_id'],propulsion_component_id=vehicle['propulsion_component_id'],
-        civil_component_id=identity(dict(family='box-beam',physical_section=selected['section'],span_m=selected['span_m'],rails='60E1',fastener_spacing_m=.6)),
-        selected_reference=selected,alternatives=rows,reference_rates_per_directional_km=rates,
+        civil_component_id=identity(dict(family='box-beam',physical_section=selected['section'],span_m=selected['span_m'],rails='60E1',fastener_spacing_m=.6,prestress_strands=selected['prestress_strands'],prestress_reference=selected['prestress_reference'],reinforcement_account_kg=selected['reinforcement_kg'])),
+        selected_reference=selected,alternatives=rows,control_alternatives=controls,executed_case_count=len(rows)+sum(len(r) for r in controls.values()),reference_rates_per_directional_km=rates,
         magnetic_suspension_facings=False,powered_suspension_equipment=False,
         historical_maglev_reference=dict(span_m=25.,interface_steel_kg=21627.329,anchors=408,crossmembers=51,
             comparison_scope='Historic structural/interface steel versus new rail/fastener/reinforcement/tendon preliminary stock; boundaries differ and neither is complete installed infrastructure'),
         missing_evidence=['Wheel/rail contact and rail bending/fatigue','Fastener anchor fatigue and concrete breakout','Closed and open-section torsion/unequal wheel loads','Creep, shrinkage, long-term prestress losses, camber and alignment','Shear/end zones, bearing details and seismic restraint','Real foundation/site load cases and erection crane access','Guardrails, parapets, walkways, drainage and rescue access quantities','Actual supplier prices, construction labour and lifecycle maintenance'],
-        source_sha256={**vehicle['source_sha256'],**source_map(ROOT,(PRODUCER,))},**FLAGS)
+        source_sha256={**vehicle['source_sha256'],**source_map(root,(PRODUCER,))},**FLAGS)
     v['evaluation_id']=identity(v)
     return v

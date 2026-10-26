@@ -94,9 +94,9 @@ def running_gear(config):
                 parts.append(cylinder(f'bogie/{b}/wheel/{a}/{side}/web',(x,y-.0125,r),.26,.025,inner=.13))
                 parts.append(cylinder(f'bogie/{b}/wheel/{a}/{side}/hub',(x,y-.09,r),.13,.18,inner=.075))
                 # Brake-disc stock is on axle, clear of primary winding envelope.
-                parts.append(cylinder(f'bogie/{b}/brake/{a}/{side}/disc',(x,side*.38-.018,r),.30,.036,inner=.11))
+                parts.append(cylinder(f'bogie/{b}/brake/{a}/{side}/disc',(x,side*.38-.018,r),.30,.036,inner=.075))
         for side in (-1,1):
-            tube(parts,f'bogie/{b}/sideframe/{side}',(c-1.25,side*.94-.06,.42),2.5,.12,.14,.010,system='bogies')
+            tube(parts,f'bogie/{b}/sideframe/{side}',(c-1.25,side*.94-.06,.48),2.5,.12,.14,.010,system='bogies')
         tube(parts,f'bogie/{b}/bolster',(c-.16,-.88,.42),1.76,.32,.17,.010,along='y',system='bogies')
     # Tube() uses aluminium; bogie frames are explicitly changed to steel.
     for p in parts:
@@ -110,34 +110,64 @@ def underframe(config):
     # Two deep side sills carry body to two concentrated bogie reactions. Upper
     # retained frame is not credited with global bending stiffness in the screen.
     for side in (-1,1):
-        tube(parts,f'wheel-underframe/sill/{side}',(-8.5,side*1.10-.09,.50),17.,.18,.35,.008)
+        tube(parts,f'wheel-underframe/sill/{side}',(-8.5,side*1.10-.09,.4445),17.,.18,.35,.008)
     for b,c in enumerate(config['support']['bogie_centres_x_m']):
-        tube(parts,f'wheel-underframe/bolster/{b}',(c-.15,-1.01,.72),2.02,.30,.13,.010,along='y')
+        tube(parts,f'wheel-underframe/bolster/{b}',(c-.15,-1.01,.6645),2.02,.30,.13,.010,along='y')
         for side in (-1,1):
-            parts.append(box(f'wheel-underframe/load-spreader/{b}/{side}',(c-.3,side*1.10-.09,.85),(.6,.18,.015)))
+            parts.append(box(f'wheel-underframe/load-spreader/{b}/{side}',(c-.27,side*1.10-.09,.7945),(.54,.18,.015)))
     # Continuous roof chords make the intended body participation explicit.
     # The retained side posts and their joints must transfer shear between the
     # separated chords; a flange-only stiffness calculation is a necessary bound.
     for side in (-1,1):
-        tube(parts,f'wheel-underframe/roof-chord/{side}',(-8.5,side*1.13-.06,3.51),17.,.12,.14,.006)
-    # Retained floor ribs remain; new overlapping ties are deliberately omitted.
-    # Connections from their underside to the deeper sills require new brackets.
+        tube(parts,f'wheel-underframe/roof-chord/{side}',(-8.3,side*1.0-.06,3.45),16.6,.12,.14,.006)
+    # Cassette ties are below the retained floor ribs and butt against the
+    # inner sill faces; hangers meet their underside at an explicit datum.
+    for n in range(10):
+        x=-4.05+.9*n
+        tube(parts,f'wheel-underframe/secondary-tie/{n}',(x-.04,-1.01,.7245),2.02,.08,.07,.004,along='y')
     return parts
 
 
 def secondary(config):
     p=config['propulsion'];length=p['secondary_length_m'];height=p['secondary_height_m'];thick=p['secondary_thickness_m'];bottom=p['secondary_bottom_above_rail_m']
     parts=[box('station-secondary/active-fin',(-length/2,-thick/2,bottom),(length,thick,height),system='passive-secondary')]
-    # An elevated spreader is linked by 10 hangers. It adds thermal stock, but
-    # no credit is claimed for an unverified transient heat-transfer coefficient.
-    parts.append(box('station-secondary/spreader',(-length/2,-.15,.24),(length,.30,.012),system='passive-secondary'))
+    # One continuous upper neck joins the active lower conductor to the
+    # spreader. Heat fins are above the 0.20m primary top, and exclude the neck.
+    # Contacting faces are real stock; welds/bolts and expansion joints remain
+    # within the separately retained 180kg unlocated attachment account.
+    parts.append(box('station-secondary/upper-neck',(-length/2,-thick/2,bottom+height),(length,thick,.34-(bottom+height)),system='passive-secondary'))
+    parts.append(box('station-secondary/spreader',(-length/2,-.15,.34),(length,.30,.012),system='passive-secondary'))
     for i in range(10):
         x=-4.05+.9*i
         for side in (-1,1):
-            parts.append(box(f'station-secondary/hanger/{i}/{side}',(x-.025,side*.06-.006,.252),(.05,.012,.298),system='passive-secondary'))
+            parts.append(box(f'station-secondary/hanger/{i}/{side}',(x-.025,side*.06-.006,.352),(.05,.012,.3725),system='passive-secondary'))
     for i in range(31):
-        parts.append(box(f'station-secondary/heat-fin/{i}',(-length/2,-.145+i*.0094,.195),(length,.0015,.045),system='passive-secondary'))
+        y=-.145+i*.0094
+        if abs(y+.00075)<thick/2+.001:continue
+        parts.append(box(f'station-secondary/heat-fin/{i}',(-length/2,y,.285),(length,.0015,.055),system='passive-secondary'))
     return parts
+
+
+def cassette_connectivity(parts):
+    """Finite-area touching or intersecting boxes, not proximity to a rendering."""
+    relevant=[p for p in parts if p['id'].startswith(('station-secondary/','wheel-underframe/secondary-tie/','wheel-underframe/sill/'))]
+    graph={p['id']:set() for p in relevant}
+    for i,a in enumerate(relevant):
+        for b in relevant[i+1:]:
+            overlaps=[min(a['at_m'][k]+a['size_m'][k],b['at_m'][k]+b['size_m'][k])-max(a['at_m'][k],b['at_m'][k]) for k in range(3)]
+            if min(overlaps)>=-1e-9 and sum(o>1e-8 for o in overlaps)>=2:
+                graph[a['id']].add(b['id']);graph[b['id']].add(a['id'])
+    start='station-secondary/active-fin';seen={start};pending=[start]
+    while pending:
+        current=pending.pop()
+        for name in graph.get(current,()):
+            if name not in seen:seen.add(name);pending.append(name)
+    targets={p['id'] for p in relevant if p['id'].startswith('wheel-underframe/sill/')}
+    return dict(active_fin_to_spreader='station-secondary/spreader' in seen,
+        active_fin_to_underframe_sills=bool(targets&seen),
+        connected_stock_ids=sorted(seen),
+        engineering_screen='pass' if 'station-secondary/spreader' in seen and bool(targets&seen) else 'fail',
+        scope='Nominal finite-area material connectivity only; joint strength, thermal contact, expansion and removal are unqualified')
 
 
 def _section_screen(mass_kg):
@@ -163,7 +193,7 @@ def _section_screen(mass_kg):
 def _ideal_body_coupling_screen(mass_kg):
     lower_A=2*(.18*.35-(.18-.016)*(.35-.016))
     upper_A=2*(.12*.14-(.12-.012)*(.14-.012))
-    lower_z=.675;upper_z=3.58
+    lower_z=.6195;upper_z=3.52
     neutral=(lower_A*lower_z+upper_A*upper_z)/(lower_A+upper_A)
     I_lower=2*(.18*.35**3-(.18-.016)*(.35-.016)**3)/12
     I_upper=2*(.12*.14**3-(.12-.012)*(.14-.012)**3)/12
@@ -171,7 +201,7 @@ def _ideal_body_coupling_screen(mass_kg):
     sill=_section_screen(mass_kg)
     return dict(ideal_I_m4=I,neutral_axis_m=neutral,
         ideal_midspan_deflection_m=sill['midspan_deflection_m']*sill['section_I_m4']/I,
-        maximum_chord_stress_Pa=sill['max_bending_moment_Nm']*max(neutral-.50,3.65-neutral)/I,
+        maximum_chord_stress_Pa=sill['max_bending_moment_Nm']*max(neutral-.4445,3.59-neutral)/I,
         engineering_screen='unknown',shear_transfer_and_joints_demonstrated=False,
         scope='Necessary ideal fully-coupled chord bound only. Side posts, door openings, local buckling, connections and torsion must develop this stiffness in a real structure.')
 
@@ -218,10 +248,12 @@ def build(root=ROOT):
     axle_bottom=config['support']['wheel_new_diameter_m']/2-.075
     primary_top=.20
     min_x=min(abs(c)-config['support']['bogie_wheelbase_m']/2 for c in config['support']['bogie_centres_x_m'])
-    sources=source_map(ROOT,(PRODUCER,));sources[PARENT]=parent_sha
+    sources=source_map(root,(PRODUCER,));sources[PARENT]=parent_sha
     allparts=parts+bogie+frame+fin
     located_mass=sum(p['mass_kg'] for p in allparts)
     cg=[sum(p['mass_kg']*p['cg_m'][i] for p in allparts)/located_mass for i in range(3)]
+    connectivity=cassette_connectivity(allparts)
+    if connectivity['engineering_screen']!='pass':raise ValueError('Passive secondary material has no counted connection to frame')
     value=dict(schema='osr-station-rail-vehicle/1',candidate_id=candidate,body_candidate_id=body_id,support_component_id=support_id,propulsion_component_id=propulsion_id,
         physical_definition=definition,inventory=inventory,geometry_parts=allparts,seating_layout=deepcopy(parent['seating_layout']),
         mass=dict(accounted_tare_kg_per_car=mass,accounted_cap_loaded_kg_per_car=mass+46*75,
@@ -232,6 +264,7 @@ def build(root=ROOT):
             v04_traction_removed_arithmetic_kg_per_car=23680.,mass_change_from_v04_arithmetic_kg_per_car=mass-23680.),
         propulsion=dict(secondary_aluminium_mass_kg=sum(p['mass_kg'] for p in fin),active_fin_aluminium_mass_kg=fin[0]['mass_kg'],
             accounted_mass_kg=sum(p['mass_kg'] for p in fin),installed_accounted_mass_kg=sum(p['mass_kg'] for p in fin),station_primary_geometry_qualified=False),
+        secondary_connectivity=connectivity,
         support_counts=dict(bogies_per_car=2,axles_per_car=4,wheels_per_car=8,bogies_per_train=12,axles_per_train=24,wheels_per_train=48),
         axle_loads=dict(empty_kg_per_axle=mass/4,normal_kg_per_axle=(mass+3450)/4,crowd_control_kg_per_axle=(mass+12000)/4,
             basis='Symmetric four-axle static averages; longitudinal, roll, unequal passenger and dynamic wheel loads remain open'),
@@ -239,6 +272,7 @@ def build(root=ROOT):
             axle_bottom_above_station_primary_top_m=axle_bottom-primary_top,station_primary_top_above_rail_m=primary_top,
             floor_underside_m=min(p['at_m'][2] for p in parts if p['id'].startswith('comfort-shell/floor/')),
             wheel_top_m=.76,nominal_station_side_gap_m=.015,
+            heat_sink_lowest_point_above_primary_top_m=.285-primary_top,
             nominal_necessary_screen='pass' if min_x>4.5 and axle_bottom>primary_top else 'fail',
             swept_curves_suspension_travel_wheel_wear_and_turnouts_qualified=False),
         underframe_screens={name:_section_screen(m) for name,m in [('empty',mass),('normal',mass+3450),('crowd_control',mass+12000)]},

@@ -71,7 +71,7 @@ def _ccx_deck(v,dx):
     # Single physical sill: 180x350x8 mm, 17 m long, supported at +/-6.4m.
     # Four hollow walls share nodes. Full uniform half-car force is applied.
     xs=sorted(set(round(-8.5+i*dx,9) for i in range(round(17/dx)+1))|{-6.4,6.4,0.})
-    ys=[-.09,-.082,.082,.09];zs=[.50,.508,.842,.85]
+    ys=[-.09,-.082,.082,.09];zs=[.4445,.4525,.7865,.7945]
     nodes={};coordinates=[];n=0
     for i,x in enumerate(xs):
         for j,y in enumerate(ys):
@@ -125,7 +125,8 @@ def _run_ccx(folder,v,dx):
     analytical=v['underframe_screens']['normal']['midspan_deflection_m']
     return dict(execution='completed',solver='CalculiX',mesh_axial_m=dx,node_count=nodes,element_count=elements,
         maximum_midspan_vertical_displacement_m=maxdisp,analytical_Euler_deflection_m=analytical,
-        discrepancy_fraction=(maxdisp-analytical)/analytical,engineering_screen='pass' if maxdisp<=12.8/500 else 'fail',
+        discrepancy_fraction=(maxdisp-analytical)/analytical,
+        numerical_validity='mesh-sensitive; convergence not established',engineering_screen='pass' if maxdisp<=12.8/500 else 'fail',
         scope='Single physical hollow side sill at half whole-car normal load, ideal bearings; no body-shell/post/joint stiffness credited')
 
 
@@ -146,7 +147,7 @@ def run(output,root=ROOT):
     result=dict(schema='osr-station-rail-native/1',**ids,execution='completed',CAD=cad,underframe_fixtures=fixtures,
         deflection_refinement_change_fraction=abs(fixtures[-1]['maximum_midspan_vertical_displacement_m']-fixtures[0]['maximum_midspan_vertical_displacement_m'])/fixtures[-1]['maximum_midspan_vertical_displacement_m'],
         scope='Actual material CAD export/reopen and limited underframe FEA. Neither complete equipped structural proof nor a moving train simulation.',
-        source_sha256={**v['source_sha256'],**source_map(ROOT,(PRODUCER,))},**FLAGS)
+        source_sha256={**v['source_sha256'],**source_map(root,(PRODUCER,))},**FLAGS)
     result['evaluation_id']=identity(result);(output/'result.json').write_bytes(encoded(result))
     files={p.relative_to(output).as_posix():sha256(p.read_bytes()).hexdigest() for p in sorted(output.rglob('*')) if p.is_file()}
     manifest=dict(schema='osr-station-rail-native-manifest/1',**ids,evaluation_id=result['evaluation_id'],source_sha256=result['source_sha256'],files_sha256=files,**FLAGS)

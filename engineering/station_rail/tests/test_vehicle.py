@@ -30,3 +30,30 @@ def test_vehicle_mass_closes_account_not_installed_design():
     assert v['mass']['unlocated_or_reference_account_kg']>9000
     assert all(v[k] is False for k in ('engineering_accepted','physical_accepted','installed_mass_complete','manufacturing_release','operating_release'))
     assert v['underframe_screens']['normal']['deflection_screen']=='fail'
+
+
+def test_cassette_material_connections_and_floating_negative_control():
+    v=vehicle.build();parts=v['geometry_parts']
+    assert vehicle.cassette_connectivity(parts)['engineering_screen']=='pass'
+    assert v['clearance']['heat_sink_lowest_point_above_primary_top_m']>.08
+    floating=[p for p in parts if p['id']!='station-secondary/upper-neck']
+    assert vehicle.cassette_connectivity(floating)['engineering_screen']=='fail'
+    short_hangers=[]
+    for p in parts:
+        p=dict(p)
+        if p['id'].startswith('station-secondary/hanger/'):
+            p['size_m']=[*p['size_m'][:2],.2]
+        short_hangers.append(p)
+    assert vehicle.cassette_connectivity(short_hangers)['engineering_screen']=='fail'
+
+
+def test_new_underframe_does_not_interpenetrate_retained_shell():
+    parts=vehicle.build()['geometry_parts']
+    frame=[p for p in parts if p.get('system')=='underframe']
+    shell=[p for p in parts if p['id'].startswith('comfort-shell/') and p['kind']=='box']
+    collisions=[]
+    for a in frame:
+        for b in shell:
+            depths=[min(a['at_m'][i]+a['size_m'][i],b['at_m'][i]+b['size_m'][i])-max(a['at_m'][i],b['at_m'][i]) for i in range(3)]
+            if min(depths)>1e-7:collisions.append((a['id'],b['id']))
+    assert not collisions
