@@ -105,7 +105,7 @@ clashes=[]
 for i,a in enumerate(shapes):
     for j,b in enumerate(shapes[i+1:],i+1):
         if 'source_part_id' in parts[i] and 'source_part_id' in parts[j]:continue
-        if not a.BoundBox.isIntersected(b.BoundBox):continue
+        if min(min(parts[i]['at_m'][k]+parts[i]['size_m'][k],parts[j]['at_m'][k]+parts[j]['size_m'][k])-max(parts[i]['at_m'][k],parts[j]['at_m'][k]) for k in range(3))<=1e-10:continue
         overlap=a.common(b).Volume/1e9
         if overlap>1e-11:clashes.append({'a':parts[i]['id'],'b':parts[j]['id'],'overlap_volume_m3':overlap})
 doc.recompute();doc.saveAs(str(folder/'floor-fit.FCStd'));Import.export(objects,str(folder/'floor-fit.step'));A.closeDocument(doc.Name)
