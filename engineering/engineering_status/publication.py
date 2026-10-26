@@ -169,7 +169,7 @@ def readme(v):
         for t in c['temperatures']:
             f=t.get('nominal',{}).get('contour_Fz_N');force='unevaluated' if f is None else ' / '.join(f'{x/1000:.3f}' for x in f)
             state=t.get('sampled_fixed_gap_1_3_plus_2t_capacity_pass')
-            lines.append(f"| {c['name']} | {t['temperature_C']:.0f} | {force} | {'unknown' if state is None else state} |")
+            lines.append(f"| {c['name']} | {t['temperature_C']:.0f} | {force} | {'pass' if state is True else 'fail' if state is False else 'unknown'} |")
     f=fields['finite'];p=f.get('point',{});forces=p.get('analysis',{}).get('air_contour_results',[])
     lines+=['',f"The coarser 3D operating attempt is **{f['execution_status']}** at 35.338 mm, 80°C and zero coil current. "+
         ('Its Fz contours are **'+' / '.join(f'{x["force_N"][2]/1000:.3f}' for x in forces)+' kN/module**.' if forces else 'It provides no finite-force credit.'),
@@ -202,6 +202,19 @@ def readme(v):
         '| Economics | Same-configuration installed scope, energy, maintenance, origin, financing and supplier evidence |',
         '| Prototype | Weighed and instrumented magnetic/steel and structural articles with independent measurement and review |','',
         'Reproduce with `python -m engineering.engineering_status --help`. Domain commands and all numerical inputs/logs are indexed in the retained packages. Status JSON is compressed and indexed to keep ordinary documentation concise. No research publication closes physical qualification.','']
+    confirmation=v.get('operating_confirmation')
+    if confirmation:
+        extra=['## Finite operating refinement','',
+            '| Case | Gap mm | Fz contours kN | Mean AW3 support screen | +2 t / 1.3 reserve screen |','|---|---:|---|---|---|']
+        for r in confirmation['comparisons']['operating_states']:
+            observed=r['observed'];state=r.get('state')
+            force='unevaluated' if observed is None else ' / '.join(f'{q/1000:.3f}' for q in observed['contour_Fz_N'])
+            support='unknown' if observed is None else 'pass necessary sample' if observed['lower_contour_supports_mean_weight'] else 'fail sample'
+            reserve='unknown' if observed is None else 'pass necessary sample' if observed['lower_contour_supports_1_3_plus_2t'] else 'fail sample'
+            gap='unevaluated' if state is None else format(state['gap_m']*1000,'.3f')
+            extra.append(f"| {r['case']} | {gap} | {force} | {support} | {reserve} |")
+        extra+=['','These are fixed 80°C, zero-current component states. A single mesh refinement and denser face integration are separate diagnostics, not force/moment convergence. The scalar-potential formulation contains **no coil-current source**; nonzero-current requests are refused. A mean-weight sample pass cannot establish equilibrium, reserve, multiaxis stability or a current-controlled journey.','']
+        at=lines.index('## Equipped vehicle');lines[at:at]=extra
     return '\n'.join(lines).encode()
 
 
