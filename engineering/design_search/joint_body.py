@@ -128,9 +128,25 @@ def _verify_sources(sources,root):
         if not path.is_file() or digest(path)!=expected:raise ValueError('Declared source differs from executed source root: '+name)
 
 
-def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False,case_labels=None):
+def _evaluation_cases(confirmation=False,case_labels=None,mesh_override=None):
+    modes=[('normal','normal',.6,False,False,1.),('normal-fine','normal',.3,False,False,1.),('crowd','crowd',.6,False,False,1.)]
+    if confirmation:modes += [('asymmetric-braking','normal',.6,True,True,1.),('joint-sensitivity','normal',.6,False,False,.1)]
+    if case_labels is not None:
+        selected=list(case_labels)
+        if not selected or len(selected)!=len(set(selected)) or set(selected)-{m[0] for m in modes}:raise ValueError('Explicit unique available body cases required')
+        modes=[m for m in modes if m[0] in selected]
+    override={} if mesh_override is None else mesh_override
+    if not isinstance(override,dict) or set(override)-{m[0] for m in modes}:raise ValueError('Mesh overrides must name selected body cases only')
+    if any(isinstance(dx,bool) or not isinstance(dx,(int,float)) or dx not in (.6,.3,.2) for dx in override.values()):raise ValueError('Bounded body mesh targets are0.6,0.3,0.2m only')
+    cases=[(name,load,override.get(name,dx),asym,brake,jf) for name,load,dx,asym,brake,jf in modes];targets={m[0]:m[2] for m in cases}
+    if 'normal' in targets and 'normal-fine' in targets and targets['normal-fine']>=targets['normal']:raise ValueError('Normal-fine must be strictly finer than normal; duplicate meshes cannot confirm refinement')
+    return cases
+
+
+def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False,case_labels=None,mesh_override=None):
     """Explicit opt-in native run. Coordinator freezes source before dispatch."""
     p=_finite_parameters(parameters) if parameters.get('joint')=='bonded_backing_insert_four_bolt' else _parameters(parameters);output=Path(output).resolve()
+    modes=_evaluation_cases(confirmation,case_labels,mesh_override)
     if output.exists():raise ValueError('Fresh immutable native body directory required')
     sources={**vehicle['source_sha256'],PRODUCER:digest(__file__)};_verify_sources(sources,root)
     # Helpers are imported from this worktree. Their bytes must also equal the
@@ -139,14 +155,9 @@ def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False,case_
         if digest(module.__file__)!=sources[module.PRODUCER]:raise ValueError('Imported helper differs from declared source: '+module.PRODUCER)
     output.mkdir(parents=True);(output/'candidate.json').write_bytes(encoded(vehicle));cases=[]
     tool=dict(ccx_path='/usr/bin/ccx',ccx_sha256=digest('/usr/bin/ccx'),OMP_threads=1,RLIMIT_AS_bytes=wheel_body._address_space_bound(),timeout_s=150)
-    modes=[('normal','normal',.6,False,False,1.),('normal-fine','normal',.3,False,False,1.),('crowd','crowd',.6,False,False,1.)]
-    if confirmation:modes += [('asymmetric-braking','normal',.6,True,True,1.),('joint-sensitivity','normal',.6,False,False,.1)]
-    if case_labels is not None:
-        selected=list(case_labels)
-        if not selected or len(selected)!=len(set(selected)) or set(selected)-{m[0] for m in modes}:raise ValueError('Explicit unique available body cases required')
-        modes=[m for m in modes if m[0] in selected]
     for name,load,dx,asym,brake,jf in modes:
         raw,definition=body_deck(vehicle,p,dx=dx,load=load,asymmetric=asym,braking=brake,joint_factor=jf)
+        definition.update(mesh_target_dx_m=dx,asymmetric_load=asym,braking_load=brake,joint_modulus_factor=jf)
         r=dict(case=name,mesh=definition,**wheel_body._native(raw,output/name));(output/name/'definition.json').write_bytes(encoded(definition))
         if r['execution']=='completed':
             residual=abs(r['support_reaction_z_N']+definition['applied_vertical_force_N'])/abs(definition['applied_vertical_force_N']);r['force_balance_relative_error']=residual
@@ -155,7 +166,7 @@ def evaluate_body(vehicle,parameters,output,*,root=ROOT,confirmation=False,case_
         cases.append(r)
     refinement=wheel_body._displacement_refinement(cases);balanced=all(_case_valid(c) for c in cases);converged=balanced and refinement['status']=='pass'
     missing=['Native per-axis joint fixtures do not qualify actual preload, slip, bearing, fatigue or failure','Linear synthetic laminate/core/bond and rigid intact bolt transfer; no physical correlation','Full-body stress/buckling/flexible modes and all installed mass properties','Dynamic bogie/door/cassette clearance, manufacturing and fire/thermal evidence']
-    value=dict(schema='osr-four-bolt-body-evaluation/1',candidate_id=vehicle['candidate_id'],body_candidate_id=vehicle['body_candidate_id'],parameters=p,
+    value=dict(schema='osr-four-bolt-body-evaluation/1',candidate_id=vehicle['candidate_id'],body_candidate_id=vehicle['body_candidate_id'],parameters=p,mesh_override=deepcopy(mesh_override or {}),selected_case_labels=[m[0] for m in modes],
         execution='completed' if all(c['execution']=='completed' for c in cases) else 'completed_with_errors',numerical_validity='mesh_confirmed' if converged else 'nonconverged' if balanced and refinement['status']=='fail' else 'unconfirmed' if balanced else 'unknown',
         engineering_screen='fail' if any(c.get('engineering_screen')=='fail' for c in cases) else 'unknown',displacement_refinement=refinement,cases=cases,
         native_jobs_used=len(cases),source_sha256=sources,tool=tool,constitutive_hypotheses={**wheel_body.CONSTITUTIVE,'joint':vehicle['joint_body']['joint_hypothesis']},joint_hypothesis=vehicle['joint_body']['joint_hypothesis'],missing_gates=missing,**FLAGS)

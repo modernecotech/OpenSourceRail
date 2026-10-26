@@ -10,6 +10,23 @@ from engineering.design_search import joint_body as j,wheel_body
 ROOT=Path('/home/hayder/Documents/OpenSourceRail')
 
 
+class BodyMeshRevisionTests(unittest.TestCase):
+    def test_bounded_finer_pair_preserves_loads_material_and_case_budget(self):
+        override={'normal':.3,'normal-fine':.2};cases=j._evaluation_cases(case_labels=['normal','normal-fine'],mesh_override=override)
+        self.assertEqual(cases,[('normal','normal',.3,False,False,1.),('normal-fine','normal',.2,False,False,1.)])
+        self.assertEqual(override,{'normal':.3,'normal-fine':.2})
+        self.assertEqual(j._evaluation_cases(),[('normal','normal',.6,False,False,1.),('normal-fine','normal',.3,False,False,1.),('crowd','crowd',.6,False,False,1.)])
+
+    def test_refuse_unbounded_mesh_or_hidden_extra_case(self):
+        for value in (.1,.4,float('nan'),float('inf'),'0.2',True):
+            with self.assertRaises(ValueError):j._evaluation_cases(mesh_override={'normal':value})
+        for value in ({'other':.2},{'crowd':.2}):
+            with self.assertRaises(ValueError):j._evaluation_cases(case_labels=['normal'],mesh_override=value)
+        with self.assertRaises(ValueError):j._evaluation_cases(mesh_override=[('normal',.2)])
+        for value in ({'normal':.3,'normal-fine':.3},{'normal':.2,'normal-fine':.3}):
+            with self.assertRaises(ValueError):j._evaluation_cases(mesh_override=value)
+
+
 class FourBoltBodyTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
