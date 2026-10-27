@@ -14,7 +14,8 @@ def _inputs(root):
         'README.md','docs/ROADMAP.md',OUTPUT+'/summary.json',OUTPUT+'/cities.json',OUTPUT+'/comparison.json',
         'docs/design-engine/v06-physical-closure/summary.json','docs/design-engine/v06-optimisation/summary.json',
         'docs/design-engine/v06-architecture/summary.json','docs/design-engine/v06-architecture/native-index.json',
-        'docs/design-engine/v06-adaptive-design/summary.json','docs/design-engine/v06-adaptive-design/requirement-policy.json',OUTPUT+'/vehicle-overview.svg',OUTPUT+'/service-profile.svg',OUTPUT+'/interface-section.svg']
+        'docs/design-engine/v06-adaptive-design/summary.json','docs/design-engine/v06-adaptive-design/requirement-policy.json',
+        'docs/design-engine/generative-structure/summary.json',OUTPUT+'/vehicle-overview.svg',OUTPUT+'/service-profile.svg',OUTPUT+'/interface-section.svg']
     return {name:digest(root/name) for name in names}
 
 def build(root=ROOT,output=None,check=False):
@@ -72,7 +73,7 @@ def build(root=ROOT,output=None,check=False):
     m=summary['mass'];s=summary['service'];native=summary['native'];comp=json.loads((root/OUTPUT/'comparison.json').read_bytes());city=json.loads((root/OUTPUT/'cities.json').read_bytes())
     story += [Spacer(1,18),p('OpenSourceRail','Title'),p('v0.6 - Station-powered freewheeling rail','Heading')]
     para('Simple vehicles. Repeated civil works. Comfortable, frequent journeys.')
-    para('Reference engineering and prototype design | 26 October 2026')
+    para('Reference engineering and prototype design | 27 October 2026')
     figure('vehicle-overview.svg',245,'Counted material proposal. Supplier reference assemblies and residual accounts are not complete installed geometry.')
     para('Six lightweight cars run on passive wheel bogies and conventional steel rails. Wayside linear-induction motors launch and receive the train through passive onboard aluminium secondaries. The train has no traction motors, traction battery or suspension magnets.')
     para('Selected for development, with explicit trade-offs. Physical operation, lowest whole-life cost, complete installed mass and manufacturing release remain unestablished.')
@@ -220,7 +221,19 @@ def build(root=ROOT,output=None,check=False):
     para('Actual revised mass propagates to axle reactions, inertia-aware1.5/2/3km propulsion/energy demand and crowd-sized concrete alternatives. Available motor performance and complete installed cost remain unknown. Improving a provisional target does not establish safe operation.')
     para('The planner diagnoses physical failures, advisory targets, numerical/model problems and missing evidence separately. Repeated unsuccessful local changes escalate toward new load paths or architecture. Pending work survives invocation budgets. Exact native physics can be reused under a new policy context without changing its original receipt or pretending a new solve occurred.')
     para('Inspect docs/design-engine/v06-adaptive-design/ and ./osr design adaptive plan/run/publish/verify. The Workbench exposes the variables and native comparisons; the current reference and city geography remain unchanged. The search continues through its explicit frontier rather than declaring that one failed comparison ends the design.')
-    page('14. Reproduce and inspect')
+    page('14. Generate a different structure')
+    generative=json.loads((root/'docs/design-engine/generative-structure/summary.json').read_bytes())
+    para(f"The new structural grammar executes {generative['initial_recipe_count']} initial recipes and {generative['rewrite_count']} physical rewrites. Shared productions combine aluminium or research GFRP members, skins, foam/honeycomb sandwich layers, rib arrangements, modular segments and integrated roof functions. New combinations do not require another predefined body mesh; unsupported primitives and physics still need development.")
+    table(['Executed stage','Result','Evidence boundary'],[
+        ('Generated candidates',str(generative['candidate_count']),'Actual stock, apertures, material and joining definitions'),
+        ('Native CAD exports',str(generative['CAD_case_count']),'FreeCAD and STEP reopen with matching stock volumes'),
+        ('Axial design calculations',str(generative['native_design_case_count']),'Independent stiffness, equilibrium and energy checks'),
+        ('Complete body qualification','Unknown','Shell, joints, buckling, modes, fatigue and correlation remain open')],[145,70,275])
+    para('The initial pin-jointed rectangular underfloor has 49 mechanisms. Diagnosis generates a new triangulated load path below the passenger openings, regenerates its stock and loads, and reruns it. The child has zero mechanisms; two native axial subdivisions agree with the independent matrix solution. Its approximately 30.35 mm displacement belongs to an underfloor-only hypothesis, not the previous whole-body model. No L/500 acceptance claim follows.')
+    para('A separate rewrite integrates roof, solar-mount and cable/drain functions into fewer declared manufactured groups. About 44 kg of nominal stock is removed, but equivalent performance, installed hardware, manufacture, sealing and repair remain unproven. A third rewrite changes rib positions. Material search and typed interfaces hold missing hot/wet, directional, capacity and process evidence explicitly.')
+    para('Gross untrimmed stock includes unresolved node overlaps and joint cuts. Known-stock CG and inertia can be calculated; complete installed mass properties and prices cannot. Source-bound equipment accounts remain unlocated. New stock propagates to the same candidate\'s motion demand and civil screens, not a validated force-motion-thermal journey.')
+    para('A failed tripod constraint input was preserved, the writer repaired, and four fresh independent fixtures passed. Numerical model repair is distinct from physical redesign. OpenMDAO, pymoo and Dakota were not executed for this comparison. Native FreeCAD and CalculiX performed the CAD and axial work. Inspect docs/design-engine/generative-structure/ or run ./osr design generative plan/run/publish/verify.')
+    page('15. Reproduce and inspect')
     para('Use ./osr status, ./osr readiness, ./osr build, ./osr verify, ./osr test, ./osr book --check and ./osr workbench. ./osr sim baghdad reports its deliberate city-evaluation hold. ./osr legacy verify checks retained source/payload bytes at their recorded Git revisions.')
     para('The broader design-space comparison adds supplier-bound PET/PVC and directional honeycomb cores, aluminium/GFRP load paths, joints/inserts, motor topologies, glazing and HVAC leads. Run ./osr design space build/verify. Necessary bounds and component fixtures guide the next experiments; they do not establish a complete train or silently change the default.')
     para('The v0.5 archive preserves magnetic development evidence; its source and results are not overwritten to match a wheel-supported train. Historical numerical regeneration belongs in a separate checkout of the pinned revision.')

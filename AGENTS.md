@@ -79,6 +79,12 @@ alternatives do not silently change the selected reference or inherit its result
   space. Repeated unsuccessful local changes should trigger a new family or
   evaluator/measurement task. Preserve pending work across invocation budgets;
   never claim a working solution by weakening an evidenced obligation.
+- Use `./osr design generative` for the composable structural-grammar experiment.
+  Preserve its physical graph, stock, typed interfaces, assembly and same-candidate
+  propagation. Pin-graph mechanisms diagnose only the declared axial load path;
+  they do not invalidate a bonded shell or rigid frame without its own evaluator.
+  Gross untrimmed stock, declared manufacturing groups and CAD volume agreement
+  are not complete installed mass, manufacturability or body qualification.
 - Preserve historical source-bound archives. Regenerate affected current packets
   with their generators after changing implementation inputs; record a hold when
   dependencies or physical measurements are unavailable. Do not edit receipts to

@@ -59,6 +59,8 @@ Foundation work includes six-axis joint fixtures, a counted finite-area body alt
 
 The [adaptive generator](docs/design-engine/v06-adaptive-design/README.md) opens **102 variables across 14 domains**, including materials, honeycombs, layups, structures, joints, running gear, propulsion, fitout and whole-railway arrangements. It separates real obligations, preferences, revisable assumptions and numerical validity. Failures generate different physical, model-development or measurement tasks; repeated unsuccessful local changes escalate to new load paths and architecture. Pending work survives resource budgets.
 
+The [executed structural grammar](docs/design-engine/generative-structure/README.md) now creates **eight physical candidates from five composable recipes and three actual rewrites**. It generates stock geometry, apertures, material/joint definitions, typed interfaces and assembly operations. A diagnosed underfloor mechanism triggers a triangulated child with new geometry, mass and loads, followed by two native axial checks. Six generated CAD models export and reopen. This is a bounded demonstration of physical redesign; shell/joint/buckling qualification, installed mass and a working journey remain open. New recipes can combine existing productions without another hardcoded body mesh.
+
 Six new native body cases demonstrate material redistribution: a deeper, thinner sill saves **48 kg/car** relative to the previous jointed body and reduces calculated normal bending from **28.018 to 19.793 mm**. Another option saves 19 kg/car with a shallower envelope. Actual mass changes feed axle, propulsion/energy and civil calculations. Thin-wall stability, strength, fatigue, clearances and physical correlation remain necessary work; no complete railway is qualified.
 
 ```bash
@@ -69,6 +71,10 @@ Six new native body cases demonstrate material redistribution: a deeper, thinner
 ./osr design adaptive run --max-jobs 1
 ./osr design adaptive publish
 ./osr design adaptive verify
+./osr design generative plan
+./osr design generative run
+./osr design generative publish
+./osr design generative verify
 ```
 
 ## Use the repository

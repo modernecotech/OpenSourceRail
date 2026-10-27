@@ -10,7 +10,9 @@ on:
       - "campaigns/adaptive-railway-design.toml"
       - "tests/test_body_revision.py"
       - "tests/test_joint*.py"
+      - "tests/test_grammar_structure.py"
       - "tools/automation/architecture-native-benchmarks.py"
+      - "tools/automation/generative-native-benchmarks.py"
       - "crates/osr-atp/**"
       - "Cargo.lock"
       - "docs/design-engine/current/**"
@@ -32,7 +34,9 @@ on:
       - "campaigns/adaptive-railway-design.toml"
       - "tests/test_body_revision.py"
       - "tests/test_joint*.py"
+      - "tests/test_grammar_structure.py"
       - "tools/automation/architecture-native-benchmarks.py"
+      - "tools/automation/generative-native-benchmarks.py"
       - "crates/osr-atp/**"
       - "Cargo.lock"
       - "docs/design-engine/current/**"
@@ -64,6 +68,8 @@ jobs:
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/development_baseline/tests engineering/station_rail/tests
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_architecture.py engineering/design_search/tests/test_architecture_demand.py engineering/design_search/tests/test_capabilities.py engineering/design_search/tests/test_nonlinear_motor.py tests/test_joint_models.py tests/test_joint_body.py
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_requirement_policy.py engineering/design_search/tests/test_design_variables.py engineering/design_search/tests/test_revision_planner.py engineering/design_search/tests/test_adaptive_campaign.py engineering/design_search/tests/test_section_proposals.py tests/test_body_revision.py
+      - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_design_grammar.py engineering/design_search/tests/test_interface_graph.py engineering/design_search/tests/test_material_database.py engineering/design_search/tests/test_dfma.py engineering/design_search/tests/test_generative_publication.py tests/test_grammar_structure.py
+      - run: ./osr design generative verify
       - run: ./osr verify
       - run: npm run test:frontend
       - uses: actions/upload-artifact@v4
@@ -87,6 +93,7 @@ jobs:
       - run: .venv/bin/python tools/automation/v06-native-benchmarks.py --output build/v06-native-ci
       - run: .venv/bin/python -c "from engineering.trip_dynamics.setup_tools import install; install('build/trip-dynamics/tools')"
       - run: .venv/bin/python tools/automation/architecture-native-benchmarks.py --output build/architecture-native-ci
+      - run: .venv/bin/python tools/automation/generative-native-benchmarks.py --output build/generative-native-ci
       - run: cargo test --locked -p osr-atp -p osr-interlocking -p osr-door-control -p osr-tcms -p osr-station-scada
       - uses: actions/upload-artifact@v4
         if: always()
@@ -99,4 +106,10 @@ jobs:
         with:
           name: architecture-native-methods-not-physical-qualification
           path: build/architecture-native-ci/
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: generative-axial-methods-not-body-qualification
+          path: build/generative-native-ci/
           retention-days: 14

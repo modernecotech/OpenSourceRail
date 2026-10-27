@@ -21,6 +21,8 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 
 The [v0.5 maglev archive](../docs/archives/v0.5-maglev/README.md) preserves the former selected design and its scientific results. `comfort_design/`, `suspension_closure/`, `magnetic_confirmation/`, `halbach_scaling/`, `thermal_closure/` and existing magnetic `trip_dynamics/` packets remain historical methods. Their accepted inputs, costs and simulation assumptions cannot silently become v0.6 evidence.
 
+Function-first research uses [adaptive variables and continued search](../docs/design-engine/v06-adaptive-design/README.md) and the [executed structural grammar](../docs/design-engine/generative-structure/README.md). `design_search/design_grammar.py` composes stock/material/load-path/assembly productions; typed interfaces, failure diagnosis, physical rewrites, source-bound native axial checks and CAD export share candidate identities. These research adapters do not replace the selected vehicle or supply missing full-body, joint, buckling, installed-mass or journey evidence.
+
 ## Historical research configuration - not the selected development baseline
 
 The [ferrite reference package](ferrite_maglev/README.md) owns the requirements, configuration, structural studies and generated evidence of its historical revision. Its old masses, fleet and financial sensitivities are not current quantities. [Station](ferrite_maglev/station.py), [structure/production](ferrite_maglev/station_structure.py) and [fourteen-case dynamics](../docs/design-engine/ferrite-maglev/full-dynamics/README.md) remain identified research records.

@@ -36,6 +36,8 @@ The [function-first adaptive search](design-engine/v06-adaptive-design/README.md
 
 Next execute the [M1/M2/M3 programme](design-engine/v06-architecture/prototype-program.json): measured component/joint/brake correlation, a protected passive-carriage launch/coast/stop demonstrator, then an integrated full-sized pilot with recovery. Plans and simulations do not count as completed physical milestones. Reusable native adapters, installed equipment geometry and same-candidate coupled journeys are required before full-system selection.
 
+The [executed structural grammar](design-engine/generative-structure/README.md) now composes five stock/material/layout recipes and executes three rewrites, including a mechanism-driven triangulated underfloor. Eight physical definitions, six reopened native CAD exports and two independent-reference-checked axial design runs demonstrate a real geometry-to-redesign loop. Gross stock, ideal pins and unlocated equipment remain research hypotheses. Next develop actual joint cuts/hardware and full shell/laminate/buckling evaluators, then use verified bodies in the propulsion, running-gear and civil architecture search. Component integration must preserve demonstrated functions and repair access; fewer declared manufacturing groups alone does not prove a saving.
+
 | Gate | Required result |
 |---|---|
 | Installed vehicle | Counted, located equipment and complete mass/CG/inertia; qualified body and bogie load paths |

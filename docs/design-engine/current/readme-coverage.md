@@ -4,9 +4,9 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 
 [Project introduction](../../../README.md) · [System approach](../../../engineering/README.md) · [Current design and engineering gates](README.md)
 
-All **903 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. Current city introductions use the selected comfort design; historical numerical packages remain intact. The project front door is maintained separately.
+All **904 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. Current city introductions use the selected comfort design; historical numerical packages remain intact. The project front door is maintained separately.
 
-Existing local navigation reaches current context from **838 documents**. This page supplies an explicit current-context route for the remaining **65 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
+Existing local navigation reaches current context from **838 documents**. This page supplies an explicit current-context route for the remaining **66 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
 Historical numerical city, design and research packets retain their exact README payloads and original scope. Historical source bindings resolve at the pinned Git revision. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.
 
@@ -24,7 +24,7 @@ Historical numerical city, design and research packets retain their exact README
 | manual-current-entrypoint | 13 |
 | project-frontdoor | 1 |
 | retained-assurance-evidence | 8 |
-| retained-design-evidence | 70 |
+| retained-design-evidence | 71 |
 | trip-dynamics-method | 2 |
 
 Regenerate and check with:
@@ -903,6 +903,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [docs/design-engine/ferrite-maglev/stopped-recovery/README.md](../ferrite-maglev/stopped-recovery/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/ferrite-maglev/system-campaign/README.md](../ferrite-maglev/system-campaign/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/ferrite-maglev/system-detailed/README.md](../ferrite-maglev/system-detailed/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [docs/design-engine/generative-structure/README.md](../generative-structure/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/halbach-scaling/README.md](../halbach-scaling/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [docs/design-engine/magnetic-confirmation/README.md](../magnetic-confirmation/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/passive-suspension/README.md](../passive-suspension/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [project](../../../README.md) |

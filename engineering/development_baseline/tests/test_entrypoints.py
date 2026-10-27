@@ -327,6 +327,8 @@ def test_generative_cli_dispatches_explicit_research_contract_without_legacy(pac
     def verify(*,root):calls.append(('verify',root));return dict(verified=True,physical_accepted=False)
     campaign.specification=spec;campaign.run=run;publication.build=publish;publication.verify=verify
     monkeypatch.setitem(sys.modules,campaign.__name__,campaign);monkeypatch.setitem(sys.modules,publication.__name__,publication)
+    import engineering.design_search as package
+    monkeypatch.setattr(package,'generative_campaign',campaign,raising=False);monkeypatch.setattr(package,'generative_publication',publication,raising=False)
     assert cli.main(['design','generative',action],root=root)==0
     result=json.loads(capsys.readouterr().out)
     assert calls==[(action,None if action=='plan' else root)] and result['physical_accepted'] is False
@@ -355,6 +357,8 @@ def test_generative_cli_does_not_mask_an_accepted_result_as_research(packet,monk
     campaign.run=lambda **kwargs:dict(campaign_id='7'*64,candidates=[],executed_rewrites=[],integrated_selection=None,
         selected_reference_changed=False,configuration_adopted=False,**{**FLAGS,'physical_accepted':True})
     monkeypatch.setitem(sys.modules,campaign.__name__,campaign);monkeypatch.setitem(sys.modules,publication.__name__,publication)
+    import engineering.design_search as package
+    monkeypatch.setattr(package,'generative_campaign',campaign,raising=False);monkeypatch.setattr(package,'generative_publication',publication,raising=False)
     assert cli.main(['design','generative','run'],root=root)==3
     result=json.loads(capsys.readouterr().out)
     assert result['execution']=='held' and 'cannot select or release' in result['reason']
