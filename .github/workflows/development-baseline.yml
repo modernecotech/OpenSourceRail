@@ -38,6 +38,7 @@ on:
       - "campaigns/end-to-end-railway-closure.toml"
       - "docs/design-engine/railway-closure/**"
       - "docs/design-engine/moving-lim-method/**"
+      - "docs/design-engine/lim-static-field/**"
       - "tests/test_body_revision.py"
       - "tests/test_joint*.py"
       - "tests/test_grammar_structure.py"
@@ -98,6 +99,7 @@ on:
       - "campaigns/end-to-end-railway-closure.toml"
       - "docs/design-engine/railway-closure/**"
       - "docs/design-engine/moving-lim-method/**"
+      - "docs/design-engine/lim-static-field/**"
       - "tests/test_body_revision.py"
       - "tests/test_joint*.py"
       - "tests/test_grammar_structure.py"
@@ -158,6 +160,8 @@ jobs:
           .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_equipped_candidates.py engineering/design_search/tests/test_moving_lim.py engineering/design_search/tests/test_lim_transport.py engineering/design_search/tests/test_lim_critical_mesh.py engineering/design_search/tests/test_moving_lim_publication.py engineering/design_search/tests/test_fault_response.py engineering/design_search/tests/test_test_readiness.py engineering/design_search/tests/test_demonstration.py
           ./osr design railway demonstration-verify
           .venv/bin/python -m engineering.design_search.moving_lim_publication verify
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_lim_static_benchmark.py engineering/design_search/tests/test_lim_static_publication.py
+          .venv/bin/python -m engineering.design_search.lim_static_publication verify
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_publication.py
       - run: ./osr design generative verify
       - run: ./osr verify
