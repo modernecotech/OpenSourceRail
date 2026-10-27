@@ -71,7 +71,12 @@ class AxialGraphTests(unittest.TestCase):
     def test_tool_error_packet_always_has_unknown_numerical_validity(self):
         with tempfile.TemporaryDirectory() as t:
             out=Path(t)/'failure'
-            with patch.object(s.subprocess,'run',return_value=SimpleNamespace(returncode=201,stdout=b'input refused',stderr=b'')) as mocked:
+            # This test mocks execution; it must also mock the executable identity
+            # instead of requiring a native solver on the contract-test host.
+            digest=s.digest
+            def fixture_digest(path):
+                return '0'*64 if str(path)=='/usr/bin/ccx' else digest(path)
+            with patch.object(s,'digest',side_effect=fixture_digest),patch.object(s.subprocess,'run',return_value=SimpleNamespace(returncode=201,stdout=b'input refused',stderr=b'')) as mocked:
                 result=s.run(self.axial,out,root=s.ROOT)
             self.assertEqual(mocked.call_count,1);self.assertEqual(result['execution'],'tool_error');self.assertEqual(result['numerical_validity'],'unknown')
             self.assertTrue((out/'manifest.json').is_file());self.assertFalse(result['physical_accepted'])
