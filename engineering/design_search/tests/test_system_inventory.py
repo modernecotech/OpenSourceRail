@@ -74,3 +74,48 @@ def test_roof_rewrite_changes_real_inventory_but_preserves_retained_account_basi
     assert a['body_candidate_id']!=b['body_candidate_id'] and a['manufacturing_BOM']!=b['manufacturing_BOM']
     assert a['quantities']['retained_accounted_equipment_kg']==b['quantities']['retained_accounted_equipment_kg']
     assert all(r['repair_removal_path'] is None and r['net_joint_cut_mass_kg'] is None for r in b['manufacturing_BOM'])
+
+
+def test_architecture_substitution_removes_only_pinned_fin_account_and_keeps_replacement_unknown(body):
+    base=inv.evaluate(body,bundle_id='1'*64)
+    fin=next(r for r in body['retained_equipment_accounts'] if r['id']=='passive-secondary')
+    substitution=dict(remove_account_id=fin['id'],original_component_definition_id=fin['component_definition_id'],
+        replacement='wheel-traction',replacement_installed_mass_kg=None)
+    r=inv.evaluate(body,bundle_id='2'*64,component_substitutions=[substitution],
+        extra_equipment_tasks=['Drive, power electronics, cables and recovery/traction supply'])
+    rows={x['id']:x for x in r['engineering_BOM']}
+    assert fin['id'] not in rows
+    replacement=rows['architecture/replacement/passive-secondary']
+    assert replacement['accounted_mass_kg'] is None and replacement['geometry'] is None and replacement['component_definition_id'] is None
+    assert replacement['source_component_definition_id']==fin['component_definition_id']
+    assert r['known_accounted_mass_subtotal_kg']==pytest.approx(base['known_accounted_mass_subtotal_kg']-fin['mass_kg'])
+    assert r['account_ledger']['removed_known_mass_kg']==fin['mass_kg']
+    assert r['accounted_empty_mass_kg'] is None and r['complete_installed_mass_kg'] is None
+    assert r['quantities']['known_accounted_mass_subtotal_kg']['value']==r['known_accounted_mass_subtotal_kg']
+    assert len(r['geometry_coverage']['unlocated_architecture_requirement_ids'])==2
+    assert {'architecture-replacement-design','architecture-equipment-design'}<={t['kind'] for t in r['component_tasks']}
+
+
+def test_recovery_drive_addition_preserves_retained_fin_but_does_not_close_empty_mass(body):
+    base=inv.evaluate(body,bundle_id='1'*64)
+    r=inv.evaluate(body,bundle_id='3'*64,extra_equipment_tasks=['Recovery drive, gearbox/axle interfaces and independent energy supply'])
+    assert any(x['id']=='passive-secondary' for x in r['engineering_BOM'])
+    assert r['known_accounted_mass_subtotal_kg']==base['known_accounted_mass_subtotal_kg']
+    assert r['account_ledger']['removed_known_mass_kg']==0 and r['accounted_empty_mass_kg'] is None
+    assert r['geometry_coverage']['unweighed_architecture_excluded_from_accounted_fraction']
+    assert base['accounted_empty_mass_kg']==base['known_accounted_mass_subtotal_kg']
+    p=inv.pareto([base,r],{'known_accounted_mass_subtotal_kg':'min'})
+    assert len(p['nondominated_candidate_ids'])==2 and not p['dominance_edges']
+
+
+def test_substitution_source_identity_duplicates_and_placeholder_zero_are_refused(body):
+    source=dict(remove_account_id='passive-secondary',replacement='new-passive-secondary',replacement_installed_mass_kg=None)
+    wrongs=[{**source,'original_component_definition_id':'f'*64},
+        {**source,'remove_account_id':body['parts'][0]['id']},
+        {**source,'replacement_installed_mass_kg':0.}]
+    for wrong in wrongs:
+        with pytest.raises(ValueError):inv.evaluate(body,bundle_id='4'*64,component_substitutions=[wrong])
+    with pytest.raises(ValueError,match='unique retained account'):
+        inv.evaluate(body,bundle_id='4'*64,component_substitutions=[source,source])
+    with pytest.raises(ValueError,match='collides'):
+        inv.evaluate(body,bundle_id='4'*64,extra_equipment_tasks=[dict(id=body['parts'][0]['id'],description='collision')])

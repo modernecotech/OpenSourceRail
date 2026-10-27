@@ -41,6 +41,7 @@ def _supply(rows,references,bundle_id,root):
         if not p.is_file() or digest(p)!=reference['sha256']:raise ValueError('Supply evidence bytes differ')
         r=json.loads(p.read_bytes());name=r.get('component_occurrence_id')
         if r.get('schema')!='osr-system-supply-evidence/1' or r.get('bundle_id')!=bundle_id or name not in rows or r.get('component_definition_id')!=rows[name]['component_definition_id']:raise ValueError('Supply evidence uses a different bundle/component definition')
+        if not _sha(rows[name]['component_definition_id']):raise ValueError('Unresolved equipment requires a physical component definition before source pricing')
         if name in out:raise ValueError('Explicitly select one supply record per component before comparison')
         if r.get('evidence_kind') not in ('supplier-quote','supplier-catalogue','measured-prototype') or not isinstance(r.get('supplier'),str) or not r['supplier'] or not isinstance(r.get('source_locator'),str) or not r['source_locator']:raise ValueError('Typed supplier/source provenance required')
         price=r.get('unit_price_USD');lead=r.get('lead_time_days')
@@ -73,7 +74,37 @@ def _task(bundle_id,body_id,occurrence,kind,question,required):
     r['task_id']=identity(r);return r
 
 
-def evaluate(candidate,*,bundle_id,source_root=ROOT,geometry_record=None,dfma_record=None,supply_evidence=(),comparison_context=None):
+def _composition(candidate,substitutions,extra):
+    accounts={r['id']:r for r in candidate['retained_equipment_accounts']};components={c['occurrence_id']:c for c in candidate['components']}
+    if not isinstance(substitutions,(list,tuple)) or not isinstance(extra,(list,tuple)):raise ValueError('Explicit architecture substitution and unweighed-equipment sequences required')
+    normalized=[];removed=set();obligations=[]
+    for row in substitutions:
+        allowed={'remove_account_id','replacement','replacement_installed_mass_kg','original_component_definition_id','remove_component_definition_id'}
+        if not isinstance(row,dict) or set(row)-allowed:raise ValueError('Explicit supported account substitution fields required')
+        name=row.get('remove_account_id');replacement=row.get('replacement')
+        if name not in accounts or name in removed:raise ValueError('Remove an existing unique retained account, not body stock or an absent item')
+        account=accounts[name];definition=account['component_definition_id']
+        if components.get(name,{}).get('component_definition_id')!=definition:raise ValueError('Removed account does not match the body component definition')
+        for key in ('original_component_definition_id','remove_component_definition_id'):
+            if key in row and row[key]!=definition:raise ValueError('Original substituted component definition differs')
+        if not isinstance(replacement,str) or not replacement:raise ValueError('Named replacement equipment/function requirement required')
+        if row.get('replacement_installed_mass_kg') is not None:raise ValueError('Replacement mass requires counted/evidenced geometry; this unresolved substitution must remain unknown')
+        removed.add(name);normalized.append(dict(remove_account_id=name,original_component_definition_id=definition,
+            removed_accounted_mass_kg=account.get('mass_kg'),replacement=replacement,replacement_installed_mass_kg=None,
+            replacement_occurrence_id='architecture/replacement/'+name))
+    for i,row in enumerate(extra):
+        if isinstance(row,str):description=row;name='architecture/unweighed/'+str(i)
+        elif isinstance(row,dict) and not set(row)-{'id','description'}:description=row.get('description');name=row.get('id','architecture/unweighed/'+str(i))
+        else:raise ValueError('Named unweighed equipment task or explicit id/description required')
+        if not isinstance(name,str) or not name or not isinstance(description,str) or not description:raise ValueError('Explicit unweighed equipment task description required')
+        if name in accounts or name in components or name in {r['replacement_occurrence_id'] for r in normalized} or name in {r['id'] for r in obligations}:raise ValueError('Architecture requirement occurrence collides with an existing component')
+        obligations.append(dict(id=name,description=description,installed_mass_kg=None,physical_occurrence_count=None,
+            may_overlap_other_equipment_obligations=True))
+    return normalized,removed,obligations
+
+
+def evaluate(candidate,*,bundle_id,source_root=ROOT,geometry_record=None,dfma_record=None,supply_evidence=(),comparison_context=None,
+             component_substitutions=(),extra_equipment_tasks=()):
     """Compile same-body records under the coordinator's canonical bundle ID.
 
     ``bundle_id`` is supplied, not inferred from a body or selected by this
@@ -81,10 +112,13 @@ def evaluate(candidate,*,bundle_id,source_root=ROOT,geometry_record=None,dfma_re
     Retained equipment accounts come from the candidate's pinned reference.
     ``comparison_context`` adds the coordinator's common route/service context;
     changing it prevents cross-context Pareto dominance.
+    Explicit substitutions remove only identified retained accounts; unknown
+    replacements and additions become unlocated requirements, never zero mass.
     """
     candidate=deepcopy(grammar.validate(candidate))
     if not _sha(bundle_id):raise ValueError('Explicit canonical bundle ID required')
     if 'bundle_id' in candidate and candidate['bundle_id']!=bundle_id:raise ValueError('Mixed canonical bundle and body candidate')
+    substitutions,removed,architecture_obligations=_composition(candidate,component_substitutions,extra_equipment_tasks)
     body_id=candidate['candidate_id'];actual_geometry=geometry.mass_properties(candidate)
     if geometry_record is not None and geometry_record!=actual_geometry:raise ValueError('Mass/CG/inertia projection uses different body geometry')
     if dfma_record is None:dfma_record=dfma.evaluate(candidate,root=source_root)
@@ -119,6 +153,7 @@ def evaluate(candidate,*,bundle_id,source_root=ROOT,geometry_record=None,dfma_re
     retained=[]
     for account in candidate['retained_equipment_accounts']:
         name=account['id'];component=components.get(name)
+        if name in removed:continue
         if name in rows or component is None or component.get('component_definition_id')!=account['component_definition_id']:raise ValueError('Retained source account overlaps or has a mismatched component definition')
         m=account.get('mass_kg')
         if m is not None and (not _finite(m) or m<0):raise ValueError('Finite retained account or explicit unknown required')
@@ -144,6 +179,31 @@ def evaluate(candidate,*,bundle_id,source_root=ROOT,geometry_record=None,dfma_re
             'Replace the '+join['method']+' idealization with counted and validated joining hardware/end geometry at these exact member interfaces',
             ['Pin/clevis/bolt/bond/insert geometry and net stock cuts','Actual six-axis stiffness, strength, fatigue and degraded load path',
              'Fasteners, preload/retention, corrosion isolation and inspection','Installed joint mass, assembly/removal clearance and repair method']))
+    architecture_ids=[]
+    for row in substitutions:
+        name=row['replacement_occurrence_id']
+        if name in rows:raise ValueError('Replacement requirement collides with selected physical stock')
+        requirement_id=identity(dict(bundle_id=bundle_id,body_candidate_id=body_id,substitution=row))
+        rows[name]=dict(id=name,bundle_id=bundle_id,body_candidate_id=body_id,component_definition_id=None,
+            requirement_id=requirement_id,scope='unlocated-architecture-replacement-requirement',quantity=None,unit='equipment-requirement',
+            accounted_mass_kg=None,geometry=None,installed_CG_m=None,installed_inertia_kg_m2=None,
+            replaces_account_id=row['remove_account_id'],source_component_definition_id=row['original_component_definition_id'],
+            replacement_function=row['replacement'],price_USD=None,lead_time_days=None)
+        architecture_ids.append(name)
+        tasks.append(_task(bundle_id,body_id,name,'architecture-replacement-design',
+            'Generate and count the actual '+row['replacement']+' assembly, replacing only the recorded '+row['remove_account_id']+' account',
+            ['Physical component/occurrence definitions and actual hardware inventory','Geometry, installed locations, mount/axle/electrical/cooling interfaces and clearance',
+             'Derived or measured installed mass, CG and inertia','Protection, thermal/braking/recovery duty and failure cases','Manufacturing, supplier, assembly/repair access and source price/lead time']))
+    for obligation in architecture_obligations:
+        name=obligation['id'];requirement_id=identity(dict(bundle_id=bundle_id,body_candidate_id=body_id,obligation=obligation))
+        rows[name]=dict(id=name,bundle_id=bundle_id,body_candidate_id=body_id,component_definition_id=None,
+            requirement_id=requirement_id,scope='unlocated-architecture-equipment-obligation',quantity=None,unit='equipment-requirement',
+            description=obligation['description'],accounted_mass_kg=None,geometry=None,installed_CG_m=None,installed_inertia_kg_m2=None,
+            physical_occurrence_count=None,may_overlap_other_equipment_obligations=True,price_USD=None,lead_time_days=None)
+        architecture_ids.append(name)
+        tasks.append(_task(bundle_id,body_id,name,'architecture-equipment-design',obligation['description'],
+            ['Resolve this obligation into non-overlapping physical component/occurrence definitions','Count actual stock, fasteners, cables, converters, energy supply and protection as applicable',
+             'Locate and weigh installed assemblies with CG/inertia and maintenance clearance','Validate interfaces and fault duty; provide supplier/process/QA/price/lead-time evidence']))
     supply=_supply(rows,supply_evidence,bundle_id,source_root)
     for name,row in rows.items():row['supply_evidence']=supply.get(name)
     mbom=[]
@@ -161,17 +221,20 @@ def evaluate(candidate,*,bundle_id,source_root=ROOT,geometry_record=None,dfma_re
              'Tooling/jigs, fabrication and assembly access','Source-bound cycle/labor time, inspection and replaceability','Supplier quote, stock availability, lead time and local capability']))
     gross=actual_geometry['known_gross_stock_mass_kg'];retained_mass=sum(r['accounted_mass_kg'] for r in retained if r['accounted_mass_kg'] is not None)
     accounted=gross+retained_mass;unknown_accounts=[r['id'] for r in retained if r['accounted_mass_kg'] is None]
+    unknown_empty_mass=bool(unknown_accounts or architecture_ids)
     # This quantity is not a certified lower bound: nominal stock includes
     # unresolved cuts/overlaps while other installed mass is still missing.
     quantities={
       'known_gross_structure_stock_kg':_quantity(gross,'kg','nominal-body-cut-stock/1','Exact generated gross-stock aggregate at declared research densities'),
       'retained_accounted_equipment_kg':_quantity(retained_mass,'kg','retained-unlocated-account-subtotal/1','Pinned source allocations; actual hardware/placement unqualified'),
-      'accounted_empty_mass_kg':_quantity(None if unknown_accounts else accounted,'kg','gross-stock-plus-retained-accounts/1','Arithmetic sensitivity account only; no complete tare or certified lower bound'),
+      'known_accounted_mass_subtotal_kg':_quantity(accounted,'kg','gross-stock-plus-kept-known-accounts/1','Known arithmetic subtotal; unknown replacement/additional equipment is not zero or a certified lower bound'),
+      'accounted_empty_mass_kg':_quantity(None if unknown_empty_mass else accounted,'kg','gross-stock-plus-retained-accounts/1','Arithmetic sensitivity account only; unresolved replacement/additional equipment prevents even this account from closing'),
       'manufacturing_occurrences':_quantity(dfma_record['resolved_manufactured_component_count'],'count','declared-body-manufacturing-occurrences/1','Explicit manufacturing group count, excluding unlocated equipment and unknown joints'),
       'assembly_interfaces':_quantity(dfma_record['assembly_interfaces'],'count','declared-body-join-interfaces/1','Declared join graph only, not complete installed fasteners/operations'),
       'installed_CAPEX_USD':_quantity(None,'USD','complete-same-service-installed-CAPEX/1','Quotes and installed economic coverage incomplete')}
     scope=dict(requirement_revision=candidate['requirement_revision'],formation_and_envelope=candidate['physical']['architecture'],
         retained_account_definitions=[{k:r[k] for k in ('id','component_definition_id','accounted_mass_kg')} for r in retained],
+        component_substitutions=deepcopy(substitutions),unweighed_architecture_obligations=deepcopy(architecture_obligations),
         supplied_common_context=deepcopy(comparison_context),quantity_purpose='partial-research-quantity-comparison')
     result=dict(schema='osr-canonical-system-inventory/1',candidate_id=bundle_id,bundle_id=bundle_id,body_candidate_id=body_id,
         body_definition_id=candidate['definition_id'],requirement_revision=candidate['requirement_revision'],comparison_scope=scope,comparison_scope_id=identity(scope),
@@ -179,10 +242,17 @@ def evaluate(candidate,*,bundle_id,source_root=ROOT,geometry_record=None,dfma_re
         material_reference_catalogue=dict(database_id=database['database_id'],
             records=[deepcopy(database_rows[name]) for name in sorted({r['material_supply']['database_record'] for r in rows.values() if r.get('material_supply',{}).get('database_record')})],
             sources=deepcopy(database['sources']),scope='Reference lookup only; these records are not automatically selected grades, complete material laws or installed sourcing'),
-        accounted_empty_mass_kg=None if unknown_accounts else accounted,
+        known_accounted_mass_subtotal_kg=accounted,accounted_empty_mass_kg=None if unknown_empty_mass else accounted,
+        component_substitutions=substitutions,unweighed_architecture_equipment=architecture_obligations,
+        account_ledger=dict(original_retained_known_mass_kg=sum(r['mass_kg'] for r in candidate['retained_equipment_accounts'] if r.get('mass_kg') is not None),
+            removed_reference_accounts=[deepcopy(r) for r in candidate['retained_equipment_accounts'] if r['id'] in removed],
+            removed_known_mass_kg=sum(r['mass_kg'] for r in candidate['retained_equipment_accounts'] if r['id'] in removed and r.get('mass_kg') is not None),
+            remaining_retained_known_mass_kg=retained_mass,known_gross_body_stock_kg=gross,known_accounted_mass_subtotal_kg=accounted,
+            unresolved_architecture_requirement_ids=architecture_ids,complete_installed_mass_kg=None),
         complete_installed_mass_kg=None,complete_installed_CG_m=None,complete_installed_inertia_kg_m2=None,
         geometry_coverage=dict(located_stock_occurrences=len(candidate['parts']),unlocated_retained_account_ids=[r['id'] for r in retained],
             unknown_joint_ids=[j['id'] for j in candidate['joins']],unresolved_mass_account_ids=unknown_accounts,
+            unlocated_architecture_requirement_ids=architecture_ids,unweighed_architecture_excluded_from_accounted_fraction=bool(architecture_ids),
             located_fraction_of_accounted_mass=None if unknown_accounts or accounted<=0 else gross/accounted,
             scope='Coverage of current nominal stock+known retained accounts only; omitted installed equipment is not included in this denominator'),
         supply_coverage=dict(quoted_component_count=sum(r['known_quoted_subtotal_USD'] is not None for r in supply.values()),
