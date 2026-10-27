@@ -3,6 +3,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 
 import pytest
 
@@ -84,4 +85,12 @@ def test_evidence_packet_is_portable_to_another_retained_source_root(packet, tmp
         destination = alternate/name
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(ROOT/name, destination)
+    # Portability includes authenticated historical producer objects. A copy
+    # lacking the declared local ancestry must hold instead of fetching/falling back.
+    with pytest.raises(ValueError, match='producer ancestry unavailable locally'):
+        campaign.verify(packet, root=alternate)
+    subprocess.run(['git','init','--quiet',str(alternate)],check=True)
+    objects=subprocess.check_output(['git','rev-parse','--path-format=absolute','--git-path','objects'],
+        cwd=ROOT,text=True).strip()
+    (alternate/'.git/objects/info/alternates').write_text(objects+'\n')
     assert campaign.verify(packet, root=alternate)['physical_accepted'] is False

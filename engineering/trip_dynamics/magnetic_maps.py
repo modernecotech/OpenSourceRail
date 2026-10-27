@@ -16,6 +16,9 @@ from pathlib import Path
 import re
 from typing import TypedDict
 
+from engineering import research_ancestry
+from engineering.station_rail.history import REVISION as RETAINED_SOURCE_REVISION
+
 SCHEMA="osr-magnetic-force-map/1"
 IDENTITY_KEYS=("candidate_id","geometry_id","material_id","evaluation_id")
 REQUIRED_AXES=("gap_m","lateral_m","longitudinal_m","roll_rad","pitch_rad","yaw_rad","temperature_C","v_m_s")
@@ -23,6 +26,13 @@ UNITS=dict(position="m",angle="rad",current="A",temperature="degC",velocity="m/s
 FRAME=dict(name="module-local",handedness="right",axes=dict(x="travel",y="transverse-left",z="up"),
            rotation_convention="intrinsic-XYZ-roll-pitch-yaw",gap_positive="train-away-from-guideway",moment_origin_m=[0.,0.,0.])
 G=9.80665
+CODE='engineering/trip_dynamics/magnetic_maps.py'
+# These are the unchanged retained receipts at RETAINED_SOURCE_REVISION.
+PUBLICATION_PINS={
+    'docs/design-engine/ferrite-maglev/candidate-magnetics':'599cc8f6a6d48a60b55b5e02c893deb2afea16f96aa4eaf3871d746317188059',
+    'docs/design-engine/passive-suspension':'9d1d2eb9dd24248d259c97b39195eeed83f29f3776afe17a1436f61654bb8c33',
+    'docs/design-engine/vehicle-optimisation':'d0dd60c6081128a88d2041adc1982c076d7e338b0be8147a7758f89a3804ef5e',
+}
 
 
 class MapIdentity(TypedDict):
@@ -177,8 +187,13 @@ class ForceMap:
 
 
 def _path(root,relative):
-    path=(root/relative).resolve()
-    if not path.is_relative_to(root):raise ValueError('evidence path escapes explicit root')
+    relative=Path(relative)
+    if relative.is_absolute() or not relative.parts or '..' in relative.parts:
+        raise ValueError('ordinary retained evidence path required')
+    root=Path(root).resolve();path=root/relative
+    if any(p.is_symlink() for p in (path,*path.parents) if p!=root and p.is_relative_to(root)):
+        raise ValueError('linked retained evidence path refused')
+    if not path.resolve().is_relative_to(root):raise ValueError('evidence path escapes explicit root')
     return path
 
 
@@ -189,20 +204,28 @@ def _json(path):
 
 
 def _publication(root,relative,needed):
-    base=_path(root,relative);manifest=_json(base/'manifest.json');data={};bindings={}
+    base=_path(root,relative);manifest_path=_path(root,relative+'/manifest.json')
+    if sha256(manifest_path.read_bytes()).hexdigest()!=PUBLICATION_PINS[relative]:
+        raise ValueError('pinned retained magnetic publication receipt differs')
+    manifest=_json(manifest_path);data={};bindings={}
     for name in needed:
-        path=(base/name).resolve()
-        if not path.is_relative_to(base):raise ValueError('publication path escapes root')
+        path=_path(base,name)
         digest=sha256(path.read_bytes()).hexdigest()
         if manifest['files_sha256'].get(name)!=digest:raise ValueError('retained publication file digest differs: '+str(path))
         bindings[path.relative_to(root).as_posix()]=digest;data[name]=_json(path)
-    for name,digest in manifest.get('source_sha256',{}).items():
-        if sha256(_path(root,name).read_bytes()).hexdigest()!=digest:raise ValueError('publication implementation source differs: '+name)
-        bindings[name]=digest
+    # Historical producer bytes authenticate the archived point results. They
+    # are ancestry; current reader code and all live data remain a separate epoch.
+    ancestry=research_ancestry.verify(root,manifest.get('source_sha256',{}),
+        source_revision=RETAINED_SOURCE_REVISION)
+    bindings.update(ancestry['source_sha256'])
+    bindings[CODE]=sha256(Path(__file__).read_bytes()).hexdigest()
+    for name,digest in bindings.items():
+        if sha256(_path(root,name).read_bytes()).hexdigest()!=digest:
+            raise ValueError('executing magnetic reader or live input differs: '+name)
     for flag in ('physical_accepted','engineering_accepted','configuration_adopted','physical_validation','physical_release'):
         if manifest.get(flag,False) is not False:raise ValueError('unexpected accepted publication')
     bindings[(base/'manifest.json').relative_to(root).as_posix()]=sha256((base/'manifest.json').read_bytes()).hexdigest()
-    return data,bindings
+    return data,bindings,ancestry
 
 
 def current_magnetic_evidence(root:Path)->dict:
@@ -211,10 +234,14 @@ def current_magnetic_evidence(root:Path)->dict:
     Source/file mismatch is retained as an error/unknown evidence state. Records
     keep their own candidate and mass ledger, including distinct material floors.
     """
-    root=Path(root).resolve();records=[];bindings={};errors=[]
+    root=Path(root).resolve();records=[];bindings={};errors=[];ancestry={}
     def load(relative,needed):
         try:
-            data,bound=_publication(root,relative,needed);bindings.update(bound);return data
+            data,bound,origin=_publication(root,relative,needed)
+            for name,digest in bound.items():
+                if name in bindings and bindings[name]!=digest:raise ValueError('mixed magnetic reader/input source epochs: '+name)
+                bindings[name]=digest
+            ancestry[relative]=origin;return data
         except (OSError,ValueError,KeyError) as error:
             errors.append(dict(publication=relative,error=str(error)));return None
     canonical=load('docs/design-engine/ferrite-maglev/candidate-magnetics',['definition.json.gz','study.json.gz'])
@@ -273,7 +300,7 @@ def current_magnetic_evidence(root:Path)->dict:
     # Source bindings are repository-relative. A checkout path is provenance
     # of the caller, not a physical/evaluation property of this evidence.
     result=dict(schema='osr-current-magnetic-evidence/1',records=records,force_maps=[],errors=errors,
-                source_sha256=bindings,full_journey_executed=False,physical_accepted=False,
+                source_sha256=bindings,retained_source_ancestry=ancestry,full_journey_executed=False,physical_accepted=False,
                 limitations=['Existing scalar/network/transverse2D diagnostics are not nonlinear3D journey force maps',
                              'Absent guidance, moment, velocity/drag or repeated thermal duty is unknown, never zero'])
     result['evidence_id']=identity(result);return result

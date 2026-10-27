@@ -1,0 +1,28 @@
+schema = "osr-end-to-end-railway-closure/1"
+revision = "RAILWAY-CLOSURE-1"
+purpose = "candidate-to-journey evidence closure"
+reference_changes_allowed = false
+body_families = ["aluminium_frame", "aluminium_stressed_skin", "gfrp_semimonocoque"]
+architecture_families = ["P1", "P4"]
+distances_m = [1500.0, 2000.0]
+loads = ["empty", "normal", "crowd", "adverse-normal"]
+faults = ["failed-launch", "wayside-power-loss", "stranded-train-recovery"]
+maximum_bundle_cases = 12
+maximum_seconds = 300
+maximum_native_jobs = 0
+maintain_pending_tasks = true
+unknown_installed_quantities_are_zero = false
+allow_synthetic_operating_maps = false
+
+[adverse_hypothesis]
+grade_up_fraction = 0.01
+headwind_m_s = 10.0
+rail_adhesion = 0.025
+
+[completion]
+equipped_candidates = 3
+authenticated_inputs_required = true
+validated_available_force_map_required = true
+independent_braking_and_fault_protection_required = true
+whole_system_quantities_and_cost_required = true
+automatic_physical_acceptance_allowed = false

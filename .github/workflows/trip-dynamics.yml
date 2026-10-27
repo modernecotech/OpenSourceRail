@@ -1,9 +1,9 @@
 name: Retained v0.5 trip dynamics and magnetic methods
 on:
   push:
-    paths: ['engineering/trip_dynamics/**', 'tools/automation/publish-physical-round.py', 'tools/automation/tests/test_physical_round_publication.py', 'engineering/suspension_closure/**', 'engineering/thermal_closure/**', 'engineering/design_search/whole_system.py', 'engineering/design_search/guideway_tradeoff.py', 'engineering/design_search/tests/test_whole_system.py', 'engineering/design_search/tests/test_guideway_tradeoff.py', 'engineering/electropermanent/**', 'engineering/magnetic_confirmation/**', 'docs/workbench/trip/**', 'tools/automation/maglev-workbench.py', 'tools/automation/tests/verify-trip-workbench.mjs', 'osr', '.github/workflows/trip-dynamics.yml']
+    paths: ['engineering/trip_dynamics/**', 'tools/automation/publish-physical-round.py', 'tools/automation/tests/test_physical_round_publication.py', 'engineering/suspension_closure/**', 'engineering/thermal_closure/**', 'engineering/design_search/whole_system.py', 'engineering/design_search/guideway_tradeoff.py', 'engineering/design_search/tests/test_whole_system.py', 'engineering/design_search/tests/test_guideway_tradeoff.py', 'engineering/electropermanent/**', 'engineering/magnetic_confirmation/**', 'docs/workbench/trip/**', 'tools/automation/maglev-workbench.py', 'tools/automation/tests/verify-trip-workbench.mjs', 'osr', '.github/workflows/trip-dynamics.yml', 'engineering/research_context.py', 'engineering/research_test_support.py', 'engineering/research_ancestry.py', 'tools/automation/verify-research-snapshot.py']
   pull_request:
-    paths: ['engineering/trip_dynamics/**', 'tools/automation/publish-physical-round.py', 'tools/automation/tests/test_physical_round_publication.py', 'engineering/suspension_closure/**', 'engineering/thermal_closure/**', 'engineering/design_search/whole_system.py', 'engineering/design_search/guideway_tradeoff.py', 'engineering/design_search/tests/test_whole_system.py', 'engineering/design_search/tests/test_guideway_tradeoff.py', 'engineering/electropermanent/**', 'engineering/magnetic_confirmation/**', 'docs/workbench/trip/**', 'tools/automation/maglev-workbench.py', 'tools/automation/tests/verify-trip-workbench.mjs', 'osr', '.github/workflows/trip-dynamics.yml']
+    paths: ['engineering/trip_dynamics/**', 'tools/automation/publish-physical-round.py', 'tools/automation/tests/test_physical_round_publication.py', 'engineering/suspension_closure/**', 'engineering/thermal_closure/**', 'engineering/design_search/whole_system.py', 'engineering/design_search/guideway_tradeoff.py', 'engineering/design_search/tests/test_whole_system.py', 'engineering/design_search/tests/test_guideway_tradeoff.py', 'engineering/electropermanent/**', 'engineering/magnetic_confirmation/**', 'docs/workbench/trip/**', 'tools/automation/maglev-workbench.py', 'tools/automation/tests/verify-trip-workbench.mjs', 'osr', '.github/workflows/trip-dynamics.yml', 'engineering/research_context.py', 'engineering/research_test_support.py', 'engineering/research_ancestry.py', 'tools/automation/verify-research-snapshot.py']
   workflow_dispatch:
   schedule:
     - cron: "25 2 * * *"
@@ -30,26 +30,37 @@ jobs:
           name: trip-workbench-browser
           path: build/trip-workbench-browser
   contracts-and-retained-evidence:
+    name: Current trip software compatibility
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      - name: Fetch the exact retained producer source required by offline ancestry checks
+        run: |
+          git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
       - run: sudo apt-get update && sudo apt-get install -y libglu1-mesa
       - run: python -m pip install -r engineering/trip_dynamics/requirements.txt
       - run: python -m pytest -q --import-mode=importlib engineering/trip_dynamics/tests engineering/trip_dynamics/fixtures/magnetics/test_numerics.py engineering/electropermanent/tests engineering/magnetic_confirmation/tests
-      - run: python -m engineering.trip_dynamics verify --output docs/design-engine/trip-dynamics
   p0-bounds:
+    name: Current necessary-bound and retained-family software controls
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      - name: Fetch the exact retained producer source required by offline ancestry checks
+        run: |
+          git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -61,7 +72,6 @@ jobs:
           engineering/design_search/tests/test_guideway_tradeoff.py
           engineering/suspension_closure/tests/test_operating_point.py
           engineering/thermal_closure/tests/test_comfort_fixes.py
-          tools/automation/tests/test_physical_round_publication.py
   native-chrono-and-fem:
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
@@ -98,3 +108,58 @@ jobs:
             build/trip-dynamics/structural-native/
             build/trip-dynamics/selected-support-native/
           retention-days: 14
+  historical-trip-publication:
+    name: Historical trip publication (exact source replay)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: historical
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - name: Read the retained publication receipt and guard
+        uses: actions/checkout@v4
+        with:
+          path: current
+          sparse-checkout: |
+            /tools/automation/verify-research-snapshot.py
+            /docs/design-engine/trip-dynamics/manifest.json
+          sparse-checkout-cone-mode: false
+      - name: Check out the exact trip publication origin
+        uses: actions/checkout@v4
+        with:
+          ref: d7c8f40e13d9a5f4889921557311542b84bcbfb1
+          path: historical
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: dtolnay/rust-toolchain@1.92.0
+      - name: Verify every recorded source and payload byte before replay
+        run: python ../current/tools/automation/verify-research-snapshot.py --packet trip-dynamics --repository . --receipt-root ../current --output build/trip-publication-provenance.json
+      - run: sudo apt-get update && sudo apt-get install -y libglu1-mesa
+      - run: python -m pip install -r engineering/trip_dynamics/requirements.txt
+      - name: Replay the unmodified trip publication semantic verifier
+        run: python -m engineering.trip_dynamics verify --output docs/design-engine/trip-dynamics
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: historical-trip-publication-provenance
+          path: historical/build/trip-publication-provenance.json
+          retention-days: 14
+  historical-round-contracts:
+    name: Historical physical-round publication and tamper contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - run: sudo apt-get update && sudo apt-get install -y libglu1-mesa
+      - run: python -m pip install -r engineering/trip_dynamics/requirements.txt
+      - name: Verify the unchanged archived selection, publication and tamper refusals
+        run: python -m pytest -q --import-mode=importlib tools/automation/tests/test_physical_round_publication.py

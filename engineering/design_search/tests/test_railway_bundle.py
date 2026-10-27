@@ -46,3 +46,28 @@ def test_forward_evaluator_cannot_reuse_stale_identity_after_mass_is_changed():
     from engineering.design_search import system_motion
     body=grammar.build(grammar.parameters());b=bundles.materialize(body);b['mass']['accounted_tare_kg_per_car']+=1
     with pytest.raises(ValueError,match='Modified'):system_motion.evaluate(b)
+
+
+def test_changed_route_materializes_new_bundle_without_changing_vehicle_stock():
+    from engineering.design_search import system_motion,route_bundle
+    body=grammar.build(grammar.parameters())
+    short=route_bundle.materialize(body,distance_m=1500.)
+    long=route_bundle.materialize(body,distance_m=2000.)
+    assert short['candidate_id']!=long['candidate_id']
+    assert short['body_candidate_id']==long['body_candidate_id']
+    assert short['propulsion_component_id']==long['propulsion_component_id']
+    assert short['mass']==long['mass']
+    a,b=system_motion.scenario(short),system_motion.scenario(long)
+    assert (a['distance_m'],b['distance_m'])==(1500.,2000.)
+    assert a['scenario_id']!=b['scenario_id']
+    # Reusing even a correctly formed old scenario/map is not an identity alias.
+    stale=dict(schema='osr-station-available-force-map/1',candidate_id=long['candidate_id'],
+               motor_component_id=long['propulsion_component_id'],scenario_id=b['scenario_id'])
+    assert 'Force map mismatches candidate_id' in system_motion.admit_map(short,stale,a)['reasons']
+
+
+@pytest.mark.parametrize('distance',[False,0,-1,float('inf'),float('nan')])
+def test_invalid_route_distance_is_rejected(distance):
+    from engineering.design_search import route_bundle
+    body=grammar.build(grammar.parameters())
+    with pytest.raises(ValueError,match='positive finite'):route_bundle.materialize(body,distance_m=distance)

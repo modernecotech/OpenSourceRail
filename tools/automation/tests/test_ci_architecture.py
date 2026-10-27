@@ -183,6 +183,35 @@ def validate_context_triggers(text):
             assert any(fnmatchcase(name, pattern) for pattern in patterns), (event, name)
 
 
+def validate_trip_routes(text):
+    jobs=job_blocks(text)
+    assert {'trip-workbench-contract','contracts-and-retained-evidence','p0-bounds',
+            'native-chrono-and-fem','historical-trip-publication','historical-round-contracts'}==jobs.keys()
+    for name in ('contracts-and-retained-evidence','p0-bounds'):
+        current=jobs[name]
+        assert not re.search(r'^\s+(ref|working-directory|needs|if|continue-on-error):',current,re.M)
+        fetch='git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164'
+        assert current.index(fetch)<current.index('python -m pytest')
+    for name in ('trip-workbench-contract','native-chrono-and-fem','historical-round-contracts'):
+        assert re.findall(r'^          ref: (.+)$',jobs[name],re.M)==['92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164']
+    assert 'verify-trip-workbench.mjs' in jobs['trip-workbench-contract']
+    for suite in ('engineering/trip_dynamics/tests','engineering/trip_dynamics/fixtures/magnetics/test_numerics.py',
+                  'engineering/electropermanent/tests','engineering/magnetic_confirmation/tests'):
+        assert suite in jobs['contracts-and-retained-evidence']
+    for suite in ('test_whole_system.py','test_guideway_tradeoff.py','test_operating_point.py',
+                  'test_comfort_fixes.py'):
+        assert suite in jobs['p0-bounds']
+    assert 'test_physical_round_publication.py' in jobs['historical-round-contracts']
+    historical=jobs['historical-trip-publication']
+    assert re.findall(r'^          ref: (.+)$',historical,re.M)==['d7c8f40e13d9a5f4889921557311542b84bcbfb1']
+    guard='verify-research-snapshot.py --packet trip-dynamics'
+    verifier='python -m engineering.trip_dynamics verify --output docs/design-engine/trip-dynamics'
+    assert guard in historical and verifier in historical
+    assert historical.index(guard)<historical.index(verifier)
+    assert 'working-directory: historical' in historical
+    assert 'continue-on-error:' not in text
+
+
 class ArchitectureRoutingTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -277,6 +306,17 @@ class ArchitectureRoutingTests(unittest.TestCase):
             with self.subTest(source=name):
                 with self.assertRaises(AssertionError):
                     validate_context_triggers(text.replace(repr(name)+', ', '', 1))
+
+    def test_trip_unit_compatibility_and_original_publication_use_their_own_sources(self):
+        text=(ROOT/'.github/workflows/trip-dynamics.yml').read_text()
+        validate_trip_routes(text)
+        validate_context_triggers(text)
+
+    def test_trip_publication_cannot_be_moved_to_a_later_selector_revision(self):
+        text=(ROOT/'.github/workflows/trip-dynamics.yml').read_text()
+        with self.assertRaises(AssertionError):
+            validate_trip_routes(text.replace('d7c8f40e13d9a5f4889921557311542b84bcbfb1',
+                                             '92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164'))
 
     def test_required_current_release_gate_cannot_be_removed(self):
         with self.assertRaises(AssertionError):

@@ -65,6 +65,8 @@ The [generative structural campaign](../generative-structure/README.md) composes
 
 The [coordinated railway experiment](../coupled-railway/README.md) connects architecture, adaptive proposals, generated bodies, inventory, motor requirements, independent braking, civil loads, manufacturing and economic coverage through one versioned bundle and dependency graph. Changed body stock automatically triggers downstream evaluation. New three-dimensional metal-body research and conditional operating requirements retain their exact models and missing evidence; complete installed mass, available nonlinear LIM capability and a qualified journey remain open.
 
+The [candidate-to-journey closure matrix](../railway-closure/README.md) propagates three distinct bodies through separate 1.5 km and 2 km station-only/recovery-research bundles, empty/normal/crowd/adverse demand, independent brake hypotheses, civil and cost quantities. Its fault journeys remain not-run. The [moving-conductor LIM experiment](../moving-lim-method/README.md) translates the actual secondary through a voltage-coupled field model; unresolved refinement and high-speed domain limits prevent force-map admission. Neither experiment supplies a complete equipped vehicle or physical journey.
+
 ## Readiness and reproduction
 
 | Gate | State | Evidence still needed |

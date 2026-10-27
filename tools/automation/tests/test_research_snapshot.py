@@ -60,6 +60,22 @@ class SnapshotTests(unittest.TestCase):
         self.manifest['extra']='rehashed claim';self.write_manifest()
         with self.assertRaisesRegex(ValueError,'immutable historical source'):self.check()
 
+    def test_original_trip_schema_uses_committed_receipt_and_campaign_identity(self):
+        self.manifest.update(schema='osr-trip-publication/1',campaign_id='c'*64)
+        self.write_manifest();self.blob.return_value=(self.repo/'packet/manifest.json').read_bytes()
+        with patch.dict(snapshot.PACKETS,{'trip-dynamics':('packet','a'*40)}):
+            result=snapshot.verify('trip-dynamics',self.repo,self.current)
+            self.assertEqual(result['source_files'],1)
+            self.assertTrue(result['original_semantic_verifier_required'])
+            self.assertFalse(result['physical_accepted'])
+
+    def test_original_trip_schema_requires_a_full_campaign_identity(self):
+        self.manifest.update(schema='osr-trip-publication/1',campaign_id='invalid')
+        self.write_manifest();self.blob.return_value=(self.repo/'packet/manifest.json').read_bytes()
+        with patch.dict(snapshot.PACKETS,{'trip-dynamics':('packet','a'*40)}):
+            with self.assertRaisesRegex(ValueError,'schema/campaign identity required'):
+                snapshot.verify('trip-dynamics',self.repo,self.current)
+
     def test_wrong_revision_is_rejected(self):
         self.revision.return_value='b'*40
         with self.assertRaisesRegex(ValueError,'originating revision'):self.check()

@@ -165,3 +165,47 @@ def test_scenario_id_is_distinct_from_candidate_binding():
     evidence=dict(records=[],force_maps=[])
     gates=m.assess_magnetic_readiness(evidence,dict(candidate_id='a'*64),dict(candidate_id='b'*64,scenario_id='a'*64))
     assert next(g for g in gates if g['id']=='magnetic-scenario-binding')['state']=='fail'
+
+
+def _copy_live_magnetic_inputs(destination, root, evidence):
+    import shutil
+    import subprocess
+    for name in evidence['source_sha256']:
+        target=destination/name;target.parent.mkdir(parents=True,exist_ok=True)
+        shutil.copyfile(root/name,target)
+    subprocess.run(['git','init','--quiet',str(destination)],check=True)
+    objects=subprocess.check_output(['git','rev-parse','--path-format=absolute','--git-path','objects'],cwd=root,text=True).strip()
+    (destination/'.git/objects/info/alternates').write_text(objects+'\n')
+
+
+@pytest.mark.skipif(not HAS_EVIDENCE,reason='Explicit retained publication root required')
+def test_magnetic_archived_producers_are_ancestry_and_live_reader_is_current(tmp_path):
+    from hashlib import sha256
+    evidence=m.current_magnetic_evidence(EVIDENCE_ROOT)
+    assert not evidence['errors']
+    _copy_live_magnetic_inputs(tmp_path,EVIDENCE_ROOT,evidence)
+    producer=tmp_path/'engineering/design_search/campaign.py';producer.parent.mkdir(parents=True,exist_ok=True)
+    producer.write_text('# A different current campaign, never substituted for the archived calculation.\n')
+    result=m.current_magnetic_evidence(tmp_path)
+    assert not result['errors'] and result['records']==evidence['records']
+    assert result['force_maps']==[] and result['physical_accepted'] is False
+    assert 'engineering/design_search/campaign.py' not in result['source_sha256']
+    ancestry=result['retained_source_ancestry']['docs/design-engine/vehicle-optimisation']
+    assert ancestry['source_revision']==m.RETAINED_SOURCE_REVISION
+    assert ancestry['ancestry_source_sha256']['engineering/design_search/campaign.py']!=sha256(producer.read_bytes()).hexdigest()
+    assert result['source_sha256'][m.CODE]==sha256(Path(m.__file__).read_bytes()).hexdigest()
+
+
+@pytest.mark.skipif(not HAS_EVIDENCE,reason='Explicit retained publication root required')
+@pytest.mark.parametrize('target',['reader','receipt','live-data'])
+def test_changed_live_magnetic_reader_packet_or_data_holds_without_a_map(tmp_path,target):
+    evidence=m.current_magnetic_evidence(EVIDENCE_ROOT)
+    _copy_live_magnetic_inputs(tmp_path,EVIDENCE_ROOT,evidence)
+    name={'reader':m.CODE,
+          'receipt':'docs/design-engine/vehicle-optimisation/manifest.json',
+          'live-data':'engineering/ferrite_maglev/candidate-magnetics.toml'}[target]
+    path=tmp_path/name;path.write_bytes(path.read_bytes()+b'\n')
+    result=m.current_magnetic_evidence(tmp_path)
+    assert result['errors'] and result['force_maps']==[]
+    assert result['physical_accepted'] is False
+    if target=='reader':assert not result['records']

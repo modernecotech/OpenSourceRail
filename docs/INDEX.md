@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **933**.
+Indexed Markdown files: **935**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **933**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 97 |
+| [docs](#docs) | 99 |
 | [engineering](#engineering) | 21 |
 | [tools](#tools) | 2 |
 
@@ -958,9 +958,11 @@ Indexed Markdown files: **933**.
 | [`docs/design-engine/generative-structure/README.md`](../docs/design-engine/generative-structure/README.md) | Executed generative structural design |
 | [`docs/design-engine/halbach-scaling/README.md`](../docs/design-engine/halbach-scaling/README.md) | Larger Halbach arrays and lighter rolling stock |
 | [`docs/design-engine/magnetic-confirmation/README.md`](../docs/design-engine/magnetic-confirmation/README.md) | Finite 3D magnetic continuation confirmation |
+| [`docs/design-engine/moving-lim-method/README.md`](../docs/design-engine/moving-lim-method/README.md) | Finite moving LIM component method |
 | [`docs/design-engine/passive-suspension/README.md`](../docs/design-engine/passive-suspension/README.md) | Onboard magnets and passive steel facings |
 | [`docs/design-engine/passive-suspension/plan.md`](../docs/design-engine/passive-suspension/plan.md) | Bounded specialist campaign |
 | [`docs/design-engine/physical-feasibility-round/README.md`](../docs/design-engine/physical-feasibility-round/README.md) | Coupled physical feasibility and whole-system review follow-up |
+| [`docs/design-engine/railway-closure/README.md`](../docs/design-engine/railway-closure/README.md) | Candidate-to-journey closure |
 | [`docs/design-engine/trip-dynamics/README.md`](../docs/design-engine/trip-dynamics/README.md) | Six-car journey simulation programme |
 | [`docs/design-engine/v06-adaptive-design/README.md`](../docs/design-engine/v06-adaptive-design/README.md) | Function-first adaptive design |
 | [`docs/design-engine/v06-architecture/README.md`](../docs/design-engine/v06-architecture/README.md) | Whole-railway architecture research |

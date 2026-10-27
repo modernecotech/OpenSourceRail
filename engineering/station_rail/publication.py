@@ -91,12 +91,16 @@ def sources(root,record,index,delivery):
         '.github/workflows/development-baseline.yml','tools/automation/default-design.py','tools/automation/default-design-workbench.py',
         'tools/automation/default-design-cycle.py','tools/automation/tests/verify-development-baseline.mjs','tools/automation/v06-native-benchmarks.py',
         'tools/automation/architecture-native-benchmarks.py','tools/automation/generative-native-benchmarks.py',
-        'tools/automation/coupled-native-benchmarks.py']
+        'tools/automation/coupled-native-benchmarks.py','tools/automation/moving-lim-benchmarks.py']
+    names += ['campaigns/end-to-end-railway-closure.toml',
+        'engineering/design_search/demonstration.py','engineering/design_search/route_bundle.py',
+        'engineering/design_search/equipped_candidates.py','engineering/design_search/moving_lim.py',
+        'engineering/design_search/moving_lim_publication.py']
     for directory in ('engineering/station_rail','engineering/development_baseline'):
         names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.toml','.js','.html','.css') and '__pycache__' not in p.parts]
     followup=root/'docs/design-engine/v06-physical-closure'
     if followup.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(followup.iterdir()) if p.is_file()]
-    for folder in ('v06-optimisation','v06-design-space','v06-architecture','v06-adaptive-design','generative-structure','coupled-railway'):
+    for folder in ('v06-optimisation','v06-design-space','v06-architecture','v06-adaptive-design','generative-structure','coupled-railway','railway-closure','moving-lim-method'):
         campaign_folder=root/'docs/design-engine'/folder
         if campaign_folder.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(campaign_folder.rglob('*')) if p.is_file()]
         if folder=='coupled-railway' and (campaign_folder/'manifest.json').is_file():maps.append(json.loads((campaign_folder/'manifest.json').read_bytes()).get('source_sha256',{}))
@@ -152,6 +156,7 @@ def readme(record,summary):
       'The [function-first adaptive generator](../v06-adaptive-design/README.md) separates mandatory obligations, advisory targets, revisable hypotheses and numerical model domains. Its extensible material/structure/joining/equipment/system variables drive coupled revision tasks. New thinner/deeper sill experiments redistribute counted material, with native normal/fine/crowd cases and matched mass, axle, demand and civil calculations. Provisional deflection alone neither rejects nor accepts a car; local stability, strength, joints, clearances and correlation remain open.','',
       'The [generative structural campaign](../generative-structure/README.md) composes different physical body arrangements, generates actual stock and interface graphs, diagnoses mechanisms and executes topology, layout and function-integration rewrites. Gross structure stock is not equipped vehicle tare. Native axial underfloor checks and CAD exports do not validate complete shell, laminate, joint or vehicle response; no integrated design is selected.','',
       'The [coordinated railway experiment](../coupled-railway/README.md) connects architecture, adaptive proposals, generated bodies, inventory, motor requirements, independent braking, civil loads, manufacturing and economic coverage through one versioned bundle and dependency graph. Changed body stock automatically triggers downstream evaluation. New three-dimensional metal-body research and conditional operating requirements retain their exact models and missing evidence; complete installed mass, available nonlinear LIM capability and a qualified journey remain open.','',
+      'The [candidate-to-journey closure matrix](../railway-closure/README.md) propagates three distinct bodies through separate 1.5 km and 2 km station-only/recovery-research bundles, empty/normal/crowd/adverse demand, independent brake hypotheses, civil and cost quantities. Its fault journeys remain not-run. The [moving-conductor LIM experiment](../moving-lim-method/README.md) translates the actual secondary through a voltage-coupled field model; unresolved refinement and high-speed domain limits prevent force-map admission. Neither experiment supplies a complete equipped vehicle or physical journey.','',
       '## Readiness and reproduction','', '| Gate | State | Evidence still needed |','|---|---|---|']
     lines += [f"| {g['gate']} | **{g['state']}** | {g['reason']} |" for g in record['gates']]
     lines += ['','```bash','./osr status','./osr build','./osr verify','./osr test','./osr book --check','./osr sim baghdad  # explicit city evaluation hold','./osr legacy verify','```','',

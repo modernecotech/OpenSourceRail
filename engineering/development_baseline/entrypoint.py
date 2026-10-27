@@ -186,6 +186,23 @@ def main(argv=None, root=ROOT):
     try:
         if command=='railway':
             from engineering.design_search import railway_campaign,railway_publication,remit
+            if rest and rest[0] in ('demonstration-plan','demonstrate','demonstration-publish','demonstration-verify'):
+                from engineering.design_search import demonstration
+                action=rest[0]
+                if action=='demonstration-plan' and len(rest)==1:
+                    emit(demonstration.specification(root));return 0
+                options=argparse.ArgumentParser(prog='./osr design railway '+action)
+                options.add_argument('--state',type=Path)
+                if action=='demonstrate':options.add_argument('--max-bundles',type=int)
+                parsed=options.parse_args(rest[1:])
+                if action=='demonstrate':
+                    result=demonstration.run(root,state=parsed.state,maximum_new_bundles=parsed.max_bundles)
+                    emit(dict(new_bundles=result['new_bundles'],reused_bundles=result['reused_bundles'],**demonstration.summary(result)));return 0
+                if action=='demonstration-publish':emit(demonstration.publish(root,state=parsed.state));return 0
+                if action=='demonstration-verify':
+                    if parsed.state is not None:raise ValueError('Publication verification uses published inputs, not a local state override')
+                    emit(demonstration.verify(root));return 0
+                raise ValueError('Use demonstration-plan without options')
             if rest==['plan']:
                 emit(dict(specification=railway_campaign.specification(root),remit=remit.default(),dependency_graph=railway_campaign.EDGES,physical_accepted=False));return 0
             if rest==['publish']:emit(railway_publication.build(root));return 0
@@ -196,7 +213,7 @@ def main(argv=None, root=ROOT):
                 if r.get('integrated_selection') is not None or r.get('selected_reference_changed') is not False or any(r.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):raise ValueError('Coordinated research cannot select or release a railway')
                 emit(dict(campaign_id=r['campaign_id'],contract_id=r['contract_id'],body_definitions=len(r['bodies']),evaluated_bundles=len(r['rows']),
                     new_bundles=r['new_bundles'],reused_bundles=r['reused_bundles'],frontier_items=len(r['frontier']),integrated_selection=None,physical_accepted=False));return 0
-            raise ValueError('Use ./osr design railway plan, run [--max-bundles N] [--native-jobs N], publish or verify')
+            raise ValueError('Use ./osr design railway plan, run [--max-bundles N] [--native-jobs N], publish, verify, demonstration-plan, demonstrate [--max-bundles N] [--state PATH], demonstration-publish or demonstration-verify')
         if command=='generative':
             from engineering.design_search import generative_campaign,generative_publication
             if rest==['plan']:emit(generative_campaign.specification());return 0

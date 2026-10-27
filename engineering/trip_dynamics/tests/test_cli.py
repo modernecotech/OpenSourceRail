@@ -60,21 +60,23 @@ def launcher(tmp_path):
 
 
 @pytest.mark.parametrize('args,expected',[
-    (['trip'],['-m','engineering.trip_dynamics','status']),
-    (['trip','cases'],['-m','engineering.trip_dynamics','cases']),
-    (['trip','simulate','--mode','evidence'],['-m','engineering.trip_dynamics','simulate','--mode','evidence']),
-    (['sim'],['-m','engineering.ferrite_maglev.cities','--simulate','baghdad']),
-    (['twin','compile'],['-m','engineering.design_search','twin','compile']),
-    (['design','campaign','tasks'],['-m','engineering.design_search','campaign','tasks']),
+    (['trip'],['-m','engineering.development_baseline.entrypoint','trip']),
+    (['trip','cases'],['-m','engineering.development_baseline.entrypoint','trip','cases']),
+    (['trip','simulate','--mode','evidence'],['-m','engineering.development_baseline.entrypoint','trip','simulate','--mode','evidence']),
+    (['sim'],['-m','engineering.development_baseline.entrypoint','sim']),
+    (['twin','compile'],['-m','engineering.development_baseline.entrypoint','twin','compile']),
+    (['design','campaign','tasks'],['-m','engineering.development_baseline.entrypoint','design','campaign','tasks']),
+    (['legacy','status'],['-m','engineering.development_baseline.entrypoint','legacy','status']),
 ])
-def test_launcher_trip_routing_preserves_existing_commands(launcher,args,expected):
+def test_launcher_retains_selected_front_door_for_every_namespace(launcher,args,expected):
     result=subprocess.run(['bash',str(launcher),*args],capture_output=True,text=True,check=True)
     assert result.stdout.splitlines()==expected
 
 
 def test_launcher_help_lists_trip(launcher):
     result=subprocess.run(['bash',str(launcher),'--help'],capture_output=True,text=True,check=True)
-    assert 'trip [action]' in result.stdout and 'assurance' in result.stdout
+    assert 'trip/twin/plan' in result.stdout and 'legacy' in result.stdout
+    assert 'v0.6 wheel/LIM' in result.stdout
 
 
 def test_native_probe_preserves_exact_solver_receipt(monkeypatch,capsys):

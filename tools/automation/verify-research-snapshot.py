@@ -12,6 +12,7 @@ import re
 import subprocess
 
 PACKETS = {
+    'trip-dynamics': ('docs/design-engine/trip-dynamics', 'd7c8f40e13d9a5f4889921557311542b84bcbfb1'),
     'comfort-options': ('docs/design-engine/ferrite-maglev/comfort-options', 'f0946b699376699b408df6e9a1f04a657f74022b'),
     'comfort-design': ('docs/design-engine/ferrite-maglev/comfort-design', '578ee3950b872bf30fbf9e4207b2bda85951bdd7'),
     'vehicle-optimisation': ('docs/design-engine/vehicle-optimisation', 'afff13ebdb775a024b3b3f2f3331473297e853ef'),
@@ -53,11 +54,17 @@ def verify(packet, repository, receipt_root):
             or committed_receipt(repository, expected_revision, manifest_name) != raw):
         raise ValueError('Retained publication receipt differs from the immutable historical source')
     manifest = json.loads(raw)
-    key = 'manifest_id' if packet in ('comfort-design', 'comfort-options') else 'publication_id'
-    unsigned = {k: v for k, v in manifest.items() if k != key}
-    encoded = (json.dumps(unsigned, sort_keys=True, separators=(',', ':'), allow_nan=False) + '\n').encode()
-    if manifest[key] != sha256(encoded).hexdigest():
-        raise ValueError('Research publication receipt identity differs')
+    if packet == 'trip-dynamics':
+        # This original schema authenticates its campaign input in its own verifier;
+        # the receipt bytes above remain bound to the exact immutable Git blob.
+        if manifest.get('schema') != 'osr-trip-publication/1' or not re.fullmatch('[0-9a-f]{64}', manifest.get('campaign_id', '')):
+            raise ValueError('Original trip publication schema/campaign identity required')
+    else:
+        key = 'manifest_id' if packet in ('comfort-design', 'comfort-options') else 'publication_id'
+        unsigned = {k: v for k, v in manifest.items() if k != key}
+        encoded = (json.dumps(unsigned, sort_keys=True, separators=(',', ':'), allow_nan=False) + '\n').encode()
+        if manifest[key] != sha256(encoded).hexdigest():
+            raise ValueError('Research publication receipt identity differs')
     for flag in ('physical_accepted', 'engineering_accepted', 'configuration_adopted'):
         if manifest.get(flag) is not False:
             raise ValueError('Research publication cannot assert ' + flag)
