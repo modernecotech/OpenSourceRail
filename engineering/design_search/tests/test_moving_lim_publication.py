@@ -20,10 +20,10 @@ def _reseal(folder,mutate):
 
 def test_actual_archive_replays_independent_accounting_and_remains_small():
     result=p.verify(PACKET)
-    assert result['sealed_packages']==19 and not result['operating_map_admitted']
+    assert result['sealed_packages']==21 and not result['operating_map_admitted']
     assert (PACKET/'native-runs.tar.gz').stat().st_size<5*1024*1024
     assessment=p._read(PACKET/'assessment.json')
-    assert assessment['attempted_cases']==20
+    assert assessment['attempted_cases']==22
     assert assessment['comparisons']['spatial_time_convergence_established'] is False
     partial=next(r for r in assessment['rows'] if r['name']=='low-mesh-25mm')
     assert partial['execution']=='interrupted' and partial['trace_scope']=='interrupted partial log only'
@@ -33,6 +33,58 @@ def test_actual_archive_replays_independent_accounting_and_remains_small():
     critical=assessment['comparisons']['critical_mesh']
     assert critical['zero_excitation_control_passed']
     assert critical['powered_startup_thrust_all_negative'] and not critical['positive_nominal_slip_proves_propulsion']
+    time=assessment['comparisons']['fine_timestep']
+    assert time['same_actual_mesh_verified'] and time['recorded_tool_identities_equal']
+    assert not time['spatial_time_convergence_established'] and time['powered_startup_thrust_all_negative']
+    assert time['half_to_quarter_ms']['final_force_relative_change']>.1
+    assert time['signed_SUPG_work_J'][-1]<0 and time['backward_Euler_work_J'][-1]>time['physical_secondary_Joule_J'][-1]
+
+
+def test_resealed_small_timestep_error_claim_is_rejected(tmp_path):
+    packet=tmp_path/'packet';shutil.copytree(PACKET,packet)
+    _reseal(packet,lambda report:report['comparisons']['fine_timestep']['half_to_quarter_ms'].update(final_force_relative_change=0.))
+    with pytest.raises(ValueError,match='assessment differs from immutable runs'):p.verify(packet)
+
+
+def test_resealed_timestep_budget_change_is_rejected(tmp_path):
+    runs=tmp_path/'runs';runs.mkdir()
+    with tarfile.open(PACKET/'native-runs.tar.gz') as tar:
+        for member in tar:
+            target=runs/member.name;target.parent.mkdir(parents=True,exist_ok=True)
+            target.write_bytes(tar.extractfile(member).read())
+    path=runs/'time-context'/'plan.json';plan=p._read(path)
+    plan['maximum_component_jobs']=3;plan.pop('plan_id');plan['plan_id']=p.identity(plan)
+    path.write_bytes(p.encoded(plan))
+    with pytest.raises(ValueError,match='Fine timestep resource'):p.collect(runs)
+
+
+def _time_runs(tmp_path,mutate):
+    runs=tmp_path/'runs';runs.mkdir()
+    with tarfile.open(PACKET/'native-runs.tar.gz') as tar:
+        for member in tar:
+            target=runs/member.name;target.parent.mkdir(parents=True,exist_ok=True)
+            target.write_bytes(tar.extractfile(member).read())
+    case=runs/'motoring-fine-dt-quarter';value=p._read(case/'result.json');mutate(value)
+    value.pop('evaluation_id');value['evaluation_id']=p.identity(value);(case/'result.json').write_bytes(p.encoded(value))
+    manifest=p._read(case/'manifest.json');manifest['evaluation_id']=value['evaluation_id']
+    manifest['files_sha256']['result.json']=p.digest(case/'result.json')
+    manifest.pop('manifest_id');manifest['manifest_id']=p.identity(manifest)
+    (case/'manifest.json').write_bytes(p.encoded(manifest));return runs
+
+
+def test_resealed_executed_tool_mismatch_cannot_inherit_planning_tool_identity(tmp_path):
+    runs=_time_runs(tmp_path,lambda result:result['tool'].update(python_sha256='0'*64))
+    with pytest.raises(ValueError,match='Executed timestep tool identities'):p.collect(runs)
+
+
+def test_interrupted_timestep_keeps_unavailable_complete_work_unknown(tmp_path):
+    def interrupted(result):
+        result['execution']='interrupted';result['state']='interrupted';result.pop('trace');result.pop('actual_mesh')
+    runs=_time_runs(tmp_path,interrupted)
+    rows,zero,comparisons=p.collect(runs);time=comparisons['fine_timestep']
+    assert time['half_to_quarter_ms']['final_force_relative_change'] is None
+    assert time['backward_Euler_work_J']==[None]*3 and time['signed_SUPG_work_J']==[None]*3
+    assert time['physical_secondary_Joule_J']==[None]*3 and time['powered_startup_thrust_all_negative'] is None
 
 
 def test_rehashed_force_claim_is_rejected_against_actual_archived_trace(tmp_path):

@@ -23,6 +23,8 @@ CONTINUATION_CASES=('low-dt-1ms','low-dt-half','low-mesh-30mm','low-mesh-25mm',
 SPATIAL_CASES=('high-supg-mesh-30mm','high-supg-mesh-25mm')
 CRITICAL_CASES=('zero-medium','motoring-coarse','motoring-x-refined','motoring-y-refined','motoring-medium','motoring-fine')
 CRITICAL_PHYSICAL_BASE='1692bb45f7c1f0a270328c6cc66b2d1d33cc81d0'
+TIMESTEP_CASES=('motoring-fine-dt-half','motoring-fine-dt-quarter')
+TIMESTEP_BASE='b4f338a6d07a610c7c5ad4e441dbe2c0def2de09'
 REFERENCE='https://github.com/getdp-project/getdp/blob/master/templates/Lib_Magnetodynamics2D_av_Cir.pro'
 
 
@@ -219,6 +221,52 @@ def collect(runs):
             powered_startup_thrust_all_negative=negative,positive_nominal_slip_proves_propulsion=False,
             spatial_time_convergence_established=False,operating_map_admitted=False)
         rows+=new
+    time_context=runs/'time-context'
+    if time_context.is_dir():
+        if 'critical_mesh' not in comparisons:raise ValueError('Fine timestep controls require their exact critical-mesh parent')
+        plan=_read(time_context/'plan.json');_id(plan,'plan_id')
+        if (plan['frozen_source_git_HEAD']!=TIMESTEP_BASE or plan['maximum_component_jobs']!=2
+            or plan['maximum_campaign_seconds']!=240 or plan['maximum_seconds_per_job_external']!=90
+            or plan['maximum_seconds_per_job_internal']!=85 or plan['maximum_address_space_bytes_per_job']!=2*1024**3
+            or plan['maximum_nodes']!=75000 or plan['no_retries'] is not True
+            or plan['operating_map_admitted'] is not False or plan['physical_accepted'] is not False):
+            raise ValueError('Fine timestep resource/source contract differs')
+        baseline=_read(runs/'motoring-fine'/'input.json');prior=_read(runs/'motoring-fine'/'result.json')
+        if plan['previous_request_id']!=baseline['request']['request_id'] or plan['previous_evaluation_id']!=prior['evaluation_id']:
+            raise ValueError('Fine timestep parent execution differs')
+        if plan['tool']!=_read(time_context/'tool-snapshot.json') or plan['tool']!=_read(critical/'tool-snapshot.json'):
+            raise ValueError('Recorded timestep tool identities differ')
+        if plan['actual_mesh']!=prior['actual_mesh'] or plan['source_sha256']!=baseline['source_sha256']:
+            raise ValueError('Fine timestep source or assembled mesh differs')
+        if (prior['tool']['memory_bytes']!=plan['maximum_address_space_bytes_per_job']
+            or any(value!=plan['tool'].get(key) for key,value in prior['tool'].items() if key!='memory_bytes')):
+            raise ValueError('Executed timestep tool differs from recorded plan')
+        requests={q['name']:q['request'] for q in plan['requests']}
+        if len(plan['requests'])!=2 or set(requests)!=set(TIMESTEP_CASES):raise ValueError('Fine timestep request inventory differs')
+        normalized=lambda q:{k:v for k,v in q.items() if k not in ('dt_s','steps','request_id')}
+        new=[];raw=[prior]
+        for name,dt,steps in zip(TIMESTEP_CASES,(.0005,.00025),(32,64)):
+            q=requests[name];data=_read(runs/name/'input.json');v=_read(runs/name/'result.json')
+            if v.get('tool')!=prior['tool']:raise ValueError('Executed timestep tool identities differ')
+            if data['request']!=q or data['source_sha256']!=baseline['source_sha256'] or normalized(q)!=normalized(baseline['request']):
+                raise ValueError('Fine timestep worker changes more than time discretization')
+            if (q['dt_s'],q['steps'])!=(dt,steps):raise ValueError('Fine timestep endpoint contract differs')
+            item=audit(runs/name,runs/'source-epoch-5')
+            if v['execution']=='completed' and v.get('actual_mesh')!=prior['actual_mesh']:
+                raise ValueError('Fine timestep actual assembled mesh differs')
+            new.append(item);raw.append(v)
+        old=next(row for row in rows if row['name']=='motoring-fine')
+        complete=all(v['execution']=='completed' and v.get('state')=='completed' for v in raw)
+        comparisons['fine_timestep']=dict(plan_id=plan['plan_id'],
+            one_to_half_ms=pair(old,new[0]),half_to_quarter_ms=pair(*new),
+            same_actual_mesh_verified=all(v.get('actual_mesh')==prior['actual_mesh'] for v in raw),
+            recorded_tool_identities_equal=True,broader_dynamic_library_closure_recorded=False,
+            backward_Euler_work_J=[sum(row['backward_Euler_dissipation_W']*dt for row in v['trace']) if complete else None for v,dt in zip(raw,(.001,.0005,.00025))],
+            signed_SUPG_work_J=[row['stabilization_work_J'] if complete else None for row in (old,*new)],
+            physical_secondary_Joule_J=[row['physical_secondary_Joule_J'] if complete else None for row in (old,*new)],
+            powered_startup_thrust_all_negative=all(row['thrust_N']<0 for v in raw for row in v['trace']) if complete else None,
+            spatial_time_convergence_established=False,operating_map_admitted=False)
+        rows+=new
     return rows,zero,comparisons
 
 
@@ -232,6 +280,9 @@ def _archive(runs):
             names.update(p.relative_to(runs).as_posix() for p in (runs/folder).rglob('*') if p.is_file())
     if (runs/'critical-context').is_dir():
         for folder in (*CRITICAL_CASES,'source-epoch-5','critical-context'):
+            names.update(p.relative_to(runs).as_posix() for p in (runs/folder).rglob('*') if p.is_file())
+    if (runs/'time-context').is_dir():
+        for folder in (*TIMESTEP_CASES,'time-context'):
             names.update(p.relative_to(runs).as_posix() for p in (runs/folder).rglob('*') if p.is_file())
     stream=io.BytesIO()
     with tarfile.open(fileobj=stream,mode='w',format=tarfile.PAX_FORMAT) as tar:
@@ -278,6 +329,12 @@ def _readme(report):
             f"The zero-voltage control returned exact zero currents, forces and energies: **{q['zero_excitation_control_passed']}**. Coarse→x-only final-force/impulse changes are {pair_text(q['coarse_to_x'])}; coarse→y-only {pair_text(q['coarse_to_y'])}; medium→fine {pair_text(q['medium_to_fine'])}.",'',
             sign_text+' The 16 ms zero-initial-state, finite-entry sample is not a settled full-overlap operating map. Matched independent field/circuit, measured branch phase, reversal, blocked/full-overlap, warm-start and actual current-controller checks are required. Fine-grid motion crosses about four to five active cells per timestep, so temporal and whole-domain refinement also remain open.','',
             'The archive also retains independent imposed travelling-wave sign/unit/energy controls and a separately labelled scalar cold-start example. The periodic controls validate the algebraic sign convention; the scalar example shows that nominal positive slip alone does not guarantee positive transient force. Neither diagnoses the actual finite-element negatives nor supplies a motor map. Analytical synchronous/oversynchronous controls beyond20m/s are not actual candidate solver executions.','']
+    if 'fine_timestep' in c:
+        q=c['fine_timestep']
+        lines+=['## Fixed-fine-mesh timestep controls','',
+            'Two additional bounded runs keep the exact 44,643-node assembled mesh, physical component, source and recorded tool identities. Only timestep and step count change: 1 ms/16 steps, 0.5 ms/32 steps and 0.25 ms/64 steps all end at 16 ms. Recorded Python, NumPy-core and SuperLU hashes and versions match; the earlier archive did not record a complete dynamic-library closure.','',
+            f"Final-force/impulse changes are {pair_text(q['one_to_half_ms'])} for 1→0.5 ms and {pair_text(q['half_to_quarter_ms'])} for 0.5→0.25 ms. **Time convergence remains open.** All completed startup-force samples remain negative: {q['powered_startup_thrust_all_negative']}.",'',
+            'Backward-Euler numerical dissipation remains separate from physical secondary Joule heat. Signed SUPG work can change sign under refinement and is also retained separately. Accounting residuals do not bound discretization error. Further time, remote-field and independent matched field/circuit controls are required before any operating map can be admitted.','']
     return '\n'.join(lines)
 
 
@@ -314,7 +371,7 @@ def verify(output=None,*,root=ROOT):
     if {p.name:digest(p) for p in output.iterdir() if p.is_file() and p.name!='manifest.json'}!=m['files_sha256']:raise ValueError('Moving publication payload differs')
     if any(r.get(k) is not value or m.get(k) is not value for k,value in FLAGS.items()) or r.get('operating_map_admitted') is not False:raise ValueError('Method publication cannot grant acceptance')
     q=r.get('comparisons',{}).get('continuation',{})
-    expected=(13 if 'high_speed_mesh_40_to_30mm_relative_change' in q else 11 if q else 5)+(6 if 'critical_mesh' in r.get('comparisons',{}) else 0)
+    expected=(13 if 'high_speed_mesh_40_to_30mm_relative_change' in q else 11 if q else 5)+(6 if 'critical_mesh' in r.get('comparisons',{}) else 0)+(2 if 'fine_timestep' in r.get('comparisons',{}) else 0)
     if r.get('attempted_cases')!=expected+1 or r.get('sealed_packages')!=expected or r.get('source_base_revision')!=SOURCE_BASE or r.get('reference_changed') is not False or r.get('complete_installed_mass_kg') is not None:raise ValueError('Moving publication scope differs')
     if (output/'README.md').read_text()!=_readme(r):raise ValueError('Moving publication explanation differs')
     archive=(output/'native-runs.tar.gz').read_bytes()
@@ -329,7 +386,7 @@ def verify(output=None,*,root=ROOT):
                 if not member.isfile() or member.size>8*1024*1024 or size>20*1024*1024 or p.is_absolute() or '..' in p.parts or p.as_posix()!=member.name or member.name in seen:raise ValueError('Ordinary unique bounded moving archive members required')
                 if len(p.parts)==1:
                     if p.name!='initial-zero-smoke.json':raise ValueError('Unknown moving archive member')
-                elif p.parts[0] not in {part for pair in CASES for part in pair}|set(CONTINUATION_CASES)|set(SPATIAL_CASES)|set(CRITICAL_CASES)|{'source-epoch-3','source-epoch-4','source-epoch-5','continuation-context','critical-context'}:raise ValueError('Unknown moving archive subtree')
+                elif p.parts[0] not in {part for pair in CASES for part in pair}|set(CONTINUATION_CASES)|set(SPATIAL_CASES)|set(CRITICAL_CASES)|set(TIMESTEP_CASES)|{'source-epoch-3','source-epoch-4','source-epoch-5','continuation-context','critical-context','time-context'}:raise ValueError('Unknown moving archive subtree')
                 seen.add(member.name)
                 target=temp/p;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(tar.extractfile(member).read())
         rows,zero,comparisons=collect(temp)

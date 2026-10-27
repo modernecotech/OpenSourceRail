@@ -27,6 +27,8 @@ The P1 research parent is `70eb0ba82c796bc3ec3c52dbdb1c64db15b0d337c64a021f5a5ed
 | motoring-y-refined | completed | 19260 | -0.00256501 | 0.0160 | source-epoch-5 |
 | motoring-medium | completed | 22545 | -0.00253956 | 0.0160 | source-epoch-5 |
 | motoring-fine | completed | 44643 | -0.00241864 | 0.0160 | source-epoch-5 |
+| motoring-fine-dt-half | completed | 44643 | -0.00352017 | 0.0160 | source-epoch-5 |
+| motoring-fine-dt-quarter | completed | 44643 | -0.00420732 | 0.0160 | source-epoch-5 |
 
 The initial final-force comparison changes 11.86% when the time step is halved and 6.16% under the tested 2D mesh refinement. Convergence is **not established**. The original unstabilized 20 m/s request retains its Peclet-domain hold. The 2 V, 0.5 m/s startup samples are not operating thrust or an insufficient-thrust verdict for the reference railway.
 
@@ -71,3 +73,11 @@ The zero-voltage control returned exact zero currents, forces and energies: **Tr
 **Every nonzero startup trace still has negative thrust despite nominal positive10Hz slip. This remains unresolved and cannot be relabelled propulsive.** The 16 ms zero-initial-state, finite-entry sample is not a settled full-overlap operating map. Matched independent field/circuit, measured branch phase, reversal, blocked/full-overlap, warm-start and actual current-controller checks are required. Fine-grid motion crosses about four to five active cells per timestep, so temporal and whole-domain refinement also remain open.
 
 The archive also retains independent imposed travelling-wave sign/unit/energy controls and a separately labelled scalar cold-start example. The periodic controls validate the algebraic sign convention; the scalar example shows that nominal positive slip alone does not guarantee positive transient force. Neither diagnoses the actual finite-element negatives nor supplies a motor map. Analytical synchronous/oversynchronous controls beyond20m/s are not actual candidate solver executions.
+
+## Fixed-fine-mesh timestep controls
+
+Two additional bounded runs keep the exact 44,643-node assembled mesh, physical component, source and recorded tool identities. Only timestep and step count change: 1 ms/16 steps, 0.5 ms/32 steps and 0.25 ms/64 steps all end at 16 ms. Recorded Python, NumPy-core and SuperLU hashes and versions match; the earlier archive did not record a complete dynamic-library closure.
+
+Final-force/impulse changes are 45.54%/27.33% for 1→0.5 ms and 19.52%/14.59% for 0.5→0.25 ms. **Time convergence remains open.** All completed startup-force samples remain negative: True.
+
+Backward-Euler numerical dissipation remains separate from physical secondary Joule heat. Signed SUPG work can change sign under refinement and is also retained separately. Accounting residuals do not bound discretization error. Further time, remote-field and independent matched field/circuit controls are required before any operating map can be admitted.
