@@ -44,8 +44,8 @@ def validate(historical_text, shared_text, current_text, archive):
     assert 'tags: ["v0.5.*"]' in historical_text
     triggers = historical_text.split('permissions:', 1)[0]
     path_filters = re.findall(r'^      - "([^"\n]+)"$', triggers, re.M)
-    assert set(path_filters) == {'.github/workflows/historical-v05.yml', 'docs/archives/v0.5-maglev/**', 'tools/automation/historical-native-preflight.py', 'tools/automation/install-historical-freecad.py', 'tools/automation/configure-historical-apt.py'}
-    assert len(path_filters) == 10  # Same narrow push and PR filters.
+    assert set(path_filters) == {'.github/workflows/historical-v05.yml', 'docs/archives/v0.5-maglev/**', 'tools/automation/historical-native-preflight.py', 'tools/automation/install-historical-freecad.py', 'tools/automation/configure-historical-apt.py', 'tools/automation/prepare-historical-replay.py'}
+    assert len(path_filters) == 12  # Same narrow push and PR filters.
     assert re.search(r'^    - cron: "[0-9]+ [0-9]+ \* \* [0-6]"$', triggers, re.M)
     shared_triggers = shared_text.split('permissions:', 1)[0]
     assert '  push:\n    branches: [main]\n  pull_request:' in shared_triggers
@@ -83,6 +83,14 @@ def validate(historical_text, shared_text, current_text, archive):
                      'historical-apt-inherited-download.conf', 'historical-apt-effective-download.conf'):
         assert 'historical/build/' + artifact in historical
     assert 'python tools/automation/tests/test_historical_apt.py' in shared_text
+    retention = 'prepare-historical-replay.py --repository . --archive-contract'
+    assert '/tools/automation/prepare-historical-replay.py\n' in historical
+    assert historical.index('verify-maglev-sources.py') < historical.index(retention)
+    assert historical.index(retention) < historical.index('ferrite-maglev-study.py cycle')
+    assert 'python tools/automation/tests/test_historical_replay.py' in shared_text
+    for artifact in ('historical-replay-retained/', 'historical-replay-preparation.json',
+                     'historical-replay-preparation.log'):
+        assert 'historical/build/' + artifact in historical
     assert historical.index('historical-native-preflight.py --output') < historical.index('ferrite-maglev-study.py cycle')
     assert 'ferrite-maglev-study.py cycle' in historical and 'capabilities.py --check' in historical
     assert historical.index('ferrite-maglev-study.py cycle') < historical.index('capabilities.py --check')

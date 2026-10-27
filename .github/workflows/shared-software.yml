@@ -29,6 +29,7 @@ jobs:
           python tools/automation/tests/test_ci_architecture.py
           python tools/automation/tests/test_research_snapshot.py
           python tools/automation/tests/test_historical_apt.py
+          python tools/automation/tests/test_historical_replay.py
       - name: Explicit research family, ancestry and portable fixture contracts
         run: python -m pytest -q --import-mode=importlib engineering/development_baseline/tests/test_research_context.py engineering/development_baseline/tests/test_research_portability.py
       - name: Retained v0.5 source and packet portability
