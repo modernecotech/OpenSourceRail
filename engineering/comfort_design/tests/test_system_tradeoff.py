@@ -1,10 +1,12 @@
 """Whole-network counterexamples to shortest-winding-only selection."""
 from pathlib import Path
 import pytest
+from engineering.research_test_support import evidence_root
 from engineering.comfort_design import system_tradeoff as t
 
-MAIN=Path('/home/hayder/Documents/OpenSourceRail')
-ROOT=MAIN if (MAIN/'cities/catalogue/west-asia/Iraq/Baghdad/engineering/maglev/summary.json').is_file() else Path(__file__).resolve().parents[3]
+ROOT = evidence_root(Path(__file__).resolve().parents[3],
+    required=('cities/catalogue/west-asia/Iraq/Baghdad/engineering/maglev/summary.json',),
+    sources=('engineering/comfort_design/system_tradeoff.py',))
 
 
 @pytest.fixture(scope='module')

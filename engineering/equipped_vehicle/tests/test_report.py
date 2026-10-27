@@ -5,10 +5,13 @@ from pathlib import Path
 
 import pytest
 
+from engineering.research_test_support import evidence_root
 from engineering.equipped_vehicle import ROOT
 from engineering.equipped_vehicle.report import run,verify,inventory
 
-EVIDENCE=Path(os.environ.get('OSR_EVIDENCE_ROOT',str(ROOT)))
+EVIDENCE = evidence_root(Path(__file__).resolve().parents[3],
+    required=('docs/design-engine/halbach-scaling/comparison.json',),
+    sources=('engineering/equipped_vehicle/report.py',))
 
 
 def test_full_source_bound_report_keeps_equipped_gates_unknown_and_rejects_resealed_cg(tmp_path):

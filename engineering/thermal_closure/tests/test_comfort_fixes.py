@@ -6,15 +6,18 @@ import os
 
 import pytest
 
+from engineering.research_test_support import evidence_root
 from engineering.thermal_closure import comfort_fixes as m
 
-MAIN=Path(os.environ.get('OSR_EVIDENCE_ROOT','/home/hayder/Documents/OpenSourceRail'))
+EVIDENCE_ROOT = evidence_root(Path(__file__).resolve().parents[3],
+    required=('docs/design-engine/ferrite-maglev/comfort-design/design.json.gz',),
+    sources=('engineering/thermal_closure/comfort_fixes.py',))
 
 
 @pytest.fixture(scope='module')
 def car():
-    from engineering.development_baseline import selection
-    return selection.load(MAIN)['vehicle']
+    from engineering.research_context import retained_comfort
+    return retained_comfort(EVIDENCE_ROOT)['vehicle']
 
 
 def test_retained_spring_reproduces_energy_and_fails_loaded_drop():

@@ -8,10 +8,12 @@ import sys
 import pytest
 from scipy.integrate import solve_ivp
 
+from engineering.research_test_support import evidence_root
 from engineering.comfort_design import service as s
 
-MAIN=Path('/home/hayder/Documents/OpenSourceRail')
-ROOT=MAIN if (MAIN/'docs/design-engine/ferrite-maglev/comfort-options/study.json.gz').is_file() else Path(__file__).resolve().parents[3]
+ROOT = evidence_root(Path(__file__).resolve().parents[3],
+    required=('cities/catalogue/west-asia/Iraq/Baghdad/engineering/maglev/summary.json',),
+    sources=('engineering/comfort_design/service.py',))
 
 
 @pytest.fixture(scope='module')

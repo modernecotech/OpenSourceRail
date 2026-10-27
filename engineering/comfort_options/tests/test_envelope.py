@@ -7,14 +7,17 @@ import shutil
 
 import pytest
 
+from engineering.research_test_support import evidence_root
 from engineering.comfort_options import envelope as e
 
-MAIN = Path("/home/hayder/Documents/OpenSourceRail")
+EVIDENCE_ROOT = evidence_root(Path(__file__).resolve().parents[3],
+    required=('engineering/ferrite_maglev/data/candidate-retained-body-stock.json',),
+    sources=('engineering/comfort_options/envelope.py',))
 
 
 @pytest.fixture(scope="module")
 def rows():
-    return e.options(root=MAIN)
+    return e.options(root=EVIDENCE_ROOT)
 
 
 def test_exact_retained_floor_roof_and_replacement_ownership(rows):
@@ -127,27 +130,27 @@ def test_source_and_identity_contract_rejects_quantity_or_mass_credit_edits(rows
     assert len(rows) == 22
     assert len({r["physical_definition_id"] for r in rows}) == 22
     for r in rows:
-        assert e.validate(r, root=MAIN) == r
+        assert e.validate(r, root=EVIDENCE_ROOT) == r
     for key, value in (("counted_mass_kg", 0), ("applied_to_current_parent", True),
                        ("mass_saving_credited_to_current_parent", True),
                        ("evaluation_id", "forged")):
         changed = deepcopy(rows[1])
         changed[key] = value
         with pytest.raises(ValueError, match="changed"):
-            e.validate(changed, root=MAIN)
+            e.validate(changed, root=EVIDENCE_ROOT)
     changed = deepcopy(rows[1])
     changed["stock_parts"][0]["total_mass_kg"] = 0
     with pytest.raises(ValueError):
-        e.validate(changed, root=MAIN)
+        e.validate(changed, root=EVIDENCE_ROOT)
 
 
 def test_no_cross_tree_evaluator_mix(tmp_path):
-    for name in e.source_inputs(MAIN):
+    for name in e.source_inputs(EVIDENCE_ROOT):
         if name == "engineering/comfort_options/envelope.py":
             continue
         dst = tmp_path / name
         dst.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(MAIN / name, dst)
+        shutil.copyfile(EVIDENCE_ROOT / name, dst)
     target = tmp_path / "engineering/halbach_scaling/vehicles.py"
     target.write_text(target.read_text() + "\n# changed evaluator\n")
     with pytest.raises(ValueError, match="dependency differ"):
@@ -155,11 +158,11 @@ def test_no_cross_tree_evaluator_mix(tmp_path):
 
 
 def test_identical_copied_sources_produce_portable_public_records(rows, tmp_path):
-    inputs = e.source_inputs(MAIN)
+    inputs = e.source_inputs(EVIDENCE_ROOT)
     for name in inputs:
         dst = tmp_path / name
         dst.parent.mkdir(parents=True, exist_ok=True)
-        source = Path(e.__file__) if name == "engineering/comfort_options/envelope.py" else MAIN / name
+        source = Path(e.__file__) if name == "engineering/comfort_options/envelope.py" else EVIDENCE_ROOT / name
         shutil.copyfile(source, dst)
     copied = e.options(root=tmp_path)
     assert copied == rows
@@ -168,7 +171,7 @@ def test_identical_copied_sources_produce_portable_public_records(rows, tmp_path
         assert "source_root" not in r
         assert r["source_sha256"] == r["source_inputs"]
     encoded = json.dumps(copied)
-    assert str(MAIN) not in encoded
+    assert str(EVIDENCE_ROOT) not in encoded
     assert str(e.ROOT) not in encoded
     assert str(tmp_path) not in encoded
 
@@ -250,6 +253,6 @@ def test_bad_strip_inputs_and_fresh_records(rows):
     for bad in (True, 0, -1, float("nan")):
         with pytest.raises(ValueError):
             e.sandwich_strip(bad, 0.06, 22e9, 23e6, 1, 5000)
-    changed = e.options(MAIN)
+    changed = e.options(EVIDENCE_ROOT)
     changed[0]["stock_parts"][0]["total_mass_kg"] = -1
-    assert e.options(MAIN)[0]["stock_parts"][0]["total_mass_kg"] > 0
+    assert e.options(EVIDENCE_ROOT)[0]["stock_parts"][0]["total_mass_kg"] > 0

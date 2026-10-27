@@ -3,10 +3,13 @@ import math
 from pathlib import Path
 import pytest
 
+from engineering.research_test_support import evidence_root
 from engineering.comfort_design import ROOT
 from engineering.comfort_design import vehicle as v
 
-EVIDENCE_ROOT=next(p for p in (ROOT,*ROOT.parents) if (p/'docs/design-engine/halbach-scaling/comparison.json').is_file())
+EVIDENCE_ROOT = evidence_root(Path(__file__).resolve().parents[3],
+    required=('docs/design-engine/halbach-scaling/comparison.json',),
+    sources=('engineering/comfort_design/vehicle.py',))
 
 
 @pytest.fixture(scope='module')

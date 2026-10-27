@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Guard CI source routing: frozen v0.5 replay and current shared regressions."""
 from copy import deepcopy
+import ast
 from hashlib import sha256
 from fnmatch import fnmatchcase
 import json
@@ -40,8 +41,8 @@ def validate(historical_text, shared_text, current_text, archive):
     assert 'tags: ["v0.5.*"]' in historical_text
     triggers = historical_text.split('permissions:', 1)[0]
     path_filters = re.findall(r'^      - "([^"\n]+)"$', triggers, re.M)
-    assert set(path_filters) == {'.github/workflows/historical-v05.yml', 'docs/archives/v0.5-maglev/**'}
-    assert len(path_filters) == 4  # Same narrow push and PR filters.
+    assert set(path_filters) == {'.github/workflows/historical-v05.yml', 'docs/archives/v0.5-maglev/**', 'tools/automation/historical-native-preflight.py', 'tools/automation/install-historical-freecad.py'}
+    assert len(path_filters) == 8  # Same narrow push and PR filters.
     assert re.search(r'^    - cron: "[0-9]+ [0-9]+ \* \* [0-6]"$', triggers, re.M)
     shared_triggers = shared_text.split('permissions:', 1)[0]
     assert '  push:\n    branches: [main]\n  pull_request:' in shared_triggers
@@ -54,6 +55,12 @@ def validate(historical_text, shared_text, current_text, archive):
     assert "== manifest['revision']" in historical
     assert "Path('VERSION').read_text().strip() == '0.5'" in historical
     assert historical.count('uses: actions/checkout@v4') == 2
+    assert 'runs-on: ubuntu-24.04' in historical
+    assert 'QT_QPA_PLATFORM: offscreen' in historical
+    assert 'install -y freecad' not in historical
+    assert 'FreeCAD_1.1.4-Linux-x86_64-py311.AppImage' in historical
+    assert historical.index('install-historical-freecad.py --archive') < historical.index('historical-native-preflight.py --output')
+    assert historical.index('historical-native-preflight.py --output') < historical.index('ferrite-maglev-study.py cycle')
     assert 'ferrite-maglev-study.py cycle' in historical and 'capabilities.py --check' in historical
     assert historical.index('ferrite-maglev-study.py cycle') < historical.index('capabilities.py --check')
     assert 'historical/build/maglev-historical-cycle.log' in historical
@@ -98,6 +105,8 @@ def validate(historical_text, shared_text, current_text, archive):
                     'test_invalid_beam_assumptions_fail_before_numerics'):
         assert command in shared, command
     assert 'pilot_assurance run control-formal' in jobs['control-formal']
+    assert 'git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164' in shared
+    assert 'test_research_context.py' in shared and 'test_research_portability.py' in shared
     # Artifact upload may use always(), but checks cannot be conditional or ignored.
     assert not re.search(r'^\s+continue-on-error:', historical_text + shared_text, re.M)
     assert not re.search(r'^    (if|needs):', historical, re.M)
@@ -111,6 +120,7 @@ def validate(historical_text, shared_text, current_text, archive):
     publication_inputs = (
         'engineering/readme_context.py', 'engineering/maglev_research/readme_context.py',
         'install.sh', '.github/repository-metadata.yml', 'engineering/requirements.txt',
+        'engineering/research_context.py', 'engineering/research_test_support.py', 'engineering/research_ancestry.py',
         'engineering/development_baseline/tests/test_install_contract.py',
         'engineering/development_baseline/tests/test_readme_context.py',
     )
@@ -124,6 +134,53 @@ def validate(historical_text, shared_text, current_text, archive):
     for name in re.findall(r'^      - name: (.+)$', shared_text, re.M):
         if 'maglev' in name.lower():
             assert 'retained' in name.lower(), name
+
+
+PUBLICATION_ORIGINS = {
+    'comfort-options': ('f0946b699376699b408df6e9a1f04a657f74022b', 'python -m engineering.comfort_options verify'),
+    'comfort-design': ('578ee3950b872bf30fbf9e4207b2bda85951bdd7', 'python -m engineering.comfort_design verify'),
+    'vehicle-optimisation': ('afff13ebdb775a024b3b3f2f3331473297e853ef', "publication.verify('docs/design-engine/vehicle-optimisation')"),
+    'passive-suspension': ('aa31cec3307f82b0a5de65b76f8938081f7801a8', "publication.verify('docs/design-engine/passive-suspension')"),
+}
+
+
+def validate_publication(name, text):
+    revision, verifier = PUBLICATION_ORIGINS[name]
+    jobs = job_blocks(text)
+    historical = jobs.pop('historical-publication')
+    assert len(jobs) == 1
+    current = next(iter(jobs.values()))
+    assert not re.search(r'^\s+(ref|working-directory|needs|if|continue-on-error):', current, re.M)
+    assert 'python -m pytest' in current
+    fetch = 'git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164'
+    assert fetch in current
+    assert current.index(fetch) < current.index('python -m pytest')
+    assert verifier not in current
+    assert historical.count('uses: actions/checkout@v4') == 2
+    assert re.findall(r'^          ref: (.+)$', historical, re.M) == [revision]
+    assert 'working-directory: historical' in historical
+    guard = 'verify-research-snapshot.py --packet ' + name
+    assert guard in historical and verifier in historical
+    assert historical.index(guard) < historical.index(verifier)
+    assert re.findall(r'^\s+(?:- )?if: (.+)$', historical, re.M) == ['always()']
+    assert 'continue-on-error:' not in text and 'needs:' not in text
+    if name.startswith('comfort-'):
+        assert 'verify-' + name + '.mjs' in historical
+
+
+CONTEXT_INPUTS = ('engineering/research_context.py', 'engineering/research_test_support.py',
+                  'engineering/research_ancestry.py')
+
+
+def validate_context_triggers(text):
+    for event in ('pull_request', 'push'):
+        block = text.split('  ' + event + ':\n', 1)[1]
+        block = re.split(r'^  [a-z_]+:', block, maxsplit=1, flags=re.M)[0]
+        inline = re.search(r'paths: (\[[^\n]+\])', block)
+        patterns = (ast.literal_eval(inline[1]) if inline else
+                    re.findall(r"^      - ['\"]([^'\"\n]+)['\"]$", block, re.M))
+        for name in CONTEXT_INPUTS:
+            assert any(fnmatchcase(name, pattern) for pattern in patterns), (event, name)
 
 
 class ArchitectureRoutingTests(unittest.TestCase):
@@ -189,11 +246,37 @@ class ArchitectureRoutingTests(unittest.TestCase):
     def test_current_input_trigger_removal_is_rejected(self):
         for path in ('engineering/readme_context.py', 'engineering/maglev_research/readme_context.py',
                      'install.sh', '.github/repository-metadata.yml', 'engineering/requirements.txt',
+        'engineering/research_context.py', 'engineering/research_test_support.py', 'engineering/research_ancestry.py',
                      'engineering/development_baseline/**'):
             with self.subTest(path=path):
                 with self.assertRaises(AssertionError):
                     # Removing only the PR entry must fail even when main pushes still cover it.
                     self.check(current=self.current.replace('      - "' + path + '"\n', '', 1))
+
+    def test_publication_origins_keep_current_and_historical_checks_independent(self):
+        for name in PUBLICATION_ORIGINS:
+            with self.subTest(packet=name):
+                validate_publication(name, (ROOT / '.github/workflows' / (name + '.yml')).read_text())
+
+    def test_wrong_publication_pin_is_rejected(self):
+        for name, (revision, _) in PUBLICATION_ORIGINS.items():
+            with self.subTest(packet=name):
+                text = (ROOT / '.github/workflows' / (name + '.yml')).read_text()
+                with self.assertRaises(AssertionError):
+                    validate_publication(name, text.replace(revision, '0'*40))
+
+    def test_context_helpers_trigger_their_current_compatibility_consumers(self):
+        for name in ('comfort-options', 'comfort-design', 'vehicle-optimisation',
+                     'passive-suspension', 'engineering-native', 'halbach-scaling', 'development-baseline'):
+            with self.subTest(workflow=name):
+                validate_context_triggers((ROOT / '.github/workflows' / (name + '.yml')).read_text())
+
+    def test_missing_context_helper_trigger_is_rejected(self):
+        text=(ROOT / '.github/workflows/comfort-options.yml').read_text()
+        for name in CONTEXT_INPUTS:
+            with self.subTest(source=name):
+                with self.assertRaises(AssertionError):
+                    validate_context_triggers(text.replace(repr(name)+', ', '', 1))
 
     def test_required_current_release_gate_cannot_be_removed(self):
         with self.assertRaises(AssertionError):

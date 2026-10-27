@@ -7,10 +7,13 @@ import shutil
 
 import pytest
 
+from engineering.research_test_support import evidence_root
 from engineering.equipped_vehicle.structures import analytical,deck,parse_dat,run_structural_fixture,verify_structural_fixture,_inventory
 from engineering.equipped_vehicle import ROOT
 
-EVIDENCE=Path(os.environ.get('OSR_EVIDENCE_ROOT',str(ROOT)))
+EVIDENCE = evidence_root(Path(__file__).resolve().parents[3],
+    required=('engineering/trip_dynamics/fixtures/structures/analytical-laminate.json',),
+    sources=('engineering/equipped_vehicle/structures.py',))
 
 
 def test_analytical_limit_matches_independent_retained_laminate_fixture():

@@ -7,10 +7,13 @@ from pathlib import Path
 
 import pytest
 
+from engineering.research_test_support import evidence_root
 from engineering.comfort_options import systems as s
 
 
-EVIDENCE_ROOT = Path(os.environ.get('OSR_EVIDENCE_ROOT', s.ROOT))
+EVIDENCE_ROOT = evidence_root(Path(__file__).resolve().parents[3],
+    required=('docs/design-engine/vehicle-optimisation/manifest.json',),
+    sources=('engineering/comfort_options/systems.py',))
 
 
 @pytest.fixture(scope='module')

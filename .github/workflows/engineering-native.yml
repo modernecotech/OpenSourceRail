@@ -1,9 +1,9 @@
 name: "Retained research: Engineering readiness and scheduled native methods"
 on:
   push:
-    paths: ['engineering/engineering_status/**', 'engineering/suspension_closure/**', 'engineering/operating_confirmation/**', 'engineering/equipped_vehicle/**', 'engineering/thermal_closure/**', 'docs/workbench/trip/readiness/**', 'tools/automation/tests/verify-engineering-readiness.mjs', '.github/workflows/engineering-native.yml']
+    paths: ['engineering/engineering_status/**', 'engineering/suspension_closure/**', 'engineering/operating_confirmation/**', 'engineering/equipped_vehicle/**', 'engineering/thermal_closure/**', 'docs/workbench/trip/readiness/**', 'tools/automation/tests/verify-engineering-readiness.mjs', '.github/workflows/engineering-native.yml', 'engineering/research_context.py', 'engineering/research_test_support.py', 'engineering/research_ancestry.py']
   pull_request:
-    paths: ['engineering/engineering_status/**', 'engineering/suspension_closure/**', 'engineering/operating_confirmation/**', 'engineering/equipped_vehicle/**', 'engineering/thermal_closure/**', 'docs/workbench/trip/readiness/**', 'tools/automation/tests/verify-engineering-readiness.mjs', '.github/workflows/engineering-native.yml']
+    paths: ['engineering/engineering_status/**', 'engineering/suspension_closure/**', 'engineering/operating_confirmation/**', 'engineering/equipped_vehicle/**', 'engineering/thermal_closure/**', 'docs/workbench/trip/readiness/**', 'tools/automation/tests/verify-engineering-readiness.mjs', '.github/workflows/engineering-native.yml', 'engineering/research_context.py', 'engineering/research_test_support.py', 'engineering/research_ancestry.py']
   schedule:
     - cron: '17 3 * * 2'
   workflow_dispatch:
@@ -18,6 +18,10 @@ jobs:
     timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch the exact retained producer source required by offline ancestry checks
+        run: |
+          git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -40,6 +44,10 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch the exact retained producer source required by offline ancestry checks
+        run: |
+          git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -55,6 +63,10 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch the exact retained producer source required by offline ancestry checks
+        run: |
+          git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'

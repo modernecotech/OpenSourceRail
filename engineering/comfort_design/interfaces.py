@@ -16,6 +16,7 @@ import tarfile
 import tomllib
 
 from engineering.comfort_options import systems
+from engineering import research_ancestry
 from engineering.vehicle_optimisation import hvac
 from . import ROOT, FLAGS
 
@@ -64,15 +65,24 @@ def _thermal(root_name):
             data[name]=archive.extractfile(member).read()
     value=json.loads(data['result.json']);receipt=json.loads(data['manifest.json'])
     if receipt['files_sha256']['result.json']!=sha256(data['result.json']).hexdigest():raise ValueError('thermal member differs')
-    _check_sources(root,value['source_sha256'])
+    research_ancestry.verify(root,value['source_sha256'],source_revision=systems.ANCESTRY_REVISION)
     return value
 
 
 def thermal_evidence(root=ROOT):
     root=Path(root).resolve();value=_thermal(str(root))
     if sha256((root/THERMAL).read_bytes()).hexdigest()!=THERMAL_SHA:raise ValueError('thermal package changed')
-    _check_sources(root,value['source_sha256'])
-    return deepcopy(value)
+    provenance=research_ancestry.verify(root,value['source_sha256'],source_revision=systems.ANCESTRY_REVISION)
+    # This is a new read-only evidence projection. The original payload and its
+    # evaluator identity remain authenticated by the immutable archive above.
+    projected=deepcopy(value)
+    projected.update(historical_evaluation_id=value['evaluation_id'],
+        ancestry_source_revision=systems.ANCESTRY_REVISION,
+        ancestry_source_sha256=provenance['ancestry_source_sha256'],
+        source_sha256={**provenance['source_sha256'],THERMAL:THERMAL_SHA,
+            'engineering/comfort_design/interfaces.py':sha256(Path(__file__).read_bytes()).hexdigest()})
+    projected['evaluation_id']=identity({k:v for k,v in projected.items() if k!='evaluation_id'})
+    return projected
 
 
 def _subject(vehicle,service,root):

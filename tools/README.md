@@ -30,3 +30,31 @@ the pinned historical workflow; use `./osr status` and `./osr catalogue` for cur
 read-only state. The generic
 [movement-authority reference utility](reference-ma/README.md) remains a separate
 development helper; it does not qualify control hardware or railway operation.
+
+## CI and reproducibility
+
+CI keeps three evidence scopes visible:
+
+| Scope | Checks and source |
+|---|---|
+| Current v0.6 development | [Current contracts and required engineering](../.github/workflows/development-baseline.yml) use the selected wheel/LIM configuration. |
+| Shared software compatibility | [Workspace and control checks](../.github/workflows/shared-software.yml), plus current research unit jobs, test the current implementation with explicit compatible fixtures. |
+| Historical research replay | [v0.5 replay](../.github/workflows/historical-v05.yml) and historical publication jobs use their exact recorded source commits, original verifiers and unchanged numerical packets. |
+
+A historical result is provenance for its original candidate, not current vehicle
+qualification. The publication source guard checks committed receipts, every
+recorded source hash and the complete payload inventory before the original
+verifier runs. Failed checks remain visible and retain their reports.
+
+Current retained-research tests keep archived producer ancestry separate from
+current executable sources. Evaluators do not download missing Git objects. In a
+shallow checkout, fetch the explicit retained source revision before running
+those tests, as CI does:
+
+```bash
+git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+```
+
+Changing a producer does not update old numerical evidence. Reproduce historical
+publications at their recorded commits; create fresh candidate/run packages for
+new calculations. Missing native tools or physical measurements remain holds.

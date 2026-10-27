@@ -5,6 +5,9 @@ on:
       - "README.md"
       - "AGENTS.md"
       - "engineering/readme_context.py"
+      - "engineering/research_context.py"
+      - "engineering/research_test_support.py"
+      - "engineering/research_ancestry.py"
       - "engineering/maglev_research/readme_context.py"
       - "install.sh"
       - ".github/repository-metadata.yml"
@@ -58,6 +61,9 @@ on:
       - "README.md"
       - "AGENTS.md"
       - "engineering/readme_context.py"
+      - "engineering/research_context.py"
+      - "engineering/research_test_support.py"
+      - "engineering/research_ancestry.py"
       - "engineering/maglev_research/readme_context.py"
       - "install.sh"
       - ".github/repository-metadata.yml"
@@ -117,6 +123,10 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch the exact retained producer source required by offline ancestry checks
+        run: |
+          git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -161,6 +171,10 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch the exact retained producer source required by offline ancestry checks
+        run: |
+          git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -181,6 +195,10 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch the exact retained producer source required by offline ancestry checks
+        run: |
+          git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"

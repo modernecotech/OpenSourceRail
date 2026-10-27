@@ -4,6 +4,10 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/vehicle-optimisation.yml'
+      - 'engineering/research_context.py'
+      - 'engineering/research_test_support.py'
+      - 'engineering/research_ancestry.py'
+      - 'tools/automation/verify-research-snapshot.py'
       - 'engineering/vehicle_optimisation/**'
       - 'engineering/passive_suspension/**'
       - 'engineering/design_search/**'
@@ -14,6 +18,10 @@ on:
   pull_request:
     paths:
       - '.github/workflows/vehicle-optimisation.yml'
+      - 'engineering/research_context.py'
+      - 'engineering/research_test_support.py'
+      - 'engineering/research_ancestry.py'
+      - 'tools/automation/verify-research-snapshot.py'
       - 'engineering/vehicle_optimisation/**'
       - 'engineering/passive_suspension/**'
       - 'engineering/design_search/**'
@@ -21,10 +29,12 @@ on:
       - 'engineering/factory_examples/**'
       - 'engineering/analysis/tests/test_ferrite_maglev_candidate_magnetics.py'
       - 'docs/design-engine/vehicle-optimisation/**'
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
   research-contracts-and-evidence:
+    name: Current research software compatibility
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -32,15 +42,56 @@ jobs:
       OMP_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch the exact retained producer source required by offline ancestry checks
+        run: |
+          git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
       - run: python -m pip install numpy==2.3.5 scipy==1.16.3 pytest==9.1.1
       - name: Named magnets, physical takeoffs, occupied HVAC and identity gates
         run: python -m pytest --import-mode=importlib -q engineering/vehicle_optimisation/tests engineering/passive_suspension/tests
+  historical-publication:
+    name: Historical vehicle-optimisation publication (exact source replay)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: historical
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - name: Read the retained publication contract and source guard
+        uses: actions/checkout@v4
+        with:
+          path: current
+          sparse-checkout: |
+            /tools/automation/verify-research-snapshot.py
+            /docs/design-engine/vehicle-optimisation/manifest.json
+          sparse-checkout-cone-mode: false
+      - name: Check out the exact publication-origin source and payloads
+        uses: actions/checkout@v4
+        with:
+          ref: afff13ebdb775a024b3b3f2f3331473297e853ef
+          path: historical
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify every historical source and payload byte before execution
+        run: python ../current/tools/automation/verify-research-snapshot.py --packet vehicle-optimisation --repository . --receipt-root ../current --output build/vehicle-optimisation-provenance.json
+      - run: python -m pip install numpy==2.3.5 scipy==1.16.3 pytest==9.1.1
       - name: Rebuild derived reports and verify the retained native package
         run: |
           python - <<'PY'
           from engineering.vehicle_optimisation import publication
           print(publication.verify('docs/design-engine/vehicle-optimisation'))
           PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: historical-vehicle-optimisation-replay
+          path: |
+            historical/build/vehicle-optimisation-provenance.json
+          retention-days: 14

@@ -5,13 +5,17 @@ from pathlib import Path
 
 import pytest
 
+from engineering.research_test_support import evidence_root
+from engineering.research_context import retained_comfort
 from engineering.suspension_closure import operating_point as op
 
-EVIDENCE=Path(os.environ.get('OSR_EVIDENCE_ROOT',str(op.ROOT)))
+EVIDENCE = evidence_root(Path(__file__).resolve().parents[3],
+    required=('docs/design-engine/ferrite-maglev/comfort-design/design.json.gz',),
+    sources=('engineering/suspension_closure/operating_point.py',))
 
 
 @pytest.fixture(scope='module')
-def ctx():return op.context(EVIDENCE)
+def ctx():return op.context(EVIDENCE, research_context=retained_comfort(EVIDENCE))
 
 
 def test_nonmonotonic_curve_preserves_every_crossing_and_flat_interval():

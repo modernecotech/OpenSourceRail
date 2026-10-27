@@ -17,6 +17,7 @@ from types import SimpleNamespace
 
 import pytest
 
+from engineering.research_test_support import evidence_root
 from engineering.trip_dynamics import interactive as api
 from engineering.design_search.contracts import encoded, identity
 
@@ -451,10 +452,11 @@ def test_http_contract_same_origin_size_limits_and_owned_files(repository):
         service.close()
 
 
-EVIDENCE_ROOT = Path(os.environ.get('OSR_EVIDENCE_ROOT', '/home/hayder/Documents/OpenSourceRail'))
+EVIDENCE_ROOT = evidence_root(Path(__file__).resolve().parents[3],
+    required=('docs/design-engine/vehicle-optimisation/manifest.json',),
+    sources=('engineering/trip_dynamics/interactive.py',))
 
 
-@pytest.mark.skipif(not (EVIDENCE_ROOT/'docs/design-engine/vehicle-optimisation/manifest.json').is_file(), reason='explicit retained evidence root required')
 def test_actual_current_evidence_preflight_subprocess(tmp_path):
     """Real pinned vehicle/magnetic readers; no ideal mechanics or fake fields."""
     output = EVIDENCE_ROOT / 'build/workbench-trips' / ('test-' + tmp_path.name)

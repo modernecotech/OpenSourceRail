@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 
 import pytest
 
@@ -122,3 +123,46 @@ def test_symlink_and_escape_refused(tmp_path):
     (tmp_path/'alias').symlink_to(source)
     with pytest.raises(ValueError, match='symlink'):
         vehicle._checked(tmp_path, 'alias', sha256(b'a').hexdigest())
+
+
+def _copy_live_inputs_with_local_git_ancestry(destination, root, catalogue):
+    for name in catalogue['source_bindings']:
+        target = destination / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(root / name, target)
+    # Share immutable Git objects, without copying source or creating commits.
+    subprocess.run(['git', 'init', '--quiet', str(destination)], check=True)
+    objects = subprocess.check_output(
+        ['git', 'rev-parse', '--path-format=absolute', '--git-path', 'objects'],
+        cwd=root, text=True).strip()
+    (destination / '.git/objects/info/alternates').write_text(objects + '\n')
+
+
+def test_retained_producer_ancestry_and_current_reader_epoch_are_distinct(tmp_path, retained_root, catalogue):
+    _copy_live_inputs_with_local_git_ancestry(tmp_path, retained_root, catalogue)
+    old_producer = tmp_path / 'engineering/design_search/campaign.py'
+    old_producer.parent.mkdir(parents=True, exist_ok=True)
+    old_producer.write_text('# A different current campaign, not executed by the retained reader.\n')
+    reread = vehicle.current_vehicle_definitions(tmp_path)
+    ancestry = reread['retained_source_ancestry']['docs/design-engine/vehicle-optimisation']
+    assert ancestry['source_revision'] == vehicle.RETAINED_SOURCE_REVISION
+    assert ancestry['ancestry_source_sha256']['engineering/design_search/campaign.py'] != sha256(old_producer.read_bytes()).hexdigest()
+    assert 'engineering/design_search/campaign.py' not in reread['source_bindings']
+    assert reread['source_bindings'][vehicle.CODE] == sha256(Path(vehicle.__file__).read_bytes()).hexdigest()
+    assert reread['canonical']['candidate_id'] == catalogue['canonical']['candidate_id']
+    assert reread['canonical']['comparison_empty_kg_per_car'] == catalogue['canonical']['comparison_empty_kg_per_car']
+    assert reread['physical_accepted'] is False
+
+
+def test_changed_live_reader_cannot_borrow_historical_producer_identity(tmp_path, retained_root, catalogue):
+    _copy_live_inputs_with_local_git_ancestry(tmp_path, retained_root, catalogue)
+    code = tmp_path / vehicle.CODE
+    code.write_bytes(code.read_bytes() + b'\n# changed current reader\n')
+    with pytest.raises(ValueError, match='digest changed: engineering/trip_dynamics/vehicle.py'):
+        vehicle.current_vehicle_definitions(tmp_path)
+
+
+def test_missing_exact_ancestry_revision_refuses_without_a_substitute(retained_root, monkeypatch):
+    monkeypatch.setattr(vehicle, 'RETAINED_SOURCE_REVISION', '0' * 40)
+    with pytest.raises(ValueError, match='producer ancestry unavailable'):
+        vehicle.current_vehicle_definitions(retained_root)

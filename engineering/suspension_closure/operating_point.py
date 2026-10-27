@@ -17,7 +17,9 @@ import sys
 import tarfile
 import time
 
-from engineering.development_baseline import selection
+from engineering import research_context as research
+from engineering import research_ancestry
+from engineering.station_rail.common import encoded, identity
 from engineering.comfort_options import systems
 from engineering.comfort_design import interfaces
 from engineering.halbach_scaling import finite
@@ -26,7 +28,7 @@ from engineering.suspension_closure import study
 from engineering.vehicle_optimisation import magnets
 
 ROOT=Path(__file__).resolve().parents[2]
-SCHEMA='osr-selected-support-operating-point/1'
+SCHEMA='osr-retained-support-operating-point/2'
 ARCHIVE='docs/design-engine/ferrite-maglev/engineering-readiness/suspension-artifacts.tar.gz'
 CODE='engineering/suspension_closure/operating_point.py'
 TEST='engineering/suspension_closure/tests/test_operating_point.py'
@@ -39,8 +41,6 @@ MEDIUM=dict(margin_m=.15,near_mesh_size_m=.032,gap_mesh_size_m=.010)
 COUNTS=(128,48,24)
 
 
-def encoded(value):return selection.encoded(value)
-def identity(value):return selection.identity(value)
 def digest(path):return sha256(Path(path).read_bytes()).hexdigest()
 def read(path):return json.loads(Path(path).read_bytes())
 def write(path,value):
@@ -77,25 +77,31 @@ def _member(path,name):
         return archive.extractfile(matches[0]).read()
 
 
-def context(root=ROOT):
-    root=Path(root).resolve();selected=selection.load(root);car=selected['vehicle']
+def context(root=ROOT,*,research_context=None):
+    root=Path(root).resolve()
+    selected=research.require_retained_maglev(research_context,root) if research_context is not None else research.retained_comfort(root)
+    car=selected['vehicle']
     item=study.candidates(root)[0]
-    if item['component_id']!=car['magnet_component_id'] or car['candidate_id']!=selected['selection']['vehicle_candidate_id']:
+    if item['component_id']!=car['magnet_component_id'] or car['candidate_id']!=selected['configuration']['vehicle_candidate_id']:
         raise ValueError('selected vehicle and exact magnetic component differ')
     parent=systems.parent_evidence(root);thermal=interfaces.thermal_evidence(root)
     raw=_member(root/ARCHIVE,'suspension/result.json');receipt=json.loads(_member(root/ARCHIVE,'suspension/manifest.json'))
     if sha256(raw).hexdigest()!=receipt['files_sha256']['result.json']:raise ValueError('retained transverse payload differs')
     suspension=json.loads(raw)
-    for name,expected in suspension['source_sha256'].items():
-        if digest(root/name)!=expected:raise ValueError('retained transverse source differs: '+name)
+    suspension_provenance=research_ancestry.verify(root,suspension['source_sha256'],source_revision=research.REVISION)
     comparison=next(c for c in suspension['comparisons'] if c['candidate_id']==item['component_id'])
     source=finite.source_snapshot(root)
-    for record in (selected,car,parent,thermal,suspension):
+    # The authenticated old vehicle's producer hashes describe its ancestry;
+    # current code must not be presented as the source of that historical run.
+    for record in (selected,parent,thermal,suspension_provenance):
         for name,h in record.get('source_sha256',{}).items():
             if name in source and source[name]!=h:raise ValueError('mixed retained source revisions: '+name)
             source[name]=h
     source[ARCHIVE]=digest(root/ARCHIVE)
-    return dict(selection_id=selected['selection_id'],vehicle_candidate_id=car['candidate_id'],
+    return dict(research_configuration_id=selected['research_configuration_id'],
+        research_configuration=selected['configuration'],development_default=False,
+        ancestry_source_sha256=selected['ancestry_source_sha256'],
+        retained_transverse_ancestry=suspension_provenance['ancestry_source_sha256'],vehicle_candidate_id=car['candidate_id'],
         body_candidate_id=car['body_candidate_id'],magnet_component_id=item['component_id'],
         accounted_tare_kg_per_car=car['mass']['accounted_tare_kg_per_car'],
         installed_mass_kg_per_car=None,modules_per_car=24,cars=6,passenger_mass_kg=75.,
@@ -288,6 +294,8 @@ def _derived(directory,request,row):
 
 
 def worker(request,directory):
+    if request.get('research_configuration')!=research.CONFIGURATION:
+        raise ValueError('Explicit retained PM-maglev research configuration required before native execution')
     d=Path(directory);s=request['spec'];value=effective_value(request['component'],s['state'])
     write(d/'effective-input.json',value);mesh=finite.mesh_case(value,d,s['settings']);boxes=finite.contours(value)
     (d/'coupon.pro').write_text(finite.formulation(value,mesh,boxes,COUNTS))
@@ -307,19 +315,22 @@ def _stop(p):
     p.wait(timeout=5)
 
 
-def run(output,root=ROOT,getdp=None,seconds_total=600.,seconds_per_case=150.):
+def run(output,root=ROOT,getdp=None,seconds_total=600.,seconds_per_case=150.,*,research_context=None):
+    if research_context is None:raise ValueError('Explicit retained PM-maglev research context required before native execution')
+    research_context=research.require_retained_maglev(research_context,root)
     root=Path(root).resolve();output=Path(output).resolve()
     if not 0<seconds_total<=600 or not 0<seconds_per_case<=180:raise ValueError('bounded600s/180s campaign required')
     if output.exists() or output.is_symlink():raise ValueError('fresh ordinary campaign directory required')
-    ctx=context(root);before=sources(ctx,root);tool=finite.previous._tool(getdp)
-    request=dict(schema=SCHEMA,selection_id=ctx['selection_id'],source_sha256=before,
+    ctx=context(root,research_context=research_context);before=sources(ctx,root);tool=finite.previous._tool(getdp)
+    request=dict(schema=SCHEMA,research_configuration_id=ctx['research_configuration_id'],
+        research_configuration=ctx['research_configuration'],development_default=False,source_sha256=before,
         vehicle_candidate_id=ctx['vehicle_candidate_id'],body_candidate_id=ctx['body_candidate_id'],
         magnet_component_id=ctx['magnet_component_id'],component=ctx['component'],specifications=specifications(),
         getdp=tool,root=str(root),budget=dict(seconds_total=seconds_total,seconds_per_case=seconds_per_case,numerical_workers=1),**FLAGS)
     request['request_id']=identity(request);output.mkdir(parents=True);write(output/'request.json',request)
     rows=[];start=time.monotonic();code_root=Path(__file__).resolve().parents[2]
     for spec in specifications():
-        d=output/spec['case'];d.mkdir();per=dict(schema=SCHEMA,component=ctx['component'],spec=spec,getdp=tool,source_sha256=before)
+        d=output/spec['case'];d.mkdir();per=dict(schema=SCHEMA,research_configuration=ctx['research_configuration'],component=ctx['component'],spec=spec,getdp=tool,source_sha256=before)
         write(d/'input.json',per);remaining=seconds_total-(time.monotonic()-start)
         row=dict(case=spec['case'],execution_status='not-run',specification=spec,**FLAGS)
         if remaining>1:
@@ -335,8 +346,9 @@ def run(output,root=ROOT,getdp=None,seconds_total=600.,seconds_per_case=150.):
             if code==0 and not timeout and (d/'point.json').is_file():
                 point=read(d/'point.json');row.update(execution_status='completed',point=_derived(d,per,point))
         rows.append(row)
-    if sources(context(root),root)!=before:raise ValueError('campaign source changed during execution')
-    result=dict(schema=SCHEMA,request_id=request['request_id'],selection_id=ctx['selection_id'],
+    if sources(context(root,research_context=research_context),root)!=before:raise ValueError('campaign source changed during execution')
+    result=dict(schema=SCHEMA,request_id=request['request_id'],research_configuration_id=ctx['research_configuration_id'],
+        research_configuration=ctx['research_configuration'],development_default=False,
         vehicle_candidate_id=ctx['vehicle_candidate_id'],body_candidate_id=ctx['body_candidate_id'],
         magnet_component_id=ctx['magnet_component_id'],execution='completed',native_rows=rows,
         load_cases=loads(ctx),retained_native_samples=ctx['retained_native_samples'],
@@ -356,12 +368,14 @@ def run(output,root=ROOT,getdp=None,seconds_total=600.,seconds_per_case=150.):
     write(output/'manifest.json',manifest);verify(output,root);return result
 
 
-def verify(output,root=ROOT):
-    output=Path(output);root=Path(root);r=read(output/'request.json');m=read(output/'manifest.json');v=read(output/'result.json');ctx=context(root)
+def verify(output,root=ROOT,*,research_context=None):
+    ctx=context(root,research_context=research_context)
+    output=Path(output);root=Path(root);r=read(output/'request.json');m=read(output/'manifest.json');v=read(output/'result.json')
+    if any(record.get('schema')!=SCHEMA for record in (r,m,v)):raise ValueError('Retained operating-point package requires its explicit research configuration schema')
     if r['request_id']!=identity({k:x for k,x in r.items() if k!='request_id'}) or v['evaluation_id']!=identity({k:x for k,x in v.items() if k!='evaluation_id'}):raise ValueError('request/result identity differs')
     if r['source_sha256']!=sources(ctx,root) or m['source_sha256']!=r['source_sha256'] or m['files_sha256']!=finite.inventory(output,('manifest.json',)):
         raise ValueError('source or payload differs')
-    for key in ('vehicle_candidate_id','body_candidate_id','magnet_component_id','selection_id'):
+    for key in ('vehicle_candidate_id','body_candidate_id','magnet_component_id','research_configuration_id','research_configuration','development_default'):
         if r[key]!=ctx[key] or v[key]!=ctx[key]:raise ValueError('mixed selected identity: '+key)
     if r['component']!=ctx['component'] or r['specifications']!=specifications():raise ValueError('physical component/native plan differs')
     if v['request_id']!=r['request_id'] or m['request_id']!=r['request_id'] or m['evaluation_id']!=v['evaluation_id']:raise ValueError('cross-package identity differs')
@@ -369,7 +383,7 @@ def verify(output,root=ROOT):
     if len(v['native_rows'])!=len(specifications()):raise ValueError('native case inventory differs')
     for row,spec in zip(v['native_rows'],specifications()):
         d=output/spec['case'];per=read(d/'input.json')
-        if row['case']!=spec['case'] or row['specification']!=spec or per!=dict(schema=SCHEMA,component=ctx['component'],spec=spec,getdp=r['getdp'],source_sha256=r['source_sha256']):raise ValueError('case physical input differs')
+        if row['case']!=spec['case'] or row['specification']!=spec or per!=dict(schema=SCHEMA,research_configuration=ctx['research_configuration'],component=ctx['component'],spec=spec,getdp=r['getdp'],source_sha256=r['source_sha256']):raise ValueError('case physical input differs')
         if row['execution_status']=='completed':
             p=read(d/'point.json')
             if p!=row['point'] or _derived(d,per,p)!=p or row['execution']['returncode']!=0 or row['execution']['timed_out'] is not False:
@@ -378,15 +392,18 @@ def verify(output,root=ROOT):
     if v['load_cases']!=loads(ctx) or v['current_diagnostics']!=current_diagnostics(ctx) or v['equilibrium_diagnostics']!=curve_diagnostics(ctx,v['native_rows']):raise ValueError('derived load/equilibrium/current diagnostics differ')
     for record in (r,m,v,*v['native_rows']):
         if any(record.get(k) is not val for k,val in FLAGS.items()):raise ValueError('research cannot grant acceptance')
-    return dict(verified=True,selection_id=ctx['selection_id'],case_count=len(v['native_rows']),
+    return dict(verified=True,research_configuration_id=ctx['research_configuration_id'],case_count=len(v['native_rows']),
         executed_cases=sum(row['execution_status']=='completed' for row in v['native_rows']),
         PDE_converged_cases=sum(row.get('point',{}).get('force_credit',False) for row in v['native_rows']),**FLAGS)
 
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=('run','verify','worker'));p.add_argument('--root',type=Path,default=ROOT);p.add_argument('--output',type=Path,required=True);p.add_argument('--input',type=Path);p.add_argument('--getdp');a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',choices=('run','verify','worker'));p.add_argument('--root',type=Path,default=ROOT);p.add_argument('--output',type=Path,required=True);p.add_argument('--input',type=Path);p.add_argument('--getdp')
+    p.add_argument('--research-family');p.add_argument('--source-revision');a=p.parse_args()
     if a.action=='worker':worker(read(a.input),a.output);return
-    value=run(a.output,a.root,a.getdp) if a.action=='run' else verify(a.output,a.root)
+    if a.action=='run' and (a.research_family is None or a.source_revision is None):p.error('run requires --research-family and --source-revision for the retained configuration')
+    ctx=research.retained_maglev(a.root,family=a.research_family,source_revision=a.source_revision) if a.research_family is not None or a.source_revision is not None else None
+    value=run(a.output,a.root,a.getdp,research_context=ctx) if a.action=='run' else verify(a.output,a.root,research_context=ctx)
     print(json.dumps(value if a.action=='verify' else dict(evaluation_id=value['evaluation_id'],native_cases=len(value['native_rows'])),sort_keys=True))
 
 

@@ -4,6 +4,10 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/passive-suspension.yml'
+      - 'engineering/research_context.py'
+      - 'engineering/research_test_support.py'
+      - 'engineering/research_ancestry.py'
+      - 'tools/automation/verify-research-snapshot.py'
       - 'engineering/passive_suspension/**'
       - 'engineering/design_search/**'
       - 'engineering/ferrite_maglev/**'
@@ -13,16 +17,22 @@ on:
   pull_request:
     paths:
       - '.github/workflows/passive-suspension.yml'
+      - 'engineering/research_context.py'
+      - 'engineering/research_test_support.py'
+      - 'engineering/research_ancestry.py'
+      - 'tools/automation/verify-research-snapshot.py'
       - 'engineering/passive_suspension/**'
       - 'engineering/design_search/**'
       - 'engineering/ferrite_maglev/**'
       - 'engineering/factory_examples/**'
       - 'engineering/analysis/tests/test_ferrite_maglev_candidate_magnetics.py'
       - 'docs/design-engine/passive-suspension/**'
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
   numerical-contracts-and-retained-coupon:
+    name: Current research software compatibility
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -30,6 +40,10 @@ jobs:
       OMP_NUM_THREADS: '1'
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch the exact retained producer source required by offline ancestry checks
+        run: |
+          git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -37,9 +51,46 @@ jobs:
         run: python -m pip install numpy==2.3.5 scipy==1.16.3 pytest==9.1.1
       - name: Analytical fixtures, field/control interfaces and immutable contracts
         run: python -m pytest -q engineering/passive_suspension/tests
+  historical-publication:
+    name: Historical passive-suspension publication (exact source replay)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: historical
+    env:
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    steps:
+      - name: Read the retained publication contract and source guard
+        uses: actions/checkout@v4
+        with:
+          path: current
+          sparse-checkout: |
+            /tools/automation/verify-research-snapshot.py
+            /docs/design-engine/passive-suspension/manifest.json
+          sparse-checkout-cone-mode: false
+      - name: Check out the exact publication-origin source and payloads
+        uses: actions/checkout@v4
+        with:
+          ref: aa31cec3307f82b0a5de65b76f8938081f7801a8
+          path: historical
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify every historical source and payload byte before execution
+        run: python ../current/tools/automation/verify-research-snapshot.py --packet passive-suspension --repository . --receipt-root ../current --output build/passive-suspension-provenance.json
+      - run: python -m pip install numpy==2.3.5 scipy==1.16.3 pytest==9.1.1
       - name: Verify the retained source-bound numerical and native coupon package
         run: |
           python - <<'PY'
           from engineering.passive_suspension import publication
           print(publication.verify('docs/design-engine/passive-suspension'))
           PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: historical-passive-suspension-replay
+          path: |
+            historical/build/passive-suspension-provenance.json
+          retention-days: 14

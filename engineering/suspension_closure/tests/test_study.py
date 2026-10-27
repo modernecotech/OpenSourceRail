@@ -4,11 +4,15 @@ import math
 import os
 from pathlib import Path
 import pytest
+from engineering.research_test_support import evidence_root
 from engineering.suspension_closure import study as s
 from engineering.halbach_scaling import candidates as old
 from engineering.passive_suspension import fields
 
-ROOT=Path(os.environ.get('OSR_SUSPENSION_EVIDENCE_ROOT',s.ROOT))
+ROOT = evidence_root(Path(__file__).resolve().parents[3],
+    required=('docs/design-engine/halbach-scaling/comparison.json',),
+    sources=('engineering/suspension_closure/study.py',),
+    variable='OSR_SUSPENSION_EVIDENCE_ROOT' if 'OSR_SUSPENSION_EVIDENCE_ROOT' in os.environ else 'OSR_EVIDENCE_ROOT')
 
 
 @lru_cache(None)

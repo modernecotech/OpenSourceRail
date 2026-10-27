@@ -13,6 +13,10 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch the exact retained producer source required by offline ancestry checks
+        run: |
+          git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
@@ -21,7 +25,11 @@ jobs:
           components: rustfmt,clippy
       - run: python -m pip install pytest -r engineering/requirements.txt
       - name: Enforce historical and current CI separation
-        run: python tools/automation/tests/test_ci_architecture.py
+        run: |
+          python tools/automation/tests/test_ci_architecture.py
+          python tools/automation/tests/test_research_snapshot.py
+      - name: Explicit research family, ancestry and portable fixture contracts
+        run: python -m pytest -q --import-mode=importlib engineering/development_baseline/tests/test_research_context.py engineering/development_baseline/tests/test_research_portability.py
       - name: Retained v0.5 source and packet portability
         run: python tools/automation/tests/verify-maglev-sources.py
       - name: Retained offline-host compatibility contracts

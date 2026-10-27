@@ -1,4 +1,4 @@
-"""Counted capture and hot-roof proposals for the selected comfort car.
+"""Counted capture and hot-roof proposals for the retained PM comfort car.
 
 This bounded experiment changes component proposals, not the selected vehicle.
 Typical coupon properties and declared curves are engineering screens. They do
@@ -18,10 +18,11 @@ import time
 import numpy as np
 from scipy.integrate import solve_ivp
 from scipy.optimize import brentq, root as nonlinear_root
+from engineering import research_context as research
 
 ROOT = Path(__file__).resolve().parents[2]
 CODE = 'engineering/thermal_closure/comfort_fixes.py'
-SCHEMA = 'osr-comfort-capture-roof-experiment/1'
+SCHEMA = 'osr-retained-comfort-capture-roof-experiment/2'
 G = 9.80665
 SIGMA = 5.670374419e-8
 PSI = 6894.757293168
@@ -327,7 +328,9 @@ def roof_equilibrium(candidate,*,outside_C=50.,inside_C=26.,solar_W_m2=900.,outs
 
 
 def _sources(root,selected):
-    root=Path(root).resolve();result={**selected['source_sha256'],**selected['vehicle']['source_sha256']}
+    # Historical producer hashes stay in ancestry, not in this new evaluation's
+    # source epoch. The pinned payload authenticates the unchanged physical car.
+    root=Path(root).resolve();result=dict(selected['source_sha256'])
     for name in (CODE,'engineering/thermal_closure/__init__.py','engineering/ferrite_maglev/data/candidate-protection-equipment.json'):
         p=root/name
         if name==CODE and p.read_bytes()!=Path(__file__).read_bytes():raise ValueError('executed producer differs from declared source root')
@@ -338,16 +341,16 @@ def _sources(root,selected):
     return dict(sorted(result.items()))
 
 
-def subject(root=ROOT):
-    from engineering.development_baseline import selection
-    selected=selection.load(root);car=selected['vehicle']
-    if (selected['selection']['vehicle']['cars'],selected['selection']['vehicle']['normal_passengers_per_car'])!=(6,46):raise ValueError('selected comfort context required')
+def subject(root=ROOT,*,research_context=None):
+    selected=research.require_retained_maglev(research_context,root) if research_context is not None else research.retained_comfort(root)
+    car=selected['vehicle']
+    if (selected['configuration']['vehicle']['cars'],selected['configuration']['vehicle']['normal_passengers_per_car'])!=(6,46):raise ValueError('retained comfort context required')
     if car['mass']['installed_tare_kg_per_car'] is not None:raise ValueError('study does not accept an invented installed tare')
     return selected
 
 
-def evaluate(root=ROOT):
-    root=Path(root).resolve();selected=subject(root);car=selected['vehicle'];sources=_sources(root,selected)
+def evaluate(root=ROOT,*,research_context=None):
+    root=Path(root).resolve();selected=subject(root,research_context=research_context);car=selected['vehicle'];sources=_sources(root,selected)
     captures=capture_candidates();roofs=roof_candidates(car);impact=[];thermal=[]
     loads=[(0,0.),(46,0.),(160,0.),(160,2000.)]
     for c in captures:
@@ -378,7 +381,9 @@ def evaluate(root=ROOT):
     retained_roof_control=dict(model='Original sol-air15W/m2K/.17totalfilms, no longwave term',
         roof_hot_core_C=80.-old_q*(1/15+.0012/160.),
         necessary_hot_core_screen='fail',original_default_gate_unchanged=True)
-    record=dict(schema=SCHEMA,selection_id=selected['selection_id'],
+    record=dict(schema=SCHEMA,research_configuration_id=selected['research_configuration_id'],
+        research_configuration=selected['configuration'],development_default=False,
+        ancestry_source_sha256=selected['ancestry_source_sha256'],
         candidate_id=car['candidate_id'],body_candidate_id=car['body_candidate_id'],magnet_component_id=car['magnet_component_id'],
         source_sha256=sources,parent_mass=deepcopy(car['mass']),references=deepcopy(REFERENCES),
         capture_candidates=captures,roof_candidates=roofs,capture_cases=impact,roof_cases=thermal,
@@ -425,7 +430,8 @@ def summary(record):
             maximum_studied_hot_core_C=max(r['core_hot_C'] for r in rows),
             cases=len(rows),necessary_core_passes=sum(r['necessary_core_temperature_screen']=='pass' for r in rows),
             installed_thermal_qualification=False))
-    return dict(schema=SCHEMA,selection_id=record['selection_id'],candidate_id=record['candidate_id'],
+    return dict(schema=SCHEMA,research_configuration_id=record['research_configuration_id'],
+        research_configuration=record['research_configuration'],development_default=False,candidate_id=record['candidate_id'],
         body_candidate_id=record['body_candidate_id'],magnet_component_id=record['magnet_component_id'],evaluation_id=record['evaluation_id'],
         cases=record['budget'],capture_screen_counts=dict(Counter(r['necessary_energy_force_stroke_screen'] for r in impact)),
         roof_core_screen_counts=dict(Counter(r['necessary_core_temperature_screen'] for r in thermal)),
@@ -434,35 +440,43 @@ def summary(record):
         physically_qualified_alternatives=0,default_configuration_changed=False,**FLAGS)
 
 
-def verify(output,*,root=ROOT,replay=True):
+def verify(output,*,root=ROOT,replay=True,research_context=None):
+    selected=subject(root,research_context=research_context)
     folder=Path(output);m=json.loads((folder/'manifest.json').read_bytes())
+    if m.get('schema')!=SCHEMA:raise ValueError('Retained capture/roof package requires its explicit research configuration schema')
     for name,digest in m['source_sha256'].items():
         p=Path(root)/name
         if p.is_symlink() or sha256(p.read_bytes()).hexdigest()!=digest:raise ValueError('source differs: '+name)
     for name,digest in m['files_sha256'].items():
         if Path(name).is_absolute() or '..' in Path(name).parts or sha256((folder/name).read_bytes()).hexdigest()!=digest:raise ValueError('payload differs: '+name)
     record=json.loads(gzip.decompress((folder/'result.json.gz').read_bytes()))
-    selected=subject(root)
-    expected={**selected['vehicle'],'selection_id':selected['selection_id']}
-    for key in ('selection_id','candidate_id','body_candidate_id','magnet_component_id'):
+    expected={**selected['vehicle'],'research_configuration_id':selected['research_configuration_id'],
+        'research_configuration':selected['configuration'],'development_default':False}
+    for key in ('research_configuration_id','research_configuration','development_default','candidate_id','body_candidate_id','magnet_component_id'):
         if record.get(key)!=expected[key] or m.get(key)!=expected[key]:raise ValueError('selected physical identity differs: '+key)
     if record['source_sha256']!=m['source_sha256'] or m['source_sha256']!=_sources(root,selected):raise ValueError('producer/source set differs')
     if any(record.get(k) is not v or m.get(k) is not v for k,v in FLAGS.items()):raise ValueError('research cannot grant qualification')
     if record['evaluation_id']!=identity({k:v for k,v in record.items() if k!='evaluation_id'}):raise ValueError('evaluation identity differs')
     if m['evaluation_id']!=record['evaluation_id']:raise ValueError('manifest evaluation differs')
-    if replay and evaluate(root)!=record:raise ValueError('replayed capture/roof equations differ')
+    if replay and evaluate(root,research_context=selected)!=record:raise ValueError('replayed capture/roof equations differ')
     if json.loads((folder/'summary.json').read_bytes())!=summary(record):raise ValueError('summary differs')
     return dict(verified=True,replayed=replay,evaluation_id=record['evaluation_id'],cases=record['budget']['executed_cases'],**FLAGS)
 
 
-def run(output,*,root=ROOT):
-    folder=Path(output);folder.mkdir(parents=True,exist_ok=False);started=time.monotonic();record=evaluate(root)
+def run(output,*,root=ROOT,research_context=None):
+    if research_context is None:raise ValueError('Explicit retained PM-maglev research context required before evaluation')
+    selected=subject(root,research_context=research_context)
+    folder=Path(output)
+    if folder.exists() or folder.is_symlink():raise ValueError('Fresh retained research output required')
+    started=time.monotonic()
+    record=evaluate(root,research_context=selected)
+    folder.mkdir(parents=True,exist_ok=False)
     payloads={'result.json.gz':gzip.compress(encoded(record),mtime=0),'summary.json':encoded(summary(record))}
     for name,data in payloads.items():(folder/name).write_bytes(data)
     receipt=dict(schema=SCHEMA,evaluation_id=record['evaluation_id'],
-        **{k:record[k] for k in ('selection_id','candidate_id','body_candidate_id','magnet_component_id')},source_sha256=record['source_sha256'],
+        **{k:record[k] for k in ('research_configuration_id','research_configuration','development_default','candidate_id','body_candidate_id','magnet_component_id')},source_sha256=record['source_sha256'],
         files_sha256={n:sha256(v).hexdigest() for n,v in payloads.items()},**FLAGS)
-    (folder/'manifest.json').write_bytes(encoded(receipt));result=verify(folder,root=root,replay=True)
+    (folder/'manifest.json').write_bytes(encoded(receipt));result=verify(folder,root=root,replay=True,research_context=selected)
     (folder/'execution.json').write_bytes(encoded(dict(execution='completed',elapsed_s=time.monotonic()-started,
         verification=result,python=platform.python_version(),numerical_model='SciPy',**FLAGS)))
     return summary(record)
@@ -471,7 +485,10 @@ def run(output,*,root=ROOT):
 def main(argv=None):
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('action',choices=('run','verify'))
     parser.add_argument('--root',type=Path,default=ROOT);parser.add_argument('--output',type=Path,required=True)
-    args=parser.parse_args(argv);value=run(args.output,root=args.root) if args.action=='run' else verify(args.output,root=args.root)
+    parser.add_argument('--research-family');parser.add_argument('--source-revision');args=parser.parse_args(argv)
+    if args.action=='run' and (args.research_family is None or args.source_revision is None):parser.error('run requires --research-family and --source-revision for the retained configuration')
+    ctx=research.retained_maglev(args.root,family=args.research_family,source_revision=args.source_revision) if args.research_family is not None or args.source_revision is not None else None
+    value=run(args.output,root=args.root,research_context=ctx) if args.action=='run' else verify(args.output,root=args.root,research_context=ctx)
     print(json.dumps(value,sort_keys=True,indent=2));return 0
 
 

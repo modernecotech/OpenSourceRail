@@ -14,6 +14,7 @@ import tarfile
 import tomllib
 
 from engineering.vehicle_optimisation import equipment, hvac
+from engineering import research_ancestry
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = 'osr-comfort-systems/1'
@@ -24,6 +25,7 @@ PARENT_TARE_KG = 17633.93699803974
 G = 9.80665
 MODULES = 24
 RESERVE = 1.3
+ANCESTRY_REVISION = '92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164'
 FLAGS = dict(configuration_adopted=False, engineering_accepted=False,
              physical_accepted=False, installed_mass_complete=False,
              stable_hover_established=False, comfort_qualified=False,
@@ -55,10 +57,8 @@ def _hash(path):
 
 
 def _source_check(root, bindings):
-    for name, expected in bindings.items():
-        path = root/name
-        if path.is_symlink() or not path.is_file() or _hash(path) != expected:
-            raise ValueError('retained source differs: '+name)
+    try:return research_ancestry.verify(root, bindings, source_revision=ANCESTRY_REVISION)
+    except ValueError as exc:raise ValueError('retained source differs: '+str(exc)) from exc
 
 
 @lru_cache(maxsize=4)
@@ -148,16 +148,24 @@ def _parent(root_name):
         sample['vertical_contour_relative_difference'] = abs(pair[1]-pair[0])/max(abs(f) for f in pair)
         sample['numerical_force_convergence_established'] = False
         sample['sampled_contours_are_confidence_bounds'] = False
+    ancestry=PARENT_PACKETS | vehicle['source_sha256'] | finite['source_sha256'] | result['source_sha256']
+    provenance=_source_check(root,ancestry)
     return dict(vehicle=vehicle, fitout=old_fitout, samples=samples,
         interior_allocation_kg=interior, remaining_unlocated_allocation_kg=residual-removed_allocations,
-        source_sha256=dict(sorted((PARENT_PACKETS | vehicle['source_sha256'] | finite['source_sha256'] | result['source_sha256']).items())))
+        ancestry_source_revision=ANCESTRY_REVISION,
+        ancestry_source_sha256=provenance['ancestry_source_sha256'],
+        source_sha256={**provenance['source_sha256'],
+            'engineering/comfort_options/systems.py':_hash(Path(__file__))})
 
 
 def parent_evidence(root=ROOT):
     root = Path(root).resolve()
     value = _parent(str(root))
     # Cache parsing, never permission to reuse stale evidence after an edit.
-    _source_check(root, value['source_sha256'])
+    provenance=_source_check(root, value['ancestry_source_sha256'])
+    current_sources={**provenance['source_sha256'],
+        'engineering/comfort_options/systems.py':_hash(Path(__file__))}
+    if current_sources!=value['source_sha256']:raise ValueError('Retained evidence projection source changed; restart before reuse')
     return deepcopy(value)
 
 
@@ -383,6 +391,8 @@ def evaluate(layout, glazing, *, root=ROOT, hvac_units=5):
     value = dict(schema=SCHEMA, candidate_id=candidate_id, physical_definition=physical,
         layout_id=layout['layout_id'], glazing_id=glazing['glazing_id'],
         source_sha256=dict(sorted(bindings.items())),
+        ancestry_source_revision=parent['ancestry_source_revision'],
+        ancestry_source_sha256=deepcopy(parent['ancestry_source_sha256']),
         parent_body_candidate_id=BODY_ID, parent_composition_id=PARENT_COMPOSITION_ID,
         magnet_component_id=MAGNET_ID, mass=mass,
         occupancy=dict(seats_total=layout['seats_total'], transverse_seats=layout['transverse_seats'],

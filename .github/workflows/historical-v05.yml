@@ -6,10 +6,14 @@ on:
     paths:
       - ".github/workflows/historical-v05.yml"
       - "docs/archives/v0.5-maglev/**"
+      - "tools/automation/historical-native-preflight.py"
+      - "tools/automation/install-historical-freecad.py"
   pull_request:
     paths:
       - ".github/workflows/historical-v05.yml"
       - "docs/archives/v0.5-maglev/**"
+      - "tools/automation/historical-native-preflight.py"
+      - "tools/automation/install-historical-freecad.py"
   workflow_dispatch:
   schedule:
     - cron: "20 2 * * 0"
@@ -21,14 +25,19 @@ jobs:
     defaults:
       run:
         working-directory: historical
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 360
+    env:
+      QT_QPA_PLATFORM: offscreen
     steps:
       - name: Read the current archive contract
         uses: actions/checkout@v4
         with:
           path: current
-          sparse-checkout: /docs/archives/v0.5-maglev/manifest.json
+          sparse-checkout: |
+            /docs/archives/v0.5-maglev/manifest.json
+            /tools/automation/historical-native-preflight.py
+            /tools/automation/install-historical-freecad.py
           sparse-checkout-cone-mode: false
       - name: Check out the immutable v0.5 source and publication
         uses: actions/checkout@v4
@@ -56,8 +65,19 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.92.0
         with:
           components: rustfmt,clippy
-      - name: Media encoding and decoded-frame verification
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+      - name: Install the direct native tools required by the pinned cycle
+        run: sudo apt-get update && sudo apt-get install -y gmsh getdp calculix-ccx libglu1-mesa libegl1 libopengl0 ffmpeg fonts-dejavu-core
+      # Noble has no Ubuntu FreeCAD package. Use an official Python3.11 bundle,
+      # verified before extraction; preserve actual tool versions and new-run outputs.
+      - name: Install the checksum-pinned official FreeCAD command bundle
+        shell: bash
+        run: |
+          mkdir -p build/native-download
+          curl --fail --location --retry 3 --max-time 600 https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage --output build/native-download/freecad.AppImage
+          python ../current/tools/automation/install-historical-freecad.py --archive build/native-download/freecad.AppImage --output build/historical-freecad
+          echo "$PWD/build/historical-freecad/bin" >> "$GITHUB_PATH"
+      - name: Verify the direct headless CAD and solver environment before replay
+        run: python ../current/tools/automation/historical-native-preflight.py --output build/historical-native-preflight.json
       - run: python -m pip install pytest -r engineering/ferrite_maglev/requirements.txt
       - name: Verify every published source and packet file is tracked
         run: python tools/automation/tests/verify-maglev-sources.py
@@ -135,6 +155,10 @@ jobs:
         with:
           name: historical-v05-replay-not-current-qualification
           path: |
+            historical/build/historical-freecad/install.json
+            historical/build/historical-freecad/extract.log
+            historical/build/historical-native-preflight.json
+            historical/build/historical-native-preflight.log
             historical/build/maglev-historical-cycle.log
             historical/build/maglev-workflow/
             historical/build/maglev-workflow-report/

@@ -2,9 +2,13 @@ from copy import deepcopy
 import os
 from pathlib import Path
 import pytest
+from engineering.research_test_support import evidence_root
 from engineering.operating_confirmation import study as s
 
-ROOT=Path(os.environ.get('OSR_SUSPENSION_EVIDENCE_ROOT',s.ROOT))
+ROOT = evidence_root(Path(__file__).resolve().parents[3],
+    required=('docs/design-engine/halbach-scaling/comparison.json',),
+    sources=('engineering/operating_confirmation/study.py',),
+    variable='OSR_SUSPENSION_EVIDENCE_ROOT' if 'OSR_SUSPENSION_EVIDENCE_ROOT' in os.environ else 'OSR_EVIDENCE_ROOT')
 
 
 def test_physical_component_is_exact_retained_differential_stock():

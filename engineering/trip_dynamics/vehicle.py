@@ -13,9 +13,12 @@ from pathlib import Path, PurePosixPath
 import re
 
 from engineering.design_search.contracts import identity as design_identity
+from engineering import research_ancestry
+from engineering.station_rail.history import REVISION as RETAINED_SOURCE_REVISION
 
 ROOT = Path(__file__).resolve().parents[2]
 PINS = Path(__file__).parent / 'fixtures/structures/publication-pins.json'
+CODE = 'engineering/trip_dynamics/vehicle.py'
 FLAGS = dict(configuration_adopted=False, physical_accepted=False,
              engineering_accepted=False, complete_equipped_vehicle=False)
 
@@ -52,33 +55,50 @@ def _publication(root, folder, names):
     pins = json.loads(PINS.read_text())['files_sha256']
     manifest = json.loads(_checked(root, manifest_path, pins[manifest_path]))
     bindings = {manifest_path: pins[manifest_path]}
+    # Material/configuration and packet bytes remain live, exact inputs. Old
+    # Python producer hashes describe authenticated ancestry, not today's code.
     for relative, digest in manifest['source_sha256'].items():
-        _checked(root, relative, digest)
-        bindings[relative] = digest
+        if Path(relative).suffix != '.py':
+            _checked(root, relative, digest)
     values = {}
     for name in names:
         path = folder + '/' + name
         digest = manifest['files_sha256'][name]
         values[name] = json.loads(_checked(root, path, digest))
         bindings[path] = digest
-    return values, bindings, manifest
+    ancestry = research_ancestry.verify(root, manifest['source_sha256'],
+        source_revision=RETAINED_SOURCE_REVISION)
+    for relative, digest in ancestry['source_sha256'].items():
+        _checked(root, relative, digest)
+    bindings.update(ancestry['source_sha256'])
+    executing = {CODE: sha256(Path(__file__).read_bytes()).hexdigest(),
+        'engineering/trip_dynamics/fixtures/structures/publication-pins.json':
+            sha256(PINS.read_bytes()).hexdigest()}
+    for relative, digest in executing.items():
+        _checked(root, relative, digest)
+    bindings.update(executing)
+    return values, bindings, manifest, ancestry
 
 
 def current_vehicle_definitions(root: Path = ROOT) -> dict:
     """Read pinned retained evidence without running CAD or legacy verification.
 
     ``root`` is the repository containing the *retained* publications, not an
-    arbitrary report directory. Any changed publication or bound source refuses.
+    arbitrary report directory. Changed live inputs/publications refuse. Retained
+    producers are authenticated at their exact Git revision and recorded apart
+    from the current executing reader's source epoch.
     Comparison masses include retained allocations; actual installed mass/CG/I
     remain None. Numerical qualification is separate from this byte/ledger check.
     """
     from engineering.ferrite_maglev import candidate_magnetics
 
-    newer, bindings, manifest = _publication(root, 'docs/design-engine/vehicle-optimisation',
+    newer, bindings, manifest, newer_ancestry = _publication(root, 'docs/design-engine/vehicle-optimisation',
                                              ['summary.json', 'equipment.json'])
-    old, old_bindings, _ = _publication(root, 'docs/design-engine/ferrite-maglev/assembled-body',
+    old, old_bindings, _, old_ancestry = _publication(root, 'docs/design-engine/ferrite-maglev/assembled-body',
                                        ['definition.json', 'mass-properties.json'])
     bindings.update(old_bindings)
+    ancestry = {'docs/design-engine/vehicle-optimisation': newer_ancestry,
+                'docs/design-engine/ferrite-maglev/assembled-body': old_ancestry}
     definition = candidate_magnetics.definition()
     # Guard the executing implementation too, rather than trusting a root with
     # matching data and a different imported canonical model.
@@ -122,7 +142,8 @@ def current_vehicle_definitions(root: Path = ROOT) -> dict:
         cg_m=None, inertia_kg_m2=None, modules_per_car=len(definition['module_placements']),
         cars=int(definition['cars']), car_length_m=17., payload_aw3_kg_per_car=12000.,
         disjoint_inventory=inventory, unknown_installed_inventory=unresolved,
-        source_bindings=deepcopy(bindings), modal_model=None, **FLAGS)
+        source_bindings=deepcopy(bindings), retained_source_ancestry=deepcopy(ancestry),
+        modal_model=None, **FLAGS)
     summary = newer['summary.json']
     selected = summary['next_experiment']['selected_candidate_id']
     selected_row = next(x for x in summary['comparisons'] if x['candidate_id'] == selected)
@@ -168,7 +189,7 @@ def current_vehicle_definitions(root: Path = ROOT) -> dict:
             cg_m=None, inertia_kg_m2=None, cars=6, car_length_m=17., modules_per_car=24,
             payload_aw3_kg_per_car=12000., replacement_ledger=deepcopy(ledger),
             unknown_installed_inventory=ledger['unknown_installed_inventory'] + unresolved,
-            source_bindings={**bindings, path: digest}, modal_model=None,
+            source_bindings={**bindings, path: digest}, retained_source_ancestry=deepcopy(ancestry), modal_model=None,
             next_experiment_only=row['candidate_id'] == selected, **FLAGS))
     cad = old['mass-properties.json']
     partial = dict(candidate_id=cad['definition_sha256'],
@@ -185,7 +206,8 @@ def current_vehicle_definitions(root: Path = ROOT) -> dict:
             reason='Retained GFRP material is counted; a revised full-body laminate/geometry/equipped modal model is not published',
             candidate_id=None, installed_empty_kg_per_car=None, **FLAGS),
         aluminium_proposals=newer['equipment.json']['chassis'],
-        unresolved_equipment_and_integration=unresolved, source_bindings=bindings, **FLAGS)
+        unresolved_equipment_and_integration=unresolved, source_bindings=bindings,
+        retained_source_ancestry=ancestry, **FLAGS)
 
 
 def structural_readiness(vehicle: dict, scenario: dict) -> list[dict]:

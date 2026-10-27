@@ -7,11 +7,14 @@ import os
 import numpy as np
 import pytest
 
+from engineering.research_test_support import evidence_root
 from engineering.equipped_vehicle import ROOT,FLAGS
 from engineering.equipped_vehicle.inventory import combine,build_inventory,validate_inventory,gfrp_design_space,SYSTEMS
 from engineering.halbach_scaling import candidates,vehicles
 
-EVIDENCE=Path(os.environ.get('OSR_EVIDENCE_ROOT',str(ROOT)))
+EVIDENCE = evidence_root(Path(__file__).resolve().parents[3],
+    required=('docs/design-engine/halbach-scaling/comparison.json',),
+    sources=('engineering/equipped_vehicle/inventory.py',))
 
 
 @pytest.fixture(scope='module')

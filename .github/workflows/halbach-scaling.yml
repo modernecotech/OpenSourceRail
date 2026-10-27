@@ -1,9 +1,9 @@
 name: "Retained research: Larger Halbach and lighter vehicle contracts"
 on:
   push:
-    paths: ['engineering/halbach_scaling/**', 'engineering/vehicle_optimisation/**', 'engineering/passive_suspension/**', 'engineering/magnetic_confirmation/**', '.github/workflows/halbach-scaling.yml']
+    paths: ['engineering/halbach_scaling/**', 'engineering/vehicle_optimisation/**', 'engineering/passive_suspension/**', 'engineering/magnetic_confirmation/**', '.github/workflows/halbach-scaling.yml', 'engineering/research_context.py', 'engineering/research_test_support.py', 'engineering/research_ancestry.py']
   pull_request:
-    paths: ['engineering/halbach_scaling/**', 'engineering/vehicle_optimisation/**', 'engineering/passive_suspension/**', 'engineering/magnetic_confirmation/**', '.github/workflows/halbach-scaling.yml']
+    paths: ['engineering/halbach_scaling/**', 'engineering/vehicle_optimisation/**', 'engineering/passive_suspension/**', 'engineering/magnetic_confirmation/**', '.github/workflows/halbach-scaling.yml', 'engineering/research_context.py', 'engineering/research_test_support.py', 'engineering/research_ancestry.py']
   workflow_dispatch:
 permissions:
   contents: read
@@ -13,6 +13,10 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch the exact retained producer source required by offline ancestry checks
+        run: |
+          git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          git cat-file -e 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164^{commit}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
