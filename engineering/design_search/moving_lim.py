@@ -10,6 +10,7 @@ from copy import deepcopy
 from pathlib import Path
 from math import ceil, pi, sqrt, isfinite
 from time import monotonic
+from hashlib import sha256
 import json, os, resource, subprocess, sys
 import numpy as np
 import scipy
@@ -17,7 +18,7 @@ from scipy.sparse import coo_matrix, csr_matrix, bmat, diags
 from scipy.sparse.linalg import spsolve
 from engineering.station_rail import ROOT, FLAGS
 from engineering.station_rail.common import identity, digest, encoded
-from . import wheel_motor, railway_bundle, transient_lim, lim_materials, lim_transport
+from . import wheel_motor, railway_bundle, transient_lim, lim_materials, lim_transport, lim_critical_mesh
 
 CODE='engineering/design_search/moving_lim.py'
 REFERENCE='https://github.com/getdp-project/getdp/blob/master/templates/Lib_Magnetodynamics2D_av_Cir.pro'
@@ -31,7 +32,8 @@ def wiring_definition():
 
 
 def request(bundle,*,start_m=-8.95,speed_m_s=.5,voltage_peak_V=2.,frequency_Hz=30.,
-            dt_s=.002,steps=20,mesh_m=.04,temperature_C=80.,current_limit_A=140.,linear=False,transport_method='galerkin'):
+            dt_s=.002,steps=20,mesh_m=.04,temperature_C=80.,current_limit_A=140.,linear=False,transport_method='galerkin',
+            mesh_family='legacy-tensor',critical_dx_m=None,secondary_dy_m=None):
     railway_bundle.validate(bundle)
     if bundle['family_id']!='P1' or bundle['motor_parameters'] is None:raise ValueError('Exact P1 canonical motor bundle required')
     definition=wheel_motor.definition(bundle['motor_parameters'])
@@ -57,12 +59,27 @@ def request(bundle,*,start_m=-8.95,speed_m_s=.5,voltage_peak_V=2.,frequency_Hz=3
         actual_converter_loss_W=None,actual_cooling_W=None,repeated_thermal_duty_verified=False,
         available_operating_map=None,complete_installed_mass_kg=None,references=[REFERENCE,lim_transport.REFERENCE],scope=SCOPE,**FLAGS)
     r['evaluated_component_definition_id']=identity(dict(motor_geometry_id=definition['motor_component_id'],wiring_hypothesis=wiring))
+    if mesh_family==lim_critical_mesh.NAME:
+        if mesh_m!=.04:raise ValueError('Local mesh family uses explicit critical targets; retain the legacy mesh mirror at .04m')
+        r['schema']='osr-moving-LIM-request/3'
+        r['mesh_definition']=lim_critical_mesh.definition(.02 if critical_dx_m is None else critical_dx_m,.00375 if secondary_dy_m is None else secondary_dy_m)
+        r['operating_hypothesis']=dict(phase_frequency_Hz=frequency_Hz,nominal_synchronous_speed_m_s=frequency_Hz*definition['wavelength_m'],
+            nominal_slip_frequency_Hz=frequency_Hz-speed_m_s/definition['wavelength_m'],transient_force_sign_guaranteed=False,
+            actual_propulsion_capability_verified=False)
+        lim_critical_mesh.axes(r)
+    elif mesh_family!='legacy-tensor' or critical_dx_m is not None or secondary_dy_m is not None:
+        raise ValueError('Explicit supported mesh family and matching numerical variables required')
     r['request_id']=identity(r);return r
 
 
 def validate(r):
     if not isinstance(r,dict) or not isinstance(r.get('bundle_definition'),dict):raise ValueError('Complete moving request and canonical bundle required')
-    if set(r)!=set(request(r['bundle_definition'])):raise ValueError('Moving request schema fields differ from bounded constructor')
+    mesh_arguments={}
+    if r.get('schema')=='osr-moving-LIM-request/3':
+        d=r.get('mesh_definition')
+        if not isinstance(d,dict) or 'critical_dx_m' not in d or 'secondary_dy_m' not in d:raise ValueError('Explicit critical mesh definition required')
+        mesh_arguments=dict(mesh_family=lim_critical_mesh.NAME,critical_dx_m=d['critical_dx_m'],secondary_dy_m=d['secondary_dy_m'])
+    if set(r)!=set(request(r['bundle_definition'],**mesh_arguments)):raise ValueError('Moving request schema fields differ from bounded constructor')
     if r.get('request_id')!=identity({k:v for k,v in r.items() if k!='request_id'}):raise ValueError('Moving request identity differs')
     railway_bundle.validate(r['bundle_definition'])
     if r['bundle_definition']['candidate_id']!=r['bundle_id'] or r['bundle_definition']['definition_id']!=r['bundle_definition_id'] or r['bundle_definition']['propulsion_component_id']!=r['motor_component_id'] or r['bundle_definition']['body_candidate_id']!=r['body_candidate_id']:raise ValueError('Moving request mixed physical bundle')
@@ -82,7 +99,7 @@ def validate(r):
     # and prevents a resealed record from claiming a different body or method.
     keys=('start_m','speed_m_s','voltage_peak_V','frequency_Hz','dt_s','steps','mesh_m','temperature_C','current_limit_A','linear')
     if not isinstance(r['transport_method'],dict) or r['transport_method']!=lim_transport.method(r['transport_method'].get('name')):raise ValueError('Moving transport method differs')
-    expected=request(r['bundle_definition'],**{key:r[key] for key in keys},transport_method=r['transport_method']['name'])
+    expected=request(r['bundle_definition'],**{key:r[key] for key in keys},transport_method=r['transport_method']['name'],**mesh_arguments)
     if r!=expected:raise ValueError('Moving request differs from bounded constructor and model domain')
 
 
@@ -93,6 +110,7 @@ def _subdivide(edges,h):
 
 
 def _mesh_axes(r):
+    if r.get('schema')=='osr-moving-LIM-request/3':return lim_critical_mesh.axes(r)
     p=r['physical_geometry'];L=p['primary_length_m'];pitch=2*p['pole_pitch_m']/6
     end=r['start_m']+r['speed_m_s']*r['dt_s']*r['steps'];fin=p['secondary_length_m']
     lo=min(-.5,r['start_m']-.5,end-.5);hi=max(L+.5,r['start_m']+fin+.5,end+fin+.5)
@@ -113,10 +131,12 @@ def estimate(r):
     d=r['motor_definition'];sigma=d['aluminium_conductivity_20C_S_m_hypothesis'] if r['temperature_C']==20 else d['aluminium_conductivity_80C_S_m_hypothesis']
     dx=float(max(np.diff(x)));dy=float(max(np.diff(band)));Pe=abs(r['speed_m_s'])*sqrt(dx*dx+dy*dy)*transient_lim.MU0*sigma/2
     nodes=len(x)*len(y)
-    return dict(nodes=nodes,elements=2*(len(x)-1)*(len(y)-1),Peclet_max=Pe,
+    result=dict(nodes=nodes,elements=2*(len(x)-1)*(len(y)-1),Peclet_max=Pe,
         max_streamwise_cell_m=dx,mesh_nodes_within_budget=nodes<=r['maximum_nodes'],
         unstabilized_domain_supported=Pe<=1,transport_method_id=r['transport_method']['method_id'],
         estimated_actual_RAM_bytes=None,enforced_address_space_limit_bytes=r['memory_bytes'])
+    if r.get('schema')=='osr-moving-LIM-request/3':result['active_grid']=lim_critical_mesh.diagnostics(r,x,y)
+    return result
 
 
 def mesh(r):
@@ -139,6 +159,14 @@ def mesh(r):
             branch[rows]=phase*paths+coil_index%paths;sign[rows]=sgn;regions[rows]=100+phase
     boundary=np.flatnonzero((points[:,0]==x[0])|(points[:,0]==x[-1])|(points[:,1]==y[0])|(points[:,1]==y[-1]))
     return points,tri,regions,boundary,branch,sign
+
+
+def mesh_fingerprint(points,tri,regions,boundary,branch,sign):
+    """Actual assembled mesh identity, independent of physical candidate IDs."""
+    arrays=dict(points=(points,'<f8'),triangles=(tri,'<i8'),regions=(regions,'<i8'),
+        boundary=(boundary,'<i8'),winding_branch=(branch,'<i8'),winding_sign=(sign,'<f8'))
+    record={name:dict(shape=list(np.asarray(a).shape),dtype=kind,sha256=sha256(np.asarray(a,dtype=kind).tobytes()).hexdigest()) for name,(a,kind) in arrays.items()}
+    record['mesh_discretization_id']=identity(record);return record
 
 
 def clipped_moments(vertices,start,end):
@@ -197,6 +225,7 @@ def solve(r,*,progress=None):
     if not bounds['mesh_nodes_within_budget']:raise ValueError('Necessary mesh node bound exceeded before allocation')
     if not bounds['unstabilized_domain_supported'] and r['transport_method']['name']=='galerkin':raise ValueError('Unstabilized conductor Peclet>1; independently validated refinement/stabilization required')
     points,tri,regions,boundary,branch,sign=mesh(r)
+    actual_mesh=mesh_fingerprint(points,tri,regions,boundary,branch,sign)
     area,grad=transient_lim.geometry(points,tri);N=len(points);free=np.setdiff1d(np.arange(N),boundary);nf=len(free);nc=30
     rr=np.repeat(tri,3,axis=1).ravel();cc=np.tile(tri,(1,3)).ravel()
     def matrix(v):return coo_matrix((v.ravel(),(rr,cc)),shape=(N,N)).tocsr()
@@ -257,7 +286,7 @@ def solve(r,*,progress=None):
         last_energy=stored
         if max(abs(I))>r['current_limit_A']:state='current-limit';break
         if r['linear'] and row['peak_steel_B_T']>1.3:state='outside-linear-steel-domain';break
-    return dict(execution='completed',state=state,trace=rows,nodes=N,elements=len(tri),Peclet_max=pe,
+    return dict(execution='completed',state=state,trace=rows,nodes=N,elements=len(tri),Peclet_max=pe,mesh_diagnostics=bounds.get('active_grid'),actual_mesh=actual_mesh,
         final_A_sha256=identity(A.tolist()),final_current_A=I.tolist(),
         moving_geometry_simulated=True,current_circuit_coupled=True,wire_resistance_ohm_per_path=R.tolist(),transport_method=r['transport_method'],
         available_operating_map=None,actual_converter_loss_W=None,temperature_C_prediction=None,
@@ -267,7 +296,7 @@ def solve(r,*,progress=None):
 
 
 def sources(root=ROOT):
-    names=(CODE,lim_transport.CODE,wheel_motor.PRODUCER,transient_lim.PRODUCER,'engineering/design_search/lim_materials.py',lim_materials.DATA,
+    names=(CODE,lim_critical_mesh.CODE,lim_transport.CODE,wheel_motor.PRODUCER,transient_lim.PRODUCER,'engineering/design_search/lim_materials.py',lim_materials.DATA,
            'engineering/design_search/railway_bundle.py','engineering/station_rail/common.py','engineering/station_rail/station_motor.py')
     return {name:digest(Path(root)/name) for name in names}
 

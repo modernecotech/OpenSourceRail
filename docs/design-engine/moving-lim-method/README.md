@@ -21,6 +21,12 @@ The P1 research parent is `70eb0ba82c796bc3ec3c52dbdb1c64db15b0d337c64a021f5a5ed
 | high-supg-dt-1ms | completed | 33368 | -0.04049922 | 0.0160 | source-epoch-3 |
 | high-supg-mesh-30mm | completed | 60645 | -0.03828821 | 0.0160 | source-epoch-4 |
 | high-supg-mesh-25mm | completed | 70929 | -0.03812261 | 0.0160 | source-epoch-4 |
+| zero-medium | completed | 22545 | -0.00000000 | 0.0160 | source-epoch-5 |
+| motoring-coarse | completed | 14124 | -0.00259630 | 0.0160 | source-epoch-5 |
+| motoring-x-refined | completed | 16533 | -0.00257470 | 0.0160 | source-epoch-5 |
+| motoring-y-refined | completed | 19260 | -0.00256501 | 0.0160 | source-epoch-5 |
+| motoring-medium | completed | 22545 | -0.00253956 | 0.0160 | source-epoch-5 |
+| motoring-fine | completed | 44643 | -0.00241864 | 0.0160 | source-epoch-5 |
 
 The initial final-force comparison changes 11.86% when the time step is halved and 6.16% under the tested 2D mesh refinement. Convergence is **not established**. The original unstabilized 20 m/s request retains its Peclet-domain hold. The 2 V, 0.5 m/s startup samples are not operating thrust or an insufficient-thrust verdict for the reference railway.
 
@@ -38,7 +44,7 @@ The A/u and stranded-circuit formulation follows the class documented in the [of
 
 The steel law is a generic reversible numerical hypothesis; hysteresis/core loss, finite-height current return, end-turn leakage, physical winding grouping, converter switching/loss, protection, hardware current control and supplier correlation remain unresolved. Temperatures, cooling, repeated duty and complete installed equipment/mass/cost remain unknown. There is no coupled train-motion model in this component packet.
 
-Next work requires a source-qualified zero control, further mesh/time/outer-boundary refinement, independent linear field/circuit and reversal benchmarks, a validated high-speed transport discretization, supplier magnetic/loss data, actual winding/inverter/protection definitions and authenticated measurements. Physical requirements stay open.
+Remaining work includes further mesh/time/outer-boundary refinement, independent linear field/circuit and reversal benchmarks, a validated high-speed transport discretization, supplier magnetic/loss data, actual winding/inverter/protection definitions and authenticated measurements. Any source-qualified zero control is identified by its own component execution below. Physical requirements stay open.
 
 ## Continued numerical transport experiment
 
@@ -55,3 +61,13 @@ SUPG reference: [Brooks, 1981, §§2.4 and3.2–3.3](https://thesis.caltech.edu/
 A separate two-job spatial request retains its own source epoch and resource budget. High-speed mesh changes 40→30 mm: 5.46%; 30→25 mm: 0.43%. These comparisons do not qualify the field model or operating motor.
 
 The 30 mm and25 mm target meshes have the same engaged-primary longitudinal cuts and secondary transverse layers. Their small force difference tests other steel/air/exterior refinement; it does not demonstrate convergence of the engaged force grid. Exact mesh diagnostics are retained in the continuation context.
+
+## Independent active-region refinement
+
+Six further source-qualified 20 m/s, 50 Hz component cases use an explicit entry-window mesh family. Actual engaged streamwise cells refine20→10→5 mm, independently of secondary transverse layers4→8→16. Far-region construction rules remain fixed; global inner-fin/gap y refinement also changes remote elements. The physical motor and vehicle identity are unchanged.
+
+The zero-voltage control returned exact zero currents, forces and energies: **True**. Coarse→x-only final-force/impulse changes are 0.83%/7.93%; coarse→y-only 1.21%/0.95%; medium→fine 4.76%/3.23%.
+
+**Every nonzero startup trace still has negative thrust despite nominal positive10Hz slip. This remains unresolved and cannot be relabelled propulsive.** The 16 ms zero-initial-state, finite-entry sample is not a settled full-overlap operating map. Matched independent field/circuit, measured branch phase, reversal, blocked/full-overlap, warm-start and actual current-controller checks are required. Fine-grid motion crosses about four to five active cells per timestep, so temporal and whole-domain refinement also remain open.
+
+The archive also retains independent imposed travelling-wave sign/unit/energy controls and a separately labelled scalar cold-start example. The periodic controls validate the algebraic sign convention; the scalar example shows that nominal positive slip alone does not guarantee positive transient force. Neither diagnoses the actual finite-element negatives nor supplies a motor map. Analytical synchronous/oversynchronous controls beyond20m/s are not actual candidate solver executions.

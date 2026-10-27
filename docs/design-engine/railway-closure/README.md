@@ -4,6 +4,8 @@ Three distinct body definitions feed 12 same-candidate railway bundles over 1.5 
 
 **Zero complete installed vehicles, validated operating maps or physically supported journeys.** These are conditional calculations. Unlocated equipment accounts, GFRP/joint properties, actual electrical/thermal duty, brake hardware, site data and prices remain open. No preferred railway or physical release is selected.
 
+The [required test programme](required-tests.json.gz) specifies ten test families with exact candidate/component bindings, conditions, measured channels and units, prerequisites, calibration/authentication needs and criterion derivations. Physical records are unavailable for this programme revision. Every test is unexecuted, every approval limit remains unassigned, and physical changes require a new as-built identity. These plans cannot admit a solver or qualify an article.
+
 The moving-conductor LIM method is a separate numerical component experiment; its benchmark, refinement and domain limitations remain separate from operating-map admission.
 
 Run `./osr design railway demonstrate --max-bundles 12`; resume the same command for pending cases. Use `./osr design railway demonstration-publish` and `./osr design railway demonstration-verify` to regenerate/check this packet.

@@ -1,0 +1,1208 @@
+{
+  "native_dispatch_allowed": false,
+  "numerical_bounds_only": [
+    {
+      "fact": "PET T92.80 density80\u201390kg/m3, ET75MPa, GLT=GWT22MPa at23C; published minimum coupon checkpoints retained",
+      "source": "engineering/design_search/structural_families.py",
+      "use": "Mass/material sensitivity only in exact grade/orientation/temperature/test-thickness scope; not complete orthotropy or allowables"
+    },
+    {
+      "fact": "PVC H80 maximum process claim90C versus EC3500 minimum cure125C for3600s",
+      "source": "engineering/design_search/joining_catalogue.py",
+      "use": "Reject automatic combination pending actual cure/substrate/process evidence; no heat-compatible joint inferred"
+    },
+    {
+      "fact": "DP490 sandblasted-Al overlap coupon\u224823.0MPa22C and9.50MPa82.2C; raw PDF hash unavailable",
+      "source": "engineering/design_search/joining_catalogue.py",
+      "use": "Research comparison only, not GFRP/vehicle-joint allowable"
+    },
+    {
+      "fact": "Glazing density1200kg/m3 and CTE70e-6/K or65e-6/K only23\u201355C; HVAC supplier module125kg without installed system or50C duty",
+      "source": "engineering/design_search/joining_catalogue.py",
+      "use": "Sheet-only takeoff/free-expansion and module-mass research bounds, not complete window/HVAC installation"
+    },
+    {
+      "fact": "Generic GetDP single-valued isotropic reversible BH table; no supplier grade or temperature/loss/hysteresis law",
+      "source": "engineering/design_search/data/getdp-steel-generic.json",
+      "use": "Numerical method benchmark only;1.3T retained linear screen is model domain, not measured physical saturation limit"
+    }
+  ],
+  "origin_audit_sha256": "614e5b7ad03c10599cb436c8cd091a95c74104ed2b05b35c7eb965c3652faba4",
+  "origin_reviewed_commit": "1692bb45f7c1f0a270328c6cc66b2d1d33cc81d0",
+  "physical_accepted": false,
+  "protocols": [
+    {
+      "acceptance_criteria": [
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved axle/civil/propulsion/braking allocation and uncertainty",
+          "limit": null,
+          "observable": "installed_mass_kg",
+          "unit": "kg"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Calibrated weighing/tilt/oscillation procedure with actual geometry and suspension references",
+          "limit": null,
+          "observable": "CG_and_inertia",
+          "unit": "SI tensor"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Actual rail/motor/door/platform/tolerance/thermal/swept interface budgets",
+          "limit": null,
+          "observable": "clearance_m",
+          "unit": "m"
+        }
+      ],
+      "approved_limits": null,
+      "approved_procedure_revision": null,
+      "approved_sample_matrix_and_repetitions": null,
+      "approved_uncertainty_budget": null,
+      "article_configuration_sha256": null,
+      "article_serials": [],
+      "evidence_class": "installed-article-measurement",
+      "executed": false,
+      "id": "T01",
+      "independent_review": null,
+      "load_duty_environment": [
+        "Fully installed tare; normal46people/car ballast equivalent; separate160person/car crowd structural control; all equipment/fasteners/services counted",
+        "Locate doors/glazing/seats/floor/HVAC/ducts/solar/service batteries/wiring/protection/bogies/brakes and maintenance envelopes; no standee-policy substitution"
+      ],
+      "material_batches": [],
+      "measured_channels": [
+        {
+          "name": "time_s",
+          "unit": "s"
+        },
+        {
+          "name": "installed_mass_kg",
+          "unit": "kg"
+        },
+        {
+          "name": "wheel_reaction_N",
+          "unit": "N"
+        },
+        {
+          "name": "CG_x_m",
+          "unit": "m"
+        },
+        {
+          "name": "CG_y_m",
+          "unit": "m"
+        },
+        {
+          "name": "CG_z_m",
+          "unit": "m"
+        },
+        {
+          "name": "I_xx_kg_m2",
+          "unit": "kg*m2"
+        },
+        {
+          "name": "I_yy_kg_m2",
+          "unit": "kg*m2"
+        },
+        {
+          "name": "I_zz_kg_m2",
+          "unit": "kg*m2"
+        },
+        {
+          "name": "I_xy_kg_m2",
+          "unit": "kg*m2"
+        },
+        {
+          "name": "I_xz_kg_m2",
+          "unit": "kg*m2"
+        },
+        {
+          "name": "I_yz_kg_m2",
+          "unit": "kg*m2"
+        },
+        {
+          "name": "clearance_m",
+          "unit": "m"
+        }
+      ],
+      "physical_accepted": false,
+      "prerequisites": [],
+      "raw_measurement_files": [],
+      "source_paths": [
+        "engineering/design_search/equipped_candidates.py",
+        "engineering/design_search/system_inventory.py",
+        "docs/design-engine/railway-closure/equipped.json.gz"
+      ],
+      "status": "planned-inputs-absent",
+      "subject_scope": "each of the three body designs; actual built installed revision must have its own exact physical identity",
+      "subject_selector": "body",
+      "title": "Installed article inventory, geometry, mass, CG and inertia"
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved lot/condition/statistical basis; full orthotropic law where required, not isotropic completion",
+          "limit": null,
+          "observable": "directional_elastic_and_strength_laws",
+          "unit": "Pa"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved service spectrum, life/confidence and damage/retention criteria",
+          "limit": null,
+          "observable": "fatigue_creep_and_failure_mode",
+          "unit": "typed record"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Applicable independently approved fire/thermal/environment test procedure and limits",
+          "limit": null,
+          "observable": "thermal_fire_smoke_and_durability",
+          "unit": "typed record"
+        }
+      ],
+      "approved_limits": null,
+      "approved_procedure_revision": null,
+      "approved_sample_matrix_and_repetitions": null,
+      "approved_uncertainty_budget": null,
+      "article_configuration_sha256": null,
+      "article_serials": [],
+      "evidence_class": "conditioned-material-test",
+      "executed": false,
+      "id": "T02",
+      "independent_review": null,
+      "load_duty_environment": [
+        "Aluminium: actual alloy/temper/thickness and weld HAZ; GFRP: exact fibre/resin/plies/orientation/fibre fraction/voids/cure; selected core grade/cell axes/thickness and bond",
+        "Dry reference, declared hot/cold, hot/wet, aged, sustained and cyclic states; actual site temperature/humidity envelope must be approved"
+      ],
+      "material_batches": [],
+      "measured_channels": [
+        {
+          "name": "time_s",
+          "unit": "s"
+        },
+        {
+          "name": "force_N",
+          "unit": "N"
+        },
+        {
+          "name": "displacement_m",
+          "unit": "m"
+        },
+        {
+          "name": "strain_1",
+          "unit": "1"
+        },
+        {
+          "name": "strain_2",
+          "unit": "1"
+        },
+        {
+          "name": "strain_3",
+          "unit": "1"
+        },
+        {
+          "name": "temperature_C",
+          "unit": "degC"
+        },
+        {
+          "name": "humidity_fraction",
+          "unit": "1"
+        },
+        {
+          "name": "density_kg_m3",
+          "unit": "kg/m3"
+        },
+        {
+          "name": "cycle_count",
+          "unit": "1"
+        }
+      ],
+      "physical_accepted": false,
+      "prerequisites": [
+        "drawing-and-material-definition"
+      ],
+      "raw_measurement_files": [],
+      "source_paths": [
+        "engineering/design_search/material_database.py",
+        "engineering/design_search/structural_families.py",
+        "engineering/design_search/system_body.py",
+        "engineering/design_search/grammar_shell.py"
+      ],
+      "status": "planned-inputs-absent",
+      "subject_scope": "each of the three body designs; actual built installed revision must have its own exact physical identity",
+      "subject_selector": "body",
+      "title": "Lot-specific structural material and conditioned coupon laws"
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved exact joint/load-path and functional interface allowance",
+          "limit": null,
+          "observable": "six_axis_compliance_and_slip",
+          "unit": "N/m and N*m/rad"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved failure mode, spectrum, damage and redundant-retention requirement; coupon strengths cannot be added",
+          "limit": null,
+          "observable": "strength_retention_fatigue",
+          "unit": "typed record"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Actual substrate/core/adhesive cure and thermal/process evidence",
+          "limit": null,
+          "observable": "process_compatibility",
+          "unit": "typed record"
+        }
+      ],
+      "approved_limits": null,
+      "approved_procedure_revision": null,
+      "approved_sample_matrix_and_repetitions": null,
+      "approved_uncertainty_budget": null,
+      "article_configuration_sha256": null,
+      "article_serials": [],
+      "evidence_class": "joint-and-hardpoint-test",
+      "executed": false,
+      "id": "T03",
+      "independent_review": null,
+      "load_duty_environment": [
+        "Actual weld, bolt/clamp, bonded splice, insert, glazing/door/seat/bogie/brake attachment geometries and preparation/cure/preload",
+        "Six-axis static compliance, peel/shear/bearing/pullout, sustained/cyclic hot-wet/aged, disbond/fastener-loss, vibration, repair/removal and positive-retention cases"
+      ],
+      "material_batches": [],
+      "measured_channels": [
+        {
+          "name": "time_s",
+          "unit": "s"
+        },
+        {
+          "name": "force_x_N",
+          "unit": "N"
+        },
+        {
+          "name": "force_y_N",
+          "unit": "N"
+        },
+        {
+          "name": "force_z_N",
+          "unit": "N"
+        },
+        {
+          "name": "moment_x_Nm",
+          "unit": "N*m"
+        },
+        {
+          "name": "moment_y_Nm",
+          "unit": "N*m"
+        },
+        {
+          "name": "moment_z_Nm",
+          "unit": "N*m"
+        },
+        {
+          "name": "relative_translation_m",
+          "unit": "m"
+        },
+        {
+          "name": "relative_rotation_rad",
+          "unit": "rad"
+        },
+        {
+          "name": "bolt_preload_N",
+          "unit": "N"
+        },
+        {
+          "name": "strain",
+          "unit": "1"
+        },
+        {
+          "name": "temperature_C",
+          "unit": "degC"
+        },
+        {
+          "name": "humidity_fraction",
+          "unit": "1"
+        },
+        {
+          "name": "cycle_count",
+          "unit": "1"
+        }
+      ],
+      "physical_accepted": false,
+      "prerequisites": [
+        "T02"
+      ],
+      "raw_measurement_files": [],
+      "source_paths": [
+        "engineering/design_search/joining_catalogue.py",
+        "engineering/design_search/joint_models.py",
+        "engineering/design_search/joint_body.py"
+      ],
+      "status": "planned-inputs-absent",
+      "subject_scope": "each of the three body designs; actual built installed revision must have its own exact physical identity",
+      "subject_selector": "body",
+      "title": "Actual joints, hardpoints and retained equipment attachments"
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved strength/stability/buckling/fatigue/accidental-load and correlation basis",
+          "limit": null,
+          "observable": "structural_integrity",
+          "unit": "typed record"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Derive from actual motor/rail/door/platform/ride interfaces; L/500 comparison is advisory",
+          "limit": null,
+          "observable": "functional_deformation_and_clearance",
+          "unit": "m"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved ride/clearance/structural dynamic criteria",
+          "limit": null,
+          "observable": "modal_response",
+          "unit": "Hz and m/s2"
+        }
+      ],
+      "approved_limits": null,
+      "approved_procedure_revision": null,
+      "approved_sample_matrix_and_repetitions": null,
+      "approved_uncertainty_budget": null,
+      "article_configuration_sha256": null,
+      "article_serials": [],
+      "evidence_class": "whole-body-test",
+      "executed": false,
+      "id": "T04",
+      "independent_review": null,
+      "load_duty_environment": [
+        "Measured installed tare/normal ballast/crowd asymmetric; bogie, independent brake and coupler hardpoint loads; bending, torsion, modal, fatigue and applicable accidental cases",
+        "Actual suspension/support interfaces and component positions; joints/doors/windows tested in actual installed form"
+      ],
+      "material_batches": [],
+      "measured_channels": [
+        {
+          "name": "time_s",
+          "unit": "s"
+        },
+        {
+          "name": "applied_force_N",
+          "unit": "N"
+        },
+        {
+          "name": "support_reaction_N",
+          "unit": "N"
+        },
+        {
+          "name": "strain",
+          "unit": "1"
+        },
+        {
+          "name": "body_displacement_m",
+          "unit": "m"
+        },
+        {
+          "name": "twist_rad",
+          "unit": "rad"
+        },
+        {
+          "name": "joint_slip_m",
+          "unit": "m"
+        },
+        {
+          "name": "door_step_m",
+          "unit": "m"
+        },
+        {
+          "name": "gap_m",
+          "unit": "m"
+        },
+        {
+          "name": "acceleration_m_s2",
+          "unit": "m/s2"
+        },
+        {
+          "name": "modal_frequency_Hz",
+          "unit": "Hz"
+        },
+        {
+          "name": "cycle_count",
+          "unit": "1"
+        },
+        {
+          "name": "temperature_C",
+          "unit": "degC"
+        }
+      ],
+      "physical_accepted": false,
+      "prerequisites": [
+        "T01",
+        "T02",
+        "T03"
+      ],
+      "raw_measurement_files": [],
+      "source_paths": [
+        "engineering/design_search/system_body.py",
+        "engineering/design_search/grammar_shell.py",
+        "engineering/design_search/requirement_policy.py"
+      ],
+      "status": "planned-inputs-absent",
+      "subject_scope": "each of the three body designs; actual built installed revision must have its own exact physical identity",
+      "subject_selector": "body",
+      "title": "Whole-body structural and functional correlation"
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Pre-approved uncertainty/correlation envelope tied to installed journey demand, position/speed/current/gap/temperature domain",
+          "limit": null,
+          "observable": "available_force_map",
+          "unit": "N"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved measured electrical/mechanical/thermal energy accounting and source/instrument uncertainty",
+          "limit": null,
+          "observable": "circuit_and_energy_consistency",
+          "unit": "W and J"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved actual hardware/protection/insulation/clearance limits",
+          "limit": null,
+          "observable": "current_voltage_and_clearance_limits",
+          "unit": "A V m"
+        }
+      ],
+      "approved_limits": null,
+      "approved_procedure_revision": null,
+      "approved_sample_matrix_and_repetitions": null,
+      "approved_uncertainty_budget": null,
+      "article_configuration_sha256": null,
+      "article_serials": [],
+      "evidence_class": "moving-LIM-bench",
+      "executed": false,
+      "id": "T05",
+      "independent_review": null,
+      "load_duty_environment": [
+        "Actual primary/secondary and connections: entry/full-overlap/exit; zero-current control, rest-to20m/s numerical design envelope, reversal, nominal/offset/gap tolerance states",
+        "Actual phase winding series/parallel branches, end turns, converters/protection, copper/aluminium conductivity and selected steel BH/loss versus temperature/direction/stress; measured speed/position/current/voltage states",
+        "Verify blocked/full-overlap force sign, commanded versus measured winding/current phase, phase reversal, controlled warm start and settled waveforms; positive nominal slip alone is not propulsive evidence"
+      ],
+      "material_batches": [],
+      "measured_channels": [
+        {
+          "name": "time_s",
+          "unit": "s"
+        },
+        {
+          "name": "position_m",
+          "unit": "m"
+        },
+        {
+          "name": "speed_m_s",
+          "unit": "m/s"
+        },
+        {
+          "name": "gap_m",
+          "unit": "m"
+        },
+        {
+          "name": "offset_m",
+          "unit": "m"
+        },
+        {
+          "name": "force_x_N",
+          "unit": "N"
+        },
+        {
+          "name": "force_y_N",
+          "unit": "N"
+        },
+        {
+          "name": "force_z_N",
+          "unit": "N"
+        },
+        {
+          "name": "moment_x_Nm",
+          "unit": "N*m"
+        },
+        {
+          "name": "moment_y_Nm",
+          "unit": "N*m"
+        },
+        {
+          "name": "moment_z_Nm",
+          "unit": "N*m"
+        },
+        {
+          "name": "phase_voltage_V",
+          "unit": "V"
+        },
+        {
+          "name": "branch_current_A",
+          "unit": "A"
+        },
+        {
+          "name": "bus_voltage_V",
+          "unit": "V"
+        },
+        {
+          "name": "bus_current_A",
+          "unit": "A"
+        },
+        {
+          "name": "winding_temperature_C",
+          "unit": "degC"
+        },
+        {
+          "name": "secondary_temperature_C",
+          "unit": "degC"
+        },
+        {
+          "name": "steel_temperature_C",
+          "unit": "degC"
+        }
+      ],
+      "physical_accepted": false,
+      "prerequisites": [],
+      "raw_measurement_files": [],
+      "source_paths": [
+        "engineering/design_search/moving_lim.py",
+        "engineering/design_search/wheel_motor.py",
+        "engineering/station_rail/station_motor.py",
+        "engineering/design_search/lim_materials.py",
+        "engineering/design_search/data/getdp-steel-generic.json"
+      ],
+      "status": "planned-inputs-absent",
+      "subject_scope": "Finite-position LIM force/electrical/circuit map",
+      "subject_selector": "motor",
+      "title": "Finite-position LIM force/electrical/circuit map"
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved actual insulation/adhesive/conductor/steel/inverter/cooling component limits and life basis",
+          "limit": null,
+          "observable": "temperature_and_repeated_duty",
+          "unit": "degC"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved simultaneous demand, degraded cooling/supply and restart protection",
+          "limit": null,
+          "observable": "supply_and_thermal_reserve",
+          "unit": "W J"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved periodic convergence/rise/duration and hot-spot measurement procedure",
+          "limit": null,
+          "observable": "steady_or_periodic_thermal_state",
+          "unit": "typed record"
+        }
+      ],
+      "approved_limits": null,
+      "approved_procedure_revision": null,
+      "approved_sample_matrix_and_repetitions": null,
+      "approved_uncertainty_budget": null,
+      "article_configuration_sha256": null,
+      "article_serials": [],
+      "evidence_class": "repeated-electrothermal-test",
+      "executed": false,
+      "id": "T06",
+      "independent_review": null,
+      "load_duty_environment": [
+        "Measured T05 launch demand with1.5/2km service cycles;120s headway remains a design target, not a qualified duty rating",
+        "Approved worst ambient/solar/dust/cooling degradation, successive launches and emergency/restart sequences; reach documented thermal state and test cooling/power/protection faults"
+      ],
+      "material_batches": [],
+      "measured_channels": [
+        {
+          "name": "time_s",
+          "unit": "s"
+        },
+        {
+          "name": "phase_voltage_V",
+          "unit": "V"
+        },
+        {
+          "name": "phase_current_A",
+          "unit": "A"
+        },
+        {
+          "name": "bus_power_W",
+          "unit": "W"
+        },
+        {
+          "name": "mechanical_power_W",
+          "unit": "W"
+        },
+        {
+          "name": "winding_hotspot_C",
+          "unit": "degC"
+        },
+        {
+          "name": "secondary_hotspot_C",
+          "unit": "degC"
+        },
+        {
+          "name": "steel_temperature_C",
+          "unit": "degC"
+        },
+        {
+          "name": "inverter_temperature_C",
+          "unit": "degC"
+        },
+        {
+          "name": "coolant_temperature_C",
+          "unit": "degC"
+        },
+        {
+          "name": "coolant_flow_kg_s",
+          "unit": "kg/s"
+        },
+        {
+          "name": "ambient_temperature_C",
+          "unit": "degC"
+        },
+        {
+          "name": "resistance_ohm",
+          "unit": "ohm"
+        }
+      ],
+      "physical_accepted": false,
+      "prerequisites": [
+        "T05"
+      ],
+      "raw_measurement_files": [],
+      "source_paths": [
+        "engineering/design_search/moving_lim.py",
+        "engineering/design_search/lim_materials.py",
+        "engineering/design_search/equipped_candidates.py"
+      ],
+      "status": "planned-inputs-absent",
+      "subject_scope": "Repeated motor/converter thermal and supply duty",
+      "subject_selector": "motor",
+      "title": "Repeated motor/converter thermal and supply duty"
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved worst-case braking/protection and stationary secure-hold envelope with uncertainty; no invented safety floor",
+          "limit": null,
+          "observable": "protected_stop_and_rollback",
+          "unit": "m s"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Actual supplier/lot hardware ratings, permitted damage/fade and repeated-duty limits",
+          "limit": null,
+          "observable": "fade_thermal_and_hardware_integrity",
+          "unit": "degC and typed record"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved failure independence, slip recovery, secure hold and recovery procedure",
+          "limit": null,
+          "observable": "independent_supply_WSP_and_rescue",
+          "unit": "typed record"
+        }
+      ],
+      "approved_limits": null,
+      "approved_procedure_revision": null,
+      "approved_sample_matrix_and_repetitions": null,
+      "approved_uncertainty_budget": null,
+      "article_configuration_sha256": null,
+      "article_serials": [],
+      "evidence_class": "braking-holding-and-rescue-test",
+      "executed": false,
+      "id": "T07",
+      "independent_review": null,
+      "load_duty_environment": [
+        "Empty/normal/crowd ballast; dry/wet/low adhesion; actual surveyed grade; cold/hot/repeated emergency energy, delay/rise, one channel lost, pressure/store/control loss",
+        "Static holding and rollback separately; wheel slide/WSP latency and supply independence; rescue coupling/tow/secure-hold and service-battery endurance"
+      ],
+      "material_batches": [],
+      "measured_channels": [
+        {
+          "name": "time_s",
+          "unit": "s"
+        },
+        {
+          "name": "speed_m_s",
+          "unit": "m/s"
+        },
+        {
+          "name": "wheel_speed_rad_s",
+          "unit": "rad/s"
+        },
+        {
+          "name": "position_m",
+          "unit": "m"
+        },
+        {
+          "name": "grade_fraction",
+          "unit": "1"
+        },
+        {
+          "name": "brake_pressure_Pa",
+          "unit": "Pa"
+        },
+        {
+          "name": "torque_Nm",
+          "unit": "N*m"
+        },
+        {
+          "name": "rail_contact_force_N",
+          "unit": "N"
+        },
+        {
+          "name": "normal_force_N",
+          "unit": "N"
+        },
+        {
+          "name": "disc_temperature_C",
+          "unit": "degC"
+        },
+        {
+          "name": "supply_voltage_V",
+          "unit": "V"
+        },
+        {
+          "name": "command_time_s",
+          "unit": "s"
+        },
+        {
+          "name": "pressure_response_time_s",
+          "unit": "s"
+        },
+        {
+          "name": "tow_force_N",
+          "unit": "N"
+        }
+      ],
+      "physical_accepted": false,
+      "prerequisites": [
+        "T01",
+        "T02"
+      ],
+      "raw_measurement_files": [],
+      "source_paths": [
+        "engineering/station_rail/braking.py",
+        "engineering/design_search/fault_response.py",
+        "engineering/design_search/system_motion.py"
+      ],
+      "status": "planned-inputs-absent",
+      "subject_scope": "Independent braking, adhesion, static hold and rescue hardware",
+      "subject_selector": "railway",
+      "title": "Independent braking, adhesion, static hold and rescue hardware"
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved operator/independent hazard allocation, separation, overspeed, stopping, rollback, recovery and abort envelope",
+          "limit": null,
+          "observable": "complete_protected_journey",
+          "unit": "typed record"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved accessible route, assistance/egress/tenability and service dwell/capacity requirements",
+          "limit": null,
+          "observable": "accessibility_egress_and_capacity",
+          "unit": "typed record"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Pre-approved measured force/current/trajectory/temperature and uncertainty correlation limits",
+          "limit": null,
+          "observable": "model_correlation",
+          "unit": "typed record"
+        }
+      ],
+      "approved_limits": null,
+      "approved_procedure_revision": null,
+      "approved_sample_matrix_and_repetitions": null,
+      "approved_uncertainty_budget": null,
+      "article_configuration_sha256": null,
+      "article_serials": [],
+      "evidence_class": "protected-system-pilot",
+      "executed": false,
+      "id": "T08",
+      "independent_review": null,
+      "load_duty_environment": [
+        "Stage initially unoccupied/restrained low-energy tests before approved speed envelope; empty/normal/adverse ballast and separately approved crowd controls",
+        "Launch, unpowered coast, independent safe/precise stop; failed launch, wayside/receiving power loss, communications/localisation/integrity loss, occupied berth, degraded brakes, stranded recovery/evacuation",
+        "Include platform/door interlock, wheelchair boarding/assistance, blocked exit and loss-of-power egress; exact surveyed grade/weather/supply and resource occupancy"
+      ],
+      "material_batches": [],
+      "measured_channels": [
+        {
+          "name": "time_s",
+          "unit": "s"
+        },
+        {
+          "name": "position_m",
+          "unit": "m"
+        },
+        {
+          "name": "speed_m_s",
+          "unit": "m/s"
+        },
+        {
+          "name": "acceleration_m_s2",
+          "unit": "m/s2"
+        },
+        {
+          "name": "motor_force_N",
+          "unit": "N"
+        },
+        {
+          "name": "current_A",
+          "unit": "A"
+        },
+        {
+          "name": "voltage_V",
+          "unit": "V"
+        },
+        {
+          "name": "motor_temperature_C",
+          "unit": "degC"
+        },
+        {
+          "name": "brake_temperature_C",
+          "unit": "degC"
+        },
+        {
+          "name": "wheel_force_N",
+          "unit": "N"
+        },
+        {
+          "name": "service_battery_energy_J",
+          "unit": "J"
+        },
+        {
+          "name": "localisation_error_m",
+          "unit": "m"
+        },
+        {
+          "name": "following_separation_m",
+          "unit": "m"
+        },
+        {
+          "name": "resource_occupancy",
+          "unit": "typed event"
+        },
+        {
+          "name": "door_interlock",
+          "unit": "typed event"
+        },
+        {
+          "name": "stopping_error_m",
+          "unit": "m"
+        },
+        {
+          "name": "recovery_time_s",
+          "unit": "s"
+        },
+        {
+          "name": "evacuation_time_s",
+          "unit": "s"
+        }
+      ],
+      "physical_accepted": false,
+      "prerequisites": [
+        "T04",
+        "T05",
+        "T06",
+        "T07",
+        "T09"
+      ],
+      "raw_measurement_files": [],
+      "source_paths": [
+        "docs/design-engine/current/prototype-test-plan.json",
+        "campaigns/end-to-end-railway-closure.toml",
+        "engineering/design_search/demonstration.py",
+        "engineering/design_search/architecture_publication.py"
+      ],
+      "status": "planned-inputs-absent",
+      "subject_scope": "Protected1.5/2km same-candidate journey and fault pilot",
+      "subject_selector": "railway",
+      "title": "Protected1.5/2km same-candidate journey and fault pilot"
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved applicable civil/geotechnical/lifting/structural criteria and site-specific loads",
+          "limit": null,
+          "observable": "stage_and_service_integrity",
+          "unit": "typed record"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Actual train/rail/motor/platform interface, survey uncertainty, settlement and dynamic tolerance budgets",
+          "limit": null,
+          "observable": "clearance_geometry_and_track",
+          "unit": "m rad"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Independent site/temporary-stability, rigging/capacity, material-strength and inspection release",
+          "limit": null,
+          "observable": "foundation_and_erection_release",
+          "unit": "typed record"
+        }
+      ],
+      "approved_limits": null,
+      "approved_procedure_revision": null,
+      "approved_sample_matrix_and_repetitions": null,
+      "approved_uncertainty_budget": null,
+      "article_configuration_sha256": null,
+      "article_serials": [],
+      "evidence_class": "survey-civil-and-erection-test",
+      "executed": false,
+      "id": "T09",
+      "independent_review": null,
+      "load_duty_environment": [
+        "Actual alignment/geotechnical/utility/flood/wind/seismic site data; exact vehicle crowd/brake/traction/dynamic loads",
+        "Concrete transfer/demould/storage/lift/transport/partial erection/completed connection; actual pier/foundation/bearing/track/fastening/drainage/station and access assemblies",
+        "Wheel/motor clearance, deformation, settlement, fatigue and moving-load response under measured train/site states"
+      ],
+      "material_batches": [],
+      "measured_channels": [
+        {
+          "name": "time_s",
+          "unit": "s"
+        },
+        {
+          "name": "survey_x_m",
+          "unit": "m"
+        },
+        {
+          "name": "survey_y_m",
+          "unit": "m"
+        },
+        {
+          "name": "survey_z_m",
+          "unit": "m"
+        },
+        {
+          "name": "ground_test_result",
+          "unit": "typed record"
+        },
+        {
+          "name": "concrete_strength_Pa",
+          "unit": "Pa"
+        },
+        {
+          "name": "prestress_force_N",
+          "unit": "N"
+        },
+        {
+          "name": "tendon_elongation_m",
+          "unit": "m"
+        },
+        {
+          "name": "lift_force_N",
+          "unit": "N"
+        },
+        {
+          "name": "rigging_angle_rad",
+          "unit": "rad"
+        },
+        {
+          "name": "strain",
+          "unit": "1"
+        },
+        {
+          "name": "deflection_m",
+          "unit": "m"
+        },
+        {
+          "name": "twist_rad",
+          "unit": "rad"
+        },
+        {
+          "name": "crack_width_m",
+          "unit": "m"
+        },
+        {
+          "name": "anchor_slip_m",
+          "unit": "m"
+        },
+        {
+          "name": "settlement_m",
+          "unit": "m"
+        },
+        {
+          "name": "rail_gauge_m",
+          "unit": "m"
+        },
+        {
+          "name": "acceleration_m_s2",
+          "unit": "m/s2"
+        }
+      ],
+      "physical_accepted": false,
+      "prerequisites": [
+        "T01",
+        "T04"
+      ],
+      "raw_measurement_files": [],
+      "source_paths": [
+        "engineering/station_rail/civil.py",
+        "engineering/design_search/architecture_publication.py",
+        "engineering/ferrite_maglev/data/qualification-plan.json"
+      ],
+      "status": "planned-inputs-absent",
+      "subject_scope": "Surveyed civil, track and erection qualification",
+      "subject_selector": "railway",
+      "title": "Surveyed civil, track and erection qualification"
+    },
+    {
+      "acceptance_criteria": [
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved equal-service BOM/BoQ scope, validity, currency and commercial assumptions",
+          "limit": null,
+          "observable": "scope_and_price_coverage",
+          "unit": "typed record"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved factory/tooling/crew/yield/installation schedule with inspection and local repair scope",
+          "limit": null,
+          "observable": "production_and_delivery",
+          "unit": "s h and typed record"
+        },
+        {
+          "approval_status": "unassigned",
+          "derivation_required": "Approved service demand/headway/reliability/life/discount/renewal scenario; preserve cost uncertainty/Pareto options",
+          "limit": null,
+          "observable": "whole_life_comparison",
+          "unit": "currency and service units"
+        }
+      ],
+      "approved_limits": null,
+      "approved_procedure_revision": null,
+      "approved_sample_matrix_and_repetitions": null,
+      "approved_uncertainty_budget": null,
+      "article_configuration_sha256": null,
+      "article_serials": [],
+      "evidence_class": "commercial-and-production-records",
+      "executed": false,
+      "id": "T10",
+      "independent_review": null,
+      "load_duty_environment": [
+        "Exact EBOM/MBOM, installed infrastructure quantities, scope/origin/incoterms/date/currency/tax and exclusions; vehicle, stations/LIM/inverters/supply, civil, access/rescue and renewals",
+        "First article actual routings/material losses/cure/inspection/repair, crew/equipment/erection time; measured energy and maintenance/reliability at equal approved passenger service",
+        "Quotations are dated commercial evidence, not measurements of completed manufacture; no discount/service-life/renewal assumptions silently assigned"
+      ],
+      "material_batches": [],
+      "measured_channels": [
+        {
+          "name": "event_time",
+          "unit": "UTC timestamp"
+        },
+        {
+          "name": "quantity",
+          "unit": "typed SI/each"
+        },
+        {
+          "name": "quoted_amount",
+          "unit": "currency"
+        },
+        {
+          "name": "actual_material_mass_kg",
+          "unit": "kg"
+        },
+        {
+          "name": "cycle_time_s",
+          "unit": "s"
+        },
+        {
+          "name": "crew_hours",
+          "unit": "h"
+        },
+        {
+          "name": "equipment_hours",
+          "unit": "h"
+        },
+        {
+          "name": "yield_fraction",
+          "unit": "1"
+        },
+        {
+          "name": "installation_time_s",
+          "unit": "s"
+        },
+        {
+          "name": "energy_J",
+          "unit": "J"
+        },
+        {
+          "name": "failure_count",
+          "unit": "1"
+        },
+        {
+          "name": "repair_time_s",
+          "unit": "s"
+        },
+        {
+          "name": "unpriced_line_items",
+          "unit": "1"
+        }
+      ],
+      "physical_accepted": false,
+      "prerequisites": [
+        "T01",
+        "T06",
+        "T07",
+        "T09",
+        "T08"
+      ],
+      "raw_measurement_files": [],
+      "source_paths": [
+        "engineering/design_search/equipped_candidates.py",
+        "engineering/design_search/railway_campaign.py",
+        "engineering/design_search/architecture_publication.py",
+        "engineering/ferrite_maglev/data/qualification-plan.json"
+      ],
+      "status": "planned-inputs-absent",
+      "subject_scope": "Priced manufacturing, installation and equal-service cost evidence",
+      "subject_selector": "railway",
+      "title": "Priced manufacturing, installation and equal-service cost evidence"
+    }
+  ],
+  "purpose": "Required physical test specification and record needs; numerical design only, no execution or acceptance",
+  "qualification_workflow": {
+    "approved_numeric_limits": 0,
+    "current_adapter_status": "Required: existing Q01 configuration/protocols are retained maglev, not current wheel/LIM acceptance",
+    "existing_importer": "engineering/ferrite_maglev/qualification.py:assess_evidence",
+    "existing_numeric_criteria": 40,
+    "existing_protocol_count": 15,
+    "importer_release_authority": false
+  },
+  "revision": "WHEEL-LIM-TEST-PROGRAM-1",
+  "schema": "osr-wheel-LIM-test-program-definitions/1",
+  "shared_evidence_requirements": [
+    "Exact physical candidate/component/article drawing, software/firmware, requirement and procedure revisions; no substitution of evaluation/selection identity for physical article",
+    "Serial/material batch and actual dimensions/process records; canonical bundle propagation for physical revisions",
+    "Original raw bytes/digest/size, source-producer signature and explicit non-synthetic/non-simulated physical provenance",
+    "Synchronised SI channels with calibration certificate hashes, instrument serial/range/validity, uncertainty and coverage factor",
+    "Pre-execution externally authenticated procedure, hazards/exclusion/abort/rescue, case matrix, limit derivation and guard-band approvals",
+    "Independent authenticated witness/assessor and closed prerequisites/NCRs; screening remains separate from independent disposition"
+  ],
+  "source_catalogue_values_independently_reverified": false
+}

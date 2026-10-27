@@ -16,7 +16,7 @@ from engineering.station_rail import ROOT
 from engineering.station_rail.common import digest, encoded, identity
 from . import design_grammar as grammar, equipped_candidates, railway_bundle
 from . import railway_campaign, revision_planner, system_motion, system_inventory
-from . import route_bundle, fault_response
+from . import route_bundle, fault_response, test_readiness
 
 PRODUCER = 'engineering/design_search/demonstration.py'
 SPEC = 'campaigns/end-to-end-railway-closure.toml'
@@ -49,7 +49,8 @@ def specification(root=ROOT):
 def sources(root=ROOT):
     root = Path(root)
     result = railway_campaign.source_epoch(root)
-    for name in (PRODUCER, SPEC, route_bundle.PRODUCER, equipped_candidates.PRODUCER, fault_response.PRODUCER, 'engineering/development_baseline/entrypoint.py'):
+    for name in (PRODUCER, SPEC, route_bundle.PRODUCER, equipped_candidates.PRODUCER, fault_response.PRODUCER,
+                 test_readiness.PRODUCER,test_readiness.DEFINITIONS,'engineering/development_baseline/entrypoint.py'):
         result[name] = digest(root / name)
     # Every producer must execute from this source tree, including a relocated checkout.
     if digest(root / PRODUCER) != digest(__file__):
@@ -121,7 +122,8 @@ def evaluate(body, bundle, spec, *, root=ROOT):
                 family_id=bundle['family_id'], distance_m=bundle['architecture_case']['physical_definition']['route']['station_spacing_m'],
                 mass_scope=bundle['mass_scope'], architecture=architecture, propulsion=propulsion,
                 inventory_evaluation_id=inventory['evaluation_id'], inventory_summary=railway_campaign._inventory_summary(inventory),
-                motion=motion, faults=faults, conditional_fault_responses=responses, civil=civil, economics=economics,
+                motion=motion, faults=faults, conditional_fault_responses=responses,
+                required_test_programme=test_readiness.build(bundle,root=root),civil=civil,economics=economics,
                 next_experiments=plan, complete_installed_mass_kg=None, **FLAGS)
 
 
@@ -192,6 +194,7 @@ def summary(value):
                 conditional_loading_screens=sum(len(r['motion']) for r in rows),
                 fault_scenarios_held=sum(len(r['faults']) for r in rows),
                 conditional_brake_response_cases=sum(len(r['conditional_fault_responses']['cases']) for r in rows),
+                physical_test_families=10,executed_physical_tests=0,
                 complete_equipped_candidates=0, validated_operating_maps=0,
                 physically_supported_journeys=0, complete_whole_life_costs=0,
                 installed_mass_kg=None, whole_life_cost_USD=None, integrated_selection=None,
@@ -246,6 +249,7 @@ def publish(root=ROOT, *, state=None, output=None):
     _write(target / 'source-epochs.json', sources(root))
     (target / 'cases.json.gz').write_bytes(gzip.compress(encoded(value), mtime=0))
     (target / 'equipped.json.gz').write_bytes(gzip.compress(encoded(equipped), mtime=0))
+    (target / 'required-tests.json.gz').write_bytes(gzip.compress(encoded([r['output']['required_test_programme'] for r in value['rows']]),mtime=0))
     text = ('# Candidate-to-journey closure\n\n'
             f"Three distinct body definitions feed {s['evaluated_bundles']} same-candidate railway bundles "
             'over 1.5 km and 2 km, with station-only P1 and separately identified P4 recovery-drive research. '
@@ -259,6 +263,10 @@ def publish(root=ROOT, *, state=None, output=None):
             'These are conditional calculations. Unlocated equipment accounts, GFRP/joint properties, '
             'actual electrical/thermal duty, brake hardware, site data and prices remain open. '
             'No preferred railway or physical release is selected.\n\n'
+            'The [required test programme](required-tests.json.gz) specifies ten test families with exact candidate/component bindings, '
+            'conditions, measured channels and units, prerequisites, calibration/authentication needs and criterion derivations. '
+            'Physical records are unavailable for this programme revision. Every test is unexecuted, every approval limit remains unassigned, '
+            'and physical changes require a new as-built identity. These plans cannot admit a solver or qualify an article.\n\n'
             'The moving-conductor LIM method is a separate numerical component experiment; '
             'its benchmark, refinement and domain limitations remain separate from operating-map admission.\n\n'
             'Run `./osr design railway demonstrate --max-bundles 12`; resume the same command for pending cases. '
@@ -269,7 +277,7 @@ def publish(root=ROOT, *, state=None, output=None):
     (target / 'README.md').write_text(text)
     manifest = dict(schema='osr-end-to-end-railway-closure-publication/1', evaluation_id=value['evaluation_id'],
                     sources=sources(root), files={name: digest(target / name) for name in
-                    ('README.md', 'summary.json', 'source-epochs.json', 'cases.json.gz', 'equipped.json.gz')}, **FLAGS)
+                    ('README.md', 'summary.json', 'source-epochs.json', 'cases.json.gz', 'equipped.json.gz','required-tests.json.gz')}, **FLAGS)
     manifest['publication_id'] = identity(manifest)
     _write(target / 'manifest.json', manifest)
     return verify(root, output=target)
@@ -294,6 +302,8 @@ def verify(root=ROOT, *, output=None):
     _coverage(value, equipped, root)
     if equipped['request'] != value['contract'] or equipped['output'] != equipped_candidates.comparison(root):
         raise ValueError('Equipped stock and installation projection do not reproduce')
+    if json.loads(gzip.decompress((target/'required-tests.json.gz').read_bytes())) != [r['output']['required_test_programme'] for r in value['rows']]:
+        raise ValueError('Required test programme index differs from executed candidate records')
     bodies = {p['body']['candidate_id']: p['body'] for p in equipped['output']['candidates']}
     for row in value['rows']:
         if row.get('record_id') != identity({k: v for k, v in row.items() if k != 'record_id'}):

@@ -21,6 +21,8 @@ CONTINUATION_BASE='e108894d243e3cb6a95b1b18d42404dd4e1c7ce6'
 CONTINUATION_CASES=('low-dt-1ms','low-dt-half','low-mesh-30mm','low-mesh-25mm',
                     'high-supg-dt-2ms','high-supg-dt-1ms')
 SPATIAL_CASES=('high-supg-mesh-30mm','high-supg-mesh-25mm')
+CRITICAL_CASES=('zero-medium','motoring-coarse','motoring-x-refined','motoring-y-refined','motoring-medium','motoring-fine')
+CRITICAL_PHYSICAL_BASE='1692bb45f7c1f0a270328c6cc66b2d1d33cc81d0'
 REFERENCE='https://github.com/getdp-project/getdp/blob/master/templates/Lib_Magnetodynamics2D_av_Cir.pro'
 
 
@@ -96,7 +98,7 @@ def audit(run,epoch):
         frequency_Hz=r['frequency_Hz'],travelling_wave_speed_m_s_hypothesis=r['frequency_Hz']*r['motor_definition']['wavelength_m'],
         slip_frequency_Hz_hypothesis=r['frequency_Hz']-r['speed_m_s']/r['motor_definition']['wavelength_m'],
         transport_method=r.get('transport_method',{}).get('name','galerkin'),
-        secondary_current_diagnostic_unit='A' if r['schema']=='osr-moving-LIM-request/2' else 'Historical height-scaled A*m diagnostic; original values retained',
+        secondary_current_diagnostic_unit='A' if r['schema'] in ('osr-moving-LIM-request/2','osr-moving-LIM-request/3') else 'Historical height-scaled A*m diagnostic; original values retained',
         trace_rows=len(trace),trace_scope='interrupted partial log only' if partial_only else 'result and partial log agree',
         numerical_validity=v.get('numerical_validity','held'),maximum_power_residual_W=maximum_residual,
         stabilization_work_J=stabilization_energy,physical_secondary_Joule_J=secondary_energy,
@@ -104,12 +106,17 @@ def audit(run,epoch):
         elapsed_worker_timeout_s=90,memory_limit_bytes=r['memory_bytes'],physical_accepted=False)
     if trace:result.update(nodes=v.get('nodes'),elements=v.get('elements'),Peclet_max=v.get('Peclet_max'),last=trace[-1],
         peak_path_current_A=max(abs(i) for row in trace for i in row['path_currents_A']))
+    if 'mesh_diagnostics' in v:
+        result['actual_mesh_diagnostics']=v['mesh_diagnostics']
+        result['remote_mesh_scope']='Fixed remote construction rules; global inner fin/gap y refinement also changes remote elements'
+    result['thrust_impulse_N_s']=sum(q['thrust_N']*r['dt_s'] for q in trace)
     return result
 
 
 def sources(root=ROOT):
     return {name:digest(Path(root)/name) for name in (CODE,'engineering/design_search/moving_lim.py',
         'engineering/design_search/lim_transport.py','engineering/design_search/tests/test_lim_transport.py',
+        'engineering/design_search/lim_critical_mesh.py','engineering/design_search/tests/test_lim_critical_mesh.py',
         'engineering/design_search/tests/test_moving_lim.py','engineering/station_rail/common.py','engineering/station_rail/__init__.py')}
 
 
@@ -176,6 +183,42 @@ def collect(runs):
             comparisons['continuation']['high_speed_mesh_40_to_30mm_relative_change']=change(new[5],ordered[SPATIAL_CASES[0]])
             comparisons['continuation']['high_speed_mesh_30_to_25mm_relative_change']=change(ordered[SPATIAL_CASES[0]],ordered[SPATIAL_CASES[1]])
             rows+=spatial
+    critical=runs/'critical-context'
+    if critical.is_dir():
+        plan=_read(critical/'plan.json');_id(plan,'plan_id')
+        if (plan['physical_base_revision']!=CRITICAL_PHYSICAL_BASE or plan['maximum_component_jobs']!=6 or plan['maximum_total_seconds']!=600
+            or plan['maximum_seconds_per_job']!=90 or plan['maximum_address_space_bytes']!=2*1024**3
+            or plan['approved_node_cap']!=75000 or plan['operating_map_admitted'] is not False):raise ValueError('Critical-mesh resource/physical-base contract differs')
+        expected=((0.,.01,.001875),(2.,.02,.00375),(2.,.01,.00375),
+                  (2.,.02,.001875),(2.,.01,.001875),(2.,.005,.0009375))
+        requests={q['name']:q['request'] for q in plan['requests']}
+        if len(plan['requests'])!=6 or set(requests)!=set(CRITICAL_CASES):raise ValueError('Critical mesh request inventory differs')
+        new=[]
+        for name,control in zip(CRITICAL_CASES,expected):
+            q=requests[name];data=_read(runs/name/'input.json')
+            if data['request']!=q or data['source_sha256']!=plan['source_sha256']:raise ValueError('Critical mesh worker differs from immutable plan')
+            if (q['voltage_peak_V'],q['mesh_definition']['critical_dx_m'],q['mesh_definition']['secondary_dy_m'])!=control or (q['speed_m_s'],q['frequency_Hz'],q['dt_s'],q['steps'],q['start_m'])!=(20.,50.,.001,16,-8.95):raise ValueError('Critical mesh controlled state differs')
+            item=audit(runs/name,runs/'source-epoch-5')
+            if item['bundle_id']!=rows[0]['bundle_id'] or item['motor_component_id']!=rows[0]['motor_component_id']:raise ValueError('Critical mesh belongs to another physical component')
+            new.append(item)
+        zero_raw=_read(runs/CRITICAL_CASES[0]/'result.json')
+        fields=('thrust_N','normal_force_N','terminal_W','primary_copper_W','secondary_Joule_W','magnetic_energy_J','stabilization_work_W')
+        zero_pass=(zero_raw['execution']=='completed' and zero_raw['state']=='completed'
+            and len(zero_raw['trace'])==16 and all(row[f]==0. for row in zero_raw['trace'] for f in fields)
+            and all(i==0. for row in zero_raw['trace'] for i in row['path_currents_A']))
+        def relative(a,b,key):
+            return abs(b[key]-a[key])/max(abs(a[key]),1e-15)
+        def pair(a,b):
+            if any(v['execution']!='completed' or v.get('state')!='completed' for v in (a,b)):return dict(final_force_relative_change=None,impulse_relative_change=None)
+            return dict(final_force_relative_change=relative(a['last'],b['last'],'thrust_N'),
+                        impulse_relative_change=relative(a,b,'thrust_impulse_N_s'))
+        nonzero=[_read(runs/name/'result.json') for name in CRITICAL_CASES[1:]]
+        negative=all(v.get('trace') and all(row['thrust_N']<0 for row in v['trace']) for v in nonzero)
+        comparisons['critical_mesh']=dict(plan_id=plan['plan_id'],zero_excitation_control_passed=zero_pass,
+            coarse_to_x=pair(new[1],new[2]),coarse_to_y=pair(new[1],new[3]),medium_to_fine=pair(new[4],new[5]),
+            powered_startup_thrust_all_negative=negative,positive_nominal_slip_proves_propulsion=False,
+            spatial_time_convergence_established=False,operating_map_admitted=False)
+        rows+=new
     return rows,zero,comparisons
 
 
@@ -186,6 +229,9 @@ def _archive(runs):
     if (runs/'continuation-context').is_dir():
         for folder in (*CONTINUATION_CASES,*SPATIAL_CASES,'source-epoch-3','source-epoch-4','continuation-context'):
             if not (runs/folder).is_dir():continue
+            names.update(p.relative_to(runs).as_posix() for p in (runs/folder).rglob('*') if p.is_file())
+    if (runs/'critical-context').is_dir():
+        for folder in (*CRITICAL_CASES,'source-epoch-5','critical-context'):
             names.update(p.relative_to(runs).as_posix() for p in (runs/folder).rglob('*') if p.is_file())
     stream=io.BytesIO()
     with tarfile.open(fileobj=stream,mode='w',format=tarfile.PAX_FORMAT) as tar:
@@ -211,7 +257,7 @@ def _readme(report):
         'The A/u and stranded-circuit formulation follows the class documented in the [official GetDP magnetodynamics/circuit template]('+REFERENCE+'). The translating cut-cell integration is implemented separately. Focused tests independently integrate manufactured polynomials, check closed winding turns and compare the actual coupled Jacobian against the closed-form RL response and its energy balance. An independent same-geometry field benchmark remains open.','',
         '## Remaining obligations','',
         'The steel law is a generic reversible numerical hypothesis; hysteresis/core loss, finite-height current return, end-turn leakage, physical winding grouping, converter switching/loss, protection, hardware current control and supplier correlation remain unresolved. Temperatures, cooling, repeated duty and complete installed equipment/mass/cost remain unknown. There is no coupled train-motion model in this component packet.','',
-        'Next work requires a source-qualified zero control, further mesh/time/outer-boundary refinement, independent linear field/circuit and reversal benchmarks, a validated high-speed transport discretization, supplier magnetic/loss data, actual winding/inverter/protection definitions and authenticated measurements. Physical requirements stay open.','']
+        'Remaining work includes further mesh/time/outer-boundary refinement, independent linear field/circuit and reversal benchmarks, a validated high-speed transport discretization, supplier magnetic/loss data, actual winding/inverter/protection definitions and authenticated measurements. Any source-qualified zero control is identified by its own component execution below. Physical requirements stay open.','']
     if 'continuation' in c:
         q=c['continuation'];show=lambda x:'held' if x is None else f'{100*x:.2f}%'
         lines+=['## Continued numerical transport experiment','',
@@ -223,6 +269,15 @@ def _readme(report):
         if 'high_speed_mesh_40_to_30mm_relative_change' in q:
             lines += [f"A separate two-job spatial request retains its own source epoch and resource budget. High-speed mesh changes 40→30 mm: {show(q['high_speed_mesh_40_to_30mm_relative_change'])}; 30→25 mm: {show(q['high_speed_mesh_30_to_25mm_relative_change'])}. These comparisons do not qualify the field model or operating motor.",'']
             lines += ['The 30 mm and25 mm target meshes have the same engaged-primary longitudinal cuts and secondary transverse layers. Their small force difference tests other steel/air/exterior refinement; it does not demonstrate convergence of the engaged force grid. Exact mesh diagnostics are retained in the continuation context.','']
+    if 'critical_mesh' in c:
+        q=c['critical_mesh']
+        pair_text=lambda p:'/'.join('held' if p[k] is None else f'{100*p[k]:.2f}%' for k in ('final_force_relative_change','impulse_relative_change'))
+        sign_text='**Every nonzero startup trace still has negative thrust despite nominal positive10Hz slip. This remains unresolved and cannot be relabelled propulsive.**' if q['powered_startup_thrust_all_negative'] else 'Startup thrust sign and any incomplete traces remain subject to independent field/circuit review; positive nominal slip alone proves no operating capability.'
+        lines+=['## Independent active-region refinement','',
+            'Six further source-qualified 20 m/s, 50 Hz component cases use an explicit entry-window mesh family. Actual engaged streamwise cells refine20→10→5 mm, independently of secondary transverse layers4→8→16. Far-region construction rules remain fixed; global inner-fin/gap y refinement also changes remote elements. The physical motor and vehicle identity are unchanged.','',
+            f"The zero-voltage control returned exact zero currents, forces and energies: **{q['zero_excitation_control_passed']}**. Coarse→x-only final-force/impulse changes are {pair_text(q['coarse_to_x'])}; coarse→y-only {pair_text(q['coarse_to_y'])}; medium→fine {pair_text(q['medium_to_fine'])}.",'',
+            sign_text+' The 16 ms zero-initial-state, finite-entry sample is not a settled full-overlap operating map. Matched independent field/circuit, measured branch phase, reversal, blocked/full-overlap, warm-start and actual current-controller checks are required. Fine-grid motion crosses about four to five active cells per timestep, so temporal and whole-domain refinement also remain open.','',
+            'The archive also retains independent imposed travelling-wave sign/unit/energy controls and a separately labelled scalar cold-start example. The periodic controls validate the algebraic sign convention; the scalar example shows that nominal positive slip alone does not guarantee positive transient force. Neither diagnoses the actual finite-element negatives nor supplies a motor map. Analytical synchronous/oversynchronous controls beyond20m/s are not actual candidate solver executions.','']
     return '\n'.join(lines)
 
 
@@ -259,7 +314,7 @@ def verify(output=None,*,root=ROOT):
     if {p.name:digest(p) for p in output.iterdir() if p.is_file() and p.name!='manifest.json'}!=m['files_sha256']:raise ValueError('Moving publication payload differs')
     if any(r.get(k) is not value or m.get(k) is not value for k,value in FLAGS.items()) or r.get('operating_map_admitted') is not False:raise ValueError('Method publication cannot grant acceptance')
     q=r.get('comparisons',{}).get('continuation',{})
-    expected=13 if 'high_speed_mesh_40_to_30mm_relative_change' in q else 11 if q else 5
+    expected=(13 if 'high_speed_mesh_40_to_30mm_relative_change' in q else 11 if q else 5)+(6 if 'critical_mesh' in r.get('comparisons',{}) else 0)
     if r.get('attempted_cases')!=expected+1 or r.get('sealed_packages')!=expected or r.get('source_base_revision')!=SOURCE_BASE or r.get('reference_changed') is not False or r.get('complete_installed_mass_kg') is not None:raise ValueError('Moving publication scope differs')
     if (output/'README.md').read_text()!=_readme(r):raise ValueError('Moving publication explanation differs')
     archive=(output/'native-runs.tar.gz').read_bytes()
@@ -274,7 +329,7 @@ def verify(output=None,*,root=ROOT):
                 if not member.isfile() or member.size>8*1024*1024 or size>20*1024*1024 or p.is_absolute() or '..' in p.parts or p.as_posix()!=member.name or member.name in seen:raise ValueError('Ordinary unique bounded moving archive members required')
                 if len(p.parts)==1:
                     if p.name!='initial-zero-smoke.json':raise ValueError('Unknown moving archive member')
-                elif p.parts[0] not in {part for pair in CASES for part in pair}|set(CONTINUATION_CASES)|set(SPATIAL_CASES)|{'source-epoch-3','source-epoch-4','continuation-context'}:raise ValueError('Unknown moving archive subtree')
+                elif p.parts[0] not in {part for pair in CASES for part in pair}|set(CONTINUATION_CASES)|set(SPATIAL_CASES)|set(CRITICAL_CASES)|{'source-epoch-3','source-epoch-4','source-epoch-5','continuation-context','critical-context'}:raise ValueError('Unknown moving archive subtree')
                 seen.add(member.name)
                 target=temp/p;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(tar.extractfile(member).read())
         rows,zero,comparisons=collect(temp)
