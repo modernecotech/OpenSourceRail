@@ -1,11 +1,35 @@
-# First adoptable product: the delivery platform
+# First adoption path: the design and delivery platform
 
-OpenSourceRail has three linked products: the owner/builder/operator delivery platform, reference hardware and factories, and the open GOA4 control platform. The delivery platform can support controlled planning and training before a train or guideway receives physical approval.
+OpenSourceRail has three connected products: the owner/builder/operator delivery platform, reference railway hardware and manufacturing system, and open GoA4 controls. Controlled planning, training, workshop/depot records and evidence management can be useful before a new train or guideway is physically qualified.
 
-The current adoption example is the [Baghdad digital pilot](design-engine/ferrite-maglev/pilot-delivery/README.md). It connects current product revisions to procurement planning, simulated receiving and inspection, accountable rework, serial installation, equipment condition, maintenance, replacement and independent simulated handback. Its [native lifecycle exercise](design-engine/ferrite-maglev/pilot-lifecycle/README.md) uses an isolated ERPNext/FUXA/Workbench deployment. Existing owner/operator sites retain their own data and permissions.
+## Who can use it
 
-A builder should be able to follow a physical unit from its product revision and drawing/BOM references to its order, inspection, installed position and replacement history. A failed or stale inspection must remain a hold. Business software must not accept its own hardware, waive independent review or authorise train movement.
+A public owner can organise requirements, candidate revisions, supplier enquiries and acceptance work. A local builder can inspect material, stock, assembly, tooling and QA needs. An operator can configure asset, defect and maintenance workflows. Universities and reviewers can reproduce numerical methods and identify the measurements needed for a prototype.
 
-The [capability migration register](design-engine/ferrite-maglev/capability-migration/README.md) accounts for every feature in the v0.4 feature table. It distinguishes current tested scope, replaced implementations, disconnected functions and missing capabilities. The separate [editable planning workspace](workbench/planning/index.html) now supplies16 named GIS layers, immutable stop/service/OD proposals and a generic planned delivery compiler. The [independent SUMO comparison](design-engine/ferrite-maglev/operations-crosscheck/README.md) executes railway timetable/block/dwell controls on the same stops; it does not model magnetic actuators. Whole-city BIM, physical field acceptance and full OCC/HR federation remain incomplete.
+The current v0.6 [engineering Workbench](workbench/current/index.html) and [coordinated experiment](design-engine/coupled-railway/README.md) expose candidate-bound geometry, simulation, inventories and delivery drafts. The [editable planning workspace](workbench/planning/index.html) retains local city, stop, service and OD editing/exports over historical planning packets. Its compile action is not connected to v0.6 and is held by the current CLI; its older engineering link points to the maglev UI. Those planning functions do not provide movement authority or prove route suitability.
 
-For a real deployment, the owner supplies legal companies, controlled calendars, business masters, user roles, approved procurement and QA procedures, equipment bindings, data retention and recovery responsibilities. Physical inspections require authenticated measured evidence and independent acceptance. The repository's simulated serial records establish development behavior only.
+## What is available and what needs configuration
+
+| Area | Available scope | Deployment or engineering work still needed |
+|---|---|---|
+| Design research | Reproducible candidate definitions, source-bound calculations, failed/pending work and comparison | Trustworthy physical evaluators, complete installed equipment and independent confirmation |
+| Manufacturing planning | Stock/process records, EBOM/MBOM coverage, assembly dependencies, procurement and QA tasks | Exact drawings, joints, tooling, labour, suppliers, inspection and production release |
+| ERPNext/Frappe HR | Retained OSR app and business deployment for projects, procurement, workforce, quality and maintenance | Legal entities, calendars, roles, warehouse/item masters, reviewed imports and operating procedures |
+| FUXA/gateway | Retained observation, historian, alarm and review-linked lifecycle functions | Actual equipment models, authenticated bindings, communications and commissioning |
+| Physical twin | Candidate-bound CAD/IFC stock and disabled ERPNext research drafts | Complete installed geometry, serialised as-built evidence, priced project execution and independent acceptance |
+
+The [earlier Baghdad digital pilot](design-engine/ferrite-maglev/pilot-delivery/README.md) and [native ERPNext/FUXA/Workbench exercise](design-engine/ferrite-maglev/pilot-lifecycle/README.md) retain maglev-era simulation evidence for receiving, inspection, rework, installation, condition monitoring, maintenance and simulated handback. They are not commissioned v0.6 deployments. The [capability migration register](design-engine/ferrite-maglev/capability-migration/README.md) records the disposition of earlier v0.4 features.
+
+## A controlled adoption sequence
+
+1. Select a workshop, depot or bounded planning/pilot scope and define its owners and review responsibilities.
+2. Use current product/site identities; separate historical examples and incomplete data from the proposed deployment.
+3. Configure business masters, users, permissions, record retention and recovery through the [ERP deployment](../deployment/erpnext/README.md).
+4. Review draft material, process, procurement, assembly and inspection records before creating real business transactions.
+5. Configure the [supervision gateway](../deployment/supervision/README.md) with authenticated equipment bindings; keep simulation and physical inputs distinct.
+6. Link measured inspections, serial installation, defects, repairs and independent handback to exact product revisions.
+7. Keep railway control in simulation or separately authorised development until the physical plant and deployment safety case are accepted.
+
+Business case closure, an alarm reset, a revision hash or a simulated inspection cannot accept hardware, release a railway or authorise movement. The current design runner does not automatically provision ERP sites, import city assets, submit purchasing or commission controllers.
+
+[Project introduction](../README.md) · [Architecture](ARCHITECTURE.md) · [Current engineering](design-engine/current/README.md) · [Roadmap](ROADMAP.md).

@@ -220,7 +220,8 @@ def reader_cache(packet):
     book=pytest.importorskip('engineering.development_baseline.book')
     reader=pytest.importorskip('engineering.station_rail.reader')
     root, summary, _=packet
-    for name in ('README.md','docs/ROADMAP.md'):
+    for name in ('README.md','docs/ROADMAP.md','docs/ARCHITECTURE.md','docs/first-adoptable-product.md',
+                 'docs/open-source-rail-overview.md','deployment/erpnext/README.md','deployment/supervision/README.md'):
         target=root/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_text('# Synthetic reader fixture\n')
     source=root/'engineering/development_baseline/book.py'
     source.parent.mkdir(parents=True,exist_ok=True);source.write_bytes(Path(book.__file__).read_bytes())

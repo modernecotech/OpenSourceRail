@@ -48,20 +48,21 @@ behaviour is documented there only so it cannot drift between guides.
 4. Regenerate derived artifacts when sources change.
 5. Include the checks you ran in the PR description.
 
-Useful checks for the current maglev design:
+Useful checks for the current v0.6 wheel-supported reference and coordinated research:
 
 ```bash
 ./osr build
 ./osr test
-cargo test --locked -p osr-maglev-control --all-targets
-./osr design check
-./osr design verify
-./osr book
+./osr design railway verify
+./osr book --check
 ```
 
-The [engineering workflow](engineering/ferrite_maglev/README.md) describes
-source-bound native geometry, provisional city compilation, cost/process inputs
-and open physical acceptance gates. Record exact commands and their results;
+The [current engineering workflow](engineering/station_rail/README.md) and
+[coordinated experiment](docs/design-engine/coupled-railway/README.md) describe
+candidate-bound geometry, simulation, inventory and manufacturing drafts. City
+performance regeneration remains held. The
+[maglev archive](docs/archives/v0.5-maglev/README.md) preserves earlier evidence;
+reproduce it in its recorded checkout. Record exact commands and their results;
 passing digital checks does not qualify physical hardware or manufacturing.
 
 ## Generated Artifacts

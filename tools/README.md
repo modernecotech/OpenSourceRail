@@ -12,11 +12,14 @@ Start with the [project launcher](../osr) and [current engineering workflow](../
 |---|---|---|
 | Rebuild current evidence | `./osr build` | Rebuild stale prerequisites and publish source-bound studies |
 | Inspect current studies | `./osr design status` | Show architecture, requirements, responsibilities and open gates |
-| Regenerate a city | `./osr city baghdad` | Compile formations, quantities, partial costs and manufacturing routes |
-| Replay city charging | `./osr sim baghdad --cycles 2` | Test the compiled offline energy ledger |
+| Inspect city readiness | `./osr city baghdad` | Report retained geography and the v0.6 performance-evaluation hold |
+| Inspect the journey hold | `./osr sim baghdad` | Report missing current physical inputs; never replay old results as v0.6 |
+| Plan coordinated research | `./osr design railway plan` | Show the shared candidate, evaluator dependencies and execution budgets |
+| Run bounded research | `./osr design railway run --max-bundles 2 --native-jobs 1` | Resume engineering/manufacturing evaluation and pending tasks |
+| Verify coordinated evidence | `./osr design railway verify` | Check exact candidate, source, native and publication identities |
 | Open design UI | `./osr workbench` | Inspect city plans, native geometry and provisional cost scope |
 | Verify | `./osr test` | Run current Rust, Python, publication and browser checks |
-| Verify design alternatives | `bash tools/automation/test-maglev-research.sh` | Check research simulations, exact mass/source bindings and README context coverage |
+| Reproduce historical alternatives | `bash tools/automation/test-maglev-research.sh` in the pinned historical checkout | Retain the original magnetic method, source and publication contracts |
 | Refresh in background | `./osr design install` | Install the user-local source-change build timer |
 
 [Automation scripts](automation/) provide the current pipeline. The generic

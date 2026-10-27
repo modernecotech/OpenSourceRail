@@ -8,8 +8,9 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 
 The generic gateway in [services/integration](../../services/integration/osr_integration/)
 retains observation, historian, alarm, review and ERP identity functions. The
-[maglev Workbench](../../docs/workbench/maglev/index.html) is a read-only design
-viewer. No maglev hardware adapter or operating control connection is commissioned.
+[current Workbench](../../docs/workbench/current/index.html) is a read-only v0.6
+engineering viewer; the [maglev Workbench](../../docs/workbench/maglev/index.html)
+is retained research. Neither is a commissioned operating control connection.
 
 The [Docker composition](compose.yaml) describes the gateway and FUXA services.
 Private credentials and existing local deployment records remain under
@@ -18,10 +19,11 @@ platform commissioning, authenticated device bindings, ERP permissions and
 reviewed imports require a separately configured deployment. No automatic city
 asset import or physical activation is provided by the current design runner.
 
-Current city [manufacturing plans](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/maglev/manufacturing.json)
-list operations, plant and outstanding acceptance work. They contain no qualified
-production instructions or accepted MBOM. The planning adapter preserves that
-boundary: it generates no factory methods, invented cycle times or release records.
+Current [v0.6 research delivery packages](../../docs/design-engine/coupled-railway/delivery-index.json)
+link stock, process/assembly records and disabled ERP drafts to their body and
+railway identities. Historical city manufacturing plans retain their original
+candidate scope. None supplies qualified production instructions or an accepted
+MBOM. The planning adapter does not invent cycle times or release records.
 Production method metadata requires explicit current-family qualification claims,
 review references and exact source/product hashes. The gateway checks consistency;
 external authentication and engineering adequacy remain separate requirements.

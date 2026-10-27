@@ -11,7 +11,8 @@ RECEIPT='OpenSourceRail-Book.receipt.json'
 def _inputs(root):
     root=Path(root)
     names=['engineering/station_rail/reader.py','engineering/development_baseline/book.py','engineering/development-baseline.toml',
-        'README.md','docs/ROADMAP.md',OUTPUT+'/summary.json',OUTPUT+'/cities.json',OUTPUT+'/comparison.json',
+        'README.md','docs/ROADMAP.md','docs/ARCHITECTURE.md','docs/first-adoptable-product.md','docs/open-source-rail-overview.md',
+        'deployment/erpnext/README.md','deployment/supervision/README.md',OUTPUT+'/summary.json',OUTPUT+'/cities.json',OUTPUT+'/comparison.json',
         'docs/design-engine/v06-physical-closure/summary.json','docs/design-engine/v06-optimisation/summary.json',
         'docs/design-engine/v06-architecture/summary.json','docs/design-engine/v06-architecture/native-index.json',
         'docs/design-engine/v06-adaptive-design/summary.json','docs/design-engine/v06-adaptive-design/requirement-policy.json',
@@ -77,6 +78,28 @@ def build(root=ROOT,output=None,check=False):
     figure('vehicle-overview.svg',245,'Counted material proposal. Supplier reference assemblies and residual accounts are not complete installed geometry.')
     para('Six lightweight cars run on passive wheel bogies and conventional steel rails. Wayside linear-induction motors launch and receive the train through passive onboard aluminium secondaries. The train has no traction motors, traction battery or suspension magnets.')
     para('Selected for development, with explicit trade-offs. Physical operation, lowest whole-life cost, complete installed mass and manufacturing release remain unestablished.')
+    page('The whole OpenSourceRail project')
+    para('OpenSourceRail develops the railway and the open tools needed to plan, design, procure, manufacture, construct, commission, operate, maintain and renew it. The aim is to retain design authority, software, fabrication, integration and repair capability in-country. Changing the reference vehicle does not remove that wider remit.')
+    table(['Connected product','Useful scope','Present boundary'],[
+        ('Design and delivery platform','City inputs, candidate revisions, quantities, supplier enquiries, project and lifecycle evidence.','Research workflows and retained business/supervision software; complete current-family deployment integration remains open.'),
+        ('Railway and manufacturing system','Vehicles, stations, civil works, material/process choices, tooling, assembly and repair.','Physical candidates and numerical methods; installed equipment, production data and qualification remain incomplete.'),
+        ('Open GoA4 controls','Station-led dispatch, ATP, interlocking, supervision and independent fault response.','Rust research, simulation and method/formal checks; no live railway or operating release.')],[115,190,185])
+    para('ERPNext and Frappe HR retain project, procurement, workforce, stock, manufacturing, quality and maintenance functions. FUXA and the gateway retain equipment observations, trends, alarms, history and review-linked lifecycle records. Real deployment needs legal entities, users, business masters, device bindings, permissions and reviewed imports.')
+    para('The current engineering Workbench is read-only. The separate planning prototype supports local editing and exports over historical packets; its v0.6 compilation remains unconnected. Earlier native ERPNext/FUXA/Workbench exercises are maglev-era simulation evidence, not commissioned v0.6 installations.')
+    para('A controlled first adoption can organise a workshop, depot or bounded planning pilot before a new train is physically qualified. A business case closure, cleared alarm, source hash or simulated inspection cannot accept manufactured hardware or authorise movement.')
+    para('Start with README.md, docs/first-adoptable-product.md, docs/ARCHITECTURE.md and the deployment/erpnext/ and deployment/supervision/ guides. The v0.4 and v0.5 front pages remain linked at their exact historical commits.')
+    page('Local capability, manufacture and affordability')
+    para('The objective is a simple, repairable railway with low whole-life cost. Develop concrete precasting, structural fabrication, GFRP panels, winding, interiors, wiring, assembly, inspection and maintenance locally. Specialist components remain competitively sourced and must retain their actual origin.')
+    table(['Decision','What the comparison must include'],[
+        ('Vehicle and equipment','Complete installed mass, passenger comfort, accessible layout, joints, thermal/fire behaviour, supplier evidence and repair access.'),
+        ('Civil construction','Rails/fastenings, beams, torsion, bearings, piers, foundations, drainage, containment, emergency access, transport and erection.'),
+        ('Manufacturing','Purchased stock, cuts, scrap, EBOM/MBOM, moulds/extrusions, tooling, joining, assembly precedence, labour, inspection and maintenance.'),
+        ('Service and economics','Capacity, protected headway, dwell, fleet, stations and power, construction, purchased energy, availability, maintenance and renewals.')],[125,365])
+    para('A lighter body can reduce motor demand and civil loading, but a cheaper train can still require a more expensive station or guideway. The same candidate must carry its physical, operating and manufacturing consequences through the comparison. Unknown equipment and prices stay unknown.')
+    para('Local content means origin-traced domestic value added. A distributor address does not establish where cells, semiconductors, bearings, materials or machinery were manufactured. Financing and foreign-currency requirements need supported procurement and programme assumptions, separately from physical resource cost.')
+    para('Current candidate packages generate CAD/IFC stock, engineering and manufacturing records, assembly/procurement tasks and disabled ERPNext drafts. They are not submitted purchases, qualified shop instructions, an as-built operating twin or a complete priced construction/cashflow plan.')
+    para('Earlier LM3 factory targets, the v0.4 localisation illustration and v0.5 city budgets remain historical scenarios. They do not establish v0.6 prices, savings or domestic-content percentages. All 266 city geographies remain inputs; new performance publication remains held.')
+    para('Contributors can improve material/supplier evidence, complete assemblies, physical models, manufacturing and repair methods, controls, city data and tests. See CONTRIBUTING.md and GOVERNANCE.md. Software uses Apache 2.0, open physical designs CERN-OHL-S v2 and documentation CC-BY-SA 4.0, subject to the notices in LICENSE.md.')
     page('1. Preserve the ethos; change the support')
     para('OpenSourceRail aims to reduce whole-life transport cost through repeated components, local manufacture, accessible repair and open engineering. v0.6 removes magnetic levitation and its continuous steel-facing assemblies. This does not remove the need to prove station-only propulsion, safe stopping or the cost of the complete railway.')
     table(['Location','Reference architecture'],[

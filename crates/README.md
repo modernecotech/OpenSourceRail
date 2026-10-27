@@ -6,10 +6,15 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 [Project introduction](../README.md) · [Engineering approach and current status](../docs/design-engine/current/README.md)
 <!-- osr-system-context:end -->
 
-[`osr-maglev-control`](osr-maglev-control/README.md) implements fixed-module
-maglev control research, offline SBC replays and advisory evacuation logic.
-The [development profile](../deployment/maglev.toml) configures no physical
-outputs or hardware addresses.
+The v0.6 reference reuses ATP, interlocking, OCC, TCMS, door and station-control
+libraries through [candidate-bound wheel/station interface tests](../engineering/station_rail/controls.py).
+Station-led dispatch retains independent onboard protection and brakes. These
+executions do not qualify physical braking, localisation or the operating plant.
+
+[`osr-maglev-control`](osr-maglev-control/README.md) retains fixed-module maglev
+research, offline SBC replays and advisory evacuation logic. Its
+[development profile](../deployment/maglev.toml) configures no physical outputs
+or hardware addresses and is not the v0.6 vehicle configuration.
 
 Other workspace packages retain reusable protection arithmetic, resource
 reservation, consensus, authentication, networking, BMS, doors, passenger

@@ -1,102 +1,146 @@
 # OpenSourceRail
 
-OpenSourceRail develops simple, affordable urban transport that can be manufactured and maintained locally. **v0.6 is a station-powered freewheeling railway:** lightweight comfort cars run on passive steel-wheel bogies and conventional rails on precast concrete structures. Station linear-induction motors launch and receive the train through a passive onboard reaction element. There are no onboard traction motors, traction batteries or levitation magnets.
+OpenSourceRail develops affordable urban rail and the open tools needed to **plan, design, procure, manufacture, construct, operate, maintain and renew it**. The aim is to retain design authority, software, fabrication, integration and repair capability in-country, with competitive sourcing of specialist components.
 
-The aim is low whole-life cost through repeated components, repairable assemblies, compact elevated stations and open engineering. We compare the complete railway: vehicles, civil works, station power, passenger service, maintenance and energy. Cost superiority remains to be demonstrated.
+**v0.6 is the station-powered freewheeling reference railway:** lightweight comfort cars run on passive steel-wheel bogies and conventional rails on precast concrete structures. Wayside linear-induction motors launch and receive the train through passive onboard reaction elements. Normal-service traction motors, traction batteries and levitation magnets are absent from the train; passenger services, essential power, protection and independent brakes remain.
+
+The wider project still includes city planning, CAD/BIM, manufacturing, business execution, equipment supervision and open controls. Changing the reference vehicle does not remove that remit. **The railway is a research and prototype design, without manufacturing or operating release.**
+
+**Start here:** [illustrated reader](OpenSourceRail-Book.pdf) · [project overview](docs/open-source-rail-overview.md) · [current engineering](docs/design-engine/current/README.md) · [city geography](docs/design-engine/current/cities.json) · [roadmap](docs/ROADMAP.md).
+
+![OpenSourceRail v0.6 counted vehicle and running-gear proposal](docs/design-engine/current/vehicle-overview.svg)
+
+*Generated reference geometry. Counted stock and supplier accounts do not establish a complete installed train or approved production design.*
+
+## Why OpenSourceRail
+
+- **Build useful capability locally.** Develop concrete precasting, structural fabrication, GFRP panels, interiors, winding, wiring, assembly, inspection and maintenance alongside the railway. Qualify local suppliers rather than assuming every component can already be made locally.
+- **Keep ownership of the design and information.** Open software, drawings, interfaces, component identities and maintenance records let an owner change suppliers and repair equipment without depending on one closed turnkey provider.
+- **Simplify the complete installed system.** Compare vehicle mass, bogies, station power, beams, piers, foundations, equipment, factory tooling and erection together. A cheaper train that requires more expensive stations is not automatically a cheaper railway.
+- **Serve constrained urban corridors.** Mostly elevated, prefabricated construction and compact stations aim to reduce surface occupation and site disruption. Land, utilities, buildings, ground conditions, drainage, access and evacuation still govern each route.
+- **Offer comfortable, frequent travel.** The reference prioritises seated accommodation, wheelchair spaces and a two-minute service target. Capacity, dwell, safe separation, transfers and whole-system cost must be evaluated together.
+
+Local content means **origin-traced domestic value added**, not the address of a distributor. Imported cells, semiconductors, bearings, sensors, materials and machinery retain their actual origin. No local-content percentage or cost saving is established until the installed BOM, processes and supplier evidence support it.
+
+## Three connected products
+
+| Product | Purpose | Present boundary |
+|---|---|---|
+| Design and delivery platform | City inputs, design alternatives, engineering evidence, quantities, procurement, manufacturing and project records | Executable research workflows and retained deployment software; complete city-specific delivery integration remains open |
+| Reference railway and manufacturing system | Lightweight vehicles, stations, civil works, tooling, assembly and repair methods | v0.6 physical candidates and numerical studies; equipment, drawings, suppliers and physical qualification are incomplete |
+| Open GoA4 control platform | ATP, interlocking, station-led dispatch, train supervision and fault response | Rust research software, simulation and formal/method checks; no live railway or safety approval |
+
+The [first adoption path](docs/first-adoptable-product.md) is controlled planning, workshop/depot records, training and evidence management. An owner can develop those capabilities before a new train is qualified. The configured business and supervision services have their own permissions and commissioning requirements.
 
 ## v0.6 development basis
 
-[development-baseline.toml](engineering/development-baseline.toml) selects the new physical candidate. Its body, running gear and propulsion have separate identities. **This is a research and prototype design, with no manufacturing or operating release.**
+[development-baseline.toml](engineering/development-baseline.toml) selects one reference vehicle, body, running gear and propulsion configuration. Research alternatives receive separate identities and do not silently replace it.
 
 | Design choice | Reference basis |
 |---|---|
 | Formation | Six 17 m cars; approximately 104.5 m including gaps |
 | Comfort | 44 fixed seats + two wheelchair places/car; 276/train; no planned standing |
 | Layout | Four abreast where structure permits, wall benches at doors; two passenger doors on one side |
-| Body | Lightweight aluminium/GFRP architecture, sandwich floor/roof, lightweight benches and retained glazing |
-| Running gear | Twelve identical unpowered two-axle bogies: 24 axles, 48 wheels |
+| Body | Aluminium/GFRP architecture, sandwich floor/roof, lightweight benches and retained glazing |
+| Running gear | Twelve unpowered two-axle bogies: 24 axles, 48 wheels |
 | Propulsion | Station double-sided LIM reference; passive aluminium secondary on each car |
 | Ordinary guideway | Conventional rails and fastenings on precast concrete; box, twin-beam and U-beam comparisons |
 | Services | Flush solar roof and a separately sized auxiliary battery; HVAC, doors, ATP and emergency loads remain |
-| Automation | Existing station-led GoA4 architecture, continuous onboard ATP and independent mechanical brakes |
+| Automation | Station-led GoA4 architecture, continuous onboard ATP and independent mechanical brakes |
+| Network | Passenger transfers between fixed lines; no mainline switches, with depot exceptions explicit |
 | Service targets | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² service deceleration, 35 s dwell, 120 s headway |
-| Capacity arithmetic | **8,280 passengers/hour/direction** at 30 departures/hour; safe headway not yet established |
+| Capacity arithmetic | 8,280 passengers/hour/direction at 30 departures/hour; protected headway remains unqualified |
 
-Removing propulsion does not remove passenger services or braking. Loss of station power leaves the train supported on its wheels; independent brakes must stop it. A train stopped outside a powered zone needs a protected rescue/tow system. Admission, crowd loading, high-platform accessibility, one-sided doors and evacuation remain requirements.
+The normal passenger cap is a comfort and load-management choice; it does not remove crowd, evacuation or accidental-load checks. The retained 160-person/car structural case remains explicit. The earlier 120-person/car, 14,400 passengers/hour/direction comparison is a separate capacity alternative, not this 46-person/car reference. One-sided doors require compatible platforms, accessible boarding and emergency exits.
 
-## Current engineering
+Loss of station propulsion leaves the vehicle supported on its wheels. Independent braking must remain available, and a train stopped outside a powered zone needs a protected recovery/towing and evacuation arrangement. Walkway removal or a proposed escape device is not treated as approved.
 
-The [current dossier](docs/design-engine/current/README.md) contains the mass ledger, reference 1.5–2 km calculations, battery duty, braking bounds, civil alternatives, readiness gates and [delivery drafts](docs/design-engine/current/exports/manifest.json). The [roadmap](docs/ROADMAP.md) and [illustrated reader](OpenSourceRail-Book.pdf) explain the remaining work.
+## The connected delivery and operating platform
 
-The [native follow-up campaign](docs/design-engine/v06-physical-closure/README.md) executes current-excited motor FEM, reduced Chrono braking and body-interface experiments. The tested full LIM delivers a conditional **7.17 kN/car against 11.10 kN required** and exceeds its steel-model field limit. This geometry needs redesign. Wet/downhill and failed-channel braking also require larger protection margins; these simulations do not qualify brake hardware.
+The project links physical product revisions to the people, assets and records needed to deliver and maintain them. The current implementation and retained examples have different scopes:
 
-Reference calculations distinguish **required force** from available motor thrust. Station-only propulsion still needs a validated LIM map, practical clearance, thermal duty and receiving/fault evidence. Complete installed mass/CG/inertia, joined-body structure, wheel dynamics, hot-weather HVAC, independent braking, rescue and same-service economics remain open.
+| Capability | Where to inspect it | What remains necessary |
+|---|---|---|
+| City geography and planning | [266-city geographic register](docs/design-engine/current/cities.json), [editable planning workspace](docs/workbench/planning/index.html) | Survey, demand, grades, route fit and current-family service evaluation |
+| Engineering Workbench | `./osr workbench`, [current UI](docs/workbench/current/index.html), [coordinated design experiment](docs/design-engine/coupled-railway/README.md) | Available physical models, complete equipment and independently confirmed designs |
+| CAD, BIM and quantities | [Current CAD/IFC and delivery records](docs/design-engine/current/exports/manifest.json), [candidate body-stock IFC packages](docs/design-engine/coupled-railway/delivery-index.json) | Complete installed geometry, tolerances, full civil federation and surveyed interfaces |
+| ERPNext and Frappe HR | [Business deployment and native app](deployment/erpnext/README.md) | Configured legal entities, roles, calendars, masters, reviewed imports and production procedures |
+| Equipment supervision | [FUXA/gateway deployment](deployment/supervision/README.md), [integration source](services/integration/osr_integration/) | Authenticated device bindings, current equipment models and deployment-specific commissioning |
+| Manufacturing and procurement | [Reference manufacturing/procurement exports](docs/design-engine/current/exports/manifest.json), [coupled EBOM/MBOM and assembly records](docs/design-engine/coupled-railway/README.md#manufacturing-economics-and-evidence) | Supplier configurations, prices, tooling, labour, QA, inspection and release |
+| Maintenance and evidence | [Lifecycle application](deployment/erpnext/apps/osr_erpnext/osr_erpnext/), [retained native lifecycle demonstration](docs/design-engine/ferrite-maglev/pilot-lifecycle/README.md) | Real serials, measurements, approved procedures and independent handback |
+| Train protection and supervision | [Rust crates](crates/README.md), [v0.6 control adapter](engineering/station_rail/controls.py) | Physical braking, localisation, timing, hardware and operating assurance |
 
-The 266 city geographies and underlying maps are preserved as starting inputs. **City numerical regeneration is held** until the reference drive, braking, route and economic evidence is sufficient. Old fleet, station winding, CAPEX and OPEX figures are historical; they are not v0.6 results. See the [geographic catalogue and holds](docs/design-engine/current/cities.json).
+ERPNext retains project, procurement, stock, workforce, manufacturing, quality and maintenance functions. FUXA and the gateway retain observation, trends, alarms and review-linked lifecycle integration. Business case closure, an alarm reset or a completed repair cannot approve manufactured hardware or grant movement authority.
 
-## Iterative design search
+The earlier [native ERPNext/FUXA/Workbench exercise](docs/design-engine/ferrite-maglev/pilot-lifecycle/README.md) records an executed **maglev-era simulation example**, not a commissioned v0.6 installation. Current body delivery packages contain disabled ERPNext drafts; the design runner does not submit purchases, activate equipment or invent acceptance evidence.
 
-**Start coordinated design work with `./osr design railway plan` and `./osr design railway run`.** The [coupled experiment](docs/design-engine/coupled-railway/README.md) connects architecture search, adaptive failure diagnosis and generated physical structures. A body revision automatically updates its inventory, interfaces, propulsion requirements, independent braking, civil loads and manufacturing/economic coverage under one railway identity. Pending work survives execution budgets.
+### A delivery twin follows the work
 
-The executed experiment contains **14 bodies, 112 railway bundles and 784 downstream stage records**. It includes five original recipes, mechanism-driven physical rewrites and two complete metal load-path alternatives with aligned-profile revisions. Four native method fixtures and seven native body cases check three-dimensional bending, finite-face load transfer and equilibrium/energy. Six transient magnetic method controls expose timestep and operating-model gaps. Two body CADs also produce reopened IFC stock models, assembly records and disabled ERPNext drafts.
-
-The first body mesh exceeded its memory allocation; this prompted new aligned-profile geometry and a bounded numerical revision. The finer frame result still changes by about 6.7%, so further numerical work remains queued. **No complete installed vehicle mass, operating LIM force map, physical journey or whole-life-cost winner is claimed.** Foam/honeycomb and composite proposals retain their own material/joint-model tasks. The selected reference is unchanged.
-
-```bash
-./osr design railway plan
-./osr design railway run --max-bundles 2 --native-jobs 1
-./osr design railway publish
-./osr design railway verify
+```text
+transport requirements + city/site inputs
+                    ↓
+candidate geometry + materials + installed equipment
+                    ↓
+physics / interfaces / quantities / manufacturing evidence
+                    ↓
+EBOM + MBOM → suppliers + assembly + inspection tasks
+                    ↓
+project schedule + resource plan + local/import cash requirements
+                    ↓
+reviewed business records + serial installation + maintenance history
 ```
 
-`./osr design adaptive` and `./osr design generative` remain reusable component experiments; the earlier publications preserve their original sources and limits.
+This is the connected delivery objective. The current v0.6 coordinator executes the candidate/engineering/inventory portion and generates research delivery drafts. Complete site construction schedules, priced cashflows, approved production data and operating records still require their own evidence. The [v0.4 project-twin and operating-platform descriptions](https://github.com/modernecotech/OpenSourceRail/tree/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/docs) remain accessible for capabilities no longer exposed by the current front end.
 
-The retained bounded v0.6 campaign connects the earlier body/motor/brake generators to restartable native execution and research-twin exports. Its original parameter bounds and screening criteria remain reproducible; [its publication](docs/design-engine/v06-optimisation/README.md) records that earlier experiment. These commands reproduce that component campaign:
+## Manufacturing, civil works and affordability
 
-```bash
-./osr design campaign create campaigns/v06-wheel-lim.toml
-./osr design campaign run <campaign-id>
-./osr design campaign compare <campaign-id>
-./osr design campaign publish <campaign-id>
-```
+The manufacturing objective is a repeatable system a local builder can fabricate, assemble, inspect and repair. The design search compares frames, sandwich panels, honeycombs, material arrangements, joints, inserts, floors, roofs and integrated service supports. Joining, fire/thermal behaviour, tooling, access and replacement matter alongside stock mass.
 
-The three-generation trial reduced the frame branch’s normal-load deflection from about 110 mm to 23 mm. Its 33.6 mm crowd-load result still fails the 25.6 mm screen, and additional mass raises the required motor thrust. All tested motors remain outside the declared linear-steel domain; no viable complete train is claimed.
+Civil alternatives must include rails and fastenings, beam stiffness and torsion, bearings, piers, foundations, containment, drainage, emergency access, transport and erection. Common precast parts and offsite inspection should reduce site operations; minimum concrete volume alone does not identify the least-cost structure.
 
-Research ranking can select the next experiment while every complete design remains unqualified. The participating-panel trial remains numerically nonconverged in lateral motion; its vertical results are diagnostic, with no structural acceptance. Invalid numerical results cannot provide physical ranking values; unknown installed equipment and whole-life prices remain explicit.
+The economic comparison covers **rolling stock + guideway + stations and power + factories and construction + energy + maintenance and renewals + service availability**. Passenger capacity, headway, fleet size and travel time belong in the same comparison. Local/foreign-currency procurement and financing sensitivity matter, but financing terms are separate from physical resource cost.
 
-The [broader design search](docs/design-engine/v06-design-space/README.md) adds aluminium, GFRP and hybrid load paths; PET/PVC foam and directional honeycomb; joints, inserts, floors and roof panels; alternative station-motor arrangements; and explicitly identified lower-speed service options. Primary supplier data guides necessary bounds and test plans. New structures require validated evaluators before full-body ranking. Run `./osr design space build` and `./osr design space verify` to reproduce the comparison.
+Earlier LM3 factory targets, the v0.4 $100M localisation illustration and v0.5 city budgets belong to their original configurations. They are retained in the [v0.4 front page](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/README.md) and [v0.5 archive](docs/archives/v0.5-maglev/README.md); they are not prices or savings estimates for v0.6. Installed supplier prices and whole-life economic superiority remain open.
 
-The [whole-railway architecture campaign](docs/design-engine/v06-architecture/README.md) goes further: **509 analytical cases, 174 physical definitions and seven propulsion families** compare station-only launch, lower speeds, boosters, recovery drives, distributed wayside power and onboard wheel traction. It varies formation, powered length and guideway sections while retaining mandatory safety and accessibility. The selected v0.6 reference is preserved. Required forces, conditional fleet counts and material quantities are compared; complete installed mass, validated available thrust and whole-life prices remain unknown.
+## Current engineering and the next working-system milestone
 
-Foundation work includes six-axis joint fixtures, a counted finite-area body alternative and a nonlinear magnetic method benchmark. The former body's mesh trend is confirmed at **28.0 mm normal deflection**, above its provisional 25.6 mm comparison. That comparison is advisory in the new policy; actual functional limits require their own justification. The magnetic benchmark uses a generic material in a DC circuit; it does not establish a nonlinear moving LIM. [M1–M3 prototype plans](docs/design-engine/v06-architecture/prototype-program.json) specify the measurements still needed.
+The [current dossier](docs/design-engine/current/README.md), [coordinated experiment](docs/design-engine/coupled-railway/README.md) and [roadmap](docs/ROADMAP.md) separate executed methods from physical qualification.
 
-The [adaptive generator](docs/design-engine/v06-adaptive-design/README.md) opens **102 variables across 14 domains**, including materials, honeycombs, layups, structures, joints, running gear, propulsion, fitout and whole-railway arrangements. It separates real obligations, preferences, revisable assumptions and numerical validity. Failures generate different physical, model-development or measurement tasks; repeated unsuccessful local changes escalate to new load paths and architecture. Pending work survives resource budgets.
+| Workstream | Implemented evidence | Remaining gap |
+|---|---|---|
+| Unified design loop | Architecture, adaptive diagnosis and generative bodies share one bundle and dependency graph; **14 bodies, 112 bundles, 784 downstream stage records** | Broader validated topology/material evaluators and converged whole-system physics |
+| Structural redesign | Five initial recipes, mechanism-driven physical rewrites, four solid-method fixtures and seven 3D metal-body cases | Strength, buckling, fatigue, joints, thermal/fire/crash behaviour and composite qualification; frame refinement remains unresolved |
+| Propulsion | Current-excited LIM studies and six bounded nonlinear transient method controls | A validated available-force map over actual position, speed, current, frequency, gap, temperature and sectional overlap |
+| Equipped vehicle | Counted stock, retained equipment accounts, EBOM/MBOM and mass propagation | Complete located equipment, installed mass, CG, inertia and interference closure |
+| Delivery and economics | Matching CAD/IFC stock, assembly/procurement tasks, disabled ERP drafts and scoped Pareto comparisons | Production data, installed prices, labour/tooling/maintenance evidence and a whole-life-cost winner |
+| Journey and operations | Required 1.5–2 km profiles, braking hypotheses and three precast alternatives receive the same candidate mass | Actual motor-driven launch–coast–arrival, qualified stopping, recovery and protected headway |
+| Verification | Source/payload checks, independent method comparisons, CI contract/browser tests and separately scheduled native methods | Physical correlation and independent engineering/manufacturing/operating acceptance |
 
-The [executed structural grammar](docs/design-engine/generative-structure/README.md) now creates **eight physical candidates from five composable recipes and three actual rewrites**. It generates stock geometry, apertures, material/joint definitions, typed interfaces and assembly operations. A diagnosed underfloor mechanism triggers a triangulated child with new geometry, mass and loads, followed by two native axial checks. Six generated CAD models export and reopen. This is a bounded demonstration of physical redesign; shell/joint/buckling qualification, installed mass and a working journey remain open. New recipes can combine existing productions without another hardcoded body mesh.
+Changing a body now triggers downstream inventory, motor demand, braking, civil and economic reevaluation. New solver evidence also invalidates dependent cached evaluations. Numerical failure creates a model/resource task; a genuine design shortfall creates a physical revision. Missing evidence stays pending rather than becoming zero or an invented pass.
 
-Six new native body cases demonstrate material redistribution: a deeper, thinner sill saves **48 kg/car** relative to the previous jointed body and reduces calculated normal bending from **28.018 to 19.793 mm**. Another option saves 19 kg/car with a shallower envelope. Actual mass changes feed axle, propulsion/energy and civil calculations. Thin-wall stability, strength, fatigue, clearances and physical correlation remain necessary work; no complete railway is qualified.
+**No complete installed vehicle mass, available operating LIM map, physically supported end-to-end journey or qualified economic winner is demonstrated.** The practical milestone remains five structurally different equipped vehicles, automatically revised where necessary, feeding the same force-driven 2 km journey and guideway comparison.
 
-```bash
-./osr design architecture run
-./osr design architecture publish
-./osr design architecture verify
-./osr design adaptive plan
-./osr design adaptive run --max-jobs 1
-./osr design adaptive publish
-./osr design adaptive verify
-./osr design generative plan
-./osr design generative run
-./osr design generative publish
-./osr design generative verify
-```
+The component experiments remain reproducible: [bounded wheel/LIM iterations](docs/design-engine/v06-optimisation/README.md), [expanded materials/design space](docs/design-engine/v06-design-space/README.md), [architecture alternatives](docs/design-engine/v06-architecture/README.md), [102-variable adaptive search](docs/design-engine/v06-adaptive-design/README.md) and [structural grammar](docs/design-engine/generative-structure/README.md). Their original assumptions and unsuccessful results remain retained.
 
-## Use the repository
+## Cities, service and deployment
+
+All **266 retained city geographies** remain available as starting inputs, including their maps, routes and stops. **v0.6 city performance regeneration is held** until the drive, braking, complete vehicle, civil and economic evidence is sufficient. Old fleet, winding, energy, CAPEX and OPEX figures describe historical candidates.
+
+Each corridor still needs its own demand, terrain, climate, geotechnical, utility, accessibility, transfer, power, rescue and procurement assessment. A common vehicle and precast family can reduce manufacturing complexity without proving that every city needs the same formation or service pattern.
+
+The [planning workspace](docs/workbench/planning/index.html) retains local geographic/service editing and proposal exports over historical planning packets. Its older compile action is not connected to v0.6; the current CLI holds it rather than publishing an unevaluated railway. Its historical engineering link also points to the maglev UI. Planning revisions and timetable/resource calculations are not an interlocking or live movement authority. The current CLI and Workbench show city geography and the explicit evaluation hold.
+
+## Run and reproduce
 
 ```bash
 ./install.sh
 ./osr status
 ./osr readiness
 ./osr workbench
+./osr design railway plan
+./osr design railway run --max-bundles 2 --native-jobs 1
+./osr design railway publish
+./osr design railway verify
 ./osr build
 ./osr verify
 ./osr book --check
@@ -104,12 +148,36 @@ Six new native body cases demonstrate material redistribution: a deeper, thinner
 ./osr sim baghdad
 ```
 
-`./osr sim baghdad` reports the city evaluation hold and its retained geographic inputs. Build regenerates reference analytical and delivery records. The CLI, Workbench and reader use the same selected candidate; unsupported physical jobs hold explicitly.
+The coordinated run is bounded and restartable; it preserves pending work and failed executions. Native FEM/CAD workers need the relevant installed tools and declared resources. `./osr sim baghdad` reports the city hold; it does not regenerate or reuse historical fleet results. `./osr build` refreshes the current source-bound dossier, delivery drafts, Workbench and reader. The local review UI has no live train-control authority.
 
-Rust `osr-atp`, interlocking, OCC, TCMS, door control and station SCADA remain the automation foundation. New wheel/station interface fixtures exercise readiness and independent brake demands. Historical `osr-maglev-control` healthy-gap fixtures do not qualify a wheel-supported train. Numerical or software execution alone never establishes physical acceptance.
+## Find your way
 
-## Historical designs and contributions
+| I want to… | Start here |
+|---|---|
+| Understand the whole project | [Overview](docs/open-source-rail-overview.md), [architecture](docs/ARCHITECTURE.md), [first adoption path](docs/first-adoptable-product.md) |
+| Review the selected train and open engineering | [Current dossier](docs/design-engine/current/README.md), [implementation](engineering/station_rail/README.md), [roadmap](docs/ROADMAP.md) |
+| Generate and compare new designs | [Coupled experiment](docs/design-engine/coupled-railway/README.md), [design engine](engineering/design_search/README.md) |
+| Inspect city geography or planning proposals | [Current city register](docs/design-engine/current/cities.json), [city catalogue](cities/catalogue/README.md), [planning UI](docs/workbench/planning/index.html) |
+| Review CAD, BIM, BOM and manufacturing | [Reference exports](docs/design-engine/current/exports/manifest.json), [candidate delivery packages](docs/design-engine/coupled-railway/delivery-index.json) |
+| Configure business and people workflows | [ERPNext/Frappe HR deployment](deployment/erpnext/README.md) |
+| Inspect supervision and maintenance integration | [FUXA/gateway deployment](deployment/supervision/README.md), [native lifecycle example](docs/design-engine/ferrite-maglev/pilot-lifecycle/README.md) |
+| Work on controls or electronics | [Rust packages](crates/README.md), [v0.6 interfaces](engineering/station_rail/controls.py), [retained electronics research](control-electronics/README.md) |
+| Set up tools or contribute | [Tools](tools/README.md), [CONTRIBUTING](CONTRIBUTING.md), [GOVERNANCE](GOVERNANCE.md), [project instructions](AGENTS.md) |
+| Recover older project details | [v0.4 full introduction](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/README.md), [v0.5.1 introduction](https://github.com/modernecotech/OpenSourceRail/blob/2617b04e722ca24b7ad9120f94610fe869f27053/README.md), [v0.5 source/payload archive](docs/archives/v0.5-maglev/README.md) |
 
-The [v0.5 maglev archive](docs/archives/v0.5-maglev/README.md) preserves the former selection and evidence at its recorded Git revision; the [earlier archive](docs/archives/pre-comfort-default/README.md) preserves preceding research. `./osr legacy verify` checks their exact source and payload bytes. Reproduce historical calculations in a separate checkout.
+## Sources, revisions and contributions
 
-Start with [engineering guidance](engineering/README.md), [project instructions](AGENTS.md), [architecture](docs/ARCHITECTURE.md), [tools](tools/README.md) and the [documentation index](docs/INDEX.md). Unknown mass, performance, price and qualification stay unknown.
+| Concern | Source to change |
+|---|---|
+| Selected v0.6 requirements and assembly | [Development selector](engineering/development-baseline.toml), [station-rail inputs and generators](engineering/station_rail/README.md) |
+| Functional remit, design grammar and campaign budgets | [Design-search source](engineering/design_search/), [campaign definitions](campaigns/) |
+| City inputs and geographic proposals | Each city's `city.json` under [cities/catalogue/](cities/catalogue/); current service outputs remain held |
+| Controls and simulation behaviour | [Rust crates](crates/), their tests and candidate-specific physical adapters |
+| Business and equipment integration | [ERPNext app](deployment/erpnext/), [supervision deployment](deployment/supervision/), [integration service](services/integration/osr_integration/) |
+| System boundaries and remaining work | [Architecture](docs/ARCHITECTURE.md), [roadmap](docs/ROADMAP.md), [engineering instructions](AGENTS.md) |
+
+Regenerate derived artifacts from their sources. Physical candidate, evaluation and selection identities are distinct; a source hash identifies bytes and does not approve engineering. Historical results remain tied to their original revision. `./osr legacy verify` checks the retained archives; reproduce old calculations in a separate checkout.
+
+Contributions can improve supplier/material evidence, structural and motor models, complete equipment, manufacturing and repair methods, city data, controls, tests and documentation. Follow [CONTRIBUTING.md](CONTRIBUTING.md) and [GOVERNANCE.md](GOVERNANCE.md). The [documentation index](docs/INDEX.md) is a search aid; it is not another engineering authority.
+
+Software uses **Apache 2.0**, open physical designs use **CERN-OHL-S v2**, and documentation uses **CC-BY-SA 4.0**, subject to more-specific and upstream notices. See [LICENSE.md](LICENSE.md) and [LICENSES/](LICENSES/README.md).

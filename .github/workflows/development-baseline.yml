@@ -3,7 +3,22 @@ on:
   pull_request:
     paths:
       - "README.md"
+      - "AGENTS.md"
+      - "docs/README.md"
+      - "docs/INDEX.md"
+      - "tools/automation/generate-doc-index.py"
+      - "tools/automation/check-readmes.py"
       - "docs/ROADMAP.md"
+      - "docs/ARCHITECTURE.md"
+      - "docs/first-adoptable-product.md"
+      - "docs/open-source-rail-overview.*"
+      - "CONTRIBUTING.md"
+      - "deployment/erpnext/README.md"
+      - "deployment/supervision/README.md"
+      - "tools/README.md"
+      - "crates/README.md"
+      - "cities/catalogue/README.md"
+      - "tools/automation/generate-public-overview.py"
       - "OpenSourceRail-Book*"
       - "engineering/development-baseline.toml"
       - "engineering/development_baseline/**"
@@ -36,7 +51,22 @@ on:
     branches: [main]
     paths:
       - "README.md"
+      - "AGENTS.md"
+      - "docs/README.md"
+      - "docs/INDEX.md"
+      - "tools/automation/generate-doc-index.py"
+      - "tools/automation/check-readmes.py"
       - "docs/ROADMAP.md"
+      - "docs/ARCHITECTURE.md"
+      - "docs/first-adoptable-product.md"
+      - "docs/open-source-rail-overview.*"
+      - "CONTRIBUTING.md"
+      - "deployment/erpnext/README.md"
+      - "deployment/supervision/README.md"
+      - "tools/README.md"
+      - "crates/README.md"
+      - "cities/catalogue/README.md"
+      - "tools/automation/generate-public-overview.py"
       - "OpenSourceRail-Book*"
       - "engineering/development-baseline.toml"
       - "engineering/development_baseline/**"
@@ -98,6 +128,8 @@ jobs:
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_publication.py
       - run: ./osr design generative verify
       - run: ./osr verify
+      - run: .venv/bin/python tools/automation/check-readmes.py
+      - run: .venv/bin/python tools/automation/generate-doc-index.py --check
       - run: npm run test:frontend
       - uses: actions/upload-artifact@v4
         if: always()

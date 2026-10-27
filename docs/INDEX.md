@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **921**.
+Indexed Markdown files: **933**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **921**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 85 |
+| [docs](#docs) | 97 |
 | [engineering](#engineering) | 21 |
 | [tools](#tools) | 2 |
 
@@ -57,7 +57,7 @@ Indexed Markdown files: **921**.
 
 | File | Title |
 |---|---|
-| [`cities/catalogue/README.md`](../cities/catalogue/README.md) | Current city catalogue |
+| [`cities/catalogue/README.md`](../cities/catalogue/README.md) | City geography and historical planning catalogue |
 | [`cities/catalogue/central-africa/Angola/Benguela/README.md`](../cities/catalogue/central-africa/Angola/Benguela/README.md) | Benguela — comfort-first OpenSourceRail development design |
 | [`cities/catalogue/central-africa/Angola/Benguela/engineering/current/README.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/current/README.md) | Benguela — comfort-first OpenSourceRail development design |
 | [`cities/catalogue/central-africa/Angola/Benguela/engineering/maglev/README.md`](../cities/catalogue/central-africa/Angola/Benguela/engineering/maglev/README.md) | Benguela — v0.5 maglev city planning |
@@ -891,6 +891,7 @@ Indexed Markdown files: **921**.
 | [`docs/archives/v0.5-maglev/README.md`](../docs/archives/v0.5-maglev/README.md) | Historical v0.5 maglev design |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Capability Directory |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Primary maglev capability directory |
+| [`docs/design-engine/coupled-railway/README.md`](../docs/design-engine/coupled-railway/README.md) | One coordinated railway experiment |
 | [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | v0.6 station-powered freewheeling rail |
 | [`docs/design-engine/current/readme-coverage.md`](../docs/design-engine/current/readme-coverage.md) | README introductions and current system context |
 | [`docs/design-engine/design-search/README.md`](../docs/design-engine/design-search/README.md) | Coordinated design research |
@@ -954,17 +955,28 @@ Indexed Markdown files: **921**.
 | [`docs/design-engine/ferrite-maglev/stopped-recovery/README.md`](../docs/design-engine/ferrite-maglev/stopped-recovery/README.md) | Stopped progressive-controller recovery |
 | [`docs/design-engine/ferrite-maglev/system-campaign/README.md`](../docs/design-engine/ferrite-maglev/system-campaign/README.md) | Integrated station, interlocking and recovery study |
 | [`docs/design-engine/ferrite-maglev/system-detailed/README.md`](../docs/design-engine/ferrite-maglev/system-detailed/README.md) | Detailed candidate and system simulation |
+| [`docs/design-engine/generative-structure/README.md`](../docs/design-engine/generative-structure/README.md) | Executed generative structural design |
 | [`docs/design-engine/halbach-scaling/README.md`](../docs/design-engine/halbach-scaling/README.md) | Larger Halbach arrays and lighter rolling stock |
 | [`docs/design-engine/magnetic-confirmation/README.md`](../docs/design-engine/magnetic-confirmation/README.md) | Finite 3D magnetic continuation confirmation |
 | [`docs/design-engine/passive-suspension/README.md`](../docs/design-engine/passive-suspension/README.md) | Onboard magnets and passive steel facings |
 | [`docs/design-engine/passive-suspension/plan.md`](../docs/design-engine/passive-suspension/plan.md) | Bounded specialist campaign |
 | [`docs/design-engine/physical-feasibility-round/README.md`](../docs/design-engine/physical-feasibility-round/README.md) | Coupled physical feasibility and whole-system review follow-up |
 | [`docs/design-engine/trip-dynamics/README.md`](../docs/design-engine/trip-dynamics/README.md) | Six-car journey simulation programme |
+| [`docs/design-engine/v06-adaptive-design/README.md`](../docs/design-engine/v06-adaptive-design/README.md) | Function-first adaptive design |
+| [`docs/design-engine/v06-architecture/README.md`](../docs/design-engine/v06-architecture/README.md) | Whole-railway architecture research |
+| [`docs/design-engine/v06-design-space/README.md`](../docs/design-engine/v06-design-space/README.md) | Broader v0.6 design space |
+| [`docs/design-engine/v06-optimisation/README.md`](../docs/design-engine/v06-optimisation/README.md) | Failure-driven v0.6 design campaign |
+| [`docs/design-engine/v06-optimisation/twins/035b98536f905b3ad4a023832a2cc46c9d1afd1090a4355200d3678908bfc1e4/README.md`](../docs/design-engine/v06-optimisation/twins/035b98536f905b3ad4a023832a2cc46c9d1afd1090a4355200d3678908bfc1e4/README.md) | Wheel-rail known-stock research twin |
+| [`docs/design-engine/v06-optimisation/twins/168c9dc7fefa0af985e54e05427c4292d1176180596d408eb6b31fa378711331/README.md`](../docs/design-engine/v06-optimisation/twins/168c9dc7fefa0af985e54e05427c4292d1176180596d408eb6b31fa378711331/README.md) | Wheel-rail known-stock research twin |
+| [`docs/design-engine/v06-optimisation/twins/190290ff883a06fb0f02baa8f1582585da340d5db4f26bdd7e6e93352ed0130b/README.md`](../docs/design-engine/v06-optimisation/twins/190290ff883a06fb0f02baa8f1582585da340d5db4f26bdd7e6e93352ed0130b/README.md) | Wheel-rail known-stock research twin |
+| [`docs/design-engine/v06-optimisation/twins/7147932737f1ee6472099e5c5a0ce8804e6d02ca667b753adeba41efd9580bfa/README.md`](../docs/design-engine/v06-optimisation/twins/7147932737f1ee6472099e5c5a0ce8804e6d02ca667b753adeba41efd9580bfa/README.md) | Wheel-rail known-stock research twin |
+| [`docs/design-engine/v06-optimisation/twins/b96ae12040696d17ab9f912e99b83a74dd859220c5d77ab9b9a44fc4fe0cc077/README.md`](../docs/design-engine/v06-optimisation/twins/b96ae12040696d17ab9f912e99b83a74dd859220c5d77ab9b9a44fc4fe0cc077/README.md) | Wheel-rail known-stock research twin |
+| [`docs/design-engine/v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md`](../docs/design-engine/v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md) | Wheel-rail known-stock research twin |
 | [`docs/design-engine/v06-physical-closure/README.md`](../docs/design-engine/v06-physical-closure/README.md) | v0.6 native physical follow-up |
 | [`docs/design-engine/vehicle-optimisation/README.md`](../docs/design-engine/vehicle-optimisation/README.md) | Neodymium Halbach arrays and lighter vehicle equipment |
 | [`docs/design-engine/vehicle-optimisation/plan.md`](../docs/design-engine/vehicle-optimisation/plan.md) | Coordinated next design work |
-| [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoptable product: the delivery platform |
-| [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail v0.5.2 development — fixed-zone ferrite maglev |
+| [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoption path: the design and delivery platform |
+| [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
 | [`docs/releases/v0.5.1.md`](../docs/releases/v0.5.1.md) | OpenSourceRail v0.5.1 |
 | [`docs/releases/v0.5.2.md`](../docs/releases/v0.5.2.md) | OpenSourceRail v0.5.2 development |
 
@@ -983,7 +995,7 @@ Indexed Markdown files: **921**.
 | [`engineering/assurance/v053-propulsion-redesign-screen/README.md`](../engineering/assurance/v053-propulsion-redesign-screen/README.md) | Propulsion redesign screen — research appendix |
 | [`engineering/assurance/v053-propulsion-redesign-screen/executed/findings.md`](../engineering/assurance/v053-propulsion-redesign-screen/executed/findings.md) | Isolated propulsion redesign screen — not adopted |
 | [`engineering/city_maps/README.md`](../engineering/city_maps/README.md) | City maps with retained geographic context |
-| [`engineering/design_search/README.md`](../engineering/design_search/README.md) | Coordinated candidate design |
+| [`engineering/design_search/README.md`](../engineering/design_search/README.md) | Iterative physical design search |
 | [`engineering/development_baseline/README.md`](../engineering/development_baseline/README.md) | Current development selection adapters |
 | [`engineering/electropermanent/README.md`](../engineering/electropermanent/README.md) | Electropermanent next experiments |
 | [`engineering/ferrite_maglev/README.md`](../engineering/ferrite_maglev/README.md) | Historical reference: OpenSourceRail v0.5 fixed-zone ferrite-maglev engineering |

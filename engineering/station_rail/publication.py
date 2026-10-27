@@ -2,7 +2,7 @@
 from pathlib import Path
 from hashlib import sha256
 from collections import Counter
-import fcntl,gzip,io,json,os,shutil,tarfile,tempfile
+import fcntl,gzip,io,json,os,shutil,subprocess,sys,tarfile,tempfile
 from . import ROOT,FLAGS
 from .common import encoded,identity,digest
 from . import evaluation,exports,cities,comparison,figures
@@ -84,6 +84,9 @@ def native_package(name,record,root=ROOT,output=None,provided=None):
 def sources(root,record,index,delivery):
     root=Path(root);maps=[record['source_sha256'],index['source_sha256'],delivery['source_sha256']]
     names=['AGENTS.md','README.md','VERSION','Cargo.toml','Cargo.lock','package.json','package-lock.json','docs/ROADMAP.md','docs/ARCHITECTURE.md',
+        'docs/first-adoptable-product.md','docs/open-source-rail-overview.md','docs/open-source-rail-overview.html','CONTRIBUTING.md',
+        'deployment/erpnext/README.md','deployment/supervision/README.md','tools/README.md','crates/README.md','cities/catalogue/README.md',
+        'tools/automation/generate-public-overview.py','tools/automation/generate-doc-index.py','tools/automation/check-readmes.py','docs/INDEX.md',
         'engineering/development-baseline.toml','engineering/maglev_research/readme_context.py','osr','install.sh',
         '.github/workflows/development-baseline.yml','tools/automation/default-design.py','tools/automation/default-design-workbench.py',
         'tools/automation/default-design-cycle.py','tools/automation/tests/verify-development-baseline.mjs','tools/automation/v06-native-benchmarks.py',
@@ -185,6 +188,8 @@ def seal(output,root=ROOT):
 
 def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
     root=Path(root).resolve();output=root/OUTPUT if output is None else Path(output)
+    for script in ('generate-public-overview.py','generate-doc-index.py'):
+        subprocess.run([sys.executable,str(root/'tools/automation'/script)],cwd=root,check=True,capture_output=True)
     record=evaluation.build(root);natives={};packages={}
     for name in ('vehicle','drive','controls'):
         packages[name]=native_package(name,record,root,output,native_dir if name=='vehicle' else None)
@@ -208,6 +213,9 @@ def verify(output=None,*,root=ROOT,replay=True):
     root=Path(root).resolve();output=root/OUTPUT if output is None else Path(output)
     from engineering.development_baseline.entrypoint import read_packet
     value,m=read_packet(root,output.relative_to(root).as_posix())
+    for script in ('generate-public-overview.py','generate-doc-index.py'):
+        try:subprocess.run([sys.executable,str(root/'tools/automation'/script),'--check'],cwd=root,check=True,capture_output=True)
+        except subprocess.CalledProcessError as error:raise ValueError('Current generated overview/navigation differs: '+script) from error
     if m['manifest_id']!=identity({k:v for k,v in m.items() if k!='manifest_id'}):raise ValueError('publication identity differs')
     record=evaluation.build(root)
     if json.loads(gzip.decompress((output/'evaluation.json.gz').read_bytes()))!=record:raise ValueError('evaluation differs')

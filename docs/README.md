@@ -8,6 +8,15 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 
 Start with the [project README](../README.md), [architecture](ARCHITECTURE.md), [current engineering report](design-engine/current/README.md) and [closure roadmap](ROADMAP.md).
 
+The [project overview](open-source-rail-overview.md) and [first adoption path](first-adoptable-product.md)
+cover the wider delivery, manufacturing, business, supervision and control platform.
+[ERPNext/Frappe HR](../deployment/erpnext/README.md),
+[FUXA/gateway](../deployment/supervision/README.md) and the
+[planning workspace](workbench/planning/index.html) retain their own deployment
+and evidence boundaries. The [v0.4 introduction](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/README.md)
+preserves earlier project-twin detail; old hardware, prices and examples do not
+become v0.6 evidence.
+
 The [candidate comparison Workbench](design-engine/design-search/index.html)
 shows architecture, selected dimensions, accounted mass, constraints and revision
 ancestry. [Reproduce the campaign and research twin](../engineering/design_search/README.md).

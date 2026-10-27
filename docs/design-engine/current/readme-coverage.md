@@ -40,7 +40,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 |---|---|---|---|
 | [LICENSES/README.md](../../../LICENSES/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [README.md](../../../README.md) | project-frontdoor | [System approach](../../../engineering/README.md) | Current system introduction |
-| [cities/catalogue/README.md](../../../cities/catalogue/README.md) | generated-navigation-index | [System approach](../../../engineering/README.md) | [current](README.md) |
+| [cities/catalogue/README.md](../../../cities/catalogue/README.md) | generated-navigation-index | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [cities/catalogue/central-africa/Angola/Benguela/README.md](../../../cities/catalogue/central-africa/Angola/Benguela/README.md) | generated-city-brief | [System approach](../../../engineering/README.md) | [current](README.md) |
 | [cities/catalogue/central-africa/Angola/Benguela/engineering/current/README.md](../../../cities/catalogue/central-africa/Angola/Benguela/engineering/current/README.md) | generated-city-package | [System approach](../../../engineering/README.md) | [current](README.md) |
 | [cities/catalogue/central-africa/Angola/Benguela/engineering/maglev/README.md](../../../cities/catalogue/central-africa/Angola/Benguela/engineering/maglev/README.md) | generated-city-package | [System approach](../../../engineering/README.md) | [ferrite_maglev](../../../engineering/ferrite_maglev/README.md) → [project](../../../README.md) |

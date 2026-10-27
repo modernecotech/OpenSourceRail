@@ -2,6 +2,31 @@
 
 v0.6 is a station-powered freewheeling railway. Six lightweight 17 m comfort cars run on twelve passive steel-wheel bogies. Conventional rails on precast concrete support the train; station LIM primaries act on passive onboard aluminium secondaries. The train has no normal-service traction motor or traction battery. Service/essential power, sensing, communications and independent mechanical braking remain onboard.
 
+## The wider platform
+
+OpenSourceRail has three connected products: an owner/builder/operator design and
+delivery platform, a reference railway and manufacturing system, and open GoA4
+control software. Its lifecycle is plan, design, procure, manufacture, construct,
+commission, operate, maintain and renew. Local design authority, competitive
+sourcing, repair capability and whole-life affordability apply across all three.
+
+The [ERPNext/Frappe HR app](../deployment/erpnext/README.md) retains business,
+workforce, procurement, manufacturing, QA and maintenance functions. The
+[FUXA/gateway services](../deployment/supervision/README.md) retain observations,
+alarms, history and review-linked lifecycle records. The
+[planning workspace](workbench/planning/index.html) retains geographic/service
+proposals over historical packets; its v0.6 compilation is unconnected. These are
+distinct from the read-only engineering Workbench; company
+masters, permissions, device bindings and reviewed imports are deployment inputs.
+Their interfaces do not supply movement authority.
+
+The coordinator connects candidate geometry and materials to engineering,
+inventory, manufacturing tasks and research CAD/IFC/ERP drafts. A full priced
+construction/cashflow plan, qualified shop package and operational asset twin
+require additional current-candidate data. Earlier project-twin and lifecycle
+examples retain their actual configuration; changing the vehicle does not
+requalify them. See [the adoption boundary](first-adoptable-product.md).
+
 ## One physical candidate
 
 [development-baseline.toml](../engineering/development-baseline.toml) resolves the selected `wheel_rail_station_lim` family through [the v0.6 engineering layer](../engineering/station_rail/README.md). Vehicle, body, support and propulsion identities are separate. Candidate identity describes physical stock; evaluation identity describes models and scenarios; selection identity records purpose and policy. The retained `pm_maglev_station_powered` and conceptual `wheel_rail_station_lsm` families remain explicit comparisons.

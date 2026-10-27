@@ -18,6 +18,12 @@ alternatives do not silently change the selected reference or inherit its result
 - Count joints, fasteners, cooling, wiring, protection and maintenance envelopes.
   Unknown installed mass, price, thermal duty or origin remains unknown or bounded;
   it never becomes zero. Derived subtotals are not complete installed quantities.
+- Preserve the project's wider front-door explanation when revising the vehicle:
+  local design/manufacturing/repair capability, three connected products, delivery
+  lifecycle, ERPNext/Frappe HR, FUXA/gateway, city planning, contributions and
+  licensing. Keep current, retained and disconnected capabilities explicit, with
+  exact historical links. A hardware revision must not turn the README into only
+  a campaign log or silently discard the rest of the platform's purpose.
 - The repository development default is engineering/development-baseline.toml:
   six 17 m cars, 44 fixed seats plus two wheelchair places/car, no planned standing,
   two doors on one side and a 120-second target (8,280 normal passengers/hour/

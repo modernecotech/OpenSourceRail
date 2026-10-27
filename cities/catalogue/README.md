@@ -1,15 +1,17 @@
-# Current city catalogue
+# City geography and historical planning catalogue
 
-All 266 retained city geographies now use the same six-car comfort/NdFeB development default: 44 seats plus two wheelchair places per car, zero planned standing, two doors on one side and a 120-second target. Station-powered launch/receiving and passive steel facings on concrete retain the simplicity and local-maintenance ethos.
+All **266 retained city geographies** remain starting inputs for OpenSourceRail. Routes, stops and underlying map records are preserved. The selected v0.6 reference uses six wheel-supported comfort cars with station LIM propulsion; **city performance regeneration is held** pending current drive, braking, complete vehicle/civil and economic evidence.
 
-[Current all-city quantities and identities](../../docs/design-engine/current/cities.json) · [System design](../../docs/design-engine/current/README.md) · [Interactive Workbench](../../docs/workbench/current/index.html)
+[Current geographic register and holds](../../docs/design-engine/current/cities.json) · [Current engineering](../../docs/design-engine/current/README.md) · [Workbench](../../docs/workbench/current/index.html) · [Planning proposals](../../docs/workbench/planning/index.html)
 
-Each city front page links its new `engineering/current/` package and its historical `engineering/maglev/` research. Routes, stops and existing geographic map layers are retained. Fleet, energy requirements, winding extents and counted civil stock are recalculated; physical operation, actual costs and unavailable equipment performance remain unqualified. Unreachable coasting legs and station-library failures remain explicit in the index.
+Local front pages and their `engineering/current/` or `engineering/maglev/` results may describe earlier maglev configurations. Their masses, fleet, winding lengths, energy, costs and release status are historical evidence, not v0.6 calculations. The current geographic register identifies that scope explicitly; numerical city packages have not been rewritten.
 
 ```bash
 ./osr catalogue
-./osr sim baghdad
 ./osr city baghdad
+./osr sim baghdad
 ```
 
-A planning package is not an accepted operating railway. Historical mass, fleet, station and financial totals are not the default. See the [archive scope](../../docs/archives/pre-comfort-default/README.md).
+These commands expose geography and current evaluation holds. A real corridor still needs demand, grades, ground and utility surveys, climate, accessibility, transfers, emergency access, supplier evidence and independent engineering assessment.
+
+[Project introduction](../../README.md) · [v0.5 archive](../../docs/archives/v0.5-maglev/README.md).

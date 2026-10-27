@@ -11,10 +11,13 @@ app, MariaDB, Redis, workers, scheduler, websocket server and nginx. It supports
 business records and accountable review; it does not establish engineering or
 physical acceptance.
 
-The current [maglev design programme](../../engineering/ferrite_maglev/README.md)
-has provisional quantities and process routes. The
-[Baghdad manufacturing plan](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/maglev/manufacturing.json)
-is not a released or fully priced MBOM. Procurement and production need approved
+The current [v0.6 reference](../../engineering/station_rail/README.md) and
+[coordinated experiment](../../docs/design-engine/coupled-railway/README.md)
+generate candidate-bound EBOMs, stock/process MBOM records, assembly dependencies
+and procurement tasks. Body-stock delivery packages include disabled ERPNext
+Item/BOM drafts, not submitted business records. The
+[earlier Baghdad manufacturing plan](../../cities/catalogue/west-asia/Iraq/Baghdad/engineering/maglev/manufacturing.json)
+remains historical maglev research, not a v0.6 production package. Procurement and production need approved
 materials, drawings, tolerances, process instructions, supplier configurations,
 quotations, company/warehouse masters and authenticated acceptance evidence.
 Planning rows must not become approved Items, submitted BOMs or Work Orders
