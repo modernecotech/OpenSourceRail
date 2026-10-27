@@ -26,15 +26,15 @@ def _interfaces(parts):
         if p.get('structural_role')=='nonstructural-cover':continue
         for d in range(3):
             u,w=[i for i in range(3) if i!=d];rect=[p['at_m'][u],p['at_m'][u]+p['size_m'][u],p['at_m'][w],p['at_m'][w]+p['size_m'][w]]
-            for side in (0,1):planes.setdefault((d,round(p['at_m'][d]+side*p['size_m'][d],10)),{0:[],1:[]})[side].append((p['manufacturing_occurrence_id'],rect))
+            for side in (0,1):planes.setdefault((d,round(p['at_m'][d]+side*p['size_m'][d],10)),{0:[],1:[]})[side].append((p['manufacturing_occurrence_id'],rect,p['id']))
     for group in planes.values():
-        for a,r in group[0]:
-            for b,s in group[1]:
+        for a,r,aid in group[0]:
+            for b,s,bid in group[1]:
                 if a==b:continue
                 area=max(0.,min(r[1],s[1])-max(r[0],s[0]))*max(0.,min(r[3],s[3])-max(r[2],s[2]))
                 if area>1e-12:
-                    pair=tuple(sorted((a,b)));contacts[pair]=contacts.get(pair,0.)+area
-    return [dict(id='weld-interface/'+identity(pair)[:14],occurrences=list(pair),contact_area_m2=area,method='Proposed welded cut-face interface; weld strength/HAZ/fatigue not qualified',net_hardware_mass_kg=None) for pair,area in sorted(contacts.items())]
+                    pair=tuple(sorted((a,b)));entry=contacts.setdefault(pair,dict(area=0.,part_ids=set()));entry['area']+=area;entry['part_ids'].update((aid,bid))
+    return [dict(id='weld-interface/'+identity(pair)[:14],occurrences=list(pair),part_ids=sorted(record['part_ids']),contact_area_m2=record['area'],method='Proposed welded cut-face interface; weld strength/HAZ/fatigue not qualified',net_hardware_mass_kg=None) for pair,record in sorted(contacts.items())]
 
 
 def build(parent,topology='aluminium_frame',root=ROOT):
@@ -102,14 +102,30 @@ def build(parent,topology='aluminium_frame',root=ROOT):
     for old in parent['parts']:
         if old['id'].startswith('side/') and '/outer/' in old['id']:
             q=deepcopy(old);q['id']='retained-cover/'+old['id'];q['load_roles']=['non-primary'];q['structural_role']='nonstructural-cover';parts.append(q)
+    # Explicit nonstructural service geometry; performance/retention, sealing,
+    # drainage fall/outlet, cable segregation and installation remain unknown.
+    def ancillary(name,at,size,functions,occurrence=None):
+        volume=prod(size);parts.append(dict(id=name,kind='box',at_m=list(at),size_m=list(size),material_id='aluminium_reference',volume_m3=volume,mass_kg=volume*2710.,functions=list(functions),load_roles=['non-primary'],form='counted-service-attachment-stock',process='cut-fit-and-retain-unqualified',manufacturing_occurrence_id=occurrence or name,removable=True,access='not-designed',structural_role='nonstructural-ancillary',performance_evidence='unknown'))
+    for side in (-1,1):
+        y=side*.8-.02;name='ancillary/PV-rail/'+str(side)
+        for i,(at,size) in enumerate([((-L/2,y,3.705),(L,.002,.02)),((-L/2,y+.038,3.705),(L,.002,.02)),((-L/2,y+.002,3.705),(L,.036,.002)),((-L/2,y+.002,3.723),(L,.036,.002))]):ancillary(name+'/'+str(i),at,size,['solar-mount'],name)
+        for i,x in enumerate(stations):ancillary(f'ancillary/PV-standoff/{side}/{i}',(x-.02,side*.8-.02,3.7),(.04,.04,.005),['solar-mount'])
+    for label,y,width,functions in [('cable',-.04,.08,['cable-route']),('gutter',.23,.04,['drainage'])]:
+        name='ancillary/'+label
+        for i,(at,size) in enumerate([((-L/2+.003,y,3.58),(L-.006,width,.002)),((-L/2+.003,y,3.582),(L-.006,.002,.018)),((-L/2+.003,y+width-.002,3.582),(L-.006,.002,.018))]):ancillary(name+'/'+str(i),at,size,functions,name)
+        for i,x in enumerate(stations):
+            for edge in (y,y+width-.003):ancillary(f'{name}/hanger/{i}/{edge:g}',(x-.01,edge,3.6),(.02,.003,.037),functions)
+    gross+=sum(p['volume_m3'] for p in parts if p.get('structural_role')=='nonstructural-ancillary')
     mats=deepcopy(parent['materials']);mats['aluminium_reference'].update(nu=.33,constitutive_kind='isotropic',source_basis='Retained declared E69GPa/nu.33 research law from body_solid_frame; no supplier/HAZ/fatigue qualification',source_ref=dict(path='engineering/station_rail/body_solid_frame.py',sha256=digest(Path(root)/'engineering/station_rail/body_solid_frame.py')))
     known=sum(p['mass_kg'] for p in parts);retained=deepcopy(parent['retained_equipment_accounts']);other=sum(r['mass_kg'] for r in retained if r['system']!='bogies');people=parent['structure']['load_basis']['normal_people'];load_cases={name:dict(sprung_mass_hypothesis_kg=known+other+n*75.,people=n,person_mass_kg=75.,complete_installed_mass=False) for name,n in [('empty',0),('normal',people),('crowd',160)]}
     geometry=[{k:v for k,v in p.items() if k not in ('mass_kg','access','process','joint_end_detail')} for p in parts]
-    joins=_interfaces(parts);physical=dict(schema='osr-generative-body-physical/1',architecture=deepcopy(parent['physical']['architecture']),envelope=deepcopy(parent['physical']['envelope']),apertures=apertures,nodes=[],members=[],geometry=geometry,joins=joins,required_functions=parent['required_functions'],retained_equipment=deepcopy(parent['physical']['retained_equipment']),topology=topology)
+    joins=_interfaces(parts);physical=dict(schema='osr-generative-body-physical/1',architecture=deepcopy(parent['physical']['architecture']),envelope={**parent['physical']['envelope'],'nominal_external_roof_top_z_m':3.725},apertures=apertures,nodes=[],members=[],geometry=geometry,joins=joins,required_functions=parent['required_functions'],retained_equipment=deepcopy(parent['physical']['retained_equipment']),topology=topology)
     cid=identity(physical);law_source='engineering/station_rail/body_solid_frame.py';sources={**parent['sources'],PRODUCER:digest(__file__),law_source:digest(Path(root)/law_source)}
     result=dict(schema='osr-generative-body-candidate/1',candidate_id=cid,physical=physical,parameters={**parent['parameters'],'family':topology},label=topology,parent_candidate_ids=[parent['candidate_id']],revision_reason='Counted gap-free finite-face metallic frame and structural panel alternatives',requirement_revision=parent['requirement_revision'],parts=parts,materials=mats,retained_equipment_accounts=retained,known_structure_stock_kg=known,complete_installed_mass_kg=None,complete_cost_USD=None,required_functions=parent['required_functions'],components=[],connections=[],assembly=[],joins=physical['joins'],sources=sources,structure=dict(schema='osr-solid-body-structure/1',candidate_id=cid,nodes=[],members=[]),load_cases=load_cases,
-        shell_model=dict(structural_part_ids=[p['id'] for p in parts if p.get('structural_role')!='nonstructural-cover'],joint_assumption='Coincident finite faces are intact autogenous weld/continuous material; no hidden gap ties or rigid offsets',support_z_m=.53,support_x_m=[-6.4,6.4],support_y_m=[-1.1,1.1],gross_raw_metal_stock_m3=gross,net_metal_stock_m3=sum(p['volume_m3'] for p in parts if p['material_id']=='aluminium_reference'),cut_loss_procurement_allowance_kg=None),**FLAGS)
+        retained_reference_candidate_id=parent['retained_reference_candidate_id'],
+        shell_model=dict(structural_part_ids=[p['id'] for p in parts if 'primary' in p.get('load_roles',[])],joint_assumption='Coincident finite faces are intact autogenous weld/continuous material; no hidden gap ties or rigid offsets',support_z_m=.53,support_x_m=[-6.4,6.4],support_y_m=[-1.1,1.1],gross_raw_metal_stock_m3=gross,net_metal_stock_m3=sum(p['volume_m3'] for p in parts if p['material_id']=='aluminium_reference'),cut_loss_procurement_allowance_kg=None),**FLAGS)
     result['components']=[dict(occurrence_id=p['id'],part_id=p['id'],component_definition_id=identity(geometry[i]),functions=p['functions'],ports=[],mass_kg=p['mass_kg'],stock={'mass_kg':p['mass_kg']},inventory_status='located',manufacturing_occurrence_id=p['manufacturing_occurrence_id']) for i,p in enumerate(parts)]
     retained_ids={r['id'] for r in retained};result['components'] += [deepcopy(c) for c in parent['components'] if c['occurrence_id'] in retained_ids]
+    result['components'] += [dict(occurrence_id=j['id'],part_id=j['id'],component_definition_id=identity(j),functions=['transfer-loads'],ports=[],mass_kg=None,stock={'mass_kg':None},inventory_status='unknown',performance_evidence='unknown') for j in joins]
     result['assembly']=[dict(id='cut-and-fit',occurrences=[p['id'] for p in parts],requires=[]),dict(id='weld-and-inspect',occurrences=[j['id'] for j in joins],requires=['cut-and-fit'],qualification='Weld procedure, access, inspection and strength release remain unknown')]
     result['definition_id']=identity(result);return result

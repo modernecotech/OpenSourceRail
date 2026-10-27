@@ -1,6 +1,8 @@
 import unittest
 from copy import deepcopy
 from math import prod
+import importlib.util
+from pathlib import Path
 from engineering.design_search import design_grammar,system_body as b,grammar_shell as s
 
 
@@ -52,3 +54,33 @@ class ConnectedBodyTests(unittest.TestCase):
         self.assertEqual(d['finite_face_components'],1);self.assertEqual(len(d['support_patches']),4)
         total=sum(v[2] for v in d['loads_N'].values());self.assertAlmostEqual(total,-d['load_mass_kg']*9.80665,places=5)
         self.assertIn('TYPE=C3D8I',raw);self.assertNotIn('*EQUATION',raw)
+
+    def test_actual_joint_stock_inventory_and_function_projection_integrate(self):
+        # This sparse source worktree predates the coordinator-owned inventory
+        # adapter; use its current read-only module if not present locally.
+        import engineering.design_search as package
+        main=Path('/home/hayder/Documents/OpenSourceRail')
+        if importlib.util.find_spec('engineering.design_search.system_inventory') is None:package.__path__.append(str(main/'engineering/design_search'))
+        from engineering.design_search import dfma,system_inventory,grammar_geometry,interface_graph
+        for c in (self.frame,self.skin):
+            ids={p['id'] for p in c['parts']};components={p['occurrence_id']:p for p in c['components']}
+            self.assertTrue(c['joins'])
+            for j in c['joins']:
+                self.assertGreaterEqual(len(j['part_ids']),2);self.assertEqual(len(j['part_ids']),len(set(j['part_ids'])));self.assertFalse(set(j['part_ids'])-ids)
+                self.assertIsNone(components[j['id']]['stock']['mass_kg'])
+            manufacturing=dfma.evaluate(c,root=main);self.assertEqual(manufacturing['candidate_id'],c['candidate_id'])
+            inventory=system_inventory.evaluate(c,bundle_id='1'*64,source_root=main,dfma_record=manufacturing)
+            self.assertIsNone(inventory['complete_installed_mass_kg'])
+            projection=interface_graph.assess(grammar_geometry.interface_projection(c));self.assertTrue(projection['declared_functions_preserved'])
+            self.assertFalse(any(i['code']=='opening-keepout-intersection' for i in projection['issues']))
+            self.assertNotEqual(projection['compatibility_status'],'fail')
+
+    def test_ancillary_geometry_has_functions_and_does_not_enter_structural_mesh(self):
+        c=self.frame;ancillary=[p for p in c['parts'] if p.get('structural_role')=='nonstructural-ancillary'];self.assertTrue(ancillary)
+        self.assertTrue({'solar-mount','cable-route','drainage'}<={f for p in ancillary for f in p['functions']})
+        primary=set(c['shell_model']['structural_part_ids']);self.assertFalse(primary&{p['id'] for p in ancillary})
+        solids=[p for p in c['parts'] if p['id'] in primary]
+        for a in ancillary:
+            for p in solids:
+                overlap=[min(a['at_m'][i]+a['size_m'][i],p['at_m'][i]+p['size_m'][i])-max(a['at_m'][i],p['at_m'][i]) for i in range(3)]
+                self.assertFalse(all(v>1e-8 for v in overlap),(a['id'],p['id']))
