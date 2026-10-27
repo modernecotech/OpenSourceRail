@@ -4,9 +4,9 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 
 [Project introduction](../../../README.md) · [System approach](../../../engineering/README.md) · [Current design and engineering gates](README.md)
 
-All **908 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
+All **909 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
 
-Existing local navigation reaches current context from **838 documents**. This page supplies an explicit current-context route for the remaining **70 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
+Existing local navigation reaches current context from **839 documents**. This page supplies an explicit current-context route for the remaining **70 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
 Historical numerical city, design and research packets retain their exact README payloads and original scope. Historical source bindings resolve at the pinned Git revision. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.
 
@@ -14,6 +14,7 @@ Historical numerical city, design and research packets retain their exact README
 |---|---:|
 | candidate-design-method | 1 |
 | city-map-method | 1 |
+| concept-illustration-brief | 1 |
 | current-development-adapters | 2 |
 | current-development-dossier | 1 |
 | generated-city-brief | 266 |
@@ -926,6 +927,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [docs/design-engine/v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md](../v06-optimisation/twins/d8941f800ec3e500f5d217997d4a35522dbcd55959d14d54a610aa2450c58f37/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/v06-physical-closure/README.md](../v06-physical-closure/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [current](README.md) |
 | [docs/design-engine/vehicle-optimisation/README.md](../vehicle-optimisation/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
+| [docs/images/v06/README.md](../../images/v06/README.md) | concept-illustration-brief | [System approach](../../../engineering/README.md) | [current](README.md) |
 | [engineering/README.md](../../../engineering/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | Current system introduction |
 | [engineering/assurance/v052-drives-development/README.md](../../../engineering/assurance/v052-drives-development/README.md) | retained-assurance-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [engineering/assurance/v052-pilot-actuator-crosscheck/README.md](../../../engineering/assurance/v052-pilot-actuator-crosscheck/README.md) | retained-assurance-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |

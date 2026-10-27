@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **936**.
+Indexed Markdown files: **937**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **936**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 100 |
+| [docs](#docs) | 101 |
 | [engineering](#engineering) | 21 |
 | [tools](#tools) | 2 |
 
@@ -979,6 +979,7 @@ Indexed Markdown files: **936**.
 | [`docs/design-engine/vehicle-optimisation/README.md`](../docs/design-engine/vehicle-optimisation/README.md) | Neodymium Halbach arrays and lighter vehicle equipment |
 | [`docs/design-engine/vehicle-optimisation/plan.md`](../docs/design-engine/vehicle-optimisation/plan.md) | Coordinated next design work |
 | [`docs/first-adoptable-product.md`](../docs/first-adoptable-product.md) | First adoption path: the design and delivery platform |
+| [`docs/images/v06/README.md`](../docs/images/v06/README.md) | v0.6 README illustration brief |
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
 | [`docs/releases/v0.5.1.md`](../docs/releases/v0.5.1.md) | OpenSourceRail v0.5.1 |
 | [`docs/releases/v0.5.2.md`](../docs/releases/v0.5.2.md) | OpenSourceRail v0.5.2 development |

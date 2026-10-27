@@ -80,6 +80,8 @@ def category(name):
         return 'historical-archive'
     if name == 'README.md':
         return 'project-frontdoor'
+    if name == 'docs/images/v06/README.md':
+        return 'concept-illustration-brief'
     if name in {'engineering/development_baseline/README.md','engineering/station_rail/README.md'}:
         return 'current-development-adapters'
     if name == 'engineering/design_search/README.md':
