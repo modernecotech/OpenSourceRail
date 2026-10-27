@@ -43,6 +43,8 @@ def test_translated_finite_plate_has_exact_volume_centroid_and_manufactured_Joul
         D=points[tri][:,:,0]-centroid
         assert np.einsum('ti,ti->',q1,D)==pytest.approx(0.,abs=1e-13)
         assert np.einsum('ti,tij,tj->',D,q2,D)==pytest.approx(.015*9**3/12,rel=1e-12)
+        assert m.net_secondary_current(20e6,q1,np.ones_like(D))==pytest.approx(-2.7e6,rel=1e-12)
+        assert abs(m.net_secondary_current(20e6,q1,D))<1e-6
         if previous is not None:assert not np.array_equal(q2,previous)
         previous=q2
 
@@ -85,6 +87,35 @@ def test_component_output_is_not_an_available_operating_map(bundle):
     case=system_motion.scenario(bundle)
     assert not system_motion.admit_map(bundle,r,case)['admitted']
     assert r['available_operating_map'] is None and not r['physical_accepted']
+
+
+def test_transport_method_changes_only_evaluation_identity_and_keeps_galerkin_domain_guard(bundle):
+    a=m.request(bundle);b=m.request(bundle,transport_method='supg-coth')
+    assert a['request_id']!=b['request_id']
+    assert a['bundle_id']==b['bundle_id'] and a['motor_component_id']==b['motor_component_id']
+    assert a['evaluated_component_definition_id']==b['evaluated_component_definition_id']
+    assert a['physical_geometry']==b['physical_geometry']
+    m.validate(a);m.validate(b)
+    b['transport_method']['source_and_time_terms_weighted']=False
+    b.pop('request_id');b['request_id']=m.identity(b)
+    with pytest.raises(ValueError,match='transport method differs'):m.validate(b)
+
+
+def test_highspeed_galerkin_fails_before_allocating_any_field_mesh(bundle,monkeypatch):
+    r=m.request(bundle,speed_m_s=20.);bounds=m.estimate(r)
+    assert bounds['Peclet_max']>10 and bounds['unstabilized_domain_supported'] is False
+    assert bounds['estimated_actual_RAM_bytes'] is None
+    def forbidden(*args,**kwargs):pytest.fail('An unsupported Galerkin request allocated its field mesh')
+    monkeypatch.setattr(m,'mesh',forbidden)
+    with pytest.raises(ValueError,match='Peclet>1'):m.solve(r)
+
+
+@pytest.mark.parametrize('frequency,dt',[(100.,.01),(50.,.01),(100.,.005)])
+def test_time_sampling_cannot_alias_the_phase_supply_to_a_false_DC_limit(bundle,frequency,dt):
+    with pytest.raises(ValueError,match='Nyquist sampling'):m.request(bundle,frequency_Hz=frequency,dt_s=dt)
+    r=m.request(bundle);r['frequency_Hz']=frequency;r['dt_s']=dt
+    r.pop('request_id');r['request_id']=m.identity(r)
+    with pytest.raises(ValueError,match='Nyquist sampling'):m.validate(r)
 
 
 def test_reciprocal_field_circuit_dynamics_converge_to_independent_closed_form_RL():

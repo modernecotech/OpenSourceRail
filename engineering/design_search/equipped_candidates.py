@@ -153,10 +153,11 @@ def _admit(record, base, bundle, root, allow_synthetic):
     if np.any(cg < lo) or np.any(cg > hi): raise ValueError('Local CG lies outside the occupied envelope')
     J = _inertia(r['local_CG_inertia_kg_m2'])
     # A positive semidefinite tensor can still be impossible for this envelope.
-    # Each coordinate's second moment is bounded by its furthest declared point.
-    extent = np.maximum(np.abs(lo - cg), np.abs(hi - cg))
-    diagonal_bound = mass * (np.sum(extent ** 2) - extent ** 2)
-    if np.any(np.diag(J) > diagonal_bound + 1e-8):
+    # The coordinate variance is bounded by (upper-CG)*(CG-lower),
+    # including the zero-variance condition when CG lies on an envelope face.
+    covariance = np.trace(J) / 2 * np.eye(3) - J
+    variance_bound = mass * (hi - cg) * (cg - lo)
+    if np.any(np.diag(covariance) > variance_bound + 1e-8):
         raise ValueError('Assembly inertia exceeds its declared occupied envelope')
     if not isinstance(definition['hardware'],list) or not isinstance(definition['services'],list):
         raise ValueError('Explicit subordinate hardware and service occurrence lists required')

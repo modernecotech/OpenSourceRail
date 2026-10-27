@@ -86,6 +86,7 @@ def test_nonrigid_transform_unphysical_inertia_and_insufficient_lift_rejected(pa
     a=deepcopy(r);a['installed_transform']['rotation'][0][0]=1.;wrongs.append(a)
     a=deepcopy(r);a['local_CG_inertia_kg_m2']=[[1.,0.,0.],[0.,1.,0.],[0.,0.,4.]];wrongs.append(a)
     a=deepcopy(r);a['local_CG_inertia_kg_m2']=np.diag([1e12,1e12,1e12]).tolist();wrongs.append(a)
+    a=deepcopy(r);a['local_CG_m']=[1.,0.,0.];wrongs.append(a)
     a=deepcopy(r);a['access']['lifting']['rated_capacity_kg']=12.;wrongs.append(a)
     a=deepcopy(r);a['mass_interval_kg']=[13.,14.];wrongs.append(a)
     a=deepcopy(r);a['physical_definition']['hardware'][0]['included_mass_kg']=0.;wrongs.append(a)

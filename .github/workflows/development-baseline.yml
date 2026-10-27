@@ -155,7 +155,7 @@ jobs:
       - run: ./osr design railway verify
       - name: Candidate, moving-conductor and end-to-end closure contracts
         run: |
-          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_equipped_candidates.py engineering/design_search/tests/test_moving_lim.py engineering/design_search/tests/test_moving_lim_publication.py engineering/design_search/tests/test_demonstration.py
+          .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_equipped_candidates.py engineering/design_search/tests/test_moving_lim.py engineering/design_search/tests/test_lim_transport.py engineering/design_search/tests/test_moving_lim_publication.py engineering/design_search/tests/test_fault_response.py engineering/design_search/tests/test_demonstration.py
           ./osr design railway demonstration-verify
           .venv/bin/python -m engineering.design_search.moving_lim_publication verify
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_publication.py

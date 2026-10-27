@@ -30,6 +30,10 @@ def test_absent_motor_and_fault_plants_never_become_executed_or_accepted(result)
     assert result['complete_installed_mass_kg'] is None
     assert all(result[k] is False for k in demo.FLAGS)
     assert result['next_experiments']['proposals']
+    conditional=result['conditional_fault_responses']
+    assert len(conditional['cases'])==6 and conditional['candidate_id']==result['candidate_id']
+    assert all(row['result']['actual_protected_stop'] is False for row in conditional['cases'])
+    assert conditional['integrated_fault_journey_demonstrated'] is False
 
 
 def test_record_seal_detects_tampering_and_refuses_resealed_release(tmp_path):

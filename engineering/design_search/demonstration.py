@@ -16,7 +16,7 @@ from engineering.station_rail import ROOT
 from engineering.station_rail.common import digest, encoded, identity
 from . import design_grammar as grammar, equipped_candidates, railway_bundle
 from . import railway_campaign, revision_planner, system_motion, system_inventory
-from . import route_bundle
+from . import route_bundle, fault_response
 
 PRODUCER = 'engineering/design_search/demonstration.py'
 SPEC = 'campaigns/end-to-end-railway-closure.toml'
@@ -49,7 +49,7 @@ def specification(root=ROOT):
 def sources(root=ROOT):
     root = Path(root)
     result = railway_campaign.source_epoch(root)
-    for name in (PRODUCER, SPEC, route_bundle.PRODUCER, equipped_candidates.PRODUCER, 'engineering/development_baseline/entrypoint.py'):
+    for name in (PRODUCER, SPEC, route_bundle.PRODUCER, equipped_candidates.PRODUCER, fault_response.PRODUCER, 'engineering/development_baseline/entrypoint.py'):
         result[name] = digest(root / name)
     # Every producer must execute from this source tree, including a relocated checkout.
     if digest(root / PRODUCER) != digest(__file__):
@@ -105,9 +105,11 @@ def evaluate(body, bundle, spec, *, root=ROOT):
     propulsion = railway_campaign.propulsion(bundle, architecture)
     economics = railway_campaign.economics(bundle, inventory, architecture,
                                           propulsion, motion[1]['result'], civil)
+    responses = fault_response.evaluate(bundle, root=root)
     faults = [dict(name=name, execution='not-run', engineering_screen='unknown',
                    candidate_id=bundle['candidate_id'],
-                   reason='No validated propulsion/brake/protection/recovery fault plant or installed train state',
+                   reason='Full fault journey held: validated propulsion, brake supply/protection/recovery plant and installed train state are absent; separate conditional responses start from declared hypotheses',
+                   conditional_response_matrix_id=responses['evaluation_id'],
                    independent_brake_hypotheses_id=identity(motion[1]['result']['braking']),
                    **FLAGS) for name in spec['faults']]
     observation = dict(candidate_id=bundle['candidate_id'], evaluation_id=identity(motion),
@@ -119,7 +121,7 @@ def evaluate(body, bundle, spec, *, root=ROOT):
                 family_id=bundle['family_id'], distance_m=bundle['architecture_case']['physical_definition']['route']['station_spacing_m'],
                 mass_scope=bundle['mass_scope'], architecture=architecture, propulsion=propulsion,
                 inventory_evaluation_id=inventory['evaluation_id'], inventory_summary=railway_campaign._inventory_summary(inventory),
-                motion=motion, faults=faults, civil=civil, economics=economics,
+                motion=motion, faults=faults, conditional_fault_responses=responses, civil=civil, economics=economics,
                 next_experiments=plan, complete_installed_mass_kg=None, **FLAGS)
 
 
@@ -189,6 +191,7 @@ def summary(value):
                 contract_id=value['contract_id'], evaluated_bundles=len(rows), pending_bundles=len(value['pending']),
                 conditional_loading_screens=sum(len(r['motion']) for r in rows),
                 fault_scenarios_held=sum(len(r['faults']) for r in rows),
+                conditional_brake_response_cases=sum(len(r['conditional_fault_responses']['cases']) for r in rows),
                 complete_equipped_candidates=0, validated_operating_maps=0,
                 physically_supported_journeys=0, complete_whole_life_costs=0,
                 installed_mass_kg=None, whole_life_cost_USD=None, integrated_selection=None,
@@ -248,13 +251,16 @@ def publish(root=ROOT, *, state=None, output=None):
             'over 1.5 km and 2 km, with station-only P1 and separately identified P4 recovery-drive research. '
             f"{s['conditional_loading_screens']} empty, normal, crowd and adverse loading calculations "
             'propagate accounted mass to required force, independent brake hypotheses, civil loads and quantity coefficients. '
-            f"{s['fault_scenarios_held']} fault scenarios remain explicitly not-run.\n\n"
+            f"{s['fault_scenarios_held']} full fault journeys remain explicitly not-run. "
+            f"{s['conditional_brake_response_cases']} separate brake-response calculations use declared initial states, "
+            'command latency, pressure rise, lost channels/pressure and adhesion. Static holding and rollback are resolved '
+            'without reverse propulsion from a brake command. These are unqualified hypotheses, not completed fault journeys.\n\n'
             '**Zero complete installed vehicles, validated operating maps or physically supported journeys.** '
             'These are conditional calculations. Unlocated equipment accounts, GFRP/joint properties, '
             'actual electrical/thermal duty, brake hardware, site data and prices remain open. '
             'No preferred railway or physical release is selected.\n\n'
             'The moving-conductor LIM method is a separate numerical component experiment; '
-            'its coarse/refined force discrepancy and high-speed domain hold prevent operating-map admission.\n\n'
+            'its benchmark, refinement and domain limitations remain separate from operating-map admission.\n\n'
             'Run `./osr design railway demonstrate --max-bundles 12`; resume the same command for pending cases. '
             'Use `./osr design railway demonstration-publish` and '
             '`./osr design railway demonstration-verify` to regenerate/check this packet.\n\n'

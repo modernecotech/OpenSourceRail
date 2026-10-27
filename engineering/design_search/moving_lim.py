@@ -17,7 +17,7 @@ from scipy.sparse import coo_matrix, csr_matrix, bmat, diags
 from scipy.sparse.linalg import spsolve
 from engineering.station_rail import ROOT, FLAGS
 from engineering.station_rail.common import identity, digest, encoded
-from . import wheel_motor, railway_bundle, transient_lim, lim_materials
+from . import wheel_motor, railway_bundle, transient_lim, lim_materials, lim_transport
 
 CODE='engineering/design_search/moving_lim.py'
 REFERENCE='https://github.com/getdp-project/getdp/blob/master/templates/Lib_Magnetodynamics2D_av_Cir.pro'
@@ -31,7 +31,7 @@ def wiring_definition():
 
 
 def request(bundle,*,start_m=-8.95,speed_m_s=.5,voltage_peak_V=2.,frequency_Hz=30.,
-            dt_s=.002,steps=20,mesh_m=.04,temperature_C=80.,current_limit_A=140.,linear=False):
+            dt_s=.002,steps=20,mesh_m=.04,temperature_C=80.,current_limit_A=140.,linear=False,transport_method='galerkin'):
     railway_bundle.validate(bundle)
     if bundle['family_id']!='P1' or bundle['motor_parameters'] is None:raise ValueError('Exact P1 canonical motor bundle required')
     definition=wheel_motor.definition(bundle['motor_parameters'])
@@ -39,6 +39,7 @@ def request(bundle,*,start_m=-8.95,speed_m_s=.5,voltage_peak_V=2.,frequency_Hz=3
     values=(start_m,speed_m_s,voltage_peak_V,frequency_Hz,dt_s,mesh_m,current_limit_A)
     if any(type(v) not in (float,int) or not isfinite(v) for v in values):raise ValueError('Finite component evaluation hypotheses required')
     if abs(speed_m_s)>20 or not 0<=voltage_peak_V<=375 or not 1<=frequency_Hz<=100 or not .00005<=dt_s<=.01 or not .005<=mesh_m<=.08 or not 0<current_limit_A<=140:raise ValueError('Declared voltage/current/mesh/time domain exceeded')
+    if frequency_Hz*dt_s>=.5:raise ValueError('Nyquist sampling requires frequency_Hz*dt_s < 0.5; this is not a convergence criterion')
     if type(steps) is not int or not 1<=steps<=128 or temperature_C not in (20.,80.) or type(linear) is not bool:raise ValueError('Bounded time/material hypothesis required')
     p=definition['physical_configuration'];paths=p['parallel_paths_per_phase']
     if paths!=10 or p['periods']!=25:raise ValueError('Only explicit reference 25-period/10-path wiring experiment supported')
@@ -46,14 +47,15 @@ def request(bundle,*,start_m=-8.95,speed_m_s=.5,voltage_peak_V=2.,frequency_Hz=3
     if not -p['secondary_length_m']-.5<=min(start_m,finish) or max(start_m,finish)>p['primary_length_m']+.5:
         raise ValueError('Translation outside bounded entry/exit construction domain')
     wiring=wiring_definition()
-    r=dict(schema='osr-moving-LIM-request/1',bundle_id=bundle['candidate_id'],bundle_definition_id=bundle['definition_id'],bundle_definition=deepcopy(bundle),
+    transport=lim_transport.method(transport_method)
+    r=dict(schema='osr-moving-LIM-request/2',bundle_id=bundle['candidate_id'],bundle_definition_id=bundle['definition_id'],bundle_definition=deepcopy(bundle),
         body_candidate_id=bundle['body_candidate_id'],motor_component_id=definition['motor_component_id'],motor_definition=definition,
         physical_geometry=deepcopy(p),wiring=wiring,wiring_hypothesis_id=identity(wiring),start_m=start_m,speed_m_s=speed_m_s,
         voltage_peak_V=voltage_peak_V,frequency_Hz=frequency_Hz,dt_s=dt_s,steps=steps,mesh_m=mesh_m,
         temperature_C=temperature_C,current_limit_A=current_limit_A,linear=linear,dc_bus_V_hypothesis=750.,
-        maximum_nodes=65000,maximum_seconds=85.,memory_bytes=2*1024**3,
+        transport_method=transport,maximum_nodes=75000,maximum_seconds=85.,memory_bytes=2*1024**3,
         actual_converter_loss_W=None,actual_cooling_W=None,repeated_thermal_duty_verified=False,
-        available_operating_map=None,complete_installed_mass_kg=None,references=[REFERENCE],scope=SCOPE,**FLAGS)
+        available_operating_map=None,complete_installed_mass_kg=None,references=[REFERENCE,lim_transport.REFERENCE],scope=SCOPE,**FLAGS)
     r['evaluated_component_definition_id']=identity(dict(motor_geometry_id=definition['motor_component_id'],wiring_hypothesis=wiring))
     r['request_id']=identity(r);return r
 
@@ -67,7 +69,7 @@ def validate(r):
     d=wheel_motor.definition(dict(physical=r['physical_geometry'],evaluation=wheel_motor.default_parameters()['evaluation']))
     if d!=r['motor_definition'] or d['motor_component_id']!=r['motor_component_id']:raise ValueError('Moving physical definition differs from exact motor')
     if r['physical_geometry']!=wheel_motor.default_parameters()['physical']:raise ValueError('This evaluator currently supports the explicit reference geometry only')
-    if r['maximum_nodes']!=65000 or r['memory_bytes']!=2*1024**3 or not 0<r['maximum_seconds']<=85:raise ValueError('Moving resource contract differs')
+    if r['maximum_nodes']!=75000 or r['memory_bytes']!=2*1024**3 or not 0<r['maximum_seconds']<=85:raise ValueError('Moving resource contract differs')
     if r['wiring']!=wiring_definition() or r['wiring_hypothesis_id']!=identity(r['wiring']):raise ValueError('Moving wiring hypothesis differs')
     if r['evaluated_component_definition_id']!=identity(dict(motor_geometry_id=r['motor_component_id'],wiring_hypothesis=r['wiring'])):raise ValueError('Moving electrical component definition differs')
     if not 1<=r['steps']<=128 or type(r['steps']) is not int or not .00005<=r['dt_s']<=.01 or not .005<=r['mesh_m']<=.08:raise ValueError('Bounded step/mesh contract differs')
@@ -79,7 +81,8 @@ def validate(r):
     # partial list of domains. This also binds all uncertainty/disposition fields
     # and prevents a resealed record from claiming a different body or method.
     keys=('start_m','speed_m_s','voltage_peak_V','frequency_Hz','dt_s','steps','mesh_m','temperature_C','current_limit_A','linear')
-    expected=request(r['bundle_definition'],**{key:r[key] for key in keys})
+    if not isinstance(r['transport_method'],dict) or r['transport_method']!=lim_transport.method(r['transport_method'].get('name')):raise ValueError('Moving transport method differs')
+    expected=request(r['bundle_definition'],**{key:r[key] for key in keys},transport_method=r['transport_method']['name'])
     if r!=expected:raise ValueError('Moving request differs from bounded constructor and model domain')
 
 
@@ -89,8 +92,7 @@ def _subdivide(edges,h):
     return np.r_[out,edges[-1]]
 
 
-def mesh(r):
-    """Conform every fixed tooth/slot and every transverse material boundary."""
+def _mesh_axes(r):
     p=r['physical_geometry'];L=p['primary_length_m'];pitch=2*p['pole_pitch_m']/6
     end=r['start_m']+r['speed_m_s']*r['dt_s']*r['steps'];fin=p['secondary_length_m']
     lo=min(-.5,r['start_m']-.5,end-.5);hi=max(L+.5,r['start_m']+fin+.5,end+fin+.5)
@@ -101,6 +103,26 @@ def mesh(r):
     y=_subdivide([-outer-.2,-outer,-back,-face,-half,0.,half,face,back,outer,outer+.2],min(.02,r['mesh_m']/2))
     # Four material-aligned layers across secondary and each physical air gap.
     y=np.unique(np.r_[y,np.linspace(-face,face,1+12*max(1,ceil(.04/r['mesh_m'])))])
+    return x,y
+
+
+def estimate(r):
+    """Necessary construction/transport screens before allocating field arrays."""
+    validate(r);x,y=_mesh_axes(r);half=r['physical_geometry']['secondary_thickness_m']/2
+    band=y[(y>=-half-1e-12)&(y<=half+1e-12)]
+    d=r['motor_definition'];sigma=d['aluminium_conductivity_20C_S_m_hypothesis'] if r['temperature_C']==20 else d['aluminium_conductivity_80C_S_m_hypothesis']
+    dx=float(max(np.diff(x)));dy=float(max(np.diff(band)));Pe=abs(r['speed_m_s'])*sqrt(dx*dx+dy*dy)*transient_lim.MU0*sigma/2
+    nodes=len(x)*len(y)
+    return dict(nodes=nodes,elements=2*(len(x)-1)*(len(y)-1),Peclet_max=Pe,
+        max_streamwise_cell_m=dx,mesh_nodes_within_budget=nodes<=r['maximum_nodes'],
+        unstabilized_domain_supported=Pe<=1,transport_method_id=r['transport_method']['method_id'],
+        estimated_actual_RAM_bytes=None,enforced_address_space_limit_bytes=r['memory_bytes'])
+
+
+def mesh(r):
+    """Conform every fixed tooth/slot and every transverse material boundary."""
+    x,y=_mesh_axes(r);p=r['physical_geometry'];L=p['primary_length_m'];pitch=2*p['pole_pitch_m']/6
+    face=p['secondary_thickness_m']/2+p['gap_each_side_m'];back=face+p['slot_depth_m'];outer=back+p['backiron_m']
     if len(x)*len(y)>r['maximum_nodes']:raise ValueError('Necessary mesh node bound exceeded before allocation')
     points=np.array([(a,b) for a in x for b in y]);ny=len(y);tri=[]
     for i in range(len(x)-1):
@@ -150,7 +172,12 @@ def conductor_moments(points,tri,area,start,length,thickness):
     return m0,m1,m2
 
 
-def circuit_jacobian(K,b,closure,S,W,R,dt,height):
+def net_secondary_current(sigma,m1,D):
+    """Integral J_z dx dy in amperes; no extrusion-height multiplier."""
+    return float(-sigma*np.einsum('ti,ti->',m1,D))
+
+
+def circuit_jacobian(K,b,closure,S,W,R,dt,height,*,field_b=None):
     """Reciprocal stranded-winding coupling, floating plate and star neutral.
 
     K already contains the field tangent plus conductivity/time/transport terms.
@@ -158,14 +185,18 @@ def circuit_jacobian(K,b,closure,S,W,R,dt,height):
     exact active height, so terminal work and field work have consistent units.
     """
     nf,nc=W.shape;z=csr_matrix((nf,1));z1=csr_matrix((1,1));zi=csr_matrix((1,nc))
-    return bmat([[K,csr_matrix(b[:,None]),-W,z],
+    field_b=b if field_b is None else field_b
+    return bmat([[K,csr_matrix(field_b[:,None]),-W,z],
         [csr_matrix((b/dt+closure)[None,:]),csr_matrix([[S]]),zi,z1],
         [height*W.T/dt,csr_matrix((nc,1)),diags(R),csr_matrix(np.ones((nc,1)))],
         [z.T,z1,csr_matrix(np.ones((1,nc))),z1]],format='csc')
 
 
 def solve(r,*,progress=None):
-    validate(r);started=monotonic();points,tri,regions,boundary,branch,sign=mesh(r)
+    validate(r);started=monotonic();bounds=estimate(r)
+    if not bounds['mesh_nodes_within_budget']:raise ValueError('Necessary mesh node bound exceeded before allocation')
+    if not bounds['unstabilized_domain_supported'] and r['transport_method']['name']=='galerkin':raise ValueError('Unstabilized conductor Peclet>1; independently validated refinement/stabilization required')
+    points,tri,regions,boundary,branch,sign=mesh(r)
     area,grad=transient_lim.geometry(points,tri);N=len(points);free=np.setdiff1d(np.arange(N),boundary);nf=len(free);nc=30
     rr=np.repeat(tri,3,axis=1).ravel();cc=np.tile(tri,(1,3)).ravel()
     def matrix(v):return coo_matrix((v.ravel(),(rr,cc)),shape=(N,N)).tocsr()
@@ -175,7 +206,7 @@ def solve(r,*,progress=None):
     lengths=np.max(np.linalg.norm(points[tri][:,:,None,:]-points[tri][:,None,:,:],axis=-1),axis=(1,2))
     sigma=d['aluminium_conductivity_20C_S_m_hypothesis'] if r['temperature_C']==20 else d['aluminium_conductivity_80C_S_m_hypothesis']
     pe=float(np.max(lengths[band])*abs(v)*transient_lim.MU0*sigma/2)
-    if pe>1:raise ValueError('Unstabilized conductor Peclet>1; independently validated refinement/stabilization required')
+    if pe>1 and r['transport_method']['name']=='galerkin':raise ValueError('Unstabilized conductor Peclet>1; independently validated refinement/stabilization required')
     coil=np.flatnonzero(branch>=0);ww=[];wr=[];wc=[]
     for k in coil:
         for node in tri[k]:wr.append(node);wc.append(branch[k]);ww.append(area[k]*p['turns_per_coil']*sign[k]/(3*p['slot_width_m']*p['slot_depth_m']))
@@ -189,15 +220,17 @@ def solve(r,*,progress=None):
         m0,m1,m2=conductor_moments(points,tri,area,start,p['secondary_length_m'],p['secondary_thickness_m'])
         if abs(m0.sum()-p['secondary_length_m']*p['secondary_thickness_m'])>1e-9:raise ValueError('Moving conductor volume lost or duplicated')
         M=matrix(sigma*m2);C=matrix(sigma*v*m1[:,:,None]*grad[:,None,:,0]);b=np.bincount(tri.ravel(),weights=(sigma*m1).ravel(),minlength=N);closure=np.asarray(C.sum(axis=0)).ravel();S=sigma*m0.sum()
+        stabilization=lim_transport.operators(m0,m1,grad[:,:,0],sigma=sigma,speed=v,diffusivity=1/(transient_lim.MU0*sigma),name=r['transport_method']['name'])
+        Ms=matrix(stabilization['mass']);Cs=matrix(stabilization['transport']);bs=np.bincount(tri.ravel(),weights=stabilization['floating'].ravel(),minlength=N)
         command=np.repeat(r['voltage_peak_V']*np.cos(2*pi*r['frequency_Hz']*time-np.arange(3)*2*pi/3),10)
         for iteration in range(24):
             local,jac,ga,B,nu,energy_density=transient_lim.magnetic(A,tri,area,grad,regions,curve,r['linear'])
-            At=(A-old)/dt;fa=np.bincount(tri.ravel(),weights=local.ravel(),minlength=N)+M@At+C@A+b*u-W@I
+            At=(A-old)/dt;fa=np.bincount(tri.ravel(),weights=local.ravel(),minlength=N)+(M+Ms)@At+(C+Cs)@A+(b+bs)*u-W@I
             residual=np.r_[fa[free],b@At+closure@A+S*u,R*I+h*(W.T@At)+neutral-command,I.sum()]
             norm=float(np.linalg.norm(residual))
             if norm<1e-8*max(1.,np.linalg.norm(command)):break
-            K=matrix(jac)+M/dt+C
-            J=circuit_jacobian(K[free][:,free],b[free],closure[free],S,Wf,R,dt,h)
+            K=matrix(jac)+(M+Ms)/dt+C+Cs
+            J=circuit_jacobian(K[free][:,free],b[free],closure[free],S,Wf,R,dt,h,field_b=(b+bs)[free])
             delta=spsolve(J,-residual)
             if np.any(~np.isfinite(delta)):raise ValueError('Nonfinite coupled field/circuit update')
             A[free]+=delta[:nf];u+=delta[nf];I+=delta[nf+1:nf+1+nc];neutral+=delta[-1]
@@ -208,14 +241,16 @@ def solve(r,*,progress=None):
         grad_delta=np.einsum('ti,tij->tj',(A-old)[tri],grad)
         field_work=float(np.sum(area*nu*np.einsum('ti,ti->t',ga,grad_delta))*h/dt)
         algorithmic=field_work-(stored-last_energy)/dt
-        residual_W=terminal-copper-heat-float(v*force[0])-field_work
+        stabilization_W=lim_transport.power(At[tri],A[tri],u,stabilization,h)
+        residual_W=terminal-copper-heat-float(v*force[0])-field_work-stabilization_W
         row=dict(time_s=time,secondary_start_m=start,secondary_end_m=start+p['secondary_length_m'],
             overlap_primary_m=max(0.,min(start+p['secondary_length_m'],p['primary_length_m'])-max(0.,start)),
             conductor_area_m2=float(m0.sum()),conductor_first_moment_x_m3=float(sum(np.einsum('ti,ti->t',m1,points[tri][:,:,0]))),
             path_currents_A=I.tolist(),phase_voltage_commands_V=command[::10].tolist(),neutral_voltage_V=float(neutral),
             terminal_W=terminal,primary_copper_W=copper,secondary_Joule_W=heat,thrust_N=float(force[0]),normal_force_N=float(force[1]),
             mechanical_W=float(v*force[0]),magnetic_energy_J=stored,backward_Euler_dissipation_W=float(algorithmic),
-            discrete_power_residual_W=float(residual_W),net_secondary_current_A=float(-sigma*integralD.sum()*h),
+            stabilization_work_W=stabilization_W,stabilization_work_is_physical_heat=False,
+            discrete_power_residual_W=float(residual_W),net_secondary_current_A=net_secondary_current(sigma,m1,D),
             net_terminal_current_A=float(I.sum()),peak_steel_B_T=float(max(B[regions==3])),coupled_residual=norm,Newton_iterations=iteration)
         rows.append(row)
         if progress:progress(row)
@@ -224,7 +259,7 @@ def solve(r,*,progress=None):
         if r['linear'] and row['peak_steel_B_T']>1.3:state='outside-linear-steel-domain';break
     return dict(execution='completed',state=state,trace=rows,nodes=N,elements=len(tri),Peclet_max=pe,
         final_A_sha256=identity(A.tolist()),final_current_A=I.tolist(),
-        moving_geometry_simulated=True,current_circuit_coupled=True,wire_resistance_ohm_per_path=R.tolist(),
+        moving_geometry_simulated=True,current_circuit_coupled=True,wire_resistance_ohm_per_path=R.tolist(),transport_method=r['transport_method'],
         available_operating_map=None,actual_converter_loss_W=None,temperature_C_prediction=None,
         repeated_thermal_duty_verified=False,finite_height_return_current_verified=False,
         installed_force_available_N=None,numerical_validity='algebraic-residuals-evaluated-spatial-time-convergence-unconfirmed',
@@ -232,7 +267,7 @@ def solve(r,*,progress=None):
 
 
 def sources(root=ROOT):
-    names=(CODE,wheel_motor.PRODUCER,transient_lim.PRODUCER,'engineering/design_search/lim_materials.py',lim_materials.DATA,
+    names=(CODE,lim_transport.CODE,wheel_motor.PRODUCER,transient_lim.PRODUCER,'engineering/design_search/lim_materials.py',lim_materials.DATA,
            'engineering/design_search/railway_bundle.py','engineering/station_rail/common.py','engineering/station_rail/station_motor.py')
     return {name:digest(Path(root)/name) for name in names}
 

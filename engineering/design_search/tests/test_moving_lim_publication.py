@@ -20,11 +20,16 @@ def _reseal(folder,mutate):
 
 def test_actual_archive_replays_independent_accounting_and_remains_small():
     result=p.verify(PACKET)
-    assert result['sealed_packages']==5 and not result['operating_map_admitted']
+    assert result['sealed_packages']==13 and not result['operating_map_admitted']
     assert (PACKET/'native-runs.tar.gz').stat().st_size<5*1024*1024
     assessment=p._read(PACKET/'assessment.json')
-    assert assessment['attempted_cases']==6
+    assert assessment['attempted_cases']==14
     assert assessment['comparisons']['spatial_time_convergence_established'] is False
+    partial=next(r for r in assessment['rows'] if r['name']=='low-mesh-25mm')
+    assert partial['execution']=='interrupted' and partial['trace_scope']=='interrupted partial log only'
+    assert partial['last']['time_s']<partial['dt_s']*partial['steps']
+    assert assessment['comparisons']['continuation']['mesh_30_to_25mm_relative_change'] is None
+    assert any(r['stabilization_work_J']<0 for r in assessment['rows'])
 
 
 def test_rehashed_force_claim_is_rejected_against_actual_archived_trace(tmp_path):

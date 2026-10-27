@@ -5,6 +5,9 @@ import ast
 from hashlib import sha256
 from fnmatch import fnmatchcase
 import json
+import os
+import subprocess
+import tempfile
 from pathlib import Path
 import re
 import unittest
@@ -41,8 +44,8 @@ def validate(historical_text, shared_text, current_text, archive):
     assert 'tags: ["v0.5.*"]' in historical_text
     triggers = historical_text.split('permissions:', 1)[0]
     path_filters = re.findall(r'^      - "([^"\n]+)"$', triggers, re.M)
-    assert set(path_filters) == {'.github/workflows/historical-v05.yml', 'docs/archives/v0.5-maglev/**', 'tools/automation/historical-native-preflight.py', 'tools/automation/install-historical-freecad.py'}
-    assert len(path_filters) == 8  # Same narrow push and PR filters.
+    assert set(path_filters) == {'.github/workflows/historical-v05.yml', 'docs/archives/v0.5-maglev/**', 'tools/automation/historical-native-preflight.py', 'tools/automation/install-historical-freecad.py', 'tools/automation/configure-historical-apt.py'}
+    assert len(path_filters) == 10  # Same narrow push and PR filters.
     assert re.search(r'^    - cron: "[0-9]+ [0-9]+ \* \* [0-6]"$', triggers, re.M)
     shared_triggers = shared_text.split('permissions:', 1)[0]
     assert '  push:\n    branches: [main]\n  pull_request:' in shared_triggers
@@ -60,6 +63,26 @@ def validate(historical_text, shared_text, current_text, archive):
     assert 'install -y freecad' not in historical
     assert 'FreeCAD_1.1.4-Linux-x86_64-py311.AppImage' in historical
     assert historical.index('install-historical-freecad.py --archive') < historical.index('historical-native-preflight.py --output')
+    dependency_step=historical.split('      - name: Install the direct native tools required by the pinned cycle\n',1)[1].split('      - name:',1)[0]
+    assert '        shell: bash\n' in dependency_step, 'Dependency tee pipelines require explicit bash -eo pipefail'
+    assert '        timeout-minutes: 20\n' in dependency_step
+    dependency_commands = re.findall(r'^          (sudo .*apt-get .+)$', dependency_step, re.M)
+    assert len(dependency_commands) == 2
+    for command in dependency_commands:
+        for option in ('Acquire::Retries=3', 'Acquire::http::Timeout=30',
+                       'Acquire::https::Timeout=30', 'Acquire::http::Dl-Limit=0',
+                       'Acquire::https::Dl-Limit=0'):
+            assert '-o ' + option in command
+    assert 'install --no-install-recommends -y gmsh getdp calculix-ccx libglu1-mesa libegl1 libopengl0 ffmpeg fonts-dejavu-core' in dependency_step
+    route = 'configure-historical-apt.py --apt-root /etc/apt --output'
+    route_step = historical.split('      - name: Record and route the disposable runner Ubuntu sources\n', 1)[1].split('      - name:', 1)[0]
+    assert '        shell: bash\n' in route_step
+    assert '/tools/automation/configure-historical-apt.py\n' in historical
+    assert historical.index(route) < historical.index('sudo apt-get')
+    for artifact in ('historical-apt-sources/', 'historical-apt-source-route.log',
+                     'historical-apt-inherited-download.conf', 'historical-apt-effective-download.conf'):
+        assert 'historical/build/' + artifact in historical
+    assert 'python tools/automation/tests/test_historical_apt.py' in shared_text
     assert historical.index('historical-native-preflight.py --output') < historical.index('ferrite-maglev-study.py cycle')
     assert 'ferrite-maglev-study.py cycle' in historical and 'capabilities.py --check' in historical
     assert historical.index('ferrite-maglev-study.py cycle') < historical.index('capabilities.py --check')
@@ -317,6 +340,54 @@ class ArchitectureRoutingTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             validate_trip_routes(text.replace('d7c8f40e13d9a5f4889921557311542b84bcbfb1',
                                              '92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164'))
+
+    def test_historical_dependency_failure_survives_log_capture(self):
+        step=self.historical.split('      - name: Install the direct native tools required by the pinned cycle\n',1)[1].split('      - name:',1)[0]
+        self.assertIn('        shell: bash\n',step)
+        lines=step.split('        run: |\n',1)[1].splitlines()
+        command='\n'.join(line[10:] for line in lines if line.startswith('          '))
+        with tempfile.TemporaryDirectory(prefix='osr-apt-pipeline-test-') as directory:
+            root=Path(directory);binary=root/'bin';binary.mkdir()
+            sudo=binary/'sudo';sudo.write_text('#!/bin/sh\nexec "$@"\n');sudo.chmod(0o755)
+            apt=binary/'apt-get'
+            apt.write_text('#!/bin/sh\ncase " $* " in\n *" update "*) if [ "$CONTROLLED_APT_FAILURE" = update ]; then echo controlled-apt-update-failure; exit 73; fi;;\n *" install "*) touch install-was-run; if [ "$CONTROLLED_APT_FAILURE" = install ]; then echo controlled-apt-install-failure; exit 74; fi;;\nesac\necho controlled-apt-success\n')
+            apt.chmod(0o755)
+            environment=dict(os.environ,PATH=str(binary)+os.pathsep+os.environ['PATH'],
+                             CONTROLLED_APT_FAILURE='update')
+            failed=root/'strict';failed.mkdir()
+            # This is GitHub's explicit `shell: bash` invocation. Only local
+            # sudo/apt stubs execute; the actual published tee pipelines are used.
+            result=subprocess.run(['/bin/bash','--noprofile','--norc','-e','-o','pipefail','-c',command],
+                cwd=failed,env=environment,capture_output=True,text=True)
+            self.assertEqual(result.returncode,73)
+            self.assertFalse((failed/'install-was-run').exists())
+            self.assertIn('controlled-apt-update-failure',(failed/'build/historical-native-install.log').read_text())
+            # Negative control reproduces the defect in the former default
+            # `bash -e` shell: tee hides the update failure and install continues.
+            masked=root/'masked';masked.mkdir()
+            control=subprocess.run(['/bin/bash','--noprofile','--norc','-e','-c',command],
+                cwd=masked,env=environment,capture_output=True,text=True)
+            self.assertEqual(control.returncode,0)
+            self.assertTrue((masked/'install-was-run').exists())
+            environment['CONTROLLED_APT_FAILURE']='install'
+            install=root/'install-failed';install.mkdir()
+            result=subprocess.run(['/bin/bash','--noprofile','--norc','-e','-o','pipefail','-c',command],
+                cwd=install,env=environment,capture_output=True,text=True)
+            self.assertEqual(result.returncode,74)
+            self.assertTrue((install/'install-was-run').exists())
+            self.assertIn('controlled-apt-install-failure',(install/'build/historical-native-install.log').read_text())
+
+    def test_native_dependency_routing_and_packages_cannot_disappear(self):
+        for before, after in (
+            ('/tools/automation/configure-historical-apt.py\n', ''),
+            ('install --no-install-recommends -y gmsh getdp calculix-ccx', 'install -y gmsh'),
+            ('timeout-minutes: 20', 'timeout-minutes: 120'),
+            ('shell: bash\n        run: |\n          mkdir -p build\n          sudo apt-get',
+             'run: |\n          mkdir -p build\n          sudo apt-get'),
+        ):
+            with self.subTest(removed=before):
+                with self.assertRaises(AssertionError):
+                    self.check(historical=self.historical.replace(before, after))
 
     def test_required_current_release_gate_cannot_be_removed(self):
         with self.assertRaises(AssertionError):

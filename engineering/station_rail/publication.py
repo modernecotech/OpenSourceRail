@@ -95,7 +95,8 @@ def sources(root,record,index,delivery):
     names += ['campaigns/end-to-end-railway-closure.toml',
         'engineering/design_search/demonstration.py','engineering/design_search/route_bundle.py',
         'engineering/design_search/equipped_candidates.py','engineering/design_search/moving_lim.py',
-        'engineering/design_search/moving_lim_publication.py']
+        'engineering/design_search/moving_lim_publication.py','engineering/design_search/lim_transport.py',
+        'engineering/design_search/fault_response.py']
     for directory in ('engineering/station_rail','engineering/development_baseline'):
         names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.toml','.js','.html','.css') and '__pycache__' not in p.parts]
     followup=root/'docs/design-engine/v06-physical-closure'

@@ -8,12 +8,14 @@ on:
       - "docs/archives/v0.5-maglev/**"
       - "tools/automation/historical-native-preflight.py"
       - "tools/automation/install-historical-freecad.py"
+      - "tools/automation/configure-historical-apt.py"
   pull_request:
     paths:
       - ".github/workflows/historical-v05.yml"
       - "docs/archives/v0.5-maglev/**"
       - "tools/automation/historical-native-preflight.py"
       - "tools/automation/install-historical-freecad.py"
+      - "tools/automation/configure-historical-apt.py"
   workflow_dispatch:
   schedule:
     - cron: "20 2 * * 0"
@@ -38,6 +40,7 @@ jobs:
             /docs/archives/v0.5-maglev/manifest.json
             /tools/automation/historical-native-preflight.py
             /tools/automation/install-historical-freecad.py
+            /tools/automation/configure-historical-apt.py
           sparse-checkout-cone-mode: false
       - name: Check out the immutable v0.5 source and publication
         uses: actions/checkout@v4
@@ -65,12 +68,21 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.92.0
         with:
           components: rustfmt,clippy
-      - name: Install the direct native tools required by the pinned cycle
-        timeout-minutes: 20
+      - name: Record and route the disposable runner Ubuntu sources
+        timeout-minutes: 2
+        shell: bash
         run: |
           mkdir -p build
-          sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 update 2>&1 | tee build/historical-native-install.log
-          sudo env DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 install --no-install-recommends -y gmsh getdp calculix-ccx libglu1-mesa libegl1 libopengl0 ffmpeg fonts-dejavu-core 2>&1 | tee -a build/historical-native-install.log
+          apt-config shell HTTP_DL_LIMIT Acquire::http::Dl-Limit HTTPS_DL_LIMIT Acquire::https::Dl-Limit > build/historical-apt-inherited-download.conf
+          apt-config -o Acquire::http::Dl-Limit=0 -o Acquire::https::Dl-Limit=0 shell HTTP_DL_LIMIT Acquire::http::Dl-Limit HTTPS_DL_LIMIT Acquire::https::Dl-Limit > build/historical-apt-effective-download.conf
+          sudo python3 ../current/tools/automation/configure-historical-apt.py --apt-root /etc/apt --output "$PWD/build/historical-apt-sources" 2>&1 | tee build/historical-apt-source-route.log
+      - name: Install the direct native tools required by the pinned cycle
+        timeout-minutes: 20
+        shell: bash
+        run: |
+          mkdir -p build
+          sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 -o Acquire::http::Dl-Limit=0 -o Acquire::https::Dl-Limit=0 update 2>&1 | tee build/historical-native-install.log
+          sudo env DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 -o Acquire::http::Dl-Limit=0 -o Acquire::https::Dl-Limit=0 install --no-install-recommends -y gmsh getdp calculix-ccx libglu1-mesa libegl1 libopengl0 ffmpeg fonts-dejavu-core 2>&1 | tee -a build/historical-native-install.log
       # Noble has no Ubuntu FreeCAD package. Use an official Python3.11 bundle,
       # verified before extraction; preserve actual tool versions and new-run outputs.
       - name: Install the checksum-pinned official FreeCAD command bundle
@@ -159,6 +171,10 @@ jobs:
         with:
           name: historical-v05-replay-not-current-qualification
           path: |
+            historical/build/historical-apt-sources/
+            historical/build/historical-apt-source-route.log
+            historical/build/historical-apt-inherited-download.conf
+            historical/build/historical-apt-effective-download.conf
             historical/build/historical-native-install.log
             historical/build/historical-freecad/install.json
             historical/build/historical-freecad/extract.log
