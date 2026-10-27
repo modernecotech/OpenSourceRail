@@ -88,6 +88,21 @@ def validate(historical_text, shared_text, current_text, archive):
     assert historical.index('verify-maglev-sources.py') < historical.index(retention)
     assert historical.index(retention) < historical.index('ferrite-maglev-study.py cycle')
     assert 'python tools/automation/tests/test_historical_replay.py' in shared_text
+    browser_step = historical.split('      - name: Install locked browser dependencies before any publication can need them\n', 1)[1].split('      - name:', 1)[0]
+    assert '        shell: bash\n' in browser_step
+    assert '        timeout-minutes: 15\n' in browser_step
+    assert historical.count('uses: actions/setup-node@v4') == 1
+    assert historical.count('npm ci') == 1
+    assert historical.count('npx playwright install --with-deps chromium') == 1
+    assert (historical.index('uses: actions/setup-node@v4') < historical.index('npm ci')
+            < historical.index('npx playwright install --with-deps chromium')
+            < historical.index('ferrite-maglev-study.py cycle'))
+    assert 'historical/build/historical-browser-install.log' in historical
+    final_browser_step = historical.split('      - name: Browser report, images and mobile layout\n', 1)[1].split('      - name:', 1)[0]
+    assert historical.index('ferrite-maglev-study.py cycle') < historical.index('      - name: Browser report, images and mobile layout\n')
+    for command in ('ferrite-maglev-study.py run', 'verify-maglev-v05.mjs build/maglev-browser',
+                    'verify-maglev-workbench.mjs build/maglev-workbench-browser'):
+        assert command in final_browser_step
     for artifact in ('historical-replay-retained/', 'historical-replay-preparation.json',
                      'historical-replay-preparation.log'):
         assert 'historical/build/' + artifact in historical
@@ -396,6 +411,50 @@ class ArchitectureRoutingTests(unittest.TestCase):
             with self.subTest(removed=before):
                 with self.assertRaises(AssertionError):
                     self.check(historical=self.historical.replace(before, after))
+
+    def test_browser_dependencies_cannot_be_delayed_until_after_the_cycle(self):
+        start = self.historical.index('      - uses: actions/setup-node@v4\n')
+        end = self.historical.index('      - name: Verify every published source and packet file is tracked\n')
+        bootstrap = self.historical[start:end]
+        late = self.historical[:start] + self.historical[end:]
+        late = late.replace('      - name: Browser report, images and mobile layout\n',
+                            bootstrap + '      - name: Browser report, images and mobile layout\n')
+        # All original install and browser commands remain present in this
+        # negative control; only the former broken dependency ordering returns.
+        with self.assertRaises(AssertionError):
+            self.check(historical=late)
+
+    def test_browser_dependency_failures_survive_actual_workflow_log_pipelines(self):
+        step = self.historical.split('      - name: Install locked browser dependencies before any publication can need them\n', 1)[1].split('      - name:', 1)[0]
+        command = '\n'.join(line[10:] for line in step.split('        run: |\n', 1)[1].splitlines()
+                            if line.startswith('          '))
+        with tempfile.TemporaryDirectory(prefix='osr-browser-dependency-test-') as directory:
+            root = Path(directory)
+            binary = root / 'bin'
+            binary.mkdir()
+            for tool, code in (('npm', 81), ('npx', 82)):
+                stub = binary / tool
+                stub.write_text('#!/bin/sh\necho ' + tool + ' >> dependency-order.txt\n'
+                    'if [ "$CONTROLLED_DEPENDENCY_FAILURE" = ' + tool + ' ]; then\n'
+                    ' echo controlled-' + tool + '-failure; exit ' + str(code) + '\nfi\n'
+                    'echo controlled-' + tool + '-success\n')
+                stub.chmod(0o755)
+            for failure, code, calls in (('npm', 81, ['npm']), ('npx', 82, ['npm', 'npx']),
+                                         ('none', 0, ['npm', 'npx'])):
+                with self.subTest(failure=failure):
+                    run = root / failure
+                    run.mkdir()
+                    environment = dict(os.environ, PATH=str(binary) + os.pathsep + os.environ['PATH'],
+                                       CONTROLLED_DEPENDENCY_FAILURE=failure)
+                    # Execute the actual workflow block with local stubs only.
+                    result = subprocess.run(['/bin/bash', '--noprofile', '--norc', '-e', '-o',
+                                             'pipefail', '-c', command], cwd=run, env=environment,
+                                            capture_output=True, text=True)
+                    self.assertEqual(result.returncode, code)
+                    self.assertEqual((run / 'dependency-order.txt').read_text().splitlines(), calls)
+                    log = (run / 'build/historical-browser-install.log').read_text()
+                    if failure != 'none':
+                        self.assertIn('controlled-' + failure + '-failure', log)
 
     def test_required_current_release_gate_cannot_be_removed(self):
         with self.assertRaises(AssertionError):
