@@ -7,6 +7,10 @@ from .common import encoded,identity,digest
 from .evaluation import IDS
 OUTPUT='docs/design-engine/current'
 RECEIPT='OpenSourceRail-Book.receipt.json'
+ILLUSTRATIONS='docs/assets/v0.6/illustrations.json'
+
+def _illustrations(root):
+    return json.loads((Path(root)/ILLUSTRATIONS).read_bytes())['illustrations']
 
 def _inputs(root):
     root=Path(root)
@@ -17,6 +21,7 @@ def _inputs(root):
         'docs/design-engine/v06-architecture/summary.json','docs/design-engine/v06-architecture/native-index.json',
         'docs/design-engine/v06-adaptive-design/summary.json','docs/design-engine/v06-adaptive-design/requirement-policy.json',
         'docs/design-engine/generative-structure/summary.json','docs/design-engine/coupled-railway/summary.json',OUTPUT+'/vehicle-overview.svg',OUTPUT+'/service-profile.svg',OUTPUT+'/interface-section.svg']
+    names += [ILLUSTRATIONS,*(image['file'] for image in _illustrations(root))]
     return {name:digest(root/name) for name in names}
 
 def build(root=ROOT,output=None,check=False):
@@ -71,11 +76,18 @@ def build(root=ROOT,output=None,check=False):
     def figure(name,height,caption):
         raw=cairosvg.svg2png(url=str(root/OUTPUT/name),output_width=1500);im=Image(io.BytesIO(raw));w=min(490,height*im.imageWidth/im.imageHeight);h=w*im.imageHeight/im.imageWidth
         story.append(KeepTogether([Image(io.BytesIO(raw),width=w,height=h),Spacer(1,7),p(caption,'Cell'),Spacer(1,13)]))
+    artwork=_illustrations(root)
+    def illustration(index,height):
+        item=artwork[index];im=Image(str(root/item['file']))
+        w=min(490,height*im.imageWidth/im.imageHeight);h=w*im.imageHeight/im.imageWidth
+        im.drawWidth=w;im.drawHeight=h
+        story.append(KeepTogether([im,Spacer(1,7),p(item['title']+'. '+item['caption'],'Cell'),Spacer(1,13)]))
     m=summary['mass'];s=summary['service'];native=summary['native'];comp=json.loads((root/OUTPUT/'comparison.json').read_bytes());city=json.loads((root/OUTPUT/'cities.json').read_bytes())
     story += [Spacer(1,18),p('OpenSourceRail','Title'),p('v0.6 - Station-powered freewheeling rail','Heading')]
     para('Simple vehicles. Repeated civil works. Comfortable, frequent journeys.')
     para('Reference engineering and prototype design | 27 October 2026')
-    figure('vehicle-overview.svg',245,'Counted material proposal. Supplier reference assemblies and residual accounts are not complete installed geometry.')
+    illustration(0,275)
+    para('Concept artwork illustrates the intended railway. Controlled geometry and engineering records govern dimensions and equipment; these images do not establish physical performance or qualification.')
     para('Six lightweight cars run on passive wheel bogies and conventional steel rails. Wayside linear-induction motors launch and receive the train through passive onboard aluminium secondaries. The train has no traction motors, traction battery or suspension magnets.')
     para('Selected for development, with explicit trade-offs. Physical operation, lowest whole-life cost, complete installed mass and manufacturing release remain unestablished.')
     page('The whole OpenSourceRail project')
@@ -100,8 +112,17 @@ def build(root=ROOT,output=None,check=False):
     para('Current candidate packages generate CAD/IFC stock, engineering and manufacturing records, assembly/procurement tasks and disabled ERPNext drafts. They are not submitted purchases, qualified shop instructions, an as-built operating twin or a complete priced construction/cashflow plan.')
     para('Earlier LM3 factory targets, the v0.4 localisation illustration and v0.5 city budgets remain historical scenarios. They do not establish v0.6 prices, savings or domestic-content percentages. All 266 city geographies remain inputs; new performance publication remains held.')
     para('Contributors can improve material/supplier evidence, complete assemblies, physical models, manufacturing and repair methods, controls, city data and tests. See CONTRIBUTING.md and GOVERNANCE.md. Software uses Apache 2.0, open physical designs CERN-OHL-S v2 and documentation CC-BY-SA 4.0, subject to the notices in LICENSE.md.')
+    page('Passenger comfort and local assembly')
+    para('Concept illustrations of the seated passenger experience and local manufacturing objective. Detailed equipment, accessible clearances and assembly sequences remain engineering work.')
+    illustration(1,220)
+    illustration(2,220)
+    page('Precast construction and station propulsion')
+    para('Concept illustrations connect repeated civil works with station-powered wheel rail. The LIM interface is schematic; motor clearances, supports and powered-section lengths follow the candidate engineering records.')
+    illustration(3,220)
+    illustration(4,220)
     page('1. Preserve the ethos; change the support')
     para('OpenSourceRail aims to reduce whole-life transport cost through repeated components, local manufacture, accessible repair and open engineering. v0.6 removes magnetic levitation and its continuous steel-facing assemblies. This does not remove the need to prove station-only propulsion, safe stopping or the cost of the complete railway.')
+    figure('vehicle-overview.svg',125,'Generated counted stock geometry. Supplier reference assemblies and residual accounts are not complete installed geometry.')
     table(['Location','Reference architecture'],[
         ('Train','Six 17m aluminium/GFRP comfort cars; identical passive bogies, independent brakes, ATP, communications, service battery, HVAC and solar roof.'),
         ('Ordinary guideway','Conventional running rails and direct fastenings on precast concrete; box, twin-beam and U-beam alternatives.'),

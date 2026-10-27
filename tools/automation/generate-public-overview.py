@@ -249,6 +249,10 @@ def primary_markdown() -> str:
     from engineering.development_baseline import selection
     current=selection.load(REPO_ROOT)
     v=current['selection']['vehicle'];s=current['selection']['service']
+    artwork=json.loads((REPO_ROOT/'docs/assets/v0.6/illustrations.json').read_text())
+    illustrations='\n\n'.join(
+        f"### {image['title']}\n\n![{image['alt']}]({Path(image['file']).relative_to('docs').as_posix()})\n\n{image['caption']}"
+        for image in artwork['illustrations'])
     return f'''# OpenSourceRail: open railway design and delivery
 
 OpenSourceRail aims to retain design authority, manufacturing, software, integration
@@ -276,6 +280,15 @@ separate exception to the no-mainline-switch policy.
 ![Counted v0.6 vehicle proposal](design-engine/current/vehicle-overview.svg)
 
 *Partial stock geometry and equipment accounts, not a complete installed or approved train.*
+
+## v0.6 concept illustrations
+
+These five supplied illustrations show the intended railway, passenger experience,
+local assembly and construction. They are concept artwork. Dimensions, equipment
+placement, accessibility and construction details require controlled engineering
+records; the images do not establish physical performance or qualification.
+
+{illustrations}
 
 ## The wider platform remains
 

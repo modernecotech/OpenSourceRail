@@ -26,6 +26,43 @@ separate exception to the no-mainline-switch policy.
 
 *Partial stock geometry and equipment accounts, not a complete installed or approved train.*
 
+## v0.6 concept illustrations
+
+These five supplied illustrations show the intended railway, passenger experience,
+local assembly and construction. They are concept artwork. Dimensions, equipment
+placement, accessibility and construction details require controlled engineering
+records; the images do not establish physical performance or qualification.
+
+### Elevated train and station
+
+![Wheel-supported train beside an elevated station with a solar canopy](assets/v0.6/elevated-station.png)
+
+A wheel-supported train on conventional rails beside an elevated station, with roof solar panels and a platform canopy.
+
+### Accessible passenger interior
+
+![Seated passenger cabin with a wheelchair space beside the doors](assets/v0.6/accessible-interior.png)
+
+A bright seated cabin with a wheelchair space beside the doors. Detailed seat counts, boarding clearances and restraints require the controlled layout.
+
+### Local vehicle assembly
+
+![Exploded vehicle assembly in a workshop with roof, doors, seating and bogies](assets/v0.6/vehicle-assembly.png)
+
+Workshop assembly concept showing the body, roof, glazing, doors, seating and bogies as separate assemblies.
+
+### Precast guideway construction
+
+![Crane lifting a precast rail beam onto elevated piers](assets/v0.6/precast-construction.png)
+
+Illustrated precast-beam erection above an urban corridor. Lifting arrangements, temporary stability and site protection need their own engineered plans.
+
+### Station LIM and passive secondary
+
+![Wheel bogies above a passive aluminium fin between two station LIM primaries](assets/v0.6/station-lim-interface.png)
+
+Passive wheel bogies support the car while station-side double-sided LIM primaries act on a passive aluminium fin. Blue arrows illustrate the propulsion concept.
+
 ## The wider platform remains
 
 The lifecycle is plan, design, procure, manufacture, construct, commission, operate,

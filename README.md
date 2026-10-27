@@ -8,9 +8,9 @@ The wider project still includes city planning, CAD/BIM, manufacturing, business
 
 **Start here:** [illustrated reader](OpenSourceRail-Book.pdf) · [project overview](docs/open-source-rail-overview.md) · [current engineering](docs/design-engine/current/README.md) · [city geography](docs/design-engine/current/cities.json) · [roadmap](docs/ROADMAP.md).
 
-![OpenSourceRail v0.6 counted vehicle and running-gear proposal](docs/design-engine/current/vehicle-overview.svg)
+![OpenSourceRail v0.6 wheel-supported train at an elevated station](docs/assets/v0.6/elevated-station.png)
 
-*Generated reference geometry. Counted stock and supplier accounts do not establish a complete installed train or approved production design.*
+*v0.6 concept illustration. Explore all five [train, interior, assembly, construction and propulsion illustrations](docs/open-source-rail-overview.md#v06-concept-illustrations) in the project overview.*
 
 ## Why OpenSourceRail
 
@@ -35,6 +35,10 @@ The [first adoption path](docs/first-adoptable-product.md) is controlled plannin
 ## v0.6 development basis
 
 [development-baseline.toml](engineering/development-baseline.toml) selects one reference vehicle, body, running gear and propulsion configuration. Research alternatives receive separate identities and do not silently replace it.
+
+![OpenSourceRail v0.6 counted vehicle and running-gear proposal](docs/design-engine/current/vehicle-overview.svg)
+
+*Generated reference geometry. Concept artwork communicates design intent; controlled geometry and engineering records govern dimensions and equipment. Counted stock and supplier accounts do not establish a complete installed train or approved production design.*
 
 | Design choice | Reference basis |
 |---|---|

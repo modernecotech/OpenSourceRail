@@ -227,6 +227,10 @@ def reader_cache(packet):
     source.parent.mkdir(parents=True,exist_ok=True);source.write_bytes(Path(book.__file__).read_bytes())
     reader_source=root/'engineering/station_rail/reader.py'
     reader_source.parent.mkdir(parents=True,exist_ok=True);reader_source.write_bytes(Path(reader.__file__).read_bytes())
+    artwork=json.loads((Path(reader.__file__).resolve().parents[2]/reader.ILLUSTRATIONS).read_bytes())
+    write_json(root/reader.ILLUSTRATIONS,artwork)
+    for image in artwork['illustrations']:
+        (root/image['file']).write_bytes(b'Synthetic image cache fixture, not artwork\n')
     write_json(root/OUTPUT/'cities.json',dict(summary,cities=[]))
     write_json(root/OUTPUT/'comparison.json',dict(alternatives=[]))
     write_json(root/'docs/design-engine/v06-physical-closure/summary.json',dict(scope='Synthetic cache-integrity fixture; no solver evidence'))
@@ -287,6 +291,20 @@ def test_reader_cannot_rebind_changed_current_payload_as_a_cached_publication(re
 def test_reader_cache_refuses_changed_native_followup(reader_cache,relative):
     root,book,_=reader_cache
     write_json(root/relative,dict(scope='Changed synthetic evidence'))
+    with pytest.raises(ValueError,match='stale'):
+        book.build(root=root,check=True)
+
+
+@pytest.mark.parametrize('relative',[
+    'docs/assets/v0.6/illustrations.json',
+    'docs/assets/v0.6/elevated-station.png',
+    'docs/assets/v0.6/accessible-interior.png',
+    'docs/assets/v0.6/vehicle-assembly.png',
+    'docs/assets/v0.6/precast-construction.png',
+    'docs/assets/v0.6/station-lim-interface.png'])
+def test_reader_cache_refuses_changed_illustrations(reader_cache,relative):
+    root,book,_=reader_cache
+    with (root/relative).open('ab') as handle:handle.write(b'\n')
     with pytest.raises(ValueError,match='stale'):
         book.build(root=root,check=True)
 
