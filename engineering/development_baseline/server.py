@@ -76,7 +76,8 @@ class Handler(BaseHTTPRequestHandler):
                 '/api/design-space/current':('v06-design-space','osr-expanded-design-space-summary/1'),
                 '/api/architectures/current':('v06-architecture','osr-railway-architecture-summary/1'),
                 '/api/adaptive/current':('v06-adaptive-design','osr-adaptive-design-summary/1'),
-                '/api/generative/current':('generative-structure','osr-generative-structure-summary/1')}
+                '/api/generative/current':('generative-structure','osr-generative-structure-summary/1'),
+                '/api/railway/current':('coupled-railway','osr-coupled-railway-summary/1')}
             if path in research_routes:
                 _,publication=read_packet(self.root)
                 folder,schema=research_routes[path]
@@ -85,7 +86,7 @@ class Handler(BaseHTTPRequestHandler):
                 value=json.loads(source.read_bytes())
                 if value.get('schema')!=schema or any(value.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):
                     raise CurrentUnavailable('Unaccepted research campaign required')
-                if path=='/api/generative/current' and (value.get('selected_reference_changed') is not False or value.get('integrated_selection') is not None):
+                if path in ('/api/generative/current','/api/railway/current') and (value.get('selected_reference_changed') is not False or value.get('integrated_selection') is not None):
                     raise CurrentUnavailable('Generative research cannot select an integrated replacement')
                 self.respond(200,value)
                 return

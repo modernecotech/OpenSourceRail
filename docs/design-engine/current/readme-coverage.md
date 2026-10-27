@@ -4,9 +4,9 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 
 [Project introduction](../../../README.md) · [System approach](../../../engineering/README.md) · [Current design and engineering gates](README.md)
 
-All **904 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. Current city introductions use the selected comfort design; historical numerical packages remain intact. The project front door is maintained separately.
+All **905 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. Current city introductions use the selected comfort design; historical numerical packages remain intact. The project front door is maintained separately.
 
-Existing local navigation reaches current context from **838 documents**. This page supplies an explicit current-context route for the remaining **66 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
+Existing local navigation reaches current context from **838 documents**. This page supplies an explicit current-context route for the remaining **67 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
 Historical numerical city, design and research packets retain their exact README payloads and original scope. Historical source bindings resolve at the pinned Git revision. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.
 
@@ -24,7 +24,7 @@ Historical numerical city, design and research packets retain their exact README
 | manual-current-entrypoint | 13 |
 | project-frontdoor | 1 |
 | retained-assurance-evidence | 8 |
-| retained-design-evidence | 71 |
+| retained-design-evidence | 72 |
 | trip-dynamics-method | 2 |
 
 Regenerate and check with:
@@ -849,6 +849,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [docs/archives/pre-comfort-default/README.md](../../archives/pre-comfort-default/README.md) | historical-archive | [System approach](../../../engineering/README.md) | [current](README.md) |
 | [docs/archives/v0.5-maglev/README.md](../../archives/v0.5-maglev/README.md) | historical-archive | [System approach](../../../engineering/README.md) | [current](README.md) |
 | [docs/capabilities/README.md](../../capabilities/README.md) | generated-navigation-index | [System approach](../../../engineering/README.md) | [current](README.md) |
+| [docs/design-engine/coupled-railway/README.md](../coupled-railway/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/current/README.md](README.md) | current-development-dossier | [System approach](../../../engineering/README.md) | Current system introduction |
 | [docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md](../design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [design_search](../../../engineering/design_search/README.md) → [v06-optimisation](../v06-optimisation/README.md) → [current](README.md) |
 | [docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md](../design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |

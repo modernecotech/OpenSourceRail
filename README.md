@@ -36,7 +36,20 @@ The 266 city geographies and underlying maps are preserved as starting inputs. *
 
 ## Iterative design search
 
-**Start ongoing design work with `./osr design adaptive plan` and `./osr design adaptive run`.** This function-first workflow treats provisional targets as hypotheses, resumes pending work and advances to new definitions. It can broaden the physical family or commission missing models when local changes are ineffective.
+**Start coordinated design work with `./osr design railway plan` and `./osr design railway run`.** The [coupled experiment](docs/design-engine/coupled-railway/README.md) connects architecture search, adaptive failure diagnosis and generated physical structures. A body revision automatically updates its inventory, interfaces, propulsion requirements, independent braking, civil loads and manufacturing/economic coverage under one railway identity. Pending work survives execution budgets.
+
+The executed experiment contains **14 bodies, 112 railway bundles and 784 downstream stage records**. It includes five original recipes, mechanism-driven physical rewrites and two complete metal load-path alternatives with aligned-profile revisions. Four native method fixtures and seven native body cases check three-dimensional bending, finite-face load transfer and equilibrium/energy. Six transient magnetic method controls expose timestep and operating-model gaps. Two body CADs also produce reopened IFC stock models, assembly records and disabled ERPNext drafts.
+
+The first body mesh exceeded its memory allocation; this prompted new aligned-profile geometry and a bounded numerical revision. The finer frame result still changes by about 6.7%, so further numerical work remains queued. **No complete installed vehicle mass, operating LIM force map, physical journey or whole-life-cost winner is claimed.** Foam/honeycomb and composite proposals retain their own material/joint-model tasks. The selected reference is unchanged.
+
+```bash
+./osr design railway plan
+./osr design railway run --max-bundles 2 --native-jobs 1
+./osr design railway publish
+./osr design railway verify
+```
+
+`./osr design adaptive` and `./osr design generative` remain reusable component experiments; the earlier publications preserve their original sources and limits.
 
 The retained bounded v0.6 campaign connects the earlier body/motor/brake generators to restartable native execution and research-twin exports. Its original parameter bounds and screening criteria remain reproducible; [its publication](docs/design-engine/v06-optimisation/README.md) records that earlier experiment. These commands reproduce that component campaign:
 

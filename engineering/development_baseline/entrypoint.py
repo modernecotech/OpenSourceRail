@@ -184,6 +184,19 @@ def main(argv=None, root=ROOT):
     if command in ('design', 'infrastructure'):
         command, rest = (rest[0], rest[1:]) if rest else ('status', [])
     try:
+        if command=='railway':
+            from engineering.design_search import railway_campaign,railway_publication,remit
+            if rest==['plan']:
+                emit(dict(specification=railway_campaign.specification(root),remit=remit.default(),dependency_graph=railway_campaign.EDGES,physical_accepted=False));return 0
+            if rest==['publish']:emit(railway_publication.build(root));return 0
+            if rest==['verify']:emit(railway_publication.verify(root));return 0
+            if rest and rest[0]=='run':
+                options=argparse.ArgumentParser(prog='./osr design railway run');options.add_argument('--max-bundles',type=int);options.add_argument('--native-jobs',type=int,default=0)
+                parsed=options.parse_args(rest[1:]);r=railway_campaign.run(root,maximum_new_bundles=parsed.max_bundles,native_jobs=parsed.native_jobs)
+                if r.get('integrated_selection') is not None or r.get('selected_reference_changed') is not False or any(r.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):raise ValueError('Coordinated research cannot select or release a railway')
+                emit(dict(campaign_id=r['campaign_id'],contract_id=r['contract_id'],body_definitions=len(r['bodies']),evaluated_bundles=len(r['rows']),
+                    new_bundles=r['new_bundles'],reused_bundles=r['reused_bundles'],frontier_items=len(r['frontier']),integrated_selection=None,physical_accepted=False));return 0
+            raise ValueError('Use ./osr design railway plan, run [--max-bundles N] [--native-jobs N], publish or verify')
         if command=='generative':
             from engineering.design_search import generative_campaign,generative_publication
             if rest==['plan']:emit(generative_campaign.specification());return 0

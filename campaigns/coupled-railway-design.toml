@@ -1,0 +1,43 @@
+schema = "osr-coupled-railway-campaign/1"
+revision = "COUPLED-RAILWAY-1"
+reference_changes_allowed = false
+purpose = "next-experiment"
+families = ["P1", "P2", "P3", "P4", "P5", "P6", "P7"]
+distance_m = 2000.0
+initial_structural_recipes = 5
+maximum_body_definitions = 14
+maximum_bundle_cases = 128
+maximum_native_jobs = 12
+maximum_CAD_jobs = 2
+maximum_seconds = 1800
+maximum_native_memory_mb = 5120
+maximum_solid_cells_per_job = 65000
+body_cases = ["normal", "normal-fine", "crowd"]
+body_mesh_m = [1.7, 0.85, 1.7]
+body_timeout_s = 150
+maintain_pending_tasks = true
+complete_mass_required_for_physical_journey = true
+required_trajectory_is_available_thrust = false
+
+[experiment]
+cars = 6
+car_length_m = 17.0
+fixed_seats_per_car = 44
+wheelchair_places_per_car = 2
+normal_people_per_car = 46
+crowd_people_per_car = 160
+passenger_mass_kg = 75.0
+same_service_capacity_pphpd = 8280.0
+native_completion_topologies = ["aluminium_frame", "aluminium_stressed_skin"]
+
+[selection]
+purpose = "partial-quantity-next-experiment"
+allow_qualified_or_economic_winner = false
+unknown_prices_are_zero = false
+
+[numerical_refinement]
+purpose = "next numerical experiment; not an engineering acceptance threshold"
+trigger_relative_change = 0.05
+factor = 0.5
+minimum_mesh_m = 0.4
+maximum_additional_levels = 1

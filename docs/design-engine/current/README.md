@@ -63,6 +63,8 @@ The [function-first adaptive generator](../v06-adaptive-design/README.md) separa
 
 The [generative structural campaign](../generative-structure/README.md) composes different physical body arrangements, generates actual stock and interface graphs, diagnoses mechanisms and executes topology, layout and function-integration rewrites. Gross structure stock is not equipped vehicle tare. Native axial underfloor checks and CAD exports do not validate complete shell, laminate, joint or vehicle response; no integrated design is selected.
 
+The [coordinated railway experiment](../coupled-railway/README.md) connects architecture, adaptive proposals, generated bodies, inventory, motor requirements, independent braking, civil loads, manufacturing and economic coverage through one versioned bundle and dependency graph. Changed body stock automatically triggers downstream evaluation. New three-dimensional metal-body research and conditional operating requirements retain their exact models and missing evidence; complete installed mass, available nonlinear LIM capability and a qualified journey remain open.
+
 ## Readiness and reproduction
 
 | Gate | State | Evidence still needed |

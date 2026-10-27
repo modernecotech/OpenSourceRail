@@ -85,6 +85,15 @@ alternatives do not silently change the selected reference or inherit its result
   they do not invalidate a bonded shell or rigid frame without its own evaluator.
   Gross untrimmed stock, declared manufacturing groups and CAD volume agreement
   are not complete installed mass, manufacturability or body qualification.
+- Start coordinated work with `./osr design railway` and
+  campaigns/coupled-railway-design.toml. Keep standalone architecture/adaptive/
+  generative experiments reproducible. A physical revision must propagate through
+  one canonical bundle to inventory, interfaces, propulsion, braking, civil and
+  manufacturing/economics; new upstream evidence invalidates dependent caches.
+  Native reuse requires the exact source, tool, candidate, load, mesh and resource
+  request. Numerical budget revisions do not change engineering obligations.
+  Continue unresolved refinement or unsupported-model work in the frontier;
+  balanced forces/energy and CAD/IFC volume agreement do not qualify a body.
 - Preserve historical source-bound archives. Regenerate affected current packets
   with their generators after changing implementation inputs; record a hold when
   dependencies or physical measurements are unavailable. Do not edit receipts to

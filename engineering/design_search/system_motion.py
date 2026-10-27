@@ -28,6 +28,9 @@ def _sha(x):return isinstance(x,str) and re.fullmatch('[0-9a-f]{64}',x) is not N
 
 def _bundle(bundle):
     b=deepcopy(bundle)
+    if 'definition_id' in b:
+        from .railway_bundle import validate
+        validate(b)
     if b.get('schema')!='osr-coupled-railway-bundle/1' or b.get('bundle_id',b.get('candidate_id'))!=b.get('candidate_id') or any(not _sha(b.get(k)) for k in ('candidate_id','body_candidate_id','support_component_id','propulsion_component_id')):raise ValueError('Canonical same-candidate bundle required')
     if b.get('motor_definition',{}).get('motor_component_id')!=b.get('propulsion_component_id'):raise ValueError('Motor definition differs from candidate bundle')
     if type(b.get('cars')) is not int or b['cars']<1 or not _number(b.get('rotating_equivalent_kg_per_car'),True):raise ValueError('Explicit formation and counted rotating-equivalent mass required')
@@ -69,6 +72,7 @@ def admit_map(bundle,force_map,case,*,allow_synthetic=False,current_source_sha25
         if m.get(key)!=expected:reasons.append('Force map mismatches '+key)
     if test and not allow_synthetic:reasons.append('Synthetic maps are test-only; explicit method opt-in required')
     if not test:
+        if 'definition_id' not in bundle:reasons.append('A full validated canonical composition is required; minimal method fixtures cannot admit an operating map')
         if m.get('evidence_kind')!='verified-numerical-operating-map' or m.get('model_family')!='nonlinear-moving-LIM':reasons.append('Linear phasor or generic DC evidence is not an available moving nonlinear motor')
         required=('independent_benchmarks','mesh_time_convergence','finite_overlap','zero_force_outside_windows','current_circuit_control','thermal_duty','normal_force_interface')
         if any(m.get('validation',{}).get(k)!='supported' for k in required):reasons.append('Missing independent moving/electrical/thermal/interface validation')
@@ -245,6 +249,10 @@ def evaluate(candidate_bundle,available_map=None,*,scenario_overrides=None,allow
     tasks=[] if motion['admission']['admitted'] else ['Develop nonlinear transient moving-conductor A-u force/current/overlap map for this exact motor and candidate',
         'Confirm linear limit, zero/current-reversal controls, work balance and mesh/time convergence independently',
         'Resolve actual normal-force wheel loads, inverter/current transients, loss partition and repeated thermal duty']
+    if tasks and b.get('family_id')=='P6':tasks=['Materialize wheel-drive, power supply and mounting geometry with actual installed mass',
+        'Develop torque-speed/current/voltage/adhesion/thermal drive and independent brake maps for this exact wheel-traction configuration']
+    elif tasks and b.get('family_id')=='P7':tasks=['Materialize the alternative passive motor topology, steel/secondary and electrical circuit',
+        'Develop and independently validate its topology-specific finite-position force/current/loss/thermal map']
     result=dict(schema='osr-coupled-longitudinal-research/1',candidate_id=b['candidate_id'],body_candidate_id=b.get('body_candidate_id'),propulsion_component_id=b['propulsion_component_id'],requirement_revision=b['requirement_revision'],scenario=s,
         mass_scope=b.get('mass_scope','accounted hypotheses; complete installed mass unknown'),required_demand=required,braking=brake_screens(b,s),forward_motion=motion,
         model_tasks=tasks,complete_installed_mass_kg=None,complete_installed_cost_USD=None,

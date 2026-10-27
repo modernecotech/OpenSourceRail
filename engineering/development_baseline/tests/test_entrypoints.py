@@ -235,6 +235,7 @@ def reader_cache(packet):
     for name in ('summary.json','requirement-policy.json'):
         write_json(root/'docs/design-engine/v06-adaptive-design'/name,dict(scope='Synthetic adaptive cache fixture; no solver evidence'))
     write_json(root/'docs/design-engine/generative-structure/summary.json',dict(scope='Synthetic generative cache fixture; no solver evidence'))
+    write_json(root/'docs/design-engine/coupled-railway/summary.json',dict(scope='Synthetic coupled cache fixture; no solver evidence'))
     for name in ('vehicle-overview.svg','service-profile.svg','interface-section.svg'):
         (root/OUTPUT/name).write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>')
     pdf=root/'OpenSourceRail-Book.pdf'
@@ -280,7 +281,8 @@ def test_reader_cannot_rebind_changed_current_payload_as_a_cached_publication(re
     'docs/design-engine/v06-architecture/summary.json',
     'docs/design-engine/v06-architecture/native-index.json',
     'docs/design-engine/v06-adaptive-design/summary.json',
-    'docs/design-engine/v06-adaptive-design/requirement-policy.json'])
+    'docs/design-engine/v06-adaptive-design/requirement-policy.json',
+    'docs/design-engine/coupled-railway/summary.json'])
 def test_reader_cache_refuses_changed_native_followup(reader_cache,relative):
     root,book,_=reader_cache
     write_json(root/relative,dict(scope='Changed synthetic evidence'))
@@ -293,11 +295,12 @@ def test_reader_cache_refuses_changed_native_followup(reader_cache,relative):
     ('design-space','docs/design-engine/v06-design-space/summary.json','osr-expanded-design-space-summary/1'),
     ('architectures','docs/design-engine/v06-architecture/summary.json','osr-railway-architecture-summary/1'),
     ('adaptive','docs/design-engine/v06-adaptive-design/summary.json','osr-adaptive-design-summary/1'),
-    ('generative','docs/design-engine/generative-structure/summary.json','osr-generative-structure-summary/1')])
+    ('generative','docs/design-engine/generative-structure/summary.json','osr-generative-structure-summary/1'),
+    ('railway','docs/design-engine/coupled-railway/summary.json','osr-coupled-railway-summary/1')])
 def test_campaign_api_requires_bound_research_bytes(packet,endpoint,relative,schema):
     root,_,manifest=packet
     value=dict(schema=schema,physical_accepted=False,engineering_accepted=False,configuration_adopted=False,manufacturing_release=False,operating_release=False)
-    if endpoint=='generative':value.update(integrated_selection=None,selected_reference_changed=False)
+    if endpoint in ('generative','railway'):value.update(integrated_selection=None,selected_reference_changed=False)
     write_json(root/relative,value)
     server=make_server(root=root,port=0);thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     url='http://127.0.0.1:'+str(server.server_address[1])+'/api/'+endpoint+'/current'
@@ -362,3 +365,21 @@ def test_generative_cli_does_not_mask_an_accepted_result_as_research(packet,monk
     assert cli.main(['design','generative','run'],root=root)==3
     result=json.loads(capsys.readouterr().out)
     assert result['execution']=='held' and 'cannot select or release' in result['reason']
+
+
+@pytest.mark.parametrize('action',['plan','run','publish','verify'])
+def test_coordinated_cli_routes_to_shared_research_engine_without_running_native_fixtures(packet,monkeypatch,capsys,action):
+    from types import ModuleType
+    import engineering.design_search as package
+    root,_,_=packet;campaign=ModuleType('engineering.design_search.railway_campaign');publication=ModuleType('engineering.design_search.railway_publication');calls=[]
+    campaign.EDGES=[['body','inventory']]
+    campaign.specification=lambda root:dict(schema='synthetic-contract-plan',physical_accepted=False)
+    def run(root,**kwargs):
+        calls.append(kwargs);return dict(campaign_id='7'*64,contract_id='8'*64,bodies=[{}],rows=[{}],frontier=[],new_bundles=1,reused_bundles=0,
+            integrated_selection=None,selected_reference_changed=False,configuration_adopted=False,**FLAGS)
+    campaign.run=run;publication.build=lambda root:dict(published=True,physical_accepted=False);publication.verify=lambda root:dict(verified=True,physical_accepted=False)
+    monkeypatch.setitem(sys.modules,campaign.__name__,campaign);monkeypatch.setitem(sys.modules,publication.__name__,publication)
+    monkeypatch.setattr(package,'railway_campaign',campaign,raising=False);monkeypatch.setattr(package,'railway_publication',publication,raising=False)
+    assert cli.main(['design','railway',action],root=root)==0
+    value=json.loads(capsys.readouterr().out);assert value['physical_accepted'] is False
+    if action=='run':assert calls==[dict(maximum_new_bundles=None,native_jobs=0)]

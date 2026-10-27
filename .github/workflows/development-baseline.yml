@@ -2,20 +2,29 @@ name: v0.6 wheel and station reference design
 on:
   pull_request:
     paths:
+      - "README.md"
+      - "docs/ROADMAP.md"
+      - "OpenSourceRail-Book*"
       - "engineering/development-baseline.toml"
       - "engineering/development_baseline/**"
       - "engineering/station_rail/**"
       - "engineering/design_search/**"
       - "campaigns/whole-railway-architecture-search.toml"
       - "campaigns/adaptive-railway-design.toml"
+      - "campaigns/coupled-railway-design.toml"
       - "tests/test_body_revision.py"
       - "tests/test_joint*.py"
       - "tests/test_grammar_structure.py"
+      - "tests/test_grammar_shell.py"
       - "tools/automation/architecture-native-benchmarks.py"
       - "tools/automation/generative-native-benchmarks.py"
+      - "tools/automation/coupled-native-benchmarks.py"
       - "crates/osr-atp/**"
       - "Cargo.lock"
       - "docs/design-engine/current/**"
+      - "docs/design-engine/v06-adaptive-design/**"
+      - "docs/design-engine/generative-structure/**"
+      - "docs/design-engine/coupled-railway/**"
       - "docs/workbench/current/**"
       - "cities/**/engineering/current/**"
       - "tools/automation/default-design*.py"
@@ -26,23 +35,38 @@ on:
   push:
     branches: [main]
     paths:
+      - "README.md"
+      - "docs/ROADMAP.md"
+      - "OpenSourceRail-Book*"
       - "engineering/development-baseline.toml"
       - "engineering/development_baseline/**"
       - "engineering/station_rail/**"
       - "engineering/design_search/**"
       - "campaigns/whole-railway-architecture-search.toml"
       - "campaigns/adaptive-railway-design.toml"
+      - "campaigns/coupled-railway-design.toml"
       - "tests/test_body_revision.py"
       - "tests/test_joint*.py"
       - "tests/test_grammar_structure.py"
+      - "tests/test_grammar_shell.py"
       - "tools/automation/architecture-native-benchmarks.py"
       - "tools/automation/generative-native-benchmarks.py"
+      - "tools/automation/coupled-native-benchmarks.py"
       - "crates/osr-atp/**"
       - "Cargo.lock"
       - "docs/design-engine/current/**"
+      - "docs/design-engine/v06-adaptive-design/**"
+      - "docs/design-engine/generative-structure/**"
+      - "docs/design-engine/coupled-railway/**"
       - "docs/workbench/current/**"
       - "osr"
+      - ".github/workflows/development-baseline.yml"
   workflow_dispatch:
+    inputs:
+      native_methods:
+        description: Run the expensive native method fixtures as well as required contracts
+        type: boolean
+        default: false
   schedule:
     - cron: "45 3 * * *"
 permissions:
@@ -69,6 +93,9 @@ jobs:
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_architecture.py engineering/design_search/tests/test_architecture_demand.py engineering/design_search/tests/test_capabilities.py engineering/design_search/tests/test_nonlinear_motor.py tests/test_joint_models.py tests/test_joint_body.py
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_requirement_policy.py engineering/design_search/tests/test_design_variables.py engineering/design_search/tests/test_revision_planner.py engineering/design_search/tests/test_adaptive_campaign.py engineering/design_search/tests/test_section_proposals.py tests/test_body_revision.py
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_design_grammar.py engineering/design_search/tests/test_interface_graph.py engineering/design_search/tests/test_material_database.py engineering/design_search/tests/test_dfma.py engineering/design_search/tests/test_generative_publication.py tests/test_grammar_structure.py
+      - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_bundle.py engineering/design_search/tests/test_railway_campaign.py engineering/design_search/tests/test_railway_delivery.py engineering/design_search/tests/test_system_inventory.py engineering/design_search/tests/test_system_selection.py engineering/design_search/tests/test_system_motion.py engineering/design_search/tests/test_transient_lim.py tests/test_grammar_shell.py
+      - run: ./osr design railway verify
+      - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_publication.py
       - run: ./osr design generative verify
       - run: ./osr verify
       - run: npm run test:frontend
@@ -78,8 +105,36 @@ jobs:
           name: selected-development-workbench
           path: build/development-baseline-browser/
 
+  required-engineering:
+    if: always()
+    needs: [current-contracts]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Require source, engineering and browser contracts
+        run: test '${{ needs.current-contracts.result }}' = success
+
+  coupled-native-methods:
+    if: (github.event_name == 'workflow_dispatch' && inputs.native_methods) || github.event_name == 'schedule'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update && sudo apt-get install -y calculix-ccx gmsh libglu1-mesa
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install pytest gmsh==4.14.1 --requirement engineering/ferrite_maglev/requirements.txt
+      - run: .venv/bin/python tools/automation/coupled-native-benchmarks.py --output build/coupled-native-ci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coupled-solid-transient-methods-not-operating-qualification
+          path: build/coupled-native-ci/
+          retention-days: 14
+
   native-methods:
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    if: (github.event_name == 'workflow_dispatch' && inputs.native_methods) || github.event_name == 'schedule'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:

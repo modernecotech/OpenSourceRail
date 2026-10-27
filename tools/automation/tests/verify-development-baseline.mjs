@@ -214,6 +214,27 @@ try {
   report.generative_candidates = generative.candidate_count;
   report.generative_rewrites = generative.rewrite_count;
   report.generative_native_cases = generative.native_design_case_count;
+  const railwayResponse = await context.request.get(
+    origin + "/api/railway/current",
+  );
+  assert.equal(railwayResponse.status(), 200, await railwayResponse.text());
+  const railway = await railwayResponse.json();
+  assert.equal(railway.physical_accepted, false);
+  assert.equal(railway.selected_reference_changed, false);
+  assert.equal(railway.integrated_selection, null);
+  assert.equal(railway.actual_force_driven_journeys, 0);
+  assert.equal(railway.complete_installed_vehicle_masses, 0);
+  await page.waitForFunction(
+    (count) => document.querySelectorAll("#railway-rows tr").length === count,
+    railway.body_count,
+  );
+  assert.match(
+    await page.locator("#railway-scope").innerText(),
+    /remain open/,
+  );
+  assert.match(await page.locator("#railway-status").innerText(), /112/);
+  report.coupled_railway_bundles = railway.evaluated_bundle_count;
+  report.coupled_native_body_cases = railway.native_body_case_count;
   const cityResponse = await context.request.get(origin + "/api/city/baghdad");
   assert.equal(cityResponse.status(), 503, await cityResponse.text());
   const city = await cityResponse.json();
@@ -306,6 +327,7 @@ try {
     "current city source bindings",
     "desktop/mobile rendering",
     "read-only API",
+    "coordinated research counts and unknown installed mass",
     "forged acceptance rejection",
     "mixed identity rejection",
     "missing current packet hold",

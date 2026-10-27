@@ -382,6 +382,37 @@ async function start() {
       byId("generative-status").textContent =
         "No current source-bound generative publication is available.";
     }
+    try {
+      const railway = await request("/api/railway/current");
+      if (
+        railway.physical_accepted !== false ||
+        railway.selected_reference_changed !== false ||
+        railway.integrated_selection !== null
+      )
+        throw Error("Research dispositions differ");
+      byId("railway-status").textContent =
+        `${railway.body_count} body definitions · ${railway.evaluated_bundle_count} railway bundles · ${railway.downstream_stage_count} linked evaluations. No qualified journey selected.`;
+      byId("railway-rows").replaceChildren();
+      for (const candidate of railway.body_rows) {
+        const row = document.createElement("tr");
+        for (const value of [
+          candidate.label,
+          candidate.accounted_empty_mass_kg === null
+            ? "Unknown"
+            : `${format(candidate.accounted_empty_mass_kg / 1000)} t (partial account)`,
+          candidate.structural_status,
+          candidate.architecture_cases,
+        ]) {
+          const cell = document.createElement("td");
+          cell.textContent = value;
+          row.append(cell);
+        }
+        byId("railway-rows").append(row);
+      }
+    } catch (error) {
+      byId("railway-status").textContent =
+        "No current source-bound coordinated publication is available.";
+    }
     for (const key of identityKeys)
       fact(byId("identities"), key.replaceAll("_", " "), current[key]);
     byId("native-scope").textContent =

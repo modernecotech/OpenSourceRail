@@ -4,6 +4,10 @@ OpenSourceRail v0.6 develops a station-powered, wheel-supported comfort train. [
 
 ## Reference sprint
 
+The [coordinated experiment](design-engine/coupled-railway/README.md) now runs architecture, adaptive revisions and physical generation through `./osr design railway`. Fourteen body definitions feed 112 bundles and 784 downstream records. New body evidence invalidates dependent evaluations; numerical/model failures and missing equipment create distinct frontier tasks. Four native fixtures, seven 3D body cases, six transient magnetic controls and two body-stock IFC/ERP draft packages are retained. These demonstrate integration and bounded execution, not a qualified whole-system solution.
+
+The next execution frontier is concrete: resolve remaining body mesh/torsion/strength and joint uncertainty; supply directional composite laws and actual attachments for the other structural families; disaggregate and locate installed equipment; and establish a moving, circuit/thermal-limited available propulsion map. Then run actual force-driven journeys and independently confirm feasible Pareto alternatives. Missing prices, hardware and lifecycle evidence continue to block economic selection. The standalone adaptive, generative and architecture publications remain reproducible.
+
 1. Preserve [v0.5 evidence](archives/v0.5-maglev/README.md) and identify the wheel/LIM candidate independently. Retain unchanged component identities and declare every changed interface.
 2. Recalculate the equipped 17 m car: passive bogies, concentrated support load paths, passive motor secondary, service battery, brakes, wiring, HVAC and roof. Separate counted material, supplier references and unlocated allocations. Complete installed mass, CG and inertia require closure.
 3. Compare box, twin-beam and U-beam concrete guideways under actual axle moving loads. Include rail/gauge fastenings, lateral and torsional loads, prestress, piers, foundations, containment, drainage, walkways, transport and erection.
