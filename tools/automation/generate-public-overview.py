@@ -251,7 +251,7 @@ def primary_markdown() -> str:
     v=current['selection']['vehicle'];s=current['selection']['service']
     artwork=json.loads((REPO_ROOT/'docs/assets/v0.6/illustrations.json').read_text())
     illustrations='\n\n'.join(
-        f"### {image['title']}\n\n![{image['alt']}]({Path(image['file']).relative_to('docs').as_posix()})\n\n{image['caption']}"
+        f"### {image['title']}\n\n![{image['alt']}]({Path(image.get('display_file',image['file'])).relative_to('docs').as_posix()})\n\n{image['caption']}"
         for image in artwork['illustrations'])
     return f'''# OpenSourceRail: open railway design and delivery
 

@@ -35,31 +35,31 @@ records; the images do not establish physical performance or qualification.
 
 ### Elevated train and station
 
-![Wheel-supported train beside an elevated station with a solar canopy](assets/v0.6/elevated-station.png)
+![Wheel-supported train beside an elevated station with a solar canopy](images/v06/v06-hero-elevated-station.webp)
 
 A wheel-supported train on conventional rails beside an elevated station, with roof solar panels and a platform canopy.
 
 ### Accessible passenger interior
 
-![Seated passenger cabin with a wheelchair space beside the doors](assets/v0.6/accessible-interior.png)
+![Seated passenger cabin with a wheelchair space beside the doors](images/v06/v06-cabin.webp)
 
 A bright seated cabin with a wheelchair space beside the doors. Detailed seat counts, boarding clearances and restraints require the controlled layout.
 
 ### Local vehicle assembly
 
-![Exploded vehicle assembly in a workshop with roof, doors, seating and bogies](assets/v0.6/vehicle-assembly.png)
+![Exploded vehicle assembly in a workshop with roof, doors, seating and bogies](images/v06/v06-assembly.webp)
 
 Workshop assembly concept showing the body, roof, glazing, doors, seating and bogies as separate assemblies.
 
 ### Precast guideway construction
 
-![Crane lifting a precast rail beam onto elevated piers](assets/v0.6/precast-construction.png)
+![Crane lifting a precast rail beam onto elevated piers](images/v06/v06-viaduct-construction.webp)
 
 Illustrated precast-beam erection above an urban corridor. Lifting arrangements, temporary stability and site protection need their own engineered plans.
 
 ### Station LIM and passive secondary
 
-![Wheel bogies above a passive aluminium fin between two station LIM primaries](assets/v0.6/station-lim-interface.png)
+![Wheel bogies above a passive aluminium fin between two station LIM primaries](images/v06/v06-wayside-lim-cutaway.webp)
 
 Passive wheel bogies support the car while station-side double-sided LIM primaries act on a passive aluminium fin. Blue arrows illustrate the propulsion concept.
 

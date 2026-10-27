@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780" role="img" aria-labelledby="title desc">
+  <title id="title">OpenSourceRail v0.6: launch, freewheel and protected arrival</title>
+  <desc id="desc">Explanatory sequence for a two-kilometre station-to-station journey, not to scale and not a simulated trajectory. Wheels support the vehicle on rails. Fixed double-sided LIM primaries act on a passive aluminium fin. Independent onboard friction brakes and ATP protect stopping. The reference allocates 900 metres of shared winding per station and direction for launch and receiving together, not 900 metres in each approach. Actual thrust and protection remain unqualified.</desc>
+  <metadata>Reference: engineering/station_rail/operations.py station_zone; docs/design-engine/current/summary.json service.shared_winding_m=900 and service.prototype_station_spacing_m=2000. Evaluation: 2366a37fba205bc6bfdc1a660830cc8e8337f1c78c90951646d54e2c5baba5cf. Concept schematic; physical_evidence=false.</metadata>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#537583"/></marker>
+    <pattern id="coil" width="11" height="12" patternUnits="userSpaceOnUse"><path d="M2 1H9V10H2" fill="none" stroke="#a85b24" stroke-width="3"/></pattern>
+  </defs>
+  <rect width="1200" height="780" rx="22" fill="#f4f8fa"/>
+  <g font-family="DejaVu Sans,Arial,sans-serif" fill="#153b50">
+    <text x="40" y="58" font-size="32" font-weight="bold">Station-powered travel, independent protection</text>
+    <text x="40" y="93" font-size="22" fill="#526d7c">2 km reference journey | Concept sequence | Not to scale</text>
+    <g stroke="#d2e0e5" stroke-width="2">
+      <rect x="40" y="130" width="264" height="150" rx="14" fill="#e1f0ee"/>
+      <rect x="320" y="130" width="264" height="150" rx="14" fill="#fff"/>
+      <rect x="600" y="130" width="264" height="150" rx="14" fill="#e1f0ee"/>
+      <rect x="880" y="130" width="264" height="150" rx="14" fill="#fff0df"/>
+    </g>
+    <g font-size="25" font-weight="bold">
+      <text x="60" y="170">1. Launch</text>
+      <text x="340" y="170">2. Freewheel</text>
+      <text x="620" y="170">3. Receive</text>
+      <text x="900" y="170" font-size="23">4. Protected stop</text>
+    </g>
+    <g font-size="21">
+      <text x="60" y="210"><tspan x="60">Wayside LIMs act</tspan><tspan x="60" dy="30">on passive fins.</tspan></text>
+      <text x="340" y="210"><tspan x="340">Passive wheel bogies;</tspan><tspan x="340" dy="30">no onboard traction.</tspan></text>
+      <text x="620" y="210"><tspan x="620">Reserved berth and</tspan><tspan x="620" dy="30">wayside drive zone.</tspan></text>
+      <text x="900" y="210"><tspan x="900">Onboard friction</tspan><tspan x="900" dy="30">brakes and ATP.</tspan></text>
+    </g>
+    <path d="M45 307H1140" fill="none" stroke="#537583" stroke-width="3" marker-end="url(#arrow)"/>
+    <text x="42" y="339" font-size="19">Departure station</text>
+    <text x="1144" y="339" text-anchor="end" font-size="19">Arrival station</text>
+    <rect x="40" y="360" width="1104" height="62" rx="12" fill="#dfeaf0"/>
+    <text x="60" y="386" font-size="22" font-weight="bold">900 m shared winding / station / direction</text>
+    <text x="60" y="411" font-size="18">Launch and receiving together; 496 m + 329 m calculated engagement zones. No interstation layout is implied.</text>
+    <text x="40" y="482" font-size="27" font-weight="bold">How the station drive acts</text>
+    <g font-size="22">
+      <text x="40" y="526">Wheels carry the vehicle on steel rails.</text>
+      <text x="40" y="563">Fixed twin primaries act on a passive fin.</text>
+      <text x="40" y="600">Brakes remain independent of station power.</text>
+      <text x="40" y="652" font-size="19" fill="#526d7c">Cross-section is schematic; clearance and</text>
+      <text x="40" y="678" font-size="19" fill="#526d7c">force capability require engineering evidence.</text>
+    </g>
+    <g stroke="#4b6878" stroke-width="3">
+      <rect x="704" y="470" width="404" height="38" rx="8" fill="#d5e1e6"/>
+      <path d="M755 508V531M1055 508V531"/>
+      <circle cx="755" cy="545" r="35" fill="#287d90"/>
+      <circle cx="1055" cy="545" r="35" fill="#287d90"/>
+      <circle cx="755" cy="545" r="14" fill="#cfdae0"/>
+      <circle cx="1055" cy="545" r="14" fill="#cfdae0"/>
+      <rect x="710" y="580" width="90" height="12" rx="2" fill="#4b6878"/>
+      <rect x="1010" y="580" width="90" height="12" rx="2" fill="#4b6878"/>
+      <rect x="898" y="508" width="14" height="150" fill="#b7c8d0"/>
+      <rect x="833" y="594" width="49" height="70" rx="3" fill="#f1d3af"/>
+      <rect x="928" y="594" width="49" height="70" rx="3" fill="#f1d3af"/>
+      <rect x="838" y="598" width="39" height="62" fill="url(#coil)" stroke="none"/>
+      <rect x="933" y="598" width="39" height="62" fill="url(#coil)" stroke="none"/>
+    </g>
+    <text x="906" y="455" text-anchor="middle" font-size="20">Vehicle body</text>
+    <text x="755" y="625" text-anchor="middle" font-size="18">Wheel / rail</text>
+    <text x="1055" y="625" text-anchor="middle" font-size="18">Wheel / rail</text>
+    <path d="M905 658V681M856 665L824 681M953 665L985 681" fill="none" stroke="#537583" stroke-width="2"/>
+    <text x="790" y="707" text-anchor="middle" font-size="18">Fixed primary</text>
+    <text x="905" y="731" text-anchor="middle" font-size="18">Passive aluminium fin</text>
+    <text x="1020" y="707" text-anchor="middle" font-size="18">Fixed primary</text>
+    <text x="40" y="755" font-size="18" fill="#526d7c">Research reference: actual moving thrust, complete installed mass, protected stopping and operating release remain open.</text>
+  </g>
+</svg>

@@ -8,9 +8,9 @@ The wider project still includes city planning, CAD/BIM, manufacturing, business
 
 **Start here:** [illustrated reader](OpenSourceRail-Book.pdf) · [project overview](docs/open-source-rail-overview.md) · [current engineering](docs/design-engine/current/README.md) · [city geography](docs/design-engine/current/cities.json) · [roadmap](docs/ROADMAP.md).
 
-![OpenSourceRail v0.6 wheel-supported train at an elevated station](docs/assets/v0.6/elevated-station.png)
+![OpenSourceRail v0.6 proposed six-car wheel-supported train at a compact elevated station](docs/images/v06/v06-hero-elevated-station.webp)
 
-*v0.6 concept illustration. Explore all five [train, interior, assembly, construction and propulsion illustrations](docs/open-source-rail-overview.md#v06-concept-illustrations) in the project overview.*
+*Architectural concept, not approved geometry: six 17 m cars, passive steel-wheel bogies, flush roof solar panels, conventional rails on repeatable precast beams and a compact station. [Inspect the source-bound counted vehicle geometry](docs/design-engine/current/vehicle-overview.svg); that geometry and its retained supplier accounts do not establish a complete installed train or manufacturing release.*
 
 ## Why OpenSourceRail
 
@@ -36,10 +36,6 @@ The [first adoption path](docs/first-adoptable-product.md) is controlled plannin
 
 [development-baseline.toml](engineering/development-baseline.toml) selects one reference vehicle, body, running gear and propulsion configuration. Research alternatives receive separate identities and do not silently replace it.
 
-![OpenSourceRail v0.6 counted vehicle and running-gear proposal](docs/design-engine/current/vehicle-overview.svg)
-
-*Generated reference geometry. Concept artwork communicates design intent; controlled geometry and engineering records govern dimensions and equipment. Counted stock and supplier accounts do not establish a complete installed train or approved production design.*
-
 | Design choice | Reference basis |
 |---|---|
 | Formation | Six 17 m cars; approximately 104.5 m including gaps |
@@ -58,6 +54,22 @@ The [first adoption path](docs/first-adoptable-product.md) is controlled plannin
 The normal passenger cap is a comfort and load-management choice; it does not remove crowd, evacuation or accidental-load checks. The retained 160-person/car structural case remains explicit. The earlier 120-person/car, 14,400 passengers/hour/direction comparison is a separate capacity alternative, not this 46-person/car reference. One-sided doors require compatible platforms, accessible boarding and emergency exits.
 
 Loss of station propulsion leaves the vehicle supported on its wheels. Independent braking must remain available, and a train stopped outside a powered zone needs a protected recovery/towing and evacuation arrangement. Walkway removal or a proposed escape device is not treated as approved.
+
+### v0.6 illustrated: a different approach to building a railway
+
+| Passenger-focused lightweight car | Locally assembled, modular construction concept |
+|---|---|
+| ![Proposed v0.6 car interior with four-abreast seats, accessible door zone, wheelchair space and integrated HVAC diffusers](docs/images/v06/v06-cabin.webp) | ![Workshop assembly concept for GFRP and aluminium structure, integrated solar roof, doors, glazing, HVAC, services and passive wheel bogies](docs/images/v06/v06-assembly.webp) |
+| Seated comfort, level circulation, wheelchair provision and passenger services remain even without onboard traction motors. | Structural shells, window/door modules, service conduits, roof solar, equipment and unpowered bogies are conceived for repeatable offsite assembly and inspection. |
+| **Rapidly placed, minimal precast guideway** | **Station-powered LIM interface** |
+| ![Precast light-rail beam being placed by mobile crane on repeatable viaduct piers, with conventional rails and a compact station](docs/images/v06/v06-viaduct-construction.webp) | ![Concept cutaway showing conventional wheels supporting the car and a passive onboard aluminium reaction fin between fixed wayside LIM coils](docs/images/v06/v06-wayside-lim-cutaway.webp) |
+| Two conventional rails per direction on slender repeatable precast beams, with site access, containment, drainage and erection requirements to be engineered. | Power equipment is beside the track in the launch/receiving approaches; the vehicle carries a passive aluminium secondary and independent friction braking. |
+
+![Two-kilometre launch, freewheel, wayside receiving and protected-braking concept, with a double-sided LIM cross-section](docs/images/v06/v06-launch-to-arrival.svg)
+
+*All five rendered images are concept illustrations; visual attachments, finishes and site arrangements are not qualified CAD or construction details. The drive diagram is an explanatory schematic, not a simulated trajectory. The present reference allocates **900 m of shared winding per station and direction**, covering the calculated launch and receiving zones together, rather than a short motor confined to the passenger platform. This allowance does not establish the powered or coasting distances between stations. Actual moving-entry LIM thrust, full vehicle mass, protected stopping, civil structures and whole-life costs remain unverified. [See the current moving-LIM evidence](docs/design-engine/moving-lim-method/README.md) and [candidate-to-journey closure work](docs/design-engine/railway-closure/README.md).*
+
+The [illustration brief](docs/images/v06/README.md) records the supplied prompts, source images and display-copy recipe.
 
 ## The connected delivery and operating platform
 

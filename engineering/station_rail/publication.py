@@ -101,6 +101,8 @@ def sources(root,record,index,delivery):
         'engineering/design_search/lim_static_benchmark.py','engineering/design_search/lim_static_publication.py']
     for directory in ('engineering/station_rail','engineering/development_baseline'):
         names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.toml','.js','.html','.css') and '__pycache__' not in p.parts]
+    for directory in ('docs/assets/v0.6','docs/images/v06'):
+        names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file()]
     followup=root/'docs/design-engine/v06-physical-closure'
     if followup.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(followup.iterdir()) if p.is_file()]
     for folder in ('v06-optimisation','v06-design-space','v06-architecture','v06-adaptive-design','generative-structure','coupled-railway','railway-closure','moving-lim-method'):
