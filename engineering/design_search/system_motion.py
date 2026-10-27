@@ -8,7 +8,7 @@ establish a physically qualified train, WSP, flexible-body or protected service.
 from copy import deepcopy
 from itertools import product
 from bisect import bisect_right
-from math import isfinite,sqrt
+from math import isfinite,sqrt,prod
 from pathlib import Path
 import re
 from engineering.station_rail.common import identity,digest
@@ -85,8 +85,8 @@ def admit_map(bundle,force_map,case,*,allow_synthetic=False,current_source_sha25
     if reasons:return dict(admitted=False,reasons=reasons,test_only=test)
     if axes['position_m'][0]>0 or axes['position_m'][-1]<case['distance_m'] or axes['speed_m_s'][0]>0 or axes['speed_m_s'][-1]<case['speed_cap_m_s']:reasons.append('Map does not cover the declared position/speed operating envelope')
     if any(not axes['current_A'][0]<=case[k]<=axes['current_A'][-1] for k in ('current_command_A','initial_current_A')):reasons.append('Current command outside sampled map domain')
+    if prod(len(axes[a]) for a in AXES)>16384:return dict(admitted=False,reasons=['Map exceeds this bounded surrogate interpolation budget'],test_only=test)
     expected=set(product(*(axes[a] for a in AXES)));samples=m.get('samples',[]);actual=[]
-    if len(expected)>16384:return dict(admitted=False,reasons=['Map exceeds this bounded surrogate interpolation budget'],test_only=test)
     for row in samples:
         if not isinstance(row,dict) or any(not _number(row.get(a)) for a in AXES):reasons.append('Missing/nonfinite map sample coordinates');continue
         key=tuple(row[a] for a in AXES);actual.append(key)
@@ -123,10 +123,16 @@ def sample_map(force_map,**state):
 def _mass(bundle,load):return bundle['mass'][dict(empty='accounted_tare_kg_per_car',normal='accounted_cap_loaded_kg_per_car',crowd='accounted_160_control_kg_per_car')[load]]
 
 
-def brake_screens(bundle,case):
+def _brake_definition(bundle):
     spec=bundle.get('brake_definition')
-    if spec is None:return dict(execution='not-run',reason='Actual candidate-bound brake/rotor definition missing',cases=[],qualified_braking_floor=False)
+    if spec is None:return None
     if any(spec.get(k)!=bundle.get(k) for k in ('candidate_id','body_candidate_id','support_component_id','propulsion_component_id')) or abs(spec['rotors']['equivalent_inertial_mass_kg_per_car']-bundle['rotating_equivalent_kg_per_car'])>1e-8:raise ValueError('Brake definition or rotor basis differs from canonical candidate')
+    return spec
+
+
+def brake_screens(bundle,case):
+    spec=_brake_definition(bundle)
+    if spec is None:return dict(execution='not-run',reason='Actual candidate-bound brake/rotor definition missing',cases=[],qualified_braking_floor=False)
     rows=[];dt=.05
     for loading in ('empty','normal','crowd'):
         mass=_mass(bundle,loading);effective=mass+bundle['rotating_equivalent_kg_per_car']
@@ -149,10 +155,11 @@ def brake_screens(bundle,case):
 
 
 def forward(bundle,force_map,case,*,allow_synthetic=False,current_source_sha256=None):
+    bundle=_bundle(bundle);spec=_brake_definition(bundle)
     admission=admit_map(bundle,force_map,case,allow_synthetic=allow_synthetic,current_source_sha256=current_source_sha256)
     result=dict(execution='not-run',admission=admission,predicted_stop_within_berth=False,available_motor_map_id=None,**FLAGS)
     if not admission['admitted']:return result
-    spec=bundle.get('brake_definition');mass=_mass(bundle,case['load']);cars=bundle['cars'];effective=(mass+bundle['rotating_equivalent_kg_per_car'])*cars
+    mass=_mass(bundle,case['load']);cars=bundle['cars'];effective=(mass+bundle['rotating_equivalent_kg_per_car'])*cars
     D=case['distance_m'];h0=case['dt_s'];v=x=t=0.;current=case['initial_current_A'];T=force_map['thermal_model']['initial_C'];thermal=force_map['thermal_model'];limits=force_map['electrical_limits']
     electrical=heat=drag_work=gravity_work=brake_heat=mechanical=0.;trace=[];state='time-budget';reason=None;brake_t=None
     initial_energy=0.;window_edges=sorted({edge for pair in case['powered_windows'] for edge in pair})
