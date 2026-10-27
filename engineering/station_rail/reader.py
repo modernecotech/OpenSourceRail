@@ -122,7 +122,7 @@ def build(root=ROOT,output=None,check=False):
     illustration(4,220)
     page('1. Preserve the ethos; change the support')
     para('OpenSourceRail aims to reduce whole-life transport cost through repeated components, local manufacture, accessible repair and open engineering. v0.6 removes magnetic levitation and its continuous steel-facing assemblies. This does not remove the need to prove station-only propulsion, safe stopping or the cost of the complete railway.')
-    figure('vehicle-overview.svg',125,'Generated counted stock geometry. Supplier reference assemblies and residual accounts are not complete installed geometry.')
+    figure('vehicle-overview.svg',190,'Generated counted stock geometry. Supplier reference assemblies and residual accounts are not complete installed geometry.')
     table(['Location','Reference architecture'],[
         ('Train','Six 17m aluminium/GFRP comfort cars; identical passive bogies, independent brakes, ATP, communications, service battery, HVAC and solar roof.'),
         ('Ordinary guideway','Conventional running rails and direct fastenings on precast concrete; box, twin-beam and U-beam alternatives.'),
