@@ -1,7 +1,6 @@
 import unittest
 from copy import deepcopy
 from math import prod
-import importlib.util
 from pathlib import Path
 from engineering.design_search import design_grammar,system_body as b,grammar_shell as s
 
@@ -56,11 +55,7 @@ class ConnectedBodyTests(unittest.TestCase):
         self.assertIn('TYPE=C3D8I',raw);self.assertNotIn('*EQUATION',raw)
 
     def test_actual_joint_stock_inventory_and_function_projection_integrate(self):
-        # This sparse source worktree predates the coordinator-owned inventory
-        # adapter; use its current read-only module if not present locally.
-        import engineering.design_search as package
-        main=Path('/home/hayder/Documents/OpenSourceRail')
-        if importlib.util.find_spec('engineering.design_search.system_inventory') is None:package.__path__.append(str(main/'engineering/design_search'))
+        main=Path(__file__).resolve().parents[1]
         from engineering.design_search import dfma,system_inventory,grammar_geometry,interface_graph
         for c in (self.frame,self.skin):
             ids={p['id'] for p in c['parts']};components={p['occurrence_id']:p for p in c['components']}

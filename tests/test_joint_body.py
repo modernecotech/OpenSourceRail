@@ -8,7 +8,7 @@ from engineering.station_rail import vehicle
 from engineering.station_rail.common import identity
 from engineering.design_search import joint_body as j,wheel_body
 
-ROOT=Path('/home/hayder/Documents/OpenSourceRail')
+ROOT=Path(__file__).resolve().parents[1]
 
 
 class BodyMeshRevisionTests(unittest.TestCase):
