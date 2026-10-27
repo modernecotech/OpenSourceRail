@@ -20,10 +20,10 @@ def _reseal(folder,mutate):
 
 def test_actual_archive_replays_independent_accounting_and_remains_small():
     result=p.verify(PACKET)
-    assert result['sealed_packages']==21 and not result['operating_map_admitted']
+    assert result['sealed_packages']==22 and not result['operating_map_admitted']
     assert (PACKET/'native-runs.tar.gz').stat().st_size<5*1024*1024
     assessment=p._read(PACKET/'assessment.json')
-    assert assessment['attempted_cases']==22
+    assert assessment['attempted_cases']==23
     assert assessment['comparisons']['spatial_time_convergence_established'] is False
     partial=next(r for r in assessment['rows'] if r['name']=='low-mesh-25mm')
     assert partial['execution']=='interrupted' and partial['trace_scope']=='interrupted partial log only'
@@ -38,11 +38,22 @@ def test_actual_archive_replays_independent_accounting_and_remains_small():
     assert not time['spatial_time_convergence_established'] and time['powered_startup_thrust_all_negative']
     assert time['half_to_quarter_ms']['final_force_relative_change']>.1
     assert time['signed_SUPG_work_J'][-1]<0 and time['backward_Euler_work_J'][-1]>time['physical_secondary_Joule_J'][-1]
+    blocked=assessment['comparisons']['blocked_probe']
+    assert blocked['execution']=='interrupted' and (blocked['recorded_steps'],blocked['requested_steps'])==(35,128)
+    assert blocked['first_cycle_mean_thrust_N']==pytest.approx(.22613764641671233)
+    assert blocked['late_cycle_80_to_100ms_mean_thrust_N'] is None and blocked['late_cycle_100_to_120ms_mean_thrust_N'] is None
+    assert blocked['available_operating_force_N'] is None and not blocked['controlled_single_variable_comparison']
 
 
 def test_resealed_small_timestep_error_claim_is_rejected(tmp_path):
     packet=tmp_path/'packet';shutil.copytree(PACKET,packet)
     _reseal(packet,lambda report:report['comparisons']['fine_timestep']['half_to_quarter_ms'].update(final_force_relative_change=0.))
+    with pytest.raises(ValueError,match='assessment differs from immutable runs'):p.verify(packet)
+
+
+def test_interrupted_blocked_cycle_cannot_fill_unavailable_late_window(tmp_path):
+    packet=tmp_path/'packet';shutil.copytree(PACKET,packet)
+    _reseal(packet,lambda report:report['comparisons']['blocked_probe'].update(late_cycle_80_to_100ms_mean_thrust_N=0.))
     with pytest.raises(ValueError,match='assessment differs from immutable runs'):p.verify(packet)
 
 
@@ -58,13 +69,13 @@ def test_resealed_timestep_budget_change_is_rejected(tmp_path):
     with pytest.raises(ValueError,match='Fine timestep resource'):p.collect(runs)
 
 
-def _time_runs(tmp_path,mutate):
+def _time_runs(tmp_path,mutate,case_name='motoring-fine-dt-quarter'):
     runs=tmp_path/'runs';runs.mkdir()
     with tarfile.open(PACKET/'native-runs.tar.gz') as tar:
         for member in tar:
             target=runs/member.name;target.parent.mkdir(parents=True,exist_ok=True)
             target.write_bytes(tar.extractfile(member).read())
-    case=runs/'motoring-fine-dt-quarter';value=p._read(case/'result.json');mutate(value)
+    case=runs/case_name;value=p._read(case/'result.json');mutate(value)
     value.pop('evaluation_id');value['evaluation_id']=p.identity(value);(case/'result.json').write_bytes(p.encoded(value))
     manifest=p._read(case/'manifest.json');manifest['evaluation_id']=value['evaluation_id']
     manifest['files_sha256']['result.json']=p.digest(case/'result.json')
@@ -75,6 +86,23 @@ def _time_runs(tmp_path,mutate):
 def test_resealed_executed_tool_mismatch_cannot_inherit_planning_tool_identity(tmp_path):
     runs=_time_runs(tmp_path,lambda result:result['tool'].update(python_sha256='0'*64))
     with pytest.raises(ValueError,match='Executed timestep tool identities'):p.collect(runs)
+
+
+def test_resealed_blocked_tool_cannot_inherit_frozen_planning_tool(tmp_path):
+    runs=_time_runs(tmp_path,lambda result:result['tool'].update(python_sha256='0'*64),p.BLOCKED_CASE)
+    with pytest.raises(ValueError,match='Blocked probe executed tool'):p.collect(runs)
+
+
+def test_blocked_worker_cannot_drop_recorded_executable_identity(tmp_path):
+    runs=_time_runs(tmp_path,lambda result:result['tool'].pop('python_sha256'),p.BLOCKED_CASE)
+    with pytest.raises(ValueError,match='Blocked probe executed tool'):p.collect(runs)
+
+
+def test_resealed_blocked_campaign_must_bind_actual_interrupted_execution(tmp_path):
+    runs=_time_runs(tmp_path,lambda result:None,p.BLOCKED_CASE)
+    path=runs/'blocked-context'/'campaign.json';value=p._read(path);value['evaluation_id']='0'*64
+    value.pop('campaign_id');value['campaign_id']=p.identity(value);path.write_bytes(p.encoded(value))
+    with pytest.raises(ValueError,match='Blocked probe campaign/execution binding'):p.collect(runs)
 
 
 def test_interrupted_timestep_keeps_unavailable_complete_work_unknown(tmp_path):

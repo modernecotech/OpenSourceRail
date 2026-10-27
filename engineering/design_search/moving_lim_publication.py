@@ -25,6 +25,7 @@ CRITICAL_CASES=('zero-medium','motoring-coarse','motoring-x-refined','motoring-y
 CRITICAL_PHYSICAL_BASE='1692bb45f7c1f0a270328c6cc66b2d1d33cc81d0'
 TIMESTEP_CASES=('motoring-fine-dt-half','motoring-fine-dt-quarter')
 TIMESTEP_BASE='b4f338a6d07a610c7c5ad4e441dbe2c0def2de09'
+BLOCKED_CASE='full-overlap-at-rest'
 REFERENCE='https://github.com/getdp-project/getdp/blob/master/templates/Lib_Magnetodynamics2D_av_Cir.pro'
 
 
@@ -267,6 +268,56 @@ def collect(runs):
             powered_startup_thrust_all_negative=all(row['thrust_N']<0 for v in raw for row in v['trace']) if complete else None,
             spatial_time_convergence_established=False,operating_map_admitted=False)
         rows+=new
+    blocked=runs/'blocked-context'
+    if blocked.is_dir():
+        plan=_read(blocked/'plan.json');_id(plan,'plan_id');q=plan['request'];data=_read(runs/BLOCKED_CASE/'input.json')
+        resource_record=_read(blocked/'resources.json')
+        if (plan['maximum_component_jobs'],plan['maximum_nodes'],plan['maximum_seconds_per_job_internal'],
+            plan['maximum_seconds_per_job_external'],plan['maximum_address_space_bytes'],plan['maximum_planning_and_native_seconds'])!=(1,75000,85,90,2*1024**3,180):
+            raise ValueError('Blocked probe numerical budget differs')
+        if plan['no_retries'] is not True or plan['physical_accepted'] is not False or plan['operating_map_admitted'] is not False:raise ValueError('Blocked probe cannot admit operating force')
+        if (resource_record['native_attempts'],resource_record['retries'],resource_record['RLIMIT_AS_bytes'],resource_record['external_subprocess_deadline_s'],resource_record['internal_step_start_deadline_s'])!=(1,0,2*1024**3,90,85) or not 0<resource_record['native_wall_s']<=90:
+            raise ValueError('Blocked probe recorded resource execution differs')
+        if data['request']!=q or data['source_sha256']!=plan['source_sha256']:raise ValueError('Blocked probe input/source differs')
+        if (q['schema'],q['start_m'],q['speed_m_s'],q['voltage_peak_V'],q['frequency_Hz'],q['temperature_C'],q['dt_s'],q['steps'],q['mesh_m'],q['transport_method']['name'])!=('osr-moving-LIM-request/2',.5,0.,2.,50.,80.,.001,128,.03,'galerkin'):
+            raise ValueError('Blocked probe operating/numerical hypothesis differs')
+        if q['linear'] is not False or q['current_limit_A']!=140 or q['maximum_seconds']!=85 or q['memory_bytes']!=2*1024**3:raise ValueError('Blocked probe material/current/resource hypothesis differs')
+        item=audit(runs/BLOCKED_CASE,runs/'source-epoch-5')
+        if item['bundle_id']!=rows[0]['bundle_id'] or item['motor_component_id']!=rows[0]['motor_component_id']:raise ValueError('Blocked probe physical component differs')
+        raw=_read(runs/BLOCKED_CASE/'result.json')
+        worker=_read(runs/BLOCKED_CASE/'worker-result.json');campaign=_read(blocked/'campaign.json');_id(campaign,'campaign_id')
+        if (set(raw['tool'])!={'memory_bytes','numpy','python','python_sha256','scipy','superlu_sha256','threads'}
+            or raw['tool'].get('memory_bytes')!=q['memory_bytes'] or any(value!=plan['tool'].get(key) for key,value in raw['tool'].items() if key!='memory_bytes')):
+            raise ValueError('Blocked probe executed tool differs from frozen plan')
+        if plan['tool']!=_read(blocked/'tool-snapshot.json') or any(key not in raw or raw[key]!=value for key,value in worker.items()):
+            raise ValueError('Blocked probe worker/result binding differs')
+        if (campaign['plan_id']!=plan['plan_id'] or campaign['evaluation_id']!=raw['evaluation_id']
+            or campaign['execution']!=raw['execution'] or campaign.get('state')!=raw.get('state') or campaign.get('reason')!=raw.get('reason')
+            or campaign['native_wall_s']!=resource_record['native_wall_s'] or campaign['verified']['evaluation_id']!=raw['evaluation_id']
+            or campaign['verified']['numerical_source_sha256']!=plan['source_sha256']):raise ValueError('Blocked probe campaign/execution binding differs')
+        def unaccepted(value):
+            if isinstance(value,dict):
+                if any(key in (*FLAGS,'configuration_adopted','operating_map_admitted') and v is not False for key,v in value.items()):raise ValueError('Blocked probe qualification/release forbidden')
+                for v in value.values():unaccepted(v)
+            elif isinstance(value,list):
+                for v in value:unaccepted(v)
+        for value in (plan,resource_record,campaign,raw,worker):unaccepted(value)
+        trace=raw.get('trace')
+        if trace is None:trace=[json.loads(line) for line in (runs/BLOCKED_CASE/'partial-trace.jsonl').read_text().splitlines()]
+        def cycle(a,b):
+            first=int(round(a/q['dt_s']));last=int(round(b/q['dt_s']))
+            if len(trace)<last:return None
+            return sum(row['thrust_N'] for row in trace[first:last])/(last-first)
+        comparisons['blocked_probe']=dict(plan_id=plan['plan_id'],execution=item['execution'],
+            elapsed_external_s=resource_record['native_wall_s'],internal_guard_is_step_start_only=True,whole_planning_wall_s=None,
+            requested_steps=128,recorded_steps=len(trace),requested_end_time_s=.128,recorded_end_time_s=trace[-1]['time_s'] if trace else None,
+            cycle_sample_convention='Right-endpoint samples a<t<=b; incomplete requested windows remain unknown',
+            first_cycle_mean_thrust_N=cycle(0.,.02),late_cycle_80_to_100ms_mean_thrust_N=cycle(.08,.10),late_cycle_100_to_120ms_mean_thrust_N=cycle(.10,.12),
+            positive_force_samples=sum(row['thrust_N']>0 for row in trace),negative_force_samples=sum(row['thrust_N']<0 for row in trace),
+            coordinate='Secondary start relative to primary; not train/route nose',
+            controlled_single_variable_comparison=False,steady_state_established=False,spatial_time_convergence_established=False,
+            available_operating_force_N=None,operating_map_admitted=False,physical_accepted=False)
+        rows.append(item)
     return rows,zero,comparisons
 
 
@@ -283,6 +334,9 @@ def _archive(runs):
             names.update(p.relative_to(runs).as_posix() for p in (runs/folder).rglob('*') if p.is_file())
     if (runs/'time-context').is_dir():
         for folder in (*TIMESTEP_CASES,'time-context'):
+            names.update(p.relative_to(runs).as_posix() for p in (runs/folder).rglob('*') if p.is_file())
+    if (runs/'blocked-context').is_dir():
+        for folder in (BLOCKED_CASE,'blocked-context'):
             names.update(p.relative_to(runs).as_posix() for p in (runs/folder).rglob('*') if p.is_file())
     stream=io.BytesIO()
     with tarfile.open(fileobj=stream,mode='w',format=tarfile.PAX_FORMAT) as tar:
@@ -323,7 +377,7 @@ def _readme(report):
     if 'critical_mesh' in c:
         q=c['critical_mesh']
         pair_text=lambda p:'/'.join('held' if p[k] is None else f'{100*p[k]:.2f}%' for k in ('final_force_relative_change','impulse_relative_change'))
-        sign_text='**Every nonzero startup trace still has negative thrust despite nominal positive10Hz slip. This remains unresolved and cannot be relabelled propulsive.**' if q['powered_startup_thrust_all_negative'] else 'Startup thrust sign and any incomplete traces remain subject to independent field/circuit review; positive nominal slip alone proves no operating capability.'
+        sign_text='**Every powered16ms entry trace in this group has negative thrust despite nominal positive10Hz slip. This remains unresolved and cannot be relabelled propulsive.**' if q['powered_startup_thrust_all_negative'] else 'Startup thrust sign and any incomplete traces remain subject to independent field/circuit review; positive nominal slip alone proves no operating capability.'
         lines+=['## Independent active-region refinement','',
             'Six further source-qualified 20 m/s, 50 Hz component cases use an explicit entry-window mesh family. Actual engaged streamwise cells refine20→10→5 mm, independently of secondary transverse layers4→8→16. Far-region construction rules remain fixed; global inner-fin/gap y refinement also changes remote elements. The physical motor and vehicle identity are unchanged.','',
             f"The zero-voltage control returned exact zero currents, forces and energies: **{q['zero_excitation_control_passed']}**. Coarse→x-only final-force/impulse changes are {pair_text(q['coarse_to_x'])}; coarse→y-only {pair_text(q['coarse_to_y'])}; medium→fine {pair_text(q['medium_to_fine'])}.",'',
@@ -333,8 +387,14 @@ def _readme(report):
         q=c['fine_timestep']
         lines+=['## Fixed-fine-mesh timestep controls','',
             'Two additional bounded runs keep the exact 44,643-node assembled mesh, physical component, source and recorded tool identities. Only timestep and step count change: 1 ms/16 steps, 0.5 ms/32 steps and 0.25 ms/64 steps all end at 16 ms. Recorded Python, NumPy-core and SuperLU hashes and versions match; the earlier archive did not record a complete dynamic-library closure.','',
-            f"Final-force/impulse changes are {pair_text(q['one_to_half_ms'])} for 1→0.5 ms and {pair_text(q['half_to_quarter_ms'])} for 0.5→0.25 ms. **Time convergence remains open.** All completed startup-force samples remain negative: {q['powered_startup_thrust_all_negative']}.",'',
+            f"Final-force/impulse changes are {pair_text(q['one_to_half_ms'])} for 1→0.5 ms and {pair_text(q['half_to_quarter_ms'])} for 0.5→0.25 ms. **Time convergence remains open.** All completed startup-force samples in these entry comparisons remain negative: {q['powered_startup_thrust_all_negative']}.",'',
             'Backward-Euler numerical dissipation remains separate from physical secondary Joule heat. Signed SUPG work can change sign under refinement and is also retained separately. Accounting residuals do not bound discretization error. Further time, remote-field and independent matched field/circuit controls are required before any operating map can be admitted.','']
+    if 'blocked_probe' in c:
+        q=c['blocked_probe'];mean='unknown' if q['first_cycle_mean_thrust_N'] is None else f"{q['first_cycle_mean_thrust_N']:+.8g} N"
+        lines+=['## Interrupted at-rest full-overlap probe','',
+            'A separate2V,50Hz calculation holds the9m secondary at0.5m inside the12.5m primary. Speed is zero. Geometry/wiring are unchanged; operating position, speed, duration, mesh and transport hypothesis differ from the entry cases. This is not a controlled convergence comparison or a train-launch simulation.','',
+            f"Execution: **{q['execution']}**. Recorded {q['recorded_steps']} of {q['requested_steps']} requested steps through {q['recorded_end_time_s']}s, versus0.128s requested. The first complete cycle,0<t<=0.02s, has right-endpoint mean force {mean}; the requested0.08–0.10s and0.10–0.12s means remain unknown when their windows are incomplete.",'',
+            f"The internal85s guard is checked at step starts; this request took{q['elapsed_external_s']:.2f}s externally and stayed within its90s outer limit. Exact whole-planning wall time was not recorded. Original partial outputs and resource-limit context are retained. No retry or numerical-budget expansion was performed. Positive early blocked transients do not establish sustained force, steady state, convergence or an available operating map, and do not diagnose the negative moving-entry traces.",'']
     return '\n'.join(lines)
 
 
@@ -371,7 +431,7 @@ def verify(output=None,*,root=ROOT):
     if {p.name:digest(p) for p in output.iterdir() if p.is_file() and p.name!='manifest.json'}!=m['files_sha256']:raise ValueError('Moving publication payload differs')
     if any(r.get(k) is not value or m.get(k) is not value for k,value in FLAGS.items()) or r.get('operating_map_admitted') is not False:raise ValueError('Method publication cannot grant acceptance')
     q=r.get('comparisons',{}).get('continuation',{})
-    expected=(13 if 'high_speed_mesh_40_to_30mm_relative_change' in q else 11 if q else 5)+(6 if 'critical_mesh' in r.get('comparisons',{}) else 0)+(2 if 'fine_timestep' in r.get('comparisons',{}) else 0)
+    expected=(13 if 'high_speed_mesh_40_to_30mm_relative_change' in q else 11 if q else 5)+(6 if 'critical_mesh' in r.get('comparisons',{}) else 0)+(2 if 'fine_timestep' in r.get('comparisons',{}) else 0)+(1 if 'blocked_probe' in r.get('comparisons',{}) else 0)
     if r.get('attempted_cases')!=expected+1 or r.get('sealed_packages')!=expected or r.get('source_base_revision')!=SOURCE_BASE or r.get('reference_changed') is not False or r.get('complete_installed_mass_kg') is not None:raise ValueError('Moving publication scope differs')
     if (output/'README.md').read_text()!=_readme(r):raise ValueError('Moving publication explanation differs')
     archive=(output/'native-runs.tar.gz').read_bytes()
@@ -386,7 +446,7 @@ def verify(output=None,*,root=ROOT):
                 if not member.isfile() or member.size>8*1024*1024 or size>20*1024*1024 or p.is_absolute() or '..' in p.parts or p.as_posix()!=member.name or member.name in seen:raise ValueError('Ordinary unique bounded moving archive members required')
                 if len(p.parts)==1:
                     if p.name!='initial-zero-smoke.json':raise ValueError('Unknown moving archive member')
-                elif p.parts[0] not in {part for pair in CASES for part in pair}|set(CONTINUATION_CASES)|set(SPATIAL_CASES)|set(CRITICAL_CASES)|set(TIMESTEP_CASES)|{'source-epoch-3','source-epoch-4','source-epoch-5','continuation-context','critical-context','time-context'}:raise ValueError('Unknown moving archive subtree')
+                elif p.parts[0] not in {part for pair in CASES for part in pair}|set(CONTINUATION_CASES)|set(SPATIAL_CASES)|set(CRITICAL_CASES)|set(TIMESTEP_CASES)|{BLOCKED_CASE,'source-epoch-3','source-epoch-4','source-epoch-5','continuation-context','critical-context','time-context','blocked-context'}:raise ValueError('Unknown moving archive subtree')
                 seen.add(member.name)
                 target=temp/p;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(tar.extractfile(member).read())
         rows,zero,comparisons=collect(temp)
