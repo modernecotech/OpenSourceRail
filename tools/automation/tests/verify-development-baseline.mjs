@@ -186,6 +186,34 @@ try {
   );
   report.adaptive_variables = adaptive.variable_count;
   report.adaptive_native_cases = adaptive.native_case_count;
+  const generativeResponse = await context.request.get(
+    origin + "/api/generative/current",
+  );
+  assert.equal(
+    generativeResponse.status(),
+    200,
+    await generativeResponse.text(),
+  );
+  const generative = await generativeResponse.json();
+  assert.equal(generative.physical_accepted, false);
+  assert.equal(generative.selected_reference_changed, false);
+  assert.equal(generative.integrated_selection, null);
+  await page.waitForFunction(
+    (count) =>
+      document.querySelectorAll("#generative-rows tr").length === count,
+    generative.rows.length,
+  );
+  assert.match(
+    await page.locator("#generative-scope").innerText(),
+    /not equipped vehicle tare/,
+  );
+  assert.match(
+    await page.locator("#generative-scope").innerText(),
+    /underfloor trusses/,
+  );
+  report.generative_candidates = generative.candidate_count;
+  report.generative_rewrites = generative.rewrite_count;
+  report.generative_native_cases = generative.native_design_case_count;
   const cityResponse = await context.request.get(origin + "/api/city/baghdad");
   assert.equal(cityResponse.status(), 503, await cityResponse.text());
   const city = await cityResponse.json();

@@ -71,17 +71,22 @@ class Handler(BaseHTTPRequestHandler):
                 read_packet(self.root)
                 self.respond(200, status(self.root))
                 return
-            if path in ('/api/campaigns/current','/api/design-space/current','/api/architectures/current','/api/adaptive/current'):
+            research_routes={
+                '/api/campaigns/current':('v06-optimisation','osr-wheel-iterative-campaign-publication/1'),
+                '/api/design-space/current':('v06-design-space','osr-expanded-design-space-summary/1'),
+                '/api/architectures/current':('v06-architecture','osr-railway-architecture-summary/1'),
+                '/api/adaptive/current':('v06-adaptive-design','osr-adaptive-design-summary/1'),
+                '/api/generative/current':('generative-structure','osr-generative-structure-summary/1')}
+            if path in research_routes:
                 _,publication=read_packet(self.root)
-                campaign=path=='/api/campaigns/current'
-                architecture=path=='/api/architectures/current'
-                adaptive=path=='/api/adaptive/current'
-                relative='docs/design-engine/'+('v06-optimisation' if campaign else 'v06-adaptive-design' if adaptive else 'v06-architecture' if architecture else 'v06-design-space')+'/summary.json';source=checked_path(self.root,relative)
+                folder,schema=research_routes[path]
+                relative='docs/design-engine/'+folder+'/summary.json';source=checked_path(self.root,relative)
                 if publication.get('source_sha256',{}).get(relative)!=digest(source):raise CurrentUnavailable('Campaign summary lacks a current source binding')
                 value=json.loads(source.read_bytes())
-                schema='osr-wheel-iterative-campaign-publication/1' if campaign else 'osr-adaptive-design-summary/1' if adaptive else 'osr-railway-architecture-summary/1' if architecture else 'osr-expanded-design-space-summary/1'
                 if value.get('schema')!=schema or any(value.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):
                     raise CurrentUnavailable('Unaccepted research campaign required')
+                if path=='/api/generative/current' and (value.get('selected_reference_changed') is not False or value.get('integrated_selection') is not None):
+                    raise CurrentUnavailable('Generative research cannot select an integrated replacement')
                 self.respond(200,value)
                 return
             if path == '/api/cities':

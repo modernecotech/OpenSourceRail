@@ -348,6 +348,40 @@ async function start() {
       byId("adaptive-status").textContent =
         "No current source-bound adaptive publication is available.";
     }
+    try {
+      const generative = await request("/api/generative/current");
+      if (
+        generative.physical_accepted !== false ||
+        generative.selected_reference_changed !== false ||
+        generative.integrated_selection !== null
+      )
+        throw Error("Generative research dispositions differ");
+      byId("generative-status").textContent =
+        `${generative.candidate_count} generated designs · ${generative.initial_recipe_count} initial recipes · ${generative.rewrite_count} executed rewrites · ${generative.CAD_case_count} CAD cases · ${generative.native_design_case_count} native structural cases. No integrated design selected.`;
+      byId("generative-rows").replaceChildren();
+      for (const candidate of generative.rows) {
+        const row = document.createElement("tr");
+        for (const value of [
+          `${candidate.label} / ${candidate.candidate_id.slice(0, 10)}`,
+          candidate.gross_structure_stock_kg === null
+            ? "Unknown"
+            : `${format(candidate.gross_structure_stock_kg / 1000)} t`,
+          candidate.mechanism_count === null
+            ? "Unconfirmed"
+            : candidate.mechanism_count,
+          candidate.full_body_evaluator,
+          candidate.integrated_suitability,
+        ]) {
+          const cell = document.createElement("td");
+          cell.textContent = value;
+          row.append(cell);
+        }
+        byId("generative-rows").append(row);
+      }
+    } catch (error) {
+      byId("generative-status").textContent =
+        "No current source-bound generative publication is available.";
+    }
     for (const key of identityKeys)
       fact(byId("identities"), key.replaceAll("_", " "), current[key]);
     byId("native-scope").textContent =

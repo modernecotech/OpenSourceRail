@@ -234,6 +234,7 @@ def reader_cache(packet):
         write_json(root/'docs/design-engine/v06-architecture'/name,dict(scope='Synthetic architecture cache fixture; no solver evidence'))
     for name in ('summary.json','requirement-policy.json'):
         write_json(root/'docs/design-engine/v06-adaptive-design'/name,dict(scope='Synthetic adaptive cache fixture; no solver evidence'))
+    write_json(root/'docs/design-engine/generative-structure/summary.json',dict(scope='Synthetic generative cache fixture; no solver evidence'))
     for name in ('vehicle-overview.svg','service-profile.svg','interface-section.svg'):
         (root/OUTPUT/name).write_text('<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"/>')
     pdf=root/'OpenSourceRail-Book.pdf'
@@ -291,10 +292,12 @@ def test_reader_cache_refuses_changed_native_followup(reader_cache,relative):
     ('campaigns','docs/design-engine/v06-optimisation/summary.json','osr-wheel-iterative-campaign-publication/1'),
     ('design-space','docs/design-engine/v06-design-space/summary.json','osr-expanded-design-space-summary/1'),
     ('architectures','docs/design-engine/v06-architecture/summary.json','osr-railway-architecture-summary/1'),
-    ('adaptive','docs/design-engine/v06-adaptive-design/summary.json','osr-adaptive-design-summary/1')])
+    ('adaptive','docs/design-engine/v06-adaptive-design/summary.json','osr-adaptive-design-summary/1'),
+    ('generative','docs/design-engine/generative-structure/summary.json','osr-generative-structure-summary/1')])
 def test_campaign_api_requires_bound_research_bytes(packet,endpoint,relative,schema):
     root,_,manifest=packet
     value=dict(schema=schema,physical_accepted=False,engineering_accepted=False,configuration_adopted=False,manufacturing_release=False,operating_release=False)
+    if endpoint=='generative':value.update(integrated_selection=None,selected_reference_changed=False)
     write_json(root/relative,value)
     server=make_server(root=root,port=0);thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     url='http://127.0.0.1:'+str(server.server_address[1])+'/api/'+endpoint+'/current'
@@ -304,6 +307,54 @@ def test_campaign_api_requires_bound_research_bytes(packet,endpoint,relative,sch
         manifest['source_sha256'][relative]=sha256((root/relative).read_bytes()).hexdigest();write_json(root/OUTPUT/'manifest.json',manifest)
         with urllib.request.urlopen(url) as response:assert json.load(response)['configuration_adopted'] is False
         value['physical_accepted']=True;write_json(root/relative,value)
+        manifest['source_sha256'][relative]=sha256((root/relative).read_bytes()).hexdigest();write_json(root/OUTPUT/'manifest.json',manifest)
         with pytest.raises(urllib.error.HTTPError) as caught:urllib.request.urlopen(url)
         assert caught.value.code==503
     finally:server.shutdown();server.server_close();thread.join(timeout=2)
+
+
+@pytest.mark.parametrize('action',['plan','run','publish','verify'])
+def test_generative_cli_dispatches_explicit_research_contract_without_legacy(packet,monkeypatch,capsys,action):
+    from types import ModuleType
+    root,_,_=packet;calls=[]
+    campaign=ModuleType('engineering.design_search.generative_campaign')
+    publication=ModuleType('engineering.design_search.generative_publication')
+    def spec():calls.append(('plan',None));return dict(schema='synthetic-plan',scope='Contract test only',physical_accepted=False)
+    def run(*,root):
+        calls.append(('run',root));return dict(campaign_id='7'*64,candidates=[dict(candidate_id='8'*64)],executed_rewrites=[dict(kind='synthetic-layout')],
+            integrated_selection=None,selected_reference_changed=False,configuration_adopted=False,**FLAGS)
+    def publish(*,root):calls.append(('publish',root));return dict(published=True,physical_accepted=False)
+    def verify(*,root):calls.append(('verify',root));return dict(verified=True,physical_accepted=False)
+    campaign.specification=spec;campaign.run=run;publication.build=publish;publication.verify=verify
+    monkeypatch.setitem(sys.modules,campaign.__name__,campaign);monkeypatch.setitem(sys.modules,publication.__name__,publication)
+    assert cli.main(['design','generative',action],root=root)==0
+    result=json.loads(capsys.readouterr().out)
+    assert calls==[(action,None if action=='plan' else root)] and result['physical_accepted'] is False
+    if action=='run':
+        assert result['candidate_count']==1 and result['rewrite_count']==1
+        assert result['integrated_selection'] is None and result['selected_reference_changed'] is False
+
+
+@pytest.mark.parametrize('claim',['selection','reference'])
+def test_generative_api_refuses_source_bound_selection_claim(packet,claim):
+    root,_,manifest=packet;relative='docs/design-engine/generative-structure/summary.json'
+    value=dict(schema='osr-generative-structure-summary/1',physical_accepted=False,engineering_accepted=False,
+        configuration_adopted=False,manufacturing_release=False,operating_release=False,
+        integrated_selection='invented-winner' if claim=='selection' else None,selected_reference_changed=claim=='reference')
+    write_json(root/relative,value);manifest['source_sha256'][relative]=sha256((root/relative).read_bytes()).hexdigest();write_json(root/OUTPUT/'manifest.json',manifest)
+    server=make_server(root=root,port=0);thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+    try:
+        with pytest.raises(urllib.error.HTTPError) as caught:urllib.request.urlopen('http://127.0.0.1:'+str(server.server_address[1])+'/api/generative/current')
+        assert caught.value.code==503
+    finally:server.shutdown();server.server_close();thread.join(timeout=2)
+
+
+def test_generative_cli_does_not_mask_an_accepted_result_as_research(packet,monkeypatch,capsys):
+    from types import ModuleType
+    root,_,_=packet;campaign=ModuleType('engineering.design_search.generative_campaign');publication=ModuleType('engineering.design_search.generative_publication')
+    campaign.run=lambda **kwargs:dict(campaign_id='7'*64,candidates=[],executed_rewrites=[],integrated_selection=None,
+        selected_reference_changed=False,configuration_adopted=False,**{**FLAGS,'physical_accepted':True})
+    monkeypatch.setitem(sys.modules,campaign.__name__,campaign);monkeypatch.setitem(sys.modules,publication.__name__,publication)
+    assert cli.main(['design','generative','run'],root=root)==3
+    result=json.loads(capsys.readouterr().out)
+    assert result['execution']=='held' and 'cannot select or release' in result['reason']

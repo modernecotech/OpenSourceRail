@@ -184,6 +184,18 @@ def main(argv=None, root=ROOT):
     if command in ('design', 'infrastructure'):
         command, rest = (rest[0], rest[1:]) if rest else ('status', [])
     try:
+        if command=='generative':
+            from engineering.design_search import generative_campaign,generative_publication
+            if rest==['plan']:emit(generative_campaign.specification());return 0
+            if rest==['publish']:emit(generative_publication.build(root=root));return 0
+            if rest==['verify']:emit(generative_publication.verify(root=root));return 0
+            if rest==['run']:
+                result=generative_campaign.run(root=root)
+                if result.get('integrated_selection') is not None or result.get('selected_reference_changed') is not False or any(result.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):
+                    raise ValueError('Generative research cannot select or release an integrated design')
+                emit(dict(campaign_id=result['campaign_id'],candidate_count=len(result['candidates']),rewrite_count=len(result['executed_rewrites']),
+                    integrated_selection=None,selected_reference_changed=False,configuration_adopted=False,**FLAGS));return 0
+            raise ValueError('Use ./osr design generative plan, run, publish or verify')
         if command=='adaptive':
             from engineering.design_search import adaptive_campaign,adaptive_publication,body_revision,design_variables,requirement_policy,section_proposals
             if rest==['plan']:
