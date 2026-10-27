@@ -84,3 +84,27 @@ class ConnectedBodyTests(unittest.TestCase):
             for p in solids:
                 overlap=[min(a['at_m'][i]+a['size_m'][i],p['at_m'][i]+p['size_m'][i])-max(a['at_m'][i],p['at_m'][i]) for i in range(3)]
                 self.assertFalse(all(v>1e-8 for v in overlap),(a['id'],p['id']))
+
+
+class AlignedProfileTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.parent=design_grammar.build(design_grammar.parameters());cls.base=[b.build(cls.parent,t) for t in ('aluminium_frame','aluminium_stressed_skin')]
+        cls.children=[b.build(cls.parent,t,profile_policy='aligned',revision_parent_id=old['candidate_id']) for t,old in zip(('aluminium_frame','aluminium_stressed_skin'),cls.base)]
+
+    def test_default_physical_controls_remain_byte_identical(self):
+        self.assertEqual([c['candidate_id'] for c in self.base],['341b8d0f24ec1928c9e696990fcd25fac93e5cb4cb968baaa92d6a59f191c5f4','171c9e8016334cf8515da9880f4b40ae780c2ee815021142284e175af2fe10d6'])
+
+    def test_new_profile_children_preserve_interfaces_and_count_stock(self):
+        for old,c in zip(self.base,self.children):
+            design_grammar.validate(c);self.assertEqual(c['parent_candidate_ids'],[old['candidate_id']]);self.assertNotEqual(c['candidate_id'],old['candidate_id'])
+            self.assertEqual(c['physical']['apertures'],old['physical']['apertures']);self.assertEqual(c['physical']['envelope'],old['physical']['envelope'])
+            self.assertEqual(c['shell_model']['support_x_m'],old['shell_model']['support_x_m']);self.assertEqual(c['shell_model']['support_y_m'],old['shell_model']['support_y_m'])
+            self.assertEqual(c['profile_specification']['floor_longitudinals'],7);self.assertEqual(c['profile_specification']['roof_longitudinals'],7)
+            self.assertAlmostEqual(c['known_structure_stock_kg'],sum(p['mass_kg'] for p in c['parts']),places=7);self.assertIsNone(c['complete_installed_mass_kg']);self.assertFalse(c['physical_accepted'])
+
+    def test_exact_preflight_matches_native_mesher_without_running_solver(self):
+        c=self.children[0];p=b.preflight(c,1.7);ids=set(c['shell_model']['structural_part_ids']);_,_,actual=s._mesh([q for q in c['parts'] if q['id'] in ids],1.7,'C3D8I')
+        self.assertEqual(p['solid_elements'],actual['solid_elements']);self.assertEqual(p['actual_vertex_nodes'],actual['node_count']);self.assertEqual(p['finite_face_components'],1)
+        self.assertLess(p['solid_elements'],60000)
+        deferred=b.preflight(c,1.7,computational_cell_cap=1);self.assertFalse(deferred['dispatch_within_cell_budget']);self.assertEqual(deferred['engineering_screen'],'unknown');self.assertEqual(deferred['candidate_id'],c['candidate_id'])

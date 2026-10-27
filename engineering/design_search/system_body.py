@@ -37,9 +37,11 @@ def _interfaces(parts):
     return [dict(id='weld-interface/'+identity(pair)[:14],occurrences=list(pair),part_ids=sorted(record['part_ids']),contact_area_m2=record['area'],method='Proposed welded cut-face interface; weld strength/HAZ/fatigue not qualified',net_hardware_mass_kg=None) for pair,record in sorted(contacts.items())]
 
 
-def build(parent,topology='aluminium_frame',root=ROOT):
+def build(parent,topology='aluminium_frame',root=ROOT,*,profile_policy='baseline',revision_parent_id=None):
     design_grammar.validate(parent)
     if topology not in ('aluminium_frame','aluminium_stressed_skin'):raise ValueError('Explicit supported physical child topology required')
+    if profile_policy not in ('baseline','aligned'):raise ValueError('Explicit baseline/aligned profile policy required')
+    if revision_parent_id is not None and (profile_policy!='aligned' or not isinstance(revision_parent_id,str) or len(revision_parent_id)!=64 or any(c not in '0123456789abcdef' for c in revision_parent_id)):raise ValueError('Explicit baseline physical parent ID is allowed for an aligned revision only')
     L=parent['physical']['architecture']['car_length_m'];W=parent['physical']['architecture']['width_m'];H=3.7;apertures=deepcopy(parent['physical']['apertures']);raw=[]
     if abs(L-17.)>1e-8 or abs(W-2.65)>1e-8:raise ValueError('Current connected-body generator domain is17×2.65m; new sizes need explicit support/assembly geometry, not a new project requirement')
     def add(name,at,size,role='frame',occurrence=None):
@@ -59,13 +61,21 @@ def build(parent,topology='aluminium_frame',root=ROOT):
         y=side*1.1-.07;tube('underframe/rail/'+str(side),(-L/2,y,.55),L,.14,.35,.008,0)
         for x in (-6.4,6.4):add(f'bogie-pad/{side}/{x}',(x-.1,side*1.1-.09,.53),(.2,.18,.02),'support-pad')
     stations=sorted({-L/2+.04,L/2-.04,*[-L/2+L*i/ceil(L/1.7) for i in range(1,ceil(L/1.7))],-6.4,6.4})
-    for i,x in enumerate(stations):tube('floor/rib/'+str(i),(x-.04,-W/2+.002,.847),W-.004,.08,.15,.006,1)
+    for i,x in enumerate(stations):
+        if profile_policy=='aligned':tube('floor/rib/'+str(i),(x-.03,-W/2+.002,.9),W-.004,.06,.097,.004,1)
+        else:tube('floor/rib/'+str(i),(x-.04,-W/2+.002,.847),W-.004,.08,.15,.006,1)
     # Counted close-pitch floor/roof ribs avoid crediting a flat3mm sheet with
     # the unsupported bending span of the complete frame bay.
-    for i in range(11):
-        y=-W/2+.08+(W-.16)*i/10;tube('floor/longitudinal/'+str(i),(-L/2,y-.02,.927),L,.04,.07,.003,0)
-    for i in range(7):
-        y=-W/2+.08+(W-.16)*i/6;tube('roof/longitudinal/'+str(i),(-L/2,y-.02,3.657),L,.04,.04,.003,0)
+    if profile_policy=='aligned':
+        for i in range(7):
+            y=-(W/2-.032)+(W-.064)*i/6
+            tube('floor/longitudinal/'+str(i),(-L/2,y-.03,.9),L,.06,.097,.004,0)
+            tube('roof/longitudinal/'+str(i),(-L/2,y-.03,3.637),L,.06,.06,.004,0)
+    else:
+        for i in range(11):
+            y=-W/2+.08+(W-.16)*i/10;tube('floor/longitudinal/'+str(i),(-L/2,y-.02,.927),L,.04,.07,.003,0)
+        for i in range(7):
+            y=-W/2+.08+(W-.16)*i/6;tube('roof/longitudinal/'+str(i),(-L/2,y-.02,3.657),L,.04,.04,.003,0)
     for side in (-1,1):
         y=-W/2+.002 if side<0 else W/2-.062
         for z,name in ((.997,'lower'),(3.637,'roof')):tube(f'side/frame/{side}/{name}',(-L/2,y,z),L,.06,.06,.004,0)
@@ -128,4 +138,38 @@ def build(parent,topology='aluminium_frame',root=ROOT):
     retained_ids={r['id'] for r in retained};result['components'] += [deepcopy(c) for c in parent['components'] if c['occurrence_id'] in retained_ids]
     result['components'] += [dict(occurrence_id=j['id'],part_id=j['id'],component_definition_id=identity(j),functions=['transfer-loads'],ports=[],mass_kg=None,stock={'mass_kg':None},inventory_status='unknown',performance_evidence='unknown') for j in joins]
     result['assembly']=[dict(id='cut-and-fit',occurrences=[p['id'] for p in parts],requires=[]),dict(id='weld-and-inspect',occurrences=[j['id'] for j in joins],requires=['cut-and-fit'],qualification='Weld procedure, access, inspection and strength release remain unknown')]
+    if profile_policy=='aligned':
+        specification=dict(policy='aligned',floor_longitudinals=7,roof_longitudinals=7,y_centres_m=[-(W/2-.032)+(W-.064)*i/6 for i in range(7)],floor_profile_m=[.06,.097,.004],roof_profile_m=[.06,.06,.004],floor_z_m=[.9,.997],roof_z_m=[3.637,3.697],purpose='Resource/manufacturing architecture experiment; no strength or safety criterion is inferred')
+        physical['profile_specification']=specification;result['candidate_id']=identity(physical);result['structure']['candidate_id']=result['candidate_id'];result['parent_candidate_ids']=[revision_parent_id or parent['candidate_id']];result['revision_reason']='Align counted floor/roof profile families and cut planes after observed native memory refusal; strength, buckling and response remain unevaluated';result['profile_specification']=specification
     result['definition_id']=identity(result);return result
+
+
+def preflight(candidate,mesh_m=1.7,computational_cell_cap=60000):
+    """Exact conformal occupancy/vertex count without any solver invocation.
+
+    The cap is a declared computational dispatch budget, never an engineering
+    constraint. Native results and qualification remain unknown either way.
+    """
+    design_grammar.validate(candidate)
+    if not .4<=mesh_m<=2.:raise ValueError('Current whole-body mesh budget domain .4..2m required')
+    ids=set(candidate['shell_model']['structural_part_ids']);parts=[p for p in candidate['parts'] if p['id'] in ids];axes=[]
+    for d in range(3):
+        values={round(p['at_m'][d]+s*p['size_m'][d],10) for p in parts for s in (0,1)};lo=min(values);hi=max(values);values.update(round(lo+(hi-lo)*i/ceil((hi-lo)/mesh_m),10) for i in range(ceil((hi-lo)/mesh_m)+1));axes.append(sorted(values))
+    maps=[{v:i for i,v in enumerate(a)} for a in axes];cells=set()
+    for p in parts:
+        r=[range(maps[d][round(p['at_m'][d],10)],maps[d][round(p['at_m'][d]+p['size_m'][d],10)]) for d in range(3)]
+        for i in r[0]:
+            for j in r[1]:
+                for k in r[2]:
+                    if (i,j,k) in cells:raise ValueError('Positive-volume structural stock overlap')
+                    cells.add((i,j,k))
+    vertices={(i+a,j+b,k+c) for i,j,k in cells for a in (0,1) for b in (0,1) for c in (0,1)};remaining=set(cells);components=0
+    while remaining:
+        components+=1;stack=[remaining.pop()]
+        while stack:
+            key=stack.pop()
+            for d in range(3):
+                for step in (-1,1):
+                    n=list(key);n[d]+=step;n=tuple(n)
+                    if n in remaining:remaining.remove(n);stack.append(n)
+    value=dict(candidate_id=candidate['candidate_id'],mesh_m=mesh_m,element_kind='C3D8I',solid_elements=len(cells),actual_vertex_nodes=len(vertices),axis_cut_counts=[len(a) for a in axes],finite_face_components=components,computational_cell_cap=computational_cell_cap,dispatch_within_cell_budget=len(cells)<=computational_cell_cap,engineering_screen='unknown',native_jobs_used=0,scope='Exact occupied Cartesian cells/corner nodes for the current conformal mesher; computational budget only, not structural feasibility or acceptance',**FLAGS);value['preflight_id']=identity(value);return value
