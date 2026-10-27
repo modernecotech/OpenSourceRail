@@ -1,10 +1,10 @@
 # README introductions and current system context
 
-OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-powered rail. Six 17 m comfort cars carry 44 seats plus two wheelchair places/car and no planned standing; the 120-second target gives 8,280 passengers/hour/direction. Passive steel-wheel bogies run on conventional rails carried by precast concrete. Station LIMs act on passive onboard secondaries; there are no traction motors, traction batteries or suspension magnets onboard. Service batteries, independent brakes and the existing station-led GoA4 architecture remain. The reference design is research only; city numerical regeneration, economics and physical release remain open. Maglev documents below are retained historical research, not the selected v0.6 physical design.
+OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-powered rail. Six 17 m comfort cars carry 44 seats plus two wheelchair places/car and no planned standing; the 120-second target gives 8,280 passengers/hour/direction. Passive steel-wheel bogies run on conventional rails carried by precast concrete. Station LIMs act on passive onboard secondaries; there are no traction motors, traction batteries or suspension magnets onboard. Service batteries, independent brakes and the existing station-led GoA4 architecture remain. The reference design is research only; city numerical regeneration, economics and physical release remain open. Historical studies retain their own recorded configurations and results.
 
 [Project introduction](../../../README.md) · [System approach](../../../engineering/README.md) · [Current design and engineering gates](README.md)
 
-All **905 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. Current city introductions use the selected comfort design; historical numerical packages remain intact. The project front door is maintained separately.
+All **905 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
 
 Existing local navigation reaches current context from **838 documents**. This page supplies an explicit current-context route for the remaining **67 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
@@ -20,8 +20,9 @@ Historical numerical city, design and research packets retain their exact README
 | generated-city-package | 532 |
 | generated-navigation-index | 2 |
 | historical-archive | 2 |
+| historical-method-entrypoint | 3 |
 | magnetic-research-method | 2 |
-| manual-current-entrypoint | 13 |
+| manual-current-entrypoint | 10 |
 | project-frontdoor | 1 |
 | retained-assurance-evidence | 8 |
 | retained-design-evidence | 72 |
@@ -30,8 +31,8 @@ Historical numerical city, design and research packets retain their exact README
 Regenerate and check with:
 
 ```bash
-tools/automation/osr-python -m engineering.maglev_research.readme_context --write
-tools/automation/osr-python -m engineering.maglev_research.readme_context --check
+tools/automation/osr-python -m engineering.readme_context --write
+tools/automation/osr-python -m engineering.readme_context --check
 ```
 
 The write command owns only the thirteen manual introduction blocks; it does not rewrite root, generated or retained research READMEs. Local document titles, technical scopes, licences and all content outside an owned block remain with their existing authors.
@@ -841,7 +842,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [cities/catalogue/west-asia/Yemen/Taiz/engineering/maglev/README.md](../../../cities/catalogue/west-asia/Yemen/Taiz/engineering/maglev/README.md) | generated-city-package | [System approach](../../../engineering/README.md) | [ferrite_maglev](../../../engineering/ferrite_maglev/README.md) → [project](../../../README.md) |
 | [control-electronics/README.md](../../../control-electronics/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [crates/README.md](../../../crates/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
-| [crates/osr-maglev-control/README.md](../../../crates/osr-maglev-control/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
+| [crates/osr-maglev-control/README.md](../../../crates/osr-maglev-control/README.md) | historical-method-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [deployment/README.md](../../../deployment/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [deployment/erpnext/README.md](../../../deployment/erpnext/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [deployment/supervision/README.md](../../../deployment/supervision/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
@@ -935,8 +936,8 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [engineering/design_search/README.md](../../../engineering/design_search/README.md) | candidate-design-method | [System approach](../../../engineering/README.md) | [v06-optimisation](../v06-optimisation/README.md) → [current](README.md) |
 | [engineering/development_baseline/README.md](../../../engineering/development_baseline/README.md) | current-development-adapters | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/electropermanent/README.md](../../../engineering/electropermanent/README.md) | magnetic-research-method | [System approach](../../../engineering/README.md) | Via this coverage page |
-| [engineering/ferrite_maglev/README.md](../../../engineering/ferrite_maglev/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
-| [engineering/ferrite_maglev/observer-prototype/README.md](../../../engineering/ferrite_maglev/observer-prototype/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
+| [engineering/ferrite_maglev/README.md](../../../engineering/ferrite_maglev/README.md) | historical-method-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
+| [engineering/ferrite_maglev/observer-prototype/README.md](../../../engineering/ferrite_maglev/observer-prototype/README.md) | historical-method-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/magnetic_confirmation/README.md](../../../engineering/magnetic_confirmation/README.md) | magnetic-research-method | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/station_rail/README.md](../../../engineering/station_rail/README.md) | current-development-adapters | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/trip_dynamics/README.md](../../../engineering/trip_dynamics/README.md) | trip-dynamics-method | [System approach](../../../engineering/README.md) | [project](../../../README.md) |

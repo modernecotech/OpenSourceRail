@@ -1,17 +1,55 @@
-name: v0.5 primary maglev development
+name: Historical v0.5 maglev replay
 on:
   push:
     branches: [main]
     tags: ["v0.5.*"]
+    paths:
+      - ".github/workflows/historical-v05.yml"
+      - "docs/archives/v0.5-maglev/**"
   pull_request:
+    paths:
+      - ".github/workflows/historical-v05.yml"
+      - "docs/archives/v0.5-maglev/**"
+  workflow_dispatch:
+  schedule:
+    - cron: "20 2 * * 0"
 permissions:
   contents: read
 jobs:
   primary-study:
+    name: Historical v0.5 replay (pinned archive)
+    defaults:
+      run:
+        working-directory: historical
     runs-on: ubuntu-latest
     timeout-minutes: 360
     steps:
-      - uses: actions/checkout@v4
+      - name: Read the current archive contract
+        uses: actions/checkout@v4
+        with:
+          path: current
+          sparse-checkout: /docs/archives/v0.5-maglev/manifest.json
+          sparse-checkout-cone-mode: false
+      - name: Check out the immutable v0.5 source and publication
+        uses: actions/checkout@v4
+        with:
+          ref: 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+          path: historical
+      - name: Require the archive identity and historical version
+        run: |
+          python3 - <<'PYTHON'
+          import hashlib, json, subprocess
+          from pathlib import Path
+          manifest = json.loads(Path('../current/docs/archives/v0.5-maglev/manifest.json').read_text())
+          unsigned = {k: v for k, v in manifest.items() if k != 'archive_id'}
+          encoded = (json.dumps(unsigned, sort_keys=True, separators=(',', ':'), allow_nan=False) + '\n').encode()
+          assert manifest['schema'] == 'osr-v05-git-archive/1'
+          assert manifest['archive_id'] == hashlib.sha256(encoded).hexdigest()
+          assert manifest['physical_accepted'] is False
+          assert subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip() == manifest['revision']
+          assert Path('VERSION').read_text().strip() == '0.5'
+          print('Historical source:', manifest['revision'], 'archive:', manifest['archive_id'])
+          PYTHON
       - uses: actions/setup-python@v5
         with:
           python-version: "3.13"
@@ -23,6 +61,13 @@ jobs:
       - run: python -m pip install pytest -r engineering/ferrite_maglev/requirements.txt
       - name: Verify every published source and packet file is tracked
         run: python tools/automation/tests/verify-maglev-sources.py
+      # Rebuild with the pinned generators in this disposable checkout before
+      # checking publication formats that predate the current release adapter.
+      - name: Prepare runtime-bound publication and reader
+        shell: bash
+        run: |
+          mkdir -p build
+          python tools/automation/ferrite-maglev-study.py cycle --output build/maglev-workflow-report 2>&1 | tee build/maglev-historical-cycle.log
       - name: Primary deployment and capability configuration
         run: |
           python tools/automation/validate-host-manifests.py
@@ -43,8 +88,6 @@ jobs:
           cargo clippy --locked --manifest-path engineering/ferrite_maglev/observer-prototype/Cargo.toml --all-targets -- -D warnings
           cargo test --locked --manifest-path engineering/ferrite_maglev/observer-prototype/Cargo.toml --all-targets
           python engineering/ferrite_maglev/observer-prototype/tests/differential.py
-      - name: Prepare runtime-bound publication and reader
-        run: python tools/automation/ferrite-maglev-study.py cycle --output build/maglev-workflow-report
       - name: All primary maglev Python suites
         run: python -m pytest engineering/analysis/tests/test_ferrite_maglev*.py -q
       - name: Verify retained engineering, lifecycle and formal execution profiles
@@ -86,23 +129,17 @@ jobs:
           python tools/automation/ferrite-maglev-study.py run
           node tools/automation/tests/verify-maglev-v05.mjs build/maglev-browser
           node tools/automation/tests/verify-maglev-workbench.mjs build/maglev-workbench-browser
-  control-formal:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-      - uses: dtolnay/rust-toolchain@1.92.0
-      - name: Install the pinned bounded verifier
-        run: |
-          cargo install kani-verifier --version 0.67.0 --locked
-          cargo kani setup
-      - name: Execute retained authority and current maglev refusal properties
-        run: python -m engineering.ferrite_maglev.pilot_assurance run control-formal
-      - uses: actions/upload-artifact@v4
+      - name: Preserve historical replay logs and reports
+        uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: control-formal-execution
-          path: engineering/assurance/v052-pilot-profiles/control-formal/
+          name: historical-v05-replay-not-current-qualification
+          path: |
+            historical/build/maglev-historical-cycle.log
+            historical/build/maglev-workflow/
+            historical/build/maglev-workflow-report/
+            historical/build/maglev-ci/
+            historical/build/maglev-ci-coupled/
+            historical/build/maglev-browser/
+            historical/build/maglev-workbench-browser/
+          retention-days: 14

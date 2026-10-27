@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the city catalogue from current maglev inputs and planning packages."""
+"""Generate the historical v0.5 city catalogue in its pinned checkout."""
 from __future__ import annotations
 import argparse
 import json

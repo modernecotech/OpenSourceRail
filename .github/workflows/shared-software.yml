@@ -1,0 +1,73 @@
+name: Shared software and control contracts
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  current-shared-software:
+    name: Shared workspace and retained research regressions
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: dtolnay/rust-toolchain@1.92.0
+        with:
+          components: rustfmt,clippy
+      - run: python -m pip install pytest -r engineering/requirements.txt
+      - name: Enforce historical and current CI separation
+        run: python tools/automation/tests/test_ci_architecture.py
+      - name: Retained v0.5 source and packet portability
+        run: python tools/automation/tests/verify-maglev-sources.py
+      - name: Retained offline-host compatibility contracts
+        run: python tools/automation/validate-host-manifests.py
+      - name: Current shared workspace unit tests
+        run: cargo test --locked --workspace --all-targets
+      - name: Retained maglev controller unit tests
+        run: cargo test --locked -p osr-maglev-control --all-targets
+      - name: Retained maglev controller without default features
+        run: cargo check --locked -p osr-maglev-control --no-default-features
+      - name: Retained maglev controller formatting
+        run: cargo fmt --package osr-maglev-control -- --check
+      - name: Retained maglev controller lint
+        run: cargo clippy -p osr-maglev-control --all-targets -- -D warnings
+      - name: Retained offline normal-wrench observer prototype
+        run: |
+          cargo fmt --manifest-path engineering/ferrite_maglev/observer-prototype/Cargo.toml -- --check
+          cargo clippy --locked --manifest-path engineering/ferrite_maglev/observer-prototype/Cargo.toml --all-targets -- -D warnings
+          cargo test --locked --manifest-path engineering/ferrite_maglev/observer-prototype/Cargo.toml --all-targets
+          python engineering/ferrite_maglev/observer-prototype/tests/differential.py
+      - name: Retained baseline-independent numerical method controls
+        run: >-
+          python -m pytest -q --import-mode=importlib
+          engineering/analysis/tests/test_ferrite_maglev_coupled.py::test_fe_point_load_and_modal_frequencies_have_independent_controls
+          engineering/analysis/tests/test_ferrite_maglev_coupled.py::test_fe_shape_and_load_transfer_conserve_virtual_work
+          engineering/analysis/tests/test_ferrite_maglev_coupled.py::test_exact_modal_step_preserves_undamped_equilibrium_energy
+          engineering/analysis/tests/test_ferrite_maglev_coupled.py::test_static_reaction_response_is_linear_and_mesh_converges
+          engineering/analysis/tests/test_ferrite_maglev_coupled.py::test_invalid_beam_assumptions_fail_before_numerics
+  control-formal:
+    name: Shared authority and retained refusal properties
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: dtolnay/rust-toolchain@1.92.0
+      - name: Install the pinned bounded verifier
+        run: |
+          cargo install kani-verifier --version 0.67.0 --locked
+          cargo kani setup
+      - name: Execute shared authority and retained maglev refusal properties
+        run: python -m engineering.ferrite_maglev.pilot_assurance run control-formal
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: control-formal-execution
+          path: engineering/assurance/v052-pilot-profiles/control-formal/

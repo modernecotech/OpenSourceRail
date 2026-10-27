@@ -87,7 +87,7 @@ def sources(root,record,index,delivery):
         'docs/first-adoptable-product.md','docs/open-source-rail-overview.md','docs/open-source-rail-overview.html','CONTRIBUTING.md',
         'deployment/erpnext/README.md','deployment/supervision/README.md','tools/README.md','crates/README.md','cities/catalogue/README.md',
         'tools/automation/generate-public-overview.py','tools/automation/generate-doc-index.py','tools/automation/check-readmes.py','docs/INDEX.md',
-        'engineering/development-baseline.toml','engineering/maglev_research/readme_context.py','osr','install.sh',
+        'engineering/development-baseline.toml','engineering/readme_context.py','engineering/requirements.txt','.github/repository-metadata.yml','osr','install.sh',
         '.github/workflows/development-baseline.yml','tools/automation/default-design.py','tools/automation/default-design-workbench.py',
         'tools/automation/default-design-cycle.py','tools/automation/tests/verify-development-baseline.mjs','tools/automation/v06-native-benchmarks.py',
         'tools/automation/architecture-native-benchmarks.py','tools/automation/generative-native-benchmarks.py',
@@ -229,7 +229,7 @@ def verify(output=None,*,root=ROOT,replay=True):
     if json.loads((output/'comparison.json').read_bytes())!=comparison.evaluate(record,root):raise ValueError('comparison differs')
     if json.loads((output/'prototype-test-plan.json').read_bytes())!=prototype_plan(record):raise ValueError('prototype test plan differs')
     if m['source_sha256']!=sources(root,record,index,exported):raise ValueError('publication source set differs')
-    from engineering.maglev_research import readme_context
+    from engineering import readme_context
     audit=readme_context.audit(root)
     if not audit['current'] or json.loads((output/'readme-coverage.json').read_bytes())!=audit:raise ValueError('README context differs')
     for name,expected in m['workbench_files_sha256'].items():
@@ -250,7 +250,7 @@ def build(root=ROOT,force=False,output=None):
                 reader(root=root,check=True);return dict(value,cached=True)
             except(ValueError,OSError,KeyError):pass
         value=publish(output,root=root)
-        from engineering.maglev_research import readme_context
+        from engineering import readme_context
         readme_context.write_owned(root);audit=readme_context.audit(root)
         if not audit['current']:raise ValueError('README context: '+'; '.join(audit['errors']))
         write(output/'readme-coverage.json',(json.dumps(audit,sort_keys=True,indent=2)+'\n').encode());write(output/'readme-coverage.md',readme_context.markdown(audit).encode());seal(output,root)

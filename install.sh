@@ -167,8 +167,7 @@ playwright_ready() {
 }
 
 build_ready() {
-    [[ -x "$ROOT/target/release/examples/sbc_replay" \
-        && -x "$ROOT/target/release/examples/coupled_bridge" \
+    [[ -x "$ROOT/target/release/examples/wheel_station_contract" \
         && -f "$ROOT/docs/workbench/current/index.html" ]]
 }
 
@@ -188,8 +187,8 @@ show_core_status() {
         || status_line "JavaScript packages" no
     playwright_ready && status_line "Playwright Chromium" yes \
         || status_line "Playwright Chromium" no
-    build_ready && status_line "Current comfort design and Workbench" yes \
-        || status_line "Current comfort design and Workbench" no
+    build_ready && status_line "Current wheel/LIM design and Workbench" yes \
+        || status_line "Current wheel/LIM design and Workbench" no
 }
 
 run_root() {
@@ -290,7 +289,7 @@ install_python() {
         fail "$ROOT/.venv uses Python older than 3.11; move it aside and rerun setup"
     fi
     uv pip install --python "$ROOT/.venv/bin/python" pytest \
-        --requirement "$ROOT/engineering/ferrite_maglev/requirements.txt"
+        --requirement "$ROOT/engineering/requirements.txt"
 }
 
 install_node_packages() {
@@ -312,7 +311,7 @@ install_playwright() {
 }
 
 build_platform() {
-    section "Building support-control method kernels"
+    section "Building wheel/station control method kernels"
     (cd "$ROOT" && cargo build --locked --release -p osr-atp --example wheel_station_contract)
     (cd "$ROOT" && ./osr verify)
 }

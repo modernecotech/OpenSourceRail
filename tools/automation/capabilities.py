@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate or verify the current maglev capability directory."""
+"""Historical v0.5 capability directory; reproduce in its pinned checkout."""
 import argparse
 import json
 from pathlib import Path

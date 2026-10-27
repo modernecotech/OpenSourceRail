@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Index, plan or rebuild current maglev city packages."""
+"""Historical v0.5 city packages; reproduce in their pinned checkout."""
 import argparse
 import json
 from pathlib import Path

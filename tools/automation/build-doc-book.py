@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the source-bound current maglev reader book."""
+"""Build the selected current railway reader; retain the historical adapter."""
 from __future__ import annotations
 
 import argparse

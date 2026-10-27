@@ -262,8 +262,10 @@ try {
   );
   await page.screenshot({ path: output + "/mobile.png", fullPage: true });
   assert.match(
-    await page.locator('a[href="/docs/workbench/maglev/"]').innerText(),
-    /Historical/,
+    await page
+      .locator('a[href="/docs/archives/v0.5-maglev/README.md"]')
+      .innerText(),
+    /Historical v0.5 archive.*pinned sources/,
   );
   assert.equal(
     (
