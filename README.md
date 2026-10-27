@@ -55,6 +55,8 @@ The normal passenger cap is a comfort and load-management choice; it does not re
 
 Loss of station propulsion leaves the vehicle supported on its wheels. Independent braking must remain available, and a train stopped outside a powered zone needs a protected recovery/towing and evacuation arrangement. Walkway removal or a proposed escape device is not treated as approved.
 
+A separate [practical launch comparison](docs/design-engine/practical-launch/README.md) examines station-charged wheel traction, conductor-fed wheel drive, friction rollers, cable haulage and gravity. It distinguishes powered travel, peak power, energy storage and service constraints; the selected wheel/LIM reference remains unchanged.
+
 ### v0.6 illustrated: a different approach to building a railway
 
 | Passenger-focused lightweight car | Locally assembled, modular construction concept |

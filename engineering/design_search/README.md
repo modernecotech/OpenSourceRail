@@ -13,6 +13,11 @@ OpenSourceRail develops simple, locally repairable transport and compares comple
 
 The retained carrier/beam campaign below is historical maglev research, with independent family/evaluator IDs. Its numerical results do not describe the wheel-supported v0.6 train.
 
+The separate [practical launch comparison](../../docs/design-engine/practical-launch/README.md)
+uses `python -m engineering.design_search.launch_options plan/compare/publish/verify`
+for cheap force, travel, contact, storage and service bounds. It does not change
+the retained P1–P7 campaign or materialize a revised vehicle from unknown hardware.
+
 ## Coordinated candidate design
 
 OpenSourceRail aims for simple fixed lines, affordable construction and repair,

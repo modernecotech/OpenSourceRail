@@ -2,6 +2,8 @@ name: v0.6 wheel and station reference design
 on:
   pull_request:
     paths:
+      - "campaigns/practical-launch-comparison.toml"
+      - "docs/design-engine/practical-launch/**"
       - "docs/assets/v0.6/**"
       - "docs/images/v06/**"
       - "README.md"
@@ -65,6 +67,8 @@ on:
   push:
     branches: [main]
     paths:
+      - "campaigns/practical-launch-comparison.toml"
+      - "docs/design-engine/practical-launch/**"
       - "docs/assets/v0.6/**"
       - "docs/images/v06/**"
       - "README.md"
@@ -155,6 +159,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/development_baseline/tests engineering/station_rail/tests
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_architecture.py engineering/design_search/tests/test_architecture_demand.py engineering/design_search/tests/test_capabilities.py engineering/design_search/tests/test_nonlinear_motor.py tests/test_joint_models.py tests/test_joint_body.py
+      - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_launch_options.py
+      - run: .venv/bin/python -m engineering.design_search.launch_options verify
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_requirement_policy.py engineering/design_search/tests/test_design_variables.py engineering/design_search/tests/test_revision_planner.py engineering/design_search/tests/test_adaptive_campaign.py engineering/design_search/tests/test_section_proposals.py tests/test_body_revision.py
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_design_grammar.py engineering/design_search/tests/test_interface_graph.py engineering/design_search/tests/test_material_database.py engineering/design_search/tests/test_dfma.py engineering/design_search/tests/test_generative_publication.py tests/test_grammar_structure.py
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_bundle.py engineering/design_search/tests/test_railway_campaign.py engineering/design_search/tests/test_railway_delivery.py engineering/design_search/tests/test_system_inventory.py engineering/design_search/tests/test_system_selection.py engineering/design_search/tests/test_system_motion.py engineering/design_search/tests/test_transient_lim.py tests/test_grammar_shell.py
