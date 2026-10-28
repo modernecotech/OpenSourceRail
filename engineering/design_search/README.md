@@ -30,6 +30,11 @@ uses `./osr-twin` to materialize the short-bank configuration across a complete
 train/civil stock ledger, federated BOM, propulsion/braking requirements,
 construction, controls and cost coverage. It regenerates semantic artifacts and
 reopens actual IFC/CAD/STEP; strict engineering completion remains held.
+The [current closure](../../docs/design-engine/engineering-closure/README.md) adds
+`./osr-complete`, authenticated physical/source records, numerical operating-map
+admission, equipment/structural/braking/site/cost evaluation and actual 20 m
+field/circuit experiments. New winding candidates propagate through the full
+stock/BOM/dead-load/delivery chain without rewriting retained publications.
 
 ## Coordinated candidate design
 

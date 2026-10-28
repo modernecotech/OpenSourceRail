@@ -12,7 +12,7 @@ braking requirements, civil quantities, manufacturing, construction, controls,
 cost coverage and test obligations. Native IFC/CAD/STEP checks verify actual
 stock geometry and placement. Complete installed equipment, supported operating
 maps, structural/brake/site evidence and economics remain explicit blockers;
-the external operating-evidence admission adapter still needs implementation.
+the [current closure adapters](design-engine/engineering-closure/README.md) now admit externally authenticated records and independently replayed operating-map support. Actual supplier, test, route and operating-map evidence is still absent. The new 20 m motor experiment and counted winding revisions remain research candidates; neither software tests nor low-voltage force results close propulsion.
 The older campaigns below retain their original physical and source contracts.
 
 The [coordinated experiment](design-engine/coupled-railway/README.md) now runs architecture, adaptive revisions and physical generation through `./osr design railway`. Fourteen body definitions feed 112 bundles and 784 downstream records. New body evidence invalidates dependent evaluations; numerical/model failures and missing equipment create distinct frontier tasks. Four native fixtures, seven 3D body cases, six transient magnetic controls and two body-stock IFC/ERP draft packages are retained. These demonstrate integration and bounded execution, not a qualified whole-system solution.

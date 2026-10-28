@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **944**.
+Indexed Markdown files: **946**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **944**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 108 |
+| [docs](#docs) | 110 |
 | [engineering](#engineering) | 21 |
 | [tools](#tools) | 2 |
 
@@ -901,6 +901,8 @@ Indexed Markdown files: **944**.
 | [`docs/design-engine/digital-twin/README.md`](../docs/design-engine/digital-twin/README.md) | End-to-end sparse-wayside research twin |
 | [`docs/design-engine/digital-twin/validation.md`](../docs/design-engine/digital-twin/validation.md) | Executed digital twin validation — 28 October 2026 |
 | [`docs/design-engine/electropermanent/README.md`](../docs/design-engine/electropermanent/README.md) | Electropermanent next experiments |
+| [`docs/design-engine/engineering-closure/README.md`](../docs/design-engine/engineering-closure/README.md) | Current engineering inputs and closure |
+| [`docs/design-engine/engineering-closure/validation.md`](../docs/design-engine/engineering-closure/validation.md) | Current engineering closure — executed validation, 28 October 2026 |
 | [`docs/design-engine/ferrite-maglev/assembled-body/README.md`](../docs/design-engine/ferrite-maglev/assembled-body/README.md) | Joined structural-body candidate |
 | [`docs/design-engine/ferrite-maglev/assurance-profiles/README.md`](../docs/design-engine/ferrite-maglev/assurance-profiles/README.md) | Pilot development assurance profiles |
 | [`docs/design-engine/ferrite-maglev/baghdad-reference/README.md`](../docs/design-engine/ferrite-maglev/baghdad-reference/README.md) | Baghdad six-car native reference study |

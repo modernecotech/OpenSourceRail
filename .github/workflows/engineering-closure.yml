@@ -1,0 +1,38 @@
+name: v0.6 current engineering inputs and motor methods
+on:
+  push:
+    branches: [main]
+    paths: ["engineering/railway_completion/**", "engineering/railway_twin/**", "engineering/design_search/**", "engineering/station_rail/**", "engineering/development_baseline/**", "engineering/development-baseline.toml", "campaigns/engineering-completion.toml", "docs/design-engine/engineering-closure/**", "osr-complete", ".github/workflows/engineering-closure.yml"]
+  pull_request:
+    paths: ["engineering/railway_completion/**", "engineering/railway_twin/**", "engineering/design_search/**", "engineering/station_rail/**", "engineering/development_baseline/**", "engineering/development-baseline.toml", "campaigns/engineering-completion.toml", "docs/design-engine/engineering-closure/**", "osr-complete", ".github/workflows/engineering-closure.yml"]
+  workflow_dispatch:
+  schedule:
+    - cron: "15 5 * * 0"
+permissions:
+  contents: read
+jobs:
+  contracts-and-retained-execution-integrity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install pytest --requirement engineering/requirements.txt
+      - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/railway_completion/tests
+      - name: Recompute current closure and inspect retained motor execution integrity
+        run: |
+          ./osr-complete verify-publication
+          ./osr-complete motor-verify-publication
+          ./osr-complete variants-verify-publication
+      - name: Execute fresh zero-voltage control with this runner's source and numerical tools
+        run: ./osr-complete motor-run --state build/completion-ci --max-new-runs 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v06-current-methods-and-open-physical-obligations
+          path: build/completion-ci/
+          retention-days: 14
