@@ -122,3 +122,48 @@ def test_publication_snapshot_includes_manifest_added_files_and_exact_bytes(tmp_
     (tmp_path/'data').write_bytes(b'modified');assert x.snapshot(tmp_path,h)!=original
     (tmp_path/'data').write_bytes(b'original');(tmp_path/'extra').write_bytes(b'new');assert x.snapshot(tmp_path,h)!=original
     assert 'manifest.json' in original
+
+
+@pytest.fixture
+def publication_contract(tmp_path,monkeypatch):
+    """A tiny transport fixture; mocked replay is not numerical evidence."""
+    folder=tmp_path/'publication';folder.mkdir();epoch={'test-fixture.py':'a'*64}
+    monkeypatch.setattr(x,'source_map',lambda *args:epoch)
+    inner=dict(package_id='b'*64,candidate_id='c'*64,body_candidate_id='d'*64,evaluation_id='e'*64,conditional_arrivals=4,conditional_motion_screens=3,physical_qualification=None,selection_purpose='next-experiment-only')
+    summary=dict(inner,**x.FLAGS);h.write(folder/'summary.json',summary)
+    archive(folder/'frame-cell.tar.gz',[('manifest.json',h.encoded(inner),tarfile.REGTYPE)])
+    check=dict(verified=True,package_id=inner['package_id'],actual_IFC_reopened=True,semantic_replay_executed=True,numerical_native_recomputed=False,cases=1,journeys=9,physical_qualification=None,**x.FLAGS)
+    calls=[]
+    def actual_interface(output,*,root,replay):
+        calls.append(dict(root=root,replay=replay,manifest=h.read(Path(output)/'manifest.json')))
+        return dict(check)
+    monkeypatch.setattr(x,'verify',actual_interface)
+    pub=dict(schema='osr-frame-cell-publication/1',source_sha256=epoch,validation=deepcopy(check),files={n:dict(sha256=x.sha(folder/n),bytes=(folder/n).stat().st_size) for n in ('frame-cell.tar.gz','summary.json')},**x.FLAGS)
+    pub['publication_id']=h.identity(pub);h.write(folder/'manifest.json',pub)
+    return folder,pub,check,calls
+
+
+def test_verify_publication_returns_verified_report_after_required_replay(publication_contract):
+    folder,pub,check,calls=publication_contract
+    result=x.verify_publication(folder,root=ROOT)
+    assert result==dict(check,publication_id=pub['publication_id'])
+    assert result['verified'] is True and result['semantic_replay_executed'] is True
+    assert result['actual_IFC_reopened'] is True and result['journeys']==9
+    assert len(calls)==1 and calls[0]['replay'] is True and calls[0]['root']==ROOT
+    assert calls[0]['manifest']['package_id']==check['package_id']
+
+
+def test_verify_publication_still_rejects_inconsistent_replay(publication_contract):
+    folder,pub,check,calls=publication_contract
+    pub['validation']['journeys']=8;pub.pop('publication_id');pub['publication_id']=h.identity(pub);h.write(folder/'manifest.json',pub)
+    with pytest.raises(ValueError,match='actual replay differs'):x.verify_publication(folder,root=ROOT)
+    assert len(calls)==1 and calls[0]['replay'] is True
+
+
+def test_verify_publication_still_rejects_resealed_summary_after_replay(publication_contract):
+    folder,pub,check,calls=publication_contract
+    summary=h.read(folder/'summary.json');summary['conditional_arrivals']=9;h.write(folder/'summary.json',summary)
+    pub['files']['summary.json']=dict(sha256=x.sha(folder/'summary.json'),bytes=(folder/'summary.json').stat().st_size)
+    pub.pop('publication_id');pub['publication_id']=h.identity(pub);h.write(folder/'manifest.json',pub)
+    with pytest.raises(ValueError,match='summary differs'):x.verify_publication(folder,root=ROOT)
+    assert len(calls)==1

@@ -235,7 +235,7 @@ def verify_publication(output,*,root=ROOT):
         if check!=pub['validation']:raise ValueError('Publication actual replay differs')
         m=h.read(Path(temp)/'manifest.json');summary={k:m[k] for k in ('package_id','candidate_id','body_candidate_id','evaluation_id','conditional_arrivals','conditional_motion_screens','physical_qualification','selection_purpose')};summary.update(FLAGS)
         if h.encoded(summary)!=h.encoded(h.read(folder/'summary.json')):raise ValueError('Publication summary differs')
-    return dict(verified=True,publication_id=pub['publication_id'],**check)
+    return dict(check,publication_id=pub['publication_id'])
 
 
 def main():
