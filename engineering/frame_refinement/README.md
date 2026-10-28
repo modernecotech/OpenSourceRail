@@ -22,8 +22,14 @@ price coverage and a reopened full-train IFC.
 
 ```sh
 python -m pip install -r engineering/sourced_case/requirements.txt
+export OPENBLAS_CORETYPE=NEHALEM OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+export NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512CD,AVX512_KNL,AVX512_KNM,AVX512_SKX,AVX512_CLX,AVX512_CNL,AVX512_ICL,AVX512_SPR
 tools/automation/osr-python tools/automation/frame-cell.py verify-publication docs/design-engine/frame-refinement/packet
 ```
+
+This x86-64 runtime profile preserves exact diagnostic arithmetic across runners;
+see the dossier's retained CPU-dispatch failure. All source and payload checks
+remain exact, and the frozen model/native packet is unchanged.
 
 Native source/current-input checks and replay use the tracked implementation.
 Archived source files remain evidence; the verifier does not execute them.

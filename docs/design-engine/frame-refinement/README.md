@@ -80,7 +80,20 @@ HIL and independent prototype/pilot approval remain open. The [closure matrix](.
 provides the test-input categories. Public component specifications do not supply
 measurements of this assembled railway.
 
+Exact x86-64 replay uses NumPy 2.3.5, one thread, the non-FMA OpenBLAS NEHALEM
+kernel and disabled AVX-512 dispatch. An unpinned [CI run](https://github.com/modernecotech/OpenSourceRail/actions/runs/40776068695)
+changed four diagnostic clearance values by one floating-point bit and therefore
+changed the evaluation hash. The [actual diagnostic](cpu-dispatch-diagnostic.json)
+and [origin receipt](cpu-dispatch-origin.json) retain that failure. Physical
+registry, geometry, mass, source identities and the remaining payload matched.
+The runtime profile uses the documented [OpenBLAS controls](https://www.openmathlib.org/OpenBLAS/docs/runtime_variables/)
+and [NumPy controls](https://numpy.org/doc/2.3/reference/simd/build-options.html#runtime-dispatch).
+The production verifier continues to require exact bytes; no diagnostic fields or
+engineering criteria are omitted from its comparison.
+
 ```sh
+export OPENBLAS_CORETYPE=NEHALEM OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1
+export NPY_DISABLE_CPU_FEATURES=AVX512F,AVX512CD,AVX512_KNL,AVX512_KNM,AVX512_SKX,AVX512_CLX,AVX512_CNL,AVX512_ICL,AVX512_SPR
 tools/automation/osr-python tools/automation/frame-cell.py verify-publication docs/design-engine/frame-refinement/packet
 ```
 

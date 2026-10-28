@@ -15,6 +15,8 @@ jobs:
     env:
       OPENBLAS_NUM_THREADS: "1"
       OMP_NUM_THREADS: "1"
+      OPENBLAS_CORETYPE: NEHALEM
+      NPY_DISABLE_CPU_FEATURES: AVX512F,AVX512CD,AVX512_KNL,AVX512_KNM,AVX512_SKX,AVX512_CLX,AVX512_CNL,AVX512_ICL,AVX512_SPR
     steps:
       - uses: actions/checkout@v4
       - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
@@ -23,6 +25,10 @@ jobs:
           python-version: "3.13"
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
+      - name: Record the fixed x86-64 numerical replay runtime
+        env:
+          OPENBLAS_VERBOSE: "2"
+        run: .venv/bin/python -c 'import numpy as np; np.show_runtime()'
       - name: Geometry, protected hardware and evidence boundaries
         run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/frame_refinement/tests tools/automation/tests/test_frame_cell.py tools/automation/tests/test_audit_frame_states.py
       - name: Recompute the nine journeys and reopen the actual revised IFC
