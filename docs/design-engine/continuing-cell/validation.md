@@ -4,7 +4,7 @@ These are numerical research records. No authenticated prototype measurements, a
 
 ## Reproduction and integrity
 
-The final new-package regression run passed **200 tests**:
+Final regression coverage: **210 tests passed**, including the existing cost-contract checks and new inactive-export checks:
 
 ```bash
 .venv/bin/python -m pytest -q --import-mode=importlib engineering/railway_progress/tests
@@ -16,20 +16,20 @@ Source development used an isolated Git worktree. Numerical jobs used private pe
 
 | Package | Identity |
 |---|---|
-| Ten-cell run | `96a7f8d193a996c98e25a9f635268f13d8e3b47f2eeb79d79a705fc584943c93` |
-| Cell publication | `4eaa809f5be35ea0695284c28a184332305e62a913f25a55ca87b1a429cd4ef6` |
-| Five native packages | `b2ed9137d213427c755dfddd447cf2c39cfe5c1d37975d9696bb54c849b2642b` |
+| Ten-cell run | `6490e412fd4c678bf2813b71942aee24c019052988f716ab239fe1e6b6212e30` |
+| Cell publication | `8f4d97ba36799922760c8efd5e218f0c5dfc7af455f3652b3ed995dfcdd8de82` |
+| Five native packages | `7306491795f7aa6ca893e3528ccbddf2700370a2cb39b0f36ae431e5ac42dfc3` |
 | Matched motor comparison | `1c0a219e3a012b2fdf7169f160399fa57deeb0a638df9370c2037a32854b55c8` |
 
 The publication carries source snapshots and exact owned payload inventories. Cell verification reconstructs vehicle, launch, civil, manufacturing and trajectory results. Native verification checks recorded tool/source/payload identities and saved-state arithmetic; it does not claim a new independent field solve or physical correlation. Current-tool reuse and recorded-execution integrity remain separate.
 
 ## Conditional journeys and physical redesign
 
-Ten physical cells combine V1–V5 with 1.5/2 km spacing. All **130 main contexts executed**, with **80 conditional numerical arrivals and service-screen results**, zero admitted operating maps and zero qualified journeys. A further thirteen cable-launch contexts are retained for comparison.
+Ten physical cells combine V1–V5 with 1.5/2 km spacing. All **130 main contexts executed**, with **90 conditional numerical arrivals and 80 service-screen results**, zero admitted operating maps and zero qualified journeys. A further thirteen cable-launch contexts are retained for comparison.
 
-The V1/2 km normal upper-mass roller case stops at **2,000.04539 m in 153.38893 s**. Peak conditional traction is **45.230 kN**, peak shaft power **902.553 kW**, and the discrete work–kinetic residual is **2.85e−7 J**. These depend on industrial shaft ratings, explicit unverified clamp/contact/control assumptions, bounded proposed vehicle masses and an unqualified brake law. They are not measured railway performance.
+The V1/2 km normal upper-mass roller case stops at **2,000.02314 m in 152.34026 s**. Peak conditional traction is **45.230 kN**, peak shaft power **902.553 kW**, and the discrete work–kinetic residual is **2.85e−7 J**. These depend on industrial shaft ratings, explicit unverified clamp/contact/control assumptions, bounded proposed vehicle masses and an unqualified brake law. They are not measured railway performance.
 
-Every cell retains adverse results: a 2% uphill coast stalls before the destination, power loss strands the train, low adhesion overruns the target, and the downhill stopping/controller model reaches its time budget. Emergency braking stops short of the destination as expected, without an accepted stopping envelope or protected headway. Failure records are neither dropped nor converted to arrivals. The downhill result remains a controller/model task; it is not an accepted operating policy.
+Every cell retains adverse results: a 2% uphill coast stalls before the destination, power loss strands the train, low adhesion overruns the target, and downhill running exceeds the speed cap even though the corrected terminal controller stops and holds under its unqualified pressure/adhesion hypotheses. Emergency braking stops short of the destination as expected, without an accepted stopping envelope or protected headway. Failure records are neither dropped nor converted to arrivals. Downhill speed regulation and its thermal duty remain controller/model tasks; terminal stopping alone is not an accepted operating policy.
 
 The roller sweep evaluates twelve layouts: the retained baseline plus eleven physical count/location revisions. Ten fail the sampled lower-cap force screen. The five-bank/four-pair baseline and seven-bank/four-pair alternative survive that necessary screen; the smaller experiment frontier retains the baseline. It installs forty catalogue motors, **80.4 tonnes of published motor mass alone**, before other plant. No simplicity, installed-cost or economic victory is demonstrated. All unsupported prices and missing plant masses stay open.
 
@@ -51,18 +51,18 @@ Matched full-trace thrust RMS changes are **12.66% temporally** and **10.32% spa
 
 ## Located-stock structural experiments
 
-V1 and V4 each executed ten load cases on 1.2/0.6 m mesh inputs. Their original producer, inputs, worker outputs and logs remain unchanged. A separate pinned review corrects only the verifier's equal JSON-float/NumPy-scalar representation comparison and recomputes geometry, mass loads and matrix responses at the original tolerances, without another factorization or solve.
+V1 and V4 each executed ten load cases on 1.2/0.6 m mesh inputs. Their original producer, inputs, worker outputs and logs remain unchanged. A separate pinned review corrects only the verifier's equal JSON-float/NumPy-scalar representation comparison and recomputes geometry, mass loads and matrix responses at the original tolerances, without another factorization or solve. The report persists immutable saved residual values only after checking recomputed values at those same tolerances, so BLAS reduction roundoff cannot change the review identity. Full V1 and V4 review JSON was byte-identical at one and two BLAS threads.
 
 | Vehicle | Native run evaluation | Separate saved-state review |
 |---|---|---|
-| V1 | `39361110279c0c2cc0c84c13d9b2541d6672debaaa2d190dadaea0c5807f8936` | `320186b5a38ef2f97b46014a0a592bea3b453c5f9a3140ed6b42b65a28452be5` |
-| V4 | `772d16967cc7edf16a17f3b83817da101cf3be2ca230d487616eba9643cab435` | `5a2acce06d57cbad463337885709942b62fc82abb9c90e339cd10480eeb7c202` |
+| V1 | `39361110279c0c2cc0c84c13d9b2541d6672debaaa2d190dadaea0c5807f8936` | `06016adf69f13a3a52eab472efb7ce9018ebfa526e53181a5fbb5918d999ba5b` |
+| V4 | `772d16967cc7edf16a17f3b83817da101cf3be2ca230d487616eba9643cab435` | `c6ae2b702bbb343ebb61ed486238bbd3f859bf07478aba9466fffe97ad582b2b` |
 
 Free-equilibrium residuals are below 6e−9, but **all ten cases in both vehicles trigger the model's small-displacement warning**, and refinement is unresolved. The frame/grillage, provisional finite joints and generic material hypotheses cannot qualify or reject a real bonded shell. Better shell/joint/laminate models, converged interface responses, actual material allowables and physical correlation are required before selecting a body. Mathematical cantilever/torsion/Navier-plate controls are method evidence only.
 
 ## Platform and acceptance boundary
 
-The real Chromium check loaded all ten candidates and five views, opened the part/occurrence ledger, switched scenarios without stale charts, reported zero page errors and rejected POST with HTTP 405. The engineering API is local and read-only. Manufacturing outputs retain dimensioned net/gross blanks, yield, operation/tooling hypotheses and unknown purchased-module internals. Prices are Class C assumptions; complete installed/whole-life cost remains unknown. No production order, RFQ, equipment activation or live train transaction was submitted.
+The real Chromium check loaded all ten candidates and five views, opened the part/occurrence ledger, switched scenarios without stale charts, reported zero page errors and rejected POST with HTTP 405. The engineering API is local and read-only. Manufacturing outputs retain dimensioned net/gross blanks, yield, operation/tooling hypotheses and unknown purchased-module internals. Prices are Class C assumptions; complete installed/whole-life cost remains unknown. The V1/2 km export includes 169 disabled part Items, three inactive BOMs, 169 Routings and unsent RFQ drafts. Its vehicle and added onboard launch occurrences reconcile exactly. No production order, RFQ, equipment activation or live train transaction was submitted.
 
 The remaining programme includes numerical structural/model refinement, usable segmented moving-drive/contact maps, actual installed details and prices, site design, repeated duty, authenticated physical tests, sensing/HIL, independent safety assessment, manufacturing release, commissioning and an operating pilot. The original phase 8/9 objectives cannot be completed by software generation alone.
 
