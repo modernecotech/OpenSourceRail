@@ -7,12 +7,12 @@ from engineering.sourced_redesign import bolster as b
 from engineering.sourced_case import layered_structure as layer
 from engineering.sourced_case import whole_contact as whole
 ROOT=Path(__file__).resolve().parents[3]
+from engineering.sourced_case.tests.portable_fixtures import published
 
 @pytest.fixture(scope='module')
 def parent():
-    path=Path('/home/hayder/.local/state/opensourcerail/sourced-whole-contact-20261028/V4/input.json')
-    if not path.exists():pytest.skip('Exact immutable V4 numerical input unavailable')
-    return json.loads(path.read_text())['vehicle']
+    return published('equipped-v4')
+
 
 @pytest.fixture(scope='module')
 def revised(parent):return b.revision(parent,root=ROOT)

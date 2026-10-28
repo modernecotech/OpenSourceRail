@@ -1,0 +1,55 @@
+name: v0.6 counted frame revision research
+on:
+  push:
+    branches: [main]
+    paths: ["engineering/frame_refinement/**", "tools/automation/frame-cell.py", "tools/automation/audit-frame-states.py", "tools/automation/tests/test_frame_cell.py", "tools/automation/tests/test_audit_frame_states.py", "docs/design-engine/frame-refinement/**", ".github/workflows/frame-refinement.yml"]
+  pull_request:
+    paths: ["engineering/frame_refinement/**", "tools/automation/frame-cell.py", "tools/automation/audit-frame-states.py", "tools/automation/tests/test_frame_cell.py", "tools/automation/tests/test_audit_frame_states.py", "docs/design-engine/frame-refinement/**", ".github/workflows/frame-refinement.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  physical-revision-and-semantic-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
+      - name: Geometry, protected hardware and evidence boundaries
+        run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/frame_refinement/tests tools/automation/tests/test_frame_cell.py tools/automation/tests/test_audit_frame_states.py
+      - name: Recompute the nine journeys and reopen the actual revised IFC
+        run: .venv/bin/python tools/automation/frame-cell.py verify-publication docs/design-engine/frame-refinement/packet
+      - name: Independently accumulate saved-state actions and energy without a new solve
+        run: |
+          .venv/bin/python - <<'PY'
+          import importlib.util
+          from pathlib import Path
+          import subprocess,sys
+          path=Path('tools/automation/frame-cell.py').resolve()
+          spec=importlib.util.spec_from_file_location('tracked_frame_cell',path)
+          module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+          target=Path('build/frame-audit-input');target.mkdir(parents=True)
+          module.safe_unpack(Path('docs/design-engine/frame-refinement/packet/frame-cell.tar.gz'),target)
+          subprocess.run([sys.executable,'tools/automation/audit-frame-states.py',str(target/'frame-native'),
+              '--parent-native',str(target/'ancestor-native'),'--output','build/frame-saved-audit.json'],check=True)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frame-revision-saved-state-audit
+          path: build/frame-saved-audit.json
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: failed-frame-revision-inputs
+          path: build/frame-audit-input/
+          retention-days: 14

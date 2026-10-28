@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **956**.
+Indexed Markdown files: **958**.
 
 ## Sections
 
@@ -26,8 +26,8 @@ Indexed Markdown files: **956**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 117 |
-| [engineering](#engineering) | 24 |
+| [docs](#docs) | 118 |
+| [engineering](#engineering) | 25 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -961,6 +961,7 @@ Indexed Markdown files: **956**.
 | [`docs/design-engine/ferrite-maglev/stopped-recovery/README.md`](../docs/design-engine/ferrite-maglev/stopped-recovery/README.md) | Stopped progressive-controller recovery |
 | [`docs/design-engine/ferrite-maglev/system-campaign/README.md`](../docs/design-engine/ferrite-maglev/system-campaign/README.md) | Integrated station, interlocking and recovery study |
 | [`docs/design-engine/ferrite-maglev/system-detailed/README.md`](../docs/design-engine/ferrite-maglev/system-detailed/README.md) | Detailed candidate and system simulation |
+| [`docs/design-engine/frame-refinement/README.md`](../docs/design-engine/frame-refinement/README.md) | Source-defined side-sill candidate — executed reference cell |
 | [`docs/design-engine/generative-structure/README.md`](../docs/design-engine/generative-structure/README.md) | Executed generative structural design |
 | [`docs/design-engine/halbach-scaling/README.md`](../docs/design-engine/halbach-scaling/README.md) | Larger Halbach arrays and lighter rolling stock |
 | [`docs/design-engine/lim-static-field/README.md`](../docs/design-engine/lim-static-field/README.md) | Independent linear static LIM field benchmark |
@@ -1022,6 +1023,7 @@ Indexed Markdown files: **956**.
 | [`engineering/ferrite_maglev/README.md`](../engineering/ferrite_maglev/README.md) | Historical reference: OpenSourceRail v0.5 fixed-zone ferrite-maglev engineering |
 | [`engineering/ferrite_maglev/city-index.md`](../engineering/ferrite_maglev/city-index.md) | v0.5 maglev catalogue planning index |
 | [`engineering/ferrite_maglev/observer-prototype/README.md`](../engineering/ferrite_maglev/observer-prototype/README.md) | Delayed-map normal-wrench Rust research prototype |
+| [`engineering/frame_refinement/README.md`](../engineering/frame_refinement/README.md) | Counted side-sill revision and coupled reference cell |
 | [`engineering/magnetic_confirmation/README.md`](../engineering/magnetic_confirmation/README.md) | Finite 3D magnetic confirmation |
 | [`engineering/sourced_case/README.md`](../engineering/sourced_case/README.md) | Source-backed engineering revisions |
 | [`engineering/sourced_redesign/README.md`](../engineering/sourced_redesign/README.md) | Physical revisions diagnosed from actual evaluations |

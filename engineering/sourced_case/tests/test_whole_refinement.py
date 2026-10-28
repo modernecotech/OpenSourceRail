@@ -6,11 +6,11 @@ from engineering.sourced_case import layered_structure as p
 from engineering.sourced_case import whole_refinement as w
 from engineering.component_registry import validate_registry
 ROOT=Path(__file__).resolve().parents[3]
-CACHE=Path('/home/hayder/.local/state/opensourcerail/reference-cell-native-20261028/vehicles')
+from engineering.sourced_case.tests.portable_fixtures import baseline
 
 @pytest.fixture(scope='module')
 def base():
-    value=json.loads(gzip.decompress((CACHE/'V1.json.gz').read_bytes()))
+    value=baseline('V1')
     return p.revision(value,root=ROOT)
 
 @pytest.fixture(scope='module')

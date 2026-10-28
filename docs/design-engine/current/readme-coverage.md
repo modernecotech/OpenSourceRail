@@ -4,15 +4,15 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 
 [Project introduction](../../../README.md) · [System approach](../../../engineering/README.md) · [Current design and engineering gates](README.md)
 
-All **921 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
+All **923 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
 
-Existing local navigation reaches current context from **849 documents**. This page supplies an explicit current-context route for the remaining **72 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
+Existing local navigation reaches current context from **851 documents**. This page supplies an explicit current-context route for the remaining **72 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
 Historical numerical city, design and research packets retain their exact README payloads and original scope. Historical source bindings resolve at the pinned Git revision. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.
 
 | README class | Documents |
 |---|---:|
-| candidate-design-method | 4 |
+| candidate-design-method | 5 |
 | city-map-method | 1 |
 | concept-illustration-brief | 1 |
 | current-development-adapters | 2 |
@@ -26,7 +26,7 @@ Historical numerical city, design and research packets retain their exact README
 | manual-current-entrypoint | 10 |
 | project-frontdoor | 1 |
 | retained-assurance-evidence | 8 |
-| retained-design-evidence | 84 |
+| retained-design-evidence | 85 |
 | trip-dynamics-method | 2 |
 
 Regenerate and check with:
@@ -909,6 +909,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [docs/design-engine/ferrite-maglev/stopped-recovery/README.md](../ferrite-maglev/stopped-recovery/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/ferrite-maglev/system-campaign/README.md](../ferrite-maglev/system-campaign/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/ferrite-maglev/system-detailed/README.md](../ferrite-maglev/system-detailed/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [docs/design-engine/frame-refinement/README.md](../frame-refinement/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [docs/design-engine/generative-structure/README.md](../generative-structure/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/halbach-scaling/README.md](../halbach-scaling/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [docs/design-engine/lim-static-field/README.md](../lim-static-field/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
@@ -953,6 +954,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [engineering/electropermanent/README.md](../../../engineering/electropermanent/README.md) | magnetic-research-method | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [engineering/ferrite_maglev/README.md](../../../engineering/ferrite_maglev/README.md) | historical-method-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/ferrite_maglev/observer-prototype/README.md](../../../engineering/ferrite_maglev/observer-prototype/README.md) | historical-method-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
+| [engineering/frame_refinement/README.md](../../../engineering/frame_refinement/README.md) | candidate-design-method | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/magnetic_confirmation/README.md](../../../engineering/magnetic_confirmation/README.md) | magnetic-research-method | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/sourced_case/README.md](../../../engineering/sourced_case/README.md) | candidate-design-method | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/sourced_redesign/README.md](../../../engineering/sourced_redesign/README.md) | candidate-design-method | [System approach](../../../engineering/README.md) | [project](../../../README.md) |

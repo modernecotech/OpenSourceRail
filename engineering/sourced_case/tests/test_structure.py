@@ -11,15 +11,11 @@ from engineering.sourced_case import structure as s
 from engineering.component_registry import validate_registry
 
 ROOT=Path(__file__).resolve().parents[3]
-CACHE=Path('/home/hayder/.local/state/opensourcerail/reference-cell-native-20261028/vehicles')
+from engineering.sourced_case.tests.portable_fixtures import baseline
 
 @pytest.fixture(scope='module')
 def vehicle():
-    if (CACHE/'V1.json.gz').exists():
-        value=json.loads(gzip.decompress((CACHE/'V1.json.gz').read_bytes()))
-    else:
-        from engineering.reference_cell.vehicles import evaluate
-        value=evaluate('V1',root=ROOT)
+    value=baseline('V1')
     s._vehicle(value)
     return value
 

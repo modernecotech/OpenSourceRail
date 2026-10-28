@@ -16,6 +16,8 @@ The [continuing numerical reference-cell work](docs/design-engine/continuing-cel
 
 The [published-specification design campaign](docs/design-engine/sourced-case/README.md), through `./osr design sourced`, applies actual motor, gear, bus HVAC, battery, converter and material data to revised equipped vehicles. It propagates the resulting mass, electrical limits, journeys, civil loads and production quantities, retaining failed structural models and explicit test requests. Public catalogue data supports research comparisons; it does not replace installed-component measurements, complete quotations or railway qualification.
 
+A [separate side-sill revision](docs/design-engine/frame-refinement/README.md) now remains inside the declared linear model domain in all 18 load/mesh cases and propagates through fresh 2 km journeys, civil/manufacturing records and reopened IFC geometry. Strength, joints, physical propulsion/braking, hot-site charging and operating qualification remain open; it is a research candidate rather than a selected railway.
+
 ## Why OpenSourceRail
 
 - **Build useful capability locally.** Develop concrete precasting, structural fabrication, GFRP panels, interiors, winding, wiring, assembly, inspection and maintenance alongside the railway. Qualify local suppliers rather than assuming every component can already be made locally.

@@ -6,10 +6,10 @@ from engineering.sourced_redesign import family_interfaces as f
 from engineering.sourced_case import layered_structure as layer
 from engineering.sourced_case import whole_refinement as whole
 ROOT=Path(__file__).resolve().parents[3]
-CACHE=Path('/home/hayder/.local/state/opensourcerail/reference-cell-native-20261028/vehicles')
+from engineering.sourced_case.tests.portable_fixtures import baseline
 
 
-def load(name):return json.loads(gzip.decompress((CACHE/(name+'.json.gz')).read_bytes()))
+def load(name):return baseline(name)
 
 
 def test_actual_interference_and_low_cap_are_not_discarded():
