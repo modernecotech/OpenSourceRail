@@ -1,112 +1,90 @@
-"""Actual disabled production drafts, count explosion and immutable revisions."""
+"""Manufacturing hypotheses retain purchased, tooling and price uncertainty."""
 from copy import deepcopy
-from collections import Counter
+from math import pi,fsum
 import pytest
-from engineering.railway_progress import production as p,alternatives as a,identity
-from engineering.railway_progress.tests.test_alternatives import vehicle as base_vehicle
+from engineering.reference_cell import vehicles,bundle
+from engineering.railway_progress import alternatives,coordinator,production as p,identity,FLAGS
 
 
 @pytest.fixture(scope='module')
-def inputs(base_vehicle):
-    alt=a.evaluate(base_vehicle);cid=identity({'body':base_vehicle['candidate_id'],'alternative':alt['candidate_id']})
-    civil=dict(candidate_id=cid,body_candidate_id=base_vehicle['candidate_id'],alternative_candidate_id=alt['candidate_id'],construction_sequence=[])
-    civil['evaluation_id']=identity(civil)
-    return base_vehicle,civil,alt,cid
+def inputs():
+    v=vehicles.evaluate('V1');base=bundle.materialize(v,2000.)
+    a=alternatives.evaluate(v,base);b,c=coordinator.compose(v,2000.,a)
+    return v,b,c,a
 
 
-def test_disabled_records_reconcile_vehicle_and_added_launch_hardware(inputs):
-    v,c,a,cid=inputs;result=p.compile(v,c,a,cid);d=result['ERPNext_drafts']
-    assert not d['submission_allowed'] and not d['active_BOMs'] and d['items_disabled'] and d['docstatus']==0
-    assert d['quantity_reconciliation']['all_counts_reconciled']
-    assert d['quantity_reconciliation']['vehicle_occurrences']==24
-    assert d['quantity_reconciliation']['added_onboard_launch_occurrences']>0
-    assert d['quantity_reconciliation']['wayside_launch_occurrences']>0
-    assert d['quantity_reconciliation']['exploded_onboard_occurrences']==24+d['quantity_reconciliation']['added_onboard_launch_occurrences']
-    assert d['quantity_reconciliation']['identical_six_car_BOM']
-    assert len(d['item_drafts'])==len(d['rfq_drafts'])==len(d['routing_drafts'])
-    assert len({r['item_code'] for r in d['item_drafts']})==len(d['item_drafts'])
-    assert {r['item_name'] for r in d['assembly_item_drafts']}=={'CAR','TRAIN','WAYSIDE-PLANT'}
-    assert not d['production_orders'] and not d['active_assets'] and not d['external_transactions_performed']
+@pytest.fixture(scope='module')
+def result(inputs):
+    v,b,c,a=inputs;return p.compile(v,c,a,b['candidate_id'])
+
+
+@pytest.mark.parametrize('g',[
+    dict(kind='box',dimensions_m=[2.,.1,.005],net_volume_m3=.001),
+    dict(kind='tube',dimensions_m=dict(length=2.,outer_radius=.2,inner_radius=.18),net_volume_m3=pi*(.2**2-.18**2)*2),
+    dict(kind='cylinder',dimensions_m=dict(length=.04,radius=.02),net_volume_m3=pi*.02**2*.04)])
+def test_dimensional_blanks_are_at_least_exact_net_geometry(g):
+    r=p.blank(g)
+    assert r['blank_volume_m3']>=g['net_volume_m3']
+    assert r['removed_volume_m3']==pytest.approx(r['blank_volume_m3']-g['net_volume_m3'])
+    assert r['yield_fraction']==pytest.approx(g['net_volume_m3']/r['blank_volume_m3'])
+    assert 0<r['yield_fraction']<=1
+    assert r['approved_work_instruction'] is None
+
+
+def test_purchased_envelope_never_fills_raw_material_or_zeroes_unknown_cycle(result):
+    rows=[x for x in result['routings'] if x['blank']['net_volume_m3'] is None]
+    assert rows and result['purchased_occurrences']==sum(x['quantity'] for x in rows)
+    for x in rows:
+        assert x['blank']['blank_volume_m3'] is None and x['blank']['yield_fraction'] is None
+        assert x['labour_h_per_unit'] is None and x['qualified_manufacturing_cycle_h'] is None
+        assert x['material_scope_cost_usd'] is None and x['tooling'] is None
     assert result['complete_installed_cost_usd'] is None and result['whole_life_cost_usd'] is None
 
 
-def test_every_export_is_candidate_revision_linked_inactive_and_no_vendor_price_is_invented(inputs):
-    result=p.compile(*inputs[:3],inputs[3]);d=result['ERPNext_drafts'];cid=inputs[3]
-    for name in ('item_drafts','assembly_item_drafts','operation_drafts','routing_drafts','workstation_drafts','rfq_drafts'):
-        for r in d[name]:
-            assert r['candidate_id']==cid and r['disabled']==1 and r['docstatus']==0
-            assert not r['submission_allowed'] and r['import_validation_required']
-            assert r['draft_id']==identity({k:v for k,v in r.items() if k!='draft_id'})
-    for r in d['BOM_drafts']:
-        assert r['candidate_id']==cid and r['docstatus']==0 and r['is_active']==r['is_default']==0
-        assert not r['submission_allowed'] and not r['approved']
-    for r in d['rfq_drafts']:
-        assert not r['suppliers'] and not r['send_supplier_emails'] and r['company'] is None
-        assert r['items'][0]['rate'] is None and r['items'][0]['amount'] is None
-    for r in d['item_drafts']:assert r['valuation_rate'] is None and r['standard_rate'] is None
+def test_full_stock_mass_and_c_hypotheses_do_not_become_quoted_cost_or_release(inputs,result):
+    v,b,c,a=inputs
+    parts={x['physical_definition_id']:x for x in v['registry']['parts']}
+    counted=fsum(parts[o['part_definition_id']]['mass']['calculated_kg'] for o in v['registry']['occurrences'] if parts[o['part_definition_id']]['geometry']['kind']!='envelope')
+    assert result['net_counted_vehicle_stock_kg']==pytest.approx(counted,abs=1e-6)
+    assert result['dimensioned_vehicle_blank_kg']>=result['net_counted_vehicle_stock_kg']>0
+    assert result['removed_or_offcut_vehicle_stock_kg']==pytest.approx(result['dimensioned_vehicle_blank_kg']-result['net_counted_vehicle_stock_kg'])
+    assert result['process_assumptions']['source_class']=='C'
+    assert result['process_assumptions']['source_id']==identity({k:v for k,v in result['process_assumptions'].items() if k!='source_id'})
+    assert result['tooling_cost_usd'] is None
+    tools=[r['tooling'] for r in result['routings'] if r['tooling']]
+    assert tools and all(t['tool_price_usd'] is None and not t['qualified'] for t in tools)
+    assert all(r['production_release'] is False for r in result['routings'])
+    draft=result['ERPNext_drafts']
+    assert draft['submission_allowed'] is False and draft['docstatus']==0
+    assert draft['items_disabled'] is True and draft['active_BOMs'] is False
+    assert all(result[k] is False for k in FLAGS)
+    assert result['evaluation_id']==identity({k:v for k,v in result.items() if k!='evaluation_id'})
 
 
-def test_multilevel_car_bom_explodes_exact_part_multiplicity_and_operations_resolve(inputs):
-    d=p.compile(*inputs[:3],inputs[3])['ERPNext_drafts'];boms={b['source_assembly_scope']:b for b in d['BOM_drafts']}
-    car=boms['one-proposed-car-with-counted-launch-interface'];train=boms['six-repeated-cars']
-    assert len(train['items'])==1 and train['items'][0]['qty']==6 and train['items'][0]['bom_no']==car['name']
-    items={i['item_code']:i for i in d['item_drafts']};ops={o['name'] for o in d['operation_drafts']}
-    source=Counter(o['part_definition_id'] for o in inputs[0]['registry']['occurrences'])
-    for line in car['items']:
-        item=items[line['item_code']]
-        if item['source_scope']=='vehicle':assert line['qty']*6==source[item['part_definition_id']]
-    assert all(step['operation'] in ops for r in d['routing_drafts'] for step in r['operations'])
-    assert all(step['time_in_mins'] is None and step['approved_work_instruction'] is None for r in d['routing_drafts'] for step in r['operations'])
+def test_assumption_revision_changes_evaluation_without_reinventing_physical_candidate(inputs,result):
+    v,b,c,a=inputs;q=p.assumptions();q['material_usd_per_kg']=[3.,40.];q['source_id']=identity({k:v for k,v in q.items() if k!='source_id'})
+    r=p.compile(v,c,a,b['candidate_id'],process=q)
+    assert r['candidate_id']==result['candidate_id'] and r['evaluation_id']!=result['evaluation_id']
+    assert r['known_vehicle_stock_process_cost_usd']!=result['known_vehicle_stock_process_cost_usd']
 
 
-def test_nonrepeated_car_layout_is_not_falsely_divided_into_six_identical_boms(inputs):
-    v,c,a,cid=inputs;v=deepcopy(v);reg=v['registry'];reg['occurrences'][0]['occurrence_id']='special-package/body'
-    from engineering.component_registry.registry import _physical
-    reg['candidate_id']=identity(_physical(reg))
-    for o in reg['occurrences']:o['candidate_id']=reg['candidate_id']
-    reg['registry_id']=identity({k:x for k,x in reg.items() if k!='registry_id'})
-    v['candidate_id']=reg['candidate_id'];v['evaluation_id']=identity({k:x for k,x in v.items() if k!='evaluation_id'})
-    alt=a_module().evaluate(v);cid=identity({'body':v['candidate_id'],'alternative':alt['candidate_id']})
-    civil=dict(c,candidate_id=cid,body_candidate_id=v['candidate_id'],alternative_candidate_id=alt['candidate_id']);civil['evaluation_id']=identity({k:x for k,x in civil.items() if k!='evaluation_id'})
-    d=p.compile(v,civil,alt,cid)['ERPNext_drafts']
-    assert not d['quantity_reconciliation']['identical_six_car_BOM']
-    assert {b['source_assembly_scope'] for b in d['BOM_drafts']}=={'actual-nonrepeated-owned-occurrences','counted-launch-plant-only-civil-separate'}
+@pytest.mark.parametrize('field,value',[('source_class','A'),('material_usd_per_kg',[-2.,30.]),('labour_usd_per_h',[40.,8.]),('cutting_m_per_h',[0.,30.]),('shift_hours',0),('workstations',-1),('composite_cure_h',[48.,12.])])
+def test_resealed_invalid_rates_cannot_create_fake_evidence_or_negative_cost(inputs,field,value):
+    v,b,c,a=inputs;q=p.assumptions();q[field]=value;q['source_id']=identity({k:v for k,v in q.items() if k!='source_id'})
+    with pytest.raises(ValueError):p.compile(v,c,a,b['candidate_id'],process=q)
 
 
-def a_module():
-    from engineering.railway_progress import alternatives
-    return alternatives
+@pytest.mark.parametrize('change',['vehicle','civil','alternative'])
+def test_mixed_component_or_cell_identity_is_refused(inputs,change):
+    v,b,c,a=deepcopy(inputs)
+    if change=='vehicle':v['registry']['occurrences'][0]['part_definition_id']='f'*64
+    elif change=='civil':c['candidate_id']='f'*64
+    else:a['body_candidate_id']='f'*64;a['evaluation_id']=identity({k:v for k,v in a.items() if k!='evaluation_id'})
+    with pytest.raises(ValueError):p.compile(v,c,a,b['candidate_id'])
 
 
-def test_physical_quantity_duplicates_and_mixed_candidate_rejected(inputs):
-    v,c,a,cid=inputs
-    with pytest.raises(ValueError):p.compile(v,c,a,'f'*64)
-    bad=deepcopy(a);bad['inventory'].append(deepcopy(bad['inventory'][0]));bad['evaluation_id']=identity({k:x for k,x in bad.items() if k!='evaluation_id'})
-    newc=dict(c,alternative_candidate_id=bad['candidate_id']);newc['evaluation_id']=identity({k:x for k,x in newc.items() if k!='evaluation_id'})
-    with pytest.raises(ValueError,match='Unique|routing|Duplicate'):p.compile(v,newc,bad,cid)
-    with pytest.raises(ValueError):p.compile(v,c,a,'g'*64)
-
-
-def test_changed_launch_hardware_produces_new_disabled_records_not_active_order_mutation(inputs):
-    v,c,old,cid=inputs;new=a.revise(v,old,{'roller_pairs_per_bank':5,'motor_count':10})
-    newcid=identity({'body':v['candidate_id'],'alternative':new['candidate_id']});newc=dict(c,candidate_id=newcid,alternative_candidate_id=new['candidate_id'])
-    newc['evaluation_id']=identity({k:x for k,x in newc.items() if k!='evaluation_id'})
-    one=p.compile(v,c,old,cid)['ERPNext_drafts'];two=p.compile(v,newc,new,newcid)['ERPNext_drafts']
-    assert one['export_id']!=two['export_id']
-    assert {x['item_code'] for x in one['item_drafts']}.isdisjoint({x['item_code'] for x in two['item_drafts']})
-    assert not one['production_orders'] and not two['production_orders'] and not two['active_BOMs']
-
-
-def test_actual_V1_part_master_exports_real_multilevel_drafts_and_occurrence_counts():
-    from engineering.reference_cell import vehicles
-    v=vehicles.evaluate('V1');alt=a.evaluate(v);cid=identity({'body':v['candidate_id'],'alternative':alt['candidate_id']})
-    civil=dict(candidate_id=cid,body_candidate_id=v['candidate_id'],alternative_candidate_id=alt['candidate_id'],construction_sequence=[])
-    civil['evaluation_id']=identity(civil)
-    r=p.compile(v,civil,alt,cid);d=r['ERPNext_drafts']
-    actual_defs=len(v['registry']['parts']);assert actual_defs>100
-    assert len([item for item in d['item_drafts'] if item['source_scope']=='vehicle'])==actual_defs
-    assert d['quantity_reconciliation']['vehicle_occurrences']==len(v['registry']['occurrences'])
-    assert len([bom for bom in d['BOM_drafts'] if bom['source_assembly_scope']=='six-repeated-cars'])==1
-    assert d['quantity_reconciliation']['identical_six_car_BOM'] and d['quantity_reconciliation']['all_counts_reconciled']
-    assert r['purchased_occurrences']>0 and r['unpriced_part_ids']
-    assert r['complete_installed_cost_usd'] is None and not d['submission_allowed']
+def test_material_substitution_requires_new_part_and_registry_revisions(inputs):
+    v,b,c,a=deepcopy(inputs)
+    v['registry']['parts'][0]['material_id']='unqualified-material-substitution'
+    v['evaluation_id']=identity({k:v for k,v in v.items() if k!='evaluation_id'})
+    with pytest.raises(ValueError):p.compile(v,c,a,b['candidate_id'])
