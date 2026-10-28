@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:osr:component-registry:1",
+  "title": "OpenSourceRail research component registry",
+  "type": "object",
+  "required": ["schema", "label", "candidate_id", "registry_id", "parts", "occurrences", "assemblies", "materials", "required_functions", "coordinate_frame", "complete_installed_design", "unknown_is_zero"],
+  "properties": {
+    "schema": {"const": "osr-component-registry/1"},
+    "candidate_id": {"$ref": "#/$defs/hash"},
+    "registry_id": {"$ref": "#/$defs/hash"},
+    "label": {"type": "string", "minLength": 1},
+    "complete_installed_design": {"const": false},
+    "unknown_is_zero": {"const": false},
+    "parts": {"type": "array", "minItems": 1, "maxItems": 10000, "items": {"$ref": "#/$defs/part"}},
+    "occurrences": {"type": "array", "minItems": 1, "maxItems": 200000, "items": {"$ref": "#/$defs/occurrence"}},
+    "assemblies": {"type": "array", "maxItems": 10000, "items": {"type": "object", "required": ["id", "parent_id"]}},
+    "materials": {"type": "array", "items": {"type": "object", "required": ["material_id", "material_evaluation_id", "grade_id", "revision", "manufactured_form", "density_kg_m3", "properties", "source_records", "qualified_design_allowables"]}},
+    "required_functions": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "coordinate_frame": {"type": "object", "properties": {"name": {"const": "registry"}, "length_unit": {"const": "m"}, "mass_unit": {"const": "kg"}, "inertia_unit": {"const": "kg*m2"}}},
+    "physical_accepted": {"const": false},
+    "engineering_accepted": {"const": false},
+    "configuration_adopted": {"const": false},
+    "manufacturing_release": {"const": false},
+    "operating_release": {"const": false},
+    "physical_journey_completed": {"const": false}
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nullableNumber": {"type": ["number", "null"], "minimum": 0},
+    "part": {
+      "type": "object",
+      "required": ["part_id", "revision", "functions", "geometry", "material_id", "material_evaluation_id", "mass", "manufacturing", "assembly", "electrical_thermal", "cost", "procurement", "evidence", "lifecycle", "physical_definition_id", "revision_id"],
+      "properties": {
+        "part_id": {"type": "string", "minLength": 1},
+        "revision": {"type": "string", "minLength": 1},
+        "physical_definition_id": {"$ref": "#/$defs/hash"},
+        "revision_id": {"$ref": "#/$defs/hash"},
+        "functions": {"type": "array", "minItems": 1, "uniqueItems": true},
+        "geometry": {"type": "object", "required": ["kind", "dimensions_m", "net_volume_m3"], "properties": {"kind": {"enum": ["box", "cylinder", "tube", "rhs", "envelope"]}, "net_volume_m3": {"$ref": "#/$defs/nullableNumber"}}},
+        "mass": {"type": "object", "required": ["calculated_kg", "lower_bound_kg", "upper_bound_kg", "evidence_state"], "properties": {"calculated_kg": {"$ref": "#/$defs/nullableNumber"}, "lower_bound_kg": {"$ref": "#/$defs/nullableNumber"}, "upper_bound_kg": {"$ref": "#/$defs/nullableNumber"}, "evidence_state": {"enum": ["calculated", "bounded-estimate", "unresolved", "supplier-typical"]}}},
+        "manufacturing": {"type": "object", "required": ["method"]}
+      }
+    },
+    "occurrence": {
+      "type": "object",
+      "required": ["occurrence_id", "part_definition_id", "part_revision_id", "parent_id", "transform", "scope", "pose_frame", "candidate_id"],
+      "properties": {
+        "occurrence_id": {"type": "string", "minLength": 1},
+        "part_definition_id": {"$ref": "#/$defs/hash"},
+        "part_revision_id": {"$ref": "#/$defs/hash"},
+        "candidate_id": {"$ref": "#/$defs/hash"},
+        "pose_frame": {"const": "registry"},
+        "transform": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}}},
+        "quantity": {"const": 1}
+      }
+    }
+  },
+  "$comment": "The runtime validator additionally recomputes hashes, geometry/mass, proper rigid rotations, graph integrity, source identities, uncertainty intervals and candidate bindings. JSON schema alone does not establish engineering acceptance."
+}

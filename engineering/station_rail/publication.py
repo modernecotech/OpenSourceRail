@@ -98,6 +98,9 @@ def sources(root,record,index,delivery):
         'campaigns/station-accelerator-development.toml','engineering/design_search/station_accelerators.py',
         'campaigns/end-to-end-digital-twin.toml','osr-twin',
         'campaigns/engineering-completion.toml','osr-complete','.github/workflows/engineering-closure.yml',
+        'campaigns/sourced-reference-cell.toml','osr-cell','.github/workflows/reference-cell.yml',
+        'tools/automation/reference-cell-geometry.py',
+        'services/integration/osr_integration/reference_cell.py',
         'engineering/design_search/propulsion_storage.py','engineering/design_search/sparse_launch.py',
         'engineering/design_search/data/skeleton-102v94f-catalogue.json','engineering/design_search/data/tsa-type-x-drive-lead.json',
         'engineering/design_search/demonstration.py','engineering/design_search/route_bundle.py',
@@ -114,7 +117,9 @@ def sources(root,record,index,delivery):
     if followup.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(followup.iterdir()) if p.is_file()]
     names += [p.relative_to(root).as_posix() for p in (root/'engineering/railway_twin').glob('*.py')]
     names += [p.relative_to(root).as_posix() for p in (root/'engineering/railway_completion').glob('*.py')]
-    for folder in ('v06-optimisation','v06-design-space','v06-architecture','v06-adaptive-design','generative-structure','coupled-railway','railway-closure','moving-lim-method','practical-launch','propulsion-layout','station-accelerators','digital-twin','engineering-closure'):
+    for current_package in ('engineering/component_registry','engineering/reference_cell'):
+        names += [p.relative_to(root).as_posix() for p in (root/current_package).rglob('*') if p.is_file() and p.suffix in ('.py','.json','.html','.js','.css') and 'tests' not in p.parts and '__pycache__' not in p.parts]
+    for folder in ('v06-optimisation','v06-design-space','v06-architecture','v06-adaptive-design','generative-structure','coupled-railway','railway-closure','moving-lim-method','practical-launch','propulsion-layout','station-accelerators','digital-twin','engineering-closure','reference-cell'):
         campaign_folder=root/'docs/design-engine'/folder
         if campaign_folder.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(campaign_folder.rglob('*')) if p.is_file()]
         if folder=='coupled-railway' and (campaign_folder/'manifest.json').is_file():maps.append(json.loads((campaign_folder/'manifest.json').read_bytes()).get('source_sha256',{}))

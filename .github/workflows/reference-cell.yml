@@ -1,0 +1,42 @@
+name: v0.6 sourced reference-cell engineering
+on:
+  push:
+    branches: [main]
+    paths: ["engineering/design_search/**", "engineering/railway_twin/**", "engineering/station_rail/**", "engineering/development_baseline/**", "engineering/development-baseline.toml", "engineering/requirements.txt", "engineering/component_registry/**", "engineering/reference_cell/**", "services/integration/osr_integration/reference_cell.py", "campaigns/sourced-reference-cell.toml", "docs/design-engine/reference-cell/**", "osr-cell", "tools/automation/reference-cell-geometry.py", ".github/workflows/reference-cell.yml"]
+  pull_request:
+    paths: ["engineering/design_search/**", "engineering/railway_twin/**", "engineering/station_rail/**", "engineering/development_baseline/**", "engineering/development-baseline.toml", "engineering/requirements.txt", "engineering/component_registry/**", "engineering/reference_cell/**", "services/integration/osr_integration/reference_cell.py", "campaigns/sourced-reference-cell.toml", "docs/design-engine/reference-cell/**", "osr-cell", "tools/automation/reference-cell-geometry.py", ".github/workflows/reference-cell.yml"]
+  workflow_dispatch:
+  schedule:
+    - cron: "15 6 * * 0"
+permissions:
+  contents: read
+jobs:
+  definitions-and-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install pytest --requirement engineering/requirements.txt
+      - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/component_registry/tests engineering/reference_cell/tests
+      - name: Recompute equipped candidates, civil, manufacturing, costs and explicit holds
+        run: ./osr-cell verify-publication
+      - name: Verify completed motor refinement under recorded execution identities
+        run: .venv/bin/python -c "from engineering.reference_cell.native_evidence import verify_publication; print(verify_publication('docs/design-engine/reference-cell'))"
+      - name: Reopen all five actual IFC assemblies
+        run: .venv/bin/python tools/automation/reference-cell-geometry.py verify --output docs/design-engine/reference-cell
+      - name: Preserve a fresh bounded generation request
+        run: ./osr-cell run --state build/reference-cell-ci --max-cases 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sourced-reference-cell-methods-and-open-evidence
+          path: build/reference-cell-ci/
+          retention-days: 14
