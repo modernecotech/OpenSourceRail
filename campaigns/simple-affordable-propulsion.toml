@@ -1,0 +1,53 @@
+schema = "osr-propulsion-layout-study/1"
+purpose = "next-experiment"
+reference_changes_allowed = false
+native_dispatch = false
+maximum_cases = 400
+maximum_runtime_s = 120
+maximum_mass_iterations = 12
+
+[wheel]
+seed_powered_bogies = 2
+powered_bogies = [2, 4, 6, 8, 10, 12]
+speed_m_s = [16.0, 20.0]
+acceleration_m_s2 = [0.15, 0.25, 0.4]
+grade_fraction = [0.0, 0.02]
+adhesion_hypotheses = [0.10, 0.15]
+traction_policies = ["launch-coast", "sustain-to-brake"]
+drive_efficiency_hypothesis = 0.85
+unweighed_installation_per_powered_bogie_kg_hypothesis = 200.0
+unweighed_common_installation_kg_hypothesis = 800.0
+extra_powered_rotor_equivalent_kg_per_axle_hypothesis = 150.0
+
+[service]
+station_spacing_m = 2000.0
+directional_ring_length_m = 6000.0
+headway_target_s = 120.0
+dwell_s = 35.0
+independent_service_deceleration_m_s2 = 0.6
+auxiliary_charger_efficiency_hypothesis = 0.95
+
+[storage]
+series_modules = 7
+banks = 2
+module_high_voltage_V = 98.0
+module_low_voltage_V = 49.0
+capacitance_fraction_hypothesis = 0.8
+ESR_multiplier = 2.0
+intake_C = 50.0
+min_terminal_bus_V = 300.0
+max_parallel = 64
+charger_efficiency = 0.95
+inverter_DC_bus_voltage_hypothesis_V = 800.0
+separate_boost_converter_required = true
+
+[sparse]
+seed_sites = 3
+site_counts = [3, 4, 5, 6]
+bank_lengths_m = [10.0, 12.5, 20.0]
+spacing_beyond_front_m = 100.0
+required_launch_travel_m = 500.0
+independent_receiving_and_braking_design_complete = false
+
+# Every numeric allowance above is a declared study hypothesis or source input,
+# not a qualified limit, complete design, measured duty or supplier quotation.

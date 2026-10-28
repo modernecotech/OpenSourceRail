@@ -57,6 +57,8 @@ Loss of station propulsion leaves the vehicle supported on its wheels. Independe
 
 A separate [practical launch comparison](docs/design-engine/practical-launch/README.md) examines station-charged wheel traction, conductor-fed wheel drive, friction rollers, cable haulage and gravity. It distinguishes powered travel, peak power, energy storage and service constraints; the selected wheel/LIM reference remains unchanged.
 
+The follow-up [powered-bogie and sparse-accelerator study](docs/design-engine/propulsion-layout/README.md) retains the two-bogie and three-site proposals, compares more driven axles and longer launch coverage, and feeds catalogue capacitor/drive mass back into whole-trip demand. Hot-duty storage, finite-fin overlap and service consequences are explicit; installed cost and physical qualification remain open.
+
 ### v0.6 illustrated: a different approach to building a railway
 
 | Passenger-focused lightweight car | Locally assembled, modular construction concept |

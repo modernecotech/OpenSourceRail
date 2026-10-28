@@ -18,6 +18,11 @@ uses `python -m engineering.design_search.launch_options plan/compare/publish/ve
 for cheap force, travel, contact, storage and service bounds. It does not change
 the retained P1–P7 campaign or materialize a revised vehicle from unknown hardware.
 
+[Powered bogies and sparse accelerators](../../docs/design-engine/propulsion-layout/README.md)
+continue those comparisons with `python -m engineering.design_search.propulsion_layout`.
+Counted supplier-lead mass, conservative voltage/current/thermal bounds, exact
+finite-fin handoff and full-route duty remain distinct from hardware admission.
+
 ## Coordinated candidate design
 
 OpenSourceRail aims for simple fixed lines, affordable construction and repair,
