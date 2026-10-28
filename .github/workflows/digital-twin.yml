@@ -39,7 +39,24 @@ jobs:
       - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          # Retained byte-exact packets use Python 3.13 gzip headers. Python
+          # 3.12 emits a different OS byte with mtime=0; keep exact checks.
+          # https://docs.python.org/3.13/library/gzip.html#gzip.compress
+          python-version: "3.13"
+      - name: Confirm the runner can reproduce retained compressed representation
+        run: |
+          python - <<'PYCODE'
+          import gzip, json, pathlib, sys, tarfile, zlib
+          print(sys.version, 'zlib', zlib.ZLIB_RUNTIME_VERSION)
+          root = pathlib.Path('docs/design-engine/digital-twin')
+          manifest = json.loads((root/'manifest.json').read_bytes())
+          for case in manifest['cases']:
+              with tarfile.open(root/case['archive'], 'r:gz') as archive:
+                  raw = archive.extractfile('candidate.json.gz').read()
+              if gzip.compress(gzip.decompress(raw), mtime=0) != raw:
+                  raise SystemExit('Runner gzip representation differs: '+case['archive'])
+          print('Retained representation matches; full source, semantic and native checks follow.')
+          PYCODE
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/requirements.txt
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/railway_twin/tests
