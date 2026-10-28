@@ -61,6 +61,8 @@ A separate [practical launch comparison](docs/design-engine/practical-launch/REA
 
 The earlier [powered-bogie and supercapacitor study](docs/design-engine/propulsion-layout/README.md) remains a secondary research comparison. It does not add powered bogies or a traction capacitor bank to the active vehicle proposal.
 
+The [end-to-end digital twin generator and validator](docs/design-engine/digital-twin/README.md), available through `./osr-twin`, carries the short-bank configuration through a federated train/infrastructure inventory, actual stock geometry, BOM, mass, propulsion requirements, journey/braking calculations, civil quantities, manufacturing, construction, controls and cost coverage. Semantic replay and actual native geometry reopening distinguish a consistent research package from a complete physical design; strict completion fails until its engineering and evidence obligations are closed. [Executed validation](docs/design-engine/digital-twin/validation.md) records six family/distance packages and one actual native federation.
+
 ### v0.6 illustrated: a different approach to building a railway
 
 | Passenger-focused lightweight car | Locally assembled, modular construction concept |

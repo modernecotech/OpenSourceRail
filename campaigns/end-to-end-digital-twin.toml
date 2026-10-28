@@ -1,0 +1,31 @@
+schema = "osr-end-to-end-digital-twin/1"
+revision = "SPARSE-TWIN-1"
+purpose = "candidate-linked research design and independent digital validation"
+reference_changes_allowed = false
+body_families = ["gfrp_semimonocoque", "aluminium_frame", "aluminium_stressed_skin"]
+distances_m = [1500.0, 2000.0]
+maximum_cases = 6
+maximum_seconds = 1800
+maximum_native_jobs = 1
+native_timeout_s = 240
+unknown_is_zero = false
+automatic_physical_acceptance = false
+operating_maps_require_external_authentication = true
+
+[guideway]
+family = "box-beam"
+span_m = 20.0
+tracks = 1
+route_scope = "One directional interstation cell; not a complete city, return line or depot"
+
+[operations]
+cars = 6
+car_length_m = 17.0
+normal_people_per_car = 46
+crowd_people_per_car = 160
+speed_cap_m_s = 20.0
+acceleration_m_s2 = 0.4
+service_deceleration_m_s2 = 0.6
+headway_s = 120.0
+dwell_s = 35.0
+receiving = "Independent friction-brake hypothesis; no receiving LIM thrust or regeneration credited"

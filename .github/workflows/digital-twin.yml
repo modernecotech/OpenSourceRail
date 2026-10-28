@@ -1,0 +1,65 @@
+name: v0.6 end-to-end digital twin
+on:
+  push:
+    branches: [main]
+    paths:
+      - "engineering/railway_twin/**"
+      - "engineering/design_search/**"
+      - "engineering/station_rail/**"
+      - "engineering/development_baseline/**"
+      - "engineering/development-baseline.toml"
+      - "campaigns/end-to-end-digital-twin.toml"
+      - "campaigns/station-accelerator-development.toml"
+      - "docs/design-engine/digital-twin/**"
+      - "osr-twin"
+      - ".github/workflows/digital-twin.yml"
+  pull_request:
+    paths:
+      - "engineering/railway_twin/**"
+      - "engineering/design_search/**"
+      - "engineering/station_rail/**"
+      - "engineering/development_baseline/**"
+      - "engineering/development-baseline.toml"
+      - "campaigns/station-accelerator-development.toml"
+      - "campaigns/end-to-end-digital-twin.toml"
+      - "docs/design-engine/digital-twin/**"
+      - "osr-twin"
+      - ".github/workflows/digital-twin.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: "45 4 * * 0"
+permissions:
+  contents: read
+jobs:
+  contracts-and-semantic-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install pytest --requirement engineering/requirements.txt
+      - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/railway_twin/tests
+      - name: Install the pinned headless CAD tool for actual file reopening
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y libglu1-mesa libegl1 libopengl0 libxrender1 libxkbcommon0 libxcb-cursor0
+          mkdir -p build/twin-tools
+          curl --fail --location --retry 3 --max-time 600 https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage --output build/twin-tools/freecad.AppImage
+          .venv/bin/python tools/automation/install-historical-freecad.py --archive build/twin-tools/freecad.AppImage --output build/twin-tools/freecad
+          echo "$PWD/build/twin-tools/freecad/bin" >> "$GITHUB_PATH"
+      - name: Regenerate semantic packets and reopen published IFC, CAD and STEP
+        run: ./osr-twin verify-publication
+      - name: Exercise native translation and single-object placement regressions
+        run: OSR_RUN_NATIVE_TWIN_TEST=1 .venv/bin/python -m pytest -q engineering/railway_twin/tests/test_geometry.py -k actual_native
+      - name: Execute a fresh bounded candidate request
+        run: ./osr-twin run --state build/twin-ci --max-cases 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v06-digital-twin-methods-not-physical-qualification
+          path: build/twin-ci/
+          retention-days: 14

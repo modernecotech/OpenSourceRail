@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **942**.
+Indexed Markdown files: **944**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **942**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 106 |
+| [docs](#docs) | 108 |
 | [engineering](#engineering) | 21 |
 | [tools](#tools) | 2 |
 
@@ -898,6 +898,8 @@ Indexed Markdown files: **942**.
 | [`docs/design-engine/design-search-interpretation.md`](../docs/design-engine/design-search-interpretation.md) | First carrier and guidebeam campaign: engineering interpretation |
 | [`docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md`](../docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/README.md) | Candidate research twin |
 | [`docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md`](../docs/design-engine/design-search-twins/ed05b47c9216df1819f745bef9597812a9d1ef009501cc399ae1da78904b5798/bim/README.md) | Candidate BIM and field exchange |
+| [`docs/design-engine/digital-twin/README.md`](../docs/design-engine/digital-twin/README.md) | End-to-end sparse-wayside research twin |
+| [`docs/design-engine/digital-twin/validation.md`](../docs/design-engine/digital-twin/validation.md) | Executed digital twin validation — 28 October 2026 |
 | [`docs/design-engine/electropermanent/README.md`](../docs/design-engine/electropermanent/README.md) | Electropermanent next experiments |
 | [`docs/design-engine/ferrite-maglev/assembled-body/README.md`](../docs/design-engine/ferrite-maglev/assembled-body/README.md) | Joined structural-body candidate |
 | [`docs/design-engine/ferrite-maglev/assurance-profiles/README.md`](../docs/design-engine/ferrite-maglev/assurance-profiles/README.md) | Pilot development assurance profiles |

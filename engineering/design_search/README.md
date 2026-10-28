@@ -25,11 +25,18 @@ onboard traction equipment and retains independent services, braking and externa
 recovery. Earlier [powered-bogie/store comparisons](../../docs/design-engine/propulsion-layout/README.md)
 remain secondary reproducible research, not the active vehicle proposal.
 
+The [end-to-end research twin](../../docs/design-engine/digital-twin/README.md)
+uses `./osr-twin` to materialize the short-bank configuration across a complete
+train/civil stock ledger, federated BOM, propulsion/braking requirements,
+construction, controls and cost coverage. It regenerates semantic artifacts and
+reopens actual IFC/CAD/STEP; strict engineering completion remains held.
+
 ## Coordinated candidate design
 
 OpenSourceRail aims for simple fixed lines, affordable construction and repair,
-local production and high passenger throughput. Ferrite support and guidance
-remain independently powered while fixed wayside motors propel the train.
+local production and high passenger throughput. Passive steel-wheel bogies carry
+the current train while fixed wayside motors provide propulsion. Former magnetic
+support studies retain their historical configurations and results.
 Passengers transfer between fixed lines. This package connects physical design
 alternatives and deterministic engineering calculations without granting physical
 acceptance.

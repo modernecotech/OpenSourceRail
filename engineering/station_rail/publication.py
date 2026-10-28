@@ -96,6 +96,7 @@ def sources(root,record,index,delivery):
         'campaigns/practical-launch-comparison.toml','engineering/design_search/launch_options.py',
         'campaigns/simple-affordable-propulsion.toml','engineering/design_search/propulsion_layout.py',
         'campaigns/station-accelerator-development.toml','engineering/design_search/station_accelerators.py',
+        'campaigns/end-to-end-digital-twin.toml','osr-twin',
         'engineering/design_search/propulsion_storage.py','engineering/design_search/sparse_launch.py',
         'engineering/design_search/data/skeleton-102v94f-catalogue.json','engineering/design_search/data/tsa-type-x-drive-lead.json',
         'engineering/design_search/demonstration.py','engineering/design_search/route_bundle.py',
@@ -110,7 +111,8 @@ def sources(root,record,index,delivery):
         names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file()]
     followup=root/'docs/design-engine/v06-physical-closure'
     if followup.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(followup.iterdir()) if p.is_file()]
-    for folder in ('v06-optimisation','v06-design-space','v06-architecture','v06-adaptive-design','generative-structure','coupled-railway','railway-closure','moving-lim-method','practical-launch','propulsion-layout','station-accelerators'):
+    names += [p.relative_to(root).as_posix() for p in (root/'engineering/railway_twin').glob('*.py')]
+    for folder in ('v06-optimisation','v06-design-space','v06-architecture','v06-adaptive-design','generative-structure','coupled-railway','railway-closure','moving-lim-method','practical-launch','propulsion-layout','station-accelerators','digital-twin'):
         campaign_folder=root/'docs/design-engine'/folder
         if campaign_folder.is_dir():names += [p.relative_to(root).as_posix() for p in sorted(campaign_folder.rglob('*')) if p.is_file()]
         if folder=='coupled-railway' and (campaign_folder/'manifest.json').is_file():maps.append(json.loads((campaign_folder/'manifest.json').read_bytes()).get('source_sha256',{}))

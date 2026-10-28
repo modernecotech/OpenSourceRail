@@ -4,6 +4,17 @@ OpenSourceRail v0.6 develops a station-powered, wheel-supported comfort train. [
 
 ## Reference sprint
 
+The [end-to-end research twin](design-engine/digital-twin/README.md) now connects
+the active five short wayside accelerators to a separately identified 20 m motor
+and a federated six-car/infrastructure occurrence ledger. `./osr-twin` generates
+and semantically validates the BOM, stock geometry, mass accounts, propulsion and
+braking requirements, civil quantities, manufacturing, construction, controls,
+cost coverage and test obligations. Native IFC/CAD/STEP checks verify actual
+stock geometry and placement. Complete installed equipment, supported operating
+maps, structural/brake/site evidence and economics remain explicit blockers;
+the external operating-evidence admission adapter still needs implementation.
+The older campaigns below retain their original physical and source contracts.
+
 The [coordinated experiment](design-engine/coupled-railway/README.md) now runs architecture, adaptive revisions and physical generation through `./osr design railway`. Fourteen body definitions feed 112 bundles and 784 downstream records. New body evidence invalidates dependent evaluations; numerical/model failures and missing equipment create distinct frontier tasks. Four native fixtures, seven 3D body cases, six transient magnetic controls and two body-stock IFC/ERP draft packages are retained. These demonstrate integration and bounded execution, not a qualified whole-system solution.
 
 The next execution frontier is concrete: resolve remaining body mesh/torsion/strength and joint uncertainty; supply directional composite laws and actual attachments for the other structural families; disaggregate and locate installed equipment; and establish a moving, circuit/thermal-limited available propulsion map. Then run actual force-driven journeys and independently confirm feasible Pareto alternatives. Missing prices, hardware and lifecycle evidence continue to block economic selection. The standalone adaptive, generative and architecture publications remain reproducible.
