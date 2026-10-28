@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **949**.
+Indexed Markdown files: **951**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **949**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 112 |
+| [docs](#docs) | 114 |
 | [engineering](#engineering) | 22 |
 | [tools](#tools) | 2 |
 
@@ -891,6 +891,8 @@ Indexed Markdown files: **949**.
 | [`docs/archives/v0.5-maglev/README.md`](../docs/archives/v0.5-maglev/README.md) | Historical v0.5 maglev design |
 | [`docs/capabilities/README.md`](../docs/capabilities/README.md) | Capability Directory |
 | [`docs/capabilities/directory.md`](../docs/capabilities/directory.md) | Primary maglev capability directory |
+| [`docs/design-engine/continuing-cell/README.md`](../docs/design-engine/continuing-cell/README.md) | Continuing reference-cell engineering |
+| [`docs/design-engine/continuing-cell/validation.md`](../docs/design-engine/continuing-cell/validation.md) | Executed continuing-cell results — 28 October 2026 |
 | [`docs/design-engine/coupled-railway/README.md`](../docs/design-engine/coupled-railway/README.md) | One coordinated railway experiment |
 | [`docs/design-engine/current/README.md`](../docs/design-engine/current/README.md) | v0.6 station-powered freewheeling rail |
 | [`docs/design-engine/current/readme-coverage.md`](../docs/design-engine/current/readme-coverage.md) | README introductions and current system context |
