@@ -39,8 +39,116 @@ def blank(geometry,*,allowance_m=.005,kerf_m=.003):
         blank_form_is_manufacturing_hypothesis=True,approved_work_instruction=None)
 
 
+
+def _drafts(vehicle,alternative,candidate_id,parts,counts,routes):
+    """Candidate-bound neutral Frappe drafts; import/custom-field review required."""
+    if len(parts)!=len(routes) or {x['part_definition_id'] for x in routes}!=set(parts):
+        raise ValueError('Every physical definition needs exactly one routing')
+    if len({x['part_definition_id'] for x in routes})!=len(routes):raise ValueError('Duplicate manufacturing routing')
+    records={};onboard_counts=Counter();wayside_counts=Counter();source_to_code={};items=[];operations=[];routings=[];rfqs=[];workstations={}
+    def seal(v):v['draft_id']=identity(v);return v
+    def item(source_key,physical_id,revision_id,label,quantity,scope,purchased=False):
+        if source_key in records or type(quantity) is not int or quantity<=0:raise ValueError('Unique positive individual item counts required')
+        code='OSR-'+candidate_id[:12]+'-'+identity(source_key)[:12]+'-'+revision_id[:12]
+        if code in source_to_code.values():raise ValueError('Draft item-code collision')
+        source_to_code[source_key]=code
+        r=seal(dict(doctype='Item',item_code=code,item_name=label,stock_uom='Nos',disabled=1,docstatus=0,
+            is_stock_item=1,is_purchase_item=1 if purchased else 0,is_sales_item=0,
+            candidate_id=candidate_id,part_definition_id=physical_id,part_revision_id=revision_id,
+            source_scope=scope,source_key=source_key,source_registry_id=vehicle['registry']['registry_id'],
+            source_alternative_candidate_id=alternative['candidate_id'] if scope.startswith('launch') else None,
+            default_supplier=None,valuation_rate=None,standard_rate=None,
+            import_validation_required=True,submission_allowed=False))
+        items.append(r);records[source_key]=r
+        return code
+    for key,p in sorted(parts.items()):
+        item('vehicle/'+key,key,p['revision_id'],p['part_id'],counts[key],'vehicle',p['geometry']['kind']=='envelope')
+        onboard_counts['vehicle/'+key]=counts[key]
+    for i,p in enumerate(alternative['inventory']):
+        physical=p.get('physical_definition_id')
+        if not isinstance(physical,str) or len(physical)!=64 or any(c not in '0123456789abcdef' for c in physical) or type(p.get('count')) is not int or p['count']<=0:
+            raise ValueError('Owned physical plant definitions and positive integer counts required')
+        key='launch/'+p['part_id']
+        revision=identity(p)
+        item(key,physical,revision,p['part_id'],p['count'],'launch-onboard' if p['installation']=='onboard' else 'launch-wayside',p.get('calculated_mass_kg') is None)
+        (onboard_counts if p['installation']=='onboard' else wayside_counts)[key]=p['count']
+    route_by={r['part_definition_id']:r for r in routes}
+    operation_defs={}
+    for source_key,record in records.items():
+        parent=source_key.split('/',1)[1];route=route_by.get(parent) if source_key.startswith('vehicle/') else None
+        route_steps=route['operations'] if route else [dict(sequence=1,name='qualify-launch-component-and-source',workstation=None,work_instruction_id=None),dict(sequence=2,name='install-inspect-test-launch-component',workstation=None,work_instruction_id=None)]
+        steps=[]
+        for step in route_steps:
+            op_key=identity(dict(candidate_id=candidate_id,name=step['name']))
+            if op_key not in operation_defs:
+                op=seal(dict(doctype='Operation',name='OSR-OP-'+op_key[:20],operation=step['name'],candidate_id=candidate_id,
+                    operation_definition_id=op_key,disabled=1,docstatus=0,default_workstation=None,approved_work_instruction=None,
+                    time_in_mins=None,hour_rate=None,submission_allowed=False,import_validation_required=True))
+                operation_defs[op_key]=op;operations.append(op)
+            op=operation_defs[op_key]
+            workstation=step.get('workstation')
+            if workstation is not None and workstation not in workstations:
+                workstations[workstation]=seal(dict(doctype='Workstation',name='OSR-WS-'+identity([candidate_id,workstation])[:20],
+                    workstation_name=workstation,candidate_id=candidate_id,disabled=1,docstatus=0,
+                    production_capacity=None,qualified_process_capacity=None,hour_rate=None,
+                    submission_allowed=False,import_validation_required=True))
+            steps.append(dict(doctype='Routing Operation',sequence_id=step['sequence'],operation=op['name'],
+                workstation=None if workstation is None else workstations[workstation]['name'],time_in_mins=None,
+                source_part_definition_id=record['part_definition_id'],source_part_revision_id=record['part_revision_id'],approved_work_instruction=None))
+        routing=seal(dict(doctype='Routing',name='OSR-RT-'+identity([candidate_id,source_key,record['part_revision_id']])[:24],
+            candidate_id=candidate_id,item_code=record['item_code'],part_definition_id=record['part_definition_id'],part_revision_id=record['part_revision_id'],
+            operations=steps,disabled=1,docstatus=0,approved=False,submission_allowed=False,import_validation_required=True))
+        routings.append(routing)
+        quantity=(onboard_counts|wayside_counts)[source_key]
+        rfqs.append(seal(dict(doctype='Request for Quotation',name='OSR-RFQ-'+identity([candidate_id,source_key])[:24],candidate_id=candidate_id,
+            source_part_definition_id=record['part_definition_id'],source_part_revision_id=record['part_revision_id'],
+            docstatus=0,status='Draft',workflow_state='Engineering review required',disabled=1,company=None,
+            transaction_date=None,suppliers=[],message_for_supplier=None,send_supplier_emails=False,
+            items=[dict(item_code=record['item_code'],qty=quantity,uom='Nos',rate=None,amount=None)],
+            submission_allowed=False,import_validation_required=True)))
+    # Decide from actual occurrence ownership, not divisibility of totals alone.
+    car_count=vehicle.get('requirements',{}).get('cars');car_counts=[]
+    if car_count==6:
+        for car in range(6):
+            car_counts.append(Counter('vehicle/'+o['part_definition_id'] for o in vehicle['registry']['occurrences'] if o['occurrence_id'].startswith('car-'+str(car+1)+'/')))
+    repeated=(car_count==6 and len(car_counts)==6 and all(x==car_counts[0] for x in car_counts)
+        and sum(sum(x.values()) for x in car_counts)==len(vehicle['registry']['occurrences'])
+        and all(n%6==0 for k,n in onboard_counts.items() if k.startswith('launch/')))
+    boms=[];assembly_items=[]
+    def assembly(name,entries,scope):
+        code='OSR-'+candidate_id[:16]+'-'+name
+        assembly_items.append(seal(dict(doctype='Item',item_code=code,item_name=name,stock_uom='Nos',candidate_id=candidate_id,
+            disabled=1,docstatus=0,is_stock_item=1,is_sales_item=0,submission_allowed=False,import_validation_required=True)))
+        bom=seal(dict(doctype='BOM',name='OSR-BOM-'+candidate_id[:16]+'-'+name,item=code,quantity=1,uom='Nos',candidate_id=candidate_id,
+            source_registry_id=vehicle['registry']['registry_id'],source_alternative_candidate_id=alternative['candidate_id'],
+            source_assembly_scope=scope,docstatus=0,is_active=0,is_default=0,with_operations=0,items=entries,
+            approved=False,submission_allowed=False,import_validation_required=True))
+        boms.append(bom);return code,bom['name']
+    if repeated:
+        per={k:n//6 for k,n in onboard_counts.items()}
+        car_code,car_bom=assembly('CAR',[dict(doctype='BOM Item',item_code=records[k]['item_code'],qty=n,uom='Nos',part_definition_id=records[k]['part_definition_id'],part_revision_id=records[k]['part_revision_id']) for k,n in sorted(per.items())], 'one-proposed-car-with-counted-launch-interface')
+        assembly('TRAIN',[dict(doctype='BOM Item',item_code=car_code,bom_no=car_bom,qty=6,uom='Nos')], 'six-repeated-cars')
+        exploded={k:n*6 for k,n in per.items()}
+    else:
+        assembly('VEHICLE-PACKAGE',[dict(doctype='BOM Item',item_code=records[k]['item_code'],qty=n,uom='Nos',part_definition_id=records[k]['part_definition_id'],part_revision_id=records[k]['part_revision_id']) for k,n in sorted(onboard_counts.items())], 'actual-nonrepeated-owned-occurrences')
+        exploded=dict(onboard_counts)
+    if wayside_counts:assembly('WAYSIDE-PLANT',[dict(doctype='BOM Item',item_code=records[k]['item_code'],qty=n,uom='Nos',part_definition_id=records[k]['part_definition_id'],part_revision_id=records[k]['part_revision_id']) for k,n in sorted(wayside_counts.items())], 'counted-launch-plant-only-civil-separate')
+    if exploded!=dict(onboard_counts):raise ValueError('Multi-level BOM explosion differs from actual physical occurrences')
+    value=dict(submission_allowed=False,docstatus=0,items_disabled=True,active_BOMs=False,
+        schema='osr-disabled-production-drafts/1',candidate_id=candidate_id,
+        item_drafts=items,assembly_item_drafts=assembly_items,BOM_drafts=boms,operation_drafts=operations,routing_drafts=routings,
+        workstation_drafts=list(workstations.values()),rfq_drafts=rfqs,production_orders=[],active_assets=[],external_transactions_performed=False,
+        quantity_reconciliation=dict(vehicle_occurrences=sum(counts.values()),added_onboard_launch_occurrences=sum(n for k,n in onboard_counts.items() if k.startswith('launch/')),
+            wayside_launch_occurrences=sum(wayside_counts.values()),exploded_onboard_occurrences=sum(exploded.values()),all_counts_reconciled=True,
+            identical_six_car_BOM=repeated,part_definition_count=len(records)),
+        export_scope='Actual vehicle registry and counted launch-interface/wayside definitions; civil construction slots retained separately. Unknown vendor internals are not invented.',
+        field_mapping_and_permissions_review='Required before any external import; these neutral drafts are not commissioned ERPNext records')
+    value['export_id']=identity(value);return value
+
+
 def compile(vehicle,civil,alternative,candidate_id,*,process=None):
     from engineering.component_registry import validate_registry
+    if not isinstance(candidate_id,str) or len(candidate_id)!=64 or any(c not in '0123456789abcdef' for c in candidate_id):raise ValueError('Exact physical cell identity required')
     validate_registry(vehicle['registry'])
     if vehicle.get('evaluation_id')!=identity({k:v for k,v in vehicle.items() if k!='evaluation_id'}) or vehicle['candidate_id']!=vehicle['registry']['candidate_id']:
         raise ValueError('Exact equipped vehicle registry/evaluation required')
@@ -92,5 +200,5 @@ def compile(vehicle,civil,alternative,candidate_id,*,process=None):
         complete_installed_cost_usd=None,tooling_cost_usd=None,whole_life_cost_usd=None,
         unknown_whole_life_scopes=['Purchased equipment prices','Actual tooling, labour, cure yields and qualified processes','Stations, access, land/utilities/depot',
             'Complete electrical/cooling/supply/protection','Recovery, fleet availability, energy, maintenance and renewal'],
-        ERPNext_drafts=dict(submission_allowed=False,docstatus=0,items_disabled=True,active_BOMs=False),**FLAGS)
+        ERPNext_drafts=_drafts(vehicle,alternative,candidate_id,parts,counts,routes),**FLAGS)
     value['evaluation_id']=identity(value);return value

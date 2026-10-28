@@ -69,9 +69,12 @@ def review_responses(request,worker):
                     if abs(u[int(dof)]-prescribed.get(int(dof),0.))>1e-10:raise ValueError('Saved structural support displacement differs')
                 actual=frozen._response(model,K,F,u,name)
                 if not _same(saved,actual):raise ValueError('Saved structural force/reaction/stress/energy arithmetic differs')
-                checks.append(dict(name=name,maximum_translation_m=actual['maximum_translation_m'],
-                    maximum_rotation_rad=actual['maximum_rotation_rad'],free_relative_residual=actual['free_relative_residual'],
-                    relative_energy_residual=actual['relative_energy_residual'],small_displacement_domain_suspect=actual['small_displacement_domain_suspect'],
+                # Persist the immutable execution diagnostics only AFTER the same
+                # independent matrix/response comparison passed. Reader BLAS
+                # summation noise must not create a new historical review ID.
+                checks.append(dict(name=name,maximum_translation_m=saved['maximum_translation_m'],
+                    maximum_rotation_rad=saved['maximum_rotation_rad'],free_relative_residual=saved['free_relative_residual'],
+                    relative_energy_residual=saved['relative_energy_residual'],small_displacement_domain_suspect=saved['small_displacement_domain_suspect'],
                     approved_strength_margin=None,approved_deflection_limit_m=None))
         diagnostics.append(dict(mesh_m=mesh,response_execution=response['execution'],nodes=len(model['nodes']),
             elements=len(model['elements']),connections=len(model['connections']),cases=checks))
@@ -127,6 +130,7 @@ def verify(output,*,root=ROOT,require_current_tool=False):
         recorded_tool_identity=tool,current_tool_identity_asserted=require_current_tool,native_reuse_eligible=False,
         numerical_replayed=False,factorization_reexecuted=False,matrix_response_arithmetic_recomputed=True,
         verification_scope='Original input/source/payload integrity and independently reconstructed model/mass/matrix response; JSON scalar normalization only',
+        diagnostics_value_source='Immutable saved execution values after independent matrix/response checks at unchanged frozen tolerances; reader rounding is not persisted',
         legacy_verification_issue='Equal JSON float versus numpy.float64 rejected by frozen Python-type comparison',
         physical_qualification=False,**FLAGS)
     value['review_id']=identity(value);return value

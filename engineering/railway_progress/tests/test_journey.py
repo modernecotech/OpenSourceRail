@@ -230,8 +230,24 @@ def test_substep_power_interruption_and_emergency_position_have_exact_event_boun
 
 def test_stopping_endpoint_does_not_clear_unpowered_downhill_overspeed(cell):
     _,b,a=cell;r=journey.evaluate(b,a,context={'grade_fraction':-.02})
+    assert r['execution']=='stopped' and r['final_speed_m_s']==0.
+    assert abs(r['stopping_error_m'])<=.5 and r['conditional_numerical_arrival']
+    hold=r['static_brake_hold_hypothesis']
+    assert hold['standing'] and hold['necessary_static_holding_screen_passed']
+    assert hold['margin_N']>=0 and hold['available_at_actual_pressure_N']>=hold['required_grade_force_N']
+    assert hold['actual_hold_or_parking_brake_verified'] is False
+    assert hold['rolling_or_aerodynamic_resistance_credited'] is False
     assert r['maximums']['speed_m_s']>20.
     assert r['speed_cap_exceeded'] is True
     assert r['requested_service_screen_passed'] is False
     assert not r['qualified_numerical_arrival'] and not r['operating_release']
     assert_energy(r)
+
+
+def test_terminal_holding_screen_cannot_use_rotating_mass_or_rolling_drag_as_static_support(cell):
+    _,b,a=cell;r=journey.evaluate(b,a,context={'grade_fraction':-.02})
+    h=r['static_brake_hold_hypothesis'];control=r['terminal_control_hypothesis']
+    assert control['minimum_deceleration_m_s2']==.1 and control['grade_hold_factor']>1
+    assert h['required_grade_force_N']==pytest.approx(r['translating_train_mass_kg']*9.80665*.02*control['grade_hold_factor'])
+    assert h['required_grade_force_N']<r['effective_mass_kg']*9.80665*.02*control['grade_hold_factor']
+    assert all(r[k] is False for k in FLAGS) and not r['protected_headway_qualified']

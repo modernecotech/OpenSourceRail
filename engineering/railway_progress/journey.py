@@ -10,6 +10,8 @@ from . import identity,digest,FLAGS
 from . import alternatives
 
 CODE='engineering/railway_progress/journey.py'
+TERMINAL_CONTROL=dict(low_speed_m_s=.3,near_target_m=.5,minimum_deceleration_m_s2=.1,
+    grade_hold_factor=1.1,provenance='Explicit unqualified low-speed/standing brake-control hypothesis; not a measured controller or parking brake')
 
 
 def scenario(**changes):
@@ -99,7 +101,17 @@ def evaluate(bundle,alternative,*,context=None):
         capacity=caps['force_N'][force_index];requested=max(0.,effective*.4+resistance)
         traction=min(requested,capacity,max(0.,effective*(20.-v)/step_dt+resistance)) if power_on else 0.
         target_deceleration=min(.6,v*v/(2*max(remaining,.02))) if braking else 0.
+        terminal_command=braking and v<=TERMINAL_CONTROL['low_speed_m_s'] and remaining<=TERMINAL_CONTROL['near_target_m']
+        if terminal_command:
+            # v²/(2*remaining) alone decays to zero and can balance downhill
+            # gravity indefinitely. A finite low-speed command stops through
+            # the ordinary pressure/adhesion model; position is never reset.
+            target_deceleration=max(target_deceleration,TERMINAL_CONTROL['minimum_deceleration_m_s2'])
         desired_brake=max(0.,effective*target_deceleration-resistance)
+        if terminal_command:
+            # Standing hold credits neither rolling resistance nor aerodynamic
+            # drag. Keep the existing actuator, pressure ramp and adhesion cap.
+            desired_brake=max(desired_brake,abs(gravity)*TERMINAL_CONTROL['grade_hold_factor'])
         requested_pressure=max_pressure if emergency else min(max_pressure,desired_brake/force_per_Pa)
         dt=step_dt
         active_command=braking and t-command_time>=brake['pressure_response_delay_s_hypothesis']
@@ -116,8 +128,10 @@ def evaluate(bundle,alternative,*,context=None):
                 dt=(2*distance/(v+(max(0.,v*v+2*a*distance))**.5)) if abs(a)>1e-12 else distance/max(v,1e-12)
         if v<=1e-10 and a<=0:
             result_state='stalled';stopped=True;break
-        if v+a*dt<0:dt=v/-a
-        vn=max(0.,v+a*dt);dx=(v+vn)*dt/2
+        zero_speed_event=a<0 and v+a*dt<=0.
+        if zero_speed_event:dt=v/-a
+        # This is the solved velocity-zero event, not a destination-state reset.
+        vn=0. if zero_speed_event else max(0.,v+a*dt);dx=(v+vn)*dt/2
         # No reset/clamp of position or kinetic energy at the destination.
         for k,F in (('traction',traction),('aerodynamic',drag),('rolling',rolling),('gravity',gravity),('brake',braking_force)):work[k]+=F*dx
         work['auxiliary']+=6*s['auxiliary_W_per_car']*dt
@@ -139,7 +153,13 @@ def evaluate(bundle,alternative,*,context=None):
         if x>D+100:result_state='overrun';break
     kinetic=.5*effective*v*v
     net_work=work['traction']-work['aerodynamic']-work['rolling']-work['gravity']-work['brake']
-    error=x-D;arrival=stopped and abs(error)<=.5 and s['emergency_at_m'] is None
+    static_required=abs(mass*g*s['grade_fraction'])*TERMINAL_CONTROL['grade_hold_factor']
+    static_available=min(pressure*force_per_Pa,mass*g*s['adhesion_coefficient'])
+    hold=dict(standing=v==0.,required_grade_force_N=static_required,available_at_actual_pressure_N=static_available,
+        margin_N=static_available-static_required,pressure_Pa=pressure,
+        necessary_static_holding_screen_passed=v==0. and static_available>=static_required,
+        rolling_or_aerodynamic_resistance_credited=False,actual_hold_or_parking_brake_verified=False)
+    error=x-D;arrival=stopped and abs(error)<=.5 and s['emergency_at_m'] is None and hold['necessary_static_holding_screen_passed']
     axle_weight=mass*g/24
     r=dict(schema='osr-conditional-mechanical-journey/1',candidate_id=bundle['candidate_id'],alternative_candidate_id=alternative['candidate_id'],
         bundle_definition_id=bundle['definition_id'],
@@ -148,6 +168,7 @@ def evaluate(bundle,alternative,*,context=None):
         translating_train_mass_kg=mass,effective_mass_kg=effective,counted_rotor_equivalent_mass_kg=rotating,
         externally_coupled_rope_tug_mass_kg=coupled_external_mass,trajectory=trace,journey_time_s=t,final_front_m=x,
         stopping_error_m=error,final_speed_m_s=v,conditional_numerical_arrival=arrival,
+        terminal_control_hypothesis=deepcopy(TERMINAL_CONTROL),static_brake_hold_hypothesis=hold,
         requested_service_screen_passed=arrival and maxima['speed_m_s']<=20.+1e-7 and maxima['acceleration_m_s2']<=.4+1e-7 and maxima['deceleration_m_s2']<=.6+1e-7,
         speed_cap_exceeded=maxima['speed_m_s']>20.+1e-7,
         qualified_numerical_arrival=False,admitted_operating_map=False,energy_J=work,kinetic_energy_J=kinetic,

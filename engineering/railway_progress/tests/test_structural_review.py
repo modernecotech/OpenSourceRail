@@ -64,3 +64,28 @@ def test_upstream_identity_cannot_silently_change(monkeypatch):
     assert review.sources()[review.UPSTREAM]==review.UPSTREAM_SHA256
     monkeypatch.setattr(review,'UPSTREAM_SHA256','0'*64)
     with pytest.raises(ValueError,match='Frozen'):review.sources()
+
+
+def test_portable_diagnostics_keep_recorded_values_after_reader_rounding_passes_checks(control,monkeypatch):
+    request,worker=control
+    baseline=review.review_responses(request,worker)
+    original=frozen._response
+    def reader_rounding(*args,**kwargs):
+        value=original(*args,**kwargs)
+        value['relative_energy_residual']+=1e-16
+        value['free_relative_residual']+=1e-25
+        return value
+    monkeypatch.setattr(frozen,'_response',reader_rounding)
+    changed_reader=review.review_responses(request,worker)
+    assert changed_reader==baseline
+    assert review.identity(changed_reader)==review.identity(baseline)
+    assert changed_reader[0]['cases'][0]['relative_energy_residual']==worker['results'][0]['response']['cases'][0]['relative_energy_residual']
+
+
+def test_persisting_saved_diagnostics_does_not_bypass_independent_numerical_checks(control,monkeypatch):
+    request,worker=control;original=frozen._response
+    def excessive_difference(*args,**kwargs):
+        value=original(*args,**kwargs);value['relative_energy_residual']+=1e-5
+        return value
+    monkeypatch.setattr(frozen,'_response',excessive_difference)
+    with pytest.raises(ValueError,match='arithmetic'):review.review_responses(request,worker)
