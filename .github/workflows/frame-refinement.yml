@@ -27,6 +27,60 @@ jobs:
         run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/frame_refinement/tests tools/automation/tests/test_frame_cell.py tools/automation/tests/test_audit_frame_states.py
       - name: Recompute the nine journeys and reopen the actual revised IFC
         run: .venv/bin/python tools/automation/frame-cell.py verify-publication docs/design-engine/frame-refinement/packet
+      - name: Diagnose exact frame-definition differences after failure
+        if: failure()
+        run: |
+          .venv/bin/python - <<'PY'
+          import importlib.util,itertools,json,os,platform,sys,tempfile
+          from pathlib import Path
+          import numpy as np
+          path=Path('tools/automation/frame-cell.py').resolve()
+          spec=importlib.util.spec_from_file_location('tracked_frame_diagnostic',path)
+          module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+          helper,coordinator,model=module.common()
+          output=Path('build/frame-definition-diagnostic');output.mkdir(parents=True)
+          with tempfile.TemporaryDirectory(prefix='osr-frame-definition-diagnostic-') as temp:
+              module.safe_unpack(Path('docs/design-engine/frame-refinement/packet/frame-cell.tar.gz'),temp)
+              parent=helper.read(Path(temp)/'ancestor-native/input.json')['vehicle']
+              saved=helper.read(Path(temp)/'frame-native/input.json')['vehicle']
+              actual=model.revision(parent,root=module.ROOT)
+              helper.write(output/'regenerated-vehicle.json.gz',actual)
+              def brief(value):
+                  if isinstance(value,(dict,list)):return dict(type=type(value).__name__,length=len(value))
+                  return value
+              def differences(a,b,path='$'):
+                  if type(a) is not type(b):
+                      yield dict(path=path,saved=brief(a),actual=brief(b));return
+                  if isinstance(a,dict):
+                      for key in sorted(set(a)|set(b)):
+                          if key not in a or key not in b:
+                              yield dict(path=path+'/'+key,saved=brief(a.get(key)),actual=brief(b.get(key)))
+                          else:yield from differences(a[key],b[key],path+'/'+key)
+                  elif isinstance(a,list):
+                      if len(a)!=len(b):yield dict(path=path+'/length',saved=len(a),actual=len(b))
+                      for index,(left,right) in enumerate(zip(a,b)):
+                          yield from differences(left,right,path+'/'+str(index))
+                  elif a!=b:
+                      row=dict(path=path,saved=a,actual=b)
+                      if isinstance(a,float):row.update(saved_hex=a.hex(),actual_hex=b.hex())
+                      yield row
+              report=dict(schema='osr-frame-definition-diagnostic/1',diagnostic_only=True,
+                  exact_encoded_match=helper.encoded(saved)==helper.encoded(actual),
+                  saved_candidate_id=saved['candidate_id'],actual_candidate_id=actual['candidate_id'],
+                  saved_evaluation_id=saved['evaluation_id'],actual_evaluation_id=actual['evaluation_id'],
+                  first_differences=list(itertools.islice(differences(saved,actual),64)),
+                  python=sys.version,numpy=np.__version__,machine=platform.machine(),
+                  numeric_environment={k:os.environ.get(k) for k in ('OPENBLAS_CORETYPE','OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','NPY_DISABLE_CPU_FEATURES','PYTHONHASHSEED')},
+                  physical_qualification=None,strict_verification_unchanged=True)
+              helper.write(output/'report.json',report);print(json.dumps(report,indent=2))
+              np.show_runtime();np.show_config()
+          PY
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: exact-frame-definition-diagnostic
+          path: build/frame-definition-diagnostic/
+          retention-days: 14
       - name: Independently accumulate saved-state actions and energy without a new solve
         run: |
           .venv/bin/python - <<'PY'
