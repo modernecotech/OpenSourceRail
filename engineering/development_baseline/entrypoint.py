@@ -184,6 +184,9 @@ def main(argv=None, root=ROOT):
     if command in ('design', 'infrastructure'):
         command, rest = (rest[0], rest[1:]) if rest else ('status', [])
     try:
+        if command=='progress':
+            from engineering.railway_progress.cli import main as progress_main
+            return progress_main(rest,root=root)
         if command=='railway':
             from engineering.design_search import railway_campaign,railway_publication,remit
             if rest and rest[0] in ('demonstration-plan','demonstrate','demonstration-publish','demonstration-verify'):

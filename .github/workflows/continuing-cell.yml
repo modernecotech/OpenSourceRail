@@ -1,0 +1,41 @@
+name: v0.6 continuing numerical reference cell
+on:
+  push:
+    branches: [main]
+    paths: ["engineering/railway_progress/**", "engineering/reference_cell/**", "engineering/component_registry/**", "engineering/development_baseline/**", "docs/design-engine/continuing-cell/**", ".github/workflows/continuing-cell.yml"]
+  pull_request:
+    paths: ["engineering/railway_progress/**", "engineering/reference_cell/**", "engineering/component_registry/**", "engineering/development_baseline/**", "docs/design-engine/continuing-cell/**", ".github/workflows/continuing-cell.yml"]
+  workflow_dispatch:
+  schedule:
+    - cron: "45 6 * * 0"
+permissions:
+  contents: read
+jobs:
+  numerical-generation-and-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install pytest --requirement engineering/requirements.txt
+      - name: Conditional engineering and adversarial evidence contracts
+        run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/railway_progress/tests
+      - name: Reconstruct all physical candidates, trajectories, production and civil loads
+        run: ./osr design progress verify-publication
+      - name: Verify actual motor and structural packages under recorded execution identities
+        run: ./osr design progress verify-methods
+      - name: Preserve a fresh bounded generation request
+        run: ./osr design progress run --state build/continuing-cell-ci --max-cases 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: continuing-cell-numerical-executions
+          path: build/continuing-cell-ci/
+          retention-days: 14
