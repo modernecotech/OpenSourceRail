@@ -84,7 +84,7 @@ def category(name):
         return 'concept-illustration-brief'
     if name in {'engineering/development_baseline/README.md','engineering/station_rail/README.md'}:
         return 'current-development-adapters'
-    if name == 'engineering/design_search/README.md':
+    if name in {'engineering/design_search/README.md','engineering/component_registry/README.md'}:
         return 'candidate-design-method'
     if name == 'engineering/city_maps/README.md':
         return 'city-map-method'
