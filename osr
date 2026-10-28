@@ -19,6 +19,7 @@ Usage: ./osr [COMMAND] [arguments]
   design architecture ... Run/publish/verify whole-railway research families
   design adaptive ...     Plan/run continuing function-first design revisions
   design progress ...     Run/replay continuing reference-cell physics and manufacture
+  design sourced ...      Generate/replay source-backed hardware and journey alternatives
   infrastructure ... Alias for the same selected design
   verify/check      Verify the current source-bound publication
   workbench [...]   Serve the read-only current Workbench on 127.0.0.1:8090
@@ -35,5 +36,15 @@ The default is a development selection. Physical and operating acceptance remain
 open. Historical regeneration requires an isolated checkout; no silent fallback.
 EOF
     exit 0
+fi
+if [[ "${1:-}" == design && "${2:-}" == sourced ]]; then
+    shift 2
+    if [[ "${1:-}" == serve ]]; then
+        exec tools/automation/osr-python tools/automation/sourced-workbench.py "$@"
+    fi
+    if [[ "${1:-}" == verify-publication || "${1:-}" == verify-geometry ]]; then
+        tools/automation/osr-python tools/automation/sourced-archive.py ensure "$ROOT/docs/design-engine/sourced-case" >/dev/null
+    fi
+    exec tools/automation/osr-python -m engineering.sourced_case.cli "$@"
 fi
 exec tools/automation/osr-python -m engineering.development_baseline.entrypoint "$@"

@@ -1,0 +1,342 @@
+{
+  "conflicts": [
+    {
+      "issue": "Cover5500rpm/180kW/550Nm differ from variant table4500rpm/LC360Nm/MV120kW; use exact variant table only",
+      "source": "emrax-348-v1.7"
+    },
+    {
+      "issue": "EarlierV1.6 LC400Nm/136kW is not reused",
+      "source": "emrax-348-v1.7"
+    },
+    {
+      "issue": "PSN190i4 nominal950Nm but900rpm thermal limit only at50%nominal torque; reject20m/s source-domain substitution",
+      "source": "neugart-PSN"
+    }
+  ],
+  "gearbox": {
+    "catalogue_force_conditions": "Listed radial/axial loads are at shaft centre and100rpm; rollerclamp requires independent bearing support",
+    "efficiency_min": 0.97,
+    "inertia_input_kg_m2_ratio5": 0.002329,
+    "manufacturer": "APEX Dynamics",
+    "mass_kg": 29.0,
+    "model": "AB180 one-stage",
+    "nominal_input_rpm": 3000.0,
+    "operating_temperature_range_C": [
+      -10.0,
+      90.0
+    ],
+    "output_shaft_mm": 55.0,
+    "ratios": {
+      "10": 900.0,
+      "3": 588.0,
+      "4": 1050.0,
+      "5": 1200.0,
+      "6": 1100.0,
+      "7": 1100.0,
+      "8": 1000.0,
+      "9": 900.0
+    },
+    "single_output": true,
+    "source": "apex-AB-regional",
+    "version": "Regional manufacturer AB-series-als.pdf undated"
+  },
+  "inverters": {
+    "h300": {
+      "ambient_max_C": 65.0,
+      "continuous_apparent_power_VA": 135000.0,
+      "continuous_current_Arms": 300.0,
+      "coolant_derate_C": 60.0,
+      "dc_voltage_max_V": 450.0,
+      "dc_voltage_min_V": 100.0,
+      "four_quadrant": true,
+      "loss_map_W": null,
+      "manufacturer": "Emsiso",
+      "mass_kg": 7.5,
+      "minimum_flow_l_min": null,
+      "model": "H300_450/450",
+      "peak_current_Arms": 450.0,
+      "peak_duration_s": 60.0,
+      "pressure_limit_bar": 1.0,
+      "source": "emsiso-H300-v1.7",
+      "version": "V1.7"
+    }
+  },
+  "motors": {
+    "emrax268-mv": {
+      "Ke_line_RMS_V_per_rpm": 0.0815,
+      "Ld_H": 0.000129,
+      "Lq_H": 0.000138,
+      "availability": "Manufacturer transition notice: existing models gradually leaving production; supply unconfirmed",
+      "continuous_current_Arms": 220.0,
+      "continuous_power_W": 91000.0,
+      "continuous_torque_Nm": 205.0,
+      "coolant_in_max_C": 50.0,
+      "limiting_rpm": 4500.0,
+      "loaded_rpm_per_Vdc": 7.59,
+      "manufacturer": "EMRAX",
+      "mass_kg": 22.3,
+      "minimum_flow_l_min": 6.0,
+      "model": "268 C MV LC UVW",
+      "motor_air_max_C": 30.0,
+      "peak_efficiency": 0.96,
+      "phase_R25_ohm": 0.00967,
+      "pole_pairs": 10,
+      "rotor_air_m3_min_per_shaft_kW": 0.4,
+      "rotor_inertia_kg_m2": 0.0949,
+      "source": "emrax-268-C-v1.7",
+      "torque_constant_Nm_per_Arms": 1.2,
+      "version": "V1.7-C page2"
+    },
+    "emrax348-lv43": {
+      "Ke_line_RMS_V_per_rpm": 0.07557,
+      "Ld_H": 5.7e-05,
+      "Lq_H": 6.4e-05,
+      "availability": "Manufacturer transition notice: existing models gradually leaving production; supply unconfirmed",
+      "continuous_current_Arms": 450.0,
+      "continuous_power_W": 160000.0,
+      "continuous_torque_Nm": 360.0,
+      "coolant_in_max_C": 40.0,
+      "limiting_rpm": 4500.0,
+      "loaded_rpm_per_Vdc": 7.39,
+      "manufacturer": "EMRAX",
+      "mass_kg": 43.9,
+      "minimum_flow_l_min": 8.0,
+      "model": "348 LV+43% LC UVW",
+      "motor_air_max_C": 30.0,
+      "peak_efficiency": 0.96,
+      "phase_R25_ohm": 0.00462,
+      "pole_pairs": 10,
+      "rotor_air_m3_min_per_shaft_kW": 0.4,
+      "rotor_inertia_kg_m2": 0.3896,
+      "source": "emrax-348-v1.7",
+      "torque_constant_Nm_per_Arms": 1.1,
+      "version": "V1.7 page3"
+    },
+    "parker400-dpw": {
+      "Ke_line_RMS_V_per_rpm": null,
+      "Ld_H": null,
+      "Lq_H": null,
+      "availability": "Historical official catalogue; exact current winding/supplier confirmation required",
+      "continuous_current_Arms": 290.0,
+      "continuous_power_W": 116000.0,
+      "continuous_torque_Nm": 348.0,
+      "coolant_in_max_C": 65.0,
+      "limiting_rpm": 4800.0,
+      "loaded_rpm_per_Vdc": null,
+      "manufacturer": "Parker",
+      "mass_kg": 99.5,
+      "minimum_flow_l_min": null,
+      "model": "GVM210-400-DPW traction resolver,400Vdc",
+      "motor_air_max_C": 120.0,
+      "nominal_point_torque_current_ratio_Nm_per_Arms": 1.2,
+      "peak_efficiency": null,
+      "phase_R25_ohm": null,
+      "pole_pairs": null,
+      "rated_rpm": 3190.0,
+      "rated_voltage_Vdc": 400.0,
+      "rotor_air_m3_min_per_shaft_kW": null,
+      "rotor_inertia_kg_m2": null,
+      "source": "parker-GVM-old",
+      "torque_constant_Nm_per_Arms": null,
+      "version": "192_300108 catalogue pages5,10,16; historical winding, availability unconfirmed"
+    }
+  },
+  "parsed_primary_sources": {
+    "apex-AB-regional": {
+      "facts": {
+        "catalogue_force_conditions": "Listed radial/axial loads are at shaft centre and100rpm; rollerclamp requires independent bearing support",
+        "efficiency_min": 0.97,
+        "inertia_input_kg_m2_ratio5": 0.002329,
+        "manufacturer": "APEX Dynamics",
+        "mass_kg": 29.0,
+        "model": "AB180 one-stage",
+        "nominal_input_rpm": 3000.0,
+        "operating_temperature_range_C": [
+          -10.0,
+          90.0
+        ],
+        "output_shaft_mm": 55.0,
+        "ratios": {
+          "10": 900.0,
+          "3": 588.0,
+          "4": 1050.0,
+          "5": 1200.0,
+          "6": 1100.0,
+          "7": 1100.0,
+          "8": 1000.0,
+          "9": 900.0
+        },
+        "single_output": true,
+        "source": "apex-AB-regional",
+        "version": "Regional manufacturer AB-series-als.pdf undated"
+      },
+      "original_document_sha256": null,
+      "pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "parsed_facts_sha256": "561ae63159a650f5ab36b994a08e6d20b73551b5c70f22883d3cec98776fbb7d",
+      "representation": "Primary regional manufacturer PDF parsed by web tool; original HTTP999 retained",
+      "url": "https://www.apexdynamics.it/wp-content/uploads/AB-series-als.pdf"
+    },
+    "parker-GVM-old": {
+      "facts": {
+        "Ke_line_RMS_V_per_rpm": null,
+        "Ld_H": null,
+        "Lq_H": null,
+        "availability": "Historical official catalogue; exact current winding/supplier confirmation required",
+        "continuous_current_Arms": 290.0,
+        "continuous_power_W": 116000.0,
+        "continuous_torque_Nm": 348.0,
+        "coolant_in_max_C": 65.0,
+        "limiting_rpm": 4800.0,
+        "loaded_rpm_per_Vdc": null,
+        "manufacturer": "Parker",
+        "mass_kg": 99.5,
+        "minimum_flow_l_min": null,
+        "model": "GVM210-400-DPW traction resolver,400Vdc",
+        "motor_air_max_C": 120.0,
+        "nominal_point_torque_current_ratio_Nm_per_Arms": 1.2,
+        "peak_efficiency": null,
+        "phase_R25_ohm": null,
+        "pole_pairs": null,
+        "rated_rpm": 3190.0,
+        "rated_voltage_Vdc": 400.0,
+        "rotor_air_m3_min_per_shaft_kW": null,
+        "rotor_inertia_kg_m2": null,
+        "source": "parker-GVM-old",
+        "torque_constant_Nm_per_Arms": null,
+        "version": "192_300108 catalogue pages5,10,16; historical winding, availability unconfirmed"
+      },
+      "original_document_sha256": null,
+      "pages": [
+        5,
+        10,
+        16
+      ],
+      "parsed_facts_sha256": "e167a29bd53c5be875897ad5512277e7d951c42b74bdf5f0d82a68646cf0077e",
+      "representation": "Primary publisher PDF parsed by web tool; original HTTP403 retained",
+      "url": "https://www.parker.com/content/dam/Parker-com/Literature/SSD-Drives/Literature/192_300108_GVM_catalogue.pdf"
+    }
+  },
+  "physical_accepted": false,
+  "prices": null,
+  "rejected": [
+    {
+      "id": "emdrive500-for-HV-motor",
+      "reason": "30\u2013120V emDrive500 cannot supply voltage needed by a high-voltage winding at required speed; current alone does not establish compatibility",
+      "url": "https://www.emdrive-mobility.com/portfolio/emdrive-500/"
+    },
+    {
+      "id": "PM150-unretrieved",
+      "reason": "Official PM150 PDF returned404; parsed search result alone not adopted as an active component configuration"
+    }
+  ],
+  "retrieval_date": "2026-10-28",
+  "retrievals": [
+    {
+      "bytes": 553741,
+      "content_type": "application/pdf",
+      "final_url": "https://emrax.com/wp-content/uploads/2025/06/EMRAX-348_datasheet_v1.7.pdf",
+      "id": "emrax-348-v1.7",
+      "retrieval": "completed",
+      "retrieved_UTC": "2026-10-28T18:04:52.626024+00:00",
+      "sha256": "9ae90016b6b1068e12497bce128d4c8aa4c1196032f8ebadcd6a5de1ff64c7f5",
+      "status": 200,
+      "url": "https://emrax.com/wp-content/uploads/2025/06/EMRAX-348_datasheet_v1.7.pdf"
+    },
+    {
+      "bytes": 893098,
+      "content_type": "application/pdf",
+      "final_url": "https://emrax.com/wp-content/uploads/2026/08/EMRAX_268_datasheet_v1.7_version-C.pdf",
+      "id": "emrax-268-C-v1.7",
+      "retrieval": "completed",
+      "retrieved_UTC": "2026-10-28T18:04:52.627698+00:00",
+      "sha256": "a3c527667ddcaafd3f49be6f06599cf2316fca12d60e8fe5b7f789e9f6f532ab",
+      "status": 200,
+      "url": "https://emrax.com/wp-content/uploads/2026/08/EMRAX_268_datasheet_v1.7_version-C.pdf"
+    },
+    {
+      "bytes": 1699025,
+      "content_type": "application/pdf",
+      "final_url": "https://www.emdrive-mobility.com/wp-content/uploads/2019/08/emDrive_H300_datasheet_V1_7.pdf",
+      "id": "emsiso-H300-v1.7",
+      "retrieval": "completed",
+      "retrieved_UTC": "2026-10-28T18:04:52.629054+00:00",
+      "sha256": "0d5bb5ebe7e2630905696c028ba8bc0626c828c19381030ab4a44c80a705eac5",
+      "status": 200,
+      "url": "https://www.emdrive-mobility.com/wp-content/uploads/2019/08/emDrive_H300_datasheet_V1_7.pdf"
+    },
+    {
+      "id": "cascadia-PM150",
+      "reason": "HTTPError: HTTP Error 404: Not Found",
+      "retrieval": "failed",
+      "retrieved_UTC": "2026-10-28T18:04:52.630222+00:00",
+      "url": "https://cascadiamotion.com/images/catalog/DataSheets/PM150.pdf"
+    },
+    {
+      "bytes": 658791,
+      "content_type": "application/pdf",
+      "final_url": "https://cdn.neugart.com/fileadmin/user_upload/Downloads/Catalog_Chapters/Neugart_PSN_EN.pdf",
+      "id": "neugart-PSN",
+      "retrieval": "completed",
+      "retrieved_UTC": "2026-10-28T18:04:53.129286+00:00",
+      "sha256": "f4912a1fee68e58808bf9049581503d26afc274470d31712f49494e358b8b04d",
+      "status": 200,
+      "url": "https://cdn.neugart.com/fileadmin/user_upload/Downloads/Catalog_Chapters/Neugart_PSN_EN.pdf"
+    },
+    {
+      "id": "apex-AB-spec",
+      "reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.apexdynamics.com.tw'. (_ssl.c:1032)>",
+      "retrieval": "failed",
+      "retrieved_UTC": "2026-10-28T18:04:53.203483+00:00",
+      "url": "https://www.apexdynamics.com.tw/eng/prod/AB_spec.htm"
+    },
+    {
+      "id": "parker-GVM-series",
+      "reason": "HTTPError: HTTP Error 403: Forbidden",
+      "retrieval": "failed",
+      "retrieved_UTC": "2026-10-28T18:04:53.265434+00:00",
+      "url": "https://www.parker.com/content/dam/Parker-com/Literature/Electromechanical-Europe/Literature/192_300140_Vehicle_Motor_Series.pdf"
+    },
+    {
+      "id": "apex-AB-regional",
+      "reason": "HTTPError: HTTP Error 999: AW Special Error",
+      "retrieval": "failed",
+      "retrieved_UTC": "2026-10-28T18:07:21.094940+00:00",
+      "url": "https://www.apexdynamics.it/wp-content/uploads/AB-series-als.pdf"
+    },
+    {
+      "id": "parker-GVM-2016",
+      "reason": "HTTPError: HTTP Error 403: Forbidden",
+      "retrieval": "failed",
+      "retrieved_UTC": "2026-10-28T18:07:21.096623+00:00",
+      "url": "https://www.parker.com/literature/SSD%20Drives/Mobile%20Electrification/PVD3668_GB%20GVM.pdf"
+    },
+    {
+      "id": "parker-GVM-old",
+      "reason": "HTTPError: HTTP Error 403: Forbidden",
+      "retrieval": "failed",
+      "retrieved_UTC": "2026-10-28T18:07:21.097519+00:00",
+      "url": "https://www.parker.com/content/dam/Parker-com/Literature/SSD-Drives/Literature/192_300108_GVM_catalogue.pdf"
+    },
+    {
+      "id": "parker-GVM-dev",
+      "reason": "HTTPError: HTTP Error 403: Forbidden",
+      "retrieval": "failed",
+      "retrieved_UTC": "2026-10-28T18:07:21.098637+00:00",
+      "url": "https://dev.parker.com/content/dam/Parker-com/Literature/SSD-Drives/Literature/192_300108_GVM_catalogue.pdf"
+    },
+    {
+      "id": "apex-manufacturer-current",
+      "reason": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1032)>",
+      "retrieval": "failed",
+      "retrieved_UTC": "2026-10-28T18:07:21.099519+00:00",
+      "url": "https://www.apexdyna.com/product/ab-abr-series"
+    }
+  ],
+  "schema": "osr-sourced-station-drive-facts/1",
+  "source_class": "B-published-specification; not supplier quote or railway test"
+}

@@ -1,0 +1,95 @@
+name: v0.6 published-specification design research
+on:
+  push:
+    branches: [main]
+    paths: ["engineering/sourced_case/**", "engineering/sourced_redesign/**", "docs/design-engine/sourced-case/**", "docs/design-engine/sourced-bolster/**", "tools/automation/sourced-*.py", "tools/automation/tests/test_sourced_*.py", "tests/test_sourced_*.py", "osr", ".github/workflows/sourced-hardware.yml"]
+  pull_request:
+    paths: ["engineering/sourced_case/**", "engineering/sourced_redesign/**", "docs/design-engine/sourced-case/**", "docs/design-engine/sourced-bolster/**", "tools/automation/sourced-*.py", "tools/automation/tests/test_sourced_*.py", "tests/test_sourced_*.py", "osr", ".github/workflows/sourced-hardware.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+jobs:
+  source-contracts:
+    timeout-minutes: 60
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
+      - name: Source domains, physical revisions and adversarial contracts
+        run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/sourced_case/tests engineering/sourced_redesign/tests tools/automation/tests/test_sourced_archive.py tests/test_sourced_execute.py tests/test_sourced_bolster_cell.py tools/automation/tests/test_sourced_bolster_package.py tools/automation/tests/test_sourced_workbench.py tools/automation/tests/test_sourced_verify.py
+  semantic-replay:
+    timeout-minutes: 60
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
+      - name: Reassemble the original authenticated payload
+        run: .venv/bin/python tools/automation/sourced-archive.py ensure docs/design-engine/sourced-case
+      - name: Rebuild all five registries and actually replay every coupled case
+        run: .venv/bin/python tools/automation/sourced-verify.py docs/design-engine/sourced-case --workers 3 --audit build/sourced-replay-audit
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sourced-semantic-replay-receipts
+          path: |
+            build/sourced-replay-audit/**/orchestration.json
+            build/sourced-replay-audit/**/worker-result.json
+            build/sourced-replay-audit/**/stderr.log
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: failed-sourced-semantic-executions
+          path: build/sourced-replay-audit/
+          retention-days: 14
+  geometry-and-recorded-methods:
+    timeout-minutes: 60
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
+      - name: Verify corrected and rejected structural experiments
+        run: ./osr design sourced verify-methods
+      - name: Verify the separate physical bolster experiment
+        run: ./osr design sourced verify-methods --output docs/design-engine/sourced-bolster
+      - name: Replay all downstream stages and IFC of the new bolster body
+        run: .venv/bin/python tools/automation/sourced-bolster-package.py verify-publication docs/design-engine/sourced-bolster
+      - name: Reopen all five full-train occurrence inventories
+        run: ./osr design sourced verify-geometry
+  bounded-generation:
+    timeout-minutes: 20
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: python -m venv .venv
+      - run: .venv/bin/pip install pytest --requirement engineering/sourced_case/requirements.txt
+      - name: Generate one fresh bounded research case
+        run: ./osr design sourced run --state build/sourced-cell-ci --max-cases 1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sourced-hardware-executions
+          path: build/sourced-cell-ci/
+          retention-days: 14

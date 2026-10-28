@@ -14,6 +14,8 @@ The wider project still includes city planning, CAD/BIM, manufacturing, business
 
 The [continuing numerical reference-cell work](docs/design-engine/continuing-cell/README.md), through `./osr design progress`, connects finite-contact mechanical launch alternatives, force-driven conditional journeys, modular station load paths, trajectory-to-guideway reactions and dimension-derived manufacturing plans. Actual refined moving-LIM and located-stock structural runs remain separate from accepted operating maps and physical qualification. The selected wheel/LIM reference and the wider delivery platform remain unchanged.
 
+The [published-specification design campaign](docs/design-engine/sourced-case/README.md), through `./osr design sourced`, applies actual motor, gear, bus HVAC, battery, converter and material data to revised equipped vehicles. It propagates the resulting mass, electrical limits, journeys, civil loads and production quantities, retaining failed structural models and explicit test requests. Public catalogue data supports research comparisons; it does not replace installed-component measurements, complete quotations or railway qualification.
+
 ## Why OpenSourceRail
 
 - **Build useful capability locally.** Develop concrete precasting, structural fabrication, GFRP panels, interiors, winding, wiring, assembly, inspection and maintenance alongside the railway. Qualify local suppliers rather than assuming every component can already be made locally.

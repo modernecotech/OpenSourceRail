@@ -1,5 +1,7 @@
 # v0.6 engineering and prototype roadmap
 
+The [published-specification campaign](design-engine/sourced-case/README.md) replaces selected placeholders with exact source variants, revises actual physical inventories and carries those changes through conditional journeys, civil quantities and production drafts. Its closure matrix distinguishes executable software, numerical validity, catalogue conditions, actual measurements and independent acceptance; public prices remain scoped estimates.
+
 The [continuing cell](design-engine/continuing-cell/README.md) adds actual second-order moving-field runs, located-stock structural calculations, mechanically bounded launch/coast/brake scenarios, physical station-drive revisions, modular station load paths, trajectory-linked civil reactions and dimensional manufacturing routes. These advance numerical design; prototype measurements, qualified models/prices, HIL, independent assessment and a commissioned pilot remain external acceptance work.
 
 OpenSourceRail v0.6 develops a station-powered, wheel-supported comfort train. [The selector](../engineering/development-baseline.toml) binds one physical candidate across the [current dossier](design-engine/current/README.md), Workbench, reader and delivery drafts. Six 17 m cars retain 44 seats plus two wheelchair places/car, zero planned standing, one-sided doors and station-led GoA4. Conventional wheel support replaces magnetic levitation; station-only propulsion remains the main new feasibility question.
