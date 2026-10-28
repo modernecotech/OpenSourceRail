@@ -4,9 +4,9 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 
 [Project introduction](../../../README.md) · [System approach](../../../engineering/README.md) · [Current design and engineering gates](README.md)
 
-All **911 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
+All **912 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
 
-Existing local navigation reaches current context from **841 documents**. This page supplies an explicit current-context route for the remaining **70 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
+Existing local navigation reaches current context from **842 documents**. This page supplies an explicit current-context route for the remaining **70 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
 Historical numerical city, design and research packets retain their exact README payloads and original scope. Historical source bindings resolve at the pinned Git revision. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.
 
@@ -26,7 +26,7 @@ Historical numerical city, design and research packets retain their exact README
 | manual-current-entrypoint | 10 |
 | project-frontdoor | 1 |
 | retained-assurance-evidence | 8 |
-| retained-design-evidence | 77 |
+| retained-design-evidence | 78 |
 | trip-dynamics-method | 2 |
 
 Regenerate and check with:
@@ -916,6 +916,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [docs/design-engine/practical-launch/README.md](../practical-launch/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [current](README.md) |
 | [docs/design-engine/propulsion-layout/README.md](../propulsion-layout/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [practical-launch](../practical-launch/README.md) → [current](README.md) |
 | [docs/design-engine/railway-closure/README.md](../railway-closure/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [docs/design-engine/station-accelerators/README.md](../station-accelerators/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [propulsion-layout](../propulsion-layout/README.md) → [practical-launch](../practical-launch/README.md) → [current](README.md) |
 | [docs/design-engine/trip-dynamics/README.md](../trip-dynamics/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [trip_dynamics](../../../engineering/trip_dynamics/README.md) → [project](../../../README.md) |
 | [docs/design-engine/v06-adaptive-design/README.md](../v06-adaptive-design/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/v06-architecture/README.md](../v06-architecture/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |

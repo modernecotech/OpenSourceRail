@@ -1,0 +1,69 @@
+schema = "osr-station-accelerator-priority/1"
+revision = "PASSIVE-SPARSE-1"
+purpose = "next-experiment"
+active_priority = "passive-bogie-sparse-wayside-acceleration"
+reference_changes_allowed = false
+native_dispatch = false
+maximum_seconds = 120
+maximum_layouts = 6
+
+[architecture]
+passive_bogies_only = true
+onboard_powered_axles = 0
+onboard_traction_motors = 0
+onboard_traction_store_allowed = false
+auxiliary_and_essential_power_retained = true
+independent_service_emergency_parking_brakes_retained = true
+wayside_motor_concept = "double-sided LIM acting on passive aluminium fins"
+wayside_energy_buffer = "optional station equipment; not specified or credited"
+recovery = "protected external rescue/tow and evacuation; no hidden onboard traction"
+receiving = "independent braking retained; complete receiving and regeneration comparison remains open"
+
+[comparison]
+speed_m_s = 20.0
+acceleration_m_s2 = 0.4
+service_deceleration_m_s2 = 0.6
+launch_command_m = 500.0
+station_spacing_m = [1500.0, 2000.0]
+grade_fraction = [0.0, 0.02, -0.02]
+loads = ["empty", "normal", "crowd-control"]
+headway_target_s = 120.0
+dwell_s = 35.0
+
+[priority]
+lead_layout = "front-aligned-five-20"
+onboard_drive_studies = "retained-secondary-research-comparisons"
+physical_acceptance = false
+whole_life_winner = false
+site_count_and_length_are_revisable = true
+detailed_target_requests = "lead-layout-only"
+
+[[layouts]]
+name = "original-three-20"
+role = "retained-user-seed"
+bank_length_m = 20.0
+starts_m = [0.0, 104.5, 204.5]
+
+[[layouts]]
+name = "previous-six-20"
+role = "retained-geometric-comparison"
+bank_length_m = 20.0
+starts_m = [0.0, 104.5, 204.5, 304.5, 404.5, 504.5]
+
+[[layouts]]
+name = "front-aligned-five-20"
+role = "lead-research-layout"
+bank_length_m = 20.0
+starts_m = [91.5, 191.875, 292.25, 392.625, 493.0]
+
+[[layouts]]
+name = "lean-five-17p5"
+role = "less-primary-stock-comparison"
+bank_length_m = 17.5
+starts_m = [91.5, 192.5, 293.5, 394.5, 495.5]
+
+[[layouts]]
+name = "overlap-five-21p5"
+role = "greater-individual-overlap-comparison"
+bank_length_m = 21.5
+starts_m = [91.5, 191.5, 291.5, 391.5, 491.5]

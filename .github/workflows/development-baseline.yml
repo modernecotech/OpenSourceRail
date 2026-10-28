@@ -2,6 +2,8 @@ name: v0.6 wheel and station reference design
 on:
   pull_request:
     paths:
+      - "campaigns/station-accelerator-development.toml"
+      - "docs/design-engine/station-accelerators/**"
       - "campaigns/simple-affordable-propulsion.toml"
       - "docs/design-engine/propulsion-layout/**"
       - "campaigns/practical-launch-comparison.toml"
@@ -69,6 +71,8 @@ on:
   push:
     branches: [main]
     paths:
+      - "campaigns/station-accelerator-development.toml"
+      - "docs/design-engine/station-accelerators/**"
       - "campaigns/simple-affordable-propulsion.toml"
       - "docs/design-engine/propulsion-layout/**"
       - "campaigns/practical-launch-comparison.toml"
@@ -167,6 +171,8 @@ jobs:
       - run: .venv/bin/python -m engineering.design_search.launch_options verify
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_propulsion_storage.py engineering/design_search/tests/test_sparse_launch.py engineering/design_search/tests/test_propulsion_layout.py
       - run: .venv/bin/python -m engineering.design_search.propulsion_layout verify
+      - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_station_accelerators.py
+      - run: .venv/bin/python -m engineering.design_search.station_accelerators verify
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_requirement_policy.py engineering/design_search/tests/test_design_variables.py engineering/design_search/tests/test_revision_planner.py engineering/design_search/tests/test_adaptive_campaign.py engineering/design_search/tests/test_section_proposals.py tests/test_body_revision.py
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_design_grammar.py engineering/design_search/tests/test_interface_graph.py engineering/design_search/tests/test_material_database.py engineering/design_search/tests/test_dfma.py engineering/design_search/tests/test_generative_publication.py tests/test_grammar_structure.py
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/design_search/tests/test_railway_bundle.py engineering/design_search/tests/test_railway_campaign.py engineering/design_search/tests/test_railway_delivery.py engineering/design_search/tests/test_system_inventory.py engineering/design_search/tests/test_system_selection.py engineering/design_search/tests/test_system_motion.py engineering/design_search/tests/test_transient_lim.py tests/test_grammar_shell.py

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **940**.
+Indexed Markdown files: **942**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **940**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 104 |
+| [docs](#docs) | 106 |
 | [engineering](#engineering) | 21 |
 | [tools](#tools) | 2 |
 
@@ -967,6 +967,8 @@ Indexed Markdown files: **940**.
 | [`docs/design-engine/propulsion-layout/README.md`](../docs/design-engine/propulsion-layout/README.md) | Simpler propulsion: powered bogies and sparse accelerators |
 | [`docs/design-engine/propulsion-layout/comparison-summary.md`](../docs/design-engine/propulsion-layout/comparison-summary.md) | Propulsion layout findings |
 | [`docs/design-engine/railway-closure/README.md`](../docs/design-engine/railway-closure/README.md) | Candidate-to-journey closure |
+| [`docs/design-engine/station-accelerators/README.md`](../docs/design-engine/station-accelerators/README.md) | Active direction: passive trains and short wayside accelerators |
+| [`docs/design-engine/station-accelerators/findings.md`](../docs/design-engine/station-accelerators/findings.md) | Passive wayside accelerator findings |
 | [`docs/design-engine/trip-dynamics/README.md`](../docs/design-engine/trip-dynamics/README.md) | Six-car journey simulation programme |
 | [`docs/design-engine/v06-adaptive-design/README.md`](../docs/design-engine/v06-adaptive-design/README.md) | Function-first adaptive design |
 | [`docs/design-engine/v06-architecture/README.md`](../docs/design-engine/v06-architecture/README.md) | Whole-railway architecture research |
