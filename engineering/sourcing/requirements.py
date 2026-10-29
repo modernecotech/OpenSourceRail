@@ -1,0 +1,161 @@
+"""Typed unresolved BOM extraction; an account is never a physical occurrence."""
+from collections import defaultdict
+from copy import deepcopy
+from .model import identity, is_id, record, decimal_text, validate_record
+
+PRIORITIES = (
+    ("propulsion", ("lim", "propulsion", "winding", "inverter", "motor", "secondary")),
+    ("civil", ("foundation", "concrete", "precast", "pier", "beam", "civil")),
+    ("body-materials", ("gfrp", "laminate", "body", "floor", "roof", "frame", "resin", "fabric")),
+    ("running-gear", ("bogie", "wheel", "axle", "bearing", "suspension", "running-gear")),
+    ("braking", ("brake", "braking", "caliper")),
+    ("station", ("station", "platform", "lift", "access")),
+    ("HVAC", ("hvac", "cooling", "duct", "thermal")),
+    ("auxiliary-power", ("battery", "bms", "auxiliary", "converter", "power-supply")),
+    ("doors-glazing", ("door", "glazing", "window", "seal")),
+    ("erection", ("crane", "erection", "transport", "lifting")),
+    ("track", ("rail", "fastening", "baseplate", "pandrol")),
+    ("solar", ("solar", "photovoltaic", "pv-module")),
+    ("controls", ("control", "sensor", "processor", "electronics", "communication", "atp")),
+    ("factory-qa", ("inspection", "factory", "tooling", "mould", "vacuum", "quality")),
+)
+
+
+def classify(value):
+    words = " ".join(str(item) for item in value).lower()
+    # Explicit system labels take precedence over incidental 'frame' in IDs.
+    for index, (category, terms) in enumerate(PRIORITIES, 1):
+        if any(term in words for term in terms):
+            return category, index
+    return "other", len(PRIORITIES) + 1
+
+
+def _candidate(value):
+    if not is_id(value):
+        raise ValueError("Exact physical candidate identity required")
+    return value
+
+
+def _identifiers(part):
+    result = {}
+    for container in (part.get("procurement", {}), part.get("electrical_thermal", {}), part.get("evidence", {})):
+        for field in ("manufacturer", "part_number", "manufacturer_part_number", "SKU", "model"):
+            if isinstance(container.get(field), str) and container[field].strip():
+                result[field] = container[field]
+    return result
+
+
+def extract_requirements(payload, *, candidate_id=None, namespace=None):
+    """Read one typed input without synthesizing missing unit counts.
+
+    Integrated/vehicle bindings require an explicit wrapper containing matching
+    candidate_id and body_candidate_id; a string override cannot relabel a body.
+    """
+    if not isinstance(payload, dict):
+        raise ValueError("Typed BOM object required")
+    vehicle = payload.get("vehicle", payload)
+    registry = vehicle.get("registry") if isinstance(vehicle, dict) else None
+    if payload.get("schema") == "osr-component-registry/1":
+        registry = payload
+    if registry is not None:
+        if namespace not in (None, "component_registry"):
+            raise ValueError("Registry and scene namespaces are not interchangeable")
+        from engineering.component_registry import validate_registry
+        validate_registry(registry)
+        body = registry["candidate_id"]
+        candidate = _candidate(candidate_id or payload.get("candidate_id") or body)
+        if candidate != body and (payload.get("candidate_id") != candidate or payload.get("body_candidate_id") != body):
+            raise ValueError("Explicit integrated/body candidate binding required")
+        if isinstance(vehicle, dict) and vehicle is not registry and vehicle.get("candidate_id", body) != body:
+            raise ValueError("Vehicle registry candidate differs")
+        parts = {part["physical_definition_id"]: part for part in registry["parts"]}
+        groups = defaultdict(list)
+        for occurrence in registry["occurrences"]:
+            groups[(occurrence["part_definition_id"], occurrence["part_revision_id"])].append(occurrence)
+        rows = []
+        for (definition, revision), occurrences in sorted(groups.items()):
+            part = parts[definition]
+            category, priority = classify(part["functions"] + [part["part_id"]])
+            scopes = sorted({o["scope"] for o in occurrences})
+            rows.append(record("requirement", candidate_id=candidate, input_id=registry["registry_id"],
+                namespace="component_registry", body_candidate_id=body, registry_id=registry["registry_id"],
+                requirement_key=part["part_id"], part_definition_id=definition, part_revision_id=revision,
+                description=part["part_id"], functions=part["functions"], category=category, priority=priority,
+                quantity=str(len(occurrences)), quantity_unit="each", occurrence_ids=[o["occurrence_id"] for o in occurrences],
+                physical_scopes=scopes, procurement_scope=part.get("procurement", {}).get("scope", "one-part"),
+                identifiers=_identifiers(part), constraints=deepcopy(part.get("procurement", {}).get("sourcing_constraints", [])),
+                geometry=deepcopy(part["geometry"]), material_id=part["material_id"],
+                mass_per_unit_kg=deepcopy(part["mass"]), cost_status="unpriced" if part["cost"].get("lower_usd") is None else "retained-price-needs-source-check",
+                installed_mass_complete=False, source_evidence=deepcopy(part.get("evidence", {}))))
+        return rows
+    if payload.get("schema") == "osr-v06-engineering-bom/1":
+        if namespace not in (None, "station-account"):
+            raise ValueError("Selected reference accounts are not registry occurrences")
+        candidate = _candidate(payload.get("candidate_id"))
+        if candidate_id is not None and candidate_id != candidate:
+            raise ValueError("Mixed selected reference candidate")
+        input_id = identity(payload)
+        rows = []
+        seen = set()
+        for account in payload["stock_inventory_per_car"]:
+            key = account["id"]
+            if key in seen:
+                raise ValueError("Duplicate selected reference account")
+            seen.add(key)
+            category, priority = classify([account.get("system", ""), key])
+            rows.append(record("requirement", candidate_id=candidate, input_id=input_id,
+                namespace="station-account", body_candidate_id=payload.get("body_candidate_id"), registry_id=None,
+                requirement_key=key, part_definition_id=None, part_revision_id=None,
+                description=key, category=category, priority=priority, functions=[account.get("system", "unresolved")],
+                quantity=None, quantity_unit=None, occurrence_ids=[], physical_scopes=["selected-reference-account/"+key],
+                procurement_scope="mixed-subtotal-account-per-car", identifiers={}, constraints=[],
+                accounted_mass_kg_per_car=account.get("mass_kg"), mass_per_unit_kg=None,
+                quantity_basis="Unresolved aggregate account, not a purchased part; formation is not a unit count",
+                source_account=deepcopy(account), cost_status="unresolved-physical-definition", installed_mass_complete=False))
+        return rows
+    if payload.get("schema") == "osr-federated-railway-BOM/1":
+        if namespace not in (None, "twin-scene"):
+            raise ValueError("Federated scene and registry namespaces differ")
+        from engineering.station_rail.common import identity as native_identity
+        if payload.get("evaluation_id") != native_identity({k:v for k,v in payload.items() if k != "evaluation_id"}):
+            raise ValueError("Federated BOM identity differs")
+        candidate = _candidate(payload.get("candidate_id"))
+        if candidate_id is not None and candidate_id != candidate:
+            raise ValueError("Mixed whole-cell candidate")
+        rows, seen = [], set()
+        for item in payload["engineering_BOM"]:
+            if item.get("candidate_id") != candidate or item["id"] in seen:
+                raise ValueError("Mixed or duplicate scene occurrence")
+            seen.add(item["id"])
+            located = item["scope"] != "unlocated-account-or-obligation"
+            if located and item.get("quantity") != 1:
+                raise ValueError("Scene stock rows must represent one actual occurrence")
+            category, priority = classify([item["system"], item["id"]])
+            rows.append(record("requirement", candidate_id=candidate, input_id=payload["evaluation_id"], namespace="twin-scene",
+                requirement_key=item["id"], description=item["id"], category=category, priority=priority,
+                scene_component_definition_id=item["component_definition_id"], part_definition_id=None, part_revision_id=None,
+                registry_id=None, quantity="1" if located else None, quantity_unit="each" if located else None,
+                occurrence_ids=[item["id"]] if located else [], physical_scopes=[item["id"]],
+                procurement_scope="gross-stock-occurrence" if located else "unlocated-account",
+                identifiers={}, constraints=[], accounted_mass_kg=item.get("accounted_mass_kg"),
+                mass_per_unit_kg=None, source_scene_row=deepcopy(item), cost_status="unpriced", installed_mass_complete=False))
+        return rows
+    raise ValueError("Unsupported typed sourcing input; provide a registry or declared BOM schema")
+
+
+def validate_requirements(requirements):
+    if not isinstance(requirements, list) or not requirements:
+        raise ValueError("Nonempty sourcing requirements required")
+    candidate = requirements[0]["candidate_id"]
+    seen, occurrence_keys = set(), set()
+    for requirement in requirements:
+        validate_record(requirement, "requirement")
+        if requirement["candidate_id"] != candidate or requirement["record_id"] in seen:
+            raise ValueError("Mixed or duplicate candidate requirements")
+        seen.add(requirement["record_id"])
+        for occurrence in requirement["occurrence_ids"]:
+            key = (requirement["namespace"], occurrence)
+            if key in occurrence_keys:
+                raise ValueError("Overlapping sourcing occurrence scope")
+            occurrence_keys.add(key)
+    return candidate
