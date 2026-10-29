@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>OpenSourceRail Sourcing Workbench</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark" aria-hidden="true">OSR</div>
+    <div>
+      <p class="eyebrow">OpenSourceRail · local review</p>
+      <h1>Sourcing Workbench</h1>
+    </div>
+    <div class="read-only-pill"><span class="dot"></span>Read only</div>
+  </header>
+
+  <main>
+    <section class="notice" aria-label="Scope and permissions">
+      <div class="notice-icon" aria-hidden="true">i</div>
+      <div>
+        <h2>Evidence for review, with scope visible</h2>
+        <p>Prices, catalogue matches and RFQ drafts describe only the typed input and dated observations. A vehicle-only input does not cover guideway, stations, energy supply, delivery or whole-life cost.</p>
+        <p class="notice-strong">No supplier messages are sent. RFQ drafts are disabled. This Workbench cannot approve hardware, procurement or a reference selection.</p>
+      </div>
+    </section>
+
+    <section class="section-heading">
+      <div>
+        <p class="eyebrow">Local sourcing database</p>
+        <h2>Coverage at a glance</h2>
+      </div>
+      <span id="connection-state" class="status-label">Checking local database…</span>
+    </section>
+    <div id="summary-cards" class="summary-grid" aria-live="polite"></div>
+    <p id="scope-note" class="muted"></p>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div><p class="eyebrow">Evaluation history</p><h2>Runs</h2></div>
+        <p class="panel-note">Each run keeps its candidate and estimate date.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Estimate date</th><th>Candidate</th><th>Requirements</th><th>Priced</th><th>Unknown quantity</th><th>Known catalogue subtotal</th><th>Review</th></tr></thead>
+          <tbody id="runs-body"><tr><td colspan="7" class="empty">Loading runs…</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pagination"><span id="runs-page-label" class="muted"></span><div><button id="runs-prev" type="button">Previous</button><button id="runs-next" type="button">Next</button></div></div>
+    </section>
+
+    <section id="run-detail" class="panel detail-panel" hidden>
+      <div class="panel-heading">
+        <div><p class="eyebrow">Selected evaluation</p><h2 id="detail-title">Evidence</h2></div>
+        <label class="select-label">Evidence type
+          <select id="detail-section">
+            <option value="requirements">Requirements</option>
+            <option value="technical_assessments">Technical assessments</option>
+            <option value="price_assessments">Price assessments</option>
+            <option value="RFQ_drafts">Disabled RFQ drafts</option>
+            <option value="redesign_tasks">Redesign tasks</option>
+          </select>
+        </label>
+      </div>
+      <div id="rfq-disabled" class="inline-status" hidden>RFQ drafts are disabled. No supplier messages or purchase requests can be submitted here.</div>
+      <div class="table-wrap">
+        <table>
+          <thead id="detail-head"></thead>
+          <tbody id="detail-body"><tr><td class="empty">Select an evaluation to view its evidence.</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pagination"><span id="detail-page-label" class="muted"></span><div><button id="detail-prev" type="button">Previous</button><button id="detail-next" type="button">Next</button></div></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-heading">
+        <div><p class="eyebrow">Append-only observations</p><h2>Catalogue records</h2></div>
+        <label class="select-label">Record type
+          <select id="record-kind">
+            <option value="requirement">Requirements</option>
+            <option value="product">Products</option>
+            <option value="offer">Offers</option>
+            <option value="source">Sources</option>
+            <option value="assessment">Technical assessments</option>
+            <option value="rfq">RFQ drafts</option>
+            <option value="benchmark">Benchmarks</option>
+            <option value="process">Manufacturing processes</option>
+          </select>
+        </label>
+      </div>
+      <div id="record-rfq-note" class="inline-status" hidden>These are disabled research drafts. Sending supplier emails and procurement authorization are off.</div>
+      <div class="table-wrap">
+        <table>
+          <thead id="records-head"></thead>
+          <tbody id="records-body"><tr><td class="empty">Loading records…</td></tr></tbody>
+        </table>
+      </div>
+      <div class="pagination"><span id="records-page-label" class="muted"></span><div><button id="records-prev" type="button">Previous</button><button id="records-next" type="button">Next</button></div></div>
+    </section>
+
+    <footer><span>OpenSourceRail · sourcing intelligence</span><span>Local HTTP only · GET and HEAD</span></footer>
+  </main>
+</body>
+</html>
