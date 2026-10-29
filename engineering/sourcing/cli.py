@@ -6,6 +6,7 @@ packets. Procurement drafts stay disabled and no physical approval is made.
 import argparse
 from copy import deepcopy
 from datetime import date
+import gzip
 import json
 import os
 from pathlib import Path
@@ -107,6 +108,16 @@ def _parser():
                              help="Recipe JSON with exact benchmark IDs and declared quantities")
     fabrication.add_argument("--output", required=True, type=Path,
                              help="Fresh JSON output path")
+
+    takeoff = sub.add_parser("takeoff", help="Build traceable stock material quantity roll-ups")
+    takeoff_sub = takeoff.add_subparsers(dest="takeoff_command", required=True)
+    material = takeoff_sub.add_parser("material", help="Roll up candidate-bound stock mass and geometry")
+    material.add_argument("--input", required=True, type=Path,
+                          help="Federated railway BOM JSON or source archive")
+    material.add_argument("--member", help="Exact JSON member in a tar.gz input")
+    material.add_argument("--as-of", required=True, help="Benchmark cutoff date (YYYY-MM-DD)")
+    material.add_argument("--output", required=True, type=Path,
+                          help="Fresh JSON or .json.gz takeoff output")
 
     sub.add_parser("status", help="Show database record counts and recent evaluation summaries")
     show = sub.add_parser("show", help="Show a run summary and its bounded evidence counts")
@@ -343,6 +354,39 @@ def _estimate_fabrication(store, *, input_path, member, recipe_path, output_path
                 physical_qualification=None)
 
 
+def _material_takeoff(*, input_path, member, as_of, output_path):
+    from .takeoff import material_takeoff
+
+    twin_input = inputs.load_twin(input_path, member=member)
+    result = material_takeoff(twin_input, catalogue_records=catalogue.load_catalogue(), as_of=as_of)
+    source_hashes = publication.sources(root=ROOT)
+    source_hashes["engineering/sourcing/cli.py"] = inputs.digest(ROOT / "engineering/sourcing/cli.py")
+    for name in ("engineering/sourcing/data/supplier-catalogue.json",
+                 "engineering/sourcing/data/public-feeds.json"):
+        source_hashes[name] = inputs.digest(ROOT / name)
+    result["source_sha256"] = source_hashes
+    result.pop("takeoff_id", None)
+    result["takeoff_id"] = identity(result)
+
+    path = Path(output_path).expanduser().resolve()
+    if path.exists() or path.is_symlink():
+        raise ValueError("Fresh material takeoff output path required")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    raw = encoded(result) + b"\n"
+    with path.open("xb") as stream:
+        stream.write(gzip.compress(raw, mtime=0) if path.name.endswith(".gz") else raw)
+    raw_references = [row["raw_commodity_reference"] for row in result["material_rollups"]
+                      if row["raw_commodity_reference"] is not None]
+    return dict(output=str(path), takeoff_id=result["takeoff_id"],
+                candidate_id=result["candidate_id"], evaluation_id=result["evaluation_id"],
+                source_input_id=result["source_input_id"],
+                manufacturing_group_count=result["input_provenance"]["manufacturing_group_count"],
+                engineering_occurrence_count=result["input_provenance"]["located_occurrence_count"],
+                unlocated_account_count=result["input_provenance"]["unlocated_account_count"],
+                summary=result["summary"], raw_commodity_references=raw_references,
+                complete_installed_cost=None, physical_qualification=None)
+
+
 def main(argv=None):
     parser = _parser()
     args = parser.parse_args(argv)
@@ -356,6 +400,13 @@ def main(argv=None):
         if args.command == "serve":
             from .workbench import serve
             serve(database, port=args.port)
+            return 0
+
+        if args.command == "takeoff":
+            if args.takeoff_command != "material":
+                parser.error("unsupported sourcing takeoff")
+            _emit(_material_takeoff(input_path=args.input, member=args.member,
+                as_of=args.as_of, output_path=args.output))
             return 0
 
         if args.command == "refresh":

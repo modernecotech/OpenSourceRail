@@ -57,6 +57,29 @@ The [CSO statistics page](https://cosit.gov.iq/ar/63-stat-ar/283-2013-02-11-03-3
 
 The CSO rebar statistic and the marketplace indicator differ in date and scope. They are retained separately and are not blended into a fabricated quote. The public [Cement Producers Association directory](https://cpai.iq/companies) identifies Iraqi cement producers for RFQ follow-up. More domestic manufacturing leads are [Star Steel Iraq](https://starsteeliraq.com/manufacturing/) and [Alpha Steel](https://alphasteel.iq/) for reinforcing steel; [Dijla Precast](https://dijla-precast.com/production-lines/), [Karbala Precast](https://karbala-company.com/), [Al-Fayha](https://www.al-fayhagroup.net/products/prefabricated-building-products), [Al-Burhan](https://www.alburhangroup.com/concrete-precast-factory.php) and [Al-Kanz](https://alkanz.iq/about-us/) for precast/piles/girders. Their public pages establish supplier leads only. Request exact grades, certificates, capacity allocation, schedule, warranty, transport and binding project quotations before using them in a candidate estimate. The regional [FRP Technology](https://www.frptechnology.com/) lead advertises an Iraq distribution network, but this does not establish Iraqi GFRP feedstock manufacture or local stock.
 
+### Candidate material takeoff
+
+`./osr source takeoff material` now produces a material-oriented roll-up from the exact federated railway BOM. The [source-bound takeoff](material-takeoff/federated-v06-stock-takeoff.json.gz) retains all 2,269 manufacturing-group identities and all 27,216 located engineering occurrences, while leaving the 4,773 unlocated accounts separate. It derives **4,780.58 t of located gross stock mass** and **1,804.81 m³ of nominal concrete stock geometry** from the candidate bundle. These are modeled stock quantities; they are not weighed installed mass, purchase orders, or complete project quantities.
+
+| Material family | Candidate stock quantity | Sourced price reference | Treatment |
+|---|---:|---:|---|
+| Station LIM copper conductor | 9.35424 t across five banks | USD 14,474/t; raw commodity extension USD 135,393.27 | World Bank September 2026 copper benchmark; winding conductor, insulation, winding labour, converter, cooling and installation remain unpriced |
+| Vehicle-body aluminium reference | 17.53561 t | USD 3,283/t; raw commodity extension USD 57,569.40 | World Bank September 2026 aluminium benchmark; sheet/extrusion mix, alloy, forming, joining, finish and installation remain unpriced |
+| Proposed 6082-T6 onboard secondary | 1.65206 t | USD 3,283/t; raw commodity extension USD 5,423.70 | Primary aluminium benchmark only; alloy/temper premium, plate form, machining and assembly remain unpriced |
+| Concrete guideway stock | 4,512.02 t; 1,804.81 m³ | No compatible finished-concrete rate | CSO cement, sand and gravel observations exist, but the candidate has no mix design, reinforcement/prestress takeoff or local installed concrete quote |
+| 60E1-equivalent rail | 195.08 t | No compatible rate | The retained ArcelorMittal catalogue observation is for a different rail profile; no price is transferred |
+
+The metal extensions are raw-commodity comparisons, **not accepted supplier matches, product prices, cost bounds or installed-cost estimates**. The takeoff links the Baghdad CSO skilled-worker wage observation of IQD 9,375/person-hour, normalized from the 2025 daily average using an 8-hour day. None of the 2,269 groups declares labour hours, so direct labour, a combined-currency fabrication cost and the 20% uplift remain uncomputed for them. The separate rebar examples below are the only current material-plus-labour scenarios; their hours remain explicit planning assumptions.
+
+Reproduce the takeoff from its exact digital-twin source:
+
+```bash
+./osr source takeoff material \
+  --input docs/design-engine/digital-twin/3a07936303fe5d471a88c95875e55b73b13a5cda94e98d1169f168c647766a93.tar.gz \
+  --member federated-bom.json.gz --as-of 2026-10-29 \
+  --output build/federated-v06-stock-takeoff.json.gz
+```
+
 The domestic fabrication screen is formula-driven:
 
 ```text
