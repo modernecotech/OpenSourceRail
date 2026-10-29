@@ -29,10 +29,18 @@ def build_rfq_drafts(requirements, assessments=()):
             product_configuration=r.get("product_configuration"),
             reference_mass_per_unit_kg=r.get("mass_per_unit_kg"),
             reference_accounted_mass_kg_per_car=r.get("accounted_mass_kg_per_car"),
+            source_manufacturing_group_id=r.get("source_manufacturing_group_id"),
+            source_manufacturing_group=r.get("source_manufacturing_group"),
+            engineering_occurrence_count=r.get("engineering_occurrence_count", len(r["occurrence_ids"])),
+            source_gross_stock_mass_kg=r.get("accounted_mass_kg"),
+            scene_component_definition_ids=r.get("scene_component_definition_ids", []),
+            scene_geometry_ids=r.get("scene_geometry_ids", []),
+            system=r.get("system"), material=r.get("material"), stock_scope=r.get("stock_scope"),
+            procurement_unit_status=r.get("procurement_unit_status"),
             complete_installed_definition=False,
             product_lead_ids=sorted(leads[r["record_id"]]),
             unresolved_definition=r["quantity"] is None,
-            requested_evidence=["configured dimensions and installed scope", "mass and operating domain", "dated quantity price and currency", "MOQ/order multiples", "lead time, delivery terms and origin", "qualification and maintenance records"])
+            requested_evidence=["configured dimensions and installed scope", "mass and operating domain", "purchasing unit, conversion and usable quantity", "dated quantity price and currency", "MOQ/order multiples", "lead time, delivery terms and origin", "qualification and maintenance records"])
             for r in sorted(rows, key=lambda r:r["record_id"])],
         supplier=None, docstatus=0, submission_allowed=False, send_supplier_emails=False,
         purchase_authorized=False, ready_for_production_import=False)
@@ -49,6 +57,10 @@ def delivery_drafts(requirements, assessments=(), *, existing_orders=()):
             item_name=requirement["description"], candidate_id=candidate,
             requirement_id=requirement["record_id"], registry_id=requirement.get("registry_id"),
             part_definition_id=requirement.get("part_definition_id"), part_revision_id=requirement.get("part_revision_id"),
+            source_manufacturing_group_id=requirement.get("source_manufacturing_group_id"),
+            engineering_occurrence_ids=requirement["occurrence_ids"],
+            source_gross_stock_mass_kg=requirement.get("accounted_mass_kg"),
+            procurement_unit_status=requirement.get("procurement_unit_status"),
             disabled=1, is_stock_item=0, docstatus=0, procurement_approved=False,
             submission_allowed=False, source_observation_ids=[]))
     bom = dict(doctype="BOM", item="OSR-SOURCING-CANDIDATE-"+candidate,
@@ -56,7 +68,9 @@ def delivery_drafts(requirements, assessments=(), *, existing_orders=()):
         submission_allowed=False, manufacturing_release=False, total_cost=None,
         scope="Engineering quantity draft; not a manufacturing routing or released MBOM",
         items=[dict(item_code="OSR-SOURCING-"+r["record_id"], qty=r["quantity"], uom=r["quantity_unit"],
-                    namespace=r["namespace"], occurrence_ids=r["occurrence_ids"])
+                    namespace=r["namespace"], occurrence_ids=r["occurrence_ids"],
+                    source_manufacturing_group_id=r.get("source_manufacturing_group_id"),
+                    procurement_unit_status=r.get("procurement_unit_status"))
                for r in requirements if r["quantity"] is not None],
         unresolved_requirement_ids=[r["record_id"] for r in requirements if r["quantity"] is None])
     # Existing orders are referenced for review, never patched or resubmitted.

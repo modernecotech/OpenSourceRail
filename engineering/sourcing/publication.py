@@ -120,6 +120,10 @@ def execute(store, twin_input, request, *, root=ROOT):
     else:
         selected = requirements if maximum is None else requirements[:maximum]
         pending = [] if maximum is None else requirements[maximum:]
+    input_physical_scope_count = len({(value["namespace"], path) for value in requirements for path in (value.get("physical_scopes") or [])})
+    input_engineering_occurrence_count = len({(value["namespace"], path) for value in requirements for path in value["occurrence_ids"]})
+    input_source_groups = [value for value in requirements if value.get("source_manufacturing_group_id")]
+    input_unlocated_account_count = sum(value.get("scope_kind") == "installed-account" for value in requirements)
     arguments = {key: deepcopy(value) for key, value in request.items()
                  if key not in {"max_requirements", "max_requirements_by_category"}}
     with localcontext() as context:
@@ -129,8 +133,20 @@ def execute(store, twin_input, request, *, root=ROOT):
     fields.update(workflow_run_id=result["record_id"], input_payload_id=twin_input["payload_id"],
                   catalogue_snapshot_id=catalogue["snapshot_id"], request_id=identity(request),
                   source_sha256=before, input_requirement_count=len(requirements),
+                  input_physical_scope_count=input_physical_scope_count,
+                  input_engineering_occurrence_count=input_engineering_occurrence_count,
+                  input_source_manufacturing_group_count=len(input_source_groups),
+                  input_source_manufacturing_group_occurrence_count=sum(value.get("engineering_occurrence_count", len(value["occurrence_ids"])) for value in input_source_groups),
+                  input_unlocated_account_count=input_unlocated_account_count,
                   evaluated_requirement_count=len(selected), pending_requirement_ids=[value["record_id"] for value in pending],
                   decimal_context=dict(precision=28, rounding="ROUND_HALF_EVEN"))
+    fields["summary"].update(
+        input_requirement_count=len(requirements),
+        input_physical_scope_count=input_physical_scope_count,
+        input_engineering_occurrence_count=input_engineering_occurrence_count,
+        input_source_manufacturing_group_count=len(input_source_groups),
+        input_source_manufacturing_group_occurrence_count=sum(value.get("engineering_occurrence_count", len(value["occurrence_ids"])) for value in input_source_groups),
+        input_unlocated_account_count=input_unlocated_account_count)
     result = record("run", **fields)
     if before != sources(root):
         raise ValueError("Sourcing implementation changed during evaluation")
@@ -152,6 +168,11 @@ def summary(store, result):
     value = dict(schema="osr-sourcing-review-summary/1", run_id=result["record_id"],
                  candidate_id=result["candidate_id"], estimate_date=result["estimate_date"], currency=result["currency"],
                  summary=result["summary"], input_requirement_count=result["input_requirement_count"],
+                 input_physical_scope_count=result["input_physical_scope_count"],
+                 input_engineering_occurrence_count=result["input_engineering_occurrence_count"],
+                 input_source_manufacturing_group_count=result["input_source_manufacturing_group_count"],
+                 input_source_manufacturing_group_occurrence_count=result["input_source_manufacturing_group_occurrence_count"],
+                 input_unlocated_account_count=result["input_unlocated_account_count"],
                  evaluated_requirement_count=result["evaluated_requirement_count"], pending_requirement_count=len(result["pending_requirement_ids"]),
                  backlog_first_30=result["backlog"][:30], integrated_winner=None,
                  complete_installed_cost=None, complete_whole_life_cost=None,

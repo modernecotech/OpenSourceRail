@@ -41,12 +41,13 @@ DigiKey's [official Product Information API](https://developer.digikey.com/tutor
 
 ## Direct twin runs
 
-All five packets below passed `./osr source verify` **semantic replay**, including a reconstruction of the historical catalogue and execution of the exact saved request. The database file and downloaded public raw files remain outside the repository. Only the normalized, source-linked packet records are committed here.
+All six packets below passed the sourcing **semantic replay** workflow, including reconstruction of the historical catalogue and execution of the exact saved request. The new manufacturing-group packet was regenerated and replayed from its saved input, catalogue and request. The database file and downloaded public raw files remain outside the repository. Only the normalized, source-linked packet records are committed here.
 
 | Input and purpose | Evaluation | Result |
 |---|---|---|
 | Full frame-refinement vehicle registry | 3,183 requirement groups; 40,488 physical occurrences; 15 product observations | 0 compatible supplier matches, 0 priced groups, nine disabled RFQ drafts; no complete vehicle or installed cost |
-| Federated whole-railway BOM | 31,989 requirement groups; balanced budget evaluated 137 across propulsion, civil, body, running gear, HVAC, doors, auxiliary power, station and other | 31,852 remain pending; 0 priced groups; 44 selected groups have unknown quantity; nine disabled RFQ drafts |
+| Federated whole-railway BOM, original occurrence-level packet | 31,989 requirement groups; balanced budget evaluated 137 across propulsion, civil, body, running gear, HVAC, doors, auxiliary power, station and other | 31,852 remain pending; 0 priced groups; this historical packet predates source-declared manufacturing-group roll-up |
+| Federated whole-railway BOM, manufacturing-group roll-up | 7,042 sourcing groups cover 31,989 physical scopes: 2,269 manufacturing groups retain 27,216 located occurrences, plus 4,773 unlocated accounts; balanced budget evaluates 137 | 6,905 remain pending; 0 compatible priced groups; all 137 evaluated quantities remain unknown; nine disabled RFQ drafts |
 | 10 m² solid GFRP material hypothesis | 4 × 600 g/m² plies, 50% dry-glass fraction, 10% material scrap | 48 kg conditional material screen; GBP 726.65 published extension across cloth and resin lines; no order total |
 | 10 m² sandwich GFRP material hypothesis | 2 × 600 g/m² plies plus declared 20 mm Gurit Corecell M80 grade at 85 kg/m³ nominal; 50% dry-glass fraction; 10% scrap | 41 kg nominal; 40.2–41.8 kg bound over the published core-density range; GBP 363.32 listed extension on priced lines; no core price |
 | 10 m² higher-fibre sandwich hypothesis | Same named M80 core; two plies; 60% dry-glass fraction; 10% scrap | 37 kg nominal; 36.2–37.8 kg bound over the published core-density range; GBP 265.55 listed extension on priced lines; no core price |
@@ -57,6 +58,7 @@ The laminate rows are **new physical research proposals with ancestry to the fed
 
 - [Vehicle registry run](packets/frame-vehicle/summary.json) · [closed packet manifest](packets/frame-vehicle/manifest.json)
 - [Whole-railway frontier](packets/federated-balanced-frontier/summary.json) · [closed packet manifest](packets/federated-balanced-frontier/manifest.json)
+- [Whole-railway manufacturing-group roll-up](packets/federated-purchasing-groups/summary.json) · [closed packet manifest](packets/federated-purchasing-groups/manifest.json)
 - [Solid laminate packet](packets/laminate-solid-600gsm/summary.json)
 - [Sandwich laminate packet](packets/laminate-sandwich-600gsm/summary.json)
 - [Higher-fibre laminate packet](packets/laminate-higher-fibre-sandwich-600gsm/summary.json)

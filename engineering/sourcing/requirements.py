@@ -133,7 +133,7 @@ def extract_requirements(payload, *, candidate_id=None, namespace=None):
         candidate = _candidate(payload.get("candidate_id"))
         if candidate_id is not None and candidate_id != candidate:
             raise ValueError("Mixed whole-cell candidate")
-        rows, seen = [], set()
+        scene_rows, seen = {}, set()
         for item in payload["engineering_BOM"]:
             if item.get("candidate_id") != candidate or item["id"] in seen:
                 raise ValueError("Mixed or duplicate scene occurrence")
@@ -141,6 +141,74 @@ def extract_requirements(payload, *, candidate_id=None, namespace=None):
             located = item["scope"] != "unlocated-account-or-obligation"
             if located and item.get("quantity") != 1:
                 raise ValueError("Scene stock rows must represent one actual occurrence")
+            scene_rows[item["id"]] = item
+
+        rows = []
+        manufacturing_groups = payload.get("manufacturing_BOM")
+        grouped_occurrences = set()
+        if manufacturing_groups:
+            if not isinstance(manufacturing_groups, list):
+                raise ValueError("Declared manufacturing groups must be a list")
+            group_ids, group_keys = set(), set()
+            for group in manufacturing_groups:
+                if not isinstance(group, dict) or group.get("candidate_id") != candidate:
+                    raise ValueError("Mixed candidate manufacturing group")
+                group_id, key = group.get("group_id"), group.get("id")
+                occurrence_ids = group.get("engineering_occurrence_ids")
+                if (not is_id(group_id) or group_id in group_ids or not isinstance(key, str) or not key.strip()
+                        or key in group_keys or not isinstance(occurrence_ids, list) or not occurrence_ids
+                        or len(occurrence_ids) != len(set(occurrence_ids))):
+                    raise ValueError("Exact, distinct manufacturing group identity and memberships required")
+                group_ids.add(group_id); group_keys.add(key)
+                members = []
+                for occurrence_id in occurrence_ids:
+                    item = scene_rows.get(occurrence_id)
+                    if item is None or item["scope"] == "unlocated-account-or-obligation" or occurrence_id in grouped_occurrences:
+                        raise ValueError("Manufacturing groups must partition located stock occurrences")
+                    if item.get("unit") != "stock-occurrence" or item.get("quantity") != 1:
+                        raise ValueError("Manufacturing group member is not one located stock occurrence")
+                    grouped_occurrences.add(occurrence_id)
+                    members.append(item)
+                homogeneity = {(item.get("system"), item.get("material"), item.get("scope")) for item in members}
+                if len(homogeneity) != 1:
+                    raise ValueError("Manufacturing groups cannot combine different system, material or stock scope")
+                if group.get("known_gross_stock_mass_kg") is not None:
+                    decimal_text(group["known_gross_stock_mass_kg"], "known gross stock mass")
+                if group.get("purchased_stock_quantity") is not None or group.get("unit_price_USD") is not None:
+                    # Keep these source declarations visible, but do not promote
+                    # them to a usable order quantity or price in this adapter.
+                    decimal_text(group["purchased_stock_quantity"], "purchased stock quantity", positive=True) if group.get("purchased_stock_quantity") is not None else None
+                    decimal_text(group["unit_price_USD"], "source unit price") if group.get("unit_price_USD") is not None else None
+                system, material, stock_scope = next(iter(homogeneity))
+                category, priority = classify([system or "", key])
+                source_group = {field: deepcopy(group.get(field)) for field in (
+                    "id", "group_id", "known_gross_stock_mass_kg", "net_fabricated_mass_kg",
+                    "purchased_stock_quantity", "yield_fraction", "labour_h", "tooling",
+                    "inspection_procedure", "process_qualification", "origin_country",
+                    "repair_and_removal_route")}
+                group_occurrences = sorted(occurrence_ids)
+                rows.append(record("requirement", candidate_id=candidate, input_id=payload["evaluation_id"], namespace="twin-scene",
+                    requirement_key=key, description=key, category=category, priority=priority,
+                    scope_kind="source-declared-manufacturing-group", source_manufacturing_group_id=group_id,
+                    source_manufacturing_group=source_group, engineering_occurrence_count=len(group_occurrences),
+                    scene_component_definition_ids=sorted({item["component_definition_id"] for item in members}),
+                    scene_geometry_ids=sorted({item["geometry_id"] for item in members if item.get("geometry_id")}),
+                    system=system, material=material, stock_scope=stock_scope,
+                    procurement_unit_status="purchase quantity and unit unresolved",
+                    registry_id=None, part_definition_id=None, part_revision_id=None,
+                    quantity=None, quantity_unit=None, occurrence_ids=group_occurrences,
+                    physical_scopes=group_occurrences,
+                    procurement_scope="source-declared gross-stock manufacturing group",
+                    identifiers={}, constraints=[], accounted_mass_kg=group.get("known_gross_stock_mass_kg"),
+                    mass_per_unit_kg=None, source_scene_row=None,
+                    cost_status="unpriced; source group is not a purchasing unit", installed_mass_complete=False))
+            located_occurrences = {key for key, item in scene_rows.items() if item["scope"] != "unlocated-account-or-obligation"}
+            if grouped_occurrences != located_occurrences:
+                raise ValueError("Declared manufacturing groups do not completely cover located stock occurrences")
+
+        for item in payload["engineering_BOM"]:
+            if item["scope"] != "unlocated-account-or-obligation" and item["id"] in grouped_occurrences:
+                continue
             category, priority = classify([item["system"], item["id"]])
             rows.append(record("requirement", candidate_id=candidate, input_id=payload["evaluation_id"], namespace="twin-scene",
                 requirement_key=item["id"], description=item["id"], category=category, priority=priority,

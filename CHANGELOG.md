@@ -13,6 +13,10 @@
 - Record the v0.4/v0.5 capability reconciliation and retain explicit holds for
   the full city delivery twin, v0.6 city performance, installed costs and
   commissioned ERPNext/FUXA workflows.
+- Roll up federated located stock only through exact source-declared
+  manufacturing groups. Preserve every occurrence in disabled RFQ/ERP drafts,
+  separate the 4,773 unlocated accounts, and keep unknown order quantities,
+  prices and physical qualification unresolved. Add a replayable current packet.
 
 ## 0.6.0 development — 26 October 2026
 

@@ -116,13 +116,23 @@ def evaluate(store, requirements, *, bindings=None, as_of, target_currency="USD"
     listed = {line["requirement_id"] for line in listing_lines}
     counts = Counter(r["namespace"] for r in requirements)
     mass_known = sum(r.get("mass_per_unit_kg") is not None and r["mass_per_unit_kg"].get("calculated_kg") is not None for r in requirements)
+    physical_scope_count = len({(r["namespace"], path) for r in requirements for path in (r.get("physical_scopes") or [])})
+    engineering_occurrence_count = len({(r["namespace"], path) for r in requirements for path in r["occurrence_ids"]})
+    source_groups = [r for r in requirements if r.get("source_manufacturing_group_id")]
     coverage = dict(requirement_count=len(requirements), priced_requirement_count=len(priced),
         order_price_requirement_count=len(priced), listed_price_requirement_count=len(listed),
         requirement_price_fraction=decimal_text(Decimal(len(priced))/len(requirements)),
         listed_price_fraction=decimal_text(Decimal(len(listed))/len(requirements)),
         unknown_quantity_requirements=sum(r["quantity"] is None for r in requirements),
+        physical_scope_count=physical_scope_count,
+        engineering_occurrence_count=engineering_occurrence_count,
+        source_manufacturing_group_count=len(source_groups),
+        source_manufacturing_group_occurrence_count=sum(r.get("engineering_occurrence_count", len(r["occurrence_ids"])) for r in source_groups),
+        unlocated_account_count=sum(r.get("scope_kind") == "installed-account" for r in requirements),
         nominal_mass_observed_requirement_count=mass_known, qualified_requirement_count=0,
-        validation_fraction="0", quantity_basis="requirement groups, not falsely expanded unlocated accounts",
+        validation_fraction="0", quantity_basis=(
+            "source-declared manufacturing groups retain exact engineering occurrences; purchase unit and order quantity unresolved"
+            if source_groups else "requirement groups, not falsely expanded unlocated accounts"),
         namespaces=dict(sorted(counts.items())))
     overlay = record("overlay", candidate_id=candidate, estimate_date=as_of, currency=target_currency,
         tax_basis="excluded", requirement_ids=[r["record_id"] for r in requirements], lines=lines, listed_extension_lines=listing_lines,
