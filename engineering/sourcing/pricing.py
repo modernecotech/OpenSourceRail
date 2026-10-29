@@ -1,7 +1,7 @@
 """Decimal price extension with real order breaks, dated FX and explicit holds."""
 from datetime import timedelta
 from decimal import Decimal, ROUND_CEILING
-from .model import record, validate_record, decimal, decimal_text, day, is_id
+from .model import record, validate_record, decimal, decimal_text, day, is_id, identity
 
 _UNITS = {"kg": ("mass", Decimal(1)), "g": ("mass", Decimal(".001")),
           "t": ("mass", Decimal(1000)), "m": ("length", Decimal(1)),
@@ -35,31 +35,42 @@ def fx_factor(rates, source_currency, target_currency, *, as_of, max_age_days=7)
         validate_record(rate, "fx")
         date = day(rate["rate_date"])
         if when - timedelta(days=max_age_days) <= date <= when:
-            eligible.setdefault(date, []).append(rate)
+            basis = identity(dict(rate_kind=rate.get("rate_kind"), basis=rate.get("basis",rate.get("rate_basis"))))
+            eligible.setdefault(date, {}).setdefault((rate["source_id"],basis), []).append(rate)
     # One complete observation day per conversion. Mixing unrelated days can
     # manufacture a rate that was never available on either day.
     for date in sorted(eligible, reverse=True):
-        graph, seen = {}, {}
-        for rate in eligible[date]:
-            base, quote, value = rate["base_currency"], rate["quote_currency"], decimal(rate["rate"], positive=True)
-            key = (base, quote)
-            if key in seen and seen[key] != value:
-                raise ValueError("Conflicting same-day FX observations")
-            seen[key] = value
-            graph.setdefault(base, []).append((quote, value, rate["record_id"]))
-            graph.setdefault(quote, []).append((base, Decimal(1)/value, rate["record_id"]))
-        frontier = [(source_currency, Decimal(1), [])]
-        visited = {source_currency}
-        while frontier:
-            currency, factor, ids = frontier.pop(0)
-            for dest, scale, key in sorted(graph.get(currency, [])):
-                if dest in visited:
-                    continue
-                new_ids = ids + [key]
-                if dest == target_currency:
-                    return factor*scale, new_ids, date.isoformat()
-                visited.add(dest)
-                frontier.append((dest, factor*scale, new_ids))
+        candidates = []
+        for source_group in sorted(eligible[date]):
+            graph, seen = {}, {}
+            for rate in eligible[date][source_group]:
+                base, quote, value = rate["base_currency"], rate["quote_currency"], decimal(rate["rate"], positive=True)
+                key = (base, quote)
+                if key in seen and seen[key] != value:
+                    raise ValueError("Conflicting same-day FX observations")
+                seen[key] = value
+                graph.setdefault(base, []).append((quote, value, rate["record_id"]))
+                graph.setdefault(quote, []).append((base, Decimal(1)/value, rate["record_id"]))
+            frontier = [(source_currency, Decimal(1), [])]
+            visited = {source_currency}
+            resolved = None
+            while frontier and resolved is None:
+                currency, factor, ids = frontier.pop(0)
+                for dest, scale, key in sorted(graph.get(currency, [])):
+                    if dest in visited:
+                        continue
+                    new_ids = ids + [key]
+                    if dest == target_currency:
+                        resolved = (factor*scale, new_ids, date.isoformat())
+                        break
+                    visited.add(dest)
+                    frontier.append((dest, factor*scale, new_ids))
+            if resolved is not None:
+                candidates.append(resolved)
+        if candidates:
+            if len({row[0] for row in candidates}) != 1:
+                raise ValueError("Conflicting same-date source-specific FX paths")
+            return candidates[0]
     return None, [], None
 
 

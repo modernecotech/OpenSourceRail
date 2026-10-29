@@ -108,7 +108,11 @@ def match_products(requirements, products, *, bindings=None):
             offered_scope = product.get("supply_scope", product.get("scope"))
             # A proposed mapping is not permission to replace a complete assembly
             # with an advertised mechanism, raw cloth or a shipping mass.
-            if wanted_scope and offered_scope and wanted_scope != offered_scope:
+            if not wanted_scope:
+                holds.append("missing-required-assembly-scope")
+            elif not offered_scope:
+                holds.append("missing-product-supply-scope")
+            elif wanted_scope != offered_scope:
                 holds.append("product-and-required-assembly-scope-differ")
             if product.get("specification_conflicts"):
                 holds.append("unresolved-publisher-specification-conflict")

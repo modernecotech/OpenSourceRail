@@ -84,3 +84,10 @@ def test_unknown_order_constraints_keep_requested_quantity_extension_separate():
     assert r["purchased_quantity"] is None and r["comparable_order_subtotal"] is None
     assert r["comparable_listed_extension"]=="313.1"
     assert r["listed_extension_is_order_cost"] is False and r["listed_extension_is_cost_bound"] is False
+
+
+@pytest.mark.parametrize("other_source,other_kind",[("e"*64,"reference"),("d"*64,"cash")])
+def test_fx_does_not_mix_providers_or_rate_regimes(other_source,other_kind):
+    rates=[record("fx",source_id="d"*64,rate_date="2026-10-28",base_currency="EUR",quote_currency="GBP",rate=".8",rate_kind="reference"),
+           record("fx",source_id=other_source,rate_date="2026-10-28",base_currency="EUR",quote_currency="USD",rate="1.2",rate_kind=other_kind)]
+    assert fx_factor(rates,"GBP","USD",as_of="2026-10-29")[0] is None

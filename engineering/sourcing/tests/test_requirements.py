@@ -2,7 +2,7 @@ import gzip,json
 from pathlib import Path
 import pytest
 from engineering.component_registry import make_part,make_occurrence,make_registry
-from engineering.sourcing.requirements import extract_requirements,validate_requirements
+from engineering.sourcing.requirements import extract_requirements,validate_requirements,classify
 
 
 def registry():
@@ -35,3 +35,9 @@ def test_wrong_scene_namespace_and_forged_registry_reject():
     with pytest.raises(ValueError,match="namespaces"):extract_requirements(r,namespace="twin-scene")
     r["occurrences"][0]["candidate_id"]="0"*64
     with pytest.raises(ValueError):extract_requirements(r)
+
+
+def test_explicit_running_gear_function_precedes_frame_keyword_and_lim_is_token():
+    assert classify(["running-gear","bogie-frame"])[0]=="running-gear"
+    assert classify(["climate system"])[0]=="HVAC"
+    assert classify(["station-LIM-winding"])[0]=="propulsion"

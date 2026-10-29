@@ -22,6 +22,12 @@ def build_rfq_drafts(requirements, assessments=()):
             part_definition_id=r.get("part_definition_id"), part_revision_id=r.get("part_revision_id"),
             registry_id=r.get("registry_id"), description=r["description"], quantity=r["quantity"],
             quantity_unit=r["quantity_unit"], occurrence_ids=r["occurrence_ids"],
+            input_id=r["input_id"], scope_kind=r.get("scope_kind"), required_supply_scope=r.get("procurement_scope"),
+            geometry=r.get("geometry"), material_id=r.get("material_id"),
+            technical_constraints=r.get("constraints", []), functions=r.get("functions", []),
+            reference_mass_per_unit_kg=r.get("mass_per_unit_kg"),
+            reference_accounted_mass_kg_per_car=r.get("accounted_mass_kg_per_car"),
+            complete_installed_definition=False,
             product_lead_ids=sorted(leads[r["record_id"]]),
             unresolved_definition=r["quantity"] is None,
             requested_evidence=["configured dimensions and installed scope", "mass and operating domain", "dated quantity price and currency", "MOQ/order multiples", "lead time, delivery terms and origin", "qualification and maintenance records"])

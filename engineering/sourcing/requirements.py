@@ -1,6 +1,7 @@
 """Typed unresolved BOM extraction; an account is never a physical occurrence."""
 from collections import defaultdict
 from copy import deepcopy
+import re
 from .model import identity, is_id, record, decimal_text, validate_record
 
 PRIORITIES = (
@@ -10,7 +11,7 @@ PRIORITIES = (
     ("running-gear", ("bogie", "wheel", "axle", "bearing", "suspension", "running-gear")),
     ("braking", ("brake", "braking", "caliper")),
     ("station", ("station", "platform", "lift", "access")),
-    ("HVAC", ("hvac", "cooling", "duct", "thermal")),
+    ("HVAC", ("hvac", "cooling", "duct", "thermal", "climate", "air-conditioning")),
     ("auxiliary-power", ("battery", "bms", "auxiliary", "converter", "power-supply")),
     ("doors-glazing", ("door", "glazing", "window", "seal")),
     ("erection", ("crane", "erection", "transport", "lifting")),
@@ -22,10 +23,19 @@ PRIORITIES = (
 
 
 def classify(value):
-    words = " ".join(str(item) for item in value).lower()
-    # Explicit system labels take precedence over incidental 'frame' in IDs.
+    labels = [value] if isinstance(value, str) else list(value)
+    normalized = [str(item).strip().lower().replace("_", "-") for item in labels]
+    aliases = {"lim-interface":"propulsion", "primary-body":"body-materials",
+        "bogie-interfaces":"running-gear", "bogies":"running-gear", "wheelsets":"running-gear",
+        "control-safety":"controls", "solar-roof":"solar", "doors":"doors-glazing", "glazing":"doors-glazing"}
+    declared = {aliases.get(item, item) for item in normalized}
+    # Actual function/category labels precede incidental words in identifiers.
+    for index, (category, _) in enumerate(PRIORITIES, 1):
+        if category.lower() in declared:
+            return category, index
+    words = " ".join(normalized)
     for index, (category, terms) in enumerate(PRIORITIES, 1):
-        if any(term in words for term in terms):
+        if any(re.search(r"(?<![a-z0-9])"+re.escape(term)+r"(?![a-z0-9])", words) for term in terms):
             return category, index
     return "other", len(PRIORITIES) + 1
 
@@ -78,7 +88,7 @@ def extract_requirements(payload, *, candidate_id=None, namespace=None):
             category, priority = classify(part["functions"] + [part["part_id"]])
             scopes = sorted({o["scope"] for o in occurrences})
             rows.append(record("requirement", candidate_id=candidate, input_id=registry["registry_id"],
-                namespace="component_registry", body_candidate_id=body, registry_id=registry["registry_id"],
+                namespace="component_registry", scope_kind="actual-part", body_candidate_id=body, registry_id=registry["registry_id"],
                 requirement_key=part["part_id"], part_definition_id=definition, part_revision_id=revision,
                 description=part["part_id"], functions=part["functions"], category=category, priority=priority,
                 quantity=str(len(occurrences)), quantity_unit="each", occurrence_ids=[o["occurrence_id"] for o in occurrences],
@@ -104,7 +114,7 @@ def extract_requirements(payload, *, candidate_id=None, namespace=None):
             seen.add(key)
             category, priority = classify([account.get("system", ""), key])
             rows.append(record("requirement", candidate_id=candidate, input_id=input_id,
-                namespace="station-account", body_candidate_id=payload.get("body_candidate_id"), registry_id=None,
+                namespace="station-account", scope_kind="installed-account", body_candidate_id=payload.get("body_candidate_id"), registry_id=None,
                 requirement_key=key, part_definition_id=None, part_revision_id=None,
                 description=key, category=category, priority=priority, functions=[account.get("system", "unresolved")],
                 quantity=None, quantity_unit=None, occurrence_ids=[], physical_scopes=["selected-reference-account/"+key],
@@ -133,6 +143,7 @@ def extract_requirements(payload, *, candidate_id=None, namespace=None):
             category, priority = classify([item["system"], item["id"]])
             rows.append(record("requirement", candidate_id=candidate, input_id=payload["evaluation_id"], namespace="twin-scene",
                 requirement_key=item["id"], description=item["id"], category=category, priority=priority,
+                scope_kind="stock-occurrence" if located else "installed-account",
                 scene_component_definition_id=item["component_definition_id"], part_definition_id=None, part_revision_id=None,
                 registry_id=None, quantity="1" if located else None, quantity_unit="each" if located else None,
                 occurrence_ids=[item["id"]] if located else [], physical_scopes=[item["id"]],

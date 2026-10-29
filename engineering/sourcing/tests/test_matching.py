@@ -39,3 +39,13 @@ def test_required_hot_rated_point_is_not_inferred_from_35_degree_table():
         specifications={"rated_ambient_C":{"value":"35","unit":"degC"}})
     result=match_products([req],[p])[0]
     assert result["status"]=="unsuitable" and result["checks"][0]["status"]=="fail"
+
+
+def test_missing_scope_never_becomes_compatible_by_explicit_mapping():
+    req,p=inputs()
+    body={k:v for k,v in p.items() if k not in ("schema","kind","record_id","supply_scope")}
+    p=record("product",**body)
+    binding={"candidate_id":req["candidate_id"],"requirement_id":req["record_id"],"product_id":p["record_id"],
+             "registry_id":req["registry_id"],"part_definition_id":req["part_definition_id"],"part_revision_id":req["part_revision_id"]}
+    result=match_products([req],[p],bindings=[binding])[0]
+    assert result["status"]=="pending" and "missing-product-supply-scope" in result["holds"]
