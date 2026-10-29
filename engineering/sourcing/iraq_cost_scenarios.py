@@ -26,6 +26,17 @@ REGIONS = (
 CONCRETE_HOURS = ("2", "4", "8")
 REBAR_HOURS = ("4", "8", "16")
 ALUMINIUM_HOURS = ("8", "16", "32")
+UR_ALUMINIUM_PROFILE_FORMS = (
+    ("Non-oxidized aluminium profiles", "iq-ur-page-observation-2026-10-29:profile-non-oxidized"),
+    ("Oxidized aluminium profiles", "iq-ur-page-observation-2026-10-29:profile-oxidized"),
+    ("Spray-painted aluminium profiles", "iq-ur-page-observation-2026-10-29:profile-spray-painted"),
+)
+UR_ALUMINIUM_SHEET_FORMS = (
+    ("Hard aluminium sheet, 0.6–0.9 mm", "iq-ur-page-observation-2026-10-29:sheet-hard-0.6-0.9mm"),
+    ("Hard aluminium sheet, 1 mm and above", "iq-ur-page-observation-2026-10-29:sheet-hard-1mm-plus"),
+    ("Annealed aluminium sheet, 0.6–0.9 mm", "iq-ur-page-observation-2026-10-29:sheet-annealed-0.6-0.9mm"),
+    ("Annealed aluminium sheet, 1 mm and above", "iq-ur-page-observation-2026-10-29:sheet-annealed-1mm-plus"),
+)
 CONCRETE_MATERIALS = (
     ("Ordinary Iraqi cement; illustrative quantity per nominal m3", "0.35", "t", "cement-ordinary"),
     ("Red sand; illustrative quantity per nominal m3", "0.50", "m3", "sand-red"),
@@ -133,33 +144,66 @@ def _make_packet(records, takeoff, takeoff_path):
                                      output_quantity="1", output_unit="input tonne",
                                      labour_hours_per_output=hours, process=process))
 
-    # The Ur producer's posted profile rate is a local-market lead.  The 2025
-    # Baghdad wage is used because the scenario assumes its Baghdad branch; the
-    # part's alloy, temper, availability and delivery terms are not published.
-    ur_key = "iq-ur-page-observation-2026-10-29:profile-non-oxidized"
-    ur_profile = _must_benchmark(benchmarks, ur_key)
+    # The Ur producer's posted profile and sheet rates are local-market leads.
+    # The 2025 Baghdad wage is used as a base-wage proxy; the posted products'
+    # alloy/temper, availability, delivery terms and factory routes are unknown.
     baghdad_wage_key = "iq-cso-2025-regional:baghdad:wage:skilled:hour-8h-day"
     baghdad_wage = _must_benchmark(benchmarks, baghdad_wage_key)
-    if ur_profile is None or baghdad_wage is None:
-        missing.append(dict(region="Baghdad", material_family="aluminium profile assembly",
-                            unavailable_benchmark_keys=([ur_key] if ur_profile is None else []) +
-                                ([baghdad_wage_key] if baghdad_wage is None else []),
-                            explanation="The Ur posted-price or regional wage observation is absent."))
+    if baghdad_wage is None:
+        missing.append(dict(region="Baghdad", material_family="aluminium profile and sheet processing",
+                            unavailable_benchmark_keys=[baghdad_wage_key],
+                            explanation="The regional wage observation is absent; no fabrication scenarios are emitted."))
     else:
-        for hours in ALUMINIUM_HOURS:
-            process = _unit_rate_process(
-                estimate_key=f"iraq-2026-baghdad-aluminium-profile-assembly-{hours}h-per-t",
-                candidate_id=candidate_id, input_id=input_id,
-                output_quantity="1", output_unit="t",
-                material_lines=[dict(material_key="Ur Company non-oxidized aluminium profile posted price; structural alloy/temper unverified",
-                                     quantity="1", quantity_unit="t",
-                                     benchmark_id=ur_profile["record_id"])],
-                labour_category="Baghdad skilled construction-worker base wage; recipe scenario",
-                hours=hours, wage_benchmark=baghdad_wage,
-                used_benchmarks={ur_key: ur_profile})
-            regional.append(dict(region="Baghdad", family="aluminium profile assembly",
-                                 output_quantity="1", output_unit="profile input tonne",
-                                 labour_hours_per_output=hours, process=process))
+        for form_name, profile_key in UR_ALUMINIUM_PROFILE_FORMS:
+            ur_profile = _must_benchmark(benchmarks, profile_key)
+            if ur_profile is None:
+                missing.append(dict(region="Baghdad", material_family=form_name,
+                                    unavailable_benchmark_keys=[profile_key],
+                                    explanation="The Ur Company profile observation is absent; no estimate is emitted."))
+                continue
+            for hours in ALUMINIUM_HOURS:
+                process = _unit_rate_process(
+                    estimate_key=("iraq-2026-baghdad-aluminium-profile-processing-" +
+                                  profile_key.rsplit(":", 1)[-1] + f"-{hours}h-per-t"),
+                    candidate_id=candidate_id, input_id=input_id,
+                    output_quantity="1", output_unit="t",
+                    material_lines=[dict(
+                        material_key=f"Ur Company posted {form_name}; alloy/temper unverified",
+                        quantity="1", quantity_unit="t",
+                        benchmark_id=ur_profile["record_id"])],
+                    labour_category="Baghdad skilled-worker base wage proxy; unmeasured profile-processing scenario",
+                    hours=hours, wage_benchmark=baghdad_wage,
+                    used_benchmarks={profile_key: ur_profile})
+                regional.append(dict(region="Baghdad", family="aluminium profile processing",
+                                     material_form=form_name,
+                                     output_quantity="1", output_unit="profile input tonne",
+                                     labour_hours_per_output=hours, process=process))
+
+    if baghdad_wage is not None:
+        for form_name, sheet_key in UR_ALUMINIUM_SHEET_FORMS:
+            sheet_benchmark = _must_benchmark(benchmarks, sheet_key)
+            if sheet_benchmark is None:
+                missing.append(dict(region="Baghdad", material_family=form_name,
+                                    unavailable_benchmark_keys=[sheet_key],
+                                    explanation="The Ur Company sheet observation is absent; no estimate is emitted."))
+                continue
+            for hours in ALUMINIUM_HOURS:
+                process = _unit_rate_process(
+                    estimate_key=("iraq-2026-baghdad-aluminium-sheet-processing-" +
+                                  sheet_key.rsplit(":", 1)[-1] + f"-{hours}h-per-t"),
+                    candidate_id=candidate_id, input_id=input_id,
+                    output_quantity="1", output_unit="t",
+                    material_lines=[dict(
+                        material_key=f"Ur Company posted {form_name}; alloy/temper unverified",
+                        quantity="1", quantity_unit="t",
+                        benchmark_id=sheet_benchmark["record_id"])],
+                    labour_category="Baghdad skilled-worker base wage proxy; unmeasured sheet-processing scenario",
+                    hours=hours, wage_benchmark=baghdad_wage,
+                    used_benchmarks={sheet_key: sheet_benchmark})
+                regional.append(dict(region="Baghdad", family="aluminium sheet processing",
+                                     material_form=form_name,
+                                     output_quantity="1", output_unit="sheet input tonne",
+                                     labour_hours_per_output=hours, process=process))
 
     mapped_processes = []
     for hours in CONCRETE_HOURS:
@@ -240,6 +284,9 @@ def _make_packet(records, takeoff, takeoff_path):
             "concrete_labour_scenarios_h_per_nominal_m3":["2","4","8"],
             "rebar_labour_scenarios_h_per_input_tonne":["4","8","16"],
             "aluminium_labour_scenarios_h_per_profile_input_tonne":["8","16","32"],
+            "aluminium_profile_forms": [name for name, _key in UR_ALUMINIUM_PROFILE_FORMS],
+            "aluminium_sheet_forms": [name for name, _key in UR_ALUMINIUM_SHEET_FORMS],
+            "aluminium_sheet_labour_scenarios_h_per_input_tonne":["8","16","32"],
             "wage_normalization":"CSO daily average divided by an explicit 8-hour working day",
             "zero_source_observations":"treated as unavailable; no price or estimate is emitted",
             "regional_coverage":"15 governorates listed in the CSO bulletin; 12 have all inputs for the illustrative concrete recipe",
@@ -259,7 +306,7 @@ def _make_packet(records, takeoff, takeoff_path):
             "The 0.35 t cement + 0.50 m3 red sand + 0.80 m3 crushed gravel recipe is an illustrative takeoff basis, not a mix design or a verified one-cubic-metre yield.",
             "The hour values are sensitivity scenarios, not timed local factory routes.",
             "The Baghdad takeoff applies its declared unit recipe to nominal concrete geometry while preserving the 81 group and 486 occurrence identities; it does not price complete beams, reinforcement, prestress, moulds, QA, transport, foundations, installation or maintenance.",
-            "The Ur Company profile observation has no stated structural alloy/temper, effective date, availability, quantity, delivery, tax or installation basis; the aluminium screen is not a body-frame price or approved design.",
+            "The Ur Company profile and sheet observations do not state structural alloy/temper, effective date, availability, quantity, delivery, tax, yield or installation basis; the aluminium screens are raw-stock plus assumed labour sensitivities, not a body-frame price, completed process route or approved design.",
             "The 20% uplift is an unallocated planning allowance and is not verified overhead, profit, tax or contingency.",
         ])
     packet["source_epoch_id"] = identity(records)

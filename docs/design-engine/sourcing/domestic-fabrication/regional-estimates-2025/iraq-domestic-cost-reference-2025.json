@@ -8,7 +8,7 @@
     "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
   ],
   "source_sha256": {
-    "engineering/sourcing/iraq_cost_scenarios.py": "cbbdad52d0f9ee6a10b1daefe7d9463df81f9fc4de62df3eb578361b33a0fae5",
+    "engineering/sourcing/iraq_cost_scenarios.py": "9aca997e49e8f21a712082af40d8d31b62fbb7a3ac9dc3d98c943b8734ad833d",
     "engineering/sourcing/fabrication.py": "ca211f68772598c03ff1336cc74fb12567232a4bb2543c7a73b60572a7297e51",
     "engineering/sourcing/model.py": "278492e615fd20b971a011eb98eb00715fccc35d21702bf4011a73b43260de27",
     "engineering/sourcing/catalogue.py": "5a28ce785da25989231e7a1bde1a4bb9a141e212a4ba7a705aa380c0af531b70",
@@ -36,6 +36,22 @@
       "16"
     ],
     "aluminium_labour_scenarios_h_per_profile_input_tonne": [
+      "8",
+      "16",
+      "32"
+    ],
+    "aluminium_profile_forms": [
+      "Non-oxidized aluminium profiles",
+      "Oxidized aluminium profiles",
+      "Spray-painted aluminium profiles"
+    ],
+    "aluminium_sheet_forms": [
+      "Hard aluminium sheet, 0.6–0.9 mm",
+      "Hard aluminium sheet, 1 mm and above",
+      "Annealed aluminium sheet, 0.6–0.9 mm",
+      "Annealed aluminium sheet, 1 mm and above"
+    ],
+    "aluminium_sheet_labour_scenarios_h_per_input_tonne": [
       "8",
       "16",
       "32"
@@ -8291,7 +8307,8 @@
     },
     {
       "region": "Baghdad",
-      "family": "aluminium profile assembly",
+      "family": "aluminium profile processing",
+      "material_form": "Non-oxidized aluminium profiles",
       "output_quantity": "1",
       "output_unit": "profile input tonne",
       "labour_hours_per_output": "8",
@@ -8299,7 +8316,7 @@
         "schema": "osr-sourcing-record/1",
         "kind": "process",
         "process_key": "domestic-fabrication-cost-screen",
-        "estimate_key": "iraq-2026-baghdad-aluminium-profile-assembly-8h-per-t",
+        "estimate_key": "iraq-2026-baghdad-aluminium-profile-processing-profile-non-oxidized-8h-per-t",
         "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
         "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
         "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
@@ -8308,7 +8325,7 @@
         "currency": "IQD",
         "material_lines": [
           {
-            "material_key": "Ur Company non-oxidized aluminium profile posted price; structural alloy/temper unverified",
+            "material_key": "Ur Company posted Non-oxidized aluminium profiles; alloy/temper unverified",
             "quantity": "1",
             "quantity_unit": "t",
             "benchmark_id": "99f0d4f515ab884bc22ad141bf107c06fe3a9e219f1318fb7f8d47b02614183d",
@@ -8320,7 +8337,7 @@
         ],
         "labour_lines": [
           {
-            "labour_category": "Baghdad skilled construction-worker base wage; recipe scenario",
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured profile-processing scenario",
             "person_hours": "8",
             "quantity_unit": "h",
             "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
@@ -8379,12 +8396,13 @@
         "manufacturing_release": false,
         "operating_release": false,
         "selected_reference_changed": false,
-        "record_id": "3fa7d220b5d4d2bb7e954524a7fed4e59c274855ff79c73ca75089ae77a64e43"
+        "record_id": "03fc0762294be14ef9046cafa5c726ac2b84e0af6681a85933a495e9654e5103"
       }
     },
     {
       "region": "Baghdad",
-      "family": "aluminium profile assembly",
+      "family": "aluminium profile processing",
+      "material_form": "Non-oxidized aluminium profiles",
       "output_quantity": "1",
       "output_unit": "profile input tonne",
       "labour_hours_per_output": "16",
@@ -8392,7 +8410,7 @@
         "schema": "osr-sourcing-record/1",
         "kind": "process",
         "process_key": "domestic-fabrication-cost-screen",
-        "estimate_key": "iraq-2026-baghdad-aluminium-profile-assembly-16h-per-t",
+        "estimate_key": "iraq-2026-baghdad-aluminium-profile-processing-profile-non-oxidized-16h-per-t",
         "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
         "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
         "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
@@ -8401,7 +8419,7 @@
         "currency": "IQD",
         "material_lines": [
           {
-            "material_key": "Ur Company non-oxidized aluminium profile posted price; structural alloy/temper unverified",
+            "material_key": "Ur Company posted Non-oxidized aluminium profiles; alloy/temper unverified",
             "quantity": "1",
             "quantity_unit": "t",
             "benchmark_id": "99f0d4f515ab884bc22ad141bf107c06fe3a9e219f1318fb7f8d47b02614183d",
@@ -8413,7 +8431,7 @@
         ],
         "labour_lines": [
           {
-            "labour_category": "Baghdad skilled construction-worker base wage; recipe scenario",
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured profile-processing scenario",
             "person_hours": "16",
             "quantity_unit": "h",
             "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
@@ -8472,12 +8490,13 @@
         "manufacturing_release": false,
         "operating_release": false,
         "selected_reference_changed": false,
-        "record_id": "136d5d95a4602432091653b6a9c17ad7f5598bf292dee11bde8597661a37cc2c"
+        "record_id": "bb399e3b9a329ac6a8c40dfe311593fb56a6cf95eb4f7f47d768d9135ca0d834"
       }
     },
     {
       "region": "Baghdad",
-      "family": "aluminium profile assembly",
+      "family": "aluminium profile processing",
+      "material_form": "Non-oxidized aluminium profiles",
       "output_quantity": "1",
       "output_unit": "profile input tonne",
       "labour_hours_per_output": "32",
@@ -8485,7 +8504,7 @@
         "schema": "osr-sourcing-record/1",
         "kind": "process",
         "process_key": "domestic-fabrication-cost-screen",
-        "estimate_key": "iraq-2026-baghdad-aluminium-profile-assembly-32h-per-t",
+        "estimate_key": "iraq-2026-baghdad-aluminium-profile-processing-profile-non-oxidized-32h-per-t",
         "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
         "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
         "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
@@ -8494,7 +8513,7 @@
         "currency": "IQD",
         "material_lines": [
           {
-            "material_key": "Ur Company non-oxidized aluminium profile posted price; structural alloy/temper unverified",
+            "material_key": "Ur Company posted Non-oxidized aluminium profiles; alloy/temper unverified",
             "quantity": "1",
             "quantity_unit": "t",
             "benchmark_id": "99f0d4f515ab884bc22ad141bf107c06fe3a9e219f1318fb7f8d47b02614183d",
@@ -8506,7 +8525,7 @@
         ],
         "labour_lines": [
           {
-            "labour_category": "Baghdad skilled construction-worker base wage; recipe scenario",
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured profile-processing scenario",
             "person_hours": "32",
             "quantity_unit": "h",
             "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
@@ -8565,7 +8584,1699 @@
         "manufacturing_release": false,
         "operating_release": false,
         "selected_reference_changed": false,
-        "record_id": "6f03e3a4a4b5bc4b0ac744a58cad36fc4a82982653c97130ad50baac6e870368"
+        "record_id": "de8b6c5a0d8cc76d33d1d94d1f7a0a60a9e7b2e8bcda37b4a73c4291c632e7d9"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium profile processing",
+      "material_form": "Oxidized aluminium profiles",
+      "output_quantity": "1",
+      "output_unit": "profile input tonne",
+      "labour_hours_per_output": "8",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-profile-processing-profile-oxidized-8h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Oxidized aluminium profiles; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "b4e199bd51c8455ca68581c647087abc07189dfe921df09a7f15ca234fb97e5a",
+            "unit_rate": "5200000",
+            "currency": "IQD",
+            "extended_cost": "5200000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured profile-processing scenario",
+            "person_hours": "8",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "75000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "b4e199bd51c8455ca68581c647087abc07189dfe921df09a7f15ca234fb97e5a"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5200000",
+        "direct_labor_cost": "75000",
+        "direct_cost": "5275000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1055000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6330000",
+        "estimated_unit_cost": "6330000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "b1097f4427edb9d3d75affcdb4b5c9a676aa5b14e16ddc47f64b0f2eee5f2563"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium profile processing",
+      "material_form": "Oxidized aluminium profiles",
+      "output_quantity": "1",
+      "output_unit": "profile input tonne",
+      "labour_hours_per_output": "16",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-profile-processing-profile-oxidized-16h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Oxidized aluminium profiles; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "b4e199bd51c8455ca68581c647087abc07189dfe921df09a7f15ca234fb97e5a",
+            "unit_rate": "5200000",
+            "currency": "IQD",
+            "extended_cost": "5200000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured profile-processing scenario",
+            "person_hours": "16",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "150000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "b4e199bd51c8455ca68581c647087abc07189dfe921df09a7f15ca234fb97e5a"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5200000",
+        "direct_labor_cost": "150000",
+        "direct_cost": "5350000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1070000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6420000",
+        "estimated_unit_cost": "6420000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "d5197a3b2fa7120033e3dba5c054fc70f1a86a6728f50fdb387513fd6f1817c6"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium profile processing",
+      "material_form": "Oxidized aluminium profiles",
+      "output_quantity": "1",
+      "output_unit": "profile input tonne",
+      "labour_hours_per_output": "32",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-profile-processing-profile-oxidized-32h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Oxidized aluminium profiles; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "b4e199bd51c8455ca68581c647087abc07189dfe921df09a7f15ca234fb97e5a",
+            "unit_rate": "5200000",
+            "currency": "IQD",
+            "extended_cost": "5200000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured profile-processing scenario",
+            "person_hours": "32",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "300000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "b4e199bd51c8455ca68581c647087abc07189dfe921df09a7f15ca234fb97e5a"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5200000",
+        "direct_labor_cost": "300000",
+        "direct_cost": "5500000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1100000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6600000",
+        "estimated_unit_cost": "6600000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "c186f475817eddbce31a54de0f54022c9ea9d0159ef7d299b4d44501f0892176"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium profile processing",
+      "material_form": "Spray-painted aluminium profiles",
+      "output_quantity": "1",
+      "output_unit": "profile input tonne",
+      "labour_hours_per_output": "8",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-profile-processing-profile-spray-painted-8h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Spray-painted aluminium profiles; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "9240a2b15a74791fe56a83efe4f6e7a2ec7b90ad8837aa98206aa5afff8f53ef",
+            "unit_rate": "5500000",
+            "currency": "IQD",
+            "extended_cost": "5500000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured profile-processing scenario",
+            "person_hours": "8",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "75000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "9240a2b15a74791fe56a83efe4f6e7a2ec7b90ad8837aa98206aa5afff8f53ef"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5500000",
+        "direct_labor_cost": "75000",
+        "direct_cost": "5575000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1115000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6690000",
+        "estimated_unit_cost": "6690000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "e7abb239ad7c6ecd93e8cf1c267dc7323f39ff0f76ea2a77570ab39ac5f30ec0"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium profile processing",
+      "material_form": "Spray-painted aluminium profiles",
+      "output_quantity": "1",
+      "output_unit": "profile input tonne",
+      "labour_hours_per_output": "16",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-profile-processing-profile-spray-painted-16h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Spray-painted aluminium profiles; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "9240a2b15a74791fe56a83efe4f6e7a2ec7b90ad8837aa98206aa5afff8f53ef",
+            "unit_rate": "5500000",
+            "currency": "IQD",
+            "extended_cost": "5500000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured profile-processing scenario",
+            "person_hours": "16",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "150000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "9240a2b15a74791fe56a83efe4f6e7a2ec7b90ad8837aa98206aa5afff8f53ef"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5500000",
+        "direct_labor_cost": "150000",
+        "direct_cost": "5650000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1130000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6780000",
+        "estimated_unit_cost": "6780000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "4925eefe34377c141b48c8e21edc0ceea495153608656adaedc73d91b0fe9b92"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium profile processing",
+      "material_form": "Spray-painted aluminium profiles",
+      "output_quantity": "1",
+      "output_unit": "profile input tonne",
+      "labour_hours_per_output": "32",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-profile-processing-profile-spray-painted-32h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Spray-painted aluminium profiles; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "9240a2b15a74791fe56a83efe4f6e7a2ec7b90ad8837aa98206aa5afff8f53ef",
+            "unit_rate": "5500000",
+            "currency": "IQD",
+            "extended_cost": "5500000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured profile-processing scenario",
+            "person_hours": "32",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "300000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "9240a2b15a74791fe56a83efe4f6e7a2ec7b90ad8837aa98206aa5afff8f53ef"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5500000",
+        "direct_labor_cost": "300000",
+        "direct_cost": "5800000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1160000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6960000",
+        "estimated_unit_cost": "6960000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "d094bc953ef72bf871e71854e02c627d21160b57cf33bc5aa7a669200510ddb5"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium sheet processing",
+      "material_form": "Hard aluminium sheet, 0.6–0.9 mm",
+      "output_quantity": "1",
+      "output_unit": "sheet input tonne",
+      "labour_hours_per_output": "8",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-sheet-processing-sheet-hard-0.6-0.9mm-8h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Hard aluminium sheet, 0.6–0.9 mm; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "e2a1aff9209a4d678ba15bf0c0416a215b502a3fd41ba43784559751fa8205d4",
+            "unit_rate": "5200000",
+            "currency": "IQD",
+            "extended_cost": "5200000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured sheet-processing scenario",
+            "person_hours": "8",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "75000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "e2a1aff9209a4d678ba15bf0c0416a215b502a3fd41ba43784559751fa8205d4"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5200000",
+        "direct_labor_cost": "75000",
+        "direct_cost": "5275000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1055000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6330000",
+        "estimated_unit_cost": "6330000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "2c2eff869c19555a33834299d7f4ae9fa15fe9a1a9aa1e9064fe2372db3e5981"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium sheet processing",
+      "material_form": "Hard aluminium sheet, 0.6–0.9 mm",
+      "output_quantity": "1",
+      "output_unit": "sheet input tonne",
+      "labour_hours_per_output": "16",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-sheet-processing-sheet-hard-0.6-0.9mm-16h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Hard aluminium sheet, 0.6–0.9 mm; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "e2a1aff9209a4d678ba15bf0c0416a215b502a3fd41ba43784559751fa8205d4",
+            "unit_rate": "5200000",
+            "currency": "IQD",
+            "extended_cost": "5200000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured sheet-processing scenario",
+            "person_hours": "16",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "150000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "e2a1aff9209a4d678ba15bf0c0416a215b502a3fd41ba43784559751fa8205d4"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5200000",
+        "direct_labor_cost": "150000",
+        "direct_cost": "5350000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1070000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6420000",
+        "estimated_unit_cost": "6420000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "96a26ec5127f81b4a67c6d1e55f2dc30fe585f55f97cad15b2406846d61f5988"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium sheet processing",
+      "material_form": "Hard aluminium sheet, 0.6–0.9 mm",
+      "output_quantity": "1",
+      "output_unit": "sheet input tonne",
+      "labour_hours_per_output": "32",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-sheet-processing-sheet-hard-0.6-0.9mm-32h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Hard aluminium sheet, 0.6–0.9 mm; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "e2a1aff9209a4d678ba15bf0c0416a215b502a3fd41ba43784559751fa8205d4",
+            "unit_rate": "5200000",
+            "currency": "IQD",
+            "extended_cost": "5200000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured sheet-processing scenario",
+            "person_hours": "32",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "300000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "e2a1aff9209a4d678ba15bf0c0416a215b502a3fd41ba43784559751fa8205d4"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5200000",
+        "direct_labor_cost": "300000",
+        "direct_cost": "5500000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1100000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6600000",
+        "estimated_unit_cost": "6600000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "81a609ea18da2c182c969b448f8fb1725965b7fd8f4eb6f49df74410cd51fbf2"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium sheet processing",
+      "material_form": "Hard aluminium sheet, 1 mm and above",
+      "output_quantity": "1",
+      "output_unit": "sheet input tonne",
+      "labour_hours_per_output": "8",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-sheet-processing-sheet-hard-1mm-plus-8h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Hard aluminium sheet, 1 mm and above; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "ca3f49ab80a8ac4a25300430dbae9171fc3c1a50cc4fb542e6bd85173e1a6995",
+            "unit_rate": "5100000",
+            "currency": "IQD",
+            "extended_cost": "5100000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured sheet-processing scenario",
+            "person_hours": "8",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "75000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "ca3f49ab80a8ac4a25300430dbae9171fc3c1a50cc4fb542e6bd85173e1a6995"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5100000",
+        "direct_labor_cost": "75000",
+        "direct_cost": "5175000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1035000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6210000",
+        "estimated_unit_cost": "6210000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "a9ebfc0488a345d7eefa3e0fd24f692a2b0d8491c53e0c0cb6d1552d3648b105"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium sheet processing",
+      "material_form": "Hard aluminium sheet, 1 mm and above",
+      "output_quantity": "1",
+      "output_unit": "sheet input tonne",
+      "labour_hours_per_output": "16",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-sheet-processing-sheet-hard-1mm-plus-16h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Hard aluminium sheet, 1 mm and above; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "ca3f49ab80a8ac4a25300430dbae9171fc3c1a50cc4fb542e6bd85173e1a6995",
+            "unit_rate": "5100000",
+            "currency": "IQD",
+            "extended_cost": "5100000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured sheet-processing scenario",
+            "person_hours": "16",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "150000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "ca3f49ab80a8ac4a25300430dbae9171fc3c1a50cc4fb542e6bd85173e1a6995"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5100000",
+        "direct_labor_cost": "150000",
+        "direct_cost": "5250000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1050000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6300000",
+        "estimated_unit_cost": "6300000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "705312825b719cec6371f51624bcf17b6bdb919ff794261df01d567203b68532"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium sheet processing",
+      "material_form": "Hard aluminium sheet, 1 mm and above",
+      "output_quantity": "1",
+      "output_unit": "sheet input tonne",
+      "labour_hours_per_output": "32",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-sheet-processing-sheet-hard-1mm-plus-32h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Hard aluminium sheet, 1 mm and above; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "ca3f49ab80a8ac4a25300430dbae9171fc3c1a50cc4fb542e6bd85173e1a6995",
+            "unit_rate": "5100000",
+            "currency": "IQD",
+            "extended_cost": "5100000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured sheet-processing scenario",
+            "person_hours": "32",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "300000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "ca3f49ab80a8ac4a25300430dbae9171fc3c1a50cc4fb542e6bd85173e1a6995"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5100000",
+        "direct_labor_cost": "300000",
+        "direct_cost": "5400000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1080000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6480000",
+        "estimated_unit_cost": "6480000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "64a3081e58a4e76c8c8952dfbb2d8fd3f6e7882734cfaf99342432d5e3fb3ef2"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium sheet processing",
+      "material_form": "Annealed aluminium sheet, 0.6–0.9 mm",
+      "output_quantity": "1",
+      "output_unit": "sheet input tonne",
+      "labour_hours_per_output": "8",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-sheet-processing-sheet-annealed-0.6-0.9mm-8h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Annealed aluminium sheet, 0.6–0.9 mm; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "0284bc300ac57b1899fbec2267818759a6392d039ac0be0485d007777724cecb",
+            "unit_rate": "5300000",
+            "currency": "IQD",
+            "extended_cost": "5300000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured sheet-processing scenario",
+            "person_hours": "8",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "75000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "0284bc300ac57b1899fbec2267818759a6392d039ac0be0485d007777724cecb",
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5300000",
+        "direct_labor_cost": "75000",
+        "direct_cost": "5375000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1075000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6450000",
+        "estimated_unit_cost": "6450000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "64d8112c9d92fe3d79f753fbda8f0d17acfc2ede7743caccb9cabb3afdd1b864"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium sheet processing",
+      "material_form": "Annealed aluminium sheet, 0.6–0.9 mm",
+      "output_quantity": "1",
+      "output_unit": "sheet input tonne",
+      "labour_hours_per_output": "16",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-sheet-processing-sheet-annealed-0.6-0.9mm-16h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Annealed aluminium sheet, 0.6–0.9 mm; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "0284bc300ac57b1899fbec2267818759a6392d039ac0be0485d007777724cecb",
+            "unit_rate": "5300000",
+            "currency": "IQD",
+            "extended_cost": "5300000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured sheet-processing scenario",
+            "person_hours": "16",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "150000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "0284bc300ac57b1899fbec2267818759a6392d039ac0be0485d007777724cecb",
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5300000",
+        "direct_labor_cost": "150000",
+        "direct_cost": "5450000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1090000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6540000",
+        "estimated_unit_cost": "6540000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "fbeb8412753361515fccc509b2a09c7ebc642e4a66d9f3573d965d94470f1c1f"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium sheet processing",
+      "material_form": "Annealed aluminium sheet, 0.6–0.9 mm",
+      "output_quantity": "1",
+      "output_unit": "sheet input tonne",
+      "labour_hours_per_output": "32",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-sheet-processing-sheet-annealed-0.6-0.9mm-32h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Annealed aluminium sheet, 0.6–0.9 mm; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "0284bc300ac57b1899fbec2267818759a6392d039ac0be0485d007777724cecb",
+            "unit_rate": "5300000",
+            "currency": "IQD",
+            "extended_cost": "5300000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured sheet-processing scenario",
+            "person_hours": "32",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "300000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "0284bc300ac57b1899fbec2267818759a6392d039ac0be0485d007777724cecb",
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5300000",
+        "direct_labor_cost": "300000",
+        "direct_cost": "5600000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1120000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6720000",
+        "estimated_unit_cost": "6720000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "31513f797db262a4cd237f924aac9d88b7f745abb2cbf81b233a2c0228279d0f"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium sheet processing",
+      "material_form": "Annealed aluminium sheet, 1 mm and above",
+      "output_quantity": "1",
+      "output_unit": "sheet input tonne",
+      "labour_hours_per_output": "8",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-sheet-processing-sheet-annealed-1mm-plus-8h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Annealed aluminium sheet, 1 mm and above; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "2f60f8da0447cd5981aaa6b64e895692611b89084aae4d63761ad6c3b436958b",
+            "unit_rate": "5200000",
+            "currency": "IQD",
+            "extended_cost": "5200000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured sheet-processing scenario",
+            "person_hours": "8",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "75000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "2f60f8da0447cd5981aaa6b64e895692611b89084aae4d63761ad6c3b436958b"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5200000",
+        "direct_labor_cost": "75000",
+        "direct_cost": "5275000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1055000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6330000",
+        "estimated_unit_cost": "6330000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "10fa403bbaaf9ec533747fd4ad2ba0eeff5b10c6aea5e6d14d91ecf232b74217"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium sheet processing",
+      "material_form": "Annealed aluminium sheet, 1 mm and above",
+      "output_quantity": "1",
+      "output_unit": "sheet input tonne",
+      "labour_hours_per_output": "16",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-sheet-processing-sheet-annealed-1mm-plus-16h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Annealed aluminium sheet, 1 mm and above; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "2f60f8da0447cd5981aaa6b64e895692611b89084aae4d63761ad6c3b436958b",
+            "unit_rate": "5200000",
+            "currency": "IQD",
+            "extended_cost": "5200000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured sheet-processing scenario",
+            "person_hours": "16",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "150000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "2f60f8da0447cd5981aaa6b64e895692611b89084aae4d63761ad6c3b436958b"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5200000",
+        "direct_labor_cost": "150000",
+        "direct_cost": "5350000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1070000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6420000",
+        "estimated_unit_cost": "6420000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "9ab5a79e2b7971995f20c776b3f01be07a6261ed73d5c830c830c5a6e410ca70"
+      }
+    },
+    {
+      "region": "Baghdad",
+      "family": "aluminium sheet processing",
+      "material_form": "Annealed aluminium sheet, 1 mm and above",
+      "output_quantity": "1",
+      "output_unit": "sheet input tonne",
+      "labour_hours_per_output": "32",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2026-baghdad-aluminium-sheet-processing-sheet-annealed-1mm-plus-32h-per-t",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "t",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ur Company posted Annealed aluminium sheet, 1 mm and above; alloy/temper unverified",
+            "quantity": "1",
+            "quantity_unit": "t",
+            "benchmark_id": "2f60f8da0447cd5981aaa6b64e895692611b89084aae4d63761ad6c3b436958b",
+            "unit_rate": "5200000",
+            "currency": "IQD",
+            "extended_cost": "5200000",
+            "evidence_scope": "posted producer page price observed 2026-10-29; effective date, alloy/temper, quantity, tax, availability, freight and delivery terms unstated"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "Baghdad skilled-worker base wage proxy; unmeasured sheet-processing scenario",
+            "person_hours": "32",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "300000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "2f60f8da0447cd5981aaa6b64e895692611b89084aae4d63761ad6c3b436958b"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "6f9be74ad8551962ba2a4d366771c3e16b48adc2e51bb3e35c35349f3c58370c"
+        ],
+        "direct_material_cost": "5200000",
+        "direct_labor_cost": "300000",
+        "direct_cost": "5500000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "1100000",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "6600000",
+        "estimated_unit_cost": "6600000",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "eccef54da1f4dd6ca213196bc83a7424388df86d7507b8e2ecec49dd7d7da740"
       }
     }
   ],
@@ -8598,7 +10309,7 @@
   "baghdad_concrete_takeoff_estimates": [
     {
       "labour_hours_per_nominal_m3": "2",
-      "estimate_packet_id": "890b1dfcea58367624ee37720f10d251d2dfefdee333e62aa49bf5261c06ed46",
+      "estimate_packet_id": "bdb075d5baf6d47b8119e4aa03942456b42ddf4773c57a1e0518af7f0a17db9f",
       "process_record_id": "d418cd850fc940a70e54a5c10f9af75f52fe36f87099c1923174927325c5b442",
       "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
       "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
@@ -8609,7 +10320,7 @@
     },
     {
       "labour_hours_per_nominal_m3": "4",
-      "estimate_packet_id": "3279d8522ea7554b9bf743aec46946752c03b23cdd2e446d97b2f406922125eb",
+      "estimate_packet_id": "1b468f04f06f44e11e1a7ee45ede4455d90a64d8e424a5b3e5c28fbff88feb6b",
       "process_record_id": "ce313284db6735354b447a53613f2865284d66265855f37f055d8fbabc319831",
       "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
       "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
@@ -8620,7 +10331,7 @@
     },
     {
       "labour_hours_per_nominal_m3": "8",
-      "estimate_packet_id": "ff34977df4c132100a195ab7666da8bdddc9dc1b489970c9aff5a346e1ae476d",
+      "estimate_packet_id": "b9141b69aaf53e40a31b458e58c265d99e7d414be84debd15f94b64ad7f61efa",
       "process_record_id": "016c7e1557ffeaafb9b651d27be30a022e0db7873b95d38484ab9263e169a799",
       "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
       "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
@@ -8646,9 +10357,9 @@
     "The 0.35 t cement + 0.50 m3 red sand + 0.80 m3 crushed gravel recipe is an illustrative takeoff basis, not a mix design or a verified one-cubic-metre yield.",
     "The hour values are sensitivity scenarios, not timed local factory routes.",
     "The Baghdad takeoff applies its declared unit recipe to nominal concrete geometry while preserving the 81 group and 486 occurrence identities; it does not price complete beams, reinforcement, prestress, moulds, QA, transport, foundations, installation or maintenance.",
-    "The Ur Company profile observation has no stated structural alloy/temper, effective date, availability, quantity, delivery, tax or installation basis; the aluminium screen is not a body-frame price or approved design.",
+    "The Ur Company profile and sheet observations do not state structural alloy/temper, effective date, availability, quantity, delivery, tax, yield or installation basis; the aluminium screens are raw-stock plus assumed labour sensitivities, not a body-frame price, completed process route or approved design.",
     "The 20% uplift is an unallocated planning allowance and is not verified overhead, profit, tax or contingency."
   ],
   "source_epoch_id": "2fb35157687acf71548e414a15cabe8110ba98afe94cc2540afc41243205b913",
-  "packet_id": "408109363d0452c4073f424ac559e78297e8364e73664bbdb08bec3d32a21e35"
+  "packet_id": "9e4349b91546eb4f6d2ed233447c4289b50684345647d81f3d3dc700c47e7db9"
 }

@@ -185,6 +185,10 @@ def _sourcing_section(root,record):
               if 'concrete-batch-' in row['path']]
     mapped_concrete=validation.get('candidate_mapped_concrete_estimates', [])
     regional=validation.get('regional_cost_reference', {})
+    regional_packet_path=root/'docs/design-engine/sourcing'/regional.get('path', '')
+    if not regional_packet_path.is_file():
+        raise ValueError('Regional domestic-cost packet is missing')
+    regional_packet=json.loads(regional_packet_path.read_bytes())
     if takeoff['candidate_id']!=federated['candidate_id']:
         raise ValueError('Sourcing takeoff and federated evaluation candidate identities differ')
     if len(concrete)!=3 or any(row['candidate_id']!=federated['candidate_id'] for row in concrete):
@@ -206,9 +210,11 @@ def _sourcing_section(root,record):
         or any(row.get('candidate_id')!=federated['candidate_id'] for row in regional_mapped)):
         raise ValueError('Regional cost scenarios must remain bound to the takeoff research candidate')
     regional_totals_miqd=sorted(float(row['estimated_total_iqd'])/1_000_000 for row in regional_mapped)
-    regional_count=regional.get('unit_rate_scenario_count')
-    if regional_count!=84:
-        raise ValueError('Expected declared regional material/labour scenario inventory')
+    regional_count=len(regional_packet.get('unit_rate_estimates', []))
+    if (regional_count != regional.get('unit_rate_scenario_count')
+        or regional_packet.get('packet_id') != regional.get('packet_id')
+        or regional_packet.get('candidate_id') != federated['candidate_id']):
+        raise ValueError('Regional material/labour scenario index differs from its candidate-bound packet')
     return [
       '## Sourcing and domestic cost coverage','',
       catalogue_line+' Iraqi source leads include cement production, steel fabrication and rebar, GRP pipe and an aluminium-extrusion project. Source leads are not quotations, qualified products or available capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).','',
@@ -220,9 +226,9 @@ def _sourcing_section(root,record):
       f"| Draft procurement-package BOM `{procurement['candidate_id'][:12]}` | {procurement['located_stock_occurrence_count']:,} located occurrences grouped into {procurement['draft_package_count']:,} hierarchy-based packages; {procurement['packages_with_domestic_cost_estimates']} concrete spans carry {procurement['domestic_cost_estimate_scenario_count']} 2025 local material/labour scenarios | {procurement['unlocated_obligation_count']:,} obligations remain separate; no supplier prices, order quantities or assembly completeness |",
       f"| Generic concrete fabrication screen | {len(concrete)} material/labour recipes using September 2026 national materials and 2025 Baghdad wages; 2–8 skilled person-hours per nominal m³ | IQD {concrete_rates[0]:,}–{concrete_rates[-1]:,}/m³ with a 20% allowance; not a structural mix or guideway-beam price |",'',
       f"| 2026-price concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {mapped_totals_miqd[0]:.1f}–{mapped_totals_miqd[-1]:.1f} million for gross modeled concrete volume; not a mix design, precast beam price or installed cost |",
-      f"| 2025 Iraqi regional domestic-cost library | {regional_count} material/labour scenarios across concrete, rebar and aluminium-profile assembly; concrete recipe prices available in 12 of 15 listed governorates | Three governorates have missing concrete material prices; all scenario hours are assumptions and the 20% uplift is unallocated |",
+      f"| 2025 Iraqi regional domestic-cost library | {regional_count} material/labour scenarios across concrete, rebar, aluminium profiles and four Ur sheet forms; concrete recipe prices available in 12 of 15 listed governorates | Three governorates have missing concrete material prices; all scenario hours are assumptions and the 20% uplift is unallocated |",
       f"| 2025 Baghdad concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {regional_totals_miqd[0]:.1f}–{regional_totals_miqd[-1]:.1f} million on the 2025 regional material rates; not a designed mix or installed span price |",'',
-      'The 2026-price estimate and the 2025 regional-price estimate are separately source-bound views of the same research-candidate concrete takeoff. Both preserve every original manufacturing-group and occurrence identity. Their material mix and labour hours remain assumptions, not measured process data; neither establishes a guideway beam, supplier match, complete installed mass or cost, or a cost for the selected reference candidate. The 2025 regional packet also includes rebar cut/bend and a provisional aluminium-profile assembly screen.','',
+      'The 2026-price estimate and the 2025 regional-price estimate are separately source-bound views of the same research-candidate concrete takeoff. Both preserve every original manufacturing-group and occurrence identity. Their material mix and labour hours remain assumptions, not measured process data; neither establishes a guideway beam, supplier match, complete installed mass or cost, or a cost for the selected reference candidate. The regional packet also includes rebar cut/bend and profile/sheet raw-stock processing sensitivities; the posted sheet rates do not establish structural grade or a completed manufacturing route.','',
       'The reference dossier\'s 900 m shared winding and the separate five-bank research layout (100 m active motor length) remain distinct propulsion configurations. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.',''
     ]
 
