@@ -8,10 +8,12 @@ its illustrations remain unchanged.
 
 This review uses the [selected reference](../../../engineering/development-baseline.toml)
 and [current engineering](../current/README.md): six 17 m cars, 276 normal
-passengers, 72 km/h, 0.4 m/s² and a 120 s departure target. Replacement hardware
-is unweighed. The inherited normal account is 136.032 t/train, plus 10.622 t of
-equivalent inertia from counted wheel, axle and brake rotation. These are
-comparison inputs, not a completed vehicle mass.
+passengers, 72 km/h, 0.4 m/s² and a 120 s departure target. Every option now has
+the same two route contexts: 1.5 km and 2 km, with 35 s dwell, level and 2% uphill
+cases, and 0.4/0.8 m/s² acceleration samples. Replacement hardware is unweighed.
+The inherited normal account is 136.032 t/train, plus 10.622 t of equivalent
+inertia from counted wheel, axle and brake rotation. These are comparison inputs,
+not a completed vehicle mass.
 
 ## Acceleration distance comes first
 
@@ -29,7 +31,10 @@ wheelchair securement, jerk and adhesion limits require evidence. The 0.8 m/s²
 samples below do not approve a new passenger limit.
 
 The existing **900 m station winding allowance is shared by launch and receiving
-per station and direction**. Calculated full-train engagement zones are about
+per station and direction**. It remains a separate reference configuration from
+the launch-only options in the common matrix and from the five 20 m separated
+banks (100 m summed active length) in the [station-accelerator study](../station-accelerators/README.md).
+Their receiving hardware, force maps and BOMs are not combined. Calculated full-train engagement zones are about
 496 m and 329 m. A compact passenger platform can accompany a longer powered
 approach; it does not establish a compact propulsion installation.
 
@@ -102,12 +107,17 @@ comfort, contamination or repeated transit duty.
 [Manufacturer project](https://www.intamin.com/project/quantum-accelerator/).
 
 Cable passenger transport has real precedents, but its station and service
-configurations differ. For this 2 km case, even ideal powered cruise with
-instantaneous acceleration changes gives a minimum trip time of 141.667 s.
-A synchronous fixed-grip loop with one train per station pitch therefore needs
-at least **176.667 s** between departures including dwell: about 5,624 pphpd.
-A single reversible shuttle needs at least **353.333 s** in the same direction.
-Both miss 8,280 pphpd in those arrangements. Detachable grips, additional
+configurations differ. Across the shared route cases, ideal powered cruise with
+instantaneous acceleration changes gives minimum 20 m/s trip times of 116.667 s
+at 1.5 km and 141.667 s at 2 km.
+A fixed-grip loop with one train per station pitch therefore needs at least
+151.667 s and 176.667 s between departures including the declared 35 s dwell,
+respectively; both exceed the 120 s target.
+The same ideal bound gives 6,551 pphpd at 1.5 km and 5,624 pphpd at 2 km for
+that fixed-grip arrangement, against the 8,280 pphpd target. A single
+reversible shuttle needs at least 303.333 s and 353.333 s per round trip,
+respectively, including dwell. These are optimistic timetable bounds for those
+specific cable arrangements, not protected railway capacity. Detachable grips, additional
 berths or independently driven sections require different vehicle, platform,
 fleet and protection definitions. A launch-only cable still needs the powered
 stroke and a complete trolley return/rearming calculation.
@@ -131,13 +141,24 @@ the 500 m output travel at the reference acceleration.
 ```
 
 The separate [campaign](../../../campaigns/practical-launch-comparison.toml)
-compares **12 concept hardware options and 144 cheap bound scenarios**. They are
-not additional engineered railway bundles. Samples cover three speeds, two
-acceleration hypotheses and level/2% uphill conditions. Battery, supercapacitor
-and hybrid storage have distinct physical option identities. Friction,
-efficiency and operating targets belong to evaluation contexts, not new
-hardware. Complete materialized candidate, installed mass, price, selection,
-usable force map and physical acceptance remain absent.
+compares **12 concept hardware options across 288 cheap bound cases**: both
+station spacings × three speeds × two acceleration hypotheses × two grades.
+The `cases` field retains the 144-case 2 km view for existing consumers;
+`route_cases` contains the complete two-distance matrix, and `route_contexts`
+records the same service target and vehicle basis for each distance. These are
+analytical required-demand and necessary-bound results, not additional
+engineered railway bundles. Battery, supercapacitor and hybrid storage have
+distinct concept identities. Friction, efficiency, distance and operating
+targets belong to evaluation contexts, not new hardware.
+
+Each route case carries explicit evidence gaps for available effort by position
+and speed, losses, cooling/repeated duty, independent stopping, failed-launch
+recovery, installed equipment quantities, peak grid demand and protected
+headway. Only the fixed-cable arrangement has a narrow ideal station-pitch
+capacity bound; the remaining alternatives have no integrated fleet/turnback
+schedule. A case with a route-distance screen is not a completed physical
+journey. No usable force map, installed mass, price, selected option or physical
+acceptance is produced.
 
 [Comparison packet](comparison.json) and [source/payload manifest](manifest.json)
 are reproducible from [the evaluator](../../../engineering/design_search/launch_options.py).

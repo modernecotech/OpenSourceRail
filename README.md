@@ -61,7 +61,7 @@ The normal passenger cap is a comfort and load-management choice; it does not re
 
 Loss of station propulsion leaves the vehicle supported on its wheels. Independent braking must remain available, and a train stopped outside a powered zone needs a protected recovery/towing and evacuation arrangement. Walkway removal or a proposed escape device is not treated as approved.
 
-A separate [practical launch comparison](docs/design-engine/practical-launch/README.md) examines station-charged wheel traction, conductor-fed wheel drive, friction rollers, cable haulage and gravity. It distinguishes powered travel, peak power, energy storage and service constraints; the selected wheel/LIM reference remains unchanged.
+A separate [practical launch comparison](docs/design-engine/practical-launch/README.md) applies the same 1.5 km and 2 km analytical route matrix to 12 station-LIM, wheel, roller, cable and gravity concepts. It exposes required effort, peak mechanical power, route bounds and open force-map, thermal, stopping, recovery, grid and headway evidence; it does not produce a physical journey. The selected wheel/LIM reference remains unchanged.
 
 **The active propulsion direction is [passive bogies with short wayside accelerators](docs/design-engine/station-accelerators/README.md): no onboard traction motors or traction store.** All traction equipment stays near stations and their launch approaches; an optional energy buffer would also be wayside. Five aligned 20 m banks are the lead geometric experiment, with shorter-bank alternatives retained. Available thrust, safe stopping, recovery and installed price remain open.
 
