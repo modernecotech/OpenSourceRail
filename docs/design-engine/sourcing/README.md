@@ -106,6 +106,30 @@ Regenerate the regional unit-rate scenarios and group-mapped Baghdad concrete pa
 
 The metal extensions are raw-commodity comparisons, **not accepted supplier matches, product prices, cost bounds or installed-cost estimates**. The takeoff links the Baghdad CSO skilled-worker wage observation of IQD 9,375/person-hour, normalized from the 2025 daily average using an 8-hour day. The 2,269 groups do not declare measured labour hours. A separate recipe applies explicit 2/4/8-hour scenarios only to the concrete roll-up; all other manufacturing groups remain without calculated labour or fabrication costs. The rebar and concrete examples below are material-plus-labour scenarios, and their hours and mix quantities remain planning assumptions.
 
+### Draft procurement-package BOM
+
+The [package packet](procurement-bom/federated-v06-research-packages.json.gz) groups all **27,216 located stock occurrences** in the federated research candidate into 191 hierarchy-based sourcing-package candidates. It preserves each engineering occurrence, manufacturing-group identity, and related procurement/manufacturing task ID. The **4,773 unlocated obligations remain separate** and do not enter package masses or quantities.
+
+| Draft sourcing scope | Packages | Located occurrences | Modeled gross stock mass |
+|---|---:|---:|---:|
+| Vehicle-body-system stock kit, by car | 6 | 23,466 | 19.21 t |
+| Passive-bogie stock package | 12 | 360 | 29.79 t |
+| Passive-secondary stock kit, by car | 6 | 312 | 1.65 t |
+| Rail stock pair, by span | 81 | 162 | 195.08 t |
+| Nominal-concrete stock package, by span | 81 | 486 | 4,512.02 t |
+| Station-LIM primary copper/steel set, by bank | 5 | 2,430 | 22.82 t |
+
+These are reviewable quote scopes, not complete purchasing assemblies. Their internal counts are not commercial order quantities; purchase units, supplier prices, yield, labour routes and assembly completeness remain unknown. The bogie groups are partial modeled stock, the rail entries are mass-equivalent, the concrete is nominal geometry rather than designed precast, and the LIM sets omit converters, cooling and installation. Each concrete span package carries three separate 2025 Baghdad material-plus-labour estimate scenarios at 2/4/8 skilled hours per nominal m³ with a 20% allowance. Those estimates are not supplier offers or complete process/installed cost. No approval is attached. The package candidate is bound to research candidate `9c7d0942…`; it does not transfer to the selected v0.6 reference.
+
+Reproduce the deterministic package grouping from the sealed federated input:
+
+```bash
+./osr source procurement-bom \
+  --input docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-domestic-sources-v2/input.json.gz \
+  --regional-cost-reference docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2025/iraq-domestic-cost-reference-2025.json \
+  --output build/federated-v06-procurement-packages.json.gz
+```
+
 Reproduce the takeoff from its exact digital-twin source:
 
 ```bash

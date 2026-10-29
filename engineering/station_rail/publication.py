@@ -100,6 +100,8 @@ def sources(root,record,index,delivery):
         and 'tests' not in p.parts and '__pycache__' not in p.parts]
     names += [p.relative_to(root).as_posix() for p in (root/'docs/design-engine/sourcing/domestic-fabrication').rglob('*')
         if p.is_file() and '__pycache__' not in p.parts]
+    names += [p.relative_to(root).as_posix() for p in (root/'docs/design-engine/sourcing/procurement-bom').rglob('*')
+        if p.is_file() and '__pycache__' not in p.parts]
     names += ['campaigns/end-to-end-railway-closure.toml',
         'campaigns/practical-launch-comparison.toml','engineering/design_search/launch_options.py',
         'campaigns/simple-affordable-propulsion.toml','engineering/design_search/propulsion_layout.py',
@@ -161,6 +163,24 @@ def _sourcing_section(root,record):
     frame=validation['packets']['frame_vehicle']
     federated=validation['packets']['federated_manufacturing_groups']
     takeoff=validation['candidate_material_takeoff']
+    procurement=validation.get('procurement_package_bom', {})
+    procurement_path=root/'docs/design-engine/sourcing'/procurement.get('path', '')
+    if not procurement or not procurement_path.is_file():
+        raise ValueError('Candidate procurement-package packet is missing')
+    procurement_packet=json.loads(gzip.decompress(procurement_path.read_bytes()))
+    if (procurement_packet.get('schema')!='osr-procurement-package-bom/1'
+        or procurement_packet.get('packet_id')!=sourcing_identity(
+            {key:value for key,value in procurement_packet.items() if key!='packet_id'})
+        or procurement_packet.get('packet_id')!=procurement.get('packet_id')
+        or procurement_packet.get('candidate_id')!=federated['candidate_id']
+        or procurement_packet.get('source_input_id')!=takeoff.get('source_input_id')
+        or procurement_packet.get('draft_package_count')!=procurement.get('draft_package_count')
+        or procurement_packet.get('regional_cost_reference_packet_id')!=procurement.get('regional_cost_reference_packet_id')
+        or procurement_packet.get('domestic_cost_estimate_scenario_count')!=procurement.get('domestic_cost_estimate_scenario_count')
+        or not procurement_packet.get('all_located_occurrences_assigned_exactly_once')):
+        raise ValueError('Candidate procurement packages do not match their sealed source and coverage index')
+    if not (root/'docs/design-engine/sourcing'/procurement.get('regional_cost_reference_path', '')).is_file():
+        raise ValueError('Linked regional domestic-cost reference is missing')
     concrete=[row for row in validation['domestic_fabrication_unit_rate_screens']
               if 'concrete-batch-' in row['path']]
     mapped_concrete=validation.get('candidate_mapped_concrete_estimates', [])
@@ -197,6 +217,7 @@ def _sourcing_section(root,record):
       f"| Frame candidate `{frame['candidate_id'][:12]}` | {frame['input_requirement_count']:,} groups; {frame['compatible_matches']} compatible priced matches | Nine RFQ drafts remain unsent; complete installed cost unknown |",
       f"| Federated candidate `{federated['candidate_id'][:12]}` | {federated['physical_scope_count']:,} scopes in {federated['input_requirement_count']:,} sourcing groups; {federated['evaluated']:,} evaluated, {federated['pending']:,} pending | {federated['compatible_matches']} compatible priced matches; all {federated['evaluated_group_unknown_quantities']:,} evaluated purchase quantities unknown |",
       f"| Material takeoff `{takeoff['candidate_id'][:12]}` | {takeoff['manufacturing_group_count']:,} groups retain {takeoff['located_occurrence_count']:,} located occurrences; {takeoff['unlocated_account_count']:,} unlocated accounts stay separate | {float(takeoff['known_gross_stock_mass_kg'])/1000:,.2f} t gross located stock and {float(takeoff['concrete_nominal_stock_volume_m3']):,.2f} m³ nominal concrete geometry are not installed mass or purchase quantities |",
+      f"| Draft procurement-package BOM `{procurement['candidate_id'][:12]}` | {procurement['located_stock_occurrence_count']:,} located occurrences grouped into {procurement['draft_package_count']:,} hierarchy-based packages; {procurement['packages_with_domestic_cost_estimates']} concrete spans carry {procurement['domestic_cost_estimate_scenario_count']} 2025 local material/labour scenarios | {procurement['unlocated_obligation_count']:,} obligations remain separate; no supplier prices, order quantities or assembly completeness |",
       f"| Generic concrete fabrication screen | {len(concrete)} material/labour recipes using September 2026 national materials and 2025 Baghdad wages; 2–8 skilled person-hours per nominal m³ | IQD {concrete_rates[0]:,}–{concrete_rates[-1]:,}/m³ with a 20% allowance; not a structural mix or guideway-beam price |",'',
       f"| 2026-price concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {mapped_totals_miqd[0]:.1f}–{mapped_totals_miqd[-1]:.1f} million for gross modeled concrete volume; not a mix design, precast beam price or installed cost |",
       f"| 2025 Iraqi regional domestic-cost library | {regional_count} material/labour scenarios across concrete, rebar and aluminium-profile assembly; concrete recipe prices available in 12 of 15 listed governorates | Three governorates have missing concrete material prices; all scenario hours are assumptions and the 20% uplift is unallocated |",

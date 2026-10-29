@@ -54,6 +54,7 @@ The current selected physical candidate is `756a68870162f7559b052b05c9b201728c9f
 | Frame candidate `1b3ae3f4de24` | 3,183 groups; 0 compatible priced matches | Nine RFQ drafts remain unsent; complete installed cost unknown |
 | Federated candidate `9c7d0942c9de` | 31,989 scopes in 7,042 sourcing groups; 137 evaluated, 6,905 pending | 0 compatible priced matches; all 137 evaluated purchase quantities unknown |
 | Material takeoff `9c7d0942c9de` | 2,269 groups retain 27,216 located occurrences; 4,773 unlocated accounts stay separate | 4,780.58 t gross located stock and 1,804.81 m³ nominal concrete geometry are not installed mass or purchase quantities |
+| Draft procurement-package BOM `9c7d0942c9de` | 27,216 located occurrences grouped into 191 hierarchy-based packages; 81 concrete spans carry 243 2025 local material/labour scenarios | 4,773 obligations remain separate; no supplier prices, order quantities or assembly completeness |
 | Generic concrete fabrication screen | 3 material/labour recipes using September 2026 national materials and 2025 Baghdad wages; 2–8 skilled person-hours per nominal m³ | IQD 113,580–181,080/m³ with a 20% allowance; not a structural mix or guideway-beam price |
 
 | 2026-price concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD 205.0–326.8 million for gross modeled concrete volume; not a mix design, precast beam price or installed cost |

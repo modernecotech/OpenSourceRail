@@ -126,6 +126,15 @@ def _parser():
     material.add_argument("--output", required=True, type=Path,
                           help="Fresh JSON or .json.gz takeoff output")
 
+    packages = sub.add_parser("procurement-bom", help="Group located candidate stock into traceable draft quote packages")
+    packages.add_argument("--input", required=True, type=Path,
+                          help="Exact federated BOM JSON, sealed sourcing input, or source archive")
+    packages.add_argument("--member", help="Exact JSON member in a tar.gz input")
+    packages.add_argument("--output", required=True, type=Path,
+                          help="Fresh JSON or .json.gz procurement package BOM output")
+    packages.add_argument("--regional-cost-reference", type=Path,
+                          help="Optional exact regional-cost packet; links its group estimates to concrete span packages")
+
     sub.add_parser("status", help="Show database record counts and recent evaluation summaries")
     show = sub.add_parser("show", help="Show a run summary and its bounded evidence counts")
     show.add_argument("run_id")
@@ -503,6 +512,56 @@ def main(argv=None):
                 parser.error("unsupported sourcing takeoff")
             _emit(_material_takeoff(input_path=args.input, member=args.member,
                 as_of=args.as_of, output_path=args.output))
+            return 0
+
+        if args.command == "procurement-bom":
+            from .procurement_bom import build_procurement_bom, load_twin_input, source_hashes, write_packet
+            twin_input = load_twin_input(args.input, member=args.member)
+            source_file = args.input.expanduser().resolve()
+            regional_reference = None
+            concrete_estimates = []
+            source_evidence_hashes = {}
+            if args.regional_cost_reference is not None:
+                regional_path = args.regional_cost_reference.expanduser().resolve()
+                regional_reference = inputs.read_json(regional_path)
+                source_evidence_hashes[regional_path.relative_to(ROOT).as_posix()
+                                       if regional_path.is_relative_to(ROOT) else regional_path.name] = inputs.digest(regional_path)
+                for row in regional_reference.get("baghdad_concrete_takeoff_estimates", []):
+                    hours = str(row.get("labour_hours_per_nominal_m3"))
+                    estimate_path = regional_path.parent / ("baghdad-concrete-takeoff-" + hours + "h.json")
+                    estimate_packet = inputs.read_json(estimate_path)
+                    if estimate_packet.get("estimate_packet_id") != row.get("estimate_packet_id"):
+                        raise ValueError("Regional cost index and concrete estimate packet identity differ")
+                    concrete_estimates.append((hours, estimate_packet))
+                    source_evidence_hashes[estimate_path.relative_to(ROOT).as_posix()
+                                           if estimate_path.is_relative_to(ROOT) else estimate_path.name] = inputs.digest(estimate_path)
+            packet = build_procurement_bom(
+                twin_input,
+                source_file_sha256=inputs.digest(source_file),
+                source_file_name=source_file.name,
+                source_code_hashes={**source_hashes(),
+                                    "engineering/sourcing/cli.py": inputs.digest(ROOT / "engineering/sourcing/cli.py")},
+                source_evidence_hashes=source_evidence_hashes,
+                regional_cost_reference=regional_reference,
+                concrete_estimate_packets=concrete_estimates,
+            )
+            output_path = write_packet(packet, args.output)
+            _emit({
+                "output": str(output_path),
+                "packet_id": packet["packet_id"],
+                "candidate_id": packet["candidate_id"],
+                "evaluation_id": packet["evaluation_id"],
+                "source_input_id": packet["source_input_id"],
+                "located_occurrence_count": packet["located_stock_occurrence_count"],
+                "draft_package_count": packet["draft_package_count"],
+                "unlocated_obligation_count": packet["unlocated_obligation_count"],
+                "unmapped_located_occurrence_count": len(packet["unmapped_located_occurrence_ids"]),
+                "packages_with_domestic_cost_estimates": packet["packages_with_domestic_cost_estimates"],
+                "domestic_cost_estimate_scenario_count": packet["domestic_cost_estimate_scenario_count"],
+                "commercial_order_quantities_known": False,
+                "complete_installed_bom": False,
+                "physical_qualification": None,
+            })
             return 0
 
         if args.command == "refresh":
