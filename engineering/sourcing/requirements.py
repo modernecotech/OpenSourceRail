@@ -97,7 +97,8 @@ def extract_requirements(payload, *, candidate_id=None, namespace=None):
                 identifiers=_identifiers(part), constraints=deepcopy(part.get("procurement", {}).get("sourcing_constraints", [])),
                 geometry=deepcopy(part["geometry"]), material_id=part["material_id"],
                 mass_per_unit_kg=deepcopy(part["mass"]), cost_status="unpriced" if part["cost"].get("lower_usd") is None else "retained-price-needs-source-check",
-                installed_mass_complete=False, source_evidence=deepcopy(part.get("evidence", {}))))
+                installed_mass_complete=False, source_evidence=deepcopy(part.get("evidence", {})),
+                decision_sensitivity=deepcopy(part.get("decision_sensitivity"))))
         return rows
     if payload.get("schema") == "osr-v06-engineering-bom/1":
         if namespace not in (None, "station-account"):
@@ -122,7 +123,8 @@ def extract_requirements(payload, *, candidate_id=None, namespace=None):
                 procurement_scope="mixed-subtotal-account-per-car", identifiers={}, constraints=[],
                 accounted_mass_kg_per_car=account.get("mass_kg"), mass_per_unit_kg=None,
                 quantity_basis="Unresolved aggregate account, not a purchased part; formation is not a unit count",
-                source_account=deepcopy(account), cost_status="unresolved-physical-definition", installed_mass_complete=False))
+                source_account=deepcopy(account), cost_status="unresolved-physical-definition", installed_mass_complete=False,
+                decision_sensitivity=deepcopy(account.get("decision_sensitivity"))))
         return rows
     if payload.get("schema") == "osr-federated-railway-BOM/1":
         if namespace not in (None, "twin-scene"):
@@ -185,7 +187,7 @@ def extract_requirements(payload, *, candidate_id=None, namespace=None):
                     "id", "group_id", "known_gross_stock_mass_kg", "net_fabricated_mass_kg",
                     "purchased_stock_quantity", "yield_fraction", "labour_h", "tooling",
                     "inspection_procedure", "process_qualification", "origin_country",
-                    "repair_and_removal_route")}
+                    "repair_and_removal_route", "decision_sensitivity")}
                 group_occurrences = sorted(occurrence_ids)
                 rows.append(record("requirement", candidate_id=candidate, input_id=payload["evaluation_id"], namespace="twin-scene",
                     requirement_key=key, description=key, category=category, priority=priority,
@@ -201,7 +203,8 @@ def extract_requirements(payload, *, candidate_id=None, namespace=None):
                     procurement_scope="source-declared gross-stock manufacturing group",
                     identifiers={}, constraints=[], accounted_mass_kg=group.get("known_gross_stock_mass_kg"),
                     mass_per_unit_kg=None, source_scene_row=None,
-                    cost_status="unpriced; source group is not a purchasing unit", installed_mass_complete=False))
+                    cost_status="unpriced; source group is not a purchasing unit", installed_mass_complete=False,
+                    decision_sensitivity=deepcopy(group.get("decision_sensitivity"))))
             located_occurrences = {key for key, item in scene_rows.items() if item["scope"] != "unlocated-account-or-obligation"}
             if grouped_occurrences != located_occurrences:
                 raise ValueError("Declared manufacturing groups do not completely cover located stock occurrences")
@@ -218,7 +221,8 @@ def extract_requirements(payload, *, candidate_id=None, namespace=None):
                 occurrence_ids=[item["id"]] if located else [], physical_scopes=[item["id"]],
                 procurement_scope="gross-stock-occurrence" if located else "unlocated-account",
                 identifiers={}, constraints=[], accounted_mass_kg=item.get("accounted_mass_kg"),
-                mass_per_unit_kg=None, source_scene_row=deepcopy(item), cost_status="unpriced", installed_mass_complete=False))
+                mass_per_unit_kg=None, source_scene_row=deepcopy(item), cost_status="unpriced", installed_mass_complete=False,
+                decision_sensitivity=deepcopy(item.get("decision_sensitivity"))))
         return rows
     raise ValueError("Unsupported typed sourcing input; provide a registry or declared BOM schema")
 

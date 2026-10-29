@@ -1,6 +1,6 @@
 # Sourcing, materials and cost intelligence
 
-This package ingests dated, source-linked observations and evaluates them against one revision-bound candidate input. It supports manufacturer catalogues, distributor offers, commodity benchmarks, exchange rates, construction awards, engineering estimates and direct supplier quotations. A source lead, product listing, engineering estimate and authenticated quotation remain different evidence classes.
+This package ingests dated, source-linked observations and evaluates them against one revision-bound candidate input. It supports manufacturer catalogues, distributor offers, commodity benchmarks, national statistics, marketplace indicators, exchange rates, construction awards, engineering estimates and direct supplier quotations. A source lead, product listing, engineering estimate and authenticated quotation remain different evidence classes.
 
 ## Data flow
 
@@ -51,6 +51,33 @@ The bounded adapters in `adapters/` parse official World Bank monthly commodity 
 The current snapshot includes public catalogue observations for selected GFRP cloth/resin, a prototype vacuum pump, door mechanism, HVAC units, solar module, rail profile, fastening leads, precast production equipment and crane specifications. It also retains World Bank metal benchmarks, ECB exchange rates, Caltrans civil award rows and Iraqi/UNGM procurement leads. Scope notes and retrieval dates are part of each record. A California awarded unit rate is a benchmark, not an Iraqi construction price; visible Iraqi BOQ documents without awarded rates stay unpriced.
 
 Order MOQ/multiples, taxes, shipping, delivery terms, part origin and installation scope remain unknown where the source did not state them. The evaluator may show a listed-price extension at requested quantity, but it does not treat this as an order total or purchasable quantity. Supplier quotations parsed from a file are unverified until authenticated outside the file. No supplier communications are sent.
+
+## Domestic fabrication cost screen
+
+`fabrication.domestic_fabrication_estimate` and `./osr source estimate fabrication` calculate an explicit recipe from exact source-linked material and wage benchmarks. The formula is:
+
+```text
+estimate = (material quantity × material benchmark rate
+          + person-hours × hourly wage benchmark) × (1 + explicit uplift)
+```
+
+The uplift is set to 20% in the Iraq reference examples. It is a planning allowance on direct material plus direct labour; the database does not assign it to overhead, profit, contingency or tax. Material and labour quantities must be declared. Units and currency must match the selected benchmarks; this screen does not silently convert currencies or assume unknown quantities are zero. The output retains the digital-twin candidate and input identities, exact benchmark/source IDs, line extensions and excluded cost categories. A unit-rate screen remains separate from candidate takeoff, complete process cost and installed cost.
+
+The example recipes in `docs/design-engine/sourcing/domestic-fabrication/recipes/` estimate one tonne of reinforcing steel input through an illustrative cut/bend route using the September 2026 Iraqi-origin CSO rebar benchmark and the 2025 Baghdad skilled-worker average wage. Labour hours are explicitly varied at 4/8/16 hours per input tonne because measured local cycle times were unavailable. Each recipe is bound to the exact federated railway source input for traceability, but none is mapped to a railway occurrence. These are budget sensitivity screens, not supplier or factory quotations.
+
+```bash
+./osr source seed
+./osr source estimate fabrication \
+  --input docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-sources-final/input.json.gz \
+  --recipe docs/design-engine/sourcing/domestic-fabrication/recipes/rebar-cut-bend-08h.json \
+  --output /tmp/osr-rebar-fabrication-estimate.json
+```
+
+The Iraqi input library includes CSO construction-material prices and governorate wages, an Iraqi state producer's aluminium price page, and domestic steel/precast manufacturer leads. Missing design-grade specifications, supplier availability, current binding quotes, production yields, employer-loaded labour, tooling, QA, utilities, transport and installation remain explicit gaps. Local supplier pages document capability leads only; they do not authorize or select products.
+
+The sourcing backlog also supports `decision_sensitivity` declarations on candidate BOM groups. A declaration can include cost and mass impact ranges with their source/model basis, uncertainty fraction and basis, downstream decisions, safety/design-blocking status, alternatives, simulations to rerun, supplier/catalogue evidence requests, and a cost margin for testing whether the result could change the preferred candidate. The controller scores each dimension as `range width × uncertainty fraction × (1 + dependent decision count)`, ranks safety/design blockers first, and keeps cost and mass on separate axes with Pareto fronts. It never converts IQD, USD and kilograms into one score. Missing inputs remain unranked with explicit missing-field names; category priority is only the fallback queue.
+
+The current federated BOM has no reviewed `decision_sensitivity` declarations, so its economic and mass impact scores remain unavailable. The controller reports missing inputs for the 137 evaluated unresolved groups; 6,905 other groups remain pending and are unevaluated, not assigned numeric or zero scores. The newly sourced market and wage statistics do not yet supply candidate purchase quantities, alternative design deltas, or a measured workshop labour route. The feature makes those inputs consumable and exposes the gap; it does not manufacture an expected value of information from category labels.
 
 Candidate substitutions are only proposals. A supplier mass observation for a different SKU does not transfer old CAD geometry, interfaces, joints, electrical duty or maintenance assumptions. The proposal creates a new physical identity and invalidates dependent analyses. A property-only observation can preserve the physical identity only for the same exact product identity and scope.
 

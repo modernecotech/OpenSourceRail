@@ -165,6 +165,12 @@ def details(store, result):
 
 
 def summary(store, result):
+    backlog = result.get("backlog", [])
+    cost_ranked = sum(row.get("sensitivity", {}).get("cost_sensitivity_score") is not None for row in backlog)
+    mass_ranked = sum(row.get("sensitivity", {}).get("mass_sensitivity_score_kg") is not None for row in backlog)
+    sensitive = sum(row.get("sensitivity", {}).get("cost_sensitivity_score") is not None or
+                    row.get("sensitivity", {}).get("mass_sensitivity_score_kg") is not None for row in backlog)
+    blockers = sum(row.get("sensitivity", {}).get("safety_or_design_blocker") is True for row in backlog)
     value = dict(schema="osr-sourcing-review-summary/1", run_id=result["record_id"],
                  candidate_id=result["candidate_id"], estimate_date=result["estimate_date"], currency=result["currency"],
                  summary=result["summary"], input_requirement_count=result["input_requirement_count"],
@@ -174,7 +180,10 @@ def summary(store, result):
                  input_source_manufacturing_group_occurrence_count=result["input_source_manufacturing_group_occurrence_count"],
                  input_unlocated_account_count=result["input_unlocated_account_count"],
                  evaluated_requirement_count=result["evaluated_requirement_count"], pending_requirement_count=len(result["pending_requirement_ids"]),
-                 backlog_first_30=result["backlog"][:30], integrated_winner=None,
+                 backlog_first_30=backlog[:30], sensitivity_rankable_requirement_count=sensitive,
+                 cost_sensitivity_rankable_requirement_count=cost_ranked,
+                 mass_sensitivity_rankable_requirement_count=mass_ranked,
+                 safety_or_design_blocker_requirement_count=blockers, integrated_winner=None,
                  complete_installed_cost=None, complete_whole_life_cost=None,
                  physical_qualification=None, supplier_communications_sent=0, **FLAGS)
     value["summary_id"] = identity(value)

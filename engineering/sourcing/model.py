@@ -23,7 +23,8 @@ UNITS = {"each", "kg", "g", "t", "m", "mm", "m2", "m3", "CY", "h",
 SOURCE_KINDS = {"manufacturer_catalogue", "distributor_catalogue",
                 "commodity_benchmark", "exchange_rate", "tender_notice",
                 "awarded_bid", "supplier_quotation", "factory_catalogue",
-                "published_test", "engineering_estimate"}
+                "published_test", "engineering_estimate", "national_statistic",
+                "marketplace_benchmark"}
 
 
 def encoded(value):
@@ -175,6 +176,8 @@ def _validate_body(value):
         day(value.get("observation_date"), "benchmark observation date")
         if value.get("quantity_unit") not in UNITS:
             raise ValueError("Benchmark quantity unit required")
+        if not isinstance(value.get("currency"), str) or re.fullmatch("[A-Z]{3}", value["currency"]) is None:
+            raise ValueError("ISO benchmark currency required")
         decimal(value.get("unit_price"), "benchmark value")
         if value.get("is_manufactured_product_price") is not False:
             raise ValueError("A benchmark cannot become a manufactured product quote")

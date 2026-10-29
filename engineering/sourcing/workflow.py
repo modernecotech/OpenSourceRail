@@ -7,6 +7,7 @@ from .matching import match_products
 from .pricing import evaluate_offers
 from .erp import build_rfq_drafts
 from .twin import discovery_task
+from .sensitivity import rank_backlog
 
 
 def _extend(value, **extra):
@@ -148,12 +149,7 @@ def evaluate(store, requirements, *, bindings=None, as_of, target_currency="USD"
     unpriced = [r for r in requirements if r["record_id"] not in priced]
     rfqs = build_rfq_drafts(unpriced, technical) if unpriced else []
     store.insert_many(rfqs)
-    backlog = [dict(requirement_id=r["record_id"], requirement_key=r["requirement_key"],
-        category=r.get("category", "other"), priority=r.get("priority", 15),
-        expected_cost_impact=None, uncertainty="unresolved" if r["quantity"] is None else "price-or-specification-evidence-needed",
-        effect_on_other_decisions="propagate candidate revision through dependent evaluations",
-        rank_method="declared system priority then stable identity; no invented expected-value-of-information")
-        for r in sorted(unpriced, key=lambda r:(r.get("priority",15),r["record_id"]))]
+    backlog = rank_backlog(unpriced)
     result = record("run", candidate_id=candidate, estimate_date=as_of, currency=target_currency,
         requirement_ids=[r["record_id"] for r in requirements], technical_assessment_ids=[a["record_id"] for a in technical],
         price_assessment_ids=[a["record_id"] for a in commercial], overlay_id=overlay["record_id"],

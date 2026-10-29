@@ -82,6 +82,7 @@ async function loadStatus() {
     metric("Manufacturing groups", coverage.input_source_manufacturing_group_count ?? coverage.source_manufacturing_group_count ?? "Unknown", !latest),
     metric("Priced requirement groups", coverage.priced_requirement_count ?? "Unknown", !latest),
     metric("Unknown quantity", coverage.unknown_quantity_requirements ?? "Unknown", !latest),
+    metric("Unknowns with cost/weight bounds", latest ? latest.sensitivity_rankable_requirement_count : "Unknown", !latest),
     metric("Complete installed cost", "Unknown", true)
   );
   const note = coverage.quantity_basis ? status.note + " " + coverage.quantity_basis + "." : status.note;
@@ -141,14 +142,14 @@ async function loadRuns() {
 }
 
 const recordColumns = {
-  requirement: ["Requirement", "Namespace", "Description", "Quantity", "Category", "Manufacturing group", "Occurrences", "Reference stock mass", "Purchase unit status", "Selected product", "Configuration"],
+  requirement: ["Requirement", "Namespace", "Description", "Quantity", "Category", "Manufacturing group", "Occurrences", "Reference stock mass", "Purchase unit status", "Declared sensitivity inputs", "Selected product", "Configuration"],
   product: ["Product", "Manufacturer", "Part number", "Description", "Supply scope", "Specification facts"],
   offer: ["Product ID", "Price date", "Currency", "Class", "Quantity unit", "Packaging", "Order constraints", "Price tiers"],
   source: ["Publisher", "Source kind", "Retrieved", "Access"],
   assessment: ["Requirement ID", "Product", "Status", "Holds"],
   rfq: ["Category", "Candidate", "Items", "Enabled", "Supplier email"],
-  benchmark: ["Benchmark", "Date", "Unit", "Value"],
-  process: ["Process", "Material family", "Sources"]
+  benchmark: ["Benchmark", "Date", "Unit", "Currency", "Rate", "Geographic scope", "Cost scope", "Source"],
+  process: ["Process", "Estimate", "Candidate", "Unit rate", "Unit", "Takeoff mapped", "Sources"]
 };
 
 function recordRow(kind, item) {
@@ -163,6 +164,7 @@ function recordRow(kind, item) {
     cell(row, item.engineering_occurrence_count ?? item.occurrence_count ?? 0);
     cell(row, item.source_gross_stock_mass_kg === null || item.source_gross_stock_mass_kg === undefined ? "Unknown" : String(item.source_gross_stock_mass_kg) + " kg");
     cell(row, item.procurement_unit_status);
+    cell(row, detailText(item.decision_sensitivity));
     cell(row, shortId(item.selected_product_record_id), "mono");
     cell(row, detailText(item.product_configuration));
   } else if (kind === "product") {
@@ -201,10 +203,18 @@ function recordRow(kind, item) {
     cell(row, item.benchmark_key);
     cell(row, item.observation_date);
     cell(row, item.quantity_unit);
+    cell(row, item.currency);
     cell(row, item.unit_price);
+    cell(row, item.geographic_scope);
+    cell(row, item.cost_scope);
+    cell(row, shortId(item.source_id), "mono");
   } else {
     cell(row, item.process_key || item.process_name);
-    cell(row, item.material_family);
+    cell(row, item.estimate_key || item.material_family);
+    cell(row, shortId(item.candidate_id), "mono");
+    cell(row, item.estimated_unit_cost === null || item.estimated_unit_cost === undefined ? "Unknown" : item.currency + " " + item.estimated_unit_cost);
+    cell(row, item.output_unit);
+    cell(row, item.candidate_takeoff_mapped === true ? "Yes" : item.estimate_key ? "No" : "Unknown");
     cell(row, Array.isArray(item.source_ids) ? item.source_ids.length : 0);
   }
   return row;

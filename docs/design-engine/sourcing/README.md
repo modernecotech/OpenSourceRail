@@ -4,7 +4,7 @@
 
 ## What is in the database
 
-The combined offline seed currently contains **60 immutable observations**: 27 source records, 16 product records, five published catalogue offers, two retained FX observations and ten commodity/construction benchmarks. A live refresh against the fixed public ECB and World Bank endpoints retrieved content matching the retained source hashes; it parsed **27 dated ECB reference-rate rows** and **two current World Bank metal observations** into a local append-only database. Repeating the refresh with identical bytes reuses the source record and does not replace previous observations.
+The combined offline seed now contains **98 immutable observations**: 40 source records, 16 product records, five published catalogue offers, two retained FX observations and 35 commodity, construction, wage and local-market benchmarks. The retained ECB and World Bank feed snapshot separately parsed **27 dated ECB reference-rate rows** and **two World Bank metal observations** into a local append-only database. Repeating a refresh with identical bytes reuses the source record and does not replace previous observations. Previously published packets remain source-bound to their earlier 60-record catalogue epoch.
 
 Source products are immutable observations. If a supplier product key has multiple recorded revisions, the laminate study stops unless the operator supplies the exact `PRODUCT_KEY=RECORD_ID` selection with `--product-observation`. The requirement and RFQ retain that selected record ID. Material/source-property changes alter the evaluation input and bounds; physical candidate identity stays constant when only the evidence revision changes. A changed material choice or geometry gets a different candidate ID.
 
@@ -37,15 +37,49 @@ The [ECB daily reference feed](https://www.ecb.europa.eu/stats/policy_and_exchan
 
 Eight actual awarded Caltrans bridge-footing concrete pay items are retained in USD/CY, with original bid rates separate from the agency's adjusted rates. They are California historical comparators, **not Baghdad installed rates**. The [Iraq Tender Portal](https://itp.iq/) returned a public application shell without verified award prices. A relevant [UNGM Iraq/UNOPS notice](https://www.ungm.org/Public/Notice/221058) exposed BOQ-file leads, but the file request returned HTTP 403; the importer creates no unit-rate benchmark from those filenames. Local Iraqi concrete, steel, labour, transport, lifting, utility relocation and installation rates remain a high-priority RFQ/tender task.
 
+### Iraqi domestic materials, wages and fabrication leads
+
+The source catalogue now includes an official [CSO September 2026 construction-material bulletin](https://mail.cosit.gov.iq/ar/constr-stat/constr-pr) and its [PDF snapshot](https://mail.cosit.gov.iq/documents/buildings/Employees%20wages/2026/%D9%86%D8%B4%D8%B1%D8%A9%20%D8%A7%D8%B3%D8%B9%D8%A7%D8%B1%20%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%AF%20%D8%A7%D9%84%D8%A7%D9%86%D8%B4%D8%A7%D8%A6%D9%8A%D8%A9%20%D9%84%D8%B4%D9%87%D8%B1%20%D8%A7%D9%8A%D9%84%D9%88%D9%84.pdf). It reports Iraqi-origin market statistics in thousand IQD; the catalogue normalizes those to IQD and retains the printed basis. These are national material observations, not Baghdad installed rates or exact product quotations.
+
+| Domestic input | Normalized observation | Source scope / limit |
+|---|---:|---|
+| Reinforcing steel | IQD 989,000/t | Iraqi-origin CSO September 2026 statistic; exact grade, diameter and delivery scope unspecified |
+| Ordinary cement | IQD 132,000/t | Iraqi-origin CSO September 2026 statistic; cement class/strength is not specified |
+| Resistant cement | IQD 148,000/t | Iraqi-origin CSO September 2026 statistic; product class/strength needs supplier confirmation |
+| Red sand / ordinary gravel / crushed gravel | IQD 21,000 / 21,000 / 24,000 per m³ | CSO table observation; source, grading, moisture, haulage and delivered scope open |
+| Ordinary brick | IQD 184 each | Normalized from IQD 184,000 per thousand pieces |
+| Skilled worker wage | IQD 75,000 per working day; normalized to IQD 9,375/person-hour | [CSO 2025 annual wages by governorate](https://mail.cosit.gov.iq/documents/buildings/Employees%20wages/2025/2025%D9%86%D8%B4%D8%B1%D8%A9%20%D8%A7%D8%B3%D8%B9%D8%A7%D8%B1%20%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%AF%20%20%D9%88%D8%A7%D8%AC%D9%88%D8%B1%20%D8%A7%D9%84%D8%B9%D8%A7%D9%85%D9%84%D9%8A%D9%86.pdf), Baghdad average; hourly conversion assumes 8 hours/day and excludes employer burden |
+| Aluminium profiles and sheet | IQD 4.60–5.50 million/t profiles; IQD 5.10–5.30 million/t sheet observations | [Ur Company posted prices](https://ur.industry.gov.iq/public/prices); alloy/temper, effective date, terms and availability are unstated |
+| Rebar market indicator | IQD 931,000/t observed 29 October 2026 | [Hadeed Iraq marketplace](https://hadeediraq.com/) dashboard; not a seller-specific, grade-specific or delivery quotation |
+
+The CSO rebar statistic and the marketplace indicator differ in date and scope. They are retained separately and are not blended into a fabricated quote. The public [Cement Producers Association directory](https://cpai.iq/companies) identifies Iraqi cement producers for RFQ follow-up. More domestic manufacturing leads are [Star Steel Iraq](https://starsteeliraq.com/manufacturing/) and [Alpha Steel](https://alphasteel.iq/) for reinforcing steel; [Dijla Precast](https://dijla-precast.com/production-lines/), [Karbala Precast](https://karbala-company.com/), [Al-Fayha](https://www.al-fayhagroup.net/products/prefabricated-building-products), [Al-Burhan](https://www.alburhangroup.com/concrete-precast-factory.php) and [Al-Kanz](https://alkanz.iq/about-us/) for precast/piles/girders. Their public pages establish supplier leads only. Request exact grades, certificates, capacity allocation, schedule, warranty, transport and binding project quotations before using them in a candidate estimate. The regional [FRP Technology](https://www.frptechnology.com/) lead advertises an Iraq distribution network, but this does not establish Iraqi GFRP feedstock manufacture or local stock.
+
+The domestic fabrication screen is formula-driven:
+
+```text
+estimated unit cost = (material quantity × source rate
+                     + declared labour hours × source wage/hour) × 1.20
+```
+
+For a reference tonne of reinforcing-steel input, it produces **IQD 1,231,800**, **1,276,800** and **1,366,800 per input tonne** at 4, 8 and 16 skilled-worker hours respectively. The midpoint is IQD 989,000 materials + IQD 75,000 direct labour + IQD 212,800 (20% of their IQD 1,064,000 sum). The 4/8/16-hour values are planning scenarios, not measured local process hours. The 20% is the requested unallocated planning uplift; it is not evidence for a tax, contingency, margin or factory overhead rate. Rebar cutting/bending yield, binding wire, machinery, tooling, QA, power, packaging, employer charges, transport and delivery are excluded. The estimate is attached to the exact digital-twin evaluation input for provenance, but is not assigned to a physical railway occurrence or takeoff quantity.
+
+The source-bound [recipe files](domestic-fabrication/recipes/) and regenerated [4-hour](domestic-fabrication/estimates/current/rebar-cut-bend-04h.json), [8-hour](domestic-fabrication/estimates/current/rebar-cut-bend-08h.json) and [16-hour](domestic-fabrication/estimates/current/rebar-cut-bend-16h.json) estimate packets retain source record IDs and all omitted cost scopes. They do not close a guideway beam, car body or installed railway cost.
+
+### Cost/weight sensitivity queue
+
+The unresolved sourcing backlog now accepts candidate-bound `decision_sensitivity` inputs. For explicit ranges, it computes cost and mass scores as `impact-range width × uncertainty fraction × (1 + number of downstream decisions affected)`. It lists alternatives, affected simulations and requested catalogue/supplier evidence beside the score. Safety or design blockers sort ahead of economic results. Cost and mass use separate ranks and Pareto fronts rather than a made-up cost-versus-kilogram exchange rate. A `could_change_preferred` result is produced only when an explicit candidate cost margin and same-currency cost-impact range are present.
+
+No reviewed cost/weight impact ranges or alternatives are declared in the current federated BOM. The controller reports missing inputs for the 137 evaluated unresolved groups; 6,905 other groups remain pending and have not received sensitivity scores. The queue therefore retains the existing system-category order where numeric evidence is absent. It does not claim a numeric expected value of information. The top decision packages that need declarations are the station LIM/converter alternatives, repeated guideway span/foundation, body family/manufacturing route, and complete passive bogie/brake assemblies. Their supplier evidence, quantities, and dependent structural/thermal/motion/civil reruns must be linked to the exact candidate revision before the controller can compare them.
+
 DigiKey's [official Product Information API](https://developer.digikey.com/tutorials-and-resources/oauth-20-2-legged-flow) supports an explicit future catalogue adapter; production pricing requires a registered organization and credentials. No credentials were present during this run, and no price was fabricated. Quotation file parsers likewise produce unverified claims rather than authenticated Class A offers.
 
 ## Direct twin runs
 
-All six packets below passed the sourcing **semantic replay** workflow, including reconstruction of the historical catalogue and execution of the exact saved request. The new manufacturing-group packet was regenerated and replayed from its saved input, catalogue and request. The database file and downloaded public raw files remain outside the repository. Only the normalized, source-linked packet records are committed here.
+The earlier, 60-record source epoch passed sourcing **semantic replay** against its saved catalogue and request. The current 98-record catalogue epoch was regenerated with Iraqi domestic material/wage sources and the sensitivity controller. Its five source packets are indexed in [validation.json](validation.json); semantic replay has not yet been run for these packets. The earlier index is retained as [validation-pre-domestic-iraq.json](validation-pre-domestic-iraq.json). Raw downloaded source documents and the SQLite database remain outside the repository.
 
 | Input and purpose | Evaluation | Result |
 |---|---|---|
-| Full frame-refinement vehicle registry | 3,183 requirement groups; 40,488 physical occurrences; 15 product observations | 0 compatible supplier matches, 0 priced groups, nine disabled RFQ drafts; no complete vehicle or installed cost |
+| Full frame-refinement vehicle registry | 3,183 requirement groups; 40,488 physical occurrences; 16 product observations | 0 compatible supplier matches, 0 priced groups, nine disabled RFQ drafts; no complete vehicle or installed cost |
 | Federated whole-railway BOM, original occurrence-level packet | 31,989 requirement groups; balanced budget evaluated 137 across propulsion, civil, body, running gear, HVAC, doors, auxiliary power, station and other | 31,852 remain pending; 0 priced groups; this historical packet predates source-declared manufacturing-group roll-up |
 | Federated whole-railway BOM, manufacturing-group roll-up | 7,042 sourcing groups cover 31,989 physical scopes: 2,269 manufacturing groups retain 27,216 located occurrences, plus 4,773 unlocated accounts; balanced budget evaluates 137 | 6,905 remain pending; 0 compatible priced groups; all 137 evaluated quantities remain unknown; nine disabled RFQ drafts |
 | 10 m² solid GFRP material hypothesis | 4 × 600 g/m² plies, 50% dry-glass fraction, 10% material scrap | 48 kg conditional material screen; GBP 726.65 published extension across cloth and resin lines; no order total |
@@ -54,14 +88,16 @@ All six packets below passed the sourcing **semantic replay** workflow, includin
 
 The laminate rows are **new physical research proposals with ancestry to the federated candidate**. Their 10 m² basis is not measured roof CAD area; the core density, fibre fraction and scrap rate are explicit hypotheses. Resin and cloth prices cover only catalogue raw materials. Adhesive, inserts, consumables, labour, mould/tooling, inspection, transport, installation, fire/smoke, hot-wet performance and structural allowables remain unresolved. These figures cannot rank finished vehicle designs or establish a lower-cost railway.
 
+In the current catalogue epoch, the vehicle frame still has 3,183 requirement groups and 0 exact priced matches. The federated manufacturing-group evaluation covers 31,989 physical scopes with 7,042 sourcing groups; the balanced research run evaluated 137 groups and left 6,905 pending. None of the evaluated groups has a compatible priced match, and all 137 evaluated groups still have unknown purchase quantities. The roll-up retains all 27,216 located engineering occurrences under 2,269 source-declared manufacturing groups, while keeping 4,773 unlocated accounts separate. These are practical RFQ scopes, not yet purchasable quantities or costed manufacturing assemblies. Adding Iraqi source data expands the reference library; it does not close the actual railway BOM.
+
 ## Reproducible packages
 
-- [Vehicle registry run](packets/frame-vehicle/summary.json) · [closed packet manifest](packets/frame-vehicle/manifest.json)
-- [Whole-railway frontier](packets/federated-balanced-frontier/summary.json) · [closed packet manifest](packets/federated-balanced-frontier/manifest.json)
-- [Whole-railway manufacturing-group roll-up](packets/federated-purchasing-groups/summary.json) · [closed packet manifest](packets/federated-purchasing-groups/manifest.json)
-- [Solid laminate packet](packets/laminate-solid-600gsm/summary.json)
-- [Sandwich laminate packet](packets/laminate-sandwich-600gsm/summary.json)
-- [Higher-fibre laminate packet](packets/laminate-higher-fibre-sandwich-600gsm/summary.json)
+- Current source epoch: [vehicle registry](packets/frame-vehicle-iraq-sources-final/summary.json) · [federated manufacturing-group roll-up](packets/federated-purchasing-groups-iraq-sources-final/summary.json)
+- Current source epoch: [solid laminate](packets/laminate-materials-iraq-sources-final/solid-600gsm/summary.json) · [sandwich laminate](packets/laminate-materials-iraq-sources-final/sandwich-600gsm/summary.json) · [higher-fibre sandwich](packets/laminate-materials-iraq-sources-final/higher-fibre-sandwich-600gsm/summary.json)
+- Earlier 60-record epoch: [vehicle registry](packets/frame-vehicle/summary.json) · [whole-railway frontier](packets/federated-balanced-frontier/summary.json) · [manufacturing-group roll-up](packets/federated-purchasing-groups/summary.json)
+- Prior 98-record, pre-sensitivity epoch: [validation index](validation-domestic-iraq-pre-sensitivity.json) · [vehicle registry](packets/frame-vehicle-iraq-sources-pre-sensitivity-controller/summary.json) · [federated roll-up](packets/federated-purchasing-groups-iraq-sources-pre-sensitivity-controller/summary.json)
+- Earlier 60-record epoch: [solid laminate](packets/laminate-solid-600gsm/summary.json) · [sandwich laminate](packets/laminate-sandwich-600gsm/summary.json) · [higher-fibre sandwich](packets/laminate-higher-fibre-sandwich-600gsm/summary.json)
+- Domestic fabrication: [4-hour recipe and estimate](domestic-fabrication/recipes/rebar-cut-bend-04h.json) · [8-hour estimate](domestic-fabrication/estimates/current/rebar-cut-bend-08h.json) · [16-hour estimate](domestic-fabrication/estimates/current/rebar-cut-bend-16h.json)
 - [Machine-readable run index](validation.json)
 
 From a repository checkout:
@@ -80,6 +116,10 @@ From a repository checkout:
   --member federated-bom.json.gz --as-of 2026-10-29 --target-currency GBP \
   --output /tmp/osr-laminate-studies
 ./osr source verify /tmp/osr-laminate-studies/solid-600gsm
+./osr source estimate fabrication \
+  --input docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-sources-final/input.json.gz \
+  --recipe docs/design-engine/sourcing/domestic-fabrication/recipes/rebar-cut-bend-08h.json \
+  --output /tmp/osr-domestic-fabrication-estimate.json
 ./osr source serve
 ```
 

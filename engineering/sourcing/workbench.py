@@ -73,8 +73,11 @@ def _project(value):
                   "tax_basis", "quantity_unit", "minimum_order_quantity", "order_multiple",
                   "packaging"),
         "fx": ("base_currency", "quote_currency", "rate_date", "rate", "source_id"),
-        "benchmark": ("benchmark_key", "observation_date", "quantity_unit", "unit_price"),
-        "process": ("process_key", "process_name", "material_family"),
+        "benchmark": ("benchmark_key", "observation_date", "quantity_unit", "currency",
+                      "unit_price", "geographic_scope", "cost_scope", "source_id"),
+        "process": ("process_key", "process_name", "material_family", "estimate_key",
+                    "candidate_id", "currency", "estimated_unit_cost", "output_unit",
+                    "candidate_takeoff_mapped", "source_ids"),
         "requirement": ("candidate_id", "namespace", "requirement_key", "description",
                         "category", "priority", "quantity", "quantity_unit", "scope_kind",
                         "procurement_scope", "selected_product_record_id",
@@ -121,6 +124,8 @@ def _project(value):
         common["occurrence_count"] = len(value.get("occurrence_ids", []))
         common["identifiers"] = {key: _text(item, 500) for key, item in value.get("identifiers", {}).items()}
         common["source_gross_stock_mass_kg"] = value.get("accounted_mass_kg")
+        if value.get("decision_sensitivity") is not None:
+            common["decision_sensitivity"] = _bounded_value(value["decision_sensitivity"])
         if value.get("source_manufacturing_group") is not None:
             common["source_manufacturing_group"] = _bounded_value(value["source_manufacturing_group"])
     elif kind == "rfq":

@@ -97,6 +97,17 @@ def _parser():
                           help="Select an exact immutable product observation when a key has multiple revisions")
     laminate.add_argument("--target-currency", default="USD")
 
+    estimate = sub.add_parser("estimate", help="Create a source-linked fabrication cost screen")
+    estimate_sub = estimate.add_subparsers(dest="estimate_command", required=True)
+    fabrication = estimate_sub.add_parser("fabrication", help="Estimate material + labour hours + explicit uplift")
+    fabrication.add_argument("--input", required=True, type=Path,
+                             help="Exact typed digital-twin input packet or JSON")
+    fabrication.add_argument("--member", help="Exact JSON member in a tar.gz input")
+    fabrication.add_argument("--recipe", required=True, type=Path,
+                             help="Recipe JSON with exact benchmark IDs and declared quantities")
+    fabrication.add_argument("--output", required=True, type=Path,
+                             help="Fresh JSON output path")
+
     sub.add_parser("status", help="Show database record counts and recent evaluation summaries")
     show = sub.add_parser("show", help="Show a run summary and its bounded evidence counts")
     show.add_argument("run_id")
@@ -262,6 +273,76 @@ def _run_laminate_study(store, *, input_path, member, as_of, output,
                 complete_installed_cost=None, physical_qualification=None)
 
 
+def _estimate_fabrication(store, *, input_path, member, recipe_path, output_path):
+    from .fabrication import domestic_fabrication_estimate
+
+    direct = inputs.read_json(input_path) if member is None else None
+    if (isinstance(direct, dict) and direct.get("schema") == "osr-sourcing-twin-input/1" and
+            direct.get("payload_id") == identity(direct.get("payload"))):
+        source_input = direct
+    else:
+        source_input = inputs.load_twin(input_path, member=member)
+    requirement_rows = extract_requirements(source_input["payload"])
+    candidate_id = validate_requirements(requirement_rows)
+    recipe = inputs.read_json(recipe_path)
+    required = {"schema", "estimate_key", "output_quantity", "output_unit", "currency",
+                "benchmark_ids", "material_lines", "labour_lines"}
+    optional = {"candidate_id", "input_id", "uplift_fraction"}
+    if (not isinstance(recipe, dict) or recipe.get("schema") != "osr-domestic-fabrication-recipe/1" or
+            required - recipe.keys() or recipe.keys() - required - optional):
+        raise ValueError("Domestic fabrication recipe schema/fields differ")
+    if recipe.get("candidate_id") not in (None, candidate_id):
+        raise ValueError("Recipe candidate identity differs from the digital-twin input")
+    if recipe.get("input_id") not in (None, source_input["payload_id"]):
+        raise ValueError("Recipe source-input identity differs from the digital-twin input")
+    if not isinstance(recipe["benchmark_ids"], dict):
+        raise ValueError("Exact benchmark key-to-record mapping required")
+    selected = {}
+    for key, benchmark_id in recipe["benchmark_ids"].items():
+        benchmark = store.get(benchmark_id, "benchmark")
+        if benchmark.get("benchmark_key") != key:
+            raise ValueError("Exact benchmark key and record ID differ")
+        selected[benchmark_id] = benchmark
+    material_lines = []
+    for row in recipe["material_lines"]:
+        if not isinstance(row, dict) or row.get("benchmark_key") not in recipe["benchmark_ids"]:
+            raise ValueError("Every material line must name an exact sourced benchmark key")
+        material_lines.append(dict(row, benchmark_id=recipe["benchmark_ids"][row["benchmark_key"]]))
+    labour_lines = []
+    for row in recipe["labour_lines"]:
+        if not isinstance(row, dict) or row.get("benchmark_key") not in recipe["benchmark_ids"]:
+            raise ValueError("Every labour line must name an exact sourced benchmark key")
+        labour_lines.append(dict(row, benchmark_id=recipe["benchmark_ids"][row["benchmark_key"]]))
+    process = domestic_fabrication_estimate(
+        estimate_key=recipe["estimate_key"], candidate_id=candidate_id,
+        input_id=source_input["payload_id"], output_quantity=recipe["output_quantity"],
+        output_unit=recipe["output_unit"], currency=recipe["currency"],
+        material_lines=material_lines, labour_lines=labour_lines,
+        uplift_fraction=recipe.get("uplift_fraction", "0.20"), benchmarks=selected)
+    source_hashes = publication.sources(root=ROOT)
+    source_hashes["engineering/sourcing/cli.py"] = inputs.digest(ROOT / "engineering/sourcing/cli.py")
+    payload = dict(schema="osr-domestic-fabrication-estimate/1",
+                   source_input_id=source_input["payload_id"],
+                   candidate_id=candidate_id, input_origin=source_input["origin"],
+                   recipe_id=identity(recipe), source_sha256=source_hashes,
+                   estimate=process, source_seed_required=True,
+                   candidate_takeoff_mapped=False, complete_installed_cost=None,
+                   physical_qualification=None)
+    payload["estimate_packet_id"] = identity(payload)
+    path = Path(output_path).expanduser().resolve()
+    if path.exists() or path.is_symlink():
+        raise ValueError("Fresh fabrication estimate output path required")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    store.put(process)
+    with path.open("x", encoding="utf-8") as stream:
+        stream.write(encoded(payload).decode("utf-8") + "\n")
+    return dict(output=str(path), estimate_packet_id=payload["estimate_packet_id"],
+                process_record_id=process["record_id"], candidate_id=candidate_id,
+                currency=process["currency"], estimated_unit_cost=process["estimated_unit_cost"],
+                candidate_takeoff_mapped=False, complete_installed_cost=None,
+                physical_qualification=None)
+
+
 def main(argv=None):
     parser = _parser()
     args = parser.parse_args(argv)
@@ -304,6 +385,16 @@ def main(argv=None):
                     max_requirements_by_category=category_budgets,
                     target_currency=args.target_currency,
                     product_observations=_parse_product_observations(args.product_observation)))
+            return 0
+
+        if args.command == "estimate":
+            if args.estimate_command != "fabrication":
+                parser.error("unsupported sourcing estimate")
+            if not database.is_file():
+                raise ValueError("Initialize and seed the sourcing database before estimating")
+            with Store(database) as store:
+                _emit(_estimate_fabrication(store, input_path=args.input,
+                    member=args.member, recipe_path=args.recipe, output_path=args.output))
             return 0
 
         if args.command == "init":
