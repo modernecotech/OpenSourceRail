@@ -1,0 +1,43 @@
+{
+  "schema": "osr-domestic-fabrication-recipe/1",
+  "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+  "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+  "output_quantity": "1",
+  "output_unit": "m3",
+  "currency": "IQD",
+  "uplift_fraction": "0.20",
+  "benchmark_ids": {
+    "iq-cso-2026-09:cement-ordinary": "6a88368cbb96bdafff9367a198400fa2257dd35dd2f28d79a0b1e128af4c2cb1",
+    "iq-cso-2026-09:sand-red": "cc80357256e3a5341d22c859f15fbe413d1d131e3ff310f834e334214c7955c7",
+    "iq-cso-2026-09:gravel-crushed": "aa5c1300152f41527471cc9f1a2629199c44ba100059d50acedacdbf4a9f9ea9",
+    "iq-cso-2025:baghdad-wage:skilled:hour-8h-day": "afb2de4ac8ca415b23b2275da4a0e74f3c7f35a38c11ad9bad6c3e36ec7de5b8"
+  },
+  "material_lines": [
+    {
+      "material_key": "Ordinary Iraqi cement; illustrative 0.35 t per nominal m3, strength/grade not established",
+      "quantity": "0.35",
+      "quantity_unit": "t",
+      "benchmark_key": "iq-cso-2026-09:cement-ordinary"
+    },
+    {
+      "material_key": "Red sand; illustrative 0.50 m3 per nominal m3, grading/moisture not established",
+      "quantity": "0.50",
+      "quantity_unit": "m3",
+      "benchmark_key": "iq-cso-2026-09:sand-red"
+    },
+    {
+      "material_key": "Crushed gravel; illustrative 0.80 m3 per nominal m3, grading/moisture not established",
+      "quantity": "0.80",
+      "quantity_unit": "m3",
+      "benchmark_key": "iq-cso-2026-09:gravel-crushed"
+    }
+  ],
+  "estimate_key": "iraq-generic-concrete-batch-reference-2h-per-nominal-m3",
+  "labour_lines": [
+    {
+      "labour_category": "Baghdad skilled-worker base wage; illustrative 2 person-hours per nominal m3, not a measured factory cycle",
+      "person_hours": "2",
+      "benchmark_key": "iq-cso-2025:baghdad-wage:skilled:hour-8h-day"
+    }
+  ]
+}
