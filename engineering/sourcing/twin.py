@@ -11,6 +11,8 @@ def invalidation_plan(changes):
         affected.update(("CAD-IFC", "interference", "dynamic-clearance", "assembly-access"))
     if "material_id" in changes:
         affected.update(("buckling", "fatigue", "fire-thermal", "joining-process"))
+    if "assembly_interfaces" in changes:
+        affected.update(("installed-joints", "mounting-fasteners", "support-load-path", "assembly-access"))
     return [dict(evaluator=name, status="pending-recomputation", accepted=False) for name in sorted(affected)]
 
 
@@ -62,6 +64,8 @@ def propose_revision(registry, requirement, product, *, changes, reason, mode="s
         from .matching import _exact_identifier
         if not _exact_identifier(requirement, product) or set(changes) != {"mass_per_unit_kg"}:
             raise ValueError("Property-only update requires the identical manufacturer/part and mass evidence")
+    elif "geometry" not in changes:
+        raise ValueError("Supplier substitution held: explicit configured source geometry is required; use a discovery task until dimensions are available")
     geometry = deepcopy(changes.get("geometry", old["geometry"]))
     if "geometry" in changes:
         dimensions = product["specifications"].get("dimensions_m")
@@ -85,15 +89,24 @@ def propose_revision(registry, requirement, product, *, changes, reason, mode="s
         mass = dict(calculated_kg=float(proposed), lower_bound_kg=None, upper_bound_kg=None,
                     evidence_state="supplier-typical", source_record_ids=product["source_ids"],
                     catalogue_mass_is_measured_installed_mass=False)
-    material_id = changes.get("material_id", old["material_id"])
-    material_eval = changes.get("material_evaluation_id", old.get("material_evaluation_id"))
-    if material_id != old["material_id"]:
+    material_id = old["material_id"] if mode == "property-evidence" else changes.get("material_id")
+    material_eval = old.get("material_evaluation_id") if mode == "property-evidence" else changes.get("material_evaluation_id")
+    if mode == "supplier-substitution" and material_id is not None:
         material = next((m for m in registry["materials"] if m["material_id"] == material_id), None)
         if material is None or material_eval != material["material_evaluation_id"]:
             raise ValueError("Material substitution requires a complete existing matching grade evaluation")
+        observed = product["specifications"].get("material_grade_id", product["specifications"].get("material_grade"))
+        if not isinstance(observed, dict) or observed.get("value") != material["grade_id"] or observed.get("scope") not in (supply_scope,"configured-product","whole-product"):
+            raise ValueError("Purchased-envelope material requires an exact source grade covering the whole configured product")
+    elif material_id is None:
+        if material_eval is not None:
+            raise ValueError("A material evaluation cannot be attached to unknown purchased material")
+        material_eval = None
     assembly = deepcopy(old["assembly"])
     if mode == "supplier-substitution":
-        assembly["sourcing_product_key"] = product["product_key"]
+        assembly = dict(sourcing_product_key=product["product_key"], mating_interfaces=None,
+                        mounting_definition=None, fastener_definition=None, installation_sequence=None,
+                        qualified_joint=False)
     evidence = deepcopy(old["evidence"])
     evidence.update(sourcing_product_evaluation_id=product["record_id"], sourcing_source_ids=product["source_ids"],
                     prior_part_revision_id=old["revision_id"], installed_fitment_accepted=False)
@@ -101,7 +114,9 @@ def propose_revision(registry, requirement, product, *, changes, reason, mode="s
     electrical = deepcopy(old["electrical_thermal"])
     lifecycle = deepcopy(old["lifecycle"])
     if mode == "supplier-substitution":
-        evidence.update(prior_manufacturing=manufacturing, prior_electrical_thermal=electrical, prior_lifecycle=lifecycle)
+        evidence.update(prior_assembly=deepcopy(old["assembly"]), prior_material_id=old["material_id"],
+                        prior_material_evaluation_id=old.get("material_evaluation_id"),
+                        prior_manufacturing=manufacturing, prior_electrical_thermal=electrical, prior_lifecycle=lifecycle)
         manufacturing = dict(method="configured-supplier-receiving-and-installation-process-unresolved", cycle_hours=None,
                              scrap_fraction=None, approved_work_instruction=None)
         electrical = dict(installed_interface_definition="unresolved", power_W=None, cooling_duty_W=None)
@@ -122,13 +137,18 @@ def propose_revision(registry, requirement, product, *, changes, reason, mode="s
         assemblies=registry["assemblies"], materials=registry["materials"])
     if mode == "property-evidence" and revised["candidate_id"] != registry["candidate_id"]:
         raise ValueError("A property evaluation must not mutate physical identity")
+    effective_changes = deepcopy(changes)
+    if mode == "supplier-substitution":
+        effective_changes.update(geometry=geometry, material_id=material_id, material_evaluation_id=material_eval,
+                                 mass_per_unit_kg=changes.get("mass_per_unit_kg"), assembly_interfaces=None,
+                                 electrical_interfaces=None, manufacturing_process=None, maintenance_definition=None)
     proposal = record("redesign", candidate_id=requirement["candidate_id"], task_type="explicit-registry-revision",
         mode=mode, reason=reason, parent_body_candidate_id=registry["candidate_id"], parent_registry_id=registry["registry_id"],
         proposed_body_candidate_id=revised["candidate_id"], proposed_registry_id=revised["registry_id"],
         proposed_integrated_candidate_id=None, integration_state="requires-explicit-whole-candidate-rematerialization",
         requirement_id=requirement["record_id"], product_id=product["record_id"], source_ids=product["source_ids"],
-        changed_occurrence_ids=sorted(expected), changes=deepcopy(changes), mass_coverage=summary(revised),
-        dependent_evaluations=invalidation_plan(changes), operating_map_admitted=False,
+        changed_occurrence_ids=sorted(expected), changes=deepcopy(changes), effective_changes=effective_changes,
+        mass_coverage=summary(revised), dependent_evaluations=invalidation_plan(effective_changes), operating_map_admitted=False,
         inherited_envelope_is_configured_supplier_geometry="geometry" in changes,
         supplier_installation_and_thermal_definitions_pending=mode=="supplier-substitution",
         automatic_manufacturing_or_operating_release=False, physical_qualification=None)

@@ -158,11 +158,14 @@ def validate_requirements(requirements):
     if not isinstance(requirements, list) or not requirements:
         raise ValueError("Nonempty sourcing requirements required")
     candidate = requirements[0]["candidate_id"]
+    binding = tuple(requirements[0].get(key) for key in ("namespace", "input_id", "registry_id", "body_candidate_id"))
     seen, occurrence_keys = set(), set()
     for requirement in requirements:
         validate_record(requirement, "requirement")
         if requirement["candidate_id"] != candidate or requirement["record_id"] in seen:
             raise ValueError("Mixed or duplicate candidate requirements")
+        if tuple(requirement.get(key) for key in ("namespace", "input_id", "registry_id", "body_candidate_id")) != binding:
+            raise ValueError("Mixed source revision or namespace; an explicit federation is required")
         seen.add(requirement["record_id"])
         for occurrence in requirement["occurrence_ids"]:
             key = (requirement["namespace"], occurrence)
