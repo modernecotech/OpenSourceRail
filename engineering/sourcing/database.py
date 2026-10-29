@@ -28,6 +28,19 @@ def references(value):
     return sorted(set(refs))
 
 
+def reference_types(value):
+    kind = value["kind"]
+    if kind == "product":
+        return [(key, "source") for key in value["source_ids"]]
+    if kind == "offer":
+        return [(value["source_id"], "source"), (value["product_id"], "product")]
+    if kind in ("fx", "benchmark"):
+        return [(value["source_id"], "source")]
+    if kind == "process":
+        return [(key, "source") for key in value.get("source_ids", [])]
+    return []
+
+
 class Store:
     def __init__(self, path, *, readonly=False):
         self.path = Path(path).resolve()
@@ -118,6 +131,15 @@ class Store:
                     refs = references(value)
                     if any(self.connection.execute("SELECT 1 FROM records WHERE record_id=?", (ref,)).fetchone() is None for ref in refs):
                         continue
+                    for parent_id, expected_kind in reference_types(value):
+                        parent = self.get(parent_id, expected_kind)
+                        if value["kind"] == "fx" and parent["source_kind"] != "exchange_rate":
+                            raise ValueError("FX requires its actual exchange-rate source")
+                        if value["kind"] == "offer" and expected_kind == "source" and parent["source_kind"] not in {
+                            "manufacturer_catalogue", "distributor_catalogue", "supplier_quotation",
+                            "factory_catalogue", "engineering_estimate"
+                        }:
+                            raise ValueError("Commodity/tender benchmarks cannot become supplier product offers")
                     old = self.connection.execute("SELECT payload FROM records WHERE record_id=?", (key,)).fetchone()
                     if old is not None and old[0] != raw:
                         raise ValueError("Stored immutable observation differs")

@@ -132,8 +132,9 @@ def _validate_body(value):
             raise ValueError("Explicit price tax scope required")
         if value.get("tax_rate") is not None and not 0 <= decimal(value["tax_rate"]) <= 1:
             raise ValueError("Tax fraction outside domain")
-        decimal(value.get("minimum_order_quantity"), "MOQ", positive=True)
-        decimal(value.get("order_multiple"), "order multiple", positive=True)
+        for key in ("minimum_order_quantity", "order_multiple"):
+            if value.get(key) is not None:
+                decimal(value[key], key, positive=True)
         tiers = value.get("tiers")
         if not isinstance(tiers, list) or not tiers:
             raise ValueError("Actual price breaks required; an unpriced lead is not an offer")
@@ -194,6 +195,8 @@ def record(kind, **fields):
         raise ValueError("Unsupported sourcing acceptance claim")
     value = dict(schema=SCHEMA, kind=kind, **deepcopy(fields))
     if kind == "offer":
+        value.setdefault("minimum_order_quantity", None)
+        value.setdefault("order_multiple", None)
         for key in ("minimum_order_quantity", "order_multiple", "tax_rate"):
             if value.get(key) is not None:
                 value[key] = decimal_text(value[key], key)
