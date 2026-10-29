@@ -4,7 +4,7 @@
 
 ## What is in the database
 
-The combined offline seed now contains **105 immutable observations**: 46 source records, 16 product records, five published catalogue offers, two retained FX observations and 36 commodity, construction, wage and local-market benchmarks. The retained ECB and World Bank feed snapshot separately parsed **27 dated ECB reference-rate rows** and **two World Bank metal observations** into a local append-only database. Repeating a refresh with identical bytes reuses the source record and does not replace previous observations. Previously published packets remain source-bound to their earlier catalogue epochs.
+The combined offline seed now contains **268 immutable observations**: 47 source records, 16 product records, five published catalogue offers, two retained FX observations and 198 commodity, construction, wage and local-market benchmarks. The retained ECB and World Bank feed snapshot separately parsed **27 dated ECB reference-rate rows** and **two World Bank metal observations** into a local append-only database. Repeating a refresh with identical bytes reuses the source record and does not replace previous observations. Previously published packets remain source-bound to their earlier catalogue epochs.
 
 Source products are immutable observations. If a supplier product key has multiple recorded revisions, the laminate study stops unless the operator supplies the exact `PRODUCT_KEY=RECORD_ID` selection with `--product-observation`. The requirement and RFQ retain that selected record ID. Material/source-property changes alter the evaluation input and bounds; physical candidate identity stays constant when only the evidence revision changes. A changed material choice or geometry gets a different candidate ID.
 
@@ -50,6 +50,7 @@ The source catalogue now includes an official [CSO September 2026 construction-m
 | Red sand / ordinary gravel / crushed gravel | IQD 21,000 / 21,000 / 24,000 per m³ | CSO table observation; source, grading, moisture, haulage and delivered scope open |
 | Ordinary brick | IQD 184 each | Normalized from IQD 184,000 per thousand pieces |
 | Skilled worker wage | IQD 75,000 per working day; normalized to IQD 9,375/person-hour | [CSO 2025 annual wages by governorate](https://mail.cosit.gov.iq/documents/buildings/Employees%20wages/2025/2025%D9%86%D8%B4%D8%B1%D8%A9%20%D8%A7%D8%B3%D8%B9%D8%A7%D8%B1%20%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%AF%20%20%D9%88%D8%A7%D8%AC%D9%88%D8%B1%20%D8%A7%D9%84%D8%B9%D8%A7%D9%85%D9%84%D9%8A%D9%86.pdf), Baghdad average; hourly conversion assumes 8 hours/day and excludes employer burden |
+| 2025 regional material and wage series | 72 material benchmarks and 90 hourly wage benchmarks for the 15 governorates listed by CSO | [Official 2025 annual bulletin](https://www.cosit.gov.iq/documents/buildings/Employees%20wages/2025/2025%D9%86%D8%B4%D8%B1%D8%A9%20%D8%A7%D8%B3%D8%B9%D8%A7%D8%B1%20%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%AF%20%20%D9%88%D8%A7%D8%AC%D9%88%D8%B1%20%D8%A7%D9%84%D8%B9%D8%A7%D9%85%D9%84%D9%8A%D9%86%D8%A9.pdf); printed zeros remain unavailable |
 | Aluminium profiles and sheet | IQD 4.60–5.50 million/t profiles; IQD 5.10–5.30 million/t sheet observations | [Ur Company posted prices](https://ur.industry.gov.iq/public/prices); alloy/temper, effective date, terms and availability are unstated |
 | Rebar market indicator | IQD 931,000/t observed 29 October 2026 | [Hadeed Iraq marketplace](https://hadeediraq.com/) dashboard; not a seller-specific, grade-specific or delivery quotation |
 
@@ -68,6 +69,28 @@ Additional domestic production leads are now retained as distinct sources:
 | [Al-Khassaki aluminium factory project](https://akg-eng.net/al-khassaki-factory-for-melting-and-extruding-aluminum-sections/) | Project page describes planned aluminium melting/extrusion of profiles and sheets | The page states 75% progress; commissioning and operating capacity are not established |
 
 These entries help route domestic procurement and fabrication research. They are not available-to-buy records, validated capacity data, certified component designs or prices. In particular, the aluminium project is not counted as operating capacity and the GRP pipe plant is not treated as a source of qualified vehicle-body panels.
+
+### Regional material + labour estimates
+
+The regional price library uses the CSO 2025 Iraqi-origin material rows and daily wage averages for the 15 governorates in the bulletin. The bulletin excludes Kurdistan Region governorates. Missing source-table values are not interpreted as zero: concrete estimates are held for Kirkuk, Wasit and Salah al-Din because at least one required material price is not reported. Annual market averages are not exact supplier quotations, and wage rates are base averages rather than employer-loaded factory charge-out rates.
+
+The reproducible [regional cost packet](domestic-fabrication/regional-estimates-2025/iraq-domestic-cost-reference-2025.json) contains 84 unit-rate scenarios: concrete batching for 12 governorates, rebar cut/bend for all 15, and an aluminium profile assembly screen for Baghdad. Each uses explicit material quantities, labour hours and a 20% uplift on direct materials plus direct labour. The hours are planning scenarios; the uplift is unallocated and is not verified as tax, profit, contingency or overhead.
+
+| Domestic fabrication scenario | Declared input basis | Estimated rate with 20% uplift |
+|---|---|---:|
+| Baghdad concrete batching, 2 / 4 / 8 skilled h per nominal m³ | 0.35 t ordinary cement + 0.50 m³ red sand + 0.80 m³ crushed gravel; 2025 Baghdad material and wage statistics | IQD 114,720 / 137,220 / 182,220 per nominal m³ |
+| Baghdad rebar cutting/bending, 4 / 8 / 16 skilled h per input tonne | 1 t at the 2025 Iraqi-origin Baghdad rebar statistic plus declared labour | IQD 1,296,600 / 1,341,600 / 1,431,600 per tonne |
+| Baghdad aluminium-profile assembly, 8 / 16 / 32 skilled h per input tonne | 1 t at the Ur Company non-oxidized profile page observation (2026) plus 2025 Baghdad wage rate | IQD 5,610,000 / 5,700,000 / 5,880,000 per tonne |
+
+The Baghdad concrete scenarios are also applied to the exact research-candidate nominal-volume takeoff, preserving its 81 manufacturing groups and 486 original engineering occurrences. The 2025 material-rate packet estimates IQD **207.05–328.87 million** for the modeled 1,804.81 m³ nominal concrete volume across the 2/4/8-hour cases. That is a recipe-based estimate for a research candidate, not a structural mix, complete precast span, installed civil price or selected-reference cost. It excludes rebar, prestress, moulds, factory utilities, QA, handling, transport, piers, foundations, erection and maintenance. See the [2 h](domestic-fabrication/regional-estimates-2025/baghdad-concrete-takeoff-2h.json), [4 h](domestic-fabrication/regional-estimates-2025/baghdad-concrete-takeoff-4h.json) and [8 h](domestic-fabrication/regional-estimates-2025/baghdad-concrete-takeoff-8h.json) group-mapped packets.
+
+Regenerate the regional unit-rate scenarios and group-mapped Baghdad concrete packets from the exact takeoff with:
+
+```bash
+./tools/automation/osr-python -m engineering.sourcing.iraq_cost_scenarios \
+  --takeoff docs/design-engine/sourcing/material-takeoff/federated-v06-stock-takeoff.json.gz \
+  --output build/iraq-domestic-cost-scenarios
+```
 
 ### Candidate material takeoff
 

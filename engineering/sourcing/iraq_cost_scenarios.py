@@ -1,0 +1,307 @@
+"""Generate source-linked Iraqi regional domestic-fabrication cost screens.
+
+This module combines published material/wage benchmarks with explicit work-hour
+recipes.  Its reports preserve candidate and takeoff identities but never claim
+supplier offers, completed processes, installed cost, or physical acceptance.
+"""
+from argparse import ArgumentParser
+from copy import deepcopy
+from pathlib import Path
+import json
+import sys
+
+from . import catalogue, inputs
+from .fabrication import domestic_fabrication_estimate, domestic_fabrication_takeoff_estimate
+from .model import encoded, identity
+
+ROOT = Path(__file__).resolve().parents[2]
+REGIONS = (
+    ("nineveh", "Nineveh"), ("kirkuk", "Kirkuk"), ("diyala", "Diyala"),
+    ("anbar", "Anbar"), ("baghdad", "Baghdad"), ("babil", "Babil"),
+    ("karbala", "Karbala"), ("wasit", "Wasit"),
+    ("salah-al-din", "Salah al-Din"), ("najaf", "Najaf"),
+    ("al-qadisiyyah", "Al-Qadisiyyah"), ("al-muthanna", "Al-Muthanna"),
+    ("dhi-qar", "Dhi Qar"), ("maysan", "Maysan"), ("basrah", "Basrah"),
+)
+CONCRETE_HOURS = ("2", "4", "8")
+REBAR_HOURS = ("4", "8", "16")
+ALUMINIUM_HOURS = ("8", "16", "32")
+CONCRETE_MATERIALS = (
+    ("Ordinary Iraqi cement; illustrative quantity per nominal m3", "0.35", "t", "cement-ordinary"),
+    ("Red sand; illustrative quantity per nominal m3", "0.50", "m3", "sand-red"),
+    ("Crushed gravel; illustrative quantity per nominal m3", "0.80", "m3", "gravel-crushed"),
+)
+
+
+def _benchmark_index(records):
+    return {record["benchmark_key"]: record for record in records if record["kind"] == "benchmark"}
+
+
+def _source_index(records):
+    return {record["source_key"]: record for record in records if record["kind"] == "source"}
+
+
+def _must_benchmark(index, key):
+    value = index.get(key)
+    if value is None:
+        return None
+    if value.get("is_manufactured_product_price") is not False:
+        raise ValueError("Cost screen requires statistical/material benchmarks, not a supplier offer")
+    return value
+
+
+def _unit_rate_process(*, estimate_key, candidate_id, input_id, output_quantity,
+                       output_unit, material_lines, labour_category, hours,
+                       wage_benchmark, used_benchmarks):
+    wage = wage_benchmark
+    selected = {value["record_id"]: value for value in used_benchmarks.values()
+                if value is not None}
+    if wage is None:
+        raise ValueError("Exact regional wage benchmark is missing")
+    labor_line = dict(labour_category=labour_category, person_hours=hours,
+                      benchmark_id=wage["record_id"])
+    selected[wage["record_id"]] = wage
+    return domestic_fabrication_estimate(
+        estimate_key=estimate_key, candidate_id=candidate_id, input_id=input_id,
+        output_quantity=output_quantity, output_unit=output_unit, currency="IQD",
+        material_lines=material_lines, labour_lines=[labor_line],
+        benchmarks=selected, uplift_fraction="0.20")
+
+
+def _make_packet(records, takeoff, takeoff_path):
+    benchmarks = _benchmark_index(records)
+    source_records = _source_index(records)
+    candidate_id = takeoff["candidate_id"]
+    input_id = takeoff["source_input_id"]
+    regional = []
+    missing = []
+
+    for region_slug, region_name in REGIONS:
+        wage_key = f"iq-cso-2025-regional:{region_slug}:wage:skilled:hour-8h-day"
+        wage = _must_benchmark(benchmarks, wage_key)
+        concrete_materials = []
+        concrete_selected = {}
+        absent = []
+        for label, quantity, unit, material_key in CONCRETE_MATERIALS:
+            key = f"iq-cso-2025-regional:{region_slug}:material:{material_key}"
+            benchmark = _must_benchmark(benchmarks, key)
+            if benchmark is None:
+                absent.append(key)
+                continue
+            concrete_selected[key] = benchmark
+            concrete_materials.append(dict(material_key=label, quantity=quantity,
+                                           quantity_unit=unit,
+                                           benchmark_id=benchmark["record_id"]))
+        if absent or wage is None:
+            missing.append(dict(region=region_name, material_family="concrete batching",
+                                unavailable_benchmark_keys=absent + ([wage_key] if wage is None else []),
+                                explanation="A source-table zero/absent rate remains unknown; no estimate is emitted."))
+        else:
+            for hours in CONCRETE_HOURS:
+                process = _unit_rate_process(
+                    estimate_key=f"iraq-2025-{region_slug}-concrete-{hours}h-per-nominal-m3",
+                    candidate_id=candidate_id, input_id=input_id,
+                    output_quantity="1", output_unit="m3",
+                    material_lines=deepcopy(concrete_materials),
+                    labour_category=f"{region_name} skilled construction-worker base wage; recipe scenario",
+                    hours=hours, wage_benchmark=wage,
+                    used_benchmarks=concrete_selected)
+                regional.append(dict(region=region_name, family="concrete batching",
+                                     output_quantity="1", output_unit="nominal m3",
+                                     labour_hours_per_output=hours, process=process))
+
+        rebar_key = f"iq-cso-2025-regional:{region_slug}:material:rebar"
+        rebar = _must_benchmark(benchmarks, rebar_key)
+        if rebar is None or wage is None:
+            missing.append(dict(region=region_name, material_family="rebar cut/bend",
+                                unavailable_benchmark_keys=([rebar_key] if rebar is None else []) +
+                                    ([wage_key] if wage is None else []),
+                                explanation="A source-table zero/absent rate remains unknown; no estimate is emitted."))
+        else:
+            for hours in REBAR_HOURS:
+                process = _unit_rate_process(
+                    estimate_key=f"iraq-2025-{region_slug}-rebar-cut-bend-{hours}h-per-t",
+                    candidate_id=candidate_id, input_id=input_id,
+                    output_quantity="1", output_unit="t",
+                    material_lines=[dict(material_key="Iraqi-origin rebar market statistic; grade and diameter unresolved",
+                                         quantity="1", quantity_unit="t",
+                                         benchmark_id=rebar["record_id"])],
+                    labour_category=f"{region_name} skilled construction-worker base wage; recipe scenario",
+                    hours=hours, wage_benchmark=wage,
+                    used_benchmarks={rebar_key: rebar})
+                regional.append(dict(region=region_name, family="rebar cut/bend",
+                                     output_quantity="1", output_unit="input tonne",
+                                     labour_hours_per_output=hours, process=process))
+
+    # The Ur producer's posted profile rate is a local-market lead.  The 2025
+    # Baghdad wage is used because the scenario assumes its Baghdad branch; the
+    # part's alloy, temper, availability and delivery terms are not published.
+    ur_key = "iq-ur-page-observation-2026-10-29:profile-non-oxidized"
+    ur_profile = _must_benchmark(benchmarks, ur_key)
+    baghdad_wage_key = "iq-cso-2025-regional:baghdad:wage:skilled:hour-8h-day"
+    baghdad_wage = _must_benchmark(benchmarks, baghdad_wage_key)
+    if ur_profile is None or baghdad_wage is None:
+        missing.append(dict(region="Baghdad", material_family="aluminium profile assembly",
+                            unavailable_benchmark_keys=([ur_key] if ur_profile is None else []) +
+                                ([baghdad_wage_key] if baghdad_wage is None else []),
+                            explanation="The Ur posted-price or regional wage observation is absent."))
+    else:
+        for hours in ALUMINIUM_HOURS:
+            process = _unit_rate_process(
+                estimate_key=f"iraq-2026-baghdad-aluminium-profile-assembly-{hours}h-per-t",
+                candidate_id=candidate_id, input_id=input_id,
+                output_quantity="1", output_unit="t",
+                material_lines=[dict(material_key="Ur Company non-oxidized aluminium profile posted price; structural alloy/temper unverified",
+                                     quantity="1", quantity_unit="t",
+                                     benchmark_id=ur_profile["record_id"])],
+                labour_category="Baghdad skilled construction-worker base wage; recipe scenario",
+                hours=hours, wage_benchmark=baghdad_wage,
+                used_benchmarks={ur_key: ur_profile})
+            regional.append(dict(region="Baghdad", family="aluminium profile assembly",
+                                 output_quantity="1", output_unit="profile input tonne",
+                                 labour_hours_per_output=hours, process=process))
+
+    mapped_processes = []
+    for hours in CONCRETE_HOURS:
+        concrete_lines = []
+        selected = {}
+        for label, quantity, unit, material_key in CONCRETE_MATERIALS:
+            key = f"iq-cso-2025-regional:baghdad:material:{material_key}"
+            benchmark = _must_benchmark(benchmarks, key)
+            if benchmark is None:
+                raise ValueError("Baghdad concrete takeoff recipe needs a missing exact benchmark: " + key)
+            selected[benchmark["record_id"]] = benchmark
+            concrete_lines.append(dict(material_key=label, quantity=quantity,
+                                       quantity_unit=unit, benchmark_id=benchmark["record_id"]))
+        wage = _must_benchmark(benchmarks, baghdad_wage_key)
+        selected[wage["record_id"]] = wage
+        process = domestic_fabrication_takeoff_estimate(
+            estimate_key=f"iraq-2025-baghdad-federated-concrete-takeoff-{hours}h-per-m3",
+            takeoff=takeoff,
+            target_rollup={"system": "civil/concrete", "material": "concrete-hypothesis",
+                           "stock_scope": "nominal-stock"},
+            recipe_output_quantity="1", currency="IQD",
+            material_lines=concrete_lines,
+            labour_lines=[dict(labour_category="Baghdad skilled-worker base wage; recipe scenario",
+                               person_hours=hours, benchmark_id=wage["record_id"])],
+            benchmarks=selected, uplift_fraction="0.20")
+        mapped_processes.append(dict(labour_hours_per_nominal_m3=hours, process=process))
+
+    takeoff_file = Path(takeoff_path).resolve()
+    source_hashes = {
+        "engineering/sourcing/iraq_cost_scenarios.py": inputs.digest(Path(__file__)),
+        "engineering/sourcing/fabrication.py": inputs.digest(ROOT / "engineering/sourcing/fabrication.py"),
+        "engineering/sourcing/model.py": inputs.digest(ROOT / "engineering/sourcing/model.py"),
+        "engineering/sourcing/catalogue.py": inputs.digest(ROOT / "engineering/sourcing/catalogue.py"),
+        "engineering/sourcing/data/supplier-catalogue.json": inputs.digest(ROOT / "engineering/sourcing/data/supplier-catalogue.json"),
+        "engineering/sourcing/data/public-feeds.json": inputs.digest(ROOT / "engineering/sourcing/data/public-feeds.json"),
+        "takeoff_file": inputs.digest(takeoff_file),
+    }
+    source_id = source_records["iraq.cso.regional-materials-wages-2025"]["record_id"]
+    takeoff_packets = []
+    mapped = []
+    for scenario in mapped_processes:
+        process = scenario["process"]
+        hours = scenario["labour_hours_per_nominal_m3"]
+        estimate_packet = dict(
+            schema="osr-domestic-fabrication-takeoff-estimate/1",
+            candidate_id=takeoff["candidate_id"], source_input_id=takeoff["source_input_id"],
+            takeoff_id=takeoff["takeoff_id"], source_ids=process["source_ids"],
+            source_sha256=source_hashes, estimate=process,
+            candidate_takeoff_mapped=True, complete_procurement_cost=None,
+            complete_installed_cost=None, whole_life_cost=None,
+            physical_qualification=None, engineering_accepted=False,
+            procurement_approved=False, selected_reference_changed=False,
+            unknown_is_zero=False)
+        estimate_packet["estimate_packet_id"] = identity(estimate_packet)
+        takeoff_packets.append((hours, estimate_packet))
+        mapped.append(dict(
+            labour_hours_per_nominal_m3=hours,
+            estimate_packet_id=estimate_packet["estimate_packet_id"],
+            process_record_id=process["record_id"],
+            candidate_id=process["candidate_id"],
+            source_input_id=process["input_id"],
+            estimated_unit_cost_iqd_per_nominal_m3=process["estimated_unit_cost"],
+            estimated_total_iqd=process["estimated_total"],
+            mapped_group_count=process["candidate_takeoff_group_count"],
+            mapped_occurrence_count=process["candidate_takeoff_occurrence_count"]))
+    packet = dict(
+        schema="osr-iraq-domestic-cost-reference/1",
+        candidate_id=candidate_id, source_input_id=input_id,
+        takeoff_id=takeoff["takeoff_id"],
+        source_ids=sorted({source_id, source_records["iraq.ur.company-prices"]["record_id"]}),
+        source_sha256=source_hashes,
+        basis={
+            "formula":"(material quantity x source rate + person-hours x hourly base wage) x 1.20",
+            "uplift_fraction":"0.20",
+            "uplift_scope":"direct materials plus direct labour only; composition of the allowance is unspecified",
+            "concrete_recipe_per_nominal_m3":{
+                "ordinary_cement_t":"0.35", "red_sand_m3":"0.50", "crushed_gravel_m3":"0.80"},
+            "concrete_labour_scenarios_h_per_nominal_m3":["2","4","8"],
+            "rebar_labour_scenarios_h_per_input_tonne":["4","8","16"],
+            "aluminium_labour_scenarios_h_per_profile_input_tonne":["8","16","32"],
+            "wage_normalization":"CSO daily average divided by an explicit 8-hour working day",
+            "zero_source_observations":"treated as unavailable; no price or estimate is emitted",
+            "regional_coverage":"15 governorates listed in the CSO bulletin; 12 have all inputs for the illustrative concrete recipe",
+        },
+        unit_rate_estimates=regional,
+        unavailable_estimates=missing,
+        baghdad_concrete_takeoff_estimates=mapped,
+        candidate_takeoff_mapped_for_unit_rate_estimates=False,
+        takeoff_mapped_for_baghdad_concrete_estimates=True,
+        complete_procurement_cost=None, complete_process_cost=None,
+        complete_installed_cost=None, whole_life_cost=None,
+        physical_qualification=None, engineering_accepted=False,
+        procurement_approved=False, selected_reference_changed=False,
+        unknown_is_zero=False,
+        limitations=[
+            "The CSO rates are statistical annual market/wage observations, not supplier quotations or employer-loaded shop rates.",
+            "The 0.35 t cement + 0.50 m3 red sand + 0.80 m3 crushed gravel recipe is an illustrative takeoff basis, not a mix design or a verified one-cubic-metre yield.",
+            "The hour values are sensitivity scenarios, not timed local factory routes.",
+            "The Baghdad takeoff applies its declared unit recipe to nominal concrete geometry while preserving the 81 group and 486 occurrence identities; it does not price complete beams, reinforcement, prestress, moulds, QA, transport, foundations, installation or maintenance.",
+            "The Ur Company profile observation has no stated structural alloy/temper, effective date, availability, quantity, delivery, tax or installation basis; the aluminium screen is not a body-frame price or approved design.",
+            "The 20% uplift is an unallocated planning allowance and is not verified overhead, profit, tax or contingency.",
+        ])
+    packet["source_epoch_id"] = identity(records)
+    packet["packet_id"] = identity(packet)
+    return packet, takeoff_packets
+
+
+def _write_fresh(path, payload):
+    path = Path(path).expanduser().resolve()
+    if path.exists() or path.is_symlink():
+        raise ValueError("Fresh output path required: " + str(path))
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("x", encoding="utf-8") as stream:
+        stream.write(json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False) + "\n")
+
+
+def main(argv=None):
+    parser = ArgumentParser(description="Create source-bound Iraqi material + labour + 20% domestic fabrication screens")
+    parser.add_argument("--takeoff", type=Path, required=True,
+                        help="Exact sealed candidate-bound material takeoff JSON or .json.gz")
+    parser.add_argument("--output", type=Path, required=True,
+                        help="Fresh output directory for the regional report and Baghdad group estimates")
+    args = parser.parse_args(argv)
+    destination = args.output.expanduser().resolve()
+    if destination.exists() or destination.is_symlink():
+        raise ValueError("Fresh output directory required: " + str(destination))
+    destination.mkdir(parents=True)
+    records = catalogue.load_catalogue()
+    takeoff = inputs.read_json(args.takeoff)
+    packet, takeoff_packets = _make_packet(records, takeoff, args.takeoff)
+    _write_fresh(destination / "iraq-domestic-cost-reference-2025.json", packet)
+    for hours, estimate_packet in takeoff_packets:
+        _write_fresh(destination / ("baghdad-concrete-takeoff-" + hours + "h.json"), estimate_packet)
+    print(json.dumps({
+        "output": str(destination), "packet_id": packet["packet_id"],
+        "candidate_id": packet["candidate_id"], "takeoff_id": packet["takeoff_id"],
+        "regional_unit_rate_scenarios": len(packet["unit_rate_estimates"]),
+        "unavailable_scenarios": len(packet["unavailable_estimates"]),
+        "baghdad_takeoff_scenarios": len(packet["baghdad_concrete_takeoff_estimates"]),
+        "complete_installed_cost": None, "physical_qualification": None,
+    }, indent=2, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

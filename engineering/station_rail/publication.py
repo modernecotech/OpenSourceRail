@@ -164,6 +164,7 @@ def _sourcing_section(root,record):
     concrete=[row for row in validation['domestic_fabrication_unit_rate_screens']
               if 'concrete-batch-' in row['path']]
     mapped_concrete=validation.get('candidate_mapped_concrete_estimates', [])
+    regional=validation.get('regional_cost_reference', {})
     if takeoff['candidate_id']!=federated['candidate_id']:
         raise ValueError('Sourcing takeoff and federated evaluation candidate identities differ')
     if len(concrete)!=3 or any(row['candidate_id']!=federated['candidate_id'] for row in concrete):
@@ -178,6 +179,16 @@ def _sourcing_section(root,record):
     if len(mapped_concrete)!=3 or any(row['candidate_id']!=federated['candidate_id'] for row in mapped_concrete):
         raise ValueError('Mapped concrete scenarios must retain the takeoff research candidate identity')
     mapped_totals_miqd=sorted(float(row['estimated_total'])/1_000_000 for row in mapped_concrete)
+    regional_mapped=regional.get('baghdad_concrete_takeoff_estimates', [])
+    if (regional.get('candidate_id')!=federated['candidate_id']
+        or regional.get('takeoff_id')!=takeoff.get('takeoff_id')
+        or len(regional_mapped)!=3
+        or any(row.get('candidate_id')!=federated['candidate_id'] for row in regional_mapped)):
+        raise ValueError('Regional cost scenarios must remain bound to the takeoff research candidate')
+    regional_totals_miqd=sorted(float(row['estimated_total_iqd'])/1_000_000 for row in regional_mapped)
+    regional_count=regional.get('unit_rate_scenario_count')
+    if regional_count!=84:
+        raise ValueError('Expected declared regional material/labour scenario inventory')
     return [
       '## Sourcing and domestic cost coverage','',
       catalogue_line+' Iraqi source leads include cement production, steel fabrication and rebar, GRP pipe and an aluminium-extrusion project. Source leads are not quotations, qualified products or available capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).','',
@@ -186,9 +197,11 @@ def _sourcing_section(root,record):
       f"| Frame candidate `{frame['candidate_id'][:12]}` | {frame['input_requirement_count']:,} groups; {frame['compatible_matches']} compatible priced matches | Nine RFQ drafts remain unsent; complete installed cost unknown |",
       f"| Federated candidate `{federated['candidate_id'][:12]}` | {federated['physical_scope_count']:,} scopes in {federated['input_requirement_count']:,} sourcing groups; {federated['evaluated']:,} evaluated, {federated['pending']:,} pending | {federated['compatible_matches']} compatible priced matches; all {federated['evaluated_group_unknown_quantities']:,} evaluated purchase quantities unknown |",
       f"| Material takeoff `{takeoff['candidate_id'][:12]}` | {takeoff['manufacturing_group_count']:,} groups retain {takeoff['located_occurrence_count']:,} located occurrences; {takeoff['unlocated_account_count']:,} unlocated accounts stay separate | {float(takeoff['known_gross_stock_mass_kg'])/1000:,.2f} t gross located stock and {float(takeoff['concrete_nominal_stock_volume_m3']):,.2f} m³ nominal concrete geometry are not installed mass or purchase quantities |",
-      f"| Generic concrete fabrication screen | {len(concrete)} material/labour recipes, 2–8 skilled person-hours per nominal m³ | IQD {concrete_rates[0]:,}–{concrete_rates[-1]:,}/m³ with a 20% allowance; not a structural mix or guideway-beam price |",'',
-      f"| Illustrative concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {mapped_totals_miqd[0]:.1f}–{mapped_totals_miqd[-1]:.1f} million for gross modeled concrete volume; not a mix design, precast beam price or installed cost |",'',
-      'This estimate maps the illustrative concrete batch recipe to the research candidate’s modeled nominal volume and preserves every group and occurrence identity. Its material mix and labour hours remain assumptions, not measured process data. It does not establish a guideway beam, a supplier match, a complete installed mass or cost, or a cost for the selected reference candidate.','',
+      f"| Generic concrete fabrication screen | {len(concrete)} material/labour recipes using September 2026 national materials and 2025 Baghdad wages; 2–8 skilled person-hours per nominal m³ | IQD {concrete_rates[0]:,}–{concrete_rates[-1]:,}/m³ with a 20% allowance; not a structural mix or guideway-beam price |",'',
+      f"| 2026-price concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {mapped_totals_miqd[0]:.1f}–{mapped_totals_miqd[-1]:.1f} million for gross modeled concrete volume; not a mix design, precast beam price or installed cost |",
+      f"| 2025 Iraqi regional domestic-cost library | {regional_count} material/labour scenarios across concrete, rebar and aluminium-profile assembly; concrete recipe prices available in 12 of 15 listed governorates | Three governorates have missing concrete material prices; all scenario hours are assumptions and the 20% uplift is unallocated |",
+      f"| 2025 Baghdad concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {regional_totals_miqd[0]:.1f}–{regional_totals_miqd[-1]:.1f} million on the 2025 regional material rates; not a designed mix or installed span price |",'',
+      'The 2026-price estimate and the 2025 regional-price estimate are separately source-bound views of the same research-candidate concrete takeoff. Both preserve every original manufacturing-group and occurrence identity. Their material mix and labour hours remain assumptions, not measured process data; neither establishes a guideway beam, supplier match, complete installed mass or cost, or a cost for the selected reference candidate. The 2025 regional packet also includes rebar cut/bend and a provisional aluminium-profile assembly screen.','',
       'The reference dossier\'s 900 m shared winding and the separate five-bank research layout (100 m active motor length) remain distinct propulsion configurations. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.',''
     ]
 

@@ -45,7 +45,7 @@ New rails and fasteners are much lighter than the old magnetic interface stock, 
 
 ## Sourcing and domestic cost coverage
 
-The current sourcing seed contains **105 immutable records**: 46 sources, 16 product observations, 5 published price offers, 2 FX observations and 36 benchmarks. Iraqi source leads include cement production, steel fabrication and rebar, GRP pipe and an aluminium-extrusion project. Source leads are not quotations, qualified products or available capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).
+The current sourcing seed contains **268 immutable records**: 47 sources, 16 product observations, 5 published price offers, 2 FX observations and 198 benchmarks. Iraqi source leads include cement production, steel fabrication and rebar, GRP pipe and an aluminium-extrusion project. Source leads are not quotations, qualified products or available capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).
 
 The current selected physical candidate is `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`. The frame and federated sourcing runs instead use research candidates `1b3ae3f4de24f7302827e61047aa4ddb1f087c46ec84f47ec6bb2607b5a1e084` and `9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f`. Their matching results, takeoff and cost screens do not transfer to the selected reference candidate.
 
@@ -54,11 +54,13 @@ The current selected physical candidate is `756a68870162f7559b052b05c9b201728c9f
 | Frame candidate `1b3ae3f4de24` | 3,183 groups; 0 compatible priced matches | Nine RFQ drafts remain unsent; complete installed cost unknown |
 | Federated candidate `9c7d0942c9de` | 31,989 scopes in 7,042 sourcing groups; 137 evaluated, 6,905 pending | 0 compatible priced matches; all 137 evaluated purchase quantities unknown |
 | Material takeoff `9c7d0942c9de` | 2,269 groups retain 27,216 located occurrences; 4,773 unlocated accounts stay separate | 4,780.58 t gross located stock and 1,804.81 m³ nominal concrete geometry are not installed mass or purchase quantities |
-| Generic concrete fabrication screen | 3 material/labour recipes, 2–8 skilled person-hours per nominal m³ | IQD 113,580–181,080/m³ with a 20% allowance; not a structural mix or guideway-beam price |
+| Generic concrete fabrication screen | 3 material/labour recipes using September 2026 national materials and 2025 Baghdad wages; 2–8 skilled person-hours per nominal m³ | IQD 113,580–181,080/m³ with a 20% allowance; not a structural mix or guideway-beam price |
 
-| Illustrative concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD 205.0–326.8 million for gross modeled concrete volume; not a mix design, precast beam price or installed cost |
+| 2026-price concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD 205.0–326.8 million for gross modeled concrete volume; not a mix design, precast beam price or installed cost |
+| 2025 Iraqi regional domestic-cost library | 84 material/labour scenarios across concrete, rebar and aluminium-profile assembly; concrete recipe prices available in 12 of 15 listed governorates | Three governorates have missing concrete material prices; all scenario hours are assumptions and the 20% uplift is unallocated |
+| 2025 Baghdad concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD 207.0–328.9 million on the 2025 regional material rates; not a designed mix or installed span price |
 
-This estimate maps the illustrative concrete batch recipe to the research candidate’s modeled nominal volume and preserves every group and occurrence identity. Its material mix and labour hours remain assumptions, not measured process data. It does not establish a guideway beam, a supplier match, a complete installed mass or cost, or a cost for the selected reference candidate.
+The 2026-price estimate and the 2025 regional-price estimate are separately source-bound views of the same research-candidate concrete takeoff. Both preserve every original manufacturing-group and occurrence identity. Their material mix and labour hours remain assumptions, not measured process data; neither establishes a guideway beam, supplier match, complete installed mass or cost, or a cost for the selected reference candidate. The 2025 regional packet also includes rebar cut/bend and a provisional aluminium-profile assembly screen.
 
 The reference dossier's 900 m shared winding and the separate five-bank research layout (100 m active motor length) remain distinct propulsion configurations. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.
 

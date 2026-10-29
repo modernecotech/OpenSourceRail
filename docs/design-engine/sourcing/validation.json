@@ -2,18 +2,18 @@
   "schema": "osr-sourcing-iraq-domestic-inputs/1",
   "snapshot_date": "2026-10-29",
   "catalogue": {
-    "offline_seed_record_count": 105,
+    "offline_seed_record_count": 268,
     "counts": {
-      "source": 46,
+      "source": 47,
       "product": 16,
       "offer": 5,
       "fx": 2,
-      "benchmark": 36,
-      "total": 105
+      "benchmark": 198,
+      "total": 268
     },
     "source_observations_are_not_supplier_quotes": true
   },
-  "source_epoch_sha256": "da783c9a2f4b618013ac89da94ee82f5d1d8810d8c6c4d2ca37a48872f88f42a",
+  "source_epoch_sha256": "2fb35157687acf71548e414a15cabe8110ba98afe94cc2540afc41243205b913",
   "packets": {
     "frame_vehicle": {
       "path": "packets/frame-vehicle-iraq-domestic-sources-v2",
@@ -428,5 +428,82 @@
       "complete_installed_cost": null,
       "physical_qualification": null
     }
+  ],
+  "regional_cost_reference": {
+    "path": "domestic-fabrication/regional-estimates-2025/iraq-domestic-cost-reference-2025.json",
+    "packet_id": "408109363d0452c4073f424ac559e78297e8364e73664bbdb08bec3d32a21e35",
+    "source_epoch_id": "2fb35157687acf71548e414a15cabe8110ba98afe94cc2540afc41243205b913",
+    "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+    "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+    "takeoff_id": "8ac8c18904adb676a38a7e604694d5c2c5ecca62bd42052f6d00894bb3602f73",
+    "unit_rate_scenario_count": 84,
+    "concrete_governorates_with_complete_inputs": 12,
+    "concrete_governorates_held_for_missing_prices": [
+      "Kirkuk",
+      "Wasit",
+      "Salah al-Din"
+    ],
+    "regional_rebar_cut_bend_scenarios": 45,
+    "baghdad_aluminium_profile_scenarios": 3,
+    "baghdad_concrete_takeoff_estimates": [
+      {
+        "path": "domestic-fabrication/regional-estimates-2025/baghdad-concrete-takeoff-2h.json",
+        "estimate_packet_id": "890b1dfcea58367624ee37720f10d251d2dfefdee333e62aa49bf5261c06ed46",
+        "process_record_id": "d418cd850fc940a70e54a5c10f9af75f52fe36f87099c1923174927325c5b442",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "takeoff_id": "8ac8c18904adb676a38a7e604694d5c2c5ecca62bd42052f6d00894bb3602f73",
+        "labour_hours_per_nominal_m3": "2",
+        "estimated_unit_cost_iqd_per_nominal_m3": "114720",
+        "estimated_total_iqd": "207047757.311999977698432",
+        "mapped_group_count": 81,
+        "mapped_occurrence_count": 486,
+        "all_group_occurrences_preserved": true,
+        "candidate_takeoff_mapped": true,
+        "complete_installed_cost": null,
+        "physical_qualification": null
+      },
+      {
+        "path": "domestic-fabrication/regional-estimates-2025/baghdad-concrete-takeoff-4h.json",
+        "estimate_packet_id": "3279d8522ea7554b9bf743aec46946752c03b23cdd2e446d97b2f406922125eb",
+        "process_record_id": "ce313284db6735354b447a53613f2865284d66265855f37f055d8fbabc319831",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "takeoff_id": "8ac8c18904adb676a38a7e604694d5c2c5ecca62bd42052f6d00894bb3602f73",
+        "labour_hours_per_nominal_m3": "4",
+        "estimated_unit_cost_iqd_per_nominal_m3": "137220",
+        "estimated_total_iqd": "247655973.311999973324432",
+        "mapped_group_count": 81,
+        "mapped_occurrence_count": 486,
+        "all_group_occurrences_preserved": true,
+        "candidate_takeoff_mapped": true,
+        "complete_installed_cost": null,
+        "physical_qualification": null
+      },
+      {
+        "path": "domestic-fabrication/regional-estimates-2025/baghdad-concrete-takeoff-8h.json",
+        "estimate_packet_id": "ff34977df4c132100a195ab7666da8bdddc9dc1b489970c9aff5a346e1ae476d",
+        "process_record_id": "016c7e1557ffeaafb9b651d27be30a022e0db7873b95d38484ab9263e169a799",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "takeoff_id": "8ac8c18904adb676a38a7e604694d5c2c5ecca62bd42052f6d00894bb3602f73",
+        "labour_hours_per_nominal_m3": "8",
+        "estimated_unit_cost_iqd_per_nominal_m3": "182220",
+        "estimated_total_iqd": "328872405.311999964576432",
+        "mapped_group_count": 81,
+        "mapped_occurrence_count": 486,
+        "all_group_occurrences_preserved": true,
+        "candidate_takeoff_mapped": true,
+        "complete_installed_cost": null,
+        "physical_qualification": null
+      }
+    ],
+    "complete_installed_cost": null,
+    "physical_qualification": null
+  },
+  "limitations": [
+    "The 2025 CSO regional bulletin adds 72 Iraqi-origin construction-material benchmarks and 90 governorate/category wage benchmarks; printed zeros remain unavailable, and the three concrete recipes are held for Kirkuk, Wasit and Salah al-Din because at least one input price is missing.",
+    "The regional 2025 estimate packet applies explicit material + labour-hour + 20% scenarios; only the Baghdad concrete scenario is mapped to the exact nominal-concrete takeoff groups and original occurrence IDs.",
+    "The aluminium profile scenario uses a 2026 Ur Company posted rate with 2025 Baghdad wages and is not a structural-alloy quotation or a rail-body price."
   ]
 }

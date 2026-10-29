@@ -65,6 +65,14 @@ The uplift is set to 20% in the Iraq reference examples. It is a planning allowa
 
 The example recipes in `docs/design-engine/sourcing/domestic-fabrication/recipes/` estimate one tonne of reinforcing steel input through an illustrative cut/bend route using the September 2026 Iraqi-origin CSO rebar benchmark and the 2025 Baghdad skilled-worker average wage. Labour hours are explicitly varied at 4/8/16 hours per input tonne because measured local cycle times were unavailable. These are generic unit-rate screens and are not mapped to a railway occurrence. The separate concrete takeoff recipes apply their declared batch assumptions to the exact modeled concrete-volume roll-up, preserve all mapped group and occurrence IDs, and write a separate ingredient/labour/uplift estimate for each group. They still do not represent a designed mix, purchased order, finished beam or complete installed cost.
 
+`iraq_cost_scenarios` uses the official 2025 CSO Iraqi-origin material-price and governorate wage tables to create source-linked regional scenarios. It emits concrete batching estimates where all three local material benchmarks are available, rebar cut/bend scenarios across the 15 listed governorates, a provisional Baghdad profile-assembly estimate from the Ur Company posted price, and 2/4/8-hour Baghdad concrete estimates mapped to the exact research takeoff groups and occurrence IDs. A source-table zero is treated as missing. The file-backed report is not a supplier quote; its hours are assumptions and its 20% allowance applies only to declared material plus base labour.
+
+```bash
+./tools/automation/osr-python -m engineering.sourcing.iraq_cost_scenarios \
+  --takeoff docs/design-engine/sourcing/material-takeoff/federated-v06-stock-takeoff.json.gz \
+  --output build/iraq-domestic-cost-scenarios
+```
+
 ```bash
 ./osr source seed
 ./osr source estimate fabrication \

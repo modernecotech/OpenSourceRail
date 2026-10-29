@@ -53,6 +53,8 @@ def write(output,record):
     for entity in f.by_type('IfcRoot'):
         key=record['candidate_id']+record['civil']['civil_component_id']+entity.is_a()+str(entity.id())
         entity.GlobalId=ifcopenshell.guid.compress(hashlib.sha256(key.encode()).hexdigest()[:32])
+    for relation in f.by_type('IfcRelContainedInSpatialStructure'):
+        relation.RelatedElements=sorted(relation.RelatedElements,key=lambda entity:entity.GlobalId)
     f.header.file_name.name='selected-interface.ifc'
     f.header.file_name.time_stamp='2026-10-26T00:00:00'
     path=output/'selected-interface.ifc';f.write(str(path))
