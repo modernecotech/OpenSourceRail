@@ -57,8 +57,9 @@ def _quantity_options(payload, source, *, expected_locale, price_date, quantity_
         if decimal(option.get("TotalQuantityPriced"), positive=True) != quantity:
             raise ValueError("Quantity-option total differs from actual package quantity")
         variant = dict(row, MarketPlace=row.get("Marketplace"),
-                       StandardPricing=[dict(BreakQuantity=str(quantity), UnitPrice=row.get("UnitPrice"))],
                        _exact_quantity=str(quantity), _pricing_option=option.get("PricingOption"))
+        price_key = "MyPricing" if payload.get("MyPricingOptions") else "StandardPricing"
+        variant[price_key] = [dict(BreakQuantity=str(quantity), UnitPrice=row.get("UnitPrice"))]
         normalized = dict(SettingsUsed=dict(SearchLocale=locale), ProductPricings=[dict(
             Manufacturer=payload.get("Manufacturer"),
             ManufacturerProductNumber=payload.get("ManufacturerPartNumber"),

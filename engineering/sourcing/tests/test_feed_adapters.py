@@ -7,6 +7,7 @@ import pytest
 
 from engineering.sourcing.model import record, validate_record
 from engineering.sourcing.adapters import fetch, FetchError, parse_ecb_xml, parse_world_bank_xlsx
+from engineering.sourcing.adapters import parse_easy_composites_html
 
 
 def source(kind):
@@ -104,3 +105,37 @@ def test_feed_document_hash_binds_actual_source_bytes():
     src = record('source',**body)
     assert len(parse_ecb_xml(ecb(),src)) == 2
     with pytest.raises(ValueError,match='hash differs'):parse_ecb_xml(ecb()+b' ',src)
+
+
+def composite_page():
+    data={'props':{'initialState':{'session':{'currency':{'text':'GBP'},'includeVat':False},'page':{'product':{
+        'Name':'TEST-440','Type':'SINGLE','WebsiteSaleUnit':{'text':'Linear Metre'},'MOQ':'',
+        'BasePricing':{'GBP':'3.10'},'AltUnitConversionFactor':'1.27',
+        'Pricing':[{'Currency':{'text':'GBP'},'PriceLevel':{'text':'Base Price'},'MinimumQuantity':'0','MaximumQuantity':'5','UnitPrice':'4.05'},
+                   {'Currency':{'text':'GBP'},'PriceLevel':{'text':'Base Price'},'MinimumQuantity':'5','MaximumQuantity':'','UnitPrice':'3.10'}]}}}}}
+    return ('<span>ex. VAT</span><script id="__NEXT_DATA__" type="application/json">'+json.dumps(data)+'</script>').encode()
+
+
+def composite_source():
+    return record('source',publisher='Synthetic catalogue fixture',url='https://www.easycomposites.co.uk/test-only',retrieved_at='2026-10-29',access='test-only',source_kind='distributor_catalogue',document_sha256=None,licence=None)
+
+
+def test_easy_composites_does_not_use_advertised_lowest_base_price():
+    product,offer=parse_easy_composites_html(composite_page(),composite_source(),expected_part_number='TEST-440')
+    assert offer['tiers'][0]['unit_price']=='4.05' and offer['tiers'][0]['maximum_quantity']=='5'
+    assert offer['tiers'][1]['minimum_quantity']=='5' and offer['tiers'][1]['unit_price']=='3.1'
+    assert offer['tax_basis']=='excluded' and offer['minimum_order_quantity'] is None
+    assert offer['order_multiple'] is None and offer['quantity_unit']=='m'
+    assert product['specifications']['alternative_unit_conversion_factor']=='1.27'
+
+
+def test_easy_composites_rejects_wrong_pack_currency_and_unit():
+    for kwargs in ({'expected_part_number':'TEST-25KG'}, {'expected_part_number':'TEST-440','currency':'USD'}, {'expected_part_number':'TEST-440','quantity_unit':'kg'}):
+        with pytest.raises(ValueError):parse_easy_composites_html(composite_page(),composite_source(),**kwargs)
+
+
+def test_missing_sale_unit_stays_held_until_explicit_reviewed_annotation():
+    raw=composite_page().replace(b'Linear Metre',b'')
+    assert len(parse_easy_composites_html(raw,composite_source(),expected_part_number='TEST-440'))==1
+    rows=parse_easy_composites_html(raw,composite_source(),expected_part_number='TEST-440',quantity_unit='m')
+    assert rows[-1]['quantity_unit']=='m' and rows[-1]['purchase_cost_admission']=='held'

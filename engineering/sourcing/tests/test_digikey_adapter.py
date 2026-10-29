@@ -142,3 +142,9 @@ def test_client_quantity_endpoint_parses_official_quantity_schema():
     result=client.get_pricing('TEST',requested_quantity=100,expected_locale=LOCALE)
     assert calls[-1].endswith('/products/v4/search/TEST/pricingbyquantity/100')
     assert result[-1]['kind']=='offer' and result[-1]['order_multiple'] is None
+
+
+def test_quantity_option_preserves_account_specific_price_scope():
+    data=quantity_payload();data['MyPricingOptions']=data.pop('StandardPricingOptions')
+    result=parse_digikey_response(data,source(),expected_locale=LOCALE)
+    assert result[-1]['price_kind']=='account-specific'
