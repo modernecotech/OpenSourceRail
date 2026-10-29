@@ -77,7 +77,9 @@ def _project(value):
         "process": ("process_key", "process_name", "material_family"),
         "requirement": ("candidate_id", "namespace", "requirement_key", "description",
                         "category", "priority", "quantity", "quantity_unit", "scope_kind",
-                        "procurement_scope", "selected_product_record_id"),
+                        "procurement_scope", "selected_product_record_id",
+                        "source_manufacturing_group_id", "engineering_occurrence_count",
+                        "procurement_unit_status", "system", "material", "stock_scope"),
         "assessment": ("candidate_id", "requirement_id", "product_id", "product_key",
                        "status", "holds", "suitability_scope", "assessment_type",
                        "estimate_date", "target_currency", "source_price_date",
@@ -118,6 +120,9 @@ def _project(value):
     elif kind == "requirement":
         common["occurrence_count"] = len(value.get("occurrence_ids", []))
         common["identifiers"] = {key: _text(item, 500) for key, item in value.get("identifiers", {}).items()}
+        common["source_gross_stock_mass_kg"] = value.get("accounted_mass_kg")
+        if value.get("source_manufacturing_group") is not None:
+            common["source_manufacturing_group"] = _bounded_value(value["source_manufacturing_group"])
     elif kind == "rfq":
         common["requirement_count"] = len(value.get("requirement_ids", []))
         common["requested_item_count"] = len(value.get("requested_items", []))

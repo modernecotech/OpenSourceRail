@@ -72,18 +72,20 @@ async function loadStatus() {
   text($("connection-state"), status.database_available ? "Database available · read only" : "Database not initialized");
   const cards = $("summary-cards");
   cards.replaceChildren();
-  const counts = status.counts || {};
   const latest = status.recent_runs && status.recent_runs.length ? status.recent_runs[0] : null;
   const latestSummary = latest ? latest.summary : null;
   const coverage = latestSummary || {};
   cards.append(
-    metric("Evaluation runs", counts.run || 0, false),
-    metric("Supplied requirements", coverage.requirement_count ?? "No run", false),
+    metric("Sourcing groups", coverage.input_requirement_count ?? coverage.requirement_count ?? "No run", false),
+    metric("Physical scopes", coverage.input_physical_scope_count ?? coverage.physical_scope_count ?? "Unknown", !latest),
+    metric("Engineering occurrences", coverage.input_engineering_occurrence_count ?? coverage.engineering_occurrence_count ?? "Unknown", !latest),
+    metric("Manufacturing groups", coverage.input_source_manufacturing_group_count ?? coverage.source_manufacturing_group_count ?? "Unknown", !latest),
     metric("Priced requirement groups", coverage.priced_requirement_count ?? "Unknown", !latest),
     metric("Unknown quantity", coverage.unknown_quantity_requirements ?? "Unknown", !latest),
     metric("Complete installed cost", "Unknown", true)
   );
-  text($("scope-note"), status.note || "Complete installed and whole-life costs remain unknown.");
+  const note = coverage.quantity_basis ? status.note + " " + coverage.quantity_basis + "." : status.note;
+  text($("scope-note"), note || "Complete installed and whole-life costs remain unknown.");
 }
 
 function runValues(run) {
@@ -139,7 +141,7 @@ async function loadRuns() {
 }
 
 const recordColumns = {
-  requirement: ["Requirement", "Namespace", "Description", "Quantity", "Category", "Selected product", "Configuration"],
+  requirement: ["Requirement", "Namespace", "Description", "Quantity", "Category", "Manufacturing group", "Occurrences", "Reference stock mass", "Purchase unit status", "Selected product", "Configuration"],
   product: ["Product", "Manufacturer", "Part number", "Description", "Supply scope", "Specification facts"],
   offer: ["Product ID", "Price date", "Currency", "Class", "Quantity unit", "Packaging", "Order constraints", "Price tiers"],
   source: ["Publisher", "Source kind", "Retrieved", "Access"],
@@ -157,6 +159,10 @@ function recordRow(kind, item) {
     cell(row, item.description);
     cell(row, item.quantity === null ? "Unknown" : String(item.quantity) + " " + (item.quantity_unit || ""));
     cell(row, item.category);
+    cell(row, shortId(item.source_manufacturing_group_id), "mono");
+    cell(row, item.engineering_occurrence_count ?? item.occurrence_count ?? 0);
+    cell(row, item.source_gross_stock_mass_kg === null || item.source_gross_stock_mass_kg === undefined ? "Unknown" : String(item.source_gross_stock_mass_kg) + " kg");
+    cell(row, item.procurement_unit_status);
     cell(row, shortId(item.selected_product_record_id), "mono");
     cell(row, detailText(item.product_configuration));
   } else if (kind === "product") {
@@ -221,7 +227,7 @@ async function loadRecords() {
 }
 
 const detailColumns = {
-  requirements: ["Requirement", "Namespace", "Description", "Quantity", "Category", "Selected product", "Configuration"],
+  requirements: ["Requirement", "Namespace", "Description", "Quantity", "Category", "Manufacturing group", "Occurrences", "Reference stock mass", "Purchase unit status", "Selected product", "Configuration"],
   technical_assessments: ["Product", "Status", "Holds", "Scope"],
   price_assessments: ["Price date", "Currency", "Status", "Holds"],
   RFQ_drafts: ["Category", "Requirement groups", "Requested items", "Enabled", "Email"],
@@ -236,6 +242,10 @@ function detailRow(section, item) {
     cell(row, item.description);
     cell(row, item.quantity === null ? "Unknown" : String(item.quantity) + " " + (item.quantity_unit || ""));
     cell(row, item.category);
+    cell(row, shortId(item.source_manufacturing_group_id), "mono");
+    cell(row, item.engineering_occurrence_count ?? item.occurrence_count ?? 0);
+    cell(row, item.source_gross_stock_mass_kg === null || item.source_gross_stock_mass_kg === undefined ? "Unknown" : String(item.source_gross_stock_mass_kg) + " kg");
+    cell(row, item.procurement_unit_status);
     cell(row, shortId(item.selected_product_record_id), "mono");
     cell(row, detailText(item.product_configuration));
   } else if (section === "technical_assessments") {
