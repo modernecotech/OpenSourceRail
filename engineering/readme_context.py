@@ -86,7 +86,7 @@ def category(name):
         return 'current-development-adapters'
     if name in {'engineering/design_search/README.md','engineering/component_registry/README.md',
                 'engineering/sourced_case/README.md','engineering/sourced_redesign/README.md',
-                'engineering/frame_refinement/README.md'}:
+                'engineering/frame_refinement/README.md','engineering/sourcing/README.md'}:
         return 'candidate-design-method'
     if name == 'engineering/city_maps/README.md':
         return 'city-map-method'
@@ -105,6 +105,8 @@ def category(name):
         return 'generated-city-package' if ('/engineering/maglev/' in name or '/engineering/current/' in name) else 'generated-city-brief'
     if name == 'docs/design-engine/current/README.md':
         return 'current-development-dossier'
+    if name == 'docs/design-engine/sourcing/README.md':
+        return 'sourcing-evidence-and-economics'
     if name.startswith('docs/design-engine/'):
         return 'retained-design-evidence'
     if name.startswith('engineering/assurance/'):

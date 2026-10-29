@@ -16,6 +16,7 @@ from .model import FLAGS, encoded, identity, record, validate_record
 from .database import Store
 from .inputs import digest, read_json, MAX_JSON_BYTES
 from .requirements import extract_requirements, validate_requirements
+from .requirements import PRIORITIES
 from . import workflow, erp
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -83,21 +84,44 @@ def _requirements(twin_input):
 def execute(store, twin_input, request, *, root=ROOT):
     """One source/data/request epoch; the caller supplies a calendar estimate date."""
     allowed = {"as_of", "target_currency", "max_fx_age_days", "max_price_age_days",
-               "bindings", "max_requirements", "service_context", "years", "discount_rate"}
+               "bindings", "max_requirements", "max_requirements_by_category",
+               "service_context", "years", "discount_rate"}
     if set(request) - allowed:
         raise ValueError("Unsupported sourcing evaluation request")
     if not request.get("as_of"):
         raise ValueError("Explicit estimate date required")
     before = sources(root)
     catalogue = base_snapshot(store)
-    requirements = _requirements(twin_input)
+    # Declared study inputs expose their requirement list by reference. Sorting
+    # must not mutate the immutable, payload-hashed input envelope.
+    requirements = deepcopy(_requirements(twin_input))
     requirements.sort(key=lambda value: (value.get("priority", 15), value["record_id"]))
     maximum = request.get("max_requirements")
+    by_category = request.get("max_requirements_by_category")
+    if maximum is not None and by_category is not None:
+        raise ValueError("Choose one explicit total or per-category evaluation budget")
     if maximum is not None and (type(maximum) is not int or maximum < 1):
         raise ValueError("Positive explicit requirement budget required")
-    selected = requirements if maximum is None else requirements[:maximum]
-    pending = [] if maximum is None else requirements[maximum:]
-    arguments = {key: deepcopy(value) for key, value in request.items() if key != "max_requirements"}
+    if by_category is not None:
+        categories = {name for name, _ in PRIORITIES} | {"other"}
+        if (not isinstance(by_category, dict) or not by_category or
+                set(by_category) - categories or
+                any(type(value) is not int or not 1 <= value <= 100000 for value in by_category.values())):
+            raise ValueError("Explicit positive bounded per-category requirement budgets required")
+        counts = {name: 0 for name in by_category}
+        selected, pending = [], []
+        for requirement in requirements:
+            category = requirement["category"]
+            if category in by_category and counts[category] < by_category[category]:
+                selected.append(requirement)
+                counts[category] += 1
+            else:
+                pending.append(requirement)
+    else:
+        selected = requirements if maximum is None else requirements[:maximum]
+        pending = [] if maximum is None else requirements[maximum:]
+    arguments = {key: deepcopy(value) for key, value in request.items()
+                 if key not in {"max_requirements", "max_requirements_by_category"}}
     with localcontext() as context:
         context.prec = 28; context.rounding = ROUND_HALF_EVEN
         result = workflow.evaluate(store, selected, **arguments)

@@ -45,9 +45,15 @@ def test_parser_accepts_review_commands_and_bounded_run_inputs(tmp_path):
     assert refresh.command == "refresh"
     assert refresh.cache_dir == tmp_path / "cache"
     study = cli._parser().parse_args(["study", "laminate", "--input", str(tmp_path / "twin.tar.gz"),
-        "--member", "federated-bom.json.gz", "--as-of", "2026-10-29", "--output", str(tmp_path / "studies")])
+        "--member", "federated-bom.json.gz", "--as-of", "2026-10-29", "--output", str(tmp_path / "studies"),
+        "--product-observation", "GURIT-CORECELL-M80=" + "c" * 64])
     assert study.command == "study" and study.study_command == "laminate"
     assert study.member == "federated-bom.json.gz"
+    assert cli._parse_product_observations(study.product_observation) == {"GURIT-CORECELL-M80": "c" * 64}
+    for values in (["not-a-selection"], ["GURIT-CORECELL-M80=bad"],
+                   ["GURIT-CORECELL-M80=" + "c" * 64, "GURIT-CORECELL-M80=" + "d" * 64]):
+        with pytest.raises(ValueError):
+            cli._parse_product_observations(values)
 
 
 def test_repeated_category_budgets_are_distinct_positive_and_exclusive_with_total():

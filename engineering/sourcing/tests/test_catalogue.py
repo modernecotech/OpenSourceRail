@@ -23,8 +23,8 @@ def write_seed(path, data):
 
 def test_actual_catalogue_scopes_prices_and_half_open_breaks():
     values=load_catalogue([SUPPLIERS]);products={v['product_key']:v for v in values if v['kind']=='product'}
-    assert len(products)==14
-    assert sum(v['kind']=='source' for v in values)==15
+    assert len(products)==16
+    assert sum(v['kind']=='source' for v in values)==18
     offers={v['product_id']:v for v in values if v['kind']=='offer'}
     assert len(offers)==5
     cloth=offers[products['EC-GF-BA-440-127']['record_id']]
@@ -40,6 +40,11 @@ def test_actual_catalogue_scopes_prices_and_half_open_breaks():
     assert products['WABTEC-ESP4C-1300']['specifications']['mass_kg']['scope_detail']=='mechanism-and-hanger-only'
     assert products['THERMOKING-LRV8T']['specifications']['hot_55C_performance'] is None
     assert products['LONGI-LR7-60HVHL-560M']['supply_scope']=='solar-module'
+    foam=products['GURIT-CORECELL-M80']
+    assert foam['specifications']['density_min_kg_m3']['value']=='81'
+    assert foam['specifications']['density_max_kg_m3']['value']=='89'
+    assert foam['specifications']['published_observations']['thickness_range_mm']==['3','53']
+    assert not [v for v in values if v['kind']=='offer' and v['product_id']==foam['record_id']]
     for value in values:
         validate_record(value)
         assert all(value[key] is flag for key,flag in FLAGS.items())
@@ -48,7 +53,7 @@ def test_actual_catalogue_scopes_prices_and_half_open_breaks():
 def test_seed_references_are_atomic_and_repeatable(tmp_path):
     with Store(tmp_path/'sourcing.db') as store:
         first=seed(store,[SUPPLIERS]);second=seed(store,[SUPPLIERS])
-        assert first['added_count']==first['record_count']==34
+        assert first['added_count']==first['record_count']==39
         assert second['added_count']==0
         assert first['record_ids']==second['record_ids']
         for offer in store.all('offer'):

@@ -174,6 +174,9 @@ def validate_requirements(requirements):
         validate_record(requirement, "requirement")
         if requirement["candidate_id"] != candidate or requirement["record_id"] in seen:
             raise ValueError("Mixed or duplicate candidate requirements")
+        selected_product_id = requirement.get("selected_product_record_id")
+        if selected_product_id is not None and not is_id(selected_product_id):
+            raise ValueError("Exact selected immutable product record identity required")
         if tuple(requirement.get(key) for key in ("namespace", "input_id", "registry_id", "body_candidate_id")) != binding:
             raise ValueError("Mixed source revision or namespace; an explicit federation is required")
         seen.add(requirement["record_id"])

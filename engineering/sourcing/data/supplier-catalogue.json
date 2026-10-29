@@ -820,6 +820,106 @@
       "supply_scope": "HVAC-unit"
     },
     {
+      "category": "power-converter",
+      "description": "ACS880 industrial single-drive family comparator; configuration-specific SKU required",
+      "manufacturer": "ABB",
+      "part_number": "ACS880 single-drive family (not a purchasable SKU)",
+      "product_key": "ABB-ACS880-SINGLE-FAMILY",
+      "source_keys": [
+        "supplier.abb-acs880-single-html"
+      ],
+      "specifications": {
+        "compatibility": "pending",
+        "country_of_origin": null,
+        "installed_assembly_complete": false,
+        "limitations": [
+          "Industrial AC motor-drive family only; not demonstrated for the candidate LIM winding or its phase/current/frequency envelope.",
+          "Actual SKU, converter power, input/output topology, cabinet, cooling, line protection and local quote required.",
+          "The advertised family range is not one purchasable product and carries no unit price or mass."
+        ],
+        "published_observations": {
+          "ambient_maximum_C": 55,
+          "maintenance_interval_years_maximum": 9,
+          "power_range_kW": [
+            "0.55",
+            "6000"
+          ],
+          "voltage_range_V": [
+            "230",
+            "690"
+          ],
+          "source_scope": "ACS880 single-drive family overview"
+        }
+      },
+      "supply_scope": "industrial-drive-family"
+    },
+    {
+      "category": "structural-foam-core",
+      "description": "Corecell M80 closed-cell SAN foam core grade; marine structural-core comparator",
+      "manufacturer": "Gurit",
+      "part_number": "Corecell M80",
+      "product_key": "GURIT-CORECELL-M80",
+      "source_keys": [
+        "supplier.gurit-corecell-m-html",
+        "supplier.gurit-corecell-m-dnv-pdf"
+      ],
+      "specifications": {
+        "compatibility": "pending for rail vehicle use",
+        "country_of_origin": null,
+        "density_kg_m3": {
+          "scope": "grade-nominal",
+          "unit": "kg/m3",
+          "value": "85"
+        },
+        "density_range_kg_m3": {
+          "scope": "grade-specified-range",
+          "unit": "kg/m3",
+          "values": [
+            "81",
+            "89"
+          ]
+        },
+        "density_min_kg_m3": {
+          "scope": "grade-specified-range",
+          "unit": "kg/m3",
+          "value": "81"
+        },
+        "density_max_kg_m3": {
+          "scope": "grade-specified-range",
+          "unit": "kg/m3",
+          "value": "89"
+        },
+        "installed_assembly_complete": false,
+        "limitations": [
+          "Published marine sandwich-core grade; railway fire/smoke, fatigue, hot-wet, joint and structural qualification remain open.",
+          "No supplier price, sheet cutting waste, adhesive, resin uptake or installed panel mass is included."
+        ],
+        "material_family": "crosslinked closed-cell SAN structural foam",
+        "published_observations": {
+          "application": "marine sandwich core; source approval scope is not railway approval",
+          "sheet_size_mm": [
+            "1220",
+            "2440"
+          ],
+          "thickness_range_mm": [
+            "3",
+            "53"
+          ]
+        },
+        "thickness_max_mm": {
+          "scope": "published-sheet-range",
+          "unit": "mm",
+          "value": "53"
+        },
+        "thickness_min_mm": {
+          "scope": "published-sheet-range",
+          "unit": "mm",
+          "value": "3"
+        }
+      },
+      "supply_scope": "raw-material"
+    },
+    {
       "category": "solar-module",
       "description": "Hi-MOX10 GuardianLightDesign560M",
       "manufacturer": "LONGi",
@@ -968,6 +1068,16 @@
       "source_kind": "manufacturer_catalogue",
       "url": "https://rails.arcelormittal.com/ckeditor_assets/attachments/1154/general_rail_catalog_-_catalogo_general_carril_-arcelormittal.pdf"
     },
+    "supplier.abb-acs880-single-html": {
+      "access": "Official product-family page observed 2026-10-29; specific part selection, automated retrieval and price not established",
+      "automatic_retrieval_status": "public manufacturer specification lead; no direct machine-readable SKU or price",
+      "document_sha256": null,
+      "licence": "Public access; redistribution permission unassessed",
+      "publisher": "ABB",
+      "retrieved_at": "2026-10-29",
+      "source_kind": "manufacturer_catalogue",
+      "url": "https://www.abb.com/global/en/areas/motion/drives/low-voltage-ac-drives/industrial-drives/acs880-single-drives"
+    },
     "supplier.ec-440-html": {
       "access": "Public catalogue/datasheet; manual observation with private unchanged source snapshot",
       "document_sha256": "d53efdea1c92052023da69a44410ca7ff6580eac00270ada99ca7040f5d76566",
@@ -1067,6 +1177,24 @@
       "retrieved_at": "2026-10-29T06:23:59.184311+00:00",
       "source_kind": "manufacturer_catalogue",
       "url": "https://www.longi.com/en/products/modules/hi-mo-x10-guardian-light-design/"
+    },
+    "supplier.gurit-corecell-m-dnv-pdf": {
+      "access": "Official Gurit-hosted DNV Corecell M type approval observed 2026-10-29; approval scope is sandwich material in its stated application, not railway rolling stock",
+      "document_sha256": null,
+      "licence": "Public access; redistribution permission unassessed",
+      "publisher": "Gurit / DNV",
+      "retrieved_at": "2026-10-29",
+      "source_kind": "manufacturer_catalogue",
+      "url": "https://www.gurit.com/wp-content/uploads/2026/04/CORECELL-M-DNV-1.pdf"
+    },
+    "supplier.gurit-corecell-m-html": {
+      "access": "Official Gurit product page observed 2026-10-29; public grade properties, no public price",
+      "document_sha256": null,
+      "licence": "Public access; redistribution permission unassessed",
+      "publisher": "Gurit",
+      "retrieved_at": "2026-10-29",
+      "source_kind": "manufacturer_catalogue",
+      "url": "https://www.gurit.com/corecell-m/"
     },
     "supplier.pandrol-sd-html": {
       "access": "Public catalogue/datasheet; manual observation with private unchanged source snapshot",

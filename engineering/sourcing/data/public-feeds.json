@@ -228,6 +228,7 @@
     "Commodity prices are not manufactured product prices; California pay items are not Baghdad installed rates.",
     "ECB does not provide IQD in this snapshot. A dated transaction-specific source is required; no old fixed peg is assumed.",
     "DigiKey documentation is retained as an API lead only; no authenticated live price was obtained.",
+    "LME, SKF and Knorr-Bremse are registered source leads; no candidate-specific product or quote is inferred from those leads.",
     "Raw source documents remain in the private research package; only minimal factual observations are published here."
   ],
   "offers": [],
@@ -271,6 +272,33 @@
       "retrieved_at": "2026-10-29T06:18:06.291093+00:00",
       "source_kind": "tender_notice",
       "url": "https://itp.iq/"
+    },
+    "lme-official-prices": {
+      "access": "Official day-delayed price page observed 2026-10-29; machine ingestion and data licence not yet reviewed, so no metal quotation imported",
+      "document_sha256": null,
+      "licence": "Use and redistribution terms require review before automated ingestion",
+      "publisher": "London Metal Exchange",
+      "retrieved_at": "2026-10-29",
+      "source_kind": "commodity_benchmark",
+      "url": "https://www.lme.com/en/market-data/reports-and-data/lme-official-prices"
+    },
+    "supplier.knorr-rail-catalogue": {
+      "access": "Official product and system downloads observed 2026-10-29; exact vehicle brake configuration and price require supplier data",
+      "document_sha256": null,
+      "licence": "Public access; redistribution permission unassessed",
+      "publisher": "Knorr-Bremse Rail Vehicle Systems",
+      "retrieved_at": "2026-10-29",
+      "source_kind": "manufacturer_catalogue",
+      "url": "https://rail.knorr-bremse.com/en/de/portfolio/product-and-system-information-for-download/"
+    },
+    "supplier.skf-rail-handbook": {
+      "access": "Official railway technical handbook observed 2026-10-29; source provides design guidance, not an exact selected axlebox or supplier quotation",
+      "document_sha256": null,
+      "licence": "Public access; redistribution permission unassessed",
+      "publisher": "SKF",
+      "retrieved_at": "2026-10-29",
+      "source_kind": "manufacturer_catalogue",
+      "url": "https://cdn.skfmediahub.skf.com/api/public/0901d196801410ca/pdf_preview_medium/0901d196801410ca_pdf_preview_medium.pdf"
     },
     "ungm-qaim-2023": {
       "access": "public historical notice; actual BOQ download returned HTTP403; no unit rates obtained",

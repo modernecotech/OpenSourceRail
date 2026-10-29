@@ -88,10 +88,20 @@ def match_products(requirements, products, *, bindings=None):
         validate_record(product, "product")
     if len({p["record_id"] for p in products}) != len(products):
         raise ValueError("Duplicate product observations")
+    product_map = {product["record_id"]: product for product in products}
+    for requirement in requirements:
+        selected_id = requirement.get("selected_product_record_id")
+        if selected_id is not None:
+            selected = product_map.get(selected_id)
+            if selected is None or not _exact_identifier(requirement, selected):
+                raise ValueError("Selected immutable product observation is absent or does not match exact source identifiers")
     maps = _bindings(requirements, products, bindings)
     output = []
     for requirement in requirements:
         for product in products:
+            selected_id = requirement.get("selected_product_record_id")
+            if selected_id is not None and selected_id != product["record_id"]:
+                continue
             binding = maps.get((requirement["record_id"], product["record_id"]))
             exact = _exact_identifier(requirement, product)
             family = classify([product["category"], product["description"], product["part_number"]])[0]

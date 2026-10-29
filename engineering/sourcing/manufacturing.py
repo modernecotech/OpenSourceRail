@@ -134,9 +134,11 @@ def laminate_requirements(candidate_id, input_id, area_m2, plies,
                     scope="mixed-matrix-system-not-yet-sourced", scrap=scrap))
         unknown.append("matrix:kit-or-separate-constituent-definition")
     known_net = glass + matrix
+    known_lower = known_net
+    known_upper = known_net
 
     def added_material(key, value):
-        nonlocal known_net
+        nonlocal known_net, known_lower, known_upper
         if value is None:
             rows.append(_quantity_row(key, scope="required-installed-material-unresolved", scrap=scrap))
             unknown.append(key + ":installed-quantity")
@@ -151,19 +153,37 @@ def laminate_requirements(candidate_id, input_id, area_m2, plies,
             return
         if value.get("net_mass_kg") is not None:
             mass = _number(value["net_mass_kg"], key + " mass")
+            mass_lower = mass_upper = mass
         elif key == "core":
             if value.get("thickness_m") is None or value.get("density_kg_m3") is None:
                 rows.append(dict(_quantity_row(key, product_key=value.get("product_key"), scope="partially-defined-installed-core", scrap=scrap), declared_material_input=deepcopy(value)))
                 unknown.append("core:mass-from-thickness-and-density")
                 return
-            mass = area * _number(value.get("thickness_m"), "core thickness", positive=True) * _number(value.get("density_kg_m3"), "core density", positive=True)
+            thickness = _number(value.get("thickness_m"), "core thickness", positive=True)
+            density = _number(value.get("density_kg_m3"), "core density", positive=True)
+            mass = area * thickness * density
+            density_range = value.get("density_range_kg_m3")
+            if density_range is None:
+                mass_lower = mass_upper = mass
+            else:
+                if not isinstance(density_range, list) or len(density_range) != 2:
+                    raise ValueError("Two-ended published core density range required")
+                density_lower = _number(density_range[0], "core density lower bound", positive=True)
+                density_upper = _number(density_range[1], "core density upper bound", positive=True)
+                if not density_lower <= density <= density_upper:
+                    raise ValueError("Nominal core density must lie within its published range")
+                mass_lower = area * thickness * density_lower
+                mass_upper = area * thickness * density_upper
         else:
             if value.get("mass_per_area_kg_m2") is None:
                 rows.append(dict(_quantity_row(key, product_key=value.get("product_key"), scope="partially-defined-installed-adhesive", scrap=scrap), declared_material_input=deepcopy(value)))
                 unknown.append("adhesive:areal-quantity")
                 return
             mass = area * _number(value.get("mass_per_area_kg_m2"), "adhesive areal loading") * _number(value.get("coverage_count", "1"), "adhesive coverage count", positive=True)
+            mass_lower = mass_upper = mass
         known_net += mass
+        known_lower += mass_lower
+        known_upper += mass_upper
         rows.append(_quantity_row(key, net_kg=mass, product_key=value.get("product_key"),
                     scope="declared-installed-" + key, scrap=scrap))
 
@@ -203,8 +223,11 @@ def laminate_requirements(candidate_id, input_id, area_m2, plies,
         scrap_fraction=decimal_text(scrap), gross_quantity_rule="net/(1-scrap)",
         dry_glass_net_kg=decimal_text(glass), mixed_matrix_net_kg=decimal_text(matrix),
         material_rows=rows, conditional_known_net_material_kg=decimal_text(known_net),
-        conditional_material_mass_bounds_kg=dict(lower=decimal_text(known_net), upper=None,
-            basis="Declared nominal schedule; unknown additional installed material is nonnegative"),
+        conditional_known_net_material_bounds_kg=dict(lower=decimal_text(known_lower),
+            nominal=decimal_text(known_net), upper=decimal_text(known_upper),
+            basis="Finite identified material inputs only; declared source ranges applied where present"),
+        conditional_material_mass_bounds_kg=dict(lower=decimal_text(known_lower), upper=None,
+            basis="Screening lower bound over declared source ranges; unresolved installed material can add mass"),
         complete_installed_mass_kg=None, complete_installed_cost=None,
         labour_hours=labour, mould_cycle_hours=cycle,
         unknown_additional_quantities=sorted(set(unknown)),

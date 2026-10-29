@@ -51,6 +51,18 @@ def test_core_bondlines_and_removed_consumables_have_distinct_scopes():
     assert p['complete_installed_mass_kg'] is None and p['mechanical_compliance'] is None
 
 
+def test_published_core_density_range_propagates_without_overstating_complete_mass():
+    p=laminate(core=dict(thickness_m='.02',density_kg_m3='85',density_range_kg_m3=['81','89']))
+    assert p['conditional_known_net_material_kg']=='41'
+    assert p['conditional_known_net_material_bounds_kg']['lower']=='40.2'
+    assert p['conditional_known_net_material_bounds_kg']['nominal']=='41'
+    assert p['conditional_known_net_material_bounds_kg']['upper']=='41.8'
+    assert p['conditional_material_mass_bounds_kg']['lower']=='40.2'
+    assert p['conditional_material_mass_bounds_kg']['upper'] is None
+    with pytest.raises(ValueError,match='within its published range'):
+        laminate(core=dict(thickness_m='.02',density_kg_m3='80',density_range_kg_m3=['81','89']))
+
+
 def test_partially_defined_material_geometry_is_preserved_with_unknown_mass():
     p=laminate(core=dict(thickness_m='.02',density_kg_m3=None),adhesive=dict(product_key='unquoted-bond'))
     rows={r['material_key']:r for r in p['material_rows']}

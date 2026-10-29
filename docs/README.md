@@ -27,6 +27,8 @@ The [engineering implementation](../engineering/development_baseline/README.md) 
 [city catalogue](design-engine/current/cities.json) preserves geography and reports
 the hold on v0.6 performance evaluation.
 
+The [sourcing dossier](design-engine/sourcing/README.md) explains the source-backed material, catalogue, price and construction benchmark coverage. The [sourcing engine implementation](../engineering/sourcing/README.md) describes its candidate-bound records, adapters, append-only database, replay packets and disabled ERPNext/RFQ drafts.
+
 The older [candidate comparator](design-engine/design-search/index.html) and
 [capability ledger](capabilities/README.md) retain historical research assumptions.
 Use the [pinned v0.5 archive](archives/v0.5-maglev/README.md) for their source and

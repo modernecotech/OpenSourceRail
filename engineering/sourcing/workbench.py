@@ -77,7 +77,7 @@ def _project(value):
         "process": ("process_key", "process_name", "material_family"),
         "requirement": ("candidate_id", "namespace", "requirement_key", "description",
                         "category", "priority", "quantity", "quantity_unit", "scope_kind",
-                        "procurement_scope"),
+                        "procurement_scope", "selected_product_record_id"),
         "assessment": ("candidate_id", "requirement_id", "product_id", "product_key",
                        "status", "holds", "suitability_scope", "assessment_type",
                        "estimate_date", "target_currency", "source_price_date",
@@ -101,6 +101,8 @@ def _project(value):
                                      for key in keys[:24]}
         if len(keys) > 24:
             common["specifications_omitted_key_count"] = len(keys) - 24
+    elif kind == "requirement" and value.get("product_configuration") is not None:
+        common["product_configuration"] = _bounded_value(value["product_configuration"])
     elif kind == "offer":
         tiers = value.get("tiers", [])
         common["tiers"] = [_bounded_value(tier) for tier in tiers[:32]]

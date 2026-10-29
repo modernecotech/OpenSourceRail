@@ -146,6 +146,25 @@ def test_offer_projection_keeps_quantity_packaging_and_price_breaks(tmp_path):
     assert row["minimum_order_quantity"] == "100"
 
 
+def test_requirement_projection_exposes_selected_product_and_bounded_configuration(tmp_path):
+    database = tmp_path / "sourcing.sqlite3"
+    requirement = record("requirement", candidate_id="a" * 64, input_id="b" * 64,
+        namespace="manufacturing-study", requirement_key="core-20mm",
+        description="M80 core material takeoff", category="body-materials", priority=3,
+        quantity="18.8889", quantity_unit="kg", occurrence_ids=[], physical_scopes=["study/core"],
+        procurement_scope="raw-material", identifiers={"manufacturer": "Gurit", "part_number": "Corecell M80"},
+        constraints=[], selected_product_record_id="c" * 64,
+        product_configuration={"reference_area_m2": "10", "target_thickness_mm": "20", "sheet_count": None})
+    with Store(database) as store:
+        store.put(requirement)
+    with live_server(database) as base:
+        status, _, page = fetch_json(base, "/api/records?kind=requirement&limit=1&offset=0")
+    assert status == 200
+    assert page["items"][0]["selected_product_record_id"] == "c" * 64
+    assert page["items"][0]["product_configuration"]["target_thickness_mm"] == "20"
+    assert page["items"][0]["product_configuration"]["sheet_count"] is None
+
+
 def test_status_and_run_evidence_apis_report_coverage_and_paginate(tmp_path):
     database = tmp_path / "sourcing.sqlite3"
     result = make_run(database)

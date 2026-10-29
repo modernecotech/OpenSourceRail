@@ -93,6 +93,8 @@ def _parser():
                           help="Evaluate at most N priority-sorted groups in each proposal")
     laminate.add_argument("--category-budget", action="append", default=[], metavar="CATEGORY=N",
                           help="Per-category requirement budget; repeat for a balanced bounded evaluation")
+    laminate.add_argument("--product-observation", action="append", default=[], metavar="PRODUCT_KEY=RECORD_ID",
+                          help="Select an exact immutable product observation when a key has multiple revisions")
     laminate.add_argument("--target-currency", default="USD")
 
     sub.add_parser("status", help="Show database record counts and recent evaluation summaries")
@@ -140,6 +142,20 @@ def _parse_category_budgets(values, max_requirements=None):
         if re.fullmatch(r"[0-9]+", count) is None or int(count) < 1:
             raise ValueError("Positive integer category budgets required")
         result[category] = int(count)
+    return result or None
+
+
+def _parse_product_observations(values):
+    """Keep material studies bound to a selected immutable catalogue revision."""
+    result = {}
+    for value in values or ():
+        if not isinstance(value, str) or "=" not in value:
+            raise ValueError("Product observation must have the form PRODUCT_KEY=RECORD_ID")
+        key, record_id = value.split("=", 1)
+        if (not key or key != key.strip() or key in result or
+                re.fullmatch(r"[0-9a-f]{64}", record_id) is None):
+            raise ValueError("Distinct product keys and exact immutable record IDs required")
+        result[key] = record_id
     return result or None
 
 
@@ -193,7 +209,7 @@ def _write_rfq_export(store, run_id, output):
 
 def _run_laminate_study(store, *, input_path, member, as_of, output,
                         max_requirements=None, max_requirements_by_category=None,
-                        target_currency="USD"):
+                        target_currency="USD", product_observations=None):
     from . import studies
 
     source_input = inputs.load_twin(input_path, member=member)
@@ -201,7 +217,8 @@ def _run_laminate_study(store, *, input_path, member, as_of, output,
     parent_candidate_id = validate_requirements(parent_requirements)
     source_input_id = source_input["payload_id"]
     proposals = studies.laminate_study_requirements(
-        store, parent_candidate_id=parent_candidate_id, source_input_id=source_input_id)
+        store, parent_candidate_id=parent_candidate_id, source_input_id=source_input_id,
+        product_observations=product_observations)
     if not isinstance(proposals, list) or not proposals:
         raise ValueError("Laminate study must return an explicit nonempty proposal list")
     for proposal in proposals:
@@ -285,7 +302,8 @@ def main(argv=None):
                     store, input_path=args.input, member=args.member, as_of=args.as_of,
                     output=args.output, max_requirements=args.max_requirements,
                     max_requirements_by_category=category_budgets,
-                    target_currency=args.target_currency))
+                    target_currency=args.target_currency,
+                    product_observations=_parse_product_observations(args.product_observation)))
             return 0
 
         if args.command == "init":

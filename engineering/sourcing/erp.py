@@ -25,6 +25,8 @@ def build_rfq_drafts(requirements, assessments=()):
             input_id=r["input_id"], scope_kind=r.get("scope_kind"), required_supply_scope=r.get("procurement_scope"),
             geometry=r.get("geometry"), material_id=r.get("material_id"),
             technical_constraints=r.get("constraints", []), functions=r.get("functions", []),
+            selected_product_record_id=r.get("selected_product_record_id"),
+            product_configuration=r.get("product_configuration"),
             reference_mass_per_unit_kg=r.get("mass_per_unit_kg"),
             reference_accounted_mass_kg_per_car=r.get("accounted_mass_kg_per_car"),
             complete_installed_definition=False,

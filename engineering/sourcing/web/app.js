@@ -139,7 +139,7 @@ async function loadRuns() {
 }
 
 const recordColumns = {
-  requirement: ["Requirement", "Namespace", "Description", "Quantity", "Category"],
+  requirement: ["Requirement", "Namespace", "Description", "Quantity", "Category", "Selected product", "Configuration"],
   product: ["Product", "Manufacturer", "Part number", "Description", "Supply scope", "Specification facts"],
   offer: ["Product ID", "Price date", "Currency", "Class", "Quantity unit", "Packaging", "Order constraints", "Price tiers"],
   source: ["Publisher", "Source kind", "Retrieved", "Access"],
@@ -157,6 +157,8 @@ function recordRow(kind, item) {
     cell(row, item.description);
     cell(row, item.quantity === null ? "Unknown" : String(item.quantity) + " " + (item.quantity_unit || ""));
     cell(row, item.category);
+    cell(row, shortId(item.selected_product_record_id), "mono");
+    cell(row, detailText(item.product_configuration));
   } else if (kind === "product") {
     cell(row, item.product_key);
     cell(row, item.manufacturer);
@@ -219,7 +221,7 @@ async function loadRecords() {
 }
 
 const detailColumns = {
-  requirements: ["Requirement", "Namespace", "Description", "Quantity", "Category"],
+  requirements: ["Requirement", "Namespace", "Description", "Quantity", "Category", "Selected product", "Configuration"],
   technical_assessments: ["Product", "Status", "Holds", "Scope"],
   price_assessments: ["Price date", "Currency", "Status", "Holds"],
   RFQ_drafts: ["Category", "Requirement groups", "Requested items", "Enabled", "Email"],
@@ -234,6 +236,8 @@ function detailRow(section, item) {
     cell(row, item.description);
     cell(row, item.quantity === null ? "Unknown" : String(item.quantity) + " " + (item.quantity_unit || ""));
     cell(row, item.category);
+    cell(row, shortId(item.selected_product_record_id), "mono");
+    cell(row, detailText(item.product_configuration));
   } else if (section === "technical_assessments") {
     cell(row, item.product_key || shortId(item.product_id));
     cell(row, item.status);

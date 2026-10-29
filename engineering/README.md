@@ -23,6 +23,8 @@ The [v0.5 maglev archive](../docs/archives/v0.5-maglev/README.md) preserves the 
 
 Coordinated research starts with `./osr design railway` and [the coupled experiment](../docs/design-engine/coupled-railway/README.md). `design_search/railway_campaign.py` binds architecture, adaptive diagnosis and generative bodies to the same inventory, propulsion, braking, civil and manufacturing evaluations. Native structural and transient magnetic adapters declare their own validity domains; unknown installed mass and prices prevent whole-system selection. Candidate-bound body-stock IFC and ERPNext drafts remain research exports.
 
+The [sourcing and cost intelligence engine](sourcing/README.md) connects dated supplier, material, commodity, FX and civil-price evidence to exact candidate requirement groups. The [sourcing dossier](../docs/design-engine/sourcing/README.md) records current coverage and explicit limits; its RFQs are disabled drafts, and no price source establishes component approval or an installed railway cost.
+
 The [adaptive variables](../docs/design-engine/v06-adaptive-design/README.md) and [executed structural grammar](../docs/design-engine/generative-structure/README.md) remain component methods and retained experiments. `design_grammar.py` composes stock/material/load-path/assembly productions; `system_body.py` adds actual metal load paths and `grammar_shell.py` evaluates supported 3D solid assemblies. Composite materials, joints, buckling, complete installed geometry and physically driven journeys require their own evidence; no unrelated topology inherits a result.
 
 ## Historical research configuration - not the selected development baseline

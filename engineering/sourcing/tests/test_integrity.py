@@ -42,8 +42,9 @@ def test_scope_aliases_and_within_line_double_charges_rejected(paths):
 
 
 def test_actual_combined_catalogue_retains_provenance_and_exact_area_tiers():
-    values=load_catalogue();assert len(values)==52
-    assert len([v for v in values if v["kind"]=="source"])==21
+    values=load_catalogue();assert len(values)==60
+    assert len([v for v in values if v["kind"]=="source"])==27
+    assert len([v for v in values if v["kind"]=="product"])==16
     p=next(v for v in values if v["kind"]=="product" and v["product_key"]=="EC-GF-BA-440-127")
     rates=[v for v in values if v["kind"]=="fx"]
     offers=[v for v in values if v["kind"]=="offer"]
@@ -56,6 +57,24 @@ def test_actual_combined_catalogue_retains_provenance_and_exact_area_tiers():
         assert price["purchased_quantity"] is None and price["comparable_order_subtotal"] is None
         assert "held-order-constraints" in price["holds"]
     assert any(v.get("seed_provenance",{}).get("research_package_id") for v in values if v["kind"]=="source")
+
+
+def test_abb_inverter_family_is_a_specification_lead_without_price_or_lim_approval():
+    values=load_catalogue()
+    drive=next(v for v in values if v.get("product_key")=="ABB-ACS880-SINGLE-FAMILY")
+    assert drive["supply_scope"]=="industrial-drive-family"
+    assert drive["specifications"]["published_observations"]["power_range_kW"]==["0.55","6000"]
+    assert drive["specifications"]["compatibility"]=="pending"
+    assert not [v for v in values if v["kind"]=="offer" and v["product_id"]==drive["record_id"]]
+
+
+def test_gurit_corecell_is_a_typed_unpriced_material_lead_not_rail_qualification():
+    values=load_catalogue()
+    foam=next(v for v in values if v.get("product_key")=="GURIT-CORECELL-M80")
+    assert foam["specifications"]["density_range_kg_m3"]["values"]==["81","89"]
+    assert foam["specifications"]["installed_assembly_complete"] is False
+    assert foam["specifications"]["compatibility"]=="pending for rail vehicle use"
+    assert not [v for v in values if v["kind"]=="offer" and v["product_id"]==foam["record_id"]]
 
 
 def test_actual_mechanism_conflict_cannot_become_complete_door():
