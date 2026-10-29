@@ -90,6 +90,9 @@ def sources(root,record,index,delivery):
         'engineering/development-baseline.toml','engineering/readme_context.py','engineering/requirements.txt','.github/repository-metadata.yml','osr','install.sh',
         '.github/workflows/development-baseline.yml','tools/automation/default-design.py','tools/automation/default-design-workbench.py',
         'tools/automation/default-design-cycle.py','tools/automation/tests/verify-development-baseline.mjs','tools/automation/v06-native-benchmarks.py',
+        'docs/design-engine/sourcing/README.md','docs/design-engine/sourcing/validation.json',
+        'engineering/sourcing/catalogue.py','engineering/sourcing/model.py',
+        'engineering/sourcing/data/supplier-catalogue.json','engineering/sourcing/data/public-feeds.json',
         'tools/automation/architecture-native-benchmarks.py','tools/automation/generative-native-benchmarks.py',
         'tools/automation/coupled-native-benchmarks.py','tools/automation/moving-lim-benchmarks.py']
     names += ['campaigns/end-to-end-railway-closure.toml',
@@ -137,7 +140,49 @@ def compact(record,index,natives,delivery):
         economics_acceptance='unknown',city_performance_packages_written=0)
     return value
 
-def readme(record,summary):
+def _sourcing_section(root,record):
+    root=Path(root)
+    validation=json.loads((root/'docs/design-engine/sourcing/validation.json').read_bytes())
+    from engineering.sourcing.catalogue import load_catalogue
+    from engineering.sourcing.model import identity as sourcing_identity
+    catalogue=load_catalogue((root/'engineering/sourcing/data/supplier-catalogue.json',
+                              root/'engineering/sourcing/data/public-feeds.json'))
+    counts=validation.get('catalogue',{}).get('counts',{})
+    if (validation.get('schema')!='osr-sourcing-iraq-domestic-inputs/1'
+        or validation.get('source_epoch_sha256')!=sourcing_identity(catalogue)
+        or validation.get('catalogue',{}).get('offline_seed_record_count')!=len(catalogue)
+        or counts.get('total')!=len(catalogue)):
+        raise ValueError('Current sourcing validation does not match its offline catalogue epoch')
+    frame=validation['packets']['frame_vehicle']
+    federated=validation['packets']['federated_manufacturing_groups']
+    takeoff=validation['candidate_material_takeoff']
+    concrete=[row for row in validation['domestic_fabrication_unit_rate_screens']
+              if 'concrete-batch-' in row['path']]
+    if takeoff['candidate_id']!=federated['candidate_id']:
+        raise ValueError('Sourcing takeoff and federated evaluation candidate identities differ')
+    if len(concrete)!=3 or any(row['candidate_id']!=federated['candidate_id'] for row in concrete):
+        raise ValueError('Domestic concrete screens must retain their research candidate identity')
+    concrete_rates=sorted(int(row['estimated_unit_cost']) for row in concrete)
+    selected_id=record['candidate_id']
+    identity_note=(f"The current selected physical candidate is `{selected_id}`. The frame and federated sourcing runs instead use research candidates `{frame['candidate_id']}` and `{federated['candidate_id']}`. Their matching results, takeoff and cost screens do not transfer to the selected reference candidate."
+        if selected_id!=federated['candidate_id'] else
+        f"The federated sourcing run uses the selected physical candidate `{selected_id}`.")
+    c=validation['catalogue']['counts']
+    catalogue_line=(f"The current sourcing seed contains **{c['total']} immutable records**: {c['source']} sources, {c['product']} product observations, {c['offer']} published price offers, {c['fx']} FX observations and {c['benchmark']} benchmarks.")
+    return [
+      '## Sourcing and domestic cost coverage','',
+      catalogue_line+' Iraqi source leads include cement production, steel fabrication and rebar, GRP pipe and an aluminium-extrusion project. Source leads are not quotations, qualified products or available capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).','',
+      identity_note,'',
+      '| Research scope | Sourcing evidence | Cost disposition |','|---|---|---|',
+      f"| Frame candidate `{frame['candidate_id'][:12]}` | {frame['input_requirement_count']:,} groups; {frame['compatible_matches']} compatible priced matches | Nine RFQ drafts remain unsent; complete installed cost unknown |",
+      f"| Federated candidate `{federated['candidate_id'][:12]}` | {federated['physical_scope_count']:,} scopes in {federated['input_requirement_count']:,} sourcing groups; {federated['evaluated']:,} evaluated, {federated['pending']:,} pending | {federated['compatible_matches']} compatible priced matches; all {federated['evaluated_group_unknown_quantities']:,} evaluated purchase quantities unknown |",
+      f"| Material takeoff `{takeoff['candidate_id'][:12]}` | {takeoff['manufacturing_group_count']:,} groups retain {takeoff['located_occurrence_count']:,} located occurrences; {takeoff['unlocated_account_count']:,} unlocated accounts stay separate | {float(takeoff['known_gross_stock_mass_kg'])/1000:,.2f} t gross located stock and {float(takeoff['concrete_nominal_stock_volume_m3']):,.2f} m³ nominal concrete geometry are not installed mass or purchase quantities |",
+      f"| Generic concrete fabrication screen | {len(concrete)} material/labour recipes, 2–8 skilled person-hours per nominal m³ | IQD {concrete_rates[0]:,}–{concrete_rates[-1]:,}/m³ with a 20% allowance; not a structural mix or guideway-beam price |",'',
+      'The material takeoff does not declare labour hours for its 2,269 manufacturing groups. The generic concrete rate is not applied to the candidate concrete geometry. No completed domestic fabrication rate, supplier price or installed railway cost is established.','',
+      'The reference dossier\'s 900 m shared winding and the separate five-bank research layout (100 m active motor length) remain distinct propulsion configurations. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.',''
+    ]
+
+def readme(record,summary,root=ROOT):
     v=record['vehicle'];m=v['mass'];o=record['service'];p=o['selected_scenario']['profile'];z=o['selected_station'];r=record['civil']['selected_reference'];e=o['electrical'];b=e['battery']
     lines=['# v0.6 station-powered freewheeling rail','',
       'OpenSourceRail aims for simple, affordable urban transport, repeated precast civil components and local manufacture and repair. Six lightweight comfort cars run on passive steel-wheel bogies and conventional rails. Station LIMs act on passive onboard aluminium secondaries; no onboard traction motor, traction battery or levitation magnet is fitted. Independent service power, braking and the existing station-led GoA4 architecture remain.','',
@@ -181,6 +226,8 @@ def readme(record,summary):
     lines += ['','```bash','./osr status','./osr build','./osr verify','./osr test','./osr book --check','./osr sim baghdad  # explicit city evaluation hold','./osr legacy verify','```','',
       '[Source/payload receipt](manifest.json) · [README context](readme-coverage.md) · [Roadmap](../../ROADMAP.md) · [Project ethos](../../../README.md)','']
     for name in IDS:lines += [name.replace('_',' ').capitalize()+' `'+record[name]+'`','']
+    marker=lines.index('## Automation, comparison and cities')
+    lines[marker:marker]=_sourcing_section(root,record)
     return '\n'.join(lines)
 
 def prototype_plan(record):
@@ -226,7 +273,7 @@ def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
     index=cities.publish_all(root=root);delivery=exports.write(output/'exports',record,root,index,natives['vehicle'])
     compact_value=compact(record,index,natives,delivery)
     for name,raw in {'summary.json':encoded(compact_value),'evaluation.json.gz':gzip.compress(encoded(record),mtime=0),
-       'comparison.json':encoded(comparison.evaluate(record,root)),'prototype-test-plan.json':encoded(prototype_plan(record)),'README.md':readme(record,compact_value).encode()}.items():write(output/name,raw)
+       'comparison.json':encoded(comparison.evaluate(record,root)),'prototype-test-plan.json':encoded(prototype_plan(record)),'README.md':readme(record,compact_value,root).encode()}.items():write(output/name,raw)
     for name,path in packages.items():write(output/('native-'+name+'.tar.gz'),archive(path))
     figures.write(record,output)
     for name in ('index.html','app.js','app.css'):write(root/WORKBENCH/name,(root/'engineering/development_baseline/web'/name).read_bytes())
@@ -249,7 +296,7 @@ def verify(output=None,*,root=ROOT,replay=True):
         path=native_package(name,record,root,output);natives[name]=verify_package(path,root)
     exported=json.loads((output/'exports/manifest.json').read_bytes())
     if value!=compact(record,index,natives,exported):raise ValueError('current summary differs')
-    if (output/'README.md').read_text()!=readme(record,value):raise ValueError('current introduction differs')
+    if (output/'README.md').read_text()!=readme(record,value,root):raise ValueError('current introduction differs')
     if json.loads((output/'comparison.json').read_bytes())!=comparison.evaluate(record,root):raise ValueError('comparison differs')
     if json.loads((output/'prototype-test-plan.json').read_bytes())!=prototype_plan(record):raise ValueError('prototype test plan differs')
     if m['source_sha256']!=sources(root,record,index,exported):raise ValueError('publication source set differs')

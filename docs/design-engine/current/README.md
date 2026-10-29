@@ -43,6 +43,23 @@ New rails and fasteners are much lighter than the old magnetic interface stock, 
 
 [Native vehicle material package](native-vehicle.tar.gz) · [Vehicle drawing](vehicle-overview.svg) · [Reference section](interface-section.svg) · [Civil alternatives](exports/civil.json) · [Partial native IFC](exports/selected-interface.ifc) · [IFC scope](exports/bim.json) · [BOM](exports/engineering-bom.json.gz) · [Processes](exports/manufacturing.json) · [Procurement](exports/procurement.json.gz) · [Assembly](exports/assembly.json) · [Controls](exports/controls.json)
 
+## Sourcing and domestic cost coverage
+
+The current sourcing seed contains **105 immutable records**: 46 sources, 16 product observations, 5 published price offers, 2 FX observations and 36 benchmarks. Iraqi source leads include cement production, steel fabrication and rebar, GRP pipe and an aluminium-extrusion project. Source leads are not quotations, qualified products or available capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).
+
+The current selected physical candidate is `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`. The frame and federated sourcing runs instead use research candidates `1b3ae3f4de24f7302827e61047aa4ddb1f087c46ec84f47ec6bb2607b5a1e084` and `9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f`. Their matching results, takeoff and cost screens do not transfer to the selected reference candidate.
+
+| Research scope | Sourcing evidence | Cost disposition |
+|---|---|---|
+| Frame candidate `1b3ae3f4de24` | 3,183 groups; 0 compatible priced matches | Nine RFQ drafts remain unsent; complete installed cost unknown |
+| Federated candidate `9c7d0942c9de` | 31,989 scopes in 7,042 sourcing groups; 137 evaluated, 6,905 pending | 0 compatible priced matches; all 137 evaluated purchase quantities unknown |
+| Material takeoff `9c7d0942c9de` | 2,269 groups retain 27,216 located occurrences; 4,773 unlocated accounts stay separate | 4,780.58 t gross located stock and 1,804.81 m³ nominal concrete geometry are not installed mass or purchase quantities |
+| Generic concrete fabrication screen | 3 material/labour recipes, 2–8 skilled person-hours per nominal m³ | IQD 113,580–181,080/m³ with a 20% allowance; not a structural mix or guideway-beam price |
+
+The material takeoff does not declare labour hours for its 2,269 manufacturing groups. The generic concrete rate is not applied to the candidate concrete geometry. No completed domestic fabrication rate, supplier price or installed railway cost is established.
+
+The reference dossier's 900 m shared winding and the separate five-bank research layout (100 m active motor length) remain distinct propulsion configurations. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.
+
 ## Automation, comparison and cities
 
 Station-led GoA4, onboard ATP, OCC, TCMS, door control, interlocking and communications remain. New actual Rust wheel-interface fixtures check configuration/readiness and independent brake demands; existing ATP regressions remain software evidence. They use assumed readiness and have no physical brake plant or hardware outputs. Loss of propulsion leaves wheel support intact. Off-zone restart requires protected rescue/towing; mainline switches remain excluded, with depot exceptions only.
