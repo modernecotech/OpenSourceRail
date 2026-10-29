@@ -4,7 +4,7 @@ from .model import record, validate_record, decimal, identity
 
 
 def invalidation_plan(changes):
-    affected = {"procurement", "cost", "manufacturing"}
+    affected = {"procurement", "cost", "manufacturing", "electrical-interfaces", "thermal-cooling", "maintenance-repair"}
     if any(key in changes for key in ("mass_per_unit_kg", "geometry", "material_id")):
         affected.update(("mass-CG-inertia", "structure-joints", "propulsion", "braking", "civil-loads", "energy", "protected-stopping"))
     if "geometry" in changes:
@@ -65,13 +65,16 @@ def propose_revision(registry, requirement, product, *, changes, reason, mode="s
     geometry = deepcopy(changes.get("geometry", old["geometry"]))
     if "geometry" in changes:
         dimensions = product["specifications"].get("dimensions_m")
+        if isinstance(dimensions, dict) and dimensions.get("unit") != "m":
+            raise ValueError("Configured supplier dimensions must explicitly use metres")
         dims = dimensions.get("value") if isinstance(dimensions, dict) else dimensions
         supplied_dims = geometry.get("dimensions_m")
         if not isinstance(dims, list) or len(dims) != 3 or not isinstance(supplied_dims, list) or len(supplied_dims) != 3 or geometry.get("kind") != "envelope" or any(decimal(a,positive=True)!=decimal(b,positive=True) for a,b in zip(dims,supplied_dims)):
             raise ValueError("New purchased geometry needs exact configured supplier envelope dimensions")
         geometry["dimensions_m"] = [float(decimal(d,positive=True)) for d in dims]
         geometry["net_volume_m3"] = None
-    mass = deepcopy(old["mass"])
+    mass = (deepcopy(old["mass"]) if mode == "property-evidence" else
+            dict(calculated_kg=None, lower_bound_kg=None, upper_bound_kg=None, evidence_state="unresolved"))
     if "mass_per_unit_kg" in changes:
         supplied = product["specifications"].get("mass_kg")
         if not isinstance(supplied, dict) or supplied.get("unit") != "kg" or supplied.get("scope") not in (supply_scope, "one-part", "configured-product"):
@@ -94,12 +97,21 @@ def propose_revision(registry, requirement, product, *, changes, reason, mode="s
     evidence = deepcopy(old["evidence"])
     evidence.update(sourcing_product_evaluation_id=product["record_id"], sourcing_source_ids=product["source_ids"],
                     prior_part_revision_id=old["revision_id"], installed_fitment_accepted=False)
+    manufacturing = deepcopy(old["manufacturing"])
+    electrical = deepcopy(old["electrical_thermal"])
+    lifecycle = deepcopy(old["lifecycle"])
+    if mode == "supplier-substitution":
+        evidence.update(prior_manufacturing=manufacturing, prior_electrical_thermal=electrical, prior_lifecycle=lifecycle)
+        manufacturing = dict(method="configured-supplier-receiving-and-installation-process-unresolved", cycle_hours=None,
+                             scrap_fraction=None, approved_work_instruction=None)
+        electrical = dict(installed_interface_definition="unresolved", power_W=None, cooling_duty_W=None)
+        lifecycle = dict(inspection_interval=None, replacement=None, repair_method=None, recycling=None)
     replacement = make_part(old["part_id"] if mode == "property-evidence" else old["part_id"]+"/supplier-"+identity(product["product_key"])[:12],
         "SOURCING-"+identity(dict(product=product["record_id"], changes=changes))[:12], old["functions"], geometry,
-        material_id, mass, old["manufacturing"], assembly=assembly, electrical_thermal=old["electrical_thermal"],
+        material_id, mass, manufacturing, assembly=assembly, electrical_thermal=electrical,
         procurement=dict(supplier=None, manufacturer=product["manufacturer"], manufacturer_part_number=product["part_number"],
                          country_of_origin=product.get("country_of_origin"), quote_id=None, MOQ=None, lead_days=None),
-        evidence=evidence, lifecycle=old["lifecycle"], material_evaluation_id=material_eval)
+        evidence=evidence, lifecycle=lifecycle, material_evaluation_id=material_eval)
     occurrences = deepcopy(registry["occurrences"])
     for occurrence in occurrences:
         if occurrence["part_definition_id"] == old["physical_definition_id"]:
@@ -117,5 +129,7 @@ def propose_revision(registry, requirement, product, *, changes, reason, mode="s
         requirement_id=requirement["record_id"], product_id=product["record_id"], source_ids=product["source_ids"],
         changed_occurrence_ids=sorted(expected), changes=deepcopy(changes), mass_coverage=summary(revised),
         dependent_evaluations=invalidation_plan(changes), operating_map_admitted=False,
+        inherited_envelope_is_configured_supplier_geometry="geometry" in changes,
+        supplier_installation_and_thermal_definitions_pending=mode=="supplier-substitution",
         automatic_manufacturing_or_operating_release=False, physical_qualification=None)
     return dict(schema="osr-sourcing-proposed-revision/1", proposal=proposal, registry=revised)

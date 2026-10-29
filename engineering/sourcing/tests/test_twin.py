@@ -34,6 +34,8 @@ def test_actual_substitution_gets_new_identity_but_no_release():
     assert result["registry"]["candidate_id"]!=reg["candidate_id"]
     assert result["proposal"]["physical_qualification"] is None
     assert result["registry"]["operating_release"] is False
+    assert result["registry"]["parts"][0]["electrical_thermal"]["power_W"] is None
+    assert result["registry"]["parts"][0]["manufacturing"]["cycle_hours"] is None
 
 
 def test_invented_mass_geometry_and_price_revision_rejected():
@@ -41,3 +43,17 @@ def test_invented_mass_geometry_and_price_revision_rejected():
     with pytest.raises(ValueError,match="source observation"):propose_revision(reg,req,p,changes={"mass_per_unit_kg":"1"},reason="bad")
     with pytest.raises(ValueError,match="supplier envelope"):propose_revision(reg,req,p,changes={"geometry":dict(kind="envelope",dimensions_m=[2.,3.,4.])},reason="bad")
     with pytest.raises(ValueError,match="commercial"):propose_revision(reg,req,p,changes={"cost":1},reason="bad")
+
+
+def test_new_geometry_never_inherits_old_supplier_mass_or_mm_as_metres():
+    reg,req,p=inputs()
+    body={k:v for k,v in p.items() if k not in ("schema","kind","record_id")}
+    body["specifications"]={"dimensions_m":{"value":["2",".5",".4"],"unit":"m"}}
+    p=record("product",**body)
+    revised=propose_revision(reg,req,p,changes={"geometry":dict(kind="envelope",dimensions_m=[2.,.5,.4])},reason="configured envelope")
+    assert revised["registry"]["parts"][0]["mass"]["evidence_state"]=="unresolved"
+    assert revised["proposal"]["mass_coverage"]["known_calculated_mass_kg"]==0
+    assert revised["proposal"]["mass_coverage"]["mass_upper_bound_kg"] is None
+    body["specifications"]["dimensions_m"]["unit"]="mm";p=record("product",**body)
+    with pytest.raises(ValueError,match="metres"):
+        propose_revision(reg,req,p,changes={"geometry":dict(kind="envelope",dimensions_m=[2.,.5,.4])},reason="bad unit")
