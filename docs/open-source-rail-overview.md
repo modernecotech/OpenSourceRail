@@ -71,9 +71,11 @@ business, workforce, procurement, quality and maintenance functions.
 [FUXA and the gateway](../deployment/supervision/README.md) retain observations,
 alarms, history and review-linked lifecycle records. The
 [planning workspace](workbench/planning/index.html) retains local city/service
-editing and exports over historical packets; its v0.6 compilation is unconnected.
-These services require configured roles, masters, device bindings and reviewed
-imports; the engineering Workbench does not automatically commission them.
+editing over historical geographic inputs. Its v0.6 compiler now creates and
+verifies a source-bound review handoff tied to the selected candidate; this is a
+planning proposal, not a route-performance result or construction schedule. These
+services require configured roles, masters, device bindings and reviewed imports;
+the engineering Workbench does not automatically commission them.
 
 The [coordinated design experiment](design-engine/coupled-railway/README.md)
 propagates revised bodies through inventory, interfaces, propulsion demand,

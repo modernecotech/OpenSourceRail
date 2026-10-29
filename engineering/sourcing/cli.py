@@ -108,6 +108,13 @@ def _parser():
                              help="Recipe JSON with exact benchmark IDs and declared quantities")
     fabrication.add_argument("--output", required=True, type=Path,
                              help="Fresh JSON output path")
+    takeoff_estimate = estimate_sub.add_parser("takeoff", help="Apply an explicit recipe to an exact material takeoff roll-up")
+    takeoff_estimate.add_argument("--takeoff", required=True, type=Path,
+                                  help="Sealed candidate-bound material takeoff JSON or .json.gz")
+    takeoff_estimate.add_argument("--recipe", required=True, type=Path,
+                                  help="Recipe JSON with exact benchmarks and target roll-up")
+    takeoff_estimate.add_argument("--output", required=True, type=Path,
+                                  help="Fresh JSON output path")
 
     takeoff = sub.add_parser("takeoff", help="Build traceable stock material quantity roll-ups")
     takeoff_sub = takeoff.add_subparsers(dest="takeoff_command", required=True)
@@ -354,6 +361,95 @@ def _estimate_fabrication(store, *, input_path, member, recipe_path, output_path
                 physical_qualification=None)
 
 
+def _estimate_takeoff(store, *, takeoff_path, recipe_path, output_path):
+    from .fabrication import domestic_fabrication_takeoff_estimate
+
+    takeoff = inputs.read_json(takeoff_path)
+    if (not isinstance(takeoff, dict) or
+            takeoff.get("schema") != "osr-engineering-material-takeoff/1" or
+            not isinstance(takeoff.get("takeoff_id"), str) or
+            takeoff["takeoff_id"] != identity({key: value for key, value in takeoff.items()
+                                                if key != "takeoff_id"})):
+        raise ValueError("Exact sealed candidate-bound material takeoff required")
+    recipe = inputs.read_json(recipe_path)
+    required = {"schema", "estimate_key", "output_quantity", "output_unit", "currency",
+                "benchmark_ids", "material_lines", "labour_lines", "target_rollup"}
+    optional = {"candidate_id", "input_id", "uplift_fraction"}
+    if (not isinstance(recipe, dict) or recipe.get("schema") != "osr-domestic-fabrication-recipe/1" or
+            required - recipe.keys() or recipe.keys() - required - optional):
+        raise ValueError("Takeoff fabrication recipe schema/fields differ")
+    for key, takeoff_key in (("candidate_id", "candidate_id"), ("input_id", "source_input_id")):
+        if recipe.get(key) not in (None, takeoff.get(takeoff_key)):
+            raise ValueError("Recipe " + key + " differs from exact takeoff identity")
+    if recipe["output_unit"] != "m3":
+        raise ValueError("Current geometry takeoff costing requires a declared per-m3 recipe")
+    if not isinstance(recipe["benchmark_ids"], dict):
+        raise ValueError("Exact benchmark key-to-record mapping required")
+    selected = {}
+    for key, benchmark_id in recipe["benchmark_ids"].items():
+        benchmark = store.get(benchmark_id, "benchmark")
+        if benchmark.get("benchmark_key") != key:
+            raise ValueError("Exact benchmark key and record ID differ")
+        selected[benchmark_id] = benchmark
+    material_lines = []
+    for row in recipe["material_lines"]:
+        if not isinstance(row, dict) or row.get("benchmark_key") not in recipe["benchmark_ids"]:
+            raise ValueError("Every material line must name an exact sourced benchmark key")
+        material_lines.append(dict(row, benchmark_id=recipe["benchmark_ids"][row["benchmark_key"]]))
+    labour_lines = []
+    for row in recipe["labour_lines"]:
+        if not isinstance(row, dict) or row.get("benchmark_key") not in recipe["benchmark_ids"]:
+            raise ValueError("Every labour line must name an exact sourced benchmark key")
+        labour_lines.append(dict(row, benchmark_id=recipe["benchmark_ids"][row["benchmark_key"]]))
+    process = domestic_fabrication_takeoff_estimate(
+        estimate_key=recipe["estimate_key"], takeoff=takeoff,
+        target_rollup=recipe["target_rollup"],
+        recipe_output_quantity=recipe["output_quantity"],
+        currency=recipe["currency"], material_lines=material_lines,
+        labour_lines=labour_lines, benchmarks=selected,
+        uplift_fraction=recipe.get("uplift_fraction", "0.20"))
+
+    source_names = (
+        "engineering/sourcing/cli.py", "engineering/sourcing/fabrication.py",
+        "engineering/sourcing/takeoff.py", "engineering/sourcing/model.py",
+        "engineering/sourcing/inputs.py", "engineering/sourcing/catalogue.py",
+        "engineering/sourcing/database.py", "engineering/sourcing/requirements.py",
+        "engineering/sourcing/data/supplier-catalogue.json",
+        "engineering/sourcing/data/public-feeds.json",
+        "engineering/station_rail/common.py",
+    )
+    source_hashes = {name: inputs.digest(ROOT / name) for name in source_names}
+    source_hashes["takeoff_file"] = inputs.digest(takeoff_path)
+    source_hashes["recipe_file"] = inputs.digest(recipe_path)
+    payload = dict(schema="osr-domestic-fabrication-takeoff-estimate/1",
+                   candidate_id=takeoff["candidate_id"],
+                   source_input_id=takeoff["source_input_id"],
+                   takeoff_id=takeoff["takeoff_id"],
+                   recipe_id=identity(recipe), source_sha256=source_hashes,
+                   estimate=process, candidate_takeoff_mapped=True,
+                   complete_procurement_cost=None, complete_installed_cost=None,
+                   whole_life_cost=None, physical_qualification=None,
+                   engineering_accepted=False, procurement_approved=False,
+                   selected_reference_changed=False, unknown_is_zero=False)
+    payload["estimate_packet_id"] = identity(payload)
+    path = Path(output_path).expanduser().resolve()
+    if path.exists() or path.is_symlink():
+        raise ValueError("Fresh takeoff estimate output path required")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("x", encoding="utf-8") as stream:
+        stream.write(encoded(payload).decode("utf-8") + "\n")
+    store.put(process)
+    return dict(output=str(path), estimate_packet_id=payload["estimate_packet_id"],
+                process_record_id=process["record_id"], candidate_id=payload["candidate_id"],
+                takeoff_id=payload["takeoff_id"], currency=process["currency"],
+                estimated_total=process["estimated_total"],
+                estimated_unit_cost=process["estimated_unit_cost"],
+                mapped_group_count=process["candidate_takeoff_group_count"],
+                mapped_occurrence_count=process["candidate_takeoff_occurrence_count"],
+                candidate_takeoff_mapped=True, complete_installed_cost=None,
+                physical_qualification=None)
+
+
 def _material_takeoff(*, input_path, member, as_of, output_path):
     from .takeoff import material_takeoff
 
@@ -439,13 +535,18 @@ def main(argv=None):
             return 0
 
         if args.command == "estimate":
-            if args.estimate_command != "fabrication":
-                parser.error("unsupported sourcing estimate")
             if not database.is_file():
                 raise ValueError("Initialize and seed the sourcing database before estimating")
             with Store(database) as store:
-                _emit(_estimate_fabrication(store, input_path=args.input,
-                    member=args.member, recipe_path=args.recipe, output_path=args.output))
+                if args.estimate_command == "fabrication":
+                    result = _estimate_fabrication(store, input_path=args.input,
+                        member=args.member, recipe_path=args.recipe, output_path=args.output)
+                elif args.estimate_command == "takeoff":
+                    result = _estimate_takeoff(store, takeoff_path=args.takeoff,
+                        recipe_path=args.recipe, output_path=args.output)
+                else:
+                    parser.error("unsupported sourcing estimate")
+                _emit(result)
             return 0
 
         if args.command == "init":

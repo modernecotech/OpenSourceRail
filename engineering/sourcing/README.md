@@ -54,7 +54,7 @@ Order MOQ/multiples, taxes, shipping, delivery terms, part origin and installati
 
 ## Domestic fabrication cost screen
 
-`fabrication.domestic_fabrication_estimate` and `./osr source estimate fabrication` calculate an explicit recipe from exact source-linked material and wage benchmarks. The formula is:
+`fabrication.domestic_fabrication_estimate` and `./osr source estimate fabrication` calculate an explicit recipe from exact source-linked material and wage benchmarks. `fabrication.domestic_fabrication_takeoff_estimate` and `./osr source estimate takeoff` can scale that recipe onto one exact, fully quantified material-takeoff roll-up while retaining its manufacturing-group and engineering-occurrence IDs. The formula is:
 
 ```text
 estimate = (material quantity × material benchmark rate
@@ -63,7 +63,7 @@ estimate = (material quantity × material benchmark rate
 
 The uplift is set to 20% in the Iraq reference examples. It is a planning allowance on direct material plus direct labour; the database does not assign it to overhead, profit, contingency or tax. Material and labour quantities must be declared. Units and currency must match the selected benchmarks; this screen does not silently convert currencies or assume unknown quantities are zero. The output retains the digital-twin candidate and input identities, exact benchmark/source IDs, line extensions and excluded cost categories. A unit-rate screen remains separate from candidate takeoff, complete process cost and installed cost.
 
-The example recipes in `docs/design-engine/sourcing/domestic-fabrication/recipes/` estimate one tonne of reinforcing steel input through an illustrative cut/bend route using the September 2026 Iraqi-origin CSO rebar benchmark and the 2025 Baghdad skilled-worker average wage. Labour hours are explicitly varied at 4/8/16 hours per input tonne because measured local cycle times were unavailable. Each recipe is bound to the exact federated railway source input for traceability, but none is mapped to a railway occurrence. These are budget sensitivity screens, not supplier or factory quotations.
+The example recipes in `docs/design-engine/sourcing/domestic-fabrication/recipes/` estimate one tonne of reinforcing steel input through an illustrative cut/bend route using the September 2026 Iraqi-origin CSO rebar benchmark and the 2025 Baghdad skilled-worker average wage. Labour hours are explicitly varied at 4/8/16 hours per input tonne because measured local cycle times were unavailable. These are generic unit-rate screens and are not mapped to a railway occurrence. The separate concrete takeoff recipes apply their declared batch assumptions to the exact modeled concrete-volume roll-up and preserve all mapped group and occurrence IDs. They still do not represent a designed mix, purchased order, finished beam or complete installed cost.
 
 ```bash
 ./osr source seed
@@ -71,6 +71,11 @@ The example recipes in `docs/design-engine/sourcing/domestic-fabrication/recipes
   --input docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-sources-final/input.json.gz \
   --recipe docs/design-engine/sourcing/domestic-fabrication/recipes/rebar-cut-bend-08h.json \
   --output /tmp/osr-rebar-fabrication-estimate.json
+
+./osr source estimate takeoff \
+  --takeoff docs/design-engine/sourcing/material-takeoff/federated-v06-stock-takeoff.json.gz \
+  --recipe docs/design-engine/sourcing/domestic-fabrication/takeoff-recipes/concrete-04h-per-m3.json \
+  --output /tmp/osr-concrete-takeoff-estimate.json
 ```
 
 The Iraqi input library includes CSO construction-material prices and governorate wages, an Iraqi state producer's aluminium price page, and domestic steel/precast manufacturer leads. Missing design-grade specifications, supplier availability, current binding quotes, production yields, employer-loaded labour, tooling, QA, utilities, transport and installation remain explicit gaps. Local supplier pages document capability leads only; they do not authorize or select products.

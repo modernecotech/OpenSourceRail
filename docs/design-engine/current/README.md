@@ -56,7 +56,9 @@ The current selected physical candidate is `756a68870162f7559b052b05c9b201728c9f
 | Material takeoff `9c7d0942c9de` | 2,269 groups retain 27,216 located occurrences; 4,773 unlocated accounts stay separate | 4,780.58 t gross located stock and 1,804.81 m³ nominal concrete geometry are not installed mass or purchase quantities |
 | Generic concrete fabrication screen | 3 material/labour recipes, 2–8 skilled person-hours per nominal m³ | IQD 113,580–181,080/m³ with a 20% allowance; not a structural mix or guideway-beam price |
 
-The material takeoff does not declare labour hours for its 2,269 manufacturing groups. The generic concrete rate is not applied to the candidate concrete geometry. No completed domestic fabrication rate, supplier price or installed railway cost is established.
+| Illustrative concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD 205.0–326.8 million for gross modeled concrete volume; not a mix design, precast beam price or installed cost |
+
+This estimate maps the illustrative concrete batch recipe to the research candidate’s modeled nominal volume and preserves every group and occurrence identity. Its material mix and labour hours remain assumptions, not measured process data. It does not establish a guideway beam, a supplier match, a complete installed mass or cost, or a cost for the selected reference candidate.
 
 The reference dossier's 900 m shared winding and the separate five-bank research layout (100 m active motor length) remain distinct propulsion configurations. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.
 
