@@ -9,6 +9,7 @@ from decimal import Decimal, InvalidOperation
 import hashlib
 import json
 import re
+from urllib.parse import urlsplit, parse_qsl
 
 SCHEMA = "osr-sourcing-record/1"
 FLAGS = dict(engineering_accepted=False, engineering_approved=False,
@@ -58,7 +59,12 @@ def decimal(value, name="quantity", *, positive=False, nonnegative=True):
 
 def decimal_text(value, name="quantity", **kwargs):
     number = decimal(value, name, **kwargs)
-    return format(number.normalize(), "f")
+    if len(number.as_tuple().digits) > 10000 or abs(number.as_tuple().exponent) > 10000:
+        raise ValueError("Decimal observation exceeds explicit storage budget")
+    if number.is_zero():
+        return "0"
+    result = format(number, "f")
+    return result.rstrip("0").rstrip(".") if "." in result else result
 
 
 def day(value, name="date"):
@@ -92,8 +98,12 @@ def _validate_body(value):
     if kind == "source":
         for key in ("publisher", "url", "retrieved_at", "access"):
             text(value.get(key), key)
-        if not value["url"].startswith("https://"):
+        parsed = urlsplit(value["url"])
+        if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password or len(value["url"]) > 4096:
             raise ValueError("Explicit HTTPS source URL required")
+        if any(key.lower() in {"token", "access_token", "refresh_token", "api_key", "apikey", "client_secret", "password", "authorization"}
+               for key, unused in parse_qsl(parsed.query)):
+            raise ValueError("Source URLs must not contain credentials")
         if value.get("source_kind") not in SOURCE_KINDS:
             raise ValueError("Explicit source category required")
         when = value["retrieved_at"]

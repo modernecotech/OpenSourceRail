@@ -451,6 +451,9 @@
         "supplier.wabtec-esp4c-html",
         "supplier.wabtec-esp4c-pdf"
       ],
+      "specification_conflicts": [
+        "Maximum doorway width differs between manufacturer webpage and PDF; confirm the configured mechanism"
+      ],
       "specifications": {
         "compatibility": "pending",
         "country_of_origin": null,
@@ -467,14 +470,15 @@
         "installed_assembly_complete": false,
         "limitations": [
           "Partial mechanism mass only; leaves/glazing/seals/control/support/fixings excluded.",
-          "Website double-width range1200\u20131800mm conflicts with PDF1200\u20132000mm; supplier confirmation needed.",
+          "Website double-width range1200–1800mm conflicts with PDF1200–2000mm; supplier confirmation needed.",
           "Price/electrical duty/installed envelope unknown; RFQ required."
         ],
         "mass_kg": {
           "conditions": {
             "double_door_clear_width_mm": "1300"
           },
-          "scope": "mechanism-and-hanger-only",
+          "scope": "door-mechanism",
+          "scope_detail": "mechanism-and-hanger-only",
           "unit": "kg",
           "value": "46"
         },
@@ -600,7 +604,8 @@
           "Common family drawing requires confirmation for exact order configuration."
         ],
         "mass_kg": {
-          "scope": "factory-HVAC-unit-only",
+          "scope": "HVAC-unit",
+          "scope_detail": "factory-HVAC-unit-only",
           "unit": "kg",
           "value": "560"
         },
@@ -679,7 +684,8 @@
           "Common family drawing requires confirmation for exact order configuration."
         ],
         "mass_kg": {
-          "scope": "factory-HVAC-unit-only",
+          "scope": "HVAC-unit",
+          "scope_detail": "factory-HVAC-unit-only",
           "unit": "kg",
           "value": "580"
         },
@@ -758,7 +764,8 @@
           "Common family drawing requires confirmation for exact order configuration."
         ],
         "mass_kg": {
-          "scope": "factory-HVAC-unit-only",
+          "scope": "HVAC-unit",
+          "scope_detail": "factory-HVAC-unit-only",
           "unit": "kg",
           "value": "600"
         },
@@ -845,7 +852,8 @@
           "No public unit price verified."
         ],
         "mass_kg": {
-          "scope": "module-only",
+          "scope": "solar-module",
+          "scope_detail": "module-only",
           "tolerance_fraction": "0.03",
           "unit": "kg",
           "value": "16.3"

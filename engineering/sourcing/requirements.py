@@ -1,6 +1,7 @@
 """Typed unresolved BOM extraction; an account is never a physical occurrence."""
 from collections import defaultdict
 from copy import deepcopy
+from pathlib import PurePosixPath
 import re
 from .model import identity, is_id, record, decimal_text, validate_record
 
@@ -154,12 +155,21 @@ def extract_requirements(payload, *, candidate_id=None, namespace=None):
     raise ValueError("Unsupported typed sourcing input; provide a registry or declared BOM schema")
 
 
+def _canonical_scope(value):
+    if not isinstance(value, str) or not value or value != value.strip() or "\\" in value or ":" in value:
+        raise ValueError("Canonical relative sourcing scope required")
+    path = PurePosixPath(value)
+    if path.is_absolute() or ".." in path.parts or "." in path.parts or path.as_posix() != value:
+        raise ValueError("Noncanonical, absolute or traversing sourcing scope")
+    return value
+
+
 def validate_requirements(requirements):
     if not isinstance(requirements, list) or not requirements:
         raise ValueError("Nonempty sourcing requirements required")
     candidate = requirements[0]["candidate_id"]
     binding = tuple(requirements[0].get(key) for key in ("namespace", "input_id", "registry_id", "body_candidate_id"))
-    seen, occurrence_keys = set(), set()
+    seen, occurrence_keys, cost_scopes = set(), set(), []
     for requirement in requirements:
         validate_record(requirement, "requirement")
         if requirement["candidate_id"] != candidate or requirement["record_id"] in seen:
@@ -167,9 +177,20 @@ def validate_requirements(requirements):
         if tuple(requirement.get(key) for key in ("namespace", "input_id", "registry_id", "body_candidate_id")) != binding:
             raise ValueError("Mixed source revision or namespace; an explicit federation is required")
         seen.add(requirement["record_id"])
+        for path in requirement.get("physical_scopes") or []:
+            _canonical_scope(path)
         for occurrence in requirement["occurrence_ids"]:
+            _canonical_scope(occurrence)
             key = (requirement["namespace"], occurrence)
             if key in occurrence_keys:
                 raise ValueError("Overlapping sourcing occurrence scope")
             occurrence_keys.add(key)
+        effective = requirement["occurrence_ids"] or requirement.get("physical_scopes") or []
+        if requirement["quantity"] is not None:
+            cost_scopes.extend((requirement["namespace"] + "/" + path) for path in effective)
+    previous = None
+    for path in sorted(cost_scopes):
+        if previous is not None and (path == previous or path.startswith(previous + "/")):
+            raise ValueError("Overlapping parent/child sourcing cost scope")
+        previous = path
     return candidate

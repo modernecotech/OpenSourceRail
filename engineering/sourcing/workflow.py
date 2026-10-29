@@ -64,9 +64,12 @@ def evaluate(store, requirements, *, bindings=None, as_of, target_currency="USD"
                 max_price_age_days=max_price_age_days, authenticator=authenticator,
                 authentication_context_id=authentication_context_id)
             for price in prices:
+                scope_known = bool(_scope_paths(requirement))
                 price = _extend(price, technical_assessment_id=assessment["record_id"],
-                    technical_status=assessment["status"], usable_for_candidate_scope=assessment["status"]=="compatible" and price["status"]=="priced",
-                    listed_extension_usable_for_candidate_scope=assessment["status"]=="compatible" and price["comparable_listed_extension"] is not None)
+                    technical_status=assessment["status"], physical_charge_scope_resolved=scope_known,
+                    ledger_holds=[] if scope_known else ["unresolved-physical-charge-scope"],
+                    usable_for_candidate_scope=scope_known and assessment["status"]=="compatible" and price["status"]=="priced",
+                    listed_extension_usable_for_candidate_scope=scope_known and assessment["status"]=="compatible" and price["comparable_listed_extension"] is not None)
                 commercial.append(price)
                 if price["usable_for_candidate_scope"]:
                     by_req.setdefault(requirement["record_id"], []).append(price)

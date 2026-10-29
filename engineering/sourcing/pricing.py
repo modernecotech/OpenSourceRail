@@ -16,10 +16,18 @@ def convert_quantity(quantity, source_unit, target_unit, product=None):
     if source_unit in _UNITS and target_unit in _UNITS and _UNITS[source_unit][0] == _UNITS[target_unit][0]:
         return value * _UNITS[source_unit][1] / _UNITS[target_unit][1]
     if {source_unit, target_unit} == {"m", "m2"}:
-        fact = (product or {}).get("specifications", {}).get("width_m")
-        if not isinstance(fact, dict) or fact.get("unit") != "m" or fact.get("scope") not in ("fabric-roll", "roll-width", "sheet-width"):
-            raise ValueError("Area/linear price conversion requires an explicit applicable roll width")
-        width = decimal(fact.get("value"), "roll width", positive=True)
+        specs = (product or {}).get("specifications", {})
+        widths = []
+        for key in ("width_m", "fabric_width_m"):
+            if key not in specs:
+                continue
+            fact = specs[key]
+            if not isinstance(fact, dict) or fact.get("unit") != "m" or fact.get("scope") not in ("fabric-roll", "roll-width", "sheet-width", "dry-fabric-sale-width"):
+                raise ValueError("Area/linear price conversion requires an explicit applicable roll width")
+            widths.append(decimal(fact.get("value"), "roll width", positive=True))
+        if not widths or len(set(widths)) != 1:
+            raise ValueError("Missing or conflicting applicable fabric roll width")
+        width = widths[0]
         return value / width if source_unit == "m2" else value * width
     raise ValueError("Incompatible commercial quantity units")
 

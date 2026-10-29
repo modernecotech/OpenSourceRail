@@ -140,6 +140,8 @@ class Store:
                             "factory_catalogue", "engineering_estimate"
                         }:
                             raise ValueError("Commodity/tender benchmarks cannot become supplier product offers")
+                        if value["kind"] == "offer" and expected_kind == "source" and value["source_class"] == "A" and parent["source_kind"] != "supplier_quotation":
+                            raise ValueError("A public catalogue cannot self-promote to an actual quotation")
                     old = self.connection.execute("SELECT payload FROM records WHERE record_id=?", (key,)).fetchone()
                     if old is not None and old[0] != raw:
                         raise ValueError("Stored immutable observation differs")

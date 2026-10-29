@@ -36,7 +36,8 @@ def test_actual_catalogue_scopes_prices_and_half_open_breaks():
     assert products['EC-GF-BA-440-127']['specifications']['fabric_width_m']['value']=='1.27'
     assert products['EC-VP-EC20-1']['specifications']['mass_kg']['value'] is None
     assert products['EC-VP-EC20-1']['specifications']['shipping_gross_mass_kg']['scope']=='shipping-gross'
-    assert products['WABTEC-ESP4C-1300']['specifications']['mass_kg']['scope']=='mechanism-and-hanger-only'
+    assert products['WABTEC-ESP4C-1300']['specifications']['mass_kg']['scope']=='door-mechanism'
+    assert products['WABTEC-ESP4C-1300']['specifications']['mass_kg']['scope_detail']=='mechanism-and-hanger-only'
     assert products['THERMOKING-LRV8T']['specifications']['hot_55C_performance'] is None
     assert products['LONGI-LR7-60HVHL-560M']['supply_scope']=='solar-module'
     for value in values:

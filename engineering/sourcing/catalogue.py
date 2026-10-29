@@ -9,7 +9,7 @@ from copy import deepcopy
 import json
 from pathlib import Path
 
-from .model import encoded, record, text, validate_record
+from .model import encoded, record, text, validate_record, is_id
 
 DATA = Path(__file__).resolve().parent / "data"
 DEFAULT_PATHS = (DATA / "supplier-catalogue.json", DATA / "public-feeds.json")
@@ -73,8 +73,12 @@ def load_catalogue(paths=None):
         seed = json.loads(path.read_text(), parse_float=str)
         if not isinstance(seed, dict) or seed.get("schema") != "osr-sourcing-seed/1":
             raise ValueError("Catalogue seed schema differs")
-        if set(seed) - {"schema", "sources", *GROUPS}:
+        if set(seed) - {"schema", "sources", "notes", "research_package_id", *GROUPS}:
             raise ValueError("Unknown catalogue seed collection")
+        if "notes" in seed and (not isinstance(seed["notes"], list) or any(not isinstance(note, str) for note in seed["notes"])):
+            raise ValueError("Seed notes must be explicit provenance text")
+        if "research_package_id" in seed and not is_id(seed["research_package_id"]):
+            raise ValueError("Exact research package identity required")
         if not isinstance(seed.get("sources"), dict):
             raise ValueError("Explicit source alias mapping required")
         seeds.append(seed)
@@ -94,7 +98,10 @@ def load_catalogue(paths=None):
             text(alias, "source alias")
             if not isinstance(fields, dict) or "source_key" in fields:
                 raise ValueError("Source alias body differs")
-            value = record("source", source_key=alias, **_fields(fields))
+            body = _fields(fields)
+            if "notes" in seed or "research_package_id" in seed:
+                body["seed_provenance"] = {key: deepcopy(seed[key]) for key in ("notes", "research_package_id") if key in seed}
+            value = record("source", source_key=alias, **body)
             if alias in sources and value != sources[alias]:
                 raise ValueError("Conflicting source alias: " + alias)
             sources[alias] = value
