@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **960**.
+Indexed Markdown files: **961**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **960**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 119 |
+| [docs](#docs) | 120 |
 | [engineering](#engineering) | 26 |
 | [tools](#tools) | 2 |
 
@@ -1001,6 +1001,7 @@ Indexed Markdown files: **960**.
 | [`docs/open-source-rail-overview.md`](../docs/open-source-rail-overview.md) | OpenSourceRail: open railway design and delivery |
 | [`docs/releases/v0.5.1.md`](../docs/releases/v0.5.1.md) | OpenSourceRail v0.5.1 |
 | [`docs/releases/v0.5.2.md`](../docs/releases/v0.5.2.md) | OpenSourceRail v0.5.2 development |
+| [`docs/releases/v0.6-functionality-reconciliation.md`](../docs/releases/v0.6-functionality-reconciliation.md) | v0.6 functionality reconciliation against v0.4 and v0.5 |
 
 ## engineering
 
@@ -1030,7 +1031,7 @@ Indexed Markdown files: **960**.
 | [`engineering/sourced_redesign/README.md`](../engineering/sourced_redesign/README.md) | Physical revisions diagnosed from actual evaluations |
 | [`engineering/sourcing/README.md`](../engineering/sourcing/README.md) | Sourcing, materials and cost intelligence |
 | [`engineering/station_rail/README.md`](../engineering/station_rail/README.md) | v0.6 station-powered freewheeling rail |
-| [`engineering/trip_dynamics/README.md`](../engineering/trip_dynamics/README.md) | Six-car trip dynamics |
+| [`engineering/trip_dynamics/README.md`](../engineering/trip_dynamics/README.md) | Retained six-car magnetic trip research |
 | [`engineering/trip_dynamics/fixtures/structures/README.md`](../engineering/trip_dynamics/fixtures/structures/README.md) | Structural exchange fixtures |
 
 ## tools

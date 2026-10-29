@@ -64,7 +64,7 @@ function render(){
    const title=document.createElementNS(svgNS,'title');title.textContent=String(f.id||f.properties?.id||layer.name);e.append(title);svg.append(e);
   }
  }
- $('issues').replaceChildren();for(const l of plan.lines){if(l.headway_s<l.planning_minimum_headway_s){const li=document.createElement('li');li.textContent=l.id+': headway below current planning/protection basis';$('issues').append(li);}for(let i=1;i<l.stops.length;i++)if(l.stops[i].chainage_m-l.stops[i-1].chainage_m<1500){const li=document.createElement('li');li.textContent=l.id+': spacing below1500m; transfer/access reassessment required';$('issues').append(li);}}
+ $('issues').replaceChildren();for(const l of plan.lines){if(l.headway_s<l.planning_minimum_headway_s){const li=document.createElement('li');li.textContent=l.id+': below the retained packet’s earlier planning screen; not a v0.6 protection result';$('issues').append(li);}for(let i=1;i<l.stops.length;i++)if(l.stops[i].chainage_m-l.stops[i-1].chainage_m<1500){const li=document.createElement('li');li.textContent=l.id+': below the retained packet’s earlier 1,500 m comparison; access and transfer review required';$('issues').append(li);}}
  $('export').disabled=edits.length===0;$('reset').disabled=edits.length===0;
 }
 async function loadCity(){
@@ -74,11 +74,11 @@ async function loadCity(){
  try{
   const row=index.cities.find(c=>c.city===$('city').value),p=await json(row.plan),g=await json(row.layers);if(current!==epoch)return;
   if(p.city!==row.city||g.city!==p.city||g.revision_sha256!==p.revision_sha256||p.physical_release!==false||g.physical_release!==false)throw Error('Incompatible planning identities');
-  original=p;plan=structuredClone(p);layers=g;edits=[];$('revision').textContent=`Base ${p.revision_sha256}; proposals remain local until compiled.`;
+  original=p;plan=structuredClone(p);layers=g;edits=[];$('revision').textContent=`Retained planning base ${p.revision_sha256}; v0.5 geography/service inputs, proposals remain local until compiled.`;
   $('line').replaceChildren();for(const l of p.lines)option($('line'),l.id,l.id);setStops();$('layers').replaceChildren();
   for(const l of layers.layers){const label=document.createElement('label'),input=document.createElement('input');input.type='checkbox';input.dataset.layer=l.id;input.disabled=!l.available;input.checked=['alignments','operating-stops','transfers','revision-changes'].includes(l.id)&&l.available;input.addEventListener('change',render);label.append(input,document.createTextNode(` ${l.name} (${l.features.length}${l.display_sampling?', sampled':''}${!l.available?', unavailable':''})`));$('layers').append(label);}
   for(const id of ['line','stop','move','service','straighten','set-od','import'])$(id).disabled=false;
-  $('map-caption').textContent=`${p.city}: ${layers.layers.length} declared layers; original source and new proposal remain distinct.`;$('od').value=JSON.stringify(plan.od,null,2);editStatus('No local changes.');render();status('Planning revision and GIS bytes verified.');
+  $('map-caption').textContent=`${p.city}: ${layers.layers.length} declared layers; retained source geography and new proposal remain distinct.`;$('od').value=JSON.stringify(plan.od,null,2);editStatus('No local changes.');render();status('Retained planning revision and GIS bytes verified.');
  }catch(e){if(current===epoch)status('Planning held: '+e.message,true);}
 }
 $('line').addEventListener('change',()=>{setStops();render();});$('stop').addEventListener('change',setStop);$('city').addEventListener('change',loadCity);

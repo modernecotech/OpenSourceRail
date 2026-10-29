@@ -1,8 +1,8 @@
-# Six-car trip dynamics
+# Retained six-car magnetic trip research
 
 OpenSourceRail aims for simple construction, low whole-life cost and high passenger throughput. Trains carry all permanent magnets, support/guidance coils and passenger services; ordinary concrete guidebeams carry passive steel facings. Stations provide launch and receiving propulsion. This programme connects those interfaces while preserving GFRP, aluminium-extrusion and named neodymium alternatives as separate physical candidates.
 
-The first campaign keeps six 17 m cars, 120 normal passengers per car and the 14,400 passengers/hour/direction comparison at 180-second headway. It declares straight 1.5 km and 2 km legs, two 350 m station zones, a 20 m/s speed target and 0.8 m/s² nominal acceleration. Those targets do not establish available magnetic force or electrical power.
+This is a retained magnetic-train research configuration. It keeps six 17 m cars, 120 normal passengers per car and the 14,400 passengers/hour/direction comparison at 180-second headway. It declares straight 1.5 km and 2 km legs, two 350 m station zones, a 20 m/s speed target and 0.8 m/s² nominal acceleration. These identities and targets are separate from the selected v0.6 wheel-supported, station-LIM reference (46 passenger places per car and a 120-second service target). No magnetic propulsion, capacity, mass, force or journey result transfers between them.
 
 There are three distinct activities:
 
@@ -14,7 +14,7 @@ The historical 9.49 t native-material subtotal, canonical 25.619/37.619 t empty/
 
 ## Run and verify
 
-`./osr trip` shows the published packet and private solver status. `./osr workbench` opens the local Workbench; choose **Trip simulations and research tools** to compare the retained vehicle, magnet and equipment options, submit a selected case, inspect logs/results and cancel an owned job. The page also exposes the digital task plan, numerical fixtures and bounded JSON magnetic/modal imports. Imported data is checked numerically without reading client-supplied file paths or granting physical acceptance.
+`./osr trip` shows the published packet and private solver status. `./osr workbench` serves the v0.6 read-only Workbench and the retained Trip Workbench at `http://127.0.0.1:8090/docs/workbench/trip/`. The Trip page connects to a loopback-only, bounded job service for its own source-bound research cases. It can compare retained vehicle, magnet and equipment options, submit an explicit case, inspect logs/results and cancel an owned job. It also exposes the task plan, numerical fixtures and bounded JSON magnetic/modal imports. Imported data is checked numerically without following client-supplied file paths or granting physical acceptance. These jobs do not evaluate the selected v0.6 wheel/LIM train.
 
 ```bash
 ./osr trip catalogue
@@ -30,7 +30,7 @@ Choose a fresh output directory for each CLI experiment. Browser jobs receive pr
 
 The magnetic research actions use separate, source-bound candidates. The [EPM screen](../electropermanent/README.md) counts pulse and magnetic stock and evaluates necessary electrical/load-line conditions; missing hysteresis, retained-force and hardware data remain open. [Finite Halbach confirmation](../magnetic_confirmation/README.md) uses nonlinear PM-source continuation with mesh, domain and air-contour comparisons at one zero-current operating point. These outputs cannot replace the complete magnetic maps, equipped body or fast control required by the journey preflight. Published reports are available through the Workbench's bounded public-research API links.
 
-Opening the Workbench checks source and payload integrity without repeating every engineering calculation. Status reports distinguish those checks from numerical reproduction. `tools/automation/osr-python tools/automation/maglev-workbench.py --verify-full` retains the full existing startup verification; trip packet verification is also an explicit action on the page.
+The current-design Workbench remains read-only; POST requests are accepted only on the separate `/api/trip/*` research routes and are subject to loopback/origin checks, bounded requests, worker limits, deadlines and retained logs. Opening the Workbench checks source and payload integrity without repeating every engineering calculation. Status reports distinguish those checks from numerical reproduction. `tools/automation/osr-python tools/automation/maglev-workbench.py --verify-full` retains the full existing startup verification; trip packet verification is also an explicit action on the page.
 
 Use the existing engineering environment, or install `requirements.txt` in a separate virtual environment. PyChrono must be the **Project Chrono conda package**; the similarly named PyPI package is unrelated. The separately retained Linux runtime lock pins the actual executed conda packages. Do not install its dependencies over the main engineering environment.
 

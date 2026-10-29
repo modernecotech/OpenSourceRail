@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OpenSourceRail owner/builder planning</title><link rel="stylesheet" href="../maglev/app.css"><link rel="stylesheet" href="planning.css"></head>
-<body><header><p class="eyebrow">OpenSourceRail · owner / builder / operator</p><h1>Plan, revise and deliver</h1>
-<p>Inspect retained geography, propose station and service changes, and export a revision for delivery, procurement and field coordination. Planning proposals require engineering reassessment.</p>
-<nav><a href="../maglev/">Engineering Workbench</a><a href="../../design-engine/ferrite-maglev/planning-platform/README.md">Planning and delivery evidence</a><a href="../../design-engine/ferrite-maglev/system-detailed/README.md">Detailed system</a></nav></header>
+<title>OpenSourceRail city planning proposal</title><link rel="stylesheet" href="../maglev/app.css"><link rel="stylesheet" href="planning.css"></head>
+<body><header><p class="eyebrow">OpenSourceRail · owner / builder / operator</p><h1>Plan, revise and hand off</h1>
+<p>Inspect retained city geography, propose station and service changes, and export a source-bound revision for review against the selected v0.6 train. Map and initial service values come from retained v0.5 planning packets; they are not v0.6 route or operating results.</p>
+<nav><a href="../current/">v0.6 Engineering Workbench</a><a href="../../design-engine/current/README.md">Selected v0.6 candidate</a><a href="../../releases/v0.6-functionality-reconciliation.md">v0.4/v0.5 functionality reconciliation</a></nav></header>
 <main><p class="notice">Provisional planning. No construction release, purchasing authority, movement authority or physical handback.</p>
 <p id="status" role="status">Loading source-bound planning data…</p>
 <section><h2>City and revision</h2><label for="city">City</label><select id="city" disabled></select><p id="revision"></p>
@@ -13,13 +13,13 @@
 <label>Chainage, metres<input id="chainage" type="number" step="0.001" min="0"></label><button id="move" disabled>Propose stop position</button>
 <label>Headway, seconds<input id="headway" type="number" min="10" max="86400"></label><label>Dwell, seconds<input id="dwell" type="number" min="10" max="3600" value="60"></label>
 <button id="service" disabled>Propose service</button><button id="straighten" disabled>Investigate straight end-to-end line</button></div>
-<p>Junction changes require new transfer/access checks. A requested headway below the current protection basis remains a hold. Straightening redraws the proposed alignment and stations; land, utilities, crossings and passenger access must be recalculated.</p>
+<p>Headway, dwell, stop spacing and junctions are proposal inputs only. They do not establish v0.6 capacity, protected headway, access or operating feasibility. Straightening redraws the proposed alignment and stations; land, utilities, crossings and passenger access must be recalculated.</p>
 <details><summary>Origin–destination revision</summary><p>JSON rows use origin and destination stop IDs, trips_per_day and basis (synthetic or observed-unaccepted). Observations need provenance and independent review.</p><textarea id="od" rows="7" aria-label="OD revision JSON">[]</textarea><button id="set-od" disabled>Propose OD rows</button></details>
 <ul id="issues"></ul><p id="edit-status" role="status"></p>
 <label>Planning author<input id="author" maxlength="150" value="local-planner"></label><button id="export" disabled>Export edit bundle</button><button id="reset" disabled>Discard local proposal</button>
 <label>Import edit bundle<input id="import" type="file" accept="application/json,.json"></label>
-<p>Exported edits bind the exact base revision. The compiler rejects stale bases and conflicting station order. Use <code>./osr plan compile edits.json --output build/my-plan</code> to produce an immutable revision, resource/procurement schedule and monthly planned cash.</p></section>
+<p>Exported edits bind the exact base revision. Copy the downloaded bundle into the repository; the compiler rejects stale bases and conflicting station order. Use <code>./osr plan compile edits.json --output build/my-plan</code>, then <code>./osr plan verify build/my-plan</code>, to produce and verify an immutable, selected-candidate-bound planning handoff. It contains no v0.6 route-performance result, procurement quantity, price, construction schedule or release evidence.</p></section>
 <section><h2>Owner, builder and operator workspaces</h2><div id="workspaces" class="cards"></div>
 <p>Native ERP and supervisory links open their own authenticated workspaces. Draft planning, actual business records, measured field observations and independent physical acceptance remain separate.</p>
-<p><a href="../../design-engine/ferrite-maglev/planning-platform/README.md">Generic project-twin adapter</a> · <a href="../../design-engine/ferrite-maglev/operations-crosscheck/README.md">Independent SUMO operations check</a> · <a href="../../design-engine/ferrite-maglev/bim-field/README.md">IFC / IDS / BCF and field federation</a></p></section></main>
+<p>Current route performance, procurement, construction and business records remain separate v0.6 work. See the <a href="../../releases/v0.6-functionality-reconciliation.md">functionality reconciliation</a> for the restored handoff and remaining disconnected workflows.</p></section></main>
 <script type="module" src="planning.js"></script></body></html>

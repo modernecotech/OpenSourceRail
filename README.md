@@ -65,6 +65,8 @@ A separate [practical launch comparison](docs/design-engine/practical-launch/REA
 
 **The active propulsion direction is [passive bogies with short wayside accelerators](docs/design-engine/station-accelerators/README.md): no onboard traction motors or traction store.** All traction equipment stays near stations and their launch approaches; an optional energy buffer would also be wayside. Five aligned 20 m banks are the lead geometric experiment, with shorter-bank alternatives retained. Available thrust, safe stopping, recovery and installed price remain open.
 
+The dossier's **900 m winding allocation per station and direction** and the research geometry's **five 20 m banks (100 m active length)** are separate propulsion configurations. Each needs its own force map, electrical/thermal duty, plant and civil quantities, procurement BOM and installed cost; their lengths and results are not combined.
+
 The earlier [powered-bogie and supercapacitor study](docs/design-engine/propulsion-layout/README.md) remains a secondary research comparison. It does not add powered bogies or a traction capacitor bank to the active vehicle proposal.
 
 The [end-to-end digital twin generator and validator](docs/design-engine/digital-twin/README.md), available through `./osr-twin`, carries the short-bank configuration through a federated train/infrastructure inventory, actual stock geometry, BOM, mass, propulsion requirements, journey/braking calculations, civil quantities, manufacturing, construction, controls and cost coverage. Semantic replay and actual native geometry reopening distinguish a consistent research package from a complete physical design; strict completion fails until its engineering and evidence obligations are closed. [Executed validation](docs/design-engine/digital-twin/validation.md) records six family/distance packages and one actual native federation. The [current engineering closure](docs/design-engine/engineering-closure/README.md), through `./osr-complete`, adds authenticated evidence ingestion, installed-equipment/structure/brake/site/cost evaluators, actual 20 m field/circuit experiments and complete candidate propagation for winding revisions. Recorded calculations remain separate from physical acceptance. The [sourced reference-cell generator](docs/design-engine/reference-cell/README.md), `./osr-cell`, adds a component/material master, five fully categorised equipped proposals, exact component-to-cell identities, coupled electrothermal/fault interfaces, civil production quantities, bounded manufacturing/lifecycle cost models and five Workbench views. These are physically testable research definitions; supplier internals, structural qualification, usable motor maps, actual prices and physical acceptance remain open.
@@ -158,7 +160,9 @@ All **266 retained city geographies** remain available as starting inputs, inclu
 
 Each corridor still needs its own demand, terrain, climate, geotechnical, utility, accessibility, transfer, power, rescue and procurement assessment. A common vehicle and precast family can reduce manufacturing complexity without proving that every city needs the same formation or service pattern.
 
-The [planning workspace](docs/workbench/planning/index.html) retains local geographic/service editing and proposal exports over historical planning packets. Its older compile action is not connected to v0.6; the current CLI holds it rather than publishing an unevaluated railway. Its historical engineering link also points to the maglev UI. Planning revisions and timetable/resource calculations are not an interlocking or live movement authority. The current CLI and Workbench show city geography and the explicit evaluation hold.
+The [planning workspace](docs/workbench/planning/index.html) retains local geographic/service editing over historical v0.5 planning packets. `./osr plan compile edits.json --output build/my-plan` now creates an immutable handoff bound to the selected v0.6 candidate; verify it with `./osr plan verify build/my-plan`. It carries route, stop, service and OD proposals only; it excludes historical vehicle, propulsion, fleet, civil quantity, cost, performance and cashflow results. v0.6 route performance, procurement groups, construction schedules and full city costs remain held until their candidate-specific evidence exists. Planning revisions do not grant movement authority. See the [v0.4/v0.5 functionality reconciliation](docs/releases/v0.6-functionality-reconciliation.md) for retained, restored, replaced and still-disconnected workflows.
+
+The [retained Trip Workbench](docs/workbench/trip/index.html) is connected again to its bounded local research service through `./osr workbench`; open `/docs/workbench/trip/` on the local Workbench. It supports its retained magnetic research cases, fixtures, imports, logs and job cancellation. The six-car 120-passenger/180-second comparison remains a separate candidate and gives no performance credit to the selected v0.6 wheel/LIM train.
 
 ## Run and reproduce
 
@@ -167,6 +171,8 @@ The [planning workspace](docs/workbench/planning/index.html) retains local geogr
 ./osr status
 ./osr readiness
 ./osr workbench
+./osr trip status
+./osr plan --help
 ./osr design railway plan
 ./osr design railway run --max-bundles 2 --native-jobs 1
 ./osr design railway publish

@@ -180,6 +180,17 @@ def main(argv=None, root=ROOT):
     args = parser.parse_args(argv)
     root = args.root.resolve()
     command, rest = args.command, args.arguments
+    if command in ('design', 'infrastructure') and rest in (['-h'], ['--help'], ['help']):
+        print('Usage: ./osr design COMMAND [arguments]\n\n'
+              '  status, build, verify     Selected v0.6 reference packet\n'
+              '  railway plan/run/...      Coordinated whole-railway research\n'
+              '  adaptive, architecture    Function-first and architecture studies\n'
+              '  generative, space         Structural grammar and design space\n'
+              '  campaign                  Bounded candidate campaign lifecycle\n'
+              '  sourced                   Source-backed component alternatives\n'
+              '  progress                  Continuing reference-cell analysis\n'
+              'Use ./osr design railway --help or ./osr plan --help for details.')
+        return 0
     # design/infrastructure are aliases, including their own status default.
     if command in ('design', 'infrastructure'):
         command, rest = (rest[0], rest[1:]) if rest else ('status', [])
@@ -188,6 +199,11 @@ def main(argv=None, root=ROOT):
             from engineering.railway_progress.cli import main as progress_main
             return progress_main(rest,root=root)
         if command=='railway':
+            if rest in (['-h'], ['--help'], ['help']):
+                print('Usage: ./osr design railway COMMAND [arguments]\n\n'
+                      '  plan, run [--max-bundles N] [--native-jobs N], publish, verify\n'
+                      '  demonstration-plan, demonstrate [--max-bundles N], demonstration-publish, demonstration-verify')
+                return 0
             from engineering.design_search import railway_campaign,railway_publication,remit
             if rest and rest[0] in ('demonstration-plan','demonstrate','demonstration-publish','demonstration-verify'):
                 from engineering.design_search import demonstration
@@ -293,6 +309,46 @@ def main(argv=None, root=ROOT):
             raise ValueError('Use campaign create PATH, run ID [--max-jobs N], compare ID or publish ID')
         if command == 'legacy':
             return _module('legacy').main(rest, root=root)
+        if command in ('plan', 'planning'):
+            if not rest or rest in (['-h'], ['--help'], ['help']):
+                print('Usage: ./osr plan COMMAND [arguments]\n\n'
+                      '  compile EDITS.json --output DIR  Bind a GIS proposal to the selected v0.6 candidate\n'
+                      '  verify DIR                       Verify handoff sources and identities\n'
+                      '  serve [--port PORT]              Serve the local planning workspace\n\n'
+                      'The handoff contains geography and unaccepted service proposals only. It does not\n'
+                      'create v0.6 performance, procurement quantities, costs, or release evidence.')
+                return 0
+            action = rest[0]
+            if action in ('-h', '--help', 'help'):
+                return main(['plan', *rest[1:]], root=root)
+            if action == 'compile':
+                options = argparse.ArgumentParser(prog='./osr plan compile', description='Create a v0.6-bound planning handoff without importing historical train or cost results.')
+                options.add_argument('bundle', type=Path, help='Planning edit bundle exported from the GIS workspace')
+                options.add_argument('--output', type=Path, required=True, help='New repository-relative output directory')
+                parsed = options.parse_args(rest[1:])
+                bundle_path = checked_path(root, parsed.bundle)
+                output_path = checked_path(root, parsed.output)
+                from . import planning
+                baseline = selected(root)
+                current_summary, current_manifest = read_packet(root)
+                result = planning.compile_bundle(root=root,
+                    baseline=baseline, current_summary=current_summary, current_manifest=current_manifest,
+                    bundle_path=bundle_path, output_path=output_path)
+                emit(result)
+                return 0
+            if action == 'verify':
+                options = argparse.ArgumentParser(prog='./osr plan verify', description='Verify a candidate-bound planning handoff and its source files.')
+                options.add_argument('directory', type=Path, help='Repository-relative planning handoff directory')
+                parsed = options.parse_args(rest[1:])
+                directory = checked_path(root, parsed.directory)
+                baseline = selected(root)
+                current_summary, _ = read_packet(root)
+                from . import planning
+                emit(planning.verify_handoff(directory, root=root, baseline=baseline, current_summary=current_summary))
+                return 0
+            if action in ('serve', 'open'):
+                return _module('server').main(rest[1:], root=root)
+            return hold(root, 'plan ' + ' '.join(rest), 'Use ./osr plan compile EDITS.json --output DIR or ./osr plan serve')
         if command in ('status', 'readiness'):
             if rest and rest != ['--json']:
                 return hold(root, command, 'Unsupported current status options')
@@ -363,13 +419,30 @@ def main(argv=None, root=ROOT):
                       development_default=True, manifest=manifest,
                       artifacts=artifacts, verification=verification, **FLAGS))
             return 0
-        if command in ('trip', 'twin', 'plan', 'planning'):
+        if command == 'trip':
+            from engineering.trip_dynamics.__main__ import main as trip_main
+            if not rest:
+                return trip_main(['status', '--source-root', str(root)])
+            action = rest[0]
+            if action in ('-h', '--help'):
+                return trip_main(rest)
+            if action == 'run' and len(rest) > 1 and not rest[1].startswith('-'):
+                return hold(root, 'trip ' + ' '.join(rest),
+                    'Use the explicit bounded trip research options; a positional distance is not a current v0.6 journey run')
+            supported = {'status', 'catalogue', 'cases', 'simulate', 'fixture', 'execute-job',
+                'setup-tools', 'validate-map', 'validate-modal', 'epm', 'magnetic-confirmation',
+                'run', 'verify', 'probe'}
+            if action in supported:
+                return trip_main([*rest, '--source-root', str(root)])
+            if action == 'plan':
+                return trip_main(rest)
+            return hold(root, 'trip ' + ' '.join(rest),
+                'Use ./osr trip --help for source-bound trip research actions; current v0.6 journey acceptance remains held')
+        if command == 'twin':
             action = rest[0] if rest else 'status'
             if action in ('status', 'cases', 'catalogue', 'list'):
                 emit(status(root))
                 return 0
-            if command in ('plan', 'planning') and action in ('serve', 'open'):
-                return _module('server').main(rest[1:], root=root)
             return hold(root, command + ' ' + ' '.join(rest),
                         'This current-design action has no verified candidate-bound adapter. See ./osr status for actual gates; historical methods use ./osr legacy')
         if command == 'workbench':

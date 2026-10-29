@@ -1,4 +1,4 @@
-"""Read-only, source-bound current-design Workbench and city endpoints."""
+"""Source-bound v0.6 Workbench plus bounded, separate trip-research jobs."""
 from __future__ import annotations
 
 import argparse
@@ -58,6 +58,9 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = unquote(urlsplit(self.path).path)
+        from engineering.trip_dynamics.interactive import handle_api
+        if handle_api(self):
+            return
         if path == '/':
             self.send_response(302)
             self.send_header('Location', '/' + WORKBENCH + '/')
@@ -118,6 +121,9 @@ class Handler(BaseHTTPRequestHandler):
             if not target.is_file():
                 self.hold('Current artifact missing; run ./osr build', 404)
                 return
+            served_relative = target.relative_to(self.root).as_posix()
+            if served_relative.startswith('docs/workbench/trip/'):
+                self.server.trip_service.verify_ui_asset(served_relative, target)
             # Current templates/assets are publication outputs. Validate them
             # before serving so modified scripts cannot masquerade as current.
             if relative.startswith(WORKBENCH + '/'):
@@ -131,6 +137,9 @@ class Handler(BaseHTTPRequestHandler):
             self.hold(exc)
 
     def do_POST(self):
+        from engineering.trip_dynamics.interactive import handle_api
+        if handle_api(self):
+            return
         self.hold('Current Workbench is read-only. Typed, candidate-bound job adapters are required for execution.', 405)
 
     do_PUT = do_POST
@@ -138,8 +147,31 @@ class Handler(BaseHTTPRequestHandler):
     do_DELETE = do_POST
 
 
+class WorkbenchHTTPServer(ThreadingHTTPServer):
+    def __init__(self, address, handler, *, root):
+        from engineering.trip_dynamics.interactive import TripService
+        self.root = Path(root).resolve()
+        self.trip_service = TripService(self.root)
+        try:
+            super().__init__(address, handler)
+        except BaseException:
+            try:
+                super().server_close()
+            finally:
+                self.trip_service.close()
+            raise
+
+    def server_close(self):
+        try:
+            super().server_close()
+        finally:
+            service = getattr(self, 'trip_service', None)
+            if service is not None:
+                service.close()
+
+
 def make_server(root=ROOT, host='127.0.0.1', port=8090):
-    return ThreadingHTTPServer((host, port), partial(Handler, root=root))
+    return WorkbenchHTTPServer((host, port), partial(Handler, root=root), root=root)
 
 
 def serve(root=ROOT, host='127.0.0.1', port=8090, open_browser=False):

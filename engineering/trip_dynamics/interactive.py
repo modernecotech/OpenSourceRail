@@ -114,10 +114,12 @@ def _code_snapshot():
     code = {}
     paths = [p for name in ('trip_dynamics', 'electropermanent', 'magnetic_confirmation')
              for p in (CODE_ROOT/'engineering'/name).rglob('*')]
+    paths += [CODE_ROOT/'docs/workbench/trip'/name
+              for name in ('index.html', 'app.js', 'app.css')]
     paths += [CODE_ROOT / 'engineering/design_search' / name
               for name in ('contracts.py', 'storage.py', 'registry.py')]
     suffixes = {'.py', '.json', '.toml', '.geo', '.pro', '.comm', '.mail', '.export',
-                '.lock', '.explicit', '.md', '.txt', '.sh'}
+                '.lock', '.explicit', '.md', '.txt', '.sh', '.html', '.js', '.css'}
     for path in paths:
         if '__pycache__' not in path.parts and path.is_file() and path.suffix in suffixes:
             _ordinary(path, CODE_ROOT)
@@ -411,6 +413,15 @@ class TripService:
             return _code_snapshot() != self._code_epoch
         except (OSError, ValueError):
             return True
+
+    def verify_ui_asset(self, relative, path):
+        """Serve only Trip Workbench assets present when this service started."""
+        expected = self._code_epoch.get(str(relative))
+        path = Path(path)
+        if (not expected or path.is_symlink() or not path.is_file()
+                or sha256(path.read_bytes()).hexdigest() != expected):
+            raise RequestError('Trip Workbench UI source changed; restart the server before serving it')
+        return True
 
     def status(self):
         restart = self.restart_required()

@@ -1,5 +1,19 @@
 # OpenSourceRail changelog
 
+## 0.6 development cleanup — 29 October 2026
+
+- Reconnect the retained GIS planning editor to v0.6 through an immutable,
+  source-checked handoff bound to the selected vehicle, selection and evaluation.
+  Historical city geometry and service proposals remain proposals; no maglev
+  fleet, drive, civil quantities, prices, performance or cashflow are imported.
+- Add `./osr plan verify` and repair design/planning CLI help. Update the current
+  planning links and label retained v0.5 headway/spacing screens as comparisons.
+- Reconnect the retained magnetic Trip Workbench to its loopback-only research
+  job service. Its 120-passenger/180-second cases remain separate from v0.6.
+- Record the v0.4/v0.5 capability reconciliation and retain explicit holds for
+  the full city delivery twin, v0.6 city performance, installed costs and
+  commissioned ERPNext/FUXA workflows.
+
 ## 0.6.0 development — 26 October 2026
 
 - Select an independently identified wheel-supported station-LIM research train; retain six comfort cars and station-led GoA4.
