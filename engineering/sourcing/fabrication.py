@@ -200,17 +200,81 @@ def domestic_fabrication_takeoff_estimate(*, estimate_key, takeoff, target_rollu
 
     output_quantity = decimal(recipe_output_quantity, "recipe output quantity", positive=True)
     scaled_materials = []
+    material_recipe = []
     for row in material_lines:
         if not isinstance(row, dict):
             raise ValueError("Material recipe line required")
+        benchmark_id = row.get("benchmark_id")
+        if not is_id(benchmark_id) or benchmark_id not in benchmarks:
+            raise ValueError("Exact material benchmark identity required")
+        unit = row.get("quantity_unit")
+        if unit not in UNITS:
+            raise ValueError("Canonical material quantity unit required")
+        benchmark = _benchmark(benchmarks[benchmark_id], unit, currency)
+        material_recipe.append((row, benchmark, decimal(row.get("quantity"), "recipe material quantity", positive=True)))
         scaled_materials.append(dict(row, quantity=decimal_text(
             decimal(row.get("quantity"), "recipe material quantity", positive=True) * volume / output_quantity)))
     scaled_labour = []
+    labour_recipe = []
     for row in labour_lines:
         if not isinstance(row, dict):
             raise ValueError("Labour recipe line required")
+        benchmark_id = row.get("benchmark_id")
+        if not is_id(benchmark_id) or benchmark_id not in benchmarks:
+            raise ValueError("Exact labour benchmark identity required")
+        benchmark = _benchmark(benchmarks[benchmark_id], "h", currency)
+        labour_recipe.append((row, benchmark, decimal(row.get("person_hours"), "recipe person-hours", positive=True)))
         scaled_labour.append(dict(row, person_hours=decimal_text(
             decimal(row.get("person_hours"), "recipe person-hours", positive=True) * volume / output_quantity)))
+    uplift = decimal(uplift_fraction, "uplift fraction")
+    if not Decimal(0) <= uplift <= Decimal(1):
+        raise ValueError("Uplift fraction must be from zero through one")
+
+    # Preserve a priced scenario on each source manufacturing group as well as
+    # the aggregate. This remains a recipe allocation, not a supplier order unit.
+    for group_ref in group_refs:
+        group_volume = decimal(group_ref["nominal_stock_volume_m3"], "group nominal volume", nonnegative=True)
+        if group_volume <= 0:
+            raise ValueError("Every estimated manufacturing group must have positive nominal volume")
+        scale = group_volume / output_quantity
+        group_material_lines, group_labour_lines = [], []
+        group_material_cost = Decimal(0)
+        group_labour_cost = Decimal(0)
+        for row, benchmark, unit_quantity in material_recipe:
+            quantity = unit_quantity * scale
+            rate = decimal(benchmark.get("unit_price"), "material benchmark rate")
+            extended = quantity * rate
+            group_material_cost += extended
+            group_material_lines.append(dict(
+                material_key=row.get("material_key"), quantity=decimal_text(quantity),
+                quantity_unit=row["quantity_unit"], benchmark_id=benchmark["record_id"],
+                unit_rate=decimal_text(rate), currency=currency,
+                extended_cost=decimal_text(extended), evidence_scope=benchmark.get("cost_scope")))
+        for row, benchmark, hours_per_batch in labour_recipe:
+            hours = hours_per_batch * scale
+            rate = decimal(benchmark.get("unit_price"), "hourly wage benchmark")
+            extended = hours * rate
+            group_labour_cost += extended
+            group_labour_lines.append(dict(
+                labour_category=row.get("labour_category"), person_hours=decimal_text(hours),
+                quantity_unit="h", benchmark_id=benchmark["record_id"],
+                unit_rate=decimal_text(rate), currency=currency,
+                extended_cost=decimal_text(extended),
+                wage_basis=benchmark.get("normalization_basis"),
+                evidence_scope=benchmark.get("cost_scope")))
+        direct = group_material_cost + group_labour_cost
+        allowance = direct * uplift
+        total = direct + allowance
+        group_ref["fabrication_scenario"] = dict(
+            output_quantity=decimal_text(group_volume), output_unit="m3", currency=currency,
+            material_lines=group_material_lines, labour_lines=group_labour_lines,
+            direct_material_cost=decimal_text(group_material_cost),
+            direct_labor_cost=decimal_text(group_labour_cost),
+            uplift_fraction=decimal_text(uplift), uplift_amount=decimal_text(allowance),
+            estimated_total=decimal_text(total),
+            estimated_unit_cost=decimal_text(total / group_volume),
+            supplier_quote=False, purchase_quantity=None, purchase_unit=None,
+            complete_process_cost=None, complete_installed_cost=None)
 
     unit_process = domestic_fabrication_estimate(
         estimate_key=estimate_key, candidate_id=candidate_id, input_id=source_input_id,
