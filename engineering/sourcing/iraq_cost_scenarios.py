@@ -314,6 +314,143 @@ def _make_packet(records, takeoff, takeoff_path):
     return packet, takeoff_packets
 
 
+def _make_2024_material_crosscheck(records, takeoff, takeoff_path):
+    """Compare the 2024 CSO estimated building-material basis with 2025 inputs.
+
+    This deliberately produces a separate historical packet: the 2024 report is
+    an estimated construction-use/cost ratio, not a transaction series. Labour
+    stays on the 2025 Baghdad CSO wage basis so the two material scenarios can
+    be compared at identical assumed hours.
+    """
+    benchmarks = _benchmark_index(records)
+    source_records = _source_index(records)
+    current_source = "iraq.cso.private-construction-estimates-2024"
+    wage_key = "iq-cso-2025-regional:baghdad:wage:skilled:hour-8h-day"
+    wage = _must_benchmark(benchmarks, wage_key)
+    if wage is None:
+        raise ValueError("Historical cross-check requires the exact 2025 Baghdad wage benchmark")
+
+    material_map = (
+        ("Ordinary cement", "cement-ordinary", "0.35", "t",
+         "iq-cso-2025-regional:baghdad:material:cement-ordinary"),
+        ("Red sand", "sand-red", "0.50", "m3",
+         "iq-cso-2025-regional:baghdad:material:sand-red"),
+        ("2024 normal grit / 2025 crushed gravel; grading correspondence unverified",
+         "grit-normal", "0.80", "m3",
+         "iq-cso-2025-regional:baghdad:material:gravel-crushed"),
+    )
+    historical_lines = []
+    current_lines = []
+    selected_historical = {wage["record_id"]: wage}
+    selected_current = {wage["record_id"]: wage}
+    rate_comparisons = []
+    for label, suffix, quantity, unit, current_key in material_map:
+        historical_key = f"iq-cso-2024-private-building-estimate:baghdad:{suffix}"
+        historical = _must_benchmark(benchmarks, historical_key)
+        if historical is None:
+            raise ValueError("Historical CSO source benchmark is missing: " + historical_key)
+        if historical["quantity_unit"] != unit:
+            raise ValueError("Historical CSO material quantity unit differs: " + historical_key)
+        historical_lines.append(dict(material_key=label + "; 2024 estimated-building ratio",
+                                     quantity=quantity, quantity_unit=unit,
+                                     benchmark_id=historical["record_id"]))
+        selected_historical[historical["record_id"]] = historical
+
+        comparison = dict(material=label, quantity_unit=unit,
+                          historical_2024_baghdad=dict(
+                              benchmark_id=historical["record_id"],
+                              unit_rate_iqd=historical["unit_price"],
+                              estimated_table_cost_thousand_iqd=historical["source_table_estimated_cost_thousand_iqd"],
+                              estimated_table_quantity=historical["source_table_estimated_quantity"]))
+        if current_key is not None:
+            current = _must_benchmark(benchmarks, current_key)
+            if current is not None:
+                if current["quantity_unit"] != unit:
+                    raise ValueError("2025 CSO material quantity unit differs: " + current_key)
+                current_lines.append(dict(material_key=label + "; 2025 CSO annual market benchmark",
+                                          quantity=quantity, quantity_unit=unit,
+                                          benchmark_id=current["record_id"]))
+                selected_current[current["record_id"]] = current
+                comparison["annual_2025_baghdad"] = dict(
+                    benchmark_id=current["record_id"], unit_rate_iqd=current["unit_price"],
+                    product_scope_correspondence=("not established; 2024 normal grit is not proven equivalent to 2025 crushed gravel"
+                                                  if suffix == "grit-normal" else "material names and units align; grade remains unspecified"))
+        rate_comparisons.append(comparison)
+
+    # The 2024 and 2025 building ratios use unlike methods and sample bases. The
+    # side-by-side cost screens hold the 2025 wage and assumed work hours fixed.
+    historical_scenarios = []
+    current_scenarios = []
+    for hours in CONCRETE_HOURS:
+        historical_process = domestic_fabrication_estimate(
+            estimate_key=f"iraq-historical-2024-materials-baghdad-concrete-{hours}h",
+            candidate_id=takeoff["candidate_id"], input_id=takeoff["source_input_id"],
+            output_quantity="1", output_unit="m3", currency="IQD",
+            material_lines=deepcopy(historical_lines),
+            labour_lines=[dict(labour_category="2025 Baghdad skilled construction-worker base wage proxy",
+                               person_hours=hours, benchmark_id=wage["record_id"])],
+            benchmarks=selected_historical, uplift_fraction="0.20")
+        current_process = domestic_fabrication_estimate(
+            estimate_key=f"iraq-2025-materials-baghdad-concrete-{hours}h",
+            candidate_id=takeoff["candidate_id"], input_id=takeoff["source_input_id"],
+            output_quantity="1", output_unit="m3", currency="IQD",
+            material_lines=deepcopy(current_lines),
+            labour_lines=[dict(labour_category="2025 Baghdad skilled construction-worker base wage proxy",
+                               person_hours=hours, benchmark_id=wage["record_id"])],
+            benchmarks=selected_current, uplift_fraction="0.20")
+        historical_scenarios.append(dict(labour_hours_per_nominal_m3=hours,
+                                         process=historical_process))
+        current_scenarios.append(dict(labour_hours_per_nominal_m3=hours,
+                                      process=current_process))
+
+    takeoff_file = Path(takeoff_path).resolve()
+    source_hashes = {
+        "engineering/sourcing/iraq_cost_scenarios.py": inputs.digest(Path(__file__)),
+        "engineering/sourcing/fabrication.py": inputs.digest(ROOT / "engineering/sourcing/fabrication.py"),
+        "engineering/sourcing/model.py": inputs.digest(ROOT / "engineering/sourcing/model.py"),
+        "engineering/sourcing/catalogue.py": inputs.digest(ROOT / "engineering/sourcing/catalogue.py"),
+        "engineering/sourcing/data/supplier-catalogue.json": inputs.digest(ROOT / "engineering/sourcing/data/supplier-catalogue.json"),
+        "engineering/sourcing/data/public-feeds.json": inputs.digest(ROOT / "engineering/sourcing/data/public-feeds.json"),
+        "takeoff_file": inputs.digest(takeoff_file),
+    }
+    packet = dict(
+        schema="osr-iraq-material-cost-history-crosscheck/1",
+        candidate_id=takeoff["candidate_id"], source_input_id=takeoff["source_input_id"],
+        takeoff_id=takeoff["takeoff_id"],
+        source_ids=sorted({source_records[current_source]["record_id"],
+                           source_records["iraq.cso.regional-materials-wages-2025"]["record_id"]}),
+        source_sha256=source_hashes,
+        basis={
+            "formula":"(material quantity x source rate + person-hours x hourly wage) x 1.20",
+            "uplift_fraction":"0.20",
+            "uplift_scope":"direct material plus direct labour only; composition of the allowance is unspecified",
+            "recipe_per_nominal_m3":{"ordinary_cement_t":"0.35", "red_sand_m3":"0.50", "normal_grit_m3":"0.80"},
+            "labour_hours_scenarios_per_nominal_m3":list(CONCRETE_HOURS),
+            "historical_material_basis":"2024 CSO private-sector building estimated Table 15 cost-to-quantity ratios; modeled using 2024 market bulletin and material-use ratios last surveyed in 2012",
+            "labour_basis":"2025 CSO Baghdad skilled-worker daily wage divided by explicit 8-hour day; held fixed across material scenarios",
+            "current_comparison_basis":"2025 CSO Baghdad annual statistical market rates; not supplier quotations",
+        },
+        material_rate_comparisons=rate_comparisons,
+        historical_2024_material_2025_wage_scenarios=historical_scenarios,
+        current_2025_material_2025_wage_scenarios=current_scenarios,
+        candidate_takeoff_mapped=False,
+        complete_procurement_cost=None, complete_process_cost=None,
+        complete_installed_cost=None, whole_life_cost=None,
+        physical_qualification=None, engineering_accepted=False,
+        procurement_approved=False, selected_reference_changed=False,
+        unknown_is_zero=False,
+        limitations=[
+            "The 2024 CSO report is a modeled private-building estimate that uses 2024 permits and price/wage bulletins with material-use ratios from a 2012 survey; its cost/quantity ratios are historical statistical indicators, not observed supplier transactions.",
+            "The 2024 report excludes Kurdistan Region; the 2025 wage comparator uses the Baghdad governorate annual construction-worker average.",
+            "Normal grit is not confirmed to be interchangeable with the 2025 CSO crushed-gravel category; grading, strength and delivery scope are unknown.",
+            "The concrete recipe and labour hours are sensitivity assumptions, not a mix design, verified yield, timed factory route or candidate-specific bill of quantities.",
+            "The 20% uplift applies only to declared material plus direct labour and is an unallocated planning allowance, not verified overhead, profit, tax or contingency.",
+        ])
+    packet["source_epoch_id"] = identity(records)
+    packet["packet_id"] = identity(packet)
+    return packet
+
+
 def _write_fresh(path, payload):
     path = Path(path).expanduser().resolve()
     if path.exists() or path.is_symlink():
@@ -338,12 +475,15 @@ def main(argv=None):
     takeoff = inputs.read_json(args.takeoff)
     packet, takeoff_packets = _make_packet(records, takeoff, args.takeoff)
     _write_fresh(destination / "iraq-domestic-cost-reference-2025.json", packet)
+    historical = _make_2024_material_crosscheck(records, takeoff, args.takeoff)
+    _write_fresh(destination / "iraq-material-cost-history-crosscheck-2024.json", historical)
     for hours, estimate_packet in takeoff_packets:
         _write_fresh(destination / ("baghdad-concrete-takeoff-" + hours + "h.json"), estimate_packet)
     print(json.dumps({
         "output": str(destination), "packet_id": packet["packet_id"],
         "candidate_id": packet["candidate_id"], "takeoff_id": packet["takeoff_id"],
         "regional_unit_rate_scenarios": len(packet["unit_rate_estimates"]),
+        "historical_material_crosscheck_scenarios": len(historical["historical_2024_material_2025_wage_scenarios"]),
         "unavailable_scenarios": len(packet["unavailable_estimates"]),
         "baghdad_takeoff_scenarios": len(packet["baghdad_concrete_takeoff_estimates"]),
         "complete_installed_cost": None, "physical_qualification": None,

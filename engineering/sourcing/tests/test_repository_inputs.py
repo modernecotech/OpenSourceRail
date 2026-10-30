@@ -33,3 +33,14 @@ def test_real_federated_cell_input_includes_more_than_the_vehicle():
     assert categories["running-gear"] > 0
     assert value["payload"]["physical_accepted"] is False
     assert value["payload"]["complete_installed_BOM"] is False
+
+
+def test_sealed_sourcing_input_replays_without_rewrapping_or_relabeling_candidate():
+    path = ROOT / "docs/design-engine/sourcing/packets/frame-vehicle-iraq-domestic-sources-v6/input.json.gz"
+    value = load_twin(path)
+    requirements = extract_requirements(value["payload"])
+    assert value["schema"] == "osr-sourcing-twin-input/1"
+    assert value["payload"]["candidate_id"] == "6fd30b694342266d60698018f14c492b90c25ac048c3ebfd7157a7031d3cef62"
+    assert {row["candidate_id"] for row in requirements} == {value["payload"]["candidate_id"]}
+    assert len(requirements) == 3183
+    assert value["physical_qualification"] is None

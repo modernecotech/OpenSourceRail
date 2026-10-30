@@ -24,7 +24,7 @@ def write_seed(path, data):
 def test_actual_catalogue_scopes_prices_and_half_open_breaks():
     values=load_catalogue([SUPPLIERS]);products={v['product_key']:v for v in values if v['kind']=='product'}
     assert len(products)==16
-    assert sum(v['kind']=='source' for v in values)==53
+    assert sum(v['kind']=='source' for v in values)==54
     offers={v['product_id']:v for v in values if v['kind']=='offer'}
     assert len(offers)==5
     cloth=offers[products['EC-GF-BA-440-127']['record_id']]
@@ -53,12 +53,44 @@ def test_actual_catalogue_scopes_prices_and_half_open_breaks():
 def test_seed_references_are_atomic_and_repeatable(tmp_path):
     with Store(tmp_path/'sourcing.db') as store:
         first=seed(store,[SUPPLIERS]);second=seed(store,[SUPPLIERS])
-        assert first['added_count']==first['record_count']==264
+        assert first['added_count']==first['record_count']==279
         assert second['added_count']==0
         assert first['record_ids']==second['record_ids']
         for offer in store.all('offer'):
             product=store.get(offer['product_id'],'product')
             assert offer['source_id'] in product['source_ids']
+
+
+def test_iraqi_2024_private_building_material_ratios_retain_method_and_table_totals():
+    values=load_catalogue([SUPPLIERS])
+    sources={value['source_key']:value for value in values if value['kind']=='source'}
+    benchmarks={value['benchmark_key']:value for value in values if value['kind']=='benchmark'}
+    source=sources['iraq.cso.private-construction-estimates-2024']
+    assert source['document_sha256']=='d7bba757619b67a1cb05939a51a30cb08f292df0db6c2b9953ebf8b8ee354770'
+    assert '2012 private-building survey' in source['methodology']
+    assert 'Kurdistan Region is excluded' in source['access']
+    expected={
+        'baghdad:cement-ordinary':('115000','t','24427840','212416'),
+        'baghdad:cement-resistant':('140000','t','9108540','65061'),
+        'baghdad:grit-normal':('20000','m3','6059900','302995'),
+        'baghdad:grit-broken':('22000','m3','3214508','146114'),
+        'baghdad:sand-red':('22000','m3','13552','616'),
+        'baghdad:sand-black':('20000','m3','10960','548'),
+        'iraq-total:cement-ordinary':('114672.74','t','74711351','651518'),
+        'iraq-total:sand-red':('18504.52','m3','34770','1879'),
+    }
+    assert len([key for key in benchmarks if key.startswith('iq-cso-2024-private-building-estimate:')])==14
+    for suffix,(rate,unit,cost,quantity) in expected.items():
+        row=benchmarks['iq-cso-2024-private-building-estimate:'+suffix]
+        assert row['unit_price']==rate
+        assert row['quantity_unit']==unit
+        assert row['source_table_estimated_cost_thousand_iqd']==cost
+        assert row['source_table_estimated_quantity']==quantity
+        assert row['supplier_quote'] is False
+        assert row['target_installed_rate'] is False
+        assert 'not a transaction' in row['cost_scope']
+    assert not [row for row in values if row['kind']=='offer' and
+                row.get('source_id')==sources['iraq.cso.private-construction-estimates-2024']['record_id']]
 
 
 def test_additional_iraqi_aluminium_sources_are_leads_not_offers():

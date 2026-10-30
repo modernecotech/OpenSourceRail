@@ -1,0 +1,770 @@
+{
+  "schema": "osr-iraq-material-cost-history-crosscheck/1",
+  "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+  "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+  "takeoff_id": "042b2b73f6ac0b92da886eb71949c0020c595f0bb7485c413700d40215939d41",
+  "source_ids": [
+    "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+    "bb552dca2a5fcd4e9adaff073015f1749c57faea7747b447756287e6fc02cecf"
+  ],
+  "source_sha256": {
+    "engineering/sourcing/iraq_cost_scenarios.py": "cd2cbabf15dcc9e5021291261fdea017d0bd7c3724834193e3eac38a0e31066b",
+    "engineering/sourcing/fabrication.py": "ca211f68772598c03ff1336cc74fb12567232a4bb2543c7a73b60572a7297e51",
+    "engineering/sourcing/model.py": "a26b42b4d15f1523ab7a4ad138344290b25fa7d66641d0dd39dd0369173b0367",
+    "engineering/sourcing/catalogue.py": "5a28ce785da25989231e7a1bde1a4bb9a141e212a4ba7a705aa380c0af531b70",
+    "engineering/sourcing/data/supplier-catalogue.json": "455d930b294eb58f6016eb9fc657b71029b2492c49b7b9bb46572d044da70967",
+    "engineering/sourcing/data/public-feeds.json": "3b93aebf0a7bcaab00e40f07a9de4d718af311a6aef284a9c3c59ce4b532df93",
+    "takeoff_file": "0da85a1d62998974642b9ae29e96d80e21089da43f664899f4b423377140cec4"
+  },
+  "basis": {
+    "formula": "(material quantity x source rate + person-hours x hourly wage) x 1.20",
+    "uplift_fraction": "0.20",
+    "uplift_scope": "direct material plus direct labour only; composition of the allowance is unspecified",
+    "recipe_per_nominal_m3": {
+      "ordinary_cement_t": "0.35",
+      "red_sand_m3": "0.50",
+      "normal_grit_m3": "0.80"
+    },
+    "labour_hours_scenarios_per_nominal_m3": [
+      "2",
+      "4",
+      "8"
+    ],
+    "historical_material_basis": "2024 CSO private-sector building estimated Table 15 cost-to-quantity ratios; modeled using 2024 market bulletin and material-use ratios last surveyed in 2012",
+    "labour_basis": "2025 CSO Baghdad skilled-worker daily wage divided by explicit 8-hour day; held fixed across material scenarios",
+    "current_comparison_basis": "2025 CSO Baghdad annual statistical market rates; not supplier quotations"
+  },
+  "material_rate_comparisons": [
+    {
+      "material": "Ordinary cement",
+      "quantity_unit": "t",
+      "historical_2024_baghdad": {
+        "benchmark_id": "e2b123f5edfad2147535b648190ea7b9fb5f47e8ff8e9c5b458caaa4f38c4023",
+        "unit_rate_iqd": "115000",
+        "estimated_table_cost_thousand_iqd": "24427840",
+        "estimated_table_quantity": "212416"
+      },
+      "annual_2025_baghdad": {
+        "benchmark_id": "ddde297de2d17dbd1ab92d46e139bf2952fa93a63c33f20c4a95424c23c5286d",
+        "unit_rate_iqd": "129000",
+        "product_scope_correspondence": "material names and units align; grade remains unspecified"
+      }
+    },
+    {
+      "material": "Red sand",
+      "quantity_unit": "m3",
+      "historical_2024_baghdad": {
+        "benchmark_id": "b1c79607084aacf764af2cca3ebbf21d5be3104a6ca72b6b24486917257b3b03",
+        "unit_rate_iqd": "22000",
+        "estimated_table_cost_thousand_iqd": "13552",
+        "estimated_table_quantity": "616"
+      },
+      "annual_2025_baghdad": {
+        "benchmark_id": "9aa7945b6a3be6d9d946748888a91899c6a182c64576d39dae93e4297e4855fa",
+        "unit_rate_iqd": "25000",
+        "product_scope_correspondence": "material names and units align; grade remains unspecified"
+      }
+    },
+    {
+      "material": "2024 normal grit / 2025 crushed gravel; grading correspondence unverified",
+      "quantity_unit": "m3",
+      "historical_2024_baghdad": {
+        "benchmark_id": "83c210c68d1a079d22c5a6fe8848d6a79b0e439b5ee2cb51ce47148f03b8c6f4",
+        "unit_rate_iqd": "20000",
+        "estimated_table_cost_thousand_iqd": "6059900",
+        "estimated_table_quantity": "302995"
+      },
+      "annual_2025_baghdad": {
+        "benchmark_id": "6eeedb2fa0eed850f722e59a235dbd470e567ea6d9787a479b7afe21a1299c03",
+        "unit_rate_iqd": "24000",
+        "product_scope_correspondence": "not established; 2024 normal grit is not proven equivalent to 2025 crushed gravel"
+      }
+    }
+  ],
+  "historical_2024_material_2025_wage_scenarios": [
+    {
+      "labour_hours_per_nominal_m3": "2",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-historical-2024-materials-baghdad-concrete-2h",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "m3",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ordinary cement; 2024 estimated-building ratio",
+            "quantity": "0.35",
+            "quantity_unit": "t",
+            "benchmark_id": "e2b123f5edfad2147535b648190ea7b9fb5f47e8ff8e9c5b458caaa4f38c4023",
+            "unit_rate": "115000",
+            "currency": "IQD",
+            "extended_cost": "40250",
+            "evidence_scope": "Historical CSO private-building estimate ratio; not a transaction, current market offer, grade-qualified railway material, delivery rate or installed rate"
+          },
+          {
+            "material_key": "Red sand; 2024 estimated-building ratio",
+            "quantity": "0.5",
+            "quantity_unit": "m3",
+            "benchmark_id": "b1c79607084aacf764af2cca3ebbf21d5be3104a6ca72b6b24486917257b3b03",
+            "unit_rate": "22000",
+            "currency": "IQD",
+            "extended_cost": "11000",
+            "evidence_scope": "Historical CSO private-building estimate ratio; not a transaction, current market offer, grade-qualified railway material, delivery rate or installed rate"
+          },
+          {
+            "material_key": "2024 normal grit / 2025 crushed gravel; grading correspondence unverified; 2024 estimated-building ratio",
+            "quantity": "0.8",
+            "quantity_unit": "m3",
+            "benchmark_id": "83c210c68d1a079d22c5a6fe8848d6a79b0e439b5ee2cb51ce47148f03b8c6f4",
+            "unit_rate": "20000",
+            "currency": "IQD",
+            "extended_cost": "16000",
+            "evidence_scope": "Historical CSO private-building estimate ratio; not a transaction, current market offer, grade-qualified railway material, delivery rate or installed rate"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "2025 Baghdad skilled construction-worker base wage proxy",
+            "person_hours": "2",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "18750",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "83c210c68d1a079d22c5a6fe8848d6a79b0e439b5ee2cb51ce47148f03b8c6f4",
+          "b1c79607084aacf764af2cca3ebbf21d5be3104a6ca72b6b24486917257b3b03",
+          "e2b123f5edfad2147535b648190ea7b9fb5f47e8ff8e9c5b458caaa4f38c4023"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "bb552dca2a5fcd4e9adaff073015f1749c57faea7747b447756287e6fc02cecf"
+        ],
+        "direct_material_cost": "67250",
+        "direct_labor_cost": "18750",
+        "direct_cost": "86000",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "17200",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "103200",
+        "estimated_unit_cost": "103200",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "3b86197ed569d27fc1321840239681fc004fbef24b2634eba934ac3e1a1fc4b4"
+      }
+    },
+    {
+      "labour_hours_per_nominal_m3": "4",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-historical-2024-materials-baghdad-concrete-4h",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "m3",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ordinary cement; 2024 estimated-building ratio",
+            "quantity": "0.35",
+            "quantity_unit": "t",
+            "benchmark_id": "e2b123f5edfad2147535b648190ea7b9fb5f47e8ff8e9c5b458caaa4f38c4023",
+            "unit_rate": "115000",
+            "currency": "IQD",
+            "extended_cost": "40250",
+            "evidence_scope": "Historical CSO private-building estimate ratio; not a transaction, current market offer, grade-qualified railway material, delivery rate or installed rate"
+          },
+          {
+            "material_key": "Red sand; 2024 estimated-building ratio",
+            "quantity": "0.5",
+            "quantity_unit": "m3",
+            "benchmark_id": "b1c79607084aacf764af2cca3ebbf21d5be3104a6ca72b6b24486917257b3b03",
+            "unit_rate": "22000",
+            "currency": "IQD",
+            "extended_cost": "11000",
+            "evidence_scope": "Historical CSO private-building estimate ratio; not a transaction, current market offer, grade-qualified railway material, delivery rate or installed rate"
+          },
+          {
+            "material_key": "2024 normal grit / 2025 crushed gravel; grading correspondence unverified; 2024 estimated-building ratio",
+            "quantity": "0.8",
+            "quantity_unit": "m3",
+            "benchmark_id": "83c210c68d1a079d22c5a6fe8848d6a79b0e439b5ee2cb51ce47148f03b8c6f4",
+            "unit_rate": "20000",
+            "currency": "IQD",
+            "extended_cost": "16000",
+            "evidence_scope": "Historical CSO private-building estimate ratio; not a transaction, current market offer, grade-qualified railway material, delivery rate or installed rate"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "2025 Baghdad skilled construction-worker base wage proxy",
+            "person_hours": "4",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "37500",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "83c210c68d1a079d22c5a6fe8848d6a79b0e439b5ee2cb51ce47148f03b8c6f4",
+          "b1c79607084aacf764af2cca3ebbf21d5be3104a6ca72b6b24486917257b3b03",
+          "e2b123f5edfad2147535b648190ea7b9fb5f47e8ff8e9c5b458caaa4f38c4023"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "bb552dca2a5fcd4e9adaff073015f1749c57faea7747b447756287e6fc02cecf"
+        ],
+        "direct_material_cost": "67250",
+        "direct_labor_cost": "37500",
+        "direct_cost": "104750",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "20950",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "125700",
+        "estimated_unit_cost": "125700",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "69a2c5806f8f5c24e6d34b9586315d40b7c18ac66e2cb9748f3f7aa3eb839eb0"
+      }
+    },
+    {
+      "labour_hours_per_nominal_m3": "8",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-historical-2024-materials-baghdad-concrete-8h",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "m3",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ordinary cement; 2024 estimated-building ratio",
+            "quantity": "0.35",
+            "quantity_unit": "t",
+            "benchmark_id": "e2b123f5edfad2147535b648190ea7b9fb5f47e8ff8e9c5b458caaa4f38c4023",
+            "unit_rate": "115000",
+            "currency": "IQD",
+            "extended_cost": "40250",
+            "evidence_scope": "Historical CSO private-building estimate ratio; not a transaction, current market offer, grade-qualified railway material, delivery rate or installed rate"
+          },
+          {
+            "material_key": "Red sand; 2024 estimated-building ratio",
+            "quantity": "0.5",
+            "quantity_unit": "m3",
+            "benchmark_id": "b1c79607084aacf764af2cca3ebbf21d5be3104a6ca72b6b24486917257b3b03",
+            "unit_rate": "22000",
+            "currency": "IQD",
+            "extended_cost": "11000",
+            "evidence_scope": "Historical CSO private-building estimate ratio; not a transaction, current market offer, grade-qualified railway material, delivery rate or installed rate"
+          },
+          {
+            "material_key": "2024 normal grit / 2025 crushed gravel; grading correspondence unverified; 2024 estimated-building ratio",
+            "quantity": "0.8",
+            "quantity_unit": "m3",
+            "benchmark_id": "83c210c68d1a079d22c5a6fe8848d6a79b0e439b5ee2cb51ce47148f03b8c6f4",
+            "unit_rate": "20000",
+            "currency": "IQD",
+            "extended_cost": "16000",
+            "evidence_scope": "Historical CSO private-building estimate ratio; not a transaction, current market offer, grade-qualified railway material, delivery rate or installed rate"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "2025 Baghdad skilled construction-worker base wage proxy",
+            "person_hours": "8",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "75000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "83c210c68d1a079d22c5a6fe8848d6a79b0e439b5ee2cb51ce47148f03b8c6f4",
+          "b1c79607084aacf764af2cca3ebbf21d5be3104a6ca72b6b24486917257b3b03",
+          "e2b123f5edfad2147535b648190ea7b9fb5f47e8ff8e9c5b458caaa4f38c4023"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05",
+          "bb552dca2a5fcd4e9adaff073015f1749c57faea7747b447756287e6fc02cecf"
+        ],
+        "direct_material_cost": "67250",
+        "direct_labor_cost": "75000",
+        "direct_cost": "142250",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "28450",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "170700",
+        "estimated_unit_cost": "170700",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "40d098452eae16a16ad50d1c8a42ad7fa5599504593f41fde154a7166f349a23"
+      }
+    }
+  ],
+  "current_2025_material_2025_wage_scenarios": [
+    {
+      "labour_hours_per_nominal_m3": "2",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2025-materials-baghdad-concrete-2h",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "m3",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ordinary cement; 2025 CSO annual market benchmark",
+            "quantity": "0.35",
+            "quantity_unit": "t",
+            "benchmark_id": "ddde297de2d17dbd1ab92d46e139bf2952fa93a63c33f20c4a95424c23c5286d",
+            "unit_rate": "129000",
+            "currency": "IQD",
+            "extended_cost": "45150",
+            "evidence_scope": "Annual statistical market average; exact grade, supplier, order quantity, tax, haulage, delivery and installation are not established"
+          },
+          {
+            "material_key": "Red sand; 2025 CSO annual market benchmark",
+            "quantity": "0.5",
+            "quantity_unit": "m3",
+            "benchmark_id": "9aa7945b6a3be6d9d946748888a91899c6a182c64576d39dae93e4297e4855fa",
+            "unit_rate": "25000",
+            "currency": "IQD",
+            "extended_cost": "12500",
+            "evidence_scope": "Annual statistical market average; exact grade, supplier, order quantity, tax, haulage, delivery and installation are not established"
+          },
+          {
+            "material_key": "2024 normal grit / 2025 crushed gravel; grading correspondence unverified; 2025 CSO annual market benchmark",
+            "quantity": "0.8",
+            "quantity_unit": "m3",
+            "benchmark_id": "6eeedb2fa0eed850f722e59a235dbd470e567ea6d9787a479b7afe21a1299c03",
+            "unit_rate": "24000",
+            "currency": "IQD",
+            "extended_cost": "19200",
+            "evidence_scope": "Annual statistical market average; exact grade, supplier, order quantity, tax, haulage, delivery and installation are not established"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "2025 Baghdad skilled construction-worker base wage proxy",
+            "person_hours": "2",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "18750",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "6eeedb2fa0eed850f722e59a235dbd470e567ea6d9787a479b7afe21a1299c03",
+          "9aa7945b6a3be6d9d946748888a91899c6a182c64576d39dae93e4297e4855fa",
+          "ddde297de2d17dbd1ab92d46e139bf2952fa93a63c33f20c4a95424c23c5286d"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05"
+        ],
+        "direct_material_cost": "76850",
+        "direct_labor_cost": "18750",
+        "direct_cost": "95600",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "19120",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "114720",
+        "estimated_unit_cost": "114720",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "f268aea47b9b0c2100a6fb60c990547e02f6a72ebe6aabfa346176a99635c6bd"
+      }
+    },
+    {
+      "labour_hours_per_nominal_m3": "4",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2025-materials-baghdad-concrete-4h",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "m3",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ordinary cement; 2025 CSO annual market benchmark",
+            "quantity": "0.35",
+            "quantity_unit": "t",
+            "benchmark_id": "ddde297de2d17dbd1ab92d46e139bf2952fa93a63c33f20c4a95424c23c5286d",
+            "unit_rate": "129000",
+            "currency": "IQD",
+            "extended_cost": "45150",
+            "evidence_scope": "Annual statistical market average; exact grade, supplier, order quantity, tax, haulage, delivery and installation are not established"
+          },
+          {
+            "material_key": "Red sand; 2025 CSO annual market benchmark",
+            "quantity": "0.5",
+            "quantity_unit": "m3",
+            "benchmark_id": "9aa7945b6a3be6d9d946748888a91899c6a182c64576d39dae93e4297e4855fa",
+            "unit_rate": "25000",
+            "currency": "IQD",
+            "extended_cost": "12500",
+            "evidence_scope": "Annual statistical market average; exact grade, supplier, order quantity, tax, haulage, delivery and installation are not established"
+          },
+          {
+            "material_key": "2024 normal grit / 2025 crushed gravel; grading correspondence unverified; 2025 CSO annual market benchmark",
+            "quantity": "0.8",
+            "quantity_unit": "m3",
+            "benchmark_id": "6eeedb2fa0eed850f722e59a235dbd470e567ea6d9787a479b7afe21a1299c03",
+            "unit_rate": "24000",
+            "currency": "IQD",
+            "extended_cost": "19200",
+            "evidence_scope": "Annual statistical market average; exact grade, supplier, order quantity, tax, haulage, delivery and installation are not established"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "2025 Baghdad skilled construction-worker base wage proxy",
+            "person_hours": "4",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "37500",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "6eeedb2fa0eed850f722e59a235dbd470e567ea6d9787a479b7afe21a1299c03",
+          "9aa7945b6a3be6d9d946748888a91899c6a182c64576d39dae93e4297e4855fa",
+          "ddde297de2d17dbd1ab92d46e139bf2952fa93a63c33f20c4a95424c23c5286d"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05"
+        ],
+        "direct_material_cost": "76850",
+        "direct_labor_cost": "37500",
+        "direct_cost": "114350",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "22870",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "137220",
+        "estimated_unit_cost": "137220",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "1d19e3be9ba9fe5636f64ed6f011ed6f9a4d1ad74d82ee801492ec2fdffa5996"
+      }
+    },
+    {
+      "labour_hours_per_nominal_m3": "8",
+      "process": {
+        "schema": "osr-sourcing-record/1",
+        "kind": "process",
+        "process_key": "domestic-fabrication-cost-screen",
+        "estimate_key": "iraq-2025-materials-baghdad-concrete-8h",
+        "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+        "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+        "application_scope": "digital-twin evaluation context; generic unit-rate recipe not mapped to candidate takeoff",
+        "output_quantity": "1",
+        "output_unit": "m3",
+        "currency": "IQD",
+        "material_lines": [
+          {
+            "material_key": "Ordinary cement; 2025 CSO annual market benchmark",
+            "quantity": "0.35",
+            "quantity_unit": "t",
+            "benchmark_id": "ddde297de2d17dbd1ab92d46e139bf2952fa93a63c33f20c4a95424c23c5286d",
+            "unit_rate": "129000",
+            "currency": "IQD",
+            "extended_cost": "45150",
+            "evidence_scope": "Annual statistical market average; exact grade, supplier, order quantity, tax, haulage, delivery and installation are not established"
+          },
+          {
+            "material_key": "Red sand; 2025 CSO annual market benchmark",
+            "quantity": "0.5",
+            "quantity_unit": "m3",
+            "benchmark_id": "9aa7945b6a3be6d9d946748888a91899c6a182c64576d39dae93e4297e4855fa",
+            "unit_rate": "25000",
+            "currency": "IQD",
+            "extended_cost": "12500",
+            "evidence_scope": "Annual statistical market average; exact grade, supplier, order quantity, tax, haulage, delivery and installation are not established"
+          },
+          {
+            "material_key": "2024 normal grit / 2025 crushed gravel; grading correspondence unverified; 2025 CSO annual market benchmark",
+            "quantity": "0.8",
+            "quantity_unit": "m3",
+            "benchmark_id": "6eeedb2fa0eed850f722e59a235dbd470e567ea6d9787a479b7afe21a1299c03",
+            "unit_rate": "24000",
+            "currency": "IQD",
+            "extended_cost": "19200",
+            "evidence_scope": "Annual statistical market average; exact grade, supplier, order quantity, tax, haulage, delivery and installation are not established"
+          }
+        ],
+        "labour_lines": [
+          {
+            "labour_category": "2025 Baghdad skilled construction-worker base wage proxy",
+            "person_hours": "8",
+            "quantity_unit": "h",
+            "benchmark_id": "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+            "unit_rate": "9375",
+            "currency": "IQD",
+            "extended_cost": "75000",
+            "wage_basis": "source governorate daily wage divided by explicit 8 working hours/day",
+            "evidence_scope": "Average base wage statistic; not a shop charge-out rate; employer costs, overtime, leave, incentives, shift premiums and training excluded"
+          }
+        ],
+        "benchmark_ids": [
+          "11599b5cbc233c399d89bce5364ec47963f2505158933a1e377b2677f142a884",
+          "6eeedb2fa0eed850f722e59a235dbd470e567ea6d9787a479b7afe21a1299c03",
+          "9aa7945b6a3be6d9d946748888a91899c6a182c64576d39dae93e4297e4855fa",
+          "ddde297de2d17dbd1ab92d46e139bf2952fa93a63c33f20c4a95424c23c5286d"
+        ],
+        "source_ids": [
+          "432ae3394246a55cf63ec87fe28a306f2dac69ea637c427c94d2edeaecc50e05"
+        ],
+        "direct_material_cost": "76850",
+        "direct_labor_cost": "75000",
+        "direct_cost": "151850",
+        "uplift_fraction": "0.2",
+        "uplift_amount": "30370",
+        "uplift_basis": "direct material plus direct labour",
+        "estimated_total": "182220",
+        "estimated_unit_cost": "182220",
+        "complete_process_cost": null,
+        "complete_installed_cost": null,
+        "whole_life_cost": null,
+        "candidate_takeoff_mapped": false,
+        "known_inputs_only": true,
+        "unknown_is_zero": false,
+        "excluded_cost_categories": [
+          "material waste and yield",
+          "consumables",
+          "tooling and moulds",
+          "factory occupancy and utilities",
+          "equipment depreciation",
+          "quality inspection and testing",
+          "packaging",
+          "transport and delivery",
+          "taxes and duty",
+          "erection and installation",
+          "rework, warranty and lifecycle maintenance"
+        ],
+        "limitations": [
+          "Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+          "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
+          "Labour hours are recipe assumptions until measured on a defined work route",
+          "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"
+        ],
+        "engineering_accepted": false,
+        "engineering_approved": false,
+        "procurement_approved": false,
+        "physical_accepted": false,
+        "manufacturing_release": false,
+        "operating_release": false,
+        "selected_reference_changed": false,
+        "record_id": "5e68e4e5fca10542b497d1fdd9f202b7e5944f98ec53f5b4f5cf2cf5f3458fb4"
+      }
+    }
+  ],
+  "candidate_takeoff_mapped": false,
+  "complete_procurement_cost": null,
+  "complete_process_cost": null,
+  "complete_installed_cost": null,
+  "whole_life_cost": null,
+  "physical_qualification": null,
+  "engineering_accepted": false,
+  "procurement_approved": false,
+  "selected_reference_changed": false,
+  "unknown_is_zero": false,
+  "limitations": [
+    "The 2024 CSO report is a modeled private-building estimate that uses 2024 permits and price/wage bulletins with material-use ratios from a 2012 survey; its cost/quantity ratios are historical statistical indicators, not observed supplier transactions.",
+    "The 2024 report excludes Kurdistan Region; the 2025 wage comparator uses the Baghdad governorate annual construction-worker average.",
+    "Normal grit is not confirmed to be interchangeable with the 2025 CSO crushed-gravel category; grading, strength and delivery scope are unknown.",
+    "The concrete recipe and labour hours are sensitivity assumptions, not a mix design, verified yield, timed factory route or candidate-specific bill of quantities.",
+    "The 20% uplift applies only to declared material plus direct labour and is an unallocated planning allowance, not verified overhead, profit, tax or contingency."
+  ],
+  "source_epoch_id": "5c7a9704d1b552d25a3dc8fa3f8445cebd8ee102e29df6b757e20200931daafb",
+  "packet_id": "cfb64e5fbc27060d6edbf718e252d9a40a82a83bd54ec254ea9a49bef8d26efc"
+}

@@ -4,7 +4,7 @@
 
 ## What is in the database
 
-The combined offline seed now contains **290 immutable observations**: 66 source records, 16 product records, five published catalogue offers, three retained FX observations and 200 commodity, construction, wage, industrial-payroll and local-market benchmarks. Six new Iraqi source records add ready-mix supply capability, industrial-payroll statistics, a factory rehabilitation directory, a cement price-image lead, a 2025 import report lead and a notice that a national indicative construction-price bulletin is being prepared. The earlier 282-record epoch is preserved by its source-bound packets and validation record. The retained ECB and World Bank feed snapshot separately parsed **27 dated ECB reference-rate rows** and **two World Bank metal observations** into a local append-only database. The Central Bank of Iraq workbook adds a dated GBP/IQD conversion reference. Repeating a refresh with identical bytes reuses the source record and does not replace previous observations. Previously published packets remain source-bound to their earlier catalogue epochs.
+The combined offline seed now contains **305 immutable observations**: 67 source records, 16 product records, five published catalogue offers, three retained FX observations and 214 commodity, construction, wage, industrial-payroll and local-market benchmarks. The latest source extension adds the official CSO 2024 private-building report and 14 derived material benchmarks; the previous source epoch already carried ready-mix capability, industrial-payroll statistics, factory/manufacturer leads, a cement price-image lead, the 2025 import-report lead and the notice that a national indicative construction-price bulletin is being prepared. The earlier 282-record epoch is preserved by its source-bound packets and validation record. The retained ECB and World Bank feed snapshot separately parsed **27 dated ECB reference-rate rows** and **two World Bank metal observations** into a local append-only database. The Central Bank of Iraq workbook adds a dated GBP/IQD conversion reference. Repeating a refresh with identical bytes reuses the source record and does not replace previous observations. Previously published packets remain source-bound to their earlier catalogue epochs.
 
 Source products are immutable observations. If a supplier product key has multiple recorded revisions, the laminate study stops unless the operator supplies the exact `PRODUCT_KEY=RECORD_ID` selection with `--product-observation`. The requirement and RFQ retain that selected record ID. Material/source-property changes alter the evaluation input and bounds; physical candidate identity stays constant when only the evidence revision changes. A changed material choice or geometry gets a different candidate ID.
 
@@ -56,6 +56,29 @@ The source catalogue now includes an official [CSO September 2026 construction-m
 
 The [CSO statistics page](https://cosit.gov.iq/ar/63-stat-ar/283-2013-02-11-03-37-09) lists monthly 2026 bulletins and annual wage/material reports. The CSO September ordinary-cement figure and the [8 October Kurdistan Region report](https://theinsightinternational.com/kurdistan-cement-steel-prices-rise-iraq-fuel-subsidy-factories-october/) are retained as separate observations because their dates, geographic coverage and evidence bases differ. The article reports a regional official's statement to Kurdistan24 that bulk cement was IQD 120,000/t, up from IQD 80,000/t. Neither figure is a Baghdad supplier quotation or installed rate. They are not averaged or used as a single candidate price; a local grade-specific supplier quotation is still required.
 
+### Additional material benchmarks for domestic fabrication
+
+The new official [CSO 2024 private-sector building report](https://cosit.gov.iq/documents/buildings/Private%20sector%20buildings/%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D8%B9%20%D8%A7%D9%84%D8%AE%D8%A7%D8%B52024%20.pdf) provides a second, independent Iraqi material-price basis. Table 15 reports estimated building material costs and quantities. Dividing those fields gives historical unit ratios; these are modelled statistical values, not observed transactions or supplier quotations. The report's quantities draw on 2024 building permits, market prices/wages and material-use ratios from a 2012 survey, and its coverage excludes the Kurdistan Region.
+
+| CSO 2024 Table 15 material | Baghdad derived ratio | 15-governorate aggregate ratio | Use / limitation |
+|---|---:|---:|---|
+| Ordinary cement | IQD 115,000/t | IQD 114,672.74/t | Grade/strength and delivered scope unspecified |
+| Resistant cement | IQD 140,000/t | IQD 131,703.83/t | Grade/strength and delivered scope unspecified |
+| Red sand | IQD 22,000/m³ | IQD 18,504.52/m³ | Grading, moisture and haulage unspecified |
+| Black sand | IQD 20,000/m³ | IQD 18,116.63/m³ | Grading, moisture and haulage unspecified |
+| Normal grit | IQD 20,000/m³ | IQD 19,985.61/m³ | Not assumed equivalent to 2025 crushed gravel |
+| Broken grit | IQD 22,000/m³ | IQD 19,877.99/m³ | Product grading and delivery scope unspecified |
+| Iron/reinforcement row | IQD 1,128,000/t | IQD 1,083,181.40/t | Exact steel product form and grade unresolved |
+
+The resulting [`iraq-material-cost-history-crosscheck-2024.json`](domestic-fabrication/regional-estimates-2025-v6/iraq-material-cost-history-crosscheck-2024.json) applies a consistent illustrative recipe of 0.35 t cement, 0.50 m³ red sand and 0.80 m³ aggregate per nominal m³. It holds the 2025 Baghdad base wage (IQD 9,375/hour) and requested 20% uplift constant while changing only the material-price basis.
+
+| Material basis | 2 labour h/m³ | 4 labour h/m³ | 8 labour h/m³ |
+|---|---:|---:|---:|
+| 2024 statistical material ratios + 2025 wage | IQD 103,200 | IQD 125,700 | IQD 170,700 |
+| 2025 CSO material rates + 2025 wage | IQD 114,720 | IQD 137,220 | IQD 182,220 |
+
+Formula: `(material quantities × source rates + assumed person-hours × IQD 9,375/hour) × 1.20`. The hours are scenarios, not measured local process routes. These mixed-period comparisons are historical sensitivity estimates only; normal grit is not silently treated as crushed gravel, and neither result is a designed concrete mix, precast beam price or candidate-installed civil cost. The 20% remains an unallocated allowance, not a sourced overhead or margin.
+
 The CSO rebar statistic and the marketplace indicator differ in date and scope. They are retained separately and are not blended into a fabricated quote. The public [Cement Producers Association directory](https://cpai.iq/companies) identifies Iraqi cement producers for RFQ follow-up. More domestic manufacturing leads are [Star Steel Iraq](https://starsteeliraq.com/manufacturing/) and [Alpha Steel](https://alphasteel.iq/) for reinforcing steel; [Dijla Precast](https://dijla-precast.com/production-lines/), [Karbala Precast](https://karbala-company.com/), [Al-Fayha](https://www.al-fayhagroup.net/products/prefabricated-building-products), [Al-Burhan](https://www.alburhangroup.com/concrete-precast-factory.php) and [Al-Kanz](https://alkanz.iq/about-us/) for precast/piles/girders. Their public pages establish supplier leads only. Request exact grades, certificates, capacity allocation, schedule, warranty, transport and binding project quotations before using them in a candidate estimate. The regional [FRP Technology](https://www.frptechnology.com/) lead advertises an Iraq distribution network, but this does not establish Iraqi GFRP feedstock manufacture or local stock.
 
 Additional domestic production leads are now retained as distinct sources:
@@ -94,7 +117,7 @@ The official [CSO industrial-establishment indicators](https://cosit.gov.iq/ar/2
 
 The regional price library uses the CSO 2025 Iraqi-origin material rows and daily wage averages for the 15 governorates in the bulletin. The bulletin excludes Kurdistan Region governorates. Missing source-table values are not interpreted as zero: concrete estimates are held for Kirkuk, Wasit and Salah al-Din because at least one required material price is not reported. Annual market averages are not exact supplier quotations, and wage rates are base averages rather than employer-loaded factory charge-out rates.
 
-The reproducible [regional cost packet](domestic-fabrication/regional-estimates-2025-v4/iraq-domestic-cost-reference-2025.json) contains 102 unit-rate scenarios: concrete batching for 12 governorates, rebar cut/bend for all 15, nine Baghdad aluminium-profile processing sensitivities across three Ur Company finishes, and 12 Baghdad sheet-processing sensitivities across four posted sheet forms. Each uses an explicit material input, labour-hour scenario and a 20% uplift on direct material plus direct base wage. The labour hours are planning sensitivities, not timed shop routes; the uplift is unallocated and is not verified as overhead, profit, tax or contingency.
+The reproducible [regional cost packet](domestic-fabrication/regional-estimates-2025-v6/iraq-domestic-cost-reference-2025.json) contains 102 unit-rate scenarios: concrete batching for 12 governorates, rebar cut/bend for all 15, nine Baghdad aluminium-profile processing sensitivities across three Ur Company finishes, and 12 Baghdad sheet-processing sensitivities across four posted sheet forms. Each uses an explicit material input, labour-hour scenario and a 20% uplift on direct material plus direct base wage. The labour hours are planning sensitivities, not timed shop routes; the uplift is unallocated and is not verified as overhead, profit, tax or contingency.
 
 | Domestic fabrication scenario | Declared input basis | Estimated rate with 20% uplift |
 |---|---|---:|
@@ -110,19 +133,19 @@ The reproducible [regional cost packet](domestic-fabrication/regional-estimates-
 
 These sheet estimates use the Ur Company page’s four price rows (IQD 5.10–5.30 million/t) as raw-stock inputs. The page does not identify alloy or temper standards, establish whether the labels correspond to structural properties, or specify availability, yield, cutting/forming operations, joining, tooling or delivery. The output is therefore raw-stock plus assumed labour, not a formed panel price or vehicle-body estimate. Do not use it to replace the aluminium body candidate’s engineering masses or qualifications.
 
-The Baghdad concrete scenarios are also applied to the exact research-candidate nominal-volume takeoff, preserving its 81 manufacturing groups and 486 original engineering occurrences. The 2025 material-rate packet estimates IQD **207.05–328.87 million** for the modeled 1,804.81 m³ nominal concrete volume across the 2/4/8-hour cases. That is a recipe-based estimate for a research candidate, not a structural mix, complete precast span, installed civil price or selected-reference cost. It excludes rebar, prestress, moulds, factory utilities, QA, handling, transport, piers, foundations, erection and maintenance. See the [2 h](domestic-fabrication/regional-estimates-2025-v4/baghdad-concrete-takeoff-2h.json), [4 h](domestic-fabrication/regional-estimates-2025-v4/baghdad-concrete-takeoff-4h.json) and [8 h](domestic-fabrication/regional-estimates-2025-v4/baghdad-concrete-takeoff-8h.json) group-mapped packets.
+The Baghdad concrete scenarios are also applied to the exact research-candidate nominal-volume takeoff, preserving its 81 manufacturing groups and 486 original engineering occurrences. The 2025 material-rate packet estimates IQD **207.05–328.87 million** for the modeled 1,804.81 m³ nominal concrete volume across the 2/4/8-hour cases. That is a recipe-based estimate for a research candidate, not a structural mix, complete precast span, installed civil price or selected-reference cost. It excludes rebar, prestress, moulds, factory utilities, QA, handling, transport, piers, foundations, erection and maintenance. See the [2 h](domestic-fabrication/regional-estimates-2025-v6/baghdad-concrete-takeoff-2h.json), [4 h](domestic-fabrication/regional-estimates-2025-v6/baghdad-concrete-takeoff-4h.json) and [8 h](domestic-fabrication/regional-estimates-2025-v6/baghdad-concrete-takeoff-8h.json) group-mapped packets.
 
 Regenerate the regional unit-rate scenarios and group-mapped Baghdad concrete packets from the exact takeoff with:
 
 ```bash
 ./tools/automation/osr-python -m engineering.sourcing.iraq_cost_scenarios \
-  --takeoff docs/design-engine/sourcing/material-takeoff/federated-v06-stock-takeoff-v4.json.gz \
+  --takeoff docs/design-engine/sourcing/material-takeoff/federated-v06-stock-takeoff-v5.json.gz \
   --output build/iraq-domestic-cost-scenarios
 ```
 
 ### Candidate material takeoff
 
-`./osr source takeoff material` now produces a material-oriented roll-up from the exact federated railway BOM. The [source-bound takeoff](material-takeoff/federated-v06-stock-takeoff-v4.json.gz) retains all 2,269 manufacturing-group identities and all 27,216 located engineering occurrences, while leaving the 4,773 unlocated accounts separate. It derives **4,780.58 t of located gross stock mass** and **1,804.81 m³ of nominal concrete stock geometry** from the candidate bundle. These are modeled stock quantities; they are not weighed installed mass, purchase orders, or complete project quantities.
+`./osr source takeoff material` now produces a material-oriented roll-up from the exact federated railway BOM. The [source-bound takeoff](material-takeoff/federated-v06-stock-takeoff-v5.json.gz) retains all 2,269 manufacturing-group identities and all 27,216 located engineering occurrences, while leaving the 4,773 unlocated accounts separate. It derives **4,780.58 t of located gross stock mass** and **1,804.81 m³ of nominal concrete stock geometry** from the candidate bundle. These are modeled stock quantities; they are not weighed installed mass, purchase orders, or complete project quantities.
 
 | Material family | Candidate stock quantity | Sourced price reference | Treatment |
 |---|---:|---:|---|
@@ -136,7 +159,7 @@ The metal extensions are raw-commodity comparisons, **not accepted supplier matc
 
 ### Draft procurement-package BOM
 
-The [package packet](procurement-bom/federated-v06-research-packages-v4.json.gz) groups all **27,216 located stock occurrences** in the federated research candidate into 191 hierarchy-based sourcing-package candidates. It preserves each engineering occurrence, manufacturing-group identity, and related procurement/manufacturing task ID. The **4,773 unlocated obligations remain separate** and do not enter package masses or quantities.
+The [package packet](procurement-bom/federated-v06-research-packages-v5.json.gz) groups all **27,216 located stock occurrences** in the federated research candidate into 191 hierarchy-based sourcing-package candidates. It preserves each engineering occurrence, manufacturing-group identity, and related procurement/manufacturing task ID. The **4,773 unlocated obligations remain separate** and do not enter package masses or quantities.
 
 | Draft sourcing scope | Packages | Located occurrences | Modeled gross stock mass |
 |---|---:|---:|---:|
@@ -153,8 +176,8 @@ Reproduce the deterministic package grouping from the sealed federated input:
 
 ```bash
 ./osr source procurement-bom \
-  --input docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-domestic-sources-v5/input.json.gz \
-  --regional-cost-reference docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2025-v4/iraq-domestic-cost-reference-2025.json \
+  --input docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-domestic-sources-v6/input.json.gz \
+  --regional-cost-reference docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2025-v6/iraq-domestic-cost-reference-2025.json \
   --output build/federated-v06-procurement-packages.json.gz
 ```
 
@@ -164,7 +187,7 @@ Reproduce the takeoff from its exact digital-twin source:
 ./osr source takeoff material \
   --input docs/design-engine/digital-twin/3a07936303fe5d471a88c95875e55b73b13a5cda94e98d1169f168c647766a93.tar.gz \
   --member federated-bom.json.gz --as-of 2026-10-30 \
-  --output build/federated-v06-stock-takeoff-v4.json.gz
+  --output build/federated-v06-stock-takeoff-v5.json.gz
 ```
 
 The domestic fabrication screen is formula-driven:
@@ -176,7 +199,7 @@ estimated unit cost = (material quantity × source rate
 
 For a reference tonne of reinforcing-steel input, it produces **IQD 1,231,800**, **1,276,800** and **1,366,800 per input tonne** at 4, 8 and 16 skilled-worker hours respectively. The midpoint is IQD 989,000 materials + IQD 75,000 direct labour + IQD 212,800 (20% of their IQD 1,064,000 sum). The 4/8/16-hour values are planning scenarios, not measured local process hours. The 20% is the requested unallocated planning uplift; it is not evidence for a tax, contingency, margin or factory overhead rate. Rebar cutting/bending yield, binding wire, machinery, tooling, QA, power, packaging, employer charges, transport and delivery are excluded. The estimate is attached to the exact digital-twin evaluation input for provenance, but is not assigned to a physical railway occurrence or takeoff quantity.
 
-The source-bound [recipe files](domestic-fabrication/recipes/) and regenerated [4-hour](domestic-fabrication/estimates/current/rebar-cut-bend-04h-v3.json), [8-hour](domestic-fabrication/estimates/current/rebar-cut-bend-08h-v3.json) and [16-hour](domestic-fabrication/estimates/current/rebar-cut-bend-16h-v3.json) estimate packets retain source record IDs and all omitted cost scopes. The current 2026 material observation is IQD 989,000/t; the resulting labour + material + 20% screens are IQD 1,231,800 / 1,276,800 / 1,366,800 per input tonne at 4/8/16 assumed hours. They do not close a guideway beam, car body or installed railway cost.
+The source-bound [recipe files](domestic-fabrication/recipes/) and regenerated [4-hour](domestic-fabrication/estimates/current/rebar-cut-bend-04h-v4.json), [8-hour](domestic-fabrication/estimates/current/rebar-cut-bend-08h-v4.json) and [16-hour](domestic-fabrication/estimates/current/rebar-cut-bend-16h-v4.json) estimate packets retain source record IDs and all omitted cost scopes. The current 2026 material observation is IQD 989,000/t; the resulting labour + material + 20% screens are IQD 1,231,800 / 1,276,800 / 1,366,800 per input tonne at 4/8/16 assumed hours. They do not close a guideway beam, car body or installed railway cost.
 
 A second domestic unit-rate screen applies the same method to an **illustrative one nominal m³ concrete batch**. The assumed input recipe is 0.35 t ordinary cement, 0.50 m³ red sand and 0.80 m³ crushed gravel. Using the September 2026 CSO observations, direct material is IQD 46,200 + IQD 10,500 + IQD 19,200 = **IQD 75,900** per assumed batch. With 2/4/8 skilled person-hours at the Baghdad 2025 base-wage statistic of IQD 9,375/hour, the estimated totals including 20% are **IQD 113,580 / 136,080 / 181,080 per nominal m³**, respectively.
 
@@ -190,11 +213,11 @@ This is not a concrete mix design or a precast guideway-beam price. Mix yield, s
 
 The same assumptions are now applied to the candidate-bound **1,804.8096 m³ nominal concrete volume** across 81 exact manufacturing groups and 486 engineering occurrences. The takeoff estimator verifies the complete group-volume sum and carries each group and occurrence identity into its output. It writes separate material, labour, uplift and total lines for every group as well as the aggregate, so the roll-up can be inspected without losing source traceability. Scaling the illustrative 0.35 t cement + 0.50 m³ red sand + 0.80 m³ crushed gravel per nominal m³ gives 631.683 t cement, 902.405 m³ sand and 1,443.848 m³ crushed gravel. The three direct-material estimates are IQD 136.985 million; labour at 2/4/8 skilled hours per m³ adds IQD 33.840/67.680/135.361 million; the 20% allowance yields totals of **IQD 204.990/245.598/326.815 million** (IQD 113,580/136,080/181,080 per nominal m³). These amounts are tied to the federation research candidate `9c7d0942…`, not the selected physical reference candidate. They price only the assumed material batch plus declared base labour and uplift against model volume; they are not a completed domestic fabrication or installed civil cost.
 
-The three takeoff-mapped recipes, output packets, exact group/occurrence lists and source hashes are indexed in [validation.json](validation.json): [2-hour estimate](domestic-fabrication/estimates/current/concrete-takeoff-02h-v3.json), [4-hour estimate](domestic-fabrication/estimates/current/concrete-takeoff-04h-v3.json) and [8-hour estimate](domestic-fabrication/estimates/current/concrete-takeoff-08h-v3.json). Reproduce one scenario with the `./osr source estimate takeoff` command above. The six generic unit-rate screens and three takeoff-mapped estimates remain different evidence scopes.
+The three takeoff-mapped recipes, output packets, exact group/occurrence lists and source hashes are indexed in [validation.json](validation.json): [2-hour estimate](domestic-fabrication/estimates/current/concrete-takeoff-02h-v4.json), [4-hour estimate](domestic-fabrication/estimates/current/concrete-takeoff-04h-v4.json) and [8-hour estimate](domestic-fabrication/estimates/current/concrete-takeoff-08h-v4.json). Reproduce one scenario with the `./osr source estimate takeoff` command above. The six generic unit-rate screens and three takeoff-mapped estimates remain different evidence scopes.
 
 ### GFRP local fabrication: listed material + local labour + 20%
 
-The new [GFRP cost screen](domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v5.json) joins the three source-bound 10 m² laminate hypotheses to the 2025 CSO Baghdad skilled-worker base wage of IQD 9,375/hour and the dated CBI GBP/IQD reference. It uses explicit 8/16/32 person-hour sensitivities per 10 m². The formula is `(known listed UK material extensions converted at CBI reference + assumed local base-wage labour) × 1.20`.
+The new [GFRP cost screen](domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v6.json) joins the three source-bound 10 m² laminate hypotheses to the 2025 CSO Baghdad skilled-worker base wage of IQD 9,375/hour and the dated CBI GBP/IQD reference. It uses explicit 8/16/32 person-hour sensitivities per 10 m². The formula is `(known listed UK material extensions converted at CBI reference + assumed local base-wage labour) × 1.20`.
 
 | 10 m² research recipe | Known listed materials converted to IQD | Partial screen at 8 / 16 / 32 labour hours, including 20% |
 |---|---:|---:|
@@ -222,7 +245,7 @@ DigiKey's [official Product Information API](https://developer.digikey.com/tutor
 
 ## Direct twin runs
 
-The current 290-record offline seed includes Iraqi domestic material/wage sources, the regional cement observation, local factory/fabrication/composites leads, and the official ready-mix, industrial payroll, import-report, price-bulletin and industrial-rehabilitation sources described above. The current vehicle-frame, 137-group balanced federation and all three laminate packets were regenerated and passed sourcing **semantic replay** against their sealed inputs and source snapshots. The material takeoff, 2025 regional estimates, 2026 candidate concrete scenarios, procurement package BOM and GFRP labour/material screen were also regenerated from their exact current sources. Packet IDs and the exact offline-seed record-set identity are in [validation.json](validation.json). The prior 282-record epoch remains source-bound in the v4 packets; the earlier 273-record epoch remains preserved in [validation-domestic-iraq-273-pre-extra-aluminium.json](validation-domestic-iraq-273-pre-extra-aluminium.json); earlier 60-record and 98-record catalogue epochs remain retained in [validation-pre-domestic-iraq.json](validation-pre-domestic-iraq.json) and [validation-domestic-iraq-pre-sensitivity.json](validation-domestic-iraq-pre-sensitivity.json). Raw downloaded source documents and the SQLite database remain outside the repository.
+The current 305-record offline seed includes the 2024 CSO private-building material ratios, Iraqi domestic material/wage sources, the regional cement observation, local factory/fabrication/composites leads, and the official ready-mix, industrial payroll, import-report, price-bulletin and industrial-rehabilitation sources described above. The current vehicle-frame, 137-group balanced federation and all three laminate packets were regenerated and passed sourcing **semantic replay** against their sealed inputs and source snapshots. The material takeoff, 2025 regional estimates, 2026 candidate concrete scenarios, procurement package BOM, GFRP labour/material screen and separate 2024 historical material cross-check were also regenerated from their exact current sources. Packet IDs and the exact offline-seed record-set identity are in [validation.json](validation.json). The prior 282-record epoch remains source-bound in the v4 packets; the earlier 273-record epoch remains preserved in [validation-domestic-iraq-273-pre-extra-aluminium.json](validation-domestic-iraq-273-pre-extra-aluminium.json); earlier 60-record and 98-record catalogue epochs remain retained in [validation-pre-domestic-iraq.json](validation-pre-domestic-iraq.json) and [validation-domestic-iraq-pre-sensitivity.json](validation-domestic-iraq-pre-sensitivity.json). Raw downloaded source documents and the SQLite database remain outside the repository.
 
 | Input and purpose | Evaluation | Result |
 |---|---|---|
@@ -239,14 +262,14 @@ In the current catalogue epoch, the vehicle frame still has 3,183 requirement gr
 
 ## Reproducible packages
 
-- Current 290-record source epoch: [vehicle registry](packets/frame-vehicle-iraq-domestic-sources-v5/summary.json) · [federated manufacturing-group roll-up](packets/federated-purchasing-groups-iraq-domestic-sources-v5/summary.json)
-- Current 290-record source epoch: [solid laminate](packets/laminate-materials-iraq-domestic-sources-v5/solid-600gsm/summary.json) · [sandwich laminate](packets/laminate-materials-iraq-domestic-sources-v5/sandwich-600gsm/summary.json) · [higher-fibre sandwich](packets/laminate-materials-iraq-domestic-sources-v5/higher-fibre-sandwich-600gsm/summary.json)
-- [Iraqi-local GFRP labour/material sensitivity packet](domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v5.json)
+- Current 305-record source epoch: [vehicle registry](packets/frame-vehicle-iraq-domestic-sources-v6/summary.json) · [federated manufacturing-group roll-up](packets/federated-purchasing-groups-iraq-domestic-sources-v6/summary.json)
+- Current 305-record source epoch: [solid laminate](packets/laminate-materials-iraq-domestic-sources-v6/solid-600gsm/summary.json) · [sandwich laminate](packets/laminate-materials-iraq-domestic-sources-v6/sandwich-600gsm/summary.json) · [higher-fibre sandwich](packets/laminate-materials-iraq-domestic-sources-v6/higher-fibre-sandwich-600gsm/summary.json)
+- [Iraqi-local GFRP labour/material sensitivity packet](domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v6.json)
 - Earlier 60-record epoch: [vehicle registry](packets/frame-vehicle/summary.json) · [whole-railway frontier](packets/federated-balanced-frontier/summary.json) · [manufacturing-group roll-up](packets/federated-purchasing-groups/summary.json)
 - Prior 98-record, pre-sensitivity epoch: [validation index](validation-domestic-iraq-pre-sensitivity.json) · [vehicle registry](packets/frame-vehicle-iraq-sources-pre-sensitivity-controller/summary.json) · [federated roll-up](packets/federated-purchasing-groups-iraq-sources-pre-sensitivity-controller/summary.json)
 - Earlier 60-record epoch: [solid laminate](packets/laminate-solid-600gsm/summary.json) · [sandwich laminate](packets/laminate-sandwich-600gsm/summary.json) · [higher-fibre sandwich](packets/laminate-higher-fibre-sandwich-600gsm/summary.json)
-- Domestic fabrication: [4-hour recipe](domestic-fabrication/recipes/rebar-cut-bend-04h.json) · [4-hour estimate](domestic-fabrication/estimates/current/rebar-cut-bend-04h-v3.json) · [8-hour estimate](domestic-fabrication/estimates/current/rebar-cut-bend-08h-v3.json) · [16-hour estimate](domestic-fabrication/estimates/current/rebar-cut-bend-16h-v3.json)
-- Concrete batch screen: [2-hour](domestic-fabrication/estimates/current/concrete-batch-02h-v3.json) · [4-hour](domestic-fabrication/estimates/current/concrete-batch-04h-v3.json) · [8-hour](domestic-fabrication/estimates/current/concrete-batch-08h-v3.json)
+- Domestic fabrication: [4-hour recipe](domestic-fabrication/recipes/rebar-cut-bend-04h.json) · [4-hour estimate](domestic-fabrication/estimates/current/rebar-cut-bend-04h-v4.json) · [8-hour estimate](domestic-fabrication/estimates/current/rebar-cut-bend-08h-v4.json) · [16-hour estimate](domestic-fabrication/estimates/current/rebar-cut-bend-16h-v4.json)
+- Concrete batch screen: [2-hour](domestic-fabrication/estimates/current/concrete-batch-02h-v4.json) · [4-hour](domestic-fabrication/estimates/current/concrete-batch-04h-v4.json) · [8-hour](domestic-fabrication/estimates/current/concrete-batch-08h-v4.json)
 - [Machine-readable run index](validation.json)
 
 From a repository checkout:
@@ -266,11 +289,11 @@ From a repository checkout:
   --output /tmp/osr-laminate-studies
 ./osr source verify /tmp/osr-laminate-studies/solid-600gsm
 ./osr source estimate fabrication \
-  --input docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-domestic-sources-v5/input.json.gz \
+  --input docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-domestic-sources-v6/input.json.gz \
   --recipe docs/design-engine/sourcing/domestic-fabrication/recipes/rebar-cut-bend-08h.json \
   --output /tmp/osr-domestic-fabrication-estimate.json
 ./osr source estimate gfrp-laminate \
-  --packet-root docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v5 \
+  --packet-root docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v6 \
   --output /tmp/osr-gfrp-local-fabrication-screen.json
 ./osr source serve
 ```

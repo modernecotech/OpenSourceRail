@@ -2,7 +2,7 @@ from decimal import Decimal
 from pathlib import Path
 
 from engineering.sourcing import catalogue, inputs
-from engineering.sourcing.iraq_cost_scenarios import _make_packet
+from engineering.sourcing.iraq_cost_scenarios import _make_2024_material_crosscheck, _make_packet
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -57,3 +57,34 @@ def test_ur_company_sheet_processing_scenarios_retain_source_candidate_and_uplif
     assert packet["candidate_takeoff_mapped_for_unit_rate_estimates"] is False
     assert packet["physical_qualification"] is None
     assert packet["unknown_is_zero"] is False
+
+
+def test_2024_cso_material_crosscheck_prices_material_plus_labour_plus_20_percent():
+    takeoff = inputs.read_json(TAKEOFF)
+    packet = _make_2024_material_crosscheck(catalogue.load_catalogue(), takeoff, TAKEOFF)
+
+    assert packet["schema"] == "osr-iraq-material-cost-history-crosscheck/1"
+    assert packet["candidate_id"] == takeoff["candidate_id"]
+    assert packet["source_input_id"] == takeoff["source_input_id"]
+    assert packet["candidate_takeoff_mapped"] is False
+    assert packet["basis"]["uplift_fraction"] == "0.20"
+    assert len(packet["historical_2024_material_2025_wage_scenarios"]) == 3
+    assert len(packet["current_2025_material_2025_wage_scenarios"]) == 3
+
+    historical = {row["labour_hours_per_nominal_m3"]: row["process"]
+                  for row in packet["historical_2024_material_2025_wage_scenarios"]}
+    current = {row["labour_hours_per_nominal_m3"]: row["process"]
+               for row in packet["current_2025_material_2025_wage_scenarios"]}
+    assert {key: value["estimated_unit_cost"] for key, value in historical.items()} == {
+        "2": "103200", "4": "125700", "8": "170700"}
+    assert {key: value["estimated_unit_cost"] for key, value in current.items()} == {
+        "2": "114720", "4": "137220", "8": "182220"}
+    for process in [*historical.values(), *current.values()]:
+        assert process["uplift_fraction"] == "0.2"
+        assert process["candidate_takeoff_mapped"] is False
+        assert process["complete_installed_cost"] is None
+        assert process["unknown_is_zero"] is False
+
+    grit = next(row for row in packet["material_rate_comparisons"]
+                if row["material"].startswith("2024 normal grit"))
+    assert "not established" in grit["annual_2025_baghdad"]["product_scope_correspondence"]

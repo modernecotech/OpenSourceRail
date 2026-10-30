@@ -144,6 +144,16 @@ def load_twin(path, *, member=None):
         origin = dict(_origin(path), member=member, member_sha256=hashlib.sha256(parts[member]).hexdigest())
     else:
         payload = read_json(path)
+        if isinstance(payload, dict) and payload.get("schema") == "osr-sourcing-twin-input/1":
+            if (set(payload) != {"schema", "payload", "payload_id", "origin", "input_scope", "physical_qualification"}
+                    or not isinstance(payload.get("payload"), dict)
+                    or not is_id(payload.get("payload_id"))
+                    or payload["payload_id"] != identity(payload["payload"])
+                    or not isinstance(payload.get("origin"), dict)
+                    or not isinstance(payload.get("input_scope"), str)
+                    or payload.get("physical_qualification") is not None):
+                raise ValueError("Sealed sourcing twin-input wrapper differs")
+            return payload
         origin = _origin(path)
     return dict(schema="osr-sourcing-twin-input/1", payload=payload, payload_id=identity(payload),
                 origin=origin, input_scope="integrity-and-typed-inventory; no engineering approval",
