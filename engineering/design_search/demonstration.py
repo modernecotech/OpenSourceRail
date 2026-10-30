@@ -207,6 +207,262 @@ def summary(value):
                   'Manufacturing/installation quotes, energy purchases, service reliability and whole-life costs'], **FLAGS)
 
 
+def comparative_report(value, equipped):
+    """Publish a same-contract comparison without treating demand as available performance."""
+    if not isinstance(equipped, dict) or equipped.get('record_id') != value.get('equipped_record_id'):
+        raise ValueError('Comparative report requires the exact equipped-candidate record')
+    body_families = {}
+    for parent in equipped.get('output', {}).get('candidates', []):
+        body = parent.get('body', {})
+        body_id = body.get('candidate_id')
+        family = body.get('parameters', {}).get('family')
+        if not body_id or not family or body_id in body_families:
+            raise ValueError('Equipped body candidates need unique identities and declared families')
+        body_families[body_id] = family
+
+    rows = []
+    seen_bundles = set()
+    for record in value.get('rows', []):
+        bundle, output = record['bundle'], record['output']
+        if (record.get('record_id') != identity({k: v for k, v in record.items() if k != 'record_id'})):
+            raise ValueError('Comparative row does not match its immutable closure record')
+        if (output.get('candidate_id') != bundle.get('candidate_id')
+                or output.get('body_candidate_id') != bundle.get('body_candidate_id')
+                or bundle.get('body_candidate_id') not in body_families
+                or bundle.get('bundle_id') in seen_bundles):
+            raise ValueError('Comparative report mixes or duplicates physical candidate identities')
+        seen_bundles.add(bundle['bundle_id'])
+
+        scenario_rows = []
+        for motion_record in output.get('motion', []):
+            motion = motion_record['result']
+            demand = motion['required_demand']
+            braking = motion['braking'].get('cases', [])
+            scenario_rows.append({
+                'scenario_name': motion_record['name'],
+                'load_case': motion.get('scenario', {}).get('load'),
+                'motion_evaluation_id': motion.get('evaluation_id'),
+                'demand_id': demand.get('demand_id'),
+                'raw_demand_id': demand.get('raw_demand_id'),
+                'execution': demand.get('execution'),
+                'numerical_validity': demand.get('numerical_validity'),
+                'evidence': demand.get('evidence'),
+                'evidence_maturity': demand.get('evidence_maturity'),
+                'demand_path_reached_target': demand.get('reachable'),
+                'demand_path_runtime_s': demand.get('runtime_s'),
+                'required_peak_force_N_per_car': demand.get('peak_required_force_N_per_car'),
+                'required_peak_force_N_train': demand.get('peak_required_force_N_train'),
+                'required_peak_power_W_per_car': demand.get('peak_required_power_W_per_car'),
+                'required_peak_power_W_train': demand.get('peak_required_power_W_train'),
+                'required_traction_mechanical_energy_J_per_car': demand.get('traction_mechanical_energy_J_per_car'),
+                'required_traction_mechanical_energy_J_train': demand.get('traction_mechanical_energy_J_train'),
+                'available_force_N_per_car': demand.get('available_force'),
+                'available_force_map_id': motion.get('forward_motion', {}).get('available_motor_map_id'),
+                'actual_protected_headway_s': demand.get('actual_protection_headway_s'),
+                'brake_hypothesis_cases': [{
+                    'case': case.get('case'),
+                    'state': case.get('state'),
+                    'stopping_distance_m': case.get('distance_m'),
+                    'final_speed_m_s': case.get('final_speed_m_s'),
+                    'disc_heat_J_per_car': case.get('disc_heat_J_per_car'),
+                    'lumped_disc_temperature_C_hypothesis': case.get('lumped_disc_temperature_C_hypothesis'),
+                    'friction_fade_curve_qualified': case.get('friction_fade_curve_qualified'),
+                } for case in braking],
+            })
+
+        normal = next((row for row in scenario_rows if row['scenario_name'] == 'normal'), None)
+        adverse = next((row for row in scenario_rows if row['scenario_name'] == 'adverse-normal'), None)
+        max_force = [row['required_peak_force_N_train'] for row in scenario_rows
+                     if isinstance(row['required_peak_force_N_train'], (int, float))]
+        max_power = [row['required_peak_power_W_train'] for row in scenario_rows
+                     if isinstance(row['required_peak_power_W_train'], (int, float))]
+        civil = output.get('civil', {})
+        economics = output.get('economics', {})
+        architecture = output.get('architecture', {})
+        propulsion = output.get('propulsion', {})
+        inventory = output.get('inventory_summary', {})
+        geometry_coverage = inventory.get('geometry_coverage', {})
+        supply_coverage = inventory.get('supply_coverage', {})
+        available_map = propulsion.get('available_force_map')
+        available_map_id = (available_map if isinstance(available_map, str) else
+                            available_map.get('map_id', available_map.get('evaluation_id'))
+                            if isinstance(available_map, dict) else None)
+        mass = bundle.get('mass', {})
+        row = {
+            'bundle_id': bundle['bundle_id'],
+            'bundle_definition_id': bundle.get('definition_id'),
+            'candidate_id': bundle['candidate_id'],
+            'body_candidate_id': bundle['body_candidate_id'],
+            'body_family': body_families[bundle['body_candidate_id']],
+            'architecture_family': bundle.get('family_id'),
+            'route_distance_m': output.get('distance_m'),
+            'requirement_revision': bundle.get('requirement_revision'),
+            'mass': {
+                'accounted_tare_kg_per_car': mass.get('accounted_tare_kg_per_car'),
+                'accounted_normal_kg_per_car': mass.get('accounted_cap_loaded_kg_per_car'),
+                'accounted_160_person_control_kg_per_car': mass.get('accounted_160_control_kg_per_car'),
+                'mass_scope': output.get('mass_scope'),
+                'complete_installed_mass_kg': output.get('complete_installed_mass_kg'),
+                'complete_installed_CG_m': bundle.get('complete_installed_CG_m'),
+                'complete_installed_inertia_kg_m2': bundle.get('complete_installed_inertia_kg_m2'),
+            },
+            'inventory_and_manufacturing': {
+                'inventory_evaluation_id': output.get('inventory_evaluation_id'),
+                'known_accounted_mass_subtotal_kg': inventory.get('known_accounted_mass_subtotal_kg'),
+                'geometry_coverage': {
+                    'located_fraction_of_accounted_mass': geometry_coverage.get('located_fraction_of_accounted_mass'),
+                    'located_stock_occurrence_count': geometry_coverage.get('located_stock_occurrences'),
+                    'unknown_joint_count': len(geometry_coverage.get('unknown_joint_ids', [])),
+                    'unlocated_retained_account_count': len(geometry_coverage.get('unlocated_retained_account_ids', [])),
+                    'unlocated_architecture_requirement_count': len(geometry_coverage.get('unlocated_architecture_requirement_ids', [])),
+                    'scope': geometry_coverage.get('scope'),
+                },
+                'supply_coverage': {
+                    'quoted_component_count': supply_coverage.get('quoted_component_count'),
+                    'components_without_price_count': len(supply_coverage.get('components_without_price', [])),
+                    'lead_time_known_count': supply_coverage.get('lead_time_known_count'),
+                    'known_quoted_stock_cost_subtotal_USD': supply_coverage.get('known_quoted_stock_cost_subtotal_USD'),
+                    'complete_installed_CAPEX_USD': supply_coverage.get('complete_installed_CAPEX_USD'),
+                    'commercial_validity_assessed': supply_coverage.get('commercial_validity_assessed'),
+                },
+                'assembly_interfaces': inventory.get('assembly_interfaces'),
+                'quantity_summary': inventory.get('quantities'),
+                'complete_installed_mass_kg': inventory.get('complete_installed_mass_kg'),
+            },
+            'propulsion': {
+                'physical_primary_definition_id': propulsion.get('physical_primary_definition_id'),
+                'required_force_N_per_car_normal': propulsion.get('required_force_N_per_car'),
+                'required_peak_power_W_train_normal': propulsion.get('required_peak_power_W_train'),
+                'maximum_required_force_N_train_across_declared_loads': max(max_force) if max_force else None,
+                'maximum_required_power_W_train_across_declared_loads': max(max_power) if max_power else None,
+                'available_force_N_per_car': None if normal is None else normal['available_force_N_per_car'],
+                'available_force_map_id': available_map_id,
+                'electrical_thermal_duty_verified': propulsion.get('electrical_thermal_duty_verified'),
+            },
+            'architecture': {
+                'candidate_id': architecture.get('candidate_id'),
+                'evaluation_id': architecture.get('evaluation_id'),
+                'required_cycle_s': architecture.get('required_cycle_s'),
+                'serial_berth_interval_bound_s': architecture.get('serial_berth_interval_bound_s'),
+                'actual_protected_headway_s': architecture.get('actual_protected_headway_s'),
+                'price_coverage': architecture.get('price_coverage'),
+                'quantity_coefficients': architecture.get('quantity_coefficients'),
+            },
+            'journey_scenarios': scenario_rows,
+            'comparison_indicators': {
+                'normal_demand_path_runtime_s': None if normal is None else normal['demand_path_runtime_s'],
+                'normal_demand_path_reached_target': None if normal is None else normal['demand_path_reached_target'],
+                'adverse_demand_path_runtime_s': None if adverse is None else adverse['demand_path_runtime_s'],
+                'adverse_demand_path_reached_target': None if adverse is None else adverse['demand_path_reached_target'],
+            },
+            'faults': [{
+                'scenario': fault.get('name'),
+                'execution': fault.get('execution'),
+                'engineering_screen': fault.get('engineering_screen'),
+                'reason': fault.get('reason'),
+            } for fault in output.get('faults', [])],
+            'civil_alternatives': [{
+                'alternative_id': alternative.get('alternative_id'),
+                'physical_civil_component_id': alternative.get('physical_civil_component_id'),
+                'family': alternative.get('family'),
+                'span_m': alternative.get('span_m'),
+                'concrete_m3': alternative.get('concrete_m3'),
+                'counted_span_mass_kg': alternative.get('total_counted_span_mass_kg'),
+                'counted_steel_kg': alternative.get('counted_steel_kg'),
+                'deflection_screen': alternative.get('deflection_screen'),
+                'engineering_screen': alternative.get('engineering_screen'),
+                'torsion_and_unequal_rail_loading_qualified': alternative.get('torsion_and_unequal_rail_loading_qualified'),
+                'actual_installed_cost_USD': alternative.get('actual_installed_cost_USD'),
+                'installed_mass_complete': alternative.get('installed_mass_complete'),
+            } for alternative in civil.get('alternatives', [])],
+            'economics': {
+                'evaluation_id': economics.get('evaluation_id'),
+                'quantity_coefficients': economics.get('coefficients'),
+                'vehicle_installed_cost_USD': economics.get('vehicle_installed_cost_USD'),
+                'wayside_installed_cost_USD': economics.get('wayside_installed_cost_USD'),
+                'civil_installed_cost_USD': economics.get('civil_installed_cost_USD'),
+                'actual_energy_purchase_kWh': economics.get('actual_energy_purchase_kWh'),
+                'maintenance_renewal_downtime_cost_USD': economics.get('maintenance_renewal_downtime_cost_USD'),
+                'whole_life_cost_USD': economics.get('whole_life_cost_USD'),
+                'price_scope': economics.get('scope'),
+                'outstanding_cost_tasks': economics.get('tasks'),
+            },
+            'engineering_risks_and_next_work': {
+                'architecture_screens': architecture.get('screens'),
+                'architecture_failure_reasons': architecture.get('design_failure_reasons'),
+                'propulsion_tasks': propulsion.get('tasks'),
+                'fault_journeys': [{
+                    'scenario': fault.get('name'), 'execution': fault.get('execution'),
+                    'reason': fault.get('reason'),
+                } for fault in output.get('faults', [])],
+                'next_experiments': output.get('next_experiments'),
+            },
+            'acceptance': {key: output.get(key) for key in (
+                'configuration_adopted', 'engineering_accepted', 'physical_accepted',
+                'manufacturing_release', 'operating_release', 'physical_journey_completed')},
+        }
+        row['comparison_row_id'] = identity(row)
+        rows.append(row)
+
+    rows.sort(key=lambda row: (row['body_family'], row['architecture_family'],
+                               row['route_distance_m'], row['candidate_id']))
+    matrix = value['contract']['specification']
+    expected = len(matrix['body_families']) * len(matrix['architecture_families']) * len(matrix['distances_m'])
+    if len(rows) + len(value.get('pending', [])) != expected:
+        raise ValueError('Comparative report does not cover the exact body/architecture/distance matrix')
+    result = {
+        'schema': 'osr-candidate-journey-comparison/1',
+        'closure_evaluation_id': value['evaluation_id'],
+        'contract_id': value['contract_id'],
+        'equipped_record_id': equipped['record_id'],
+        'same_service_specification': matrix,
+        'body_candidate_count': len(body_families),
+        'evaluated_bundle_count': len(rows),
+        'pending_bundle_count': len(value.get('pending', [])),
+        'rows': rows,
+        'comparison_boundary': {
+            'required_demand_is_available_thrust': False,
+            'demand_path_reachability_is_operating_evidence': False,
+            'complete_installed_mass_required_for_physical_journey': True,
+            'unknown_cost_or_mass_is_zero': False,
+            'research_architecture_results_transfer_between_candidates': False,
+            'selection_or_physical_acceptance_claimed': False,
+        },
+        **FLAGS,
+    }
+    result['comparison_id'] = identity(result)
+    return result
+
+
+def _comparison_markdown(report):
+    lines = [
+        '## Candidate comparison matrix',
+        '',
+        'Each row is one exact body/architecture/route bundle under the same closure contract. Accounted masses are partial ledger values. Required force and power summarize demand across the four declared loads; they are not supplied propulsion performance. Adverse reachability applies only to the analytical demand path. A missing force map, installed mass or whole-life cost remains unknown.',
+        '',
+        '| Body family | Drive family | Route | Candidate | Accounted tare kg/car | Max required force kN/train | Max required power MW/train | Adverse demand path | Available force map | Complete mass | Whole-life cost |',
+        '|---|---|---:|---|---:|---:|---:|---|---|---|---|',
+    ]
+    for row in report['rows']:
+        force = row['propulsion']['maximum_required_force_N_train_across_declared_loads']
+        power = row['propulsion']['maximum_required_power_W_train_across_declared_loads']
+        adverse = row['comparison_indicators']['adverse_demand_path_reached_target']
+        lines.append('| {body} | {drive} | {distance:g} km | `{candidate}` | {mass} | {force} | {power} | {adverse} | {available} | {complete_mass} | {cost} |'.format(
+            body=row['body_family'], drive=row['architecture_family'],
+            distance=row['route_distance_m'] / 1000,
+            candidate=row['candidate_id'][:12],
+            mass=('unknown' if row['mass']['accounted_tare_kg_per_car'] is None else f"{row['mass']['accounted_tare_kg_per_car']:.1f}"),
+            force=('unknown' if force is None else f'{force / 1000:.2f}'),
+            power=('unknown' if power is None else f'{power / 1_000_000:.3f}'),
+            adverse=('unknown' if adverse is None else ('reached (demand only)' if adverse else 'missed (demand only)')),
+            available=('unknown' if row['propulsion']['available_force_map_id'] is None else row['propulsion']['available_force_map_id'][:12]),
+            complete_mass=('unknown' if row['mass']['complete_installed_mass_kg'] is None else f"{row['mass']['complete_installed_mass_kg']:.1f}"),
+            cost=('unknown' if row['economics']['whole_life_cost_USD'] is None else f"{row['economics']['whole_life_cost_USD']:.2f}"),
+        ))
+    lines += ['', 'The full machine-readable report preserves complete IDs, per-load force/power/energy and runtime, brake hypotheses, civil alternatives, quantity coefficients, source evaluations and acceptance flags in [comparison.json](comparison.json).', '']
+    return '\n'.join(lines)
+
+
 def _contract(value, root):
     current = dict(specification=specification(root), source_sha256=sources(root))
     if value.get('contract') != current or value.get('contract_id') != identity(current):
@@ -245,7 +501,9 @@ def publish(root=ROOT, *, state=None, output=None):
     target = Path(output) if output is not None else root / OUTPUT
     target.mkdir(parents=True, exist_ok=True)
     s = summary(value)
+    comparison = comparative_report(value, equipped)
     _write(target / 'summary.json', s)
+    _write(target / 'comparison.json', comparison)
     _write(target / 'source-epochs.json', sources(root))
     (target / 'cases.json.gz').write_bytes(gzip.compress(encoded(value), mtime=0))
     (target / 'equipped.json.gz').write_bytes(gzip.compress(encoded(equipped), mtime=0))
@@ -263,6 +521,7 @@ def publish(root=ROOT, *, state=None, output=None):
             'These are conditional calculations. Unlocated equipment accounts, GFRP/joint properties, '
             'actual electrical/thermal duty, brake hardware, site data and prices remain open. '
             'No preferred railway or physical release is selected.\n\n'
+            + _comparison_markdown(comparison) + '\n'
             'The [required test programme](required-tests.json.gz) specifies ten test families with exact candidate/component bindings, '
             'conditions, measured channels and units, prerequisites, calibration/authentication needs and criterion derivations. '
             'Physical records are unavailable for this programme revision. Every test is unexecuted, every approval limit remains unassigned, '
@@ -272,12 +531,12 @@ def publish(root=ROOT, *, state=None, output=None):
             'Run `./osr design railway demonstrate --max-bundles 12`; resume the same command for pending cases. '
             'Use `./osr design railway demonstration-publish` and '
             '`./osr design railway demonstration-verify` to regenerate/check this packet.\n\n'
-            '[Summary](summary.json) · [Executed cases](cases.json.gz) · '
+            '[Summary](summary.json) · [Candidate comparison](comparison.json) · [Executed cases](cases.json.gz) · '
             '[Bodies and equipped projections](equipped.json.gz) · [Sources](source-epochs.json)\n')
     (target / 'README.md').write_text(text)
     manifest = dict(schema='osr-end-to-end-railway-closure-publication/1', evaluation_id=value['evaluation_id'],
                     sources=sources(root), files={name: digest(target / name) for name in
-                    ('README.md', 'summary.json', 'source-epochs.json', 'cases.json.gz', 'equipped.json.gz','required-tests.json.gz')}, **FLAGS)
+                    ('README.md', 'summary.json', 'comparison.json', 'source-epochs.json', 'cases.json.gz', 'equipped.json.gz','required-tests.json.gz')}, **FLAGS)
     manifest['publication_id'] = identity(manifest)
     _write(target / 'manifest.json', manifest)
     return verify(root, output=target)
@@ -299,6 +558,11 @@ def verify(root=ROOT, *, output=None):
     equipped = json.loads(gzip.decompress((target / 'equipped.json.gz').read_bytes()))
     if equipped.get('record_id') != identity({k: v for k, v in equipped.items() if k != 'record_id'}) or equipped['record_id'] != value['equipped_record_id']:
         raise ValueError('Closure equipped evidence differs')
+    comparison = json.loads((target / 'comparison.json').read_bytes())
+    if (comparison != comparative_report(value, equipped)
+            or comparison.get('comparison_id') != identity({k: v for k, v in comparison.items()
+                                                            if k != 'comparison_id'})):
+        raise ValueError('Candidate comparison does not reproduce from exact closure rows')
     _coverage(value, equipped, root)
     if equipped['request'] != value['contract'] or equipped['output'] != equipped_candidates.comparison(root):
         raise ValueError('Equipped stock and installation projection do not reproduce')
