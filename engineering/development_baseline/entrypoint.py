@@ -207,10 +207,11 @@ def main(argv=None, root=ROOT):
             if rest in (['-h'], ['--help'], ['help']):
                 print('Usage: ./osr design railway COMMAND [arguments]\n\n'
                       '  plan, run [--max-bundles N] [--native-jobs N], publish, verify\n'
-                      '  refine --parent-result PATH --candidate-id ID, refine-verify --parent-result PATH --candidate-id ID\n'
+                      '  refine/refine-verify --parent-result PATH --candidate-id ID\n'
+                      '  refine-next/refine-next-verify --parent-result PATH --candidate-id ID\n'
                       '  demonstration-plan, demonstrate [--max-bundles N], demonstration-publish, demonstration-verify')
                 return 0
-            from engineering.design_search import railway_campaign,railway_publication,railway_refinement,remit
+            from engineering.design_search import railway_campaign,railway_publication,railway_refinement,railway_fine_refinement,remit
             if rest and rest[0] in ('demonstration-plan','demonstrate','demonstration-publish','demonstration-verify'):
                 from engineering.design_search import demonstration
                 action=rest[0]
@@ -232,22 +233,24 @@ def main(argv=None, root=ROOT):
                 emit(dict(specification=railway_campaign.specification(root),remit=remit.default(),dependency_graph=railway_campaign.EDGES,physical_accepted=False));return 0
             if rest==['publish']:emit(railway_publication.build(root));return 0
             if rest==['verify']:emit(railway_publication.verify(root));return 0
-            if rest and rest[0] in ('refine','refine-verify'):
+            if rest and rest[0] in ('refine','refine-verify','refine-next','refine-next-verify'):
                 action=rest[0]
                 options=argparse.ArgumentParser(prog='./osr design railway '+action)
                 options.add_argument('--parent-result',type=Path,required=True)
                 options.add_argument('--candidate-id',required=True)
                 parsed=options.parse_args(rest[1:])
                 parent_result=parsed.parent_result if parsed.parent_result.is_absolute() else root/parsed.parent_result
-                if action=='refine':emit(railway_refinement.run(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
-                emit(railway_refinement.verify(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
+                evaluator=railway_refinement if action in ('refine','refine-verify') else railway_fine_refinement
+                if action in ('refine','refine-next'):
+                    emit(evaluator.run(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
+                emit(evaluator.verify(root,parent_result=parent_result,candidate_id=parsed.candidate_id));return 0
             if rest and rest[0]=='run':
                 options=argparse.ArgumentParser(prog='./osr design railway run');options.add_argument('--max-bundles',type=int);options.add_argument('--native-jobs',type=int,default=0)
                 parsed=options.parse_args(rest[1:]);r=railway_campaign.run(root,maximum_new_bundles=parsed.max_bundles,native_jobs=parsed.native_jobs)
                 if r.get('integrated_selection') is not None or r.get('selected_reference_changed') is not False or any(r.get(k) is not False for k in ('physical_accepted','engineering_accepted','configuration_adopted','manufacturing_release','operating_release')):raise ValueError('Coordinated research cannot select or release a railway')
                 emit(dict(campaign_id=r['campaign_id'],contract_id=r['contract_id'],body_definitions=len(r['bodies']),evaluated_bundles=len(r['rows']),
                     new_bundles=r['new_bundles'],reused_bundles=r['reused_bundles'],frontier_items=len(r['frontier']),integrated_selection=None,physical_accepted=False));return 0
-            raise ValueError('Use ./osr design railway plan, run [--max-bundles N] [--native-jobs N], publish, verify, refine, refine-verify, demonstration-plan, demonstrate [--max-bundles N] [--state PATH], demonstration-publish or demonstration-verify')
+            raise ValueError('Use ./osr design railway plan, run [--max-bundles N] [--native-jobs N], publish, verify, refine, refine-verify, refine-next, refine-next-verify, demonstration-plan, demonstrate [--max-bundles N] [--state PATH], demonstration-publish or demonstration-verify')
         if command=='generative':
             from engineering.design_search import generative_campaign,generative_publication
             if rest==['plan']:emit(generative_campaign.specification());return 0
