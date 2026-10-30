@@ -779,7 +779,9 @@ def _write_regional_publication(destination, packet):
         "- Supplier communication: none sent",
         "",
     ]
-    _write_fresh(destination / "README.md", "\n".join(lines))
+    readme_path = destination / "README.md"
+    with readme_path.open("x", encoding="utf-8") as stream:
+        stream.write("\n".join(lines) + "\n")
     file_hashes = {
         path.relative_to(destination).as_posix(): inputs.digest(path)
         for path in sorted(destination.rglob("*"))

@@ -13,10 +13,10 @@ OUTPUT = ROOT / "docs/design-engine/sourcing/validation-current.json"
 FRAME = "docs/design-engine/sourcing/packets/frame-vehicle-iraq-domestic-sources-v13"
 FEDERATION = "docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-domestic-sources-v13"
 LAMINATES = "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v16"
-REGIONAL = "docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v4/iraq-domestic-cost-reference-2026-09.json"
+REGIONAL = "docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v5/iraq-domestic-cost-reference-2026-09.json"
 GFRP = "docs/design-engine/sourcing/domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v16.json"
 IMPORT_SCREEN = "docs/design-engine/sourcing/domestic-fabrication/cso-imported-aluminium-fabrication-sensitivity-2025-2026.json"
-PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v13.json.gz"
+PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v14.json.gz"
 
 
 def read_json(path):

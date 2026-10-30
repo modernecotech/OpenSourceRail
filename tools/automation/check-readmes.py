@@ -10,6 +10,10 @@ import subprocess
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 FLAGS = ('design_complete','physical_validation','manufacturing_release','physical_release')
+SEALED_LEGACY_PACKET_READMES = {
+    'docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v3/README.md',
+    'docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v4/README.md',
+}
 
 
 def repository_markdown():
@@ -20,7 +24,11 @@ def repository_markdown():
 
 
 def tracked_readmes():
-    return [p for p in repository_markdown() if p.name=='README.md']
+    # Keep these source-hashed historical packet bytes intact. Their former
+    # writer serialized Markdown as a JSON string; the current v5 generator
+    # writes a normal README and is included in this check.
+    return [p for p in repository_markdown() if p.name=='README.md'
+            and p.relative_to(REPO_ROOT).as_posix() not in SEALED_LEGACY_PACKET_READMES]
 
 
 def normalized(text):

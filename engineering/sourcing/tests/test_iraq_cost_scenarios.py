@@ -5,11 +5,35 @@ from engineering.sourcing import catalogue, inputs
 from engineering.sourcing.iraq_cost_scenarios import (
     _make_2024_material_crosscheck, _make_2026_july_reference,
     _make_2026_september_reference, _make_packet,
+    _write_regional_publication,
 )
 
 
 ROOT = Path(__file__).resolve().parents[3]
 TAKEOFF = ROOT / "docs/design-engine/sourcing/material-takeoff/federated-v06-stock-takeoff.json.gz"
+
+
+def test_regional_publication_writes_markdown_and_seals_its_exact_bytes(tmp_path):
+    packet = {
+        "candidate_id": "candidate",
+        "source_input_id": "input",
+        "takeoff_id": "takeoff",
+        "source_epoch_id": "epoch",
+        "source_ids": [],
+        "unit_rate_estimates": [],
+        "regional_concrete_takeoff_estimates": [],
+        "candidate_mapped_aluminium_stock_scenarios": [],
+        "packet_id": "packet",
+        "basis": {"formula": "materials + labour + uplift"},
+    }
+
+    _write_regional_publication(tmp_path, packet)
+
+    readme = (tmp_path / "README.md").read_text()
+    manifest = inputs.read_json(tmp_path / "manifest.json")
+    assert readme.startswith("# Iraqi domestic material + labour cost reference")
+    assert not readme.startswith('"# ')
+    assert manifest["file_sha256"]["README.md"] == inputs.digest(tmp_path / "README.md")
 
 
 def test_ur_company_sheet_processing_scenarios_retain_source_candidate_and_uplift():
