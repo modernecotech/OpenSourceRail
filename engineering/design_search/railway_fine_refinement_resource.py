@@ -484,7 +484,7 @@ def run(root=ROOT, *, parent_result: Path, candidate_id: str) -> dict:
         displacement = dict(status="unavailable", matched_point_count=0,
                             reason="The 8 GiB resource revision did not complete")
     trend = []
-    for mesh, evaluation_id, _raw, _request, previous in prior:
+    for mesh, evaluation_id, _raw, _prior_request, previous in prior:
         trend.append(dict(mesh_m=mesh, evaluation_id=evaluation_id,
                           maximum_displacements=previous.get("maximum_displacements"),
                           external_work_J=previous.get("external_work_J"),
