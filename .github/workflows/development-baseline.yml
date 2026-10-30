@@ -163,6 +163,8 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y poppler-utils fonts-dejavu-core
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/requirements.txt
+      - name: Pin NumPy for exact source-bound evaluator replay
+        run: .venv/bin/pip install numpy==2.3.5
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/development_baseline/tests engineering/station_rail/tests
