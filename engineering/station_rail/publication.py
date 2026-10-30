@@ -227,17 +227,26 @@ def _sourcing_section(root,record):
     if not (root/'docs/design-engine/sourcing'/procurement.get('regional_cost_reference_path', '')).is_file():
         raise ValueError('Linked regional domestic-cost reference is missing')
     concrete=[row for row in validation['domestic_fabrication_unit_rate_screens']
-              if 'concrete-batch-' in row['path']]
+              if 'concrete-batch-' in row['path'] and row.get('wage_observation_period')=='2026-09']
     mapped_concrete=validation.get('candidate_mapped_concrete_estimates', [])
-    regional=validation.get('regional_cost_reference', {})
+    historical_regional=validation.get('regional_cost_reference', {})
+    historical_packet_path=root/'docs/design-engine/sourcing'/historical_regional.get('path', '')
+    if not historical_packet_path.is_file():
+        raise ValueError('Historical regional domestic-cost packet is missing')
+    historical_packet=json.loads(historical_packet_path.read_bytes())
+    regional=validation.get('regional_cost_reference_2026_09', {})
     regional_packet_path=root/'docs/design-engine/sourcing'/regional.get('path', '')
     if not regional_packet_path.is_file():
-        raise ValueError('Regional domestic-cost packet is missing')
+        raise ValueError('September 2026 regional domestic-cost packet is missing')
     regional_packet=json.loads(regional_packet_path.read_bytes())
+    regional_manifest_path=regional_packet_path.parent/'manifest.json'
+    if not regional_manifest_path.is_file():
+        raise ValueError('September 2026 regional cost manifest is missing')
+    regional_manifest=json.loads(regional_manifest_path.read_bytes())
     if takeoff['candidate_id']!=federated['candidate_id']:
         raise ValueError('Sourcing takeoff and federated evaluation candidate identities differ')
     if len(concrete)!=3 or any(row['candidate_id']!=federated['candidate_id'] for row in concrete):
-        raise ValueError('Domestic concrete screens must retain their research candidate identity')
+        raise ValueError('September 2026 concrete screens must retain their research candidate identity')
     concrete_rates=sorted(int(row['estimated_unit_cost']) for row in concrete)
     selected_id=record['candidate_id']
     identity_note=(f"The current selected physical candidate is `{selected_id}`. The frame and federated sourcing runs instead use research candidates `{frame['candidate_id']}` and `{federated['candidate_id']}`. Their matching results, takeoff and cost screens do not transfer to the selected reference candidate."
@@ -245,21 +254,61 @@ def _sourcing_section(root,record):
         f"The federated sourcing run uses the selected physical candidate `{selected_id}`.")
     c=validation['catalogue']['counts']
     catalogue_line=(f"The current sourcing seed contains **{c['total']} immutable records**: {c['source']} sources, {c['product']} product observations, {c['offer']} published price offers, {c['fx']} FX observations and {c['benchmark']} benchmarks.")
-    if len(mapped_concrete)!=3 or any(row['candidate_id']!=federated['candidate_id'] for row in mapped_concrete):
+    if len(mapped_concrete)!=6 or any(row['candidate_id']!=federated['candidate_id'] for row in mapped_concrete):
         raise ValueError('Mapped concrete scenarios must retain the takeoff research candidate identity')
-    mapped_totals_miqd=sorted(float(row['estimated_total'])/1_000_000 for row in mapped_concrete)
-    regional_mapped=regional.get('baghdad_concrete_takeoff_estimates', [])
+    mapped_by_case={(row.get('region'),str(row.get('labour_hours_per_m3'))):row for row in mapped_concrete}
+    regional_mapped=regional.get('regional_concrete_takeoff_estimates', [])
+    regional_by_case={(row.get('region'),str(row.get('labour_hours_per_nominal_m3'))):row for row in regional_mapped}
     if (regional.get('candidate_id')!=federated['candidate_id']
         or regional.get('takeoff_id')!=takeoff.get('takeoff_id')
-        or len(regional_mapped)!=3
-        or any(row.get('candidate_id')!=federated['candidate_id'] for row in regional_mapped)):
+        or len(regional_mapped)!=6
+        or set(mapped_by_case)!=set(regional_by_case)
+        or any(row.get('candidate_id')!=federated['candidate_id'] for row in mapped_concrete)):
         raise ValueError('Regional cost scenarios must remain bound to the takeoff research candidate')
-    regional_totals_miqd=sorted(float(row['estimated_total_iqd'])/1_000_000 for row in regional_mapped)
+    for key,estimate in mapped_by_case.items():
+        regional_estimate=regional_by_case[key]
+        estimate_packet=json.loads((regional_packet_path.parent/regional_estimate['estimate_file']).read_bytes())
+        if (estimate.get('estimate_packet_id')!=regional_estimate.get('estimate_packet_id')
+            or estimate.get('process_record_id')!=regional_estimate.get('process_record_id')
+            or estimate.get('estimated_unit_cost')!=regional_estimate.get('estimated_unit_cost_iqd_per_nominal_m3')
+            or estimate.get('estimated_total')!=regional_estimate.get('estimated_total_iqd')
+            or estimate.get('mapped_group_count')!=regional_estimate.get('mapped_group_count')
+            or estimate.get('mapped_occurrence_count')!=regional_estimate.get('mapped_occurrence_count')
+            or estimate.get('mapped_group_count')!=81 or estimate.get('mapped_occurrence_count')!=486
+            or estimate_packet.get('candidate_id')!=federated['candidate_id']
+            or estimate_packet.get('estimate_packet_id')!=estimate.get('estimate_packet_id')
+            or estimate_packet.get('estimate',{}).get('record_id')!=estimate.get('process_record_id')
+            or estimate_packet.get('estimate',{}).get('estimated_total')!=estimate.get('estimated_total')
+            or estimate_packet.get('estimate',{}).get('candidate_takeoff_id')!=takeoff.get('takeoff_id')):
+            raise ValueError('September regional and candidate-mapped concrete quantities differ')
     regional_count=len(regional_packet.get('unit_rate_estimates', []))
     if (regional_count != regional.get('unit_rate_scenario_count')
         or regional_packet.get('packet_id') != regional.get('packet_id')
-        or regional_packet.get('candidate_id') != federated['candidate_id']):
+        or regional_packet.get('packet_id') != regional_manifest.get('packet_id')
+        or regional_packet.get('candidate_id') != federated['candidate_id']
+        or regional_packet.get('source_epoch_id')!=validation.get('source_epoch_sha256')
+        or regional_manifest.get('candidate_takeoff_scenario_count')!=6
+        or regional_manifest.get('mapped_group_count')!=81
+        or regional_manifest.get('mapped_occurrence_count')!=486
+        or regional_packet.get('complete_installed_cost') is not None
+        or regional_packet.get('physical_qualification') is not None
+        or regional_packet.get('unknown_is_zero') is not False
+        or regional_manifest.get('manifest_id')!=sourcing_identity({k:v for k,v in regional_manifest.items() if k!='manifest_id'})):
         raise ValueError('Regional material/labour scenario index differs from its candidate-bound packet')
+    expected_regional_files=regional_manifest.get('file_sha256',{})
+    if (len(expected_regional_files)!=20
+        or any(not (regional_packet_path.parent/name).is_file()
+               or digest(regional_packet_path.parent/name)!=expected
+               for name,expected in expected_regional_files.items())):
+        raise ValueError('September regional packet payload differs from its sealed manifest')
+    historical_count=len(historical_packet.get('unit_rate_estimates', []))
+    if (historical_count!=historical_regional.get('unit_rate_scenario_count')
+        or historical_packet.get('packet_id')!=historical_regional.get('packet_id')
+        or historical_packet.get('candidate_id')!=federated['candidate_id']):
+        raise ValueError('Historical regional cost reference differs from its source-bound index')
+    regional_totals_miqd=sorted(float(row['estimated_total_iqd'])/1_000_000 for row in historical_regional.get('baghdad_concrete_takeoff_estimates', []))
+    mapped_by_region={region:sorted(float(row['estimated_total'])/1_000_000 for row in mapped_concrete if row['region']==region)
+                      for region in ('Baghdad','Al-Muthanna')}
     gfrp_index=validation.get('gfrp_local_fabrication_cost_screen', {})
     gfrp_path=root/'docs/design-engine/sourcing'/gfrp_index.get('path', '')
     if not gfrp_index or not gfrp_path.is_file():
@@ -269,7 +318,7 @@ def _sourcing_section(root,record):
     expected_laminate={row['recipe']:row for row in validation['packets']['laminate_material_studies']}
     regional_wage_records={row.get('benchmark_key'):row for row in catalogue
                            if row.get('kind')=='benchmark'
-                           and row.get('benchmark_key','').startswith('iq-cso-2026-07:')
+                           and row.get('benchmark_key','').startswith('iq-cso-2026-09:')
                            and ':wage:skilled:hour-8h-day' in row.get('benchmark_key','')}
     regional_governorates={key.split(':')[1] for key in regional_wage_records}
     regional_scenario_total=sum(len(row.get('regional_scenarios',[])) for row in gfrp_studies)
@@ -280,6 +329,7 @@ def _sourcing_section(root,record):
         or gfrp_index.get('catalogue_epoch_id')!=validation.get('source_epoch_sha256')
         or gfrp_packet.get('basis',{}).get('executable_fx') is not False
         or gfrp_packet.get('basis',{}).get('uplift_fraction')!='0.20'
+        or gfrp_packet.get('basis',{}).get('wage_observation_period')!='2026-09'
         or len(regional_governorates)!=15
         or set(gfrp_packet.get('basis',{}).get('regional_governorates',[]))!=
            {row['governorate'] for row in gfrp_studies[0].get('regional_scenarios',[])}
@@ -357,19 +407,20 @@ def _sourcing_section(root,record):
       catalogue_line+' Iraqi source leads now include the Ministry industrial directory, steel and rebar, metal fabrication, cable and busbar production, transformers, precast concrete, GRP and façade manufacturing, polymer/resin supply, and aluminium extrusion. These company and directory pages are discovery leads, not quotations, qualified products or confirmed capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).','',
       identity_note,'',
       '| Research scope | Sourcing evidence | Cost disposition |','|---|---|---|',
-      f"| Frame candidate `{frame['candidate_id'][:12]}` | {frame['input_requirement_count']:,} groups; {frame['compatible_matches']} compatible priced matches | Nine RFQ drafts remain unsent; complete installed cost unknown |",
-      f"| Federated candidate `{federated['candidate_id'][:12]}` | {federated['physical_scope_count']:,} scopes in {federated['input_requirement_count']:,} sourcing groups; {federated['evaluated']:,} evaluated, {federated['pending']:,} pending | {federated['compatible_matches']} compatible priced matches; all {federated['evaluated_group_unknown_quantities']:,} evaluated purchase quantities unknown |",
+      f"| Frame candidate `{frame['candidate_id'][:12]}` | {frame['input_requirement_count']:,} groups; {frame['compatible_matches']} compatible priced matches | Complete installed cost unknown |",
+      f"| Federated candidate `{federated['candidate_id'][:12]}` | {federated['physical_scope_count']:,} physical scopes across {federated['input_requirement_count']:,} review requirements; {federated['evaluated']:,} evaluated, {federated['pending']:,} pending | {federated['compatible_matches']} compatible priced matches; nine RFQ drafts remain unsent |",
       f"| Material takeoff `{takeoff['candidate_id'][:12]}` | {takeoff['manufacturing_group_count']:,} groups retain {takeoff['located_occurrence_count']:,} located occurrences; {takeoff['unlocated_account_count']:,} unlocated accounts stay separate | {float(takeoff['known_gross_stock_mass_kg'])/1000:,.2f} t gross located stock and {float(takeoff['concrete_nominal_stock_volume_m3']):,.2f} m³ nominal concrete geometry are not installed mass or purchase quantities |",
-      f"| Draft procurement-package BOM `{procurement['candidate_id'][:12]}` | {procurement['located_stock_occurrence_count']:,} located occurrences grouped into {procurement['draft_package_count']:,} hierarchy-based packages; {procurement['packages_with_domestic_cost_estimates']} concrete spans carry {procurement['domestic_cost_estimate_scenario_count']} 2025 local material/labour scenarios | {procurement['unlocated_obligation_count']:,} obligations remain separate; no supplier prices, order quantities or assembly completeness |",
-      f"| Generic concrete fabrication screen | {len(concrete)} material/labour recipes using September 2026 national materials and 2025 Baghdad wages; 2–8 skilled person-hours per nominal m³ | IQD {concrete_rates[0]:,}–{concrete_rates[-1]:,}/m³ with a 20% allowance; not a structural mix or guideway-beam price |",'',
-      f"| 2026-price concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {mapped_totals_miqd[0]:.1f}–{mapped_totals_miqd[-1]:.1f} million for gross modeled concrete volume; not a mix design, precast beam price or installed cost |",
-      f"| 2025 Iraqi regional domestic-cost library | {regional_count} material/labour scenarios across concrete, rebar, aluminium profiles and four Ur sheet forms; concrete recipe prices available in 12 of 15 listed governorates | Three governorates have missing concrete material prices; all scenario hours are assumptions and the 20% uplift is unallocated |",
-      f"| 2025 Baghdad concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {regional_totals_miqd[0]:.1f}–{regional_totals_miqd[-1]:.1f} million on the 2025 regional material rates; not a designed mix or installed span price |",'',
+      f"| Draft procurement-package BOM `{procurement['candidate_id'][:12]}` | {procurement['located_stock_occurrence_count']:,} located occurrences grouped into {procurement['draft_package_count']:,} draft packages and {procurement['material_demand_line_count']} purchasing/material lines; {procurement['domestic_source_lead_association_count']} domestic-source lead associations across seven families | {procurement['unlocated_obligation_count']:,} obligations remain separate; no supplier prices, commercial order quantities or complete assembly scope |",
+      f"| Generic concrete fabrication screen | {len(concrete)} recipes using September 2026 Iraqi material and skilled-worker base-wage observations; 2/4/8 assumed person-hours per nominal m³ | IQD {concrete_rates[0]:,}–{concrete_rates[-1]:,}/m³ after materials + labour + 20%; not a designed mix or guideway-beam price |",
+      f"| September 2026 concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, with 2/4/8 assumed skilled h/m³ scenarios | Baghdad IQD {mapped_by_region['Baghdad'][0]:.1f}–{mapped_by_region['Baghdad'][-1]:.1f}m; Al-Muthanna IQD {mapped_by_region['Al-Muthanna'][0]:.1f}–{mapped_by_region['Al-Muthanna'][-1]:.1f}m, including 20%; ingredient screen, not a designed mix, precast beam price or installed cost |",
+      f"| 2025 Iraqi regional domestic-cost library | {historical_count} dated material/labour scenarios across concrete, rebar, aluminium profiles and four Ur sheet forms; concrete recipe prices available in 12 of 15 listed governorates | Three governorates have missing concrete material prices; all scenario hours are assumptions and the 20% uplift is unallocated |",
+      f"| 2025 Baghdad concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {regional_totals_miqd[0]:.1f}–{regional_totals_miqd[-1]:.1f} million on the 2025 regional material rates; not a designed mix or installed span price |",
       f"| Unlocated obligation cross-references | {obligation_links['linked_unique_obligation_count']:,}/{obligation_links['source_obligation_count']:,} accounts linked by hierarchy to related car/bogie/span/bank scopes; {obligation_links['package_association_count']:,} non-additive associations | No package mass, quantity or cost allocation; {obligation_links['unlinked_obligation_count']} network-level infrastructure obligations remain unlinked |",
-      *gfrp_rows,'',
+      '', '| GFRP study | Labour basis | Partial cost |','|---|---|---|',
+      *gfrp_rows,'', '| Regional GFRP scenario | Wage basis | Partial cost sensitivity |','|---|---|---|',
       *gfrp_regional_rows,'',
-      'The GFRP figures use listed Easy Composites UK material extensions converted at the 29 October 2026 CBI GBP/IQD reference and July 2026 CSO Baghdad or listed-governorate skilled-worker base-wage benchmarks. They are partial sensitivity screens: adhesives remain unresolved, sandwich-core prices are absent, and import, tooling, consumables, QA, fire/smoke, structural qualification and installation are excluded. The regional table covers only the 15 governorates in the CSO bulletin, excludes Kurdistan Region, and uses construction-worker wages as a proxy for composite-shop labour. They do not price a finished panel or transfer to the selected reference body.', '',
-      'The 2026-price estimate and the 2025 regional-price estimate are separately source-bound views of the same research-candidate concrete takeoff. Both preserve every original manufacturing-group and occurrence identity. Their material mix and labour hours remain assumptions, not measured process data; neither establishes a guideway beam, supplier match, complete installed mass or cost, or a cost for the selected reference candidate. The regional packet also includes rebar cut/bend and profile/sheet raw-stock processing sensitivities; the posted sheet rates do not establish structural grade or a completed manufacturing route.','',
+      'The GFRP figures use listed Easy Composites UK material extensions converted at the 29 October 2026 CBI GBP/IQD reference and September 2026 CSO Baghdad or listed-governorate skilled-worker base-wage benchmarks. They are partial sensitivity screens: adhesives remain unresolved, sandwich-core prices are absent, and import, tooling, consumables, QA, fire/smoke, structural qualification and installation are excluded. The regional table covers only the 15 governorates in the CSO bulletin, excludes Kurdistan Region, and uses construction-worker wages as a proxy for composite-shop labour. They do not price a finished panel or transfer to the selected reference body.', '',
+      'The September 2026, July 2026 and 2025 price views remain separately dated source-bound estimates. The September concrete takeoff preserves all 81 manufacturing groups and 486 occurrences across Baghdad and Al-Muthanna scenarios. Material mix and labour hours remain assumptions, not measured process data; neither establishes a guideway beam, supplier match, complete installed mass or cost, or a cost for the selected reference candidate. The regional library also includes rebar cut/bend and profile/sheet raw-stock processing sensitivities; posted sheet rates do not establish structural grade or a completed manufacturing route.','',
       'The reference dossier\'s 900 m shared winding and the separate five-bank research layout (100 m active motor length) remain distinct propulsion configurations. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.',''
     ]
 
