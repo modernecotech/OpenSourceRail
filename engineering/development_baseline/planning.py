@@ -371,6 +371,7 @@ def compile_bundle(*, root, baseline, current_summary, current_manifest, bundle_
         planning_revision=planning_identity, selected=False,
         origin='v0.5 retained city geography and station/service proposal; no old train or cost quantities imported',
         engineering_evaluation='held', route_performance_evaluated=False, city_performance_published=False,
+        complete_cost_known=False,
         procurement_requirements=dict(state='not-evaluated', known_rows=[], quantities_unknown=True,
             cost_usd=None, complete_cost_known=False),
         required_followups=[
