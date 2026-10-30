@@ -20,7 +20,7 @@ def test_current_readme_sourcing_section_checks_current_regional_cost_evidence()
     assert "137 evaluated, 6,905 pending" in report
     assert "nine RFQ drafts remain unsent" in report
     assert "191 draft packages and 8 purchasing/material lines" in report
-    assert "39 domestic-source lead associations across seven families" in report
+    assert "43 domestic-source lead associations across seven families" in report
     assert "materials + labour + 20%" in report
     assert "Baghdad IQD 205.0–326.8m; Al-Muthanna IQD 196.9–294.3m" in report
     assert "4,766/4,773 accounts linked" in report
@@ -38,3 +38,7 @@ def test_current_readme_sourcing_section_checks_current_regional_cost_evidence()
     assert "unpriced inputs remain open" in report
     assert "do not price a finished panel or transfer to the selected reference body" in report
     assert "validation-current.json" in report
+    assert "9.354 t across five bank groups and ten retained occurrences" in report
+    assert "IQD 90.19/91.03/92.72 million" in report
+    assert "do not establish winding-conductor compatibility" in report
+    assert "approximately 900 m winding allocation" in report
