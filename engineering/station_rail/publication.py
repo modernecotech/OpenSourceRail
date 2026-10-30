@@ -199,6 +199,25 @@ def _sourcing_section(root,record):
     if not proc_index or not procurement_path.is_file():
         raise ValueError('Candidate procurement-package packet is missing')
     procurement_packet=json.loads(gzip.decompress(procurement_path.read_bytes()))
+    sensitivity=validation.get('candidate_sourcing_sensitivity',{})
+    if (sensitivity.get('schema')!='osr-candidate-sourcing-sensitivity/1'
+        or sensitivity.get('procurement_packet_id')!=procurement_packet.get('packet_id')
+        or sensitivity.get('candidate_id')!=procurement_packet.get('candidate_id')
+        or sensitivity.get('evaluation_id')!=procurement_packet.get('evaluation_id')
+        or sensitivity.get('source_input_id')!=procurement_packet.get('source_input_id')
+        or sensitivity.get('sensitivity_id')!=sourcing_identity(
+            {key:value for key,value in sensitivity.items() if key!='sensitivity_id'})):
+        raise ValueError('Candidate sourcing sensitivity is not bound to the exact procurement packet')
+    sensitivity_rank_text='; '.join(
+        f"{row['scenario_spread_rank']}. {row['system']}/{row['material']}: "
+        f"IQD {Decimal(row['scenario_spread_iqd'])/Decimal(1_000_000):,.2f}m spread"
+        for row in sensitivity.get('ranked_partial_scenario_exposures',[]))
+    sensitivity_unranked_count=len(sensitivity.get('unranked_scopes',[]))
+    if (sensitivity.get('summary',{}).get('selection_margin') is not None
+        or sensitivity.get('summary',{}).get('could_change_preferred') is not None
+        or sensitivity.get('summary',{}).get('expected_value_of_information') is not None
+        or sensitivity.get('summary',{}).get('unknown_is_zero') is not False):
+        raise ValueError('Candidate sourcing sensitivity cannot infer preference or treat unknowns as zero')
     regional_index=validation.get('domestic_fabrication',{}).get('regional_cost_reference_2026_09',{})
     regional_packet_path=root/regional_index.get('path','')
     if not regional_index or not regional_packet_path.is_file():
@@ -625,6 +644,7 @@ def _sourcing_section(root,record):
       f"| Federated candidate `{federated['candidate_id'][:12]}` | {federated['physical_scope_count']:,} physical scopes across {federated['input_requirement_count']:,} review requirements; {federated['evaluated']:,} evaluated, {federated['pending']:,} pending | {federated['compatible_matches']} compatible priced matches; nine RFQ drafts remain unsent |",
       f"| Material takeoff `{takeoff['candidate_id'][:12]}` | {takeoff['manufacturing_group_count']:,} groups retain {takeoff['located_occurrence_count']:,} located occurrences; {takeoff['unlocated_account_count']:,} unlocated accounts stay separate | {float(takeoff['known_gross_stock_mass_kg'])/1000:,.2f} t gross located stock and {float(takeoff['concrete_nominal_stock_volume_m3']):,.2f} m³ nominal concrete geometry are not installed mass or purchase quantities |",
       f"| Draft procurement-package BOM `{procurement['candidate_id'][:12]}` | {procurement['located_stock_occurrence_count']:,} located occurrences grouped into {procurement['draft_package_count']:,} draft packages and {procurement['material_demand_line_count']} purchasing/material lines; {procurement['domestic_source_lead_association_count']} domestic-source lead associations across seven families | {procurement['unlocated_obligation_count']:,} obligations remain separate; no supplier prices, commercial order quantities or complete assembly scope |",
+      f"| Candidate sourcing sensitivity | {sensitivity['summary']['ranked_partial_scenario_exposure_count']} partial scenario spreads ranked; {sensitivity_unranked_count} material lines remain unranked. {sensitivity_rank_text} | Scenario spread is not a probability range, cost bound or value-of-information estimate; gross stock masses are context only; no preferred-design change can be inferred |",
       f"| Generic concrete fabrication screen | {len(concrete)} recipes using September 2026 Iraqi material and skilled-worker base-wage observations; 2/4/8 assumed person-hours per nominal m³ | IQD {concrete_rates[0]:,}–{concrete_rates[-1]:,}/m³ after materials + labour + 20%; not a designed mix or guideway-beam price |",
       f"| September 2026 concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, with 2/4/8 assumed skilled h/m³ scenarios | Baghdad IQD {mapped_by_region['Baghdad'][0]:.1f}–{mapped_by_region['Baghdad'][-1]:.1f}m; Al-Muthanna IQD {mapped_by_region['Al-Muthanna'][0]:.1f}–{mapped_by_region['Al-Muthanna'][-1]:.1f}m, including 20%; ingredient screen, not a designed mix, precast beam price or installed cost |",
       *[f"| Candidate {material.replace('-', ' ')} raw-stock sensitivity | {len(aluminium_scenarios)//2} distinct product-form/hour alternatives; mass and occurrence counts reconcile to the sealed takeoff | IQD {float(min(values))/1_000_000:.1f}–{float(max(values))/1_000_000:.1f}m including direct material, assumed Baghdad base-wage labour and 20%; alloy/temper, product compatibility, purchase yield and process route remain unknown |"

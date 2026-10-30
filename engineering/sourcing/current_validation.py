@@ -10,6 +10,7 @@ from .model import identity
 from .iraq_logistics_scenarios import SEED as LOGISTICS_SEED
 from .iraq_local_gfrp_cost_scenarios import LABOUR_SEED as HISTORICAL_LABOUR_SEED
 from .iraq_local_gfrp_cost_scenarios import LOCAL_SEED as LOCAL_COMPOSITE_SEED
+from .sensitivity import candidate_sourcing_sensitivity
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -396,6 +397,7 @@ def build_validation():
         raise ValueError("Current Iraqi retail composite screen or source identities differ")
     if len(import_rows) != 8 or import_screen["scenario_count"] != 12:
         raise ValueError("Imported-material benchmark or estimate count differs")
+    sourcing_sensitivity = candidate_sourcing_sensitivity(procurement)
 
     payload = {
         "schema": "osr-sourcing-current-validation/1",
@@ -621,6 +623,7 @@ def build_validation():
             "complete_installed_cost": procurement["complete_installed_cost"],
             "physical_qualification": procurement["physical_qualification"],
         },
+        "candidate_sourcing_sensitivity": sourcing_sensitivity,
         "cso_import_material_benchmarks": {
             "source_key": "iraq.cosit.import-report-2025",
             "source_id": import_source["record_id"],

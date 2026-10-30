@@ -10,7 +10,7 @@ def test_current_index_includes_separately_bound_material_leads_and_logistics():
     wage_history_2024 = packet["domestic_fabrication"]["construction_wage_history_2024"]
     procurement = packet["procurement_package_bom"]
     concrete = procurement["concrete_material_input_takeoff"]
-    assert leads["source_count"] == 11
+    assert leads["source_count"] == 12
     assert "iraq.regaasphalt.aggregate" in leads["source_ids"]
     assert "iraq.hewa.construction-materials" in leads["source_ids"]
     assert "iraq.lafarge-iraq.cement-products" in leads["source_ids"]
