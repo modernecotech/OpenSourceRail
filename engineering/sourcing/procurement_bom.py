@@ -104,6 +104,7 @@ _DOMESTIC_LEAD_RULES = {
         "iraq-nubin-grp-facade": "GRP/GFRP façade manufacturing inquiry; passenger-body qualification unassessed.",
         "iraq.iraqalhur-grp-factory": "GRP pipe capability only; body-panel capability unassessed.",
         "iraq.ncpi-chemical-plastic-industries": "Local foam/adhesive and polymer-operations inquiry; infusion resin, glass reinforcement and structural body qualification unassessed.",
+        "iraq.briskey-roj.composite-materials": "Iraqi composite-material distributor inquiry for polyester, gelcoat, fibreglass and curing/mould consumables; imported origin, exact grades, price, stock, railway fire/smoke suitability and structural compatibility unassessed; no source price is attached.",
     },
     ("vehicle/passive-bogie-pair", "steel-reference"): {
         "iraq.scosi-steel-industries": "General steel fabrication lead; bogie design, fatigue, material and process qualification unassessed.",

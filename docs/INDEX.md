@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1003**.
+Indexed Markdown files: **1004**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1003**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 132 |
+| [docs](#docs) | 133 |
 | [engineering](#engineering) | 26 |
 | [legacy](#legacy) | 30 |
 | [tools](#tools) | 2 |
@@ -988,6 +988,7 @@ Indexed Markdown files: **1003**.
 | [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v3/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v3/README.md) | Iraqi span logistics sensitivity |
 | [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v4/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v4/README.md) | Iraqi span logistics sensitivity |
 | [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v5/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v5/README.md) | Iraqi span logistics sensitivity |
+| [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v6/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v6/README.md) | Iraqi span logistics sensitivity |
 | [`docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v2/README.md`](../docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v2/README.md) | Iraqi domestic material + labour cost reference — September 2026 |
 | [`docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v3/README.md`](../docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v3/README.md) | regional-estimates-2026-september-v3 |
 | [`docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v4/README.md`](../docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v4/README.md) | regional-estimates-2026-september-v4 |
