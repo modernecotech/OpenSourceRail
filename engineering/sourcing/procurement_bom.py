@@ -69,7 +69,7 @@ _PACKAGE_SPECS = {
     },
 }
 
-_RULE_VERSION = "osr-procurement-package-rules/8"
+_RULE_VERSION = "osr-procurement-package-rules/9"
 
 _DOMESTIC_LEAD_RULES = {
     ("civil/concrete", "concrete-hypothesis"): {
@@ -88,6 +88,7 @@ _DOMESTIC_LEAD_RULES = {
         "iraq-saman-cement": "Local OPC/SRC material inquiry; no cement quantity is allocated to this nominal-concrete line, and no mix, batch certificate, price, or precast-beam offer is established.",
         "iraq-delta-cement": "Local OPC/SRC/PLC material inquiry; no cement quantity is allocated to this nominal-concrete line, and no mix, batch certificate, price, or precast-beam offer is established.",
         "iraq-darin-steel-rebar": "Rebar RFQ lead for the separately unlocated reinforcement obligations; no rebar quantity is included in this nominal-concrete stock line and no grade-specific offer is established.",
+        "iraq.hadeediraq.rebar-marketplace": "Marketplace/RFQ directory lead for separately unlocated reinforcement obligations; displayed prices are indicative marketplace supplier prices, not a Hadeed offer, and no seller, certified batch, quantity, binding project price or rebar quantity is attached to this nominal-concrete line.",
     },
     ("civil/rails", "60E1-mass-equivalent"): {},
     ("vehicle/body", "aluminium_reference"): {

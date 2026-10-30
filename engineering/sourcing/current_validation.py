@@ -20,13 +20,14 @@ LAMINATES = "docs/design-engine/sourcing/packets/laminate-materials-iraq-domesti
 REGIONAL = "docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v6/iraq-domestic-cost-reference-2026-09.json"
 GFRP = "docs/design-engine/sourcing/domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v19.json"
 IMPORT_SCREEN = "docs/design-engine/sourcing/domestic-fabrication/cso-imported-aluminium-fabrication-sensitivity-2025-2026.json"
-PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v19.json.gz"
+PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v20.json.gz"
 CONCRETE_RECIPE = "docs/design-engine/sourcing/domestic-fabrication/takeoff-recipes/concrete-material-inputs-2026-09.json"
-LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v4/iraq-span-logistics-sensitivity.json"
-LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v4/manifest.json"
+LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v5/iraq-span-logistics-sensitivity.json"
+LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v5/manifest.json"
 LOCAL_GFRP = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/iraq-local-gfrp-retail-screen.json"
 LOCAL_GFRP_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/manifest.json"
 ADDITIONAL_MATERIAL_SOURCES = "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json"
+CONSTRUCTION_WAGES_2024 = "engineering/sourcing/data/iraq-construction-wages-2024.json"
 
 
 def read_json(path):
@@ -52,6 +53,43 @@ def build_validation():
     additional_material_records = load_catalogue([ROOT / ADDITIONAL_MATERIAL_SOURCES])
     additional_material_sources = {row["source_key"]: row for row in additional_material_records
                                    if row["kind"] == "source"}
+    construction_wage_records = load_catalogue([ROOT / CONSTRUCTION_WAGES_2024])
+    construction_wage_sources = {row["source_key"]: row for row in construction_wage_records
+                                  if row["kind"] == "source"}
+    construction_wage_benchmarks = {row["benchmark_key"]: row for row in construction_wage_records
+                                    if row["kind"] == "benchmark"}
+    construction_wage_source = construction_wage_sources.get("iraq.cso.construction-wages-2024")
+    if (len(construction_wage_sources) != 1 or len(construction_wage_benchmarks) != 90
+            or construction_wage_source is None
+            or construction_wage_source.get("source_kind") != "national_statistic"
+            or construction_wage_source.get("observation_period") != "2024 annual construction-worker wage table"
+            or construction_wage_source.get("printed_page") != 9
+            or "not used in current candidate cost estimates" not in construction_wage_source.get("methodology", "")):
+        raise ValueError("Historical CSO 2024 construction-wage reference differs from its declared source scope")
+    expected_wage_keys = {
+        f"iq-cso-2024:{region}:wage:{category}:hour-8h-day"
+        for region in ("nineveh", "kirkuk", "diyala", "anbar", "baghdad", "babil", "karbala",
+                       "wasit", "salah-al-din", "najaf", "al-qadisiyyah", "al-muthanna",
+                       "dhi-qar", "maysan", "basrah")
+        for category in ("administrator", "engineer", "guard", "unskilled", "semi-skilled", "skilled")
+    }
+    if set(construction_wage_benchmarks) != expected_wage_keys:
+        raise ValueError("Historical CSO 2024 wage table does not cover the declared 15 × 6 source grid")
+    for wage in construction_wage_benchmarks.values():
+        daily = Decimal(wage["source_published_rate_iqd_per_work_day"])
+        if (wage.get("source_id") != construction_wage_source["record_id"]
+                or wage.get("quantity_unit") != "h"
+                or wage.get("currency") != "IQD"
+                or wage.get("employer_burden_included") is not False
+                or wage.get("supplier_quote") is not False
+                or wage.get("target_installed_rate") is not False
+                or Decimal(wage["unit_price"]) != daily / Decimal(8)):
+            raise ValueError("Historical CSO 2024 wage benchmark differs from its source or 8-hour normalization")
+    baghdad_skilled_2024 = construction_wage_benchmarks[
+        "iq-cso-2024:baghdad:wage:skilled:hour-8h-day"]
+    if (baghdad_skilled_2024.get("source_published_rate_iqd_per_work_day") != 75000
+            or baghdad_skilled_2024.get("unit_price") != "9375"):
+        raise ValueError("Historical CSO 2024 Baghdad skilled-wage value differs from the published table")
 
     frame, frame_manifest = packet(FRAME)
     federation, federation_manifest = packet(FEDERATION)
@@ -141,6 +179,24 @@ def build_validation():
             or procurement.get("source_registry_record_set_id")
             != identity(sorted(expected_source_registry, key=lambda row: row["record_id"]))):
         raise ValueError("Procurement source registry differs from the current catalogue and supplemental Iraqi source set")
+    procurement_lead_associations = sum(
+        row.get("domestic_fabrication_lead_count", 0)
+        for row in procurement.get("material_purchasing_lines", []))
+    concrete_lead_lines = [row for row in procurement.get("material_purchasing_lines", [])
+                           if (row.get("system"), row.get("material"))
+                           == ("civil/concrete", "concrete-hypothesis")]
+    hadeed_leads = [lead for row in concrete_lead_lines
+                    for lead in row.get("domestic_fabrication_lead_sources", [])
+                    if lead.get("source_key") == "iraq.hadeediraq.rebar-marketplace"]
+    if (procurement_lead_associations != 44 or len(concrete_lead_lines) != 1 or len(hadeed_leads) != 1
+            or hadeed_leads[0].get("price_recorded") is not False
+            or hadeed_leads[0].get("supplier_quotation") is not False
+            or hadeed_leads[0].get("technical_compatibility") is not None
+            or "rebar quantity is attached" not in hadeed_leads[0].get("relevance", "")
+            or any(row.get("kind") in {"product", "offer", "benchmark"}
+                   and row.get("source_id") == hadeed_leads[0].get("source_id")
+                   for row in additional_material_records)):
+        raise ValueError("Hadeed rebar directory must remain a source-only lead for unlocated reinforcement")
     if (abs(Decimal(concrete_takeoff["nominal_output_volume_m3"]) - Decimal("1804.8096")) > Decimal("0.00000001")
             or len(concrete_takeoff.get("material_inputs", [])) != len(concrete_recipe.get("material_inputs", []))):
         raise ValueError("Concrete material-input recipe volume or line count differs")
@@ -403,8 +459,23 @@ def build_validation():
                 "benchmark_count": sum(row["kind"] == "benchmark" for row in domestic_material_records),
                 "candidate_product_matches": 0,
                 "priced_offers": 0,
-                "lead_scope": "EPS panels; polyurethane foam; aluminium ingots/alloys/anode blocks; crushed aggregate production and Iraqi construction-material distribution; cement product families; rebar; precast foundation piles",
+                "lead_scope": "EPS panels; polyurethane foam; aluminium ingots/alloys/anode blocks; crushed aggregate production and Iraqi construction-material distribution; cement product families; rebar; precast foundation piles; rebar marketplace/RFQ directory",
                 "structural_core_or_body_qualification": None,
+            },
+            "construction_wage_history_2024": {
+                "seed_path": CONSTRUCTION_WAGES_2024,
+                "seed_sha256": hashlib.sha256((ROOT / CONSTRUCTION_WAGES_2024).read_bytes()).hexdigest(),
+                "source_id": construction_wage_source["record_id"],
+                "benchmark_count": len(construction_wage_benchmarks),
+                "governorate_count": 15,
+                "worker_category_count": 6,
+                "hour_normalization": "Published daily rate divided by explicit 8 working hours/day",
+                "baghdad_skilled_daily_iqd_per_workday": baghdad_skilled_2024["source_published_rate_iqd_per_work_day"],
+                "baghdad_skilled_hourly_iqd_per_hour": baghdad_skilled_2024["unit_price"],
+                "employer_burden_included": False,
+                "used_in_current_2025_2026_cost_scenarios": False,
+                "historical_only": True,
+                "limitation": "Historical base-wage context only; not inflation-adjusted, not an employer charge-out rate, and the bulletin does not tabulate the Kurdistan Region.",
             },
             "local_composite_retail_cost_screen": {
                 "path": LOCAL_GFRP,
@@ -504,6 +575,7 @@ def build_validation():
             "all_located_occurrences_assigned_exactly_once": procurement["all_located_occurrences_assigned_exactly_once"],
             "commercial_order_quantities_known": procurement["commercial_order_quantities_known"],
             "priced_draft_packages": procurement["priced_draft_packages"],
+            "domestic_source_lead_association_count": procurement_lead_associations,
             "source_registry_record_count": procurement["source_registry_record_count"],
             "source_registry_record_set_id": procurement["source_registry_record_set_id"],
             "material_demand_line_count": procurement["summary"]["material_demand_line_count"],

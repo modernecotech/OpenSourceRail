@@ -114,13 +114,14 @@
   "domestic_fabrication": {
     "additional_local_material_leads": {
       "seed_path": "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json",
-      "seed_sha256": "6d0704a1a4e7d2e5958005ee28ffec94cc5423f4c460124be1ef226405e4c347",
-      "source_count": 10,
-      "source_epoch_id": "d2c61b8680abcab5ef8884a5b6c20dc2ab3e278abfc175c30ec1eb5cfe7e4ebf",
+      "seed_sha256": "84c51dca371c3b8a94de40cff614201ad126c32ec49da1a6ca505f25985d449c",
+      "source_count": 11,
+      "source_epoch_id": "8e3945cb0f31d836557f8addf9a6f7ed68d1f01ebe5147b6f811e9140780fec8",
       "source_ids": {
         "iraq.al-kanz.precast-piling": "bbd27a829288c8480567c41bb68b775f59170e719ad2a4ee5f0ff2d561568aa6",
         "iraq.alpha-steel.rebar-range-2026": "97858c855c25b982872d09614a398a9d5791b7f0e9d313473fbe4636b7f2adbe",
         "iraq.bafra-shakh.eps": "5f7bce544b1af33f4d88d8f65554391d7d481ba58bc507deb49de40476e00fad",
+        "iraq.hadeediraq.rebar-marketplace": "2cffd04ab5cc2327cbafac2e10e68ca54c29162a7e6e83fe63cc714779083f46",
         "iraq.helal.polyurethane-foam": "a4ec19effe0825c267f7611faffcb83e3dfdab5794c1b6b7946418f0f6a8cf48",
         "iraq.hemn.eps-factory": "a7918e6f5b936e330d5cde3113d8112c118863f585565f47e590110a08d34e11",
         "iraq.hewa.construction-materials": "a179c48c1d5d1b5248ec6dfc2565ed022393cad3810514a5de43166316eda082",
@@ -134,8 +135,23 @@
       "benchmark_count": 0,
       "candidate_product_matches": 0,
       "priced_offers": 0,
-      "lead_scope": "EPS panels; polyurethane foam; aluminium ingots/alloys/anode blocks; crushed aggregate production and Iraqi construction-material distribution; cement product families; rebar; precast foundation piles",
+      "lead_scope": "EPS panels; polyurethane foam; aluminium ingots/alloys/anode blocks; crushed aggregate production and Iraqi construction-material distribution; cement product families; rebar; precast foundation piles; rebar marketplace/RFQ directory",
       "structural_core_or_body_qualification": null
+    },
+    "construction_wage_history_2024": {
+      "seed_path": "engineering/sourcing/data/iraq-construction-wages-2024.json",
+      "seed_sha256": "df69f0eda00c6f635b0e43809c951e2a295211189e90b3996596348a4eac82be",
+      "source_id": "a2043616e833fc7d7085388a71912b1f34cfd9337ff5a7f13e5d0e857789f667",
+      "benchmark_count": 90,
+      "governorate_count": 15,
+      "worker_category_count": 6,
+      "hour_normalization": "Published daily rate divided by explicit 8 working hours/day",
+      "baghdad_skilled_daily_iqd_per_workday": 75000,
+      "baghdad_skilled_hourly_iqd_per_hour": "9375",
+      "employer_burden_included": false,
+      "used_in_current_2025_2026_cost_scenarios": false,
+      "historical_only": true,
+      "limitation": "Historical base-wage context only; not inflation-adjusted, not an employer charge-out rate, and the bulletin does not tabulate the Kurdistan Region."
     },
     "local_composite_retail_cost_screen": {
       "path": "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/iraq-local-gfrp-retail-screen.json",
@@ -184,14 +200,14 @@
       "physical_qualification": null
     },
     "iraq_span_logistics_sensitivity": {
-      "path": "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v4/iraq-span-logistics-sensitivity.json",
-      "manifest_path": "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v4/manifest.json",
-      "packet_id": "d2e598109881d443570966b1db3e3fa1580f968efdf8a503f2050ce4c6d386b9",
-      "manifest_id": "bf0605324b6ed125545d61371c34b92f0c95d6f67a012c19e15d383cf03ec78b",
+      "path": "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v5/iraq-span-logistics-sensitivity.json",
+      "manifest_path": "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v5/manifest.json",
+      "packet_id": "8973e98e276ededb88d700bec686508445ef5711c9468e70481cc64d64483dcc",
+      "manifest_id": "a1980b3c24a6f7a3f08d238b9a6a404747bfa9a1a0131a0ad11d874db01f417d",
       "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
       "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
       "takeoff_id": "042b2b73f6ac0b92da886eb71949c0020c595f0bb7485c413700d40215939d41",
-      "procurement_bom_packet_id": "00cd9446e5cd0626a68c06188ba7fb70a5232a055f4f2ee2f675a299f7be2c52",
+      "procurement_bom_packet_id": "dc7fca447a8a49790a7265dbef7819dc0f0b39d92b483c94fd00116fae8b1661",
       "rental_source_id": "3cac5a8d9f623d7d687ae0d0d9258151174a4a5235792555c1d0a98faf974f16",
       "rental_benchmark_ids": [
         "67b5dcd342bd5c14c15feaefdd99a9ad3c768b06ee1f07d0a4a69b133948d26a",
@@ -233,8 +249,8 @@
     }
   },
   "procurement_package_bom": {
-    "path": "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v19.json.gz",
-    "packet_id": "00cd9446e5cd0626a68c06188ba7fb70a5232a055f4f2ee2f675a299f7be2c52",
+    "path": "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v20.json.gz",
+    "packet_id": "dc7fca447a8a49790a7265dbef7819dc0f0b39d92b483c94fd00116fae8b1661",
     "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
     "evaluation_id": "1491f90b02485e6ad9df63ac79b528e9c30e9e6d87041a3dc46b02efd364077b",
     "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
@@ -245,8 +261,9 @@
     "all_located_occurrences_assigned_exactly_once": true,
     "commercial_order_quantities_known": false,
     "priced_draft_packages": 0,
-    "source_registry_record_count": 93,
-    "source_registry_record_set_id": "c6f778ad975fc86f3988c40230b4fd14a6fd077537b208a79ad28c8af8f7da72",
+    "domestic_source_lead_association_count": 44,
+    "source_registry_record_count": 94,
+    "source_registry_record_set_id": "f82ec3310236044b4500fb60d2bc67681f2aecbf378d9aefc0c78d5b06a0bb1a",
     "material_demand_line_count": 8,
     "material_demand_group_count": 2269,
     "material_demand_occurrence_count": 27216,
@@ -456,5 +473,5 @@
     "physical_acceptance": false,
     "selected_reference_changed": false
   },
-  "validation_id": "2268c452d8300d63f6e37a54ee2163e123d35e2b75b4a293ccc6c37c971bd29c"
+  "validation_id": "7f542c084780eef7b21685810bd1ff1780726d34842ae901363b9f75ea8754a1"
 }

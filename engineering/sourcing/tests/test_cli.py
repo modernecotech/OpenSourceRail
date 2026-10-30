@@ -145,7 +145,7 @@ def test_procurement_bom_cli_attaches_ingredient_quantities_to_exact_september_s
 
     assert result["concrete_material_input_takeoff_package_count"] == 81
     assert result["concrete_material_input_takeoff_line_count"] == 243
-    assert packet["source_registry_record_count"] == 93
+    assert packet["source_registry_record_count"] == 94
     assert takeoff["candidate_id"] == packet["candidate_id"]
     assert takeoff["source_input_id"] == packet["source_input_id"]
     assert takeoff["package_count"] == 81

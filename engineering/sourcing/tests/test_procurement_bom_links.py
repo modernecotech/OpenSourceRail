@@ -155,10 +155,12 @@ def test_additional_iraqi_fabrication_leads_are_linked_only_to_relevant_stock_fa
 
     assert "iraq.al-burhan-sleeper-factory" in concrete
     assert "iraq.karbala-precast-bridge-beams" in concrete
+    assert "iraq.hadeediraq.rebar-marketplace" in concrete
     assert "iraq.ncpi-chemical-plastic-industries" in body
     assert "iraq.scosi.foundry-forging" in bogie
     assert "iraq.al-qader-steel-supply" in bogie
     assert "compatibility unassessed" in concrete["iraq.karbala-precast-bridge-beams"]
+    assert "indicative marketplace supplier prices, not a Hadeed offer" in concrete["iraq.hadeediraq.rebar-marketplace"]
     assert "qualification unassessed" in body["iraq.ncpi-chemical-plastic-industries"]
     assert "fatigue" in bogie["iraq.scosi.foundry-forging"]
 

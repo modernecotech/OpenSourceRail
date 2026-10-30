@@ -19,8 +19,9 @@ def test_additional_domestic_material_leads_remain_source_only():
         "iraq.sama-kirkuk.eps-listings",
         "iraq.regaasphalt.aggregate",
         "iraq.hewa.construction-materials",
+        "iraq.hadeediraq.rebar-marketplace",
     }
-    assert len(rows) == 10
+    assert len(rows) == 11
     assert not [row for row in rows if row["kind"] in {"product", "offer", "benchmark"}]
     assert "10 tonnes/day" in sources["iraq.hemn.eps-factory"]["access"]
     assert "12 to 45 kg/m3" in sources["iraq.helal.polyurethane-foam"]["access"]
@@ -34,3 +35,5 @@ def test_additional_domestic_material_leads_remain_source_only():
     assert "10–32 mm" in sources["iraq.alpha-steel.rebar-range-2026"]["access"]
     assert "supplier lead only" in sources["iraq.alpha-steel.rebar-range-2026"]["access"]
     assert "precast concrete pile manufacture" in sources["iraq.al-kanz.precast-piling"]["access"]
+    assert "indicative supplier prices, not a Hadeed offer" in sources["iraq.hadeediraq.rebar-marketplace"]["access"]
+    assert "no offer or product match is created" in sources["iraq.hadeediraq.rebar-marketplace"]["access"]
