@@ -269,6 +269,7 @@ def reconcile(candidate, parent):
 
 def _readme(ledger, selected):
     summary = ledger["summary"]
+    closure = build_closure_worksheet(ledger)["summary"]
     lines = [
         "# v0.6 vehicle mass reconciliation",
         "",
@@ -283,6 +284,7 @@ def _readme(ledger, selected):
         f"| Reference or unlocated account residual | {summary['residual_reference_or_unlocated_mass_kg']:,.3f} kg/car |",
         f"| Account rows | {summary['account_row_count']:,} |",
         f"| Located geometry occurrences assigned once | {summary['located_geometry_occurrence_count']:,} |",
+        f"| Closure worksheet rows (source / geometry / account) | {closure['record_count']:,} ({closure['source_account_occurrence_count']:,} / {closure['candidate_geometry_occurrence_count']:,} / {summary['account_row_count']:,}) |",
         "| Complete installed mass, CG, inertia, axle reactions | Unknown |",
         "",
         "## Account groups",
@@ -299,6 +301,8 @@ def _readme(ledger, selected):
     lines.extend([
         "",
         "The located-material centre of gravity is calculated from the represented geometry subset only. It excludes all residual accounts, including the service pack, HVAC, unlocated bogie balance, roof coating takeoff, attachment allowance, and source-account mass without candidate geometry. It is not the installed vehicle CG. Average axle masses are not axle reactions; longitudinal balance and dynamic wheel loads remain unresolved.",
+        "",
+        "The [mass closure worksheet](mass-closure-worksheet.json.gz) has one row for every retained source-account occurrence, candidate geometry occurrence, and account closure. It keeps source-accounted mass, CAD-derived mass, and account residuals in separate fields. Every row's physically installed mass and installed position remain null; a candidate geometry centroid is not an installed position, and a positive accounting residual is not a physical part.",
         "",
         "Source occurrences keep their source IDs and occurrence-definition IDs in [mass-ledger.json.gz](mass-ledger.json.gz). The report is bound by [manifest.json](manifest.json). Regenerate with `python3 -m engineering.mass_ledger_audit build` and verify with `python3 -m engineering.mass_ledger_audit verify`.",
         "",
@@ -356,15 +360,160 @@ def _inputs(root):
 
 def _payloads(root):
     ledger, selected, sources = _inputs(root)
+    worksheet = build_closure_worksheet(ledger)
     ledger_raw = _deterministic_gzip(encoded(ledger))
     summary = dict(schema="osr-v06-mass-reconciliation-summary/1", **ledger["summary"],
                    candidate_id=ledger["candidate_id"], body_candidate_id=ledger["body_candidate_id"],
+                   closure_worksheet_id=worksheet["worksheet_id"],
+                   closure_worksheet_record_count=worksheet["summary"]["record_count"],
+                   closure_worksheet_source_account_occurrence_count=worksheet["summary"]["source_account_occurrence_count"],
+                   closure_worksheet_geometry_occurrence_count=worksheet["summary"]["candidate_geometry_occurrence_count"],
+                   closure_worksheet_account_residual_count=worksheet["summary"]["account_residual_count"],
                    **FLAGS)
     return {
         "mass-ledger.json.gz": ledger_raw,
+        "mass-closure-worksheet.json.gz": _deterministic_gzip(encoded(worksheet)),
         "summary.json": encoded(summary),
         "README.md": _readme(ledger, selected),
     }, sources, ledger, selected
+
+
+def build_closure_worksheet(ledger):
+    """Separate source-account, candidate-geometry, and unresolved installation rows."""
+    candidate_id = ledger["candidate_id"]
+    evaluation_id = ledger["selected_evaluation_id"]
+    selection_id = ledger["selection_id"]
+    rows = []
+    for source in ledger["source_account_occurrences"]:
+        rows.append(_row(
+            record_kind="source-account-occurrence",
+            candidate_id=candidate_id,
+            evaluation_id=evaluation_id,
+            selection_id=selection_id,
+            account_id=source["account_id"],
+            occurrence_id=source["occurrence_id"],
+            occurrence_definition_id=source.get("occurrence_definition_id"),
+            source_part_id=source.get("source_part_id"),
+            mass_evidence_class=source.get("evidence_class"),
+            accounted_source_mass_kg=source["mass_kg"],
+            candidate_geometry_mass_kg=None,
+            candidate_geometry_centroid_m=None,
+            physically_installed_mass_kg=None,
+            installed_position_m=None,
+            lower_mass_bound_kg=None,
+            upper_mass_bound_kg=None,
+            installation_status="not-physically-verified",
+            source_location_known=source.get("source_location_known"),
+            overlap_or_replacement_status="unresolved",
+            accounting_mapping="source occurrence retained in its parent system account; no row-to-row match with candidate geometry is claimed",
+            evidence_needed=[
+                "supplier or measurement evidence for installed mass",
+                "reviewed installation location in the candidate vehicle coordinate frame",
+                "identity-level overlap, replacement, and shared-membership review",
+            ],
+        ))
+    for geometry in ledger["candidate_geometry_occurrences"]:
+        rows.append(_row(
+            record_kind="candidate-geometry-occurrence",
+            candidate_id=candidate_id,
+            evaluation_id=evaluation_id,
+            selection_id=selection_id,
+            account_id=geometry["account_id"],
+            occurrence_id=geometry["occurrence_id"],
+            occurrence_definition_id=None,
+            source_part_id=None,
+            mass_evidence_class="candidate-geometry-derived",
+            accounted_source_mass_kg=None,
+            candidate_geometry_mass_kg=geometry["mass_kg"],
+            candidate_geometry_centroid_m=geometry.get("cg_m"),
+            physically_installed_mass_kg=None,
+            installed_position_m=None,
+            lower_mass_bound_kg=None,
+            upper_mass_bound_kg=None,
+            installation_status="not-physically-verified",
+            source_location_known=False,
+            overlap_or_replacement_status="unresolved",
+            accounting_mapping=geometry["mapping_method"],
+            evidence_needed=[
+                "manufactured-part weigh record or supplier-documented mass",
+                "confirmation that the candidate geometry is installed as modelled",
+                "reviewed installation location, overlap, and replacement mapping",
+            ],
+        ))
+    for account in ledger["accounts"]:
+        residual = float(account["residual_account_mass_kg"])
+        rows.append(_row(
+            record_kind="account-closure",
+            candidate_id=candidate_id,
+            evaluation_id=evaluation_id,
+            selection_id=selection_id,
+            account_id=account["account_id"],
+            occurrence_id=None,
+            occurrence_definition_id=None,
+            source_part_id=None,
+            mass_evidence_class=("accounting-residual-not-physical-component"
+                                 if residual > 1e-9 else "accounting-subtotal-reconciled-to-candidate-geometry"),
+            accounted_source_mass_kg=account["accounted_mass_kg"],
+            candidate_geometry_mass_kg=account["located_geometry_mass_kg"],
+            candidate_geometry_centroid_m=None,
+            accounting_residual_kg=residual,
+            physically_installed_mass_kg=None,
+            installed_position_m=None,
+            lower_mass_bound_kg=None,
+            upper_mass_bound_kg=None,
+            installation_status="not-physically-verified",
+            source_location_known=False,
+            overlap_or_replacement_status="unresolved",
+            source_occurrence_ids=list(account["source_occurrence_ids"]),
+            candidate_geometry_occurrence_ids=list(account["candidate_geometry_occurrence_ids"]),
+            accounting_mapping=account["mapping_method"],
+            evidence_needed=[
+                "disaggregate the account into exact physical component identities",
+                "supplier or measurement evidence for installed mass",
+                "reviewed installation location in the candidate vehicle coordinate frame",
+                "identity-level overlap, replacement, and shared-membership review",
+            ],
+        ))
+    record_ids = [row["row_id"] for row in rows]
+    if len(record_ids) != len(set(record_ids)):
+        raise ValueError("Mass closure worksheet record identities must be unique")
+    if (len(rows) != (len(ledger["source_account_occurrences"])
+                      + len(ledger["candidate_geometry_occurrences"])
+                      + len(ledger["accounts"]))
+            or any(row["physically_installed_mass_kg"] is not None for row in rows)):
+        raise ValueError("Mass closure worksheet lost an account/occurrence or inferred installed mass")
+    body = dict(
+        schema="osr-v06-mass-closure-worksheet/1",
+        candidate_id=candidate_id,
+        body_candidate_id=ledger["body_candidate_id"],
+        support_component_id=ledger["support_component_id"],
+        propulsion_component_id=ledger["propulsion_component_id"],
+        evaluation_id=evaluation_id,
+        vehicle_evaluation_id=ledger["vehicle_evaluation_id"],
+        selection_id=selection_id,
+        ledger_payload_id=identity(ledger),
+        rows=rows,
+        summary=dict(
+            record_count=len(rows),
+            source_account_occurrence_count=len(ledger["source_account_occurrences"]),
+            candidate_geometry_occurrence_count=len(ledger["candidate_geometry_occurrences"]),
+            account_residual_count=sum(float(row["accounting_residual_kg"]) > 1e-9 for row in rows
+                                       if row["record_kind"] == "account-closure"),
+            accounted_tare_kg_per_car=ledger["summary"]["accounted_tare_kg_per_car"],
+            located_geometry_mass_kg=ledger["summary"]["located_geometry_mass_kg"],
+            accounting_residual_kg=ledger["summary"]["residual_reference_or_unlocated_mass_kg"],
+            physically_installed_mass_kg=None,
+            complete_installed_mass_kg=None,
+            complete_installed_CG_m=None,
+            complete_installed_inertia_kg_m2=None,
+            axle_reactions=None,
+        ),
+        unknown_is_zero=False,
+        physical_acceptance=None,
+        **FLAGS,
+    )
+    body["worksheet_id"] = identity(body)
+    return body
 
 
 def publish(root=ROOT, output=None):
@@ -394,6 +543,9 @@ def publish(root=ROOT, output=None):
     os.replace(tmp, output / "manifest.json")
     return dict(published=True, path=str(output), manifest_id=manifest["manifest_id"],
                 account_row_count=ledger["summary"]["account_row_count"],
+                closure_worksheet_id=build_closure_worksheet(ledger)["worksheet_id"],
+                closure_worksheet_record_count=len(ledger["source_account_occurrences"])
+                    + len(ledger["candidate_geometry_occurrences"]) + len(ledger["accounts"]),
                 accounted_tare_kg_per_car=ledger["summary"]["accounted_tare_kg_per_car"],
                 located_geometry_mass_kg=ledger["summary"]["located_geometry_mass_kg"],
                 residual_reference_or_unlocated_mass_kg=ledger["summary"]["residual_reference_or_unlocated_mass_kg"],
@@ -430,6 +582,9 @@ def verify(root=ROOT, output=None):
     return dict(verified=True, replayed=True, manifest_id=manifest["manifest_id"],
                 candidate_id=ledger["candidate_id"], evaluation_id=selected["evaluation_id"],
                 selection_id=selected["selection_id"], account_row_count=ledger["summary"]["account_row_count"],
+                closure_worksheet_id=build_closure_worksheet(ledger)["worksheet_id"],
+                closure_worksheet_record_count=len(ledger["source_account_occurrences"])
+                    + len(ledger["candidate_geometry_occurrences"]) + len(ledger["accounts"]),
                 accounted_tare_kg_per_car=ledger["summary"]["accounted_tare_kg_per_car"],
                 located_geometry_mass_kg=ledger["summary"]["located_geometry_mass_kg"],
                 residual_reference_or_unlocated_mass_kg=ledger["summary"]["residual_reference_or_unlocated_mass_kg"],

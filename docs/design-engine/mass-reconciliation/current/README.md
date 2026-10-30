@@ -11,6 +11,7 @@ This report preserves every retained source-account occurrence in its system acc
 | Reference or unlocated account residual | 10,090.200 kg/car |
 | Account rows | 12 |
 | Located geometry occurrences assigned once | 2,482 |
+| Closure worksheet rows (source / geometry / account) | 5,418 (2,924 / 2,482 / 12) |
 | Complete installed mass, CG, inertia, axle reactions | Unknown |
 
 ## Account groups
@@ -31,6 +32,8 @@ This report preserves every retained source-account occurrence in its system acc
 | wheel-underframe | 925.528 | 925.528 | 0.000 | 0 | 60 |
 
 The located-material centre of gravity is calculated from the represented geometry subset only. It excludes all residual accounts, including the service pack, HVAC, unlocated bogie balance, roof coating takeoff, attachment allowance, and source-account mass without candidate geometry. It is not the installed vehicle CG. Average axle masses are not axle reactions; longitudinal balance and dynamic wheel loads remain unresolved.
+
+The [mass closure worksheet](mass-closure-worksheet.json.gz) has one row for every retained source-account occurrence, candidate geometry occurrence, and account closure. It keeps source-accounted mass, CAD-derived mass, and account residuals in separate fields. Every row's physically installed mass and installed position remain null; a candidate geometry centroid is not an installed position, and a positive accounting residual is not a physical part.
 
 Source occurrences keep their source IDs and occurrence-definition IDs in [mass-ledger.json.gz](mass-ledger.json.gz). The report is bound by [manifest.json](manifest.json). Regenerate with `python3 -m engineering.mass_ledger_audit build` and verify with `python3 -m engineering.mass_ledger_audit verify`.
 
