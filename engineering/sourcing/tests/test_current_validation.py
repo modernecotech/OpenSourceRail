@@ -10,18 +10,21 @@ def test_current_index_includes_separately_bound_material_leads_and_logistics():
     wage_history_2024 = packet["domestic_fabrication"]["construction_wage_history_2024"]
     procurement = packet["procurement_package_bom"]
     concrete = procurement["concrete_material_input_takeoff"]
-    assert leads["source_count"] == 12
+    assert leads["source_count"] == 15
     assert "iraq.regaasphalt.aggregate" in leads["source_ids"]
     assert "iraq.hewa.construction-materials" in leads["source_ids"]
     assert "iraq.lafarge-iraq.cement-products" in leads["source_ids"]
     assert "iraq.alpha-steel.rebar-range-2026" in leads["source_ids"]
     assert "iraq.al-kanz.precast-piling" in leads["source_ids"]
     assert "iraq.hadeediraq.rebar-marketplace" in leads["source_ids"]
+    assert "iraq.diwan-electrical-industries" in leads["source_ids"]
+    assert "iraq.rs-alnajaf-electrical-factory" in leads["source_ids"]
+    assert "iraq.ibn-majid-heavy-engineering" in leads["source_ids"]
     assert leads["product_count"] == leads["offer_count"] == leads["benchmark_count"] == 0
     assert leads["candidate_product_matches"] == leads["priced_offers"] == 0
     assert logistics["candidate_id"] == packet["procurement_package_bom"]["candidate_id"]
     assert logistics["procurement_bom_packet_id"] == procurement["packet_id"]
-    assert logistics["path"].endswith("logistics-2026-september-v6/iraq-span-logistics-sensitivity.json")
+    assert logistics["path"].endswith("logistics-2026-september-v7/iraq-span-logistics-sensitivity.json")
     assert logistics["span_package_count"] == 81
     assert logistics["engineering_occurrence_count"] == 486
     assert logistics["scenario_count"] == 4
@@ -41,7 +44,7 @@ def test_current_index_includes_separately_bound_material_leads_and_logistics():
     assert wage_history_2024["used_in_current_2025_2026_cost_scenarios"] is False
     assert wage_history_2024["employer_burden_included"] is False
     assert wage_history_2024["historical_only"] is True
-    assert procurement["path"].endswith("federated-v06-research-packages-v21.json.gz")
+    assert procurement["path"].endswith("federated-v06-research-packages-v22.json.gz")
     assert procurement["candidate_mapped_copper_sensitivity_scenario_count"] == 3
     copper = procurement["copper_imported_raw_stock_sensitivity"]
     assert copper["engineering_group_count"] == 5
@@ -49,8 +52,8 @@ def test_current_index_includes_separately_bound_material_leads_and_logistics():
     assert copper["scenario_totals_iqd"] == ["90192658.13", "91034539.73", "92718302.93"]
     assert copper["compatible_supplier_match"] is False
     assert copper["complete_installed_cost"] is None
-    assert procurement["source_registry_record_count"] == 95
-    assert procurement["domestic_source_lead_association_count"] == 45
+    assert procurement["source_registry_record_count"] == 98
+    assert procurement["domestic_source_lead_association_count"] == 49
     assert concrete["package_count"] == 81
     assert concrete["manufacturing_group_count"] == 81
     assert concrete["engineering_occurrence_count"] == 486

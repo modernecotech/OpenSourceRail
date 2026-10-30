@@ -69,7 +69,7 @@ _PACKAGE_SPECS = {
     },
 }
 
-_RULE_VERSION = "osr-procurement-package-rules/9"
+_RULE_VERSION = "osr-procurement-package-rules/10"
 
 _DOMESTIC_LEAD_RULES = {
     ("civil/concrete", "concrete-hypothesis"): {
@@ -114,6 +114,7 @@ _DOMESTIC_LEAD_RULES = {
         "iraq.alpha-steel": "Steel-product lead; bogie scope and qualification unassessed.",
         "iraq.duraid-al-sudani-metal-fabrication": "Metal fabrication inquiry; bogie scope and qualification unassessed.",
         "iraq-med-steel-sections": "Local rolled-profile source inquiry for a possible fabrication route; listed profiles are not a fatigue-qualified bogie product or exact material match.",
+        "iraq.ibn-majid-heavy-engineering": "Local welding/cutting/rolling capability inquiry for a possible bogie frame fabrication route; exact frame materials, fatigue qualification, current capacity, price and product compatibility unassessed.",
     },
     ("vehicle/passive-secondary", "6082-T6-proposed"): {
         "iraq.asia-aluminium": "Profile/sheet supplier inquiry; 6082-T6 temper and product compatibility unassessed.",
@@ -126,11 +127,14 @@ _DOMESTIC_LEAD_RULES = {
         "iraq.ms-cable-busbar": "Cable, bare-conductor and busbar inquiry; LIM winding grade and form compatibility unassessed.",
         "iraq.alrowad-cables": "Wire/cable inquiry; LIM winding grade and conductor-form compatibility unassessed.",
         "iraq.dici-copper-wire-line": "Planned production-line lead only; commissioning and current output are unverified.",
+        "iraq.diwan-electrical-industries": "Local feeder-cable/transformer plant inquiry for station electrical systems; cable ratings, winding-conductor identity, capacity, price and station-drive compatibility unassessed.",
+        "iraq.rs-alnajaf-electrical-factory": "Local enclosure, panel and kiosk-substation inquiry for station electrical plant; exact drive rating, product scope, available capacity, price and LIM-converter compatibility unassessed.",
     },
     ("wayside/primary", "linear-steel-hypothesis"): {
         "iraq.scosi-steel-industries": "Steel fabrication lead; electrical-steel grade and lamination capability unassessed.",
         "iraq.star-steel": "Steel-product lead; electrical-steel grade and lamination capability unassessed.",
         "iraq.alpha-steel": "Steel-product lead; electrical-steel grade and lamination capability unassessed.",
+        "iraq.ibn-majid-heavy-engineering": "Local heavy-fabrication inquiry for structural supports and frames only; not an electrical-steel grade, laminated-core or magnetic-loss match.",
     },
 }
 
