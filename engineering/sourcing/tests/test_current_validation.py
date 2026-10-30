@@ -9,13 +9,17 @@ def test_current_index_includes_separately_bound_material_leads_and_logistics():
     historical_labour = packet["domestic_fabrication"]["historical_labour_earnings_reference"]
     procurement = packet["procurement_package_bom"]
     concrete = procurement["concrete_material_input_takeoff"]
-    assert leads["source_count"] == 7
+    assert leads["source_count"] == 10
     assert "iraq.regaasphalt.aggregate" in leads["source_ids"]
     assert "iraq.hewa.construction-materials" in leads["source_ids"]
+    assert "iraq.lafarge-iraq.cement-products" in leads["source_ids"]
+    assert "iraq.alpha-steel.rebar-range-2026" in leads["source_ids"]
+    assert "iraq.al-kanz.precast-piling" in leads["source_ids"]
     assert leads["product_count"] == leads["offer_count"] == leads["benchmark_count"] == 0
     assert leads["candidate_product_matches"] == leads["priced_offers"] == 0
     assert logistics["candidate_id"] == packet["procurement_package_bom"]["candidate_id"]
     assert logistics["procurement_bom_packet_id"] == procurement["packet_id"]
+    assert logistics["path"].endswith("logistics-2026-september-v3/iraq-span-logistics-sensitivity.json")
     assert logistics["span_package_count"] == 81
     assert logistics["engineering_occurrence_count"] == 486
     assert logistics["scenario_count"] == 4
@@ -27,8 +31,8 @@ def test_current_index_includes_separately_bound_material_leads_and_logistics():
     assert local_gfrp["complete_fabrication_cost_iqd"] is None
     assert historical_labour["benchmark_count"] == 4
     assert historical_labour["used_in_current_2025_2026_cost_scenarios"] is False
-    assert procurement["path"].endswith("federated-v06-research-packages-v17.json.gz")
-    assert procurement["source_registry_record_count"] == 90
+    assert procurement["path"].endswith("federated-v06-research-packages-v18.json.gz")
+    assert procurement["source_registry_record_count"] == 93
     assert concrete["package_count"] == 81
     assert concrete["manufacturing_group_count"] == 81
     assert concrete["engineering_occurrence_count"] == 486

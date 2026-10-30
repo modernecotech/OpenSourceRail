@@ -69,7 +69,7 @@ _PACKAGE_SPECS = {
     },
 }
 
-_RULE_VERSION = "osr-procurement-package-rules/6"
+_RULE_VERSION = "osr-procurement-package-rules/7"
 
 _DOMESTIC_LEAD_RULES = {
     ("civil/concrete", "concrete-hypothesis"): {
@@ -83,6 +83,8 @@ _DOMESTIC_LEAD_RULES = {
         "iraq.icsc-samawa-cement-plant": "Samawa cement-plant lead; current operation, cement grade, supply availability, concrete-mix and precast-beam capability unassessed.",
         "iraq.regaasphalt.aggregate": "Iraqi aggregate production and site-supply inquiry; grading, test certificates, quantity, price, delivery and recipe compatibility unassessed.",
         "iraq.hewa.construction-materials": "Iraq-based construction aggregate distributor/importer inquiry; origin, grading, test certificates, quantity, price, delivery and recipe compatibility unassessed.",
+        "iraq.lafarge-iraq.cement-products": "Domestic cement product-family inquiry; grade, batch certificate, availability, price and compatibility with the illustrative recipe unassessed.",
+        "iraq.alpha-steel.rebar-range-2026": "Domestic rebar supplier inquiry for separately unlocated reinforcement obligations; grade/diameter, certificates, quantity, price and delivery unassessed; no rebar quantity is included in this concrete stock line.",
         "iraq-saman-cement": "Local OPC/SRC material inquiry; no cement quantity is allocated to this nominal-concrete line, and no mix, batch certificate, price, or precast-beam offer is established.",
         "iraq-delta-cement": "Local OPC/SRC/PLC material inquiry; no cement quantity is allocated to this nominal-concrete line, and no mix, batch certificate, price, or precast-beam offer is established.",
         "iraq-darin-steel-rebar": "Rebar RFQ lead for the separately unlocated reinforcement obligations; no rebar quantity is included in this nominal-concrete stock line and no grade-specific offer is established.",

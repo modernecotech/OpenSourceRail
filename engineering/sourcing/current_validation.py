@@ -20,10 +20,10 @@ LAMINATES = "docs/design-engine/sourcing/packets/laminate-materials-iraq-domesti
 REGIONAL = "docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v6/iraq-domestic-cost-reference-2026-09.json"
 GFRP = "docs/design-engine/sourcing/domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v19.json"
 IMPORT_SCREEN = "docs/design-engine/sourcing/domestic-fabrication/cso-imported-aluminium-fabrication-sensitivity-2025-2026.json"
-PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v17.json.gz"
+PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v18.json.gz"
 CONCRETE_RECIPE = "docs/design-engine/sourcing/domestic-fabrication/takeoff-recipes/concrete-material-inputs-2026-09.json"
-LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v2/iraq-span-logistics-sensitivity.json"
-LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v2/manifest.json"
+LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v3/iraq-span-logistics-sensitivity.json"
+LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v3/manifest.json"
 LOCAL_GFRP = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/iraq-local-gfrp-retail-screen.json"
 LOCAL_GFRP_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/manifest.json"
 ADDITIONAL_MATERIAL_SOURCES = "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json"
@@ -342,7 +342,7 @@ def build_validation():
                 "benchmark_count": sum(row["kind"] == "benchmark" for row in domestic_material_records),
                 "candidate_product_matches": 0,
                 "priced_offers": 0,
-                "lead_scope": "EPS panels; polyurethane foam; aluminium ingots/alloys/anode blocks; crushed aggregate production and Iraqi construction-material distribution",
+                "lead_scope": "EPS panels; polyurethane foam; aluminium ingots/alloys/anode blocks; crushed aggregate production and Iraqi construction-material distribution; cement product families; rebar; precast foundation piles",
                 "structural_core_or_body_qualification": None,
             },
             "local_composite_retail_cost_screen": {
