@@ -54,6 +54,52 @@ runtime. A selection has a third identity covering its purpose and declared
 policy. Results also carry a complete payload digest, so edited metrics cannot
 reuse an evaluation identity.
 
+## Fine-mesh continuation record
+
+The aluminium-frame candidate's normal-load C3D8I refinement is a numerical
+follow-up within campaign `6ba19dff09e30606bb4d20ddd153deef033c86ab1d27adc8dab6ad842d68f99f`,
+contract `de9f89acc80e0ec2f3ebb8b6c8f60e2446de9df06c66317c5cedc5b8625f8921`,
+candidate `8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b`,
+and bundle `1e8d1d7c394fc0bdbd47e34fb21d413ebc34a49576bad60b31b254bd635dfb68`.
+The 0.2125 m predecessor completed as evaluation
+`da022c36ff3125f5cab90c2f709a2c29e85381e690dbfa082b03deef52f7ad05`.
+The 0.10625 m request kept that physical candidate, normal load, element family,
+solver and supports fixed. Its first 5 GiB/150 s execution
+(`46dac2f71ff6b42ae0715b4219e1789534b0014d8cbae0bdb786bb55112f3b75`,
+evaluation `7347006f979dba45aa8958599a49c2ef68ac5a543dc7a5a20a4f6ed6034ddc4d`)
+stopped with a Spooles allocation error during matrix factorization. It is a
+retained resource failure, not a structural rejection.
+
+A separate one-invocation 8 GiB/240 s resource revision completed in 89.42 s:
+request `e8a5a9c6d836cb5f20425a46f04ecac21f107952bec25559e5650e69a865cd7e`,
+evaluation `bd0566331853171bac52b8107e075cd4c997526735af7ede9bbcc3fc3ebca9ea`.
+The completed run has force, moment and energy residuals of `1.44e-7`,
+`4.98e-9` and `6.91e-8`; maximum lateral, longitudinal and vertical
+displacements are 1.489 mm, 1.771 mm and 20.139 mm. Across 123,324 matched
+physical nodes from 0.2125 m to 0.10625 m, the maximum component differences
+relative to the fine-grid component maxima are 15.16% lateral, 6.79%
+longitudinal and 3.53% vertical. The trend therefore remains unresolved.
+The 150.06 MPa peak is an unqualified ideal-joint stress diagnostic only.
+
+The existing completed solver packet can be sealed and checked without another
+solver invocation:
+
+```bash
+./osr design railway refine-next-resource-reconcile \
+  --parent-result build/coupled-railway/de9f89acc80e0ec2f3ebb8b6c8f60e2446de9df06c66317c5cedc5b8625f8921/result.json \
+  --candidate-id 8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b
+./osr design railway refine-next-resource-verify \
+  --parent-result build/coupled-railway/de9f89acc80e0ec2f3ebb8b6c8f60e2446de9df06c66317c5cedc5b8625f8921/result.json \
+  --candidate-id 8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b
+```
+
+These checks reproduce result metrics and stress from the saved `model.dat`,
+compare its FRD mesh with the deterministic mesh definition, and retain the
+matched-point comparison source. Numerical completion is not a body
+qualification: allowable strength, joints, buckling, fatigue, clearance,
+physical correlation and independent review remain open. Neither engineering
+nor physical acceptance is granted.
+
 ## Run the first campaign
 
 ```bash
