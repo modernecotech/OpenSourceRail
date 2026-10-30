@@ -59,8 +59,21 @@ def _write(path, value):
     Path(path).write_bytes(gzip.compress(raw, mtime=0) if str(path).endswith(".gz") else raw)
 
 
-def base_snapshot(store):
-    values = [value for value in store.all() if value["kind"] in BASE_KINDS]
+def base_snapshot(store, *, required_process_ids=()):
+    """Snapshot shared source observations and only the processes this BOM uses.
+
+    A long-lived append-only store can contain processes from earlier candidate
+    studies. Including those unrelated records in every later publication makes
+    the packet depend on work that its candidate never consumed.
+    """
+    required_process_ids = set(required_process_ids)
+    if any(not isinstance(value, str) or len(value) != 64 for value in required_process_ids):
+        raise ValueError("Exact required process record IDs must be supplied")
+    values = [value for value in store.all() if value["kind"] in BASE_KINDS and
+              (value["kind"] != "process" or value["record_id"] in required_process_ids)]
+    included_process_ids = {value["record_id"] for value in values if value["kind"] == "process"}
+    if included_process_ids != required_process_ids:
+        raise ValueError("Source requirements refer to missing or unrelated process records")
     result = dict(schema="osr-sourcing-input-catalogue/1", records=values)
     result["snapshot_id"] = identity(result)
     return result
@@ -91,10 +104,11 @@ def execute(store, twin_input, request, *, root=ROOT):
     if not request.get("as_of"):
         raise ValueError("Explicit estimate date required")
     before = sources(root)
-    catalogue = base_snapshot(store)
     # Declared study inputs expose their requirement list by reference. Sorting
     # must not mutate the immutable, payload-hashed input envelope.
     requirements = deepcopy(_requirements(twin_input))
+    required_process_ids = {row["process_id"] for row in requirements if row.get("process_id") is not None}
+    catalogue = base_snapshot(store, required_process_ids=required_process_ids)
     requirements.sort(key=lambda value: (value.get("priority", 15), value["record_id"]))
     maximum = request.get("max_requirements")
     by_category = request.get("max_requirements_by_category")
@@ -198,10 +212,12 @@ def publish(store, result, twin_input, request, output, *, root=ROOT):
         raise ValueError("Fresh sourcing publication directory required")
     if result.get("source_sha256") != sources(root) or result.get("request_id") != identity(request):
         raise ValueError("Sourcing result source/request epoch differs")
-    catalogue = base_snapshot(store)
+    data = details(store, result)
+    required_process_ids = {row["process_id"] for row in data["requirements"]
+                            if row.get("process_id") is not None}
+    catalogue = base_snapshot(store, required_process_ids=required_process_ids)
     if result["catalogue_snapshot_id"] != catalogue["snapshot_id"]:
         raise ValueError("Catalogue changed after sourcing evaluation")
-    data = details(store, result)
     drafts = erp.delivery_drafts(data["requirements"], data["technical_assessments"])
     folder.mkdir(parents=True)
     try:

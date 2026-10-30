@@ -73,30 +73,30 @@ The example recipes in `docs/design-engine/sourcing/domestic-fabrication/recipes
 
 ```bash
 ./tools/automation/osr-python -m engineering.sourcing.iraq_cost_scenarios \
-  --takeoff docs/design-engine/sourcing/material-takeoff/federated-v06-stock-takeoff.json.gz \
+  --takeoff docs/design-engine/sourcing/material-takeoff/federated-v06-stock-takeoff-v2.json.gz \
   --output build/iraq-domestic-cost-scenarios
 ```
 
 ```bash
 ./osr source seed
 ./osr source estimate fabrication \
-  --input docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-sources-final/input.json.gz \
+  --input docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-domestic-sources-v3/input.json.gz \
   --recipe docs/design-engine/sourcing/domestic-fabrication/recipes/rebar-cut-bend-08h.json \
   --output /tmp/osr-rebar-fabrication-estimate.json
 
 ./osr source estimate takeoff \
-  --takeoff docs/design-engine/sourcing/material-takeoff/federated-v06-stock-takeoff.json.gz \
+  --takeoff docs/design-engine/sourcing/material-takeoff/federated-v06-stock-takeoff-v2.json.gz \
   --recipe docs/design-engine/sourcing/domestic-fabrication/takeoff-recipes/concrete-04h-per-m3.json \
   --output /tmp/osr-concrete-takeoff-estimate.json
 
 ./osr source estimate gfrp-laminate \
-  --packet-root docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v2 \
+  --packet-root docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v3 \
   --output /tmp/osr-gfrp-local-fabrication-screen.json
 ```
 
-The Iraqi input library includes CSO construction-material prices and governorate wages, an Iraqi state producer's aluminium price page, and domestic steel/precast manufacturer leads. It also records local GRP façade, polymer raw-material and polyester/epoxy supplier leads, while keeping them separate from sourced product offers. Missing design-grade specifications, supplier availability, current binding quotes, production yields, locally made glass-fibre reinforcement, employer-loaded labour, tooling, QA, utilities, transport and installation remain explicit gaps. Local supplier pages document capability leads only; they do not authorize or select products.
+The Iraqi input library includes CSO construction-material prices and governorate wages, an Iraqi state producer's aluminium price page, and domestic steel/precast manufacturer leads. It also records local GRP façade, polymer raw-material and polyester/epoxy supplier leads, while keeping them separate from sourced product offers. Four additional aluminium manufacturing leads are recorded from Asia Aluminum (Sulaymaniyah), Alko Aluminum (Duhok), Baxi Siwail (Sulaimani) and IIALCO (Erbil). Their public pages describe profiles and, in some cases, flat/sandwich-panel products; exact alloy, temper, extrusion envelope, price, live capacity and structural suitability remain unverified. They create no product records or offers and do not change the Ur Company price basis used by existing material-plus-labour screens. Missing design-grade specifications, supplier availability, current binding quotes, production yields, locally made glass-fibre reinforcement, employer-loaded labour, tooling, QA, utilities, transport and installation remain explicit gaps. Local supplier pages document capability leads only; they do not authorize or select products.
 
-The source-bound draft package output for the federated research candidate is indexed in `docs/design-engine/sourcing/validation.json` and detailed in `docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages.json.gz`. Its internal package counts are not purchase quantities; occurrence identity and the source research candidate remain fixed.
+The source-bound draft package output for the federated research candidate is indexed in `docs/design-engine/sourcing/validation.json` and detailed in `docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v2.json.gz`. Its internal package counts are not purchase quantities; occurrence identity and the source research candidate remain fixed.
 
 The sourcing backlog also supports `decision_sensitivity` declarations on candidate BOM groups. A declaration can include cost and mass impact ranges with their source/model basis, uncertainty fraction and basis, downstream decisions, safety/design-blocking status, alternatives, simulations to rerun, supplier/catalogue evidence requests, and a cost margin for testing whether the result could change the preferred candidate. The controller scores each dimension as `range width × uncertainty fraction × (1 + dependent decision count)`, ranks safety/design blockers first, and keeps cost and mass on separate axes with Pareto fronts. It never converts IQD, USD and kilograms into one score. Missing inputs remain unranked with explicit missing-field names; category priority is only the fallback queue.
 

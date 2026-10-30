@@ -24,7 +24,7 @@ def write_seed(path, data):
 def test_actual_catalogue_scopes_prices_and_half_open_breaks():
     values=load_catalogue([SUPPLIERS]);products={v['product_key']:v for v in values if v['kind']=='product'}
     assert len(products)==16
-    assert sum(v['kind']=='source' for v in values)==38
+    assert sum(v['kind']=='source' for v in values)==42
     offers={v['product_id']:v for v in values if v['kind']=='offer'}
     assert len(offers)==5
     cloth=offers[products['EC-GF-BA-440-127']['record_id']]
@@ -53,12 +53,29 @@ def test_actual_catalogue_scopes_prices_and_half_open_breaks():
 def test_seed_references_are_atomic_and_repeatable(tmp_path):
     with Store(tmp_path/'sourcing.db') as store:
         first=seed(store,[SUPPLIERS]);second=seed(store,[SUPPLIERS])
-        assert first['added_count']==first['record_count']==247
+        assert first['added_count']==first['record_count']==251
         assert second['added_count']==0
         assert first['record_ids']==second['record_ids']
         for offer in store.all('offer'):
             product=store.get(offer['product_id'],'product')
             assert offer['source_id'] in product['source_ids']
+
+
+def test_additional_iraqi_aluminium_sources_are_leads_not_offers():
+    values=load_catalogue([SUPPLIERS])
+    sources={value['source_key']:value for value in values if value['kind']=='source'}
+    products={value['product_key']:value for value in values if value['kind']=='product'}
+    offers=[value for value in values if value['kind']=='offer']
+    keys={'iraq.asia-aluminium','iraq.alko-aluminium','iraq.baxi-siwail-aluminium','iraq.ii-alco-aluminium'}
+    assert keys <= sources.keys()
+    new_source_ids={sources[key]['record_id'] for key in keys}
+    assert not any(source_id in product['source_ids'] for source_id in new_source_ids for product in products.values())
+    assert not any(offer['source_id'] in new_source_ids for offer in offers)
+    for key in keys:
+        source=sources[key]
+        assert source['source_kind']=='factory_catalogue'
+        assert 'price' in source['access'].lower()
+        assert 'qualification' in source['access'].lower()
 
 
 def test_load_returns_copies(tmp_path):

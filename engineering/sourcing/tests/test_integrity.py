@@ -42,8 +42,8 @@ def test_scope_aliases_and_within_line_double_charges_rejected(paths):
 
 
 def test_actual_combined_catalogue_retains_provenance_and_exact_area_tiers():
-    values=load_catalogue();assert len(values)==273
-    assert len([v for v in values if v["kind"]=="source"])==51
+    values=load_catalogue();assert len(values)==277
+    assert len([v for v in values if v["kind"]=="source"])==55
     assert len([v for v in values if v["kind"]=="product"])==16
     p=next(v for v in values if v["kind"]=="product" and v["product_key"]=="EC-GF-BA-440-127")
     rates=[v for v in values if v["kind"]=="fx"]
@@ -54,6 +54,15 @@ def test_actual_combined_catalogue_retains_provenance_and_exact_area_tiers():
     assert sources["iraq-nubin-grp-facade"]["source_kind"]=="manufacturer_catalogue"
     assert sources["iraq-abralqamar-composites-chemicals"]["source_kind"]=="distributor_catalogue"
     assert sources["iraq-almniee-polymer-raw-materials"]["source_kind"]=="distributor_catalogue"
+    domestic_aluminium={"iraq.asia-aluminium","iraq.alko-aluminium",
+                        "iraq.baxi-siwail-aluminium","iraq.ii-alco-aluminium"}
+    assert domestic_aluminium <= sources.keys()
+    domestic_aluminium_ids={sources[key]["record_id"] for key in domestic_aluminium}
+    assert not [v for v in values if v["kind"]=="offer" and
+                (v.get("source_id") in domestic_aluminium_ids or
+                 set(v.get("source_ids", [])) & domestic_aluminium_ids)]
+    assert not [v for v in values if v["kind"]=="product" and
+                set(v.get("source_ids", [])) & domestic_aluminium_ids]
     offers=[v for v in values if v["kind"]=="offer"]
     for area,quantity,total in (("1.27","1","4.05"),("128.27","101","313.1")):
         req=requirement(p,area)

@@ -4,7 +4,7 @@ from engineering.sourcing.model import identity, record
 from engineering.sourcing.requirements import validate_requirements
 from engineering.sourcing.studies import laminate_study_requirements
 from engineering.sourcing.matching import match_products
-from engineering.sourcing.publication import execute, publish, verify
+from engineering.sourcing.publication import base_snapshot, execute, publish, verify
 import pytest
 
 
@@ -44,12 +44,20 @@ def test_source_linked_laminate_studies_keep_unknown_items_and_same_basis(tmp_pa
                 assert not [item for item in matches if item["product_key"] == "GURIT-CORECELL-M80"]
         assert [study["process"]["conditional_known_net_material_kg"] for study in studies] == ["48", "41", "37"]
         assert identity(studies[0]["proposal"]) != identity(studies[1]["proposal"])
+        # Reusing the append-only source store across a study set must not pull
+        # sibling candidate processes into this candidate's source snapshot.
+        for proposal in studies:
+            store.put(proposal["process"])
         study = studies[0]
         twin_input = {"schema": "osr-sourcing-twin-input/1", "payload": study,
                       "payload_id": identity(study), "origin": {"research_proposal": True}}
         request = {"as_of": "2026-10-29", "target_currency": "GBP",
                    "max_requirements_by_category": {"body-materials": 2}}
         result = execute(store, twin_input, request)
+        snapshot = base_snapshot(store, required_process_ids={study["process"]["record_id"]})
+        assert {row["record_id"] for row in snapshot["records"] if row["kind"] == "process"} == {
+            study["process"]["record_id"]}
+        assert snapshot["snapshot_id"] == result["catalogue_snapshot_id"]
         assert twin_input["payload_id"] == identity(twin_input["payload"])
         assert result["evaluated_requirement_count"] == 2
         assert len(result["pending_requirement_ids"]) == len(study["requirements"]) - 2

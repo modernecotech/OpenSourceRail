@@ -25,7 +25,7 @@ REGION_LABELS = {
     "najaf": "Najaf", "nineveh": "Nineveh", "salah-al-din": "Salah al-Din", "wasit": "Wasit",
 }
 REGIONAL_WAGE_HOURS = ("8", "16", "32")
-PACKET_PATHS = {key: Path("docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v2") / key
+PACKET_PATHS = {key: Path("docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v3") / key
                 for key in RECIPES}
 CENT = Decimal("0.01")
 
@@ -68,8 +68,9 @@ def _packet(path, current_base_records, expected_study_candidates):
             or source_snapshot.get("snapshot_id") != identity({k: v for k, v in source_snapshot.items()
                                                                  if k != "snapshot_id"})
             or any(saved_by_id.get(record_id) != row for record_id, row in current_by_id.items())
-            or len(extra_rows) != len(expected_study_candidates)
-            or extra_candidates != set(expected_study_candidates)
+            or len(extra_rows) != 1
+            or extra_candidates != {manifest.get("candidate_id")}
+            or manifest.get("candidate_id") not in expected_study_candidates
             or any(row.get("kind") != "process"
                    or row.get("process_key") != "laminate-material-requirements"
                    or row.get("complete_installed_cost") is not None
@@ -306,7 +307,7 @@ def _build(records, packet_root, *, labour_hours=HOURS):
 def build(packet_root=None):
     root = ROOT if packet_root is None else Path(packet_root).resolve()
     records = catalogue.load_catalogue()
-    return _build(records, root / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v2")
+    return _build(records, root / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v3")
 
 
 def main(argv=None):
