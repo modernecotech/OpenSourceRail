@@ -2,27 +2,31 @@
   "schema": "osr-sourcing-iraq-domestic-inputs/1",
   "snapshot_date": "2026-10-30",
   "catalogue": {
-    "offline_seed_record_count": 416,
+    "offline_seed_record_count": 513,
     "counts": {
-      "source": 72,
-      "product": 16,
-      "offer": 5,
+      "benchmark": 410,
       "fx": 3,
-      "benchmark": 320,
-      "total": 416
+      "offer": 5,
+      "product": 16,
+      "source": 79,
+      "total": 513
     },
     "source_observations_are_not_supplier_quotes": true
   },
-  "source_epoch_sha256": "b629c81364976468e40e7b0d7f4f1cff8001d002c57710bd78648f4895c6d4b4",
+  "source_epoch_sha256": "89dd51c6fef7d5006bfdc686f70a4316687a145e8be633ce23a712a76f6cfc27",
   "source_registry_refresh": {
-    "source_record_set_id": "8c8b3d69370b72b13bed9a5984a78c658cc50e8624eb7b0ef2b2b42cb8957dec",
-    "source_record_count": 72,
+    "source_record_set_id": "19d341f801b3e9e330e9da3e22ae33b03cf324aad374e05a0b6977d35dbcd0dc",
+    "source_record_count": 79,
     "new_source_keys": [
-      "iraq.cso.regional-materials-wages-2026-07",
-      "iraq.scosi-extrusion-press-components-2026-03",
-      "iraq.icsc-samawa-cement-plant"
+      "iraq.cso.wages-2026-09",
+      "iraq.scosi.foundry-forging",
+      "iraq.al-burhan-sleeper-factory",
+      "iraq.karbala-precast-bridge-beams",
+      "iraq.ittifaq-reinforcement-mesh",
+      "iraq.ncpi-chemical-plastic-industries",
+      "iraq.al-qader-steel-supply"
     ],
-    "new_benchmark_count": 106,
+    "new_benchmark_count": 90,
     "new_products": 0,
     "new_offers": 0,
     "supplier_quotes": 0,
@@ -30,25 +34,27 @@
   },
   "packets": {
     "frame_vehicle": {
-      "path": "packets/frame-vehicle-iraq-domestic-sources-v6",
-      "publication_id": "e77dc0ce937b54161d1714d090608fb409f9e72ff1c5398a9bab9f42d7180a40",
-      "run_id": "338e9596bdec8fc6f29f49122b9c89cae5c818ef8292dfd92ffea028ddd8c399",
+      "path": "packets/frame-vehicle-iraq-domestic-sources-v10",
+      "publication_id": "d864a7cc406ad53f26264ae430acb9ee1ee437eed2b11bafa055aa0111945c9e",
+      "run_id": "a742865e026178f799862adee704498ff36a6c864512876d527ca272f3789aa6",
       "candidate_id": "6fd30b694342266d60698018f14c492b90c25ac048c3ebfd7157a7031d3cef62",
-      "summary_id": "ff0b780d4979c04184b80809f3af8feb0cf2a1d9f5d2564479afb76c1dac631d",
+      "summary_id": "b34eb600d2823f9de1da61471d32b177b8212bcc6da5ff2f3621d1132d2b9fda",
       "input_requirement_count": 3183,
       "evaluated": 3183,
       "pending": 0,
       "compatible_matches": 0,
       "priced": 0,
       "complete_installed_cost": null,
-      "sensitivity_rankable": 0
+      "sensitivity_rankable": 0,
+      "source_epoch_sha256": "89dd51c6fef7d5006bfdc686f70a4316687a145e8be633ce23a712a76f6cfc27",
+      "physical_occurrence_count": 40488
     },
     "federated_manufacturing_groups": {
-      "path": "packets/federated-purchasing-groups-iraq-domestic-sources-v6",
-      "publication_id": "8fb48704f64f12506d2977bd234f8bcb19b5de92f3c83256dc87fe00890fe369",
-      "run_id": "b8c163a26eefa3b820df2a5622775cea649c5d42384b7e2efd34755b582d7b01",
+      "path": "packets/federated-purchasing-groups-iraq-domestic-sources-v10",
+      "publication_id": "5b418f570bf0e48c0882fbf61adefc420f360963d5cf4dd9cb4ebbe3579ab5a3",
+      "run_id": "3444e7b1a4a21841f6cac74eeb778ea5db02cd314965fa6f73720cccd637d280",
       "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
-      "summary_id": "d44d0bdf49cf5a4b74a047c48ab988185bd693aa4727c447e6a05fc9969bab38",
+      "summary_id": "c4d0bf3112b7bf4678c9dfa0ab9fb89416120bbe3f148a6c02621cc79f5bb38c",
       "input_requirement_count": 7042,
       "evaluated": 137,
       "pending": 6905,
@@ -56,10 +62,11 @@
       "priced": 0,
       "complete_installed_cost": null,
       "sensitivity_rankable": 0,
-      "physical_scope_count": 530,
-      "source_manufacturing_group_count": 80,
-      "source_manufacturing_group_occurrence_count": 473,
-      "unlocated_account_count": 57,
+      "source_epoch_sha256": "89dd51c6fef7d5006bfdc686f70a4316687a145e8be633ce23a712a76f6cfc27",
+      "physical_scope_count": 31989,
+      "source_manufacturing_group_count": 2269,
+      "source_manufacturing_group_occurrence_count": 27216,
+      "unlocated_account_count": 4773,
       "evaluated_group_unknown_quantities": 137,
       "RFQ_drafts": 9,
       "physical_qualification": null
@@ -67,11 +74,11 @@
     "laminate_material_studies": [
       {
         "recipe": "solid-600gsm",
-        "path": "packets/laminate-materials-iraq-domestic-sources-v10/solid-600gsm",
-        "publication_id": "55e88e86bd8e2c9ef4a6a24eb31236ab18fe929151bb2347a3ed35a204e97491",
-        "run_id": "5897720c72d80c0d3585a199957d25d233a82d4305169aff64a1af4d12ba28cc",
+        "path": "packets/laminate-materials-iraq-domestic-sources-v14/solid-600gsm",
+        "publication_id": "5a05498638b2c70be52385250771ffedd2f84c4691793bbec482be819a05a0f4",
+        "run_id": "c77e697f70626ad7cec97da3f48268276ac80a42e50c47f67ed3b98fe3015cab",
         "candidate_id": "23dad81c529a505a355f0aab957683d485f111c1af24afbf2444665222c096d9",
-        "summary_id": "59580e66bea85490e6ff39b3f82f48140e97848716c84d4094f20e28b79e426f",
+        "summary_id": "95abf5954f4c436edeaebb38d8f0dc8470afdc12d347dd50727bcec6aa403808",
         "requirement_count": 3,
         "priced": 0,
         "listed_extension_GBP": "726.6491688538932633420822398",
@@ -79,15 +86,15 @@
         "compatible_matches": 2,
         "held_price_observations": 4,
         "unknown_quantity_requirements": 1,
-        "catalogue_record_count": 417
+        "catalogue_record_count": 513
       },
       {
         "recipe": "sandwich-600gsm",
-        "path": "packets/laminate-materials-iraq-domestic-sources-v10/sandwich-600gsm",
-        "publication_id": "a235de7178aab00bf4dd57bf7143ea464182d6e297b5596b2bd019062619b85e",
-        "run_id": "16d5e8b9b3bce6806bfa9b62a0d6bebe21bbf89938cdf03dfdef3f72466b392e",
+        "path": "packets/laminate-materials-iraq-domestic-sources-v14/sandwich-600gsm",
+        "publication_id": "eaa916b3e2ffaab0e59d4e9ab585fc1c0c68072c619de3ab988a01567797f33c",
+        "run_id": "d278811d41959dc8dc9139fee68f76029cb2ebe22ea3e3a967c9ed5ecddb88b7",
         "candidate_id": "0d891c79abe1ea9dfe6d466f2499d47d6b179ddfbe04d0b84112889543b6fdf2",
-        "summary_id": "4decfa44abef91f7785a19909a194d685417696bb98824905c25bf8c616a7e91",
+        "summary_id": "91e3ffa51932cc0509ebc471eefb15c51223a4a33eb10c2d5ac1723c68a2cd43",
         "requirement_count": 4,
         "priced": 0,
         "listed_extension_GBP": "363.3245844269466316710411198",
@@ -95,15 +102,15 @@
         "compatible_matches": 3,
         "held_price_observations": 4,
         "unknown_quantity_requirements": 1,
-        "catalogue_record_count": 417
+        "catalogue_record_count": 513
       },
       {
         "recipe": "higher-fibre-sandwich-600gsm",
-        "path": "packets/laminate-materials-iraq-domestic-sources-v10/higher-fibre-sandwich-600gsm",
-        "publication_id": "27bf02f3e19d007680d1e8fbbd67cd4c92117db8e67ddf33258fc99934af1eb6",
-        "run_id": "af29934aa7cac7d3bb9ed5464dc4575e7b770b6ad51b8e452f258e97edd0a4e3",
+        "path": "packets/laminate-materials-iraq-domestic-sources-v14/higher-fibre-sandwich-600gsm",
+        "publication_id": "c61830ed7d6e68c789b7751f173db9e25039329bf6f4a3f56be3ad7c06a220c5",
+        "run_id": "ebd5b507815e2e3bb6908f16208a78fa4c65c49b8a3e867ec2fc0608e373d8a6",
         "candidate_id": "261208b9e81a4065ffd49eacaf0555052d7531c98b9a950c0219c59d678085ec",
-        "summary_id": "e262874503331540b564162886e1913a8fcb36a7843f0c6d96093f02e3813618",
+        "summary_id": "49ee76f082dd1d98c750eb49007a4ced471908dc36ef2ddd328f9524e943e6ab",
         "requirement_count": 4,
         "priced": 0,
         "listed_extension_GBP": "265.5468066491688538932633421",
@@ -111,7 +118,7 @@
         "compatible_matches": 3,
         "held_price_observations": 4,
         "unknown_quantity_requirements": 1,
-        "catalogue_record_count": 417
+        "catalogue_record_count": 513
       }
     ],
     "laminate_material_studies_305_record_epoch": [
@@ -260,79 +267,186 @@
         "unknown_quantity_requirements": 1,
         "catalogue_record_count": 417
       }
+    ],
+    "frame_vehicle_305_record_epoch_v6": {
+      "path": "packets/frame-vehicle-iraq-domestic-sources-v6",
+      "publication_id": "e77dc0ce937b54161d1714d090608fb409f9e72ff1c5398a9bab9f42d7180a40",
+      "run_id": "338e9596bdec8fc6f29f49122b9c89cae5c818ef8292dfd92ffea028ddd8c399",
+      "candidate_id": "6fd30b694342266d60698018f14c492b90c25ac048c3ebfd7157a7031d3cef62",
+      "summary_id": "ff0b780d4979c04184b80809f3af8feb0cf2a1d9f5d2564479afb76c1dac631d",
+      "input_requirement_count": 3183,
+      "evaluated": 3183,
+      "pending": 0,
+      "compatible_matches": 0,
+      "priced": 0,
+      "complete_installed_cost": null,
+      "sensitivity_rankable": 0
+    },
+    "federated_manufacturing_groups_305_record_epoch_v6": {
+      "path": "packets/federated-purchasing-groups-iraq-domestic-sources-v6",
+      "publication_id": "8fb48704f64f12506d2977bd234f8bcb19b5de92f3c83256dc87fe00890fe369",
+      "run_id": "b8c163a26eefa3b820df2a5622775cea649c5d42384b7e2efd34755b582d7b01",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "summary_id": "d44d0bdf49cf5a4b74a047c48ab988185bd693aa4727c447e6a05fc9969bab38",
+      "input_requirement_count": 7042,
+      "evaluated": 137,
+      "pending": 6905,
+      "compatible_matches": 0,
+      "priced": 0,
+      "complete_installed_cost": null,
+      "sensitivity_rankable": 0,
+      "physical_scope_count": 530,
+      "source_manufacturing_group_count": 80,
+      "source_manufacturing_group_occurrence_count": 473,
+      "unlocated_account_count": 57,
+      "evaluated_group_unknown_quantities": 137,
+      "RFQ_drafts": 9,
+      "physical_qualification": null
+    },
+    "laminate_material_studies_416_record_epoch_v10": [
+      {
+        "recipe": "solid-600gsm",
+        "path": "packets/laminate-materials-iraq-domestic-sources-v10/solid-600gsm",
+        "publication_id": "55e88e86bd8e2c9ef4a6a24eb31236ab18fe929151bb2347a3ed35a204e97491",
+        "run_id": "5897720c72d80c0d3585a199957d25d233a82d4305169aff64a1af4d12ba28cc",
+        "candidate_id": "23dad81c529a505a355f0aab957683d485f111c1af24afbf2444665222c096d9",
+        "summary_id": "59580e66bea85490e6ff39b3f82f48140e97848716c84d4094f20e28b79e426f",
+        "requirement_count": 3,
+        "priced": 0,
+        "listed_extension_GBP": "726.6491688538932633420822398",
+        "complete_installed_cost": null,
+        "compatible_matches": 2,
+        "held_price_observations": 4,
+        "unknown_quantity_requirements": 1,
+        "catalogue_record_count": 417
+      },
+      {
+        "recipe": "sandwich-600gsm",
+        "path": "packets/laminate-materials-iraq-domestic-sources-v10/sandwich-600gsm",
+        "publication_id": "a235de7178aab00bf4dd57bf7143ea464182d6e297b5596b2bd019062619b85e",
+        "run_id": "16d5e8b9b3bce6806bfa9b62a0d6bebe21bbf89938cdf03dfdef3f72466b392e",
+        "candidate_id": "0d891c79abe1ea9dfe6d466f2499d47d6b179ddfbe04d0b84112889543b6fdf2",
+        "summary_id": "4decfa44abef91f7785a19909a194d685417696bb98824905c25bf8c616a7e91",
+        "requirement_count": 4,
+        "priced": 0,
+        "listed_extension_GBP": "363.3245844269466316710411198",
+        "complete_installed_cost": null,
+        "compatible_matches": 3,
+        "held_price_observations": 4,
+        "unknown_quantity_requirements": 1,
+        "catalogue_record_count": 417
+      },
+      {
+        "recipe": "higher-fibre-sandwich-600gsm",
+        "path": "packets/laminate-materials-iraq-domestic-sources-v10/higher-fibre-sandwich-600gsm",
+        "publication_id": "27bf02f3e19d007680d1e8fbbd67cd4c92117db8e67ddf33258fc99934af1eb6",
+        "run_id": "af29934aa7cac7d3bb9ed5464dc4575e7b770b6ad51b8e452f258e97edd0a4e3",
+        "candidate_id": "261208b9e81a4065ffd49eacaf0555052d7531c98b9a950c0219c59d678085ec",
+        "summary_id": "e262874503331540b564162886e1913a8fcb36a7843f0c6d96093f02e3813618",
+        "requirement_count": 4,
+        "priced": 0,
+        "listed_extension_GBP": "265.5468066491688538932633421",
+        "complete_installed_cost": null,
+        "compatible_matches": 3,
+        "held_price_observations": 4,
+        "unknown_quantity_requirements": 1,
+        "catalogue_record_count": 417
+      }
+    ],
+    "frame_vehicle_513_record_epoch_v8": {
+      "path": "packets/frame-vehicle-iraq-domestic-sources-v8",
+      "publication_id": "0688a18f33c2bd3dd38ec2a200d7ed6730a028c8dc76cc9b1014df62f8fd60eb",
+      "run_id": "2fea42984f25d6efdae6932095b9da3f2f3af4e9d8fbbc2b54753c3cd152a3bb",
+      "candidate_id": "6fd30b694342266d60698018f14c492b90c25ac048c3ebfd7157a7031d3cef62",
+      "summary_id": "0838930c0014025811e128f56b2b25ee4304d5c42e4f54e732ae43391edf1ea6",
+      "input_requirement_count": 3183,
+      "evaluated": 3183,
+      "pending": 0,
+      "compatible_matches": 0,
+      "priced": 0,
+      "complete_installed_cost": null,
+      "sensitivity_rankable": 0,
+      "physical_occurrence_count": 40488,
+      "source_epoch_sha256": "89dd51c6fef7d5006bfdc686f70a4316687a145e8be633ce23a712a76f6cfc27"
+    },
+    "federated_manufacturing_groups_513_record_epoch_v8": {
+      "path": "packets/federated-purchasing-groups-iraq-domestic-sources-v8",
+      "publication_id": "d65b8a4bdb8fcf812ec0c6cd59a7af4b3e1d0be2cc5e856ee6cccc341cf0a0c9",
+      "run_id": "2860d698c145143449c5684125048720d5c54d7af20e306b2c485c2ecf1584bb",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "summary_id": "e1502c60d09961f0cb733be7f29eea1a88307bd94a73f00c5e83a495ee91de73",
+      "input_requirement_count": 7042,
+      "evaluated": 137,
+      "pending": 6905,
+      "compatible_matches": 0,
+      "priced": 0,
+      "complete_installed_cost": null,
+      "sensitivity_rankable": 0,
+      "physical_scope_count": 31989,
+      "source_manufacturing_group_count": 2269,
+      "source_manufacturing_group_occurrence_count": 27216,
+      "unlocated_account_count": 4773,
+      "evaluated_group_unknown_quantities": 137,
+      "RFQ_drafts": 9,
+      "physical_qualification": null,
+      "source_epoch_sha256": "89dd51c6fef7d5006bfdc686f70a4316687a145e8be633ce23a712a76f6cfc27"
+    },
+    "laminate_material_studies_513_record_epoch_v12": [
+      {
+        "recipe": "solid-600gsm",
+        "path": "packets/laminate-materials-iraq-domestic-sources-v12/solid-600gsm",
+        "publication_id": "5ad51af815f679b289dafa4798c503c1caefc48457b53136c35ae5f5e052fc9b",
+        "run_id": "7fba3286e6ebaf7bc0cf59b5bc7646511a819135f49e36fb9624d2838abd0f3f",
+        "candidate_id": "23dad81c529a505a355f0aab957683d485f111c1af24afbf2444665222c096d9",
+        "summary_id": "7463ceaf9ed444b929964019f94bf6970be57797ae4ced1bdbdd794824f91210",
+        "requirement_count": 3,
+        "priced": 0,
+        "listed_extension_GBP": "726.6491688538932633420822398",
+        "complete_installed_cost": null,
+        "compatible_matches": 2,
+        "held_price_observations": 4,
+        "unknown_quantity_requirements": 1,
+        "catalogue_record_count": 3
+      },
+      {
+        "recipe": "sandwich-600gsm",
+        "path": "packets/laminate-materials-iraq-domestic-sources-v12/sandwich-600gsm",
+        "publication_id": "be3c4509ae711561a378d76d6aed54250cf7438d3b8118698a75d791d00d4bcb",
+        "run_id": "c5a58a6051685dd247397927c133e6fc94b96a3cdd7bb86f645cf4c98a704d52",
+        "candidate_id": "0d891c79abe1ea9dfe6d466f2499d47d6b179ddfbe04d0b84112889543b6fdf2",
+        "summary_id": "f52f1fa3b302d6122b2d099f1f9f7c88d3609a22807e8e805625ebf5a36fff5c",
+        "requirement_count": 4,
+        "priced": 0,
+        "listed_extension_GBP": "363.3245844269466316710411198",
+        "complete_installed_cost": null,
+        "compatible_matches": 3,
+        "held_price_observations": 4,
+        "unknown_quantity_requirements": 1,
+        "catalogue_record_count": 3
+      },
+      {
+        "recipe": "higher-fibre-sandwich-600gsm",
+        "path": "packets/laminate-materials-iraq-domestic-sources-v12/higher-fibre-sandwich-600gsm",
+        "publication_id": "d7b9bd2d0f64cd38f2bf68a55ec3b9bed8ac8bcc267d0a96559130b8722e1e83",
+        "run_id": "aef9825b6d7b996a18d95a4a9e94665f1f1c8cb57448a5287d8851722e1d93a0",
+        "candidate_id": "261208b9e81a4065ffd49eacaf0555052d7531c98b9a950c0219c59d678085ec",
+        "summary_id": "9d01e3e8b62282ff01eb27b9d6d2c1c5af2275a1a381beccb3ba8c05e6e9ffc2",
+        "requirement_count": 4,
+        "priced": 0,
+        "listed_extension_GBP": "265.5468066491688538932633421",
+        "complete_installed_cost": null,
+        "compatible_matches": 3,
+        "held_price_observations": 4,
+        "unknown_quantity_requirements": 1,
+        "catalogue_record_count": 3
+      }
     ]
   },
   "domestic_fabrication_unit_rate_screens": [
     {
-      "path": "domestic-fabrication/estimates/current/rebar-cut-bend-04h-v4.json",
-      "estimate_packet_id": "b354df0cbccab969d24520940b716a276ec123f5970d1fa536d8f25f8739a11a",
-      "process_record_id": "a6b1e6997b53689d28d42934a39e8b01b41d7b688a9f1744285df80ad482fb69",
-      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
-      "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
-      "output_quantity": "1",
-      "output_unit": "t",
-      "labour_hours": "4",
-      "currency": "IQD",
-      "direct_material_cost": "989000",
-      "direct_labor_cost": "37500",
-      "uplift_fraction": "0.2",
-      "uplift_amount": "205300",
-      "estimated_total": "1231800",
-      "source_ids": [
-        "8e74f9773642ec82f9c9a77dc48c528160ecd7960e71c3bb9ae64f8a893ee789",
-        "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
-      ],
-      "candidate_takeoff_mapped": false,
-      "estimated_unit_cost": "1231800"
-    },
-    {
-      "path": "domestic-fabrication/estimates/current/rebar-cut-bend-08h-v4.json",
-      "estimate_packet_id": "9c2e5651b2b6294bf06b1f1ba2706d6d4d1ff03ba37cc205a643c7e7cfd883da",
-      "process_record_id": "7d9f752adaf9d717e259f15b4f85e89c77c99c2efd46b3dc8b67bbb9cd8e3db0",
-      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
-      "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
-      "output_quantity": "1",
-      "output_unit": "t",
-      "labour_hours": "8",
-      "currency": "IQD",
-      "direct_material_cost": "989000",
-      "direct_labor_cost": "75000",
-      "uplift_fraction": "0.2",
-      "uplift_amount": "212800",
-      "estimated_total": "1276800",
-      "source_ids": [
-        "8e74f9773642ec82f9c9a77dc48c528160ecd7960e71c3bb9ae64f8a893ee789",
-        "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
-      ],
-      "candidate_takeoff_mapped": false,
-      "estimated_unit_cost": "1276800"
-    },
-    {
-      "path": "domestic-fabrication/estimates/current/rebar-cut-bend-16h-v4.json",
-      "estimate_packet_id": "f358236c8d376ad571de9a9107da8cbec8e25d1bf0fd56d04a8101e69a420982",
-      "process_record_id": "a845e0f24f363716d47cbcab1d550642e4d4f2c281c9d47d0058b83932ebca86",
-      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
-      "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
-      "output_quantity": "1",
-      "output_unit": "t",
-      "labour_hours": "16",
-      "currency": "IQD",
-      "direct_material_cost": "989000",
-      "direct_labor_cost": "150000",
-      "uplift_fraction": "0.2",
-      "uplift_amount": "227800",
-      "estimated_total": "1366800",
-      "source_ids": [
-        "8e74f9773642ec82f9c9a77dc48c528160ecd7960e71c3bb9ae64f8a893ee789",
-        "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
-      ],
-      "candidate_takeoff_mapped": false,
-      "estimated_unit_cost": "1366800"
-    },
-    {
-      "path": "domestic-fabrication/estimates/current/concrete-batch-02h-v4.json",
-      "estimate_packet_id": "f2175fbfdd530b74035f6272e5b2ad4ed7ffa5fd89cb37a685b875f0415c2cc7",
-      "process_record_id": "98aef6c92dbfa0ebb0d80e9b61325e1d415bd13af7e657b72026201360e5be30",
+      "path": "domestic-fabrication/estimates/current/concrete-batch-02h-v6.json",
+      "estimate_packet_id": "f65de327ec68c4f8fe907166fbc02a0cca0b4aa574687104a5c4cae039f94906",
+      "process_record_id": "df99b5c7df70eb7987fdb35e3fcc6c5f0e7d9fae7506c85ccac09deb8e205f4f",
       "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
       "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
       "output_quantity": "1",
@@ -344,17 +458,25 @@
       "uplift_fraction": "0.2",
       "uplift_amount": "18930",
       "estimated_total": "113580",
+      "estimated_unit_cost": "113580",
       "source_ids": [
-        "8e74f9773642ec82f9c9a77dc48c528160ecd7960e71c3bb9ae64f8a893ee789",
+        "9952367c7ae1f5f8d89e267725a1edd6776d5a99c93d7032cd8f1bb28c99b40d",
         "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
       ],
+      "benchmark_ids": [
+        "6a88368cbb96bdafff9367a198400fa2257dd35dd2f28d79a0b1e128af4c2cb1",
+        "6dc18f6f84b9bdcb8c4564694521a414ee5aa8f3b8fe400bbe44691ef20ab1ef",
+        "aa5c1300152f41527471cc9f1a2629199c44ba100059d50acedacdbf4a9f9ea9",
+        "cc80357256e3a5341d22c859f15fbe413d1d131e3ff310f834e334214c7955c7"
+      ],
       "candidate_takeoff_mapped": false,
-      "estimated_unit_cost": "113580"
+      "complete_installed_cost": null,
+      "wage_observation_period": "2026-09"
     },
     {
-      "path": "domestic-fabrication/estimates/current/concrete-batch-04h-v4.json",
-      "estimate_packet_id": "ee9c950afe64667035abc369011d523874e2c9a8db1e7dad9a1f2569b22b5048",
-      "process_record_id": "d5a74074b95bf068774aff207a7f734bc5b0a39455c443ba07ef21279e965a23",
+      "path": "domestic-fabrication/estimates/current/concrete-batch-04h-v6.json",
+      "estimate_packet_id": "b0ac942060c908af0c61f9f6fee6d25986a92b1e7094deea5264032133dd69c3",
+      "process_record_id": "baa33f1c1d266598e51063e7e0a7b0a3cd60368acd5d53a563fbe48c04f98431",
       "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
       "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
       "output_quantity": "1",
@@ -366,17 +488,25 @@
       "uplift_fraction": "0.2",
       "uplift_amount": "22680",
       "estimated_total": "136080",
+      "estimated_unit_cost": "136080",
       "source_ids": [
-        "8e74f9773642ec82f9c9a77dc48c528160ecd7960e71c3bb9ae64f8a893ee789",
+        "9952367c7ae1f5f8d89e267725a1edd6776d5a99c93d7032cd8f1bb28c99b40d",
         "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
       ],
+      "benchmark_ids": [
+        "6a88368cbb96bdafff9367a198400fa2257dd35dd2f28d79a0b1e128af4c2cb1",
+        "6dc18f6f84b9bdcb8c4564694521a414ee5aa8f3b8fe400bbe44691ef20ab1ef",
+        "aa5c1300152f41527471cc9f1a2629199c44ba100059d50acedacdbf4a9f9ea9",
+        "cc80357256e3a5341d22c859f15fbe413d1d131e3ff310f834e334214c7955c7"
+      ],
       "candidate_takeoff_mapped": false,
-      "estimated_unit_cost": "136080"
+      "complete_installed_cost": null,
+      "wage_observation_period": "2026-09"
     },
     {
-      "path": "domestic-fabrication/estimates/current/concrete-batch-08h-v4.json",
-      "estimate_packet_id": "cf21d03112e31e3270686bbd678426ce68218769c52f45fc84dfba9a700981f0",
-      "process_record_id": "2df08e90b8ea6fb22dc4f1e25ad7e1ed9fa079e7998d2417484448fbae536eb5",
+      "path": "domestic-fabrication/estimates/current/concrete-batch-08h-v6.json",
+      "estimate_packet_id": "5a22acf002406c02054da8b7ff34fb54350ad336114aeecdac72671843f1b71b",
+      "process_record_id": "5cfbdadee2e3271e53e909932631a78f148f4d02f4ade2758314aa9f11a88e70",
       "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
       "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
       "output_quantity": "1",
@@ -388,12 +518,104 @@
       "uplift_fraction": "0.2",
       "uplift_amount": "30180",
       "estimated_total": "181080",
+      "estimated_unit_cost": "181080",
       "source_ids": [
-        "8e74f9773642ec82f9c9a77dc48c528160ecd7960e71c3bb9ae64f8a893ee789",
+        "9952367c7ae1f5f8d89e267725a1edd6776d5a99c93d7032cd8f1bb28c99b40d",
         "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
       ],
+      "benchmark_ids": [
+        "6a88368cbb96bdafff9367a198400fa2257dd35dd2f28d79a0b1e128af4c2cb1",
+        "6dc18f6f84b9bdcb8c4564694521a414ee5aa8f3b8fe400bbe44691ef20ab1ef",
+        "aa5c1300152f41527471cc9f1a2629199c44ba100059d50acedacdbf4a9f9ea9",
+        "cc80357256e3a5341d22c859f15fbe413d1d131e3ff310f834e334214c7955c7"
+      ],
       "candidate_takeoff_mapped": false,
-      "estimated_unit_cost": "181080"
+      "complete_installed_cost": null,
+      "wage_observation_period": "2026-09"
+    },
+    {
+      "path": "domestic-fabrication/estimates/current/rebar-cut-bend-04h-v6.json",
+      "estimate_packet_id": "35c327ccde109e25e5f9bc0c97dfe0a440898ba86506dd7dedfbfc64525946c7",
+      "process_record_id": "bb2d240837bc863b562a3cac56ccfaf00c4030ea9997fb5d82492c88167128aa",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "output_quantity": "1",
+      "output_unit": "t",
+      "labour_hours": "4",
+      "currency": "IQD",
+      "direct_material_cost": "989000",
+      "direct_labor_cost": "37500",
+      "uplift_fraction": "0.2",
+      "uplift_amount": "205300",
+      "estimated_total": "1231800",
+      "estimated_unit_cost": "1231800",
+      "source_ids": [
+        "9952367c7ae1f5f8d89e267725a1edd6776d5a99c93d7032cd8f1bb28c99b40d",
+        "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
+      ],
+      "benchmark_ids": [
+        "28418c98559caf7bbcef31b6a76521be60dc18295d5caacf8da8e17d91f31648",
+        "6dc18f6f84b9bdcb8c4564694521a414ee5aa8f3b8fe400bbe44691ef20ab1ef"
+      ],
+      "candidate_takeoff_mapped": false,
+      "complete_installed_cost": null,
+      "wage_observation_period": "2026-09"
+    },
+    {
+      "path": "domestic-fabrication/estimates/current/rebar-cut-bend-08h-v6.json",
+      "estimate_packet_id": "81b0d489a383d83c0313339d2904d96fbf2fde9aed6c55427930f6410b56382b",
+      "process_record_id": "a39d22722351db13acb9dfe1548784d4c96fe7bb0edb509e679ba000b2e3d491",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "output_quantity": "1",
+      "output_unit": "t",
+      "labour_hours": "8",
+      "currency": "IQD",
+      "direct_material_cost": "989000",
+      "direct_labor_cost": "75000",
+      "uplift_fraction": "0.2",
+      "uplift_amount": "212800",
+      "estimated_total": "1276800",
+      "estimated_unit_cost": "1276800",
+      "source_ids": [
+        "9952367c7ae1f5f8d89e267725a1edd6776d5a99c93d7032cd8f1bb28c99b40d",
+        "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
+      ],
+      "benchmark_ids": [
+        "28418c98559caf7bbcef31b6a76521be60dc18295d5caacf8da8e17d91f31648",
+        "6dc18f6f84b9bdcb8c4564694521a414ee5aa8f3b8fe400bbe44691ef20ab1ef"
+      ],
+      "candidate_takeoff_mapped": false,
+      "complete_installed_cost": null,
+      "wage_observation_period": "2026-09"
+    },
+    {
+      "path": "domestic-fabrication/estimates/current/rebar-cut-bend-16h-v6.json",
+      "estimate_packet_id": "096e619c75ba43c18fb778ba77c8d4d9fb4e9552c1fe1f59c045ac2ca72d0e7c",
+      "process_record_id": "e7062db12b28f0e90e4bd3da999896f106c6ec7e28510ad9b42845a09f26b0aa",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "output_quantity": "1",
+      "output_unit": "t",
+      "labour_hours": "16",
+      "currency": "IQD",
+      "direct_material_cost": "989000",
+      "direct_labor_cost": "150000",
+      "uplift_fraction": "0.2",
+      "uplift_amount": "227800",
+      "estimated_total": "1366800",
+      "estimated_unit_cost": "1366800",
+      "source_ids": [
+        "9952367c7ae1f5f8d89e267725a1edd6776d5a99c93d7032cd8f1bb28c99b40d",
+        "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
+      ],
+      "benchmark_ids": [
+        "28418c98559caf7bbcef31b6a76521be60dc18295d5caacf8da8e17d91f31648",
+        "6dc18f6f84b9bdcb8c4564694521a414ee5aa8f3b8fe400bbe44691ef20ab1ef"
+      ],
+      "candidate_takeoff_mapped": false,
+      "complete_installed_cost": null,
+      "wage_observation_period": "2026-09"
     }
   ],
   "sensitivity_controller": {
@@ -416,13 +638,14 @@
     "semantic_replay_executed_in_this_update": true
   },
   "notes": [
-    "The current offline catalogue has 416 records: 72 sources, 16 products, 5 offers, 3 FX observations and 320 benchmarks. The July 2026 CSO bulletin contributes 16 origin-separated material prices and 90 governorate/category wage observations normalized from daily rates using an explicit 8-hour day. These are statistical inputs, not supplier quotations.",
-    "Three new discovery records describe the July 2026 CSO bulletin, SCOSI machining work for an aluminium extrusion press, and the listed Iraqi Cement State Company Samawa plant. The industrial records are leads only; they do not establish railway products, current output, grade, availability or price.",
-    "The ready-mix listing reports C15/C25/C30/C36 production and 60–120 m3/h capacity for Baghdad facilities, but does not establish project allocation, mix design, concrete test results, delivery, pumping price or suitability for prestressed guideway beams.",
-    "Official 2024 industrial statistics report annual average payroll of IQD 12.5 million at large and IQD 6.3 million at medium establishments. These are annual factory-worker wage statistics, not hourly skilled railway-fabrication charge-out rates.",
-    "The official 2025 import report has not been downloaded, table-extracted or unit-normalized; no material quantity or unit-price observation was added from it. Iraqi Cement State Company price tiles remain unparsed. The Ministry indicative construction-price bulletin is described as under preparation and contributes no rates.",
-    "All domestic estimates use source-linked material quantity × source rate plus declared labour hours × source wage, followed by an explicit 20% planning uplift where stated. The uplift applies only to represented direct material and labour; labour hours are assumptions, and employer charges, utilities, tooling, QA, waste, taxes, transport and installation remain excluded unless represented.",
-    "The current 416-record catalogue identity and 72-source registry identity are recorded above. Frame/federated price-evaluation packets remain pinned to the retained 305-record epoch; v10 laminate studies use all 416 current seed records. The current v7 procurement package packet links six July 2026 concrete estimate cases per span and preserves 27,216 located occurrences plus separate unlocated obligations. The 2025 regional reference, September 2026 material screen, candidate takeoff and historical 2024 material cross-check remain separately source-bound. Digital evidence does not establish physical qualification, supplier acceptance or complete installed cost."
+    "The current offline seed contains 513 records: 79 sources, 16 products, 5 published catalogue offers, 3 FX observations and 410 benchmarks.",
+    "The September 2026 CSO wage source adds 90 governorate/category base-wage observations normalized by an explicit 8-hour day. Six added Iraqi fabrication/supply sources are capability leads only; they add no offers or supplier matches.",
+    "The v10 frame review evaluates all 3,183 requirements and has zero compatible priced matches. The v10 balanced federation review evaluates 137 of 7,042 requirements, with 6,905 pending, zero compatible priced matches and nine unsent RFQ drafts.",
+    "The v9 procurement BOM preserves 31,989 physical scopes, 2,269 manufacturing groups and 27,216 located occurrences, with 4,773 unlocated obligations separate. Its 191 packages and eight demand lines are not complete purchase assemblies; commercial order quantities remain unknown.",
+    "The 20% domestic estimate allowance applies only to source-priced material plus assumed direct base-wage hours. It is unallocated and does not establish overhead, profit, tax, contingency, quality, tooling, transport or installation.",
+    "The September concrete recipe is a statistical material-plus-labour scenario. Its same-candidate mapped totals preserve 81 groups and 486 occurrences for each location/hour case; the mix and shop hours are not qualified.",
+    "GFRP scenarios use UK catalogue-listed cloth/resin inputs converted at a dated non-executable CBI rate plus assumed Iraqi base-wage labour. Core, adhesive, tooling, employer burden and fabrication cost remain open; these are not locally produced laminate costs.",
+    "No supplier communication was sent. No supplier offer, compatible priced railway group, complete installed cost, physical qualification or release state is established; the selected reference remains unchanged."
   ],
   "source_epoch_definition": "SHA-256 identity() of the validated offline seed record list returned by engineering.sourcing.catalogue.load_catalogue(); packet-specific catalogue snapshots may additionally contain generated process records.",
   "candidate_material_takeoff": {
@@ -635,20 +858,63 @@
       "source_kind": "manufacturer_catalogue",
       "public_description": "Samawa cement plant listed by Iraqi Cement State Company",
       "capability_is_unqualified_lead": true
+    },
+    {
+      "source_key": "iraq.scosi.foundry-forging",
+      "source_id": "eb801021b020294176bbbbff0ada8d38137c66a36a8a7e3d187c6890ac1f10ad",
+      "url": "https://scosi.industry.gov.iq/page/76/مصنع-السباكة-والطرق",
+      "source_kind": "factory_catalogue",
+      "capability_is_unqualified_lead": true
+    },
+    {
+      "source_key": "iraq.al-burhan-sleeper-factory",
+      "source_id": "a66d3b06a641156c27ad65d00b63ec4e0b7a8526b46393c166e4b11a76abd7f4",
+      "url": "https://alburhangroups.com/our-factory/",
+      "source_kind": "factory_catalogue",
+      "capability_is_unqualified_lead": true
+    },
+    {
+      "source_key": "iraq.karbala-precast-bridge-beams",
+      "source_id": "04bbfe9a5ac28f371ff6dcf7ea19857e10b2935aa4b84449b434b774bda5c051",
+      "url": "https://www.karbala-company.com/products.php",
+      "source_kind": "factory_catalogue",
+      "capability_is_unqualified_lead": true
+    },
+    {
+      "source_key": "iraq.ittifaq-reinforcement-mesh",
+      "source_id": "5e5d9112e9837f03292a79b836e0ae723cd805bcd5e7bf31f628eaed12d29ba5",
+      "url": "https://ittifaq-brc.com/en/home/",
+      "source_kind": "factory_catalogue",
+      "capability_is_unqualified_lead": true
+    },
+    {
+      "source_key": "iraq.ncpi-chemical-plastic-industries",
+      "source_id": "8513ac0fbe19cd561874df866b30e2f29cccfd8ac3899209c15b5ff37636f772",
+      "url": "https://ncpi.com.iq/%D9%85%D9%86-%D9%86%D8%AD%D9%86/",
+      "source_kind": "factory_catalogue",
+      "capability_is_unqualified_lead": true
+    },
+    {
+      "source_key": "iraq.al-qader-steel-supply",
+      "source_id": "03888a6a17de71f0eae6516c3222faaa94aa6acf4525e0307757a6008056feb6",
+      "url": "https://al-qader-group.iq/en/",
+      "source_kind": "distributor_catalogue",
+      "capability_is_unqualified_lead": true
     }
   ],
   "candidate_mapped_concrete_estimates": [
     {
-      "estimate_packet_id": "ad5e20b4c716d3736e2aaf809002f81be6b785a6bb92f333ed26775fcfe5418d",
-      "process_record_id": "181aad36c55f405d7b2a0eef0f57dbda6c23518102cc0302cadfab0814f50151",
+      "estimate_packet_id": "ceee3f394ff2c06f69ef6744b17e5fab7f1a9feed1f60e6008eb789e38a7fcba",
+      "process_record_id": "3dd549018e0d5df91a59421c4af00534862aff3a44907d104c5ed3f2bb1aa45a",
       "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
       "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
       "takeoff_id": "042b2b73f6ac0b92da886eb71949c0020c595f0bb7485c413700d40215939d41",
       "target_rollup": {
+        "system": "civil/concrete",
         "material": "concrete-hypothesis",
-        "stock_scope": "nominal-stock",
-        "system": "civil/concrete"
+        "stock_scope": "nominal-stock"
       },
+      "region": "Baghdad",
       "mapped_group_count": 81,
       "mapped_occurrence_count": 486,
       "group_estimate_count": 81,
@@ -657,28 +923,26 @@
       "output_unit": "m3",
       "labour_hours_per_m3": "2",
       "currency": "IQD",
-      "direct_material_cost": "136985048.63999998524504",
-      "direct_labor_cost": "33840179.999999996355",
-      "uplift_fraction": "0.2",
-      "uplift_amount": "34165045.727999996320008",
-      "estimated_total": "204990274.367999977920048",
       "estimated_unit_cost": "113580",
+      "estimated_total": "204990274.367999977920048",
+      "uplift_fraction": "0.2",
       "candidate_takeoff_mapped": true,
       "complete_installed_cost": null,
       "physical_qualification": null,
-      "path": "domestic-fabrication/estimates/current/concrete-takeoff-02h-v4.json"
+      "path": "domestic-fabrication/regional-estimates-2026-september-v2/2026-09-baghdad-concrete-takeoff-2h.json"
     },
     {
-      "estimate_packet_id": "da5601b989dd78f2c2fdde6bb6ad1c2cdda577ae9cd9ab02519d2f8869d87073",
-      "process_record_id": "235b510108b6d9e24cf8e2598509489860b29b933aabe9f83ed721d5b2275612",
+      "estimate_packet_id": "198563229f99a34e6c05e709a57f1ee6524b15471f8b8cbed5b8deb26c41af57",
+      "process_record_id": "aeaa38d1da41d46c1d26011bac6119b67ad3fa961f759cc1961a5dcebcbaec62",
       "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
       "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
       "takeoff_id": "042b2b73f6ac0b92da886eb71949c0020c595f0bb7485c413700d40215939d41",
       "target_rollup": {
+        "system": "civil/concrete",
         "material": "concrete-hypothesis",
-        "stock_scope": "nominal-stock",
-        "system": "civil/concrete"
+        "stock_scope": "nominal-stock"
       },
+      "region": "Baghdad",
       "mapped_group_count": 81,
       "mapped_occurrence_count": 486,
       "group_estimate_count": 81,
@@ -687,28 +951,26 @@
       "output_unit": "m3",
       "labour_hours_per_m3": "4",
       "currency": "IQD",
-      "direct_material_cost": "136985048.63999998524504",
-      "direct_labor_cost": "67680359.99999999271",
-      "uplift_fraction": "0.2",
-      "uplift_amount": "40933081.727999995591008",
-      "estimated_total": "245598490.367999973546048",
       "estimated_unit_cost": "136080",
+      "estimated_total": "245598490.367999973546048",
+      "uplift_fraction": "0.2",
       "candidate_takeoff_mapped": true,
       "complete_installed_cost": null,
       "physical_qualification": null,
-      "path": "domestic-fabrication/estimates/current/concrete-takeoff-04h-v4.json"
+      "path": "domestic-fabrication/regional-estimates-2026-september-v2/2026-09-baghdad-concrete-takeoff-4h.json"
     },
     {
-      "estimate_packet_id": "2e9df25a76d5fa632d01790dc31c88ec0827bbb819636dd6ebe02d38c237ef83",
-      "process_record_id": "9d3f60de5bcb2cfe658f7c6a4abf7fcb7c6a1bc476e711cb391a93df189d7673",
+      "estimate_packet_id": "b35c613bfc60618f88be5fe0bdea78b55ae66bd159e6c68f10d856d6c92c3a4d",
+      "process_record_id": "3921d7eebc0e788d531bbd1b258c96c31955803f652324edb14c35b37a574c59",
       "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
       "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
       "takeoff_id": "042b2b73f6ac0b92da886eb71949c0020c595f0bb7485c413700d40215939d41",
       "target_rollup": {
+        "system": "civil/concrete",
         "material": "concrete-hypothesis",
-        "stock_scope": "nominal-stock",
-        "system": "civil/concrete"
+        "stock_scope": "nominal-stock"
       },
+      "region": "Baghdad",
       "mapped_group_count": 81,
       "mapped_occurrence_count": 486,
       "group_estimate_count": 81,
@@ -717,16 +979,97 @@
       "output_unit": "m3",
       "labour_hours_per_m3": "8",
       "currency": "IQD",
-      "direct_material_cost": "136985048.63999998524504",
-      "direct_labor_cost": "135360719.99999998542",
-      "uplift_fraction": "0.2",
-      "uplift_amount": "54469153.727999994133008",
-      "estimated_total": "326814922.367999964798048",
       "estimated_unit_cost": "181080",
+      "estimated_total": "326814922.367999964798048",
+      "uplift_fraction": "0.2",
       "candidate_takeoff_mapped": true,
       "complete_installed_cost": null,
       "physical_qualification": null,
-      "path": "domestic-fabrication/estimates/current/concrete-takeoff-08h-v4.json"
+      "path": "domestic-fabrication/regional-estimates-2026-september-v2/2026-09-baghdad-concrete-takeoff-8h.json"
+    },
+    {
+      "estimate_packet_id": "0c206717fbd5e6a3e74ede4001789818c66c85a3ce8e6bb389b78ad66cdebead",
+      "process_record_id": "35aafc13a61ad849c858a86c3d4c2139e82a0f30c1c0cc4f2cb120d7d548dfa6",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "takeoff_id": "042b2b73f6ac0b92da886eb71949c0020c595f0bb7485c413700d40215939d41",
+      "target_rollup": {
+        "system": "civil/concrete",
+        "material": "concrete-hypothesis",
+        "stock_scope": "nominal-stock"
+      },
+      "region": "Al-Muthanna",
+      "mapped_group_count": 81,
+      "mapped_occurrence_count": 486,
+      "group_estimate_count": 81,
+      "all_group_occurrences_preserved": true,
+      "output_quantity": "1804.8095999999998056",
+      "output_unit": "m3",
+      "labour_hours_per_m3": "2",
+      "currency": "IQD",
+      "estimated_unit_cost": "109080",
+      "estimated_total": "196868631.167999978794848",
+      "uplift_fraction": "0.2",
+      "candidate_takeoff_mapped": true,
+      "complete_installed_cost": null,
+      "physical_qualification": null,
+      "path": "domestic-fabrication/regional-estimates-2026-september-v2/2026-09-al-muthanna-concrete-takeoff-2h.json"
+    },
+    {
+      "estimate_packet_id": "2f5656fc0ef84a1517b960c5058bd83991821990473b2bdbfa633a8583e8504f",
+      "process_record_id": "3a2378eda9cf40a715591f44a02ed4e2208fad4c7e49dd5257ff0e2b9491d4b2",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "takeoff_id": "042b2b73f6ac0b92da886eb71949c0020c595f0bb7485c413700d40215939d41",
+      "target_rollup": {
+        "system": "civil/concrete",
+        "material": "concrete-hypothesis",
+        "stock_scope": "nominal-stock"
+      },
+      "region": "Al-Muthanna",
+      "mapped_group_count": 81,
+      "mapped_occurrence_count": 486,
+      "group_estimate_count": 81,
+      "all_group_occurrences_preserved": true,
+      "output_quantity": "1804.8095999999998056",
+      "output_unit": "m3",
+      "labour_hours_per_m3": "4",
+      "currency": "IQD",
+      "estimated_unit_cost": "127080",
+      "estimated_total": "229355203.967999975295648",
+      "uplift_fraction": "0.2",
+      "candidate_takeoff_mapped": true,
+      "complete_installed_cost": null,
+      "physical_qualification": null,
+      "path": "domestic-fabrication/regional-estimates-2026-september-v2/2026-09-al-muthanna-concrete-takeoff-4h.json"
+    },
+    {
+      "estimate_packet_id": "365fcc6b2b1ae20daece60ffd5b2eb28fc2e92592b2df4d6010f310e7946c935",
+      "process_record_id": "892706e21f6b4141206cb0e9c7a134d68b7ed589f7fa569916c2c5d6c635a2d0",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "takeoff_id": "042b2b73f6ac0b92da886eb71949c0020c595f0bb7485c413700d40215939d41",
+      "target_rollup": {
+        "system": "civil/concrete",
+        "material": "concrete-hypothesis",
+        "stock_scope": "nominal-stock"
+      },
+      "region": "Al-Muthanna",
+      "mapped_group_count": 81,
+      "mapped_occurrence_count": 486,
+      "group_estimate_count": 81,
+      "all_group_occurrences_preserved": true,
+      "output_quantity": "1804.8095999999998056",
+      "output_unit": "m3",
+      "labour_hours_per_m3": "8",
+      "currency": "IQD",
+      "estimated_unit_cost": "163080",
+      "estimated_total": "294328349.567999968297248",
+      "uplift_fraction": "0.2",
+      "candidate_takeoff_mapped": true,
+      "complete_installed_cost": null,
+      "physical_qualification": null,
+      "path": "domestic-fabrication/regional-estimates-2026-september-v2/2026-09-al-muthanna-concrete-takeoff-8h.json"
     }
   ],
   "regional_cost_reference": {
@@ -790,8 +1133,8 @@
     "New factory and procurement leads are not operational-capacity evidence, technically accepted products or supplier quotations. Import report, price-image and construction-bulletin leads add no parsed price observations."
   ],
   "procurement_package_bom": {
-    "path": "procurement-bom/federated-v06-research-packages-v7.json.gz",
-    "packet_id": "aa29c7dc60c1dde80464fad1a0a5d86ca7f9e8efa2b7567faef3e53c0cca9ec0",
+    "path": "procurement-bom/federated-v06-research-packages-v9.json.gz",
+    "packet_id": "7a7740921a89042e4f650848842ee6a03551b47776e0f999eae62d96da9601aa",
     "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
     "evaluation_id": "1491f90b02485e6ad9df63ac79b528e9c30e9e6d87041a3dc46b02efd364077b",
     "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
@@ -811,22 +1154,22 @@
     "unmapped_located_occurrence_count": 0,
     "commercial_order_quantities_known": false,
     "priced_draft_packages": 0,
-    "regional_cost_reference_path": "domestic-fabrication/regional-estimates-2026-july-v2/iraq-domestic-cost-reference-2026-07.json",
-    "regional_cost_reference_packet_id": "4f257ff777c6f4da9d4c6afbb96ef1ab33b6215910155a94c0c675a1b0c6004e",
+    "regional_cost_reference_path": "domestic-fabrication/regional-estimates-2026-september-v2/iraq-domestic-cost-reference-2026-09.json",
+    "regional_cost_reference_packet_id": "22fd6510be00c97b7b3e4d40670fedd08d5f7349312135caed98231b6203971c",
     "packages_with_domestic_cost_estimates": 81,
     "domestic_cost_estimate_scenario_count": 486,
     "complete_installed_bom": false,
     "complete_installed_cost": null,
     "physical_qualification": null,
     "rule_version": "osr-procurement-package-rules/3",
-    "source_registry_record_count": 72,
-    "source_registry_record_set_id": "8c8b3d69370b72b13bed9a5984a78c658cc50e8624eb7b0ef2b2b42cb8957dec",
+    "source_registry_record_count": 79,
+    "source_registry_record_set_id": "19d341f801b3e9e330e9da3e22ae33b03cf324aad374e05a0b6977d35dbcd0dc",
     "material_demand_line_count": 8,
     "material_demand_group_count": 2269,
     "material_demand_occurrence_count": 27216,
     "material_demand_gross_stock_mass_kg": "4780578.41485823729935238",
     "material_demand_mass_reconciliation_residual_kg": "-0.00000000000145785488",
-    "domestic_source_lead_association_count": 30,
+    "domestic_source_lead_association_count": 35,
     "material_demand_lines": [
       {
         "material": "concrete-hypothesis",
@@ -834,7 +1177,7 @@
         "unit": "m3",
         "engineering_groups": 81,
         "engineering_occurrences": 486,
-        "domestic_source_lead_associations": 6
+        "domestic_source_lead_associations": 8
       },
       {
         "material": "60E1-mass-equivalent",
@@ -858,7 +1201,7 @@
         "unit": "kg",
         "engineering_groups": 180,
         "engineering_occurrences": 180,
-        "domestic_source_lead_associations": 2
+        "domestic_source_lead_associations": 3
       },
       {
         "material": "steel-reference",
@@ -866,7 +1209,7 @@
         "unit": "kg",
         "engineering_groups": 360,
         "engineering_occurrences": 360,
-        "domestic_source_lead_associations": 4
+        "domestic_source_lead_associations": 6
       },
       {
         "material": "6082-T6-proposed",
@@ -899,10 +1242,10 @@
     "unlocated_obligation_context_links_are_non_additive": true
   },
   "gfrp_local_fabrication_cost_screen": {
-    "path": "domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v10.json",
-    "packet_id": "805b22b3f2e8fd4fa189c21259daa5335028a114ff5c776880082a9565176a8c",
+    "path": "domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v14.json",
+    "packet_id": "395cf90da58ad401613df2abcfd8825274328738b859d03bcfbf7bcb7073775d",
     "schema": "osr-iraq-gfrp-local-fabrication-cost-screens/2",
-    "catalogue_epoch_id": "b629c81364976468e40e7b0d7f4f1cff8001d002c57710bd78648f4895c6d4b4",
+    "catalogue_epoch_id": "89dd51c6fef7d5006bfdc686f70a4316687a145e8be633ce23a712a76f6cfc27",
     "parent_candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
     "study_area_m2": "10",
     "scenario_count": 9,
@@ -922,7 +1265,44 @@
       "0d891c79abe1ea9dfe6d466f2499d47d6b179ddfbe04d0b84112889543b6fdf2",
       "261208b9e81a4065ffd49eacaf0555052d7531c98b9a950c0219c59d678085ec"
     ],
-    "studies": 3,
+    "studies": [
+      {
+        "recipe": "solid-600gsm",
+        "candidate_id": "23dad81c529a505a355f0aab957683d485f111c1af24afbf2444665222c096d9",
+        "listed_extension_GBP": "726.6491688538932633420822398",
+        "known_materials_IQD": "1229647.35",
+        "Baghdad_partial_screen_IQD": [
+          "1565576.82",
+          "1655576.82",
+          "1835576.82"
+        ],
+        "regional_scenario_count": 45
+      },
+      {
+        "recipe": "sandwich-600gsm",
+        "candidate_id": "0d891c79abe1ea9dfe6d466f2499d47d6b179ddfbe04d0b84112889543b6fdf2",
+        "listed_extension_GBP": "363.3245844269466316710411198",
+        "known_materials_IQD": "614823.67",
+        "Baghdad_partial_screen_IQD": [
+          "827788.41",
+          "917788.41",
+          "1097788.41"
+        ],
+        "regional_scenario_count": 45
+      },
+      {
+        "recipe": "higher-fibre-sandwich-600gsm",
+        "candidate_id": "261208b9e81a4065ffd49eacaf0555052d7531c98b9a950c0219c59d678085ec",
+        "listed_extension_GBP": "265.5468066491688538932633421",
+        "known_materials_IQD": "449362.55",
+        "Baghdad_partial_screen_IQD": [
+          "629235.07",
+          "719235.07",
+          "899235.07"
+        ],
+        "regional_scenario_count": 45
+      }
+    ],
     "complete_fabrication_cost_iqd": null,
     "physical_qualification": null,
     "unknown_is_zero": false,
@@ -949,6 +1329,8 @@
       "5000",
       "9375"
     ],
+    "regional_wage_source_id": "9952367c7ae1f5f8d89e267725a1edd6776d5a99c93d7032cd8f1bb28c99b40d",
+    "wage_observation_period": "2026-09",
     "regional_screen_ranges": [
       {
         "recipe": "solid-600gsm",
@@ -1405,6 +1787,563 @@
         "labour_hours_per_10m2": "32",
         "screen_min_iqd": "731235.07",
         "screen_max_iqd": "899235.07"
+      }
+    ]
+  },
+  "domestic_fabrication_unit_rate_screens_2025_reference_v4": [
+    {
+      "path": "domestic-fabrication/estimates/current/rebar-cut-bend-04h-v4.json",
+      "estimate_packet_id": "b354df0cbccab969d24520940b716a276ec123f5970d1fa536d8f25f8739a11a",
+      "process_record_id": "a6b1e6997b53689d28d42934a39e8b01b41d7b688a9f1744285df80ad482fb69",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "output_quantity": "1",
+      "output_unit": "t",
+      "labour_hours": "4",
+      "currency": "IQD",
+      "direct_material_cost": "989000",
+      "direct_labor_cost": "37500",
+      "uplift_fraction": "0.2",
+      "uplift_amount": "205300",
+      "estimated_total": "1231800",
+      "source_ids": [
+        "8e74f9773642ec82f9c9a77dc48c528160ecd7960e71c3bb9ae64f8a893ee789",
+        "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
+      ],
+      "candidate_takeoff_mapped": false,
+      "estimated_unit_cost": "1231800"
+    },
+    {
+      "path": "domestic-fabrication/estimates/current/rebar-cut-bend-08h-v4.json",
+      "estimate_packet_id": "9c2e5651b2b6294bf06b1f1ba2706d6d4d1ff03ba37cc205a643c7e7cfd883da",
+      "process_record_id": "7d9f752adaf9d717e259f15b4f85e89c77c99c2efd46b3dc8b67bbb9cd8e3db0",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "output_quantity": "1",
+      "output_unit": "t",
+      "labour_hours": "8",
+      "currency": "IQD",
+      "direct_material_cost": "989000",
+      "direct_labor_cost": "75000",
+      "uplift_fraction": "0.2",
+      "uplift_amount": "212800",
+      "estimated_total": "1276800",
+      "source_ids": [
+        "8e74f9773642ec82f9c9a77dc48c528160ecd7960e71c3bb9ae64f8a893ee789",
+        "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
+      ],
+      "candidate_takeoff_mapped": false,
+      "estimated_unit_cost": "1276800"
+    },
+    {
+      "path": "domestic-fabrication/estimates/current/rebar-cut-bend-16h-v4.json",
+      "estimate_packet_id": "f358236c8d376ad571de9a9107da8cbec8e25d1bf0fd56d04a8101e69a420982",
+      "process_record_id": "a845e0f24f363716d47cbcab1d550642e4d4f2c281c9d47d0058b83932ebca86",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "output_quantity": "1",
+      "output_unit": "t",
+      "labour_hours": "16",
+      "currency": "IQD",
+      "direct_material_cost": "989000",
+      "direct_labor_cost": "150000",
+      "uplift_fraction": "0.2",
+      "uplift_amount": "227800",
+      "estimated_total": "1366800",
+      "source_ids": [
+        "8e74f9773642ec82f9c9a77dc48c528160ecd7960e71c3bb9ae64f8a893ee789",
+        "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
+      ],
+      "candidate_takeoff_mapped": false,
+      "estimated_unit_cost": "1366800"
+    },
+    {
+      "path": "domestic-fabrication/estimates/current/concrete-batch-02h-v4.json",
+      "estimate_packet_id": "f2175fbfdd530b74035f6272e5b2ad4ed7ffa5fd89cb37a685b875f0415c2cc7",
+      "process_record_id": "98aef6c92dbfa0ebb0d80e9b61325e1d415bd13af7e657b72026201360e5be30",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "output_quantity": "1",
+      "output_unit": "m3",
+      "labour_hours": "2",
+      "currency": "IQD",
+      "direct_material_cost": "75900",
+      "direct_labor_cost": "18750",
+      "uplift_fraction": "0.2",
+      "uplift_amount": "18930",
+      "estimated_total": "113580",
+      "source_ids": [
+        "8e74f9773642ec82f9c9a77dc48c528160ecd7960e71c3bb9ae64f8a893ee789",
+        "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
+      ],
+      "candidate_takeoff_mapped": false,
+      "estimated_unit_cost": "113580"
+    },
+    {
+      "path": "domestic-fabrication/estimates/current/concrete-batch-04h-v4.json",
+      "estimate_packet_id": "ee9c950afe64667035abc369011d523874e2c9a8db1e7dad9a1f2569b22b5048",
+      "process_record_id": "d5a74074b95bf068774aff207a7f734bc5b0a39455c443ba07ef21279e965a23",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "output_quantity": "1",
+      "output_unit": "m3",
+      "labour_hours": "4",
+      "currency": "IQD",
+      "direct_material_cost": "75900",
+      "direct_labor_cost": "37500",
+      "uplift_fraction": "0.2",
+      "uplift_amount": "22680",
+      "estimated_total": "136080",
+      "source_ids": [
+        "8e74f9773642ec82f9c9a77dc48c528160ecd7960e71c3bb9ae64f8a893ee789",
+        "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
+      ],
+      "candidate_takeoff_mapped": false,
+      "estimated_unit_cost": "136080"
+    },
+    {
+      "path": "domestic-fabrication/estimates/current/concrete-batch-08h-v4.json",
+      "estimate_packet_id": "cf21d03112e31e3270686bbd678426ce68218769c52f45fc84dfba9a700981f0",
+      "process_record_id": "2df08e90b8ea6fb22dc4f1e25ad7e1ed9fa079e7998d2417484448fbae536eb5",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "output_quantity": "1",
+      "output_unit": "m3",
+      "labour_hours": "8",
+      "currency": "IQD",
+      "direct_material_cost": "75900",
+      "direct_labor_cost": "75000",
+      "uplift_fraction": "0.2",
+      "uplift_amount": "30180",
+      "estimated_total": "181080",
+      "source_ids": [
+        "8e74f9773642ec82f9c9a77dc48c528160ecd7960e71c3bb9ae64f8a893ee789",
+        "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
+      ],
+      "candidate_takeoff_mapped": false,
+      "estimated_unit_cost": "181080"
+    }
+  ],
+  "candidate_mapped_concrete_estimates_2025_reference_v4": [
+    {
+      "estimate_packet_id": "ad5e20b4c716d3736e2aaf809002f81be6b785a6bb92f333ed26775fcfe5418d",
+      "process_record_id": "181aad36c55f405d7b2a0eef0f57dbda6c23518102cc0302cadfab0814f50151",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "takeoff_id": "042b2b73f6ac0b92da886eb71949c0020c595f0bb7485c413700d40215939d41",
+      "target_rollup": {
+        "material": "concrete-hypothesis",
+        "stock_scope": "nominal-stock",
+        "system": "civil/concrete"
+      },
+      "mapped_group_count": 81,
+      "mapped_occurrence_count": 486,
+      "group_estimate_count": 81,
+      "all_group_occurrences_preserved": true,
+      "output_quantity": "1804.8095999999998056",
+      "output_unit": "m3",
+      "labour_hours_per_m3": "2",
+      "currency": "IQD",
+      "direct_material_cost": "136985048.63999998524504",
+      "direct_labor_cost": "33840179.999999996355",
+      "uplift_fraction": "0.2",
+      "uplift_amount": "34165045.727999996320008",
+      "estimated_total": "204990274.367999977920048",
+      "estimated_unit_cost": "113580",
+      "candidate_takeoff_mapped": true,
+      "complete_installed_cost": null,
+      "physical_qualification": null,
+      "path": "domestic-fabrication/estimates/current/concrete-takeoff-02h-v4.json"
+    },
+    {
+      "estimate_packet_id": "da5601b989dd78f2c2fdde6bb6ad1c2cdda577ae9cd9ab02519d2f8869d87073",
+      "process_record_id": "235b510108b6d9e24cf8e2598509489860b29b933aabe9f83ed721d5b2275612",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "takeoff_id": "042b2b73f6ac0b92da886eb71949c0020c595f0bb7485c413700d40215939d41",
+      "target_rollup": {
+        "material": "concrete-hypothesis",
+        "stock_scope": "nominal-stock",
+        "system": "civil/concrete"
+      },
+      "mapped_group_count": 81,
+      "mapped_occurrence_count": 486,
+      "group_estimate_count": 81,
+      "all_group_occurrences_preserved": true,
+      "output_quantity": "1804.8095999999998056",
+      "output_unit": "m3",
+      "labour_hours_per_m3": "4",
+      "currency": "IQD",
+      "direct_material_cost": "136985048.63999998524504",
+      "direct_labor_cost": "67680359.99999999271",
+      "uplift_fraction": "0.2",
+      "uplift_amount": "40933081.727999995591008",
+      "estimated_total": "245598490.367999973546048",
+      "estimated_unit_cost": "136080",
+      "candidate_takeoff_mapped": true,
+      "complete_installed_cost": null,
+      "physical_qualification": null,
+      "path": "domestic-fabrication/estimates/current/concrete-takeoff-04h-v4.json"
+    },
+    {
+      "estimate_packet_id": "2e9df25a76d5fa632d01790dc31c88ec0827bbb819636dd6ebe02d38c237ef83",
+      "process_record_id": "9d3f60de5bcb2cfe658f7c6a4abf7fcb7c6a1bc476e711cb391a93df189d7673",
+      "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+      "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+      "takeoff_id": "042b2b73f6ac0b92da886eb71949c0020c595f0bb7485c413700d40215939d41",
+      "target_rollup": {
+        "material": "concrete-hypothesis",
+        "stock_scope": "nominal-stock",
+        "system": "civil/concrete"
+      },
+      "mapped_group_count": 81,
+      "mapped_occurrence_count": 486,
+      "group_estimate_count": 81,
+      "all_group_occurrences_preserved": true,
+      "output_quantity": "1804.8095999999998056",
+      "output_unit": "m3",
+      "labour_hours_per_m3": "8",
+      "currency": "IQD",
+      "direct_material_cost": "136985048.63999998524504",
+      "direct_labor_cost": "135360719.99999998542",
+      "uplift_fraction": "0.2",
+      "uplift_amount": "54469153.727999994133008",
+      "estimated_total": "326814922.367999964798048",
+      "estimated_unit_cost": "181080",
+      "candidate_takeoff_mapped": true,
+      "complete_installed_cost": null,
+      "physical_qualification": null,
+      "path": "domestic-fabrication/estimates/current/concrete-takeoff-08h-v4.json"
+    }
+  ],
+  "procurement_package_bom_416_record_epoch_v7": {
+    "path": "procurement-bom/federated-v06-research-packages-v7.json.gz",
+    "packet_id": "aa29c7dc60c1dde80464fad1a0a5d86ca7f9e8efa2b7567faef3e53c0cca9ec0",
+    "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+    "evaluation_id": "1491f90b02485e6ad9df63ac79b528e9c30e9e6d87041a3dc46b02efd364077b",
+    "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+    "engineering_scope_count": 31989,
+    "located_stock_occurrence_count": 27216,
+    "unlocated_obligation_count": 4773,
+    "draft_package_count": 191,
+    "package_family_summaries": {
+      "civil-concrete-stock-package": 81,
+      "civil-rail-stock-pair": 81,
+      "vehicle-body-stock-kit": 6,
+      "vehicle-bogie-stock-package": 12,
+      "vehicle-secondary-stock-kit": 6,
+      "wayside-lim-primary-material-set": 5
+    },
+    "all_located_occurrences_assigned_exactly_once": true,
+    "unmapped_located_occurrence_count": 0,
+    "commercial_order_quantities_known": false,
+    "priced_draft_packages": 0,
+    "regional_cost_reference_path": "domestic-fabrication/regional-estimates-2026-july-v2/iraq-domestic-cost-reference-2026-07.json",
+    "regional_cost_reference_packet_id": "4f257ff777c6f4da9d4c6afbb96ef1ab33b6215910155a94c0c675a1b0c6004e",
+    "packages_with_domestic_cost_estimates": 81,
+    "domestic_cost_estimate_scenario_count": 486,
+    "complete_installed_bom": false,
+    "complete_installed_cost": null,
+    "physical_qualification": null,
+    "rule_version": "osr-procurement-package-rules/3",
+    "source_registry_record_count": 72,
+    "source_registry_record_set_id": "8c8b3d69370b72b13bed9a5984a78c658cc50e8624eb7b0ef2b2b42cb8957dec",
+    "material_demand_line_count": 8,
+    "material_demand_group_count": 2269,
+    "material_demand_occurrence_count": 27216,
+    "material_demand_gross_stock_mass_kg": "4780578.41485823729935238",
+    "material_demand_mass_reconciliation_residual_kg": "-0.00000000000145785488",
+    "domestic_source_lead_association_count": 30,
+    "material_demand_lines": [
+      {
+        "material": "concrete-hypothesis",
+        "quantity": "1804.8095999999998056",
+        "unit": "m3",
+        "engineering_groups": 81,
+        "engineering_occurrences": 486,
+        "domestic_source_lead_associations": 6
+      },
+      {
+        "material": "60E1-mass-equivalent",
+        "quantity": "195080.4",
+        "unit": "kg",
+        "engineering_groups": 162,
+        "engineering_occurrences": 162,
+        "domestic_source_lead_associations": 0
+      },
+      {
+        "material": "aluminium_reference",
+        "quantity": "17535.60734136007021638",
+        "unit": "kg",
+        "engineering_groups": 1164,
+        "engineering_occurrences": 23286,
+        "domestic_source_lead_associations": 7
+      },
+      {
+        "material": "gfrp_skin_research",
+        "quantity": "1672.881600000000192",
+        "unit": "kg",
+        "engineering_groups": 180,
+        "engineering_occurrences": 180,
+        "domestic_source_lead_associations": 2
+      },
+      {
+        "material": "steel-reference",
+        "quantity": "29794.909266877144848",
+        "unit": "kg",
+        "engineering_groups": 360,
+        "engineering_occurrences": 360,
+        "domestic_source_lead_associations": 4
+      },
+      {
+        "material": "6082-T6-proposed",
+        "quantity": "1652.056650000000096",
+        "unit": "kg",
+        "engineering_groups": 312,
+        "engineering_occurrences": 312,
+        "domestic_source_lead_associations": 5
+      },
+      {
+        "material": "copper-conductor",
+        "quantity": "9354.240000000002",
+        "unit": "kg",
+        "engineering_groups": 5,
+        "engineering_occurrences": 10,
+        "domestic_source_lead_associations": 3
+      },
+      {
+        "material": "linear-steel-hypothesis",
+        "quantity": "13464.320000000082",
+        "unit": "kg",
+        "engineering_groups": 5,
+        "engineering_occurrences": 2420,
+        "domestic_source_lead_associations": 3
+      }
+    ],
+    "linked_unlocated_obligation_count": 4766,
+    "unlinked_unlocated_obligation_count": 7,
+    "unlocated_obligation_package_association_count": 230,
+    "unlocated_obligation_context_links_are_non_additive": true
+  },
+  "gfrp_local_fabrication_cost_screen_416_record_epoch_v10": {
+    "path": "domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v10.json",
+    "packet_id": "805b22b3f2e8fd4fa189c21259daa5335028a114ff5c776880082a9565176a8c",
+    "schema": "osr-iraq-gfrp-local-fabrication-cost-screens/2",
+    "catalogue_epoch_id": "b629c81364976468e40e7b0d7f4f1cff8001d002c57710bd78648f4895c6d4b4",
+    "parent_candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+    "study_area_m2": "10",
+    "scenario_count": 9,
+    "material_currency": "GBP",
+    "local_cost_currency": "IQD",
+    "fx_rate": "1692.216",
+    "fx_date": "2026-10-29",
+    "executable_fx": false,
+    "labour_hours_per_10m2": [
+      "8",
+      "16",
+      "32"
+    ],
+    "uplift_fraction": "0.20",
+    "candidate_ids": [
+      "23dad81c529a505a355f0aab957683d485f111c1af24afbf2444665222c096d9",
+      "0d891c79abe1ea9dfe6d466f2499d47d6b179ddfbe04d0b84112889543b6fdf2",
+      "261208b9e81a4065ffd49eacaf0555052d7531c98b9a950c0219c59d678085ec"
+    ],
+    "studies": 3,
+    "complete_fabrication_cost_iqd": null,
+    "physical_qualification": null,
+    "unknown_is_zero": false,
+    "regional_scenario_count": 135,
+    "regional_governorate_count": 15,
+    "regional_governorates": [
+      "Al-Muthanna",
+      "Al-Qadisiyyah",
+      "Anbar",
+      "Babil",
+      "Baghdad",
+      "Basrah",
+      "Dhi Qar",
+      "Diyala",
+      "Karbala",
+      "Kirkuk",
+      "Maysan",
+      "Najaf",
+      "Nineveh",
+      "Salah al-Din",
+      "Wasit"
+    ],
+    "regional_wage_rate_iqd_per_person_hour": [
+      "5000",
+      "9375"
+    ],
+    "regional_screen_ranges": [
+      {
+        "recipe": "solid-600gsm",
+        "screen_min_iqd": "1523576.82",
+        "screen_max_iqd": "1835576.82"
+      },
+      {
+        "recipe": "sandwich-600gsm",
+        "screen_min_iqd": "785788.41",
+        "screen_max_iqd": "1097788.41"
+      },
+      {
+        "recipe": "higher-fibre-sandwich-600gsm",
+        "screen_min_iqd": "587235.07",
+        "screen_max_iqd": "899235.07"
+      }
+    ],
+    "regional_screen_ranges_by_hours": [
+      {
+        "recipe": "solid-600gsm",
+        "labour_hours_per_10m2": "8",
+        "screen_min_iqd": "1523576.82",
+        "screen_max_iqd": "1565576.82"
+      },
+      {
+        "recipe": "solid-600gsm",
+        "labour_hours_per_10m2": "16",
+        "screen_min_iqd": "1571576.82",
+        "screen_max_iqd": "1655576.82"
+      },
+      {
+        "recipe": "solid-600gsm",
+        "labour_hours_per_10m2": "32",
+        "screen_min_iqd": "1667576.82",
+        "screen_max_iqd": "1835576.82"
+      },
+      {
+        "recipe": "sandwich-600gsm",
+        "labour_hours_per_10m2": "8",
+        "screen_min_iqd": "785788.41",
+        "screen_max_iqd": "827788.41"
+      },
+      {
+        "recipe": "sandwich-600gsm",
+        "labour_hours_per_10m2": "16",
+        "screen_min_iqd": "833788.41",
+        "screen_max_iqd": "917788.41"
+      },
+      {
+        "recipe": "sandwich-600gsm",
+        "labour_hours_per_10m2": "32",
+        "screen_min_iqd": "929788.41",
+        "screen_max_iqd": "1097788.41"
+      },
+      {
+        "recipe": "higher-fibre-sandwich-600gsm",
+        "labour_hours_per_10m2": "8",
+        "screen_min_iqd": "587235.07",
+        "screen_max_iqd": "629235.07"
+      },
+      {
+        "recipe": "higher-fibre-sandwich-600gsm",
+        "labour_hours_per_10m2": "16",
+        "screen_min_iqd": "635235.07",
+        "screen_max_iqd": "719235.07"
+      },
+      {
+        "recipe": "higher-fibre-sandwich-600gsm",
+        "labour_hours_per_10m2": "32",
+        "screen_min_iqd": "731235.07",
+        "screen_max_iqd": "899235.07"
+      }
+    ]
+  },
+  "regional_cost_reference_2026_09": {
+    "path": "domestic-fabrication/regional-estimates-2026-september-v2/iraq-domestic-cost-reference-2026-09.json",
+    "packet_id": "22fd6510be00c97b7b3e4d40670fedd08d5f7349312135caed98231b6203971c",
+    "source_epoch_id": "89dd51c6fef7d5006bfdc686f70a4316687a145e8be633ce23a712a76f6cfc27",
+    "source_ids": [
+      "9952367c7ae1f5f8d89e267725a1edd6776d5a99c93d7032cd8f1bb28c99b40d",
+      "a3057d6368cd96c044cc38b1a7dcddd97b1e7742725983775b329fb4e72dca19"
+    ],
+    "source_input_path": "material-takeoff/federated-v06-stock-takeoff-v5.json.gz",
+    "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+    "source_input_id": "d4f1d575895a3b8609670fff66e7e53aee023a248d0233c40152f46f267c2842",
+    "takeoff_id": "042b2b73f6ac0b92da886eb71949c0020c595f0bb7485c413700d40215939d41",
+    "selected_material_observation_count": 4,
+    "governorate_wage_observation_count": 90,
+    "unit_rate_scenario_count": 90,
+    "candidate_takeoff_scenario_count": 6,
+    "mapped_group_count": 81,
+    "mapped_occurrence_count": 486,
+    "formula": "(material quantity x source rate + person-hours x hourly base wage) x 1.20",
+    "source_is_supplier_quote": false,
+    "complete_installed_cost": null,
+    "physical_qualification": null,
+    "regional_concrete_takeoff_estimates": [
+      {
+        "region": "Baghdad",
+        "region_slug": "baghdad",
+        "labour_hours_per_nominal_m3": "2",
+        "estimate_packet_id": "ceee3f394ff2c06f69ef6744b17e5fab7f1a9feed1f60e6008eb789e38a7fcba",
+        "process_record_id": "3dd549018e0d5df91a59421c4af00534862aff3a44907d104c5ed3f2bb1aa45a",
+        "estimate_file": "2026-09-baghdad-concrete-takeoff-2h.json",
+        "estimated_unit_cost_iqd_per_nominal_m3": "113580",
+        "estimated_total_iqd": "204990274.367999977920048",
+        "mapped_group_count": 81,
+        "mapped_occurrence_count": 486
+      },
+      {
+        "region": "Baghdad",
+        "region_slug": "baghdad",
+        "labour_hours_per_nominal_m3": "4",
+        "estimate_packet_id": "198563229f99a34e6c05e709a57f1ee6524b15471f8b8cbed5b8deb26c41af57",
+        "process_record_id": "aeaa38d1da41d46c1d26011bac6119b67ad3fa961f759cc1961a5dcebcbaec62",
+        "estimate_file": "2026-09-baghdad-concrete-takeoff-4h.json",
+        "estimated_unit_cost_iqd_per_nominal_m3": "136080",
+        "estimated_total_iqd": "245598490.367999973546048",
+        "mapped_group_count": 81,
+        "mapped_occurrence_count": 486
+      },
+      {
+        "region": "Baghdad",
+        "region_slug": "baghdad",
+        "labour_hours_per_nominal_m3": "8",
+        "estimate_packet_id": "b35c613bfc60618f88be5fe0bdea78b55ae66bd159e6c68f10d856d6c92c3a4d",
+        "process_record_id": "3921d7eebc0e788d531bbd1b258c96c31955803f652324edb14c35b37a574c59",
+        "estimate_file": "2026-09-baghdad-concrete-takeoff-8h.json",
+        "estimated_unit_cost_iqd_per_nominal_m3": "181080",
+        "estimated_total_iqd": "326814922.367999964798048",
+        "mapped_group_count": 81,
+        "mapped_occurrence_count": 486
+      },
+      {
+        "region": "Al-Muthanna",
+        "region_slug": "al-muthanna",
+        "labour_hours_per_nominal_m3": "2",
+        "estimate_packet_id": "0c206717fbd5e6a3e74ede4001789818c66c85a3ce8e6bb389b78ad66cdebead",
+        "process_record_id": "35aafc13a61ad849c858a86c3d4c2139e82a0f30c1c0cc4f2cb120d7d548dfa6",
+        "estimate_file": "2026-09-al-muthanna-concrete-takeoff-2h.json",
+        "estimated_unit_cost_iqd_per_nominal_m3": "109080",
+        "estimated_total_iqd": "196868631.167999978794848",
+        "mapped_group_count": 81,
+        "mapped_occurrence_count": 486
+      },
+      {
+        "region": "Al-Muthanna",
+        "region_slug": "al-muthanna",
+        "labour_hours_per_nominal_m3": "4",
+        "estimate_packet_id": "2f5656fc0ef84a1517b960c5058bd83991821990473b2bdbfa633a8583e8504f",
+        "process_record_id": "3a2378eda9cf40a715591f44a02ed4e2208fad4c7e49dd5257ff0e2b9491d4b2",
+        "estimate_file": "2026-09-al-muthanna-concrete-takeoff-4h.json",
+        "estimated_unit_cost_iqd_per_nominal_m3": "127080",
+        "estimated_total_iqd": "229355203.967999975295648",
+        "mapped_group_count": 81,
+        "mapped_occurrence_count": 486
+      },
+      {
+        "region": "Al-Muthanna",
+        "region_slug": "al-muthanna",
+        "labour_hours_per_nominal_m3": "8",
+        "estimate_packet_id": "365fcc6b2b1ae20daece60ffd5b2eb28fc2e92592b2df4d6010f310e7946c935",
+        "process_record_id": "892706e21f6b4141206cb0e9c7a134d68b7ed589f7fa569916c2c5d6c635a2d0",
+        "estimate_file": "2026-09-al-muthanna-concrete-takeoff-8h.json",
+        "estimated_unit_cost_iqd_per_nominal_m3": "163080",
+        "estimated_total_iqd": "294328349.567999968297248",
+        "mapped_group_count": 81,
+        "mapped_occurrence_count": 486
       }
     ]
   }

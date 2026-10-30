@@ -127,7 +127,7 @@ def domestic_fabrication_estimate(*, estimate_key, candidate_id, input_id,
             "factory occupancy and utilities", "equipment depreciation", "quality inspection and testing",
             "packaging", "transport and delivery", "taxes and duty", "erection and installation",
             "rework, warranty and lifecycle maintenance"],
-        limitations=["Wage benchmark is an annual 2025 daily average normalized by the recipe's explicit 8-hour day assumption",
+        limitations=["Wage benchmark is a published statistical base-wage observation normalized to an explicit 8-hour day; it is not an employer-loaded or shop charge-out rate",
             "Material benchmark is a public statistical/market observation, not a supplier quotation for the exact grade or delivery scope",
             "Labour hours are recipe assumptions until measured on a defined work route",
             "The requested uplift is a planning allowance and is not validated as overhead, profit, contingency, or tax"])

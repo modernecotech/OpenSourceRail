@@ -24,7 +24,7 @@ def write_seed(path, data):
 def test_actual_catalogue_scopes_prices_and_half_open_breaks():
     values=load_catalogue([SUPPLIERS]);products={v['product_key']:v for v in values if v['kind']=='product'}
     assert len(products)==16
-    assert sum(v['kind']=='source' for v in values)==56
+    assert sum(v['kind']=='source' for v in values)==63
     offers={v['product_id']:v for v in values if v['kind']=='offer'}
     assert len(offers)==5
     cloth=offers[products['EC-GF-BA-440-127']['record_id']]
@@ -53,7 +53,7 @@ def test_actual_catalogue_scopes_prices_and_half_open_breaks():
 def test_seed_references_are_atomic_and_repeatable(tmp_path):
     with Store(tmp_path/'sourcing.db') as store:
         first=seed(store,[SUPPLIERS]);second=seed(store,[SUPPLIERS])
-        assert first['added_count']==first['record_count']==281
+        assert first['added_count']==first['record_count']==378
         assert second['added_count']==0
         assert first['record_ids']==second['record_ids']
         for offer in store.all('offer'):
@@ -171,6 +171,33 @@ def test_domestic_cable_composite_and_copper_leads_are_not_products_or_prices():
     assert sources['iraq.dici-copper-wire-line']['source_kind']=='industrial_directory'
 
 
+def test_additional_iraqi_rail_fabrication_sources_remain_unpriced_capability_leads():
+    values=load_catalogue()
+    sources={value['source_key']:value for value in values if value['kind']=='source'}
+    products={value['product_key']:value for value in values if value['kind']=='product'}
+    offers=[value for value in values if value['kind']=='offer']
+    keys={'iraq.scosi.foundry-forging','iraq.al-burhan-sleeper-factory',
+          'iraq.karbala-precast-bridge-beams','iraq.ittifaq-reinforcement-mesh',
+          'iraq.ncpi-chemical-plastic-industries','iraq.al-qader-steel-supply'}
+    assert keys <= sources.keys()
+    source_ids={sources[key]['record_id'] for key in keys}
+    assert not any(source_id in product['source_ids'] for source_id in source_ids
+                   for product in products.values())
+    assert not any(offer['source_id'] in source_ids for offer in offers)
+    assert '20 t' in sources['iraq.scosi.foundry-forging']['access']
+    assert 'rail and passenger-car sections' in sources['iraq.scosi.foundry-forging']['access']
+    assert '2,800 sleepers/day' in sources['iraq.al-burhan-sleeper-factory']['access']
+    assert 'Ministry of Transport' in sources['iraq.al-burhan-sleeper-factory']['access']
+    assert '20 m through 29 m' in sources['iraq.karbala-precast-bridge-beams']['access']
+    assert 'wire drawing' in sources['iraq.ittifaq-reinforcement-mesh']['access']
+    assert 'adhesives' in sources['iraq.ncpi-chemical-plastic-industries']['access']
+    assert 'steel plates' in sources['iraq.al-qader-steel-supply']['access']
+    for key in keys:
+        assert sources[key]['source_kind'] in {'factory_catalogue','distributor_catalogue'}
+        assert any(term in sources[key]['access'].lower()
+                   for term in ('not established','not confirmed','no price'))
+
+
 def test_iraq_july_2026_material_origins_and_governorate_wages_are_statistical_inputs():
     values=load_catalogue()
     sources={value['source_key']:value for value in values if value['kind']=='source'}
@@ -205,6 +232,49 @@ def test_iraq_july_2026_material_origins_and_governorate_wages_are_statistical_i
     assert not [row for row in values if row['kind']=='offer'
                 and row['source_id'] in {sources['iraq.scosi-extrusion-press-components-2026-03']['record_id'],
                                          sources['iraq.icsc-samawa-cement-plant']['record_id']}]
+
+
+def test_iraq_september_2026_cso_materials_and_governorate_wages_share_official_bulletin():
+    values=load_catalogue()
+    sources={value['source_key']:value for value in values if value['kind']=='source'}
+    benchmarks={value['benchmark_key']:value for value in values if value['kind']=='benchmark'}
+    source=sources['iraq.cso.materials-2026-09']
+    wage_source=sources['iraq.cso.wages-2026-09']
+    assert source['source_kind']=='national_statistic'
+    assert source['observation_period']=='2026-09'
+    assert 'construction-material' in source['access']
+    assert wage_source['source_kind']=='national_statistic'
+    assert wage_source['observation_period']=='2026-09'
+    assert 'six labour categories' in wage_source['access']
+    assert wage_source['hour_normalization']=='Daily wage divided by explicit 8 working hours/day; employer burden excluded'
+    expected_materials={
+        'iq-cso-2026-09:cement-ordinary':('132000','t'),
+        'iq-cso-2026-09:sand-red':('21000','m3'),
+        'iq-cso-2026-09:gravel-crushed':('24000','m3'),
+        'iq-cso-2026-09:rebar':('989000','t'),
+    }
+    for key,(price,unit) in expected_materials.items():
+        row=benchmarks[key]
+        assert (row['unit_price'],row['quantity_unit'])==(price,unit)
+        assert row['source_id']==source['record_id']
+        assert row['supplier_quote'] is False
+        assert row['target_installed_rate'] is False
+    wage_keys=[key for key in benchmarks if key.startswith('iq-cso-2026-09:') and ':wage:' in key]
+    assert len(wage_keys)==90
+    expected_wages={
+        'iq-cso-2026-09:baghdad:wage:skilled:hour-8h-day':('9375',75000),
+        'iq-cso-2026-09:al-muthanna:wage:skilled:hour-8h-day':('7500',60000),
+        'iq-cso-2026-09:salah-al-din:wage:skilled:hour-8h-day':('5000',40000),
+        'iq-cso-2026-09:baghdad:wage:guard:hour-8h-day':('3125',25000),
+    }
+    for key,(hourly,daily) in expected_wages.items():
+        row=benchmarks[key]
+        assert row['unit_price']==hourly
+        assert row['source_published_rate_iqd_per_work_day']==daily
+        assert row['source_id']==wage_source['record_id']
+    assert all(benchmarks[key]['employer_burden_included'] is False for key in wage_keys)
+    assert all(benchmarks[key]['supplier_quote'] is False for key in wage_keys)
+    assert all(benchmarks[key]['target_installed_rate'] is False for key in wage_keys)
 
 
 def test_load_returns_copies(tmp_path):

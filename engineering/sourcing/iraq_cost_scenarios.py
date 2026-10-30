@@ -315,43 +315,48 @@ def _make_packet(records, takeoff, takeoff_path):
     return packet, takeoff_packets
 
 
-def _make_2026_july_reference(records, takeoff, takeoff_path):
-    """Build same-period Iraq-origin material and governorate-wage scenarios.
+def _make_2026_period_reference(records, takeoff, takeoff_path, period):
+    """Build same-period CSO Iraqi-origin material and wage scenarios.
 
-    Material prices are the CSO's national-market Iraqi-origin row for July 2026;
-    wages are the same bulletin's governorate-specific daily observations divided
-    by an explicit eight-hour workday. Candidate takeoff estimates are emitted
-    only for Baghdad and Al-Muthanna as transparent location comparisons; the
-    railway route/location is not selected by this report.
+    Material prices are national-market Iraqi-origin statistics. Governorate
+    wages are divided by an explicit eight-hour workday. Candidate takeoff
+    estimates are emitted only for Baghdad and Al-Muthanna as transparent
+    location comparisons; the railway route/location is not selected here.
     """
+    if period not in {"2026-07", "2026-09"}:
+        raise ValueError("Supported CSO periods are 2026-07 and 2026-09")
     benchmarks = _benchmark_index(records)
     source_records = _source_index(records)
-    source = source_records.get("iraq.cso.regional-materials-wages-2026-07")
+    source_key = ("iraq.cso.regional-materials-wages-2026-07" if period == "2026-07"
+                  else "iraq.cso.wages-2026-09")
+    source = source_records.get(source_key)
     if source is None:
-        raise ValueError("Exact July 2026 CSO source record is required")
+        raise ValueError(f"Exact {period} CSO source record is required")
 
     material_map = (
         ("Ordinary Iraqi-origin cement", "0.35", "t", "cement-ordinary"),
         ("Iraqi-origin red sand", "0.50", "m3", "sand-red"),
         ("Iraqi-origin crushed gravel", "0.80", "m3", "gravel-crushed"),
     )
-    concrete_keys = [f"iq-cso-2026-07:iraq-origin:material:{suffix}"
+    material_prefix = (f"iq-cso-{period}:iraq-origin:material:"
+                       if period == "2026-07" else f"iq-cso-{period}:")
+    concrete_keys = [material_prefix + suffix
                      for _label, _quantity, _unit, suffix in material_map]
     concrete_rows = [_must_benchmark(benchmarks, key) for key in concrete_keys]
     if any(row is None for row in concrete_rows):
-        raise ValueError("July 2026 CSO Iraqi-origin concrete material observations are incomplete")
-    rebar_key = "iq-cso-2026-07:iraq-origin:material:rebar"
+        raise ValueError(f"{period} CSO Iraqi-origin concrete material observations are incomplete")
+    rebar_key = material_prefix + "rebar"
     rebar = _must_benchmark(benchmarks, rebar_key)
     if rebar is None:
-        raise ValueError("July 2026 CSO Iraqi-origin rebar observation is missing")
+        raise ValueError(f"{period} CSO Iraqi-origin rebar observation is missing")
 
     regional = []
     selected_by_region = {}
     for region_slug, region_name in REGIONS:
-        wage_key = f"iq-cso-2026-07:{region_slug}:wage:skilled:hour-8h-day"
+        wage_key = f"iq-cso-{period}:{region_slug}:wage:skilled:hour-8h-day"
         wage = _must_benchmark(benchmarks, wage_key)
         if wage is None:
-            raise ValueError("July 2026 regional skilled-wage observation is missing: " + wage_key)
+            raise ValueError(f"{period} regional skilled-wage observation is missing: " + wage_key)
         selected_by_region[region_slug] = wage
         selected_concrete = {row["record_id"]: row for row in concrete_rows}
         selected_concrete[wage["record_id"]] = wage
@@ -361,11 +366,11 @@ def _make_2026_july_reference(records, takeoff, takeoff_path):
                           in zip(material_map, concrete_rows)]
         for hours in CONCRETE_HOURS:
             process = _unit_rate_process(
-                estimate_key=f"iraq-2026-07-{region_slug}-concrete-{hours}h-per-nominal-m3",
+                estimate_key=f"iraq-{period}-{region_slug}-concrete-{hours}h-per-nominal-m3",
                 candidate_id=takeoff["candidate_id"], input_id=takeoff["source_input_id"],
                 output_quantity="1", output_unit="m3",
                 material_lines=deepcopy(concrete_lines),
-                labour_category=f"{region_name} CSO skilled-worker base wage; July 2026 scenario",
+                labour_category=f"{region_name} CSO skilled-worker base wage; {period} scenario",
                 hours=hours, wage_benchmark=wage, used_benchmarks=selected_concrete)
             regional.append(dict(region=region_name, region_slug=region_slug,
                                  family="concrete batching", output_quantity="1",
@@ -375,13 +380,13 @@ def _make_2026_july_reference(records, takeoff, takeoff_path):
         selected_rebar = {rebar["record_id"]: rebar, wage["record_id"]: wage}
         for hours in REBAR_HOURS:
             process = _unit_rate_process(
-                estimate_key=f"iraq-2026-07-{region_slug}-rebar-cut-bend-{hours}h-per-input-t",
+                    estimate_key=f"iraq-{period}-{region_slug}-rebar-cut-bend-{hours}h-per-input-t",
                 candidate_id=takeoff["candidate_id"], input_id=takeoff["source_input_id"],
                 output_quantity="1", output_unit="t",
                 material_lines=[dict(
-                    material_key="Iraqi-origin July 2026 CSO reinforcing-bar statistic; grade/diameter unresolved",
+                    material_key=f"Iraqi-origin {period} CSO reinforcing-bar statistic; grade/diameter unresolved",
                     quantity="1", quantity_unit="t", benchmark_id=rebar["record_id"])],
-                labour_category=f"{region_name} CSO skilled-worker base wage; July 2026 scenario",
+                labour_category=f"{region_name} CSO skilled-worker base wage; {period} scenario",
                 hours=hours, wage_benchmark=wage, used_benchmarks=selected_rebar)
             regional.append(dict(region=region_name, region_slug=region_slug,
                                  family="rebar cut/bend", output_quantity="1",
@@ -413,14 +418,14 @@ def _make_2026_july_reference(records, takeoff, takeoff_path):
                           in zip(material_map, concrete_rows)]
         for hours in CONCRETE_HOURS:
             process = domestic_fabrication_takeoff_estimate(
-                estimate_key=f"iraq-2026-07-{region_slug}-federated-concrete-takeoff-{hours}h-per-m3",
+                estimate_key=f"iraq-{period}-{region_slug}-federated-concrete-takeoff-{hours}h-per-m3",
                 takeoff=takeoff,
                 target_rollup={"system": "civil/concrete", "material": "concrete-hypothesis",
                                "stock_scope": "nominal-stock"},
                 recipe_output_quantity="1", currency="IQD",
                 material_lines=material_lines,
                 labour_lines=[dict(
-                    labour_category=f"{region_name} CSO skilled-worker base wage; July 2026 scenario",
+                    labour_category=f"{region_name} CSO skilled-worker base wage; {period} scenario",
                     person_hours=hours, benchmark_id=wage["record_id"])],
                 benchmarks=selected, uplift_fraction="0.20")
             estimate_packet = dict(
@@ -434,7 +439,7 @@ def _make_2026_july_reference(records, takeoff, takeoff_path):
                 procurement_approved=False, selected_reference_changed=False,
                 unknown_is_zero=False)
             estimate_packet["estimate_packet_id"] = identity(estimate_packet)
-            filename = f"2026-07-{region_slug}-concrete-takeoff-{hours}h.json"
+            filename = f"{period}-{region_slug}-concrete-takeoff-{hours}h.json"
             row = dict(region=region_name, region_slug=region_slug,
                        labour_hours_per_nominal_m3=hours,
                        estimate_packet_id=estimate_packet["estimate_packet_id"],
@@ -444,15 +449,36 @@ def _make_2026_july_reference(records, takeoff, takeoff_path):
                        estimated_total_iqd=process["estimated_total"],
                        mapped_group_count=process["candidate_takeoff_group_count"],
                        mapped_occurrence_count=process["candidate_takeoff_occurrence_count"],
-                       basis=f"CSO July 2026 national Iraqi-origin materials plus {region_name} governorate skilled base wage; 20% on direct material plus labour")
+                       basis=f"CSO {period} national Iraqi-origin materials plus {region_name} governorate skilled base wage; 20% on direct material plus labour")
             takeoff_estimates.append(row)
             mapped_packets.append((region_name, hours, estimate_packet))
 
     baghdad_rows = [row for row in takeoff_estimates if row["region_slug"] == "baghdad"]
+    source_ids = {source["record_id"]}
+    source_ids.update(row["source_id"] for row in [*concrete_rows, rebar])
+    if period == "2026-07":
+        material_origin_comparisons = [
+            {"material_family":family,"origin_class":origin,"benchmark_key":row["benchmark_key"],
+             "unit_price_iqd":row["unit_price"],"quantity_unit":row["quantity_unit"],
+             "source_id":row["source_id"],"supplier_quote":False}
+            for row in records if row["kind"]=="benchmark"
+            and row.get("benchmark_key","").startswith(f"iq-cso-{period}:")
+            and row.get("source_origin_class") is not None
+            for _prefix, origin, _material, family in [row["benchmark_key"].split(":",3)]
+        ]
+    else:
+        material_origin_comparisons = [
+            {"material_family":row.get("material_description", row["benchmark_key"]),
+             "origin_class":"Iraqi origin as reported by CSO",
+             "benchmark_key":row["benchmark_key"], "unit_price_iqd":row["unit_price"],
+             "quantity_unit":row["quantity_unit"], "source_id":row["source_id"],
+             "supplier_quote":False}
+            for row in [*concrete_rows, rebar]
+        ]
     packet = dict(
         schema="osr-iraq-domestic-cost-reference/2",
         candidate_id=takeoff["candidate_id"], source_input_id=takeoff["source_input_id"],
-        takeoff_id=takeoff["takeoff_id"], source_ids=[source["record_id"]],
+        takeoff_id=takeoff["takeoff_id"], source_ids=sorted(source_ids),
         source_sha256=source_hashes,
         basis={
             "formula":"(material quantity x source rate + person-hours x hourly base wage) x 1.20",
@@ -462,21 +488,13 @@ def _make_2026_july_reference(records, takeoff, takeoff_path):
                 "iraqi_origin_red_sand_m3":"0.50","iraqi_origin_crushed_gravel_m3":"0.80"},
             "labour_hours_scenarios_per_nominal_m3":list(CONCRETE_HOURS),
             "rebar_labour_hours_scenarios_per_input_tonne":list(REBAR_HOURS),
-            "material_source_basis":"CSO July 2026 national-market Iraqi-origin rows; not governorate-specific and not supplier quotes",
-            "wage_source_basis":"CSO July 2026 governorate worker daily rate divided by explicit 8-hour workday; excludes employer burden",
+            "material_source_basis":f"CSO {period} national-market Iraqi-origin rows; not governorate-specific and not supplier quotes",
+            "wage_source_basis":f"CSO {period} governorate worker daily rate divided by explicit 8-hour workday; excludes employer burden",
             "candidate_takeoff_regions":["Baghdad","Al-Muthanna"],
             "candidate_takeoff_region_selection":"Comparison scenarios only; the candidate route and factory location are not selected",
         },
         unit_rate_estimates=regional,
-        material_origin_comparisons=[
-            {"material_family":family,"origin_class":origin,"benchmark_key":row["benchmark_key"],
-             "unit_price_iqd":row["unit_price"],"quantity_unit":row["quantity_unit"],
-             "source_id":row["source_id"],"supplier_quote":False}
-            for row in records if row["kind"]=="benchmark"
-            and row.get("benchmark_key","").startswith("iq-cso-2026-07:")
-            and row.get("source_origin_class") is not None
-            for _prefix, origin, _material, family in [row["benchmark_key"].split(":",3)]
-        ],
+        material_origin_comparisons=material_origin_comparisons,
         regional_concrete_takeoff_estimates=takeoff_estimates,
         baghdad_concrete_takeoff_estimates=baghdad_rows,
         takeoff_mapped_for_baghdad_concrete_estimates=True,
@@ -499,6 +517,14 @@ def _make_2026_july_reference(records, takeoff, takeoff_path):
     packet["source_epoch_id"] = identity(records)
     packet["packet_id"] = identity(packet)
     return packet, mapped_packets
+
+
+def _make_2026_july_reference(records, takeoff, takeoff_path):
+    return _make_2026_period_reference(records, takeoff, takeoff_path, "2026-07")
+
+
+def _make_2026_september_reference(records, takeoff, takeoff_path):
+    return _make_2026_period_reference(records, takeoff, takeoff_path, "2026-09")
 
 
 def _make_2024_material_crosscheck(records, takeoff, takeoff_path):
@@ -653,7 +679,7 @@ def main(argv=None):
     parser.add_argument("--takeoff", type=Path, required=True,
                         help="Exact sealed candidate-bound material takeoff JSON or .json.gz")
     parser.add_argument("--output", type=Path, required=True,
-                        help="Fresh output directory for historical and July 2026 regional reports/estimates")
+                        help="Fresh output directory for historical, July and September 2026 regional reports/estimates")
     args = parser.parse_args(argv)
     destination = args.output.expanduser().resolve()
     if destination.exists() or destination.is_symlink():
@@ -665,6 +691,8 @@ def main(argv=None):
     _write_fresh(destination / "iraq-domestic-cost-reference-2025.json", packet)
     current_2026, current_2026_packets = _make_2026_july_reference(records, takeoff, args.takeoff)
     _write_fresh(destination / "iraq-domestic-cost-reference-2026-07.json", current_2026)
+    september_2026, september_2026_packets = _make_2026_september_reference(records, takeoff, args.takeoff)
+    _write_fresh(destination / "iraq-domestic-cost-reference-2026-09.json", september_2026)
     historical = _make_2024_material_crosscheck(records, takeoff, args.takeoff)
     _write_fresh(destination / "iraq-material-cost-history-crosscheck-2024.json", historical)
     for hours, estimate_packet in takeoff_packets:
@@ -672,6 +700,9 @@ def main(argv=None):
     for region, hours, estimate_packet in current_2026_packets:
         region_slug = next(slug for slug, name in REGIONS if name == region)
         _write_fresh(destination / ("2026-07-" + region_slug + "-concrete-takeoff-" + hours + "h.json"), estimate_packet)
+    for region, hours, estimate_packet in september_2026_packets:
+        region_slug = next(slug for slug, name in REGIONS if name == region)
+        _write_fresh(destination / ("2026-09-" + region_slug + "-concrete-takeoff-" + hours + "h.json"), estimate_packet)
     print(json.dumps({
         "output": str(destination), "packet_id": packet["packet_id"],
         "candidate_id": packet["candidate_id"], "takeoff_id": packet["takeoff_id"],
@@ -683,6 +714,10 @@ def main(argv=None):
         "july_2026_candidate_takeoff_scenarios": len(current_2026["regional_concrete_takeoff_estimates"]),
         "july_2026_candidate_takeoff_mapped_groups": sorted({row["mapped_group_count"] for row in current_2026["regional_concrete_takeoff_estimates"]}),
         "july_2026_candidate_takeoff_mapped_occurrences": sorted({row["mapped_occurrence_count"] for row in current_2026["regional_concrete_takeoff_estimates"]}),
+        "september_2026_unit_rate_scenarios": len(september_2026["unit_rate_estimates"]),
+        "september_2026_candidate_takeoff_scenarios": len(september_2026["regional_concrete_takeoff_estimates"]),
+        "september_2026_candidate_takeoff_mapped_groups": sorted({row["mapped_group_count"] for row in september_2026["regional_concrete_takeoff_estimates"]}),
+        "september_2026_candidate_takeoff_mapped_occurrences": sorted({row["mapped_occurrence_count"] for row in september_2026["regional_concrete_takeoff_estimates"]}),
         "complete_installed_cost": None, "physical_qualification": None,
     }, indent=2, ensure_ascii=False))
 

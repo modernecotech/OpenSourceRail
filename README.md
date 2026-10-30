@@ -16,6 +16,8 @@ The [continuing numerical reference-cell work](docs/design-engine/continuing-cel
 
 The [published-specification design campaign](docs/design-engine/sourced-case/README.md), through `./osr design sourced`, applies actual motor, gear, bus HVAC, battery, converter and material data to revised equipped vehicles. It propagates the resulting mass, electrical limits, journeys, civil loads and production quantities, retaining failed structural models and explicit test requests. Public catalogue data supports research comparisons; it does not replace installed-component measurements, complete quotations or railway qualification.
 
+The [current sourcing and domestic-cost dossier](docs/design-engine/sourcing/README.md) links a catalogue of 513 observations (79 sources, 16 products, five offers) to the research digital twin and keeps 27,216 located occurrences traceable across 191 draft procurement packages. It adds Iraqi material and wage observations, local fabrication leads, and material-plus-labour screens with a stated 20% uplift. The balanced railway sourcing run still has zero compatible priced matches; local supplier pages are leads, and the cost screens are not complete fabrication or installed rates.
+
 A [separate side-sill revision](docs/design-engine/frame-refinement/README.md) now remains inside the declared linear model domain in all 18 load/mesh cases and propagates through fresh 2 km journeys, civil/manufacturing records and reopened IFC geometry. Strength, joints, physical propulsion/braking, hot-site charging and operating qualification remain open; it is a research candidate rather than a selected railway.
 
 ## Why OpenSourceRail
@@ -144,7 +146,7 @@ The [current dossier](docs/design-engine/current/README.md), [coordinated experi
 | Structural redesign | Five initial recipes, mechanism-driven physical rewrites, four solid-method fixtures and seven 3D metal-body cases | Strength, buckling, fatigue, joints, thermal/fire/crash behaviour and composite qualification; frame refinement remains unresolved |
 | Propulsion | Current-excited LIM studies and six bounded nonlinear transient method controls | A validated available-force map over actual position, speed, current, frequency, gap, temperature and sectional overlap |
 | Equipped vehicle | Counted stock, retained equipment accounts, EBOM/MBOM and mass propagation | Complete located equipment, installed mass, CG, inertia and interference closure |
-| Delivery and economics | Matching CAD/IFC stock, assembly/procurement tasks, disabled ERP drafts and scoped Pareto comparisons | Production data, installed prices, labour/tooling/maintenance evidence and a whole-life-cost winner |
+| Delivery and economics | Matching CAD/IFC stock, assembly/procurement tasks, disabled ERP drafts, scoped Pareto comparisons and September 2026 Iraqi material/wage fabrication screens | Production data, supplier quotes, employer-loaded labour, tooling/QA/transport/installation costs and a whole-life-cost winner |
 | Journey and operations | Required 1.5–2 km profiles, braking hypotheses and three precast alternatives receive the same candidate mass | Actual motor-driven launch–coast–arrival, qualified stopping, recovery and protected headway |
 | Verification | Source/payload checks, independent method comparisons, CI contract/browser tests and separately scheduled native methods | Physical correlation and independent engineering/manufacturing/operating acceptance |
 

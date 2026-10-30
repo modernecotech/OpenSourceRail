@@ -42,10 +42,10 @@ def test_scope_aliases_and_within_line_double_charges_rejected(paths):
 
 
 def test_actual_combined_catalogue_retains_provenance_and_exact_area_tiers():
-    values=load_catalogue();assert len(values)==416
-    assert len([v for v in values if v["kind"]=="source"])==72
+    values=load_catalogue();assert len(values)==513
+    assert len([v for v in values if v["kind"]=="source"])==79
     assert len([v for v in values if v["kind"]=="product"])==16
-    assert len([v for v in values if v["kind"]=="benchmark"])==320
+    assert len([v for v in values if v["kind"]=="benchmark"])==410
     p=next(v for v in values if v["kind"]=="product" and v["product_key"]=="EC-GF-BA-440-127")
     rates=[v for v in values if v["kind"]=="fx"]
     cbi_rate=next(v for v in rates if v["base_currency"]=="GBP" and v["quote_currency"]=="IQD")
@@ -64,6 +64,18 @@ def test_actual_combined_catalogue_retains_provenance_and_exact_area_tiers():
                  set(v.get("source_ids", [])) & domestic_aluminium_ids)]
     assert not [v for v in values if v["kind"]=="product" and
                 set(v.get("source_ids", [])) & domestic_aluminium_ids]
+    domestic_fabrication={"iraq.scosi.foundry-forging","iraq.al-burhan-sleeper-factory",
+        "iraq.karbala-precast-bridge-beams","iraq.ittifaq-reinforcement-mesh",
+        "iraq.ncpi-chemical-plastic-industries","iraq.al-qader-steel-supply"}
+    assert domestic_fabrication <= sources.keys()
+    domestic_fabrication_ids={sources[key]["record_id"] for key in domestic_fabrication}
+    assert not [v for v in values if v["kind"]=="offer" and
+                (v.get("source_id") in domestic_fabrication_ids or
+                 set(v.get("source_ids", [])) & domestic_fabrication_ids)]
+    wages=[v for v in values if v["kind"]=="benchmark" and
+           v.get("benchmark_key", "").startswith("iq-cso-2026-09:") and
+           ":wage:" in v.get("benchmark_key", "")]
+    assert len(wages)==90
     offers=[v for v in values if v["kind"]=="offer"]
     for area,quantity,total in (("1.27","1","4.05"),("128.27","101","313.1")):
         req=requirement(p,area)
