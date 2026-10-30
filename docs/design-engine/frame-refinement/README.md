@@ -9,7 +9,7 @@ selected or qualified railway**. The selected six-car wheel/LIM reference and th
 | Physical body | `6fd30b694342266d60698018f14c492b90c25ac048c3ebfd7157a7031d3cef62` |
 | Native package | `d2ec6dcdbf46d0e2c256415528f83fdffee4cfe88abd39913278a35f10244f9a` |
 | Integrated 2 km cell | `1b3ae3f4de24f7302827e61047aa4ddb1f087c46ec84f47ec6bb2607b5a1e084` |
-| [Full cell publication](packet/manifest.json) | `61637c84c46f015921722138b5857d88d81af3d18c9872587c70e43845232e38` |
+| [Full cell publication](packet/manifest.json) | `1571005998f338641f2f05ddd3f30a660a0f02a9ec695abd2193f942005b91e2` |
 
 Two counted closed side-sills and their actual supports/joins add **480.04 kg/car**
 to the upper mass bound. The resulting accounted upper bound is **14,445.52

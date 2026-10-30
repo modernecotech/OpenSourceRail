@@ -13,6 +13,11 @@ archive, tool/resource record, saved response and logs are sealed by
 [the native publication](structural-methods.json), package
 `8bdb4136b184b6a053322bf5f13b8d5940cfac47be71433c41192d5147a3cc45`.
 
+The refreshed downstream cell is candidate
+`091b50cdd0d85d0ee2489f6740186152032eea654caac0c5d191641af568143c`, evaluation
+`562e31688d11ce7d9c40c45052c0f9a5579aadd4de2096272557181624bd85da`, publication
+`d9782cb747585156c1344e0bab154aa9c99ad12b773aee5dbea2ae8c2013fe56`.
+
 | Fine-mesh comparison | Ancestor | Bolster revision |
 |---|---:|---:|
 | Normal maximum translation | 0.21182 m | 0.17753 m |

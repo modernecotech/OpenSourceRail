@@ -1,4 +1,4 @@
-# Executed sourced-design research — 28 October 2026
+# Executed sourced-design research — 30 October 2026
 
 The software campaign is complete within its declared numerical scope. It is not
 an accepted railway design. No authenticated installed-train measurements,
@@ -12,12 +12,12 @@ accepted operating map, qualified journey or complete whole-life price is suppli
 - All cases propagate the same body identity through force/energy/braking, source electrical caps, located axle/civil reactions, physical stock, production drafts and scoped public-price records.
 - Required quasi-static current is not measured current response. Missing losses, cooling envelopes, contact correlation, brake fade and complete installed auxiliaries remain open.
 
-Run identity: `e3a8bc8d6dfdfe2f74c98e39b04b10616d9654324750c0ce73404263daf46f5c`.
+Run identity: `1e5186cb6bee091976562fd3f3227be03d99517c54f0d76e363ddd52c8688322`.
 
-Publication `7611d8187c5a6f01bece4201c3d2fa450dc1bf894b94c4dec50a58dc6da4bec4`
+Publication `acbbef4bc03db1a74aa810b8ad832a8bcdfd37c04c9a51f7bdf9c8114e75d43b`
 records all 30 semantic replays. Actual IFC export and reopening inspected
-**176,202 physical occurrences** across the five six-car inventories, publication
-`f8e7f932a1dc22c6ba2af02915ae47e16d7afc3d7f7d597f636ba319d97824cf`.
+**176,202 physical occurrences** across the five six-car inventories, geometry
+publication `a7f040a7bb037d915f3cd8e31c2ddf2a7c8c836bfd15af1f1a16b9f123f2adb3`.
 These are net stock primitives and explicit purchased bounding envelopes, not
 supplier internals or qualified installed geometry.
 
@@ -34,9 +34,14 @@ mass**; extra architecture equipment has its own downstream accounts.
 | V5 | 11,386.6–13,146.8 | 5,685 |
 
 V2 and V5 needed actual roof-rib relocation before the cap/bond generator could
-produce positive support stacks. V1/V3/V4 retain their physical identities. The
-interrupted run and earlier six-case definition failure are retained privately
-with their source snapshots; they were not overwritten with successful receipts.
+produce positive support stacks. V1/V3/V4 retain their physical identities. A
+separate [interruption record](audits/direct-serial-interruption-2026-10-30/interruption-record.json)
+and [captured state archive](audits/direct-serial-interruption-2026-10-30/interrupted-state.tar.gz)
+retain the direct serial command's SIGINT. The copied state indexes five cases,
+records six completed files, and contains twelve case files because the copy
+raced with parallel workers; it is explicitly not publication input, and no
+in-memory result was integrated. Earlier failed structural executions remain in
+the structural archive with their original inputs and outcomes.
 
 ## Structural evaluator and physical redesign
 

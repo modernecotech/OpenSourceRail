@@ -41,6 +41,20 @@ tools/automation/osr-python tools/automation/sourced-archive.py ensure docs/desi
 tools/automation/osr-python tools/automation/sourced-verify.py docs/design-engine/sourced-case --workers 3 --audit var/sourced-verification
 ```
 
+Refresh the source-bound closure report and its display projection after a full
+run with:
+
+```sh
+python tools/automation/sourced-closure-package.py publish build/sourced-cell build/sourced-closure
+python tools/automation/sourced-closure-package.py verify build/sourced-cell build/sourced-closure
+```
+
+The closure packager reopens the retained native-method archives, rebuilds the
+report from the exact saved case state, and checks the summary against the
+complete report. It writes only into a fresh or empty output directory. The
+report remains a software-evidence summary; no physical or engineering acceptance
+is inferred.
+
 Parallel verification reconstructs all five registries and actually recomputes
 every case. It preserves the original publication contract; it does not replace
 semantic replay with hash checking. Source snapshots, failures, runtimes and
