@@ -514,4 +514,4 @@ def verify(root=ROOT, *, parent_result: Path, candidate_id: str):
                 evaluation_id=result["evaluation_id"], campaign_id=parent["campaign_id"],
                 candidate_id=body["candidate_id"], numerical_validity=result.get("numerical_validity"),
                 execution=result.get("execution"), stress_status=report.get("stress", {}).get("status"),
-                physical_accepted=False, **FLAGS)
+                **FLAGS)
