@@ -21,11 +21,13 @@ REFERENCE_DIR = Path(
 )
 REFERENCE_FILE = "iraq-domestic-cost-reference-2026-09.json"
 MANIFEST_FILE = "manifest.json"
+ANNUAL_SOURCE_FILE = Path("engineering/sourcing/data/iraq-cso-material-wages-annual-2025.json")
 OUTPUT_DIR = REFERENCE_DIR / "candidate-span-cost-screen-2026-10"
 CLOSURE_DIR = Path("docs/design-engine/railway-closure")
 REGIONS = ("Baghdad", "Al-Muthanna")
 CONCRETE_HOURS = ("2", "4", "8")
 REBAR_HOURS = ("4", "8", "16")
+WAGE_CATEGORIES = ("unskilled", "semi-skilled", "skilled", "engineer", "administrator", "guard")
 UPLIFT = Decimal("0.20")
 
 
@@ -72,6 +74,47 @@ def load_reference(root):
             or manifest.get("source_is_supplier_quote") is not False
             or packet.get("candidate_takeoff_mapped_for_unit_rate_estimates") is not False):
         raise ValueError("Regional civil-cost source is not the expected research reference")
+    return packet
+
+
+def load_annual_source(root):
+    """Load selected regional rows from the CSO's 2025 annual bulletin."""
+    path = Path(root) / ANNUAL_SOURCE_FILE
+    packet = json.loads(path.read_bytes())
+    if (packet.get("schema") != "osr-iraq-regional-construction-rates/1"
+            or packet.get("source_record_id") != sourcing_identity({
+                key: value for key, value in packet.items() if key != "source_record_id"})
+            or packet.get("unknown_is_zero") is not False
+            or packet.get("supplier_quote") is not False
+            or packet.get("engineering_accepted") is not False
+            or packet.get("procurement_approved") is not False
+            or packet.get("physical_accepted") is not False):
+        raise ValueError("Annual regional Iraqi construction-rate source identity or scope differs")
+    source = packet.get("source", {})
+    if (source.get("observation_period") != "2025 annual governorate averages"
+            or source.get("document_sha256") !=
+            "02baf7dc75bf1342278206231327c9a998648bf726bc415c6ef0e9c9830f58ef"
+            or source.get("worker_wage_table", {}).get("reported_unit") !=
+            "IQD per worker per working day"
+            or source.get("worker_wage_table", {}).get("hourly_normalization") !=
+            "Published daily wage divided by an explicit 8-hour workday; this is a modelling conversion, not a source hourly rate"):
+        raise ValueError("Annual regional Iraqi construction-rate source metadata differs")
+    if set(packet.get("selected_governorates", {})) != set(REGIONS):
+        raise ValueError("Annual regional source must cover exactly the declared comparison regions")
+    required_materials = {
+        "ordinary_cement_per_t", "red_sand_per_m3", "crushed_aggregate_per_m3",
+        "reinforcing_bar_per_t",
+    }
+    for region in REGIONS:
+        rates = packet["selected_governorates"][region]
+        if set(rates.get("material_rates_iqd", {})) != required_materials:
+            raise ValueError("Annual regional source material-rate inventory differs")
+        if set(rates.get("worker_daily_wages_iqd_per_person", {})) != set(WAGE_CATEGORIES):
+            raise ValueError("Annual regional source worker-category inventory differs")
+        for key, value in rates["material_rates_iqd"].items():
+            _decimal(value, f"annual {region} {key}")
+        for key, value in rates["worker_daily_wages_iqd_per_person"].items():
+            _decimal(value, f"annual {region} {key} daily wage")
     return packet
 
 
@@ -164,8 +207,120 @@ def _labour_case(process, hours, output_quantity, expected_unit):
     }
 
 
-def evaluate_alternative(alternative, context, reference):
-    """Apply common source rates to one exact current railway civil alternative."""
+def _annual_source_observation_id(source_record_id, region, rate_kind, rate_key, value, unit):
+    return identity({
+        "source_record_id": source_record_id,
+        "region": region,
+        "rate_kind": rate_kind,
+        "rate_key": rate_key,
+        "observation_period": "2025 annual governorate average",
+        "value": str(value),
+        "unit": unit,
+    })
+
+
+def _annual_region_case(region, annual_source, concrete_quantity, reinforcement_kg):
+    """Apply the 2025 local annual rates without mixing them into 2026 rates."""
+    source_region = annual_source["selected_governorates"][region]
+    concrete_recipe = (
+        ("ordinary_cement_per_t", "ordinary Iraqi-origin cement", Decimal("0.35"), "t", 24),
+        ("red_sand_per_m3", "Iraqi-origin red sand", Decimal("0.50"), "m3", 18),
+        ("crushed_aggregate_per_m3", "Iraqi-origin crushed aggregate", Decimal("0.80"), "m3", 20),
+    )
+    rebar_t = reinforcement_kg / Decimal(1000)
+    material_lines = []
+    for key, material_key, per_m3, unit, source_row in concrete_recipe:
+        quantity = concrete_quantity * per_m3
+        rate = _decimal(source_region["material_rates_iqd"][key], "annual material rate")
+        material_lines.append({
+            "material_key": material_key,
+            "candidate_quantity": _text(quantity),
+            "quantity_unit": unit,
+            "unit_rate_iqd": _text(rate),
+            "extended_material_cost_iqd": _text(quantity * rate),
+            "source_table_row": source_row,
+            "source_observation_id": _annual_source_observation_id(
+                annual_source["source_record_id"], region, "material", key,
+                rate, unit),
+        })
+    rebar_rate = _decimal(
+        source_region["material_rates_iqd"]["reinforcing_bar_per_t"],
+        "annual reinforcing-bar rate")
+    material_lines.append({
+        "material_key": "Iraqi-origin reinforcing bar; source category is general Shish/rebar",
+        "candidate_quantity": _text(rebar_t),
+        "quantity_unit": "t",
+        "unit_rate_iqd": _text(rebar_rate),
+        "extended_material_cost_iqd": _text(rebar_t * rebar_rate),
+        "source_table_row": 42,
+        "source_observation_id": _annual_source_observation_id(
+            annual_source["source_record_id"], region, "material",
+            "reinforcing_bar_per_t", rebar_rate, "t"),
+    })
+    direct_material = sum(
+        (_decimal(line["extended_material_cost_iqd"], "annual material extension")
+         for line in material_lines), Decimal(0))
+    labour_categories = {}
+    for category in WAGE_CATEGORIES:
+        daily_wage = _decimal(
+            source_region["worker_daily_wages_iqd_per_person"][category],
+            "annual daily wage")
+        hourly_wage = daily_wage / Decimal(8)
+        scenarios = []
+        for concrete_hours in CONCRETE_HOURS:
+            for rebar_hours in REBAR_HOURS:
+                concrete_person_hours = concrete_quantity * Decimal(concrete_hours)
+                rebar_person_hours = rebar_t * Decimal(rebar_hours)
+                total_person_hours = concrete_person_hours + rebar_person_hours
+                direct_labor = total_person_hours * hourly_wage
+                direct = direct_material + direct_labor
+                uplift = direct * UPLIFT
+                scenarios.append({
+                    "concrete_labour_hours_per_m3": concrete_hours,
+                    "reinforcement_cut_bend_hours_per_t": rebar_hours,
+                    "concrete_person_hours": _text(concrete_person_hours),
+                    "reinforcement_person_hours": _text(rebar_person_hours),
+                    "direct_material_cost_iqd": _text(direct_material),
+                    "direct_labour_cost_iqd": _text(direct_labor),
+                    "uplift_fraction": _text(UPLIFT),
+                    "unallocated_uplift_iqd": _text(uplift),
+                    "partial_material_labour_plus_20pct_iqd": _text(direct + uplift),
+                    "complete_process_cost_iqd": None,
+                    "installed_cost_iqd": None,
+                    "whole_life_cost_iqd": None,
+                })
+        labour_categories[category] = {
+            "source_daily_wage_iqd_per_person_day": _text(daily_wage),
+            "source_observation_id": _annual_source_observation_id(
+                annual_source["source_record_id"], region, "worker_daily_wage",
+                category, daily_wage, "IQD/person/workday"),
+            "assumed_hourly_base_wage_iqd_per_person_hour": _text(hourly_wage),
+            "hourly_conversion": "published annual daily wage / 8 assumed work hours per day",
+            "interpretation": "Rate-only sensitivity applying this one worker category to all assumed hours; no crew mix, shop charge-out rate or fabrication route is established.",
+            "scenarios": scenarios,
+        }
+    return {
+        "region": region,
+        "observation_period": "2025 annual governorate average",
+        "source_material_origin_scope": "Iraqi-origin construction-material table",
+        "currency": "IQD",
+        "concrete_quantity_m3": _text(concrete_quantity),
+        "reinforcement_modeled_mass_kg": _text(reinforcement_kg),
+        "reinforcement_purchase_order_quantity_t": None,
+        "material_takeoff": material_lines,
+        "direct_material_cost_iqd": _text(direct_material),
+        "worker_category_rate_sensitivities": labour_categories,
+        "primary_wage_category": "skilled",
+        "primary_mid_hour_scenario": {
+            "concrete_labour_hours_per_m3": "4",
+            "reinforcement_cut_bend_hours_per_t": "8",
+            "worker_category": "skilled",
+        },
+    }
+
+
+def evaluate_alternative(alternative, context, reference, annual_source):
+    """Apply current and historical source rates to one exact civil alternative."""
     required_context = (
         "candidate_id", "bundle_id", "body_candidate_id", "architecture_family",
         "route_distance_m", "requirement_revision",
@@ -262,6 +417,11 @@ def evaluate_alternative(alternative, context, reference):
             "combined_assumed_labour_scenarios": paired_scenarios,
         })
 
+    annual_region_cases = [
+        _annual_region_case(
+            region, annual_source, concrete_quantity, reinforcement_kg)
+        for region in REGIONS
+    ]
     result = {
         "schema": "osr-candidate-civil-material-labour-screen/1",
         **{key: context[key] for key in required_context},
@@ -269,11 +429,14 @@ def evaluate_alternative(alternative, context, reference):
         "alternative_id": alternative["alternative_id"],
         "source_reference_packet_id": reference["packet_id"],
         "source_reference_file": (REFERENCE_DIR / REFERENCE_FILE).as_posix(),
+        "annual_2025_regional_source_record_id": annual_source["source_record_id"],
+        "annual_2025_regional_source_file": ANNUAL_SOURCE_FILE.as_posix(),
         "source_rate_types": ["official statistical material rates", "official statistical base-wage rates"],
         "rate_source_ids": used_source_ids,
         "source_rate_scope": "Only generic, non-candidate-takeoff-mapped unit-rate recipes were reused; source candidate-specific cost results were not transferred. Current candidate civil quantities are recalculated below.",
         "source_candidate_result_reused": False,
         "regional_comparison_basis": "Material observations are national CSO market rates; Baghdad and Al-Muthanna vary the governorate base-wage input only. Neither region is selected as route or factory location.",
+        "annual_2025_crosscheck_basis": "Separate 2025 annual CSO Iraqi-origin material averages and governorate-specific wage categories; not blended into September 2026 rates. Regional factory or route location remains unselected.",
         "cost_scope": ["nominal concrete recipe ingredients", "declared reinforcement mass allowance"],
         "concrete_material_recipe_basis": "0.35 t cement + 0.50 m3 red sand + 0.80 m3 crushed gravel per nominal m3; illustrative unqualified recipe",
         "concrete_quantity_m3": _text(concrete_quantity),
@@ -288,6 +451,14 @@ def evaluate_alternative(alternative, context, reference):
             "foundation_actual_quantity": None,
         },
         "regions": region_cases,
+        "annual_2025_regional_crosscheck": {
+            "source_record_id": annual_source["source_record_id"],
+            "observation_period": annual_source["source"]["observation_period"],
+            "material_source_scope": "Iraqi-origin material averages by governorate; table values printed in thousand IQD and normalized in the source record",
+            "wage_source_scope": "Daily wages by worker category and governorate; 8-hour normalization is explicit modelling convention",
+            "regional_material_and_wage_scenarios": annual_region_cases,
+            "comparison_with_september_2026": "The annual 2025 cases use local governorate material rates; September 2026 uses national Iraqi-origin material rates. Differences therefore combine period and geographic aggregation and are not a pure inflation index.",
+        },
         "exclusions": [
             "reinforcement grade, detailed bar schedule, wastage, yield and purchase order quantity",
             "prestressing strand, tensioning, anchorage and installation labour",
@@ -356,6 +527,7 @@ def build_packet(root=REPOSITORY_ROOT):
     """Map source rates to the latest exact closure cases and retain identities."""
     root = Path(root)
     source_reference = load_reference(root)
+    annual_source = load_annual_source(root)
     closure_manifest, closure, comparison = _load_closure(root)
     comparison_by_bundle = {row["bundle_id"]: row for row in comparison.get("rows", [])}
     if len(comparison_by_bundle) != len(comparison.get("rows", [])):
@@ -395,7 +567,7 @@ def build_packet(root=REPOSITORY_ROOT):
             if key in seen:
                 raise ValueError("Duplicate civil alternative under one physical bundle")
             seen.add(key)
-            screen = evaluate_alternative(alternative, context, source_reference)
+            screen = evaluate_alternative(alternative, context, source_reference, annual_source)
             row = {
                 **context,
                 "body_family": comparison_by_bundle[bundle["bundle_id"]]["body_family"],
@@ -433,6 +605,7 @@ def build_packet(root=REPOSITORY_ROOT):
         "closure_publication_id": closure_manifest["publication_id"],
         "comparison_id": comparison["comparison_id"],
         "regional_cost_reference_packet_id": source_reference["packet_id"],
+        "annual_2025_regional_source_record_id": annual_source["source_record_id"],
         "bundle_count": len(closure["rows"]),
         "civil_alternative_count": len(entries),
         "rows": entries,
@@ -455,6 +628,12 @@ def _base_case(region):
                 and row["reinforcement_cut_bend_hours_per_t"] == "8")
 
 
+def _annual_base_case(region, worker_category="skilled"):
+    return next(row for row in region["worker_category_rate_sensitivities"][worker_category]["scenarios"]
+                if row["concrete_labour_hours_per_m3"] == "4"
+                and row["reinforcement_cut_bend_hours_per_t"] == "8")
+
+
 def render_readme(packet):
     lines = [
         "# Candidate-bound Iraqi civil material + labour screen — October 2026",
@@ -465,31 +644,41 @@ def render_readme(packet):
         "",
         "The screen prices the nominal concrete ingredient recipe (0.35 t cement, 0.50 m³ red sand and 0.80 m³ crushed gravel per nominal m³) and the separate preliminary reinforcement mass allowance. For each exact civil alternative, the formula is `(source-priced material quantities + assumed person-hours × regional CSO skilled base wage) × 1.20`. The 20% is unallocated and applied once to combined direct materials plus base-wage labour.",
         "",
-        "Material observations are national Iraqi-origin CSO statistics. Baghdad and Al-Muthanna change the governorate wage input only; neither location is a selected factory or route site. Labour hours are planning assumptions (2/4/8 h per nominal m³ concrete and 4/8/16 h per tonne rebar), not timed manufacturing routes or employer-loaded shop rates. The displayed middle-hour row uses 4 h/m³ and 8 h/t; the data packet retains all nine paired hour cases for both wage regions.",
+        "Material observations in the September 2026 estimate are national Iraqi-origin CSO statistics. Baghdad and Al-Muthanna change the governorate wage input only. The separate 2025 annual cross-check applies each governorate’s own Iraqi-origin cement, red-sand, crushed-aggregate and reinforcement rates, plus its published worker-category daily wage. The annual cross-check is not blended into the September 2026 prices; the difference also reflects geography, so it is not an inflation index. Neither region is a selected factory or route site.",
         "",
-        "| Body | Drive | Route | Candidate | Civil option | Span m | Concrete m³ | Reinforcement allowance kg | Baghdad IQD million/span | Al-Muthanna IQD million/span |",
-        "|---|---|---:|---|---|---:|---:|---:|---:|---:|",
+        "Labour hours are planning assumptions (2/4/8 h per nominal m³ concrete and 4/8/16 h per tonne rebar), not timed manufacturing routes or employer-loaded shop rates. The displayed middle-hour row uses 4 h/m³ and 8 h/t. In the 2025 annual sensitivity, each published wage category is applied separately to all assumed hours as a rate-only comparison; it does not define a crew mix. The data packet retains all paired hour cases and six worker-category rates for both regions.",
+        "",
+        "| Body | Drive | Route | Candidate | Civil option | Span m | Concrete m³ | Reinforcement allowance kg | Sep 2026 Baghdad IQD million/span | Sep 2026 Al-Muthanna IQD million/span | 2025 annual Baghdad IQD million/span | 2025 annual Al-Muthanna IQD million/span |",
+        "|---|---|---:|---|---|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for row in packet["rows"]:
         region_costs = {region["region"]: float(_base_case(region)[
             "partial_material_labour_plus_20pct_iqd"]) / 1_000_000
                         for region in row["cost_screen"]["regions"]}
+        annual_region_costs = {
+            region["region"]: float(_annual_base_case(region)[
+                "partial_material_labour_plus_20pct_iqd"]) / 1_000_000
+            for region in row["cost_screen"]["annual_2025_regional_crosscheck"][
+                "regional_material_and_wage_scenarios"]
+        }
         alternative = row["civil_alternative"]
         lines.append(
-            "| {body} | {drive} | {route:g} km | `{candidate}` | {option} (`{alternative}`) | {span:g} | {concrete:.4f} | {rebar:.1f} | {baghdad:.3f} | {muthanna:.3f} |".format(
+            "| {body} | {drive} | {route:g} km | `{candidate}` | {option} (`{alternative}`) | {span:g} | {concrete:.4f} | {rebar:.1f} | {baghdad:.3f} | {muthanna:.3f} | {baghdad_2025:.3f} | {muthanna_2025:.3f} |".format(
                 body=row["body_family"], drive=row["architecture_family"],
                 route=row["route_distance_m"] / 1000, candidate=row["candidate_id"][:12],
                 option=alternative["family"], alternative=alternative["alternative_id"][:10],
                 span=alternative["span_m"], concrete=alternative["concrete_m3"],
                 rebar=alternative["reinforcement_kg"], baghdad=region_costs["Baghdad"],
-                muthanna=region_costs["Al-Muthanna"]))
+                muthanna=region_costs["Al-Muthanna"],
+                baghdad_2025=annual_region_costs["Baghdad"],
+                muthanna_2025=annual_region_costs["Al-Muthanna"]))
     lines += [
         "",
         "The scenario values are raw material plus assumed direct base-wage labour with an unallocated 20% uplift. The CSO source prices do not establish exact grade, seller, availability, delivery or an order quantity. Reinforcement mass uses the preliminary civil model’s declared 120 kg/m³ allowance; detailed bar schedules, cutting yield and purchase quantities are unknown.",
         "",
         "Prestressing strand and installation, anchorage, rail, fasteners, concrete mix validation, formwork, moulds, factory plant/utilities, QA, scrap/yield, transport, crane/lifting, foundations, erection, employer burden, taxes, maintenance and warranty are excluded. These unknowns are not zero. No total network CAPEX is inferred from per-span quantities.",
         "",
-        "The rate basis and source hashes are retained in the [September 2026 regional reference](../regional-estimates-2026-september-v6/README.md). Candidate identities and civil quantities come from the [current 1.5/2 km closure packet](../../../railway-closure/README.md). Full IDs, line-item calculations, source benchmark IDs and paired sensitivities are in [candidate-span-cost-screen.json](candidate-span-cost-screen.json).",
+        "The rate basis and source hashes are retained in the [September 2026 regional reference](../regional-estimates-2026-september-v6/README.md) and the [annual 2025 CSO rates extract](../../../../engineering/sourcing/data/iraq-cso-material-wages-annual-2025.json). The annual bulletin is published by the [CSO](https://www.cosit.gov.iq/ar/constr-stat/constr-pr) and reposted by the [Building Research Center](https://buhooth.moch.gov.iq/2026/07/19/%D8%A8%D8%AD%D9%88%D8%AB-%D9%88%D9%85%D9%82%D8%A7%D9%84%D8%A7%D8%AA/). Candidate identities and civil quantities come from the [current 1.5/2 km closure packet](../../../railway-closure/README.md). Full IDs, line-item calculations, source benchmark IDs, all nine labour-hour pairs and six annual wage categories are in [candidate-span-cost-screen.json](candidate-span-cost-screen.json).",
         "",
         "Complete process, installed civil and whole-life costs remain unknown. Engineering, procurement and physical acceptance remain false.",
         "",
@@ -509,6 +698,7 @@ def _source_paths(root):
         CLOSURE_DIR / "comparison.json",
         REFERENCE_DIR / REFERENCE_FILE,
         REFERENCE_DIR / MANIFEST_FILE,
+        ANNUAL_SOURCE_FILE,
     )
 
 

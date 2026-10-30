@@ -140,6 +140,19 @@ def _parser():
     civil_spans.add_argument("--check", action="store_true",
                              help="Verify the saved packet against its exact closure and source inputs")
 
+    report = sub.add_parser("report", help="Publish reproducible candidate-bound comparative reports")
+    report_sub = report.add_subparsers(dest="report_command", required=True)
+    candidate_comparison = report_sub.add_parser(
+        "candidate-comparison",
+        help="Join the current same-service closure with the Iraqi domestic civil cost screen")
+    candidate_comparison.add_argument(
+        "--output", type=Path,
+        default=ROOT / "docs/design-engine/railway-comparison-2026-10",
+        help="Comparative report publication directory")
+    candidate_comparison.add_argument(
+        "--check", action="store_true",
+        help="Verify the saved report against its exact closure and civil cost sources")
+
     takeoff = sub.add_parser("takeoff", help="Build traceable stock material quantity roll-ups")
     takeoff_sub = takeoff.add_subparsers(dest="takeoff_command", required=True)
     material = takeoff_sub.add_parser("material", help="Roll up candidate-bound stock mass and geometry")
@@ -662,6 +675,15 @@ def main(argv=None):
 
         if args.command == "verify":
             _emit(publication.verify(args.publication, root=ROOT))
+            return 0
+
+        if args.command == "report":
+            if args.report_command != "candidate-comparison":
+                parser.error("unsupported sourcing report")
+            from .comparative_report import publish_packet, verify_packet
+            result = (verify_packet(args.output, root=ROOT) if args.check else
+                      publish_packet(root=ROOT, output=args.output))
+            _emit(result)
             return 0
 
         if args.command == "study":

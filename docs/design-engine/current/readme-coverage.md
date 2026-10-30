@@ -4,9 +4,9 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 
 [Project introduction](../../../README.md) · [System approach](../../../engineering/README.md) · [Current design and engineering gates](README.md)
 
-All **957 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
+All **958 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
 
-Existing local navigation reaches current context from **851 documents**. This page supplies an explicit current-context route for the remaining **106 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
+Existing local navigation reaches current context from **851 documents**. This page supplies an explicit current-context route for the remaining **107 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
 Historical numerical city, design and research packets retain their exact README payloads and original scope. Historical source bindings resolve at the pinned Git revision. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.
 
@@ -26,7 +26,7 @@ Historical numerical city, design and research packets retain their exact README
 | manual-current-entrypoint | 10 |
 | project-frontdoor | 1 |
 | retained-assurance-evidence | 8 |
-| retained-design-evidence | 102 |
+| retained-design-evidence | 103 |
 | retained-v04-workspace-archive | 15 |
 | sourcing-evidence-and-economics | 1 |
 | trip-dynamics-method | 2 |
@@ -923,6 +923,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [docs/design-engine/practical-launch/README.md](../practical-launch/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [current](README.md) |
 | [docs/design-engine/propulsion-layout/README.md](../propulsion-layout/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [practical-launch](../practical-launch/README.md) → [current](README.md) |
 | [docs/design-engine/railway-closure/README.md](../railway-closure/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [docs/design-engine/railway-comparison-2026-10/README.md](../railway-comparison-2026-10/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/reference-cell/README.md](../reference-cell/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/sourced-bolster/README.md](../sourced-bolster/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [docs/design-engine/sourced-case/README.md](../sourced-case/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [sourced-bolster](../sourced-bolster/README.md) → [project](../../../README.md) |

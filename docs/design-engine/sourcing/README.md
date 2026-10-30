@@ -78,6 +78,23 @@ The same current packet now adds **42 Iraq domestic aluminium raw-stock sensitiv
 
 The separate [candidate-bound civil span cost screen](domestic-fabrication/candidate-span-cost-screen-2026-10/README.md) applies the generic September rate recipes to the concrete volume and separate reinforcement allowance of each exact 20 m beam alternative in all 12 closure bundles. Its displayed middle-hour cases are about IQD **5.4–6.7 million per span**. Material rates are national statistical observations; Baghdad and Al-Muthanna vary only the governorate wage and are not selected factory sites. The packet retains every material line, wage benchmark and 3 × 3 paired labour-hour combination, bound to candidate, bundle and civil alternative identities. This is a partial concrete-ingredient/reinforcement raw-stock screen; source candidate totals are not transferred. Prestress, anchorage, rail, fasteners, moulds, QA, utilities, transport, foundations, erection, yield and installed cost remain unknown. Reproduce it with `./osr source estimate candidate-civil-spans --output docs/design-engine/sourcing/domestic-fabrication/candidate-span-cost-screen-2026-10`; verify with the same command and `--check`.
 
+The same candidate-bound packet now carries a separate cross-check from the CSO's official **2025 annual governorate** [bulletin PDF](https://www.cosit.gov.iq/documents/buildings/Employees%20wages/2025/2025%D9%86%D8%B4%D8%B1%D8%A9%20%D8%A7%D8%B3%D8%B9%D8%A7%D8%B1%20%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%AF%20%20%D9%88%D8%A7%D8%AC%D9%88%D8%B1%20%D8%A7%D9%84%D8%B9%D8%A7%D9%85%D9%84%D9%8A%D9%86%D8%A9.pdf), also reposted by the Ministry of Construction's [Building Research Center](https://buhooth.moch.gov.iq/2026/07/19/%D8%A8%D8%AD%D9%88%D8%AB-%D9%88%D9%85%D9%82%D8%A7%D9%84%D8%A7%D8%AA/). It uses the bulletin's Iraqi-origin rows for cement, red sand, crushed aggregate and general rebar, plus the six published daily-wage classes. The material table is printed in thousand IQD and normalized to IQD per listed tonne or cubic metre; the wage table is IQD/person/workday, divided by an explicit 8-hour modelling day for hourly sensitivities.
+
+| 2025 annual CSO rate | Baghdad | Al-Muthanna |
+|---|---:|---:|
+| Ordinary cement | IQD 129,000/t | IQD 107,000/t |
+| Red sand | IQD 25,000/m³ | IQD 17,000/m³ |
+| Crushed aggregate | IQD 24,000/m³ | IQD 22,000/m³ |
+| General rebar / “Shish” | IQD 1,043,000/t | IQD 1,000,000/t |
+| Skilled worker | IQD 75,000/day | IQD 55,000/day |
+| Semi-skilled worker | IQD 35,000/day | IQD 35,000/day |
+| Unskilled worker | IQD 25,000/day | IQD 25,000/day |
+| Engineer | IQD 75,000/day | IQD 50,000/day |
+| Administrator | IQD 20,000/day | IQD 25,000/day |
+| Guard | IQD 15,000/day | IQD 11,667/day |
+
+Holding the 4 h/m³ concrete and 8 h/t rebar assumptions and skilled wage category, the 2025 annual local-rate cross-check ranges from IQD **5.791–6.894 million/span** in Baghdad and **5.072–6.038 million/span** in Al-Muthanna across the three beam families. This is an annual historical cross-check, not a live quote. It is intentionally kept separate from the September 2026 national Iraqi-origin material rates: year and geographic aggregation both change, so the difference is not an inflation index. The machine-readable extract retains the source PDF hash, row numbers, source units, selected locations and all six wage classes. It does not establish supplier grade, availability, delivery, factory location, employer burden or installed cost.
+
 ### Additional material benchmarks for domestic fabrication
 
 The new official [CSO 2024 private-sector building report](https://cosit.gov.iq/documents/buildings/Private%20sector%20buildings/%D8%A7%D9%84%D9%82%D8%B7%D8%A7%D8%B9%20%D8%A7%D9%84%D8%AE%D8%A7%D8%B52024%20.pdf) provides a second, independent Iraqi material-price basis. Table 15 reports estimated building material costs and quantities. Dividing those fields gives historical unit ratios; these are modelled statistical values, not observed transactions or supplier quotations. The report's quantities draw on 2024 building permits, market prices/wages and material-use ratios from a 2012 survey, and its coverage excludes the Kurdistan Region.
@@ -411,3 +428,5 @@ The SQLite database defaults to the user's XDG state directory, outside the chec
 ## Remaining closure work
 
 The next high-value data is exact source-bound product mappings and supplier RFQs for the actual station-LIM winding/converter, complete passive bogie, independent brake, HVAC at Baghdad design temperature, doors/glazing, and precast guideway/foundation assemblies. The source database can retain the evidence, produce a draft request package, and invalidate dependent evaluations when an approved proposal changes. It cannot make missing geometry, source documents, supplier replies, Iraqi installed rates or physical test data appear. The whole-cell run has **zero exact priced matches**, and complete installed/whole-life cost, physical qualification and an integrated selected railway remain `unknown`.
+
+The [standard candidate comparison and domestic civil-cost report](../railway-comparison-2026-10/README.md) binds the 12 same-service body/drive/route bundles to all 36 exact 20 m beam alternatives, including partial Iraqi materials-plus-labour estimates. It retains each candidate's journey, partial mass, procurement/manufacturing coverage, risks and evidence gaps. The per-span amounts do not represent installed beam prices or railway CAPEX. Reproduce or verify it with `./osr source report candidate-comparison --output docs/design-engine/railway-comparison-2026-10` and the same command plus `--check`.

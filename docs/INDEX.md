@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1008**.
+Indexed Markdown files: **1009**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1008**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 137 |
+| [docs](#docs) | 138 |
 | [engineering](#engineering) | 26 |
 | [legacy](#legacy) | 30 |
 | [tools](#tools) | 2 |
@@ -976,6 +976,7 @@ Indexed Markdown files: **1008**.
 | [`docs/design-engine/propulsion-layout/README.md`](../docs/design-engine/propulsion-layout/README.md) | Simpler propulsion: powered bogies and sparse accelerators |
 | [`docs/design-engine/propulsion-layout/comparison-summary.md`](../docs/design-engine/propulsion-layout/comparison-summary.md) | Propulsion layout findings |
 | [`docs/design-engine/railway-closure/README.md`](../docs/design-engine/railway-closure/README.md) | Candidate-to-journey closure |
+| [`docs/design-engine/railway-comparison-2026-10/README.md`](../docs/design-engine/railway-comparison-2026-10/README.md) | Candidate comparison and domestic fabrication screen |
 | [`docs/design-engine/reference-cell/README.md`](../docs/design-engine/reference-cell/README.md) | Sourced reference-cell design generation |
 | [`docs/design-engine/reference-cell/validation.md`](../docs/design-engine/reference-cell/validation.md) | Executed sourced reference-cell validation — 28 October 2026 |
 | [`docs/design-engine/sourced-bolster/README.md`](../docs/design-engine/sourced-bolster/README.md) | Next physical experiment: V4 bogie load transfer |
