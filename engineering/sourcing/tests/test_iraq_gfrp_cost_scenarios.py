@@ -7,7 +7,7 @@ from engineering.sourcing.catalogue import load_catalogue
 from engineering.sourcing.iraq_gfrp_cost_scenarios import _build
 
 ROOT = Path(__file__).resolve().parents[3]
-PACKETS = ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v4"
+PACKETS = ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v5"
 
 
 def test_gfrp_local_fabrication_screens_keep_known_material_costs_and_open_unknowns():
