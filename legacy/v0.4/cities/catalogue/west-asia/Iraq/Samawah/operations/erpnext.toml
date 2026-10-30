@@ -1,0 +1,21 @@
+# City-specific ERP overrides. Shared defaults: deployment/erpnext/config/generic.toml
+# Lists replace generic lists; omitted values inherit. Operator dates remain unset.
+
+[city]
+slug = "samawah"
+name = "Samawah"
+country_code = "IQ"
+design_path = "cities/catalogue/west-asia/Iraq/Samawah/design.toml"
+
+[calendar]
+timezone = "Asia/Baghdad"
+# Six-day construction planning assumption, with Friday excluded; confirm locally.
+working_weekdays = [0, 1, 2, 3, 5, 6]
+
+[[city_programme]]
+id = "samawah-sourcing"
+title = "Review Samawah local sourcing and imported component requirements"
+department = "Procurement"
+start_day = -30
+finish_day = -10
+depends_on = ["business-masters"]

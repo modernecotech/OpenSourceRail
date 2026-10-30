@@ -38,6 +38,12 @@ jobs:
         run: python tools/automation/validate-host-manifests.py
       - name: Current shared workspace unit tests
         run: cargo test --locked --workspace --all-targets
+      - name: Verify source-pinned v0.4 application restoration
+        run: python tools/automation/verify_legacy_v04.py
+      - name: Restored v0.4 City Studio and historical simulator/OCC tools
+        run: |
+          cargo test --locked --manifest-path legacy/v0.4/Cargo.toml -p osr-city-studio --all-targets
+          cargo test --locked --manifest-path legacy/v0.4/Cargo.toml -p osr-sim -p osr-sim-gui -p osr-occ-gui --lib
       - name: Retained maglev controller unit tests
         run: cargo test --locked -p osr-maglev-control --all-targets
       - name: Retained maglev controller without default features

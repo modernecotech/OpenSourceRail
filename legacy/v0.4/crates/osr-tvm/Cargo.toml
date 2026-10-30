@@ -1,0 +1,18 @@
+[package]
+name = "osr-tvm"
+description = "OpenSourceRail — SIL-0 Ticket Vending Machine firmware"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+osr-afc = { path = "../osr-afc" }
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+proptest = "1"

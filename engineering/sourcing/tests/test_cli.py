@@ -49,6 +49,9 @@ def test_parser_accepts_review_commands_and_bounded_run_inputs(tmp_path):
         "--product-observation", "GURIT-CORECELL-M80=" + "c" * 64])
     assert study.command == "study" and study.study_command == "laminate"
     assert study.member == "federated-bom.json.gz"
+    direct_study = cli._parser().parse_args(["study", "laminate", "--input", str(tmp_path / "twin.json.gz"),
+                                             "--as-of", "2026-10-30", "--output", str(tmp_path / "studies")])
+    assert direct_study.member is None
     assert cli._parse_product_observations(study.product_observation) == {"GURIT-CORECELL-M80": "c" * 64}
     for values in (["not-a-selection"], ["GURIT-CORECELL-M80=bad"],
                    ["GURIT-CORECELL-M80=" + "c" * 64, "GURIT-CORECELL-M80=" + "d" * 64]):
@@ -87,7 +90,7 @@ def test_status_on_missing_database_does_not_create_it(tmp_path, capsys):
 
 
 def test_gfrp_regional_estimate_cli_needs_no_database_and_reports_all_scenarios(tmp_path, capsys):
-    packet_root = cli.ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v6"
+    packet_root = cli.ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v7"
     output = tmp_path / "gfrp-regional.json"
     assert cli.main(["estimate", "gfrp-laminate", "--packet-root", str(packet_root),
                      "--output", str(output)]) == 0

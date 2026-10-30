@@ -87,7 +87,7 @@ def _parser():
     study_sub = study.add_subparsers(dest="study_command", required=True)
     laminate = study_sub.add_parser("laminate", help="Compare declared 10 m² laminate material hypotheses")
     laminate.add_argument("--input", required=True, type=Path, help="Typed whole-cell source packet")
-    laminate.add_argument("--member", required=True, help="Exact federated BOM JSON member")
+    laminate.add_argument("--member", help="Exact federated BOM JSON member when input is a tar.gz archive")
     laminate.add_argument("--as-of", required=True, help="Explicit estimate date (YYYY-MM-DD)")
     laminate.add_argument("--output", required=True, type=Path, help="Fresh directory for separate study packets")
     laminate.add_argument("--max-requirements", type=int,

@@ -1,0 +1,55 @@
+[project]
+schema_version = 1
+id = "osr-city-iq-samawah"
+slug = "samawah"
+name = "Samawah"
+country = "IQ"
+default_branch = "main"
+
+[inputs]
+base_design = "../../catalogue/west-asia/Iraq/Samawah/design.toml"
+corridor_geojson = "../../catalogue/west-asia/Iraq/Samawah/samawah.corridor.geojson"
+simulator_scenario = "../../catalogue/west-asia/Iraq/Samawah/samawah.toml"
+network_overrides = "network/overrides.toml"
+service_plan = "services/service-plan.toml"
+source_lock = "sources.lock.json"
+coordination = "coordination/issues.toml"
+approvals = "approvals/reviews.toml"
+demand = "demand/od-matrix.toml"
+
+[planning]
+passenger_capacity_per_train = 360
+average_speed_kmh = 35.0
+station_dwell_min = 2.0
+terminal_turnaround_min = 5.0
+geometry_regeneration_radius_m = 2000.0
+
+[routing]
+sidecar = "routing/samawah.grid.json"
+slug = "samawah"
+source_ids = [
+  "routing-grid",
+  "routing-cost",
+  "routing-demand",
+  "routing-buildability",
+  "routing-anchors",
+  "routing-provenance",
+]
+demand_weight = 5.0
+search_margin_m = 2500.0
+endpoint_snap_m = 500.0
+
+[civil]
+standard_span_m = 25.0
+expansion_unit_spans = 4
+maximum_reinforced_soil_height_m = 4.5
+long_open_at_grade_method = "continuous-slipform"
+constrained_at_grade_method = "single-track-precast"
+mould_cycle_target_h = 24
+compare_road_grade_separation = true
+
+[revision]
+policy = "pull-request"
+tag_prefix = "city/samawah/design/"
+require_clean_source_locks = true
+require_passing_validation = true

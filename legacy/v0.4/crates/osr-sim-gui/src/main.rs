@@ -1,0 +1,40 @@
+//! Native binary entry — shim over the library in `lib.rs`.
+
+use clap::Parser;
+use osr_sim_gui::SimApp;
+
+#[derive(Parser, Debug)]
+#[command(
+    name = "osr-sim-gui",
+    about = "OpenSourceRail simulator GUI (RFC 0018)."
+)]
+struct Cli {
+    #[arg(long)]
+    scenario: Option<String>,
+    #[arg(long, default_value_t = 3600)]
+    duration_s: u32,
+    /// Run the sim at startup and open on a populated frame.
+    #[arg(long)]
+    auto_run: bool,
+}
+
+fn main() -> eframe::Result<()> {
+    let cli = Cli::parse();
+    let options = eframe::NativeOptions {
+        viewport: eframe::egui::ViewportBuilder::default()
+            .with_inner_size([1600.0, 1000.0])
+            .with_min_inner_size([1024.0, 768.0]),
+        ..Default::default()
+    };
+    eframe::run_native(
+        "OSR Sim GUI",
+        options,
+        Box::new(move |_cc| {
+            Ok(Box::new(SimApp::with_auto_run(
+                cli.scenario.as_deref(),
+                cli.duration_s,
+                cli.auto_run,
+            )))
+        }),
+    )
+}

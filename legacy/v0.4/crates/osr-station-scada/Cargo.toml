@@ -1,0 +1,17 @@
+[package]
+name = "osr-station-scada"
+description = "OpenSourceRail — SIL-2 station SCADA (escalators, lifts, lighting, HVAC, CCTV)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+proptest = "1"

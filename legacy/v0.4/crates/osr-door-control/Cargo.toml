@@ -1,0 +1,17 @@
+[package]
+name = "osr-door-control"
+description = "OpenSourceRail — SIL-4 door controller (close interlock, obstruction detection)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+proptest = "1"

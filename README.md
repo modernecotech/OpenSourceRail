@@ -164,6 +164,8 @@ The [planning workspace](docs/workbench/planning/index.html) retains local geogr
 
 The [retained Trip Workbench](docs/workbench/trip/index.html) is connected again to its bounded local research service through `./osr workbench`; open `/docs/workbench/trip/` on the local Workbench. It supports its retained magnetic research cases, fixtures, imports, logs and job cancellation. The six-car 120-passenger/180-second comparison remains a separate candidate and gives no performance credit to the selected v0.6 wheel/LIM train.
 
+The removed v0.4 City Studio, simulator, Sim GUI and OCC GUI are restored as an isolated [historical application workspace](legacy/v0.4/README.md). Run them from `legacy/v0.4`; they retain the v0.4 Samawah and maglev-era models and results, separate from the selected v0.6 candidate.
+
 ## Run and reproduce
 
 ```bash
@@ -200,6 +202,7 @@ The coordinated run is bounded and restartable; it preserves pending work and fa
 | Work on controls or electronics | [Rust packages](crates/README.md), [v0.6 interfaces](engineering/station_rail/controls.py), [retained electronics research](control-electronics/README.md) |
 | Set up tools or contribute | [Tools](tools/README.md), [CONTRIBUTING](CONTRIBUTING.md), [GOVERNANCE](GOVERNANCE.md), [project instructions](AGENTS.md) |
 | Recover older project details | [v0.4 full introduction](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/README.md), [v0.5.1 introduction](https://github.com/modernecotech/OpenSourceRail/blob/2617b04e722ca24b7ad9120f94610fe869f27053/README.md), [v0.5 source/payload archive](docs/archives/v0.5-maglev/README.md) |
+| Run retained v0.4 City Studio, simulation or OCC tools | [Isolated historical workspace and commands](legacy/v0.4/README.md) |
 
 ## Sources, revisions and contributions
 

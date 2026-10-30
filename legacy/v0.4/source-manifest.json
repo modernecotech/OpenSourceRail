@@ -1,0 +1,3315 @@
+{
+  "schema": "osr-historical-workspace-source-manifest/1",
+  "release": "v0.4.0",
+  "source_commit": "205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e",
+  "workspace": "legacy/v0.4",
+  "application_scope": [
+    "osr-city-studio",
+    "osr-sim",
+    "osr-sim-gui",
+    "osr-occ-gui"
+  ],
+  "included_source_roots": [
+    "Cargo.toml",
+    "Cargo.lock",
+    "rust-toolchain.toml",
+    "crates",
+    "cities/catalogue/west-asia/Iraq/Samawah",
+    "cities/workspaces/samawah",
+    "docs/city-studio.md",
+    "docs/rfcs/0031-city-studio-git-revisions.md",
+    "docs/screenshots/city-studio",
+    "docs/screenshots/occ-gui.png",
+    "docs/screenshots/sim-gui.png",
+    "tests/frontend/city-studio.spec.mjs",
+    "tools/automation/test-city-studio-gui.mjs"
+  ],
+  "file_count": 468,
+  "local_changes": [
+    {
+      "path": "docs/rfcs/0031-city-studio-git-revisions.md",
+      "type": "documentation-whitespace-normalization",
+      "source_git_blob": "052e2acebb30b74822f739454ceb23e993474d6f"
+    }
+  ],
+  "files": [
+    {
+      "path": "Cargo.lock",
+      "git_blob": "9db12ce14df35058304ebecda162d5ad594c7d30",
+      "source_sha256": "c5231847e20c7640e78f1b5a3cb74912884721eacf6b2f81179cae974aa96562",
+      "bytes": 103856,
+      "sha256": "c5231847e20c7640e78f1b5a3cb74912884721eacf6b2f81179cae974aa96562"
+    },
+    {
+      "path": "Cargo.toml",
+      "git_blob": "f0c16e8c8f33e86e56f9fc3ed524851801a50e84",
+      "source_sha256": "07eac15589863878222cc52354f21b3ac14ac28d4f5865bc2e9ba76400578cc4",
+      "bytes": 2998,
+      "sha256": "07eac15589863878222cc52354f21b3ac14ac28d4f5865bc2e9ba76400578cc4"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/README.md",
+      "git_blob": "7659f4534f0205e01a9d521c5b6cbe29d2effa01",
+      "source_sha256": "12df62ab84876b0e5030da0d7679fffa3ea7340f8cece68f4a57740f730dc381",
+      "bytes": 4265,
+      "sha256": "12df62ab84876b0e5030da0d7679fffa3ea7340f8cece68f4a57740f730dc381"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/design.toml",
+      "git_blob": "1fc22908dff06be96910a606af5f1bc248914fb7",
+      "source_sha256": "67a021cf99d61ef8f6293ce59801a3ab87904a8e847f7a7af50929b985dacb37",
+      "bytes": 17329,
+      "sha256": "67a021cf99d61ef8f6293ce59801a3ab87904a8e847f7a7af50929b985dacb37"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/README.md",
+      "git_blob": "6414333567bb14b73414575749194b98e4a5017f",
+      "source_sha256": "ff10d9e5576deb995aaf1c914e6224733ac385d747edc991cc6fb5f58e62d007",
+      "bytes": 988,
+      "sha256": "ff10d9e5576deb995aaf1c914e6224733ac385d747edc991cc6fb5f58e62d007"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/samawah-line1.aln.toml",
+      "git_blob": "2591a684e408ff99f00b8da807357490d59ca9e9",
+      "source_sha256": "c5cfdf4f681a5556805c30af594ff89922c458f1fc8f591bda0bdc561cca4061",
+      "bytes": 34511,
+      "sha256": "c5cfdf4f681a5556805c30af594ff89922c458f1fc8f591bda0bdc561cca4061"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/samawah-line2.aln.toml",
+      "git_blob": "bad4d374dcee03b5912a3d8fc899cdd25d6907da",
+      "source_sha256": "a3abec93cb93b64be34633cca30278e0ac9892d25e5524f66f63f6b8a29abbdd",
+      "bytes": 25869,
+      "sha256": "a3abec93cb93b64be34633cca30278e0ac9892d25e5524f66f63f6b8a29abbdd"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/samawah-line3.aln.toml",
+      "git_blob": "46929160d74356fd844f5c2613a3e9e3ed4f1327",
+      "source_sha256": "25bd0260b55f9a0a6ee8d4adee28dd16be6343f611ac34784a34546aaa73b17e",
+      "bytes": 25179,
+      "sha256": "25bd0260b55f9a0a6ee8d4adee28dd16be6343f611ac34784a34546aaa73b17e"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/delivery/README.md",
+      "git_blob": "3f6bef4fe93f20ba9666ed19a378100bb7153c3c",
+      "source_sha256": "635bb0f5e63807eadd2aceb3d495c92cf2583ec0321779d164122de91a3cb073",
+      "bytes": 11715,
+      "sha256": "635bb0f5e63807eadd2aceb3d495c92cf2583ec0321779d164122de91a3cb073"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/delivery/summary.json",
+      "git_blob": "6060929eb9f8f102ca5dea35cc8af76f6020e8e2",
+      "source_sha256": "16db891bd505edaa86b813a51b2c037f1c9371afa77bba5a4d8d903b87acfcef",
+      "bytes": 31795,
+      "sha256": "16db891bd505edaa86b813a51b2c037f1c9371afa77bba5a4d8d903b87acfcef"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/delivery/workforce.csv",
+      "git_blob": "7876568207a20491c5370c11186ca1c67fbf9023",
+      "source_sha256": "fde0fb9bba1ce3705c22d97bd391c336e223020a29c952f28beb8f289e7e4f36",
+      "bytes": 6649,
+      "sha256": "fde0fb9bba1ce3705c22d97bd391c336e223020a29c952f28beb8f289e7e4f36"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md",
+      "git_blob": "411996e323aa1bb1d5598f35cdf437811f8810b8",
+      "source_sha256": "b694e445878273f0d887de73fd9d7e20579801b25e595528d24b722ef94f4a6a",
+      "bytes": 4221,
+      "sha256": "b694e445878273f0d887de73fd9d7e20579801b25e595528d24b722ef94f4a6a"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/summary.json",
+      "git_blob": "9e3aa54fe5fcfe1017d00509b2f1a8abca79e7bc",
+      "source_sha256": "cb9e1f50fdb5b8771665b0512c4726e8c4a0a3325b6da712c307146580cdcc4d",
+      "bytes": 11675,
+      "sha256": "cb9e1f50fdb5b8771665b0512c4726e8c4a0a3325b6da712c307146580cdcc4d"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md",
+      "git_blob": "3218b2d223ecc9242255f6c879fe790d135e1fc5",
+      "source_sha256": "efc4b57f8a5ae72c41be459ecfcc53b50f61b8b75b047cacb68ff77dd787a10f",
+      "bytes": 2610,
+      "sha256": "efc4b57f8a5ae72c41be459ecfcc53b50f61b8b75b047cacb68ff77dd787a10f"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/summary.json",
+      "git_blob": "259762c66e0b0e6462925ac0f4aa317f44dec674",
+      "source_sha256": "83b481fea618816519ce53e5f40bf0d76ae1016689c806ad5ed1aa6395c66890",
+      "bytes": 6949,
+      "sha256": "83b481fea618816519ce53e5f40bf0d76ae1016689c806ad5ed1aa6395c66890"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md",
+      "git_blob": "8eaf56dba895fe38dd5f4df8e7e146439c322b05",
+      "source_sha256": "d927bd312a94dd950d1da390119cb2872f06f62b07d48cb37a62e2ff71c25e81",
+      "bytes": 3913,
+      "sha256": "d927bd312a94dd950d1da390119cb2872f06f62b07d48cb37a62e2ff71c25e81"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/samawah-line1-digital-twin.FCStd",
+      "git_blob": "4cb2e6c82b90eece03f8c4b6c928b2a798d00eed",
+      "source_sha256": "038fb6d7cd6431e02d04eca7096c4f36da2f5ae55e756a596cb7a5a868957e62",
+      "bytes": 583911,
+      "sha256": "038fb6d7cd6431e02d04eca7096c4f36da2f5ae55e756a596cb7a5a868957e62"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/samawah-line1-digital-twin.blend",
+      "git_blob": "24242858d703c15c11e356c0f5c9860c07534173",
+      "source_sha256": "5150e48531145d75d4f7546647f29eb786faa2fdbf6a3f7b7b01da3f35720a69",
+      "bytes": 577216,
+      "sha256": "5150e48531145d75d4f7546647f29eb786faa2fdbf6a3f7b7b01da3f35720a69"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/samawah-line1-digital-twin.blend1",
+      "git_blob": "0b5006024401889efe7935d1d07d9cb4c9863c57",
+      "source_sha256": "8d8b095e1ccc70bf13a454a37e72b6c8ba2cdeb713e586befb756707f2fb15e4",
+      "bytes": 550714,
+      "sha256": "8d8b095e1ccc70bf13a454a37e72b6c8ba2cdeb713e586befb756707f2fb15e4"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/samawah-line1-digital-twin.gif",
+      "git_blob": "e66b884568faccaecf47fbc0f24e36560eb3b3ff",
+      "source_sha256": "10dadf9bad6ae8f878c3d46880808f3445ea181147d916d6b269892645ecaaf7",
+      "bytes": 12448141,
+      "sha256": "10dadf9bad6ae8f878c3d46880808f3445ea181147d916d6b269892645ecaaf7"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/samawah-line1-digital-twin.json",
+      "git_blob": "0e40020432bb783af725c193c423fc22779672e6",
+      "source_sha256": "6fc2ef39253f4f38b87313b590030aebfb253ddae5abfd126bb6dbc270b1e3de",
+      "bytes": 59146,
+      "sha256": "6fc2ef39253f4f38b87313b590030aebfb253ddae5abfd126bb6dbc270b1e3de"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/energy/coordinated-daylight.json",
+      "git_blob": "8eac3a97ece3af0d48ece872b58150e316a8f515",
+      "source_sha256": "a54bc834bcb8223659e6db700bbf74b2c2b4bbd0b4c09a53804304e20dd1ea95",
+      "bytes": 116320,
+      "sha256": "a54bc834bcb8223659e6db700bbf74b2c2b4bbd0b4c09a53804304e20dd1ea95"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/energy/peak-charge-grid-only.json",
+      "git_blob": "936324ee1e837254ae9dd190dac45fddd45a0461",
+      "source_sha256": "cbad9f851898430cf481b72736daf7edd46beddd7b3dab7eb0bde36c5eda5a3a",
+      "bytes": 116353,
+      "sha256": "cbad9f851898430cf481b72736daf7edd46beddd7b3dab7eb0bde36c5eda5a3a"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/energy/summary.json",
+      "git_blob": "b0ab7791885bb9cdffe79c29c64ab7f4e9563a4b",
+      "source_sha256": "44cc70d306ff8a38dee28d26b0b49f6523766459846d4c300b22a1f5cf6e8c89",
+      "bytes": 20048,
+      "sha256": "44cc70d306ff8a38dee28d26b0b49f6523766459846d4c300b22a1f5cf6e8c89"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/finance/summary.json",
+      "git_blob": "4118d315d06c72bdb80c003417c612604a9f42d0",
+      "source_sha256": "f507b4899cbdd6ea96e9c52b4515e8837f3c6c8e2e7d0812023c894cdc524739",
+      "bytes": 13089,
+      "sha256": "f507b4899cbdd6ea96e9c52b4515e8837f3c6c8e2e7d0812023c894cdc524739"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/gis/layers/civil_segments.geojson",
+      "git_blob": "93dfa960e73dd6907a971fb02fb296914b7d96d5",
+      "source_sha256": "08e7688dc3c8706d7b5e25b3db2904b1c9f10dc14345ba06db892e481aaf7256",
+      "bytes": 142552,
+      "sha256": "08e7688dc3c8706d7b5e25b3db2904b1c9f10dc14345ba06db892e481aaf7256"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/gis/layers/corridors.geojson",
+      "git_blob": "8bef8ba71227c171b189268213e18d928b05a690",
+      "source_sha256": "14c054612a498e052b29a5b87534f9668a57bdba9f87e5e7459eb284434ecae3",
+      "bytes": 139318,
+      "sha256": "14c054612a498e052b29a5b87534f9668a57bdba9f87e5e7459eb284434ecae3"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/gis/layers/depots.geojson",
+      "git_blob": "5a551935f4dc8fec7fc04ddd02300969195533d7",
+      "source_sha256": "fb629e46ef3654302a1c9ac95f63e0d5373ce41a9fc9956da4283266ff1271f4",
+      "bytes": 404,
+      "sha256": "fb629e46ef3654302a1c9ac95f63e0d5373ce41a9fc9956da4283266ff1271f4"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/gis/layers/energy_sites.geojson",
+      "git_blob": "1aed824d61e48c8bf33a50a8345d01c398db87a5",
+      "source_sha256": "aad09910ec6d8b7e6040f5e0e93ba386b9436855ff1100de16a0319c87a0524f",
+      "bytes": 15965,
+      "sha256": "aad09910ec6d8b7e6040f5e0e93ba386b9436855ff1100de16a0319c87a0524f"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/gis/layers/input_issues.geojson",
+      "git_blob": "996f9bf1620ec61c55ef6f8c5a8034eda7b7d02d",
+      "source_sha256": "a55b431e78049bb7fdc7330ffdf2c9f8e87712545ebba199445408d48694225a",
+      "bytes": 52,
+      "sha256": "a55b431e78049bb7fdc7330ffdf2c9f8e87712545ebba199445408d48694225a"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/gis/layers/interchanges.geojson",
+      "git_blob": "f0848975f1ccc8c33e98a6682d466b972422e0a7",
+      "source_sha256": "7f60e8a7b88cc503e53f256b3b36377be7d3f06b878cb4c2dc4a6390d7dcccb9",
+      "bytes": 524,
+      "sha256": "7f60e8a7b88cc503e53f256b3b36377be7d3f06b878cb4c2dc4a6390d7dcccb9"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/gis/layers/stations.geojson",
+      "git_blob": "cc3bb2d0cd3074518bbaa27b2fb364dba3d06e40",
+      "source_sha256": "b93729370409999ed59a0fcf3852e23c476aaa7de95b4cf21009229eba579d4e",
+      "bytes": 11353,
+      "sha256": "b93729370409999ed59a0fcf3852e23c476aaa7de95b4cf21009229eba579d4e"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/gis/samawah.gpkg",
+      "git_blob": "f5426587e8b3aeeeaf6e16da1fcf74b5050854b4",
+      "source_sha256": "e9d75f2773cd5288306d3f72889cd62648bca238562140d7d0583037f2336fdf",
+      "bytes": 270336,
+      "sha256": "e9d75f2773cd5288306d3f72889cd62648bca238562140d7d0583037f2336fdf"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/gis/summary.json",
+      "git_blob": "19867622623d4e087a4fe8b3ae44c32b62c1853d",
+      "source_sha256": "2f58ce27ddc02563769ad0b54989e29990f28ed62c620c1f25a0d21c33b38aec",
+      "bytes": 1227,
+      "sha256": "2f58ce27ddc02563769ad0b54989e29990f28ed62c620c1f25a0d21c33b38aec"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/project-twin/summary.json",
+      "git_blob": "733644848ab29c0fcaf0bc69be8e1de0b292cf68",
+      "source_sha256": "1d9606400a7ae7040dd186dd196c0f6612769ff3c882e9922e67707605e2f71b",
+      "bytes": 36743,
+      "sha256": "1d9606400a7ae7040dd186dd196c0f6612769ff3c882e9922e67707605e2f71b"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/ring-interchange-summary.json",
+      "git_blob": "39cfa6fec0ae4957adfb4f7a8a00b05d350cb860",
+      "source_sha256": "26fc149873a79632dd30fa07f92991d824d935605e53a9cb59f7cac733044d99",
+      "bytes": 585,
+      "sha256": "26fc149873a79632dd30fa07f92991d824d935605e53a9cb59f7cac733044d99"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/screenshots/manifest.json",
+      "git_blob": "24c79dae4afef10b22028c53f8906004f8b133f4",
+      "source_sha256": "4734b7e7b2a8b7f96c0dddab3534a8279acae57e8ea2c555c91a93fa9a9bd07c",
+      "bytes": 1032,
+      "sha256": "4734b7e7b2a8b7f96c0dddab3534a8279acae57e8ea2c555c91a93fa9a9bd07c"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/screenshots/samawah-network-visualizer.png",
+      "git_blob": "8d589b1811a64d44c649fa8d6d582d591bff4613",
+      "source_sha256": "5cebff6069a89e135498bcb376a16cd958feb9678625ae0486ac9fb0609963b1",
+      "bytes": 66913,
+      "sha256": "5cebff6069a89e135498bcb376a16cd958feb9678625ae0486ac9fb0609963b1"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/screenshots/samawah-qgis-engineering-map.png",
+      "git_blob": "6387ce6c4a33659afc8d0f9f65d920da3d42507d",
+      "source_sha256": "69c86bdf783f83183244444e0365400c0a0124ace6086ade4e6e70137790bb98",
+      "bytes": 110553,
+      "sha256": "69c86bdf783f83183244444e0365400c0a0124ace6086ade4e6e70137790bb98"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/screenshots/samawah-simulation-dashboard.png",
+      "git_blob": "3c3a31db78b17e9c247703c605b2c4fc81c67234",
+      "source_sha256": "a2f65c67fbedb9dcb1ff9c801bfaa089ff6cab80575b4d5f2360791de70edc0e",
+      "bytes": 373559,
+      "sha256": "a2f65c67fbedb9dcb1ff9c801bfaa089ff6cab80575b4d5f2360791de70edc0e"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/screenshots/samawah-sumo-validation.png",
+      "git_blob": "00ce3c7743c76aaa724f89b33bd16f87acc04df7",
+      "source_sha256": "789ae356241988114cf480059fb4ae7f5d26e7e66817c604b9bf7c0cec4b3c6f",
+      "bytes": 98952,
+      "sha256": "789ae356241988114cf480059fb4ae7f5d26e7e66817c604b9bf7c0cec4b3c6f"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/native-timing-reference.json",
+      "git_blob": "d4aef416f39a02110813b1cdcdc232d810d53009",
+      "source_sha256": "38833542653cf0fa11a55d5b09f50c20089e8f850ce9730d2698f17360683086",
+      "bytes": 750,
+      "sha256": "38833542653cf0fa11a55d5b09f50c20089e8f850ce9730d2698f17360683086"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.json",
+      "git_blob": "2bdeef39cae7db10dc38ee780f3e2290df58ca63",
+      "source_sha256": "406066cc9e41527d0c870d7976f14693c3f2e0d503891c561088b83b7bc9bec1",
+      "bytes": 2930,
+      "sha256": "406066cc9e41527d0c870d7976f14693c3f2e0d503891c561088b83b7bc9bec1"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md",
+      "git_blob": "bb9eb0f66a0595f2d8558cfbcf83cc476d273b47",
+      "source_sha256": "cce838179421c7861796b69e6fa556c09d9d00a44b5c0d80332ebbfedf04f63b",
+      "bytes": 1080,
+      "sha256": "cce838179421c7861796b69e6fa556c09d9d00a44b5c0d80332ebbfedf04f63b"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/validation-summary.json",
+      "git_blob": "53ef479ca6c09bd396c999ef8cab8ef0ddfa0305",
+      "source_sha256": "6827478a4f812796c07ad30d613b3f24840dd9829aca56316300fab8749fa6da",
+      "bytes": 62912,
+      "sha256": "6827478a4f812796c07ad30d613b3f24840dd9829aca56316300fab8749fa6da"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/README.md",
+      "git_blob": "a491759b621c4b98e6357482fe6cb3c92cc90b91",
+      "source_sha256": "ee27dc88f41084714d9f8f054da25d1dbb9c60b68056c0e52d422539bd671360",
+      "bytes": 2937,
+      "sha256": "ee27dc88f41084714d9f8f054da25d1dbb9c60b68056c0e52d422539bd671360"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/civil-investigation-plan.json",
+      "git_blob": "5b1394a9e51025a613d19cd21069d8691a6b6a54",
+      "source_sha256": "b3643c591b36a629e4b4a3455272fe5026eff04755081ec461a687f3797ed3a5",
+      "bytes": 27445,
+      "sha256": "b3643c591b36a629e4b4a3455272fe5026eff04755081ec461a687f3797ed3a5"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/sample-locations.geojson",
+      "git_blob": "a142e220fab0d73b23f2face80af1e5d68ce6a3c",
+      "source_sha256": "cd647b033b8e3f692435f0cf925132921f46924e257a0bb185670732854c0d19",
+      "bytes": 57380,
+      "sha256": "cd647b033b8e3f692435f0cf925132921f46924e257a0bb185670732854c0d19"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/samples.csv",
+      "git_blob": "9c01c1d68e91d537048dc372144724d24c103b28",
+      "source_sha256": "9e5565abf987290f0758b426fb6fb6f1f0b425a91fbe5d2255ffbc64f22b3139",
+      "bytes": 55747,
+      "sha256": "9e5565abf987290f0758b426fb6fb6f1f0b425a91fbe5d2255ffbc64f22b3139"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/source-receipt.json",
+      "git_blob": "57b7716a8925f4173ac00822812ea94b27640573",
+      "source_sha256": "0f6316a3cf42f3f46228569873852d2a639f8d8bbbb7148a6fbf0a5d2c0da25b",
+      "bytes": 50204,
+      "sha256": "0f6316a3cf42f3f46228569873852d2a639f8d8bbbb7148a6fbf0a5d2c0da25b"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/summary.json",
+      "git_blob": "0994b2105b6cec738805ec83fa14143c07fc35de",
+      "source_sha256": "e535fcd4e82ac87b668836513c1e44a12bbac5f5a3f341360014faa1e923100f",
+      "bytes": 6951,
+      "sha256": "e535fcd4e82ac87b668836513c1e44a12bbac5f5a3f341360014faa1e923100f"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/README.md",
+      "git_blob": "4699e75da5a347b93d57de18ad06bebb1ad5578a",
+      "source_sha256": "18854442a6136da8655755d61743c6468a0765c818ad5a94ec5b1243d4d1d000",
+      "bytes": 11099,
+      "sha256": "18854442a6136da8655755d61743c6468a0765c818ad5a94ec5b1243d4d1d000"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/hybrid-cycle-screen.json",
+      "git_blob": "16458e17be54bd51f85ca5ec477c0a204fbdfc5c",
+      "source_sha256": "f0daf793712439584967274f652dab8f58d32881685920d253e09a2c74df7be0",
+      "bytes": 42071,
+      "sha256": "f0daf793712439584967274f652dab8f58d32881685920d253e09a2c74df7be0"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/hybrid-cycle-screen.md",
+      "git_blob": "f50ceb470069dce4acb4bb9471b494cbdba1fc7b",
+      "source_sha256": "cba7504e813fb002daa69f5010d51ad3460def951331d4b16bf57092299996f7",
+      "bytes": 1348,
+      "sha256": "cba7504e813fb002daa69f5010d51ad3460def951331d4b16bf57092299996f7"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/operating-screen.json",
+      "git_blob": "59e626681a0864283510159184658f4bee7d93db",
+      "source_sha256": "ad1d4afeda914cedabd02f3f1d5ad465282237cfc83968c4e2424c971255f9e2",
+      "bytes": 52428,
+      "sha256": "ad1d4afeda914cedabd02f3f1d5ad465282237cfc83968c4e2424c971255f9e2"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/operating-screen.md",
+      "git_blob": "86cc7e79059f7c1c11cad696b55bc18db889f9ab",
+      "source_sha256": "d4be1d0914f6de824b93887bb76389f9fe03695d729a91a85715f27adc2759b6",
+      "bytes": 3839,
+      "sha256": "d4be1d0914f6de824b93887bb76389f9fe03695d729a91a85715f27adc2759b6"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/redistribution-study.json",
+      "git_blob": "0fedfbd573b85be3c2fab9d5398dd91cda1f9165",
+      "source_sha256": "0d6cd0ab35d66bec95591eebf9e4ec70611b8270e7c73e627f4bc0cb9405330a",
+      "bytes": 85336,
+      "sha256": "0d6cd0ab35d66bec95591eebf9e4ec70611b8270e7c73e627f4bc0cb9405330a"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/redistribution-study.md",
+      "git_blob": "b94514567ad355e35b7d944ecbab9e7424ff9090",
+      "source_sha256": "7575d674212f551f23dd94767636570f7f610a95cee89534181bd62d84c18bed",
+      "bytes": 6640,
+      "sha256": "7575d674212f551f23dd94767636570f7f610a95cee89534181bd62d84c18bed"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.json",
+      "git_blob": "f3d94a7a22aa85784810739e22ca86a82a791333",
+      "source_sha256": "fa47d661c46a8bde64c2123681463b92125b0cf19b27a5e28adddcb9cfbadb8e",
+      "bytes": 80218,
+      "sha256": "fa47d661c46a8bde64c2123681463b92125b0cf19b27a5e28adddcb9cfbadb8e"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md",
+      "git_blob": "69a1f62487f8bec4f73ec249695a5979637af839",
+      "source_sha256": "7f3a322f8a013dc2f0ba2be8c1738ed31db199a87ff9c86b65711fae0accd054",
+      "bytes": 3802,
+      "sha256": "7f3a322f8a013dc2f0ba2be8c1738ed31db199a87ff9c86b65711fae0accd054"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/summary.json",
+      "git_blob": "e56e8ae081424fec6f14429a3a65a3bd0e94acf5",
+      "source_sha256": "b3f554d230ac91b3c22c6f715df398d4422e1a1552af40990c68e778c417b492",
+      "bytes": 45565,
+      "sha256": "b3f554d230ac91b3c22c6f715df398d4422e1a1552af40990c68e778c417b492"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/station-cluster-summary.json",
+      "git_blob": "007c34189473a4f099a14a7d42f9dbc3086a3cdb",
+      "source_sha256": "58bbe698698ab8c58477cbeef83561a26ac9adf58bb4a0cd0521b5782ce304f7",
+      "bytes": 727,
+      "sha256": "58bbe698698ab8c58477cbeef83561a26ac9adf58bb4a0cd0521b5782ce304f7"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/station-product-map.json",
+      "git_blob": "042beadb4244aadcc3ba360cac4c9106dd805bc9",
+      "source_sha256": "ee39b569cd3e909f91a582cc46ca046509894159be4c2a0f12516cd1b757b1d3",
+      "bytes": 9457,
+      "sha256": "ee39b569cd3e909f91a582cc46ca046509894159be4c2a0f12516cd1b757b1d3"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/sumo/city.edg.xml",
+      "git_blob": "e31a45c3d236376ba64f47ef26314387e9b83676",
+      "source_sha256": "ac7ed2f6e095efa6afef03ff08be7c4e9afe0110a0833e12ae58a3315466c838",
+      "bytes": 64272,
+      "sha256": "ac7ed2f6e095efa6afef03ff08be7c4e9afe0110a0833e12ae58a3315466c838"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/sumo/city.net.xml",
+      "git_blob": "fc2b184e873c8f8eb5d0f3fd630d6c51412e0cb6",
+      "source_sha256": "6b3f7b405a6bbae4dcf6da2c46e6886d38d8307a5700d54fe292bb8d3d6aa712",
+      "bytes": 137972,
+      "sha256": "6b3f7b405a6bbae4dcf6da2c46e6886d38d8307a5700d54fe292bb8d3d6aa712"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/sumo/city.nod.xml",
+      "git_blob": "ff6fbda3c89551e49a0edcbbc964331155125dc9",
+      "source_sha256": "f19a201189e83b02834379ffde92c5f4a10bbeb5a5cfce74a89ed028a3aa27f5",
+      "bytes": 1652,
+      "sha256": "f19a201189e83b02834379ffde92c5f4a10bbeb5a5cfce74a89ed028a3aa27f5"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/sumo/city.rou.xml",
+      "git_blob": "1a28fd937e7b01bd314f9d7001f7470b1735cabd",
+      "source_sha256": "fe5240d5de2ec5ac8139847814d9aa767be35f22815452c14c2fe700c297e8f4",
+      "bytes": 7371,
+      "sha256": "fe5240d5de2ec5ac8139847814d9aa767be35f22815452c14c2fe700c297e8f4"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/sumo/summary.json",
+      "git_blob": "92f78bf31cbc96d82009db3c29860c3d66320206",
+      "source_sha256": "4c817d4ac267981fd77188217f580ed4a3505d5453fbeb8679f7163fd9590251",
+      "bytes": 3913,
+      "sha256": "4c817d4ac267981fd77188217f580ed4a3505d5453fbeb8679f7163fd9590251"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/sumo/sumo-version.txt",
+      "git_blob": "def059166f56f84ff2c1ff56516aa655ef11e86f",
+      "source_sha256": "40fad05baa39ad92bd3ed529797d4afb9c9dcffab9a532f457140bea27a503a9",
+      "bytes": 25,
+      "sha256": "40fad05baa39ad92bd3ed529797d4afb9c9dcffab9a532f457140bea27a503a9"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/sumo/tripinfo.xml",
+      "git_blob": "c830e549c44581cf6136a9046d43fd4ae26c900a",
+      "source_sha256": "da884ad980dbbf6fd666452bb8c73efddb617eace19eec2a26a104a61c976c42",
+      "bytes": 6414,
+      "sha256": "da884ad980dbbf6fd666452bb8c73efddb617eace19eec2a26a104a61c976c42"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/control-processing-readiness.json",
+      "git_blob": "08ad8c31fe816494ca26c70e5c755716e0485716",
+      "source_sha256": "bf59ac9a5e8e183af3e6a7497fc2991e5562b36585bb9e31a6fb3b81628dccf4",
+      "bytes": 2585,
+      "sha256": "bf59ac9a5e8e183af3e6a7497fc2991e5562b36585bb9e31a6fb3b81628dccf4"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/control-processing-readiness.md",
+      "git_blob": "9da1c52880c1a070c63cfd87aab39ec7af247c0e",
+      "source_sha256": "debac0a5563b3dcca8a163ba60d7b166689fe59b376607e466e470b40e173906",
+      "bytes": 1687,
+      "sha256": "debac0a5563b3dcca8a163ba60d7b166689fe59b376607e466e470b40e173906"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/drainage-ground-input-manifest.csv",
+      "git_blob": "14cc6d6547878c0948c6ce425428cd9fdd7e0384",
+      "source_sha256": "677a9ac6e94e81d1a4833ed184190cd31c05dc7de8c4cb7bbb91eb903fb822df",
+      "bytes": 686,
+      "sha256": "677a9ac6e94e81d1a4833ed184190cd31c05dc7de8c4cb7bbb91eb903fb822df"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/drainage-ground-readiness.json",
+      "git_blob": "0138d4d4fa2e23382c658b8c3ed7ba048c06f0ac",
+      "source_sha256": "fbf7dc6c6ff54593617cfc8e73a267497b6d07167bed7165fa615dc48102dde9",
+      "bytes": 3676,
+      "sha256": "fbf7dc6c6ff54593617cfc8e73a267497b6d07167bed7165fa615dc48102dde9"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/drainage-ground-readiness.md",
+      "git_blob": "6e3f3d077317d044c9b3a1fbb45f4207baefa033",
+      "source_sha256": "1498afea2a930bb910054dbd4db040ee819c42d2d088860f6b9e521f29831a99",
+      "bytes": 2153,
+      "sha256": "1498afea2a930bb910054dbd4db040ee819c42d2d088860f6b9e521f29831a99"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/field-evidence-brief.json",
+      "git_blob": "5025ea8f2f105a279ba77c29da6e43582c4403a7",
+      "source_sha256": "69e051b69553200aabbccf14333465f1c9700c730ae0ab916c8f6519e8e90cd8",
+      "bytes": 11392,
+      "sha256": "69e051b69553200aabbccf14333465f1c9700c730ae0ab916c8f6519e8e90cd8"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/field-evidence-brief.md",
+      "git_blob": "89bc0d8360ce26c00f6c2a40b255799402ac6e2c",
+      "source_sha256": "d90f151d565e95ebc705105a1e113bb4f3727ef9c5fb68af7948b1f94afb2ef0",
+      "bytes": 10560,
+      "sha256": "d90f151d565e95ebc705105a1e113bb4f3727ef9c5fb68af7948b1f94afb2ef0"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/ground-model-readiness.json",
+      "git_blob": "156370a26595637c9aec489e684ceba558025b1f",
+      "source_sha256": "1f10895b1c122aa30d58dc3076a43728ba9a2bc3c32de548aa44efaa35904dca",
+      "bytes": 2921,
+      "sha256": "1f10895b1c122aa30d58dc3076a43728ba9a2bc3c32de548aa44efaa35904dca"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/ground-model-readiness.md",
+      "git_blob": "97eca33352a0f8fe580253f5579e37a4191e90f3",
+      "source_sha256": "0fe54bfd560eace6356cef215e4d29cb207d57141d144ced22980ac5e174d512",
+      "bytes": 1930,
+      "sha256": "0fe54bfd560eace6356cef215e4d29cb207d57141d144ced22980ac5e174d512"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/route-station-fit-input-manifest.csv",
+      "git_blob": "967f6b172a533ff8b3a98d32e7bc49cb39534cd9",
+      "source_sha256": "baedc238306252f9fae811dbd498e538151467bb628550f78c262625fd34785d",
+      "bytes": 689,
+      "sha256": "baedc238306252f9fae811dbd498e538151467bb628550f78c262625fd34785d"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/route-station-fit-readiness.json",
+      "git_blob": "48e7ca031c69749567e5db03e21bb84c64a481b8",
+      "source_sha256": "bf1900facd04b54a4c27c3ddd3d4dc936f90bcbed09cc0b9ae1c6d8413b63790",
+      "bytes": 3066,
+      "sha256": "bf1900facd04b54a4c27c3ddd3d4dc936f90bcbed09cc0b9ae1c6d8413b63790"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/route-station-fit-readiness.md",
+      "git_blob": "78b1a8ddfebd52c115964f232dd6939d0c3ecccd",
+      "source_sha256": "1170103c896a299e86b080c6ce287e3a3d54ad17e826ac37ecf12db367a9e367",
+      "bytes": 1867,
+      "sha256": "1170103c896a299e86b080c6ce287e3a3d54ad17e826ac37ecf12db367a9e367"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/structural-release-input-manifest.csv",
+      "git_blob": "a7a75b8fce526ff295908d5143b3f81fc03a1dd2",
+      "source_sha256": "d92a17adcd7e29f0fd1b6f00535523c23841991c3ba6008ad6e1db63de4aee82",
+      "bytes": 598,
+      "sha256": "d92a17adcd7e29f0fd1b6f00535523c23841991c3ba6008ad6e1db63de4aee82"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/structural-release-readiness.json",
+      "git_blob": "e08d3852ce8437742e3dc2b90708c9eb61c2697b",
+      "source_sha256": "bd0e21ed12396a4e0189faea635054299caf1a1aaa79397a7bfa3b4601ce01ef",
+      "bytes": 2003,
+      "sha256": "bd0e21ed12396a4e0189faea635054299caf1a1aaa79397a7bfa3b4601ce01ef"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/structural-release-readiness.md",
+      "git_blob": "0a496943eb4152542ef5ad61475a2cc6a81a49a9",
+      "source_sha256": "12062256fb6edceecd5ac6ec40dfbae3db2fc502070d3189a67df9bfe5f493c6",
+      "bytes": 1528,
+      "sha256": "12062256fb6edceecd5ac6ec40dfbae3db2fc502070d3189a67df9bfe5f493c6"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/survey-input-manifest.csv",
+      "git_blob": "95a850a47f9d89854d845b1281997344f7e46db6",
+      "source_sha256": "6b621aeabe1a0d59b16aab2da1e26045dfca2e2cec3847044bcce8b4f9a77029",
+      "bytes": 481,
+      "sha256": "6b621aeabe1a0d59b16aab2da1e26045dfca2e2cec3847044bcce8b4f9a77029"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/surveyed-alignment-input-manifest.csv",
+      "git_blob": "da676a62d783ab908e59a1874c67a96e4198afc3",
+      "source_sha256": "d510f8732804c37ab88fedd652a0ae39692109a088331ee7c07640f90e36963c",
+      "bytes": 706,
+      "sha256": "d510f8732804c37ab88fedd652a0ae39692109a088331ee7c07640f90e36963c"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/surveyed-alignment-readiness.json",
+      "git_blob": "3b5d8a12c7f30962dd7856dec677cd92e90ff845",
+      "source_sha256": "ebd98bef5798d8e710ce2224d5557670e395b3d33ae0a68091f4651a0538fab5",
+      "bytes": 2526,
+      "sha256": "ebd98bef5798d8e710ce2224d5557670e395b3d33ae0a68091f4651a0538fab5"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/surveyed-alignment-readiness.md",
+      "git_blob": "7b4daaea860f94afbc52546a716e39c24f36fe57",
+      "source_sha256": "d9e5b9ccb6f6854aafcb7b337e29099e4dc31d05992fc4d4f8dcd03e2348dae1",
+      "bytes": 1813,
+      "sha256": "d9e5b9ccb6f6854aafcb7b337e29099e4dc31d05992fc4d4f8dcd03e2348dae1"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/acceptance-evidence-report.md",
+      "git_blob": "7bca7334f017d2505c7611dae3e6dba41d8269e6",
+      "source_sha256": "e2321cd0d482f969fed658f95e3b58a2f0bae5bd28580043eb1702c13c86c4c0",
+      "bytes": 5669,
+      "sha256": "e2321cd0d482f969fed658f95e3b58a2f0bae5bd28580043eb1702c13c86c4c0"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/engineering-integration.json",
+      "git_blob": "6d34c383ed26cd073a78ea938a2ed1aec606fade",
+      "source_sha256": "2a713737b64469c01c8537d736411743e6d9932a1e243abbaaacdb7b0c3210d8",
+      "bytes": 1461,
+      "sha256": "2a713737b64469c01c8537d736411743e6d9932a1e243abbaaacdb7b0c3210d8"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/erp-components.json",
+      "git_blob": "3f2ba4bc11ccce5ec689a73952567f90d9914447",
+      "source_sha256": "036462d8a98e25a77db5b1da0969c52354fda678b437ac1b811ff83f3fd34e10",
+      "bytes": 172,
+      "sha256": "036462d8a98e25a77db5b1da0969c52354fda678b437ac1b811ff83f3fd34e10"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/erpnext.toml",
+      "git_blob": "5f48817365b74127a1109d3fcddb02f6e7d786e9",
+      "source_sha256": "8923e84f59f3bf4946351b971a679f5c704c1ba57beb855650404e6da203b7ec",
+      "bytes": 674,
+      "sha256": "8923e84f59f3bf4946351b971a679f5c704c1ba57beb855650404e6da203b7ec"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/samawah-acceptance-evidence-matrix.csv",
+      "git_blob": "645f2370242f3a1754ecc9a6f8de3a007974a49a",
+      "source_sha256": "d5d6ad29e397517af6f1cf630a8a7cb9c1dee7c22916749daaea025aa9fdc05e",
+      "bytes": 688991,
+      "sha256": "d5d6ad29e397517af6f1cf630a8a7cb9c1dee7c22916749daaea025aa9fdc05e"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/samawah-assets.csv",
+      "git_blob": "1dd1956e49798a55f098bf69c6e1283424a2490f",
+      "source_sha256": "962c796c4d8fc206a8a4acce3237c182e661242ae939597fc3f8ff60784fa363",
+      "bytes": 40457,
+      "sha256": "962c796c4d8fc206a8a4acce3237c182e661242ae939597fc3f8ff60784fa363"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/samawah-maintenance-schedule.csv",
+      "git_blob": "cf9305a26a0e9751e6d8d01ae23730d604d2620a",
+      "source_sha256": "a7a2f69c46c7ea52953c17e8d3246851c807663c9f5e87e56668883892328635",
+      "bytes": 607973,
+      "sha256": "a7a2f69c46c7ea52953c17e8d3246851c807663c9f5e87e56668883892328635"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/samawah-manufacturing-materials.csv",
+      "git_blob": "a0619592ba4399a7204ffca37cdf8f2d0d3ddd70",
+      "source_sha256": "3d6c6cf68d3a58a58288f5629f5403326fa9f21b71665afed11ac76228a1f672",
+      "bytes": 11027301,
+      "sha256": "3d6c6cf68d3a58a58288f5629f5403326fa9f21b71665afed11ac76228a1f672"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/samawah-manufacturing-schedule.csv",
+      "git_blob": "1d83bcb14351f647eb31bea78da86c4fe26a4dc5",
+      "source_sha256": "6efe50978595b7430e47fce36779bf40d3e413b9f0434c74c82bd12f77ca50c9",
+      "bytes": 1886681,
+      "sha256": "6efe50978595b7430e47fce36779bf40d3e413b9f0434c74c82bd12f77ca50c9"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/samawah-manufacturing-verification.csv",
+      "git_blob": "9e82fac3ddaf8b64159ed83bb20a191dcd78fddf",
+      "source_sha256": "b1f571bef86a5468c3e0c4922ffec4f68f4d9c5187d183b5378d7e15beba1f23",
+      "bytes": 585641,
+      "sha256": "b1f571bef86a5468c3e0c4922ffec4f68f4d9c5187d183b5378d7e15beba1f23"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/samawah-operations-manifest.json",
+      "git_blob": "a70702795a486d97a25596a1acf80b886cff7a3f",
+      "source_sha256": "ac528ac2d7eb1601555d639a26af99ead61fecceb50b4befef7db9d27594e844",
+      "bytes": 895,
+      "sha256": "ac528ac2d7eb1601555d639a26af99ead61fecceb50b4befef7db9d27594e844"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/samawah-operations.json.gz",
+      "git_blob": "b08102f9ae4f4ee93fc5f798b5188b1b73a2a0ed",
+      "source_sha256": "bc6cddd01d428ef1f51841f9f986e7c8feba8a81fa2567513bda9309f6f7b656",
+      "bytes": 2822363,
+      "sha256": "bc6cddd01d428ef1f51841f9f986e7c8feba8a81fa2567513bda9309f6f7b656"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/samawah-qa-register.csv",
+      "git_blob": "5ecd430a6d99ff22f151f69f107544be8a7ba2e4",
+      "source_sha256": "a81ae063cd849602dddce1dc854ca53f5bdc29834e19881a63f3adddf9d0c775",
+      "bytes": 379814,
+      "sha256": "a81ae063cd849602dddce1dc854ca53f5bdc29834e19881a63f3adddf9d0c775"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/operations/supervision.json",
+      "git_blob": "e3476f2d759872739538c53802ff04e4d6015be0",
+      "source_sha256": "da1bfa4f2b41ab35c5eb8c73987fe08a33bbad94d4322e190dde410845595fea",
+      "bytes": 204,
+      "sha256": "da1bfa4f2b41ab35c5eb8c73987fe08a33bbad94d4322e190dde410845595fea"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/package-manifest.json",
+      "git_blob": "3a6266b4d8743d64a9ac905db72f364524ee357a",
+      "source_sha256": "85c94119a4cb953e788df160ba3f4e9518d22c038586a04148ea6ec4cef0dea6",
+      "bytes": 18032,
+      "sha256": "85c94119a4cb953e788df160ba3f4e9518d22c038586a04148ea6ec4cef0dea6"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/samawah-network-map.png",
+      "git_blob": "be1998c66c697f8849530721639c295832f93901",
+      "source_sha256": "5b3b858e5723ed2bb780cd73a72f532e10d5cb0be6735c1ee0389b04f3b95778",
+      "bytes": 1385418,
+      "sha256": "5b3b858e5723ed2bb780cd73a72f532e10d5cb0be6735c1ee0389b04f3b95778"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/samawah.corridor.geojson",
+      "git_blob": "da16115ec3415b0e3afca96039336b703992eae2",
+      "source_sha256": "583b94d66f41d8dd89a7e663ec509b019ec306d45ee8b49d33810edc47abb7ed",
+      "bytes": 147468,
+      "sha256": "583b94d66f41d8dd89a7e663ec509b019ec306d45ee8b49d33810edc47abb7ed"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/samawah.design-quality.yaml",
+      "git_blob": "d369e8460d81cf08d6e8d924baa346528320b08c",
+      "source_sha256": "74f39493d87448352fb728ddca9fe2d6f7b5f0e08f318938267df322c7dd4527",
+      "bytes": 442,
+      "sha256": "74f39493d87448352fb728ddca9fe2d6f7b5f0e08f318938267df322c7dd4527"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/samawah.stations.json",
+      "git_blob": "0d6535879d2e14b4e3689a34f21f8076e0f33aaf",
+      "source_sha256": "2099ed57b93e8d27f74946511e1620df412b96abe30acad594e636d85a017253",
+      "bytes": 5627,
+      "sha256": "2099ed57b93e8d27f74946511e1620df412b96abe30acad594e636d85a017253"
+    },
+    {
+      "path": "cities/catalogue/west-asia/Iraq/Samawah/samawah.toml",
+      "git_blob": "bd806eec29db5c2d0bf4a5ba87bd3a5a9886cd02",
+      "source_sha256": "b784c18437a07ef2f40b28fcff949bc4bcf723608fc96a81c2eac28daa1abac9",
+      "bytes": 19065,
+      "sha256": "b784c18437a07ef2f40b28fcff949bc4bcf723608fc96a81c2eac28daa1abac9"
+    },
+    {
+      "path": "cities/workspaces/samawah/approvals/reviews.toml",
+      "git_blob": "c79fd4051b79fa46bc16bbbc256e728885502e3a",
+      "source_sha256": "c16dd39311ac9d51dd87e868ed975a03594622186a4bbd667cbd4d6307744cfb",
+      "bytes": 34,
+      "sha256": "c16dd39311ac9d51dd87e868ed975a03594622186a4bbd667cbd4d6307744cfb"
+    },
+    {
+      "path": "cities/workspaces/samawah/coordination/issues.toml",
+      "git_blob": "a55db3b1cf6c5f02310ace8236238efa6cef87e8",
+      "source_sha256": "2d0fcb908435fb7443f49b50f037af5120ce22faf1e4c06ddab0f9390e8d1288",
+      "bytes": 493,
+      "sha256": "2d0fcb908435fb7443f49b50f037af5120ce22faf1e4c06ddab0f9390e8d1288"
+    },
+    {
+      "path": "cities/workspaces/samawah/demand/od-matrix.toml",
+      "git_blob": "fd9070d85dfddd7901787837b71dfa462d37650b",
+      "source_sha256": "fe92509f23d4f3d1aa42dd61125a7b727ebff30f66d20336df0b3ee09ed6cded",
+      "bytes": 599,
+      "sha256": "fe92509f23d4f3d1aa42dd61125a7b727ebff30f66d20336df0b3ee09ed6cded"
+    },
+    {
+      "path": "cities/workspaces/samawah/gis/context-buildings.geojson",
+      "git_blob": "86edeb6960623d9ad5719f2c8b09afd0a91e30b4",
+      "source_sha256": "fb936b5be0ec4f346323d710f8d48f6b58f2244a6622fbf233e42dad1e7ef963",
+      "bytes": 123769,
+      "sha256": "fb936b5be0ec4f346323d710f8d48f6b58f2244a6622fbf233e42dad1e7ef963"
+    },
+    {
+      "path": "cities/workspaces/samawah/gis/context-existing-rail.geojson",
+      "git_blob": "c34266ee84473746de724367685cc39bfc401db5",
+      "source_sha256": "da81395ce514e631468fbffbee7b3c60982333e7cc62398f827308d345aadcb6",
+      "bytes": 93232,
+      "sha256": "da81395ce514e631468fbffbee7b3c60982333e7cc62398f827308d345aadcb6"
+    },
+    {
+      "path": "cities/workspaces/samawah/gis/context-protected.geojson",
+      "git_blob": "341079483044f345e885e103a5a948bfc3f1fbfb",
+      "source_sha256": "31d0edae3ed97f239f12b530fa284e233350df55be590ce045659c60dd583bd8",
+      "bytes": 1341,
+      "sha256": "31d0edae3ed97f239f12b530fa284e233350df55be590ce045659c60dd583bd8"
+    },
+    {
+      "path": "cities/workspaces/samawah/gis/context-roads.geojson",
+      "git_blob": "f231061e4a4cb0950aca156f3fbaf56c55ee3fc0",
+      "source_sha256": "af69556ae8df363afed137aa74806c57de2fcd7db2b473696c45c7bc28b1ece7",
+      "bytes": 1067130,
+      "sha256": "af69556ae8df363afed137aa74806c57de2fcd7db2b473696c45c7bc28b1ece7"
+    },
+    {
+      "path": "cities/workspaces/samawah/gis/context-water.geojson",
+      "git_blob": "3e52a01ce8b8151850290055910d434dcc23b3c2",
+      "source_sha256": "6eca69442920a311fbab1e810bed348ee77a0f1fcb382a950087d253219eb4b4",
+      "bytes": 137057,
+      "sha256": "6eca69442920a311fbab1e810bed348ee77a0f1fcb382a950087d253219eb4b4"
+    },
+    {
+      "path": "cities/workspaces/samawah/network/overrides.toml",
+      "git_blob": "283bab7f40a3ba593f6eeed8cc173846fa713a32",
+      "source_sha256": "641db97d2df9f3e85f7a7f435e6d62013bd213cfe6d284cc4ce379644e75ba61",
+      "bytes": 969,
+      "sha256": "641db97d2df9f3e85f7a7f435e6d62013bd213cfe6d284cc4ce379644e75ba61"
+    },
+    {
+      "path": "cities/workspaces/samawah/project.osr.toml",
+      "git_blob": "00693749ee1a2f6d6d94870142e04a7846550696",
+      "source_sha256": "2996be13001f18314f778e599c1872098a441d834776b584cf400b44cd2883ce",
+      "bytes": 1448,
+      "sha256": "2996be13001f18314f778e599c1872098a441d834776b584cf400b44cd2883ce"
+    },
+    {
+      "path": "cities/workspaces/samawah/revisions/README.md",
+      "git_blob": "e6b3a39153e280ce34045586697ddd24e69cb2f7",
+      "source_sha256": "ca6eab4c49d3c6e3d101f74c2cbdc75a981f30d4c42fb2afc2488422d1654ed8",
+      "bytes": 428,
+      "sha256": "ca6eab4c49d3c6e3d101f74c2cbdc75a981f30d4c42fb2afc2488422d1654ed8"
+    },
+    {
+      "path": "cities/workspaces/samawah/revisions/osr-0b1ef8d931979ae8.json",
+      "git_blob": "00e4130274a6f94708d24f6c01d274591b8db5eb",
+      "source_sha256": "c2d6c77bcc4e5253ec840e15515c52e1fb9e12357cde6d6458c74eac1f2f263c",
+      "bytes": 19512,
+      "sha256": "c2d6c77bcc4e5253ec840e15515c52e1fb9e12357cde6d6458c74eac1f2f263c"
+    },
+    {
+      "path": "cities/workspaces/samawah/revisions/osr-0d90eb934b8f9809.json",
+      "git_blob": "2bc7ef949010cd0f0731209ad36884cc30d7955d",
+      "source_sha256": "572db040db907ec6599f4dac01993ac531f64daae7b7ecb9c0faaad95f6d97a1",
+      "bytes": 19512,
+      "sha256": "572db040db907ec6599f4dac01993ac531f64daae7b7ecb9c0faaad95f6d97a1"
+    },
+    {
+      "path": "cities/workspaces/samawah/revisions/osr-1f41358e43a86600.json",
+      "git_blob": "41b46108877db0f05cabc2f0c2e21babcd1cc648",
+      "source_sha256": "39fa1ae67aa3cbbfd23ce910472560ecc7913a595872a3a308fe0147306805b1",
+      "bytes": 10474,
+      "sha256": "39fa1ae67aa3cbbfd23ce910472560ecc7913a595872a3a308fe0147306805b1"
+    },
+    {
+      "path": "cities/workspaces/samawah/revisions/osr-663ee433ece63d0a.json",
+      "git_blob": "0b75f08ab06c9258236480ddf6e723cc29be8b2c",
+      "source_sha256": "301da2ee31884a7a245b7e305457dcb4c1ba89cb787c2b55ee4ccd7ddb8b2766",
+      "bytes": 17159,
+      "sha256": "301da2ee31884a7a245b7e305457dcb4c1ba89cb787c2b55ee4ccd7ddb8b2766"
+    },
+    {
+      "path": "cities/workspaces/samawah/revisions/osr-a2f86dab66daccf1.json",
+      "git_blob": "1656ceae4f0f599eebd1a49b5a78cf854156e47c",
+      "source_sha256": "9d7fdcf4734da9f785b82f90c78a454809fcd18f3f7ec37854b343311229ed2b",
+      "bytes": 19512,
+      "sha256": "9d7fdcf4734da9f785b82f90c78a454809fcd18f3f7ec37854b343311229ed2b"
+    },
+    {
+      "path": "cities/workspaces/samawah/revisions/osr-a63a13228f6a2f6c.json",
+      "git_blob": "6ea4e90d8b24d775d7b17f6d54c9e7159a831980",
+      "source_sha256": "91d5aa870a0bb945d6587e1ae5304a8b78deebae13c32ea8c849a76f27fc65bf",
+      "bytes": 16915,
+      "sha256": "91d5aa870a0bb945d6587e1ae5304a8b78deebae13c32ea8c849a76f27fc65bf"
+    },
+    {
+      "path": "cities/workspaces/samawah/routing/README.md",
+      "git_blob": "380ec250ebe1230e99bf9f92a25df4cb44b59a2d",
+      "source_sha256": "f09a63112b4ee62e0c5e135e6d9be25c87777b4301faf80ab3583befdc658eba",
+      "bytes": 1140,
+      "sha256": "f09a63112b4ee62e0c5e135e6d9be25c87777b4301faf80ab3583befdc658eba"
+    },
+    {
+      "path": "cities/workspaces/samawah/routing/samawah.anchors.json",
+      "git_blob": "614ddc0ecc2d218610f0a7f8c0d87ce2ecef4fa5",
+      "source_sha256": "ae2276731e2c569a68f73eed70e2937b708747a4b5a725c8bfdd02d3b7e6fb14",
+      "bytes": 42839,
+      "sha256": "ae2276731e2c569a68f73eed70e2937b708747a4b5a725c8bfdd02d3b7e6fb14"
+    },
+    {
+      "path": "cities/workspaces/samawah/routing/samawah.buildability.npy",
+      "git_blob": "8173a5924517ed8ccc6822ac9eb71252226e284b",
+      "source_sha256": "4f413221e4cd94f7881a2e99ab8bd3462a0f5587117a432cd95f385703209f1b",
+      "bytes": 38391,
+      "sha256": "4f413221e4cd94f7881a2e99ab8bd3462a0f5587117a432cd95f385703209f1b"
+    },
+    {
+      "path": "cities/workspaces/samawah/routing/samawah.cost.npy",
+      "git_blob": "30780f992fb1dbe9b8cad6d73d264e9db773662a",
+      "source_sha256": "00c7d3026a4087d96ce6064eedb6b250165124c06086ad7cc84efe5e574bf679",
+      "bytes": 153564,
+      "sha256": "00c7d3026a4087d96ce6064eedb6b250165124c06086ad7cc84efe5e574bf679"
+    },
+    {
+      "path": "cities/workspaces/samawah/routing/samawah.demand.npy",
+      "git_blob": "0021d10050220f8967cb0640020232fc8ac3c458",
+      "source_sha256": "7d5e12cf030b847d44edd993ca1c42e8d0b8e2e741db496e4a4641d8d9af1dcc",
+      "bytes": 153564,
+      "sha256": "7d5e12cf030b847d44edd993ca1c42e8d0b8e2e741db496e4a4641d8d9af1dcc"
+    },
+    {
+      "path": "cities/workspaces/samawah/routing/samawah.grid.json",
+      "git_blob": "b9f7fe4b8e6982e48a57bc5c18e5248758d0fce3",
+      "source_sha256": "c9ea208cb4eaba4b9a6db485a6a9e4ed4ddd848dacfde7148d27db1282021ddd",
+      "bytes": 795,
+      "sha256": "c9ea208cb4eaba4b9a6db485a6a9e4ed4ddd848dacfde7148d27db1282021ddd"
+    },
+    {
+      "path": "cities/workspaces/samawah/routing/samawah.routing-provenance.json",
+      "git_blob": "a08f794e35d05eb1896e7e82b4bb835e69619d9a",
+      "source_sha256": "138c7794b4c27b3eea4662ef5fee3096b29363a1d92062d913f96dcfa8f62461",
+      "bytes": 742,
+      "sha256": "138c7794b4c27b3eea4662ef5fee3096b29363a1d92062d913f96dcfa8f62461"
+    },
+    {
+      "path": "cities/workspaces/samawah/services/service-plan.toml",
+      "git_blob": "2f7e09705b607507ea0df18ec1201ac556db5ebd",
+      "source_sha256": "2c904a070bb70c430199adc7eb3307db40f41decf449b4e7632275a4419fdd54",
+      "bytes": 3462,
+      "sha256": "2c904a070bb70c430199adc7eb3307db40f41decf449b4e7632275a4419fdd54"
+    },
+    {
+      "path": "cities/workspaces/samawah/sources.lock.json",
+      "git_blob": "8df501043bea68a3b59402960da17c835cc66279",
+      "source_sha256": "f47e636fc3edc895f9de79db78d36bf353f2b0c44e9d68b2cbfad78e333c4917",
+      "bytes": 3064,
+      "sha256": "f47e636fc3edc895f9de79db78d36bf353f2b0c44e9d68b2cbfad78e333c4917"
+    },
+    {
+      "path": "crates/README.md",
+      "git_blob": "c850c0bea8871feea1b2c760962218dc5b8f4998",
+      "source_sha256": "4a7344f3b1e3dd100a3064bb9e00b7bd24b98ab21f10fc72a6226952dc0672ae",
+      "bytes": 1701,
+      "sha256": "4a7344f3b1e3dd100a3064bb9e00b7bd24b98ab21f10fc72a6226952dc0672ae"
+    },
+    {
+      "path": "crates/osr-afc-backoffice/Cargo.toml",
+      "git_blob": "ce53225cfcddd508df8468088f78e0b01d144a18",
+      "source_sha256": "c1fecfd7394616282dab09044354bf240408e0d8d7306e87838ec2b427e5724d",
+      "bytes": 433,
+      "sha256": "c1fecfd7394616282dab09044354bf240408e0d8d7306e87838ec2b427e5724d"
+    },
+    {
+      "path": "crates/osr-afc-backoffice/src/lib.rs",
+      "git_blob": "f2e91caac8d730077417e637e2a168d0c08b4027",
+      "source_sha256": "929431506dfee803b2837418ad29381543702b12221684fbece672d9f685ffbc",
+      "bytes": 8234,
+      "sha256": "929431506dfee803b2837418ad29381543702b12221684fbece672d9f685ffbc"
+    },
+    {
+      "path": "crates/osr-afc-backoffice/tests/proptest_backoffice.rs",
+      "git_blob": "bb84fe89d8d0e9e01c86685ce41e68015d7bbf65",
+      "source_sha256": "196b55644defff030d920b5397ecc6fc341aff3d01ce3d33f04b610d28dd63db",
+      "bytes": 2719,
+      "sha256": "196b55644defff030d920b5397ecc6fc341aff3d01ce3d33f04b610d28dd63db"
+    },
+    {
+      "path": "crates/osr-afc/Cargo.toml",
+      "git_blob": "2a3b6d88784c0c7aa31833a829e47b1bd534d553",
+      "source_sha256": "0c3c1fe0594561fc66c23ff4d333b999a2af0b1372c233e14e00cb3e9eab0137",
+      "bytes": 419,
+      "sha256": "0c3c1fe0594561fc66c23ff4d333b999a2af0b1372c233e14e00cb3e9eab0137"
+    },
+    {
+      "path": "crates/osr-afc/src/evaluate.rs",
+      "git_blob": "b497ef7cffeb1b318f2ba81f7711664709b52dde",
+      "source_sha256": "4b9dd01a6ac048a2d50540579b8d028da799d898c2e7a5d2d93d17d848297ec0",
+      "bytes": 10412,
+      "sha256": "4b9dd01a6ac048a2d50540579b8d028da799d898c2e7a5d2d93d17d848297ec0"
+    },
+    {
+      "path": "crates/osr-afc/src/lib.rs",
+      "git_blob": "033dd69999e1e1170b8ed2d86eb1718dd6ed1d45",
+      "source_sha256": "d4d62abd5e14ac87a447012dabd43a36fcfe1c11e9b683f41bb0e32a6e68fa94",
+      "bytes": 2138,
+      "sha256": "d4d62abd5e14ac87a447012dabd43a36fcfe1c11e9b683f41bb0e32a6e68fa94"
+    },
+    {
+      "path": "crates/osr-afc/src/token.rs",
+      "git_blob": "eef49425e753133136ce65808b337c3df07a3430",
+      "source_sha256": "654da7d6ae125f76c4f92a226734e79415bb0d82e26323cbca7fe80c6e01c300",
+      "bytes": 1825,
+      "sha256": "654da7d6ae125f76c4f92a226734e79415bb0d82e26323cbca7fe80c6e01c300"
+    },
+    {
+      "path": "crates/osr-afc/src/validate.rs",
+      "git_blob": "742cba771c137620bcf9b80cf0a987f366f6f0a2",
+      "source_sha256": "e51dd334f4d06f53ea57806f2d42363c5d78e8f640273fafef5bf5ea8a2a1d9b",
+      "bytes": 2522,
+      "sha256": "e51dd334f4d06f53ea57806f2d42363c5d78e8f640273fafef5bf5ea8a2a1d9b"
+    },
+    {
+      "path": "crates/osr-afc/tests/proptest_afc.rs",
+      "git_blob": "2c4d191080ddaed89d42d03d2c3b5394e5b3872a",
+      "source_sha256": "38e7a6920444520cc2fd734abd67a39c885eea736f6af3a8d92743457b4558f9",
+      "bytes": 4965,
+      "sha256": "38e7a6920444520cc2fd734abd67a39c885eea736f6af3a8d92743457b4558f9"
+    },
+    {
+      "path": "crates/osr-alignment/Cargo.toml",
+      "git_blob": "094082e8f402ee94d90a8999f4e8aef50f2dcf21",
+      "source_sha256": "f9ba9fb0dff22814c4897af7e0dfbe0a9ec1a30db94a2b40aebf1b66fa51c39b",
+      "bytes": 684,
+      "sha256": "f9ba9fb0dff22814c4897af7e0dfbe0a9ec1a30db94a2b40aebf1b66fa51c39b"
+    },
+    {
+      "path": "crates/osr-alignment/src/alignment.rs",
+      "git_blob": "f96f6b9d47669ee55ffba6365f49f271d6e3773a",
+      "source_sha256": "5af70e5b14ace39769a85802633b538df9237c3bf94e48367dd7a3349cb1fcb7",
+      "bytes": 9309,
+      "sha256": "5af70e5b14ace39769a85802633b538df9237c3bf94e48367dd7a3349cb1fcb7"
+    },
+    {
+      "path": "crates/osr-alignment/src/cant.rs",
+      "git_blob": "4d9a48565db727b01233ecc92853255e875f3edf",
+      "source_sha256": "10470ee4575ead976753476e1d54c656e37578c0599e031afb7d285a3404bef6",
+      "bytes": 6327,
+      "sha256": "10470ee4575ead976753476e1d54c656e37578c0599e031afb7d285a3404bef6"
+    },
+    {
+      "path": "crates/osr-alignment/src/chainage.rs",
+      "git_blob": "dd2ecef77da21e0d3aa739e8f8753fb31bfa13d7",
+      "source_sha256": "e43e7c258e6174952a8ceb0b735ce5c8b00d0d1f4fc9829cc94fd86f8c0f76d6",
+      "bytes": 4820,
+      "sha256": "e43e7c258e6174952a8ceb0b735ce5c8b00d0d1f4fc9829cc94fd86f8c0f76d6"
+    },
+    {
+      "path": "crates/osr-alignment/src/earthworks.rs",
+      "git_blob": "c618dd3e4dfdc983830e94c525a955e40282e032",
+      "source_sha256": "b82ac363bc48a885165974f74fd34827cf9f15285006be0062d2ec4803260de6",
+      "bytes": 12575,
+      "sha256": "b82ac363bc48a885165974f74fd34827cf9f15285006be0062d2ec4803260de6"
+    },
+    {
+      "path": "crates/osr-alignment/src/landxml.rs",
+      "git_blob": "e0641ce89fae59cfee716e8696fa612d8f15b45b",
+      "source_sha256": "adb8778d0aa07f979849296b30c11ab77dc9daf2845f0a03650288d2bce14c3e",
+      "bytes": 8111,
+      "sha256": "adb8778d0aa07f979849296b30c11ab77dc9daf2845f0a03650288d2bce14c3e"
+    },
+    {
+      "path": "crates/osr-alignment/src/lib.rs",
+      "git_blob": "66755d201c507dd0e56db0a79e87cd4ddf0ddbfd",
+      "source_sha256": "8ec1efb7e91fffe14dc05ebe8b32ed1e33a6f2abb5d74eb3a36aa1f1b3c055f6",
+      "bytes": 2688,
+      "sha256": "8ec1efb7e91fffe14dc05ebe8b32ed1e33a6f2abb5d74eb3a36aa1f1b3c055f6"
+    },
+    {
+      "path": "crates/osr-alignment/src/main.rs",
+      "git_blob": "d2a0b6c3fc63bca3ac814ca789b14e724324dc69",
+      "source_sha256": "a6e7aa79c1d3fe59a5bf69abb41240fe44a9dada7194358c5a4f8742effa4aad",
+      "bytes": 5016,
+      "sha256": "a6e7aa79c1d3fe59a5bf69abb41240fe44a9dada7194358c5a4f8742effa4aad"
+    },
+    {
+      "path": "crates/osr-alignment/src/railml.rs",
+      "git_blob": "647b671eda5b845935e78a584a93474ae40f0a44",
+      "source_sha256": "08a92ab97c8fb7911443871e6c34fe47292226e03034ddb391bd6b55519e25e3",
+      "bytes": 5895,
+      "sha256": "08a92ab97c8fb7911443871e6c34fe47292226e03034ddb391bd6b55519e25e3"
+    },
+    {
+      "path": "crates/osr-alignment/src/trackside.rs",
+      "git_blob": "45dc37d9e6578122cf8b6bb9ff52fbea4b6f84ed",
+      "source_sha256": "63785c38e729bad3282e9609a30160eab907f4f9ffd30fd1b88a2e22f66448e8",
+      "bytes": 7008,
+      "sha256": "63785c38e729bad3282e9609a30160eab907f4f9ffd30fd1b88a2e22f66448e8"
+    },
+    {
+      "path": "crates/osr-alignment/tests/smoke.rs",
+      "git_blob": "2a8acbf019a937519c7274ed702afc65e37e2c08",
+      "source_sha256": "a504091dbe4966bbf8ad089b30c2325cc5a6fbbb94ef037138d1b2124dd6e0a5",
+      "bytes": 4282,
+      "sha256": "a504091dbe4966bbf8ad089b30c2325cc5a6fbbb94ef037138d1b2124dd6e0a5"
+    },
+    {
+      "path": "crates/osr-analytics/Cargo.toml",
+      "git_blob": "e0f24bf3223aaf10445395bafd211881c1ece6cb",
+      "source_sha256": "a3be8eb0c7424a81168c4b9fc5aa7d87a74d707a31d326a4ee52049c321f431c",
+      "bytes": 418,
+      "sha256": "a3be8eb0c7424a81168c4b9fc5aa7d87a74d707a31d326a4ee52049c321f431c"
+    },
+    {
+      "path": "crates/osr-analytics/src/lib.rs",
+      "git_blob": "3938976293b5356d798419337ff1d9bfe8bfd02c",
+      "source_sha256": "4e2181180bc3aab7675064ceb76952f074a235c51ed6f563809b4e44d65de532",
+      "bytes": 6949,
+      "sha256": "4e2181180bc3aab7675064ceb76952f074a235c51ed6f563809b4e44d65de532"
+    },
+    {
+      "path": "crates/osr-analytics/tests/proptest_analytics.rs",
+      "git_blob": "38f45540df1e946a2db009acdfa6f22926ec6d24",
+      "source_sha256": "fd5c785339cc5cdd2236c1a345b97b73c72a8c888d57b553116e783c94e9b922",
+      "bytes": 1952,
+      "sha256": "fd5c785339cc5cdd2236c1a345b97b73c72a8c888d57b553116e783c94e9b922"
+    },
+    {
+      "path": "crates/osr-ato/Cargo.toml",
+      "git_blob": "a2feee34b90df1d9d1f2adb17b1098bcee301d60",
+      "source_sha256": "5a8f71fb90534ef15de450c2cdc6ee1f1c9ad4d5a13275c7ed494e7473241426",
+      "bytes": 390,
+      "sha256": "5a8f71fb90534ef15de450c2cdc6ee1f1c9ad4d5a13275c7ed494e7473241426"
+    },
+    {
+      "path": "crates/osr-ato/src/envelope.rs",
+      "git_blob": "aa18d834cc5a597f8133fb25efeb6c8635784628",
+      "source_sha256": "7bbb7c411de6fc624b332bb31fe46a74f390d8f168d69c2bb16aad15059994fa",
+      "bytes": 1923,
+      "sha256": "7bbb7c411de6fc624b332bb31fe46a74f390d8f168d69c2bb16aad15059994fa"
+    },
+    {
+      "path": "crates/osr-ato/src/evaluate.rs",
+      "git_blob": "b28234ed708bacd55cc3719267148cc0fa570a3f",
+      "source_sha256": "ff36798898996a1139e0e20673639d6805ec0c7cabbf2aa7809fba97f99cec91",
+      "bytes": 10394,
+      "sha256": "ff36798898996a1139e0e20673639d6805ec0c7cabbf2aa7809fba97f99cec91"
+    },
+    {
+      "path": "crates/osr-ato/src/inputs.rs",
+      "git_blob": "06fec7d4d19d1e0de241d6620f3192117dda71cf",
+      "source_sha256": "c58baae1ab256c3bdf8469d1bd43bb405d2bb3b4fa1ee805b18e947d6504cfd2",
+      "bytes": 4376,
+      "sha256": "c58baae1ab256c3bdf8469d1bd43bb405d2bb3b4fa1ee805b18e947d6504cfd2"
+    },
+    {
+      "path": "crates/osr-ato/src/lib.rs",
+      "git_blob": "9e83ddf377a836efe9c74d102f7ccdd3ecdb7391",
+      "source_sha256": "021db8555668d8fb76d9a3ce92c5436f1c16ec796f69e3d6f663105b87fa6386",
+      "bytes": 3553,
+      "sha256": "021db8555668d8fb76d9a3ce92c5436f1c16ec796f69e3d6f663105b87fa6386"
+    },
+    {
+      "path": "crates/osr-ato/src/output.rs",
+      "git_blob": "ea79beca5ced5c630b7d4ce55465a4c4026fb365",
+      "source_sha256": "5ae10ecca53a3f120cc9fa2bffd9db586cdc0af16aad6fe1a1b97f23f40b55a2",
+      "bytes": 1339,
+      "sha256": "5ae10ecca53a3f120cc9fa2bffd9db586cdc0af16aad6fe1a1b97f23f40b55a2"
+    },
+    {
+      "path": "crates/osr-ato/src/types.rs",
+      "git_blob": "df769a5d55cefba2e22bf574ea6631f73273db5c",
+      "source_sha256": "bcb123c073828df5e47bc3c5f12406f4ff7a2289328475ea186eef86431c8e63",
+      "bytes": 967,
+      "sha256": "bcb123c073828df5e47bc3c5f12406f4ff7a2289328475ea186eef86431c8e63"
+    },
+    {
+      "path": "crates/osr-ato/tests/proptest_ato.rs",
+      "git_blob": "bac25730fb08c1dbfbb764f2a6b34addca10f401",
+      "source_sha256": "be10b7a59bc523904acf1be7f5798c864085a4e34ccf55bb88d8ab35435653d4",
+      "bytes": 6573,
+      "sha256": "be10b7a59bc523904acf1be7f5798c864085a4e34ccf55bb88d8ab35435653d4"
+    },
+    {
+      "path": "crates/osr-atp/Cargo.toml",
+      "git_blob": "157afddd829a7311bac6b3f59bc818882076bae5",
+      "source_sha256": "4e36ec7daf39ba24879901691a5d05892411efe748949294a69bd29d94e425d4",
+      "bytes": 463,
+      "sha256": "4e36ec7daf39ba24879901691a5d05892411efe748949294a69bd29d94e425d4"
+    },
+    {
+      "path": "crates/osr-atp/src/envelope.rs",
+      "git_blob": "bc7e9029daafe9e0da835c5af3a664e1904740d5",
+      "source_sha256": "5867fef54bbc2c708be853e5e16c34a7b6c670faf2d7759cc1f03be041497719",
+      "bytes": 8588,
+      "sha256": "5867fef54bbc2c708be853e5e16c34a7b6c670faf2d7759cc1f03be041497719"
+    },
+    {
+      "path": "crates/osr-atp/src/evaluate.rs",
+      "git_blob": "858c75885a0fa04255552d639eb296a4a839e88e",
+      "source_sha256": "5d0e1aad34ad9537a779fda6796258c9e721d4fbd5e04191ee5896593a49439b",
+      "bytes": 17824,
+      "sha256": "5d0e1aad34ad9537a779fda6796258c9e721d4fbd5e04191ee5896593a49439b"
+    },
+    {
+      "path": "crates/osr-atp/src/kani_proofs.rs",
+      "git_blob": "1129f2af93b657675617411f6304b7dbbe02130e",
+      "source_sha256": "406cb9c811f2c71a64357962e0ea9925933930c4b9a609ba4d33e47f4c4ac992",
+      "bytes": 15461,
+      "sha256": "406cb9c811f2c71a64357962e0ea9925933930c4b9a609ba4d33e47f4c4ac992"
+    },
+    {
+      "path": "crates/osr-atp/src/lib.rs",
+      "git_blob": "be4e7bc29eeda2e776bed2bada79a6ca55d5439b",
+      "source_sha256": "87b2939b896e772cae374a86dc5a821355399ce8a0c725cad9e66946b1547b01",
+      "bytes": 4100,
+      "sha256": "87b2939b896e772cae374a86dc5a821355399ce8a0c725cad9e66946b1547b01"
+    },
+    {
+      "path": "crates/osr-atp/src/state.rs",
+      "git_blob": "7861b81f45fffc40b37876d4da622d6240655c3c",
+      "source_sha256": "a80c296cb1916327c2c44783582e36cca6fa86b470f69507228641330afb1522",
+      "bytes": 1087,
+      "sha256": "a80c296cb1916327c2c44783582e36cca6fa86b470f69507228641330afb1522"
+    },
+    {
+      "path": "crates/osr-atp/tests/proptest_atp.rs",
+      "git_blob": "d6e486c83cb1c34f122a16713ea4ffc338a71faa",
+      "source_sha256": "c10e9b07ecb75232be9300cb006e84171ea1fc79a2396657d9099dbcb1788ca2",
+      "bytes": 11606,
+      "sha256": "c10e9b07ecb75232be9300cb006e84171ea1fc79a2396657d9099dbcb1788ca2"
+    },
+    {
+      "path": "crates/osr-aux-power/Cargo.toml",
+      "git_blob": "a5a5d87dea9c3d34e8b65001770e92833a7d4080",
+      "source_sha256": "68ac98a24b8961aac5492de09e16dfbc909b4610ff875164725223bd933a7abc",
+      "bytes": 405,
+      "sha256": "68ac98a24b8961aac5492de09e16dfbc909b4610ff875164725223bd933a7abc"
+    },
+    {
+      "path": "crates/osr-aux-power/src/lib.rs",
+      "git_blob": "74122b45238d6fd615473c0596a56c68309f3beb",
+      "source_sha256": "24e9ae5960aca2601b02f1848ce6aec20d3f1c9dd2a3675e84487b62c6f84452",
+      "bytes": 12631,
+      "sha256": "24e9ae5960aca2601b02f1848ce6aec20d3f1c9dd2a3675e84487b62c6f84452"
+    },
+    {
+      "path": "crates/osr-aux-power/tests/proptest_aux.rs",
+      "git_blob": "2be1e9f189a88c3e37eab27b0e2770ab5ab04101",
+      "source_sha256": "d504c820fbfd66a431564172d5089735fbb654830e3a2485dc38315c291434ee",
+      "bytes": 4711,
+      "sha256": "d504c820fbfd66a431564172d5089735fbb654830e3a2485dc38315c291434ee"
+    },
+    {
+      "path": "crates/osr-balise/Cargo.toml",
+      "git_blob": "bfc9fdab195d12e96d7f28f2899b2b6dc528b6fb",
+      "source_sha256": "c24f512289e2c3a7b1ee2ca56ed2bd9facd828cc32a0e53905d556b2edab4560",
+      "bytes": 373,
+      "sha256": "c24f512289e2c3a7b1ee2ca56ed2bd9facd828cc32a0e53905d556b2edab4560"
+    },
+    {
+      "path": "crates/osr-balise/src/lib.rs",
+      "git_blob": "5551d11f5ace95ddad931ca62080d6b6bfdfe873",
+      "source_sha256": "ed7277fe0ca5017ccefc6035000fa7f062738b248c19705d175f7439a5a8bcc3",
+      "bytes": 8104,
+      "sha256": "ed7277fe0ca5017ccefc6035000fa7f062738b248c19705d175f7439a5a8bcc3"
+    },
+    {
+      "path": "crates/osr-balise/tests/proptest_balise.rs",
+      "git_blob": "03cf2600a8d36dd96ed9f81b3bf09ca264c49d37",
+      "source_sha256": "8545b2b5a1bdce75f457a9baf4863b7be5be5e4f183f5770ca9af8a616d3e981",
+      "bytes": 2196,
+      "sha256": "8545b2b5a1bdce75f457a9baf4863b7be5be5e4f183f5770ca9af8a616d3e981"
+    },
+    {
+      "path": "crates/osr-bms/Cargo.toml",
+      "git_blob": "f676c7091056fbd94491bab690dcc1262d64cc34",
+      "source_sha256": "f9ef6ffb46b4fe890d1e15b96e0ce1581d5beace587a33e77b5c8578895a5cde",
+      "bytes": 376,
+      "sha256": "f9ef6ffb46b4fe890d1e15b96e0ce1581d5beace587a33e77b5c8578895a5cde"
+    },
+    {
+      "path": "crates/osr-bms/src/evaluate.rs",
+      "git_blob": "938992244b0a6d22aaa83616eb3aacae7c194ab4",
+      "source_sha256": "3f843b687556b7b85b58047b5963462306eba1acb8cf34e71bdf09415539a622",
+      "bytes": 19544,
+      "sha256": "3f843b687556b7b85b58047b5963462306eba1acb8cf34e71bdf09415539a622"
+    },
+    {
+      "path": "crates/osr-bms/src/inputs.rs",
+      "git_blob": "3e01199f35e157f77221155742e2ca0890e69d18",
+      "source_sha256": "c385210ff19b2d4fdc1243f66cc6b2a23c6d9797393b1096fada0e2bc4e80a8c",
+      "bytes": 5156,
+      "sha256": "c385210ff19b2d4fdc1243f66cc6b2a23c6d9797393b1096fada0e2bc4e80a8c"
+    },
+    {
+      "path": "crates/osr-bms/src/lib.rs",
+      "git_blob": "162c3b302572b2980e018c53cfaba296d4c2cdad",
+      "source_sha256": "cac6cf8aa8adcae9409d2f480ce9ba8c5d50336796f8b5693715703ad2430799",
+      "bytes": 3170,
+      "sha256": "cac6cf8aa8adcae9409d2f480ce9ba8c5d50336796f8b5693715703ad2430799"
+    },
+    {
+      "path": "crates/osr-bms/src/output.rs",
+      "git_blob": "d5bcc8db12be6857e77e5dc8a87525a0b8f1e04e",
+      "source_sha256": "cb6b8afbe429399ac7da71c998673429f1c9d70045f5fa96a8c9fb4a8d2c68fa",
+      "bytes": 3535,
+      "sha256": "cb6b8afbe429399ac7da71c998673429f1c9d70045f5fa96a8c9fb4a8d2c68fa"
+    },
+    {
+      "path": "crates/osr-bms/src/types.rs",
+      "git_blob": "ebba23028bf7b9c77f470dd786340d894f005ae7",
+      "source_sha256": "4a5eb029f1fc20c895d63710b51f62f561d632851f8ddac4bdbd65e34fd31985",
+      "bytes": 1548,
+      "sha256": "4a5eb029f1fc20c895d63710b51f62f561d632851f8ddac4bdbd65e34fd31985"
+    },
+    {
+      "path": "crates/osr-bms/tests/proptest_bms.rs",
+      "git_blob": "ae6c949bfe58b49f3cff4232e8436d72fb5c8edf",
+      "source_sha256": "27d71281ca15cf0d46c815c150cda2d3a7fd5525c05aa56ca8284b3fd01500f6",
+      "bytes": 8588,
+      "sha256": "27d71281ca15cf0d46c815c150cda2d3a7fd5525c05aa56ca8284b3fd01500f6"
+    },
+    {
+      "path": "crates/osr-brake/Cargo.toml",
+      "git_blob": "37b2c033c3452d0c49811fed42b12d989112a3bc",
+      "source_sha256": "cc93f4a2a1e9e82aab0d839390e79c8afe9851d9edd0d2972df2e446a2aaefa9",
+      "bytes": 417,
+      "sha256": "cc93f4a2a1e9e82aab0d839390e79c8afe9851d9edd0d2972df2e446a2aaefa9"
+    },
+    {
+      "path": "crates/osr-brake/src/evaluate.rs",
+      "git_blob": "3aed5c48750de30cc202bd4ce39db2748908a03d",
+      "source_sha256": "66c39062333058af4a8e26915af499c2cd09a88d1e616092eda093c116b10a2e",
+      "bytes": 11808,
+      "sha256": "66c39062333058af4a8e26915af499c2cd09a88d1e616092eda093c116b10a2e"
+    },
+    {
+      "path": "crates/osr-brake/src/inputs.rs",
+      "git_blob": "a8fd4b671506806bfedfc1f7cbe438122ef6f4cd",
+      "source_sha256": "b5d102b330ac78e966115565bc924e483b53f249c4295d728da1c6a5bc4c5a1f",
+      "bytes": 4886,
+      "sha256": "b5d102b330ac78e966115565bc924e483b53f249c4295d728da1c6a5bc4c5a1f"
+    },
+    {
+      "path": "crates/osr-brake/src/kani_proofs.rs",
+      "git_blob": "0a669ea742410375913b11db1f0187a7343617c3",
+      "source_sha256": "3cad2cbd535ce90c9db9c03917ec2f64c77233ce7d06ce2ee02e4eec3d657edd",
+      "bytes": 5177,
+      "sha256": "3cad2cbd535ce90c9db9c03917ec2f64c77233ce7d06ce2ee02e4eec3d657edd"
+    },
+    {
+      "path": "crates/osr-brake/src/lib.rs",
+      "git_blob": "182f3ffbe5784943a36347ff63b8fe4e2fab97c7",
+      "source_sha256": "ed1a3423f371f420d6d0e6486505798fc42cced87a183f44dd2f44aa18305e72",
+      "bytes": 3270,
+      "sha256": "ed1a3423f371f420d6d0e6486505798fc42cced87a183f44dd2f44aa18305e72"
+    },
+    {
+      "path": "crates/osr-brake/src/output.rs",
+      "git_blob": "c89d74e331b537a73a58b835f54b5324f5fffee7",
+      "source_sha256": "3ee8c88ab471c0566bbcb04dd632b848e3544e12115ee1db8b9fd3df4565b411",
+      "bytes": 2986,
+      "sha256": "3ee8c88ab471c0566bbcb04dd632b848e3544e12115ee1db8b9fd3df4565b411"
+    },
+    {
+      "path": "crates/osr-brake/tests/proptest_brake.proptest-regressions",
+      "git_blob": "1a49446560b06d6136b127f0a07bc571286fe57e",
+      "source_sha256": "1ed1314c2714d532b3301e078c1c00d83d5f068f57f5c92e398f696a4f590e06",
+      "bytes": 400,
+      "sha256": "1ed1314c2714d532b3301e078c1c00d83d5f068f57f5c92e398f696a4f590e06"
+    },
+    {
+      "path": "crates/osr-brake/tests/proptest_brake.rs",
+      "git_blob": "98de45550f58e1dba14d1bcfa3cd40da80abdb3e",
+      "source_sha256": "2186da5caa582b19f65413a6a1669b516e04d173b770e219efd4cae05989a49e",
+      "bytes": 8473,
+      "sha256": "2186da5caa582b19f65413a6a1669b516e04d173b770e219efd4cae05989a49e"
+    },
+    {
+      "path": "crates/osr-cbm-backend/Cargo.toml",
+      "git_blob": "28af48d0bbc7c84168189cbdea95f23724f8a0b4",
+      "source_sha256": "0c77ef769fc8fb7bb174ec52581430781463fb1d3c7561c7997e43da1d1816fb",
+      "bytes": 578,
+      "sha256": "0c77ef769fc8fb7bb174ec52581430781463fb1d3c7561c7997e43da1d1816fb"
+    },
+    {
+      "path": "crates/osr-cbm-backend/src/lib.rs",
+      "git_blob": "ac0f2d0e132e6669548075eb01ba9a5636c3a97d",
+      "source_sha256": "ac1fb28458dc932bf6e3bb59df728114eb469d6c0a06927c78c06af210da13b9",
+      "bytes": 12895,
+      "sha256": "ac1fb28458dc932bf6e3bb59df728114eb469d6c0a06927c78c06af210da13b9"
+    },
+    {
+      "path": "crates/osr-cbm-backend/tests/pipeline_integration.rs",
+      "git_blob": "9c9ac07f1ca95f6328ac47441791fee80a48df69",
+      "source_sha256": "4cb21d0d6b63fba55714eab37bd78ee8cb61fa8f3ad1c45a6e7e570ff274a103",
+      "bytes": 3255,
+      "sha256": "4cb21d0d6b63fba55714eab37bd78ee8cb61fa8f3ad1c45a6e7e570ff274a103"
+    },
+    {
+      "path": "crates/osr-cbm-backend/tests/proptest_cbm_backend.rs",
+      "git_blob": "7bb1c1cea44cd860c8e4f86c18c0eda22f86b62a",
+      "source_sha256": "6b6e7d47252d3900b4d79fccc543256e6eb3b51a823ac2d769441ca3c2228b58",
+      "bytes": 2862,
+      "sha256": "6b6e7d47252d3900b4d79fccc543256e6eb3b51a823ac2d769441ca3c2228b58"
+    },
+    {
+      "path": "crates/osr-cbm-onboard/Cargo.toml",
+      "git_blob": "4d0955c35ea3a01810c3ed5adc6c867146ae5378",
+      "source_sha256": "b8a30a8890176b15991e569db297a30935b5a9b30ca0d6e17b4589fdd33083e2",
+      "bytes": 384,
+      "sha256": "b8a30a8890176b15991e569db297a30935b5a9b30ca0d6e17b4589fdd33083e2"
+    },
+    {
+      "path": "crates/osr-cbm-onboard/src/lib.rs",
+      "git_blob": "9d8895566690a0535b98fae7da2f215225a8d789",
+      "source_sha256": "e187bae8594e1b2d324e62fb85da1cb8c63cfe1a96ada2a80b5d0e48c516c775",
+      "bytes": 8724,
+      "sha256": "e187bae8594e1b2d324e62fb85da1cb8c63cfe1a96ada2a80b5d0e48c516c775"
+    },
+    {
+      "path": "crates/osr-cbm-onboard/tests/proptest_cbm.rs",
+      "git_blob": "0e6d1709181675bb7ca8b8ab344159615b4cd3e4",
+      "source_sha256": "f4cb69626b1f8f59476efca97a626486f81b201c58ffd07b8457913136cfc90c",
+      "bytes": 2453,
+      "sha256": "f4cb69626b1f8f59476efca97a626486f81b201c58ffd07b8457913136cfc90c"
+    },
+    {
+      "path": "crates/osr-city-studio/Cargo.toml",
+      "git_blob": "83e15fdb9fdf525a40a3160d7eb811bfb3b696df",
+      "source_sha256": "81d67dff492b28ea55793aff86c10c0c4caf26e85eb7847db0df06c1d8c4668a",
+      "bytes": 695,
+      "sha256": "81d67dff492b28ea55793aff86c10c0c4caf26e85eb7847db0df06c1d8c4668a"
+    },
+    {
+      "path": "crates/osr-city-studio/README.md",
+      "git_blob": "3fac34da3f0576a0b9a1bbcc7983afacdef19b1b",
+      "source_sha256": "7e81ad2769de95221233c4175d2ae28f9c313971a73516afbae29cc7b9db5f93",
+      "bytes": 6367,
+      "sha256": "7e81ad2769de95221233c4175d2ae28f9c313971a73516afbae29cc7b9db5f93"
+    },
+    {
+      "path": "crates/osr-city-studio/src/jobs.rs",
+      "git_blob": "ea58e2ca0775618b4025c166ead8a0253f4d8f54",
+      "source_sha256": "fb06e21547e87c46dbb0f58eb272a105ad1fface4228fc8c841d42c37d4218fd",
+      "bytes": 48844,
+      "sha256": "fb06e21547e87c46dbb0f58eb272a105ad1fface4228fc8c841d42c37d4218fd"
+    },
+    {
+      "path": "crates/osr-city-studio/src/lib.rs",
+      "git_blob": "a6d45ea90fc7f47505dc595d85ca31beae048733",
+      "source_sha256": "8ee88c55628b867be7898fa86ba24efab7951f1059241c454a07f9eaf12f0849",
+      "bytes": 184,
+      "sha256": "8ee88c55628b867be7898fa86ba24efab7951f1059241c454a07f9eaf12f0849"
+    },
+    {
+      "path": "crates/osr-city-studio/src/main.rs",
+      "git_blob": "0f29cfb46918dc424e63e7287ccd5cb59a87cba7",
+      "source_sha256": "3dd8ce57d64450bb3204f0b70b2e76b2c348f320cdd2fcf38acb71a26e2435cf",
+      "bytes": 3399,
+      "sha256": "3dd8ce57d64450bb3204f0b70b2e76b2c348f320cdd2fcf38acb71a26e2435cf"
+    },
+    {
+      "path": "crates/osr-city-studio/src/model.rs",
+      "git_blob": "6ebf246a56443bf9bd7c9bf8f9015ddd438d4a67",
+      "source_sha256": "b02d4d7fbcc0bcb048c9057061eb35f0d15c562a39af63e4df058b371fe87d18",
+      "bytes": 25253,
+      "sha256": "b02d4d7fbcc0bcb048c9057061eb35f0d15c562a39af63e4df058b371fe87d18"
+    },
+    {
+      "path": "crates/osr-city-studio/src/passenger.rs",
+      "git_blob": "59fd65413577aaddbad5559f0c2e882ef1055dde",
+      "source_sha256": "df46238939cca107020a36e1dcf27728e047ee70b9948e7795361a1ba36b1d61",
+      "bytes": 17220,
+      "sha256": "df46238939cca107020a36e1dcf27728e047ee70b9948e7795361a1ba36b1d61"
+    },
+    {
+      "path": "crates/osr-city-studio/src/project.rs",
+      "git_blob": "28c9598e30928f8d5bdec151fd1dfd16277a11f6",
+      "source_sha256": "c2f7be9d45a1d25b6178903f63c6a217a940244e7773bae82b82b792af8796ee",
+      "bytes": 187478,
+      "sha256": "c2f7be9d45a1d25b6178903f63c6a217a940244e7773bae82b82b792af8796ee"
+    },
+    {
+      "path": "crates/osr-city-studio/src/server.rs",
+      "git_blob": "30f2f3a6967cc6ac1784eb71e2b0dd6122245c71",
+      "source_sha256": "43dd3a39c6e72423e255c586774dec80754901ab59c501f08785a9e93b96f722",
+      "bytes": 32705,
+      "sha256": "43dd3a39c6e72423e255c586774dec80754901ab59c501f08785a9e93b96f722"
+    },
+    {
+      "path": "crates/osr-city-studio/tests/samawah_project.rs",
+      "git_blob": "5dd38b84475494422c03a5eac9af3ec0324e54aa",
+      "source_sha256": "cae3a698a09b447f282c1a64f9bc76e13ead36cb8ccb23a3b881f7ba2e3657f4",
+      "bytes": 4852,
+      "sha256": "cae3a698a09b447f282c1a64f9bc76e13ead36cb8ccb23a3b881f7ba2e3657f4"
+    },
+    {
+      "path": "crates/osr-city-studio/web/app.css",
+      "git_blob": "2ee3fc0c69a3070ef0b51bd297c5180752611fac",
+      "source_sha256": "f3b18c49f34211e051cd25ed5d4077f5f390c3b06fe06d4824d6fd86c77b89b5",
+      "bytes": 24667,
+      "sha256": "f3b18c49f34211e051cd25ed5d4077f5f390c3b06fe06d4824d6fd86c77b89b5"
+    },
+    {
+      "path": "crates/osr-city-studio/web/app.js",
+      "git_blob": "efc14cc9718311cf85deef21da12d2249b5e37bf",
+      "source_sha256": "f5127ac24e923e490c9143a6f58f8493294df4456ba4c43ef6c38ccbe833ae78",
+      "bytes": 125661,
+      "sha256": "f5127ac24e923e490c9143a6f58f8493294df4456ba4c43ef6c38ccbe833ae78"
+    },
+    {
+      "path": "crates/osr-city-studio/web/index.html",
+      "git_blob": "439cc4b5b7886aed05f5a977d721693fde8e24af",
+      "source_sha256": "57afb70cf37cab1d8a7df49d09f66a599eccc1d13e94ad7726ddaf214f5d7754",
+      "bytes": 20045,
+      "sha256": "57afb70cf37cab1d8a7df49d09f66a599eccc1d13e94ad7726ddaf214f5d7754"
+    },
+    {
+      "path": "crates/osr-consensus/Cargo.toml",
+      "git_blob": "3b81acfd67b9fb8fa052159354e7f0d5bbb13c01",
+      "source_sha256": "a118a895dc81296ef0ea64a3a6272ce68e26ffaf97e0d8399411e1ad4874d7be",
+      "bytes": 574,
+      "sha256": "a118a895dc81296ef0ea64a3a6272ce68e26ffaf97e0d8399411e1ad4874d7be"
+    },
+    {
+      "path": "crates/osr-consensus/src/authenticated.rs",
+      "git_blob": "1cceba636c3c20f27a7f5b195b8c7965bcce88dc",
+      "source_sha256": "b93cfeefcc6f4fc3e3ddb2d8e2592093ed3b912198f64a1dfba5fdd9b31df2df",
+      "bytes": 8766,
+      "sha256": "b93cfeefcc6f4fc3e3ddb2d8e2592093ed3b912198f64a1dfba5fdd9b31df2df"
+    },
+    {
+      "path": "crates/osr-consensus/src/cluster.rs",
+      "git_blob": "7b7a0877d0f9c28c77fa3e2ff44b932e00414f86",
+      "source_sha256": "a1c6e4adeabe60d4572162df7791f73ff7309c8f68f27e83a0db11a32eeab00c",
+      "bytes": 7668,
+      "sha256": "a1c6e4adeabe60d4572162df7791f73ff7309c8f68f27e83a0db11a32eeab00c"
+    },
+    {
+      "path": "crates/osr-consensus/src/invariants.rs",
+      "git_blob": "34938f4e7cc297658740a4734048d1a2b929b20c",
+      "source_sha256": "ef5978989ec8e3abfadef152f8a6d0b8280ecca43b07c30a50416f65983e11cd",
+      "bytes": 7055,
+      "sha256": "ef5978989ec8e3abfadef152f8a6d0b8280ecca43b07c30a50416f65983e11cd"
+    },
+    {
+      "path": "crates/osr-consensus/src/lib.rs",
+      "git_blob": "88a99b2f18fd3198cff99c07dece9fecf9abbec6",
+      "source_sha256": "921cd008ebd3f377911887f6ad2d430ae26e84f8e2ffc1fd869fc6d3c36d1de1",
+      "bytes": 3481,
+      "sha256": "921cd008ebd3f377911887f6ad2d430ae26e84f8e2ffc1fd869fc6d3c36d1de1"
+    },
+    {
+      "path": "crates/osr-consensus/src/messages.rs",
+      "git_blob": "aab129ecf5fb64a6b26a993270ec3ef7fb0df017",
+      "source_sha256": "f265fd7476872503f0e0ba650bfcb2218f51a134e476a03d1216241114c3627e",
+      "bytes": 2861,
+      "sha256": "f265fd7476872503f0e0ba650bfcb2218f51a134e476a03d1216241114c3627e"
+    },
+    {
+      "path": "crates/osr-consensus/src/node.rs",
+      "git_blob": "6fb046651fde9acce9034b38b18e5a7ef03c6f1b",
+      "source_sha256": "11d6b97c9928ede7e7c8faf0be065e44b3beed1422792b69e3d0d7130b9b6ec5",
+      "bytes": 6541,
+      "sha256": "11d6b97c9928ede7e7c8faf0be065e44b3beed1422792b69e3d0d7130b9b6ec5"
+    },
+    {
+      "path": "crates/osr-consensus/src/step.rs",
+      "git_blob": "28ee5ba6b906eed939edc324a07c2458d0cc8c4f",
+      "source_sha256": "77ff42ff3b3d5efd0e6da2e25d4baeda9d2cad4c378f02e7317e2a3650fe7ea3",
+      "bytes": 17920,
+      "sha256": "77ff42ff3b3d5efd0e6da2e25d4baeda9d2cad4c378f02e7317e2a3650fe7ea3"
+    },
+    {
+      "path": "crates/osr-consensus/src/types.rs",
+      "git_blob": "25ed6dc62c5b19e58057656288d298b4cf028194",
+      "source_sha256": "d5c153fc9c7571300d5899f8f362e1c264fc2a2544cbb720b4e05154c9326a99",
+      "bytes": 3204,
+      "sha256": "d5c153fc9c7571300d5899f8f362e1c264fc2a2544cbb720b4e05154c9326a99"
+    },
+    {
+      "path": "crates/osr-consensus/tests/authenticated_ingress.rs",
+      "git_blob": "4ca1d592e9c6787095389a04a2fd867438226098",
+      "source_sha256": "3443df3b7a8c43caed71e0455a77119e99f59280b1c48883198942f56708a365",
+      "bytes": 5761,
+      "sha256": "3443df3b7a8c43caed71e0455a77119e99f59280b1c48883198942f56708a365"
+    },
+    {
+      "path": "crates/osr-consensus/tests/basic.rs",
+      "git_blob": "98ac158b15a2ab500b6b4de2a5f2f94ca2853c2b",
+      "source_sha256": "15eed403f71e653041c693e7024c034c95aa31b6adab558261823098aa2c36d3",
+      "bytes": 6701,
+      "sha256": "15eed403f71e653041c693e7024c034c95aa31b6adab558261823098aa2c36d3"
+    },
+    {
+      "path": "crates/osr-consensus/tests/interlocking_roundtrip.rs",
+      "git_blob": "0ae671cad689eb3e6635b79807c0df5bc6428e42",
+      "source_sha256": "d7e412d090c84dcb54468f838d1b5adb51599d11cd07010881827b183ed5fd54",
+      "bytes": 5044,
+      "sha256": "d7e412d090c84dcb54468f838d1b5adb51599d11cd07010881827b183ed5fd54"
+    },
+    {
+      "path": "crates/osr-consensus/tests/proptest_safety.proptest-regressions",
+      "git_blob": "5182521c29baefa94a5a4cafd3c561ffb0534ed1",
+      "source_sha256": "3605dfc0e84d069fdc310ba4d5c532f3aa9b69407927581687d840cfa260c848",
+      "bytes": 963,
+      "sha256": "3605dfc0e84d069fdc310ba4d5c532f3aa9b69407927581687d840cfa260c848"
+    },
+    {
+      "path": "crates/osr-consensus/tests/proptest_safety.rs",
+      "git_blob": "c0cfa69b341b22cbcf0e786dafc37f667f2c0526",
+      "source_sha256": "d90bd042609f49c8ff31d2efeead646de52819f389de60ec3204a8f4ff75b96e",
+      "bytes": 5191,
+      "sha256": "d90bd042609f49c8ff31d2efeead646de52819f389de60ec3204a8f4ff75b96e"
+    },
+    {
+      "path": "crates/osr-consensus/tests/replay_5node.rs",
+      "git_blob": "43691c00e32d54c854be4c8c663a46d244d6b0a8",
+      "source_sha256": "cdf0ee86419ee6dc22cf0e0de95b814c3667dca82ec16667912515235b35ed01",
+      "bytes": 5098,
+      "sha256": "cdf0ee86419ee6dc22cf0e0de95b814c3667dca82ec16667912515235b35ed01"
+    },
+    {
+      "path": "crates/osr-core/Cargo.toml",
+      "git_blob": "094718395d77ac3ec4f6e46de92312379c5e168e",
+      "source_sha256": "d1cedc438e7469a5aded0f45ceacf5ca26a87b3598234964895b12ec3905d6ab",
+      "bytes": 356,
+      "sha256": "d1cedc438e7469a5aded0f45ceacf5ca26a87b3598234964895b12ec3905d6ab"
+    },
+    {
+      "path": "crates/osr-core/proto/track_state.proto",
+      "git_blob": "dd1c243625e0ab4d23c3048c0b4bac767e2894a6",
+      "source_sha256": "8c81357787c1ec5b0c4a48a39bfcb966690fe64045e27204f7d35808049e58c1",
+      "bytes": 12115,
+      "sha256": "8c81357787c1ec5b0c4a48a39bfcb966690fe64045e27204f7d35808049e58c1"
+    },
+    {
+      "path": "crates/osr-core/src/consist.rs",
+      "git_blob": "35a282fde34563ab5b7a9da0dbba43e7ccfaf41a",
+      "source_sha256": "4aaf6efda37676abc279ab1c83a8fc5ad34841dd6203411ec70d3d7b3e135638",
+      "bytes": 2453,
+      "sha256": "4aaf6efda37676abc279ab1c83a8fc5ad34841dd6203411ec70d3d7b3e135638"
+    },
+    {
+      "path": "crates/osr-core/src/geometry.rs",
+      "git_blob": "2f67182d8e51443552441b33779f25d48ae52620",
+      "source_sha256": "ea956fc1bf01db721e7d715c10f2a57d06d026824dd437fa20d1332264a160f6",
+      "bytes": 1123,
+      "sha256": "ea956fc1bf01db721e7d715c10f2a57d06d026824dd437fa20d1332264a160f6"
+    },
+    {
+      "path": "crates/osr-core/src/ids.rs",
+      "git_blob": "85c5fe6107ed67c3ff0f80f3d73ace06ed2196c5",
+      "source_sha256": "da19c4d25950e70a6e3dabb57550ba6d01825089bd0fb1a43077eab13af65cfd",
+      "bytes": 1235,
+      "sha256": "da19c4d25950e70a6e3dabb57550ba6d01825089bd0fb1a43077eab13af65cfd"
+    },
+    {
+      "path": "crates/osr-core/src/lib.rs",
+      "git_blob": "8ee01fee03bf5062292688dca88639e97c9ca1ab",
+      "source_sha256": "a8558d7c389751b40e70951f3ac3ecc68aa1bd5a194977d3d908d3d1aee1aaea",
+      "bytes": 813,
+      "sha256": "a8558d7c389751b40e70951f3ac3ecc68aa1bd5a194977d3d908d3d1aee1aaea"
+    },
+    {
+      "path": "crates/osr-core/src/topology.rs",
+      "git_blob": "b65465562ae55d76eda655ff74e3b31702274f92",
+      "source_sha256": "67ba94ab2d92afebc91e08a7099988b749c7036142d254e9abb15dce7caf34ea",
+      "bytes": 3565,
+      "sha256": "67ba94ab2d92afebc91e08a7099988b749c7036142d254e9abb15dce7caf34ea"
+    },
+    {
+      "path": "crates/osr-crypto/Cargo.toml",
+      "git_blob": "cb9dccc557b246eba9cf147da44f06715b0eb845",
+      "source_sha256": "46ace6be123f7ffa780e5b2fe2f79bc77dbbe5c52e7f6fadbe15e1c3ccd56ae9",
+      "bytes": 656,
+      "sha256": "46ace6be123f7ffa780e5b2fe2f79bc77dbbe5c52e7f6fadbe15e1c3ccd56ae9"
+    },
+    {
+      "path": "crates/osr-crypto/src/lib.rs",
+      "git_blob": "59483ba322d293a6311458c37bdc17571f3d4a90",
+      "source_sha256": "1a6fa9be876f84d3c98f27cadf6b049c0c6fbcebbb85a6539e640a4023f8aa44",
+      "bytes": 11496,
+      "sha256": "1a6fa9be876f84d3c98f27cadf6b049c0c6fbcebbb85a6539e640a4023f8aa44"
+    },
+    {
+      "path": "crates/osr-crypto/tests/proptest_crypto.rs",
+      "git_blob": "b3b33b531d1e28b7721dcc25ec10635c66e67707",
+      "source_sha256": "6063ed95fe40c5477368b58e06f9419b0ff4a1884e77eb883e6f3c519a6ec022",
+      "bytes": 1728,
+      "sha256": "6063ed95fe40c5477368b58e06f9419b0ff4a1884e77eb883e6f3c519a6ec022"
+    },
+    {
+      "path": "crates/osr-derailment/Cargo.toml",
+      "git_blob": "5e5ea23dd61b5e68420d7fd6c89037fcd0e72996",
+      "source_sha256": "e7cc97fe34464d0dd86de7ed229887a6784b495f056f13fe40a89fc575d37848",
+      "bytes": 390,
+      "sha256": "e7cc97fe34464d0dd86de7ed229887a6784b495f056f13fe40a89fc575d37848"
+    },
+    {
+      "path": "crates/osr-derailment/src/lib.rs",
+      "git_blob": "15e4124f1d169c672e3d9c2b683169eb66437b07",
+      "source_sha256": "216ceee45a576525b804b6e97d1e50424fa0f7ff8325287b219f3782a58030ef",
+      "bytes": 14329,
+      "sha256": "216ceee45a576525b804b6e97d1e50424fa0f7ff8325287b219f3782a58030ef"
+    },
+    {
+      "path": "crates/osr-derailment/tests/proptest_derail.rs",
+      "git_blob": "84479402813d0d148fb45acaeadc3ce64f5f16a5",
+      "source_sha256": "ad87a18a7fd728c40dbd827d6c16caa6b387bd8f3544df1d206abf144ccabba2",
+      "bytes": 4150,
+      "sha256": "ad87a18a7fd728c40dbd827d6c16caa6b387bd8f3544df1d206abf144ccabba2"
+    },
+    {
+      "path": "crates/osr-design/Cargo.toml",
+      "git_blob": "0bdab22a5be3f07ab8a32ecd46f98f0189d6003a",
+      "source_sha256": "fb8d33b1bd4aea0b59378baa0a7d5e434b7b4b5112dd1af40e39e52e8727c447",
+      "bytes": 597,
+      "sha256": "fb8d33b1bd4aea0b59378baa0a7d5e434b7b4b5112dd1af40e39e52e8727c447"
+    },
+    {
+      "path": "crates/osr-design/src/emit.rs",
+      "git_blob": "052d16ab6e54f85786eee7c851d9f29e600b70d3",
+      "source_sha256": "9adbecd2f3fa230f5cb2e286270c221fa6eb133e6c458284488f8002b06486f8",
+      "bytes": 95149,
+      "sha256": "9adbecd2f3fa230f5cb2e286270c221fa6eb133e6c458284488f8002b06486f8"
+    },
+    {
+      "path": "crates/osr-design/src/main.rs",
+      "git_blob": "447c4e24c91f43ac6fc63a1e39b04183a0fa7947",
+      "source_sha256": "5fc50c55eb3606c8d6033b60ad0b01c38d480525e92720bed430425bd6c15d4a",
+      "bytes": 23098,
+      "sha256": "5fc50c55eb3606c8d6033b60ad0b01c38d480525e92720bed430425bd6c15d4a"
+    },
+    {
+      "path": "crates/osr-door-control/Cargo.toml",
+      "git_blob": "0b0238e4af21fe3707a75ec62afae04fd25db1d8",
+      "source_sha256": "ca0c1e46cb93f0b200c2fce2d5eb70588c1f10739354d7dccaef1a6fb912c462",
+      "bytes": 393,
+      "sha256": "ca0c1e46cb93f0b200c2fce2d5eb70588c1f10739354d7dccaef1a6fb912c462"
+    },
+    {
+      "path": "crates/osr-door-control/src/lib.rs",
+      "git_blob": "f7df2956ac4e9784a2bda6f7fdddc61d3fef31d5",
+      "source_sha256": "2ce7268b30da934b8113ee3ca62a64758f2529c4c62a06758f57b2c5c3b9ac4e",
+      "bytes": 20046,
+      "sha256": "2ce7268b30da934b8113ee3ca62a64758f2529c4c62a06758f57b2c5c3b9ac4e"
+    },
+    {
+      "path": "crates/osr-door-control/tests/proptest_door.rs",
+      "git_blob": "1ba2433ca17e2979af72ac5d6ff1f9d3876d1a38",
+      "source_sha256": "f8d3e1178d99397bdc2dfb94d957646539236cd795fea60815f0ce2646920d63",
+      "bytes": 7908,
+      "sha256": "f8d3e1178d99397bdc2dfb94d957646539236cd795fea60815f0ce2646920d63"
+    },
+    {
+      "path": "crates/osr-energy-site/Cargo.toml",
+      "git_blob": "499348b7bed1dbd84f9c2d03cbbd498ae138a456",
+      "source_sha256": "ecc75a73dbbd198050c8ac539ff4d2351c05aecf5dce1d09ef1c331626eb9af0",
+      "bytes": 379,
+      "sha256": "ecc75a73dbbd198050c8ac539ff4d2351c05aecf5dce1d09ef1c331626eb9af0"
+    },
+    {
+      "path": "crates/osr-energy-site/examples/supervision.rs",
+      "git_blob": "f25f8e016212b04bb3b83d9924513e4c24c56ca1",
+      "source_sha256": "a706dfc94e5fbb973a3d3648259689be49610deb870453cbdc52890f04cc6a8e",
+      "bytes": 972,
+      "sha256": "a706dfc94e5fbb973a3d3648259689be49610deb870453cbdc52890f04cc6a8e"
+    },
+    {
+      "path": "crates/osr-energy-site/src/lib.rs",
+      "git_blob": "c8946f1439384d451d0910b9820487f9f2ec0d59",
+      "source_sha256": "6a0bb35d9b00b85dea8c592e946de43a6bebd5cb8fccff35da7f53a91ee02e86",
+      "bytes": 9763,
+      "sha256": "6a0bb35d9b00b85dea8c592e946de43a6bebd5cb8fccff35da7f53a91ee02e86"
+    },
+    {
+      "path": "crates/osr-energy-site/tests/proptest_es.rs",
+      "git_blob": "484ae311637146b6cbbc8d09b194a2e1a2e2a504",
+      "source_sha256": "2a33d7c842c7f2098a43f32d44609cafcdc0976e7ca6d3ac40c3c1dfc5417beb",
+      "bytes": 2282,
+      "sha256": "2a33d7c842c7f2098a43f32d44609cafcdc0976e7ca6d3ac40c3c1dfc5417beb"
+    },
+    {
+      "path": "crates/osr-event-recorder/Cargo.toml",
+      "git_blob": "d5c1bdff16a5087a593e42d1ac600adf7f5e8c4c",
+      "source_sha256": "6d19b3fc99e68dc48005e9351ede7b1e620c8e950137ac7928e2480349cfe7a4",
+      "bytes": 392,
+      "sha256": "6d19b3fc99e68dc48005e9351ede7b1e620c8e950137ac7928e2480349cfe7a4"
+    },
+    {
+      "path": "crates/osr-event-recorder/src/lib.rs",
+      "git_blob": "2b5cab4011338db021d2d28e003b4485ae470b82",
+      "source_sha256": "b65e5b2be209bdab89cba1937b0090a3ccc33ee589250eba4d4bc7e0ae33c15c",
+      "bytes": 10604,
+      "sha256": "b65e5b2be209bdab89cba1937b0090a3ccc33ee589250eba4d4bc7e0ae33c15c"
+    },
+    {
+      "path": "crates/osr-event-recorder/tests/proptest_recorder.rs",
+      "git_blob": "ac0b85b7785911dfcf86c3d8f9dad1648d14cd0e",
+      "source_sha256": "e75d1c195ea216d5482fb496d8658f5e5dbdc8bfb13fa4797bc5968b65299aa3",
+      "bytes": 3125,
+      "sha256": "e75d1c195ea216d5482fb496d8658f5e5dbdc8bfb13fa4797bc5968b65299aa3"
+    },
+    {
+      "path": "crates/osr-fire-safety/Cargo.toml",
+      "git_blob": "392d41df20778051206799e043105cb132ee2bc1",
+      "source_sha256": "9412a2e8c3c65c467f3536080389c69b631d2ae45483dddf5eb3e5674802505d",
+      "bytes": 377,
+      "sha256": "9412a2e8c3c65c467f3536080389c69b631d2ae45483dddf5eb3e5674802505d"
+    },
+    {
+      "path": "crates/osr-fire-safety/src/lib.rs",
+      "git_blob": "853fa15f527846da07e0cc29b1f2eeb398d30003",
+      "source_sha256": "7b901d229cfae01086bbcf21dac9195e323a15c13881525873157b5da59c80e1",
+      "bytes": 16734,
+      "sha256": "7b901d229cfae01086bbcf21dac9195e323a15c13881525873157b5da59c80e1"
+    },
+    {
+      "path": "crates/osr-fire-safety/tests/proptest_fire.rs",
+      "git_blob": "1103bd4030bb88158d1200de8c60f69ecd94bb2b",
+      "source_sha256": "10e354548258a18fd9e7c8e4d53ca3334d5febcffaf73199e35b77e85d7554cf",
+      "bytes": 3775,
+      "sha256": "10e354548258a18fd9e7c8e4d53ca3334d5febcffaf73199e35b77e85d7554cf"
+    },
+    {
+      "path": "crates/osr-gui-shared/Cargo.toml",
+      "git_blob": "97aede259e89261b52966f0089068e9eb0ef3e7d",
+      "source_sha256": "35a206a9ffc283658efdd3fad0dbbeadf827ae0f4aca6b5fe2a3e9d9f1012728",
+      "bytes": 367,
+      "sha256": "35a206a9ffc283658efdd3fad0dbbeadf827ae0f4aca6b5fe2a3e9d9f1012728"
+    },
+    {
+      "path": "crates/osr-gui-shared/src/lib.rs",
+      "git_blob": "24ae628261b1be82a1fb7885a2fe5d21ea3601c3",
+      "source_sha256": "f01e0d424ff912ba9a7516d4582b81bfa3298b26ab4b92e6d3a9873cf59d4c06",
+      "bytes": 12714,
+      "sha256": "f01e0d424ff912ba9a7516d4582b81bfa3298b26ab4b92e6d3a9873cf59d4c06"
+    },
+    {
+      "path": "crates/osr-gui-shared/src/palette.rs",
+      "git_blob": "da43c5f55558f486743f1cef4b2cd7978202e6bd",
+      "source_sha256": "377afa5b38d8affb47842e62c788e37dc32635a88b06fbde40ab325905331dfd",
+      "bytes": 1670,
+      "sha256": "377afa5b38d8affb47842e62c788e37dc32635a88b06fbde40ab325905331dfd"
+    },
+    {
+      "path": "crates/osr-historian/Cargo.toml",
+      "git_blob": "bb197b258c2c13db4982a92a66e900da95bcc54c",
+      "source_sha256": "46bacf2cd2cf5ffbbb35ab2ee4d503c2a1b9cb0b78d48ce90b709438da6698c1",
+      "bytes": 392,
+      "sha256": "46bacf2cd2cf5ffbbb35ab2ee4d503c2a1b9cb0b78d48ce90b709438da6698c1"
+    },
+    {
+      "path": "crates/osr-historian/src/lib.rs",
+      "git_blob": "d5ad5b47546471119e79d5e9845204fb2d010b82",
+      "source_sha256": "07cae57a66123c220c6f30812a60cf88c90a50d73a2568ed8890422f1c320f49",
+      "bytes": 7919,
+      "sha256": "07cae57a66123c220c6f30812a60cf88c90a50d73a2568ed8890422f1c320f49"
+    },
+    {
+      "path": "crates/osr-historian/tests/proptest_historian.rs",
+      "git_blob": "db74bb5f3e06a4243753ecf87189b231efedc942",
+      "source_sha256": "daab2b2649e6c7a364b1d539209f562de3030e41eacf22ff84163663bdea4254",
+      "bytes": 2472,
+      "sha256": "daab2b2649e6c7a364b1d539209f562de3030e41eacf22ff84163663bdea4254"
+    },
+    {
+      "path": "crates/osr-hot-axle-wayside/Cargo.toml",
+      "git_blob": "81c04912f29c95d38f7d0baf6e3c8f9ccc8e9022",
+      "source_sha256": "b323076a7badf886e9683ca30e0597b18d98538310e48c0c52210902d8162972",
+      "bytes": 377,
+      "sha256": "b323076a7badf886e9683ca30e0597b18d98538310e48c0c52210902d8162972"
+    },
+    {
+      "path": "crates/osr-hot-axle-wayside/src/lib.rs",
+      "git_blob": "d4a2971dbecaf476dfe2ca45c824037026e43de4",
+      "source_sha256": "3a85e90a8d039b8b924486f41313309e758ceaf90de0c7b916f4d3028b84a0cc",
+      "bytes": 7262,
+      "sha256": "3a85e90a8d039b8b924486f41313309e758ceaf90de0c7b916f4d3028b84a0cc"
+    },
+    {
+      "path": "crates/osr-hot-axle-wayside/tests/proptest_habd.rs",
+      "git_blob": "2f64aa6c3a78489416813cd7a66f64403c09e912",
+      "source_sha256": "c8db67c12e80a817c7b7828010596ffeb710e2775fd813c8bbf38561474f2177",
+      "bytes": 1668,
+      "sha256": "c8db67c12e80a817c7b7828010596ffeb710e2775fd813c8bbf38561474f2177"
+    },
+    {
+      "path": "crates/osr-hot-axle/Cargo.toml",
+      "git_blob": "c428b31b8cb8e467da6cd0ca60847137c01dc875",
+      "source_sha256": "7e307f215d61479651c015bdb0ec528c74dc43a20e77bb0a62fc9780817279f0",
+      "bytes": 373,
+      "sha256": "7e307f215d61479651c015bdb0ec528c74dc43a20e77bb0a62fc9780817279f0"
+    },
+    {
+      "path": "crates/osr-hot-axle/src/lib.rs",
+      "git_blob": "400bd13523aeec599639ae22a67d7267401aa5f6",
+      "source_sha256": "c62b3fc62a09afce280b2f69cfd826d69ca0df9e5713841b161bbcb5811fb4f6",
+      "bytes": 11450,
+      "sha256": "c62b3fc62a09afce280b2f69cfd826d69ca0df9e5713841b161bbcb5811fb4f6"
+    },
+    {
+      "path": "crates/osr-hot-axle/tests/proptest_hot_axle.rs",
+      "git_blob": "d325161ee7ea62102adb330fe648545b721e6f2f",
+      "source_sha256": "88ecabc8a10df4d37640b130430a6d507e5763a315c0b3ea310a4a768e07602d",
+      "bytes": 3124,
+      "sha256": "88ecabc8a10df4d37640b130430a6d507e5763a315c0b3ea310a4a768e07602d"
+    },
+    {
+      "path": "crates/osr-hvac/Cargo.toml",
+      "git_blob": "bc3a0f3def600bf0c44d975af24c96679eb088bd",
+      "source_sha256": "4a050eca45327d9056a2b0a7b6f8da4a49be8b5344b25b72ac1a865ba3af7771",
+      "bytes": 354,
+      "sha256": "4a050eca45327d9056a2b0a7b6f8da4a49be8b5344b25b72ac1a865ba3af7771"
+    },
+    {
+      "path": "crates/osr-hvac/src/lib.rs",
+      "git_blob": "510856167dbd3c61fd54f5cabe59aff95a628b87",
+      "source_sha256": "ab0de2deada9cedb33fa526afdd2a3bc87317bde7026a92451c63e0cd3d9b185",
+      "bytes": 9544,
+      "sha256": "ab0de2deada9cedb33fa526afdd2a3bc87317bde7026a92451c63e0cd3d9b185"
+    },
+    {
+      "path": "crates/osr-hvac/tests/proptest_hvac.rs",
+      "git_blob": "6905c94e5ca3b0868f3edc434e2bd143bad14c61",
+      "source_sha256": "cd98768bf9b384074747750c510e692b64c0fe722906bd5fa1235528d25f33be",
+      "bytes": 2450,
+      "sha256": "cd98768bf9b384074747750c510e692b64c0fe722906bd5fa1235528d25f33be"
+    },
+    {
+      "path": "crates/osr-interlocking/Cargo.toml",
+      "git_blob": "a99434b4b6d107fc2fd795a01b4cebcce25fe2de",
+      "source_sha256": "b75d7ed6a2fe6109996e13991c1929f3deb8abbec65ac8df0319b2540a539e04",
+      "bytes": 447,
+      "sha256": "b75d7ed6a2fe6109996e13991c1929f3deb8abbec65ac8df0319b2540a539e04"
+    },
+    {
+      "path": "crates/osr-interlocking/src/kani_proofs.rs",
+      "git_blob": "d551f464569ac8183dd7bd83f961cac9c59ecac8",
+      "source_sha256": "50e85f8266964fb294ab5aa21833de8827975ccb448abe7fa26c650ebdfd3f07",
+      "bytes": 19840,
+      "sha256": "50e85f8266964fb294ab5aa21833de8827975ccb448abe7fa26c650ebdfd3f07"
+    },
+    {
+      "path": "crates/osr-interlocking/src/lib.rs",
+      "git_blob": "c669cc35ed727f3114f1d032ae0240f09e47eb6c",
+      "source_sha256": "7b8abebee718ad6169ee427f2d9201a2cab99b7dd7b80d32bba555c7f83560e5",
+      "bytes": 1912,
+      "sha256": "7b8abebee718ad6169ee427f2d9201a2cab99b7dd7b80d32bba555c7f83560e5"
+    },
+    {
+      "path": "crates/osr-interlocking/src/log.rs",
+      "git_blob": "fefdea017351fe136def10bf290c8070368bb28d",
+      "source_sha256": "1aa8c58462351f5467433db08406dd00603c58cc99ba36672e3fdcf7182fb3fc",
+      "bytes": 9499,
+      "sha256": "1aa8c58462351f5467433db08406dd00603c58cc99ba36672e3fdcf7182fb3fc"
+    },
+    {
+      "path": "crates/osr-interlocking/src/ma.rs",
+      "git_blob": "58755c1bcdad2dbb8b70a2fe9b1a9264dc69f628",
+      "source_sha256": "b9e8bf4ec973c7ffbff1dcd9e0ffb08ce08e03de88bbc5bd85e851b02807622a",
+      "bytes": 30408,
+      "sha256": "b9e8bf4ec973c7ffbff1dcd9e0ffb08ce08e03de88bbc5bd85e851b02807622a"
+    },
+    {
+      "path": "crates/osr-interlocking/src/state.rs",
+      "git_blob": "e4f4cfffeaa3935b8dee6a3b39f1853c0bbbefdf",
+      "source_sha256": "bbd17c1e97a098229880f5cd151cc67dfdadf00831fae1d24ebe843424b90536",
+      "bytes": 18571,
+      "sha256": "bbd17c1e97a098229880f5cd151cc67dfdadf00831fae1d24ebe843424b90536"
+    },
+    {
+      "path": "crates/osr-interlocking/src/topology.rs",
+      "git_blob": "872055bd4be4569534c5a7a1ffcc23c6d3bfa70c",
+      "source_sha256": "b7f3d9fc225f9997b3cf0e4f296ad717948aac0c9364b651454cc84d7c1ffaf0",
+      "bytes": 14254,
+      "sha256": "b7f3d9fc225f9997b3cf0e4f296ad717948aac0c9364b651454cc84d7c1ffaf0"
+    },
+    {
+      "path": "crates/osr-interlocking/tests/differential.rs",
+      "git_blob": "4cd9ccc1fb2fa6626f91bf6de1fc496c31cab1c3",
+      "source_sha256": "2733f6e6abea7eec25a2f99faf1fd1962adfde0217425bf3e280b51e84c66ac5",
+      "bytes": 20228,
+      "sha256": "2733f6e6abea7eec25a2f99faf1fd1962adfde0217425bf3e280b51e84c66ac5"
+    },
+    {
+      "path": "crates/osr-interlocking/tests/proptest_determinism.rs",
+      "git_blob": "68fdbff4bed36bf20acb0b1cbc57472ac41a1de3",
+      "source_sha256": "e47ca06bbf1e978affb385361b1cbda2ac9bde4c242c8db0d05dd011c9b15ebe",
+      "bytes": 10283,
+      "sha256": "e47ca06bbf1e978affb385361b1cbda2ac9bde4c242c8db0d05dd011c9b15ebe"
+    },
+    {
+      "path": "crates/osr-interlocking/tests/proptest_ma.proptest-regressions",
+      "git_blob": "3df041a4771e3875917a341480f42d9d3a8480a7",
+      "source_sha256": "536c050b7764e62da9ed11d21b41a8f7f68eb852552eb9a7045aca0acb8495a5",
+      "bytes": 4339,
+      "sha256": "536c050b7764e62da9ed11d21b41a8f7f68eb852552eb9a7045aca0acb8495a5"
+    },
+    {
+      "path": "crates/osr-interlocking/tests/proptest_ma.rs",
+      "git_blob": "473f64c173b21a095d71846b850ba5e3febd9f5b",
+      "source_sha256": "006f398760a150cd1469048d431ab413e045afdb160cc2506f602e59c837043b",
+      "bytes": 8929,
+      "sha256": "006f398760a150cd1469048d431ab413e045afdb160cc2506f602e59c837043b"
+    },
+    {
+      "path": "crates/osr-intrusion-detect/Cargo.toml",
+      "git_blob": "e86981f79fd8a876cd8fefb69315c175ac713a30",
+      "source_sha256": "8d8fdb1a9f97c698f54c60c005d92f54480110523adc43b6feaeaf8d07127494",
+      "bytes": 428,
+      "sha256": "8d8fdb1a9f97c698f54c60c005d92f54480110523adc43b6feaeaf8d07127494"
+    },
+    {
+      "path": "crates/osr-intrusion-detect/src/evaluate.rs",
+      "git_blob": "298fc03b31a179e9fe2c3a30fb6ecf888efe4840",
+      "source_sha256": "3de384424e7654504c834c0a6b66d8339203cc8e6614f49018176c830e64eaa1",
+      "bytes": 8890,
+      "sha256": "3de384424e7654504c834c0a6b66d8339203cc8e6614f49018176c830e64eaa1"
+    },
+    {
+      "path": "crates/osr-intrusion-detect/src/kani_proofs.rs",
+      "git_blob": "ab71438b5dd6e6cf471d1ccc22f4a3556be8ef08",
+      "source_sha256": "e885681f62710e3188893a00d8339e129e2f172beffbe31270fabe07e3960fb2",
+      "bytes": 2638,
+      "sha256": "e885681f62710e3188893a00d8339e129e2f172beffbe31270fabe07e3960fb2"
+    },
+    {
+      "path": "crates/osr-intrusion-detect/src/lib.rs",
+      "git_blob": "4dfcf44be576dda6da448e9ba06cad5bea9f655f",
+      "source_sha256": "10ea035bbb116330dc7ddfc2e7b57c11814135b747f5355da4195e29e0ab08e9",
+      "bytes": 2380,
+      "sha256": "10ea035bbb116330dc7ddfc2e7b57c11814135b747f5355da4195e29e0ab08e9"
+    },
+    {
+      "path": "crates/osr-intrusion-detect/src/sensors.rs",
+      "git_blob": "c7d799eee7abad1b4a3bebfdd6e820ec43b16cf9",
+      "source_sha256": "9c43a23de24377a25f05a4089da868abbe22876a125c097370ecfd4c2fdaa65c",
+      "bytes": 4214,
+      "sha256": "9c43a23de24377a25f05a4089da868abbe22876a125c097370ecfd4c2fdaa65c"
+    },
+    {
+      "path": "crates/osr-intrusion-detect/src/verdict.rs",
+      "git_blob": "61c1bddea344b6b11dd5fd8131ea3d54c759e6d3",
+      "source_sha256": "fc03c03dbca97f41d0a4e187efb100e919b57668915393e4ee07860582b2b2dd",
+      "bytes": 1311,
+      "sha256": "fc03c03dbca97f41d0a4e187efb100e919b57668915393e4ee07860582b2b2dd"
+    },
+    {
+      "path": "crates/osr-intrusion-detect/tests/proptest_intrusion.rs",
+      "git_blob": "581c85b8dfc2336863a910385d93494aae34c17b",
+      "source_sha256": "a1186f2f2480a896e2fa297f876fc417c29a5628df9c5b7262f11d9296c513d4",
+      "bytes": 3538,
+      "sha256": "a1186f2f2480a896e2fa297f876fc417c29a5628df9c5b7262f11d9296c513d4"
+    },
+    {
+      "path": "crates/osr-level-crossing/Cargo.toml",
+      "git_blob": "af9bbaca3469a5d4d6e9f32aa13bb03abc6fc8ed",
+      "source_sha256": "e0f6c6c897d069053b1d65972d8f287a3a75af20b343855d775977da018b3924",
+      "bytes": 394,
+      "sha256": "e0f6c6c897d069053b1d65972d8f287a3a75af20b343855d775977da018b3924"
+    },
+    {
+      "path": "crates/osr-level-crossing/src/lib.rs",
+      "git_blob": "bf2e667a5a7c27c7e97800d9fc87df75809a2251",
+      "source_sha256": "b6be207cf38652ab4fe4b879334658830e507182b7470ca9a3256655c55aefc2",
+      "bytes": 11869,
+      "sha256": "b6be207cf38652ab4fe4b879334658830e507182b7470ca9a3256655c55aefc2"
+    },
+    {
+      "path": "crates/osr-level-crossing/tests/proptest_lc.rs",
+      "git_blob": "d58932abe823b5a810b3154113c2e797fa76954e",
+      "source_sha256": "2c3f5de6dccf94f6d975efc9ebdb553ba8394c23e8e2d66433fa30e363ba283e",
+      "bytes": 2010,
+      "sha256": "2c3f5de6dccf94f6d975efc9ebdb553ba8394c23e8e2d66433fa30e363ba283e"
+    },
+    {
+      "path": "crates/osr-lighting/Cargo.toml",
+      "git_blob": "e07882c103730b1430f2c3e06ab41e0ccf546626",
+      "source_sha256": "a80334fe4acd2f47755e7cdce961564766ddada855b515c9ba8a75b84bda593e",
+      "bytes": 391,
+      "sha256": "a80334fe4acd2f47755e7cdce961564766ddada855b515c9ba8a75b84bda593e"
+    },
+    {
+      "path": "crates/osr-lighting/src/lib.rs",
+      "git_blob": "b145e00021827baebefb4c01722d82a409827465",
+      "source_sha256": "8f9f4f5f54994d539e266434a7e9fce2a7590092b4cdf3b88f631a037d73c80e",
+      "bytes": 10513,
+      "sha256": "8f9f4f5f54994d539e266434a7e9fce2a7590092b4cdf3b88f631a037d73c80e"
+    },
+    {
+      "path": "crates/osr-lighting/tests/proptest_lighting.rs",
+      "git_blob": "d874a399788cd9a298b1d179c67d44b98442442c",
+      "source_sha256": "a51ea9cdc1471d0b525f01a57be103fb138b685cf5918efb2a88acbfa0b0f557",
+      "bytes": 2655,
+      "sha256": "a51ea9cdc1471d0b525f01a57be103fb138b685cf5918efb2a88acbfa0b0f557"
+    },
+    {
+      "path": "crates/osr-obstacle-detect/Cargo.toml",
+      "git_blob": "dc082f6c65c76ff661079cb957d54e78e2592b76",
+      "source_sha256": "eeb54bd603adb5ab5d7f43df08b7a86faf0d9494da607076bd3dcb91bbb3bb51",
+      "bytes": 417,
+      "sha256": "eeb54bd603adb5ab5d7f43df08b7a86faf0d9494da607076bd3dcb91bbb3bb51"
+    },
+    {
+      "path": "crates/osr-obstacle-detect/src/evaluate.rs",
+      "git_blob": "d3455b08eb155b2511ffa324ff7a51246373e0e5",
+      "source_sha256": "d35643f186290ff9862b48bb449e9d75b98a6ec28069a7dfbabf4a73829950f6",
+      "bytes": 13582,
+      "sha256": "d35643f186290ff9862b48bb449e9d75b98a6ec28069a7dfbabf4a73829950f6"
+    },
+    {
+      "path": "crates/osr-obstacle-detect/src/kani_proofs.rs",
+      "git_blob": "1e28923f3471918e57a107ccca370230d09691c0",
+      "source_sha256": "c69efaeecbb03b013f114b837002ead6c17b458e28d12262d84ec57dea1164fb",
+      "bytes": 3924,
+      "sha256": "c69efaeecbb03b013f114b837002ead6c17b458e28d12262d84ec57dea1164fb"
+    },
+    {
+      "path": "crates/osr-obstacle-detect/src/lib.rs",
+      "git_blob": "abc6026038b9d6d16249c8db67e38ba16e8e607a",
+      "source_sha256": "ea805a5ba6d45b6858f8a82632391ec428e115e03e190a058b67b83d363cfd2e",
+      "bytes": 4213,
+      "sha256": "ea805a5ba6d45b6858f8a82632391ec428e115e03e190a058b67b83d363cfd2e"
+    },
+    {
+      "path": "crates/osr-obstacle-detect/src/sensors.rs",
+      "git_blob": "c44af7449d7429a44ebd16bbbcb6733948df1170",
+      "source_sha256": "4ce3dede3190878f2fe4e47de0f9464de26bc4fbebd3c2cba84f3a8f15553bc1",
+      "bytes": 5774,
+      "sha256": "4ce3dede3190878f2fe4e47de0f9464de26bc4fbebd3c2cba84f3a8f15553bc1"
+    },
+    {
+      "path": "crates/osr-obstacle-detect/src/verdict.rs",
+      "git_blob": "7a43527719a151dd44f889b9601d65370e633dea",
+      "source_sha256": "81501b9427b0750433fc1e41ad3c46cd01a19ab00dba5f307b7e5c3ccc814f84",
+      "bytes": 4563,
+      "sha256": "81501b9427b0750433fc1e41ad3c46cd01a19ab00dba5f307b7e5c3ccc814f84"
+    },
+    {
+      "path": "crates/osr-obstacle-detect/tests/proptest_obstacle.rs",
+      "git_blob": "b09bbd47953b801d0abdee243c9f8fbaa904f459",
+      "source_sha256": "8a7bfcb9e2ad77cedc0f1f2eab53dd0c69051e026347aa94ef94eac2d26507de",
+      "bytes": 5914,
+      "sha256": "8a7bfcb9e2ad77cedc0f1f2eab53dd0c69051e026347aa94ef94eac2d26507de"
+    },
+    {
+      "path": "crates/osr-occ-gui/Cargo.toml",
+      "git_blob": "e1df86e8a7b3d6983a726952ae4f6f2dda286b0c",
+      "source_sha256": "2c4a165de56adeb7a0ec5cb21cf18f46a907c03c5fb115a7cdad2313474b7aca",
+      "bytes": 1005,
+      "sha256": "2c4a165de56adeb7a0ec5cb21cf18f46a907c03c5fb115a7cdad2313474b7aca"
+    },
+    {
+      "path": "crates/osr-occ-gui/README.md",
+      "git_blob": "4b5313558aeba739c784f37964179bb80d0d5b62",
+      "source_sha256": "87c8d8fa34c1aaa4fb7d76b44234801252ada70eefd1d6d29c05f83486c511ad",
+      "bytes": 3634,
+      "sha256": "87c8d8fa34c1aaa4fb7d76b44234801252ada70eefd1d6d29c05f83486c511ad"
+    },
+    {
+      "path": "crates/osr-occ-gui/src/app.rs",
+      "git_blob": "c18796066cf183bad11a8788c305b34956ac5cfd",
+      "source_sha256": "fd6c458544336581292c8b3effa8281da3151bd6be1421527af630563a5d6278",
+      "bytes": 39060,
+      "sha256": "fd6c458544336581292c8b3effa8281da3151bd6be1421527af630563a5d6278"
+    },
+    {
+      "path": "crates/osr-occ-gui/src/lib.rs",
+      "git_blob": "1132a8a6d83a4d86741d1037c987ee22f237796f",
+      "source_sha256": "912fa0a1e120e01ca5b406b4ea59022c021bde12920ae6af21b97fbe97f55ab0",
+      "bytes": 2514,
+      "sha256": "912fa0a1e120e01ca5b406b4ea59022c021bde12920ae6af21b97fbe97f55ab0"
+    },
+    {
+      "path": "crates/osr-occ-gui/src/main.rs",
+      "git_blob": "c94496add4338023cc2f11554d6d546bbee15370",
+      "source_sha256": "db03b8e9fa9e2534aaa1c2d39b3e469f66efb266e539bcb5e465d9d4d27dcc7b",
+      "bytes": 1025,
+      "sha256": "db03b8e9fa9e2534aaa1c2d39b3e469f66efb266e539bcb5e465d9d4d27dcc7b"
+    },
+    {
+      "path": "crates/osr-occ-gui/web/index.html",
+      "git_blob": "4561d0774edf9870af3846e22d13332ea2965d97",
+      "source_sha256": "4da13f4f281dc20bdc10ce835f8de437ecbbdcfdb72c9b57855446b4a7ac869d",
+      "bytes": 2211,
+      "sha256": "4da13f4f281dc20bdc10ce835f8de437ecbbdcfdb72c9b57855446b4a7ac869d"
+    },
+    {
+      "path": "crates/osr-occ/Cargo.toml",
+      "git_blob": "1cd9bd9cd1bbe6c715d687d8f5a63df53dea1f7a",
+      "source_sha256": "e990ee874c0b808783abe2eaf151dc8368553e384539cfeb4d4765f484aada7d",
+      "bytes": 386,
+      "sha256": "e990ee874c0b808783abe2eaf151dc8368553e384539cfeb4d4765f484aada7d"
+    },
+    {
+      "path": "crates/osr-occ/src/dispatch.rs",
+      "git_blob": "48c229156c56ca9957fb1723ae62b176145be920",
+      "source_sha256": "1faa57bcd126386d507dd0f194f44dd0471894960aa626d7f6ea724885f2a70f",
+      "bytes": 774,
+      "sha256": "1faa57bcd126386d507dd0f194f44dd0471894960aa626d7f6ea724885f2a70f"
+    },
+    {
+      "path": "crates/osr-occ/src/incident.rs",
+      "git_blob": "af1677ba0e6deacdacdad55b06f7ed77cdf45b24",
+      "source_sha256": "6dbc28611e59eb629a5350f1716cd0db219ad90aad35de3d22561460d2f344db",
+      "bytes": 859,
+      "sha256": "6dbc28611e59eb629a5350f1716cd0db219ad90aad35de3d22561460d2f344db"
+    },
+    {
+      "path": "crates/osr-occ/src/lib.rs",
+      "git_blob": "d0ebee07ebb5da13abe8c852d6af2eba88f02c45",
+      "source_sha256": "00ecb8e8fcc4ed05a19f48fa9e6fca0541baadcc6d6acee7075a7576b00943d5",
+      "bytes": 12434,
+      "sha256": "00ecb8e8fcc4ed05a19f48fa9e6fca0541baadcc6d6acee7075a7576b00943d5"
+    },
+    {
+      "path": "crates/osr-occ/src/roster.rs",
+      "git_blob": "3c33621cac541d1f5716d631207a168d4a5b9c4e",
+      "source_sha256": "bbb1a4956ca177c0e50ff8675bb1731e4fbf4ef941561f18db0ef6a93ca7a0bf",
+      "bytes": 982,
+      "sha256": "bbb1a4956ca177c0e50ff8675bb1731e4fbf4ef941561f18db0ef6a93ca7a0bf"
+    },
+    {
+      "path": "crates/osr-occ/tests/proptest_occ.rs",
+      "git_blob": "a3724a184efc140c019d01cac3cdcb06ddb2de35",
+      "source_sha256": "1d24306962941bba001aa622a46bf76d2e3be6a025c592bfcf13b9befc72d8b7",
+      "bytes": 4644,
+      "sha256": "1d24306962941bba001aa622a46bf76d2e3be6a025c592bfcf13b9befc72d8b7"
+    },
+    {
+      "path": "crates/osr-odometry/Cargo.toml",
+      "git_blob": "cfdaa33124d627e1cf565fa2c01b4e322adf7c23",
+      "source_sha256": "52a13893df6aa6a1355f19defb3637a5c45ef47b12961ac49fcff00dbed6679a",
+      "bytes": 498,
+      "sha256": "52a13893df6aa6a1355f19defb3637a5c45ef47b12961ac49fcff00dbed6679a"
+    },
+    {
+      "path": "crates/osr-odometry/src/fusion.rs",
+      "git_blob": "460cc17dd5245798141c52206526f7b8a64ca0d6",
+      "source_sha256": "58bb948a72ddd2505ed2e3e44ab3cf5a1284eb5f9014afd2ac82e284b36bfb3b",
+      "bytes": 16885,
+      "sha256": "58bb948a72ddd2505ed2e3e44ab3cf5a1284eb5f9014afd2ac82e284b36bfb3b"
+    },
+    {
+      "path": "crates/osr-odometry/src/kani_proofs.rs",
+      "git_blob": "76960d167987ec161d7b1a69a7df1aa9f8bba6ab",
+      "source_sha256": "d3b587b06a51c45521d6625a3c9a1ba029c7db8e711b8b393162bbad6e48b173",
+      "bytes": 10530,
+      "sha256": "d3b587b06a51c45521d6625a3c9a1ba029c7db8e711b8b393162bbad6e48b173"
+    },
+    {
+      "path": "crates/osr-odometry/src/lib.rs",
+      "git_blob": "038fefacce87953127617eb7ad5e84a1da05ee94",
+      "source_sha256": "0ad1cdfff277d649222f7e45efb92ffdf20c666128d6c7e997fcd64e21e1a2a0",
+      "bytes": 5452,
+      "sha256": "0ad1cdfff277d649222f7e45efb92ffdf20c666128d6c7e997fcd64e21e1a2a0"
+    },
+    {
+      "path": "crates/osr-odometry/src/sensors.rs",
+      "git_blob": "fef51e09ccec7578f3b636c4bd68b5722dda41dc",
+      "source_sha256": "b70a51c59fad02266b365e82b09516f7e78ebc74980560f480584d196f2f3928",
+      "bytes": 6548,
+      "sha256": "b70a51c59fad02266b365e82b09516f7e78ebc74980560f480584d196f2f3928"
+    },
+    {
+      "path": "crates/osr-odometry/src/state.rs",
+      "git_blob": "253d4d79878381b44a4a10f2de821f9f65981dbb",
+      "source_sha256": "0b81c86d0ecf27d0058dc60df5d3257a48eec15055fbcca62d040b536399e915",
+      "bytes": 3148,
+      "sha256": "0b81c86d0ecf27d0058dc60df5d3257a48eec15055fbcca62d040b536399e915"
+    },
+    {
+      "path": "crates/osr-odometry/tests/proptest_odom.proptest-regressions",
+      "git_blob": "300aceec5949d42db0785690a5d31cae65a05826",
+      "source_sha256": "b6ac14d8e1c131f2bbadd87fb7b34b07e787246dc08b653aeb468858d36d5f06",
+      "bytes": 429,
+      "sha256": "b6ac14d8e1c131f2bbadd87fb7b34b07e787246dc08b653aeb468858d36d5f06"
+    },
+    {
+      "path": "crates/osr-odometry/tests/proptest_odom.rs",
+      "git_blob": "a22c64751a322a53378efc52f78327f36f6a8bd6",
+      "source_sha256": "07a29bc83b812cb1da28a64657bb47656db43f47ef2972b9b51a7f46e2f29144",
+      "bytes": 14148,
+      "sha256": "07a29bc83b812cb1da28a64657bb47656db43f47ef2972b9b51a7f46e2f29144"
+    },
+    {
+      "path": "crates/osr-passenger-assist/Cargo.toml",
+      "git_blob": "5ac33f28705f0902f5de45d097dab590034a36f2",
+      "source_sha256": "8ae21658caa02c67a4841b2288d2d2bb89292c36d624384c118e580557ee53c8",
+      "bytes": 395,
+      "sha256": "8ae21658caa02c67a4841b2288d2d2bb89292c36d624384c118e580557ee53c8"
+    },
+    {
+      "path": "crates/osr-passenger-assist/src/lib.rs",
+      "git_blob": "d57d750cbf62c87780842c657b99cafc55c9eb1b",
+      "source_sha256": "3e548c65dc4acc9ced9133035693b1224757ac7d85d5a06fb50e005e0388319d",
+      "bytes": 6448,
+      "sha256": "3e548c65dc4acc9ced9133035693b1224757ac7d85d5a06fb50e005e0388319d"
+    },
+    {
+      "path": "crates/osr-pis-onboard/Cargo.toml",
+      "git_blob": "f2bca851e4541d0f791a0d6284de4b15019abffc",
+      "source_sha256": "50a352f74402d7395c194a1193e384836a77ff3a566c85e771d1fa0b98d57130",
+      "bytes": 384,
+      "sha256": "50a352f74402d7395c194a1193e384836a77ff3a566c85e771d1fa0b98d57130"
+    },
+    {
+      "path": "crates/osr-pis-onboard/src/lib.rs",
+      "git_blob": "abd8fce4e77f657b638fe4067f74e7488a30da30",
+      "source_sha256": "6c0cee7005043683accc583ee3d37bef7f78ff5564d08bbcbb01cf9db7cdaac4",
+      "bytes": 12924,
+      "sha256": "6c0cee7005043683accc583ee3d37bef7f78ff5564d08bbcbb01cf9db7cdaac4"
+    },
+    {
+      "path": "crates/osr-pis-onboard/tests/proptest_pis.rs",
+      "git_blob": "e42f13ef86858dc574de7b9ef628004b360221b9",
+      "source_sha256": "ad9d629fa5397af8a79cb3a065a0ed54a1566056f9b00746b98e17cec6aa7fd2",
+      "bytes": 2644,
+      "sha256": "ad9d629fa5397af8a79cb3a065a0ed54a1566056f9b00746b98e17cec6aa7fd2"
+    },
+    {
+      "path": "crates/osr-pis-station/Cargo.toml",
+      "git_blob": "a35d7203b9a9e0c8b82611599f3d227dbf68ae4c",
+      "source_sha256": "9a63fef565beeb78bf6eebb4fda6023c02be3527cc54ac807dbdd99cc417ed56",
+      "bytes": 372,
+      "sha256": "9a63fef565beeb78bf6eebb4fda6023c02be3527cc54ac807dbdd99cc417ed56"
+    },
+    {
+      "path": "crates/osr-pis-station/src/lib.rs",
+      "git_blob": "3ab1cf8012dd484331a4440721c1a8a4ae9b676b",
+      "source_sha256": "0e6e68746589220ba03ec14b44fd2d6ddd668a94ccdee85091d350a3c261d7fa",
+      "bytes": 11224,
+      "sha256": "0e6e68746589220ba03ec14b44fd2d6ddd668a94ccdee85091d350a3c261d7fa"
+    },
+    {
+      "path": "crates/osr-pis-station/tests/proptest_pis_station.rs",
+      "git_blob": "5d3b4bc5ee01b3ba53bb2f47627b451bd97e9d37",
+      "source_sha256": "9fd987058eee82824f4e4df848098a806714f56509cf7ab002fcc855163c0844",
+      "bytes": 4298,
+      "sha256": "9fd987058eee82824f4e4df848098a806714f56509cf7ab002fcc855163c0844"
+    },
+    {
+      "path": "crates/osr-proto/Cargo.toml",
+      "git_blob": "6826657361b80d4ec4c0f4d17fdbd921fcf27eb3",
+      "source_sha256": "d43f6f4622a71a4c9a5804d628d1ca3f2b6d8b31a2a9b0d0e9f13b1d6a89d93c",
+      "bytes": 430,
+      "sha256": "d43f6f4622a71a4c9a5804d628d1ca3f2b6d8b31a2a9b0d0e9f13b1d6a89d93c"
+    },
+    {
+      "path": "crates/osr-proto/src/lib.rs",
+      "git_blob": "298f16aa446b7e031ac16060db81dd323859db20",
+      "source_sha256": "847007fc0e3101196a6a4f13359ed4e465187082afa1f1147e5c1bdb75d4c303",
+      "bytes": 10809,
+      "sha256": "847007fc0e3101196a6a4f13359ed4e465187082afa1f1147e5c1bdb75d4c303"
+    },
+    {
+      "path": "crates/osr-proto/tests/proptest_proto.rs",
+      "git_blob": "a2809244eb7ff4b2ed4ead26f08ba9da714679a6",
+      "source_sha256": "384fc5e88fcd41a18a19b361d2d17efa1f40f319b6a5d80a66fb0eac434d95d1",
+      "bytes": 3493,
+      "sha256": "384fc5e88fcd41a18a19b361d2d17efa1f40f319b6a5d80a66fb0eac434d95d1"
+    },
+    {
+      "path": "crates/osr-psd/Cargo.toml",
+      "git_blob": "95c5808078fda1fbe49053338f3d09c4dd3e937e",
+      "source_sha256": "3b58187955ed1aa32c1f49d5f9f6f3a607639ed9b67aa7eb01bfebc4a63bfc2d",
+      "bytes": 359,
+      "sha256": "3b58187955ed1aa32c1f49d5f9f6f3a607639ed9b67aa7eb01bfebc4a63bfc2d"
+    },
+    {
+      "path": "crates/osr-psd/src/lib.rs",
+      "git_blob": "23e6d558c1890e82b46c39bf2e1de6645e41bb45",
+      "source_sha256": "57f2bb9f2b8314e2d5807ee1a2c06efdaf8cc0dbce86db6e019a8a99fc4b2b35",
+      "bytes": 18700,
+      "sha256": "57f2bb9f2b8314e2d5807ee1a2c06efdaf8cc0dbce86db6e019a8a99fc4b2b35"
+    },
+    {
+      "path": "crates/osr-psd/tests/proptest_psd.rs",
+      "git_blob": "f41602ecd1b9183ddc9b3cf69f9866f975ab04ad",
+      "source_sha256": "f83ca7c336bad333f83884f0252be3a6ed3e030732cbf61ac3837d6b27e0c5ee",
+      "bytes": 5775,
+      "sha256": "f83ca7c336bad333f83884f0252be3a6ed3e030732cbf61ac3837d6b27e0c5ee"
+    },
+    {
+      "path": "crates/osr-ptp/Cargo.toml",
+      "git_blob": "e3c6c6f412b734510a8fdb99a61d97a5069ce11c",
+      "source_sha256": "3317246f3057ccf60e837e73e4f7239e9c94fcb111159283147cde8dc253d95b",
+      "bytes": 366,
+      "sha256": "3317246f3057ccf60e837e73e4f7239e9c94fcb111159283147cde8dc253d95b"
+    },
+    {
+      "path": "crates/osr-ptp/src/lib.rs",
+      "git_blob": "9fd3573f640967a6818f589f83cee4a9d89450f4",
+      "source_sha256": "41f21867e69d887a85b87522abc605822a06b3a2a41b771f73cb9b02da41e8ca",
+      "bytes": 7550,
+      "sha256": "41f21867e69d887a85b87522abc605822a06b3a2a41b771f73cb9b02da41e8ca"
+    },
+    {
+      "path": "crates/osr-ptp/tests/proptest_ptp.rs",
+      "git_blob": "a200b20f0167ab63b2d469fdd66a05c3ae2ea870",
+      "source_sha256": "1df58c4a05c2dbc48dd96ad46d4a2a5d9239b9cad99b806f505a635fcefec692",
+      "bytes": 2119,
+      "sha256": "1df58c4a05c2dbc48dd96ad46d4a2a5d9239b9cad99b806f505a635fcefec692"
+    },
+    {
+      "path": "crates/osr-regen/Cargo.toml",
+      "git_blob": "2e7ca4ff66639a50db0bda35dd3d6191711f19e2",
+      "source_sha256": "cc6fdf1212cd55052bd4acf08ee4cf4001fb11ccf924f47749a36e6593bf99b7",
+      "bytes": 388,
+      "sha256": "cc6fdf1212cd55052bd4acf08ee4cf4001fb11ccf924f47749a36e6593bf99b7"
+    },
+    {
+      "path": "crates/osr-regen/src/lib.rs",
+      "git_blob": "abf80b48a2d977d487278d87e5ad15e9b05e72ee",
+      "source_sha256": "0e0485364ebc1ec0375d4d0e311489aa5741a45e60450daa3b19d955ab4ff880",
+      "bytes": 9746,
+      "sha256": "0e0485364ebc1ec0375d4d0e311489aa5741a45e60450daa3b19d955ab4ff880"
+    },
+    {
+      "path": "crates/osr-regen/tests/proptest_regen.rs",
+      "git_blob": "7e76e46411db3d7f4e1b6aa94ada2cf433a3e348",
+      "source_sha256": "e87f97081148e3e9c2610ab93b3385d51099c52e184b27fc3fa034320b50f143",
+      "bytes": 3397,
+      "sha256": "e87f97081148e3e9c2610ab93b3385d51099c52e184b27fc3fa034320b50f143"
+    },
+    {
+      "path": "crates/osr-routing/Cargo.toml",
+      "git_blob": "c83c64fd76b6c30167198ea66cf8561e359fbd82",
+      "source_sha256": "addb40514139f742cac1cc4c23c72c11be9e7c2cf717f63af7970fede10d889c",
+      "bytes": 498,
+      "sha256": "addb40514139f742cac1cc4c23c72c11be9e7c2cf717f63af7970fede10d889c"
+    },
+    {
+      "path": "crates/osr-routing/src/civil.rs",
+      "git_blob": "540b7c80ad3fcfe44e6b4b62b14df5ed32f39e00",
+      "source_sha256": "9a59ca0bcaeaa4ac211230314a84f11f482e52edb6a5c14bdd077e55e57efc73",
+      "bytes": 20817,
+      "sha256": "9a59ca0bcaeaa4ac211230314a84f11f482e52edb6a5c14bdd077e55e57efc73"
+    },
+    {
+      "path": "crates/osr-routing/src/lib.rs",
+      "git_blob": "cc086184d8bfdd48f431971fb0c7cfb51c1df539",
+      "source_sha256": "580a7fb5a05b2beaa37a3bbee4270b99ad180cbd320a501cddcf45ad373262df",
+      "bytes": 2009,
+      "sha256": "580a7fb5a05b2beaa37a3bbee4270b99ad180cbd320a501cddcf45ad373262df"
+    },
+    {
+      "path": "crates/osr-routing/src/raster.rs",
+      "git_blob": "ac06947290ef9c9cf126a73eaf56b5cdfa91cde3",
+      "source_sha256": "4249cb0063a3ba16d48baa8702b8517b4b7ea46d671621aba0e9bf1ee59b3735",
+      "bytes": 8811,
+      "sha256": "4249cb0063a3ba16d48baa8702b8517b4b7ea46d671621aba0e9bf1ee59b3735"
+    },
+    {
+      "path": "crates/osr-routing/src/solver.rs",
+      "git_blob": "c4d650680887cf0261ef3a50035d3e525303daf4",
+      "source_sha256": "94e49acb7b7e31778546936ed191c94fcf0bcf86468a392b162df9f2907640ec",
+      "bytes": 8611,
+      "sha256": "94e49acb7b7e31778546936ed191c94fcf0bcf86468a392b162df9f2907640ec"
+    },
+    {
+      "path": "crates/osr-routing/src/station.rs",
+      "git_blob": "0a844b396ebb307715b2993213d362a941894ec6",
+      "source_sha256": "3f74122b19d87d44e2329e8aaf750d60973ae2dabcb48869b377093cc56a3078",
+      "bytes": 75770,
+      "sha256": "3f74122b19d87d44e2329e8aaf750d60973ae2dabcb48869b377093cc56a3078"
+    },
+    {
+      "path": "crates/osr-routing/src/topology.rs",
+      "git_blob": "c914ebb1b9f49fe8a770eb155fc5efed89edf6fd",
+      "source_sha256": "1904e12c20307c1ddb2437037860f5265decdeaea27449ca010877f14bf721cd",
+      "bytes": 98076,
+      "sha256": "1904e12c20307c1ddb2437037860f5265decdeaea27449ca010877f14bf721cd"
+    },
+    {
+      "path": "crates/osr-safety-case/Cargo.toml",
+      "git_blob": "5ab6ca283028eb824368d368b3bc1691b339ed2b",
+      "source_sha256": "a29961d5c2f510aa7d038181245825a8e32c0e771061a7e2d79d314567541acc",
+      "bytes": 500,
+      "sha256": "a29961d5c2f510aa7d038181245825a8e32c0e771061a7e2d79d314567541acc"
+    },
+    {
+      "path": "crates/osr-safety-case/src/lib.rs",
+      "git_blob": "df20b30cf6a6dd6da7ddcb3a3dac898100eb2f37",
+      "source_sha256": "198da047ec877b7d8fc05f6048aa652487e2495114bd379e275c06f5fe602800",
+      "bytes": 19163,
+      "sha256": "198da047ec877b7d8fc05f6048aa652487e2495114bd379e275c06f5fe602800"
+    },
+    {
+      "path": "crates/osr-safety-case/src/main.rs",
+      "git_blob": "7af5d041c74d400bc1b2989bb3cd287d47570cb0",
+      "source_sha256": "a5b77901b70981e8ee73cb0b027ef20bffbce6339ce5d8120979d28f4f05e935",
+      "bytes": 5033,
+      "sha256": "a5b77901b70981e8ee73cb0b027ef20bffbce6339ce5d8120979d28f4f05e935"
+    },
+    {
+      "path": "crates/osr-safety-case/src/results.rs",
+      "git_blob": "809626ed189789aacf7aa7edf233d5ddaec34930",
+      "source_sha256": "864654032ef02d8b433f994fad74e10b3e72a1663b35c0deffad68ef81248556",
+      "bytes": 10089,
+      "sha256": "864654032ef02d8b433f994fad74e10b3e72a1663b35c0deffad68ef81248556"
+    },
+    {
+      "path": "crates/osr-safety-case/tests/starter_case_closes.rs",
+      "git_blob": "a501940274780e33ea217aca99b809eebf57c49e",
+      "source_sha256": "ec48bc86af7e25731f362aaa4c2e30e7c981c0b14ab041b63bcd45273dcc2328",
+      "bytes": 1896,
+      "sha256": "ec48bc86af7e25731f362aaa4c2e30e7c981c0b14ab041b63bcd45273dcc2328"
+    },
+    {
+      "path": "crates/osr-secbus/Cargo.toml",
+      "git_blob": "ef0929128589f825d540452a0b9f4aca92c0e91b",
+      "source_sha256": "955e4b1f6b4532eaaab35cc1e116d8ce9b2083bd9dc569b30d6f43c961e12935",
+      "bytes": 466,
+      "sha256": "955e4b1f6b4532eaaab35cc1e116d8ce9b2083bd9dc569b30d6f43c961e12935"
+    },
+    {
+      "path": "crates/osr-secbus/src/kani_proofs.rs",
+      "git_blob": "f91ea9a852b51ec46e3b182c33f344ed5bbdc646",
+      "source_sha256": "eaf6ae3bf824754e41543f8a88ca31d2dbb17cb55eecd8ed947b6dcd755f900b",
+      "bytes": 2030,
+      "sha256": "eaf6ae3bf824754e41543f8a88ca31d2dbb17cb55eecd8ed947b6dcd755f900b"
+    },
+    {
+      "path": "crates/osr-secbus/src/lib.rs",
+      "git_blob": "c09d1e75e782e1dee2180583d6e2e4f7342fb3fd",
+      "source_sha256": "8730dd8b90ed7944e6575d66c644cc469ce80c1679648884fb524b42730e5e6f",
+      "bytes": 9538,
+      "sha256": "8730dd8b90ed7944e6575d66c644cc469ce80c1679648884fb524b42730e5e6f"
+    },
+    {
+      "path": "crates/osr-secbus/tests/proptest_secbus.rs",
+      "git_blob": "ac2c8c100ab3330a5f44662bf6845103fd14d1eb",
+      "source_sha256": "8d61ba8c5bf805ad7999b23cfb4a738a15f5030c2e1b9c1ae53878efc71670d1",
+      "bytes": 3557,
+      "sha256": "8d61ba8c5bf805ad7999b23cfb4a738a15f5030c2e1b9c1ae53878efc71670d1"
+    },
+    {
+      "path": "crates/osr-selftest/Cargo.toml",
+      "git_blob": "800d5de7a6760c610cefb9f11735415fe08c9959",
+      "source_sha256": "81032deff020caf9abfe659c6e6fe9e0f5577f1292e56d62f80f70d736eac161",
+      "bytes": 873,
+      "sha256": "81032deff020caf9abfe659c6e6fe9e0f5577f1292e56d62f80f70d736eac161"
+    },
+    {
+      "path": "crates/osr-selftest/src/lib.rs",
+      "git_blob": "602d07db52a25631782d96c6ea8b39499fbc239c",
+      "source_sha256": "534cce26a057ecbafeaff26e9b23800f3842b00dbdee4f6cb02e39e0ebeb8819",
+      "bytes": 1203,
+      "sha256": "534cce26a057ecbafeaff26e9b23800f3842b00dbdee4f6cb02e39e0ebeb8819"
+    },
+    {
+      "path": "crates/osr-selftest/src/main.rs",
+      "git_blob": "3d98307e2472a95fdbae907244fd8f909f591afd",
+      "source_sha256": "08bf87db3eeec84aca1ad61b78093f13cd015411be759f4dc8e3b24907686c54",
+      "bytes": 1117,
+      "sha256": "08bf87db3eeec84aca1ad61b78093f13cd015411be759f4dc8e3b24907686c54"
+    },
+    {
+      "path": "crates/osr-selftest/src/roles.rs",
+      "git_blob": "858fb0032db8d45539920bec4a8241f85f29a4ca",
+      "source_sha256": "950a9982a64a055cf476b5155e356775d7aba11544b9b6bfea569e2eaa282fda",
+      "bytes": 15890,
+      "sha256": "950a9982a64a055cf476b5155e356775d7aba11544b9b6bfea569e2eaa282fda"
+    },
+    {
+      "path": "crates/osr-selftest/src/runtime.rs",
+      "git_blob": "d564ae22d77e663f10b9c9e8bd0bb7ff9c218f31",
+      "source_sha256": "ceed7d3517945e5e5800249713b432587c3c91f9d028398c5d7b63f145c47a14",
+      "bytes": 5823,
+      "sha256": "ceed7d3517945e5e5800249713b432587c3c91f9d028398c5d7b63f145c47a14"
+    },
+    {
+      "path": "crates/osr-sim-gui/Cargo.toml",
+      "git_blob": "e09fa48e003b52b79801539a2dc0a64bfc462bd3",
+      "source_sha256": "0bd5d04fab420f350202a77d7293498c99cf141eba464c8e7cb956fdf21291a5",
+      "bytes": 929,
+      "sha256": "0bd5d04fab420f350202a77d7293498c99cf141eba464c8e7cb956fdf21291a5"
+    },
+    {
+      "path": "crates/osr-sim-gui/README.md",
+      "git_blob": "af3d5ed7001b8114e54279795cbd1ba09c4f82fa",
+      "source_sha256": "c4991e44c763efda8773bc808eaf7003aee9a0b98b013330b1393025239f0327",
+      "bytes": 2260,
+      "sha256": "c4991e44c763efda8773bc808eaf7003aee9a0b98b013330b1393025239f0327"
+    },
+    {
+      "path": "crates/osr-sim-gui/src/app.rs",
+      "git_blob": "90d81cabf84b3472c8ed13b72dc5b99bd7c4c6c4",
+      "source_sha256": "75393802c2559fcdd7f6784b089177d820b821ffc92b791f5484e4660cf95969",
+      "bytes": 29491,
+      "sha256": "75393802c2559fcdd7f6784b089177d820b821ffc92b791f5484e4660cf95969"
+    },
+    {
+      "path": "crates/osr-sim-gui/src/lib.rs",
+      "git_blob": "0a5e31e266cf8f31f3c86a4f194662e7755d5044",
+      "source_sha256": "09ccfd1532618982cd4f6118386040bec8600c244ac60818bd277f3f4971d1e1",
+      "bytes": 2783,
+      "sha256": "09ccfd1532618982cd4f6118386040bec8600c244ac60818bd277f3f4971d1e1"
+    },
+    {
+      "path": "crates/osr-sim-gui/src/main.rs",
+      "git_blob": "dd54a6ef692a3964b70079e556bde3b3707f222a",
+      "source_sha256": "fdb969f1221c16e2ef32276f79e292a395706b076043fec6185925ad6da9dfe9",
+      "bytes": 1029,
+      "sha256": "fdb969f1221c16e2ef32276f79e292a395706b076043fec6185925ad6da9dfe9"
+    },
+    {
+      "path": "crates/osr-sim-gui/web/index.html",
+      "git_blob": "7438690bab56684ea39d1715d92162f102d57459",
+      "source_sha256": "cb99b9d5511403739e458b1190ba5db33e13400b524c4e8fe7f5d11be44d273d",
+      "bytes": 2645,
+      "sha256": "cb99b9d5511403739e458b1190ba5db33e13400b524c4e8fe7f5d11be44d273d"
+    },
+    {
+      "path": "crates/osr-sim/Cargo.toml",
+      "git_blob": "0de84e048a6cd4b921341939724d8537b9391066",
+      "source_sha256": "3b4bd8483450955905172aaba8058e4ddb90cdd220b0d457a8a02c3844138c85",
+      "bytes": 2597,
+      "sha256": "3b4bd8483450955905172aaba8058e4ddb90cdd220b0d457a8a02c3844138c85"
+    },
+    {
+      "path": "crates/osr-sim/examples/operating_bridge.rs",
+      "git_blob": "a1d5875627b6d01dd28e8949ebdfa5ed676e0334",
+      "source_sha256": "39d47855c636222beb272908bf5fe587bc7ebfe589f10bf972637bcb4d0b09f7",
+      "bytes": 12327,
+      "sha256": "39d47855c636222beb272908bf5fe587bc7ebfe589f10bf972637bcb4d0b09f7"
+    },
+    {
+      "path": "crates/osr-sim/src/backend_systems.rs",
+      "git_blob": "7128bded09291773e9a118f44b52cc893f7fe645",
+      "source_sha256": "00eba272f90ed7fd7c240ade92b3d0ead35c0ee2e7d61850e64b5df36d7ad690",
+      "bytes": 5399,
+      "sha256": "00eba272f90ed7fd7c240ade92b3d0ead35c0ee2e7d61850e64b5df36d7ad690"
+    },
+    {
+      "path": "crates/osr-sim/src/balise_systems.rs",
+      "git_blob": "992bc687019d566094ae13232db5e4ef9bebebfa",
+      "source_sha256": "986c4e00bf36fa355bef9fef502c8da97d4f39068bec4bbe8056389b0f6091cd",
+      "bytes": 7267,
+      "sha256": "986c4e00bf36fa355bef9fef502c8da97d4f39068bec4bbe8056389b0f6091cd"
+    },
+    {
+      "path": "crates/osr-sim/src/bin/vis.rs",
+      "git_blob": "2270598b1aad7d2a9617f43fb40b1f52866c9bd4",
+      "source_sha256": "1eab3141d8d9278307b2a221a1d3dea6177775be93ed368f8e5b70f42b4e4f5e",
+      "bytes": 1609,
+      "sha256": "1eab3141d8d9278307b2a221a1d3dea6177775be93ed368f8e5b70f42b4e4f5e"
+    },
+    {
+      "path": "crates/osr-sim/src/consensus_log.rs",
+      "git_blob": "910bdbfdab57427a5154eee145b4d49d63c25512",
+      "source_sha256": "9a5b2938a5f36e13ebd0661e82f9bdce1a6b3d68ca6fb1b34e94eb0ba4454935",
+      "bytes": 11903,
+      "sha256": "9a5b2938a5f36e13ebd0661e82f9bdce1a6b3d68ca6fb1b34e94eb0ba4454935"
+    },
+    {
+      "path": "crates/osr-sim/src/embedded.rs",
+      "git_blob": "cd74e96ef870288931baeb35ad5146b1baf5f581",
+      "source_sha256": "768b2affb5745ce62fa8a416105a3e2b02b5a450694ea12bc8d79cee05536844",
+      "bytes": 20607,
+      "sha256": "768b2affb5745ce62fa8a416105a3e2b02b5a450694ea12bc8d79cee05536844"
+    },
+    {
+      "path": "crates/osr-sim/src/energy.rs",
+      "git_blob": "1b6fe55f3bc52a2de8fa8b68329984a397d828d6",
+      "source_sha256": "b8e99dc6301e42f9f2641a466bba8f6ce368ce780d68e3897659ddaa9642eb8d",
+      "bytes": 28721,
+      "sha256": "b8e99dc6301e42f9f2641a466bba8f6ce368ce780d68e3897659ddaa9642eb8d"
+    },
+    {
+      "path": "crates/osr-sim/src/fare_systems.rs",
+      "git_blob": "f784ad83ec837180df6c0fa5ec58ff023a4e10f0",
+      "source_sha256": "5ed412371f80ec6454b9e9307cf3c733edc9b91e4a156965c1b87654e591aa91",
+      "bytes": 7667,
+      "sha256": "5ed412371f80ec6454b9e9307cf3c733edc9b91e4a156965c1b87654e591aa91"
+    },
+    {
+      "path": "crates/osr-sim/src/fault.rs",
+      "git_blob": "b30fe89a1f7d68a04c4901e57f313678d22c5bbb",
+      "source_sha256": "838ec54e50091e2c55076e85104ef6a34d42af4fc97fe2664c07b6a7f0e112b4",
+      "bytes": 42080,
+      "sha256": "838ec54e50091e2c55076e85104ef6a34d42af4fc97fe2664c07b6a7f0e112b4"
+    },
+    {
+      "path": "crates/osr-sim/src/habd_systems.rs",
+      "git_blob": "bcc4c886feadcbc8f9544aca498127c942e216cd",
+      "source_sha256": "5c05dd507430a86c71ef7287ebde6405101e4e15b9bf2d07c79c88d083489b1b",
+      "bytes": 13867,
+      "sha256": "5c05dd507430a86c71ef7287ebde6405101e4e15b9bf2d07c79c88d083489b1b"
+    },
+    {
+      "path": "crates/osr-sim/src/infrastructure_systems.rs",
+      "git_blob": "71d04cd14b5e2a9a39174cfbca42658034a25189",
+      "source_sha256": "05e4f29bb74da4fb27b95c8cb9882816f7bc58bbbb9a68322da86d3b5a6de039",
+      "bytes": 14625,
+      "sha256": "05e4f29bb74da4fb27b95c8cb9882816f7bc58bbbb9a68322da86d3b5a6de039"
+    },
+    {
+      "path": "crates/osr-sim/src/lib.rs",
+      "git_blob": "ccefe64828e03682a592a2f184e9433ac971bdb4",
+      "source_sha256": "2bfafd5c4a2e88c8d36b9b6a0e870ad66388bd93580d01e5658acb4fafe670af",
+      "bytes": 633,
+      "sha256": "2bfafd5c4a2e88c8d36b9b6a0e870ad66388bd93580d01e5658acb4fafe670af"
+    },
+    {
+      "path": "crates/osr-sim/src/ma_check.rs",
+      "git_blob": "f868da085ae58f154ddae92b20423ecb73b9d087",
+      "source_sha256": "7ec4a725885c0d8c9d611941d34ff5c1d354a30f6489726e254a90fbb0ed6158",
+      "bytes": 1780,
+      "sha256": "7ec4a725885c0d8c9d611941d34ff5c1d354a30f6489726e254a90fbb0ed6158"
+    },
+    {
+      "path": "crates/osr-sim/src/main.rs",
+      "git_blob": "8b8f8a8af27fdaad8a30f5e2e800ed91f5a7d622",
+      "source_sha256": "4fe330c627e22d221de64dc1f221c2ffd6eba3466ae969388c9b9fd0abe1871b",
+      "bytes": 3429,
+      "sha256": "4fe330c627e22d221de64dc1f221c2ffd6eba3466ae969388c9b9fd0abe1871b"
+    },
+    {
+      "path": "crates/osr-sim/src/occ_systems.rs",
+      "git_blob": "503b8f206c648345a8bb54b49261d5b16ff0aa76",
+      "source_sha256": "94d46f81ec4b092d6e843eaea523a1f2c74671f96ac949f44b13788a69ae9ee5",
+      "bytes": 5397,
+      "sha256": "94d46f81ec4b092d6e843eaea523a1f2c74671f96ac949f44b13788a69ae9ee5"
+    },
+    {
+      "path": "crates/osr-sim/src/onboard.rs",
+      "git_blob": "8a96baf989e824ddff95266fb5f28daa18e3d96b",
+      "source_sha256": "584dfdda21093a91d1f1cae88be3f97c2e368fc195330cfa0caf17d60bdc459a",
+      "bytes": 63126,
+      "sha256": "584dfdda21093a91d1f1cae88be3f97c2e368fc195330cfa0caf17d60bdc459a"
+    },
+    {
+      "path": "crates/osr-sim/src/physics.rs",
+      "git_blob": "76ec193345c42329fcb2c1104b22a0fe2d37d932",
+      "source_sha256": "72506c8d8bfd4e50346d4239106f4934e093651ab23018c9400ed8b5072fb94d",
+      "bytes": 6374,
+      "sha256": "72506c8d8bfd4e50346d4239106f4934e093651ab23018c9400ed8b5072fb94d"
+    },
+    {
+      "path": "crates/osr-sim/src/proto_systems.rs",
+      "git_blob": "ec9b9a2f03a15514b83a3a3a5e383875da26cf86",
+      "source_sha256": "7dfe3c38af9848e5fc64e51111619f5b4e8ac53196c6dddcad7f1a14282abb2e",
+      "bytes": 4743,
+      "sha256": "7dfe3c38af9848e5fc64e51111619f5b4e8ac53196c6dddcad7f1a14282abb2e"
+    },
+    {
+      "path": "crates/osr-sim/src/report.rs",
+      "git_blob": "d9af26aae0c0134fcfaf8f6ae12c5b507dd4da55",
+      "source_sha256": "29210a5305b0d6cc4d6c22b8f313638c9affcf4c228a3c99b12b01baf97aa42d",
+      "bytes": 18465,
+      "sha256": "29210a5305b0d6cc4d6c22b8f313638c9affcf4c228a3c99b12b01baf97aa42d"
+    },
+    {
+      "path": "crates/osr-sim/src/scenario_file.rs",
+      "git_blob": "7d8f23c50c583bb606bbf7a9fee304f6c8f3fec9",
+      "source_sha256": "f71615a706ec6704bf15b5a64825a4f2d4f64bff1607fe11c5cd30f02661200e",
+      "bytes": 69476,
+      "sha256": "f71615a706ec6704bf15b5a64825a4f2d4f64bff1607fe11c5cd30f02661200e"
+    },
+    {
+      "path": "crates/osr-sim/src/schedule.rs",
+      "git_blob": "5f7641f1860731b84878247e6f15fc68b71847e2",
+      "source_sha256": "420ab2c9e4529d456bb38245e06055c4516ff7510f91b6c1aad015fee6292ef5",
+      "bytes": 8060,
+      "sha256": "420ab2c9e4529d456bb38245e06055c4516ff7510f91b6c1aad015fee6292ef5"
+    },
+    {
+      "path": "crates/osr-sim/src/selftest_systems.rs",
+      "git_blob": "682c0e00ee584692624929a2c500763c9f1d904d",
+      "source_sha256": "1ec6d827f9a6f16303a460687e14713e3bbef563caa832ce4fa0e212f95c98cf",
+      "bytes": 2274,
+      "sha256": "1ec6d827f9a6f16303a460687e14713e3bbef563caa832ce4fa0e212f95c98cf"
+    },
+    {
+      "path": "crates/osr-sim/src/sim.rs",
+      "git_blob": "e322b100e99b3bba48200c68ba5ae8a4bd7c7745",
+      "source_sha256": "fbe6b035b56438a476bfd843a4a0e35f6735ed2a92a10b6435cf07bdc88a905a",
+      "bytes": 118221,
+      "sha256": "fbe6b035b56438a476bfd843a4a0e35f6735ed2a92a10b6435cf07bdc88a905a"
+    },
+    {
+      "path": "crates/osr-sim/src/time_sync.rs",
+      "git_blob": "c0a5cc1fc133b99f8b760920c5f16183c0dbd1b1",
+      "source_sha256": "319cca896fb97e4cf0ba16e14ad1e850ad34c7e646389b80116a1d0ea33103c7",
+      "bytes": 3623,
+      "sha256": "319cca896fb97e4cf0ba16e14ad1e850ad34c7e646389b80116a1d0ea33103c7"
+    },
+    {
+      "path": "crates/osr-sim/src/timeline.rs",
+      "git_blob": "faf7d9bc47665c391bd6a9c009a5eaa2318f63a4",
+      "source_sha256": "dfd5ad28181aa9a020bcd0e88c746fe834ff48874988f120b037859b46f5709d",
+      "bytes": 10797,
+      "sha256": "dfd5ad28181aa9a020bcd0e88c746fe834ff48874988f120b037859b46f5709d"
+    },
+    {
+      "path": "crates/osr-sim/src/train.rs",
+      "git_blob": "c026be71f78eb64ba48af2cb1abc3f3a98605be5",
+      "source_sha256": "866b0c613d3174919e999e8ebc0bf13573afe0eef650a75676751fb9590d43a9",
+      "bytes": 4422,
+      "sha256": "866b0c613d3174919e999e8ebc0bf13573afe0eef650a75676751fb9590d43a9"
+    },
+    {
+      "path": "crates/osr-sim/src/vehicle_systems.rs",
+      "git_blob": "788bed14d03c0c8fe066865168223870df68a5a1",
+      "source_sha256": "fb2574c86719d9691c4ebc8713027f2ec7dac7943f139ecb91be692cda174f20",
+      "bytes": 13298,
+      "sha256": "fb2574c86719d9691c4ebc8713027f2ec7dac7943f139ecb91be692cda174f20"
+    },
+    {
+      "path": "crates/osr-sim/src/vis.rs",
+      "git_blob": "b3f9449c7b666ec07b3621223b76c57abe589085",
+      "source_sha256": "3e9c2eea5a11e9f2f16198e5ebf63e27e03fa3be9594a299b0d4350b5a1ed2f9",
+      "bytes": 13393,
+      "sha256": "3e9c2eea5a11e9f2f16198e5ebf63e27e03fa3be9594a299b0d4350b5a1ed2f9"
+    },
+    {
+      "path": "crates/osr-sim/src/wayside_asset_systems.rs",
+      "git_blob": "6a8e9156c2eab1bbb9890c1b3ae2663e90818f0c",
+      "source_sha256": "1d5d58cd4c8cfdf8cf754a367faa3df928363a607cf6d1308f6d904f98093d88",
+      "bytes": 8715,
+      "sha256": "1d5d58cd4c8cfdf8cf754a367faa3df928363a607cf6d1308f6d904f98093d88"
+    },
+    {
+      "path": "crates/osr-sim/tests/backend_systems_integration.rs",
+      "git_blob": "568333ef9b9b590e70285a14fa196e67130aa1e0",
+      "source_sha256": "8e3504512c7a3ce64df7ae13b9bd2c3ed19768058c4e31ccdc2e22a29eda438e",
+      "bytes": 2855,
+      "sha256": "8e3504512c7a3ce64df7ae13b9bd2c3ed19768058c4e31ccdc2e22a29eda438e"
+    },
+    {
+      "path": "crates/osr-sim/tests/balise_systems_integration.rs",
+      "git_blob": "dc5b1d1dd5610792230c6c62cc4eeeba4dda430d",
+      "source_sha256": "ecdde3ce272105814413574c47f44c283446e26b0c7782913165de51ff2031b2",
+      "bytes": 1844,
+      "sha256": "ecdde3ce272105814413574c47f44c283446e26b0c7782913165de51ff2031b2"
+    },
+    {
+      "path": "crates/osr-sim/tests/consensus_integration.rs",
+      "git_blob": "7774441afbcc6f93ff2a85279b496bfab18cd7ea",
+      "source_sha256": "63d9346d42dd2a5b0816d4d6a19c1e32ccd5372fce48a888c072c2da0bae3140",
+      "bytes": 1417,
+      "sha256": "63d9346d42dd2a5b0816d4d6a19c1e32ccd5372fce48a888c072c2da0bae3140"
+    },
+    {
+      "path": "crates/osr-sim/tests/embedded_integration.rs",
+      "git_blob": "de7413b61f96289ff0504031863b7cfd83ff5b6c",
+      "source_sha256": "bcf95cec7a842813f7f5ec8fc6871d16e9505c61a38e219217d6810c79947121",
+      "bytes": 7068,
+      "sha256": "bcf95cec7a842813f7f5ec8fc6871d16e9505c61a38e219217d6810c79947121"
+    },
+    {
+      "path": "crates/osr-sim/tests/fare_systems_integration.rs",
+      "git_blob": "3214e5088adb054d4ce70b9b9800b74504b533f9",
+      "source_sha256": "cf9a3a16f5748f4234aabe505ea1ce8984585396ce01fc31efca219cc0420edd",
+      "bytes": 1831,
+      "sha256": "cf9a3a16f5748f4234aabe505ea1ce8984585396ce01fc31efca219cc0420edd"
+    },
+    {
+      "path": "crates/osr-sim/tests/habd_systems_integration.rs",
+      "git_blob": "f0054fd0cf925b4a2eb599e9d1d1ad5b16cce177",
+      "source_sha256": "059119eb993c5ddaa9f1ed321b2365363f3fd3073db513b50f058f21013209e1",
+      "bytes": 6052,
+      "sha256": "059119eb993c5ddaa9f1ed321b2365363f3fd3073db513b50f058f21013209e1"
+    },
+    {
+      "path": "crates/osr-sim/tests/hybrid_stabling.rs",
+      "git_blob": "4ca2e3984b50406c3fae35c31d72e036f8c1b5b9",
+      "source_sha256": "9796af319753843e8c41ab93a0fc8f9bf8de2afc122e3e5eea469edfefff8d9b",
+      "bytes": 6023,
+      "sha256": "9796af319753843e8c41ab93a0fc8f9bf8de2afc122e3e5eea469edfefff8d9b"
+    },
+    {
+      "path": "crates/osr-sim/tests/infrastructure_systems_integration.rs",
+      "git_blob": "af0e10b34ae21126701b8096b5584592788b81e4",
+      "source_sha256": "ef13dbb332fafeb35767b8a4d44c570980fcab5e37a8823009fc7775e0b98702",
+      "bytes": 3252,
+      "sha256": "ef13dbb332fafeb35767b8a4d44c570980fcab5e37a8823009fc7775e0b98702"
+    },
+    {
+      "path": "crates/osr-sim/tests/monitors_integration.rs",
+      "git_blob": "3e93cbf46cafc7739673382b8a1e47f38bb7a89b",
+      "source_sha256": "d94289ad568277fc517fae68c8be0ef34f3213c957ad85bb6554d5b5142f9710",
+      "bytes": 2394,
+      "sha256": "d94289ad568277fc517fae68c8be0ef34f3213c957ad85bb6554d5b5142f9710"
+    },
+    {
+      "path": "crates/osr-sim/tests/occ_systems_integration.rs",
+      "git_blob": "ad5ae375fdf02ec9e3301503d01f836b6e25018a",
+      "source_sha256": "e7159be83971e6a09e574651b8a3d5e8a896397311d5efb47c9ee7f8ea420b56",
+      "bytes": 2069,
+      "sha256": "e7159be83971e6a09e574651b8a3d5e8a896397311d5efb47c9ee7f8ea420b56"
+    },
+    {
+      "path": "crates/osr-sim/tests/onboard_integration.rs",
+      "git_blob": "f91e69635567091ae5f30daa7bbdc6035cbcf880",
+      "source_sha256": "18f99457182921f97b21a54b50ce4e08b6407166999123c46f2485b4e7816771",
+      "bytes": 3271,
+      "sha256": "18f99457182921f97b21a54b50ce4e08b6407166999123c46f2485b4e7816771"
+    },
+    {
+      "path": "crates/osr-sim/tests/phase2b_integration.rs",
+      "git_blob": "af8df417a32e5938930579c1fe899573d0d603cd",
+      "source_sha256": "a491573959a04c4ab75be7db35c1609735c1e0301eb72a600f94373b4c634cc1",
+      "bytes": 7164,
+      "sha256": "a491573959a04c4ab75be7db35c1609735c1e0301eb72a600f94373b4c634cc1"
+    },
+    {
+      "path": "crates/osr-sim/tests/station_stabling.rs",
+      "git_blob": "4ea98a133ad144a7ce166a9099a1516ffe73b53c",
+      "source_sha256": "779b0587e6b2892b7c407b03f44d8d33c64bc562c8e4c6b102d860a1ee7ddc72",
+      "bytes": 11899,
+      "sha256": "779b0587e6b2892b7c407b03f44d8d33c64bc562c8e4c6b102d860a1ee7ddc72"
+    },
+    {
+      "path": "crates/osr-sim/tests/time_sync_integration.rs",
+      "git_blob": "cf7a27e14d138ad27cd3cd0c3780aa9fb2cd81af",
+      "source_sha256": "f1bf3f87aed4153d8d0aefc8430a304dc890a8a2639cc2a96b16bf3f52e945b6",
+      "bytes": 1037,
+      "sha256": "f1bf3f87aed4153d8d0aefc8430a304dc890a8a2639cc2a96b16bf3f52e945b6"
+    },
+    {
+      "path": "crates/osr-sim/tests/wayside_asset_systems_integration.rs",
+      "git_blob": "e05c2983594555bc65abffe58cc9b1285cbbc115",
+      "source_sha256": "01a4842f4631eb87b01a9d5cd19290fa285e1a5de408f1e265e5408332dd1a32",
+      "bytes": 2440,
+      "sha256": "01a4842f4631eb87b01a9d5cd19290fa285e1a5de408f1e265e5408332dd1a32"
+    },
+    {
+      "path": "crates/osr-station-scada/Cargo.toml",
+      "git_blob": "9b469b6373e791e5bfe21fc94f179a6b64a8741c",
+      "source_sha256": "b885bfeb93fceb2866cca7d5c4705709cf29d5588075a2e898d6f5f2020a9a05",
+      "bytes": 393,
+      "sha256": "b885bfeb93fceb2866cca7d5c4705709cf29d5588075a2e898d6f5f2020a9a05"
+    },
+    {
+      "path": "crates/osr-station-scada/src/lib.rs",
+      "git_blob": "a939288833e3d5fa2cd4c6cad8a5612b71e70169",
+      "source_sha256": "c8f49bdb52a0ad4262f73e183dff0eed04cac5c3f75745f169be60c586f73558",
+      "bytes": 15358,
+      "sha256": "c8f49bdb52a0ad4262f73e183dff0eed04cac5c3f75745f169be60c586f73558"
+    },
+    {
+      "path": "crates/osr-station-scada/tests/proptest_scada.rs",
+      "git_blob": "a76600ebf43b49b4b6130429b60d4a96a23e1e7a",
+      "source_sha256": "5175edf2084fa46116641306b5d91b252b9b2732204ff5ef7a6ea065a75e434b",
+      "bytes": 5970,
+      "sha256": "5175edf2084fa46116641306b5d91b252b9b2732204ff5ef7a6ea065a75e434b"
+    },
+    {
+      "path": "crates/osr-t2g/Cargo.toml",
+      "git_blob": "685527426e2bd2a1228303b8611ba26a072a984c",
+      "source_sha256": "da64555c28996414ca7d7470a8d39945b3c95b1f75ee785f12dbe73a527ed919",
+      "bytes": 365,
+      "sha256": "da64555c28996414ca7d7470a8d39945b3c95b1f75ee785f12dbe73a527ed919"
+    },
+    {
+      "path": "crates/osr-t2g/src/lib.rs",
+      "git_blob": "8bd4b2882abf01f50e94178ee8da741aa926496f",
+      "source_sha256": "dbc93e3e63a4eb9449d285cc925a3bd6eddcb8231c353d55bcbd5025833f810a",
+      "bytes": 6894,
+      "sha256": "dbc93e3e63a4eb9449d285cc925a3bd6eddcb8231c353d55bcbd5025833f810a"
+    },
+    {
+      "path": "crates/osr-t2g/tests/proptest_t2g.rs",
+      "git_blob": "58ac67a06d86a900619710411635700b48492fca",
+      "source_sha256": "a5b85dc243a408aa94b9b62b350a30f719487a56b78e84b1a42334dc119580fc",
+      "bytes": 2608,
+      "sha256": "a5b85dc243a408aa94b9b62b350a30f719487a56b78e84b1a42334dc119580fc"
+    },
+    {
+      "path": "crates/osr-tcms/Cargo.toml",
+      "git_blob": "91a390dd0da62cf0b88ceb9902b8c96e825c91d2",
+      "source_sha256": "75904f4971b7f0db4169af63b2901a767db99158e84b9872df3faa237e081552",
+      "bytes": 374,
+      "sha256": "75904f4971b7f0db4169af63b2901a767db99158e84b9872df3faa237e081552"
+    },
+    {
+      "path": "crates/osr-tcms/src/lib.rs",
+      "git_blob": "fa23e745a3c0a22e0218610b183b5a55f72ada44",
+      "source_sha256": "a8f6a9a749a4cb529d809a18c19e227998a0ad9d203e087afb227ee92203efb6",
+      "bytes": 9477,
+      "sha256": "a8f6a9a749a4cb529d809a18c19e227998a0ad9d203e087afb227ee92203efb6"
+    },
+    {
+      "path": "crates/osr-tcms/tests/proptest_tcms.rs",
+      "git_blob": "69168601522528e703cd2422d613dcea90146a90",
+      "source_sha256": "9dc991991fb5320005971a53d90985160b562398c3a3fd4e4c61584a35dbc70b",
+      "bytes": 3758,
+      "sha256": "9dc991991fb5320005971a53d90985160b562398c3a3fd4e4c61584a35dbc70b"
+    },
+    {
+      "path": "crates/osr-tcn/Cargo.toml",
+      "git_blob": "01baee7ae413870ae2f90b0ba5353a1776ba6731",
+      "source_sha256": "2dbdfc0c85fa18a9468d8e844a764d06cd8d3a42cb9a3f7a79dd0f080ef86cae",
+      "bytes": 396,
+      "sha256": "2dbdfc0c85fa18a9468d8e844a764d06cd8d3a42cb9a3f7a79dd0f080ef86cae"
+    },
+    {
+      "path": "crates/osr-tcn/src/lib.rs",
+      "git_blob": "c5f380178d96860fdc76daed76bc58850271fcae",
+      "source_sha256": "670c46b364989b994c6251ee1cac71cd89c47c1d4d01ef79ffcc2203158bf1b8",
+      "bytes": 2500,
+      "sha256": "670c46b364989b994c6251ee1cac71cd89c47c1d4d01ef79ffcc2203158bf1b8"
+    },
+    {
+      "path": "crates/osr-tcn/src/mock.rs",
+      "git_blob": "8a07e90d70cd83c0e364492fd98cc078a43f56a8",
+      "source_sha256": "6e3d12e87fcf54b4f9d4dae8f1e550fbbfd321fb50ffe9fa730a7e3fcaaa6996",
+      "bytes": 9429,
+      "sha256": "6e3d12e87fcf54b4f9d4dae8f1e550fbbfd321fb50ffe9fa730a7e3fcaaa6996"
+    },
+    {
+      "path": "crates/osr-tcn/src/payload.rs",
+      "git_blob": "b14c3f4dd9b6284da49fc538ef49cda1e4115831",
+      "source_sha256": "c86d4e24c76b39e1301a5d01ddb2d266435d811ad599b2d3ab3644f1c492412d",
+      "bytes": 1094,
+      "sha256": "c86d4e24c76b39e1301a5d01ddb2d266435d811ad599b2d3ab3644f1c492412d"
+    },
+    {
+      "path": "crates/osr-tcn/src/registry.rs",
+      "git_blob": "f562c902bee0bca137e669770405fc99e46b1c6b",
+      "source_sha256": "d09e0fd4ebb606a464fa1548ff98712c3c5cc6eb3fce6dfd19a81eca17c9c580",
+      "bytes": 4502,
+      "sha256": "d09e0fd4ebb606a464fa1548ff98712c3c5cc6eb3fce6dfd19a81eca17c9c580"
+    },
+    {
+      "path": "crates/osr-tcn/src/udp.rs",
+      "git_blob": "62618712010139278babacd7f2a15a1f8f04b442",
+      "source_sha256": "4714f76d9a58416cb77836b4445b2c147f6f5054e9ce2ea27b74617818561147",
+      "bytes": 13809,
+      "sha256": "4714f76d9a58416cb77836b4445b2c147f6f5054e9ce2ea27b74617818561147"
+    },
+    {
+      "path": "crates/osr-tcn/tests/proptest_tcn.rs",
+      "git_blob": "1844bd1cd5fa6c00138e0eff3a6a0dd9bbb043ef",
+      "source_sha256": "c3bc84bd2d5c3d1e9a2ab59571f83a1bf39696aae2ec1b763511dc441722ae6c",
+      "bytes": 4873,
+      "sha256": "c3bc84bd2d5c3d1e9a2ab59571f83a1bf39696aae2ec1b763511dc441722ae6c"
+    },
+    {
+      "path": "crates/osr-traction/Cargo.toml",
+      "git_blob": "a45c87e4076a0bb202cb344cc513eb8595731ed7",
+      "source_sha256": "ab737ec81ec52213a5441e8df370c051d5dd0b864bc4bfb703121b9ca4331090",
+      "bytes": 400,
+      "sha256": "ab737ec81ec52213a5441e8df370c051d5dd0b864bc4bfb703121b9ca4331090"
+    },
+    {
+      "path": "crates/osr-traction/src/evaluate.rs",
+      "git_blob": "36aa5f6347685bea6e3719a65f82f7ea20331fe6",
+      "source_sha256": "74fd7387c7452b03b1a154b7a7216d49d0b256b3d1b56b4beceb4ab3d4de1b59",
+      "bytes": 12192,
+      "sha256": "74fd7387c7452b03b1a154b7a7216d49d0b256b3d1b56b4beceb4ab3d4de1b59"
+    },
+    {
+      "path": "crates/osr-traction/src/inputs.rs",
+      "git_blob": "850e7260402bd340f9f730794d42528cdd762fe7",
+      "source_sha256": "92e6e6b88ceb9745f904589014366715f17f3b73d41d84be45a8070b4eb897b7",
+      "bytes": 3525,
+      "sha256": "92e6e6b88ceb9745f904589014366715f17f3b73d41d84be45a8070b4eb897b7"
+    },
+    {
+      "path": "crates/osr-traction/src/lib.rs",
+      "git_blob": "3e23b5ab1d9527c8e99f84679bf364192558c9e0",
+      "source_sha256": "9f8ef84b1b7ee56cc57faa432f57c82e8fc89e222c74a0129078fce9a4131403",
+      "bytes": 3355,
+      "sha256": "9f8ef84b1b7ee56cc57faa432f57c82e8fc89e222c74a0129078fce9a4131403"
+    },
+    {
+      "path": "crates/osr-traction/src/output.rs",
+      "git_blob": "0614bc69435f6893be3c80a6b940f2ef63882682",
+      "source_sha256": "daedb27684a867f7eef80981d72d1f5001bbc4cfe20bde63cf50f60c90ed881d",
+      "bytes": 1490,
+      "sha256": "daedb27684a867f7eef80981d72d1f5001bbc4cfe20bde63cf50f60c90ed881d"
+    },
+    {
+      "path": "crates/osr-traction/src/types.rs",
+      "git_blob": "322eb78cec438bcc7f77930db209194547528a99",
+      "source_sha256": "eb651c8c42b19b6dc76ce4b18c6fc99b9db093023d26b19578754c6ecf2ddcd1",
+      "bytes": 1816,
+      "sha256": "eb651c8c42b19b6dc76ce4b18c6fc99b9db093023d26b19578754c6ecf2ddcd1"
+    },
+    {
+      "path": "crates/osr-traction/tests/proptest_traction.rs",
+      "git_blob": "c054bba7c1e1b52e08ccf404f126e135c175ffd9",
+      "source_sha256": "7c103fce05b844b6d11baca41a83309ee822d2f24c52ea1b4bb9230f7fdda60d",
+      "bytes": 6493,
+      "sha256": "7c103fce05b844b6d11baca41a83309ee822d2f24c52ea1b4bb9230f7fdda60d"
+    },
+    {
+      "path": "crates/osr-trainset-image/Cargo.toml",
+      "git_blob": "8ca1c694a279fa11d2f47f5da1dc49522b542f26",
+      "source_sha256": "1c9a271680d7e17a37d677302aa7fc1048f9b9355189b7ca9cabd63e32b918d0",
+      "bytes": 1446,
+      "sha256": "1c9a271680d7e17a37d677302aa7fc1048f9b9355189b7ca9cabd63e32b918d0"
+    },
+    {
+      "path": "crates/osr-trainset-image/src/lib.rs",
+      "git_blob": "7861a54f90fbac027677c81325403cc2cf5ef6f7",
+      "source_sha256": "1bfecf3ea790ca0f8efba6c6faca466d25d82b5ed3a1ed495dc4aea2b098b226",
+      "bytes": 3812,
+      "sha256": "1bfecf3ea790ca0f8efba6c6faca466d25d82b5ed3a1ed495dc4aea2b098b226"
+    },
+    {
+      "path": "crates/osr-tvm/Cargo.toml",
+      "git_blob": "89f2774a2c339767e15e9df798bd62eed3936430",
+      "source_sha256": "628fee337492c7be14947eafddfc915936bf57065a3eee6c7b668d74583f94d9",
+      "bytes": 393,
+      "sha256": "628fee337492c7be14947eafddfc915936bf57065a3eee6c7b668d74583f94d9"
+    },
+    {
+      "path": "crates/osr-tvm/src/lib.rs",
+      "git_blob": "3db563dd6b480d8379f6a33135d8c7afd0d10c30",
+      "source_sha256": "fd60d2e3187a3c5693b2d2a60492a068ed614b83ab4cc6726c13dbc74a3b91d7",
+      "bytes": 10375,
+      "sha256": "fd60d2e3187a3c5693b2d2a60492a068ed614b83ab4cc6726c13dbc74a3b91d7"
+    },
+    {
+      "path": "crates/osr-tvm/tests/proptest_tvm.rs",
+      "git_blob": "dd834b937f504b58a7284b8632d7494b44bd306f",
+      "source_sha256": "b64934c2d1f843bb2af6809a00754eadb3a3ce2692e6d44434bacfba63990633",
+      "bytes": 5077,
+      "sha256": "b64934c2d1f843bb2af6809a00754eadb3a3ce2692e6d44434bacfba63990633"
+    },
+    {
+      "path": "crates/osr-wayside-points/Cargo.toml",
+      "git_blob": "83f101f16863fe00a1dd15fc15ec655a2012f6c2",
+      "source_sha256": "838977674970dbe18c67ab07a2d5ba3c3ba8a81b78e9437e773da26430a88d10",
+      "bytes": 386,
+      "sha256": "838977674970dbe18c67ab07a2d5ba3c3ba8a81b78e9437e773da26430a88d10"
+    },
+    {
+      "path": "crates/osr-wayside-points/src/evaluate.rs",
+      "git_blob": "ac54e5aa83e4374b296ca4e37cede9144770c8ee",
+      "source_sha256": "01dbbe8ec5d8f49d0f4293dbc17ae41c0b20b255d0c17df97d69c12f7a0d1dff",
+      "bytes": 12280,
+      "sha256": "01dbbe8ec5d8f49d0f4293dbc17ae41c0b20b255d0c17df97d69c12f7a0d1dff"
+    },
+    {
+      "path": "crates/osr-wayside-points/src/inputs.rs",
+      "git_blob": "4c9a82804b1bf457bb181bfe19ce60c03e81e2ee",
+      "source_sha256": "c26b3d2188c54b17b1570392cd23c80ce903845c830d70eeb9c0941f55fcca67",
+      "bytes": 1885,
+      "sha256": "c26b3d2188c54b17b1570392cd23c80ce903845c830d70eeb9c0941f55fcca67"
+    },
+    {
+      "path": "crates/osr-wayside-points/src/kani_proofs.rs",
+      "git_blob": "4834130aa4c478e014325237e0755ed7582a8135",
+      "source_sha256": "f201a0630c9542aa0b0f30851e94e21a0f3536ce40a7f0f6ae0aec2bfdc6b2f5",
+      "bytes": 8534,
+      "sha256": "f201a0630c9542aa0b0f30851e94e21a0f3536ce40a7f0f6ae0aec2bfdc6b2f5"
+    },
+    {
+      "path": "crates/osr-wayside-points/src/lib.rs",
+      "git_blob": "7b06768bacefe74454d44a94902ba7e3b752d833",
+      "source_sha256": "a9a8fe065f652062fd2618e4b8dbddc9233fb478fc97c8e629a4545a23bedc9b",
+      "bytes": 3183,
+      "sha256": "a9a8fe065f652062fd2618e4b8dbddc9233fb478fc97c8e629a4545a23bedc9b"
+    },
+    {
+      "path": "crates/osr-wayside-points/src/output.rs",
+      "git_blob": "58748fecea9ff55326153839847a4f114f8277cc",
+      "source_sha256": "92066fea81ca224e6417dadff7c819be7b3c7692b97bb092a8df32555345a059",
+      "bytes": 2194,
+      "sha256": "92066fea81ca224e6417dadff7c819be7b3c7692b97bb092a8df32555345a059"
+    },
+    {
+      "path": "crates/osr-wayside-points/src/types.rs",
+      "git_blob": "9a3400e38f0722303e8b54261e59ae2a0a3d2802",
+      "source_sha256": "f0118bdd9f6b86075d328d67a18f2c19a164b96406d342a324e188baf84af3e3",
+      "bytes": 2128,
+      "sha256": "f0118bdd9f6b86075d328d67a18f2c19a164b96406d342a324e188baf84af3e3"
+    },
+    {
+      "path": "crates/osr-wayside-points/tests/proptest_switch.rs",
+      "git_blob": "0da98b4d127de254a1432ec721002b8ff3b64d4b",
+      "source_sha256": "d2235c3316b27f9b54fcc7e09fc86653b8fb418b85e1e8b08926ca3c12760e08",
+      "bytes": 10761,
+      "sha256": "d2235c3316b27f9b54fcc7e09fc86653b8fb418b85e1e8b08926ca3c12760e08"
+    },
+    {
+      "path": "docs/city-studio.md",
+      "git_blob": "726ef1cb9aa5d21f8d8a0298a152fc8653798ebb",
+      "source_sha256": "2252979b68ed4c2d6851e1742677589a32e407aabca4aab7ec5a972bf046d6af",
+      "bytes": 21611,
+      "sha256": "2252979b68ed4c2d6851e1742677589a32e407aabca4aab7ec5a972bf046d6af"
+    },
+    {
+      "path": "docs/rfcs/0031-city-studio-git-revisions.md",
+      "git_blob": "052e2acebb30b74822f739454ceb23e993474d6f",
+      "source_sha256": "edac71234c25cc0bfba76fd667a263a32dcee6dd52d38fa71a12a4f647581f18",
+      "bytes": 16278,
+      "sha256": "072ef1458ad62e842d48ccb98f770262739a079c9659a5867b29e90460238d80",
+      "normalization": "Removed trailing spaces from the status and author metadata lines."
+    },
+    {
+      "path": "docs/screenshots/city-studio/artifact-evidence-viewer.png",
+      "git_blob": "dccae3c01152405bdcbb14f2e8fe48cb164c6332",
+      "source_sha256": "ca5492ce9bdea052103e7c54be6bef93a0d31d0cf6673d16b0aa2dab3e62e4f6",
+      "bytes": 627016,
+      "sha256": "ca5492ce9bdea052103e7c54be6bef93a0d31d0cf6673d16b0aa2dab3e62e4f6"
+    },
+    {
+      "path": "docs/screenshots/city-studio/bcf-git-review-workflow.png",
+      "git_blob": "cf390f913d7385ed5aaab625bf639b5b63806eb0",
+      "source_sha256": "392f5934e6506d680d58694e31d169f8389df55ac762cb13affc8db54677dbed",
+      "bytes": 590581,
+      "sha256": "392f5934e6506d680d58694e31d169f8389df55ac762cb13affc8db54677dbed"
+    },
+    {
+      "path": "docs/screenshots/city-studio/civil-bim-ids-bcf-evidence-viewer.png",
+      "git_blob": "1199b452fbfbfd78c2edfdd6e1fa765dd1d81e26",
+      "source_sha256": "9aef2c01e0c54983d38f65b30b4ca57ad65e96094e4551e44170a7e5abb60010",
+      "bytes": 668522,
+      "sha256": "9aef2c01e0c54983d38f65b30b4ca57ad65e96094e4551e44170a7e5abb60010"
+    },
+    {
+      "path": "docs/screenshots/city-studio/engineering-jobs.png",
+      "git_blob": "f4f3b814fd211b6d4ff2243b2ab53c93318d3c63",
+      "source_sha256": "15b25dd1b73376c1bc7f347040cf44dcb013a66111d6c25420aa55f1318e3aeb",
+      "bytes": 348506,
+      "sha256": "15b25dd1b73376c1bc7f347040cf44dcb013a66111d6c25420aa55f1318e3aeb"
+    },
+    {
+      "path": "docs/screenshots/city-studio/gis-workspace.png",
+      "git_blob": "9a0e05d47477e3a74bbe649bf97b3a05deabd037",
+      "source_sha256": "ec5de84ea8d9daeb64fcbb4457401c4d99574b76c3db7d8e81b9b0295a5c886c",
+      "bytes": 349622,
+      "sha256": "ec5de84ea8d9daeb64fcbb4457401c4d99574b76c3db7d8e81b9b0295a5c886c"
+    },
+    {
+      "path": "docs/screenshots/city-studio/gui-acceptance.png",
+      "git_blob": "f5755be63f8f67dc0bba726c9dbdb70f79d44804",
+      "source_sha256": "3d444aea2235eadbf13e416d50871f59e68b890a34df5ffeeac83aacbad287f1",
+      "bytes": 1428011,
+      "sha256": "3d444aea2235eadbf13e416d50871f59e68b890a34df5ffeeac83aacbad287f1"
+    },
+    {
+      "path": "docs/screenshots/city-studio/ifc-bcf-topic-authoring.png",
+      "git_blob": "735f4c1d15d0135abc0760605359bcc818752c2a",
+      "source_sha256": "9a4451329cc22020f89a9a1168e4ac23487dcbacf4c3b274f52d56f25fc942ce",
+      "bytes": 694615,
+      "sha256": "9a4451329cc22020f89a9a1168e4ac23487dcbacf4c3b274f52d56f25fc942ce"
+    },
+    {
+      "path": "docs/screenshots/city-studio/network-and-service.png",
+      "git_blob": "1edc832ee35896223e7159e1ffcc440d8ea1768c",
+      "source_sha256": "39f9287bb2e8ec0df9069b83e265441e29fb788eec1d67bad4e35c081cdb34b3",
+      "bytes": 139921,
+      "sha256": "39f9287bb2e8ec0df9069b83e265441e29fb788eec1d67bad4e35c081cdb34b3"
+    },
+    {
+      "path": "docs/screenshots/occ-gui.png",
+      "git_blob": "cf7e4de361928a9cfb74fa42f91265694bfd1e6a",
+      "source_sha256": "103a77795d8e72b6cee4d6d11dfe3398792499f7b7e4e709354eddc8647d9b81",
+      "bytes": 154010,
+      "sha256": "103a77795d8e72b6cee4d6d11dfe3398792499f7b7e4e709354eddc8647d9b81"
+    },
+    {
+      "path": "docs/screenshots/sim-gui.png",
+      "git_blob": "68fae94d7eff2780cbaae8f78cffec848918eb3c",
+      "source_sha256": "cb5e3ab0d448d15345342b20801aa34966e74e9b0b469b08fb5655a6ed8522f3",
+      "bytes": 151624,
+      "sha256": "cb5e3ab0d448d15345342b20801aa34966e74e9b0b469b08fb5655a6ed8522f3"
+    },
+    {
+      "path": "rust-toolchain.toml",
+      "git_blob": "65066cfceef4b6c25a33a558ef9bcbb6cd279e23",
+      "source_sha256": "43f21abcaf7f19937b0a4b9d06ff27f6e6cf2b4a0e55a3c9f4050a3a60905cdc",
+      "bytes": 123,
+      "sha256": "43f21abcaf7f19937b0a4b9d06ff27f6e6cf2b4a0e55a3c9f4050a3a60905cdc"
+    },
+    {
+      "path": "tests/frontend/city-studio.spec.mjs",
+      "git_blob": "158bf5d1ae4a1dcdc9ad5137b125af7a51afb156",
+      "source_sha256": "82d2e70beba0736d2c4b107d7ff2cb49a2d802c785fb892ebd4cf9855b459edb",
+      "bytes": 1228,
+      "sha256": "82d2e70beba0736d2c4b107d7ff2cb49a2d802c785fb892ebd4cf9855b459edb"
+    },
+    {
+      "path": "tools/automation/test-city-studio-gui.mjs",
+      "git_blob": "c82d320b9d07e69e7a63350efad566b61d524cfc",
+      "source_sha256": "c25aca48411d0ce5199be3724209ce67f0550f4c81f9b620cc6d84364426b84b",
+      "bytes": 92038,
+      "sha256": "c25aca48411d0ce5199be3724209ce67f0550f4c81f9b620cc6d84364426b84b"
+    }
+  ],
+  "manifest_id": "69fcf8bd6dea72ea490527fe67f38a5b221a634a0404275255599c4be2e04e85"
+}

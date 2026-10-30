@@ -1,0 +1,23 @@
+[package]
+name          = "osr-design"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+description   = "Design orchestrator: raster bundle -> lines + stations -> design.toml + corridor.geojson."
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "osr-design"
+path = "src/main.rs"
+
+[dependencies]
+osr-routing = { path = "../osr-routing" }
+serde       = { version = "1", features = ["derive"] }
+serde_json  = "1"
+toml        = "0.8"
+anyhow      = "1"
+clap        = { version = "4", features = ["derive"] }

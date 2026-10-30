@@ -1,0 +1,18 @@
+[package]
+name = "osr-proto"
+description = "OpenSourceRail — wire types for the track-state log (RFC 0001 schema)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+bincode = { version = "1", default-features = false }
+
+[dev-dependencies]
+proptest = "1"

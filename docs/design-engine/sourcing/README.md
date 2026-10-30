@@ -4,7 +4,7 @@
 
 ## What is in the database
 
-The combined offline seed now contains **307 immutable observations**: 69 source records, 16 product records, five published catalogue offers, three retained FX observations and 214 commodity, construction, wage, industrial-payroll and local-market benchmarks. The latest source extension adds an Alrowad Baghdad cable-manufacturing lead and an Iraqi government notice about a planned copper-wire production line. These are source records only; no product or offer is inferred. The previous source epoch already carried the official CSO 2024 private-building report and 14 derived material benchmarks, ready-mix capability, industrial-payroll statistics, factory/manufacturer leads, a cement price-image lead, the 2025 import-report lead and the notice that a national indicative construction-price bulletin is being prepared. The earlier 305-record epoch remains source-bound in the published v6 sourcing packets and validation record. The retained ECB and World Bank feed snapshot separately parsed **27 dated ECB reference-rate rows** and **two World Bank metal observations** into a local append-only database. The Central Bank of Iraq workbook adds a dated GBP/IQD conversion reference. Repeating a refresh with identical bytes reuses the source record and does not replace previous observations. Previously published packets remain source-bound to their earlier catalogue epochs.
+The combined offline seed now contains **307 immutable observations**: 69 source records, 16 product records, five published catalogue offers, three retained FX observations and 214 commodity, construction, wage, industrial-payroll and local-market benchmarks. The latest source extension adds an Alrowad Baghdad cable-manufacturing lead and an Iraqi government notice about a planned copper-wire production line. These are source records only; no product or offer is inferred. The previous source epoch already carried the official CSO 2024 private-building report and 14 derived material benchmarks, ready-mix capability, industrial-payroll statistics, factory/manufacturer leads, a cement price-image lead, the 2025 import-report lead and the notice that a national indicative construction-price bulletin is being prepared. The vehicle-frame and federated evaluation packets remain source-bound to the retained 305-record epoch; the current laminate studies and procurement demand roll-up have been regenerated against all 307 observations. The retained ECB and World Bank feed snapshot separately parsed **27 dated ECB reference-rate rows** and **two World Bank metal observations** into a local append-only database. The Central Bank of Iraq workbook adds a dated GBP/IQD conversion reference. Repeating a refresh with identical bytes reuses the source record and does not replace previous observations. Previously published packets remain source-bound to their earlier catalogue epochs.
 
 Source products are immutable observations. If a supplier product key has multiple recorded revisions, the laminate study stops unless the operator supplies the exact `PRODUCT_KEY=RECORD_ID` selection with `--product-observation`. The requirement and RFQ retain that selected record ID. Material/source-property changes alter the evaluation input and bounds; physical candidate identity stays constant when only the evidence revision changes. A changed material choice or geometry gets a different candidate ID.
 
@@ -168,7 +168,7 @@ The metal extensions are raw-commodity comparisons, **not accepted supplier matc
 
 ### Draft procurement-package BOM
 
-The [package packet](procurement-bom/federated-v06-research-packages-v5.json.gz) groups all **27,216 located stock occurrences** in the federated research candidate into 191 hierarchy-based sourcing-package candidates. It preserves each engineering occurrence, manufacturing-group identity, and related procurement/manufacturing task ID. The **4,773 unlocated obligations remain separate** and do not enter package masses or quantities.
+The retained [v5 package packet](procurement-bom/federated-v06-research-packages-v5.json.gz) groups all **27,216 located stock occurrences** in the federated research candidate into 191 hierarchy-based sourcing-package candidates. It preserves each engineering occurrence, manufacturing-group identity, and related procurement/manufacturing task ID. The **4,773 unlocated obligations remain separate** and do not enter package masses or quantities.
 
 | Draft sourcing scope | Packages | Located occurrences | Modeled gross stock mass |
 |---|---:|---:|---:|
@@ -180,6 +180,8 @@ The [package packet](procurement-bom/federated-v06-research-packages-v5.json.gz)
 | Station-LIM primary copper/steel set, by bank | 5 | 2,430 | 22.82 t |
 
 These are reviewable quote scopes, not complete purchasing assemblies. Their internal counts are not commercial order quantities; purchase units, supplier prices, yield, labour routes and assembly completeness remain unknown. The bogie groups are partial modeled stock, the rail entries are mass-equivalent, the concrete is nominal geometry rather than designed precast, and the LIM sets omit converters, cooling and installation. Each concrete span package carries three separate 2025 Baghdad material-plus-labour estimate scenarios at 2/4/8 skilled hours per nominal m³ with a 20% allowance. Those estimates are not supplier offers or complete process/installed cost. No approval is attached. The package candidate is bound to research candidate `9c7d0942…`; it does not transfer to the selected v0.6 reference.
+
+The current [v6 procurement packet](procurement-bom/federated-v06-research-packages-v6.json.gz) preserves those 191 quote-scope drafts and adds eight material-demand lines. Those lines aggregate 2,269 engineering manufacturing groups and 27,216 located occurrences by concrete, rail-equivalent mass, aluminium, GFRP, steel, passive secondary, copper and station-primary steel. Seven lines have Iraqi source leads (28 group-to-source associations); the 60E1 rail mass-equivalent line has none. The source-linked demand quantities still do not represent commercial purchase units, compatible supplier matches, manufacturing routes or finished assembly costs. A stock/member mass residual of about 1.5×10⁻¹² kg is retained as an audit check.
 
 Reproduce the deterministic package grouping from the sealed federated input:
 
@@ -226,7 +228,7 @@ The three takeoff-mapped recipes, output packets, exact group/occurrence lists a
 
 ### GFRP local fabrication: listed material + local labour + 20%
 
-The new [GFRP cost screen](domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v6.json) joins the three source-bound 10 m² laminate hypotheses to the 2025 CSO Baghdad skilled-worker base wage of IQD 9,375/hour and the dated CBI GBP/IQD reference. It uses explicit 8/16/32 person-hour sensitivities per 10 m². The formula is `(known listed UK material extensions converted at CBI reference + assumed local base-wage labour) × 1.20`.
+The current [GFRP cost screen](domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v7.json) joins the three current 307-record source-bound 10 m² laminate hypotheses to the 2025 CSO Baghdad skilled-worker base wage of IQD 9,375/hour and the dated CBI GBP/IQD reference. It uses explicit 8/16/32 person-hour sensitivities per 10 m². The formula is `(known listed UK material extensions converted at CBI reference + assumed local base-wage labour) × 1.20`.
 
 | 10 m² research recipe | Known listed materials converted to IQD | Partial screen at 8 / 16 / 32 labour hours, including 20% |
 |---|---:|---:|
@@ -254,7 +256,7 @@ DigiKey's [official Product Information API](https://developer.digikey.com/tutor
 
 ## Direct twin runs
 
-The current catalogue has 307 records, while the vehicle-frame, 137-group balanced federation and three laminate packets remain bound to their previous exact 305-record source epoch. The two additional supplier leads add no products or price observations, so those five source-bound computations retain their original results. The material takeoff, 2025 regional estimates, 2026 candidate concrete scenarios, GFRP labour/material screen and separate 2024 historical material cross-check likewise retain their pinned source identities. The procurement package BOM is regenerated separately against the current source registry and the exact current federation input, so domestic lead records can be linked without rewriting its historical price snapshot. Packet IDs and the exact source record-set identities are in [validation.json](validation.json). The prior 282-record epoch remains source-bound in the v4 packets; the earlier 273-record epoch remains preserved in [validation-domestic-iraq-273-pre-extra-aluminium.json](validation-domestic-iraq-273-pre-extra-aluminium.json); earlier 60-record and 98-record catalogue epochs remain retained in [validation-pre-domestic-iraq.json](validation-pre-domestic-iraq.json) and [validation-domestic-iraq-pre-sensitivity.json](validation-domestic-iraq-pre-sensitivity.json). Raw downloaded source documents and the SQLite database remain outside the repository.
+The current catalogue has 307 records, while the vehicle-frame and 137-group balanced federation packets remain bound to their retained exact 305-record source epoch. The three laminate studies are refreshed as v7 against the current 307-record epoch. The two additional supplier leads add no products or price observations, so frame and federated price-evaluation results retain their original quantities; the laminate studies were replayed against the expanded source set and their matched prices are unchanged. The material takeoff, 2025 regional estimates, 2026 candidate concrete scenarios and separate 2024 historical material cross-check retain their pinned source identities. The v7 GFRP screen is regenerated from the current 307-record catalogue epoch. The v6 procurement package BOM is regenerated separately against the current source registry and the exact current federation input, so domestic lead records can be linked without rewriting its historical price snapshot. Packet IDs and the exact source record-set identities are in [validation.json](validation.json). The prior 282-record epoch remains source-bound in the v4 packets; the earlier 273-record epoch remains preserved in [validation-domestic-iraq-273-pre-extra-aluminium.json](validation-domestic-iraq-273-pre-extra-aluminium.json); earlier 60-record and 98-record catalogue epochs remain retained in [validation-pre-domestic-iraq.json](validation-pre-domestic-iraq.json) and [validation-domestic-iraq-pre-sensitivity.json](validation-domestic-iraq-pre-sensitivity.json). Raw downloaded source documents and the SQLite database remain outside the repository.
 
 | Input and purpose | Evaluation | Result |
 |---|---|---|
@@ -273,7 +275,8 @@ In the current catalogue epoch, the vehicle frame still has 3,183 requirement gr
 
 - Retained 305-record source epoch: [vehicle registry](packets/frame-vehicle-iraq-domestic-sources-v6/summary.json) · [federated manufacturing-group roll-up](packets/federated-purchasing-groups-iraq-domestic-sources-v6/summary.json)
 - Retained 305-record source epoch: [solid laminate](packets/laminate-materials-iraq-domestic-sources-v6/solid-600gsm/summary.json) · [sandwich laminate](packets/laminate-materials-iraq-domestic-sources-v6/sandwich-600gsm/summary.json) · [higher-fibre sandwich](packets/laminate-materials-iraq-domestic-sources-v6/higher-fibre-sandwich-600gsm/summary.json)
-- [Iraqi-local GFRP labour/material sensitivity packet](domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v6.json)
+- Current 307-record source epoch: [solid laminate](packets/laminate-materials-iraq-domestic-sources-v7/solid-600gsm/summary.json) · [sandwich laminate](packets/laminate-materials-iraq-domestic-sources-v7/sandwich-600gsm/summary.json) · [higher-fibre sandwich](packets/laminate-materials-iraq-domestic-sources-v7/higher-fibre-sandwich-600gsm/summary.json)
+- [Current 307-record Iraqi-local GFRP labour/material sensitivity packet](domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v7.json)
 - Earlier 60-record epoch: [vehicle registry](packets/frame-vehicle/summary.json) · [whole-railway frontier](packets/federated-balanced-frontier/summary.json) · [manufacturing-group roll-up](packets/federated-purchasing-groups/summary.json)
 - Prior 98-record, pre-sensitivity epoch: [validation index](validation-domestic-iraq-pre-sensitivity.json) · [vehicle registry](packets/frame-vehicle-iraq-sources-pre-sensitivity-controller/summary.json) · [federated roll-up](packets/federated-purchasing-groups-iraq-sources-pre-sensitivity-controller/summary.json)
 - Earlier 60-record epoch: [solid laminate](packets/laminate-solid-600gsm/summary.json) · [sandwich laminate](packets/laminate-sandwich-600gsm/summary.json) · [higher-fibre sandwich](packets/laminate-higher-fibre-sandwich-600gsm/summary.json)
@@ -293,8 +296,8 @@ From a repository checkout:
   --output /tmp/osr-frame-sourcing-review
 ./osr source verify /tmp/osr-frame-sourcing-review
 ./osr source study laminate \
-  --input docs/design-engine/digital-twin/3a07936303fe5d471a88c95875e55b73b13a5cda94e98d1169f168c647766a93.tar.gz \
-  --member federated-bom.json.gz --as-of 2026-10-30 --target-currency GBP \
+  --input docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-domestic-sources-v6/input.json.gz \
+  --as-of 2026-10-30 --target-currency GBP \
   --output /tmp/osr-laminate-studies
 ./osr source verify /tmp/osr-laminate-studies/solid-600gsm
 ./osr source estimate fabrication \
@@ -302,7 +305,7 @@ From a repository checkout:
   --recipe docs/design-engine/sourcing/domestic-fabrication/recipes/rebar-cut-bend-08h.json \
   --output /tmp/osr-domestic-fabrication-estimate.json
 ./osr source estimate gfrp-laminate \
-  --packet-root docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v6 \
+  --packet-root docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v7 \
   --output /tmp/osr-gfrp-local-fabrication-screen.json
 ./osr source serve
 ```

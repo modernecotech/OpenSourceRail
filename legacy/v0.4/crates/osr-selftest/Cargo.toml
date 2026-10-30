@@ -1,0 +1,29 @@
+[package]
+name = "osr-selftest"
+description = "OpenSourceRail — per-role post-assembly self-test tool (RFC 0019)"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "osr-selftest"
+path = "src/main.rs"
+
+[dependencies]
+osr-core = { path = "../osr-core" }
+# Role-specific evaluators that each self-test exercises.
+osr-atp = { path = "../osr-atp" }
+osr-brake = { path = "../osr-brake" }
+osr-crypto = { path = "../osr-crypto" }
+osr-interlocking = { path = "../osr-interlocking" }
+osr-intrusion-detect = { path = "../osr-intrusion-detect" }
+osr-obstacle-detect = { path = "../osr-obstacle-detect" }
+osr-secbus = { path = "../osr-secbus" }
+clap = { version = "4", features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
