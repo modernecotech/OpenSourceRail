@@ -108,6 +108,50 @@ def test_full_request_grid_is_demand_only(result):
     assert result['requirement_policy']['integrated_suitability'] == 'unknown'
 
 
+def test_five_bank_force_contract_is_candidate_bound_and_fail_closed(result):
+    row = lead(result)
+    contract = row['fixed_bank_force_contract']
+    assert contract['schema'] == 'osr-fixed-bank-lim-force-contract/1'
+    assert contract['reference_vehicle_candidate_id'] == result['reference_candidate_id']
+    assert contract['physical_option_id'] == row['physical_option_id']
+    assert contract['physical_geometry_id'] == row['geometry']['physical_geometry_id']
+    assert contract['evaluation_id'] == row['evaluation_id']
+    assert contract['active_bank_count'] == 5
+    assert contract['installed_primary_length_m'] == 100
+    assert len(contract['banks']) == 5
+    assert len(contract['demand_scenarios']) == 18
+    assert len({bank['bank_id'] for bank in contract['banks']}) == 5
+    assert [bank['start_m'] for bank in contract['banks']] == [91.5, 191.875, 292.25, 392.625, 493.0]
+    for bank in contract['banks']:
+        assert bank['status'] == 'held'
+        assert bank['physical_geometry_id'] == contract['physical_geometry_id']
+        assert bank['exact_primary_component_id'] is None
+        assert bank['force_map_id'] is None and bank['available_force_N'] is None
+        assert bank['converter_voltage_limit_V'] is None and bank['converter_current_limit_A'] is None
+        assert bank['primary_loss_W'] is None and bank['secondary_loss_W'] is None
+        assert bank['cooling_capacity_W'] is None and bank['repeated_duty'] is None
+        assert bank['installed_mass_kg'] is None
+        assert bank['installed_cost_IQD'] is None and bank['installed_cost_USD'] is None
+        assert bank['source_ids'] == []
+        assert bank['bank_record_id'] == study.identity({k:v for k,v in bank.items() if k != 'bank_record_id'})
+    for scenario in contract['demand_scenarios']:
+        assert scenario['required_train_force_N'] > 0
+        assert scenario['required_mechanical_power_W'] >= 0
+        assert scenario['actual_available_force_N'] is None
+        assert scenario['actual_electrical_input_W'] is None
+        assert scenario['force_map_id'] is None
+        assert scenario['comparison'] == 'held-missing-force-map'
+    assert contract['status'] == 'held'
+    assert contract['force_map_id'] is None
+    assert contract['available_force_map_admitted'] is False
+    assert contract['transferred_moving_lim_force_data'] is False
+    assert contract['physical_acceptance'] is False
+    assert contract['engineering_acceptance'] is False
+    assert contract['native_evaluator_admission'] is False
+    assert contract['operating_release'] is False
+    assert contract['contract_id'] == study.identity({k:v for k,v in contract.items() if k != 'contract_id'})
+
+
 def test_forged_physical_acceptance_cannot_be_rebound(tmp_path, result, monkeypatch):
     monkeypatch.setattr(study, 'compare', lambda root: deepcopy(result))
     monkeypatch.setattr(study.propulsion_layout, 'retain', lambda root, value: Path(root) / 'synthetic-run')

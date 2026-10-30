@@ -22,8 +22,23 @@ These are geometric quantities, not thrust or installed-price reductions. At som
 | 4 | 84.25 m | True | requires-qualified-degraded-operation |
 | 5 | 91.375 m | True | requires-qualified-degraded-operation |
 
+## Candidate-bound fixed-bank force contract
+
+The five-bank layout is bound to a separate evidence contract (`d33443654468d4dc70f4c79578778f80706effe6aa82fa916472010404fec7b5`) with 5 installed bank records and 18 demand contexts.
+
+| Bank | Start | Length | Component ID | Force-map ID | Available force | Status |
+|---:|---:|---:|---|---|---:|---|
+| 1 | 91.5 m | 20 m | unknown | unknown | unknown | held |
+| 2 | 191.875 m | 20 m | unknown | unknown | unknown | held |
+| 3 | 292.25 m | 20 m | unknown | unknown | unknown | held |
+| 4 | 392.625 m | 20 m | unknown | unknown | unknown | held |
+| 5 | 493 m | 20 m | unknown | unknown | unknown | held |
+
+Required force in each target-demand context is retained separately from available force; no geometry-derived thrust is admitted. The exact primary/winding, electrical groups, phase handoff, converter limits, heat/cooling duty, receiving/braking, installation quantities, prices and physical correlation are still required. The moving-LIM component study remains a separate 12.5 m/9 m configuration and is not transferred into this five-bank contract.
+
+
 Failed banks remain installed: no mass, stock or price is removed. A middle contact gap does not prove the train stops there; its motion and safe stopping require a validated force/brake model. An unavailable initial bank prohibits self-launch in the specified berth.
 
 Required next work: one/two-fin nonlinear position/force/current/thermal maps; current-control handoff; train-level fin/hanger/coupler load paths; receiving and independent braking; protection, external rescue and complete installation quotations.
 
-Study identity: `56f03e824a3c37c1f49992a5353402c0d2c05b1cb4dda6c46633fba027ceced8`.
+Study identity: `eb35e9b0420daae85be8cc1ddb7b8c66b7e1754f3ef0e1875a406fbbca3012a9`.

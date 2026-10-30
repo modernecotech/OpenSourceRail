@@ -24,7 +24,7 @@ def write_seed(path, data):
 def test_actual_catalogue_scopes_prices_and_half_open_breaks():
     values=load_catalogue([SUPPLIERS]);products={v['product_key']:v for v in values if v['kind']=='product'}
     assert len(products)==16
-    assert sum(v['kind']=='source' for v in values)==47
+    assert sum(v['kind']=='source' for v in values)==53
     offers={v['product_id']:v for v in values if v['kind']=='offer'}
     assert len(offers)==5
     cloth=offers[products['EC-GF-BA-440-127']['record_id']]
@@ -53,7 +53,7 @@ def test_actual_catalogue_scopes_prices_and_half_open_breaks():
 def test_seed_references_are_atomic_and_repeatable(tmp_path):
     with Store(tmp_path/'sourcing.db') as store:
         first=seed(store,[SUPPLIERS]);second=seed(store,[SUPPLIERS])
-        assert first['added_count']==first['record_count']==256
+        assert first['added_count']==first['record_count']==264
         assert second['added_count']==0
         assert first['record_ids']==second['record_ids']
         for offer in store.all('offer'):
@@ -100,6 +100,27 @@ def test_additional_iraqi_industry_sources_are_discovery_leads_not_products_or_o
     for key in keys:
         assert any(term in sources[key]['access'].lower()
                    for term in ('unverified','unconfirmed','confirm'))
+
+
+def test_new_iraqi_concrete_and_factory_payroll_sources_keep_their_limits():
+    values=load_catalogue([SUPPLIERS])
+    sources={value['source_key']:value for value in values if value['kind']=='source'}
+    offers=[value for value in values if value['kind']=='offer']
+    benchmarks={value['benchmark_key']:value for value in values if value['kind']=='benchmark'}
+    ready_mix=sources['iraq.sc-dpi-ready-mix']
+    assert ready_mix['source_kind']=='factory_catalogue'
+    assert '60-120 m3/h' in ready_mix['access']
+    assert 'does not represent a precast beam' in ready_mix['access']
+    assert not any(value['source_id']==ready_mix['record_id'] for value in offers)
+    assert sources['iraq.cosit.import-report-2025']['source_kind']=='national_statistic'
+    assert 'contributes no unit-value observations' in sources['iraq.cosit.import-report-2025']['access']
+    assert sources['iraq.moch.price-analysis-bulletin-preparation-2026-09']['source_kind']=='national_statistic'
+    annual_large=benchmarks['iq-cso-industrial-2024:large-establishment-average-annual-pay']
+    annual_medium=benchmarks['iq-cso-industrial-2024:medium-establishment-average-annual-pay']
+    assert (annual_large['unit_price'],annual_large['quantity_unit'])==('12500000','person-year')
+    assert (annual_medium['unit_price'],annual_medium['quantity_unit'])==('6300000','person-year')
+    assert 'not an hourly fabrication wage' in annual_large['cost_scope']
+    assert 'not an hourly fabrication wage' in annual_medium['cost_scope']
 
 
 def test_load_returns_copies(tmp_path):

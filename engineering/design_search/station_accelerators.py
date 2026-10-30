@@ -88,6 +88,122 @@ def _reference_interfaces(vehicle):
         raise ValueError('Reference interfaces differ; revise the passive six-car experiment explicitly')
 
 
+def _valid_hash(value):
+    return (isinstance(value, str) and len(value) == 64 and
+            all(char in '0123456789abcdef' for char in value))
+
+
+def _fixed_bank_force_contract(*, layout, physical_option_id, geometry, evaluation_id,
+                                priority_id, reference_vehicle_candidate_id,
+                                target_demands):
+    """Bind every installed research bank to its missing operating evidence.
+
+    This is a fail-closed evidence contract, not a force model. It records the
+    exact geometry and required demand contexts while leaving force, electrical
+    limits, heat and installed quantities unknown until an exact component map
+    and validation evidence are supplied.
+    """
+    starts = layout['starts_m']
+    length = layout['bank_length_m']
+    if (not starts or len(starts) != geometry['site_count'] or
+            not propulsion_layout.positive(length) or
+            not _valid_hash(physical_option_id) or not _valid_hash(evaluation_id) or
+            not _valid_hash(priority_id) or not _valid_hash(reference_vehicle_candidate_id) or
+            not _valid_hash(geometry.get('physical_geometry_id'))):
+        raise ValueError('Exact fixed-bank physical and evaluation identities required')
+    if any(not propulsion_layout.positive(start) for start in starts):
+        raise ValueError('Positive fixed-bank start positions required')
+
+    required = [
+        'exact_primary_component_and_winding_geometry',
+        'phase_sequence_and_electrical_grouping_per_bank',
+        'position_speed_overlap_airgap_force_current_and_voltage_maps',
+        'converter_current_voltage_frequency_and_protection_limits',
+        'switching_commutation_and_interbank_phase_handoff',
+        'primary_and_secondary_losses_temperature_and_repeated_duty_cooling',
+        'receiving_extent_independent_braking_and_protected_recovery',
+        'supports_feeders_transformer_cabling_and_complete_installed_quantities',
+        'supplier_price_origin_lead_time_maintenance_and_replacement_scope',
+        'independent_numerical_validation_and_physical_correlation',
+    ]
+    banks = []
+    for index, start in enumerate(starts):
+        bank_geometry = dict(index=index, start_m=start, length_m=length,
+            physical_geometry_id=geometry['physical_geometry_id'],
+            installed_extent_m=[start, start + length])
+        bank = dict(bank_id=identity(dict(physical_option_id=physical_option_id,
+                bank_geometry=bank_geometry)), **bank_geometry,
+            physical_option_id=physical_option_id,
+            exact_primary_component_id=None,
+            electrical_group_id=None,
+            phase_registration=None,
+            force_map_id=None,
+            available_force_N=None,
+            converter_voltage_limit_V=None,
+            converter_current_limit_A=None,
+            operating_frequency_Hz=None,
+            primary_loss_W=None,
+            secondary_loss_W=None,
+            cooling_capacity_W=None,
+            maximum_operating_temperature_C=None,
+            repeated_duty=None,
+            installed_mass_kg=None,
+            installed_cost_IQD=None,
+            installed_cost_USD=None,
+            source_ids=[],
+            status='held',
+            missing_evidence=list(required))
+        bank['bank_record_id'] = identity(bank)
+        banks.append(bank)
+
+    scenarios = []
+    for demand in target_demands:
+        context = dict(load=demand['load'], distance_m=demand['distance_m'],
+            grade_fraction=demand['grade_fraction'])
+        scenario = dict(scenario_id=identity(dict(physical_option_id=physical_option_id,
+                context=context, evaluation_id=evaluation_id)),
+            **context,
+            evaluation_id=evaluation_id,
+            required_train_force_N=demand['result']['peak_required_force_N_train'],
+            required_mechanical_power_W=demand['result']['peak_required_power_W_train'],
+            actual_available_force_N=None,
+            actual_electrical_input_W=None,
+            position_resolved_bank_allocation=None,
+            force_map_id=None,
+            comparison='held-missing-force-map')
+        scenarios.append(scenario)
+
+    contract = dict(schema='osr-fixed-bank-lim-force-contract/1',
+        purpose='candidate-bound-evidence-closure; not an operating-force-map',
+        reference_vehicle_candidate_id=reference_vehicle_candidate_id,
+        materialized_candidate_id=None,
+        physical_option_id=physical_option_id,
+        physical_geometry_id=geometry['physical_geometry_id'],
+        priority_id=priority_id,
+        evaluation_id=evaluation_id,
+        active_bank_count=len(banks),
+        installed_bank_length_m=length,
+        installed_primary_length_m=geometry['summed_bank_length_m'],
+        force_map_id=None,
+        available_force_map_admitted=False,
+        transferred_moving_lim_force_data=False,
+        separate_moving_lim_study='docs/design-engine/moving-lim-method/assessment.json',
+        required_evidence=required,
+        banks=banks,
+        demand_scenarios=scenarios,
+        status='held',
+        physical_acceptance=False,
+        engineering_acceptance=False,
+        native_evaluator_admission=False,
+        selected_reference_changed=False,
+        operating_release=False,
+        configuration_adopted=False,
+        manufacturing_release=False,
+        physical_journey_completed=False)
+    contract['contract_id'] = identity(contract)
+    return contract
+
+
 def compare(root=ROOT):
     root = Path(root).resolve()
     started = time.monotonic()
@@ -170,6 +286,18 @@ def compare(root=ROOT):
     for row in rows:
         row['evaluation_id'] = identity(dict(physical_option_id=row['physical_option_id'],
             priority_id=priority_id, source_sha256=sources, target_demands=row['target_demands'], faults=row['fault_evaluations']))
+        if row['name'] == spec['priority']['lead_layout']:
+            layout = next(item for item in spec['layouts'] if item['name'] == row['name'])
+            row['fixed_bank_force_contract'] = _fixed_bank_force_contract(
+                layout=layout,
+                physical_option_id=row['physical_option_id'],
+                geometry=row['geometry'],
+                evaluation_id=row['evaluation_id'],
+                priority_id=priority_id,
+                reference_vehicle_candidate_id=vehicle['candidate_id'],
+                target_demands=row['target_demands'])
+        else:
+            row['fixed_bank_force_contract'] = None
     value['study_id'] = identity(value)
     return value
 
@@ -201,6 +329,16 @@ def report(value):
         for fault in row['fault_evaluations']:
             g = fault['active_contact_diagnostic']
             text.append(f"| {fault['disabled_site_index'] + 1} | {g['geometric_uncovered_m']:g} m | {g['initial_geometric_overlap']} | {fault['departure_readiness']} |")
+    contract = next(row['fixed_bank_force_contract'] for row in value['layouts']
+                    if row['name'] == value['lead_research_layout_name'])
+    text += ['', '## Candidate-bound fixed-bank force contract', '',
+        f"The five-bank layout is bound to a separate evidence contract (`{contract['contract_id']}`) with {contract['active_bank_count']} installed bank records and {len(contract['demand_scenarios'])} demand contexts.", '',
+        '| Bank | Start | Length | Component ID | Force-map ID | Available force | Status |',
+        '|---:|---:|---:|---|---|---:|---|']
+    for bank in contract['banks']:
+        text.append(f"| {bank['index'] + 1} | {bank['start_m']:g} m | {bank['length_m']:g} m | unknown | unknown | unknown | {bank['status']} |")
+    text += ['',
+        'Required force in each target-demand context is retained separately from available force; no geometry-derived thrust is admitted. The exact primary/winding, electrical groups, phase handoff, converter limits, heat/cooling duty, receiving/braking, installation quantities, prices and physical correlation are still required. The moving-LIM component study remains a separate 12.5 m/9 m configuration and is not transferred into this five-bank contract.', '']
     text += ['', 'Failed banks remain installed: no mass, stock or price is removed. A middle contact gap does not prove the train stops there; its motion and safe stopping require a validated force/brake model. An unavailable initial bank prohibits self-launch in the specified berth.', '',
         'Required next work: one/two-fin nonlinear position/force/current/thermal maps; current-control handoff; train-level fin/hanger/coupler load paths; receiving and independent braking; protection, external rescue and complete installation quotations.', '',
         f"Study identity: `{value['study_id']}`.", '']

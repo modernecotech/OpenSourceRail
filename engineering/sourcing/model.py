@@ -19,7 +19,8 @@ FLAGS = dict(engineering_accepted=False, engineering_approved=False,
 KINDS = {"source", "product", "offer", "fx", "benchmark", "process",
          "requirement", "assessment", "rfq", "overlay", "run", "redesign"}
 UNITS = {"each", "kg", "g", "t", "m", "mm", "m2", "m3", "CY", "h",
-         "kWh", "W", "kW", "V", "A", "Pa", "MPa", "degC", "fraction"}
+         "kWh", "W", "kW", "V", "A", "Pa", "MPa", "degC", "fraction",
+         "person-year"}
 SOURCE_KINDS = {"manufacturer_catalogue", "distributor_catalogue",
                 "commodity_benchmark", "exchange_rate", "tender_notice",
                 "awarded_bid", "supplier_quotation", "factory_catalogue",

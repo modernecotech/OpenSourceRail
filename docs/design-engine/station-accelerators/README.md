@@ -62,6 +62,15 @@ buffer are practical design hypotheses. The number of inverter channels, feeder
 circuits and independent branches needs a switching/current-control and failure
 study; it is not assumed to be one cheap drive serving every condition.
 
+The five-bank lead now carries an explicit candidate-bound force-envelope
+contract. It retains one identity and evidence checklist for each installed bank
+and links the 18 required-demand contexts to that same physical option. The
+contract leaves actual force, winding/component identity, phase registration,
+converter limits, losses, cooling, repeated duty, installed quantities and price
+unknown; every bank is held. The moving-LIM numerical study is a separate
+12.5 m primary / 9 m secondary hypothesis and its results do not populate this
+100 m five-bank contract.
+
 The short banks still act over enough forward travel to accelerate gently:
 20 m/s at 0.4 m/s² needs 500 m. The lead-layout target-demand calculations cover empty, normal
 and crowd-control mass accounts at 1.5/2 km and level/up/downhill hypotheses.

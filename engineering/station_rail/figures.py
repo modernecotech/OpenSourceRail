@@ -13,7 +13,11 @@ def write(record,output):
     matplotlib.rcParams.update({'svg.hashsalt':record['candidate_id'],'font.family':'DejaVu Sans','font.size':9})
     output=Path(output);output.mkdir(parents=True,exist_ok=True)
     def save(fig,name):
-        fig.savefig(output/name,format='svg',metadata={'Date':None,'Description':'Research candidate '+record['candidate_id']});plt.close(fig)
+        path=output/name
+        fig.savefig(path,format='svg',metadata={'Date':None,'Description':'Research candidate '+record['candidate_id']});plt.close(fig)
+        # Matplotlib writes SVG path commands with trailing spaces. Keep the
+        # published source artifacts clean and make git whitespace checks useful.
+        path.write_text('\n'.join(line.rstrip() for line in path.read_text(encoding='utf-8').splitlines())+'\n',encoding='utf-8')
     car=record['vehicle'];fig,axes=plt.subplots(2,1,figsize=(11,5.3),gridspec_kw={'height_ratios':[2,1]})
     for p in car['geometry_parts']:
         system=p.get('system','body');pid=p['id'];color='#287c91' if system=='bogies' else '#cb8b36' if system=='passive-secondary' else '#8da9b1'
