@@ -68,7 +68,53 @@ _PACKAGE_SPECS = {
     },
 }
 
-_RULE_VERSION = "osr-procurement-package-rules/2"
+_RULE_VERSION = "osr-procurement-package-rules/3"
+
+_DOMESTIC_LEAD_RULES = {
+    ("civil/concrete", "concrete-hypothesis"): {
+        "iraq.sc-dpi-ready-mix": "Ready-mix and laboratory capability inquiry; not a precast beam offer.",
+        "iraq.dijla-precast": "Precast production inquiry; product and guideway-beam compatibility unassessed.",
+        "iraq.karbala-precast": "Precast production inquiry; product and guideway-beam compatibility unassessed.",
+        "iraq.al-fayha-precast": "Precast production inquiry; product and guideway-beam compatibility unassessed.",
+        "iraq.al-burhan-precast": "Precast production inquiry; product and guideway-beam compatibility unassessed.",
+    },
+    ("civil/rails", "60E1-mass-equivalent"): {},
+    ("vehicle/body", "aluminium_reference"): {
+        "iraq.asia-aluminium": "Profile/sheet supplier inquiry; alloy, temper, product form and design compatibility unassessed.",
+        "iraq.alko-aluminium": "Profile/panel supplier inquiry; alloy, temper, product form and design compatibility unassessed.",
+        "iraq.baxi-siwail-aluminium": "Profile/sheet supplier inquiry; alloy, temper, product form and design compatibility unassessed.",
+        "iraq.ii-alco-aluminium": "Profile/sheet supplier inquiry; alloy, temper, product form and design compatibility unassessed.",
+        "iraq.alkhassaki-aluminium-project": "Planned project lead only; current operating capacity is not established.",
+        "iraq.duraid-al-sudani-metal-fabrication": "Metal fabrication inquiry; aluminium scope and design compatibility unassessed.",
+    },
+    ("vehicle/body", "gfrp_skin_research"): {
+        "iraq-nubin-grp-facade": "GRP/GFRP façade manufacturing inquiry; passenger-body qualification unassessed.",
+        "iraq.iraqalhur-grp-factory": "GRP pipe capability only; body-panel capability unassessed.",
+    },
+    ("vehicle/passive-bogie-pair", "steel-reference"): {
+        "iraq.scosi-steel-industries": "General steel fabrication lead; bogie design, fatigue, material and process qualification unassessed.",
+        "iraq.star-steel": "Steel-product lead; bogie scope and qualification unassessed.",
+        "iraq.alpha-steel": "Steel-product lead; bogie scope and qualification unassessed.",
+        "iraq.duraid-al-sudani-metal-fabrication": "Metal fabrication inquiry; bogie scope and qualification unassessed.",
+    },
+    ("vehicle/passive-secondary", "6082-T6-proposed"): {
+        "iraq.asia-aluminium": "Profile/sheet supplier inquiry; 6082-T6 temper and product compatibility unassessed.",
+        "iraq.alko-aluminium": "Profile/panel supplier inquiry; 6082-T6 temper and product compatibility unassessed.",
+        "iraq.baxi-siwail-aluminium": "Profile/sheet supplier inquiry; 6082-T6 temper and product compatibility unassessed.",
+        "iraq.ii-alco-aluminium": "Profile/sheet supplier inquiry; 6082-T6 temper and product compatibility unassessed.",
+        "iraq.alkhassaki-aluminium-project": "Planned project lead only; current operating capacity is not established.",
+    },
+    ("wayside/primary", "copper-conductor"): {
+        "iraq.ms-cable-busbar": "Cable, bare-conductor and busbar inquiry; LIM winding grade and form compatibility unassessed.",
+        "iraq.alrowad-cables": "Wire/cable inquiry; LIM winding grade and conductor-form compatibility unassessed.",
+        "iraq.dici-copper-wire-line": "Planned production-line lead only; commissioning and current output are unverified.",
+    },
+    ("wayside/primary", "linear-steel-hypothesis"): {
+        "iraq.scosi-steel-industries": "Steel fabrication lead; electrical-steel grade and lamination capability unassessed.",
+        "iraq.star-steel": "Steel-product lead; electrical-steel grade and lamination capability unassessed.",
+        "iraq.alpha-steel": "Steel-product lead; electrical-steel grade and lamination capability unassessed.",
+    },
+}
 
 
 def _unlocated_link_target(occurrence_id):
@@ -391,9 +437,237 @@ def _attach_domestic_concrete_estimates(packages, reference, estimate_packets,
     return package_count, cost_count, reference["packet_id"]
 
 
+def _material_purchasing_rollup(packages, occurrences, groups, procurement_by_group,
+                                operations_by_group, unlocated_links,
+                                domestic_sources_by_key=None):
+    """Publish practical material-demand units without inventing order quantities.
+
+    The output collapses the engineering BOM to material-family lines in kg or
+    m3. Those units can anchor a supplier inquiry, but stock yield, grade/form,
+    minimum order, packaging and purchase approval remain separate.
+    """
+    occurrence_by_id = {row["id"]: row for row in occurrences}
+    package_by_id = {row["package_id"]: row for row in packages}
+    group_by_id = {row["group_id"]: row for row in groups}
+    if len(group_by_id) != len(groups):
+        raise ValueError("Distinct source manufacturing group identities required")
+    group_members = {}
+    for group_id, group in group_by_id.items():
+        member_ids = group.get("engineering_occurrence_ids")
+        if not isinstance(member_ids, list) or not member_ids or len(member_ids) != len(set(member_ids)):
+            raise ValueError("Exact source manufacturing group membership required")
+        if any(row_id not in occurrence_by_id for row_id in member_ids):
+            raise ValueError("Source manufacturing group references an unknown occurrence")
+        group_members[group_id] = [occurrence_by_id[row_id] for row_id in member_ids]
+
+    grouped = defaultdict(lambda: {
+        "group_ids": [], "occurrence_ids": [], "package_ids": set(),
+        "masses": [], "member_masses": [], "volumes": [], "missing_mass_groups": 0,
+        "missing_member_mass_groups": 0,
+        "missing_volume_groups": 0, "missing_labour_groups": 0,
+        "declared_labour_hours": [], "procurement_task_ids": set(), "operation_ids": set(),
+    })
+    group_to_package = {}
+    for package in packages:
+        for group_id in package["manufacturing_group_ids"]:
+            if group_id in group_to_package:
+                raise ValueError("A manufacturing group appears in multiple procurement packages")
+            if group_id not in group_by_id:
+                raise ValueError("Procurement package references an unknown manufacturing group")
+            group_to_package[group_id] = package
+    if set(group_to_package) != set(group_by_id):
+        raise ValueError("Material-demand roll-up must cover every source manufacturing group")
+
+    for group_id, group in group_by_id.items():
+        members = group_members[group_id]
+        if any(row.get("scope") == "unlocated-account-or-obligation" for row in members):
+            raise ValueError("Unlocated obligations cannot enter material-demand quantities")
+        keyset = {(row.get("system"), row.get("material"), row.get("scope")) for row in members}
+        if len(keyset) != 1:
+            raise ValueError("Material-demand roll-up cannot cross system, material or stock scope")
+        system, material, stock_scope = next(iter(keyset))
+        key = (system or "unclassified", material or "unclassified", stock_scope or "unclassified")
+        package = group_to_package[group_id]
+        if not set(row["id"] for row in members) <= set(package["engineering_occurrence_ids"]):
+            raise ValueError("Source group membership differs from its quote package")
+        acc = grouped[key]
+        acc["group_ids"].append(group_id)
+        acc["occurrence_ids"].extend(row["id"] for row in members)
+        acc["package_ids"].add(package["package_id"])
+        gross_mass = group.get("known_gross_stock_mass_kg")
+        if gross_mass is None:
+            acc["missing_mass_groups"] += 1
+        else:
+            acc["masses"].append(decimal(gross_mass, "source gross-stock mass", nonnegative=True))
+        member_masses = [decimal(row["accounted_mass_kg"], "member accounted mass", nonnegative=True)
+                         for row in members if row.get("accounted_mass_kg") is not None]
+        if len(member_masses) == len(members):
+            acc["member_masses"].append(sum(member_masses, Decimal(0)))
+        else:
+            acc["missing_member_mass_groups"] += 1
+        volumes = [decimal(row["nominal_stock_volume_m3"], "stock volume", nonnegative=True)
+                   for row in members if row.get("nominal_stock_volume_m3") is not None]
+        if len(volumes) == len(members):
+            acc["volumes"].append(sum(volumes, Decimal(0)))
+        else:
+            acc["missing_volume_groups"] += 1
+        labour = group.get("labour_h")
+        if labour is None:
+            acc["missing_labour_groups"] += 1
+        else:
+            acc["declared_labour_hours"].append(decimal(labour, "declared process labour hours", nonnegative=True))
+        task = procurement_by_group.get(group_id)
+        if task is None:
+            raise ValueError("Source manufacturing group lacks its procurement task")
+        acc["procurement_task_ids"].add(task["id"])
+        operations = operations_by_group.get(group_id, [])
+        if not operations:
+            raise ValueError("Source manufacturing group lacks its manufacturing operation")
+        acc["operation_ids"].update(row["id"] for row in operations)
+
+    linked_by_package = defaultdict(set)
+    for link in unlocated_links.get("links", []):
+        for package_id in link.get("related_package_ids", []):
+            linked_by_package[package_id].add(link["link_id"])
+
+    output = []
+    for (system, material, stock_scope), acc in sorted(grouped.items()):
+        is_concrete = system == "civil/concrete" and material == "concrete-hypothesis"
+        unit = "m3" if is_concrete else "kg"
+        values = acc["volumes"] if is_concrete else acc["masses"]
+        missing = acc["missing_volume_groups"] if is_concrete else acc["missing_mass_groups"]
+        quantity = None if missing else decimal_text(sum(values, Decimal(0)))
+        gross_mass = (None if acc["missing_mass_groups"]
+                      else decimal_text(sum(acc["masses"], Decimal(0))))
+        member_mass = (None if acc["missing_member_mass_groups"]
+                       else decimal_text(sum(acc["member_masses"], Decimal(0))))
+        mass_residual = (None if gross_mass is None or member_mass is None
+                         else decimal_text(Decimal(gross_mass) - Decimal(member_mass),
+                                           nonnegative=False))
+        missing_labour = acc["missing_labour_groups"]
+        labour_hours = (None if missing_labour
+                        else decimal_text(sum(acc["declared_labour_hours"], Decimal(0))))
+        occurrence_ids = sorted(acc["occurrence_ids"])
+        group_ids = sorted(acc["group_ids"])
+        package_ids = sorted(acc["package_ids"])
+        related_links = sorted({link_id for package_id in package_ids
+                                for link_id in linked_by_package.get(package_id, set())})
+        lead_rules = _DOMESTIC_LEAD_RULES.get((system, material), {})
+        domestic_leads = []
+        for source_key, relevance in sorted(lead_rules.items()):
+            source = (domestic_sources_by_key or {}).get(source_key)
+            if source is None:
+                continue
+            domestic_leads.append({
+                "source_id": source["record_id"],
+                "source_key": source_key,
+                "publisher": source["publisher"],
+                "source_url": source["url"],
+                "source_retrieved_at": source["retrieved_at"],
+                "source_kind": source["source_kind"],
+                "manufacturer_location": source.get("manufacturer_location"),
+                "source_product_groups": deepcopy(source.get("product_groups", [])),
+                "source_access_scope": source["access"],
+                "relevance": relevance,
+                "relationship": "domestic supplier discovery lead; no product/specification match",
+                "technical_compatibility": None,
+                "price_recorded": False,
+                "supplier_quotation": False,
+                "procurement_approved": False,
+            })
+        domestic_scenarios = []
+        if is_concrete:
+            by_hours = defaultdict(list)
+            for package_id in package_ids:
+                for scenario in package_by_id[package_id].get("domestic_cost_estimate_scenarios", []):
+                    by_hours[str(scenario["labour_hours_per_nominal_m3"])].append((package_id, scenario))
+            for hours, rows in sorted(by_hours.items(), key=lambda item: Decimal(item[0])):
+                complete = len(rows) == len(package_ids)
+                total_volume = Decimal(0)
+                material_cost = labor_cost = uplift = total_cost = Decimal(0)
+                packet_ids, process_ids = set(), set()
+                bases = set()
+                for unused_package_id, scenario in rows:
+                    material_cost += decimal(scenario["direct_material_cost"], "direct material cost")
+                    labor_cost += decimal(scenario["direct_labor_cost"], "direct labour cost")
+                    uplift += decimal(scenario["uplift_amount"], "uplift")
+                    total_cost += decimal(scenario["estimated_total_iqd"], "estimate total")
+                    total_volume += decimal(scenario["nominal_stock_volume_m3"], "estimated concrete volume")
+                    packet_ids.add(scenario["source_estimate_packet_id"])
+                    process_ids.add(scenario["source_process_record_id"])
+                    bases.add(scenario["basis"])
+                domestic_scenarios.append({
+                    "labour_hours_per_nominal_m3": hours,
+                    "currency": "IQD",
+                    "covered_package_count": len(rows),
+                    "required_package_count": len(package_ids),
+                    "complete_group_coverage": complete,
+                    "nominal_stock_volume_m3": None if not complete else decimal_text(total_volume),
+                    "direct_material_cost": None if not complete else decimal_text(material_cost),
+                    "direct_labour_cost": None if not complete else decimal_text(labor_cost),
+                    "uplift_fraction": "0.20",
+                    "uplift_amount": None if not complete else decimal_text(uplift),
+                    "estimated_total_iqd": None if not complete else decimal_text(total_cost),
+                    "estimated_unit_cost_iqd_per_nominal_m3": (
+                        None if not complete or total_volume == 0
+                        else decimal_text(total_cost / total_volume)),
+                    "source_estimate_packet_ids": sorted(packet_ids),
+                    "source_process_record_ids": sorted(process_ids),
+                    "basis": sorted(bases),
+                    "supplier_quote": False,
+                    "commercial_order_quantity": None,
+                    "complete_process_cost": None,
+                    "complete_installed_cost": None,
+                })
+
+        body = {
+            "system": system,
+            "material": material,
+            "stock_scope": stock_scope,
+            "request_unit": unit,
+            "modeled_material_demand": quantity,
+            "modeled_gross_stock_mass_kg": gross_mass,
+            "summed_member_accounted_mass_kg": member_mass,
+            "gross_stock_mass_reconciliation_residual_kg": mass_residual,
+            "missing_gross_mass_group_count": acc["missing_mass_groups"],
+            "missing_member_mass_group_count": acc["missing_member_mass_groups"],
+            "quantity_basis": ("sum of exact nominal concrete stock volumes; mix, reinforcement, prestress, yield and transport remain unresolved"
+                               if is_concrete else "sum of exact modeled gross-stock masses; product form, grade compatibility, cut/yield loss and order packaging remain unresolved"),
+            "engineering_group_count": len(group_ids),
+            "engineering_group_ids": group_ids,
+            "engineering_occurrence_count": len(occurrence_ids),
+            "engineering_occurrence_ids": occurrence_ids,
+            "related_package_ids": package_ids,
+            "procurement_task_ids": sorted(acc["procurement_task_ids"]),
+            "manufacturing_operation_ids": sorted(acc["operation_ids"]),
+            "context_only_unlocated_obligation_link_ids": related_links,
+            "context_only_unlocated_link_count": len(related_links),
+            "domestic_fabrication_lead_sources": domestic_leads,
+            "domestic_fabrication_lead_count": len(domestic_leads),
+            "domestic_fabrication_leads_are_supplier_matches": False,
+            "missing_demand_group_count": missing,
+            "declared_direct_labour_hours": labour_hours,
+            "missing_labour_group_count": missing_labour,
+            "commercial_order_quantity": None,
+            "commercial_order_unit": None,
+            "purchase_yield_fraction": None,
+            "direct_material_price": None,
+            "complete_procurement_cost": None,
+            "complete_installed_cost": None,
+            "domestic_fabrication_estimate_scenarios": domestic_scenarios,
+            "purchase_order_ready": False,
+            "engineering_accepted": False,
+            "procurement_approved": False,
+        }
+        body["material_line_id"] = identity(body)
+        output.append(body)
+    return output
+
+
 def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_name=None,
                           source_code_hashes=None, source_evidence_hashes=None,
-                          regional_cost_reference=None, concrete_estimate_packets=None):
+                          regional_cost_reference=None, concrete_estimate_packets=None,
+                          domestic_source_records=None):
     """Build reviewed sourcing packages while partitioning exact stock scopes."""
     if (not isinstance(twin_input, dict)
             or twin_input.get("schema") != "osr-sourcing-twin-input/1"
@@ -481,6 +755,33 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
         packages, regional_cost_reference, concrete_estimate_packets or [], candidate_id,
         twin_input["payload_id"])
     unlocated_links = _link_unlocated_obligations(unlocated, packages)
+    domestic_sources = {}
+    domestic_source_records = list(domestic_source_records or [])
+    for source in domestic_source_records:
+        validate_record(source, "source")
+        source_key = source.get("source_key")
+        if not isinstance(source_key, str) or source_key in domestic_sources:
+            raise ValueError("Distinct canonical domestic source keys required")
+        domestic_sources[source_key] = source
+    material_purchasing_lines = _material_purchasing_rollup(
+        packages, occurrences, manufacturing, procurement_by_group, operations_by_group,
+        unlocated_links, domestic_sources)
+    complete_group_mass_lines = [row for row in material_purchasing_lines
+                                 if row["modeled_gross_stock_mass_kg"] is not None]
+    complete_member_mass_lines = [row for row in material_purchasing_lines
+                                  if row["summed_member_accounted_mass_kg"] is not None]
+    material_demand_gross_mass = (None if len(complete_group_mass_lines) != len(material_purchasing_lines)
+                                  else decimal_text(sum((decimal(row["modeled_gross_stock_mass_kg"],
+                                                                "material-line gross mass")
+                                                         for row in complete_group_mass_lines), Decimal(0))))
+    material_demand_member_mass = (None if len(complete_member_mass_lines) != len(material_purchasing_lines)
+                                   else decimal_text(sum((decimal(row["summed_member_accounted_mass_kg"],
+                                                                 "material-line member mass")
+                                                          for row in complete_member_mass_lines), Decimal(0))))
+    material_demand_mass_residual = (
+        None if material_demand_gross_mass is None or material_demand_member_mass is None
+        else decimal_text(Decimal(material_demand_gross_mass) - Decimal(material_demand_member_mass),
+                          nonnegative=False))
 
     assigned = [occurrence_id for package in packages
                 for occurrence_id in package["engineering_occurrence_ids"]]
@@ -509,6 +810,16 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
         "unlocated_obligation_count": len(unlocated),
         "unlocated_obligation_ids": sorted(unlocated),
         "unlocated_obligation_links": unlocated_links,
+        "source_registry_record_set_id": identity(sorted(domestic_source_records,
+                                                        key=lambda row: row["record_id"])),
+        "source_registry_record_count": len(domestic_source_records),
+        "domestic_lead_records_are_products_or_offers": False,
+        "material_purchasing_lines": material_purchasing_lines,
+        "material_purchasing_line_count": len(material_purchasing_lines),
+        "material_demand_groups_preserved": sum(row["engineering_group_count"]
+                                                  for row in material_purchasing_lines),
+        "material_demand_occurrences_preserved": sum(row["engineering_occurrence_count"]
+                                                      for row in material_purchasing_lines),
         "draft_package_count": len(packages),
         "package_family_counts": dict(sorted(family_counts.items())),
         "all_located_occurrences_assigned_exactly_once": True,
@@ -540,6 +851,18 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
                 package["package_family"] == "unmapped-located-occurrence" for package in packages),
             "all_member_occurrences_preserved": True,
             "internal_package_counts_are_purchase_quantities": False,
+            "material_demand_line_count": len(material_purchasing_lines),
+            "material_demand_quantity_count": sum(row["modeled_material_demand"] is not None
+                                                   for row in material_purchasing_lines),
+            "commercial_order_quantity_count": sum(row["commercial_order_quantity"] is not None
+                                                    for row in material_purchasing_lines),
+            "material_demand_group_count": sum(row["engineering_group_count"]
+                                                for row in material_purchasing_lines),
+            "material_demand_occurrence_count": sum(row["engineering_occurrence_count"]
+                                                    for row in material_purchasing_lines),
+            "material_demand_gross_stock_mass_kg": material_demand_gross_mass,
+            "material_demand_member_accounted_mass_kg": material_demand_member_mass,
+            "material_demand_mass_reconciliation_residual_kg": material_demand_mass_residual,
             "packages_with_domestic_cost_estimates": concrete_package_count,
             "domestic_cost_estimate_scenario_count": concrete_estimate_count,
             "modeled_gross_stock_mass_kg": _sum_field(

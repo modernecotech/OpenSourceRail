@@ -24,7 +24,7 @@ def write_seed(path, data):
 def test_actual_catalogue_scopes_prices_and_half_open_breaks():
     values=load_catalogue([SUPPLIERS]);products={v['product_key']:v for v in values if v['kind']=='product'}
     assert len(products)==16
-    assert sum(v['kind']=='source' for v in values)==54
+    assert sum(v['kind']=='source' for v in values)==56
     offers={v['product_id']:v for v in values if v['kind']=='offer'}
     assert len(offers)==5
     cloth=offers[products['EC-GF-BA-440-127']['record_id']]
@@ -53,7 +53,7 @@ def test_actual_catalogue_scopes_prices_and_half_open_breaks():
 def test_seed_references_are_atomic_and_repeatable(tmp_path):
     with Store(tmp_path/'sourcing.db') as store:
         first=seed(store,[SUPPLIERS]);second=seed(store,[SUPPLIERS])
-        assert first['added_count']==first['record_count']==279
+        assert first['added_count']==first['record_count']==281
         assert second['added_count']==0
         assert first['record_ids']==second['record_ids']
         for offer in store.all('offer'):
@@ -153,6 +153,22 @@ def test_new_iraqi_concrete_and_factory_payroll_sources_keep_their_limits():
     assert (annual_medium['unit_price'],annual_medium['quantity_unit'])==('6300000','person-year')
     assert 'not an hourly fabrication wage' in annual_large['cost_scope']
     assert 'not an hourly fabrication wage' in annual_medium['cost_scope']
+
+
+def test_domestic_cable_composite_and_copper_leads_are_not_products_or_prices():
+    values=load_catalogue()
+    sources={value['source_key']:value for value in values if value['kind']=='source'}
+    products={value['product_key']:value for value in values if value['kind']=='product'}
+    offers=[value for value in values if value['kind']=='offer']
+    keys={'iraq.alrowad-cables','iraq-nubin-grp-facade','iraq.dici-copper-wire-line'}
+    assert keys <= sources.keys()
+    source_ids={sources[key]['record_id'] for key in keys}
+    assert not any(source_id in product['source_ids'] for source_id in source_ids for product in products.values())
+    assert not any(offer['source_id'] in source_ids for offer in offers)
+    assert 'southern Baghdad' in sources['iraq.alrowad-cables']['access']
+    assert 'rail-body capability' in sources['iraq-nubin-grp-facade']['access']
+    assert 'not verified commissioning' in sources['iraq.dici-copper-wire-line']['access']
+    assert sources['iraq.dici-copper-wire-line']['source_kind']=='industrial_directory'
 
 
 def test_load_returns_copies(tmp_path):

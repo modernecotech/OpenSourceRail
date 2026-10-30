@@ -521,11 +521,16 @@ def main(argv=None):
 
         if args.command == "procurement-bom":
             from .procurement_bom import build_procurement_bom, load_twin_input, source_hashes, write_packet
+            from .catalogue import load_catalogue
             twin_input = load_twin_input(args.input, member=args.member)
             source_file = args.input.expanduser().resolve()
             regional_reference = None
             concrete_estimates = []
             source_evidence_hashes = {}
+            source_registry = [row for row in load_catalogue() if row["kind"] == "source"]
+            for relative in ("engineering/sourcing/data/supplier-catalogue.json",
+                             "engineering/sourcing/data/public-feeds.json"):
+                source_evidence_hashes[relative] = inputs.digest(ROOT / relative)
             if args.regional_cost_reference is not None:
                 regional_path = args.regional_cost_reference.expanduser().resolve()
                 regional_reference = inputs.read_json(regional_path)
@@ -549,6 +554,7 @@ def main(argv=None):
                 source_evidence_hashes=source_evidence_hashes,
                 regional_cost_reference=regional_reference,
                 concrete_estimate_packets=concrete_estimates,
+                domestic_source_records=source_registry,
             )
             output_path = write_packet(packet, args.output)
             _emit({
@@ -560,10 +566,14 @@ def main(argv=None):
                 "located_occurrence_count": packet["located_stock_occurrence_count"],
                 "draft_package_count": packet["draft_package_count"],
                 "unlocated_obligation_count": packet["unlocated_obligation_count"],
+                "material_purchasing_line_count": packet["material_purchasing_line_count"],
+                "material_demand_groups_preserved": packet["material_demand_groups_preserved"],
+                "material_demand_occurrences_preserved": packet["material_demand_occurrences_preserved"],
+                "source_registry_record_count": packet["source_registry_record_count"],
+                "commercial_order_quantities_known": False,
                 "unmapped_located_occurrence_count": len(packet["unmapped_located_occurrence_ids"]),
                 "packages_with_domestic_cost_estimates": packet["packages_with_domestic_cost_estimates"],
                 "domestic_cost_estimate_scenario_count": packet["domestic_cost_estimate_scenario_count"],
-                "commercial_order_quantities_known": False,
                 "complete_installed_bom": False,
                 "physical_qualification": None,
             })
