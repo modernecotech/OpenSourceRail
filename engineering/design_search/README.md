@@ -68,11 +68,14 @@ solver and supports fixed. Its first 5 GiB/150 s execution
 (`46dac2f71ff6b42ae0715b4219e1789534b0014d8cbae0bdb786bb55112f3b75`,
 evaluation `7347006f979dba45aa8958599a49c2ef68ac5a543dc7a5a20a4f6ed6034ddc4d`)
 stopped with a Spooles allocation error during matrix factorization. It is a
-retained resource failure, not a structural rejection.
+retained resource failure, not a structural rejection; its manifest is
+`7e51fdfa20aba5a2783589a2c4678ea5385baf0ec6ff3686dd716d52d1d12ef9`.
 
 A separate one-invocation 8 GiB/240 s resource revision completed in 89.42 s:
 request `e8a5a9c6d836cb5f20425a46f04ecac21f107952bec25559e5650e69a865cd7e`,
 evaluation `bd0566331853171bac52b8107e075cd4c997526735af7ede9bbcc3fc3ebca9ea`.
+The reconciled report is `027c52a3365283839195543814953ad546f270f3c7a022a6e516b497d688794c`
+and its manifest is `b7cfbd0756a9c1d9eaaa218f80ad4509bd65d7a91967d156c6226e0103ad5697`.
 The completed run has force, moment and energy residuals of `1.44e-7`,
 `4.98e-9` and `6.91e-8`; maximum lateral, longitudinal and vertical
 displacements are 1.489 mm, 1.771 mm and 20.139 mm. Across 123,324 matched
