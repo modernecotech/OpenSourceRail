@@ -25,7 +25,7 @@ REGION_LABELS = {
     "najaf": "Najaf", "nineveh": "Nineveh", "salah-al-din": "Salah al-Din", "wasit": "Wasit",
 }
 REGIONAL_WAGE_HOURS = ("8", "16", "32")
-PACKET_ROOT = Path("docs/design-engine/sourcing/packets/laminate-materials-current")
+PACKET_ROOT = Path("docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v16")
 PACKET_PATHS = {key: PACKET_ROOT / key
                 for key in RECIPES}
 CENT = Decimal("0.01")
@@ -313,7 +313,7 @@ def _build(records, packet_root, *, labour_hours=HOURS, wage_period="2026-09"):
 def build(packet_root=None):
     root = ROOT if packet_root is None else Path(packet_root).resolve()
     records = catalogue.load_catalogue()
-    return _build(records, root / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v11")
+    return _build(records, root / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v16")
 
 
 def main(argv=None):

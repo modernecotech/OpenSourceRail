@@ -7,6 +7,7 @@ import pytest
 from engineering.sourcing.catalogue import load_catalogue, seed
 from engineering.sourcing.database import Store
 from engineering.sourcing.model import FLAGS, validate_record
+from engineering.sourcing.iraq_import_fabrication_scenarios import build_packet
 
 SUPPLIERS = Path(__file__).resolve().parents[1] / "data/supplier-catalogue.json"
 
@@ -53,7 +54,7 @@ def test_actual_catalogue_scopes_prices_and_half_open_breaks():
 def test_seed_references_are_atomic_and_repeatable(tmp_path):
     with Store(tmp_path/'sourcing.db') as store:
         first=seed(store,[SUPPLIERS]);second=seed(store,[SUPPLIERS])
-        assert first['added_count']==first['record_count']==378
+        assert first['added_count']==first['record_count']==394
         assert second['added_count']==0
         assert first['record_ids']==second['record_ids']
         for offer in store.all('offer'):
@@ -91,6 +92,46 @@ def test_iraqi_2024_private_building_material_ratios_retain_method_and_table_tot
         assert 'not a transaction' in row['cost_scope']
     assert not [row for row in values if row['kind']=='offer' and
                 row.get('source_id')==sources['iraq.cso.private-construction-estimates-2024']['record_id']]
+
+
+def test_cso_2025_import_unit_values_and_local_aluminium_fabrication_sensitivities():
+    values=load_catalogue([SUPPLIERS])
+    sources={row['source_key']:row for row in values if row['kind']=='source'}
+    benchmarks={row['benchmark_key']:row for row in values if row['kind']=='benchmark'}
+    source=sources['iraq.cosit.import-report-2025']
+    assert source['document_sha256']=='d440c32056a52c2b58277878041028270ac300ce44bca5665f716b773d8bda86'
+    assert 'CIF' in source['access'] and 'Kurdistan Region excluded' in source['access']
+    expected={
+        '39073000':('1754367120','1329066','1329196','1319.870899','0.999902','437'),
+        '70191200':('5083722600','3851305','3430474','1481.930077','1.122674','746'),
+        '74081100':('31290149880','23704659','3930964','7959.917689','6.030241','826'),
+        '76042100':('13037579280','9876954','1888463','6903.804459','5.230155','836'),
+        '76042900':('4451855760','3372618','904424','4922.310509','3.729023','836'),
+        '76069100':('25801754880','19546784','5424422','4756.590634','3.603478','838'),
+        '76069200':('22536393000','17073025','4554766','4947.870648','3.748387','838'),
+        '72141020':('157649034840','119431087','237899589','662.67048','0.502023','766'),
+    }
+    for hs,(iqd_total,usd_total,weight,iqd_per_kg,usd_per_kg,page) in expected.items():
+        local=benchmarks[f'cso-import-2025:hs{hs}:iqd-per-kg']
+        foreign=benchmarks[f'cso-import-2025:hs{hs}:usd-per-kg']
+        assert local['source_id']==source['record_id']==foreign['source_id']
+        assert (local['unit_price'],local['currency'],local['quantity_unit'])==(iqd_per_kg,'IQD','kg')
+        assert (foreign['unit_price'],foreign['currency'],foreign['quantity_unit'])==(usd_per_kg,'USD','kg')
+        assert local['source_reported_total_value_iqd']==iqd_total
+        assert local['source_reported_total_value_usd']==usd_total
+        assert local['source_reported_weight_kg']==weight
+        assert local['source_printed_page']==int(page)
+        assert local['supplier_quote'] is False and local['target_installed_rate'] is False
+        assert local['is_manufactured_product_price'] is False
+    assert len([key for key in benchmarks if key.startswith('cso-import-2025:')])==16
+    packet=build_packet(values)
+    assert packet['scenario_count']==12
+    assert packet['candidate_binding']['candidate_id'] is None
+    by_key={row['material_benchmark_key']:row for row in packet['scenarios'] if row['assumed_direct_labour_hours_per_tonne']==8}
+    assert by_key['cso-import-2025:hs76042100:iqd-per-kg']['screened_rate_iqd_per_tonne']=='8374565.35'
+    assert by_key['cso-import-2025:hs76042900:iqd-per-kg']['screened_rate_iqd_per_tonne']=='5996772.61'
+    assert all(row['candidate_bom_match'] is False and row['supplier_quote'] is False for row in packet['scenarios'])
+    assert not [row for row in values if row['kind']=='offer' and row['source_id']==source['record_id']]
 
 
 def test_additional_iraqi_aluminium_sources_are_leads_not_offers():
@@ -145,7 +186,7 @@ def test_new_iraqi_concrete_and_factory_payroll_sources_keep_their_limits():
     assert 'does not represent a precast beam' in ready_mix['access']
     assert not any(value['source_id']==ready_mix['record_id'] for value in offers)
     assert sources['iraq.cosit.import-report-2025']['source_kind']=='national_statistic'
-    assert 'contributes no unit-value observations' in sources['iraq.cosit.import-report-2025']['access']
+    assert 'import unit-value benchmarks only' in sources['iraq.cosit.import-report-2025']['access']
     assert sources['iraq.moch.price-analysis-bulletin-preparation-2026-09']['source_kind']=='national_statistic'
     annual_large=benchmarks['iq-cso-industrial-2024:large-establishment-average-annual-pay']
     annual_medium=benchmarks['iq-cso-industrial-2024:medium-establishment-average-annual-pay']
