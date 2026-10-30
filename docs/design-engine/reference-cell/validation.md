@@ -22,16 +22,16 @@ The integrated physical identity includes generated civil/station geometry and m
 
 ## Actual geometry and failures retained
 
-[Geometry archive and manifest](native-geometry-manifest.json) retain all five full-train IFCs, producer/vehicle sources, actual logs, native files and all three prior native export failures.
+[Geometry archive and manifest](native-geometry-manifest.json) retain all five full-train IFCs and their current producer/vehicle sources, together with prior native files, logs and export failures. The earlier successful native CAD result is retained under its original source epoch as history; it is not current-source native evidence.
 
 - Five IFCs: **104,484 located occurrences total**, 152 reused unique shapes per vehicle, 69,508,637 uncompressed file bytes. All were freshly reopened and checked for definition/revision/material, rigid placement and primitive/envelope volume. Maximum relative mesh-volume error was **0.000414394**.
-- V1 first car: actual FreeCAD 1.1.4 and STEP exports, followed by a separate native reopening process. **3,484 FCStd objects and 3,484 STEP solids** matched. Maximum relative volume error **2.02×10⁻¹³**, centroid error **3.55×10⁻¹⁵ m**. Enforced address-space limit **3 GiB**, per-process deadline 240 s.
-- Successful native receipt: `186313f2fb688bf7af8ccbf5882e56f1bea52f0bd77b4ad41ecdfd7adf6f6654`.
+- V1 first car, historical source epoch: FreeCAD 1.1.4 and STEP exports were followed by a separate native reopening process. **3,484 FCStd objects and 3,484 STEP solids** matched. Maximum relative volume error **2.02×10⁻¹³**, centroid error **3.55×10⁻¹⁵ m**. Enforced address-space limit **3 GiB**, per-process deadline 240 s.
+- Historical native receipt: `186313f2fb688bf7af8ccbf5882e56f1bea52f0bd77b4ad41ecdfd7adf6f6654`. Its railway geometry source predates the current source epoch, so the result is retained for provenance and is not eligible for current native reuse.
 - Earlier failures included a compound-centroid API error and unexpected FreeCAD bytecode byproducts. Each attempt retains its exact input, source, log and partial output. The final narrow adapter uses a sibling launch directory; it does not ignore unrequested issued files or edit historical receipts.
 
 Purchased envelopes are explicitly bounding geometry. Their volume is not used to invent equipment mass or prove manufacture. Primitive volume and native file agreement do not establish assembly interference clearance, structural qualification or safe passenger access.
 
-The default geometry publication verifier freshly reopens IFCs and performs recorded-source/file/result integrity checks on native CAD. It states that no current native reopen was performed. `--native` explicitly starts a new bounded FreeCAD reopening. A different reader toolchain never becomes an assertion of exact native reuse.
+The current geometry publication verifier freshly reopens all five IFCs and checks their source, file and geometry records. The current manifest has no native record: the historical native files remain in the archive, while a current-source FreeCAD generation and independent reopen are still pending. The `--native` option can independently reopen a current native record after one has been generated and published. A different reader toolchain never becomes an assertion of exact native reuse.
 
 ## Completed electromagnetic refinement, still unconfirmed
 
