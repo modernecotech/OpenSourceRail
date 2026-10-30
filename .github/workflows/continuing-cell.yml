@@ -22,7 +22,7 @@ jobs:
       - run: git fetch --no-tags --depth=1 origin 92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.13"
+          python-version: "3.13.16"
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/requirements.txt
       - name: Pin numerical post-processing to the recorded method environment

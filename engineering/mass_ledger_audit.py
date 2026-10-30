@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import argparse
 import gzip
+import io
 import json
 import os
 import tomllib
@@ -30,6 +31,14 @@ FLAGS = dict(
 
 def _digest(path: Path) -> str:
     return sha256(path.read_bytes()).hexdigest()
+
+
+def _deterministic_gzip(data: bytes) -> bytes:
+    """Write a gzip member with a fixed header across supported Python versions."""
+    target = io.BytesIO()
+    with gzip.GzipFile(fileobj=target, filename="", mode="wb", mtime=0) as stream:
+        stream.write(data)
+    return target.getvalue()
 
 
 def _row(**fields):
@@ -347,7 +356,7 @@ def _inputs(root):
 
 def _payloads(root):
     ledger, selected, sources = _inputs(root)
-    ledger_raw = gzip.compress(encoded(ledger), mtime=0)
+    ledger_raw = _deterministic_gzip(encoded(ledger))
     summary = dict(schema="osr-v06-mass-reconciliation-summary/1", **ledger["summary"],
                    candidate_id=ledger["candidate_id"], body_candidate_id=ledger["body_candidate_id"],
                    **FLAGS)

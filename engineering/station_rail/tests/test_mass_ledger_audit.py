@@ -55,7 +55,12 @@ def test_geometry_cannot_exceed_its_parent_mass_account():
 def test_mass_reconciliation_publication_replays_and_verifies(tmp_path):
     result = mass_ledger_audit.publish(output=tmp_path)
     verified = mass_ledger_audit.verify(output=tmp_path)
+    compressed = (tmp_path / "mass-ledger.json.gz").read_bytes()
 
     assert result["manifest_id"] == verified["manifest_id"]
     assert verified["verified"] is True
     assert verified["complete_installed_mass_kg"] is None
+    assert compressed[:4] == b"\x1f\x8b\x08\x00"
+    assert compressed[4:8] == b"\x00\x00\x00\x00"
+    assert compressed[9] == 255
+    assert mass_ledger_audit._deterministic_gzip(b"stable") == mass_ledger_audit._deterministic_gzip(b"stable")
