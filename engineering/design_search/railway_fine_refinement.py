@@ -18,7 +18,7 @@ from . import grammar_shell, railway_campaign, railway_native, railway_refinemen
 
 PRODUCER = "engineering/design_search/railway_fine_refinement.py"
 CAMPAIGN_ID = "6ba19dff09e30606bb4d20ddd153deef033c86ab1d27adc8dab6ad842d68f99f"
-CONTRACT_ID = "de9f89acc80e0ec2f3ebb8b6c6f60e2446de9df06c66317c5cedc5b8625f8921"
+CONTRACT_ID = "de9f89acc80e0ec2f3ebb8b6c8f60e2446de9df06c66317c5cedc5b8625f8921"
 CANDIDATE_ID = "8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b"
 DEFINITION_ID = "21efbaf935ba954a6788d2c54e841b12c891a01b70afef4f7a2edd581af5458f"
 BUNDLE_ID = "1e8d1d7c394fc0bdbd47e34fb21d413ebc34a49576bad60b31b254bd635dfb68"
