@@ -1,6 +1,9 @@
+from decimal import Decimal
+
 from engineering.sourcing.model import identity, record
 from engineering.sourcing.procurement_bom import (
     _DOMESTIC_LEAD_RULES,
+    _attach_domestic_aluminium_sensitivities,
     _link_unlocated_obligations,
     _material_purchasing_rollup,
 )
@@ -149,3 +152,64 @@ def test_additional_iraqi_fabrication_leads_are_linked_only_to_relevant_stock_fa
     assert "compatibility unassessed" in concrete["iraq.karbala-precast-bridge-beams"]
     assert "qualification unassessed" in body["iraq.ncpi-chemical-plastic-industries"]
     assert "fatigue" in bogie["iraq.scosi.foundry-forging"]
+
+
+def test_aluminium_raw_stock_sensitivities_attach_to_exact_candidate_material_lines():
+    candidate_id, input_id, takeoff_id = "a" * 64, "b" * 64, "c" * 64
+    forms = [
+        "Non-oxidized aluminium profiles", "Oxidized aluminium profiles",
+        "Spray-painted aluminium profiles", "Hard aluminium sheet, 0.6–0.9 mm",
+        "Hard aluminium sheet, 1 mm and above", "Annealed aluminium sheet, 0.6–0.9 mm",
+        "Annealed aluminium sheet, 1 mm and above",
+    ]
+    scopes = [
+        ("vehicle/body", "aluminium_reference", "nominal-stock", "10", 2, 3),
+        ("vehicle/passive-secondary", "6082-T6-proposed", "nominal-stock", "4", 1, 2),
+    ]
+    rows = []
+    for system, material, stock_scope, mass_kg, group_count, occurrence_count in scopes:
+        for form in forms:
+            for hours in ("8", "16", "32"):
+                selector = {"system": system, "material": material, "stock_scope": stock_scope}
+                process = record(
+                    "process", candidate_id=candidate_id, input_id=input_id,
+                    candidate_takeoff_id=takeoff_id, candidate_takeoff_scope=selector,
+                    candidate_takeoff_group_count=group_count,
+                    candidate_takeoff_occurrence_count=occurrence_count,
+                    candidate_takeoff_gross_mass_kg=mass_kg,
+                    candidate_takeoff_mass_reconciliation_residual_kg="0",
+                    candidate_takeoff_mapped=True, candidate_takeoff_quantity_basis="gross stock mass",
+                    output_quantity=str(Decimal(mass_kg) / Decimal(1000)), output_unit="t",
+                    material_lines=[], labour_lines=[], direct_material_cost="100",
+                    direct_labor_cost="50", uplift_fraction="0.2", uplift_amount="30",
+                    estimated_total="180", estimated_unit_cost="1800",
+                    complete_process_cost=None, complete_installed_cost=None,
+                    whole_life_cost=None, unknown_is_zero=False)
+                rows.append({"material": material, "material_form": form,
+                             "family": "aluminium profile" if "profile" in form else "aluminium sheet",
+                             "labour_hours_per_stock_tonne": hours,
+                             "input_gross_stock_mass_kg": mass_kg,
+                             "input_stock_tonnes": process["output_quantity"],
+                             "estimated_total_iqd": "180",
+                             "estimated_unit_cost_iqd_per_tonne": "1800", "process": process})
+    reference = {"candidate_id": candidate_id, "source_input_id": input_id,
+                 "takeoff_id": takeoff_id, "packet_id": "d" * 64,
+                 "candidate_mapped_aluminium_stock_scenarios": rows}
+    material_lines = [{"system": system, "material": material, "stock_scope": stock_scope,
+                       "modeled_gross_stock_mass_kg": mass_kg,
+                       "engineering_group_count": group_count,
+                       "engineering_occurrence_count": occurrence_count,
+                       "material_line_id": "e" * 64}
+                      for system, material, stock_scope, mass_kg, group_count, occurrence_count in scopes]
+
+    line_count, scenario_count = _attach_domestic_aluminium_sensitivities(
+        material_lines, reference, candidate_id, input_id)
+
+    assert (line_count, scenario_count) == (2, 42)
+    assert [row["domestic_raw_stock_sensitivity_count"] for row in material_lines] == [21, 21]
+    assert all(len(row["domestic_raw_stock_sensitivity_scenarios"]) == 21 for row in material_lines)
+    assert all(row["domestic_raw_stock_sensitivities_are_compatible_quotes"] is False
+               for row in material_lines)
+    assert all(row["material_line_id"] == identity(
+        {key: value for key, value in row.items() if key != "material_line_id"})
+        for row in material_lines)

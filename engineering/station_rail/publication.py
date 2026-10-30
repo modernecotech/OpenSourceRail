@@ -282,6 +282,91 @@ def _sourcing_section(root,record):
             or estimate_packet.get('estimate',{}).get('candidate_takeoff_id')!=takeoff.get('takeoff_id')):
             raise ValueError('September regional and candidate-mapped concrete quantities differ')
     regional_count=len(regional_packet.get('unit_rate_estimates', []))
+    aluminium_scenarios=regional_packet.get('candidate_mapped_aluminium_stock_scenarios', [])
+    expected_aluminium_materials={
+        'aluminium_reference':('vehicle/body','nominal-stock'),
+        '6082-T6-proposed':('vehicle/passive-secondary','nominal-stock'),
+    }
+    expected_aluminium_forms={
+        'Non-oxidized aluminium profiles','Oxidized aluminium profiles',
+        'Spray-painted aluminium profiles','Hard aluminium sheet, 0.6–0.9 mm',
+        'Hard aluminium sheet, 1 mm and above','Annealed aluminium sheet, 0.6–0.9 mm',
+        'Annealed aluminium sheet, 1 mm and above',
+    }
+    expected_aluminium_cases={(material, form, hours)
+        for material in expected_aluminium_materials
+        for form in expected_aluminium_forms for hours in ('8','16','32')}
+    actual_aluminium_cases=set()
+    takeoff_path=root/'docs/design-engine/sourcing'/takeoff['path']
+    material_takeoff=json.loads(gzip.decompress(takeoff_path.read_bytes()))
+    rollups={(row.get('system'),row.get('material'),row.get('stock_scope')):row
+             for row in material_takeoff.get('material_rollups',[])}
+    benchmarks_by_id={row['record_id']:row for row in catalogue if row.get('kind')=='benchmark'}
+    aluminium_totals={material:[] for material in expected_aluminium_materials}
+    for scenario in aluminium_scenarios:
+        material=scenario.get('material')
+        form=scenario.get('material_form')
+        hours=str(scenario.get('labour_hours_per_stock_tonne'))
+        case=(material,form,hours)
+        if case in actual_aluminium_cases:
+            raise ValueError('Candidate aluminium stock sensitivity duplicates a material/form/hour case')
+        actual_aluminium_cases.add(case)
+        process=scenario.get('process',{})
+        system,stock_scope=expected_aluminium_materials.get(material,(None,None))
+        expected_rollup=rollups.get((system,material,stock_scope))
+        if expected_rollup is None:
+            raise ValueError('Candidate aluminium sensitivity targets an unknown material takeoff roll-up')
+        mass_kg=Decimal(expected_rollup['known_gross_stock_mass_kg'])
+        tonnes=mass_kg/Decimal(1000)
+        if (scenario.get('region_slug')!='baghdad'
+            or form not in expected_aluminium_forms
+            or hours not in {'8','16','32'}
+            or process.get('candidate_id')!=federated['candidate_id']
+            or process.get('input_id')!=takeoff['source_input_id']
+            or process.get('candidate_takeoff_id')!=takeoff['takeoff_id']
+            or process.get('candidate_takeoff_scope')!={'system':system,'material':material,'stock_scope':stock_scope}
+            or process.get('candidate_takeoff_group_count')!=expected_rollup['manufacturing_group_count']
+            or process.get('candidate_takeoff_occurrence_count')!=expected_rollup['engineering_occurrence_count']
+            or Decimal(process.get('candidate_takeoff_gross_mass_kg','-1'))!=mass_kg
+            or Decimal(process.get('candidate_takeoff_mass_reconciliation_residual_kg','-1'))!=0
+            or Decimal(process.get('output_quantity','-1'))!=tonnes
+            or process.get('candidate_takeoff_mapped') is not True
+            or process.get('candidate_takeoff_quantity_basis','').find('purchase yield')<0
+            or process.get('uplift_fraction')!='0.2'
+            or process.get('complete_process_cost') is not None
+            or process.get('complete_installed_cost') is not None
+            or process.get('whole_life_cost') is not None
+            or process.get('unknown_is_zero') is not False):
+            raise ValueError('Candidate aluminium mass/form estimate differs from exact source roll-up or open-cost boundary')
+        material_lines=process.get('material_lines',[])
+        labour_lines=process.get('labour_lines',[])
+        if len(material_lines)!=1 or len(labour_lines)!=1:
+            raise ValueError('Candidate aluminium screen must show one exact stock and wage line')
+        material_line,labour_line=material_lines[0],labour_lines[0]
+        material_benchmark=benchmarks_by_id.get(material_line.get('benchmark_id'))
+        wage_benchmark=benchmarks_by_id.get(labour_line.get('benchmark_id'))
+        expected_wage=next((row for row in catalogue if row.get('kind')=='benchmark'
+            and row.get('benchmark_key')=='iq-cso-2026-09:baghdad:wage:skilled:hour-8h-day'),None)
+        if (material_benchmark is None or wage_benchmark is None or expected_wage is None
+            or wage_benchmark.get('record_id')!=expected_wage.get('record_id')
+            or material_benchmark.get('quantity_unit')!='t'
+            or material_benchmark.get('unit_price')!=material_line.get('unit_rate')
+            or wage_benchmark.get('quantity_unit')!='h'
+            or wage_benchmark.get('unit_price')!=labour_line.get('unit_rate')
+            or Decimal(material_line.get('quantity','-1'))!=tonnes
+            or Decimal(labour_line.get('person_hours','-1'))!=tonnes*Decimal(hours)):
+            raise ValueError('Candidate aluminium material/wage extensions lack exact source benchmark correspondence')
+        direct=tonnes*Decimal(material_benchmark['unit_price'])+tonnes*Decimal(hours)*Decimal(wage_benchmark['unit_price'])
+        expected_total=direct*Decimal('1.20')
+        if (Decimal(process.get('direct_cost','-1'))!=direct
+            or Decimal(process.get('uplift_amount','-1'))!=direct*Decimal('0.20')
+            or Decimal(process.get('estimated_total','-1'))!=expected_total
+            or Decimal(scenario.get('estimated_total_iqd','-1'))!=expected_total
+            or Decimal(scenario.get('estimated_unit_cost_iqd_per_tonne','-1'))!=expected_total/tonnes):
+            raise ValueError('Candidate aluminium material + labour + 20% arithmetic differs')
+        aluminium_totals[material].append(expected_total)
+    if actual_aluminium_cases!=expected_aluminium_cases or len(aluminium_scenarios)!=42:
+        raise ValueError('Candidate aluminium raw-stock form/hour scenario coverage differs')
     if (regional_count != regional.get('unit_rate_scenario_count')
         or regional_packet.get('packet_id') != regional.get('packet_id')
         or regional_packet.get('packet_id') != regional_manifest.get('packet_id')
@@ -290,6 +375,10 @@ def _sourcing_section(root,record):
         or regional_manifest.get('candidate_takeoff_scenario_count')!=6
         or regional_manifest.get('mapped_group_count')!=81
         or regional_manifest.get('mapped_occurrence_count')!=486
+        or regional_manifest.get('candidate_mapped_aluminium_scenario_count')!=42
+        or regional_manifest.get('candidate_mapped_aluminium_rollup_count')!=2
+        or regional.get('candidate_mapped_aluminium_scenario_count')!=42
+        or regional.get('candidate_mapped_aluminium_rollup_count')!=2
         or regional_packet.get('complete_installed_cost') is not None
         or regional_packet.get('physical_qualification') is not None
         or regional_packet.get('unknown_is_zero') is not False
@@ -301,6 +390,48 @@ def _sourcing_section(root,record):
                or digest(regional_packet_path.parent/name)!=expected
                for name,expected in expected_regional_files.items())):
         raise ValueError('September regional packet payload differs from its sealed manifest')
+    procurement_material_lines={
+        (row.get('system'),row.get('material'),row.get('stock_scope')):row
+        for row in procurement_packet.get('material_purchasing_lines',[])}
+    linked_aluminium_count=0
+    linked_aluminium_line_count=0
+    for material,(system,stock_scope) in expected_aluminium_materials.items():
+        key=(system,material,stock_scope)
+        line=procurement_material_lines.get(key)
+        source_rows=[row for row in aluminium_scenarios if row.get('material')==material]
+        if line is None or len(source_rows)!=21:
+            raise ValueError('Candidate aluminium sensitivity lacks its matching procurement material line')
+        attached=line.get('domestic_raw_stock_sensitivity_scenarios',[])
+        expected_by_process={row['process_record_id']:row for row in source_rows}
+        actual_by_process={row.get('source_process_record_id'):row for row in attached}
+        if (line.get('material_line_id')!=sourcing_identity({k:v for k,v in line.items() if k!='material_line_id'})
+            or line.get('domestic_raw_stock_sensitivity_count')!=21
+            or line.get('modeled_gross_stock_mass_kg')!=source_rows[0].get('input_gross_stock_mass_kg')
+            or line.get('engineering_group_count')!=source_rows[0]['process']['candidate_takeoff_group_count']
+            or line.get('engineering_occurrence_count')!=source_rows[0]['process']['candidate_takeoff_occurrence_count']
+            or line.get('domestic_raw_stock_sensitivities_are_compatible_quotes') is not False
+            or len(attached)!=21 or set(actual_by_process)!=set(expected_by_process)):
+            raise ValueError('Procurement aluminium line differs from exact mass takeoff scenario set')
+        for process_id,source_row in expected_by_process.items():
+            actual=actual_by_process[process_id]
+            if (actual.get('source_cost_reference_packet_id')!=regional_packet.get('packet_id')
+                or actual.get('source_takeoff_id')!=takeoff.get('takeoff_id')
+                or actual.get('estimated_total_iqd')!=source_row.get('estimated_total_iqd')
+                or actual.get('estimated_unit_cost_iqd_per_tonne')!=source_row.get('estimated_unit_cost_iqd_per_tonne')
+                or actual.get('material_form')!=source_row.get('material_form')
+                or actual.get('labour_hours_per_stock_tonne')!=source_row.get('labour_hours_per_stock_tonne')
+                or actual.get('product_form_compatibility') is not None
+                or actual.get('purchase_yield_fraction') is not None
+                or actual.get('complete_process_cost') is not None
+                or actual.get('complete_installed_cost') is not None
+                or actual.get('procurement_approved') is not False):
+                raise ValueError('Procurement aluminium cost alternative differs from its source estimate')
+        linked_aluminium_count+=len(attached)
+        linked_aluminium_line_count+=1
+    if (linked_aluminium_count!=42 or linked_aluminium_line_count!=2
+        or procurement_packet.get('candidate_mapped_aluminium_demand_line_count')!=2
+        or procurement_packet.get('candidate_mapped_aluminium_sensitivity_scenario_count')!=42):
+        raise ValueError('Procurement BOM must link all 42 aluminium sensitivities to the two matching material lines')
     historical_count=len(historical_packet.get('unit_rate_estimates', []))
     if (historical_count!=historical_regional.get('unit_rate_scenario_count')
         or historical_packet.get('packet_id')!=historical_regional.get('packet_id')
@@ -413,6 +544,8 @@ def _sourcing_section(root,record):
       f"| Draft procurement-package BOM `{procurement['candidate_id'][:12]}` | {procurement['located_stock_occurrence_count']:,} located occurrences grouped into {procurement['draft_package_count']:,} draft packages and {procurement['material_demand_line_count']} purchasing/material lines; {procurement['domestic_source_lead_association_count']} domestic-source lead associations across seven families | {procurement['unlocated_obligation_count']:,} obligations remain separate; no supplier prices, commercial order quantities or complete assembly scope |",
       f"| Generic concrete fabrication screen | {len(concrete)} recipes using September 2026 Iraqi material and skilled-worker base-wage observations; 2/4/8 assumed person-hours per nominal m³ | IQD {concrete_rates[0]:,}–{concrete_rates[-1]:,}/m³ after materials + labour + 20%; not a designed mix or guideway-beam price |",
       f"| September 2026 concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, with 2/4/8 assumed skilled h/m³ scenarios | Baghdad IQD {mapped_by_region['Baghdad'][0]:.1f}–{mapped_by_region['Baghdad'][-1]:.1f}m; Al-Muthanna IQD {mapped_by_region['Al-Muthanna'][0]:.1f}–{mapped_by_region['Al-Muthanna'][-1]:.1f}m, including 20%; ingredient screen, not a designed mix, precast beam price or installed cost |",
+      *[f"| Candidate {material.replace('-', ' ')} raw-stock sensitivity | {len(aluminium_scenarios)//2} distinct product-form/hour alternatives; mass and occurrence counts reconcile to the sealed takeoff | IQD {float(min(values))/1_000_000:.1f}–{float(max(values))/1_000_000:.1f}m including direct material, assumed Baghdad base-wage labour and 20%; alloy/temper, product compatibility, purchase yield and process route remain unknown |"
+        for material,values in aluminium_totals.items()],
       f"| 2025 Iraqi regional domestic-cost library | {historical_count} dated material/labour scenarios across concrete, rebar, aluminium profiles and four Ur sheet forms; concrete recipe prices available in 12 of 15 listed governorates | Three governorates have missing concrete material prices; all scenario hours are assumptions and the 20% uplift is unallocated |",
       f"| 2025 Baghdad concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {regional_totals_miqd[0]:.1f}–{regional_totals_miqd[-1]:.1f} million on the 2025 regional material rates; not a designed mix or installed span price |",
       f"| Unlocated obligation cross-references | {obligation_links['linked_unique_obligation_count']:,}/{obligation_links['source_obligation_count']:,} accounts linked by hierarchy to related car/bogie/span/bank scopes; {obligation_links['package_association_count']:,} non-additive associations | No package mass, quantity or cost allocation; {obligation_links['unlinked_obligation_count']} network-level infrastructure obligations remain unlinked |",
@@ -420,7 +553,7 @@ def _sourcing_section(root,record):
       *gfrp_rows,'', '| Regional GFRP scenario | Wage basis | Partial cost sensitivity |','|---|---|---|',
       *gfrp_regional_rows,'',
       'The GFRP figures use listed Easy Composites UK material extensions converted at the 29 October 2026 CBI GBP/IQD reference and September 2026 CSO Baghdad or listed-governorate skilled-worker base-wage benchmarks. They are partial sensitivity screens: adhesives remain unresolved, sandwich-core prices are absent, and import, tooling, consumables, QA, fire/smoke, structural qualification and installation are excluded. The regional table covers only the 15 governorates in the CSO bulletin, excludes Kurdistan Region, and uses construction-worker wages as a proxy for composite-shop labour. They do not price a finished panel or transfer to the selected reference body.', '',
-      'The September 2026, July 2026 and 2025 price views remain separately dated source-bound estimates. The September concrete takeoff preserves all 81 manufacturing groups and 486 occurrences across Baghdad and Al-Muthanna scenarios. Material mix and labour hours remain assumptions, not measured process data; neither establishes a guideway beam, supplier match, complete installed mass or cost, or a cost for the selected reference candidate. The regional library also includes rebar cut/bend and profile/sheet raw-stock processing sensitivities; posted sheet rates do not establish structural grade or a completed manufacturing route.','',
+      'The September 2026, July 2026 and 2025 price views remain separately dated source-bound estimates. The September concrete takeoff preserves all 81 manufacturing groups and 486 occurrences across Baghdad and Al-Muthanna scenarios. The aluminium alternatives apply exact aggregate takeoff masses while retaining their group and occurrence identities through the takeoff ID; they do not assign a form or supplier SKU to individual occurrences. Material mix and labour hours remain assumptions, not measured process data; these scenarios do not establish a guideway beam, supplier match, complete installed mass or cost, or a cost for the selected reference candidate. The regional library also includes rebar cut/bend and profile/sheet raw-stock processing sensitivities; posted sheet rates do not establish structural grade or a completed manufacturing route.','',
       'The reference dossier\'s 900 m shared winding and the separate five-bank research layout (100 m active motor length) remain distinct propulsion configurations. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.',''
     ]
 

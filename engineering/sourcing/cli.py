@@ -589,6 +589,8 @@ def main(argv=None):
                 "unmapped_located_occurrence_count": len(packet["unmapped_located_occurrence_ids"]),
                 "packages_with_domestic_cost_estimates": packet["packages_with_domestic_cost_estimates"],
                 "domestic_cost_estimate_scenario_count": packet["domestic_cost_estimate_scenario_count"],
+                "candidate_mapped_aluminium_demand_line_count": packet["candidate_mapped_aluminium_demand_line_count"],
+                "candidate_mapped_aluminium_sensitivity_scenario_count": packet["candidate_mapped_aluminium_sensitivity_scenario_count"],
                 "complete_installed_bom": False,
                 "physical_qualification": None,
             })

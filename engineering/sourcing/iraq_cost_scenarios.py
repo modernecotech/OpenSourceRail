@@ -6,12 +6,15 @@ supplier offers, completed processes, installed cost, or physical acceptance.
 """
 from argparse import ArgumentParser
 from copy import deepcopy
+from decimal import Decimal
 from pathlib import Path
 import json
 import sys
 
 from . import catalogue, inputs
-from .fabrication import domestic_fabrication_estimate, domestic_fabrication_takeoff_estimate
+from .fabrication import (domestic_fabrication_estimate,
+                          domestic_fabrication_mass_takeoff_estimate,
+                          domestic_fabrication_takeoff_estimate)
 from .model import encoded, identity
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -454,8 +457,54 @@ def _make_2026_period_reference(records, takeoff, takeoff_path, period):
             mapped_packets.append((region_name, hours, estimate_packet))
 
     baghdad_rows = [row for row in takeoff_estimates if row["region_slug"] == "baghdad"]
+    mapped_aluminium_scenarios = []
+    if period == "2026-09":
+        # The Ur Company posted rates are 29-Oct-2026 raw-stock observations.
+        # Keep every product form as a separate alternative because the candidate
+        # stock geometry, alloy/temper, yields and manufacturing routes are open.
+        wage = selected_by_region["baghdad"]
+        aluminium_targets = (
+            ("vehicle/body", "aluminium_reference", "nominal-stock"),
+            ("vehicle/passive-secondary", "6082-T6-proposed", "nominal-stock"),
+        )
+        forms = (
+            *(("aluminium profile", name, key) for name, key in UR_ALUMINIUM_PROFILE_FORMS),
+            *(("aluminium sheet", name, key) for name, key in UR_ALUMINIUM_SHEET_FORMS),
+        )
+        for system, material, stock_scope in aluminium_targets:
+            for family, form_name, benchmark_key in forms:
+                benchmark = _must_benchmark(_benchmark_index(records), benchmark_key)
+                if benchmark is None:
+                    raise ValueError("Exact Ur Company aluminium benchmark is required: " + benchmark_key)
+                for hours in ALUMINIUM_HOURS:
+                    process = domestic_fabrication_mass_takeoff_estimate(
+                        estimate_key=(f"iraq-2026-09-baghdad-{material}-{benchmark_key.rsplit(':', 1)[-1]}-"
+                                      f"{hours}h-per-stock-tonne"),
+                        takeoff=takeoff,
+                        target_rollup={"system": system, "material": material,
+                                       "stock_scope": stock_scope},
+                        material_benchmark=benchmark, labour_benchmark=wage,
+                        labour_hours_per_tonne=hours,
+                        material_key=(f"Ur Company posted {form_name}; alloy/temper unresolved"),
+                        labour_category=("Baghdad CSO September 2026 skilled-worker base wage proxy; "
+                                         "fabrication hours per stock tonne assumed"),
+                        benchmarks={benchmark["record_id"]: benchmark,
+                                    wage["record_id"]: wage},
+                        uplift_fraction="0.20")
+                    mapped_aluminium_scenarios.append(dict(
+                        region="Baghdad", region_slug="baghdad", system=system,
+                        material=material, family=family, material_form=form_name,
+                        labour_hours_per_stock_tonne=hours,
+                        input_gross_stock_mass_kg=process["candidate_takeoff_gross_mass_kg"],
+                        input_stock_tonnes=process["output_quantity"],
+                        estimated_unit_cost_iqd_per_tonne=process["estimated_unit_cost"],
+                        estimated_total_iqd=process["estimated_total"],
+                        process_record_id=process["record_id"], process=process))
+
     source_ids = {source["record_id"]}
     source_ids.update(row["source_id"] for row in [*concrete_rows, rebar])
+    for row in mapped_aluminium_scenarios:
+        source_ids.update(row["process"]["source_ids"])
     if period == "2026-07":
         material_origin_comparisons = [
             {"material_family":family,"origin_class":origin,"benchmark_key":row["benchmark_key"],
@@ -492,11 +541,19 @@ def _make_2026_period_reference(records, takeoff, takeoff_path, period):
             "wage_source_basis":f"CSO {period} governorate worker daily rate divided by explicit 8-hour workday; excludes employer burden",
             "candidate_takeoff_regions":["Baghdad","Al-Muthanna"],
             "candidate_takeoff_region_selection":"Comparison scenarios only; the candidate route and factory location are not selected",
+            "aluminium_stock_scenarios":(
+                "2026-09 wage plus Ur Company posted raw-stock observations dated 2026-10-29;"
+                " profile and sheet forms remain separate sensitivities with unresolved alloy/temper, dimensions and compatibility"
+                if period == "2026-09" else "not emitted for this period"),
+            "aluminium_labour_hours_scenarios_per_gross_stock_tonne":(
+                list(ALUMINIUM_HOURS) if period == "2026-09" else []),
         },
         unit_rate_estimates=regional,
         material_origin_comparisons=material_origin_comparisons,
         regional_concrete_takeoff_estimates=takeoff_estimates,
+        candidate_mapped_aluminium_stock_scenarios=mapped_aluminium_scenarios,
         baghdad_concrete_takeoff_estimates=baghdad_rows,
+        takeoff_mapped_for_aluminium_stock_scenarios=bool(mapped_aluminium_scenarios),
         takeoff_mapped_for_baghdad_concrete_estimates=True,
         takeoff_mapped_for_regional_concrete_estimates=True,
         candidate_takeoff_mapped_for_unit_rate_estimates=False,
@@ -513,6 +570,7 @@ def _make_2026_period_reference(records, takeoff, takeoff_path, period):
             "Rebar cut/bend unit scenarios are not mapped to candidate reinforcement quantities because those quantities remain unresolved.",
             "Steel I-beam and aluminium-window benchmarks are construction-market item averages; section geometry, alloy, exact product scope and railway compatibility remain unresolved and are not used as prices for the selected rail/body stocks.",
             "The 20% uplift is an unallocated planning allowance on declared direct material plus labour; it is not verified overhead, profit, tax or contingency.",
+            *(["Ur Company posted profile/sheet rates observed 2026-10-29 are used only as raw-stock form sensitivities against the two exact aluminium takeoff rollups. Alloy/temper, dimensions, availability, delivery scope, purchase yield and compatibility remain unverified; estimated tonnes use known gross stock mass and assumed labour hours per tonne."] if period == "2026-09" else []),
         ])
     packet["source_epoch_id"] = identity(records)
     packet["packet_id"] = identity(packet)
@@ -674,6 +732,76 @@ def _write_fresh(path, payload):
         stream.write(json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False) + "\n")
 
 
+def _write_regional_publication(destination, packet):
+    """Seal a reproducible regional-reference index and concise method note."""
+    destination = Path(destination)
+    aluminium = packet.get("candidate_mapped_aluminium_stock_scenarios", [])
+    lines = [
+        "# Iraqi domestic material + labour cost reference — September 2026",
+        "",
+        "This generated packet combines official Iraqi Central Statistical Organization (CSO) September 2026 material and governorate wage observations with explicit cost sensitivities. The same-period concrete estimates and historical comparisons remain separate. The Ur Company aluminium price observations were observed on 29 October 2026; their price-effective date is unknown.",
+        "",
+        "## Formula and scope",
+        "",
+        "`(material quantity × dated source rate + assumed person-hours × hourly base wage) × 1.20`",
+        "",
+        "The 20% is an unallocated planning uplift on direct material plus base-wage labour only. It is not verified overhead, profit, tax, contingency, or margin. The CSO wage is a statistical construction-worker base wage normalized by an explicit 8-hour day, not a shop charge-out rate. The packet contains no supplier quote, complete process price, procurement approval, installed cost, whole-life cost, or physical qualification.",
+        "",
+        "## Candidate-mapped domestic aluminium stock sensitivities",
+        "",
+        f"The exact federated material takeoff `{packet['takeoff_id']}` contains 17,535.607 kg of `aluminium_reference` across 1,164 manufacturing groups / 23,286 occurrences and 1,652.057 kg of `6082-T6-proposed` across 312 groups / 312 occurrences. It does not identify the product-form split, order quantity, purchase yield, or declared labour hours. Every estimate below is therefore a separate whole-rollup alternative; profile and sheet cases must not be added together.",
+        "",
+        "The official [Ur Company posted price page](https://ur.industry.gov.iq/public/prices) lists three profile categories (non-oxidized, oxidized, spray-painted) and four sheet categories (hard or annealed, each at 0.6–0.9 mm or 1 mm and above), priced per tonne in IQD. Prices were observed on 29 October 2026; the effective date and commercial terms are unstated. For each material rollup, the generator evaluates all seven source forms at 8 / 16 / 32 assumed labour hours per gross stock tonne, using the Baghdad September CSO skilled-worker base-wage proxy of IQD 9,375/hour. Gross stock mass is used as a proxy for purchased tonnes with 100% yield solely to calculate a sensitivity.",
+        "",
+    ]
+    for material in ("aluminium_reference", "6082-T6-proposed"):
+        rows = [row for row in aluminium if row["material"] == material]
+        if rows:
+            totals = [Decimal(row["estimated_total_iqd"]) for row in rows]
+            low, high = min(totals) / Decimal(1_000_000), max(totals) / Decimal(1_000_000)
+            lines.append(f"- `{material}`: **IQD {low:,.3f}–{high:,.3f} million** across its 21 alternative form/hour cases.")
+    lines += [
+        "",
+        "The Ur listings do not state structural alloy/temper, dimensional match, availability, delivery terms, taxes, or quantity conditions. In particular, they do not verify 6082-T6 compatibility or support an accepted product match. Labour hours are assumptions, not timed local fabrication routes. The calculation excludes scrap and nesting yield, machining, joining, heat treatment, additional coating, consumables, tooling, moulds, equipment depreciation, employer burden, utility, QA, packaging, transport, taxes, installation, rework, warranty, and maintenance. The 42 mass extensions are cost sensitivities, not actual body or secondary prices.",
+        "",
+        "## Concrete comparison and provenance",
+        "",
+        "The same packet carries six Baghdad / Al-Muthanna concrete recipe comparisons over 81 groups and 486 occurrences. Their nominal ingredient recipe is 0.35 t cement + 0.50 m³ red sand + 0.80 m³ crushed gravel; it is not a designed mix or verified yield. The CSO material/wage source is the official [monthly construction-material bulletin](https://cosit.gov.iq/ar/constr-stat/constr-pr). See the source hashes in `manifest.json` and each packet's source references.",
+        "",
+        f"- Candidate: `{packet['candidate_id']}`",
+        f"- Source input: `{packet['source_input_id']}`",
+        f"- Material takeoff: `{packet['takeoff_id']}`",
+        f"- Source epoch: `{packet['source_epoch_id']}`",
+        f"- Regional unit-rate cases: {len(packet['unit_rate_estimates'])}",
+        f"- Candidate-mapped concrete cases: {len(packet['regional_concrete_takeoff_estimates'])}",
+        f"- Candidate-mapped aluminium raw-stock sensitivities: {len(aluminium)} (two rollups, seven forms, three labour-hour assumptions)",
+        "- Complete procurement and installed costs: unknown",
+        "- Supplier communication: none sent",
+        "",
+    ]
+    _write_fresh(destination / "README.md", "\n".join(lines))
+    file_hashes = {
+        path.relative_to(destination).as_posix(): inputs.digest(path)
+        for path in sorted(destination.rglob("*"))
+        if path.is_file() and path.name != "manifest.json"
+    }
+    manifest = dict(
+        schema="osr-iraq-regional-cost-reference-publication/1",
+        packet_id=packet["packet_id"], candidate_id=packet["candidate_id"],
+        source_input_id=packet["source_input_id"], takeoff_id=packet["takeoff_id"],
+        source_epoch_id=packet["source_epoch_id"], source_ids=packet["source_ids"],
+        unit_rate_scenario_count=len(packet["unit_rate_estimates"]),
+        candidate_takeoff_scenario_count=len(packet["regional_concrete_takeoff_estimates"]),
+        mapped_group_count=81, mapped_occurrence_count=486,
+        candidate_mapped_aluminium_scenario_count=len(aluminium),
+        candidate_mapped_aluminium_rollup_count=len({row["material"] for row in aluminium}),
+        formula=packet["basis"]["formula"], source_is_supplier_quote=False,
+        complete_installed_cost=None, physical_qualification=None,
+        unknown_is_zero=False, file_sha256=file_hashes)
+    manifest["manifest_id"] = identity(manifest)
+    _write_fresh(destination / "manifest.json", manifest)
+
+
 def main(argv=None):
     parser = ArgumentParser(description="Create source-bound Iraqi material + labour + 20% domestic fabrication screens")
     parser.add_argument("--takeoff", type=Path, required=True,
@@ -703,6 +831,7 @@ def main(argv=None):
     for region, hours, estimate_packet in september_2026_packets:
         region_slug = next(slug for slug, name in REGIONS if name == region)
         _write_fresh(destination / ("2026-09-" + region_slug + "-concrete-takeoff-" + hours + "h.json"), estimate_packet)
+    _write_regional_publication(destination, september_2026)
     print(json.dumps({
         "output": str(destination), "packet_id": packet["packet_id"],
         "candidate_id": packet["candidate_id"], "takeoff_id": packet["takeoff_id"],
@@ -718,6 +847,8 @@ def main(argv=None):
         "september_2026_candidate_takeoff_scenarios": len(september_2026["regional_concrete_takeoff_estimates"]),
         "september_2026_candidate_takeoff_mapped_groups": sorted({row["mapped_group_count"] for row in september_2026["regional_concrete_takeoff_estimates"]}),
         "september_2026_candidate_takeoff_mapped_occurrences": sorted({row["mapped_occurrence_count"] for row in september_2026["regional_concrete_takeoff_estimates"]}),
+        "september_2026_candidate_mapped_aluminium_stock_scenarios": len(september_2026["candidate_mapped_aluminium_stock_scenarios"]),
+        "regional_publication_manifest_id": json.loads((destination / "manifest.json").read_bytes())["manifest_id"],
         "complete_installed_cost": None, "physical_qualification": None,
     }, indent=2, ensure_ascii=False))
 

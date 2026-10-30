@@ -68,7 +68,7 @@ _PACKAGE_SPECS = {
     },
 }
 
-_RULE_VERSION = "osr-procurement-package-rules/3"
+_RULE_VERSION = "osr-procurement-package-rules/4"
 
 _DOMESTIC_LEAD_RULES = {
     ("civil/concrete", "concrete-hypothesis"): {
@@ -467,6 +467,97 @@ def _attach_domestic_concrete_estimates(packages, reference, estimate_packets,
     return package_count, cost_count, reference["packet_id"]
 
 
+def _attach_domestic_aluminium_sensitivities(material_lines, reference,
+                                              candidate_id, source_input_id):
+    """Attach exact candidate-bound raw-stock sensitivities to matching demand lines."""
+    if reference is None:
+        return 0, 0
+    if (reference.get("candidate_id") != candidate_id
+            or reference.get("source_input_id") != source_input_id):
+        raise ValueError("Aluminium raw-stock sensitivities must match the procurement candidate and input")
+    scenarios = reference.get("candidate_mapped_aluminium_stock_scenarios", [])
+    by_scope = defaultdict(list)
+    for row in scenarios:
+        process = row.get("process")
+        validate_record(process, "process")
+        if (process.get("candidate_id") != candidate_id
+                or process.get("input_id") != source_input_id
+                or process.get("candidate_takeoff_id") != reference.get("takeoff_id")
+                or process.get("candidate_takeoff_mapped") is not True
+                or process.get("unknown_is_zero") is not False
+                or process.get("complete_process_cost") is not None
+                or process.get("complete_installed_cost") is not None):
+            raise ValueError("Aluminium sensitivity differs from its sealed candidate takeoff")
+        selector = process.get("candidate_takeoff_scope")
+        key = (selector.get("system"), selector.get("material"), selector.get("stock_scope"))
+        if row.get("material") != key[1] or row.get("family") not in {"aluminium profile", "aluminium sheet"}:
+            raise ValueError("Aluminium sensitivity form or roll-up classification differs")
+        by_scope[key].append(row)
+
+    attached_scenarios = 0
+    attached_lines = 0
+    for line in material_lines:
+        key = (line["system"], line["material"], line["stock_scope"])
+        rows = by_scope.get(key)
+        line["domestic_raw_stock_sensitivity_scenarios"] = []
+        line["domestic_raw_stock_sensitivity_count"] = 0
+        if not rows:
+            continue
+        expected_mass = decimal(line["modeled_gross_stock_mass_kg"], "procurement demand gross mass")
+        if (len(rows) != 21
+                or any(decimal(row["input_gross_stock_mass_kg"], "sourced gross mass") != expected_mass
+                       or row["process"].get("candidate_takeoff_group_count") != line["engineering_group_count"]
+                       or row["process"].get("candidate_takeoff_occurrence_count") != line["engineering_occurrence_count"]
+                       for row in rows)):
+            raise ValueError("Aluminium estimate quantity or membership differs from procurement demand line")
+        seen = set()
+        attached = []
+        for row in rows:
+            process = row["process"]
+            case = (row["material_form"], str(row["labour_hours_per_stock_tonne"]))
+            if case in seen:
+                raise ValueError("Duplicate aluminium raw-stock form/labour scenario in procurement line")
+            seen.add(case)
+            attached.append({
+                "material_form": row["material_form"],
+                "family": row["family"],
+                "input_gross_stock_mass_kg": row["input_gross_stock_mass_kg"],
+                "input_stock_tonnes": row["input_stock_tonnes"],
+                "labour_hours_per_stock_tonne": row["labour_hours_per_stock_tonne"],
+                "currency": "IQD",
+                "direct_material_cost": process["direct_material_cost"],
+                "direct_labour_cost": process["direct_labor_cost"],
+                "uplift_fraction": process["uplift_fraction"],
+                "uplift_amount": process["uplift_amount"],
+                "estimated_total_iqd": row["estimated_total_iqd"],
+                "estimated_unit_cost_iqd_per_tonne": row["estimated_unit_cost_iqd_per_tonne"],
+                "source_cost_reference_packet_id": reference["packet_id"],
+                "source_process_record_id": process["record_id"],
+                "source_takeoff_id": reference["takeoff_id"],
+                "supplier_quote": False,
+                "product_form_compatibility": None,
+                "commercial_order_quantity": None,
+                "purchase_yield_fraction": None,
+                "complete_process_cost": None,
+                "complete_installed_cost": None,
+                "procurement_approved": False,
+            })
+        expected_cases={(form,hours) for form in {row["material_form"] for row in rows}
+                         for hours in ("8","16","32")}
+        if seen != expected_cases or len(seen) != 21:
+            raise ValueError("Aluminium raw-stock form/hour alternatives are incomplete")
+        line["domestic_raw_stock_sensitivity_scenarios"] = attached
+        line["domestic_raw_stock_sensitivity_count"] = len(attached)
+        line["domestic_raw_stock_sensitivities_are_compatible_quotes"] = False
+        attached_scenarios += len(attached)
+        attached_lines += 1
+        line["material_line_id"] = identity({key:value for key,value in line.items()
+                                               if key!="material_line_id"})
+    if scenarios and (attached_scenarios != len(scenarios) or attached_lines != 2):
+        raise ValueError("Not every candidate aluminium cost scenario mapped to one procurement demand line")
+    return attached_lines, attached_scenarios
+
+
 def _material_purchasing_rollup(packages, occurrences, groups, procurement_by_group,
                                 operations_by_group, unlocated_links,
                                 domestic_sources_by_key=None):
@@ -796,6 +887,8 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
     material_purchasing_lines = _material_purchasing_rollup(
         packages, occurrences, manufacturing, procurement_by_group, operations_by_group,
         unlocated_links, domestic_sources)
+    aluminium_line_count, aluminium_scenario_count = _attach_domestic_aluminium_sensitivities(
+        material_purchasing_lines, regional_cost_reference, candidate_id, twin_input["payload_id"])
     complete_group_mass_lines = [row for row in material_purchasing_lines
                                  if row["modeled_gross_stock_mass_kg"] is not None]
     complete_member_mass_lines = [row for row in material_purchasing_lines
@@ -861,6 +954,8 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
         "priced_draft_packages": 0,
         "packages_with_domestic_cost_estimates": concrete_package_count,
         "domestic_cost_estimate_scenario_count": concrete_estimate_count,
+        "candidate_mapped_aluminium_demand_line_count": aluminium_line_count,
+        "candidate_mapped_aluminium_sensitivity_scenario_count": aluminium_scenario_count,
         "regional_cost_reference_packet_id": regional_reference_id,
         "complete_installed_bom": False,
         "complete_installed_cost": None,
@@ -895,6 +990,8 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
             "material_demand_mass_reconciliation_residual_kg": material_demand_mass_residual,
             "packages_with_domestic_cost_estimates": concrete_package_count,
             "domestic_cost_estimate_scenario_count": concrete_estimate_count,
+            "candidate_mapped_aluminium_demand_line_count": aluminium_line_count,
+            "candidate_mapped_aluminium_sensitivity_scenario_count": aluminium_scenario_count,
             "modeled_gross_stock_mass_kg": _sum_field(
                 [row for row in occurrences if row.get("scope") != "unlocated-account-or-obligation"],
                 "accounted_mass_kg")[0],

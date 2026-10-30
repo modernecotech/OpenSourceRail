@@ -298,3 +298,102 @@ def domestic_fabrication_takeoff_estimate(*, estimate_key, takeoff, target_rollu
         unknown_is_zero=False,
     )
     return record("process", **fields)
+
+
+def domestic_fabrication_mass_takeoff_estimate(*, estimate_key, takeoff,
+                                                target_rollup, material_benchmark,
+                                                labour_benchmark, labour_hours_per_tonne,
+                                                material_key, labour_category,
+                                                benchmarks, uplift_fraction="0.20"):
+    """Apply a raw-stock price and labour-hours-per-tonne scenario to one exact takeoff.
+
+    The candidate quantity is the roll-up's known gross stock mass. The returned
+    estimate is a candidate-mapped sensitivity only: it does not infer purchase
+    yield, product-form compatibility, a manufacturing route or installed cost.
+    """
+    if (not isinstance(takeoff, dict) or
+            takeoff.get("schema") != "osr-engineering-material-takeoff/1" or
+            not is_id(takeoff.get("takeoff_id")) or
+            takeoff["takeoff_id"] != identity({key: value for key, value in takeoff.items()
+                                                if key != "takeoff_id"})):
+        raise ValueError("Exact sealed material-takeoff packet required")
+    candidate_id = takeoff.get("candidate_id")
+    source_input_id = takeoff.get("source_input_id")
+    if not is_id(candidate_id) or not is_id(source_input_id):
+        raise ValueError("Exact takeoff candidate and source-input identities required")
+    if not isinstance(target_rollup, dict) or set(target_rollup) != {"system", "material", "stock_scope"}:
+        raise ValueError("Exact roll-up system, material and stock scope required")
+    selector = {key: text(target_rollup[key], "takeoff " + key) for key in target_rollup}
+    matches = [row for row in takeoff.get("material_rollups", [])
+               if all(row.get(key) == value for key, value in selector.items())]
+    if len(matches) != 1:
+        raise ValueError("Target material takeoff must match one exact roll-up")
+    rollup = matches[0]
+    if rollup.get("missing_gross_mass_group_count") != 0:
+        raise ValueError("Every manufacturing group in the target roll-up needs a known gross mass")
+    total_mass_kg = decimal(rollup.get("known_gross_stock_mass_kg"),
+                            "takeoff known gross stock mass", positive=True)
+    group_count = rollup.get("manufacturing_group_count")
+    occurrence_count = rollup.get("engineering_occurrence_count")
+    if type(group_count) is not int or group_count <= 0 or type(occurrence_count) is not int or occurrence_count <= 0:
+        raise ValueError("Positive exact group and occurrence counts required")
+    scoped_groups = [row for row in takeoff.get("manufacturing_groups", [])
+                     if all(row.get(key) == value for key, value in selector.items())]
+    if len(scoped_groups) != group_count:
+        raise ValueError("Target roll-up group identities are incomplete")
+    summed_mass_kg = Decimal(0)
+    occurrence_ids = set()
+    for group in scoped_groups:
+        mass = group.get("known_gross_stock_mass_kg")
+        if mass is None:
+            raise ValueError("A target manufacturing group has unknown gross mass")
+        member_ids = group.get("engineering_occurrence_ids")
+        if not isinstance(member_ids, list) or not member_ids or len(member_ids) != len(set(member_ids)):
+            raise ValueError("Exact engineering occurrence membership is required")
+        if occurrence_ids.intersection(member_ids):
+            raise ValueError("Takeoff groups overlap engineering occurrences")
+        occurrence_ids.update(member_ids)
+        mass = decimal(mass, "group known gross stock mass", nonnegative=True)
+        if mass <= 0:
+            raise ValueError("Every estimated manufacturing group must have positive gross mass")
+        summed_mass_kg += mass
+    if len(occurrence_ids) != occurrence_count or summed_mass_kg != total_mass_kg:
+        raise ValueError("Takeoff roll-up mass or occurrence reconciliation differs")
+    tonnes = total_mass_kg / Decimal(1000)
+    hours_per_tonne = decimal(labour_hours_per_tonne, "labour hours per stock tonne", positive=True)
+    selected = {row.get("record_id"): row for row in (material_benchmark, labour_benchmark)}
+    if any(not is_id(key) for key in selected):
+        raise ValueError("Exact raw-material and wage benchmark records required")
+    unit_process = domestic_fabrication_estimate(
+        estimate_key=estimate_key, candidate_id=candidate_id, input_id=source_input_id,
+        output_quantity=tonnes, output_unit="t", currency="IQD",
+        material_lines=[dict(material_key=material_key, quantity=decimal_text(tonnes),
+                             quantity_unit="t", benchmark_id=material_benchmark["record_id"])],
+        labour_lines=[dict(labour_category=labour_category,
+                           person_hours=decimal_text(tonnes * hours_per_tonne),
+                           benchmark_id=labour_benchmark["record_id"])],
+        benchmarks=selected, uplift_fraction=uplift_fraction)
+    fields = {key: value for key, value in unit_process.items()
+              if key not in {"schema", "kind", "record_id"}}
+    fields.update(
+        application_scope="candidate-bound gross stock mass allocation under an explicit raw-stock-form and labour scenario",
+        candidate_takeoff_id=takeoff["takeoff_id"],
+        candidate_takeoff_scope=selector,
+        candidate_takeoff_group_count=group_count,
+        candidate_takeoff_occurrence_count=occurrence_count,
+        candidate_takeoff_quantity_basis="known gross stock mass; purchase yield and finished/installed mass not established",
+        candidate_takeoff_gross_mass_kg=decimal_text(total_mass_kg),
+        candidate_takeoff_mass_reconciliation_residual_kg="0",
+        labour_hours_per_stock_tonne=decimal_text(hours_per_tonne),
+        candidate_takeoff_mapped=True,
+        complete_process_cost=None,
+        complete_installed_cost=None,
+        whole_life_cost=None,
+        limitations=unit_process["limitations"] + [
+            "The raw-stock benchmark's alloy/temper and product dimensions are not matched to candidate manufacturing groups; this is a product-form price sensitivity, not a compatible supplier match.",
+            "Known gross stock mass is used as a proxy for purchased tonnes with an assumed 100% purchase yield; scrap, nesting, machining allowance and process loss are unknown.",
+            "The labour-hours-per-tonne value is an assumed scenario, not a measured local fabrication route; group allocations are proportional to gross mass only.",
+            "Individual source occurrence identities remain in the sealed material-takeoff identified by candidate_takeoff_id; this estimate does not assign purchase SKUs to them.",
+        ],
+    )
+    return record("process", **fields)

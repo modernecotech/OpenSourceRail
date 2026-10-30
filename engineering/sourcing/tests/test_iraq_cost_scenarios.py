@@ -193,3 +193,59 @@ def test_2026_september_regional_cost_reference_uses_same_period_materials_and_w
     assert packet["physical_qualification"] is None
     assert packet["engineering_accepted"] is False
     assert packet["unknown_is_zero"] is False
+
+
+def test_september_ur_aluminium_prices_map_as_separate_mass_sensitivities():
+    takeoff = inputs.read_json(TAKEOFF)
+    records = catalogue.load_catalogue()
+    packet, _ = _make_2026_september_reference(records, takeoff, TAKEOFF)
+    scenarios = packet["candidate_mapped_aluminium_stock_scenarios"]
+
+    assert len(scenarios) == 42  # two exact takeoff rollups x seven price forms x three hours/t cases
+    assert {row["material"] for row in scenarios} == {"aluminium_reference", "6082-T6-proposed"}
+    assert {row["labour_hours_per_stock_tonne"] for row in scenarios} == {"8", "16", "32"}
+    assert {row["family"] for row in scenarios} == {"aluminium profile", "aluminium sheet"}
+    assert packet["takeoff_mapped_for_aluminium_stock_scenarios"] is True
+
+    benchmarks = {row["benchmark_key"]: row for row in records if row["kind"] == "benchmark"}
+    for row in scenarios:
+        process = row["process"]
+        material = row["material"]
+        expected_scope = (
+            {"system": "vehicle/body", "material": "aluminium_reference", "stock_scope": "nominal-stock"}
+            if material == "aluminium_reference" else
+            {"system": "vehicle/passive-secondary", "material": "6082-T6-proposed", "stock_scope": "nominal-stock"}
+        )
+        assert process["candidate_id"] == takeoff["candidate_id"]
+        assert process["input_id"] == takeoff["source_input_id"]
+        assert process["candidate_takeoff_id"] == takeoff["takeoff_id"]
+        assert process["candidate_takeoff_scope"] == expected_scope
+        assert process["candidate_takeoff_mapped"] is True
+        assert process["candidate_takeoff_group_count"] == (1164 if material == "aluminium_reference" else 312)
+        assert process["candidate_takeoff_occurrence_count"] == (23286 if material == "aluminium_reference" else 312)
+        assert process["candidate_takeoff_mass_reconciliation_residual_kg"] == "0"
+        assert process["uplift_fraction"] == "0.2"
+        assert process["complete_process_cost"] is None
+        assert process["complete_installed_cost"] is None
+        assert process["unknown_is_zero"] is False
+        assert process["source_ids"] == packet["source_ids"] or set(process["source_ids"]).issubset(packet["source_ids"])
+        assert any("alloy/temper" in limit for limit in process["limitations"])
+        assert any("purchase yield" in limit for limit in process["limitations"])
+
+        price_line = process["material_lines"][0]
+        wage_line = process["labour_lines"][0]
+        price = Decimal(price_line["unit_rate"])
+        hours = Decimal(row["labour_hours_per_stock_tonne"])
+        wage = Decimal(wage_line["unit_rate"])
+        expected_unit = (price + hours * wage) * Decimal("1.20")
+        assert Decimal(process["estimated_unit_cost"]) == expected_unit
+        assert Decimal(row["estimated_unit_cost_iqd_per_tonne"]) == expected_unit
+        assert Decimal(process["estimated_total"]) == (
+            Decimal(row["input_stock_tonnes"]) * expected_unit)
+        assert price_line["benchmark_id"] in {b["record_id"] for b in benchmarks.values()}
+
+    # The 6082-T6 label remains a design proposal; none of these generic local
+    # stock listings establishes an exact alloy/temper or accepted match.
+    assert all("unverified" in row["process"]["material_lines"][0]["material_key"]
+               or "unresolved" in row["process"]["material_lines"][0]["material_key"]
+               for row in scenarios)
