@@ -42,6 +42,12 @@ def test_parser_accepts_review_commands_and_bounded_run_inputs(tmp_path):
     assert run.max_requirements == 12
     assert run.database == tmp_path / "records.sqlite3"
     assert cli._parser().parse_args(["rfq", "export", "a" * 64, "--output", str(tmp_path / "draft.json")]).rfq_command == "export"
+    packages = cli._parser().parse_args([
+        "procurement-bom", "--input", str(tmp_path / "twin.tar.gz"),
+        "--concrete-material-recipe", str(tmp_path / "concrete-material-recipe.json"),
+        "--output", str(tmp_path / "procurement.json.gz"),
+    ])
+    assert packages.concrete_material_recipe == tmp_path / "concrete-material-recipe.json"
     refresh = cli._parser().parse_args(["refresh", "--cache-dir", str(tmp_path / "cache")])
     assert refresh.command == "refresh"
     assert refresh.cache_dir == tmp_path / "cache"
@@ -120,6 +126,59 @@ def test_procurement_bom_cli_links_regional_2026_concrete_scenarios(tmp_path, ca
     assert all(len(row["domestic_cost_estimate_scenarios"]) == 6 for row in concrete)
     assert {scenario["region"] for row in concrete
             for scenario in row["domestic_cost_estimate_scenarios"]} == {"Baghdad", "Al-Muthanna"}
+
+
+def test_procurement_bom_cli_attaches_ingredient_quantities_to_exact_september_span_packages(tmp_path, capsys):
+    source_input = cli.ROOT / "docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-domestic-sources-v6/input.json.gz"
+    reference = cli.ROOT / "docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v6/iraq-domestic-cost-reference-2026-09.json"
+    recipe = cli.ROOT / "docs/design-engine/sourcing/domestic-fabrication/takeoff-recipes/concrete-material-inputs-2026-09.json"
+    output = tmp_path / "procurement-bom-with-concrete-material-inputs.json.gz"
+    assert cli.main(["procurement-bom", "--input", str(source_input),
+                     "--regional-cost-reference", str(reference),
+                     "--concrete-material-recipe", str(recipe),
+                     "--output", str(output)]) == 0
+    result = json.loads(capsys.readouterr().out)
+    packet = json.loads(gzip.decompress(output.read_bytes()))
+    takeoff = packet["concrete_material_input_takeoff"]
+    concrete = [row for row in packet["packages"]
+                if row["package_family"] == "civil-concrete-stock-package"]
+
+    assert result["concrete_material_input_takeoff_package_count"] == 81
+    assert result["concrete_material_input_takeoff_line_count"] == 243
+    assert packet["source_registry_record_count"] == 90
+    assert takeoff["candidate_id"] == packet["candidate_id"]
+    assert takeoff["source_input_id"] == packet["source_input_id"]
+    assert takeoff["package_count"] == 81
+    assert takeoff["manufacturing_group_count"] == 81
+    assert takeoff["engineering_occurrence_count"] == 486
+    assert float(takeoff["nominal_output_volume_m3"]) == pytest.approx(1804.8096, abs=1e-9)
+    assert [float(row["total_recipe_input_quantity"]) for row in takeoff["material_inputs"]] == pytest.approx(
+        [631.68336, 902.4048, 1443.84768], abs=1e-9)
+    assert [float(row["material_extension_iqd"]) for row in takeoff["material_inputs"]] == pytest.approx(
+        [83382203.52, 18950500.8, 34652344.32], abs=1e-6)
+    assert sum(float(row["material_extension_iqd"]) for row in takeoff["material_inputs"]) == pytest.approx(136985048.64)
+    assert takeoff["non_additive_to_output_concrete_stock"] is True
+    assert takeoff["ingredient_quantities_are_commercial_order_quantities"] is False
+    assert takeoff["conversion_yield_fraction"] is None
+    assert takeoff["complete_process_cost"] is None
+    assert takeoff["complete_installed_cost"] is None
+    assert packet["located_stock_occurrence_count"] == 27216
+    assert packet["unlocated_obligation_count"] == 4773
+    assert len(packet["material_purchasing_lines"]) == 8
+    assert all(len(row["manufacturing_input_takeoff"]["material_inputs"]) == 3
+               for row in concrete)
+    assert all(row["manufacturing_input_takeoff"]["material_cost_reconciles_to_existing_cost_scenarios"] is True
+               for row in concrete)
+    assert all(line["commercial_order_quantity"] is None
+               and line["purchase_yield_fraction"] is None
+               and line["supplier_product_match"] is False
+               for row in concrete
+               for line in row["manufacturing_input_takeoff"]["material_inputs"])
+    concrete_line = next(row for row in packet["material_purchasing_lines"]
+                         if row["system"] == "civil/concrete")
+    assert {row["source_key"] for row in concrete_line["domestic_fabrication_lead_sources"]} >= {
+        "iraq.regaasphalt.aggregate", "iraq.hewa.construction-materials"}
+    assert concrete_line["domestic_fabrication_leads_are_supplier_matches"] is False
 
 
 def test_run_verify_show_and_rfq_export_are_local_disabled_review_steps(tmp_path, capsys):

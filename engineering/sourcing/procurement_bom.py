@@ -7,6 +7,7 @@ complete installed bills of material. Unlocated obligations remain separate.
 from collections import defaultdict
 from copy import deepcopy
 from decimal import Decimal
+from hashlib import sha256
 from pathlib import Path
 import gzip
 import json
@@ -68,7 +69,7 @@ _PACKAGE_SPECS = {
     },
 }
 
-_RULE_VERSION = "osr-procurement-package-rules/5"
+_RULE_VERSION = "osr-procurement-package-rules/6"
 
 _DOMESTIC_LEAD_RULES = {
     ("civil/concrete", "concrete-hypothesis"): {
@@ -80,6 +81,8 @@ _DOMESTIC_LEAD_RULES = {
         "iraq.al-burhan-sleeper-factory": "Railway concrete sleeper precedent only; current product acceptance, pricing and guideway-beam compatibility unassessed.",
         "iraq.karbala-precast-bridge-beams": "Prestressed bridge-beam inquiry; section, load test, capacity, price and guideway compatibility unassessed.",
         "iraq.icsc-samawa-cement-plant": "Samawa cement-plant lead; current operation, cement grade, supply availability, concrete-mix and precast-beam capability unassessed.",
+        "iraq.regaasphalt.aggregate": "Iraqi aggregate production and site-supply inquiry; grading, test certificates, quantity, price, delivery and recipe compatibility unassessed.",
+        "iraq.hewa.construction-materials": "Iraq-based construction aggregate distributor/importer inquiry; origin, grading, test certificates, quantity, price, delivery and recipe compatibility unassessed.",
         "iraq-saman-cement": "Local OPC/SRC material inquiry; no cement quantity is allocated to this nominal-concrete line, and no mix, batch certificate, price, or precast-beam offer is established.",
         "iraq-delta-cement": "Local OPC/SRC/PLC material inquiry; no cement quantity is allocated to this nominal-concrete line, and no mix, batch certificate, price, or precast-beam offer is established.",
         "iraq-darin-steel-rebar": "Rebar RFQ lead for the separately unlocated reinforcement obligations; no rebar quantity is included in this nominal-concrete stock line and no grade-specific offer is established.",
@@ -471,6 +474,233 @@ def _attach_domestic_concrete_estimates(packages, reference, estimate_packets,
     return package_count, cost_count, reference["packet_id"]
 
 
+def _attach_concrete_material_input_takeoff(packages, recipe, recipe_sha256,
+                                             benchmark_records, source_records,
+                                             candidate_id, source_input_id):
+    """Attach an explicit, non-purchasable ingredient takeoff to concrete spans."""
+    if recipe is None:
+        return None
+    if (not isinstance(recipe, dict)
+            or recipe.get("schema") != "osr-concrete-material-input-takeoff-recipe/1"
+            or recipe.get("candidate_id") != candidate_id
+            or recipe.get("input_id") != source_input_id
+            or recipe.get("output_quantity") != "1"
+            or recipe.get("output_unit") != "m3_nominal_concrete_geometry"
+            or recipe.get("mix_design_approved") is not False
+            or recipe.get("conversion_yield_fraction") is not None
+            or recipe.get("commercial_order_quantities_known") is not False
+            or not isinstance(recipe_sha256, str) or len(recipe_sha256) != 64):
+        raise ValueError("Exact candidate-bound illustrative concrete material recipe required")
+
+    source_recipe_rel = Path(recipe.get("source_recipe_path", ""))
+    if source_recipe_rel.is_absolute() or ".." in source_recipe_rel.parts:
+        raise ValueError("Concrete recipe source must be a repository-relative file")
+    source_recipe_path = (ROOT / source_recipe_rel).resolve()
+    if not source_recipe_path.is_relative_to(ROOT):
+        raise ValueError("Concrete recipe source escapes the repository")
+    source_recipe_raw = source_recipe_path.read_bytes()
+    source_recipe = json.loads(source_recipe_raw)
+    if (sha256(source_recipe_raw).hexdigest() != recipe.get("source_recipe_sha256")
+            or source_recipe.get("schema") != "osr-domestic-fabrication-recipe/1"
+            or source_recipe.get("candidate_id") != candidate_id
+            or source_recipe.get("input_id") != source_input_id
+            or identity({key: value for key, value in source_recipe.items()
+                        if key != "recipe_id"}) != recipe.get("source_recipe_id")):
+        raise ValueError("Concrete input recipe does not bind to its cited source recipe")
+
+    source_materials = {
+        (row.get("material_key"), str(row.get("quantity")), row.get("quantity_unit"),
+         row.get("benchmark_key"))
+        for row in source_recipe.get("material_lines", [])
+    }
+    material_inputs = recipe.get("material_inputs")
+    if not isinstance(material_inputs, list) or not material_inputs:
+        raise ValueError("Concrete material recipe requires explicit material-input lines")
+    if len({row.get("material_key") for row in material_inputs if isinstance(row, dict)}) != len(material_inputs):
+        raise ValueError("Concrete recipe material keys must be distinct")
+    if any((row.get("material_key"), str(row.get("quantity")), row.get("quantity_unit"),
+            row.get("benchmark_key")) not in source_materials for row in material_inputs):
+        raise ValueError("Concrete ingredient coefficients differ from the cited source recipe")
+
+    benchmark_by_id = {row.get("record_id"): row for row in (benchmark_records or [])}
+    source_by_id = {row.get("record_id"): row for row in (source_records or [])}
+    if len(benchmark_by_id) != len(benchmark_records or []):
+        raise ValueError("Concrete material benchmark record IDs must be unique")
+    recipe_id = identity(recipe)
+    material_specs = []
+    seen_benchmarks = set()
+    for line in material_inputs:
+        benchmark_id = line.get("benchmark_id")
+        if not is_id(benchmark_id) or benchmark_id in seen_benchmarks:
+            raise ValueError("Concrete recipe requires distinct exact source benchmark IDs")
+        seen_benchmarks.add(benchmark_id)
+        benchmark = benchmark_by_id.get(benchmark_id)
+        if (benchmark is None or benchmark.get("kind") != "benchmark"
+                or benchmark.get("benchmark_key") != line.get("benchmark_key")
+                or benchmark.get("quantity_unit") != line.get("quantity_unit")
+                or benchmark.get("currency") != "IQD"
+                or benchmark.get("is_manufactured_product_price") is not False
+                or benchmark.get("source_id") not in source_by_id):
+            raise ValueError("Concrete recipe material benchmark identity or unit differs")
+        validate_record(benchmark, "benchmark")
+        coefficient = decimal(line.get("quantity"), "concrete recipe input quantity", nonnegative=True)
+        if coefficient <= 0:
+            raise ValueError("Concrete recipe coefficients must be positive")
+        material_specs.append((line, benchmark, source_by_id[benchmark["source_id"]], coefficient))
+
+    concrete_packages = [row for row in packages
+                         if row.get("package_family") == "civil-concrete-stock-package"]
+    if not concrete_packages:
+        raise ValueError("Concrete material recipe requires candidate span packages")
+    aggregate = {
+        line["material_key"]: {"quantity": Decimal(0), "extension": Decimal(0)}
+        for line, unused_benchmark, unused_source, unused_coefficient in material_specs
+    }
+    package_ids = []
+    group_ids = []
+    occurrence_ids = []
+    total_volume = Decimal(0)
+    line_count = 0
+    for package in concrete_packages:
+        groups = package.get("manufacturing_group_ids", [])
+        members = package.get("engineering_occurrence_ids", [])
+        volume = decimal(package.get("nominal_stock_volume_m3"),
+                         "nominal concrete package volume", nonnegative=True)
+        if len(groups) != 1 or not members or volume <= 0:
+            raise ValueError("Concrete recipe needs one exact manufacturing group and positive package volume")
+        material_lines = []
+        direct_material_extension = Decimal(0)
+        for line, benchmark, source, coefficient in material_specs:
+            quantity = coefficient * volume / Decimal(recipe["output_quantity"])
+            rate = decimal(benchmark.get("unit_price"), "concrete material benchmark rate", nonnegative=True)
+            extension = quantity * rate
+            direct_material_extension += extension
+            aggregate[line["material_key"]]["quantity"] += quantity
+            aggregate[line["material_key"]]["extension"] += extension
+            material = {
+                "material_key": line["material_key"],
+                "recipe_quantity_per_output": line["quantity"],
+                "recipe_quantity_unit": line["quantity_unit"],
+                "nominal_material_quantity": decimal_text(quantity),
+                "quantity_unit": line["quantity_unit"],
+                "benchmark_id": benchmark["record_id"],
+                "benchmark_key": benchmark["benchmark_key"],
+                "benchmark_source_id": source["record_id"],
+                "benchmark_source_url": source["url"],
+                "benchmark_observation_period": benchmark.get("observation_period"),
+                "benchmark_geographic_scope": benchmark.get("geographic_scope"),
+                "benchmark_unit_rate_iqd": benchmark["unit_price"],
+                "benchmark_evidence_scope": benchmark.get("cost_scope"),
+                "material_extension_iqd": decimal_text(extension),
+                "engineering_group_id": groups[0],
+                "engineering_occurrence_ids": list(members),
+                "supplier_product_match": False,
+                "commercial_order_quantity": None,
+                "commercial_order_unit": None,
+                "purchase_yield_fraction": None,
+                "product_compatibility": None,
+                "procurement_approved": False,
+            }
+            material["material_input_line_id"] = identity(material)
+            material_lines.append(material)
+            line_count += 1
+        scenarios = package.get("domestic_cost_estimate_scenarios", [])
+        if (not scenarios or any(abs(decimal(row.get("direct_material_cost"),
+                                               "existing span direct material cost")
+                                     - direct_material_extension) > Decimal("0.000001")
+                                 for row in scenarios)):
+            raise ValueError("Concrete ingredient takeoff does not reconcile to existing span material estimates")
+        takeoff = {
+            "schema": "osr-concrete-package-input-takeoff/1",
+            "takeoff_id": None,
+            "recipe_id": recipe_id,
+            "source_recipe_id": recipe["source_recipe_id"],
+            "source_recipe_sha256": recipe["source_recipe_sha256"],
+            "recipe_file_sha256": recipe_sha256,
+            "candidate_id": candidate_id,
+            "source_input_id": source_input_id,
+            "package_key": package["package_key"],
+            "manufacturing_group_ids": list(groups),
+            "engineering_occurrence_ids": list(members),
+            "nominal_output_volume_m3": decimal_text(volume),
+            "material_inputs": material_lines,
+            "direct_material_extension_iqd": decimal_text(direct_material_extension),
+            "material_cost_reconciles_to_existing_cost_scenarios": True,
+            "mix_design_approved": False,
+            "supplier_quote": False,
+            "commercial_order_quantities_known": False,
+            "purchase_yield_fraction": None,
+            "complete_process_cost": None,
+            "complete_installed_cost": None,
+            "physical_qualification": None,
+            "unknown_is_zero": False,
+            "non_additive_to_output_concrete_stock": True,
+        }
+        takeoff["takeoff_id"] = identity({key: value for key, value in takeoff.items()
+                                           if key != "takeoff_id"})
+        package["manufacturing_input_takeoff"] = takeoff
+        package["package_id"] = identity({key: value for key, value in package.items()
+                                           if key != "package_id"})
+        package_ids.append(package["package_id"])
+        group_ids.extend(groups)
+        occurrence_ids.extend(members)
+        total_volume += volume
+
+    if (len(package_ids) != len(set(package_ids)) or len(group_ids) != len(set(group_ids))
+            or len(occurrence_ids) != len(set(occurrence_ids))):
+        raise ValueError("Concrete recipe must preserve distinct span package, group and occurrence identities")
+    total_materials = []
+    for line, benchmark, source, unused_coefficient in material_specs:
+        values = aggregate[line["material_key"]]
+        total_materials.append({
+            "material_key": line["material_key"],
+            "benchmark_key": benchmark["benchmark_key"],
+            "quantity_unit": line["quantity_unit"],
+            "recipe_quantity_per_output": line["quantity"],
+            "total_recipe_input_quantity": decimal_text(values["quantity"]),
+            "benchmark_id": benchmark["record_id"],
+            "benchmark_source_id": source["record_id"],
+            "benchmark_source_url": source["url"],
+            "benchmark_unit_rate_iqd": benchmark["unit_price"],
+            "material_extension_iqd": decimal_text(values["extension"]),
+            "supplier_product_match": False,
+            "commercial_order_quantity": None,
+            "commercial_order_unit": None,
+            "purchase_yield_fraction": None,
+            "product_compatibility": None,
+            "procurement_approved": False,
+        })
+    result = {
+        "schema": "osr-concrete-material-input-takeoff/1",
+        "recipe_id": recipe_id,
+        "recipe_file_sha256": recipe_sha256,
+        "source_recipe_id": recipe["source_recipe_id"],
+        "source_recipe_sha256": recipe["source_recipe_sha256"],
+        "candidate_id": candidate_id,
+        "source_input_id": source_input_id,
+        "covered_package_ids": sorted(package_ids),
+        "covered_manufacturing_group_ids": sorted(group_ids),
+        "covered_engineering_occurrence_ids": sorted(occurrence_ids),
+        "package_count": len(package_ids),
+        "manufacturing_group_count": len(group_ids),
+        "engineering_occurrence_count": len(occurrence_ids),
+        "nominal_output_volume_m3": decimal_text(total_volume),
+        "material_inputs": total_materials,
+        "ingredient_line_count": line_count,
+        "ingredient_quantities_are_commercial_order_quantities": False,
+        "commercial_order_quantities_known": False,
+        "mix_design_approved": False,
+        "conversion_yield_fraction": None,
+        "complete_process_cost": None,
+        "complete_installed_cost": None,
+        "physical_qualification": None,
+        "unknown_is_zero": False,
+        "non_additive_to_output_concrete_stock": True,
+    }
+    result["takeoff_id"] = identity(result)
+    return result
+
+
 def _attach_domestic_aluminium_sensitivities(material_lines, reference,
                                               candidate_id, source_input_id):
     """Attach exact candidate-bound raw-stock sensitivities to matching demand lines."""
@@ -792,7 +1022,8 @@ def _material_purchasing_rollup(packages, occurrences, groups, procurement_by_gr
 def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_name=None,
                           source_code_hashes=None, source_evidence_hashes=None,
                           regional_cost_reference=None, concrete_estimate_packets=None,
-                          domestic_source_records=None):
+                          domestic_source_records=None, domestic_benchmark_records=None,
+                          concrete_material_recipe=None, concrete_material_recipe_sha256=None):
     """Build reviewed sourcing packages while partitioning exact stock scopes."""
     if (not isinstance(twin_input, dict)
             or twin_input.get("schema") != "osr-sourcing-twin-input/1"
@@ -879,7 +1110,6 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
     concrete_package_count, concrete_estimate_count, regional_reference_id = _attach_domestic_concrete_estimates(
         packages, regional_cost_reference, concrete_estimate_packets or [], candidate_id,
         twin_input["payload_id"])
-    unlocated_links = _link_unlocated_obligations(unlocated, packages)
     domestic_sources = {}
     domestic_source_records = list(domestic_source_records or [])
     for source in domestic_source_records:
@@ -888,6 +1118,11 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
         if not isinstance(source_key, str) or source_key in domestic_sources:
             raise ValueError("Distinct canonical domestic source keys required")
         domestic_sources[source_key] = source
+    concrete_material_takeoff = _attach_concrete_material_input_takeoff(
+        packages, concrete_material_recipe, concrete_material_recipe_sha256,
+        domestic_benchmark_records, domestic_source_records, candidate_id,
+        twin_input["payload_id"])
+    unlocated_links = _link_unlocated_obligations(unlocated, packages)
     material_purchasing_lines = _material_purchasing_rollup(
         packages, occurrences, manufacturing, procurement_by_group, operations_by_group,
         unlocated_links, domestic_sources)
@@ -943,6 +1178,7 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
         "domestic_lead_records_are_products_or_offers": False,
         "material_purchasing_lines": material_purchasing_lines,
         "material_purchasing_line_count": len(material_purchasing_lines),
+        "concrete_material_input_takeoff": concrete_material_takeoff,
         "material_demand_groups_preserved": sum(row["engineering_group_count"]
                                                   for row in material_purchasing_lines),
         "material_demand_occurrences_preserved": sum(row["engineering_occurrence_count"]
@@ -989,6 +1225,13 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
                                                 for row in material_purchasing_lines),
             "material_demand_occurrence_count": sum(row["engineering_occurrence_count"]
                                                     for row in material_purchasing_lines),
+            "concrete_material_input_takeoff_package_count": (
+                0 if concrete_material_takeoff is None else concrete_material_takeoff["package_count"]),
+            "concrete_material_input_takeoff_line_count": (
+                0 if concrete_material_takeoff is None else concrete_material_takeoff["ingredient_line_count"]),
+            "concrete_material_input_takeoff_is_non_additive": (
+                False if concrete_material_takeoff is None
+                else concrete_material_takeoff["non_additive_to_output_concrete_stock"]),
             "material_demand_gross_stock_mass_kg": material_demand_gross_mass,
             "material_demand_member_accounted_mass_kg": material_demand_member_mass,
             "material_demand_mass_reconciliation_residual_kg": material_demand_mass_residual,

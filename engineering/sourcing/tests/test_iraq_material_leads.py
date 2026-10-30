@@ -14,8 +14,10 @@ def test_additional_domestic_material_leads_remain_source_only():
         "iraq.helal.polyurethane-foam",
         "iraq.qatral.aluminium-ingot",
         "iraq.sama-kirkuk.eps-listings",
+        "iraq.regaasphalt.aggregate",
+        "iraq.hewa.construction-materials",
     }
-    assert len(rows) == 5
+    assert len(rows) == 7
     assert not [row for row in rows if row["kind"] in {"product", "offer", "benchmark"}]
     assert "10 tonnes/day" in sources["iraq.hemn.eps-factory"]["access"]
     assert "12 to 45 kg/m3" in sources["iraq.helal.polyurethane-foam"]["access"]
@@ -23,3 +25,5 @@ def test_additional_domestic_material_leads_remain_source_only():
     assert "no offer or candidate match" in sources["iraq.qatral.aluminium-ingot"]["access"]
     assert "6 to 30 kg/m3" in sources["iraq.bafra-shakh.eps"]["access"]
     assert "no product offer" in sources["iraq.sama-kirkuk.eps-listings"]["access"]
+    assert "three crushing plants" in sources["iraq.regaasphalt.aggregate"]["access"]
+    assert "does not establish Iraqi extraction/origin" in sources["iraq.hewa.construction-materials"]["access"]

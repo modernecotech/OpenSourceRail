@@ -20,11 +20,13 @@ LAMINATES = "docs/design-engine/sourcing/packets/laminate-materials-iraq-domesti
 REGIONAL = "docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v6/iraq-domestic-cost-reference-2026-09.json"
 GFRP = "docs/design-engine/sourcing/domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v19.json"
 IMPORT_SCREEN = "docs/design-engine/sourcing/domestic-fabrication/cso-imported-aluminium-fabrication-sensitivity-2025-2026.json"
-PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v16.json.gz"
-LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v1/iraq-span-logistics-sensitivity.json"
-LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v1/manifest.json"
+PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v17.json.gz"
+CONCRETE_RECIPE = "docs/design-engine/sourcing/domestic-fabrication/takeoff-recipes/concrete-material-inputs-2026-09.json"
+LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v2/iraq-span-logistics-sensitivity.json"
+LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v2/manifest.json"
 LOCAL_GFRP = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/iraq-local-gfrp-retail-screen.json"
 LOCAL_GFRP_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/manifest.json"
+ADDITIONAL_MATERIAL_SOURCES = "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json"
 
 
 def read_json(path):
@@ -47,6 +49,9 @@ def build_validation():
     epoch_id = identity(records)
     sources = {row["source_key"]: row for row in records if row["kind"] == "source"}
     benchmarks = {row["benchmark_key"]: row for row in records if row["kind"] == "benchmark"}
+    additional_material_records = load_catalogue([ROOT / ADDITIONAL_MATERIAL_SOURCES])
+    additional_material_sources = {row["source_key"]: row for row in additional_material_records
+                                   if row["kind"] == "source"}
 
     frame, frame_manifest = packet(FRAME)
     federation, federation_manifest = packet(FEDERATION)
@@ -78,6 +83,123 @@ def build_validation():
     gfrp = read_json(GFRP)
     import_screen = read_json(IMPORT_SCREEN)
     procurement = read_gzip_json(PROCUREMENT)
+    concrete_recipe = read_json(CONCRETE_RECIPE)
+    concrete_source_recipe_path = concrete_recipe.get("source_recipe_path")
+    concrete_source_recipe = read_json(concrete_source_recipe_path)
+    concrete_takeoff = procurement.get("concrete_material_input_takeoff")
+    concrete_packages = [row for row in procurement.get("packages", [])
+                         if row.get("package_family") == "civil-concrete-stock-package"]
+    expected_occurrences = sorted(occurrence_id for row in concrete_packages
+                                  for occurrence_id in row.get("engineering_occurrence_ids", []))
+    expected_groups = sorted(group_id for row in concrete_packages
+                             for group_id in row.get("manufacturing_group_ids", []))
+    benchmark_by_id = {row["record_id"]: row for row in records if row["kind"] == "benchmark"}
+    if (procurement.get("packet_id") != identity({key: value for key, value in procurement.items()
+                                                   if key != "packet_id"})
+            or not isinstance(concrete_takeoff, dict)
+            or concrete_takeoff.get("takeoff_id") != identity({key: value for key, value in concrete_takeoff.items()
+                                                                if key != "takeoff_id"})
+            or concrete_takeoff.get("recipe_id") != identity(concrete_recipe)
+            or concrete_takeoff.get("recipe_file_sha256") != hashlib.sha256((ROOT / CONCRETE_RECIPE).read_bytes()).hexdigest()
+            or concrete_takeoff.get("source_recipe_id") != identity({key: value for key, value in concrete_source_recipe.items()
+                                                                        if key != "recipe_id"})
+            or concrete_takeoff.get("source_recipe_sha256") != hashlib.sha256((ROOT / concrete_source_recipe_path).read_bytes()).hexdigest()
+            or concrete_takeoff.get("candidate_id") != procurement.get("candidate_id")
+            or concrete_takeoff.get("source_input_id") != procurement.get("source_input_id")
+            or concrete_takeoff.get("source_recipe_id") != concrete_recipe.get("source_recipe_id")
+            or concrete_takeoff.get("source_recipe_sha256") != concrete_recipe.get("source_recipe_sha256")
+            or concrete_takeoff.get("package_count") != 81
+            or concrete_takeoff.get("manufacturing_group_count") != 81
+            or concrete_takeoff.get("engineering_occurrence_count") != 486
+            or concrete_takeoff.get("ingredient_line_count") != 243
+            or concrete_takeoff.get("covered_package_ids") != sorted(row["package_id"] for row in concrete_packages)
+            or concrete_takeoff.get("covered_manufacturing_group_ids") != expected_groups
+            or concrete_takeoff.get("covered_engineering_occurrence_ids") != expected_occurrences
+            or set(expected_occurrences) & set(procurement.get("unlocated_obligation_ids", []))
+            or concrete_takeoff.get("mix_design_approved") is not False
+            or concrete_takeoff.get("conversion_yield_fraction") is not None
+            or concrete_takeoff.get("commercial_order_quantities_known") is not False
+            or concrete_takeoff.get("complete_process_cost") is not None
+            or concrete_takeoff.get("complete_installed_cost") is not None
+            or concrete_takeoff.get("physical_qualification") is not None
+            or concrete_takeoff.get("unknown_is_zero") is not False
+            or concrete_takeoff.get("non_additive_to_output_concrete_stock") is not True
+            or procurement.get("located_stock_occurrence_count") != 27216
+            or procurement.get("unlocated_obligation_count") != 4773
+            or procurement.get("draft_package_count") != 191
+            or procurement.get("priced_draft_packages") != 0):
+        raise ValueError("Current concrete material-input takeoff is not bound to the exact span groups or open purchasing scope")
+    source_evidence_hashes = procurement.get("source_sha256", {}).get("domestic_cost_evidence", {})
+    if (source_evidence_hashes.get(CONCRETE_RECIPE) != hashlib.sha256((ROOT / CONCRETE_RECIPE).read_bytes()).hexdigest()
+            or source_evidence_hashes.get(concrete_source_recipe_path)
+            != hashlib.sha256((ROOT / concrete_source_recipe_path).read_bytes()).hexdigest()
+            or source_evidence_hashes.get(ADDITIONAL_MATERIAL_SOURCES)
+            != hashlib.sha256((ROOT / ADDITIONAL_MATERIAL_SOURCES).read_bytes()).hexdigest()):
+        raise ValueError("Procurement takeoff omits exact concrete recipe source hashes")
+    expected_source_registry = [row for row in records if row["kind"] == "source"] + list(additional_material_sources.values())
+    if (procurement.get("source_registry_record_count") != len(expected_source_registry)
+            or procurement.get("source_registry_record_set_id")
+            != identity(sorted(expected_source_registry, key=lambda row: row["record_id"]))):
+        raise ValueError("Procurement source registry differs from the current catalogue and supplemental Iraqi source set")
+    if (abs(Decimal(concrete_takeoff["nominal_output_volume_m3"]) - Decimal("1804.8096")) > Decimal("0.00000001")
+            or len(concrete_takeoff.get("material_inputs", [])) != len(concrete_recipe.get("material_inputs", []))):
+        raise ValueError("Concrete material-input recipe volume or line count differs")
+    expected_materials = {row["benchmark_id"]: row for row in concrete_recipe["material_inputs"]}
+    for line in concrete_takeoff["material_inputs"]:
+        recipe_line = expected_materials.get(line.get("benchmark_id"))
+        benchmark = benchmark_by_id.get(line.get("benchmark_id"))
+        if (recipe_line is None or benchmark is None
+                or line.get("benchmark_key") != recipe_line.get("benchmark_key")
+                or line.get("quantity_unit") != recipe_line.get("quantity_unit")
+                or line.get("quantity_unit") != benchmark.get("quantity_unit")
+                or line.get("benchmark_source_id") != benchmark.get("source_id")
+                or Decimal(line.get("benchmark_unit_rate_iqd")) != Decimal(benchmark.get("unit_price"))
+                or abs(Decimal(line.get("total_recipe_input_quantity"))
+                       - Decimal(recipe_line["quantity"]) * Decimal(concrete_takeoff["nominal_output_volume_m3"])) > Decimal("0.00000001")
+                or abs(Decimal(line.get("material_extension_iqd"))
+                       - Decimal(line["total_recipe_input_quantity"]) * Decimal(line["benchmark_unit_rate_iqd"])) > Decimal("0.000001")
+                or line.get("commercial_order_quantity") is not None
+                or line.get("purchase_yield_fraction") is not None
+                or line.get("supplier_product_match") is not False):
+            raise ValueError("Concrete material-input line differs from its source recipe or benchmark")
+    if any(row.get("package_id") != identity({key: value for key, value in row.items() if key != "package_id"})
+           for row in procurement.get("packages", [])):
+        raise ValueError("Procurement package identity differs after the concrete input takeoff")
+    for row in concrete_packages:
+        takeoff = row.get("manufacturing_input_takeoff")
+        if (not isinstance(takeoff, dict)
+                or takeoff.get("takeoff_id") != identity({key: value for key, value in takeoff.items()
+                                                           if key != "takeoff_id"})
+                or takeoff.get("candidate_id") != procurement.get("candidate_id")
+                or takeoff.get("source_input_id") != procurement.get("source_input_id")
+                or takeoff.get("manufacturing_group_ids") != row.get("manufacturing_group_ids")
+                or takeoff.get("engineering_occurrence_ids") != row.get("engineering_occurrence_ids")
+                or takeoff.get("non_additive_to_output_concrete_stock") is not True
+                or len(takeoff.get("material_inputs", [])) != 3
+                or takeoff.get("commercial_order_quantities_known") is not False
+                or takeoff.get("complete_installed_cost") is not None):
+            raise ValueError("Concrete span material takeoff lost package or source occurrence identity")
+        if ({str(item.get("labour_hours_per_nominal_m3")) for item in row["domestic_cost_estimate_scenarios"]}
+                != {"2", "4", "8"}
+                or {item.get("region") for item in row["domestic_cost_estimate_scenarios"]}
+                != {"Baghdad", "Al-Muthanna"}
+                or any(Decimal(item.get("uplift_fraction")) != Decimal("0.20")
+                       or item.get("supplier_quote") is not False
+                       or item.get("commercial_order_quantity") is not None
+                       or item.get("complete_installed_cost") is not None
+                       for item in row["domestic_cost_estimate_scenarios"])):
+            raise ValueError("Concrete labour/material/20% scenarios or purchase boundary differ")
+        ingredient_extension = sum((Decimal(item["material_extension_iqd"])
+                                    for item in takeoff["material_inputs"]), Decimal(0))
+        if any(
+                abs(Decimal(item["direct_material_cost"]) - ingredient_extension) > Decimal("0.000001")
+                or abs(
+                    Decimal(item["estimated_total_iqd"])
+                    - (Decimal(item["direct_material_cost"]) + Decimal(item["direct_labor_cost"]))
+                    * (Decimal(1) + Decimal(item["uplift_fraction"]))
+                ) > Decimal("0.000001")
+                for item in row["domestic_cost_estimate_scenarios"]):
+            raise ValueError("Per-span ingredients do not reconcile with material + labour + 20% estimate")
     logistics = read_json(LOGISTICS)
     logistics_manifest = read_json(LOGISTICS_MANIFEST)
     logistics_records = load_catalogue([LOGISTICS_SEED])
@@ -85,10 +207,9 @@ def build_validation():
     local_gfrp_manifest = read_json(LOCAL_GFRP_MANIFEST)
     local_composite_records = load_catalogue([LOCAL_COMPOSITE_SEED])
     historical_labour_records = load_catalogue([HISTORICAL_LABOUR_SEED])
-    domestic_material_seed = ROOT / "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json"
-    domestic_material_records = load_catalogue([domestic_material_seed])
-    domestic_material_sources = {row["source_key"]: row for row in domestic_material_records
-                                 if row["kind"] == "source"}
+    domestic_material_seed = ROOT / ADDITIONAL_MATERIAL_SOURCES
+    domestic_material_records = additional_material_records
+    domestic_material_sources = additional_material_sources
     import_source = sources["iraq.cosit.import-report-2025"]
     import_rows = []
     for hs_code in ("39073000", "70191200", "74081100", "76042100",
@@ -221,7 +342,7 @@ def build_validation():
                 "benchmark_count": sum(row["kind"] == "benchmark" for row in domestic_material_records),
                 "candidate_product_matches": 0,
                 "priced_offers": 0,
-                "lead_scope": "EPS panels; polyurethane foam; aluminium ingots/alloys/anode blocks",
+                "lead_scope": "EPS panels; polyurethane foam; aluminium ingots/alloys/anode blocks; crushed aggregate production and Iraqi construction-material distribution",
                 "structural_core_or_body_qualification": None,
             },
             "local_composite_retail_cost_screen": {
@@ -329,6 +450,30 @@ def build_validation():
             "material_demand_occurrence_count": procurement["summary"]["material_demand_occurrence_count"],
             "material_demand_mass_reconciliation_residual_kg": procurement["summary"]["material_demand_mass_reconciliation_residual_kg"],
             "candidate_mapped_aluminium_sensitivity_scenario_count": procurement["candidate_mapped_aluminium_sensitivity_scenario_count"],
+            "concrete_material_input_takeoff": {
+                "recipe_path": CONCRETE_RECIPE,
+                "recipe_id": concrete_takeoff["recipe_id"],
+                "takeoff_id": concrete_takeoff["takeoff_id"],
+                "package_count": concrete_takeoff["package_count"],
+                "manufacturing_group_count": concrete_takeoff["manufacturing_group_count"],
+                "engineering_occurrence_count": concrete_takeoff["engineering_occurrence_count"],
+                "ingredient_line_count": concrete_takeoff["ingredient_line_count"],
+                "nominal_output_volume_m3": concrete_takeoff["nominal_output_volume_m3"],
+                "material_inputs": [
+                    {key: row[key] for key in ("material_key", "quantity_unit", "total_recipe_input_quantity",
+                                               "benchmark_id", "benchmark_source_id", "benchmark_unit_rate_iqd",
+                                               "material_extension_iqd")}
+                    for row in concrete_takeoff["material_inputs"]
+                ],
+                "labour_hours_per_nominal_m3": ["2", "4", "8"],
+                "uplift_fraction_on_direct_material_plus_labour": "0.20",
+                "scenario_count": procurement["domestic_cost_estimate_scenario_count"],
+                "commercial_order_quantity_known": concrete_takeoff["commercial_order_quantities_known"],
+                "mix_design_approved": concrete_takeoff["mix_design_approved"],
+                "purchase_yield_fraction": concrete_takeoff["conversion_yield_fraction"],
+                "complete_installed_cost": concrete_takeoff["complete_installed_cost"],
+                "non_additive_to_output_concrete_stock": concrete_takeoff["non_additive_to_output_concrete_stock"],
+            },
             "complete_installed_bom": procurement["complete_installed_bom"],
             "complete_installed_cost": procurement["complete_installed_cost"],
             "physical_qualification": procurement["physical_qualification"],

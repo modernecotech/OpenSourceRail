@@ -151,6 +151,8 @@ def _parser():
                           help="Fresh JSON or .json.gz procurement package BOM output")
     packages.add_argument("--regional-cost-reference", type=Path,
                           help="Optional exact regional-cost packet; links its group estimates to concrete span packages")
+    packages.add_argument("--concrete-material-recipe", type=Path,
+                          help="Optional candidate-bound illustrative concrete material-input recipe; creates quantity screens, not purchase orders")
 
     sub.add_parser("status", help="Show database record counts and recent evaluation summaries")
     show = sub.add_parser("show", help="Show a run summary and its bounded evidence counts")
@@ -541,10 +543,31 @@ def main(argv=None):
             regional_reference = None
             concrete_estimates = []
             source_evidence_hashes = {}
-            source_registry = [row for row in load_catalogue() if row["kind"] == "source"]
+            catalogue_records = load_catalogue()
+            additional_source_seed = ROOT / "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json"
+            additional_source_records = load_catalogue([additional_source_seed])
+            source_registry = ([row for row in catalogue_records if row["kind"] == "source"]
+                               + [row for row in additional_source_records if row["kind"] == "source"])
+            benchmark_registry = [row for row in catalogue_records if row["kind"] == "benchmark"]
+            concrete_material_recipe = None
+            concrete_material_recipe_sha256 = None
+            if args.concrete_material_recipe is not None:
+                recipe_path = args.concrete_material_recipe.expanduser().resolve()
+                concrete_material_recipe = inputs.read_json(recipe_path)
+                concrete_material_recipe_sha256 = inputs.digest(recipe_path)
+                recipe_key = (recipe_path.relative_to(ROOT).as_posix()
+                              if recipe_path.is_relative_to(ROOT) else recipe_path.name)
+                source_evidence_hashes[recipe_key] = concrete_material_recipe_sha256
+                source_recipe_rel = Path(concrete_material_recipe.get("source_recipe_path", ""))
+                if source_recipe_rel.is_absolute() or ".." in source_recipe_rel.parts:
+                    raise ValueError("Concrete recipe source must be a repository-relative file")
+                source_recipe_path = (ROOT / source_recipe_rel).resolve()
+                source_recipe_key = source_recipe_path.relative_to(ROOT).as_posix()
+                source_evidence_hashes[source_recipe_key] = inputs.digest(source_recipe_path)
             for relative in ("engineering/sourcing/data/supplier-catalogue.json",
                              "engineering/sourcing/data/public-feeds.json",
-                             "engineering/sourcing/data/iraq-domestic-2026-july.json"):
+                             "engineering/sourcing/data/iraq-domestic-2026-july.json",
+                             "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json"):
                 source_evidence_hashes[relative] = inputs.digest(ROOT / relative)
             if args.regional_cost_reference is not None:
                 regional_path = args.regional_cost_reference.expanduser().resolve()
@@ -582,6 +605,9 @@ def main(argv=None):
                 regional_cost_reference=regional_reference,
                 concrete_estimate_packets=concrete_estimates,
                 domestic_source_records=source_registry,
+                domestic_benchmark_records=benchmark_registry,
+                concrete_material_recipe=concrete_material_recipe,
+                concrete_material_recipe_sha256=concrete_material_recipe_sha256,
             )
             output_path = write_packet(packet, args.output)
             _emit({
@@ -603,6 +629,11 @@ def main(argv=None):
                 "domestic_cost_estimate_scenario_count": packet["domestic_cost_estimate_scenario_count"],
                 "candidate_mapped_aluminium_demand_line_count": packet["candidate_mapped_aluminium_demand_line_count"],
                 "candidate_mapped_aluminium_sensitivity_scenario_count": packet["candidate_mapped_aluminium_sensitivity_scenario_count"],
+                "concrete_material_input_takeoff_package_count": packet["summary"]["concrete_material_input_takeoff_package_count"],
+                "concrete_material_input_takeoff_line_count": packet["summary"]["concrete_material_input_takeoff_line_count"],
+                "concrete_material_input_takeoff_id": (
+                    None if packet["concrete_material_input_takeoff"] is None
+                    else packet["concrete_material_input_takeoff"]["takeoff_id"]),
                 "complete_installed_bom": False,
                 "physical_qualification": None,
             })

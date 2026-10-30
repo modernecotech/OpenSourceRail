@@ -1,12 +1,20 @@
 from decimal import Decimal
+from hashlib import sha256
+import json
+from pathlib import Path
 
+from engineering.sourcing.catalogue import load_catalogue
 from engineering.sourcing.model import identity, record
+import pytest
 from engineering.sourcing.procurement_bom import (
     _DOMESTIC_LEAD_RULES,
     _attach_domestic_aluminium_sensitivities,
+    _attach_concrete_material_input_takeoff,
     _link_unlocated_obligations,
     _material_purchasing_rollup,
 )
+
+ROOT = Path(__file__).resolve().parents[3]
 
 
 def _package(family, key):
@@ -152,6 +160,59 @@ def test_additional_iraqi_fabrication_leads_are_linked_only_to_relevant_stock_fa
     assert "compatibility unassessed" in concrete["iraq.karbala-precast-bridge-beams"]
     assert "qualification unassessed" in body["iraq.ncpi-chemical-plastic-industries"]
     assert "fatigue" in bogie["iraq.scosi.foundry-forging"]
+
+
+def test_concrete_recipe_takeoff_is_exact_candidate_linked_and_non_purchasable():
+    recipe_path = ROOT / "docs/design-engine/sourcing/domestic-fabrication/takeoff-recipes/concrete-material-inputs-2026-09.json"
+    recipe = json.loads(recipe_path.read_text())
+    records = load_catalogue()
+    benchmarks = [row for row in records if row["kind"] == "benchmark"]
+    sources = [row for row in records if row["kind"] == "source"]
+    package = {
+        "package_id": "f" * 64,
+        "package_family": "civil-concrete-stock-package",
+        "package_key": "span/0",
+        "manufacturing_group_ids": ["a" * 64],
+        "engineering_occurrence_ids": ["span/0/concrete/0", "span/0/concrete/1"],
+        "nominal_stock_volume_m3": "1",
+        "domestic_cost_estimate_scenarios": [
+            {"direct_material_cost": "75900", "labour_hours_per_nominal_m3": "2"},
+            {"direct_material_cost": "75900", "labour_hours_per_nominal_m3": "8"},
+        ],
+    }
+    result = _attach_concrete_material_input_takeoff(
+        [package], recipe, sha256(recipe_path.read_bytes()).hexdigest(),
+        benchmarks, sources, recipe["candidate_id"], recipe["input_id"])
+
+    assert result["package_count"] == 1
+    assert result["manufacturing_group_count"] == 1
+    assert result["engineering_occurrence_count"] == 2
+    assert result["ingredient_line_count"] == 3
+    assert [row["total_recipe_input_quantity"] for row in result["material_inputs"]] == ["0.35", "0.5", "0.8"]
+    assert [row["material_extension_iqd"] for row in result["material_inputs"]] == ["46200", "10500", "19200"]
+    assert result["non_additive_to_output_concrete_stock"] is True
+    assert result["commercial_order_quantities_known"] is False
+    assert result["complete_installed_cost"] is None
+    attached = package["manufacturing_input_takeoff"]
+    assert attached["material_cost_reconciles_to_existing_cost_scenarios"] is True
+    assert all(row["commercial_order_quantity"] is None
+               and row["purchase_yield_fraction"] is None
+               and row["product_compatibility"] is None
+               and row["supplier_product_match"] is False
+               for row in attached["material_inputs"])
+    assert package["package_id"] != "f" * 64
+    assert package["package_id"] == identity({key: value for key, value in package.items() if key != "package_id"})
+
+
+def test_concrete_recipe_rejects_mixed_candidate_and_recipe_benchmark():
+    recipe_path = ROOT / "docs/design-engine/sourcing/domestic-fabrication/takeoff-recipes/concrete-material-inputs-2026-09.json"
+    recipe = json.loads(recipe_path.read_text())
+    records = load_catalogue()
+    benchmarks = [row for row in records if row["kind"] == "benchmark"]
+    sources = [row for row in records if row["kind"] == "source"]
+    with pytest.raises(ValueError, match="candidate-bound illustrative concrete material recipe"):
+        _attach_concrete_material_input_takeoff([], {**recipe, "candidate_id": "0" * 64},
+            "a" * 64, benchmarks, sources, recipe["candidate_id"], recipe["input_id"])
 
 
 def test_aluminium_raw_stock_sensitivities_attach_to_exact_candidate_material_lines():
