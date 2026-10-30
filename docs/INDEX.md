@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **961**.
+Indexed Markdown files: **992**.
 
 ## Sections
 
@@ -26,8 +26,9 @@ Indexed Markdown files: **961**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 120 |
+| [docs](#docs) | 121 |
 | [engineering](#engineering) | 26 |
+| [legacy](#legacy) | 30 |
 | [tools](#tools) | 2 |
 
 ## .github
@@ -966,6 +967,7 @@ Indexed Markdown files: **961**.
 | [`docs/design-engine/halbach-scaling/README.md`](../docs/design-engine/halbach-scaling/README.md) | Larger Halbach arrays and lighter rolling stock |
 | [`docs/design-engine/lim-static-field/README.md`](../docs/design-engine/lim-static-field/README.md) | Independent linear static LIM field benchmark |
 | [`docs/design-engine/magnetic-confirmation/README.md`](../docs/design-engine/magnetic-confirmation/README.md) | Finite 3D magnetic continuation confirmation |
+| [`docs/design-engine/mass-reconciliation/current/README.md`](../docs/design-engine/mass-reconciliation/current/README.md) | v0.6 vehicle mass reconciliation |
 | [`docs/design-engine/moving-lim-method/README.md`](../docs/design-engine/moving-lim-method/README.md) | Finite moving LIM component method |
 | [`docs/design-engine/passive-suspension/README.md`](../docs/design-engine/passive-suspension/README.md) | Onboard magnets and passive steel facings |
 | [`docs/design-engine/passive-suspension/plan.md`](../docs/design-engine/passive-suspension/plan.md) | Bounded specialist campaign |
@@ -1033,6 +1035,41 @@ Indexed Markdown files: **961**.
 | [`engineering/station_rail/README.md`](../engineering/station_rail/README.md) | v0.6 station-powered freewheeling rail |
 | [`engineering/trip_dynamics/README.md`](../engineering/trip_dynamics/README.md) | Retained six-car magnetic trip research |
 | [`engineering/trip_dynamics/fixtures/structures/README.md`](../engineering/trip_dynamics/fixtures/structures/README.md) | Structural exchange fixtures |
+
+## legacy
+
+| File | Title |
+|---|---|
+| [`legacy/v0.4/README.md`](../legacy/v0.4/README.md) | OpenSourceRail v0.4 application workspace |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/README.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/README.md) | Samawah — Urban Rail Network |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/README.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/README.md) | Samawah Planning OSR-ALN Package |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/delivery/README.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/delivery/README.md) | Samawah organisation and design work |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md) | Samawah deployment gaps |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md) | samawah depot scope reconciliation |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md) | Samawah Line 1 Digital Twin |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/simulation/operations-crosscheck.md) | Samawah operations cross-check |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/README.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/README.md) | Samawah civil soil screening |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/README.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/README.md) | Station and depot overnight allocation |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/hybrid-cycle-screen.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/hybrid-cycle-screen.md) | Line-local station/depot service-cycle screen |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/operating-screen.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/operating-screen.md) | Overnight operating comparison |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/redistribution-study.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/redistribution-study.md) | Station redistribution requirements |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/service-cycle-screen.md) | Continuous service-cycle stabling screen |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/control-processing-readiness.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/control-processing-readiness.md) | Samawah survey-control processing |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/drainage-ground-readiness.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/drainage-ground-readiness.md) | Samawah drainage and ground-design gate |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/field-evidence-brief.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/field-evidence-brief.md) | Samawah field-evidence brief |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/ground-model-readiness.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/ground-model-readiness.md) | Samawah surveyed-ground-model gate |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/route-station-fit-readiness.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/route-station-fit-readiness.md) | Samawah route and station fit gate |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/structural-release-readiness.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/structural-release-readiness.md) | Samawah structural-release gate |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/surveyed-alignment-readiness.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/survey/surveyed-alignment-readiness.md) | Samawah surveyed-alignment gate |
+| [`legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/operations/acceptance-evidence-report.md`](../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/operations/acceptance-evidence-report.md) | Samawah Acceptance And Accreditation Evidence Basis |
+| [`legacy/v0.4/cities/workspaces/samawah/revisions/README.md`](../legacy/v0.4/cities/workspaces/samawah/revisions/README.md) | Samawah Design Revisions |
+| [`legacy/v0.4/cities/workspaces/samawah/routing/README.md`](../legacy/v0.4/cities/workspaces/samawah/routing/README.md) | Samawah City Studio routing bundle |
+| [`legacy/v0.4/crates/README.md`](../legacy/v0.4/crates/README.md) | Rust Workspace |
+| [`legacy/v0.4/crates/osr-city-studio/README.md`](../legacy/v0.4/crates/osr-city-studio/README.md) | osr-city-studio |
+| [`legacy/v0.4/crates/osr-occ-gui/README.md`](../legacy/v0.4/crates/osr-occ-gui/README.md) | osr-occ-gui — operations-control dispatcher console (RFC 0018) |
+| [`legacy/v0.4/crates/osr-sim-gui/README.md`](../legacy/v0.4/crates/osr-sim-gui/README.md) | osr-sim-gui — simulator GUI (RFC 0018) |
+| [`legacy/v0.4/docs/city-studio.md`](../legacy/v0.4/docs/city-studio.md) | OSR City Studio |
+| [`legacy/v0.4/docs/rfcs/0031-city-studio-git-revisions.md`](../legacy/v0.4/docs/rfcs/0031-city-studio-git-revisions.md) | RFC 0031 — OSR City Studio and Git-Based Design Revisions |
 
 ## tools
 

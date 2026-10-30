@@ -4,9 +4,9 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 
 [Project introduction](../../../README.md) · [System approach](../../../engineering/README.md) · [Current design and engineering gates](README.md)
 
-All **925 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
+All **941 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
 
-Existing local navigation reaches current context from **851 documents**. This page supplies an explicit current-context route for the remaining **74 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
+Existing local navigation reaches current context from **851 documents**. This page supplies an explicit current-context route for the remaining **90 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
 Historical numerical city, design and research packets retain their exact README payloads and original scope. Historical source bindings resolve at the pinned Git revision. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.
 
@@ -26,7 +26,8 @@ Historical numerical city, design and research packets retain their exact README
 | manual-current-entrypoint | 10 |
 | project-frontdoor | 1 |
 | retained-assurance-evidence | 8 |
-| retained-design-evidence | 85 |
+| retained-design-evidence | 86 |
+| retained-v04-workspace-archive | 15 |
 | sourcing-evidence-and-economics | 1 |
 | trip-dynamics-method | 2 |
 
@@ -915,6 +916,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [docs/design-engine/halbach-scaling/README.md](../halbach-scaling/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [docs/design-engine/lim-static-field/README.md](../lim-static-field/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/magnetic-confirmation/README.md](../magnetic-confirmation/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [docs/design-engine/mass-reconciliation/current/README.md](../mass-reconciliation/current/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/moving-lim-method/README.md](../moving-lim-method/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/passive-suspension/README.md](../passive-suspension/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [docs/design-engine/physical-feasibility-round/README.md](../physical-feasibility-round/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [current](README.md) |
@@ -964,5 +966,20 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [engineering/station_rail/README.md](../../../engineering/station_rail/README.md) | current-development-adapters | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/trip_dynamics/README.md](../../../engineering/trip_dynamics/README.md) | trip-dynamics-method | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [engineering/trip_dynamics/fixtures/structures/README.md](../../../engineering/trip_dynamics/fixtures/structures/README.md) | trip-dynamics-method | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/README.md](../../../legacy/v0.4/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/README.md](../../../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/README.md](../../../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/alignment/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/delivery/README.md](../../../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/delivery/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md](../../../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/deployment/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md](../../../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/depot-scope/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md](../../../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/digital-twin/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/README.md](../../../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/soil/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/README.md](../../../legacy/v0.4/cities/catalogue/west-asia/Iraq/Samawah/engineering/stabling/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/cities/workspaces/samawah/revisions/README.md](../../../legacy/v0.4/cities/workspaces/samawah/revisions/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/cities/workspaces/samawah/routing/README.md](../../../legacy/v0.4/cities/workspaces/samawah/routing/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/crates/README.md](../../../legacy/v0.4/crates/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/crates/osr-city-studio/README.md](../../../legacy/v0.4/crates/osr-city-studio/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/crates/osr-occ-gui/README.md](../../../legacy/v0.4/crates/osr-occ-gui/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [legacy/v0.4/crates/osr-sim-gui/README.md](../../../legacy/v0.4/crates/osr-sim-gui/README.md) | retained-v04-workspace-archive | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [tools/README.md](../../../tools/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |
 | [tools/reference-ma/README.md](../../../tools/reference-ma/README.md) | manual-current-entrypoint | [System approach](../../../engineering/README.md) | [project](../../../README.md) |

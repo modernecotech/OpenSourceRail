@@ -120,6 +120,11 @@ def sources(root,record,index,delivery):
         'engineering/design_search/fault_response.py','engineering/design_search/lim_critical_mesh.py',
         'engineering/design_search/test_readiness.py','engineering/design_search/data/wheel-LIM-test-program.json',
         'engineering/design_search/lim_static_benchmark.py','engineering/design_search/lim_static_publication.py']
+    names += ['engineering/mass_ledger_audit.py',
+        'docs/design-engine/mass-reconciliation/current/README.md',
+        'docs/design-engine/mass-reconciliation/current/mass-ledger.json.gz',
+        'docs/design-engine/mass-reconciliation/current/summary.json',
+        'docs/design-engine/mass-reconciliation/current/manifest.json']
     for directory in ('engineering/station_rail','engineering/development_baseline'):
         names += [p.relative_to(root).as_posix() for p in (root/directory).rglob('*') if p.is_file() and p.suffix in ('.py','.toml','.js','.html','.css') and '__pycache__' not in p.parts]
     for directory in ('docs/assets/v0.6','docs/images/v06'):
@@ -144,7 +149,8 @@ def compact(record,index,natives,delivery):
             drive_convergence=natives['drive']['convergence_screen'],
             scope='Actual FreeCAD/STEP export and reopen, limited CalculiX underframe fixtures, GetDP manufactured conductive-slab convergence and Rust ATP/interface regressions. No complete physical train journey.',
             physical_train_simulated=False),known_gate_counts=dict(Counter(g['state'] for g in record['gates'])),
-        current_outputs=dict(exports=OUTPUT+'/exports/manifest.json',reader='OpenSourceRail-Book.pdf',physical_followup='docs/design-engine/v06-physical-closure/README.md'),
+        current_outputs=dict(exports=OUTPUT+'/exports/manifest.json',reader='OpenSourceRail-Book.pdf',physical_followup='docs/design-engine/v06-physical-closure/README.md',
+            mass_reconciliation='docs/design-engine/mass-reconciliation/current/README.md'),
         economics_acceptance='unknown',city_performance_packages_written=0)
     return value
 
@@ -154,7 +160,8 @@ def _sourcing_section(root,record):
     from engineering.sourcing.catalogue import load_catalogue
     from engineering.sourcing.model import identity as sourcing_identity
     catalogue=load_catalogue((root/'engineering/sourcing/data/supplier-catalogue.json',
-                              root/'engineering/sourcing/data/public-feeds.json'))
+                              root/'engineering/sourcing/data/public-feeds.json',
+                              root/'engineering/sourcing/data/iraq-domestic-2026-july.json'))
     counts=validation.get('catalogue',{}).get('counts',{})
     if (validation.get('schema')!='osr-sourcing-iraq-domestic-inputs/1'
         or validation.get('source_epoch_sha256')!=sourcing_identity(catalogue)
@@ -262,7 +269,7 @@ def _sourcing_section(root,record):
     expected_laminate={row['recipe']:row for row in validation['packets']['laminate_material_studies']}
     regional_wage_records={row.get('benchmark_key'):row for row in catalogue
                            if row.get('kind')=='benchmark'
-                           and row.get('benchmark_key','').startswith('iq-cso-2025-regional:')
+                           and row.get('benchmark_key','').startswith('iq-cso-2026-07:')
                            and ':wage:skilled:hour-8h-day' in row.get('benchmark_key','')}
     regional_governorates={key.split(':')[1] for key in regional_wage_records}
     regional_scenario_total=sum(len(row.get('regional_scenarios',[])) for row in gfrp_studies)
@@ -361,13 +368,17 @@ def _sourcing_section(root,record):
       f"| Unlocated obligation cross-references | {obligation_links['linked_unique_obligation_count']:,}/{obligation_links['source_obligation_count']:,} accounts linked by hierarchy to related car/bogie/span/bank scopes; {obligation_links['package_association_count']:,} non-additive associations | No package mass, quantity or cost allocation; {obligation_links['unlinked_obligation_count']} network-level infrastructure obligations remain unlinked |",
       *gfrp_rows,'',
       *gfrp_regional_rows,'',
-      'The GFRP figures use listed Easy Composites UK material extensions converted at the 29 October 2026 CBI GBP/IQD reference and the 2025 CSO Baghdad or listed-governorate skilled-worker base-wage benchmarks. They are partial sensitivity screens: adhesives remain unresolved, sandwich-core prices are absent, and import, tooling, consumables, QA, fire/smoke, structural qualification and installation are excluded. The regional table covers only the 15 governorates in the CSO bulletin, excludes Kurdistan Region, and uses construction-worker wages as a proxy for composite-shop labour. They do not price a finished panel or transfer to the selected reference body.', '',
+      'The GFRP figures use listed Easy Composites UK material extensions converted at the 29 October 2026 CBI GBP/IQD reference and July 2026 CSO Baghdad or listed-governorate skilled-worker base-wage benchmarks. They are partial sensitivity screens: adhesives remain unresolved, sandwich-core prices are absent, and import, tooling, consumables, QA, fire/smoke, structural qualification and installation are excluded. The regional table covers only the 15 governorates in the CSO bulletin, excludes Kurdistan Region, and uses construction-worker wages as a proxy for composite-shop labour. They do not price a finished panel or transfer to the selected reference body.', '',
       'The 2026-price estimate and the 2025 regional-price estimate are separately source-bound views of the same research-candidate concrete takeoff. Both preserve every original manufacturing-group and occurrence identity. Their material mix and labour hours remain assumptions, not measured process data; neither establishes a guideway beam, supplier match, complete installed mass or cost, or a cost for the selected reference candidate. The regional packet also includes rebar cut/bend and profile/sheet raw-stock processing sensitivities; the posted sheet rates do not establish structural grade or a completed manufacturing route.','',
       'The reference dossier\'s 900 m shared winding and the separate five-bank research layout (100 m active motor length) remain distinct propulsion configurations. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.',''
     ]
 
 def readme(record,summary,root=ROOT):
     v=record['vehicle'];m=v['mass'];o=record['service'];p=o['selected_scenario']['profile'];z=o['selected_station'];r=record['civil']['selected_reference'];e=o['electrical'];b=e['battery']
+    mass_ledger_path=Path(root)/'docs/design-engine/mass-reconciliation/current/summary.json'
+    mass_ledger=json.loads(mass_ledger_path.read_bytes())
+    if any(mass_ledger.get(key)!=record[key] for key in ('candidate_id','body_candidate_id','selection_id')) or mass_ledger.get('selected_evaluation_id')!=record['evaluation_id']:
+        raise ValueError('Mass reconciliation identities differ from current selected evaluation')
     lines=['# v0.6 station-powered freewheeling rail','',
       'OpenSourceRail aims for simple, affordable urban transport, repeated precast civil components and local manufacture and repair. Six lightweight comfort cars run on passive steel-wheel bogies and conventional rails. Station LIMs act on passive onboard aluminium secondaries; no onboard traction motor, traction battery or levitation magnet is fitted. Independent service power, braking and the existing station-led GoA4 architecture remain.','',
       '**Selected for reference engineering and prototype investigation. No physical, manufacturing or operating release.** The [selector](../../../engineering/development-baseline.toml) binds the same vehicle, body, support and propulsion identities through this packet, delivery records, Workbench and reader. [v0.5 maglev evidence](../../archives/v0.5-maglev/README.md) remains independently pinned.','',
@@ -378,6 +389,7 @@ def readme(record,summary,root=ROOT):
       f"| Accounted tare / normal load | {m['accounted_tare_kg_per_car']/1000:.3f} / {m['accounted_cap_loaded_kg_per_car']/1000:.3f} t/car at 75 kg/person |",
       f"| Located material / remaining reference accounts | {m['located_material_kg']/1000:.3f} / {m['unlocated_or_reference_account_kg']/1000:.3f} t/car |",
       '| Complete installed mass, CG and inertia | Unknown; inherited service allocations may overlap new equipment and must be disaggregated |',
+      f"| Mass reconciliation | [Occurrence-level ledger](../mass-reconciliation/current/README.md) — {mass_ledger['source_account_occurrence_count']:,} source-account occurrences and {mass_ledger['located_geometry_occurrence_count']:,} candidate geometry occurrences, assigned by system/family with explicit residuals |",
       f"| Service-only battery | {b['gross_energy_kWh']:.1f} kWh, {b['mass_kg']:.0f} kg/car reference account; cooled installation and rail approval open |",
       '| Service targets | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² braking, 35 s dwell, 120 s headway; 8,280 pphpd arithmetic |','',
       '## Reference journey and power','',
@@ -446,6 +458,8 @@ def publish(output=None,*,root=ROOT,native_dir=None,cities_dir=None):
     for script in ('generate-public-overview.py','generate-doc-index.py'):
         subprocess.run([sys.executable,str(root/'tools/automation'/script)],cwd=root,check=True,capture_output=True)
     record=evaluation.build(root);natives={};packages={}
+    from engineering import mass_ledger_audit
+    mass_ledger_audit.verify(root)
     for name in ('vehicle','drive','controls'):
         packages[name]=native_package(name,record,root,output,native_dir if name=='vehicle' else None)
         natives[name]=verify_package(packages[name],root)
@@ -473,6 +487,8 @@ def verify(output=None,*,root=ROOT,replay=True):
         except subprocess.CalledProcessError as error:raise ValueError('Current generated overview/navigation differs: '+script) from error
     if m['manifest_id']!=identity({k:v for k,v in m.items() if k!='manifest_id'}):raise ValueError('publication identity differs')
     record=evaluation.build(root)
+    from engineering import mass_ledger_audit
+    mass_ledger_audit.verify(root)
     if json.loads(gzip.decompress((output/'evaluation.json.gz').read_bytes()))!=record:raise ValueError('evaluation differs')
     citycheck=cities.verify_all(root=root,replay=replay);index=cities.read_catalogue(root);delivery=exports.verify(output/'exports',record,root,index)
     natives={}
@@ -504,10 +520,12 @@ def build(root=ROOT,force=False,output=None):
                 from .reader import build as reader
                 reader(root=root,check=True);return dict(value,cached=True)
             except(ValueError,OSError,KeyError):pass
-        value=publish(output,root=root)
         from engineering import readme_context
         readme_context.write_owned(root);audit=readme_context.audit(root)
         if not audit['current']:raise ValueError('README context: '+'; '.join(audit['errors']))
+        value=publish(output,root=root)
+        audit=readme_context.audit(root)
+        if not audit['current']:raise ValueError('README context after publication: '+'; '.join(audit['errors']))
         write(output/'readme-coverage.json',(json.dumps(audit,sort_keys=True,indent=2)+'\n').encode());write(output/'readme-coverage.md',readme_context.markdown(audit).encode());seal(output,root)
         from .reader import build as reader
         reader(root=root);seal(output,root)

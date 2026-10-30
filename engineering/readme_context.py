@@ -78,6 +78,8 @@ def category(name):
         return 'manual-current-entrypoint'
     if name.startswith('docs/archives/'):
         return 'historical-archive'
+    if name.startswith('legacy/v0.4/'):
+        return 'retained-v04-workspace-archive'
     if name == 'README.md':
         return 'project-frontdoor'
     if name == 'docs/images/v06/README.md':
@@ -210,6 +212,15 @@ def bindings(root, names):
             if isinstance(mapping, dict):
                 for name, expected in mapping.items():
                     add((receipt.parent if payload_relative else root)/name, expected, receipt, key)
+    legacy_receipt = root/'legacy/v0.4/source-manifest.json'
+    if legacy_receipt.is_file() and not legacy_receipt.is_symlink():
+        if legacy_receipt.stat().st_size > 16*1024*1024:
+            raise ValueError('bounded v0.4 workspace source receipt required')
+        value = json.loads(legacy_receipt.read_bytes())
+        if value.get('schema') == 'osr-historical-workspace-source-manifest/1':
+            for row in value.get('files', []):
+                if isinstance(row, dict) and isinstance(row.get('path'), str):
+                    add(root/'legacy/v0.4'/row['path'], row.get('sha256'), legacy_receipt, 'v0.4-pinned-workspace-source')
     city_index = root/'engineering/ferrite_maglev/city-index.json'
     if city_index.is_file():
         for row in json.loads(city_index.read_bytes()).get('cities', []):

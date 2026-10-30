@@ -56,3 +56,28 @@ def test_owned_context_cannot_overwrite_source_bound_evidence(tmp_path, monkeypa
     with pytest.raises(ValueError, match='alter numerical evidence'):
         context.write_owned(tmp_path)
     assert target.read_text() == '# Tools\n\nSource-bound original.\n'
+
+
+def test_restored_v04_readmes_are_classified_and_bound_to_workspace_manifest(tmp_path):
+    import json
+
+    name = 'legacy/v0.4/crates/osr-city-studio/README.md'
+    target = tmp_path / name
+    target.parent.mkdir(parents=True)
+    raw = b'# Archived v0.4 application\n'
+    target.write_bytes(raw)
+    receipt = tmp_path / 'legacy/v0.4/source-manifest.json'
+    receipt.parent.mkdir(parents=True, exist_ok=True)
+    receipt.write_text(json.dumps({
+        'schema': 'osr-historical-workspace-source-manifest/1',
+        'files': [{'path': 'crates/osr-city-studio/README.md',
+                   'sha256': sha256(raw).hexdigest()}],
+    }))
+
+    assert context.category(name) == 'retained-v04-workspace-archive'
+    binding = context.bindings(tmp_path, [name])[name]
+    assert binding == [{
+        'receipt': 'legacy/v0.4/source-manifest.json',
+        'kind': 'v0.4-pinned-workspace-source',
+        'expected_sha256': sha256(raw).hexdigest(),
+    }]
