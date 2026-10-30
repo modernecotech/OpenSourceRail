@@ -11,6 +11,7 @@ from .iraq_logistics_scenarios import SEED as LOGISTICS_SEED
 from .iraq_local_gfrp_cost_scenarios import LABOUR_SEED as HISTORICAL_LABOUR_SEED
 from .iraq_local_gfrp_cost_scenarios import LOCAL_SEED as LOCAL_COMPOSITE_SEED
 from .federated_span_rebar_cost import verify_packet as verify_federated_span_rebar_packet
+from .station_drive_rfq import verify_packet as verify_station_drive_rfq_packet
 from .sensitivity import candidate_sourcing_sensitivity, mass_account_reconciliation_priority
 from engineering.mass_ledger_audit import verify as verify_mass_ledger
 
@@ -32,8 +33,10 @@ FEDERATED_REBAR_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/fed
 LOCAL_GFRP = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/iraq-local-gfrp-retail-screen.json"
 LOCAL_GFRP_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/manifest.json"
 ADDITIONAL_MATERIAL_SOURCES = "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json"
+ADDITIONAL_FABRICATION_SOURCES = "engineering/sourcing/data/iraq-domestic-fabrication-discovery-2026-10.json"
 CONSTRUCTION_WAGES_2024 = "engineering/sourcing/data/iraq-construction-wages-2024.json"
 MASS_RECONCILIATION = "docs/design-engine/mass-reconciliation/current"
+STATION_DRIVE_RFQ = "docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10"
 
 
 def read_json(path):
@@ -81,6 +84,20 @@ def build_validation():
     }
     if set(construction_wage_benchmarks) != expected_wage_keys:
         raise ValueError("Historical CSO 2024 wage table does not cover the declared 15 × 6 source grid")
+
+    fabrication_discovery_path = ROOT / ADDITIONAL_FABRICATION_SOURCES
+    fabrication_discovery_records = load_catalogue([fabrication_discovery_path])
+    fabrication_discovery_sources = {row["source_key"]: row for row in fabrication_discovery_records
+                                     if row["kind"] == "source"}
+    expected_fabrication_discovery_keys = {
+        "iraq.ms-cable-busbar",
+        "iraq.asas-global-aluminium",
+        "iraq.nubin-grp-facade",
+    }
+    if (set(fabrication_discovery_sources) != expected_fabrication_discovery_keys
+            or len(fabrication_discovery_records) != 3
+            or any(row["kind"] != "source" for row in fabrication_discovery_records)):
+        raise ValueError("Supplemental Iraqi fabrication discovery seed must remain three source-only leads")
     for wage in construction_wage_benchmarks.values():
         daily = Decimal(wage["source_published_rate_iqd_per_work_day"])
         if (wage.get("source_id") != construction_wage_source["record_id"]
@@ -127,6 +144,8 @@ def build_validation():
     gfrp = read_json(GFRP)
     import_screen = read_json(IMPORT_SCREEN)
     procurement = read_gzip_json(PROCUREMENT)
+    station_drive_rfq_verification = verify_station_drive_rfq_packet(root=ROOT)
+    station_drive_rfq = read_json(STATION_DRIVE_RFQ + "/station-drive-rfq-scope.json")
     concrete_recipe = read_json(CONCRETE_RECIPE)
     concrete_source_recipe_path = concrete_recipe.get("source_recipe_path")
     concrete_source_recipe = read_json(concrete_source_recipe_path)
@@ -539,6 +558,28 @@ def build_validation():
                 "feeder_cable_quantity_scope": "Al Rowad is already linked as a general wire/cable discovery lead. The current BOM has no separately reconciled feeder-cable line or exact cable quantity; no feeder-cable price or product match is created.",
                 "structural_core_or_body_qualification": None,
             },
+            "additional_manufacturing_discovery_leads": {
+                "seed_path": ADDITIONAL_FABRICATION_SOURCES,
+                "seed_sha256": hashlib.sha256(fabrication_discovery_path.read_bytes()).hexdigest(),
+                "source_count": len(fabrication_discovery_sources),
+                "source_epoch_id": identity(fabrication_discovery_records),
+                "source_ids": {key: value["record_id"]
+                               for key, value in sorted(fabrication_discovery_sources.items())},
+                "product_count": 0,
+                "offer_count": 0,
+                "benchmark_count": 0,
+                "candidate_product_matches": 0,
+                "priced_offers": 0,
+                "lead_scope": {
+                    "iraq.ms-cable-busbar": "Iraqi solid/stranded/flexible bare-copper-conductor and cable lead; winding geometry/insulation/thermal class not matched",
+                    "iraq.asas-global-aluminium": "Iraqi extrusion and finishing lead; alloy/temper, custom-profile envelope, capacity and price unverified",
+                    "iraq.nubin-grp-facade": "Iraqi GRP/GFRP façade fabrication lead; passenger-vehicle body process and qualification not established",
+                },
+                "supplier_quotes": 0,
+                "compatible_products": 0,
+                "engineering_approval": False,
+                "procurement_approval": False,
+            },
             "construction_wage_history_2024": {
                 "seed_path": CONSTRUCTION_WAGES_2024,
                 "seed_sha256": hashlib.sha256((ROOT / CONSTRUCTION_WAGES_2024).read_bytes()).hexdigest(),
@@ -727,6 +768,28 @@ def build_validation():
             "complete_installed_bom": procurement["complete_installed_bom"],
             "complete_installed_cost": procurement["complete_installed_cost"],
             "physical_qualification": procurement["physical_qualification"],
+        },
+        "station_drive_rfq_scope": {
+            "path": STATION_DRIVE_RFQ + "/station-drive-rfq-scope.json",
+            "manifest_path": STATION_DRIVE_RFQ + "/manifest.json",
+            "publication_id": station_drive_rfq_verification["publication_id"],
+            "packet_id": station_drive_rfq_verification["packet_id"],
+            "candidate_id": station_drive_rfq_verification["candidate_id"],
+            "evaluation_id": station_drive_rfq["evaluation_id"],
+            "bank_scope_count": station_drive_rfq_verification["bank_scope_count"],
+            "located_primary_occurrence_count": station_drive_rfq_verification["primary_occurrence_count"],
+            "non_additive_open_account_link_count": station_drive_rfq_verification["open_account_link_count"],
+            "service_scenario_count": station_drive_rfq_verification["service_scenario_count"],
+            "candidate_level_copper_material_labour_plus_20_iqd": [
+                row["estimated_total"] for row in
+                station_drive_rfq["existing_candidate_level_copper_material_labour_sensitivities"]],
+            "air_gap_adapter_extension_required": True,
+            "frequency_map_field_required": True,
+            "supplier_offers": station_drive_rfq["supplier_offers"],
+            "supplier_communications_sent": station_drive_rfq_verification["supplier_communications_sent"],
+            "complete_drive_installed_cost": station_drive_rfq_verification["complete_drive_installed_cost"],
+            "physical_accepted": station_drive_rfq_verification["physical_accepted"],
+            "selected_reference_changed": station_drive_rfq["selected_reference_changed"],
         },
         "candidate_sourcing_sensitivity": sourcing_sensitivity,
         "selected_reference_mass_reconciliation_priority": selected_reference_mass_priority,

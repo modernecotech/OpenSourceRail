@@ -10,6 +10,8 @@ def test_current_index_includes_separately_bound_material_leads_and_logistics():
     wage_history_2024 = packet["domestic_fabrication"]["construction_wage_history_2024"]
     procurement = packet["procurement_package_bom"]
     concrete = procurement["concrete_material_input_takeoff"]
+    fabrication_sources = packet["domestic_fabrication"]["additional_manufacturing_discovery_leads"]
+    station_rfq = packet["station_drive_rfq_scope"]
     assert leads["source_count"] == 18
     assert "iraq.regaasphalt.aggregate" in leads["source_ids"]
     assert "iraq.hewa.construction-materials" in leads["source_ids"]
@@ -26,6 +28,26 @@ def test_current_index_includes_separately_bound_material_leads_and_logistics():
     assert "iraq.kanza-iq.sandwich-panel-lines" in leads["source_ids"]
     assert leads["product_count"] == leads["offer_count"] == leads["benchmark_count"] == 0
     assert leads["candidate_product_matches"] == leads["priced_offers"] == 0
+    assert fabrication_sources["source_count"] == 3
+    assert set(fabrication_sources["source_ids"]) == {
+        "iraq.ms-cable-busbar", "iraq.asas-global-aluminium", "iraq.nubin-grp-facade"}
+    assert fabrication_sources["product_count"] == fabrication_sources["offer_count"] == 0
+    assert fabrication_sources["supplier_quotes"] == fabrication_sources["compatible_products"] == 0
+    assert fabrication_sources["engineering_approval"] is False
+    assert station_rfq["candidate_id"] == procurement["candidate_id"]
+    assert station_rfq["evaluation_id"] == procurement["evaluation_id"]
+    assert station_rfq["bank_scope_count"] == 5
+    assert station_rfq["located_primary_occurrence_count"] == 2430
+    assert station_rfq["non_additive_open_account_link_count"] == 20
+    assert station_rfq["service_scenario_count"] == 8
+    assert station_rfq["candidate_level_copper_material_labour_plus_20_iqd"] == [
+        "90192658.13", "91034539.73", "92718302.93"]
+    assert station_rfq["air_gap_adapter_extension_required"] is True
+    assert station_rfq["frequency_map_field_required"] is True
+    assert station_rfq["supplier_offers"] == station_rfq["supplier_communications_sent"] == 0
+    assert station_rfq["complete_drive_installed_cost"] is None
+    assert station_rfq["physical_accepted"] is False
+    assert station_rfq["selected_reference_changed"] is False
     assert logistics["candidate_id"] == packet["procurement_package_bom"]["candidate_id"]
     assert logistics["procurement_bom_packet_id"] == procurement["packet_id"]
     assert logistics["path"].endswith("logistics-2026-september-v9/iraq-span-logistics-sensitivity.json")

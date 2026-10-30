@@ -67,7 +67,7 @@ A separate [practical launch comparison](docs/design-engine/practical-launch/REA
 
 **The selected v0.6 reference uses passive bogies with station LIM propulsion and no onboard traction motors or traction store.** Its reference dossier retains a 900 m winding allocation per station and direction. The separate [station-accelerator research](docs/design-engine/station-accelerators/README.md) investigates five aligned 20 m banks (100 m active length) as a distinct alternative; that geometry is not the selected reference. In either configuration, available thrust, safe stopping, recovery and installed price remain open.
 
-The 900 m reference and 100 m research geometry require separate force maps, electrical/thermal duty, plant and civil quantities, procurement BOMs and installed costs. Their lengths and results are not combined or transferred between candidates.
+The 900 m reference and 100 m research geometry require separate force maps, electrical/thermal duty, plant and civil quantities, procurement BOMs and installed costs. Their lengths and results are not combined or transferred between candidates. The five-bank candidate now has [unsent, candidate-bound bank RFQ scope drafts](docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/README.md) with a common 1.5/2 km duty matrix, sourced local fabrication leads and explicit converter, cooling, protection and installation holds; no supplier response or physical force map has been obtained.
 
 The earlier [powered-bogie and supercapacitor study](docs/design-engine/propulsion-layout/README.md) remains a secondary research comparison. It does not add powered bogies or a traction capacitor bank to the active vehicle proposal.
 

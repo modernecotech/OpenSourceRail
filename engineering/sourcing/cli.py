@@ -190,6 +190,13 @@ def _parser():
     export = rfq_sub.add_parser("export", help="Write local disabled RFQ draft JSON; sends no messages")
     export.add_argument("run_id")
     export.add_argument("--output", required=True, type=Path)
+    station_drive = rfq_sub.add_parser(
+        "station-drive-banks",
+        help="Publish or verify unsent five-bank station-LIM RFQ scope drafts")
+    station_drive.add_argument("--output", type=Path,
+                               help="Output directory (default: current source-bound RFQ packet)")
+    station_drive.add_argument("--check", action="store_true",
+                               help="Verify the saved scope against its exact candidate and source hashes")
 
     serve = sub.add_parser("serve", help="Serve the local read-only Workbench on loopback")
     serve.add_argument("--port", type=int, default=8774)
@@ -690,6 +697,13 @@ def main(argv=None):
             from .comparative_report import publish_packet, verify_packet
             result = (verify_packet(args.output, root=ROOT) if args.check else
                       publish_packet(root=ROOT, output=args.output))
+            _emit(result)
+            return 0
+
+        if args.command == "rfq" and args.rfq_command == "station-drive-banks":
+            from .station_drive_rfq import publish_packet, verify_packet
+            result = (verify_packet(output=args.output) if args.check else
+                      publish_packet(output=args.output))
             _emit(result)
             return 0
 

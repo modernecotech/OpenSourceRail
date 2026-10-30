@@ -149,6 +149,31 @@
       "feeder_cable_quantity_scope": "Al Rowad is already linked as a general wire/cable discovery lead. The current BOM has no separately reconciled feeder-cable line or exact cable quantity; no feeder-cable price or product match is created.",
       "structural_core_or_body_qualification": null
     },
+    "additional_manufacturing_discovery_leads": {
+      "seed_path": "engineering/sourcing/data/iraq-domestic-fabrication-discovery-2026-10.json",
+      "seed_sha256": "4eb508fbbebe7c7a391ef8dc5b909e0379adf44f9d482f9c9f6286435f44d3cc",
+      "source_count": 3,
+      "source_epoch_id": "38c1c5e81f911ad0238a780265b8112db38916e22b32b5334868ad65edaceaa9",
+      "source_ids": {
+        "iraq.asas-global-aluminium": "616321e34d660ecc0665b7c59f03805a3398c8c3cca0b5195a7c677918b5b096",
+        "iraq.ms-cable-busbar": "3fc8cbe3deb062a88c9f818b1ed5881062d024fd95464965cc18e270bc935a8e",
+        "iraq.nubin-grp-facade": "0f23a5ebbe7b89388ffa4ed61d0707876ce103dedc93d96c96402207a1435f23"
+      },
+      "product_count": 0,
+      "offer_count": 0,
+      "benchmark_count": 0,
+      "candidate_product_matches": 0,
+      "priced_offers": 0,
+      "lead_scope": {
+        "iraq.ms-cable-busbar": "Iraqi solid/stranded/flexible bare-copper-conductor and cable lead; winding geometry/insulation/thermal class not matched",
+        "iraq.asas-global-aluminium": "Iraqi extrusion and finishing lead; alloy/temper, custom-profile envelope, capacity and price unverified",
+        "iraq.nubin-grp-facade": "Iraqi GRP/GFRP façade fabrication lead; passenger-vehicle body process and qualification not established"
+      },
+      "supplier_quotes": 0,
+      "compatible_products": 0,
+      "engineering_approval": false,
+      "procurement_approval": false
+    },
     "construction_wage_history_2024": {
       "seed_path": "engineering/sourcing/data/iraq-construction-wages-2024.json",
       "seed_sha256": "df69f0eda00c6f635b0e43809c951e2a295211189e90b3996596348a4eac82be",
@@ -249,8 +274,8 @@
     "federated_span_rebar_screen": {
       "path": "docs/design-engine/sourcing/domestic-fabrication/federated-span-rebar-screen-2026-10/federated-span-rebar-screen.json",
       "manifest_path": "docs/design-engine/sourcing/domestic-fabrication/federated-span-rebar-screen-2026-10/manifest.json",
-      "packet_id": "9cef15e2c219d2179f27aaff5f591d81df2729f8c01f2a1c50b29091cc2c44e8",
-      "publication_id": "ba6b81825a4454e8c800c9e263627adf50817e1242df2780426c68682a5b4435",
+      "packet_id": "57f19102e6f96d4dba9641c59e922fdd3b2be48062f77873e31e9c030fe6b960",
+      "publication_id": "58c2a572160dcb2ddd07905fcdef6257abb6a0216a539be0953c6696173f2934",
       "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
       "evaluation_id": "1491f90b02485e6ad9df63ac79b528e9c30e9e6d87041a3dc46b02efd364077b",
       "selection_id": null,
@@ -391,6 +416,30 @@
     "complete_installed_bom": false,
     "complete_installed_cost": null,
     "physical_qualification": null
+  },
+  "station_drive_rfq_scope": {
+    "path": "docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/station-drive-rfq-scope.json",
+    "manifest_path": "docs/design-engine/sourcing/rfq-drafts/station-drive-banks-2026-10/manifest.json",
+    "publication_id": "b0d765545976fad8bf86b2e6bb4f27a2bbd15ba09a8dfa3b95bf4dd4c6c7c5e4",
+    "packet_id": "0e4d541330b51e14b65c708ff4339c46cef4828dc3110d44af5300d1e66cbeec",
+    "candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
+    "evaluation_id": "1491f90b02485e6ad9df63ac79b528e9c30e9e6d87041a3dc46b02efd364077b",
+    "bank_scope_count": 5,
+    "located_primary_occurrence_count": 2430,
+    "non_additive_open_account_link_count": 20,
+    "service_scenario_count": 8,
+    "candidate_level_copper_material_labour_plus_20_iqd": [
+      "90192658.13",
+      "91034539.73",
+      "92718302.93"
+    ],
+    "air_gap_adapter_extension_required": true,
+    "frequency_map_field_required": true,
+    "supplier_offers": 0,
+    "supplier_communications_sent": 0,
+    "complete_drive_installed_cost": null,
+    "physical_accepted": false,
+    "selected_reference_changed": false
   },
   "candidate_sourcing_sensitivity": {
     "schema": "osr-candidate-sourcing-sensitivity/1",
@@ -1923,5 +1972,5 @@
     "physical_acceptance": false,
     "selected_reference_changed": false
   },
-  "validation_id": "4d7c1c45dddff5bdc85e6d4bf2e0232e03d1ddd4677ba0558ac2bf1bf1bcee32"
+  "validation_id": "e58ecb49e418109ca9a2cdf4183d8769b10a8f831771ec19f4343bd55a235e1f"
 }
