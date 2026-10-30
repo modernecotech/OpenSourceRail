@@ -187,9 +187,9 @@ def _refinement_deck(candidate: dict, bundle: dict, *, mesh_m: float):
     raw = grammar_shell._finish(grammar_shell._base(nodes, elements, candidate["materials"]),
                                 nodes, supports, loads)
     # CalculiX *EL PRINT S writes integration-point Cauchy stress to model.dat.
-    # NOE suppresses its additional stress error estimator; this is a numerical
-    # diagnostic and no material allowable is implied.
-    raw = raw.replace("*END STEP", "*EL PRINT,ELSET=ALLSOLIDS\nS,NOE\n*END STEP")
+    # NOE is valid on *EL FILE, not *EL PRINT; this numerical diagnostic has no
+    # material allowable or qualification meaning.
+    raw = raw.replace("*END STEP", "*EL PRINT,ELSET=ALLSOLIDS\nS\n*END STEP")
     definition = dict(**meta, candidate_id=candidate["candidate_id"],
                       definition_id=candidate["definition_id"], load_case=load_case,
                       load_mass_kg=mass, load_basis=load_basis,
@@ -199,7 +199,7 @@ def _refinement_deck(candidate: dict, bundle: dict, *, mesh_m: float):
                       support_patches=patches,
                       support_assumption="Rigid flat finite bearing pads, one XY datum and one Y datum; bogie compliance held",
                       joint_assumption=model["joint_assumption"],
-                      stress_request="Cauchy stress S at C3D8I integration points; NOE suppresses stress error estimator",
+                      stress_request="Cauchy stress S at C3D8I integration points in model.dat; exploratory and unqualified",
                       nodes=nodes, supports={str(n): sorted(ds) for n, ds in supports.items()},
                       loads_N={str(n): v.tolist() for n, v in loads.items()})
     return raw, definition, elements
@@ -419,6 +419,11 @@ def run(root=ROOT, *, parent_result: Path, candidate_id: str):
         if prior_results[i] is None:
             displacement_comparisons.append(dict(from_mesh_m=mesh, to_mesh_m=NEXT_MESH_M,
                                                   status="unavailable", reason="Prior body row missing"))
+            continue
+        if result.get("execution") != "completed":
+            displacement_comparisons.append(dict(from_mesh_m=mesh, to_mesh_m=NEXT_MESH_M,
+                                                  status="unavailable",
+                                                  reason="Native refinement did not complete; displacement output unavailable"))
             continue
         old_raw = previous_rows[mesh][2]
         displacement_comparisons.append(dict(from_mesh_m=mesh, to_mesh_m=NEXT_MESH_M,
