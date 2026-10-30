@@ -99,6 +99,17 @@ def test_failed_site_is_not_removed_from_installed_hardware(result):
     assert middle['active_contact_diagnostic']['geometric_uncovered_m'] == 84.25
 
 
+def test_layout_svg_is_deterministic_and_keeps_geometry_separate_from_thrust(result):
+    svg = study.layout_figure(result)
+    assert svg == study.layout_figure(result)
+    assert b'<title>Passive vehicle, separate wayside accelerators: longitudinal schematic</title>' in svg
+    assert b'available thrust is unknown' in svg
+    assert b'500 m forward nose travel' in svg
+    assert svg.count(b'fill="#879da7"') == 6
+    assert svg.count(b'fill="#227b91"/>') == 6
+    assert svg.count(b'fill="#23794b"/>') == 5
+
+
 def test_full_request_grid_is_demand_only(result):
     for row in result['layouts']:
         assert len(row['target_demands']) == (18 if row['name'] == result['lead_research_layout_name'] else 0)

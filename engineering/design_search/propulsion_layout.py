@@ -405,39 +405,103 @@ def quote_scope(value):
 
 
 def overlap_figure(value):
-    """Exact piecewise-linear contact diagnostics; no inferred propulsion."""
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
+    """Render a deterministic SVG of piecewise-linear geometry; no thrust claim."""
+    from html import escape
+
     rows = value['sparse_cases']
     min_bank = min(row['bank_length_m'] for row in rows)
     max_bank = max(row['bank_length_m'] for row in rows)
     max_sites = max(row['site_count'] for row in rows)
     chosen = {(3, max_bank), (max_sites, min_bank), (max_sites, max_bank)}
-    with matplotlib.rc_context():
-        plt.rcdefaults()
-        matplotlib.rcParams.update({'svg.hashsalt': value['study_id'], 'font.family': 'DejaVu Sans'})
-        fig, axis = plt.subplots(figsize=(10, 3.8))
-        for row in rows:
-            if (row['site_count'], row['bank_length_m']) not in chosen:
-                continue
-            points = row['geometry']['breakpoint_records']
-            axis.plot([p['nose_advance_m'] for p in points], [p['sum_overlap_m'] for p in points],
-                label=f"{row['site_count']} sites x {row['bank_length_m']:g} m",
-                linestyle='--' if row['site_count'] == 3 else '-', linewidth=1.6)
-        axis.set(xlabel='Forward travel from the berthed position (m)',
-            ylabel='Summed fin / primary overlap (m)', xlim=(0, value['specification']['sparse']['required_launch_travel_m']), ylim=(0, None))
-        axis.set_title('Sparse launch: geometric contact continuity, not available thrust', loc='left')
-        axis.grid(alpha=.25)
-        axis.legend(loc='lower left')
-        fig.tight_layout()
-        output = io.BytesIO()
-        fig.savefig(output, format='svg', metadata={'Date': None, 'Creator': 'OpenSourceRail'})
-        plt.close(fig)
-    # Matplotlib emits trailing spaces before several SVG path line breaks.
-    # Strip those without changing the plotted geometry so generated packets
-    # remain clean under git diff --check.
-    return b'\n'.join(line.rstrip() for line in output.getvalue().splitlines()) + b'\n'
+    selected = [row for row in rows if (row['site_count'], row['bank_length_m']) in chosen]
+    if not selected:
+        raise ValueError('At least one bounded sparse geometry is required for the plot')
+
+    width, height = 1000, 380
+    left, right, top, bottom = 92.0, 976.0, 50.0, 300.0
+    x_max = float(value['specification']['sparse']['required_launch_travel_m'])
+    if not isfinite(x_max) or x_max <= 0:
+        raise ValueError('Positive required launch travel is required for the plot')
+    y_max = max(point['sum_overlap_m'] for row in selected
+                for point in row['geometry']['breakpoint_records'])
+    y_step = 5.0 if y_max > 5.0 else 1.0
+    y_limit = y_step * ceil(y_max / y_step)
+    y_limit = max(y_step, y_limit)
+
+    def number(x):
+        return f'{x:.3f}'.rstrip('0').rstrip('.')
+
+    def label_number(x):
+        return f'{x:.6g}'
+
+    def px(x):
+        return left + float(x) / x_max * (right - left)
+
+    def py(y):
+        return bottom - float(y) / y_limit * (bottom - top)
+
+    pieces = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
+        '<title>Sparse launch: geometric contact continuity, not available thrust</title>',
+        '<desc>Piecewise-linear overlap geometry. The curves do not represent available propulsion force.</desc>',
+        '<rect width="100%" height="100%" fill="#ffffff"/>',
+        '<g font-family="DejaVu Sans, sans-serif" fill="#222222">',
+        '<text x="92" y="28" font-size="16">Sparse launch: geometric contact continuity, not available thrust</text>',
+        '</g>',
+        '<g stroke="#b0b0b0" stroke-opacity="0.25" stroke-width="1">',
+    ]
+    x_step = x_max / 5.0
+    x_tick = 0.0
+    while x_tick <= x_max + x_step * 1e-9:
+        x = px(x_tick)
+        pieces.append(f'<path d="M {number(x)} {number(top)} V {number(bottom)}"/>')
+        x_tick += x_step
+    y_tick = 0.0
+    while y_tick <= y_limit + y_step * 1e-9:
+        y = py(y_tick)
+        pieces.append(f'<path d="M {number(left)} {number(y)} H {number(right)}"/>')
+        y_tick += y_step
+    pieces.extend(['</g>', '<g font-family="DejaVu Sans, sans-serif" fill="#222222" font-size="12">'])
+    x_tick = 0.0
+    while x_tick <= x_max + x_step * 1e-9:
+        pieces.append(f'<text x="{number(px(x_tick))}" y="319" text-anchor="middle">{escape(label_number(x_tick))}</text>')
+        x_tick += x_step
+    y_tick = 0.0
+    while y_tick <= y_limit + y_step * 1e-9:
+        pieces.append(f'<text x="82" y="{number(py(y_tick) + 4)}" text-anchor="end">{escape(label_number(y_tick))}</text>')
+        y_tick += y_step
+    pieces.extend([
+        f'<text x="{number((left + right) / 2)}" y="356" text-anchor="middle">Forward travel from the berthed position (m)</text>',
+        f'<text x="22" y="{number((top + bottom) / 2)}" text-anchor="middle" transform="rotate(-90 22 {number((top + bottom) / 2)})">Summed fin / primary overlap (m)</text>',
+        '</g>',
+        f'<path d="M {number(left)} {number(top)} V {number(bottom)} H {number(right)}" fill="none" stroke="#222222" stroke-width="1"/>',
+        f'<clipPath id="plot"><rect x="{number(left)}" y="{number(top)}" width="{number(right-left)}" height="{number(bottom-top)}"/></clipPath>',
+        '<g clip-path="url(#plot)" fill="none" stroke-width="1.6">',
+    ])
+    colors = ('#1f77b4', '#ff7f0e', '#2ca02c')
+    for index, row in enumerate(selected):
+        points = row['geometry']['breakpoint_records']
+        commands = []
+        for point_index, point in enumerate(points):
+            command = 'M' if point_index == 0 else 'L'
+            commands.append(f'{command} {number(px(point["nose_advance_m"]))} {number(py(point["sum_overlap_m"]))}')
+        dash = ' stroke-dasharray="5 4"' if row['site_count'] == 3 else ''
+        pieces.append(f'<path d="{" ".join(commands)}" stroke="{colors[index % len(colors)]}"{dash}/>')
+    pieces.extend(['</g>'])
+
+    legend_x, legend_y = left + 12.0, top + 106.0
+    legend_height = 16.0 + 18.0 * len(selected)
+    pieces.append(f'<rect x="{number(legend_x)}" y="{number(legend_y)}" width="220" height="{number(legend_height)}" rx="2" fill="#ffffff" fill-opacity="0.92" stroke="#777777" stroke-width="0.6"/>')
+    pieces.append('<g font-family="DejaVu Sans, sans-serif" fill="#222222" font-size="11">')
+    for index, row in enumerate(selected):
+        y = legend_y + 16.0 + 18.0 * index
+        color = colors[index % len(colors)]
+        dash = ' stroke-dasharray="5 4"' if row['site_count'] == 3 else ''
+        pieces.append(f'<path d="M {number(legend_x + 8)} {number(y - 3)} H {number(legend_x + 38)}" fill="none" stroke="{color}" stroke-width="1.6"{dash}/>')
+        text = f'{row["site_count"]} sites × {row["bank_length_m"]:g} m'
+        pieces.append(f'<text x="{number(legend_x + 45)}" y="{number(y)}">{escape(text)}</text>')
+    pieces.extend(['</g>', '</svg>'])
+    return ('\n'.join(pieces) + '\n').encode('utf-8')
 
 
 def retain(root, value):

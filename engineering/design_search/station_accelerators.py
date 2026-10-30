@@ -3,7 +3,6 @@ from itertools import product
 from pathlib import Path
 import argparse
 import gzip
-import io
 import json
 import time
 import tomllib
@@ -346,37 +345,57 @@ def report(value):
 
 
 def layout_figure(value):
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
-    from matplotlib.patches import Rectangle
+    from html import escape
+
     layout = next(row for row in value['specification']['layouts'] if row['name'] == value['lead_research_layout_name'])
-    with matplotlib.rc_context():
-        plt.rcdefaults()
-        matplotlib.rcParams.update({'svg.hashsalt': value['study_id'], 'font.family': 'DejaVu Sans'})
-        fig, axis = plt.subplots(figsize=(11, 2.8))
-        axis.axvspan(0, 104.5, color='#e6edf1', alpha=.8)
-        for car in range(6):
-            front = 104.5 - 17.5 * car
-            axis.add_patch(Rectangle((front - 17, 1.1), 17, .35, facecolor='#879da7', edgecolor='white'))
-            axis.add_patch(Rectangle((front - 13, .78), 9, .10, facecolor='#227b91'))
-        for index, start in enumerate(layout['starts_m']):
-            axis.add_patch(Rectangle((start, .30), layout['bank_length_m'], .18, facecolor='#23794b'))
-            axis.text(start + layout['bank_length_m']/2, .12, str(index + 1), ha='center', fontsize=9)
-        axis.text(52.25, 1.57, 'Passive train at departure', ha='center', fontsize=9)
-        axis.annotate('', xy=(604.5, 1.8), xytext=(104.5, 1.8), arrowprops={'arrowstyle':'->', 'color':'#384f60'})
-        axis.text(354.5, 1.94, '500 m forward nose travel', ha='center', fontsize=10)
-        axis.text(620, 1.22, 'Passive cars', ha='right', fontsize=9, color='#536a76')
-        axis.text(620, .78, 'Passive fins', ha='right', fontsize=9, color='#227b91')
-        axis.text(620, .32, 'Fixed primary banks', ha='right', fontsize=9, color='#23794b')
-        axis.set(xlim=(-5, 630), ylim=(0, 2.2), yticks=[], xlabel='Along track from the berthed train rear (m)')
-        axis.set_title('Passive vehicle, separate wayside accelerators: longitudinal schematic', loc='left', fontsize=12)
-        axis.spines[['left','right','top']].set_visible(False)
-        fig.tight_layout()
-        output = io.BytesIO()
-        fig.savefig(output, format='svg', metadata={'Date':None, 'Creator':'OpenSourceRail'})
-        plt.close(fig)
-    return b'\n'.join(line.rstrip() for line in output.getvalue().splitlines()) + b'\n'
+    width, height = 1100, 280
+    scale, origin_x = 1.52, 30.0
+
+    def xcoord(position):
+        return origin_x + (float(position) + 5.0) * scale
+
+    def ycoord(level):
+        return 225.0 - float(level) * 70.0
+
+    def number(value):
+        return f'{float(value):.3f}'.rstrip('0').rstrip('.')
+
+    pieces = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
+        '<title>Passive vehicle, separate wayside accelerators: longitudinal schematic</title>',
+        '<desc>Six passive cars, their secondary fins, and fixed primary banks. Geometry only; available thrust is unknown.</desc>',
+        '<defs><marker id="travel-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3 z" fill="#384f60"/></marker></defs>',
+        '<rect width="100%" height="100%" fill="#ffffff"/>',
+        '<g font-family="DejaVu Sans, sans-serif" fill="#222222">',
+        '<text x="30" y="25" font-size="15">Passive vehicle, separate wayside accelerators: longitudinal schematic</text>',
+        '</g>',
+        f'<rect x="{number(xcoord(0))}" y="{number(ycoord(2.2))}" width="{number((104.5 - 0) * scale)}" height="{number(ycoord(0) - ycoord(2.2))}" fill="#e6edf1" fill-opacity="0.8"/>',
+    ]
+    for car in range(6):
+        front = 104.5 - 17.5 * car
+        pieces.append(f'<rect x="{number(xcoord(front - 17))}" y="{number(ycoord(1.45))}" width="{number(17 * scale)}" height="{number((1.45 - 1.1) * 70)}" fill="#879da7" stroke="#ffffff" stroke-width="0.8"/>')
+        pieces.append(f'<rect x="{number(xcoord(front - 13))}" y="{number(ycoord(0.88))}" width="{number(9 * scale)}" height="7" fill="#227b91"/>')
+    for index, start in enumerate(layout['starts_m']):
+        pieces.append(f'<rect x="{number(xcoord(start))}" y="{number(ycoord(0.48))}" width="{number(layout["bank_length_m"] * scale)}" height="12.6" fill="#23794b"/>')
+        pieces.append(f'<text x="{number(xcoord(start + layout["bank_length_m"] / 2))}" y="{number(ycoord(0.12))}" text-anchor="middle" font-size="11" fill="#222222">{index + 1}</text>')
+    pieces.extend([
+        f'<path d="M {number(xcoord(104.5))} {number(ycoord(1.8))} H {number(xcoord(604.5))}" fill="none" stroke="#384f60" stroke-width="1.5" marker-end="url(#travel-arrow)"/>',
+        f'<text x="{number(xcoord(52.25))}" y="{number(ycoord(1.57))}" text-anchor="middle" font-size="11" fill="#222222">Passive train at departure</text>',
+        f'<text x="{number(xcoord(354.5))}" y="{number(ycoord(1.94))}" text-anchor="middle" font-size="12" fill="#222222">500 m forward nose travel</text>',
+        f'<text x="{number(xcoord(620))}" y="{number(ycoord(1.22))}" text-anchor="end" font-size="11" fill="#536a76">Passive cars</text>',
+        f'<text x="{number(xcoord(620))}" y="{number(ycoord(0.78))}" text-anchor="end" font-size="11" fill="#227b91">Passive fins</text>',
+        f'<text x="{number(xcoord(620))}" y="{number(ycoord(0.32))}" text-anchor="end" font-size="11" fill="#23794b">Fixed primary banks</text>',
+        f'<path d="M {number(xcoord(-5))} 225 H {number(xcoord(630))}" stroke="#222222" stroke-width="1"/>',
+    ])
+    for tick in range(0, 601, 100):
+        x = xcoord(tick)
+        pieces.append(f'<path d="M {number(x)} 225 v 5" stroke="#222222" stroke-width="1"/>')
+        pieces.append(f'<text x="{number(x)}" y="247" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="10" fill="#222222">{tick}</text>')
+    pieces.extend([
+        f'<text x="{number(xcoord(312.5))}" y="270" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="11" fill="#222222">Along track from the berthed train rear (m)</text>',
+        '</svg>',
+    ])
+    return ('\n'.join(pieces) + '\n').encode('utf-8')
 
 
 def publish(root=ROOT):
