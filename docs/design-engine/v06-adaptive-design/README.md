@@ -41,8 +41,8 @@ The new counted rectangular-tube adapter accepts continuous depth and wall thick
 
 | Section | Accounted tare/car | Change versus previous jointed body | Normal vertical displacement | Mesh trend |
 |---|---:|---:|---:|---|
-| 180x600x5mm | 19.287 t | -48.281 kg | 19.793 mm | mesh-trend-confirmed |
-| 180x500x6mm | 19.316 t | -19.165 kg | 22.334 mm | mesh-trend-confirmed |
+| 180x392.187x4.593mm-generated | 19.054 t | -281.236 kg | 29.529 mm | mesh-trend-confirmed |
+| 180x600x4mm-generated | 19.146 t | -188.703 kg | 21.272 mm | mesh-trend-confirmed |
 
 The previous finite-area body accounts for 19.335 t/car and predicts 28.018 mm normal displacement. Its former 25.6 mm comparison is advisory in the new policy, with integrated suitability unknown. Known-stock comparisons are not complete installed mass or a whole-railway optimum.
 

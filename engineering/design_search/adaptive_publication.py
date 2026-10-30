@@ -99,6 +99,11 @@ def build(root=ROOT,output=None):
     for name in ('canonical-checkpoint','completed-invocation'):
         p=root/'build/adaptive-design'/(name+'.json')
         r=json.loads(p.read_bytes())
+        if (r.get('schema')!='osr-function-first-adaptive-campaign/1'
+                or r.get('campaign_id')!=identity({k:v for k,v in r.items() if k!='campaign_id'})
+                or r.get('selected_reference_changed') is not False
+                or any(r.get(k) is not v for k,v in engine.FLAGS.items())):
+            raise ValueError('Checkpoint identity or research disposition differs: '+name)
         if execution_contract is not None and r['contract_id']!=execution_contract:raise ValueError('Checkpoint and resumed execution must share their original source contract')
         execution_contract=r['contract_id']
         for path,h in r['source_sha256'].items():

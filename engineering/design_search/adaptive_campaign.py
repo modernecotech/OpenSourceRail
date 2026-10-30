@@ -8,7 +8,7 @@ the frontier, never means a working design has been found or is impossible.
 """
 from copy import deepcopy
 from pathlib import Path
-import fcntl,gzip,json,time,tomllib,shutil
+import fcntl,gzip,json,time,tomllib,shutil,os
 from engineering.station_rail import ROOT,vehicle,civil,braking
 from engineering.station_rail.common import encoded,identity,digest
 from . import architecture_demand,wheel_body
@@ -60,6 +60,70 @@ def coupled_requirements(car,spec):
 
 def _write(path,value):
     path=Path(path);tmp=path.with_suffix(path.suffix+'.pending');tmp.write_bytes(encoded(value));tmp.replace(path)
+
+
+def _retain_source_epoch(root,epoch):
+    """Keep exact coordinator inputs so a later publication can reproduce provenance."""
+    root=Path(root);archive=root/'build/adaptive-design/coordinator-source-epochs'
+    archive.parent.mkdir(parents=True,exist_ok=True)
+    with (archive.parent/'source-epochs.lock').open('a+') as handle:
+        fcntl.flock(handle,fcntl.LOCK_EX)
+        try:
+            for relative,expected in epoch.items():
+                source=root/relative
+                if not source.is_file() or digest(source)!=expected:
+                    raise ValueError('Cannot checkpoint changed or missing coordinator source: '+relative)
+                target=archive/expected
+                if target.exists():
+                    if digest(target)!=expected:raise ValueError('Retained coordinator source hash collision: '+expected)
+                    continue
+                target.parent.mkdir(parents=True,exist_ok=True)
+                temporary=target.with_name(target.name+'.pending.'+str(os.getpid()))
+                temporary.write_bytes(source.read_bytes())
+                if digest(temporary)!=expected:
+                    temporary.unlink(missing_ok=True)
+                    raise ValueError('Retained coordinator source failed its declared hash: '+relative)
+                temporary.replace(target)
+        finally:
+            fcntl.flock(handle,fcntl.LOCK_UN)
+
+
+def _checkpoint_invocation(root,value):
+    """Persist the first and latest invocation for this exact source contract."""
+    root=Path(root);base=root/'build/adaptive-design'
+    canonical=base/'canonical-checkpoint.json';completed=base/'completed-invocation.json'
+    base.mkdir(parents=True,exist_ok=True)
+    with (base/'checkpoint.lock').open('a+') as handle:
+        fcntl.flock(handle,fcntl.LOCK_EX)
+        try:
+            previous=json.loads(canonical.read_bytes()) if canonical.is_file() else None
+            previous_completed=json.loads(completed.read_bytes()) if completed.is_file() else None
+            for label,record in (('canonical',previous),('completed',previous_completed)):
+                if record is not None and (record.get('schema')!='osr-function-first-adaptive-campaign/1'
+                        or record.get('campaign_id')!=identity({k:v for k,v in record.items() if k!='campaign_id'})):
+                    raise ValueError('Prior adaptive '+label+' checkpoint identity differs')
+            if (previous is None) != (previous_completed is None):
+                raise ValueError('Adaptive checkpoint pair is incomplete; preserve and inspect it before resuming')
+            if previous is not None and previous['contract_id']!=previous_completed['contract_id']:
+                raise ValueError('Adaptive canonical and completed checkpoints have different source contracts')
+            if previous is not None and previous.get('contract_id')!=value['contract_id']:
+                history=base/'checkpoint-epochs'/previous['contract_id'];history.mkdir(parents=True,exist_ok=True)
+                for path in (canonical,completed):
+                    target=history/path.name
+                    raw=path.read_bytes()
+                    if target.exists() and target.read_bytes()!=raw:
+                        raise ValueError('Conflicting prior adaptive checkpoint epoch: '+str(target))
+                    if not target.exists():
+                        temporary=target.with_name(target.name+'.pending.'+str(os.getpid()))
+                        temporary.write_bytes(raw);temporary.replace(target)
+                _write(canonical,value)
+            elif previous is None:
+                _write(canonical,value)
+            elif previous.get('source_sha256')!=value.get('source_sha256'):
+                raise ValueError('Adaptive checkpoint contract reused with different source hashes')
+            _write(completed,value)
+        finally:
+            fcntl.flock(handle,fcntl.LOCK_UN)
 
 
 def _native_record(folder,request):
@@ -154,6 +218,7 @@ def _known_cases(root,definitions,spec):
 def run(root=ROOT,*,maximum_new_jobs=None,state=None):
     from . import body_revision as body,design_variables,requirement_policy,revision_planner,section_proposals
     root=Path(root);spec=specification(root);reference=vehicle.build(root);epoch=sources(reference,root)
+    _retain_source_epoch(root,epoch)
     contract=identity(dict(specification=spec,sources=epoch,reference_id=reference['candidate_id']))
     folder=root/'build/adaptive-design'/contract if state is None else Path(state);folder.mkdir(parents=True,exist_ok=True)
     budget=spec['invocation_budget']['native_jobs'] if maximum_new_jobs is None else maximum_new_jobs
@@ -225,6 +290,7 @@ def run(root=ROOT,*,maximum_new_jobs=None,state=None):
             integrated_selection=None,selected_reference_changed=False,city_packages_regenerated=0,**FLAGS)
         value['campaign_id']=identity(value);_write(folder/'result.json',value)
         _write(folder/'journal.json',dict(contract_id=contract,new_jobs=new_jobs,reused_jobs=reused,jobs=jobs,frontier=frontier,search_status=value['search_status'],**FLAGS))
+        _checkpoint_invocation(root,value)
         return value
 
 
