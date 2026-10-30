@@ -23,7 +23,7 @@ UNITS = {"each", "kg", "g", "t", "m", "mm", "m2", "m3", "CY", "h",
 SOURCE_KINDS = {"manufacturer_catalogue", "distributor_catalogue",
                 "commodity_benchmark", "exchange_rate", "tender_notice",
                 "awarded_bid", "supplier_quotation", "factory_catalogue",
-                "published_test", "engineering_estimate", "national_statistic",
+                "industrial_directory", "published_test", "engineering_estimate", "national_statistic",
                 "marketplace_benchmark"}
 
 

@@ -87,7 +87,7 @@ def test_status_on_missing_database_does_not_create_it(tmp_path, capsys):
 
 
 def test_gfrp_regional_estimate_cli_needs_no_database_and_reports_all_scenarios(tmp_path, capsys):
-    packet_root = cli.ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v3"
+    packet_root = cli.ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v4"
     output = tmp_path / "gfrp-regional.json"
     assert cli.main(["estimate", "gfrp-laminate", "--packet-root", str(packet_root),
                      "--output", str(output)]) == 0

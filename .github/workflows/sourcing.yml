@@ -61,7 +61,7 @@ jobs:
           ./osr source --database "$RUNNER_TEMP/osr-sourcing.sqlite3" seed
           ./osr source --database "$RUNNER_TEMP/osr-sourcing.sqlite3" run \
             --input docs/design-engine/frame-refinement/packet \
-            --as-of 2026-10-29 --target-currency GBP \
+            --as-of 2026-10-30 --target-currency GBP \
             --output build/sourcing-review/frame-vehicle
           ./osr source --database "$RUNNER_TEMP/osr-sourcing.sqlite3" verify \
             build/sourcing-review/frame-vehicle
@@ -69,7 +69,7 @@ jobs:
         run: |
           ./osr source --database "$RUNNER_TEMP/osr-sourcing.sqlite3" run \
             --input docs/design-engine/digital-twin/3a07936303fe5d471a88c95875e55b73b13a5cda94e98d1169f168c647766a93.tar.gz \
-            --member federated-bom.json.gz --as-of 2026-10-29 --target-currency GBP \
+            --member federated-bom.json.gz --as-of 2026-10-30 --target-currency GBP \
             --category-budget propulsion=25 --category-budget civil=25 \
             --category-budget body-materials=25 --category-budget running-gear=25 \
             --category-budget HVAC=10 --category-budget doors-glazing=6 \
@@ -82,7 +82,7 @@ jobs:
         run: |
           ./osr source --database "$RUNNER_TEMP/osr-sourcing.sqlite3" study laminate \
             --input docs/design-engine/digital-twin/3a07936303fe5d471a88c95875e55b73b13a5cda94e98d1169f168c647766a93.tar.gz \
-            --member federated-bom.json.gz --as-of 2026-10-29 --target-currency GBP \
+            --member federated-bom.json.gz --as-of 2026-10-30 --target-currency GBP \
             --output build/sourcing-review/laminate-studies \
             > build/sourcing-review/laminate-study-set.json
           ./osr source --database "$RUNNER_TEMP/osr-sourcing.sqlite3" verify \
