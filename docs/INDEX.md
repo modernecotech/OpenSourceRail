@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1007**.
+Indexed Markdown files: **1008**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1007**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 136 |
+| [docs](#docs) | 137 |
 | [engineering](#engineering) | 26 |
 | [legacy](#legacy) | 30 |
 | [tools](#tools) | 2 |
@@ -982,6 +982,7 @@ Indexed Markdown files: **1007**.
 | [`docs/design-engine/sourced-case/README.md`](../docs/design-engine/sourced-case/README.md) | Published specifications applied to the reference-cell research |
 | [`docs/design-engine/sourced-case/validation.md`](../docs/design-engine/sourced-case/validation.md) | Executed sourced-design research — 30 October 2026 |
 | [`docs/design-engine/sourcing/README.md`](../docs/design-engine/sourcing/README.md) | Sourcing and cost intelligence — v0.6 research snapshot |
+| [`docs/design-engine/sourcing/domestic-fabrication/candidate-span-cost-screen-2026-10/README.md`](../docs/design-engine/sourcing/domestic-fabrication/candidate-span-cost-screen-2026-10/README.md) | Candidate-bound Iraqi civil material + labour screen — October 2026 |
 | [`docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/README.md`](../docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/README.md) | Iraqi local GFRP retail material and labour screen |
 | [`docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/README.md`](../docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/README.md) | Iraqi local GFRP retail material and labour screen |
 | [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v1/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v1/README.md) | Iraqi span logistics sensitivity |

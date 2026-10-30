@@ -132,6 +132,13 @@ def _parser():
                            help="Exact candidate-bound Iraqi material/labour estimate JSON")
     logistics.add_argument("--output", required=True, type=Path,
                           help="Fresh output directory for the logistics packet")
+    civil_spans = estimate_sub.add_parser(
+        "candidate-civil-spans",
+        help="Map Iraqi material + labour + 20% scenarios to exact current railway span alternatives")
+    civil_spans.add_argument("--output", required=True, type=Path,
+                             help="Candidate cost-screen publication directory")
+    civil_spans.add_argument("--check", action="store_true",
+                             help="Verify the saved packet against its exact closure and source inputs")
 
     takeoff = sub.add_parser("takeoff", help="Build traceable stock material quantity roll-ups")
     takeoff_sub = takeoff.add_subparsers(dest="takeoff_command", required=True)
@@ -671,6 +678,12 @@ def main(argv=None):
             return 0
 
         if args.command == "estimate":
+            if args.estimate_command == "candidate-civil-spans":
+                from .closure_civil_cost import publish_packet, verify_packet
+                result = (verify_packet(args.output) if args.check else
+                          publish_packet(output=args.output))
+                _emit(result)
+                return 0
             if args.estimate_command == "iraq-logistics":
                 from .iraq_logistics_scenarios import SEED, build_packet, publish_packet
                 procurement = inputs.read_json(args.procurement_bom)
