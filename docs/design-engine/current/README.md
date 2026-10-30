@@ -12,7 +12,7 @@ OpenSourceRail aims for simple, affordable urban transport, repeated precast civ
 | Accounted tare / normal load | 19.222 / 22.672 t/car at 75 kg/person |
 | Located material / remaining reference accounts | 9.132 / 10.090 t/car |
 | Complete installed mass, CG and inertia | Unknown; inherited service allocations may overlap new equipment and must be disaggregated |
-| Mass reconciliation | [Occurrence-level ledger](../mass-reconciliation/current/README.md) — 2,924 source-account occurrences and 2,482 candidate geometry occurrences, assigned by system/family with explicit residuals |
+| Mass reconciliation | [Occurrence-level ledger](../mass-reconciliation/current/README.md) and [closure worksheet](../mass-reconciliation/current/mass-closure-worksheet.json.gz) — 5,418 source, candidate-geometry and account-closure rows; installed mass remains unknown |
 | Service-only battery | 82.8 kWh, 1345 kg/car reference account; cooled installation and rail approval open |
 | Service targets | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² braking, 35 s dwell, 120 s headway; 8,280 pphpd arithmetic |
 
@@ -55,7 +55,7 @@ The current selected physical candidate is `756a68870162f7559b052b05c9b201728c9f
 | Frame candidate `1b3ae3f4de24` | 3,183 groups; 0 compatible priced matches | Complete installed cost unknown |
 | Federated candidate `9c7d0942c9de` | 31,989 physical scopes across 7,042 review requirements; 137 evaluated, 6,905 pending | 0 compatible priced matches; nine RFQ drafts remain unsent |
 | Material takeoff `9c7d0942c9de` | 2,269 groups retain 27,216 located occurrences; 4,773 unlocated accounts stay separate | 4,780.58 t gross located stock and 1,804.81 m³ nominal concrete geometry are not installed mass or purchase quantities |
-| Draft procurement-package BOM `9c7d0942c9de` | 27,216 located occurrences grouped into 191 draft packages and 8 purchasing/material lines; 39 domestic-source lead associations across seven families | 4,773 obligations remain separate; no supplier prices, commercial order quantities or complete assembly scope |
+| Draft procurement-package BOM `9c7d0942c9de` | 27,216 located occurrences grouped into 191 draft packages and 8 purchasing/material lines; 41 domestic-source lead associations across seven families | 4,773 obligations remain separate; no supplier prices, commercial order quantities or complete assembly scope |
 | Generic concrete fabrication screen | 3 recipes using September 2026 Iraqi material and skilled-worker base-wage observations; 2/4/8 assumed person-hours per nominal m³ | IQD 113,580–181,080/m³ after materials + labour + 20%; not a designed mix or guideway-beam price |
 | September 2026 concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, with 2/4/8 assumed skilled h/m³ scenarios | Baghdad IQD 205.0–326.8m; Al-Muthanna IQD 196.9–294.3m, including 20%; ingredient screen, not a designed mix, precast beam price or installed cost |
 | Candidate aluminium_reference raw-stock sensitivity | 21 distinct product-form/hour alternatives; mass and occurrence counts reconcile to the sealed takeoff | IQD 98.4–122.0m including direct material, assumed Baghdad base-wage labour and 20%; alloy/temper, product compatibility, purchase yield and process route remain unknown |
