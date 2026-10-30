@@ -1,6 +1,7 @@
 """Publish actual bounded native packages without inventing correlation or replay."""
 from pathlib import Path
 import io,tarfile,gzip,json,tempfile
+import platform,sys
 from . import ROOT,FLAGS,identity,digest,encoded
 
 
@@ -12,6 +13,27 @@ def _check(folder,kind,root):
         from . import structural_review
         return structural_review.verify(folder,root=root,require_current_tool=False)
     raise ValueError('Owned native method type required')
+
+
+def _first_difference(expected,actual,path='$'):
+    """Return the first exact JSON value difference without changing comparison rules."""
+    if type(expected) is not type(actual):
+        return path,expected,actual
+    if isinstance(expected,dict):
+        for key in sorted(expected.keys()|actual.keys()):
+            child=f'{path}.{key}'
+            if key not in expected:return child,'<missing>',actual[key]
+            if key not in actual:return child,expected[key],'<missing>'
+            difference=_first_difference(expected[key],actual[key],child)
+            if difference is not None:return difference
+        return None
+    if isinstance(expected,list):
+        if len(expected)!=len(actual):return f'{path}.length',len(expected),len(actual)
+        for index,(left,right) in enumerate(zip(expected,actual)):
+            difference=_first_difference(left,right,f'{path}[{index}]')
+            if difference is not None:return difference
+        return None
+    return None if expected==actual else (path,expected,actual)
 
 
 def publish(packages,output,*,root=ROOT):
@@ -61,5 +83,8 @@ def verify(output,*,root=ROOT):
             if {k:x for k,x in actual.items() if k not in volatile}!={k:x for k,x in row['validation'].items() if k not in volatile}:raise ValueError('Native recorded validation differs')
             if row['kind']=='motor':motors.append(folder)
         comparison=propulsion.compare(motors,root=root) if 2<=len(motors)<=3 else None
-        if encoded(comparison)!=encoded(v['motor_comparison']):raise ValueError('Actual motor refinement comparison differs')
+        if encoded(comparison)!=encoded(v['motor_comparison']):
+            path,recorded,recomputed=_first_difference(v['motor_comparison'],comparison) or ('$',v['motor_comparison'],comparison)
+            runtime=f"Python {sys.version.split()[0]}, {platform.machine()}, NumPy {propulsion.np.__version__}, SciPy {propulsion.scipy.__version__}"
+            raise ValueError(f'Actual motor refinement comparison differs at {path}: recorded={recorded!r}; recomputed={recomputed!r}; runtime={runtime}')
     return dict(verified=True,publication_id=v['publication_id'],packages=len(v['packages']),physical_correlation=False,**FLAGS)
