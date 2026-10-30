@@ -184,6 +184,14 @@ The new [GFRP cost screen](domestic-fabrication/estimates/current/gfrp-laminate-
 | 600 gsm sandwich | IQD 614,823.67 | IQD 827,788.41 / 917,788.41 / 1,097,788.41 |
 | Higher-fibre 600 gsm sandwich | IQD 449,362.55 | IQD 629,235.07 / 719,235.07 / 899,235.07 |
 
+The calculator also repeats the same 8/16/32-hour labour sensitivities against all 15 skilled-worker hourly base-wage observations in the 2025 CSO regional bulletin. Those construction-worker averages are a proxy for composite-shop labour; employer charges are not included. Kurdistan Region governorates are not represented in that bulletin. Across the listed governorates, the screen ranges are:
+
+| 10 m² research recipe | Regional screen at 8 hours | At 16 hours | At 32 hours |
+|---|---:|---:|---:|
+| Solid 600 gsm GFRP | IQD 1,535,576.82–1,566,077.22 | IQD 1,595,576.82–1,656,577.62 | IQD 1,715,576.82–1,837,578.42 |
+| 600 gsm sandwich | IQD 797,788.41–828,288.81 | IQD 857,788.41–918,789.21 | IQD 977,788.41–1,099,790.01 |
+| Higher-fibre 600 gsm sandwich | IQD 599,235.07–629,735.47 | IQD 659,235.07–720,235.87 | IQD 779,235.07–901,236.67 |
+
 These are **partial planning amounts**, not locally sourced composite prices or finished-panel quotes. Easy Composites cloth and resin remain UK listed inputs, and the conversion is a dated non-executable CBI reference. The two sandwich cases have unpriced Corecell M80 and all three cases have unresolved adhesive quantities; their costs remain unknown rather than zero. The scenario also excludes freight, customs, bank charges, mould/tooling, process consumables, scrap beyond the study takeoff, equipment, utilities, employer wage burden, QA, rework, fire/smoke requirements, structural qualification, installation and maintenance. The hours are assumptions, while the 20% allowance is unallocated and does not establish overhead, profit, tax or contingency. Candidate identities, unresolved input IDs and exact source records remain in the machine-readable packet; it cannot rank or select body designs.
 
 ### Cost/weight sensitivity queue

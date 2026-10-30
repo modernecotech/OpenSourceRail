@@ -18,6 +18,13 @@ from .model import encoded, identity
 ROOT = Path(__file__).resolve().parents[2]
 HOURS = ("8", "16", "32")
 RECIPES = ("solid-600gsm", "sandwich-600gsm", "higher-fibre-sandwich-600gsm")
+REGION_LABELS = {
+    "al-muthanna": "Al-Muthanna", "al-qadisiyyah": "Al-Qadisiyyah", "anbar": "Anbar",
+    "babil": "Babil", "baghdad": "Baghdad", "basrah": "Basrah", "dhi-qar": "Dhi Qar",
+    "diyala": "Diyala", "karbala": "Karbala", "kirkuk": "Kirkuk", "maysan": "Maysan",
+    "najaf": "Najaf", "nineveh": "Nineveh", "salah-al-din": "Salah al-Din", "wasit": "Wasit",
+}
+REGIONAL_WAGE_HOURS = ("8", "16", "32")
 PACKET_PATHS = {key: Path("docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v2") / key
                 for key in RECIPES}
 CENT = Decimal("0.01")
@@ -122,6 +129,15 @@ def _build(records, packet_root, *, labour_hours=HOURS):
         raise ValueError("Exact CSO Baghdad skilled-worker wage benchmark required")
     if wage.get("currency") != "IQD" or wage.get("quantity_unit") != "h":
         raise ValueError("Wage benchmark must be normalized to IQD/person-hour")
+    regional_wages = [row for key, row in benchmarks.items()
+                      if key.startswith("iq-cso-2025-regional:") and ":wage:skilled:hour-8h-day" in key]
+    by_region = {row["benchmark_key"].split(":")[1]: row for row in regional_wages}
+    if (set(by_region) != set(REGION_LABELS) or len(regional_wages) != len(REGION_LABELS)
+            or any(row.get("currency") != "IQD" or row.get("quantity_unit") != "h"
+                   or row.get("employer_burden_included") is not False
+                   or row.get("is_manufactured_product_price") is not False
+                   for row in regional_wages)):
+        raise ValueError("Complete 15-governorate CSO skilled base-wage observation set required")
 
     studies = []
     for recipe in RECIPES:
@@ -185,6 +201,7 @@ def _build(records, packet_root, *, labour_hours=HOURS):
             unresolved_materials=unresolved,
             listed_material_subtotal_gbp=str(listed_gbp),
             cbi_conversion_rate_iqd_per_gbp=fx["rate"],
+            known_listed_material_subtotal_iqd_unrounded=str(material_iqd),
             known_listed_material_subtotal_iqd=_money(material_iqd),
             scenarios=[dict(
                 labour_hours_per_10m2=str(hours),
@@ -198,6 +215,30 @@ def _build(records, packet_root, *, labour_hours=HOURS):
                 complete_fabrication_cost_iqd=None,
                 unknown_is_zero=False,
             ) for hours in labour_hours],
+            regional_scenarios=[dict(
+                governorate=REGION_LABELS[region],
+                governorate_key=region,
+                wage_benchmark_id=regional_wage["record_id"],
+                wage_benchmark_key=regional_wage["benchmark_key"],
+                wage_source_id=regional_wage["source_id"],
+                wage_rate_iqd_per_person_hour=regional_wage["unit_price"],
+                wage_employer_burden_included=False,
+                labour_hours_per_10m2=str(hours),
+                direct_labour_iqd_unrounded=str(Decimal(hours) * Decimal(regional_wage["unit_price"])),
+                direct_labour_iqd=_money(Decimal(hours) * Decimal(regional_wage["unit_price"])),
+                direct_known_materials_plus_labour_iqd_unrounded=str(
+                    material_iqd + Decimal(hours) * Decimal(regional_wage["unit_price"])),
+                direct_known_materials_plus_labour_iqd=_money(
+                    material_iqd + Decimal(hours) * Decimal(regional_wage["unit_price"])),
+                uplift_fraction="0.20",
+                unallocated_uplift_iqd=_money(
+                    (material_iqd + Decimal(hours) * Decimal(regional_wage["unit_price"])) * Decimal("0.20")),
+                partial_screen_iqd=_money(
+                    (material_iqd + Decimal(hours) * Decimal(regional_wage["unit_price"])) * Decimal("1.20")),
+                complete_material_cost_iqd=None,
+                complete_fabrication_cost_iqd=None,
+                unknown_is_zero=False,
+            ) for region, regional_wage in sorted(by_region.items()) for hours in REGIONAL_WAGE_HOURS],
             source_ids=source_ids,
             complete_material_cost_iqd=None,
             complete_fabrication_cost_iqd=None,
@@ -219,7 +260,7 @@ def _build(records, packet_root, *, labour_hours=HOURS):
                      "input.json.gz", "catalogue.json.gz", "request.json"):
             source_hashes[f"{recipe}/{name}"] = inputs.digest(folder / name)
     payload = dict(
-        schema="osr-iraq-gfrp-local-fabrication-cost-screens/1",
+        schema="osr-iraq-gfrp-local-fabrication-cost-screens/2",
         basis=dict(
             study_area_m2="10",
             material_basis="listed Easy Composites price extensions at each exact laminate requirement's requested quantity; order multiples and supplier order totals are not established",
@@ -229,6 +270,15 @@ def _build(records, packet_root, *, labour_hours=HOURS):
             wage_source_id=wage["source_id"], wage_benchmark_id=wage["record_id"],
             wage_basis="2025 CSO Baghdad skilled-worker average normalized from a reported 8-hour day; base wage only, no employer burden",
             labour_scenarios_hours_per_10m2=list(labour_hours),
+            regional_wage_source_id=next(iter(by_region.values()))["source_id"],
+            regional_wage_basis="2025 CSO skilled-worker hourly base-wage observations for the 15 listed governorates; excludes Kurdistan Region governorates and employer burden",
+            regional_governorates=[REGION_LABELS[key] for key in sorted(by_region)],
+            regional_labour_scenarios_hours_per_10m2=list(REGIONAL_WAGE_HOURS),
+            regional_wage_rate_iqd_per_person_hour=[
+                min(Decimal(row["unit_price"]) for row in regional_wages).__str__(),
+                max(Decimal(row["unit_price"]) for row in regional_wages).__str__(),
+            ],
+            regional_scenario_count=len(regional_wages) * len(REGIONAL_WAGE_HOURS) * len(RECIPES),
             formula="(known listed material extensions GBP × dated CBI GBP/IQD reference + assumed local base-wage labour hours × CSO hourly wage) × 1.20",
             uplift_fraction="0.20", uplift_scope="known listed materials plus assumed direct base-wage labour only; allowance allocation is unspecified",
         ),
@@ -243,6 +293,7 @@ def _build(records, packet_root, *, labour_hours=HOURS):
             "All three 10 m² laminate recipes are research material hypotheses, not roof CAD takeoffs or accepted vehicle structures.",
             "Listed supplier material extensions are not order totals, executable quotes or Iraq-delivered prices; FX uses the CBI dated selling reference and excludes channel spreads, fees, freight, insurance, customs and taxes.",
             "Local fabrication hours are declared sensitivity assumptions, not measured routes. The CSO wage is a base-wage benchmark and omits employer burden, supervision, utilities, equipment, tooling, moulds, consumables, scrap beyond the study takeoff, QA, rework and factory overhead.",
+            "Regional labour screens use the CSO's 15 listed governorates only; Kurdistan Region governorates are absent from that bulletin and are not inferred. Skilled construction-worker averages are only a wage proxy for composite-shop labour.",
             "Core and adhesive requirements remain unpriced or unresolved and are not assigned zero cost. The 20% allowance applies only to listed materials plus assumed base wages and is not a verified markup.",
             "No rail fire/smoke/toxicity, fatigue, hot-wet, structural, manufacturing or physical qualification is implied; this packet cannot select or rank complete vehicle candidates.",
         ],
@@ -274,6 +325,8 @@ def main(argv=None):
     path.write_bytes(encoded(payload) + b"\n")
     print(json.dumps(dict(output=str(path), packet_id=payload["packet_id"],
                           scenarios=sum(len(row["scenarios"]) for row in payload["studies"]),
+                          regional_scenarios=sum(len(row["regional_scenarios"]) for row in payload["studies"]),
+                          regional_governorate_count=len(payload["basis"]["regional_governorates"]),
                           complete_fabrication_cost_iqd=None, physical_qualification=None), indent=2))
 
 

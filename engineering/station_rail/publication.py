@@ -2,6 +2,7 @@
 from pathlib import Path
 from hashlib import sha256
 from collections import Counter
+from decimal import Decimal, ROUND_HALF_EVEN
 import fcntl,gzip,io,json,os,shutil,subprocess,sys,tarfile,tempfile
 from . import ROOT,FLAGS
 from .common import encoded,identity,digest
@@ -259,16 +260,29 @@ def _sourcing_section(root,record):
     gfrp_packet=json.loads(gfrp_path.read_bytes())
     gfrp_studies=gfrp_packet.get('studies', [])
     expected_laminate={row['recipe']:row for row in validation['packets']['laminate_material_studies']}
-    if (gfrp_packet.get('schema')!='osr-iraq-gfrp-local-fabrication-cost-screens/1'
+    regional_wage_records={row.get('benchmark_key'):row for row in catalogue
+                           if row.get('kind')=='benchmark'
+                           and row.get('benchmark_key','').startswith('iq-cso-2025-regional:')
+                           and ':wage:skilled:hour-8h-day' in row.get('benchmark_key','')}
+    regional_governorates={key.split(':')[1] for key in regional_wage_records}
+    regional_scenario_total=sum(len(row.get('regional_scenarios',[])) for row in gfrp_studies)
+    if (gfrp_packet.get('schema')!='osr-iraq-gfrp-local-fabrication-cost-screens/2'
         or gfrp_packet.get('packet_id')!=sourcing_identity({k:v for k,v in gfrp_packet.items() if k!='packet_id'})
         or gfrp_packet.get('packet_id')!=gfrp_index.get('packet_id')
         or gfrp_packet.get('catalogue_epoch_id')!=validation.get('source_epoch_sha256')
         or gfrp_index.get('catalogue_epoch_id')!=validation.get('source_epoch_sha256')
         or gfrp_packet.get('basis',{}).get('executable_fx') is not False
         or gfrp_packet.get('basis',{}).get('uplift_fraction')!='0.20'
+        or len(regional_governorates)!=15
+        or set(gfrp_packet.get('basis',{}).get('regional_governorates',[]))!=
+           {row['governorate'] for row in gfrp_studies[0].get('regional_scenarios',[])}
+        or len(gfrp_packet.get('basis',{}).get('regional_governorates',[]))!=15
+        or regional_scenario_total!=gfrp_index.get('regional_scenario_count')
+        or regional_scenario_total!=135
         or len(gfrp_studies)!=3
         or sum(len(row.get('scenarios',[])) for row in gfrp_studies)!=gfrp_index.get('scenario_count')
         or any(row.get('parent_candidate_id')!=federated['candidate_id'] for row in gfrp_studies)
+        or any(len(row.get('regional_scenarios',[]))!=45 for row in gfrp_studies)
         or any(row.get('candidate_id')!=expected_laminate.get(row.get('recipe'),{}).get('candidate_id')
                or row.get('publication_id')!=expected_laminate.get(row.get('recipe'),{}).get('publication_id')
                or row.get('complete_fabrication_cost_iqd') is not None
@@ -278,13 +292,59 @@ def _sourcing_section(root,record):
         or gfrp_packet.get('physical_qualification') is not None
         or gfrp_packet.get('unknown_is_zero') is not False):
         raise ValueError('GFRP local-fabrication packet differs from its source epoch, laminate studies or open-cost boundary')
+    wage_by_region={key.split(':')[1]:row for key,row in regional_wage_records.items()}
+    regional_hours=set(gfrp_packet['basis'].get('regional_labour_scenarios_hours_per_10m2',[]))
+    if regional_hours!={'8','16','32'}:
+        raise ValueError('Regional GFRP labour scenarios differ from their declared 8/16/32-hour basis')
+    for study in gfrp_studies:
+        source_material_iqd=Decimal(study['known_listed_material_subtotal_iqd_unrounded'])
+        if source_material_iqd != Decimal(study['listed_material_subtotal_gbp'])*Decimal(gfrp_packet['basis']['fx_rate']):
+            raise ValueError('GFRP regional estimate material conversion differs from source-listed GBP and CBI rate')
+        seen=set()
+        for scenario in study['regional_scenarios']:
+            region=scenario.get('governorate_key')
+            hours=scenario.get('labour_hours_per_10m2')
+            wage=wage_by_region.get(region)
+            if (wage is None or hours not in regional_hours or (region,hours) in seen
+                or scenario.get('governorate') not in gfrp_packet['basis']['regional_governorates']
+                or scenario.get('wage_benchmark_id')!=wage.get('record_id')
+                or scenario.get('wage_benchmark_key')!=wage.get('benchmark_key')
+                or scenario.get('wage_source_id')!=wage.get('source_id')
+                or scenario.get('wage_rate_iqd_per_person_hour')!=wage.get('unit_price')
+                or scenario.get('wage_employer_burden_included') is not False):
+                raise ValueError('Regional GFRP wage scenario differs from its exact CSO benchmark')
+            seen.add((region,hours))
+            direct_labour=Decimal(hours)*Decimal(wage['unit_price'])
+            direct=source_material_iqd+direct_labour
+            screen=(direct*Decimal('1.20')).quantize(Decimal('0.01'),rounding=ROUND_HALF_EVEN)
+            if (Decimal(scenario['direct_labour_iqd_unrounded'])!=direct_labour
+                or Decimal(scenario['direct_labour_iqd'])!=direct_labour.quantize(Decimal('0.01'),rounding=ROUND_HALF_EVEN)
+                or Decimal(scenario['direct_known_materials_plus_labour_iqd_unrounded'])!=direct
+                or Decimal(scenario['direct_known_materials_plus_labour_iqd'])!=direct.quantize(Decimal('0.01'),rounding=ROUND_HALF_EVEN)
+                or Decimal(scenario['partial_screen_iqd'])!=screen
+                or scenario.get('uplift_fraction')!='0.20'
+                or scenario.get('complete_material_cost_iqd') is not None
+                or scenario.get('complete_fabrication_cost_iqd') is not None
+                or scenario.get('unknown_is_zero') is not False):
+                raise ValueError('Regional GFRP material/labour/uplift arithmetic or unknown-cost boundary differs')
+        if seen!={(region,hours) for region in regional_governorates for hours in regional_hours}:
+            raise ValueError('Regional GFRP scenarios do not cover every CSO governorate and declared labour case')
     gfrp_rows=[]
+    gfrp_regional_rows=[]
     for row in gfrp_studies:
         amounts='/'.join(f"{float(x['partial_screen_iqd']):,.2f}" for x in row['scenarios'])
         material=float(row['known_listed_material_subtotal_iqd'])
         recipe_label=row['recipe'].replace('-600gsm','').replace('-',' ')
         gfrp_rows.append(
             f"| 10 m² {recipe_label} GFRP screen | IQD {material:,.2f} known listed materials; 8/16/32 assumed skilled hours | IQD {amounts} partial materials + labour + 20%; unpriced inputs remain open |")
+        region_lines=[]
+        for hours in sorted(regional_hours,key=int):
+            totals=[Decimal(x['partial_screen_iqd']) for x in row['regional_scenarios']
+                    if x['labour_hours_per_10m2']==hours]
+            region_lines.append(f"{hours} h: IQD {min(totals):,.2f}–{max(totals):,.2f}")
+        gfrp_regional_rows.append(
+            f"| 10 m² {recipe_label} GFRP regional sensitivity | CSO skilled base wages in 15 listed governorates; hours are assumed, not measured | "
+            + '; '.join(region_lines)+" after the 20% allowance; Kurdistan Region wage data are absent |")
     return [
       '## Sourcing and domestic cost coverage','',
       catalogue_line+' Iraqi source leads now include cement production, steel fabrication and rebar, GRP pipe and façade manufacturing, polymer/resin supply, and aluminium extrusion. Source leads are not quotations, qualified products or available capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).','',
@@ -300,7 +360,8 @@ def _sourcing_section(root,record):
       f"| 2025 Baghdad concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {regional_totals_miqd[0]:.1f}–{regional_totals_miqd[-1]:.1f} million on the 2025 regional material rates; not a designed mix or installed span price |",'',
       f"| Unlocated obligation cross-references | {obligation_links['linked_unique_obligation_count']:,}/{obligation_links['source_obligation_count']:,} accounts linked by hierarchy to related car/bogie/span/bank scopes; {obligation_links['package_association_count']:,} non-additive associations | No package mass, quantity or cost allocation; {obligation_links['unlinked_obligation_count']} network-level infrastructure obligations remain unlinked |",
       *gfrp_rows,'',
-      'The GFRP figures use listed Easy Composites UK material extensions converted at the 29 October 2026 CBI GBP/IQD reference and the 2025 CSO Baghdad base-wage benchmark. They are partial sensitivity screens: adhesives remain unresolved, sandwich-core prices are absent, and import, tooling, consumables, QA, fire/smoke, structural qualification and installation are excluded. They do not price a finished panel or transfer to the selected reference body.', '',
+      *gfrp_regional_rows,'',
+      'The GFRP figures use listed Easy Composites UK material extensions converted at the 29 October 2026 CBI GBP/IQD reference and the 2025 CSO Baghdad or listed-governorate skilled-worker base-wage benchmarks. They are partial sensitivity screens: adhesives remain unresolved, sandwich-core prices are absent, and import, tooling, consumables, QA, fire/smoke, structural qualification and installation are excluded. The regional table covers only the 15 governorates in the CSO bulletin, excludes Kurdistan Region, and uses construction-worker wages as a proxy for composite-shop labour. They do not price a finished panel or transfer to the selected reference body.', '',
       'The 2026-price estimate and the 2025 regional-price estimate are separately source-bound views of the same research-candidate concrete takeoff. Both preserve every original manufacturing-group and occurrence identity. Their material mix and labour hours remain assumptions, not measured process data; neither establishes a guideway beam, supplier match, complete installed mass or cost, or a cost for the selected reference candidate. The regional packet also includes rebar cut/bend and profile/sheet raw-stock processing sensitivities; the posted sheet rates do not establish structural grade or a completed manufacturing route.','',
       'The reference dossier\'s 900 m shared winding and the separate five-bank research layout (100 m active motor length) remain distinct propulsion configurations. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.',''
     ]

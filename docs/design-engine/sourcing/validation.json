@@ -269,7 +269,8 @@
     "The candidate material takeoff still preserves 27,216 located occurrences across 2,269 manufacturing groups and 4,773 unlocated accounts; no railway group declares labour hours, so no candidate-level fabrication uplift is applied.",
     "Three new Iraq-local composites supplier/fabricator leads were added: NUBIN GRP/GFRP façade fabrication, Abr AlQamar polyester/epoxy supply, and Al-Mniee polymer raw materials. These are candidate RFQ leads; no exact glass-fibre product, compatible price, rail-body qualification or factory capacity is established.",
     "The GFRP local-fabrication estimate applies an explicit 8/16/32 skilled-hour sensitivity per 10 m² to listed UK cloth/resin material extensions, converts GBP at the dated CBI reference, then applies 20% to known material plus CSO base wage. Core and adhesive remain unpriced/unresolved, and tooling, consumables, import charges, QA, fire/smoke and process qualification are outside the partial amount.",
-    "Hierarchy-only procurement cross-references associate 4,766 of 4,773 unlocated accounts with related car, bogie, secondary, span or bank quote scopes; these 230 links are non-additive context only, with no package quantity, mass or cost allocation. Seven network-level infrastructure obligations remain unlinked."
+    "Hierarchy-only procurement cross-references associate 4,766 of 4,773 unlocated accounts with related car, bogie, secondary, span or bank quote scopes; these 230 links are non-additive context only, with no package quantity, mass or cost allocation. Seven network-level infrastructure obligations remain unlinked.",
+    "The GFRP material screen now adds 135 regional labour scenarios (15 CSO-listed governorates × 3 assumed hours × 3 laminate studies). CSO construction-worker base wages are a proxy for composite-shop labour; Kurdistan Region wages and employer burden are not included."
   ],
   "source_epoch_definition": "SHA-256 identity() of the validated offline seed record list returned by engineering.sourcing.catalogue.load_catalogue(); packet-specific catalogue snapshots may additionally contain generated process records.",
   "candidate_material_takeoff": {
@@ -616,8 +617,8 @@
   },
   "gfrp_local_fabrication_cost_screen": {
     "path": "domestic-fabrication/estimates/current/gfrp-laminate-local-2026.json",
-    "packet_id": "d894df23b06396aba0f69f5d7672c46096fd4119e287c8a389b94c6a0d21ea41",
-    "schema": "osr-iraq-gfrp-local-fabrication-cost-screens/1",
+    "packet_id": "d700f6dfd27b142cab0fbe14015cd63b4c8bb02708a17992509f376f06041a65",
+    "schema": "osr-iraq-gfrp-local-fabrication-cost-screens/2",
     "catalogue_epoch_id": "1e7ac24d3e28d5d6e369d6411c7732e52aa594198771e5d6ff7aa75c60743ea5",
     "parent_candidate_id": "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f",
     "study_area_m2": "10",
@@ -686,6 +687,94 @@
     ],
     "complete_fabrication_cost_iqd": null,
     "physical_qualification": null,
-    "unknown_is_zero": false
+    "unknown_is_zero": false,
+    "regional_scenario_count": 135,
+    "regional_governorate_count": 15,
+    "regional_governorates": [
+      "Al-Muthanna",
+      "Al-Qadisiyyah",
+      "Anbar",
+      "Babil",
+      "Baghdad",
+      "Basrah",
+      "Dhi Qar",
+      "Diyala",
+      "Karbala",
+      "Kirkuk",
+      "Maysan",
+      "Najaf",
+      "Nineveh",
+      "Salah al-Din",
+      "Wasit"
+    ],
+    "regional_wage_rate_iqd_per_person_hour": [
+      "6250",
+      "9427.125"
+    ],
+    "regional_screen_ranges": [
+      {
+        "recipe": "solid-600gsm",
+        "candidate_id": "23dad81c529a505a355f0aab957683d485f111c1af24afbf2444665222c096d9",
+        "by_hours": [
+          {
+            "labour_hours_per_10m2": "8",
+            "minimum_partial_screen_iqd": "1535576.82",
+            "maximum_partial_screen_iqd": "1566077.22"
+          },
+          {
+            "labour_hours_per_10m2": "16",
+            "minimum_partial_screen_iqd": "1595576.82",
+            "maximum_partial_screen_iqd": "1656577.62"
+          },
+          {
+            "labour_hours_per_10m2": "32",
+            "minimum_partial_screen_iqd": "1715576.82",
+            "maximum_partial_screen_iqd": "1837578.42"
+          }
+        ]
+      },
+      {
+        "recipe": "sandwich-600gsm",
+        "candidate_id": "0d891c79abe1ea9dfe6d466f2499d47d6b179ddfbe04d0b84112889543b6fdf2",
+        "by_hours": [
+          {
+            "labour_hours_per_10m2": "8",
+            "minimum_partial_screen_iqd": "797788.41",
+            "maximum_partial_screen_iqd": "828288.81"
+          },
+          {
+            "labour_hours_per_10m2": "16",
+            "minimum_partial_screen_iqd": "857788.41",
+            "maximum_partial_screen_iqd": "918789.21"
+          },
+          {
+            "labour_hours_per_10m2": "32",
+            "minimum_partial_screen_iqd": "977788.41",
+            "maximum_partial_screen_iqd": "1099790.01"
+          }
+        ]
+      },
+      {
+        "recipe": "higher-fibre-sandwich-600gsm",
+        "candidate_id": "261208b9e81a4065ffd49eacaf0555052d7531c98b9a950c0219c59d678085ec",
+        "by_hours": [
+          {
+            "labour_hours_per_10m2": "8",
+            "minimum_partial_screen_iqd": "599235.07",
+            "maximum_partial_screen_iqd": "629735.47"
+          },
+          {
+            "labour_hours_per_10m2": "16",
+            "minimum_partial_screen_iqd": "659235.07",
+            "maximum_partial_screen_iqd": "720235.87"
+          },
+          {
+            "labour_hours_per_10m2": "32",
+            "minimum_partial_screen_iqd": "779235.07",
+            "maximum_partial_screen_iqd": "901236.67"
+          }
+        ]
+      }
+    ]
   }
 }

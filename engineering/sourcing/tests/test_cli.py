@@ -86,6 +86,19 @@ def test_status_on_missing_database_does_not_create_it(tmp_path, capsys):
     assert not path.exists()
 
 
+def test_gfrp_regional_estimate_cli_needs_no_database_and_reports_all_scenarios(tmp_path, capsys):
+    packet_root = cli.ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v2"
+    output = tmp_path / "gfrp-regional.json"
+    assert cli.main(["estimate", "gfrp-laminate", "--packet-root", str(packet_root),
+                     "--output", str(output)]) == 0
+    result = json.loads(capsys.readouterr().out)
+    packet = json.loads(output.read_text())
+    assert result["regional_scenarios"] == 135
+    assert result["regional_governorate_count"] == 15
+    assert packet["schema"] == "osr-iraq-gfrp-local-fabrication-cost-screens/2"
+    assert packet["complete_fabrication_cost_iqd"] is None
+
+
 def test_run_verify_show_and_rfq_export_are_local_disabled_review_steps(tmp_path, capsys):
     candidate = "a" * 64
     requirement = record("requirement", candidate_id=candidate, input_id="b" * 64,

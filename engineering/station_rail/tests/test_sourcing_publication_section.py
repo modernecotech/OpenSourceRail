@@ -16,5 +16,8 @@ def test_current_readme_sourcing_section_checks_and_reports_local_gfrp_screens()
     assert "IQD 1,565,576.82/1,655,576.82/1,835,576.82" in report
     assert "IQD 827,788.41/917,788.41/1,097,788.41" in report
     assert "IQD 629,235.07/719,235.07/899,235.07" in report
+    assert "15 listed governorates" in report
+    assert "Kurdistan Region wage data are absent" in report
+    assert "IQD 1,535,576.82–1,566,077.22" in report
     assert "unpriced inputs remain open" in report
     assert "not transfer to the selected reference candidate" in report

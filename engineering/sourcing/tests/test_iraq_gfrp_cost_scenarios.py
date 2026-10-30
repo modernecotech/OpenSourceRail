@@ -13,13 +13,19 @@ PACKETS = ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-do
 def test_gfrp_local_fabrication_screens_keep_known_material_costs_and_open_unknowns():
     records = load_catalogue()
     packet = _build(records, PACKETS)
-    assert packet["schema"] == "osr-iraq-gfrp-local-fabrication-cost-screens/1"
+    assert packet["schema"] == "osr-iraq-gfrp-local-fabrication-cost-screens/2"
     assert packet["basis"]["study_area_m2"] == "10"
     assert packet["basis"]["fx_rate"] == "1692.216"
     assert packet["basis"]["executable_fx"] is False
     assert packet["basis"]["uplift_fraction"] == "0.20"
     assert len(packet["studies"]) == 3
     assert sum(len(row["scenarios"]) for row in packet["studies"]) == 9
+    assert packet["basis"]["regional_governorates"] == [
+        "Al-Muthanna", "Al-Qadisiyyah", "Anbar", "Babil", "Baghdad", "Basrah", "Dhi Qar",
+        "Diyala", "Karbala", "Kirkuk", "Maysan", "Najaf", "Nineveh", "Salah al-Din", "Wasit"]
+    assert packet["basis"]["regional_wage_rate_iqd_per_person_hour"] == ["6250", "9427.125"]
+    assert packet["basis"]["regional_scenario_count"] == 135
+    assert sum(len(row["regional_scenarios"]) for row in packet["studies"]) == 135
 
     expected_gbp = {
         "solid-600gsm": Decimal("726.6491688538932633420822398"),
@@ -30,6 +36,7 @@ def test_gfrp_local_fabrication_screens_keep_known_material_costs_and_open_unkno
     for study in packet["studies"]:
         assert study["parent_candidate_id"] == "9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f"
         assert Decimal(study["listed_material_subtotal_gbp"]) == expected_gbp[study["recipe"]]
+        assert Decimal(study["known_listed_material_subtotal_iqd_unrounded"]) == expected_gbp[study["recipe"]] * Decimal("1692.216")
         assert study["source_ids"] and set(study["source_ids"]) <= ids
         assert study["complete_material_cost_iqd"] is None
         assert study["complete_fabrication_cost_iqd"] is None
@@ -42,6 +49,22 @@ def test_gfrp_local_fabrication_screens_keep_known_material_costs_and_open_unkno
             assert Decimal(scenario["direct_labour_iqd"]) == hours * Decimal("9375")
             assert Decimal(scenario["partial_screen_iqd"]) == (base * Decimal("1.20")).quantize(Decimal("0.01"))
             assert scenario["complete_material_cost_iqd"] is None
+            assert scenario["complete_fabrication_cost_iqd"] is None
+            assert scenario["unknown_is_zero"] is False
+        regional = study["regional_scenarios"]
+        assert len(regional) == 45
+        assert {row["governorate"] for row in regional} == set(packet["basis"]["regional_governorates"])
+        assert {row["labour_hours_per_10m2"] for row in regional} == {"8", "16", "32"}
+        assert all(row["wage_employer_burden_included"] is False for row in regional)
+        for scenario in regional:
+            base = (Decimal(study["known_listed_material_subtotal_iqd_unrounded"])
+                    + Decimal(scenario["labour_hours_per_10m2"])
+                    * Decimal(scenario["wage_rate_iqd_per_person_hour"]))
+            assert Decimal(scenario["direct_labour_iqd_unrounded"]) == (
+                Decimal(scenario["labour_hours_per_10m2"])
+                * Decimal(scenario["wage_rate_iqd_per_person_hour"]))
+            assert Decimal(scenario["direct_known_materials_plus_labour_iqd_unrounded"]) == base
+            assert Decimal(scenario["partial_screen_iqd"]) == (base * Decimal("1.20")).quantize(Decimal("0.01"))
             assert scenario["complete_fabrication_cost_iqd"] is None
             assert scenario["unknown_is_zero"] is False
 

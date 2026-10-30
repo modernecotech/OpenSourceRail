@@ -609,6 +609,8 @@ def main(argv=None):
                 output_path.write_bytes(encoded(payload) + b"\n")
                 _emit(dict(output=str(output_path), packet_id=payload["packet_id"],
                            scenarios=sum(len(row["scenarios"]) for row in payload["studies"]),
+                           regional_scenarios=sum(len(row["regional_scenarios"]) for row in payload["studies"]),
+                           regional_governorate_count=len(payload["basis"]["regional_governorates"]),
                            complete_fabrication_cost_iqd=None, physical_qualification=None))
                 return 0
             if not database.is_file():
