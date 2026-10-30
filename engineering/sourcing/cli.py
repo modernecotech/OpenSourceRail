@@ -430,6 +430,7 @@ def _estimate_takeoff(store, *, takeoff_path, recipe_path, output_path):
         "engineering/sourcing/database.py", "engineering/sourcing/requirements.py",
         "engineering/sourcing/data/supplier-catalogue.json",
         "engineering/sourcing/data/public-feeds.json",
+        "engineering/sourcing/data/iraq-domestic-2026-july.json",
         "engineering/station_rail/common.py",
     )
     source_hashes = {name: inputs.digest(ROOT / name) for name in source_names}
@@ -472,7 +473,8 @@ def _material_takeoff(*, input_path, member, as_of, output_path):
     source_hashes = publication.sources(root=ROOT)
     source_hashes["engineering/sourcing/cli.py"] = inputs.digest(ROOT / "engineering/sourcing/cli.py")
     for name in ("engineering/sourcing/data/supplier-catalogue.json",
-                 "engineering/sourcing/data/public-feeds.json"):
+                 "engineering/sourcing/data/public-feeds.json",
+                 "engineering/sourcing/data/iraq-domestic-2026-july.json"):
         source_hashes[name] = inputs.digest(ROOT / name)
     result["source_sha256"] = source_hashes
     result.pop("takeoff_id", None)
@@ -529,20 +531,33 @@ def main(argv=None):
             source_evidence_hashes = {}
             source_registry = [row for row in load_catalogue() if row["kind"] == "source"]
             for relative in ("engineering/sourcing/data/supplier-catalogue.json",
-                             "engineering/sourcing/data/public-feeds.json"):
+                             "engineering/sourcing/data/public-feeds.json",
+                             "engineering/sourcing/data/iraq-domestic-2026-july.json"):
                 source_evidence_hashes[relative] = inputs.digest(ROOT / relative)
             if args.regional_cost_reference is not None:
                 regional_path = args.regional_cost_reference.expanduser().resolve()
                 regional_reference = inputs.read_json(regional_path)
                 source_evidence_hashes[regional_path.relative_to(ROOT).as_posix()
                                        if regional_path.is_relative_to(ROOT) else regional_path.name] = inputs.digest(regional_path)
-                for row in regional_reference.get("baghdad_concrete_takeoff_estimates", []):
+                regional_rows = regional_reference.get("regional_concrete_takeoff_estimates")
+                if regional_rows is None:
+                    regional_rows = [dict(row, region="Baghdad", region_slug="baghdad")
+                                     for row in regional_reference.get("baghdad_concrete_takeoff_estimates", [])]
+                for row in regional_rows:
                     hours = str(row.get("labour_hours_per_nominal_m3"))
-                    estimate_path = regional_path.parent / ("baghdad-concrete-takeoff-" + hours + "h.json")
+                    region = row.get("region", "Baghdad")
+                    estimate_name = row.get("estimate_file")
+                    if estimate_name is None:
+                        estimate_name = "baghdad-concrete-takeoff-" + hours + "h.json"
+                    if (not isinstance(estimate_name, str)
+                            or Path(estimate_name).name != estimate_name
+                            or not estimate_name.endswith(".json")):
+                        raise ValueError("Concrete estimate filename must be a safe JSON basename")
+                    estimate_path = regional_path.parent / estimate_name
                     estimate_packet = inputs.read_json(estimate_path)
                     if estimate_packet.get("estimate_packet_id") != row.get("estimate_packet_id"):
                         raise ValueError("Regional cost index and concrete estimate packet identity differ")
-                    concrete_estimates.append((hours, estimate_packet))
+                    concrete_estimates.append((region, hours, estimate_packet))
                     source_evidence_hashes[estimate_path.relative_to(ROOT).as_posix()
                                            if estimate_path.is_relative_to(ROOT) else estimate_path.name] = inputs.digest(estimate_path)
             packet = build_procurement_bom(

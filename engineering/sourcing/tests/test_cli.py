@@ -1,5 +1,6 @@
 """CLI launch, local storage and bounded sourcing command contracts."""
 import json
+import gzip
 from pathlib import Path
 import sys
 from types import SimpleNamespace
@@ -90,7 +91,7 @@ def test_status_on_missing_database_does_not_create_it(tmp_path, capsys):
 
 
 def test_gfrp_regional_estimate_cli_needs_no_database_and_reports_all_scenarios(tmp_path, capsys):
-    packet_root = cli.ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v7"
+    packet_root = cli.ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v10"
     output = tmp_path / "gfrp-regional.json"
     assert cli.main(["estimate", "gfrp-laminate", "--packet-root", str(packet_root),
                      "--output", str(output)]) == 0
@@ -100,6 +101,25 @@ def test_gfrp_regional_estimate_cli_needs_no_database_and_reports_all_scenarios(
     assert result["regional_governorate_count"] == 15
     assert packet["schema"] == "osr-iraq-gfrp-local-fabrication-cost-screens/2"
     assert packet["complete_fabrication_cost_iqd"] is None
+
+
+def test_procurement_bom_cli_links_regional_2026_concrete_scenarios(tmp_path, capsys):
+    source_input = cli.ROOT / "docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-domestic-sources-v6/input.json.gz"
+    reference = cli.ROOT / "docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-july-v2/iraq-domestic-cost-reference-2026-07.json"
+    output = tmp_path / "procurement-bom.json.gz"
+    assert cli.main(["procurement-bom", "--input", str(source_input),
+                     "--regional-cost-reference", str(reference), "--output", str(output)]) == 0
+    result = json.loads(capsys.readouterr().out)
+    packet = json.loads(gzip.decompress(output.read_bytes()))
+    assert result["packages_with_domestic_cost_estimates"] == 81
+    assert result["domestic_cost_estimate_scenario_count"] == 486
+    assert result["complete_installed_bom"] is False
+    concrete = [row for row in packet["packages"]
+                if row["package_family"] == "civil-concrete-stock-package"]
+    assert len(concrete) == 81
+    assert all(len(row["domestic_cost_estimate_scenarios"]) == 6 for row in concrete)
+    assert {scenario["region"] for row in concrete
+            for scenario in row["domestic_cost_estimate_scenarios"]} == {"Baghdad", "Al-Muthanna"}
 
 
 def test_run_verify_show_and_rfq_export_are_local_disabled_review_steps(tmp_path, capsys):

@@ -239,6 +239,7 @@ def _make_packet(records, takeoff, takeoff_path):
         "engineering/sourcing/catalogue.py": inputs.digest(ROOT / "engineering/sourcing/catalogue.py"),
         "engineering/sourcing/data/supplier-catalogue.json": inputs.digest(ROOT / "engineering/sourcing/data/supplier-catalogue.json"),
         "engineering/sourcing/data/public-feeds.json": inputs.digest(ROOT / "engineering/sourcing/data/public-feeds.json"),
+        "engineering/sourcing/data/iraq-domestic-2026-july.json": inputs.digest(ROOT / "engineering/sourcing/data/iraq-domestic-2026-july.json"),
         "takeoff_file": inputs.digest(takeoff_file),
     }
     source_id = source_records["iraq.cso.regional-materials-wages-2025"]["record_id"]
@@ -312,6 +313,192 @@ def _make_packet(records, takeoff, takeoff_path):
     packet["source_epoch_id"] = identity(records)
     packet["packet_id"] = identity(packet)
     return packet, takeoff_packets
+
+
+def _make_2026_july_reference(records, takeoff, takeoff_path):
+    """Build same-period Iraq-origin material and governorate-wage scenarios.
+
+    Material prices are the CSO's national-market Iraqi-origin row for July 2026;
+    wages are the same bulletin's governorate-specific daily observations divided
+    by an explicit eight-hour workday. Candidate takeoff estimates are emitted
+    only for Baghdad and Al-Muthanna as transparent location comparisons; the
+    railway route/location is not selected by this report.
+    """
+    benchmarks = _benchmark_index(records)
+    source_records = _source_index(records)
+    source = source_records.get("iraq.cso.regional-materials-wages-2026-07")
+    if source is None:
+        raise ValueError("Exact July 2026 CSO source record is required")
+
+    material_map = (
+        ("Ordinary Iraqi-origin cement", "0.35", "t", "cement-ordinary"),
+        ("Iraqi-origin red sand", "0.50", "m3", "sand-red"),
+        ("Iraqi-origin crushed gravel", "0.80", "m3", "gravel-crushed"),
+    )
+    concrete_keys = [f"iq-cso-2026-07:iraq-origin:material:{suffix}"
+                     for _label, _quantity, _unit, suffix in material_map]
+    concrete_rows = [_must_benchmark(benchmarks, key) for key in concrete_keys]
+    if any(row is None for row in concrete_rows):
+        raise ValueError("July 2026 CSO Iraqi-origin concrete material observations are incomplete")
+    rebar_key = "iq-cso-2026-07:iraq-origin:material:rebar"
+    rebar = _must_benchmark(benchmarks, rebar_key)
+    if rebar is None:
+        raise ValueError("July 2026 CSO Iraqi-origin rebar observation is missing")
+
+    regional = []
+    selected_by_region = {}
+    for region_slug, region_name in REGIONS:
+        wage_key = f"iq-cso-2026-07:{region_slug}:wage:skilled:hour-8h-day"
+        wage = _must_benchmark(benchmarks, wage_key)
+        if wage is None:
+            raise ValueError("July 2026 regional skilled-wage observation is missing: " + wage_key)
+        selected_by_region[region_slug] = wage
+        selected_concrete = {row["record_id"]: row for row in concrete_rows}
+        selected_concrete[wage["record_id"]] = wage
+        concrete_lines = [dict(material_key=label, quantity=quantity,
+                               quantity_unit=unit, benchmark_id=row["record_id"])
+                          for (label, quantity, unit, _suffix), row
+                          in zip(material_map, concrete_rows)]
+        for hours in CONCRETE_HOURS:
+            process = _unit_rate_process(
+                estimate_key=f"iraq-2026-07-{region_slug}-concrete-{hours}h-per-nominal-m3",
+                candidate_id=takeoff["candidate_id"], input_id=takeoff["source_input_id"],
+                output_quantity="1", output_unit="m3",
+                material_lines=deepcopy(concrete_lines),
+                labour_category=f"{region_name} CSO skilled-worker base wage; July 2026 scenario",
+                hours=hours, wage_benchmark=wage, used_benchmarks=selected_concrete)
+            regional.append(dict(region=region_name, region_slug=region_slug,
+                                 family="concrete batching", output_quantity="1",
+                                 output_unit="nominal m3", labour_category="skilled",
+                                 labour_hours_per_output=hours, process=process))
+
+        selected_rebar = {rebar["record_id"]: rebar, wage["record_id"]: wage}
+        for hours in REBAR_HOURS:
+            process = _unit_rate_process(
+                estimate_key=f"iraq-2026-07-{region_slug}-rebar-cut-bend-{hours}h-per-input-t",
+                candidate_id=takeoff["candidate_id"], input_id=takeoff["source_input_id"],
+                output_quantity="1", output_unit="t",
+                material_lines=[dict(
+                    material_key="Iraqi-origin July 2026 CSO reinforcing-bar statistic; grade/diameter unresolved",
+                    quantity="1", quantity_unit="t", benchmark_id=rebar["record_id"])],
+                labour_category=f"{region_name} CSO skilled-worker base wage; July 2026 scenario",
+                hours=hours, wage_benchmark=wage, used_benchmarks=selected_rebar)
+            regional.append(dict(region=region_name, region_slug=region_slug,
+                                 family="rebar cut/bend", output_quantity="1",
+                                 output_unit="input tonne", labour_category="skilled",
+                                 labour_hours_per_output=hours, process=process))
+
+    takeoff_file = Path(takeoff_path).resolve()
+    source_hashes = {
+        "engineering/sourcing/iraq_cost_scenarios.py": inputs.digest(Path(__file__)),
+        "engineering/sourcing/fabrication.py": inputs.digest(ROOT / "engineering/sourcing/fabrication.py"),
+        "engineering/sourcing/model.py": inputs.digest(ROOT / "engineering/sourcing/model.py"),
+        "engineering/sourcing/catalogue.py": inputs.digest(ROOT / "engineering/sourcing/catalogue.py"),
+        "engineering/sourcing/data/supplier-catalogue.json": inputs.digest(ROOT / "engineering/sourcing/data/supplier-catalogue.json"),
+        "engineering/sourcing/data/public-feeds.json": inputs.digest(ROOT / "engineering/sourcing/data/public-feeds.json"),
+        "engineering/sourcing/data/iraq-domestic-2026-july.json": inputs.digest(ROOT / "engineering/sourcing/data/iraq-domestic-2026-july.json"),
+        "takeoff_file": inputs.digest(takeoff_file),
+    }
+
+    takeoff_estimates = []
+    mapped_packets = []
+    for region_slug in ("baghdad", "al-muthanna"):
+        region_name = dict(REGIONS)[region_slug]
+        wage = selected_by_region[region_slug]
+        selected = {row["record_id"]: row for row in concrete_rows}
+        selected[wage["record_id"]] = wage
+        material_lines = [dict(material_key=label, quantity=quantity,
+                               quantity_unit=unit, benchmark_id=row["record_id"])
+                          for (label, quantity, unit, _suffix), row
+                          in zip(material_map, concrete_rows)]
+        for hours in CONCRETE_HOURS:
+            process = domestic_fabrication_takeoff_estimate(
+                estimate_key=f"iraq-2026-07-{region_slug}-federated-concrete-takeoff-{hours}h-per-m3",
+                takeoff=takeoff,
+                target_rollup={"system": "civil/concrete", "material": "concrete-hypothesis",
+                               "stock_scope": "nominal-stock"},
+                recipe_output_quantity="1", currency="IQD",
+                material_lines=material_lines,
+                labour_lines=[dict(
+                    labour_category=f"{region_name} CSO skilled-worker base wage; July 2026 scenario",
+                    person_hours=hours, benchmark_id=wage["record_id"])],
+                benchmarks=selected, uplift_fraction="0.20")
+            estimate_packet = dict(
+                schema="osr-domestic-fabrication-takeoff-estimate/1",
+                candidate_id=takeoff["candidate_id"], source_input_id=takeoff["source_input_id"],
+                takeoff_id=takeoff["takeoff_id"], source_ids=process["source_ids"],
+                source_sha256=source_hashes, estimate=process,
+                candidate_takeoff_mapped=True, complete_procurement_cost=None,
+                complete_installed_cost=None, whole_life_cost=None,
+                physical_qualification=None, engineering_accepted=False,
+                procurement_approved=False, selected_reference_changed=False,
+                unknown_is_zero=False)
+            estimate_packet["estimate_packet_id"] = identity(estimate_packet)
+            filename = f"2026-07-{region_slug}-concrete-takeoff-{hours}h.json"
+            row = dict(region=region_name, region_slug=region_slug,
+                       labour_hours_per_nominal_m3=hours,
+                       estimate_packet_id=estimate_packet["estimate_packet_id"],
+                       process_record_id=process["record_id"],
+                       estimate_file=filename,
+                       estimated_unit_cost_iqd_per_nominal_m3=process["estimated_unit_cost"],
+                       estimated_total_iqd=process["estimated_total"],
+                       mapped_group_count=process["candidate_takeoff_group_count"],
+                       mapped_occurrence_count=process["candidate_takeoff_occurrence_count"],
+                       basis=f"CSO July 2026 national Iraqi-origin materials plus {region_name} governorate skilled base wage; 20% on direct material plus labour")
+            takeoff_estimates.append(row)
+            mapped_packets.append((region_name, hours, estimate_packet))
+
+    baghdad_rows = [row for row in takeoff_estimates if row["region_slug"] == "baghdad"]
+    packet = dict(
+        schema="osr-iraq-domestic-cost-reference/2",
+        candidate_id=takeoff["candidate_id"], source_input_id=takeoff["source_input_id"],
+        takeoff_id=takeoff["takeoff_id"], source_ids=[source["record_id"]],
+        source_sha256=source_hashes,
+        basis={
+            "formula":"(material quantity x source rate + person-hours x hourly base wage) x 1.20",
+            "uplift_fraction":"0.20",
+            "uplift_scope":"direct materials plus direct labour only; composition of the allowance is unspecified",
+            "concrete_recipe_per_nominal_m3":{"ordinary_iraqi_origin_cement_t":"0.35",
+                "iraqi_origin_red_sand_m3":"0.50","iraqi_origin_crushed_gravel_m3":"0.80"},
+            "labour_hours_scenarios_per_nominal_m3":list(CONCRETE_HOURS),
+            "rebar_labour_hours_scenarios_per_input_tonne":list(REBAR_HOURS),
+            "material_source_basis":"CSO July 2026 national-market Iraqi-origin rows; not governorate-specific and not supplier quotes",
+            "wage_source_basis":"CSO July 2026 governorate worker daily rate divided by explicit 8-hour workday; excludes employer burden",
+            "candidate_takeoff_regions":["Baghdad","Al-Muthanna"],
+            "candidate_takeoff_region_selection":"Comparison scenarios only; the candidate route and factory location are not selected",
+        },
+        unit_rate_estimates=regional,
+        material_origin_comparisons=[
+            {"material_family":family,"origin_class":origin,"benchmark_key":row["benchmark_key"],
+             "unit_price_iqd":row["unit_price"],"quantity_unit":row["quantity_unit"],
+             "source_id":row["source_id"],"supplier_quote":False}
+            for row in records if row["kind"]=="benchmark"
+            and row.get("benchmark_key","").startswith("iq-cso-2026-07:")
+            and row.get("source_origin_class") is not None
+            for _prefix, origin, _material, family in [row["benchmark_key"].split(":",3)]
+        ],
+        regional_concrete_takeoff_estimates=takeoff_estimates,
+        baghdad_concrete_takeoff_estimates=baghdad_rows,
+        takeoff_mapped_for_baghdad_concrete_estimates=True,
+        takeoff_mapped_for_regional_concrete_estimates=True,
+        candidate_takeoff_mapped_for_unit_rate_estimates=False,
+        complete_procurement_cost=None, complete_process_cost=None,
+        complete_installed_cost=None, whole_life_cost=None,
+        physical_qualification=None, engineering_accepted=False,
+        procurement_approved=False, selected_reference_changed=False,
+        unknown_is_zero=False,
+        limitations=[
+            "CSO material values are national-market statistical rates broken out by reported origin; they are not governorate-specific delivered rates, exact grade quotations or installed prices.",
+            "Worker wage values are per-person daily base averages normalized to an assumed 8-hour day; employer burden, overtime, shifts, training and shop charge-out costs are unknown.",
+            "The one nominal-m3 concrete recipe and 2/4/8-hour labour scenarios are declared sensitivity assumptions, not a designed mix, verified yield or timed factory route.",
+            "The candidate takeoff comparison applies the same declared recipe to 81 concrete manufacturing groups and 486 engineering occurrences in two location/wage scenarios. It does not establish the route or plant location, price reinforcement/prestress, moulds, QA, transport, foundations, installation, maintenance or a complete beam.",
+            "Rebar cut/bend unit scenarios are not mapped to candidate reinforcement quantities because those quantities remain unresolved.",
+            "Steel I-beam and aluminium-window benchmarks are construction-market item averages; section geometry, alloy, exact product scope and railway compatibility remain unresolved and are not used as prices for the selected rail/body stocks.",
+            "The 20% uplift is an unallocated planning allowance on declared direct material plus labour; it is not verified overhead, profit, tax or contingency.",
+        ])
+    packet["source_epoch_id"] = identity(records)
+    packet["packet_id"] = identity(packet)
+    return packet, mapped_packets
 
 
 def _make_2024_material_crosscheck(records, takeoff, takeoff_path):
@@ -411,6 +598,7 @@ def _make_2024_material_crosscheck(records, takeoff, takeoff_path):
         "engineering/sourcing/catalogue.py": inputs.digest(ROOT / "engineering/sourcing/catalogue.py"),
         "engineering/sourcing/data/supplier-catalogue.json": inputs.digest(ROOT / "engineering/sourcing/data/supplier-catalogue.json"),
         "engineering/sourcing/data/public-feeds.json": inputs.digest(ROOT / "engineering/sourcing/data/public-feeds.json"),
+        "engineering/sourcing/data/iraq-domestic-2026-july.json": inputs.digest(ROOT / "engineering/sourcing/data/iraq-domestic-2026-july.json"),
         "takeoff_file": inputs.digest(takeoff_file),
     }
     packet = dict(
@@ -465,7 +653,7 @@ def main(argv=None):
     parser.add_argument("--takeoff", type=Path, required=True,
                         help="Exact sealed candidate-bound material takeoff JSON or .json.gz")
     parser.add_argument("--output", type=Path, required=True,
-                        help="Fresh output directory for the regional report and Baghdad group estimates")
+                        help="Fresh output directory for historical and July 2026 regional reports/estimates")
     args = parser.parse_args(argv)
     destination = args.output.expanduser().resolve()
     if destination.exists() or destination.is_symlink():
@@ -475,10 +663,15 @@ def main(argv=None):
     takeoff = inputs.read_json(args.takeoff)
     packet, takeoff_packets = _make_packet(records, takeoff, args.takeoff)
     _write_fresh(destination / "iraq-domestic-cost-reference-2025.json", packet)
+    current_2026, current_2026_packets = _make_2026_july_reference(records, takeoff, args.takeoff)
+    _write_fresh(destination / "iraq-domestic-cost-reference-2026-07.json", current_2026)
     historical = _make_2024_material_crosscheck(records, takeoff, args.takeoff)
     _write_fresh(destination / "iraq-material-cost-history-crosscheck-2024.json", historical)
     for hours, estimate_packet in takeoff_packets:
         _write_fresh(destination / ("baghdad-concrete-takeoff-" + hours + "h.json"), estimate_packet)
+    for region, hours, estimate_packet in current_2026_packets:
+        region_slug = next(slug for slug, name in REGIONS if name == region)
+        _write_fresh(destination / ("2026-07-" + region_slug + "-concrete-takeoff-" + hours + "h.json"), estimate_packet)
     print(json.dumps({
         "output": str(destination), "packet_id": packet["packet_id"],
         "candidate_id": packet["candidate_id"], "takeoff_id": packet["takeoff_id"],
@@ -486,6 +679,10 @@ def main(argv=None):
         "historical_material_crosscheck_scenarios": len(historical["historical_2024_material_2025_wage_scenarios"]),
         "unavailable_scenarios": len(packet["unavailable_estimates"]),
         "baghdad_takeoff_scenarios": len(packet["baghdad_concrete_takeoff_estimates"]),
+        "july_2026_unit_rate_scenarios": len(current_2026["unit_rate_estimates"]),
+        "july_2026_candidate_takeoff_scenarios": len(current_2026["regional_concrete_takeoff_estimates"]),
+        "july_2026_candidate_takeoff_mapped_groups": sorted({row["mapped_group_count"] for row in current_2026["regional_concrete_takeoff_estimates"]}),
+        "july_2026_candidate_takeoff_mapped_occurrences": sorted({row["mapped_occurrence_count"] for row in current_2026["regional_concrete_takeoff_estimates"]}),
         "complete_installed_cost": None, "physical_qualification": None,
     }, indent=2, ensure_ascii=False))
 

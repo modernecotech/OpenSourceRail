@@ -77,6 +77,7 @@ _DOMESTIC_LEAD_RULES = {
         "iraq.karbala-precast": "Precast production inquiry; product and guideway-beam compatibility unassessed.",
         "iraq.al-fayha-precast": "Precast production inquiry; product and guideway-beam compatibility unassessed.",
         "iraq.al-burhan-precast": "Precast production inquiry; product and guideway-beam compatibility unassessed.",
+        "iraq.icsc-samawa-cement-plant": "Samawa cement-plant lead; current operation, cement grade, supply availability, concrete-mix and precast-beam capability unassessed.",
     },
     ("civil/rails", "60E1-mass-equivalent"): {},
     ("vehicle/body", "aluminium_reference"): {
@@ -86,6 +87,7 @@ _DOMESTIC_LEAD_RULES = {
         "iraq.ii-alco-aluminium": "Profile/sheet supplier inquiry; alloy, temper, product form and design compatibility unassessed.",
         "iraq.alkhassaki-aluminium-project": "Planned project lead only; current operating capacity is not established.",
         "iraq.duraid-al-sudani-metal-fabrication": "Metal fabrication inquiry; aluminium scope and design compatibility unassessed.",
+        "iraq.scosi-extrusion-press-components-2026-03": "Documented local tooling/machining work for an aluminium-extrusion press; not an aluminium profile supplier or passenger-body fabricator, with capacity and price unassessed.",
     },
     ("vehicle/body", "gfrp_skin_research"): {
         "iraq-nubin-grp-facade": "GRP/GFRP façade manufacturing inquiry; passenger-body qualification unassessed.",
@@ -339,15 +341,33 @@ def _attach_domestic_concrete_estimates(packages, reference, estimate_packets,
     if reference is None and not estimate_packets:
         return 0, 0, None
     if (not isinstance(reference, dict)
-            or reference.get("schema") != "osr-iraq-domestic-cost-reference/1"
+            or reference.get("schema") not in {"osr-iraq-domestic-cost-reference/1",
+                                                "osr-iraq-domestic-cost-reference/2"}
             or reference.get("packet_id") != identity(
                 {key:value for key,value in reference.items() if key!="packet_id"})
             or reference.get("candidate_id") != candidate_id
             or reference.get("source_input_id") != source_input_id
             or reference.get("takeoff_mapped_for_baghdad_concrete_estimates") is not True):
         raise ValueError("Exact same-candidate regional domestic-cost reference required")
+    regional_rows = reference.get("regional_concrete_takeoff_estimates")
+    if regional_rows is None:
+        regional_rows = [dict(row, region="Baghdad", region_slug="baghdad")
+                         for row in reference.get("baghdad_concrete_takeoff_estimates", [])]
+    if (not isinstance(regional_rows, list) or not regional_rows
+            or len({(row.get("region"), str(row.get("labour_hours_per_nominal_m3")))
+                    for row in regional_rows if isinstance(row, dict)}) != len(regional_rows)):
+        raise ValueError("Distinct region and labour-hour takeoff scenarios are required")
     indexed = {}
-    for hours, estimate_packet in estimate_packets:
+    for item in estimate_packets:
+        if not isinstance(item, (tuple, list)) or len(item) not in (2, 3):
+            raise ValueError("Concrete estimate packets must carry a region and labour-hour scenario")
+        if len(item) == 2:
+            hours, estimate_packet = item
+            region = "Baghdad"
+        else:
+            region, hours, estimate_packet = item
+        if not isinstance(region, str) or not region.strip():
+            raise ValueError("A concrete estimate governorate label is required")
         if (not isinstance(estimate_packet, dict)
                 or estimate_packet.get("schema") != "osr-domestic-fabrication-takeoff-estimate/1"
                 or estimate_packet.get("estimate_packet_id") != identity(
@@ -358,8 +378,6 @@ def _attach_domestic_concrete_estimates(packages, reference, estimate_packets,
                 or estimate_packet.get("candidate_takeoff_mapped") is not True):
             raise ValueError("Domestic cost scenario does not bind to the exact candidate/takeoff")
         hours = str(hours)
-        if hours in indexed:
-            raise ValueError("Duplicate domestic cost labour-hour scenario")
         process = estimate_packet.get("estimate")
         validate_record(process, "process")
         if (process.get("candidate_id") != candidate_id
@@ -377,17 +395,20 @@ def _attach_domestic_concrete_estimates(packages, reference, estimate_packets,
             if not isinstance(row.get("fabrication_scenario"), dict):
                 raise ValueError("Per-group material/labour estimate is missing")
             by_group[group_id] = row
-        indexed[str(hours)] = (estimate_packet, process, by_group)
+        key = (region.strip(), str(hours))
+        if key in indexed:
+            raise ValueError("Duplicate regional concrete estimate scenario")
+        indexed[key] = (estimate_packet, process, by_group)
 
-    refs = {str(row["labour_hours_per_nominal_m3"]):row
-            for row in reference.get("baghdad_concrete_takeoff_estimates", [])}
+    refs = {(str(row.get("region", "Baghdad")),
+             str(row["labour_hours_per_nominal_m3"])): row for row in regional_rows}
     if set(indexed) != set(refs) or not indexed:
         raise ValueError("Regional reference and exact takeoff estimate scenario set differ")
     concrete_group_ids = {group_id for package in packages
                           if package["package_family"] == "civil-concrete-stock-package"
                           for group_id in package["manufacturing_group_ids"]}
-    for hours, (estimate_packet, process, by_group) in indexed.items():
-        if refs[hours].get("estimate_packet_id") != estimate_packet["estimate_packet_id"]:
+    for key, (estimate_packet, process, by_group) in indexed.items():
+        if refs[key].get("estimate_packet_id") != estimate_packet["estimate_packet_id"]:
             raise ValueError("Regional reference points to a different takeoff estimate packet")
         if set(by_group) != concrete_group_ids:
             raise ValueError("Regional takeoff estimates do not cover exactly the concrete span packages")
@@ -401,7 +422,8 @@ def _attach_domestic_concrete_estimates(packages, reference, estimate_packets,
             raise ValueError("One exact source concrete group per span package is required")
         group_id = package["manufacturing_group_ids"][0]
         scenario_rows = []
-        for hours, (estimate_packet, process, by_group) in sorted(indexed.items(), key=lambda item:Decimal(item[0])):
+        for (region, hours), (estimate_packet, process, by_group) in sorted(
+                indexed.items(), key=lambda item:(item[0][0], Decimal(item[0][1]))):
             group = by_group.get(group_id)
             if group is None:
                 raise ValueError("Concrete package group has no matching domestic cost estimate")
@@ -412,6 +434,7 @@ def _attach_domestic_concrete_estimates(packages, reference, estimate_packets,
             if Decimal(scenario["output_quantity"]) != Decimal(package["nominal_stock_volume_m3"]):
                 raise ValueError("Concrete package volume differs from the cost estimate basis")
             scenario_rows.append({
+                "region": region,
                 "labour_hours_per_nominal_m3": hours,
                 "currency": scenario["currency"],
                 "nominal_stock_volume_m3": scenario["output_quantity"],
@@ -428,7 +451,9 @@ def _attach_domestic_concrete_estimates(packages, reference, estimate_packets,
                 "commercial_order_unit": None,
                 "complete_process_cost": None,
                 "complete_installed_cost": None,
-                "basis": "CSO 2025 Baghdad material/wage observations; illustrative mix and declared labour scenario; 20% uplift on direct material plus labour",
+                "basis": refs[(region, hours)].get(
+                    "basis",
+                    "CSO 2025 Baghdad material/wage observations; illustrative mix and declared labour scenario; 20% uplift on direct material plus labour"),
             })
         package["domestic_cost_estimate_scenarios"] = scenario_rows
         package_count += 1

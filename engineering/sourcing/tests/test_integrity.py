@@ -42,9 +42,10 @@ def test_scope_aliases_and_within_line_double_charges_rejected(paths):
 
 
 def test_actual_combined_catalogue_retains_provenance_and_exact_area_tiers():
-    values=load_catalogue();assert len(values)==307
-    assert len([v for v in values if v["kind"]=="source"])==69
+    values=load_catalogue();assert len(values)==416
+    assert len([v for v in values if v["kind"]=="source"])==72
     assert len([v for v in values if v["kind"]=="product"])==16
+    assert len([v for v in values if v["kind"]=="benchmark"])==320
     p=next(v for v in values if v["kind"]=="product" and v["product_key"]=="EC-GF-BA-440-127")
     rates=[v for v in values if v["kind"]=="fx"]
     cbi_rate=next(v for v in rates if v["base_currency"]=="GBP" and v["quote_currency"]=="IQD")

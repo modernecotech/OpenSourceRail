@@ -171,6 +171,42 @@ def test_domestic_cable_composite_and_copper_leads_are_not_products_or_prices():
     assert sources['iraq.dici-copper-wire-line']['source_kind']=='industrial_directory'
 
 
+def test_iraq_july_2026_material_origins_and_governorate_wages_are_statistical_inputs():
+    values=load_catalogue()
+    sources={value['source_key']:value for value in values if value['kind']=='source'}
+    benchmarks={value['benchmark_key']:value for value in values if value['kind']=='benchmark'}
+    source=sources['iraq.cso.regional-materials-wages-2026-07']
+    assert source['source_kind']=='national_statistic'
+    assert source['observation_period']=='2026-07'
+    assert len([key for key in benchmarks if key.startswith('iq-cso-2026-07:')])==106
+    expected_materials={
+        'iq-cso-2026-07:iraq-origin:material:cement-ordinary':('105000','t'),
+        'iq-cso-2026-07:iraq-origin:material:sand-red':('20000','m3'),
+        'iq-cso-2026-07:iraq-origin:material:gravel-crushed':('22000','m3'),
+        'iq-cso-2026-07:iraq-origin:material:rebar':('965000','t'),
+        'iq-cso-2026-07:arab-origin:material:rebar':('1020000','t'),
+        'iq-cso-2026-07:foreign-origin:material:rebar':('1056000','t'),
+        'iq-cso-2026-07:iraq-origin:material:steel-i-beam':('17000','m'),
+    }
+    for key,(price,unit) in expected_materials.items():
+        row=benchmarks[key]
+        assert (row['unit_price'],row['quantity_unit'])==(price,unit)
+        assert row['source_id']==source['record_id']
+        assert row['supplier_quote'] is False
+        assert row['target_installed_rate'] is False
+    wage_keys=[key for key in benchmarks if key.startswith('iq-cso-2026-07:') and ':wage:' in key]
+    assert len(wage_keys)==90
+    assert benchmarks['iq-cso-2026-07:baghdad:wage:skilled:hour-8h-day']['unit_price']=='9375'
+    assert benchmarks['iq-cso-2026-07:al-muthanna:wage:skilled:hour-8h-day']['unit_price']=='7500'
+    assert benchmarks['iq-cso-2026-07:salah-al-din:wage:skilled:hour-8h-day']['unit_price']=='5000'
+    assert all(benchmarks[key]['employer_burden_included'] is False for key in wage_keys)
+    assert sources['iraq.scosi-extrusion-press-components-2026-03']['source_kind']=='factory_catalogue'
+    assert sources['iraq.icsc-samawa-cement-plant']['source_kind']=='manufacturer_catalogue'
+    assert not [row for row in values if row['kind']=='offer'
+                and row['source_id'] in {sources['iraq.scosi-extrusion-press-components-2026-03']['record_id'],
+                                         sources['iraq.icsc-samawa-cement-plant']['record_id']}]
+
+
 def test_load_returns_copies(tmp_path):
     path=write_seed(tmp_path/'seed.json',raw_seed());a=load_catalogue([path]);a[0]['publisher']='mutated'
     assert load_catalogue([path])!=a

@@ -7,7 +7,7 @@ from engineering.sourcing.catalogue import load_catalogue
 from engineering.sourcing.iraq_gfrp_cost_scenarios import _build
 
 ROOT = Path(__file__).resolve().parents[3]
-PACKETS = ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v7"
+PACKETS = ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v10"
 
 
 def test_gfrp_local_fabrication_screens_keep_known_material_costs_and_open_unknowns():
@@ -23,7 +23,7 @@ def test_gfrp_local_fabrication_screens_keep_known_material_costs_and_open_unkno
     assert packet["basis"]["regional_governorates"] == [
         "Al-Muthanna", "Al-Qadisiyyah", "Anbar", "Babil", "Baghdad", "Basrah", "Dhi Qar",
         "Diyala", "Karbala", "Kirkuk", "Maysan", "Najaf", "Nineveh", "Salah al-Din", "Wasit"]
-    assert packet["basis"]["regional_wage_rate_iqd_per_person_hour"] == ["6250", "9427.125"]
+    assert packet["basis"]["regional_wage_rate_iqd_per_person_hour"] == ["5000", "9375"]
     assert packet["basis"]["regional_scenario_count"] == 135
     assert sum(len(row["regional_scenarios"]) for row in packet["studies"]) == 135
 

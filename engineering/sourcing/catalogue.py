@@ -12,7 +12,8 @@ from pathlib import Path
 from .model import encoded, record, text, validate_record, is_id
 
 DATA = Path(__file__).resolve().parent / "data"
-DEFAULT_PATHS = (DATA / "supplier-catalogue.json", DATA / "public-feeds.json")
+DEFAULT_PATHS = (DATA / "supplier-catalogue.json", DATA / "public-feeds.json",
+                 DATA / "iraq-domestic-2026-july.json")
 GROUPS = ("products", "offers", "fx", "benchmarks", "processes")
 MAX_SEED_BYTES = 16 * 1024 ** 2
 MAX_SEED_RECORDS = 10000

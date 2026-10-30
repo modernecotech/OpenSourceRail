@@ -2,7 +2,7 @@
 
 The packet combines the listed GBP material extensions from three exact 10 m²
 laminate studies with a dated CBI GBP/IQD reference rate and an explicit CSO
-Baghdad base wage.  Unpriced core/adhesive and other process scope remain open;
+governorate base wage. Unpriced core/adhesive and other process scope remain open;
 the resulting amount is a partial scenario, never a complete fabrication cost.
 """
 from argparse import ArgumentParser
@@ -25,7 +25,7 @@ REGION_LABELS = {
     "najaf": "Najaf", "nineveh": "Nineveh", "salah-al-din": "Salah al-Din", "wasit": "Wasit",
 }
 REGIONAL_WAGE_HOURS = ("8", "16", "32")
-PACKET_PATHS = {key: Path("docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v7") / key
+PACKET_PATHS = {key: Path("docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v10") / key
                 for key in RECIPES}
 CENT = Decimal("0.01")
 
@@ -124,14 +124,14 @@ def _build(records, packet_root, *, labour_hours=HOURS):
     if len(fx_rows) != 1 or fx_rows[0].get("executable_transaction_rate") is not False:
         raise ValueError("Exact dated non-executable CBI GBP/IQD reference is required")
     fx = fx_rows[0]
-    wage_key = "iq-cso-2025-regional:baghdad:wage:skilled:hour-8h-day"
+    wage_key = "iq-cso-2026-07:baghdad:wage:skilled:hour-8h-day"
     wage = benchmarks.get(wage_key)
     if wage is None or wage.get("is_manufactured_product_price") is not False:
         raise ValueError("Exact CSO Baghdad skilled-worker wage benchmark required")
     if wage.get("currency") != "IQD" or wage.get("quantity_unit") != "h":
         raise ValueError("Wage benchmark must be normalized to IQD/person-hour")
     regional_wages = [row for key, row in benchmarks.items()
-                      if key.startswith("iq-cso-2025-regional:") and ":wage:skilled:hour-8h-day" in key]
+                      if key.startswith("iq-cso-2026-07:") and ":wage:skilled:hour-8h-day" in key]
     by_region = {row["benchmark_key"].split(":")[1]: row for row in regional_wages}
     if (set(by_region) != set(REGION_LABELS) or len(regional_wages) != len(REGION_LABELS)
             or any(row.get("currency") != "IQD" or row.get("quantity_unit") != "h"
@@ -254,6 +254,7 @@ def _build(records, packet_root, *, labour_hours=HOURS):
         "engineering/sourcing/catalogue.py": inputs.digest(ROOT / "engineering/sourcing/catalogue.py"),
         "engineering/sourcing/data/supplier-catalogue.json": inputs.digest(ROOT / "engineering/sourcing/data/supplier-catalogue.json"),
         "engineering/sourcing/data/public-feeds.json": inputs.digest(ROOT / "engineering/sourcing/data/public-feeds.json"),
+        "engineering/sourcing/data/iraq-domestic-2026-july.json": inputs.digest(ROOT / "engineering/sourcing/data/iraq-domestic-2026-july.json"),
     }
     for recipe in RECIPES:
         folder = packet_root / recipe
@@ -269,10 +270,10 @@ def _build(records, packet_root, *, labour_hours=HOURS):
             fx_source_id=fx["source_id"], fx_record_id=fx["record_id"], fx_date=fx["rate_date"],
             fx_rate=fx["rate"], executable_fx=False,
             wage_source_id=wage["source_id"], wage_benchmark_id=wage["record_id"],
-            wage_basis="2025 CSO Baghdad skilled-worker average normalized from a reported 8-hour day; base wage only, no employer burden",
+            wage_basis="July 2026 CSO Baghdad skilled-worker average normalized from a reported 8-hour day; base wage only, no employer burden",
             labour_scenarios_hours_per_10m2=list(labour_hours),
             regional_wage_source_id=next(iter(by_region.values()))["source_id"],
-            regional_wage_basis="2025 CSO skilled-worker hourly base-wage observations for the 15 listed governorates; excludes Kurdistan Region governorates and employer burden",
+            regional_wage_basis="July 2026 CSO skilled-worker hourly base-wage observations for the 15 listed governorates; excludes Kurdistan Region governorates and employer burden",
             regional_governorates=[REGION_LABELS[key] for key in sorted(by_region)],
             regional_labour_scenarios_hours_per_10m2=list(REGIONAL_WAGE_HOURS),
             regional_wage_rate_iqd_per_person_hour=[
@@ -307,7 +308,7 @@ def _build(records, packet_root, *, labour_hours=HOURS):
 def build(packet_root=None):
     root = ROOT if packet_root is None else Path(packet_root).resolve()
     records = catalogue.load_catalogue()
-    return _build(records, root / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v7")
+    return _build(records, root / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v10")
 
 
 def main(argv=None):
