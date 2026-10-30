@@ -254,11 +254,13 @@ def _apply_edits(plan, edits, actor):
         raise PlanningError('Bounded nonempty edit list required')
     revised = deepcopy(plan)
     lines = {line['id']: line for line in revised['lines']}
+    proposed_stop_ids = set()
     for edit in edits:
         if not isinstance(edit, dict):
             raise PlanningError('Typed planning edit required')
         kind = edit.get('kind')
-        expected_keys = {'set-od': {'kind', 'rows'}, 'move-stop': {'kind', 'line', 'stop', 'chainage_m'},
+        expected_keys = {'set-od': {'kind', 'rows'}, 'add-stop': {'kind', 'line', 'stop', 'chainage_m', 'dwell_s'},
+            'move-stop': {'kind', 'line', 'stop', 'chainage_m'}, 'retire-stop': {'kind', 'line', 'stop'},
             'set-service': {'kind', 'line', 'headway_s', 'dwell_s'}, 'straighten-line': {'kind', 'line'}}.get(kind)
         if expected_keys is None or set(edit) != expected_keys:
             raise PlanningError('Planning edit fields differ from the supported proposal schema')
@@ -268,13 +270,38 @@ def _apply_edits(plan, edits, actor):
         line = lines.get(edit.get('line'))
         if line is None:
             raise PlanningError('Unknown planning line')
-        if kind == 'move-stop':
+        if kind == 'add-stop':
+            stop_id = edit.get('stop')
+            if not isinstance(stop_id, str) or not re.fullmatch(r'[a-z0-9][a-z0-9-]{0,80}', stop_id):
+                raise PlanningError('Bounded lowercase proposed stop identity required')
+            if (stop_id in proposed_stop_ids or
+                    any(stop_id == stop['id'] for item in revised['lines'] for stop in item['stops'])):
+                raise PlanningError('Proposed stop identity already exists')
+            proposed_stop_ids.add(stop_id)
+            chainage = _finite(edit.get('chainage_m'), 'station chainage', 0., line['length_m'])
+            if not 0. < chainage < line['length_m']:
+                raise PlanningError('New station must lie inside the route endpoints')
+            dwell = _finite(edit.get('dwell_s'), 'proposed dwell', 10., 3_600.)
+            lon, lat = _point_at(line['coordinates'], chainage)
+            line['stops'].append(dict(id=stop_id, chainage_m=chainage, lon=lon, lat=lat,
+                dwell_s=dwell, access_and_transfer_reassessment_required=True))
+            line['stops'].sort(key=lambda stop: stop['chainage_m'])
+        elif kind == 'move-stop':
             stop = next((row for row in line['stops'] if row['id'] == edit.get('stop')), None)
             if stop is None:
                 raise PlanningError('Unknown planning stop')
             stop['chainage_m'] = _finite(edit.get('chainage_m'), 'station chainage', 0., line['length_m'])
             stop['lon'], stop['lat'] = _point_at(line['coordinates'], stop['chainage_m'])
             stop['access_and_transfer_reassessment_required'] = True
+        elif kind == 'retire-stop':
+            stop_id = edit.get('stop')
+            if not any(row['id'] == stop_id for row in line['stops']):
+                raise PlanningError('Unknown planning stop')
+            if len(line['stops']) <= 2:
+                raise PlanningError('At least two proposed stations must remain on a line')
+            if any(row.get('origin') == stop_id or row.get('destination') == stop_id for row in revised.get('od', [])):
+                raise PlanningError('Remove or revise OD rows before retiring a station')
+            line['stops'] = [row for row in line['stops'] if row['id'] != stop_id]
         elif kind == 'set-service':
             line['headway_s'] = _finite(edit.get('headway_s'), 'proposed headway', 10., 86_400.)
             dwell = _finite(edit.get('dwell_s'), 'proposed dwell', 10., 3_600.)

@@ -14,9 +14,10 @@ export async function launchBrowser(options={}){
   // filesystem is read-only; Chromium's temporary profile remains writable.
   const probe=spawnSync('bwrap',['--ro-bind','/','/','--dev','/dev','--bind','/tmp','/tmp','--','/usr/bin/test','!','-e','/dev/dri'],{timeout:10000});
   if(probe.status!==0)throw Error('Browser device isolation could not be verified');
-  directory=await mkdtemp(join(tmpdir(),'osr-browser-'));executablePath=join(directory,'chromium');
+  const tempRoot=tmpdir(),extraTempBind=tempRoot==='/tmp'?'':'--bind '+quote(tempRoot)+' '+quote(tempRoot)+' ';
+  directory=await mkdtemp(join(tempRoot,'osr-browser-'));executablePath=join(directory,'chromium');
   await mkdir(join(directory,'config'));await mkdir(join(directory,'cache'));
-  await writeFile(executablePath,'#!/bin/sh\nexec bwrap --die-with-parent --ro-bind / / --dev /dev --bind /tmp /tmp --setenv XDG_CONFIG_HOME '+quote(join(directory,'config'))+' --setenv XDG_CACHE_HOME '+quote(join(directory,'cache'))+' -- '+quote(chromium.executablePath())+' "$@"\n');
+  await writeFile(executablePath,'#!/bin/sh\nexec bwrap --die-with-parent --ro-bind / / --dev /dev --bind /tmp /tmp '+extraTempBind+'--setenv XDG_CONFIG_HOME '+quote(join(directory,'config'))+' --setenv XDG_CACHE_HOME '+quote(join(directory,'cache'))+' -- '+quote(chromium.executablePath())+' "$@"\n');
   await chmod(executablePath,0o700);mode='device-isolated-software';hidden=true;
  }
  try{
