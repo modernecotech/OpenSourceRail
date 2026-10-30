@@ -139,6 +139,13 @@ def _parser():
                              help="Candidate cost-screen publication directory")
     civil_spans.add_argument("--check", action="store_true",
                              help="Verify the saved packet against its exact closure and source inputs")
+    span_rebar = estimate_sub.add_parser(
+        "candidate-span-rebar",
+        help="Estimate local rebar material + assumed labour + 20% for exact federated span packages")
+    span_rebar.add_argument("--output", type=Path,
+                            help="Candidate screen publication directory")
+    span_rebar.add_argument("--check", action="store_true",
+                            help="Verify the saved packet against its exact procurement and rate sources")
 
     report = sub.add_parser("report", help="Publish reproducible candidate-bound comparative reports")
     report_sub = report.add_subparsers(dest="report_command", required=True)
@@ -700,6 +707,12 @@ def main(argv=None):
             return 0
 
         if args.command == "estimate":
+            if args.estimate_command == "candidate-span-rebar":
+                from .federated_span_rebar_cost import publish_packet, verify_packet
+                result = (verify_packet(output=args.output) if args.check else
+                          publish_packet(output=args.output))
+                _emit(result)
+                return 0
             if args.estimate_command == "candidate-civil-spans":
                 from .closure_civil_cost import publish_packet, verify_packet
                 result = (verify_packet(args.output) if args.check else

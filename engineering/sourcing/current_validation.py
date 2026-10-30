@@ -10,7 +10,9 @@ from .model import identity
 from .iraq_logistics_scenarios import SEED as LOGISTICS_SEED
 from .iraq_local_gfrp_cost_scenarios import LABOUR_SEED as HISTORICAL_LABOUR_SEED
 from .iraq_local_gfrp_cost_scenarios import LOCAL_SEED as LOCAL_COMPOSITE_SEED
-from .sensitivity import candidate_sourcing_sensitivity
+from .federated_span_rebar_cost import verify_packet as verify_federated_span_rebar_packet
+from .sensitivity import candidate_sourcing_sensitivity, mass_account_reconciliation_priority
+from engineering.mass_ledger_audit import verify as verify_mass_ledger
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -21,14 +23,17 @@ LAMINATES = "docs/design-engine/sourcing/packets/laminate-materials-iraq-domesti
 REGIONAL = "docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v6/iraq-domestic-cost-reference-2026-09.json"
 GFRP = "docs/design-engine/sourcing/domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v19.json"
 IMPORT_SCREEN = "docs/design-engine/sourcing/domestic-fabrication/cso-imported-aluminium-fabrication-sensitivity-2025-2026.json"
-PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v23.json.gz"
+PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v24.json.gz"
 CONCRETE_RECIPE = "docs/design-engine/sourcing/domestic-fabrication/takeoff-recipes/concrete-material-inputs-2026-09.json"
-LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v8/iraq-span-logistics-sensitivity.json"
-LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v8/manifest.json"
+LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v9/iraq-span-logistics-sensitivity.json"
+LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v9/manifest.json"
+FEDERATED_REBAR = "docs/design-engine/sourcing/domestic-fabrication/federated-span-rebar-screen-2026-10/federated-span-rebar-screen.json"
+FEDERATED_REBAR_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/federated-span-rebar-screen-2026-10/manifest.json"
 LOCAL_GFRP = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/iraq-local-gfrp-retail-screen.json"
 LOCAL_GFRP_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/manifest.json"
 ADDITIONAL_MATERIAL_SOURCES = "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json"
 CONSTRUCTION_WAGES_2024 = "engineering/sourcing/data/iraq-construction-wages-2024.json"
+MASS_RECONCILIATION = "docs/design-engine/mass-reconciliation/current"
 
 
 def read_json(path):
@@ -183,8 +188,8 @@ def build_validation():
     procurement_lead_associations = sum(
         row.get("domestic_fabrication_lead_count", 0)
         for row in procurement.get("material_purchasing_lines", []))
-    if len(additional_material_sources) != 17:
-        raise ValueError("Current supplementary Iraqi source set must contain 17 source-only records")
+    if len(additional_material_sources) != 18:
+        raise ValueError("Current supplementary Iraqi source set must contain 18 source-only records")
     lead_by_key = {
         (row["system"], row["material"]): {
             lead["source_key"]: lead
@@ -195,6 +200,7 @@ def build_validation():
     expected_local_manufacturing_leads = {
         ("wayside/primary", "copper-conductor", "iraq.diwan-electrical-industries"),
         ("wayside/primary", "copper-conductor", "iraq.rs-alnajaf-electrical-factory"),
+        ("wayside/primary", "copper-conductor", "iraq.erbil-copper-cable"),
         ("vehicle/passive-bogie-pair", "steel-reference", "iraq.ibn-majid-heavy-engineering"),
         ("wayside/primary", "linear-steel-hypothesis", "iraq.ibn-majid-heavy-engineering"),
         ("vehicle/body", "gfrp_skin_research", "iraq.haidar-ahmed-mousa.pur-pir-panels"),
@@ -218,7 +224,7 @@ def build_validation():
     hadeed_leads = [lead for row in concrete_lead_lines
                     for lead in row.get("domestic_fabrication_lead_sources", [])
                     if lead.get("source_key") == "iraq.hadeediraq.rebar-marketplace"]
-    if (procurement_lead_associations != 51 or len(concrete_lead_lines) != 1 or len(hadeed_leads) != 1
+    if (procurement_lead_associations != 52 or len(concrete_lead_lines) != 1 or len(hadeed_leads) != 1
             or hadeed_leads[0].get("price_recorded") is not False
             or hadeed_leads[0].get("supplier_quotation") is not False
             or hadeed_leads[0].get("technical_compatibility") is not None
@@ -349,6 +355,9 @@ def build_validation():
             raise ValueError("Copper raw-stock plus labour estimate differs from its sources or limits")
     logistics = read_json(LOGISTICS)
     logistics_manifest = read_json(LOGISTICS_MANIFEST)
+    federated_rebar = read_json(FEDERATED_REBAR)
+    federated_rebar_manifest = read_json(FEDERATED_REBAR_MANIFEST)
+    federated_rebar_verification = verify_federated_span_rebar_packet(root=ROOT)
     logistics_records = load_catalogue([LOGISTICS_SEED])
     local_gfrp = read_json(LOCAL_GFRP)
     local_gfrp_manifest = read_json(LOCAL_GFRP_MANIFEST)
@@ -402,6 +411,23 @@ def build_validation():
             or logistics.get("span_package_count") != 81
             or logistics.get("engineering_occurrence_count") != 486):
         raise ValueError("Current Iraqi logistics packet identity or candidate binding differs")
+    if (federated_rebar.get("packet_id") != identity({
+                key: value for key, value in federated_rebar.items() if key != "packet_id"})
+            or federated_rebar_manifest.get("packet_id") != federated_rebar.get("packet_id")
+            or federated_rebar.get("candidate_id") != procurement.get("candidate_id")
+            or federated_rebar.get("evaluation_id") != procurement.get("evaluation_id")
+            or federated_rebar.get("selection_id") is not None
+            or federated_rebar.get("procurement_bom_packet_id") != procurement.get("packet_id")
+            or federated_rebar.get("regional_cost_reference_packet_id") != regional.get("packet_id")
+            or federated_rebar.get("span_count") != 81
+            or len(federated_rebar.get("network_scenarios", [])) != 6
+            or len(federated_rebar.get("domestic_supplier_discovery_leads", [])) != 5
+            or federated_rebar.get("supplier_offers") != 0
+            or federated_rebar.get("compatible_priced_product_matches") != 0
+            or federated_rebar.get("complete_fabrication_cost_iqd") is not None
+            or federated_rebar.get("installed_cost_iqd") is not None
+            or federated_rebar_verification.get("packet_id") != federated_rebar.get("packet_id")):
+        raise ValueError("Federated candidate rebar estimate identity, scope or open-price boundary differs")
     if (local_gfrp.get("packet_id") != identity({key: value for key, value in local_gfrp.items()
                                                    if key != "packet_id"})
             or local_gfrp_manifest.get("packet_id") != local_gfrp.get("packet_id")
@@ -434,6 +460,17 @@ def build_validation():
     if len(import_rows) != 8 or import_screen["scenario_count"] != 12:
         raise ValueError("Imported-material benchmark or estimate count differs")
     sourcing_sensitivity = candidate_sourcing_sensitivity(procurement)
+    mass_manifest = read_json(MASS_RECONCILIATION + "/manifest.json")
+    mass_verify = verify_mass_ledger(root=ROOT)
+    mass_worksheet = read_gzip_json(MASS_RECONCILIATION + "/mass-closure-worksheet.json.gz")
+    selected_reference_mass_priority = mass_account_reconciliation_priority(mass_worksheet)
+    if (mass_verify.get("manifest_id") != mass_manifest.get("manifest_id")
+            or mass_worksheet.get("candidate_id") != mass_manifest.get("candidate_id")
+            or mass_worksheet.get("evaluation_id") != mass_manifest.get("evaluation_id")
+            or mass_worksheet.get("selection_id") != mass_manifest.get("selection_id")
+            or mass_worksheet.get("worksheet_id") != mass_verify.get("closure_worksheet_id")
+            or mass_worksheet.get("candidate_id") == procurement.get("candidate_id")):
+        raise ValueError("Selected-reference mass priority must be verified and remain separate from the research BOM candidate")
 
     payload = {
         "schema": "osr-sourcing-current-validation/1",
@@ -497,7 +534,9 @@ def build_validation():
                 "benchmark_count": sum(row["kind"] == "benchmark" for row in domestic_material_records),
                 "candidate_product_matches": 0,
                 "priced_offers": 0,
-                "lead_scope": "EPS panels; polyurethane and PIR foam; PU/PIR/rock-wool and EPS-cement building panels; aluminium ingots/alloys/anode blocks; crushed aggregate production and Iraqi construction-material distribution; cement product families; rebar; precast foundation piles; rebar marketplace/RFQ directory; composite raw-material distribution; electrical cables/transformers, station enclosures and panels; heavy steel/aluminium fabrication",
+                "lead_scope": "EPS panels; polyurethane and PIR foam; PU/PIR/rock-wool and EPS-cement building panels; aluminium ingots/alloys/anode blocks; crushed aggregate production and Iraqi construction-material distribution; cement product families; rebar; precast foundation piles; rebar marketplace/RFQ directory; composite raw-material distribution; copper rod/wire and cable manufacturers; electrical cables/transformers, station enclosures and panels; heavy steel/aluminium fabrication",
+                "feeder_cable_quantity_unmapped_source_leads": ["iraq.alrowad-cables"],
+                "feeder_cable_quantity_scope": "Al Rowad is already linked as a general wire/cable discovery lead. The current BOM has no separately reconciled feeder-cable line or exact cable quantity; no feeder-cable price or product match is created.",
                 "structural_core_or_body_qualification": None,
             },
             "construction_wage_history_2024": {
@@ -583,6 +622,31 @@ def build_validation():
                 "complete_installed_cost": logistics["complete_installed_cost"],
                 "physical_qualification": logistics["physical_qualification"],
             },
+            "federated_span_rebar_screen": {
+                "path": FEDERATED_REBAR,
+                "manifest_path": FEDERATED_REBAR_MANIFEST,
+                "packet_id": federated_rebar["packet_id"],
+                "publication_id": federated_rebar_manifest["publication_id"],
+                "candidate_id": federated_rebar["candidate_id"],
+                "evaluation_id": federated_rebar["evaluation_id"],
+                "selection_id": federated_rebar["selection_id"],
+                "procurement_bom_packet_id": federated_rebar["procurement_bom_packet_id"],
+                "span_count": federated_rebar["span_count"],
+                "reinforcement_mass_proxy_kg": federated_rebar["reinforcement_mass_proxy_kg"],
+                "reinforcement_mass_proxy_t": federated_rebar["reinforcement_mass_proxy_t"],
+                "rate_kg_per_m3": federated_rebar["reinforcement_rate_kg_per_m3"],
+                "scenario_count": len(federated_rebar["network_scenarios"]),
+                "local_discovery_lead_count": len(federated_rebar["domestic_supplier_discovery_leads"]),
+                "supplier_offers": federated_rebar["supplier_offers"],
+                "compatible_priced_product_matches": federated_rebar["compatible_priced_product_matches"],
+                "partial_material_labour_plus_20_iqd": [
+                    row["partial_material_labour_plus_20pct_iqd"]
+                    for row in federated_rebar["network_scenarios"]],
+                "purchase_order_quantity_t": federated_rebar["estimated_purchase_quantity_t"],
+                "complete_fabrication_cost_iqd": federated_rebar["complete_fabrication_cost_iqd"],
+                "installed_cost_iqd": federated_rebar["installed_cost_iqd"],
+                "physical_accepted": federated_rebar["physical_accepted"],
+            },
             "gfrp_local_fabrication_screen": {
                 "path": GFRP,
                 "packet_id": gfrp["packet_id"],
@@ -665,6 +729,7 @@ def build_validation():
             "physical_qualification": procurement["physical_qualification"],
         },
         "candidate_sourcing_sensitivity": sourcing_sensitivity,
+        "selected_reference_mass_reconciliation_priority": selected_reference_mass_priority,
         "cso_import_material_benchmarks": {
             "source_key": "iraq.cosit.import-report-2025",
             "source_id": import_source["record_id"],

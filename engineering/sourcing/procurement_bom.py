@@ -69,7 +69,7 @@ _PACKAGE_SPECS = {
     },
 }
 
-_RULE_VERSION = "osr-procurement-package-rules/11"
+_RULE_VERSION = "osr-procurement-package-rules/12"
 
 _DOMESTIC_LEAD_RULES = {
     ("civil/concrete", "concrete-hypothesis"): {
@@ -126,6 +126,7 @@ _DOMESTIC_LEAD_RULES = {
         "iraq.alkhassaki-aluminium-project": "Planned project lead only; current operating capacity is not established.",
     },
     ("wayside/primary", "copper-conductor"): {
+        "iraq.erbil-copper-cable": "Iraqi copper rod/wire manufacturer inquiry for potential conductor stock; alloy/purity certificate, product form, winding insulation, thermal class, price and LIM winding compatibility unassessed.",
         "iraq.ms-cable-busbar": "Cable, bare-conductor and busbar inquiry; LIM winding grade and form compatibility unassessed.",
         "iraq.alrowad-cables": "Wire/cable inquiry; LIM winding grade and conductor-form compatibility unassessed.",
         "iraq.dici-copper-wire-line": "Planned production-line lead only; commissioning and current output are unverified.",

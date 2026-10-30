@@ -26,8 +26,9 @@ def test_additional_domestic_material_leads_remain_source_only():
         "iraq.ibn-majid-heavy-engineering",
         "iraq.haidar-ahmed-mousa.pur-pir-panels",
         "iraq.kanza-iq.sandwich-panel-lines",
+        "iraq.erbil-copper-cable",
     }
-    assert len(rows) == 17
+    assert len(rows) == 18
     assert not [row for row in rows if row["kind"] in {"product", "offer", "benchmark"}]
     assert "10 tonnes/day" in sources["iraq.hemn.eps-factory"]["access"]
     assert "12 to 45 kg/m3" in sources["iraq.helal.polyurethane-foam"]["access"]
@@ -44,4 +45,13 @@ def test_additional_domestic_material_leads_remain_source_only():
     assert "indicative supplier prices, not a Hadeed offer" in sources["iraq.hadeediraq.rebar-marketplace"]["access"]
     assert "no offer or product match is created" in sources["iraq.hadeediraq.rebar-marketplace"]["access"]
     assert "not a qualified passenger-body core" in sources["iraq.haidar-ahmed-mousa.pur-pir-panels"]["access"]
-    assert "the company profile is dated" in sources["iraq.kanza-iq.sandwich-panel-lines"]["access"]
+    assert "dated company-profile document" in sources["iraq.kanza-iq.sandwich-panel-lines"]["access"]
+
+
+def test_erbil_copper_source_is_only_a_candidate_for_future_conductor_inquiry():
+    rows = load_catalogue([SEED])
+    source = next(row for row in rows if row.get("source_key") == "iraq.erbil-copper-cable")
+    assert source["kind"] == "source"
+    assert "copper rod, wire and cable" in source["access"]
+    assert "LIM winding-conductor product" in source["access"]
+    assert "no product, offer, benchmark or candidate match" in source["access"]

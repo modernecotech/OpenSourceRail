@@ -8,6 +8,7 @@ exchange rate between IQD/USD and kilograms.
 from decimal import Decimal
 
 from .model import decimal, decimal_text, identity, is_id, text
+from engineering.station_rail.common import identity as mass_identity
 
 
 def _impact_range(value, key, *, currency=False):
@@ -326,6 +327,253 @@ _UNRANKED_ALTERNATIVES = {
         "joint and cooling layouts matched to the same force/current/temperature envelope",
     ],
 }
+
+
+_MASS_ACCOUNT_ACTIONS = {
+    "retained-comfort/body": {
+        "alternatives_to_evaluate": [
+            "GFRP sandwich shell with a separately verified primary bogie load path",
+            "aluminium frame with locally repairable GFRP panels",
+            "revised aluminium frame and load-transfer joints",
+        ],
+        "simulations_to_rerun": [
+            "body load-path, joint, buckling and fatigue evaluation for each physical candidate",
+            "installed mass, centre-of-gravity and axle-load reconciliation",
+            "vehicle dynamics and propulsion demand if installed mass or placement changes",
+        ],
+        "evidence_requests": [
+            "identity-level source-to-CAD map for the body frame, skins, joints, fitout and finish",
+            "manufacturer or weighed part masses with location, replacement and overlap evidence",
+            "candidate-specific laminate/profile takeoff, process route, scrap yield and timed labour",
+        ],
+    },
+    "passive-bogie-pair": {
+        "alternatives_to_evaluate": [
+            "complete imported passive bogie assembly with a separately specified brake system",
+            "locally fabricated frame with qualified purchased wheelsets, bearings, suspension and brakes",
+        ],
+        "simulations_to_rerun": [
+            "bogie-frame, wheelset, suspension and brake interface analyses for each exact assembly",
+            "vehicle dynamics, axle reactions and wheel-load distribution after installed mass closure",
+        ],
+        "evidence_requests": [
+            "complete bogie mass schedule including wheels, axles, bearings, suspension, brakes and fittings",
+            "supplier or fabrication quote, material certificates, inspection route and NDT evidence",
+            "weighed assembly and installed-position record tied to the physical candidate",
+        ],
+    },
+    "services": {
+        "alternatives_to_evaluate": [
+            "service-battery and auxiliary-equipment arrangement sized for defined rescue and service duties",
+            "distributed versus centralized auxiliary equipment with explicit wiring and mounting mass",
+        ],
+        "simulations_to_rerun": [
+            "auxiliary-power, thermal and rescue-duty evaluation for each bounded equipment set",
+            "installed mass, centre of gravity, axle reactions and vehicle dynamics after placement is known",
+        ],
+        "evidence_requests": [
+            "decompose the service account into exact batteries, controls, wiring, protection and mounts",
+            "supplier datasheets or measured masses, energy limits, installation positions and replacement scope",
+        ],
+    },
+    "retained-comfort/HVAC": {
+        "alternatives_to_evaluate": [
+            "one compact roof unit versus two independently serviceable smaller units",
+            "reduced cooling load through body insulation and solar heat rejection, with Baghdad conditions fixed",
+        ],
+        "simulations_to_rerun": [
+            "hot-weather HVAC capacity and auxiliary-energy analysis for the defined passenger load",
+            "installed mass, centre-of-gravity, axle reactions and vehicle dynamics after equipment selection",
+        ],
+        "evidence_requests": [
+            "OEM mass, capacity, ambient rating, power, refrigerant and mounting schedule at the Baghdad design point",
+            "installed ducting, cabling, drains, service access and support mass",
+        ],
+    },
+    "retained-comfort/seating": {
+        "alternatives_to_evaluate": [
+            "lighter seat construction while retaining 44 fixed seats and two wheelchair places per car",
+            "locally assembled versus purchased seat assemblies with the same passenger and accessibility interfaces",
+        ],
+        "simulations_to_rerun": [
+            "passenger and crowd structural cases for each exact seat and restraint arrangement",
+            "mass, centre-of-gravity and axle-load reconciliation after seat locations are fixed",
+        ],
+        "evidence_requests": [
+            "seat, restraint, pedestal and wheelchair-area part counts with supplier or measured masses",
+            "accessible clearances, attachment details, fire evidence and replacement mapping",
+        ],
+    },
+    "retained-comfort/frame-joints": {
+        "alternatives_to_evaluate": [
+            "qualified bonded, bolted or hybrid joints with explicit inspection and repair access",
+            "joint layout and fastener family sized from interface loads, without dropping required joints",
+        ],
+        "simulations_to_rerun": [
+            "joint bearing, tear-out, adhesive, fatigue and load-transfer checks for each candidate",
+            "body stiffness, fatigue, installed mass and axle-load reconciliation after joint changes",
+        ],
+        "evidence_requests": [
+            "joint-by-joint bill of materials, fastener/adhesive grade, quantity and installed mass",
+            "process cards, installation hours, inspection method and joint test-correlation plan",
+        ],
+    },
+    "attachments": {
+        "alternatives_to_evaluate": [
+            "integrated versus discrete mounting brackets with verified load paths and service access",
+            "locally fabricated bracket families using certified stock and controlled weld/joining processes",
+        ],
+        "simulations_to_rerun": [
+            "mounting load-path and local stress checks for each exact attached system",
+            "installed mass, centre-of-gravity and axle-load reconciliation when positions are resolved",
+        ],
+        "evidence_requests": [
+            "identify every attached item, bracket, fastener and shared/replacement relationship",
+            "supplier/scale mass, mounting coordinates, interface loads and inspection record",
+        ],
+    },
+    "retained-comfort/doors": {
+        "alternatives_to_evaluate": [
+            "complete OEM door assembly against a locally fabricated leaf with qualified purchased mechanism",
+            "door-leaf material options that preserve clear opening, accessibility and emergency release",
+        ],
+        "simulations_to_rerun": [
+            "door aperture, structural frame, accessibility and emergency-egress checks for the exact assembly",
+            "installed mass and vehicle loading after mechanisms, leaves and controls are reconciled",
+        ],
+        "evidence_requests": [
+            "complete mass schedule for mechanism, leaves, glazing, seals, controls, wiring and fixings",
+            "manufacturer datasheet or weighed prototype and the installed-position/interface drawing",
+        ],
+    },
+    "roof-thermal": {
+        "alternatives_to_evaluate": [
+            "insulation and roof-finish stacks with measured areal mass and verified Baghdad thermal duty",
+            "roof-integrated equipment layout with independent mounting and weatherproofing scopes",
+        ],
+        "simulations_to_rerun": [
+            "roof heat-load, local structural support and body-mass/CG evaluation for each stack",
+            "HVAC energy and peak cooling checks if thermal performance changes",
+        ],
+        "evidence_requests": [
+            "roof layer schedule, supplier product data, installation yield, adhesive and finish mass",
+            "fire/smoke evidence and measured mass/position of the complete installed stack",
+        ],
+    },
+    "retained-comfort/glazing": {
+        "alternatives_to_evaluate": [
+            "qualified laminated glazing thicknesses and frame designs at equal visibility and safety requirements",
+            "standardized pane families that preserve emergency and accessible openings",
+        ],
+        "simulations_to_rerun": [
+            "glazing retention, impact, local frame strength and body stiffness checks",
+            "mass, centre-of-gravity and axle-load reconciliation after actual panes and frames are specified",
+        ],
+        "evidence_requests": [
+            "pane-by-pane glass, frame, seal, adhesive and hardware mass schedule",
+            "supplier evidence for glazing construction, safety class, dimensions and installed locations",
+        ],
+    },
+}
+
+
+def mass_account_reconciliation_priority(worksheet):
+    """Rank positive source-account-to-geometry residuals as investigation work.
+
+    Residuals are accounting differences, not physical missing-part masses or
+    uncertainty bounds. This queue is kept separate from research-candidate
+    cost scenarios and cannot imply a candidate preference change.
+    """
+    if not isinstance(worksheet, dict) or worksheet.get("schema") != "osr-v06-mass-closure-worksheet/1":
+        raise ValueError("Exact selected-reference mass closure worksheet required")
+    if worksheet.get("worksheet_id") != mass_identity({key: value for key, value in worksheet.items()
+                                                         if key != "worksheet_id"}):
+        raise ValueError("Mass closure worksheet identity differs")
+    for key in ("candidate_id", "evaluation_id", "selection_id"):
+        if not is_id(worksheet.get(key)):
+            raise ValueError("Mass closure worksheet requires exact " + key)
+    rows = worksheet.get("rows")
+    if not isinstance(rows, list):
+        raise ValueError("Mass closure worksheet rows are required")
+    accounts = [row for row in rows if row.get("record_kind") == "account-closure"]
+    declared_residual_count = worksheet.get("summary", {}).get("account_residual_count")
+    actual_residual_count = sum(
+        decimal(row.get("accounting_residual_kg"), "accounting residual") > Decimal("0.000000001")
+        for row in accounts)
+    if declared_residual_count != actual_residual_count:
+        raise ValueError("Mass closure worksheet account rows do not reconcile to its summary")
+    seen = set()
+    ranked = []
+    for row in accounts:
+        if (row.get("candidate_id") != worksheet["candidate_id"]
+                or row.get("evaluation_id") != worksheet["evaluation_id"]
+                or row.get("selection_id") != worksheet["selection_id"]
+                or row.get("row_id") != mass_identity({key: value for key, value in row.items() if key != "row_id"})):
+            raise ValueError("Mass account row identity differs from its exact worksheet")
+        account_id = row.get("account_id")
+        if not isinstance(account_id, str) or account_id in seen:
+            raise ValueError("Mass account identifiers must be unique")
+        seen.add(account_id)
+        residual = decimal(row.get("accounting_residual_kg"), "accounting residual")
+        if residual <= 0:
+            continue
+        actions = _MASS_ACCOUNT_ACTIONS.get(account_id, {})
+        ranked.append({
+            "account_id": account_id,
+            "accounted_source_mass_kg": decimal_text(decimal(row.get("accounted_source_mass_kg"),
+                                                                   "accounted source mass")),
+            "located_candidate_geometry_mass_kg": decimal_text(decimal(
+                row.get("candidate_geometry_mass_kg"), "candidate geometry mass")),
+            "accounting_residual_kg": decimal_text(residual),
+            "accounting_residual_meaning": "source-accounted mass less the mapped candidate-geometry subtotal; not a physical part or mass-uncertainty interval",
+            "account_closure_row_id": row["row_id"],
+            "source_occurrence_count": len(row.get("source_occurrence_ids", [])),
+            "candidate_geometry_occurrence_count": len(row.get("candidate_geometry_occurrence_ids", [])),
+            "priority_basis": "descending current accounting residual for investigation; not expected weight impact, likelihood or safety ranking",
+            "alternatives_to_evaluate": actions.get("alternatives_to_evaluate", [
+                "decompose the account into exact physical items before comparing candidate-specific alternatives"]),
+            "simulations_to_rerun": actions.get("simulations_to_rerun", [
+                "mass, centre-of-gravity, axle-load and vehicle-dynamics analyses after installed quantities and locations are verified"]),
+            "evidence_requests": actions.get("evidence_requests", list(row.get("evidence_needed", []))),
+            "selection_margin_kg": None,
+            "could_change_preferred": None,
+            "alternative_status": "proposal-only; exact candidate/configuration and evaluation required; no result transfers",
+            "unknown_is_zero": False,
+        })
+    ranked.sort(key=lambda row: (-decimal(row["accounting_residual_kg"], "accounting residual"),
+                                 row["account_id"]))
+    for index, row in enumerate(ranked, 1):
+        row["investigation_rank"] = index
+    summary = worksheet.get("summary", {})
+    payload = {
+        "schema": "osr-selected-reference-mass-reconciliation-priority/1",
+        "candidate_id": worksheet["candidate_id"],
+        "evaluation_id": worksheet["evaluation_id"],
+        "selection_id": worksheet["selection_id"],
+        "mass_closure_worksheet_id": worksheet["worksheet_id"],
+        "method": "prioritize positive accounting residuals by magnitude to guide identity-level reconciliation; keep all mass uncertainty bounds and candidate-preference conclusions open",
+        "interpretation": "The residual queue ranks investigation effort only. Residuals are source-account-to-geometry differences and do not establish missing physical mass, installed mass, a weight saving, or a probability of design change.",
+        "research_candidate_cost_ranks_combined": False,
+        "mass_uncertainty_bounds_available": False,
+        "numeric_mass_sensitivity_rank_count": 0,
+        "account_reconciliation_investigation_count": len(ranked),
+        "account_reconciliation_investigation_queue": ranked,
+        "summary": {
+            "accounted_tare_kg_per_car": summary.get("accounted_tare_kg_per_car"),
+            "located_geometry_mass_kg": summary.get("located_geometry_mass_kg"),
+            "accounting_residual_kg": summary.get("accounting_residual_kg"),
+            "complete_installed_mass_kg": None,
+            "complete_installed_cg_m": None,
+            "axle_reactions": None,
+            "largest_accounting_residual_kg": ranked[0]["accounting_residual_kg"] if ranked else "0",
+            "selection_margin_kg": None,
+            "could_change_preferred": None,
+            "physical_acceptance": None,
+            "unknown_is_zero": False,
+        },
+    }
+    payload["priority_id"] = identity(payload)
+    return payload
 
 
 def candidate_sourcing_sensitivity(procurement_packet):

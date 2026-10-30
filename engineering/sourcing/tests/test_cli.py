@@ -66,6 +66,19 @@ def test_parser_accepts_review_commands_and_bounded_run_inputs(tmp_path):
             cli._parse_product_observations(values)
 
 
+def test_candidate_span_rebar_cli_replays_current_source_bound_packet(capsys):
+    args = cli._parser().parse_args(["estimate", "candidate-span-rebar", "--check"])
+    assert args.estimate_command == "candidate-span-rebar"
+    assert args.check is True
+
+    assert cli.main(["estimate", "candidate-span-rebar", "--check"]) == 0
+    result = json.loads(capsys.readouterr().out)
+    assert result["verified"] is True
+    assert result["span_count"] == 81
+    assert result["reinforcement_mass_proxy_t"] == "216.577152"
+    assert result["complete_fabrication_cost_iqd"] is None
+
+
 def test_repeated_category_budgets_are_distinct_positive_and_exclusive_with_total():
     assert cli._parse_category_budgets(["propulsion=12", "civil=7"]) == {"propulsion": 12, "civil": 7}
     for values, total in ((["civil=7", "civil=9"], None), (["body-materials=0"], None),
@@ -145,7 +158,7 @@ def test_procurement_bom_cli_attaches_ingredient_quantities_to_exact_september_s
 
     assert result["concrete_material_input_takeoff_package_count"] == 81
     assert result["concrete_material_input_takeoff_line_count"] == 243
-    assert packet["source_registry_record_count"] == 94
+    assert packet["source_registry_record_count"] == 101
     assert takeoff["candidate_id"] == packet["candidate_id"]
     assert takeoff["source_input_id"] == packet["source_input_id"]
     assert takeoff["package_count"] == 81
