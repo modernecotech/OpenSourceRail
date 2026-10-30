@@ -25,7 +25,7 @@ REGION_LABELS = {
     "najaf": "Najaf", "nineveh": "Nineveh", "salah-al-din": "Salah al-Din", "wasit": "Wasit",
 }
 REGIONAL_WAGE_HOURS = ("8", "16", "32")
-PACKET_ROOT = Path("docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v16")
+PACKET_ROOT = Path("docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v18")
 PACKET_PATHS = {key: PACKET_ROOT / key
                 for key in RECIPES}
 CENT = Decimal("0.01")

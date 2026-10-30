@@ -777,7 +777,6 @@ def _write_regional_publication(destination, packet):
         f"- Candidate-mapped aluminium raw-stock sensitivities: {len(aluminium)} (two rollups, seven forms, three labour-hour assumptions)",
         "- Complete procurement and installed costs: unknown",
         "- Supplier communication: none sent",
-        "",
     ]
     readme_path = destination / "README.md"
     with readme_path.open("x", encoding="utf-8") as stream:

@@ -9,8 +9,10 @@ def test_current_readme_sourcing_section_checks_current_regional_cost_evidence()
     lines = _sourcing_section(ROOT, {"candidate_id": "reference-candidate"})
     report = "\n".join(lines)
 
-    assert "529 immutable records" in report
+    assert "533 immutable records" in report
     assert "Ministry industrial directory" in report
+    assert "rolled steel profile suppliers" in report
+    assert "ordinary and sulphate-resistant cement producers" in report
     assert "cable and busbar production" in report
     assert "transformers" in report
     assert "discovery leads, not quotations" in report
@@ -18,7 +20,7 @@ def test_current_readme_sourcing_section_checks_current_regional_cost_evidence()
     assert "137 evaluated, 6,905 pending" in report
     assert "nine RFQ drafts remain unsent" in report
     assert "191 draft packages and 8 purchasing/material lines" in report
-    assert "35 domestic-source lead associations across seven families" in report
+    assert "39 domestic-source lead associations across seven families" in report
     assert "materials + labour + 20%" in report
     assert "Baghdad IQD 205.0–326.8m; Al-Muthanna IQD 196.9–294.3m" in report
     assert "4,766/4,773 accounts linked" in report

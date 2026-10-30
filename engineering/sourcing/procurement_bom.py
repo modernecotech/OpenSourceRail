@@ -68,7 +68,7 @@ _PACKAGE_SPECS = {
     },
 }
 
-_RULE_VERSION = "osr-procurement-package-rules/4"
+_RULE_VERSION = "osr-procurement-package-rules/5"
 
 _DOMESTIC_LEAD_RULES = {
     ("civil/concrete", "concrete-hypothesis"): {
@@ -80,6 +80,9 @@ _DOMESTIC_LEAD_RULES = {
         "iraq.al-burhan-sleeper-factory": "Railway concrete sleeper precedent only; current product acceptance, pricing and guideway-beam compatibility unassessed.",
         "iraq.karbala-precast-bridge-beams": "Prestressed bridge-beam inquiry; section, load test, capacity, price and guideway compatibility unassessed.",
         "iraq.icsc-samawa-cement-plant": "Samawa cement-plant lead; current operation, cement grade, supply availability, concrete-mix and precast-beam capability unassessed.",
+        "iraq-saman-cement": "Local OPC/SRC material inquiry; no cement quantity is allocated to this nominal-concrete line, and no mix, batch certificate, price, or precast-beam offer is established.",
+        "iraq-delta-cement": "Local OPC/SRC/PLC material inquiry; no cement quantity is allocated to this nominal-concrete line, and no mix, batch certificate, price, or precast-beam offer is established.",
+        "iraq-darin-steel-rebar": "Rebar RFQ lead for the separately unlocated reinforcement obligations; no rebar quantity is included in this nominal-concrete stock line and no grade-specific offer is established.",
     },
     ("civil/rails", "60E1-mass-equivalent"): {},
     ("vehicle/body", "aluminium_reference"): {
@@ -103,6 +106,7 @@ _DOMESTIC_LEAD_RULES = {
         "iraq.star-steel": "Steel-product lead; bogie scope and qualification unassessed.",
         "iraq.alpha-steel": "Steel-product lead; bogie scope and qualification unassessed.",
         "iraq.duraid-al-sudani-metal-fabrication": "Metal fabrication inquiry; bogie scope and qualification unassessed.",
+        "iraq-med-steel-sections": "Local rolled-profile source inquiry for a possible fabrication route; listed profiles are not a fatigue-qualified bogie product or exact material match.",
     },
     ("vehicle/passive-secondary", "6082-T6-proposed"): {
         "iraq.asia-aluminium": "Profile/sheet supplier inquiry; 6082-T6 temper and product compatibility unassessed.",

@@ -1,4 +1,4 @@
-"""Index the current 529-record sourcing evidence without editing source receipts."""
+"""Index current sourcing evidence without editing source-bound historical packets."""
 import gzip
 import json
 from pathlib import Path
@@ -12,11 +12,11 @@ ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = ROOT / "docs/design-engine/sourcing/validation-current.json"
 FRAME = "docs/design-engine/sourcing/packets/frame-vehicle-iraq-domestic-sources-v13"
 FEDERATION = "docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-domestic-sources-v13"
-LAMINATES = "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v16"
-REGIONAL = "docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v5/iraq-domestic-cost-reference-2026-09.json"
-GFRP = "docs/design-engine/sourcing/domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v16.json"
+LAMINATES = "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v18"
+REGIONAL = "docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v6/iraq-domestic-cost-reference-2026-09.json"
+GFRP = "docs/design-engine/sourcing/domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v19.json"
 IMPORT_SCREEN = "docs/design-engine/sourcing/domestic-fabrication/cso-imported-aluminium-fabrication-sensitivity-2025-2026.json"
-PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v14.json.gz"
+PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v16.json.gz"
 
 
 def read_json(path):
@@ -93,8 +93,8 @@ def build_validation():
 
     direct_source_counts = {kind: sum(row["kind"] == kind for row in records)
                             for kind in ("benchmark", "fx", "offer", "product", "source")}
-    if len(records) != 529 or direct_source_counts["benchmark"] != 426:
-        raise ValueError("Current offline catalogue is not the declared 529-record epoch")
+    if len(records) != 533 or direct_source_counts["benchmark"] != 426:
+        raise ValueError("Current offline catalogue is not the declared 533-record epoch")
     if len(import_rows) != 8 or import_screen["scenario_count"] != 12:
         raise ValueError("Imported-material benchmark or estimate count differs")
 

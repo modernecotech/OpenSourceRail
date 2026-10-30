@@ -33,6 +33,7 @@ def test_regional_publication_writes_markdown_and_seals_its_exact_bytes(tmp_path
     manifest = inputs.read_json(tmp_path / "manifest.json")
     assert readme.startswith("# Iraqi domestic material + labour cost reference")
     assert not readme.startswith('"# ')
+    assert readme.endswith("\n") and not readme.endswith("\n\n")
     assert manifest["file_sha256"]["README.md"] == inputs.digest(tmp_path / "README.md")
 
 
