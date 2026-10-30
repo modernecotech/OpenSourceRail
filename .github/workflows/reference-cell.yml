@@ -25,6 +25,8 @@ jobs:
           python-version: "3.13"
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/requirements.txt
+      - name: Pin NumPy for exact current-cell replay
+        run: .venv/bin/pip install numpy==2.3.5
       - run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/component_registry/tests engineering/reference_cell/tests
       - name: Recompute equipped candidates, civil, manufacturing, costs and explicit holds
         run: ./osr-cell verify-publication
