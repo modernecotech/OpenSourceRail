@@ -1,5 +1,6 @@
 from engineering.sourcing.model import identity, record
 from engineering.sourcing.procurement_bom import (
+    _DOMESTIC_LEAD_RULES,
     _link_unlocated_obligations,
     _material_purchasing_rollup,
 )
@@ -133,3 +134,18 @@ def test_material_purchase_demand_lines_use_physical_units_and_retain_occurrence
     assert scenario["supplier_quote"] is False
     assert scenario["complete_process_cost"] is None
     assert set(concrete["engineering_occurrence_ids"]) == {occurrence_rows[2]["id"]}
+
+
+def test_additional_iraqi_fabrication_leads_are_linked_only_to_relevant_stock_families():
+    concrete = _DOMESTIC_LEAD_RULES[("civil/concrete", "concrete-hypothesis")]
+    body = _DOMESTIC_LEAD_RULES[("vehicle/body", "gfrp_skin_research")]
+    bogie = _DOMESTIC_LEAD_RULES[("vehicle/passive-bogie-pair", "steel-reference")]
+
+    assert "iraq.al-burhan-sleeper-factory" in concrete
+    assert "iraq.karbala-precast-bridge-beams" in concrete
+    assert "iraq.ncpi-chemical-plastic-industries" in body
+    assert "iraq.scosi.foundry-forging" in bogie
+    assert "iraq.al-qader-steel-supply" in bogie
+    assert "compatibility unassessed" in concrete["iraq.karbala-precast-bridge-beams"]
+    assert "qualification unassessed" in body["iraq.ncpi-chemical-plastic-industries"]
+    assert "fatigue" in bogie["iraq.scosi.foundry-forging"]

@@ -3,7 +3,8 @@ from pathlib import Path
 
 from engineering.sourcing import catalogue, inputs
 from engineering.sourcing.iraq_cost_scenarios import (
-    _make_2024_material_crosscheck, _make_2026_july_reference, _make_packet,
+    _make_2024_material_crosscheck, _make_2026_july_reference,
+    _make_2026_september_reference, _make_packet,
 )
 
 
@@ -133,6 +134,61 @@ def test_2026_july_regional_cost_reference_maps_material_plus_labour_plus_20_per
         assert estimate_packet["unknown_is_zero"] is False
         assert estimate_packet["estimate"]["uplift_fraction"] == "0.2"
     assert packet["takeoff_mapped_for_regional_concrete_estimates"] is True
+    assert packet["complete_installed_cost"] is None
+    assert packet["physical_qualification"] is None
+    assert packet["engineering_accepted"] is False
+    assert packet["unknown_is_zero"] is False
+
+
+def test_2026_september_regional_cost_reference_uses_same_period_materials_and_wages():
+    takeoff = inputs.read_json(TAKEOFF)
+    records = catalogue.load_catalogue()
+    packet, estimates = _make_2026_september_reference(records, takeoff, TAKEOFF)
+
+    assert packet["schema"] == "osr-iraq-domestic-cost-reference/2"
+    assert packet["candidate_id"] == takeoff["candidate_id"]
+    assert packet["source_input_id"] == takeoff["source_input_id"]
+    assert packet["takeoff_id"] == takeoff["takeoff_id"]
+    assert packet["basis"]["uplift_fraction"] == "0.20"
+    assert packet["basis"]["material_source_basis"].startswith("CSO 2026-09")
+    assert packet["basis"]["wage_source_basis"].startswith("CSO 2026-09")
+    assert len(packet["unit_rate_estimates"]) == 90
+    assert len(packet["regional_concrete_takeoff_estimates"]) == 6
+    assert {row["mapped_group_count"] for row in packet["regional_concrete_takeoff_estimates"]} == {81}
+    assert {row["mapped_occurrence_count"] for row in packet["regional_concrete_takeoff_estimates"]} == {486}
+
+    expected_takeoff = {
+        ("baghdad", "2"): "113580", ("baghdad", "4"): "136080", ("baghdad", "8"): "181080",
+        ("al-muthanna", "2"): "109080", ("al-muthanna", "4"): "127080", ("al-muthanna", "8"): "163080",
+    }
+    assert {(row["region_slug"], row["labour_hours_per_nominal_m3"]):
+            row["estimated_unit_cost_iqd_per_nominal_m3"]
+            for row in packet["regional_concrete_takeoff_estimates"]} == expected_takeoff
+
+    indexes = {row["record_id"]: row for row in records if row["kind"] == "benchmark"}
+    for row in packet["unit_rate_estimates"]:
+        process = row["process"]
+        assert process["uplift_fraction"] == "0.2"
+        assert process["candidate_id"] == takeoff["candidate_id"]
+        assert process["input_id"] == takeoff["source_input_id"]
+        assert process["candidate_takeoff_mapped"] is False
+        if row["family"] == "concrete batching":
+            assert Decimal(process["direct_material_cost"]) == Decimal("75900")
+            assert any("statistical base-wage observation" in text
+                       for text in process["limitations"])
+            wage = next(indexes[bench_id] for bench_id in process["benchmark_ids"]
+                        if indexes[bench_id].get("labour_category") == "skilled")
+            hours = Decimal(row["labour_hours_per_output"])
+            expected = (Decimal("75900") + hours * Decimal(wage["unit_price"])) * Decimal("1.20")
+            assert Decimal(process["estimated_unit_cost"]) == expected
+
+    for _region, _hours, estimate_packet in estimates:
+        assert estimate_packet["candidate_id"] == takeoff["candidate_id"]
+        assert estimate_packet["takeoff_id"] == takeoff["takeoff_id"]
+        assert estimate_packet["candidate_takeoff_mapped"] is True
+        assert estimate_packet["complete_installed_cost"] is None
+        assert estimate_packet["unknown_is_zero"] is False
+        assert estimate_packet["estimate"]["uplift_fraction"] == "0.2"
     assert packet["complete_installed_cost"] is None
     assert packet["physical_qualification"] is None
     assert packet["engineering_accepted"] is False

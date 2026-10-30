@@ -25,7 +25,8 @@ REGION_LABELS = {
     "najaf": "Najaf", "nineveh": "Nineveh", "salah-al-din": "Salah al-Din", "wasit": "Wasit",
 }
 REGIONAL_WAGE_HOURS = ("8", "16", "32")
-PACKET_PATHS = {key: Path("docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v10") / key
+PACKET_ROOT = Path("docs/design-engine/sourcing/packets/laminate-materials-current")
+PACKET_PATHS = {key: PACKET_ROOT / key
                 for key in RECIPES}
 CENT = Decimal("0.01")
 
@@ -104,7 +105,9 @@ def _money(value):
     return str(Decimal(value).quantize(CENT, rounding=ROUND_HALF_EVEN))
 
 
-def _build(records, packet_root, *, labour_hours=HOURS):
+def _build(records, packet_root, *, labour_hours=HOURS, wage_period="2026-09"):
+    if wage_period not in {"2026-07", "2026-09"}:
+        raise ValueError("Supported CSO wage periods are 2026-07 and 2026-09")
     by_kind = {}
     for record in records:
         by_kind.setdefault(record["kind"], []).append(record)
@@ -124,14 +127,15 @@ def _build(records, packet_root, *, labour_hours=HOURS):
     if len(fx_rows) != 1 or fx_rows[0].get("executable_transaction_rate") is not False:
         raise ValueError("Exact dated non-executable CBI GBP/IQD reference is required")
     fx = fx_rows[0]
-    wage_key = "iq-cso-2026-07:baghdad:wage:skilled:hour-8h-day"
+    wage_prefix = f"iq-cso-{wage_period}:"
+    wage_key = wage_prefix + "baghdad:wage:skilled:hour-8h-day"
     wage = benchmarks.get(wage_key)
     if wage is None or wage.get("is_manufactured_product_price") is not False:
         raise ValueError("Exact CSO Baghdad skilled-worker wage benchmark required")
     if wage.get("currency") != "IQD" or wage.get("quantity_unit") != "h":
         raise ValueError("Wage benchmark must be normalized to IQD/person-hour")
     regional_wages = [row for key, row in benchmarks.items()
-                      if key.startswith("iq-cso-2026-07:") and ":wage:skilled:hour-8h-day" in key]
+                      if key.startswith(wage_prefix) and ":wage:skilled:hour-8h-day" in key]
     by_region = {row["benchmark_key"].split(":")[1]: row for row in regional_wages}
     if (set(by_region) != set(REGION_LABELS) or len(regional_wages) != len(REGION_LABELS)
             or any(row.get("currency") != "IQD" or row.get("quantity_unit") != "h"
@@ -270,10 +274,11 @@ def _build(records, packet_root, *, labour_hours=HOURS):
             fx_source_id=fx["source_id"], fx_record_id=fx["record_id"], fx_date=fx["rate_date"],
             fx_rate=fx["rate"], executable_fx=False,
             wage_source_id=wage["source_id"], wage_benchmark_id=wage["record_id"],
-            wage_basis="July 2026 CSO Baghdad skilled-worker average normalized from a reported 8-hour day; base wage only, no employer burden",
+            wage_observation_period=wage_period,
+            wage_basis=f"{wage_period} CSO Baghdad skilled-worker average normalized from a reported 8-hour day; base wage only, no employer burden",
             labour_scenarios_hours_per_10m2=list(labour_hours),
             regional_wage_source_id=next(iter(by_region.values()))["source_id"],
-            regional_wage_basis="July 2026 CSO skilled-worker hourly base-wage observations for the 15 listed governorates; excludes Kurdistan Region governorates and employer burden",
+            regional_wage_basis=f"{wage_period} CSO skilled-worker hourly base-wage observations for the 15 listed governorates; excludes Kurdistan Region governorates and employer burden",
             regional_governorates=[REGION_LABELS[key] for key in sorted(by_region)],
             regional_labour_scenarios_hours_per_10m2=list(REGIONAL_WAGE_HOURS),
             regional_wage_rate_iqd_per_person_hour=[
@@ -308,7 +313,7 @@ def _build(records, packet_root, *, labour_hours=HOURS):
 def build(packet_root=None):
     root = ROOT if packet_root is None else Path(packet_root).resolve()
     records = catalogue.load_catalogue()
-    return _build(records, root / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v10")
+    return _build(records, root / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v11")
 
 
 def main(argv=None):

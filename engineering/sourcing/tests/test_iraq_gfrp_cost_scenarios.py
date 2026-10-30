@@ -7,7 +7,7 @@ from engineering.sourcing.catalogue import load_catalogue
 from engineering.sourcing.iraq_gfrp_cost_scenarios import _build
 
 ROOT = Path(__file__).resolve().parents[3]
-PACKETS = ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v10"
+PACKETS = ROOT / "docs/design-engine/sourcing/packets/laminate-materials-current"
 
 
 def test_gfrp_local_fabrication_screens_keep_known_material_costs_and_open_unknowns():
@@ -18,6 +18,8 @@ def test_gfrp_local_fabrication_screens_keep_known_material_costs_and_open_unkno
     assert packet["basis"]["fx_rate"] == "1692.216"
     assert packet["basis"]["executable_fx"] is False
     assert packet["basis"]["uplift_fraction"] == "0.20"
+    assert packet["basis"]["wage_observation_period"] == "2026-09"
+    assert "2026-09 CSO" in packet["basis"]["wage_basis"]
     assert len(packet["studies"]) == 3
     assert sum(len(row["scenarios"]) for row in packet["studies"]) == 9
     assert packet["basis"]["regional_governorates"] == [
@@ -75,6 +77,12 @@ def test_gfrp_local_fabrication_screens_keep_known_material_costs_and_open_unkno
     assert next(row for row in sandwich["unresolved_materials"] if row["material_key"] == "core")["known_material_mass_kg"] == "17"
     assert packet["complete_installed_cost_iqd"] is None
     assert packet["physical_qualification"] is None
+
+
+def test_gfrp_screen_can_reproduce_the_retained_july_wage_case():
+    packet = _build(load_catalogue(), PACKETS, wage_period="2026-07")
+    assert packet["basis"]["wage_observation_period"] == "2026-07"
+    assert "2026-07 CSO" in packet["basis"]["wage_basis"]
 
 
 def test_gfrp_screen_refuses_a_modified_source_packet(tmp_path):

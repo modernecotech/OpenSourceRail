@@ -77,6 +77,8 @@ _DOMESTIC_LEAD_RULES = {
         "iraq.karbala-precast": "Precast production inquiry; product and guideway-beam compatibility unassessed.",
         "iraq.al-fayha-precast": "Precast production inquiry; product and guideway-beam compatibility unassessed.",
         "iraq.al-burhan-precast": "Precast production inquiry; product and guideway-beam compatibility unassessed.",
+        "iraq.al-burhan-sleeper-factory": "Railway concrete sleeper precedent only; current product acceptance, pricing and guideway-beam compatibility unassessed.",
+        "iraq.karbala-precast-bridge-beams": "Prestressed bridge-beam inquiry; section, load test, capacity, price and guideway compatibility unassessed.",
         "iraq.icsc-samawa-cement-plant": "Samawa cement-plant lead; current operation, cement grade, supply availability, concrete-mix and precast-beam capability unassessed.",
     },
     ("civil/rails", "60E1-mass-equivalent"): {},
@@ -92,9 +94,12 @@ _DOMESTIC_LEAD_RULES = {
     ("vehicle/body", "gfrp_skin_research"): {
         "iraq-nubin-grp-facade": "GRP/GFRP façade manufacturing inquiry; passenger-body qualification unassessed.",
         "iraq.iraqalhur-grp-factory": "GRP pipe capability only; body-panel capability unassessed.",
+        "iraq.ncpi-chemical-plastic-industries": "Local foam/adhesive and polymer-operations inquiry; infusion resin, glass reinforcement and structural body qualification unassessed.",
     },
     ("vehicle/passive-bogie-pair", "steel-reference"): {
         "iraq.scosi-steel-industries": "General steel fabrication lead; bogie design, fatigue, material and process qualification unassessed.",
+        "iraq.scosi.foundry-forging": "Foundry/forging, heat-treatment and machining inquiry; bogie component identity, grade, fatigue and qualification unassessed.",
+        "iraq.al-qader-steel-supply": "Steel plate/billet supply inquiry; origin, grade, current stock, delivery and bogie compatibility unassessed.",
         "iraq.star-steel": "Steel-product lead; bogie scope and qualification unassessed.",
         "iraq.alpha-steel": "Steel-product lead; bogie scope and qualification unassessed.",
         "iraq.duraid-al-sudani-metal-fabrication": "Metal fabrication inquiry; bogie scope and qualification unassessed.",
