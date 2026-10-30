@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **992**.
+Indexed Markdown files: **993**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **992**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 121 |
+| [docs](#docs) | 122 |
 | [engineering](#engineering) | 26 |
 | [legacy](#legacy) | 30 |
 | [tools](#tools) | 2 |
@@ -980,8 +980,9 @@ Indexed Markdown files: **992**.
 | [`docs/design-engine/reference-cell/validation.md`](../docs/design-engine/reference-cell/validation.md) | Executed sourced reference-cell validation — 28 October 2026 |
 | [`docs/design-engine/sourced-bolster/README.md`](../docs/design-engine/sourced-bolster/README.md) | Next physical experiment: V4 bogie load transfer |
 | [`docs/design-engine/sourced-case/README.md`](../docs/design-engine/sourced-case/README.md) | Published specifications applied to the reference-cell research |
-| [`docs/design-engine/sourced-case/validation.md`](../docs/design-engine/sourced-case/validation.md) | Executed sourced-design research — 28 October 2026 |
+| [`docs/design-engine/sourced-case/validation.md`](../docs/design-engine/sourced-case/validation.md) | Executed sourced-design research — 30 October 2026 |
 | [`docs/design-engine/sourcing/README.md`](../docs/design-engine/sourcing/README.md) | Sourcing and cost intelligence — v0.6 research snapshot |
+| [`docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v2/README.md`](../docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v2/README.md) | Iraqi domestic material + labour cost reference — September 2026 |
 | [`docs/design-engine/station-accelerators/README.md`](../docs/design-engine/station-accelerators/README.md) | Active direction: passive trains and short wayside accelerators |
 | [`docs/design-engine/station-accelerators/findings.md`](../docs/design-engine/station-accelerators/findings.md) | Passive wayside accelerator findings |
 | [`docs/design-engine/trip-dynamics/README.md`](../docs/design-engine/trip-dynamics/README.md) | Six-car journey simulation programme |
