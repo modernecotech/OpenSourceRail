@@ -45,7 +45,7 @@ New rails and fasteners are much lighter than the old magnetic interface stock, 
 
 ## Sourcing and domestic cost coverage
 
-The current sourcing seed contains **282 immutable records**: 60 sources, 16 product observations, 5 published price offers, 3 FX observations and 198 benchmarks. Iraqi source leads now include cement production, steel fabrication and rebar, precast, GRP pipe and façade manufacturing, polymer/resin supply, aluminium extrusion, cable/busbar and transformer production, and an official industrial directory. Source leads are not quotations, qualified products or available capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).
+The current sourcing seed contains **282 immutable records**: 60 sources, 16 product observations, 5 published price offers, 3 FX observations and 198 benchmarks. Iraqi source leads now include the Ministry industrial directory, steel and rebar, metal fabrication, cable and busbar production, transformers, precast concrete, GRP and façade manufacturing, polymer/resin supply, and aluminium extrusion. These company and directory pages are discovery leads, not quotations, qualified products or confirmed capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).
 
 The current selected physical candidate is `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`. The frame and federated sourcing runs instead use research candidates `1b3ae3f4de24f7302827e61047aa4ddb1f087c46ec84f47ec6bb2607b5a1e084` and `9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f`. Their matching results, takeoff and cost screens do not transfer to the selected reference candidate.
 

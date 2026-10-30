@@ -25,6 +25,8 @@ jobs:
           python-version: "3.13"
       - run: python -m venv .venv
       - run: .venv/bin/pip install pytest --requirement engineering/requirements.txt
+      - name: Pin numerical post-processing to the recorded method environment
+        run: .venv/bin/pip install numpy==2.3.5
       - name: Conditional engineering and adversarial evidence contracts
         run: .venv/bin/python -m pytest -q --import-mode=importlib engineering/railway_progress/tests
       - name: Reconstruct all physical candidates, trajectories, production and civil loads

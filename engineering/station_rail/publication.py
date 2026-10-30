@@ -347,7 +347,7 @@ def _sourcing_section(root,record):
             + '; '.join(region_lines)+" after the 20% allowance; Kurdistan Region wage data are absent |")
     return [
       '## Sourcing and domestic cost coverage','',
-      catalogue_line+' Iraqi source leads now include cement production, steel fabrication and rebar, GRP pipe and façade manufacturing, polymer/resin supply, and aluminium extrusion. Source leads are not quotations, qualified products or available capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).','',
+      catalogue_line+' Iraqi source leads now include the Ministry industrial directory, steel and rebar, metal fabrication, cable and busbar production, transformers, precast concrete, GRP and façade manufacturing, polymer/resin supply, and aluminium extrusion. These company and directory pages are discovery leads, not quotations, qualified products or confirmed capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).','',
       identity_note,'',
       '| Research scope | Sourcing evidence | Cost disposition |','|---|---|---|',
       f"| Frame candidate `{frame['candidate_id'][:12]}` | {frame['input_requirement_count']:,} groups; {frame['compatible_matches']} compatible priced matches | Nine RFQ drafts remain unsent; complete installed cost unknown |",

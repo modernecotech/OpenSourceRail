@@ -434,7 +434,10 @@ def overlap_figure(value):
         output = io.BytesIO()
         fig.savefig(output, format='svg', metadata={'Date': None, 'Creator': 'OpenSourceRail'})
         plt.close(fig)
-    return output.getvalue()
+    # Matplotlib emits trailing spaces before several SVG path line breaks.
+    # Strip those without changing the plotted geometry so generated packets
+    # remain clean under git diff --check.
+    return b'\n'.join(line.rstrip() for line in output.getvalue().splitlines()) + b'\n'
 
 
 def retain(root, value):

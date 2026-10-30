@@ -162,6 +162,13 @@ def test_source_epoch_change_invalidates_verification_and_cached_generation(pack
         pipeline.generate(family='gfrp_semimonocoque', distance_m=2000., output=folder, native=False)
 
 
+def test_twin_epoch_tracks_all_direct_propulsion_evaluator_sources():
+    current = pipeline.sources()
+    assert {'engineering/design_search/launch_options.py',
+            'engineering/design_search/moving_lim.py',
+            'engineering/design_search/sparse_launch.py'} <= set(current)
+
+
 @pytest.mark.parametrize('change', ['missing', 'extra'])
 def test_required_artifact_set_cannot_be_changed_by_resealing(package, tmp_path, change):
     folder = copied_package(package[0], tmp_path)

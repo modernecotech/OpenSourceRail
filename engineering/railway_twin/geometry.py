@@ -395,6 +395,9 @@ def verify_ifc(scene, folder, receipt):
 
 
 def _native_command(script):
+    # Flatpak rejects relative --filesystem locations. Resolve both the granted
+    # case folder and worker path while keeping access scoped to that one folder.
+    script = Path(script).resolve()
     direct=shutil.which('FreeCADCmd') or shutil.which('freecadcmd')
     if direct:
         return [direct,str(script)]

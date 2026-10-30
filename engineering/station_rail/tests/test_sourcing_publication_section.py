@@ -9,7 +9,11 @@ def test_current_readme_sourcing_section_checks_and_reports_local_gfrp_screens()
     lines = _sourcing_section(ROOT, {"candidate_id": "reference-candidate"})
     report = "\n".join(lines)
 
-    assert "277 immutable records" in report
+    assert "282 immutable records" in report
+    assert "Ministry industrial directory" in report
+    assert "cable and busbar production" in report
+    assert "transformers" in report
+    assert "discovery leads, not quotations" in report
     assert "4,766/4,773 accounts linked" in report
     assert "230 non-additive associations" in report
     assert "GFRP" in report

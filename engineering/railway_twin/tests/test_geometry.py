@@ -102,6 +102,14 @@ def test_missing_native_tool_is_explicit_not_a_format_substitute(tmp_path,monkey
     with pytest.raises(ValueError):g.verify_native(scene(),tmp_path,forged)
 
 
+def test_flatpak_native_command_uses_absolute_scoped_case_path(tmp_path, monkeypatch):
+    monkeypatch.setattr(g.shutil, 'which', lambda name: '/usr/bin/flatpak' if name == 'flatpak' else None)
+    script = tmp_path / 'native-worker.py'
+    command = g._native_command(script)
+    assert command == ['/usr/bin/flatpak', 'run', '--filesystem=' + str(tmp_path.resolve()),
+                       '--command=FreeCADCmd', 'org.freecad.FreeCAD', str(script.resolve())]
+
+
 def test_translated_repeated_ifc_instances_keep_distinct_occurrence_placements(tmp_path):
     value=scene();first=deepcopy(value['occurrences'][0]);first['id']='same-box-another-car'
     first['translation_m']=[29.5,3.,4.];value['occurrences'].append(first)

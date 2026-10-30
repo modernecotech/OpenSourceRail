@@ -70,6 +70,11 @@ def sources(root=ROOT):
         'engineering/design_search/station_accelerators.py', 'campaigns/station-accelerator-development.toml',
         'engineering/design_search/railway_delivery.py','engineering/design_search/wheel_twin.py',
         'engineering/design_search/fault_response.py','engineering/design_search/test_readiness.py',
+        # Propulsion records bind these direct evaluator inputs. Keep them in the
+        # outer twin epoch too, so a changed evaluator invalidates the request
+        # and the source archive before semantic replay reaches stale evidence.
+        'engineering/design_search/launch_options.py','engineering/design_search/moving_lim.py',
+        'engineering/design_search/sparse_launch.py',
         test_readiness.DEFINITIONS):
         result[name] = digest(root / name)
     if digest(root / PRODUCER) != digest(__file__):

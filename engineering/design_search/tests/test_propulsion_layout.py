@@ -116,6 +116,7 @@ def test_vehicle_cycle_is_not_station_headway(result):
 def test_generated_geometry_plot_is_independent_of_prior_plot_style(result):
     import matplotlib
     expected = study.overlap_figure(result)
+    assert all(line == line.rstrip() for line in expected.splitlines())
     with matplotlib.rc_context({'font.size': 19, 'axes.facecolor': '#eee'}):
         assert study.overlap_figure(result) == expected
 
