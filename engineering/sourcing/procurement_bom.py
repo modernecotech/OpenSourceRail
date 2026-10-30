@@ -68,7 +68,99 @@ _PACKAGE_SPECS = {
     },
 }
 
-_RULE_VERSION = "osr-procurement-package-rules/1"
+_RULE_VERSION = "osr-procurement-package-rules/2"
+
+
+def _unlocated_link_target(occurrence_id):
+    """Resolve a conservative context link from an open account to a draft scope.
+
+    Links are not package membership or quantity allocation. They only put an
+    unresolved account beside a related quote scope using its explicit source
+    hierarchy.
+    """
+    parts = occurrence_id.split("/")
+    if len(parts) >= 3 and parts[0] == "car" and parts[1].isdigit():
+        car = parts[1]
+        system = parts[2]
+        if system == "passive-bogie-pair":
+            return (f"car/{car}/passive-bogie-pair", "vehicle-bogie-stock-package",
+                    f"car/{car}/bogie/", "shared car-level bogie-pair completion account; not allocated per bogie")
+        if system == "passive-secondary":
+            return (f"car/{car}/passive-secondary", "vehicle-secondary-stock-kit",
+                    f"car/{car}/station-secondary", "same-car passive-secondary completion account; excluded from located stock")
+        if system in {"weld-interface", "new-frame-joints-and-fin-retention"}:
+            return (f"car/{car}/{system}", "vehicle-body-stock-kit", f"car/{car}",
+                    "same-car body joint/interface account; excluded from located stock")
+        if system in {"retained-comfort", "service-battery", "white-roof-finish"}:
+            return (f"car/{car}/{system}", "vehicle-body-stock-kit", f"car/{car}",
+                    "same-car completion context only; excluded from the body-stock package")
+    if len(parts) >= 3 and parts[0] == "span" and parts[1].isdigit():
+        span = parts[1]
+        account = parts[2]
+        if account in {"direct_fastener_kg", "direct_fastener_anchors"}:
+            return (f"span/{span}/track-fastening", "civil-rail-stock-pair", f"span/{span}",
+                    "same-span rail-fastening account; excluded from the rail-stock package")
+        if account in {"reinforcement_kg", "prestress_kg", "prestress_anchorage_kg"}:
+            return (f"span/{span}/precast-reinforcement-and-prestress", "civil-concrete-stock-package",
+                    f"span/{span}", "same-span reinforcement/prestress account; excluded from nominal-concrete stock")
+    if len(parts) >= 3 and parts[0] == "bank" and parts[1].isdigit():
+        return (f"bank/{parts[1]}/{parts[2]}", "wayside-lim-primary-material-set", f"bank/{parts[1]}",
+                "same-bank completion account; excluded from primary-material stock")
+    return None
+
+
+def _link_unlocated_obligations(unlocated_ids, packages):
+    """Publish hierarchy-only cross-references without allocating open scope."""
+    by_package = defaultdict(list)
+    for package in packages:
+        by_package[(package["package_family"], package["package_key"])].append(package)
+    grouped = defaultdict(lambda: {"obligation_ids": [], "package_ids": set()})
+    linked_ids = set()
+    for occurrence_id in sorted(unlocated_ids):
+        rule = _unlocated_link_target(occurrence_id)
+        if rule is None:
+            continue
+        scope_key, family, package_key, relationship = rule
+        if family == "vehicle-bogie-stock-package" and package_key.endswith("/"):
+            targets = [package for (candidate_family, candidate_key), rows in by_package.items()
+                       if candidate_family == family and candidate_key.startswith(package_key)
+                       for package in rows]
+        else:
+            targets = by_package.get((family, package_key), [])
+        if not targets:
+            continue
+        target_ids = tuple(sorted(package["package_id"] for package in targets))
+        key = (scope_key, relationship, target_ids)
+        grouped[key]["obligation_ids"].append(occurrence_id)
+        grouped[key]["package_ids"].update(target_ids)
+        linked_ids.add(occurrence_id)
+
+    links = []
+    for (scope_key, relationship, target_ids), group in sorted(grouped.items()):
+        body = {
+            "scope_key": scope_key,
+            "relationship": relationship,
+            "unlocated_obligation_ids": sorted(group["obligation_ids"]),
+            "related_package_ids": list(target_ids),
+            "association_is_package_membership": False,
+            "allocated_to_package_mass_or_quantity": False,
+            "priced": False,
+            "quantity": None,
+        }
+        body["link_id"] = identity(body)
+        links.append(body)
+    unlinked = sorted(set(unlocated_ids) - linked_ids)
+    return {
+        "relationship_basis": "exact car/span hierarchy and subsystem path; context-only cross-reference",
+        "all_source_obligations_preserved": True,
+        "source_obligation_count": len(unlocated_ids),
+        "linked_unique_obligation_count": len(linked_ids),
+        "unlinked_obligation_count": len(unlinked),
+        "package_association_count": sum(len(row["related_package_ids"]) for row in links),
+        "links_are_non_additive": True,
+        "unlinked_obligation_ids": unlinked,
+        "links": links,
+    }
 
 
 def _package_key(row):
@@ -388,6 +480,7 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
     concrete_package_count, concrete_estimate_count, regional_reference_id = _attach_domestic_concrete_estimates(
         packages, regional_cost_reference, concrete_estimate_packets or [], candidate_id,
         twin_input["payload_id"])
+    unlocated_links = _link_unlocated_obligations(unlocated, packages)
 
     assigned = [occurrence_id for package in packages
                 for occurrence_id in package["engineering_occurrence_ids"]]
@@ -415,6 +508,7 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
         "located_stock_occurrence_count": len(located_ids),
         "unlocated_obligation_count": len(unlocated),
         "unlocated_obligation_ids": sorted(unlocated),
+        "unlocated_obligation_links": unlocated_links,
         "draft_package_count": len(packages),
         "package_family_counts": dict(sorted(family_counts.items())),
         "all_located_occurrences_assigned_exactly_once": True,
@@ -439,6 +533,9 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
             "located_occurrence_count": len(located_ids),
             "draft_package_count": len(packages),
             "unlocated_obligation_count": len(unlocated),
+            "linked_unlocated_obligation_count": unlocated_links["linked_unique_obligation_count"],
+            "unlinked_unlocated_obligation_count": unlocated_links["unlinked_obligation_count"],
+            "unlocated_obligation_package_association_count": unlocated_links["package_association_count"],
             "unmapped_located_occurrence_count": sum(
                 package["package_family"] == "unmapped-located-occurrence" for package in packages),
             "all_member_occurrences_preserved": True,
@@ -452,6 +549,7 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
         "limitations": [
             "Package rules reduce located geometry into quote-scope candidates using explicit car/bogie/span/bank hierarchy; they do not claim complete purchasing assemblies.",
             "The exact 4,773 unlocated accounts remain separate and are excluded from package quantities, mass and cost.",
+            "Hierarchy-linked unlocated obligations are context-only cross-references to related quote scopes; they are not package membership, allocation or additive mass/quantity.",
             "Internal package counts and modeled gross stock mass are not commercial order quantities or complete installed mass.",
             "No package receives a supplier match, commercial price, material yield, complete process-hour estimate or approval from this grouping step; concrete-only domestic estimates remain explicitly bounded recipe scenarios.",
             "The source candidate is a research configuration. No result transfers to the selected v0.6 reference without a matching candidate identity and renewed evaluation.",

@@ -168,6 +168,30 @@ def _sourcing_section(root,record):
     if not procurement or not procurement_path.is_file():
         raise ValueError('Candidate procurement-package packet is missing')
     procurement_packet=json.loads(gzip.decompress(procurement_path.read_bytes()))
+    obligation_links=procurement_packet.get('unlocated_obligation_links', {})
+    all_unlocated=set(procurement_packet.get('unlocated_obligation_ids', []))
+    linked_ids=set()
+    package_ids={row.get('package_id') for row in procurement_packet.get('packages', [])}
+    link_integrity=True
+    association_count=0
+    for link in obligation_links.get('links', []):
+        ids=link.get('unlocated_obligation_ids', [])
+        targets=link.get('related_package_ids', [])
+        if (not isinstance(ids, list) or not isinstance(targets, list)
+            or not ids or not targets or len(ids)!=len(set(ids))
+            or len(targets)!=len(set(targets))
+            or any(value not in all_unlocated for value in ids)
+            or linked_ids.intersection(ids)
+            or any(value not in package_ids for value in targets)
+            or link.get('association_is_package_membership') is not False
+            or link.get('allocated_to_package_mass_or_quantity') is not False
+            or link.get('quantity') is not None or link.get('priced') is not False
+            or link.get('link_id')!=sourcing_identity({key:value for key,value in link.items() if key!='link_id'})):
+            link_integrity=False
+            break
+        linked_ids.update(ids)
+        association_count+=len(targets)
+    unlinked_ids=set(obligation_links.get('unlinked_obligation_ids', []))
     if (procurement_packet.get('schema')!='osr-procurement-package-bom/1'
         or procurement_packet.get('packet_id')!=sourcing_identity(
             {key:value for key,value in procurement_packet.items() if key!='packet_id'})
@@ -177,6 +201,19 @@ def _sourcing_section(root,record):
         or procurement_packet.get('draft_package_count')!=procurement.get('draft_package_count')
         or procurement_packet.get('regional_cost_reference_packet_id')!=procurement.get('regional_cost_reference_packet_id')
         or procurement_packet.get('domestic_cost_estimate_scenario_count')!=procurement.get('domestic_cost_estimate_scenario_count')
+        or obligation_links.get('all_source_obligations_preserved') is not True
+        or obligation_links.get('source_obligation_count')!=len(all_unlocated)
+        or obligation_links.get('linked_unique_obligation_count')!=procurement.get('linked_unlocated_obligation_count')
+        or obligation_links.get('unlinked_obligation_count')!=procurement.get('unlinked_unlocated_obligation_count')
+        or obligation_links.get('package_association_count')!=procurement.get('unlocated_obligation_package_association_count')
+        or obligation_links.get('package_association_count')!=association_count
+        or obligation_links.get('linked_unique_obligation_count')!=len(linked_ids)
+        or len(obligation_links.get('unlinked_obligation_ids', []))!=len(unlinked_ids)
+        or len(all_unlocated)!=procurement_packet.get('unlocated_obligation_count')
+        or obligation_links.get('links_are_non_additive') is not True
+        or not link_integrity
+        or linked_ids.intersection(unlinked_ids)
+        or linked_ids.union(unlinked_ids)!=all_unlocated
         or not procurement_packet.get('all_located_occurrences_assigned_exactly_once')):
         raise ValueError('Candidate procurement packages do not match their sealed source and coverage index')
     if not (root/'docs/design-engine/sourcing'/procurement.get('regional_cost_reference_path', '')).is_file():
@@ -261,6 +298,7 @@ def _sourcing_section(root,record):
       f"| 2026-price concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {mapped_totals_miqd[0]:.1f}–{mapped_totals_miqd[-1]:.1f} million for gross modeled concrete volume; not a mix design, precast beam price or installed cost |",
       f"| 2025 Iraqi regional domestic-cost library | {regional_count} material/labour scenarios across concrete, rebar, aluminium profiles and four Ur sheet forms; concrete recipe prices available in 12 of 15 listed governorates | Three governorates have missing concrete material prices; all scenario hours are assumptions and the 20% uplift is unallocated |",
       f"| 2025 Baghdad concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {regional_totals_miqd[0]:.1f}–{regional_totals_miqd[-1]:.1f} million on the 2025 regional material rates; not a designed mix or installed span price |",'',
+      f"| Unlocated obligation cross-references | {obligation_links['linked_unique_obligation_count']:,}/{obligation_links['source_obligation_count']:,} accounts linked by hierarchy to related car/bogie/span/bank scopes; {obligation_links['package_association_count']:,} non-additive associations | No package mass, quantity or cost allocation; {obligation_links['unlinked_obligation_count']} network-level infrastructure obligations remain unlinked |",
       *gfrp_rows,'',
       'The GFRP figures use listed Easy Composites UK material extensions converted at the 29 October 2026 CBI GBP/IQD reference and the 2025 CSO Baghdad base-wage benchmark. They are partial sensitivity screens: adhesives remain unresolved, sandwich-core prices are absent, and import, tooling, consumables, QA, fire/smoke, structural qualification and installation are excluded. They do not price a finished panel or transfer to the selected reference body.', '',
       'The 2026-price estimate and the 2025 regional-price estimate are separately source-bound views of the same research-candidate concrete takeoff. Both preserve every original manufacturing-group and occurrence identity. Their material mix and labour hours remain assumptions, not measured process data; neither establishes a guideway beam, supplier match, complete installed mass or cost, or a cost for the selected reference candidate. The regional packet also includes rebar cut/bend and profile/sheet raw-stock processing sensitivities; the posted sheet rates do not establish structural grade or a completed manufacturing route.','',

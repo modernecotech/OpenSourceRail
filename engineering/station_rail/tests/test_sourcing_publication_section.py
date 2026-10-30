@@ -10,6 +10,8 @@ def test_current_readme_sourcing_section_checks_and_reports_local_gfrp_screens()
     report = "\n".join(lines)
 
     assert "273 immutable records" in report
+    assert "4,766/4,773 accounts linked" in report
+    assert "230 non-additive associations" in report
     assert "GFRP" in report
     assert "IQD 1,565,576.82/1,655,576.82/1,835,576.82" in report
     assert "IQD 827,788.41/917,788.41/1,097,788.41" in report
