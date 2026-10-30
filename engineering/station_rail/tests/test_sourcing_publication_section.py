@@ -9,7 +9,7 @@ def test_current_readme_sourcing_section_checks_current_regional_cost_evidence()
     lines = _sourcing_section(ROOT, {"candidate_id": "reference-candidate"})
     report = "\n".join(lines)
 
-    assert "513 immutable records" in report
+    assert "529 immutable records" in report
     assert "Ministry industrial directory" in report
     assert "cable and busbar production" in report
     assert "transformers" in report
@@ -35,3 +35,4 @@ def test_current_readme_sourcing_section_checks_current_regional_cost_evidence()
     assert "530 scopes" not in report
     assert "unpriced inputs remain open" in report
     assert "do not price a finished panel or transfer to the selected reference body" in report
+    assert "validation-current.json" in report

@@ -92,6 +92,7 @@ def sources(root,record,index,delivery):
         '.github/workflows/development-baseline.yml','tools/automation/default-design.py','tools/automation/default-design-workbench.py',
         'tools/automation/default-design-cycle.py','tools/automation/tests/verify-development-baseline.mjs','tools/automation/v06-native-benchmarks.py',
         'docs/design-engine/sourcing/README.md','docs/design-engine/sourcing/validation.json',
+        'docs/design-engine/sourcing/validation-current.json',
         'engineering/sourcing/catalogue.py','engineering/sourcing/model.py',
         'engineering/sourcing/data/supplier-catalogue.json','engineering/sourcing/data/public-feeds.json',
         'tools/automation/architecture-native-benchmarks.py','tools/automation/generative-native-benchmarks.py',
@@ -156,26 +157,122 @@ def compact(record,index,natives,delivery):
 
 def _sourcing_section(root,record):
     root=Path(root)
-    validation=json.loads((root/'docs/design-engine/sourcing/validation.json').read_bytes())
+    validation=json.loads((root/'docs/design-engine/sourcing/validation-current.json').read_bytes())
     from engineering.sourcing.catalogue import load_catalogue
     from engineering.sourcing.model import identity as sourcing_identity
     catalogue=load_catalogue((root/'engineering/sourcing/data/supplier-catalogue.json',
                               root/'engineering/sourcing/data/public-feeds.json',
                               root/'engineering/sourcing/data/iraq-domestic-2026-july.json'))
     counts=validation.get('catalogue',{}).get('counts',{})
-    if (validation.get('schema')!='osr-sourcing-iraq-domestic-inputs/1'
-        or validation.get('source_epoch_sha256')!=sourcing_identity(catalogue)
+    if (validation.get('schema')!='osr-sourcing-current-validation/1'
+        or validation.get('source_epoch_id')!=sourcing_identity(catalogue)
         or validation.get('catalogue',{}).get('offline_seed_record_count')!=len(catalogue)
         or counts.get('total')!=len(catalogue)):
         raise ValueError('Current sourcing validation does not match its offline catalogue epoch')
+    # The compact current index names immutable packets. Resolve and validate
+    # those packets here; validation.json remains the earlier 513-record snapshot.
+    validation['source_epoch_sha256']=validation['source_epoch_id']
+    validation['packets']=validation['review_packets']
     frame=validation['packets']['frame_vehicle']
     federated=validation['packets']['federated_manufacturing_groups']
-    takeoff=validation['candidate_material_takeoff']
-    procurement=validation.get('procurement_package_bom', {})
-    procurement_path=root/'docs/design-engine/sourcing'/procurement.get('path', '')
-    if not procurement or not procurement_path.is_file():
+    takeoff_path=root/'docs/design-engine/sourcing/material-takeoff/federated-v06-stock-takeoff-v5.json.gz'
+    takeoff_packet=json.loads(gzip.decompress(takeoff_path.read_bytes()))
+    takeoff_summary=takeoff_packet.get('summary',{})
+    concrete_rollup=next((row for row in takeoff_packet.get('material_rollups',[])
+                          if row.get('system')=='civil/concrete'
+                          and row.get('material')=='concrete-hypothesis'
+                          and row.get('stock_scope')=='nominal-stock'),{})
+    takeoff={
+        'path':'material-takeoff/federated-v06-stock-takeoff-v5.json.gz',
+        'takeoff_id':takeoff_packet.get('takeoff_id'),
+        'candidate_id':takeoff_packet.get('candidate_id'),
+        'evaluation_id':takeoff_packet.get('evaluation_id'),
+        'source_input_id':takeoff_packet.get('source_input_id'),
+        'manufacturing_group_count':takeoff_summary.get('groups_with_known_gross_stock_mass'),
+        'located_occurrence_count':takeoff_summary.get('located_occurrence_count'),
+        'unlocated_account_count':takeoff_summary.get('unlocated_account_count'),
+        'known_gross_stock_mass_kg':takeoff_summary.get('known_gross_stock_mass_kg'),
+        'concrete_nominal_stock_volume_m3':concrete_rollup.get('nominal_stock_volume_m3'),
+    }
+    proc_index=validation.get('procurement_package_bom', {})
+    procurement_path=root/proc_index.get('path', '')
+    if not proc_index or not procurement_path.is_file():
         raise ValueError('Candidate procurement-package packet is missing')
     procurement_packet=json.loads(gzip.decompress(procurement_path.read_bytes()))
+    regional_index=validation.get('domestic_fabrication',{}).get('regional_cost_reference_2026_09',{})
+    regional_packet_path=root/regional_index.get('path','')
+    if not regional_index or not regional_packet_path.is_file():
+        raise ValueError('September 2026 regional domestic-cost packet is missing')
+    regional_packet=json.loads(regional_packet_path.read_bytes())
+    regional_manifest_path=regional_packet_path.parent/'manifest.json'
+    if not regional_manifest_path.is_file():
+        raise ValueError('September 2026 regional cost manifest is missing')
+    regional_manifest=json.loads(regional_manifest_path.read_bytes())
+    regional_path=regional_index['path'].removeprefix('docs/design-engine/sourcing/')
+    regional={**regional_index,
+        'path':regional_path,
+        'unit_rate_scenario_count':regional_index['regional_unit_rate_scenario_count'],
+        'candidate_mapped_aluminium_scenario_count':regional_index['candidate_mapped_aluminium_stock_scenario_count'],
+        'candidate_mapped_aluminium_rollup_count':2,
+        'regional_concrete_takeoff_estimates':regional_packet.get('regional_concrete_takeoff_estimates',[]),
+    }
+    procurement={
+        **proc_index,
+        'path':proc_index['path'],
+        'regional_cost_reference_path':regional_path,
+        'regional_cost_reference_packet_id':regional_index['packet_id'],
+        'domestic_cost_estimate_scenario_count':procurement_packet['summary']['domestic_cost_estimate_scenario_count'],
+        'linked_unlocated_obligation_count':procurement_packet['summary']['linked_unlocated_obligation_count'],
+        'unlinked_unlocated_obligation_count':procurement_packet['summary']['unlinked_unlocated_obligation_count'],
+        'unlocated_obligation_package_association_count':procurement_packet['summary']['unlocated_obligation_package_association_count'],
+        'material_demand_line_count':procurement_packet['summary']['material_demand_line_count'],
+        'domestic_source_lead_association_count':sum(
+            row.get('domestic_fabrication_lead_count',0)
+            for row in procurement_packet.get('material_purchasing_lines',[])),
+    }
+    concrete=[{
+        'path':f"domestic-fabrication/estimates/current/concrete-batch-{int(row['labour_hours_per_output']):02d}h-current.json",
+        'candidate_id':row['process']['candidate_id'],
+        'estimated_unit_cost':row['process']['estimated_unit_cost'],
+        'wage_observation_period':'2026-09',
+    } for row in regional_packet.get('unit_rate_estimates',[])
+      if row.get('region_slug')=='baghdad' and row.get('family')=='concrete batching']
+    mapped_concrete=[{
+        'estimate_packet_id':row['estimate_packet_id'],
+        'process_record_id':row['process_record_id'],
+        'candidate_id':regional_packet['candidate_id'],
+        'source_input_id':regional_packet['source_input_id'],
+        'takeoff_id':regional_packet['takeoff_id'],
+        'region':row['region'],
+        'labour_hours_per_m3':row['labour_hours_per_nominal_m3'],
+        'estimated_unit_cost':row['estimated_unit_cost_iqd_per_nominal_m3'],
+        'estimated_total':row['estimated_total_iqd'],
+        'mapped_group_count':row['mapped_group_count'],
+        'mapped_occurrence_count':row['mapped_occurrence_count'],
+        'path':row['estimate_file'],
+    } for row in regional_packet.get('regional_concrete_takeoff_estimates',[])]
+    historical_path='domestic-fabrication/regional-estimates-2025-v6/iraq-domestic-cost-reference-2025.json'
+    historical_packet_path=root/'docs/design-engine/sourcing'/historical_path
+    if not historical_packet_path.is_file():
+        raise ValueError('Historical regional domestic-cost packet is missing')
+    historical_packet=json.loads(historical_packet_path.read_bytes())
+    historical_regional={
+        'path':historical_path,
+        'packet_id':historical_packet['packet_id'],
+        'candidate_id':historical_packet['candidate_id'],
+        'unit_rate_scenario_count':len(historical_packet.get('unit_rate_estimates',[])),
+        'baghdad_concrete_takeoff_estimates':historical_packet.get('baghdad_concrete_takeoff_estimates',[]),
+    }
+    validation['domestic_fabrication_unit_rate_screens']=concrete
+    validation['candidate_mapped_concrete_estimates']=mapped_concrete
+    validation['regional_cost_reference']=historical_regional
+    validation['regional_cost_reference_2026_09']=regional
+    gfrp_index=validation['domestic_fabrication']['gfrp_local_fabrication_screen']
+    validation['gfrp_local_fabrication_cost_screen']={
+        **gfrp_index,
+        'path':gfrp_index['path'].removeprefix('docs/design-engine/sourcing/'),
+    }
+    validation['procurement_package_bom']=procurement
     obligation_links=procurement_packet.get('unlocated_obligation_links', {})
     all_unlocated=set(procurement_packet.get('unlocated_obligation_ids', []))
     linked_ids=set()
@@ -226,23 +323,7 @@ def _sourcing_section(root,record):
         raise ValueError('Candidate procurement packages do not match their sealed source and coverage index')
     if not (root/'docs/design-engine/sourcing'/procurement.get('regional_cost_reference_path', '')).is_file():
         raise ValueError('Linked regional domestic-cost reference is missing')
-    concrete=[row for row in validation['domestic_fabrication_unit_rate_screens']
-              if 'concrete-batch-' in row['path'] and row.get('wage_observation_period')=='2026-09']
-    mapped_concrete=validation.get('candidate_mapped_concrete_estimates', [])
-    historical_regional=validation.get('regional_cost_reference', {})
-    historical_packet_path=root/'docs/design-engine/sourcing'/historical_regional.get('path', '')
-    if not historical_packet_path.is_file():
-        raise ValueError('Historical regional domestic-cost packet is missing')
-    historical_packet=json.loads(historical_packet_path.read_bytes())
-    regional=validation.get('regional_cost_reference_2026_09', {})
     regional_packet_path=root/'docs/design-engine/sourcing'/regional.get('path', '')
-    if not regional_packet_path.is_file():
-        raise ValueError('September 2026 regional domestic-cost packet is missing')
-    regional_packet=json.loads(regional_packet_path.read_bytes())
-    regional_manifest_path=regional_packet_path.parent/'manifest.json'
-    if not regional_manifest_path.is_file():
-        raise ValueError('September 2026 regional cost manifest is missing')
-    regional_manifest=json.loads(regional_manifest_path.read_bytes())
     if takeoff['candidate_id']!=federated['candidate_id']:
         raise ValueError('Sourcing takeoff and federated evaluation candidate identities differ')
     if len(concrete)!=3 or any(row['candidate_id']!=federated['candidate_id'] for row in concrete):
@@ -535,7 +616,7 @@ def _sourcing_section(root,record):
             + '; '.join(region_lines)+" after the 20% allowance; Kurdistan Region wage data are absent |")
     return [
       '## Sourcing and domestic cost coverage','',
-      catalogue_line+' Iraqi source leads now include the Ministry industrial directory, steel and rebar, metal fabrication, cable and busbar production, transformers, precast concrete, GRP and façade manufacturing, polymer/resin supply, and aluminium extrusion. These company and directory pages are discovery leads, not quotations, qualified products or confirmed capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).','',
+      catalogue_line+' Iraqi source leads now include the Ministry industrial directory, steel and rebar, metal fabrication, cable and busbar production, transformers, precast concrete, GRP and façade manufacturing, polymer/resin supply, and aluminium extrusion. These company and directory pages are discovery leads, not quotations, qualified products or confirmed capacity. See the [sourcing dossier](../sourcing/README.md) and [current source-bound coverage index](../sourcing/validation-current.json).','',
       identity_note,'',
       '| Research scope | Sourcing evidence | Cost disposition |','|---|---|---|',
       f"| Frame candidate `{frame['candidate_id'][:12]}` | {frame['input_requirement_count']:,} groups; {frame['compatible_matches']} compatible priced matches | Complete installed cost unknown |",
