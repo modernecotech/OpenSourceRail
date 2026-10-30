@@ -69,7 +69,7 @@ _PACKAGE_SPECS = {
     },
 }
 
-_RULE_VERSION = "osr-procurement-package-rules/10"
+_RULE_VERSION = "osr-procurement-package-rules/11"
 
 _DOMESTIC_LEAD_RULES = {
     ("civil/concrete", "concrete-hypothesis"): {
@@ -105,6 +105,8 @@ _DOMESTIC_LEAD_RULES = {
         "iraq.iraqalhur-grp-factory": "GRP pipe capability only; body-panel capability unassessed.",
         "iraq.ncpi-chemical-plastic-industries": "Local foam/adhesive and polymer-operations inquiry; infusion resin, glass reinforcement and structural body qualification unassessed.",
         "iraq.briskey-roj.composite-materials": "Iraqi composite-material distributor inquiry for polyester, gelcoat, fibreglass and curing/mould consumables; imported origin, exact grades, price, stock, railway fire/smoke suitability and structural compatibility unassessed; no source price is attached.",
+        "iraq.haidar-ahmed-mousa.pur-pir-panels": "Iraqi PUR/PIR foam and building sandwich-panel production-process inquiry; density, chemistry, structural allowables, current capacity, price, rail fire/smoke evidence and passenger-body suitability unassessed; no product match or cost is attached.",
+        "iraq.kanza-iq.sandwich-panel-lines": "Iraqi PU/PIR, rock-wool and EPS-cement building-panel manufacturing-process inquiry; the company profile is dated, and current operation, grades, structural allowables, price and passenger-body suitability are unassessed; no product match or cost is attached.",
     },
     ("vehicle/passive-bogie-pair", "steel-reference"): {
         "iraq.scosi-steel-industries": "General steel fabrication lead; bogie design, fatigue, material and process qualification unassessed.",

@@ -13,7 +13,7 @@ Regenerate from the repository root with:
 python3 tools/automation/generate-doc-index.py
 ```
 
-Indexed Markdown files: **1005**.
+Indexed Markdown files: **1007**.
 
 ## Sections
 
@@ -26,7 +26,7 @@ Indexed Markdown files: **1005**.
 | [control-electronics](#control-electronics) | 1 |
 | [crates](#crates) | 2 |
 | [deployment](#deployment) | 3 |
-| [docs](#docs) | 134 |
+| [docs](#docs) | 136 |
 | [engineering](#engineering) | 26 |
 | [legacy](#legacy) | 30 |
 | [tools](#tools) | 2 |
@@ -983,6 +983,7 @@ Indexed Markdown files: **1005**.
 | [`docs/design-engine/sourced-case/validation.md`](../docs/design-engine/sourced-case/validation.md) | Executed sourced-design research — 30 October 2026 |
 | [`docs/design-engine/sourcing/README.md`](../docs/design-engine/sourcing/README.md) | Sourcing and cost intelligence — v0.6 research snapshot |
 | [`docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/README.md`](../docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/README.md) | Iraqi local GFRP retail material and labour screen |
+| [`docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/README.md`](../docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/README.md) | Iraqi local GFRP retail material and labour screen |
 | [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v1/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v1/README.md) | Iraqi span logistics sensitivity |
 | [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v2/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v2/README.md) | Iraqi span logistics sensitivity |
 | [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v3/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v3/README.md) | Iraqi span logistics sensitivity |
@@ -990,6 +991,7 @@ Indexed Markdown files: **1005**.
 | [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v5/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v5/README.md) | Iraqi span logistics sensitivity |
 | [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v6/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v6/README.md) | Iraqi span logistics sensitivity |
 | [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v7/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v7/README.md) | Iraqi span logistics sensitivity |
+| [`docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v8/README.md`](../docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v8/README.md) | Iraqi span logistics sensitivity |
 | [`docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v2/README.md`](../docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v2/README.md) | Iraqi domestic material + labour cost reference — September 2026 |
 | [`docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v3/README.md`](../docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v3/README.md) | regional-estimates-2026-september-v3 |
 | [`docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v4/README.md`](../docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v4/README.md) | regional-estimates-2026-september-v4 |

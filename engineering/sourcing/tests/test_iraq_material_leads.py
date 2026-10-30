@@ -9,19 +9,25 @@ def test_additional_domestic_material_leads_remain_source_only():
     rows = load_catalogue([SEED])
     sources = {row["source_key"]: row for row in rows if row["kind"] == "source"}
     assert set(sources) == {
-        "iraq.bafra-shakh.eps",
         "iraq.hemn.eps-factory",
         "iraq.helal.polyurethane-foam",
-        "iraq.lafarge-iraq.cement-products",
-        "iraq.alpha-steel.rebar-range-2026",
-        "iraq.al-kanz.precast-piling",
         "iraq.qatral.aluminium-ingot",
+        "iraq.bafra-shakh.eps",
         "iraq.sama-kirkuk.eps-listings",
         "iraq.regaasphalt.aggregate",
         "iraq.hewa.construction-materials",
+        "iraq.lafarge-iraq.cement-products",
+        "iraq.alpha-steel.rebar-range-2026",
+        "iraq.al-kanz.precast-piling",
         "iraq.hadeediraq.rebar-marketplace",
+        "iraq.briskey-roj.composite-materials",
+        "iraq.diwan-electrical-industries",
+        "iraq.rs-alnajaf-electrical-factory",
+        "iraq.ibn-majid-heavy-engineering",
+        "iraq.haidar-ahmed-mousa.pur-pir-panels",
+        "iraq.kanza-iq.sandwich-panel-lines",
     }
-    assert len(rows) == 11
+    assert len(rows) == 17
     assert not [row for row in rows if row["kind"] in {"product", "offer", "benchmark"}]
     assert "10 tonnes/day" in sources["iraq.hemn.eps-factory"]["access"]
     assert "12 to 45 kg/m3" in sources["iraq.helal.polyurethane-foam"]["access"]
@@ -37,3 +43,5 @@ def test_additional_domestic_material_leads_remain_source_only():
     assert "precast concrete pile manufacture" in sources["iraq.al-kanz.precast-piling"]["access"]
     assert "indicative supplier prices, not a Hadeed offer" in sources["iraq.hadeediraq.rebar-marketplace"]["access"]
     assert "no offer or product match is created" in sources["iraq.hadeediraq.rebar-marketplace"]["access"]
+    assert "not a qualified passenger-body core" in sources["iraq.haidar-ahmed-mousa.pur-pir-panels"]["access"]
+    assert "the company profile is dated" in sources["iraq.kanza-iq.sandwich-panel-lines"]["access"]

@@ -23,6 +23,14 @@ def test_local_gfrp_screen_uses_listed_fabric_and_keeps_resin_unknown():
     assert len(packet["local_resin_price_leads_not_applied"]) == 3
     assert all(row["included_in_partial_fabric_material_subtotal"] is False
                for row in packet["local_resin_price_leads_not_applied"])
+    assert len(packet["conditional_local_resin_price_scenarios"]) == 9
+    assert [row["conditional_fabric_resin_labour_plus_20_iqd_per_10m2"]
+            for row in packet["conditional_local_resin_price_scenarios"][:3]] == [
+                "671800.00", "761800.00", "941800.00"]
+    assert all(row["candidate_product_match"] is False
+               and row["complete_fabrication_cost_iqd"] is None
+               and row["unknown_is_zero"] is False
+               for row in packet["conditional_local_resin_price_scenarios"])
     assert packet["complete_material_cost_iqd"] is None
     assert packet["complete_fabrication_cost_iqd"] is None
     assert packet["unknown_is_zero"] is False
@@ -39,6 +47,8 @@ def test_cli_publishes_a_source_bound_local_material_screen(tmp_path, capsys):
     result = json.loads(capsys.readouterr().out)
     assert result["scenario_count"] == 3
     assert result["partial_cost_iqd"] == ["463800.00", "553800.00", "733800.00"]
+    assert result["conditional_resin_scenario_count"] == 9
+    assert result["conditional_resin_partial_cost_iqd"][:3] == ["671800.00", "761800.00", "941800.00"]
     assert result["complete_installed_cost_iqd"] is None
     packet = json.loads((output / "iraq-local-gfrp-retail-screen.json").read_text())
     manifest = json.loads((output / "manifest.json").read_text())

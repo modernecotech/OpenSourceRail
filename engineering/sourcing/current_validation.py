@@ -21,12 +21,12 @@ LAMINATES = "docs/design-engine/sourcing/packets/laminate-materials-iraq-domesti
 REGIONAL = "docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v6/iraq-domestic-cost-reference-2026-09.json"
 GFRP = "docs/design-engine/sourcing/domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v19.json"
 IMPORT_SCREEN = "docs/design-engine/sourcing/domestic-fabrication/cso-imported-aluminium-fabrication-sensitivity-2025-2026.json"
-PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v22.json.gz"
+PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v23.json.gz"
 CONCRETE_RECIPE = "docs/design-engine/sourcing/domestic-fabrication/takeoff-recipes/concrete-material-inputs-2026-09.json"
-LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v7/iraq-span-logistics-sensitivity.json"
-LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v7/manifest.json"
-LOCAL_GFRP = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/iraq-local-gfrp-retail-screen.json"
-LOCAL_GFRP_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/manifest.json"
+LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v8/iraq-span-logistics-sensitivity.json"
+LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v8/manifest.json"
+LOCAL_GFRP = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/iraq-local-gfrp-retail-screen.json"
+LOCAL_GFRP_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/manifest.json"
 ADDITIONAL_MATERIAL_SOURCES = "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json"
 CONSTRUCTION_WAGES_2024 = "engineering/sourcing/data/iraq-construction-wages-2024.json"
 
@@ -183,8 +183,8 @@ def build_validation():
     procurement_lead_associations = sum(
         row.get("domestic_fabrication_lead_count", 0)
         for row in procurement.get("material_purchasing_lines", []))
-    if len(additional_material_sources) != 15:
-        raise ValueError("Current supplementary Iraqi source set must contain 15 source-only records")
+    if len(additional_material_sources) != 17:
+        raise ValueError("Current supplementary Iraqi source set must contain 17 source-only records")
     lead_by_key = {
         (row["system"], row["material"]): {
             lead["source_key"]: lead
@@ -197,6 +197,8 @@ def build_validation():
         ("wayside/primary", "copper-conductor", "iraq.rs-alnajaf-electrical-factory"),
         ("vehicle/passive-bogie-pair", "steel-reference", "iraq.ibn-majid-heavy-engineering"),
         ("wayside/primary", "linear-steel-hypothesis", "iraq.ibn-majid-heavy-engineering"),
+        ("vehicle/body", "gfrp_skin_research", "iraq.haidar-ahmed-mousa.pur-pir-panels"),
+        ("vehicle/body", "gfrp_skin_research", "iraq.kanza-iq.sandwich-panel-lines"),
     }
     local_manufacturing_leads = []
     for system, material, source_key in expected_local_manufacturing_leads:
@@ -216,7 +218,7 @@ def build_validation():
     hadeed_leads = [lead for row in concrete_lead_lines
                     for lead in row.get("domestic_fabrication_lead_sources", [])
                     if lead.get("source_key") == "iraq.hadeediraq.rebar-marketplace"]
-    if (procurement_lead_associations != 49 or len(concrete_lead_lines) != 1 or len(hadeed_leads) != 1
+    if (procurement_lead_associations != 51 or len(concrete_lead_lines) != 1 or len(hadeed_leads) != 1
             or hadeed_leads[0].get("price_recorded") is not False
             or hadeed_leads[0].get("supplier_quotation") is not False
             or hadeed_leads[0].get("technical_compatibility") is not None
@@ -414,6 +416,13 @@ def build_validation():
             or local_gfrp.get("complete_fabrication_cost_iqd") is not None
             or local_gfrp.get("unknown_is_zero") is not False
             or len(local_gfrp.get("local_resin_price_leads_not_applied", [])) != 3
+            or len(local_gfrp.get("conditional_local_resin_price_scenarios", [])) != 9
+            or [row.get("conditional_fabric_resin_labour_plus_20_iqd_per_10m2")
+                for row in local_gfrp.get("conditional_local_resin_price_scenarios", [])[:3]] != ["671800.00", "761800.00", "941800.00"]
+            or any(row.get("candidate_product_match") is not False
+                   or row.get("complete_fabrication_cost_iqd") is not None
+                   or row.get("unknown_is_zero") is not False
+                   for row in local_gfrp.get("conditional_local_resin_price_scenarios", []))
             or len(local_gfrp.get("historical_labour_references", [])) != 4
             or local_gfrp.get("input_sha256", {}).get("local_catalogue_seed") != hashlib.sha256(LOCAL_COMPOSITE_SEED.read_bytes()).hexdigest()
             or local_gfrp.get("input_sha256", {}).get("historical_labour_seed") != hashlib.sha256(HISTORICAL_LABOUR_SEED.read_bytes()).hexdigest()
@@ -488,7 +497,7 @@ def build_validation():
                 "benchmark_count": sum(row["kind"] == "benchmark" for row in domestic_material_records),
                 "candidate_product_matches": 0,
                 "priced_offers": 0,
-                "lead_scope": "EPS panels; polyurethane foam; aluminium ingots/alloys/anode blocks; crushed aggregate production and Iraqi construction-material distribution; cement product families; rebar; precast foundation piles; rebar marketplace/RFQ directory; composite raw-material distribution; electrical cables/transformers, station enclosures and panels; heavy steel/aluminium fabrication",
+                "lead_scope": "EPS panels; polyurethane and PIR foam; PU/PIR/rock-wool and EPS-cement building panels; aluminium ingots/alloys/anode blocks; crushed aggregate production and Iraqi construction-material distribution; cement product families; rebar; precast foundation piles; rebar marketplace/RFQ directory; composite raw-material distribution; electrical cables/transformers, station enclosures and panels; heavy steel/aluminium fabrication",
                 "structural_core_or_body_qualification": None,
             },
             "construction_wage_history_2024": {
@@ -522,6 +531,11 @@ def build_validation():
                 "partial_cost_iqd_per_10m2": [row["partial_fabric_plus_labour_plus_20_iqd_per_10m2"]
                                                for row in local_gfrp["scenarios"]],
                 "resin_cost_included": False,
+                "conditional_resin_scenario_count": len(local_gfrp["conditional_local_resin_price_scenarios"]),
+                "conditional_resin_partial_cost_iqd_per_10m2": [
+                    row["conditional_fabric_resin_labour_plus_20_iqd_per_10m2"]
+                    for row in local_gfrp["conditional_local_resin_price_scenarios"]],
+                "conditional_resin_costs_are_compatible_quotes": False,
                 "complete_material_cost_iqd": local_gfrp["complete_material_cost_iqd"],
                 "complete_fabrication_cost_iqd": local_gfrp["complete_fabrication_cost_iqd"],
                 "physical_qualification": local_gfrp["physical_qualification"],

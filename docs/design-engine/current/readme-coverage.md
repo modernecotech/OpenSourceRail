@@ -4,9 +4,9 @@ OpenSourceRail v0.6 develops simple, affordable, locally maintainable station-po
 
 [Project introduction](../../../README.md) · [System approach](../../../engineering/README.md) · [Current design and engineering gates](README.md)
 
-All **954 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
+All **956 tracked or new README documents** are classified below. The **13 manual entrypoints** carry a maintained concise introduction. City geography is retained; city performance packages remain historical and are not current v0.6 results. The project front door is maintained separately.
 
-Existing local navigation reaches current context from **851 documents**. This page supplies an explicit current-context route for the remaining **103 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
+Existing local navigation reaches current context from **851 documents**. This page supplies an explicit current-context route for the remaining **105 retained or generated documents**. These are navigation gaps, not rewritten scientific evidence.
 
 Historical numerical city, design and research packets retain their exact README payloads and original scope. Historical source bindings resolve at the pinned Git revision. Their solver/source receipts are checked rather than silently resealed for presentation changes. A historical result never becomes current design acceptance because it appears beside the current introduction.
 
@@ -26,7 +26,7 @@ Historical numerical city, design and research packets retain their exact README
 | manual-current-entrypoint | 10 |
 | project-frontdoor | 1 |
 | retained-assurance-evidence | 8 |
-| retained-design-evidence | 99 |
+| retained-design-evidence | 101 |
 | retained-v04-workspace-archive | 15 |
 | sourcing-evidence-and-economics | 1 |
 | trip-dynamics-method | 2 |
@@ -928,6 +928,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [docs/design-engine/sourced-case/README.md](../sourced-case/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | [sourced-bolster](../sourced-bolster/README.md) → [project](../../../README.md) |
 | [docs/design-engine/sourcing/README.md](../sourcing/README.md) | sourcing-evidence-and-economics | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/README.md](../sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/README.md](../sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v1/README.md](../sourcing/domestic-fabrication/logistics-2026-september-v1/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v2/README.md](../sourcing/domestic-fabrication/logistics-2026-september-v2/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v3/README.md](../sourcing/domestic-fabrication/logistics-2026-september-v3/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
@@ -935,6 +936,7 @@ The write command owns only the thirteen manual introduction blocks; it does not
 | [docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v5/README.md](../sourcing/domestic-fabrication/logistics-2026-september-v5/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v6/README.md](../sourcing/domestic-fabrication/logistics-2026-september-v6/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v7/README.md](../sourcing/domestic-fabrication/logistics-2026-september-v7/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
+| [docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v8/README.md](../sourcing/domestic-fabrication/logistics-2026-september-v8/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v2/README.md](../sourcing/domestic-fabrication/regional-estimates-2026-september-v2/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v3/README.md](../sourcing/domestic-fabrication/regional-estimates-2026-september-v3/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |
 | [docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v4/README.md](../sourcing/domestic-fabrication/regional-estimates-2026-september-v4/README.md) | retained-design-evidence | [System approach](../../../engineering/README.md) | Via this coverage page |

@@ -1,9 +1,9 @@
 """Source-bound Iraqi retail material and labour screen for a 10 m2 GFRP sample.
 
 This is a material-mass-equivalent purchasing sensitivity only. It prices a
-locally listed generic 300 g/m2 reinforcement at its stated 1 m2 pack unit and
-assumed labour at a CSO base-wage observation. Resin and cure-system products
-are recorded as leads but not used because their chemistry is unspecified.
+locally listed generic 300 g/m2 reinforcement and reports both a conservative
+fabric-only subtotal and separate conditional generic-resin sensitivities.
+None is a compatible-product or complete-fabrication estimate.
 """
 from decimal import Decimal, ROUND_CEILING, ROUND_HALF_EVEN
 import gzip
@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 LOCAL_SEED = ROOT / "engineering/sourcing/data/iraq-local-composite-retail-2026-10.json"
 LABOUR_SEED = ROOT / "engineering/sourcing/data/iraq-labour-force-survey-2021.json"
 PACKET_ROOT = ROOT / "docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v18/solid-600gsm"
-OUTPUT_ROOT = Path("docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1")
+OUTPUT_ROOT = Path("docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v2")
 HOURS_PER_10M2 = (Decimal("8"), Decimal("16"), Decimal("32"))
 UPLIFT = Decimal("0.20")
 CENT = Decimal("0.01")
@@ -34,6 +34,72 @@ def _read(path):
 
 def _money(value):
     return str(Decimal(value).quantize(CENT, rounding=ROUND_HALF_EVEN))
+
+
+def _conditional_resin_scenarios(*, product_keys, products, offers_by_product,
+                                 source_id, fabric_offer_id, fabric_extension,
+                                 modeled_matrix_mass_kg, hours_per_10m2,
+                                 wage_benchmark_id, wage_per_hour, area_m2):
+    """Extend listed resin prices as explicit, unqualified price sensitivities."""
+    scenarios = []
+    for product_key in product_keys:
+        product = products[product_key]
+        offer, = offers_by_product[product_key]
+        unit_price = Decimal(offer["tiers"][0]["unit_price"])
+        if offer["quantity_unit"] == "kg":
+            quantity = modeled_matrix_mass_kg
+            extension = quantity * unit_price
+            pack_count = None
+            purchased_mass = quantity
+            quantity_basis = "modeled matrix mass extended at the listed per-kg price; sale increment and minimum quantity unknown"
+        else:
+            pack_mass = Decimal(product["specifications"]["nominal_pack_mass_kg"]["value"])
+            pack_count = int((modeled_matrix_mass_kg / pack_mass).to_integral_value(rounding=ROUND_CEILING))
+            quantity = Decimal(pack_count)
+            purchased_mass = quantity * pack_mass
+            extension = quantity * unit_price
+            quantity_basis = "whole listed cans rounded up to cover modeled matrix mass; product chemistry and suitability unknown"
+        for hours in hours_per_10m2:
+            labour = hours * wage_per_hour
+            direct = fabric_extension + extension + labour
+            uplift = direct * UPLIFT
+            total = direct + uplift
+            scenarios.append({
+                "resin_product_key": product_key,
+                "resin_product_id": product["record_id"],
+                "resin_offer_id": offer["record_id"],
+                "resin_source_id": source_id,
+                "resin_listed_description": product["description"],
+                "resin_listed_unit_price": str(unit_price),
+                "resin_price_currency": offer["currency"],
+                "resin_price_quantity_unit": offer["quantity_unit"],
+                "resin_required_modeled_matrix_mass_kg": str(modeled_matrix_mass_kg),
+                "resin_quantity_for_extension": str(quantity),
+                "resin_pack_count": pack_count,
+                "resin_purchased_mass_kg": str(purchased_mass),
+                "resin_quantity_basis": quantity_basis,
+                "resin_material_extension_iqd": _money(extension),
+                "fabric_offer_id": fabric_offer_id,
+                "fabric_material_extension_iqd": _money(fabric_extension),
+                "labour_hours_per_10m2": str(hours),
+                "wage_benchmark_id": wage_benchmark_id,
+                "wage_rate_iqd_per_person_hour": str(wage_per_hour),
+                "direct_labour_iqd": _money(labour),
+                "direct_material_plus_labour_iqd": _money(direct),
+                "uplift_fraction": str(UPLIFT),
+                "uplift_iqd": _money(uplift),
+                "conditional_fabric_resin_labour_plus_20_iqd_per_10m2": _money(total),
+                "partial_unit_cost_iqd_per_m2": _money(total / area_m2),
+                "technical_compatibility": None,
+                "resin_cure_system_included": None,
+                "supplier_quote": False,
+                "candidate_product_match": False,
+                "complete_material_cost_iqd": None,
+                "complete_fabrication_cost_iqd": None,
+                "unknown_is_zero": False,
+                "scenario_limit": "conditional listed-price arithmetic only; resin chemistry, cure system, product match, full material scope and production route are unresolved",
+            })
+    return scenarios
 
 
 def _assert_publication(folder):
@@ -186,6 +252,20 @@ def build_packet(laminate_path=PACKET_ROOT, *, local_seed=LOCAL_SEED, labour_see
             "unknown_is_zero": False,
         })
 
+    conditional_resin_scenarios = _conditional_resin_scenarios(
+        product_keys=(resin_kg_key, resin_tr_key, resin_ir_key),
+        products=products,
+        offers_by_product=offers_by_product,
+        source_id=sources[source_key]["record_id"],
+        fabric_offer_id=offer["record_id"],
+        fabric_extension=fabric_extension,
+        modeled_matrix_mass_kg=gross_reference_matrix_kg,
+        hours_per_10m2=HOURS_PER_10M2,
+        wage_benchmark_id=wage["record_id"],
+        wage_per_hour=wage_per_hour,
+        area_m2=area_m2,
+    )
+
     local_definition = {
         "schema": "osr-local-composite-material-hypothesis/1",
         "parent_vehicle_candidate_id": parent_vehicle_candidate_id,
@@ -254,6 +334,8 @@ def build_packet(laminate_path=PACKET_ROOT, *, local_seed=LOCAL_SEED, labour_see
             "technical_compatibility": "not established; no orientation, weave, fibre sizing or rail allowables published",
         },
         "local_resin_price_leads_not_applied": resin_rows,
+        "conditional_local_resin_price_scenarios": conditional_resin_scenarios,
+        "conditional_resin_scenario_method": "(listed local 300 g/m2 reinforcement extension + listed generic resin extension at the modeled gross matrix mass + assumed direct base-wage labour) x 1.20; resin identity and suitability are unqualified",
         "labour_rate": {
             "benchmark_id": wage["record_id"],
             "benchmark_key": wage_key,
@@ -331,11 +413,23 @@ def publish_packet(packet, output):
         lines.append(f"| {row['labour_hours_per_10m2']} h | IQD {row['known_fabric_material_extension_iqd']} | IQD {row['direct_labour_iqd']} | IQD {row['uplift_iqd']} | IQD {row['partial_fabric_plus_labour_plus_20_iqd_per_10m2']} |")
     lines += [
         "",
-        "The listed resin prices are retained as evidence but not added to the estimate: resin chemistry, hardener/catalyst content, cure method and match to the epoxy/hardener reference are unknown. Other required material, tooling and installation costs also remain unknown, not zero. The public listing asks buyers to reconfirm availability and lead time. This is not an offer, compatible candidate price, selected body design, or physical qualification.",
+        "The fabric-only table remains the source-complete partial screen. A separate conditional sensitivity adds each local generic resin listing at the modelled matrix mass and applies the same assumed labour hours and 20% uplift. Resin chemistry, hardener/catalyst content, cure method and compatibility with the epoxy/hardener reference remain unknown, so this is unqualified listed-price arithmetic rather than an engineering cost estimate. Other required material, tooling and installation costs remain unknown, not zero. The public listing asks buyers to reconfirm availability and lead time. This is not an offer, compatible candidate price, selected body design, or physical qualification.",
         "",
         "The supplementary Iraq Labour Force Survey 2021 rates are included as historical employee-earnings references only. They are national, not inflation-adjusted, and are excluded from these 2026 scenarios.",
         "",
         "Source: https://tc-safa.com/category/080010000 · wage basis: CSO September 2026 governorate construction-material and worker-wage bulletin. Exact source record IDs and input hashes are in the JSON and manifest.",
+        "",
+        "## Conditional listed-resin sensitivity",
+        "",
+        "| Local resin listing | Assumed labour | Listed fabric + resin | Direct labour | 20% allowance | Conditional partial total per 10 m² |",
+        "|---|---:|---:|---:|---:|---:|",
+    ]
+    for row in packet["conditional_local_resin_price_scenarios"]:
+        material_sum = Decimal(row["fabric_material_extension_iqd"]) + Decimal(row["resin_material_extension_iqd"])
+        lines.append(f"| {row['resin_product_key']} | {row['labour_hours_per_10m2']} h | IQD {_money(material_sum)} | IQD {row['direct_labour_iqd']} | IQD {row['uplift_iqd']} | IQD {row['conditional_fabric_resin_labour_plus_20_iqd_per_10m2']} |")
+    lines += [
+        "",
+        "The 1 kg resin listing is extended by modelled matrix mass at its per-kg price; the 18 kg listings are rounded up to whole cans. This does not establish product compatibility or a purchase order. These conditional totals do not replace the unknown resin/cure-system cost in the engineering BOM.",
         "",
     ]
     readme = destination / "README.md"
@@ -352,10 +446,14 @@ def publish_packet(packet, output):
         "procurement_approved": False,
         "physical_qualification": None,
         "selected_reference_changed": False,
+        "conditional_resin_scenario_count": len(packet["conditional_local_resin_price_scenarios"]),
+        "conditional_resin_price_sensitivity_only": True,
     }
     manifest["manifest_id"] = identity(manifest)
     (destination / "manifest.json").write_bytes(encoded(manifest) + b"\n")
     return {"path": str(destination), "packet_id": packet["packet_id"],
             "manifest_id": manifest["manifest_id"], "scenario_count": len(scenarios),
             "partial_cost_iqd": [row["partial_fabric_plus_labour_plus_20_iqd_per_10m2"] for row in scenarios],
+            "conditional_resin_scenario_count": len(packet["conditional_local_resin_price_scenarios"]),
+            "conditional_resin_partial_cost_iqd": [row["conditional_fabric_resin_labour_plus_20_iqd_per_10m2"] for row in packet["conditional_local_resin_price_scenarios"]],
             "complete_installed_cost_iqd": None, "physical_qualification": None}
