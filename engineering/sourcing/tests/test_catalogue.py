@@ -24,7 +24,7 @@ def write_seed(path, data):
 def test_actual_catalogue_scopes_prices_and_half_open_breaks():
     values=load_catalogue([SUPPLIERS]);products={v['product_key']:v for v in values if v['kind']=='product'}
     assert len(products)==16
-    assert sum(v['kind']=='source' for v in values)==18
+    assert sum(v['kind']=='source' for v in values)==38
     offers={v['product_id']:v for v in values if v['kind']=='offer'}
     assert len(offers)==5
     cloth=offers[products['EC-GF-BA-440-127']['record_id']]
@@ -53,7 +53,7 @@ def test_actual_catalogue_scopes_prices_and_half_open_breaks():
 def test_seed_references_are_atomic_and_repeatable(tmp_path):
     with Store(tmp_path/'sourcing.db') as store:
         first=seed(store,[SUPPLIERS]);second=seed(store,[SUPPLIERS])
-        assert first['added_count']==first['record_count']==39
+        assert first['added_count']==first['record_count']==247
         assert second['added_count']==0
         assert first['record_ids']==second['record_ids']
         for offer in store.all('offer'):

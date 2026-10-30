@@ -69,6 +69,8 @@ The example recipes in `docs/design-engine/sourcing/domestic-fabrication/recipes
 
 `iraq_cost_scenarios` uses the official 2025 CSO Iraqi-origin material-price and governorate wage tables plus Ur Company posted aluminium prices to create 102 source-linked regional scenarios. It emits concrete batching estimates where all three local material benchmarks are available, rebar cut/bend scenarios across the 15 listed governorates, processing sensitivities for three profile forms and four sheet forms, and 2/4/8-hour Baghdad concrete estimates mapped to the exact research takeoff groups and occurrence IDs. A source-table zero is treated as missing. The file-backed report is not a supplier quote; its metal-processing hours are assumptions, not local factory routes, and the 20% allowance applies only to declared raw material plus base-wage proxy.
 
+`iraq_gfrp_cost_scenarios` and `./osr source estimate gfrp-laminate` evaluate the exact three current 10 m² GFRP laminate study packets using their listed Easy Composites cloth/resin extensions, a dated Central Bank of Iraq GBP/IQD reference, and the 2025 CSO Baghdad hourly base wage. Each recipe carries 8/16/32 assumed local person-hours, applies the 20% allowance to known listed material plus base labour, and retains unresolved core/adhesive costs as unknown. The output is an Iraqi-labour/imported-material sensitivity, not a local composite quote or a complete fabrication estimate. Packet hashes, candidate identities and the current source-observation epoch are checked before computation.
+
 ```bash
 ./tools/automation/osr-python -m engineering.sourcing.iraq_cost_scenarios \
   --takeoff docs/design-engine/sourcing/material-takeoff/federated-v06-stock-takeoff.json.gz \
@@ -86,9 +88,13 @@ The example recipes in `docs/design-engine/sourcing/domestic-fabrication/recipes
   --takeoff docs/design-engine/sourcing/material-takeoff/federated-v06-stock-takeoff.json.gz \
   --recipe docs/design-engine/sourcing/domestic-fabrication/takeoff-recipes/concrete-04h-per-m3.json \
   --output /tmp/osr-concrete-takeoff-estimate.json
+
+./osr source estimate gfrp-laminate \
+  --packet-root docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v2 \
+  --output /tmp/osr-gfrp-local-fabrication-screen.json
 ```
 
-The Iraqi input library includes CSO construction-material prices and governorate wages, an Iraqi state producer's aluminium price page, and domestic steel/precast manufacturer leads. Missing design-grade specifications, supplier availability, current binding quotes, production yields, employer-loaded labour, tooling, QA, utilities, transport and installation remain explicit gaps. Local supplier pages document capability leads only; they do not authorize or select products.
+The Iraqi input library includes CSO construction-material prices and governorate wages, an Iraqi state producer's aluminium price page, and domestic steel/precast manufacturer leads. It also records local GRP façade, polymer raw-material and polyester/epoxy supplier leads, while keeping them separate from sourced product offers. Missing design-grade specifications, supplier availability, current binding quotes, production yields, locally made glass-fibre reinforcement, employer-loaded labour, tooling, QA, utilities, transport and installation remain explicit gaps. Local supplier pages document capability leads only; they do not authorize or select products.
 
 The source-bound draft package output for the federated research candidate is indexed in `docs/design-engine/sourcing/validation.json` and detailed in `docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages.json.gz`. Its internal package counts are not purchase quantities; occurrence identity and the source research candidate remain fixed.
 

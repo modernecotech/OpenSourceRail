@@ -215,9 +215,42 @@ def _sourcing_section(root,record):
         or regional_packet.get('packet_id') != regional.get('packet_id')
         or regional_packet.get('candidate_id') != federated['candidate_id']):
         raise ValueError('Regional material/labour scenario index differs from its candidate-bound packet')
+    gfrp_index=validation.get('gfrp_local_fabrication_cost_screen', {})
+    gfrp_path=root/'docs/design-engine/sourcing'/gfrp_index.get('path', '')
+    if not gfrp_index or not gfrp_path.is_file():
+        raise ValueError('Candidate-linked GFRP local-fabrication screen is missing')
+    gfrp_packet=json.loads(gfrp_path.read_bytes())
+    gfrp_studies=gfrp_packet.get('studies', [])
+    expected_laminate={row['recipe']:row for row in validation['packets']['laminate_material_studies']}
+    if (gfrp_packet.get('schema')!='osr-iraq-gfrp-local-fabrication-cost-screens/1'
+        or gfrp_packet.get('packet_id')!=sourcing_identity({k:v for k,v in gfrp_packet.items() if k!='packet_id'})
+        or gfrp_packet.get('packet_id')!=gfrp_index.get('packet_id')
+        or gfrp_packet.get('catalogue_epoch_id')!=validation.get('source_epoch_sha256')
+        or gfrp_index.get('catalogue_epoch_id')!=validation.get('source_epoch_sha256')
+        or gfrp_packet.get('basis',{}).get('executable_fx') is not False
+        or gfrp_packet.get('basis',{}).get('uplift_fraction')!='0.20'
+        or len(gfrp_studies)!=3
+        or sum(len(row.get('scenarios',[])) for row in gfrp_studies)!=gfrp_index.get('scenario_count')
+        or any(row.get('parent_candidate_id')!=federated['candidate_id'] for row in gfrp_studies)
+        or any(row.get('candidate_id')!=expected_laminate.get(row.get('recipe'),{}).get('candidate_id')
+               or row.get('publication_id')!=expected_laminate.get(row.get('recipe'),{}).get('publication_id')
+               or row.get('complete_fabrication_cost_iqd') is not None
+               or row.get('unknown_is_zero') is not False
+               for row in gfrp_studies)
+        or gfrp_packet.get('complete_installed_cost_iqd') is not None
+        or gfrp_packet.get('physical_qualification') is not None
+        or gfrp_packet.get('unknown_is_zero') is not False):
+        raise ValueError('GFRP local-fabrication packet differs from its source epoch, laminate studies or open-cost boundary')
+    gfrp_rows=[]
+    for row in gfrp_studies:
+        amounts='/'.join(f"{float(x['partial_screen_iqd']):,.2f}" for x in row['scenarios'])
+        material=float(row['known_listed_material_subtotal_iqd'])
+        recipe_label=row['recipe'].replace('-600gsm','').replace('-',' ')
+        gfrp_rows.append(
+            f"| 10 m² {recipe_label} GFRP screen | IQD {material:,.2f} known listed materials; 8/16/32 assumed skilled hours | IQD {amounts} partial materials + labour + 20%; unpriced inputs remain open |")
     return [
       '## Sourcing and domestic cost coverage','',
-      catalogue_line+' Iraqi source leads include cement production, steel fabrication and rebar, GRP pipe and an aluminium-extrusion project. Source leads are not quotations, qualified products or available capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).','',
+      catalogue_line+' Iraqi source leads now include cement production, steel fabrication and rebar, GRP pipe and façade manufacturing, polymer/resin supply, and aluminium extrusion. Source leads are not quotations, qualified products or available capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).','',
       identity_note,'',
       '| Research scope | Sourcing evidence | Cost disposition |','|---|---|---|',
       f"| Frame candidate `{frame['candidate_id'][:12]}` | {frame['input_requirement_count']:,} groups; {frame['compatible_matches']} compatible priced matches | Nine RFQ drafts remain unsent; complete installed cost unknown |",
@@ -228,6 +261,8 @@ def _sourcing_section(root,record):
       f"| 2026-price concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {mapped_totals_miqd[0]:.1f}–{mapped_totals_miqd[-1]:.1f} million for gross modeled concrete volume; not a mix design, precast beam price or installed cost |",
       f"| 2025 Iraqi regional domestic-cost library | {regional_count} material/labour scenarios across concrete, rebar, aluminium profiles and four Ur sheet forms; concrete recipe prices available in 12 of 15 listed governorates | Three governorates have missing concrete material prices; all scenario hours are assumptions and the 20% uplift is unallocated |",
       f"| 2025 Baghdad concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD {regional_totals_miqd[0]:.1f}–{regional_totals_miqd[-1]:.1f} million on the 2025 regional material rates; not a designed mix or installed span price |",'',
+      *gfrp_rows,'',
+      'The GFRP figures use listed Easy Composites UK material extensions converted at the 29 October 2026 CBI GBP/IQD reference and the 2025 CSO Baghdad base-wage benchmark. They are partial sensitivity screens: adhesives remain unresolved, sandwich-core prices are absent, and import, tooling, consumables, QA, fire/smoke, structural qualification and installation are excluded. They do not price a finished panel or transfer to the selected reference body.', '',
       'The 2026-price estimate and the 2025 regional-price estimate are separately source-bound views of the same research-candidate concrete takeoff. Both preserve every original manufacturing-group and occurrence identity. Their material mix and labour hours remain assumptions, not measured process data; neither establishes a guideway beam, supplier match, complete installed mass or cost, or a cost for the selected reference candidate. The regional packet also includes rebar cut/bend and profile/sheet raw-stock processing sensitivities; the posted sheet rates do not establish structural grade or a completed manufacturing route.','',
       'The reference dossier\'s 900 m shared winding and the separate five-bank research layout (100 m active motor length) remain distinct propulsion configurations. Their force maps, electrical/thermal duties, plant quantities, procurement BOMs and installed costs are not shared.',''
     ]

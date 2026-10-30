@@ -115,6 +115,11 @@ def _parser():
                                   help="Recipe JSON with exact benchmarks and target roll-up")
     takeoff_estimate.add_argument("--output", required=True, type=Path,
                                   help="Fresh JSON output path")
+    gfrp = estimate_sub.add_parser("gfrp-laminate", help="Screen local labour against sourced 10 m² GFRP material studies")
+    gfrp.add_argument("--packet-root", required=True, type=Path,
+                      help="Directory containing the exact solid, sandwich and higher-fibre laminate packets")
+    gfrp.add_argument("--output", required=True, type=Path,
+                      help="Fresh source-bound JSON output path")
 
     takeoff = sub.add_parser("takeoff", help="Build traceable stock material quantity roll-ups")
     takeoff_sub = takeoff.add_subparsers(dest="takeoff_command", required=True)
@@ -594,6 +599,18 @@ def main(argv=None):
             return 0
 
         if args.command == "estimate":
+            if args.estimate_command == "gfrp-laminate":
+                from .iraq_gfrp_cost_scenarios import _build
+                payload = _build(catalogue.load_catalogue(), args.packet_root.expanduser().resolve())
+                output_path = args.output.expanduser().resolve()
+                if output_path.exists() or output_path.is_symlink():
+                    raise ValueError("Fresh GFRP cost-screen output path required: " + str(output_path))
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                output_path.write_bytes(encoded(payload) + b"\n")
+                _emit(dict(output=str(output_path), packet_id=payload["packet_id"],
+                           scenarios=sum(len(row["scenarios"]) for row in payload["studies"]),
+                           complete_fabrication_cost_iqd=None, physical_qualification=None))
+                return 0
             if not database.is_file():
                 raise ValueError("Initialize and seed the sourcing database before estimating")
             with Store(database) as store:

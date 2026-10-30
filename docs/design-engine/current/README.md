@@ -45,7 +45,7 @@ New rails and fasteners are much lighter than the old magnetic interface stock, 
 
 ## Sourcing and domestic cost coverage
 
-The current sourcing seed contains **268 immutable records**: 47 sources, 16 product observations, 5 published price offers, 2 FX observations and 198 benchmarks. Iraqi source leads include cement production, steel fabrication and rebar, GRP pipe and an aluminium-extrusion project. Source leads are not quotations, qualified products or available capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).
+The current sourcing seed contains **273 immutable records**: 51 sources, 16 product observations, 5 published price offers, 3 FX observations and 198 benchmarks. Iraqi source leads now include cement production, steel fabrication and rebar, GRP pipe and façade manufacturing, polymer/resin supply, and aluminium extrusion. Source leads are not quotations, qualified products or available capacity. See the [sourcing dossier](../sourcing/README.md) and [source-bound coverage index](../sourcing/validation.json).
 
 The current selected physical candidate is `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`. The frame and federated sourcing runs instead use research candidates `1b3ae3f4de24f7302827e61047aa4ddb1f087c46ec84f47ec6bb2607b5a1e084` and `9c7d0942c9de6056e6afd051549273d0f34a72edf301fdd680ba37d12da7879f`. Their matching results, takeoff and cost screens do not transfer to the selected reference candidate.
 
@@ -60,6 +60,12 @@ The current selected physical candidate is `756a68870162f7559b052b05c9b201728c9f
 | 2026-price concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD 205.0–326.8 million for gross modeled concrete volume; not a mix design, precast beam price or installed cost |
 | 2025 Iraqi regional domestic-cost library | 102 material/labour scenarios across concrete, rebar, aluminium profiles and four Ur sheet forms; concrete recipe prices available in 12 of 15 listed governorates | Three governorates have missing concrete material prices; all scenario hours are assumptions and the 20% uplift is unallocated |
 | 2025 Baghdad concrete takeoff estimate | 81 exact concrete manufacturing groups and 486 engineering occurrences, costed at 2/4/8 declared skilled h/m³ scenarios | IQD 207.0–328.9 million on the 2025 regional material rates; not a designed mix or installed span price |
+
+| 10 m² solid GFRP screen | IQD 1,229,647.35 known listed materials; 8/16/32 assumed skilled hours | IQD 1,565,576.82/1,655,576.82/1,835,576.82 partial materials + labour + 20%; unpriced inputs remain open |
+| 10 m² sandwich GFRP screen | IQD 614,823.67 known listed materials; 8/16/32 assumed skilled hours | IQD 827,788.41/917,788.41/1,097,788.41 partial materials + labour + 20%; unpriced inputs remain open |
+| 10 m² higher fibre sandwich GFRP screen | IQD 449,362.55 known listed materials; 8/16/32 assumed skilled hours | IQD 629,235.07/719,235.07/899,235.07 partial materials + labour + 20%; unpriced inputs remain open |
+
+The GFRP figures use listed Easy Composites UK material extensions converted at the 29 October 2026 CBI GBP/IQD reference and the 2025 CSO Baghdad base-wage benchmark. They are partial sensitivity screens: adhesives remain unresolved, sandwich-core prices are absent, and import, tooling, consumables, QA, fire/smoke, structural qualification and installation are excluded. They do not price a finished panel or transfer to the selected reference body.
 
 The 2026-price estimate and the 2025 regional-price estimate are separately source-bound views of the same research-candidate concrete takeoff. Both preserve every original manufacturing-group and occurrence identity. Their material mix and labour hours remain assumptions, not measured process data; neither establishes a guideway beam, supplier match, complete installed mass or cost, or a cost for the selected reference candidate. The regional packet also includes rebar cut/bend and profile/sheet raw-stock processing sensitivities; the posted sheet rates do not establish structural grade or a completed manufacturing route.
 

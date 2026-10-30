@@ -23,7 +23,10 @@ def test_real_federated_cell_input_includes_more_than_the_vehicle():
     value = load_twin(archive, member="federated-bom.json.gz")
     requirements = extract_requirements(value["payload"])
     categories = Counter(item["category"] for item in requirements)
-    assert len(requirements) == 31989
+    assert len(value["payload"]["engineering_BOM"]) == 31989
+    assert len(requirements) == 7042
+    assert sum(len(item["occurrence_ids"]) for item in requirements) == 27216
+    assert len(value["payload"]["unresolved_occurrence_ids"]) == 4773
     assert categories["propulsion"] > 0
     assert categories["civil"] > 0
     assert categories["body-materials"] > 0

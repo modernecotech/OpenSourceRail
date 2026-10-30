@@ -42,11 +42,18 @@ def test_scope_aliases_and_within_line_double_charges_rejected(paths):
 
 
 def test_actual_combined_catalogue_retains_provenance_and_exact_area_tiers():
-    values=load_catalogue();assert len(values)==60
-    assert len([v for v in values if v["kind"]=="source"])==27
+    values=load_catalogue();assert len(values)==273
+    assert len([v for v in values if v["kind"]=="source"])==51
     assert len([v for v in values if v["kind"]=="product"])==16
     p=next(v for v in values if v["kind"]=="product" and v["product_key"]=="EC-GF-BA-440-127")
     rates=[v for v in values if v["kind"]=="fx"]
+    cbi_rate=next(v for v in rates if v["base_currency"]=="GBP" and v["quote_currency"]=="IQD")
+    assert cbi_rate["rate"]=="1692.216" and cbi_rate["rate_date"]=="2026-10-29"
+    assert cbi_rate["executable_transaction_rate"] is False
+    sources={v["source_key"]:v for v in values if v["kind"]=="source"}
+    assert sources["iraq-nubin-grp-facade"]["source_kind"]=="manufacturer_catalogue"
+    assert sources["iraq-abralqamar-composites-chemicals"]["source_kind"]=="distributor_catalogue"
+    assert sources["iraq-almniee-polymer-raw-materials"]["source_kind"]=="distributor_catalogue"
     offers=[v for v in values if v["kind"]=="offer"]
     for area,quantity,total in (("1.27","1","4.05"),("128.27","101","313.1")):
         req=requirement(p,area)
@@ -57,6 +64,16 @@ def test_actual_combined_catalogue_retains_provenance_and_exact_area_tiers():
         assert price["purchased_quantity"] is None and price["comparable_order_subtotal"] is None
         assert "held-order-constraints" in price["holds"]
     assert any(v.get("seed_provenance",{}).get("research_package_id") for v in values if v["kind"]=="source")
+
+
+def test_iraqi_gfrp_supplier_leads_do_not_create_prices_or_rail_qualification():
+    values=load_catalogue()
+    lead_ids={v["record_id"] for v in values if v.get("source_key") in {
+        "iraq-nubin-grp-facade", "iraq-abralqamar-composites-chemicals",
+        "iraq-almniee-polymer-raw-materials"}}
+    assert len(lead_ids)==3
+    assert not [v for v in values if v["kind"]=="offer" and
+                (v.get("source_id") in lead_ids or set(v.get("source_ids", [])) & lead_ids)]
 
 
 def test_abb_inverter_family_is_a_specification_lead_without_price_or_lim_approval():

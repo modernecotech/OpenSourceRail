@@ -4,7 +4,7 @@
 
 ## What is in the database
 
-The combined offline seed now contains **268 immutable observations**: 47 source records, 16 product records, five published catalogue offers, two retained FX observations and 198 commodity, construction, wage and local-market benchmarks. The retained ECB and World Bank feed snapshot separately parsed **27 dated ECB reference-rate rows** and **two World Bank metal observations** into a local append-only database. Repeating a refresh with identical bytes reuses the source record and does not replace previous observations. Previously published packets remain source-bound to their earlier catalogue epochs.
+The combined offline seed now contains **273 immutable observations**: 51 source records, 16 product records, five published catalogue offers, three retained FX observations and 198 commodity, construction, wage and local-market benchmarks. The retained ECB and World Bank feed snapshot separately parsed **27 dated ECB reference-rate rows** and **two World Bank metal observations** into a local append-only database. The Central Bank of Iraq workbook adds a dated GBP/IQD conversion reference. Repeating a refresh with identical bytes reuses the source record and does not replace previous observations. Previously published packets remain source-bound to their earlier catalogue epochs.
 
 Source products are immutable observations. If a supplier product key has multiple recorded revisions, the laminate study stops unless the operator supplies the exact `PRODUCT_KEY=RECORD_ID` selection with `--product-observation`. The requirement and RFQ retain that selected record ID. Material/source-property changes alter the evaluation input and bounds; physical candidate identity stays constant when only the evidence revision changes. A changed material choice or geometry gets a different candidate ID.
 
@@ -33,7 +33,7 @@ The [World Bank Pink Sheet](https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa
 
 Gurit’s [Corecell M page](https://www.gurit.com/corecell-m/) identifies the M80 nominal density and sheet range; its [DNV certificate](https://www.gurit.com/wp-content/uploads/2026/04/CORECELL-M-DNV-1.pdf) is tied to its stated sandwich-core application and is not rail vehicle approval. The two sandwich material screens use that identified product at the declared 20 mm thickness and 85 kg/m³ nominal density. For the 10 m² comparison, the published 81–89 kg/m³ range gives a material-only interval of 40.2–41.8 kg or 36.2–37.8 kg. They do not claim the finished panel uses this core, meets rail fire/smoke or hot-wet limits, or is structurally qualified. No Gurit offer is present, so the study's listed price extensions cover only sourced cloth and resin lines. The manufacturer’s 1,220 × 2,440 mm sheet size is carried into the RFQ draft; the number of sheets remains unknown without panel nesting and a cut plan.
 
-The [ECB daily reference feed](https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.pl.html) supplies a dated 28 October snapshot, including EUR/USD 1.1133 and EUR/GBP 0.83785. These are informational reference rates, not executable procurement conversions. IQD is absent; the evaluator does not insert a remembered fixed peg or mix reference rates with a different provider's cash rates.
+The [ECB daily reference feed](https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/index.pl.html) supplies a dated 28 October snapshot, including EUR/USD 1.1133 and EUR/GBP 0.83785. These are informational reference rates, not executable procurement conversions. A [Central Bank of Iraq daily workbook](https://cbi.iq/page/144) separately reports **IQD 1,692.216 per GBP** in its 29 October 2026 GBP selling column. That dated reference is used only to convert the listed UK laminate material extensions in the partial GFRP labour screen below. It is not an executable payment rate; channel spreads, bank eligibility, fees and settlement terms remain unknown.
 
 Eight actual awarded Caltrans bridge-footing concrete pay items are retained in USD/CY, with original bid rates separate from the agency's adjusted rates. They are California historical comparators, **not Baghdad installed rates**. The [Iraq Tender Portal](https://itp.iq/) returned a public application shell without verified award prices. A relevant [UNGM Iraq/UNOPS notice](https://www.ungm.org/Public/Notice/221058) exposed BOQ-file leads, but the file request returned HTTP 403; the importer creates no unit-rate benchmark from those filenames. Local Iraqi concrete, steel, labour, transport, lifting, utility relocation and installation rates remain a high-priority RFQ/tender task.
 
@@ -69,6 +69,8 @@ Additional domestic production leads are now retained as distinct sources:
 | [Al-Khassaki aluminium factory project](https://akg-eng.net/al-khassaki-factory-for-melting-and-extruding-aluminum-sections/) | Project page describes planned aluminium melting/extrusion of profiles and sheets | The page states 75% progress; commissioning and operating capacity are not established |
 
 These entries help route domestic procurement and fabrication research. They are not available-to-buy records, validated capacity data, certified component designs or prices. In particular, the aluminium project is not counted as operating capacity and the GRP pipe plant is not treated as a source of qualified vehicle-body panels.
+
+The current source layer adds three more local composites leads: [NUBIN](https://www.nubingrc.com/) describes GRP/GFRP façade design and manufacture in Erbil; [Abr AlQamar](https://abralqamar.com.iq/products/) lists polyester resin and epoxy resin/curing agents; and [Al-Mniee](https://almnieetrading.com/) describes polymer raw-material supply from Baghdad. They suggest possible local fabrication and materials RFQs, but do not establish a railway-panel process, a usable material grade, compatible glass reinforcement, local stock, current capacity or a price. No locally made continuous glass-fibre cloth or rail-qualified composite system is verified in this source set. The three entries are supplier leads only and create no offers.
 
 ### Regional material + labour estimates
 
@@ -172,6 +174,18 @@ The same assumptions are now applied to the candidate-bound **1,804.8096 m³ nom
 
 The three takeoff-mapped recipes, output packets, exact group/occurrence lists and source hashes are indexed in [validation.json](validation.json): [2-hour estimate](domestic-fabrication/estimates/current/concrete-takeoff-02h.json), [4-hour estimate](domestic-fabrication/estimates/current/concrete-takeoff-04h.json) and [8-hour estimate](domestic-fabrication/estimates/current/concrete-takeoff-08h.json). Reproduce one scenario with the `./osr source estimate takeoff` command above. The six generic unit-rate screens and three takeoff-mapped estimates remain different evidence scopes.
 
+### GFRP local fabrication: listed material + local labour + 20%
+
+The new [GFRP cost screen](domestic-fabrication/estimates/current/gfrp-laminate-local-2026.json) joins the three source-bound 10 m² laminate hypotheses to the 2025 CSO Baghdad skilled-worker base wage of IQD 9,375/hour and the dated CBI GBP/IQD reference. It uses explicit 8/16/32 person-hour sensitivities per 10 m². The formula is `(known listed UK material extensions converted at CBI reference + assumed local base-wage labour) × 1.20`.
+
+| 10 m² research recipe | Known listed materials converted to IQD | Partial screen at 8 / 16 / 32 labour hours, including 20% |
+|---|---:|---:|
+| Solid 600 gsm GFRP | IQD 1,229,647.35 | IQD 1,565,576.82 / 1,655,576.82 / 1,835,576.82 |
+| 600 gsm sandwich | IQD 614,823.67 | IQD 827,788.41 / 917,788.41 / 1,097,788.41 |
+| Higher-fibre 600 gsm sandwich | IQD 449,362.55 | IQD 629,235.07 / 719,235.07 / 899,235.07 |
+
+These are **partial planning amounts**, not locally sourced composite prices or finished-panel quotes. Easy Composites cloth and resin remain UK listed inputs, and the conversion is a dated non-executable CBI reference. The two sandwich cases have unpriced Corecell M80 and all three cases have unresolved adhesive quantities; their costs remain unknown rather than zero. The scenario also excludes freight, customs, bank charges, mould/tooling, process consumables, scrap beyond the study takeoff, equipment, utilities, employer wage burden, QA, rework, fire/smoke requirements, structural qualification, installation and maintenance. The hours are assumptions, while the 20% allowance is unallocated and does not establish overhead, profit, tax or contingency. Candidate identities, unresolved input IDs and exact source records remain in the machine-readable packet; it cannot rank or select body designs.
+
 ### Cost/weight sensitivity queue
 
 The unresolved sourcing backlog now accepts candidate-bound `decision_sensitivity` inputs. For explicit ranges, it computes cost and mass scores as `impact-range width × uncertainty fraction × (1 + number of downstream decisions affected)`. It lists alternatives, affected simulations and requested catalogue/supplier evidence beside the score. Safety or design blockers sort ahead of economic results. Cost and mass use separate ranks and Pareto fronts rather than a made-up cost-versus-kilogram exchange rate. A `could_change_preferred` result is produced only when an explicit candidate cost margin and same-currency cost-impact range are present.
@@ -182,7 +196,7 @@ DigiKey's [official Product Information API](https://developer.digikey.com/tutor
 
 ## Direct twin runs
 
-The current 105-record offline seed includes Iraqi domestic material/wage sources, the regional cement observation and five additional local factory/fabrication leads. The vehicle-frame, 137-group balanced federation and all three laminate packets were regenerated and passed sourcing **semantic replay** against their sealed inputs and source snapshots. Packet IDs and the exact offline-seed record-set identity are in [validation.json](validation.json). Earlier 60-record and 98-record catalogue epochs remain retained in [validation-pre-domestic-iraq.json](validation-pre-domestic-iraq.json) and [validation-domestic-iraq-pre-sensitivity.json](validation-domestic-iraq-pre-sensitivity.json). Raw downloaded source documents and the SQLite database remain outside the repository.
+The current 273-record offline seed includes Iraqi domestic material/wage sources, the regional cement observation and eight local factory/fabrication/composites leads. The vehicle-frame, 137-group balanced federation and all three laminate packets were regenerated and passed sourcing **semantic replay** against their sealed inputs and source snapshots. Packet IDs and the exact offline-seed record-set identity are in [validation.json](validation.json). Earlier 60-record and 98-record catalogue epochs remain retained in [validation-pre-domestic-iraq.json](validation-pre-domestic-iraq.json) and [validation-domestic-iraq-pre-sensitivity.json](validation-domestic-iraq-pre-sensitivity.json). Raw downloaded source documents and the SQLite database remain outside the repository.
 
 | Input and purpose | Evaluation | Result |
 |---|---|---|
@@ -199,8 +213,9 @@ In the current catalogue epoch, the vehicle frame still has 3,183 requirement gr
 
 ## Reproducible packages
 
-- Current 105-record source epoch: [vehicle registry](packets/frame-vehicle-iraq-domestic-sources-v2/summary.json) · [federated manufacturing-group roll-up](packets/federated-purchasing-groups-iraq-domestic-sources-v2/summary.json)
-- Current 105-record source epoch: [solid laminate](packets/laminate-materials-iraq-domestic-sources-v2/solid-600gsm/summary.json) · [sandwich laminate](packets/laminate-materials-iraq-domestic-sources-v2/sandwich-600gsm/summary.json) · [higher-fibre sandwich](packets/laminate-materials-iraq-domestic-sources-v2/higher-fibre-sandwich-600gsm/summary.json)
+- Current 273-record source epoch: [vehicle registry](packets/frame-vehicle-iraq-domestic-sources-v2/summary.json) · [federated manufacturing-group roll-up](packets/federated-purchasing-groups-iraq-domestic-sources-v2/summary.json)
+- Current 273-record source epoch: [solid laminate](packets/laminate-materials-iraq-domestic-sources-v2/solid-600gsm/summary.json) · [sandwich laminate](packets/laminate-materials-iraq-domestic-sources-v2/sandwich-600gsm/summary.json) · [higher-fibre sandwich](packets/laminate-materials-iraq-domestic-sources-v2/higher-fibre-sandwich-600gsm/summary.json)
+- [Iraqi-local GFRP labour/material sensitivity packet](domestic-fabrication/estimates/current/gfrp-laminate-local-2026.json)
 - Earlier 60-record epoch: [vehicle registry](packets/frame-vehicle/summary.json) · [whole-railway frontier](packets/federated-balanced-frontier/summary.json) · [manufacturing-group roll-up](packets/federated-purchasing-groups/summary.json)
 - Prior 98-record, pre-sensitivity epoch: [validation index](validation-domestic-iraq-pre-sensitivity.json) · [vehicle registry](packets/frame-vehicle-iraq-sources-pre-sensitivity-controller/summary.json) · [federated roll-up](packets/federated-purchasing-groups-iraq-sources-pre-sensitivity-controller/summary.json)
 - Earlier 60-record epoch: [solid laminate](packets/laminate-solid-600gsm/summary.json) · [sandwich laminate](packets/laminate-sandwich-600gsm/summary.json) · [higher-fibre sandwich](packets/laminate-higher-fibre-sandwich-600gsm/summary.json)
@@ -228,6 +243,9 @@ From a repository checkout:
   --input docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-domestic-sources-v2/input.json.gz \
   --recipe docs/design-engine/sourcing/domestic-fabrication/recipes/rebar-cut-bend-08h.json \
   --output /tmp/osr-domestic-fabrication-estimate.json
+./osr source estimate gfrp-laminate \
+  --packet-root docs/design-engine/sourcing/packets/laminate-materials-iraq-domestic-sources-v2 \
+  --output /tmp/osr-gfrp-local-fabrication-screen.json
 ./osr source serve
 ```
 
