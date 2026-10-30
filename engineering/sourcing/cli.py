@@ -629,6 +629,8 @@ def main(argv=None):
                 "domestic_cost_estimate_scenario_count": packet["domestic_cost_estimate_scenario_count"],
                 "candidate_mapped_aluminium_demand_line_count": packet["candidate_mapped_aluminium_demand_line_count"],
                 "candidate_mapped_aluminium_sensitivity_scenario_count": packet["candidate_mapped_aluminium_sensitivity_scenario_count"],
+                "candidate_mapped_copper_demand_line_count": packet["candidate_mapped_copper_demand_line_count"],
+                "candidate_mapped_copper_sensitivity_scenario_count": packet["candidate_mapped_copper_sensitivity_scenario_count"],
                 "concrete_material_input_takeoff_package_count": packet["summary"]["concrete_material_input_takeoff_package_count"],
                 "concrete_material_input_takeoff_line_count": packet["summary"]["concrete_material_input_takeoff_line_count"],
                 "concrete_material_input_takeoff_id": (

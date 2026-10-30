@@ -20,10 +20,10 @@ LAMINATES = "docs/design-engine/sourcing/packets/laminate-materials-iraq-domesti
 REGIONAL = "docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v6/iraq-domestic-cost-reference-2026-09.json"
 GFRP = "docs/design-engine/sourcing/domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v19.json"
 IMPORT_SCREEN = "docs/design-engine/sourcing/domestic-fabrication/cso-imported-aluminium-fabrication-sensitivity-2025-2026.json"
-PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v18.json.gz"
+PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v19.json.gz"
 CONCRETE_RECIPE = "docs/design-engine/sourcing/domestic-fabrication/takeoff-recipes/concrete-material-inputs-2026-09.json"
-LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v3/iraq-span-logistics-sensitivity.json"
-LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v3/manifest.json"
+LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v4/iraq-span-logistics-sensitivity.json"
+LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v4/manifest.json"
 LOCAL_GFRP = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/iraq-local-gfrp-retail-screen.json"
 LOCAL_GFRP_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/manifest.json"
 ADDITIONAL_MATERIAL_SOURCES = "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json"
@@ -200,6 +200,67 @@ def build_validation():
                 ) > Decimal("0.000001")
                 for item in row["domestic_cost_estimate_scenarios"]):
             raise ValueError("Per-span ingredients do not reconcile with material + labour + 20% estimate")
+    copper_lines = [row for row in procurement.get("material_purchasing_lines", [])
+                    if (row.get("system"), row.get("material"), row.get("stock_scope"))
+                    == ("wayside/primary", "copper-conductor", "equivalent-volume-stock")]
+    copper_benchmark = benchmarks["cso-import-2025:hs74081100:iqd-per-kg"]
+    copper_wage = benchmarks["iq-cso-2026-09:baghdad:wage:skilled:hour-8h-day"]
+    if len(copper_lines) != 1:
+        raise ValueError("Current research procurement BOM must contain one exact copper conductor stock line")
+    copper_line = copper_lines[0]
+    copper_takeoff = {
+        "candidate_id": procurement["candidate_id"],
+        "source_input_id": procurement["source_input_id"],
+        "system": copper_line["system"],
+        "material": copper_line["material"],
+        "stock_scope": copper_line["stock_scope"],
+        "gross_stock_mass_kg": copper_line["modeled_gross_stock_mass_kg"],
+        "engineering_group_ids": copper_line["engineering_group_ids"],
+        "engineering_occurrence_ids": copper_line["engineering_occurrence_ids"],
+        "related_package_ids": copper_line["related_package_ids"],
+    }
+    copper_scenarios = copper_line.get("copper_imported_raw_stock_sensitivity_scenarios", [])
+    if (copper_line.get("material_line_id") != identity(
+            {key: value for key, value in copper_line.items() if key != "material_line_id"})
+            or copper_line.get("copper_imported_raw_stock_sensitivity_takeoff_id") != identity(copper_takeoff)
+            or copper_line.get("engineering_group_count") != 5
+            or copper_line.get("engineering_occurrence_count") != 10
+            or copper_line.get("modeled_gross_stock_mass_kg") != "9354.240000000002"
+            or len(copper_scenarios) != 3
+            or procurement.get("candidate_mapped_copper_demand_line_count") != 1
+            or procurement.get("candidate_mapped_copper_sensitivity_scenario_count") != 3
+            or procurement.get("candidate_mapped_copper_sensitivity_scenario_count")
+            != procurement.get("summary", {}).get("candidate_mapped_copper_sensitivity_scenario_count")):
+        raise ValueError("Current copper cost sensitivity is not bound to the exact research stock takeoff")
+    for hours, scenario in zip((8, 16, 32), copper_scenarios):
+        material_cost = Decimal(copper_line["modeled_gross_stock_mass_kg"]) * Decimal(copper_benchmark["unit_price"])
+        labour_cost = (Decimal(copper_line["modeled_gross_stock_mass_kg"]) / Decimal(1000)
+                       * Decimal(hours) * Decimal(copper_wage["unit_price"]))
+        material_cost = material_cost.quantize(Decimal("0.01"))
+        labour_cost = labour_cost.quantize(Decimal("0.01"))
+        direct = material_cost + labour_cost
+        total = (direct * Decimal("1.20")).quantize(Decimal("0.01"))
+        if (scenario.get("labour_hours_per_gross_stock_tonne") != hours
+                or scenario.get("candidate_id") != procurement.get("candidate_id")
+                or scenario.get("source_input_id") != procurement.get("source_input_id")
+                or scenario.get("candidate_takeoff_id") != copper_line.get("copper_imported_raw_stock_sensitivity_takeoff_id")
+                or scenario.get("material_benchmark_id") != copper_benchmark.get("record_id")
+                or scenario.get("material_benchmark_source_id") != copper_benchmark.get("source_id")
+                or scenario.get("wage_benchmark_id") != copper_wage.get("record_id")
+                or scenario.get("wage_benchmark_source_id") != copper_wage.get("source_id")
+                or Decimal(scenario.get("direct_material_cost_iqd")) != material_cost
+                or Decimal(scenario.get("direct_labour_cost_iqd")) != labour_cost
+                or Decimal(scenario.get("estimated_total_iqd")) != total
+                or scenario.get("supplier_quote") is not False
+                or scenario.get("compatible_product_match") is not False
+                or scenario.get("commercial_order_quantity") is not None
+                or scenario.get("purchase_yield_fraction") is not None
+                or scenario.get("complete_process_cost") is not None
+                or scenario.get("complete_installed_cost") is not None
+                or scenario.get("engineering_approved") is not False
+                or scenario.get("procurement_approved") is not False
+                or scenario.get("unknown_is_zero") is not False):
+            raise ValueError("Copper raw-stock plus labour estimate differs from its sources or limits")
     logistics = read_json(LOGISTICS)
     logistics_manifest = read_json(LOGISTICS_MANIFEST)
     logistics_records = load_catalogue([LOGISTICS_SEED])
@@ -450,6 +511,16 @@ def build_validation():
             "material_demand_occurrence_count": procurement["summary"]["material_demand_occurrence_count"],
             "material_demand_mass_reconciliation_residual_kg": procurement["summary"]["material_demand_mass_reconciliation_residual_kg"],
             "candidate_mapped_aluminium_sensitivity_scenario_count": procurement["candidate_mapped_aluminium_sensitivity_scenario_count"],
+            "candidate_mapped_copper_sensitivity_scenario_count": procurement["candidate_mapped_copper_sensitivity_scenario_count"],
+            "copper_imported_raw_stock_sensitivity": {
+                "candidate_takeoff_id": copper_line["copper_imported_raw_stock_sensitivity_takeoff_id"],
+                "engineering_group_count": copper_line["engineering_group_count"],
+                "engineering_occurrence_count": copper_line["engineering_occurrence_count"],
+                "gross_stock_mass_kg": copper_line["modeled_gross_stock_mass_kg"],
+                "scenario_totals_iqd": [row["estimated_total_iqd"] for row in copper_scenarios],
+                "compatible_supplier_match": False,
+                "complete_installed_cost": None,
+            },
             "concrete_material_input_takeoff": {
                 "recipe_path": CONCRETE_RECIPE,
                 "recipe_id": concrete_takeoff["recipe_id"],

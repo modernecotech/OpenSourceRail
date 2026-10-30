@@ -9,6 +9,7 @@ import pytest
 from engineering.sourcing.procurement_bom import (
     _DOMESTIC_LEAD_RULES,
     _attach_domestic_aluminium_sensitivities,
+    _attach_imported_copper_sensitivities,
     _attach_concrete_material_input_takeoff,
     _link_unlocated_obligations,
     _material_purchasing_rollup,
@@ -274,3 +275,79 @@ def test_aluminium_raw_stock_sensitivities_attach_to_exact_candidate_material_li
     assert all(row["material_line_id"] == identity(
         {key: value for key, value in row.items() if key != "material_line_id"})
         for row in material_lines)
+
+
+def test_imported_copper_sensitivity_is_candidate_bound_and_formula_reconciles():
+    candidate_id, input_id = "a" * 64, "b" * 64
+    records = [row for row in load_catalogue()
+               if row.get("benchmark_key") in {
+                   "cso-import-2025:hs74081100:iqd-per-kg",
+                   "iq-cso-2026-09:baghdad:wage:skilled:hour-8h-day",
+               }]
+    line = {
+        "system": "wayside/primary", "material": "copper-conductor",
+        "stock_scope": "equivalent-volume-stock", "request_unit": "kg",
+        "modeled_gross_stock_mass_kg": "9354.240000000002",
+        "engineering_group_count": 5, "engineering_group_ids": [str(i) for i in range(5)],
+        "engineering_occurrence_count": 10, "engineering_occurrence_ids": [str(i) for i in range(10)],
+        "related_package_ids": [str(i) for i in range(5)],
+        "missing_gross_mass_group_count": 0, "missing_member_mass_group_count": 0,
+        "missing_demand_group_count": 0, "material_line_id": "c" * 64,
+    }
+
+    line_count, scenario_count = _attach_imported_copper_sensitivities(
+        [line], records, candidate_id, input_id)
+
+    assert (line_count, scenario_count) == (1, 3)
+    assert line["copper_imported_raw_stock_sensitivity_count"] == 3
+    assert line["copper_sensitivity_is_compatible_quote"] is False
+    assert line["material_line_id"] == identity(
+        {key: value for key, value in line.items() if key != "material_line_id"})
+    takeoff_id = line["copper_imported_raw_stock_sensitivity_takeoff_id"]
+    scenarios = line["copper_imported_raw_stock_sensitivity_scenarios"]
+    assert [row["labour_hours_per_gross_stock_tonne"] for row in scenarios] == [8, 16, 32]
+    for row in scenarios:
+        assert row["candidate_id"] == candidate_id
+        assert row["source_input_id"] == input_id
+        assert row["candidate_takeoff_id"] == takeoff_id
+        assert row["engineering_group_count"] == 5
+        assert row["engineering_occurrence_count"] == 10
+        assert row["candidate_bom_price"] is False
+        assert row["supplier_quote"] is False
+        assert row["compatible_product_match"] is False
+        assert row["commercial_order_quantity"] is None
+        assert row["purchase_yield_fraction"] is None
+        assert row["complete_process_cost"] is None
+        assert row["complete_installed_cost"] is None
+        assert row["unknown_is_zero"] is False
+        direct = Decimal(row["direct_material_cost_iqd"]) + Decimal(row["direct_labour_cost_iqd"])
+        assert Decimal(row["estimated_total_iqd"]) == (direct * Decimal("1.20")).quantize(Decimal("0.01"))
+        assert row["scenario_id"] == identity(
+            {key: value for key, value in row.items() if key != "scenario_id"})
+
+
+def test_imported_copper_sensitivity_rejects_wrong_source_and_incomplete_takeoff():
+    candidate_id, input_id = "a" * 64, "b" * 64
+    records = [row for row in load_catalogue()
+               if row.get("benchmark_key") in {
+                   "cso-import-2025:hs74081100:iqd-per-kg",
+                   "iq-cso-2026-09:baghdad:wage:skilled:hour-8h-day",
+               }]
+    line = {
+        "system": "wayside/primary", "material": "copper-conductor",
+        "stock_scope": "equivalent-volume-stock", "request_unit": "kg",
+        "modeled_gross_stock_mass_kg": "10", "engineering_group_count": 1,
+        "engineering_group_ids": ["g"], "engineering_occurrence_count": 1,
+        "engineering_occurrence_ids": ["o"], "related_package_ids": ["p"],
+        "missing_gross_mass_group_count": 0, "missing_member_mass_group_count": 0,
+        "missing_demand_group_count": 0, "material_line_id": "c" * 64,
+    }
+    bad_records = [dict(row) for row in records]
+    copper = next(row for row in bad_records if row.get("benchmark_key", "").startswith("cso-import"))
+    copper["source_id"] = "d" * 64
+    copper["record_id"] = identity({key: value for key, value in copper.items() if key != "record_id"})
+    with pytest.raises(ValueError, match="benchmark scope or source"):
+        _attach_imported_copper_sensitivities([line], bad_records, candidate_id, input_id)
+    line["missing_member_mass_group_count"] = 1
+    with pytest.raises(ValueError, match="exact, fully quantified members"):
+        _attach_imported_copper_sensitivities([line], records, candidate_id, input_id)

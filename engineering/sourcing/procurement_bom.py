@@ -69,7 +69,7 @@ _PACKAGE_SPECS = {
     },
 }
 
-_RULE_VERSION = "osr-procurement-package-rules/7"
+_RULE_VERSION = "osr-procurement-package-rules/8"
 
 _DOMESTIC_LEAD_RULES = {
     ("civil/concrete", "concrete-hypothesis"): {
@@ -794,6 +794,139 @@ def _attach_domestic_aluminium_sensitivities(material_lines, reference,
     return attached_lines, attached_scenarios
 
 
+def _attach_imported_copper_sensitivities(material_lines, benchmark_records,
+                                           candidate_id, source_input_id):
+    """Attach a bounded imported-wire plus local-labour screen to the LIM stock line.
+
+    The CSO customs unit value is an HS-group CIF benchmark, not an offer for
+    the candidate conductor. Keep it separate from accepted pricing and from
+    the selected reference configuration.
+    """
+    if benchmark_records is None:
+        return 0, 0
+    expected = {
+        "cso-import-2025:hs74081100:iqd-per-kg": {
+            "currency": "IQD", "quantity_unit": "kg", "source_id":
+                "597923ff144f6f342ff8459b3fb62a85663ba83d385e6f980c16d4c9acd6cedb",
+        },
+        "iq-cso-2026-09:baghdad:wage:skilled:hour-8h-day": {
+            "currency": "IQD", "quantity_unit": "h", "source_id":
+                "9952367c7ae1f5f8d89e267725a1edd6776d5a99c93d7032cd8f1bb28c99b40d",
+        },
+    }
+    found = {}
+    for record in benchmark_records:
+        if record.get("kind") != "benchmark" or record.get("benchmark_key") not in expected:
+            continue
+        validate_record(record, "benchmark")
+        key = record["benchmark_key"]
+        if key in found:
+            raise ValueError("Distinct copper price and labour benchmark identities required")
+        rule = expected[key]
+        if (record.get("currency") != rule["currency"]
+                or record.get("quantity_unit") != rule["quantity_unit"]
+                or record.get("source_id") != rule["source_id"]
+                or record.get("supplier_quote") is not False
+                or record.get("target_installed_rate") is not False
+                or Decimal(record.get("unit_price", "0")) <= 0):
+            raise ValueError("Copper sensitivity benchmark scope or source differs")
+        found[key] = record
+    if set(found) != set(expected):
+        raise ValueError("Both exact CSO copper CIF and Baghdad wage benchmarks are required")
+    copper = found["cso-import-2025:hs74081100:iqd-per-kg"]
+    wage = found["iq-cso-2026-09:baghdad:wage:skilled:hour-8h-day"]
+    if (copper.get("hs_code") != "74081100"
+            or "CIF" not in copper.get("cost_scope", "")
+            or wage.get("labour_category") != "skilled"
+            or wage.get("employer_burden_included") is not False):
+        raise ValueError("Copper CIF or unburdened wage benchmark semantics differ")
+
+    matches = [line for line in material_lines
+               if (line["system"], line["material"], line["stock_scope"])
+               == ("wayside/primary", "copper-conductor", "equivalent-volume-stock")]
+    if not matches:
+        return 0, 0
+    if len(matches) != 1:
+        raise ValueError("Copper conductor sensitivity requires one exact candidate demand line")
+    line = matches[0]
+    mass = decimal(line["modeled_gross_stock_mass_kg"], "copper gross stock mass")
+    if (mass <= 0 or line["request_unit"] != "kg"
+            or line["missing_gross_mass_group_count"] != 0
+            or line["missing_member_mass_group_count"] != 0
+            or line["missing_demand_group_count"] != 0
+            or line["engineering_group_count"] != len(line["engineering_group_ids"])
+            or line["engineering_occurrence_count"] != len(line["engineering_occurrence_ids"])):
+        raise ValueError("Copper candidate takeoff must preserve exact, fully quantified members")
+
+    takeoff = {
+        "candidate_id": candidate_id,
+        "source_input_id": source_input_id,
+        "system": line["system"],
+        "material": line["material"],
+        "stock_scope": line["stock_scope"],
+        "gross_stock_mass_kg": decimal_text(mass),
+        "engineering_group_ids": line["engineering_group_ids"],
+        "engineering_occurrence_ids": line["engineering_occurrence_ids"],
+        "related_package_ids": line["related_package_ids"],
+    }
+    takeoff_id = identity(takeoff)
+    tonnes = mass / Decimal(1000)
+    material_rate = Decimal(copper["unit_price"])
+    wage_rate = Decimal(wage["unit_price"])
+    scenarios = []
+    for hours in (8, 16, 32):
+        material_cost = (mass * material_rate).quantize(Decimal("0.01"))
+        labour_cost = (tonnes * Decimal(hours) * wage_rate).quantize(Decimal("0.01"))
+        direct = material_cost + labour_cost
+        uplift = direct * Decimal("0.20")
+        scenario = {
+            "candidate_id": candidate_id,
+            "source_input_id": source_input_id,
+            "candidate_takeoff_id": takeoff_id,
+            "system": line["system"],
+            "material": line["material"],
+            "stock_scope": line["stock_scope"],
+            "engineering_group_count": line["engineering_group_count"],
+            "engineering_occurrence_count": line["engineering_occurrence_count"],
+            "gross_stock_mass_kg": decimal_text(mass),
+            "gross_stock_quantity_t": decimal_text(tonnes),
+            "material_benchmark_key": copper["benchmark_key"],
+            "material_benchmark_id": copper["record_id"],
+            "material_benchmark_source_id": copper["source_id"],
+            "material_unit_value_iqd_per_kg": copper["unit_price"],
+            "direct_material_cost_iqd": format(material_cost, "f"),
+            "wage_benchmark_key": wage["benchmark_key"],
+            "wage_benchmark_id": wage["record_id"],
+            "wage_benchmark_source_id": wage["source_id"],
+            "wage_iqd_per_hour": wage["unit_price"],
+            "labour_hours_per_gross_stock_tonne": hours,
+            "direct_labour_cost_iqd": format(labour_cost, "f"),
+            "uplift_fraction": "0.20",
+            "uplift_amount_iqd": format(uplift.quantize(Decimal("0.01")), "f"),
+            "estimated_total_iqd": format((direct + uplift).quantize(Decimal("0.01")), "f"),
+            "estimate_basis": "2025 HS 74081100 national CIF import unit value + assumed local labour at September 2026 Baghdad CSO skilled-worker base wage; plus 20% unallocated uplift",
+            "candidate_bom_price": False,
+            "supplier_quote": False,
+            "compatible_product_match": False,
+            "commercial_order_quantity": None,
+            "purchase_yield_fraction": None,
+            "complete_process_cost": None,
+            "complete_installed_cost": None,
+            "engineering_approved": False,
+            "procurement_approved": False,
+            "unknown_is_zero": False,
+        }
+        scenario["scenario_id"] = identity(scenario)
+        scenarios.append(scenario)
+    line["copper_imported_raw_stock_sensitivity_takeoff_id"] = takeoff_id
+    line["copper_imported_raw_stock_sensitivity_scenarios"] = scenarios
+    line["copper_imported_raw_stock_sensitivity_count"] = len(scenarios)
+    line["copper_sensitivity_is_compatible_quote"] = False
+    line["material_line_id"] = identity({key: value for key, value in line.items()
+                                          if key != "material_line_id"})
+    return 1, len(scenarios)
+
+
 def _material_purchasing_rollup(packages, occurrences, groups, procurement_by_group,
                                 operations_by_group, unlocated_links,
                                 domestic_sources_by_key=None):
@@ -1130,6 +1263,9 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
         unlocated_links, domestic_sources)
     aluminium_line_count, aluminium_scenario_count = _attach_domestic_aluminium_sensitivities(
         material_purchasing_lines, regional_cost_reference, candidate_id, twin_input["payload_id"])
+    copper_line_count, copper_scenario_count = _attach_imported_copper_sensitivities(
+        material_purchasing_lines, domestic_benchmark_records, candidate_id,
+        twin_input["payload_id"])
     complete_group_mass_lines = [row for row in material_purchasing_lines
                                  if row["modeled_gross_stock_mass_kg"] is not None]
     complete_member_mass_lines = [row for row in material_purchasing_lines
@@ -1198,6 +1334,8 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
         "domestic_cost_estimate_scenario_count": concrete_estimate_count,
         "candidate_mapped_aluminium_demand_line_count": aluminium_line_count,
         "candidate_mapped_aluminium_sensitivity_scenario_count": aluminium_scenario_count,
+        "candidate_mapped_copper_demand_line_count": copper_line_count,
+        "candidate_mapped_copper_sensitivity_scenario_count": copper_scenario_count,
         "regional_cost_reference_packet_id": regional_reference_id,
         "complete_installed_bom": False,
         "complete_installed_cost": None,
@@ -1241,6 +1379,8 @@ def build_procurement_bom(twin_input, *, source_file_sha256=None, source_file_na
             "domestic_cost_estimate_scenario_count": concrete_estimate_count,
             "candidate_mapped_aluminium_demand_line_count": aluminium_line_count,
             "candidate_mapped_aluminium_sensitivity_scenario_count": aluminium_scenario_count,
+            "candidate_mapped_copper_demand_line_count": copper_line_count,
+            "candidate_mapped_copper_sensitivity_scenario_count": copper_scenario_count,
             "modeled_gross_stock_mass_kg": _sum_field(
                 [row for row in occurrences if row.get("scope") != "unlocated-account-or-obligation"],
                 "accounted_mass_kg")[0],
