@@ -1,0 +1,74 @@
+{
+  "schema": "osr-sourcing-seed/1",
+  "notes": [
+    "Historical national hourly-earnings observations from Iraq LFS 2021, implemented by CSO and KRSO with ILO support. These employee-earnings benchmarks are not current employer charge-out rates and are not inflation-adjusted or used in 2025/2026 cost estimates."
+  ],
+  "sources": {
+    "iraq.ilo-cso-krso.lfs-2021": {
+      "publisher": "International Labour Organization, Central Statistical Organization, and Kurdistan Region Statistics Office",
+      "url": "https://www.ilo.org/sites/default/files/wcmsp5/groups/public/%40arabstates/%40ro-beirut/documents/publication/wcms_850359.pdf",
+      "retrieved_at": "2026-10-30",
+      "access": "Iraq Labour Force Survey 2021, Annex C Table T14 (PDF page 105) reports national average hourly earnings in the main job for employees by ISCO occupational group. Transcribed rates: craft and related trades IQD 2,222/h; plant and machine operators/assemblers IQD 2,685/h; technicians and associate professionals IQD 4,279/h; professionals IQD 5,861/h. Survey year is 2021; no inflation, employer burden, benefits, overtime or employer charge-out conversion is applied. These are historical context only and must not be substituted for 2025/2026 regional wage observations.",
+      "source_kind": "national_statistic",
+      "licence": "Public ILO/CSO/KRSO publication; redistribution terms unassessed"
+    }
+  },
+  "benchmarks": [
+    {
+      "benchmark_key": "iq-ilo-lfs-2021:national:hourly-earnings:craft-related-trades",
+      "source_key": "iraq.ilo-cso-krso.lfs-2021",
+      "observation_date": "2021-12-31",
+      "observation_period": "Iraq Labour Force Survey 2021",
+      "quantity_unit": "h",
+      "unit_price": "2222",
+      "currency": "IQD",
+      "is_manufactured_product_price": false,
+      "geographic_scope": "National Iraq estimate",
+      "material_description": "Average hourly earnings of employees at main job: craft and related trades workers",
+      "source_table": "Annex C T14, PDF page 105",
+      "cost_scope": "Historical employee earnings observation; not employer burden, factory charge-out rate or 2026 wage"
+    },
+    {
+      "benchmark_key": "iq-ilo-lfs-2021:national:hourly-earnings:plant-machine-operators",
+      "source_key": "iraq.ilo-cso-krso.lfs-2021",
+      "observation_date": "2021-12-31",
+      "observation_period": "Iraq Labour Force Survey 2021",
+      "quantity_unit": "h",
+      "unit_price": "2685",
+      "currency": "IQD",
+      "is_manufactured_product_price": false,
+      "geographic_scope": "National Iraq estimate",
+      "material_description": "Average hourly earnings of employees at main job: plant and machine operators and assemblers",
+      "source_table": "Annex C T14, PDF page 105",
+      "cost_scope": "Historical employee earnings observation; not employer burden, factory charge-out rate or 2026 wage"
+    },
+    {
+      "benchmark_key": "iq-ilo-lfs-2021:national:hourly-earnings:technicians",
+      "source_key": "iraq.ilo-cso-krso.lfs-2021",
+      "observation_date": "2021-12-31",
+      "observation_period": "Iraq Labour Force Survey 2021",
+      "quantity_unit": "h",
+      "unit_price": "4279",
+      "currency": "IQD",
+      "is_manufactured_product_price": false,
+      "geographic_scope": "National Iraq estimate",
+      "material_description": "Average hourly earnings of employees at main job: technicians and associate professionals",
+      "source_table": "Annex C T14, PDF page 105",
+      "cost_scope": "Historical employee earnings observation; not employer burden, factory charge-out rate or 2026 wage"
+    },
+    {
+      "benchmark_key": "iq-ilo-lfs-2021:national:hourly-earnings:professionals",
+      "source_key": "iraq.ilo-cso-krso.lfs-2021",
+      "observation_date": "2021-12-31",
+      "observation_period": "Iraq Labour Force Survey 2021",
+      "quantity_unit": "h",
+      "unit_price": "5861",
+      "currency": "IQD",
+      "is_manufactured_product_price": false,
+      "geographic_scope": "National Iraq estimate",
+      "material_description": "Average hourly earnings of employees at main job: professionals",
+      "source_table": "Annex C T14, PDF page 105",
+      "cost_scope": "Historical employee earnings observation; not employer burden, factory charge-out rate or 2026 wage"
+    }
+  ]
+}

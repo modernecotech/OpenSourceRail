@@ -1,0 +1,187 @@
+{
+  "schema": "osr-sourcing-seed/1",
+  "notes": [
+    "Supplementary Iraqi distributor listings observed on 2026-10-30. These are public catalogue prices, not supplier quotations, not confirmed current stock and not engineering-compatible product matches. Keep outside the pinned default catalogue epoch."
+  ],
+  "sources": {
+    "iraq.tc-safa.fibreglass-retail": {
+      "publisher": "Technical Complex (TC-Safa)",
+      "url": "https://tc-safa.com/category/080010000",
+      "retrieved_at": "2026-10-30",
+      "access": "Mosul-based online technical-materials retailer lists fibreglass reinforcement products and resin with item numbers and IQD prices. The page instructs buyers to reconfirm availability and lead time before purchase. The listed fabric construction/orientation, resin chemistry and cure system, price validity, freight, tax basis, rail qualification and bulk-order pricing are not established.",
+      "source_kind": "distributor_catalogue",
+      "licence": "Public product catalogue; reuse and redistribution terms unassessed",
+      "sales_market": "Mosul, Iraq"
+    }
+  },
+  "products": [
+    {
+      "product_key": "TC-SAFA-FIB-300GSM-1M2",
+      "manufacturer": "Manufacturer not stated; TC-Safa retail listing",
+      "part_number": "080010022",
+      "category": "glass-reinforcement",
+      "description": "Generic fibreglass reinforcement, stated 300 g/m2, sold as one 1 m2 bag",
+      "source_keys": ["iraq.tc-safa.fibreglass-retail"],
+      "supply_scope": "raw-material",
+      "specifications": {
+        "nominal_areal_weight_g_m2": {"value": "300", "unit": "g/m2", "scope": "listing description"},
+        "nominal_area_per_pack_m2": {"value": "1", "unit": "m2", "scope": "listing description"},
+        "reinforcement_architecture": null,
+        "orientation": null,
+        "country_of_origin": null,
+        "compatibility": "pending; no structural textile or rail qualification evidence",
+        "installed_assembly_complete": false,
+        "limitations": [
+          "Retail line does not specify weave, mat type, fibre sizing, orientation, tensile properties or manufacturer.",
+          "Not an accepted substitute for the 600 g/m2 biaxial cloth in the separate laminate study."
+        ]
+      }
+    },
+    {
+      "product_key": "TC-SAFA-RESIN-1KG",
+      "manufacturer": "Manufacturer not stated; TC-Safa retail listing",
+      "part_number": "080010004",
+      "category": "composite-resin",
+      "description": "Generic fibreglass resin listed per kg",
+      "source_keys": ["iraq.tc-safa.fibreglass-retail"],
+      "supply_scope": "raw-material",
+      "specifications": {
+        "resin_chemistry": null,
+        "mixed_or_unmixed": null,
+        "hardener_included": null,
+        "country_of_origin": null,
+        "compatibility": "pending; resin chemistry and cure system not stated",
+        "installed_assembly_complete": false,
+        "limitations": ["Do not treat as an epoxy-infusion resin match; catalyst/hardener and process compatibility remain unresolved."]
+      }
+    },
+    {
+      "product_key": "TC-SAFA-RESIN-TR-18KG",
+      "manufacturer": "Manufacturer not stated; TC-Safa retail listing",
+      "part_number": "080010008",
+      "category": "composite-resin",
+      "description": "Fibreglass resin described as Turkish origin, sold in an 18 kg can",
+      "source_keys": ["iraq.tc-safa.fibreglass-retail"],
+      "supply_scope": "raw-material",
+      "specifications": {
+        "nominal_pack_mass_kg": {"value": "18", "unit": "kg", "scope": "listing description"},
+        "resin_chemistry": null,
+        "mixed_or_unmixed": null,
+        "hardener_included": null,
+        "country_of_origin": "Turkey (as listed; not independently verified)",
+        "compatibility": "pending; resin chemistry and cure system not stated",
+        "installed_assembly_complete": false,
+        "limitations": ["Origin is a catalogue description only; do not treat as an epoxy-infusion resin match."]
+      }
+    },
+    {
+      "product_key": "TC-SAFA-RESIN-IR-18KG",
+      "manufacturer": "Manufacturer not stated; TC-Safa retail listing",
+      "part_number": "080010006",
+      "category": "composite-resin",
+      "description": "Fibreglass resin described as Iranian origin, sold in an 18 kg can",
+      "source_keys": ["iraq.tc-safa.fibreglass-retail"],
+      "supply_scope": "raw-material",
+      "specifications": {
+        "nominal_pack_mass_kg": {"value": "18", "unit": "kg", "scope": "listing description"},
+        "resin_chemistry": null,
+        "mixed_or_unmixed": null,
+        "hardener_included": null,
+        "country_of_origin": "Iran (as listed; not independently verified)",
+        "compatibility": "pending; resin chemistry and cure system not stated",
+        "installed_assembly_complete": false,
+        "limitations": ["Origin is a catalogue description only; do not treat as an epoxy-infusion resin match."]
+      }
+    }
+  ],
+  "offers": [
+    {
+      "product_key": "TC-SAFA-FIB-300GSM-1M2",
+      "source_key": "iraq.tc-safa.fibreglass-retail",
+      "currency": "IQD",
+      "price_date": "2026-10-30",
+      "quantity_unit": "each",
+      "tiers": [{"minimum_quantity": "0", "maximum_quantity": null, "unit_price": "3500"}],
+      "source_class": "B",
+      "is_firm_supplier_quote": false,
+      "minimum_order_quantity": null,
+      "order_multiple": null,
+      "ordering_basis": "One each is described as a 1 m2 bag; catalogue does not state MOQ, price validity or bulk discount.",
+      "packaging": "1 m2 bag (as listed)",
+      "tax_basis": "unknown",
+      "tax_rate": null,
+      "origin_country": null,
+      "price_scope": "public retail listing; material only; no delivery or installation scope",
+      "freight": null,
+      "duty": null,
+      "incoterms": null,
+      "valid_until": null
+    },
+    {
+      "product_key": "TC-SAFA-RESIN-1KG",
+      "source_key": "iraq.tc-safa.fibreglass-retail",
+      "currency": "IQD",
+      "price_date": "2026-10-30",
+      "quantity_unit": "kg",
+      "tiers": [{"minimum_quantity": "0", "maximum_quantity": null, "unit_price": "6500"}],
+      "source_class": "B",
+      "is_firm_supplier_quote": false,
+      "minimum_order_quantity": null,
+      "order_multiple": null,
+      "ordering_basis": "Page lists the item by kg; package increment and bulk discount are unspecified.",
+      "packaging": null,
+      "tax_basis": "unknown",
+      "tax_rate": null,
+      "origin_country": null,
+      "price_scope": "public retail listing; resin material only; cure system, delivery and installation unresolved",
+      "freight": null,
+      "duty": null,
+      "incoterms": null,
+      "valid_until": null
+    },
+    {
+      "product_key": "TC-SAFA-RESIN-TR-18KG",
+      "source_key": "iraq.tc-safa.fibreglass-retail",
+      "currency": "IQD",
+      "price_date": "2026-10-30",
+      "quantity_unit": "each",
+      "tiers": [{"minimum_quantity": "0", "maximum_quantity": null, "unit_price": "75000"}],
+      "source_class": "B",
+      "is_firm_supplier_quote": false,
+      "minimum_order_quantity": null,
+      "order_multiple": null,
+      "ordering_basis": "One each is described as an 18 kg can; catalogue does not state MOQ, price validity or bulk discount.",
+      "packaging": "18 kg can (as listed)",
+      "tax_basis": "unknown",
+      "tax_rate": null,
+      "origin_country": "Turkey (as listed; not independently verified)",
+      "price_scope": "public retail listing; resin material only; cure system, delivery and installation unresolved",
+      "freight": null,
+      "duty": null,
+      "incoterms": null,
+      "valid_until": null
+    },
+    {
+      "product_key": "TC-SAFA-RESIN-IR-18KG",
+      "source_key": "iraq.tc-safa.fibreglass-retail",
+      "currency": "IQD",
+      "price_date": "2026-10-30",
+      "quantity_unit": "each",
+      "tiers": [{"minimum_quantity": "0", "maximum_quantity": null, "unit_price": "75000"}],
+      "source_class": "B",
+      "is_firm_supplier_quote": false,
+      "minimum_order_quantity": null,
+      "order_multiple": null,
+      "ordering_basis": "One each is described as an 18 kg can; catalogue does not state MOQ, price validity or bulk discount.",
+      "packaging": "18 kg can (as listed)",
+      "tax_basis": "unknown",
+      "tax_rate": null,
+      "origin_country": "Iran (as listed; not independently verified)",
+      "price_scope": "public retail listing; resin material only; cure system, delivery and installation unresolved",
+      "freight": null,
+      "duty": null,
+      "incoterms": null,
+      "valid_until": null
+    }
+  ]
+}

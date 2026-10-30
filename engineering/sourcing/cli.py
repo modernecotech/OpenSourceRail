@@ -120,6 +120,11 @@ def _parser():
                       help="Directory containing the exact solid, sandwich and higher-fibre laminate packets")
     gfrp.add_argument("--output", required=True, type=Path,
                       help="Fresh source-bound JSON output path")
+    iraq_gfrp = estimate_sub.add_parser("iraq-local-gfrp", help="Price a local retail fibreglass material screen with Iraq labour scenarios")
+    iraq_gfrp.add_argument("--laminate-packet", required=True, type=Path,
+                            help="Exact source-bound 10 m2 laminate reference packet")
+    iraq_gfrp.add_argument("--output", required=True, type=Path,
+                           help="Fresh output directory for the local retail estimate packet")
     logistics = estimate_sub.add_parser("iraq-logistics", help="Add Iraqi trailer/crane rental sensitivities to exact span packages")
     logistics.add_argument("--procurement-bom", required=True, type=Path,
                            help="Exact candidate-bound procurement package BOM JSON or .json.gz")
@@ -655,6 +660,11 @@ def main(argv=None):
                            regional_scenarios=sum(len(row["regional_scenarios"]) for row in payload["studies"]),
                            regional_governorate_count=len(payload["basis"]["regional_governorates"]),
                            complete_fabrication_cost_iqd=None, physical_qualification=None))
+                return 0
+            if args.estimate_command == "iraq-local-gfrp":
+                from .iraq_local_gfrp_cost_scenarios import build_packet, publish_packet
+                packet = build_packet(args.laminate_packet.expanduser().resolve())
+                _emit(publish_packet(packet, args.output))
                 return 0
             if not database.is_file():
                 raise ValueError("Initialize and seed the sourcing database before estimating")

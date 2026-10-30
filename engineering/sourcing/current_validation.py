@@ -8,6 +8,8 @@ from decimal import Decimal
 from .catalogue import load_catalogue
 from .model import identity
 from .iraq_logistics_scenarios import SEED as LOGISTICS_SEED
+from .iraq_local_gfrp_cost_scenarios import LABOUR_SEED as HISTORICAL_LABOUR_SEED
+from .iraq_local_gfrp_cost_scenarios import LOCAL_SEED as LOCAL_COMPOSITE_SEED
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -21,6 +23,8 @@ IMPORT_SCREEN = "docs/design-engine/sourcing/domestic-fabrication/cso-imported-a
 PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v16.json.gz"
 LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v1/iraq-span-logistics-sensitivity.json"
 LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v1/manifest.json"
+LOCAL_GFRP = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/iraq-local-gfrp-retail-screen.json"
+LOCAL_GFRP_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/iraq-local-gfrp-retail-screen-2026-10-v1/manifest.json"
 
 
 def read_json(path):
@@ -77,6 +81,10 @@ def build_validation():
     logistics = read_json(LOGISTICS)
     logistics_manifest = read_json(LOGISTICS_MANIFEST)
     logistics_records = load_catalogue([LOGISTICS_SEED])
+    local_gfrp = read_json(LOCAL_GFRP)
+    local_gfrp_manifest = read_json(LOCAL_GFRP_MANIFEST)
+    local_composite_records = load_catalogue([LOCAL_COMPOSITE_SEED])
+    historical_labour_records = load_catalogue([HISTORICAL_LABOUR_SEED])
     domestic_material_seed = ROOT / "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json"
     domestic_material_records = load_catalogue([domestic_material_seed])
     domestic_material_sources = {row["source_key"]: row for row in domestic_material_records
@@ -126,6 +134,28 @@ def build_validation():
             or logistics.get("span_package_count") != 81
             or logistics.get("engineering_occurrence_count") != 486):
         raise ValueError("Current Iraqi logistics packet identity or candidate binding differs")
+    if (local_gfrp.get("packet_id") != identity({key: value for key, value in local_gfrp.items()
+                                                   if key != "packet_id"})
+            or local_gfrp_manifest.get("packet_id") != local_gfrp.get("packet_id")
+            or local_gfrp_manifest.get("manifest_id") != identity({key: value for key, value in local_gfrp_manifest.items()
+                                                                      if key != "manifest_id"})
+            or local_gfrp.get("source_candidate_id") != procurement.get("candidate_id")
+            or local_gfrp.get("catalogue_epoch_id") != epoch_id
+            or local_gfrp.get("priced_material", {}).get("purchased_bag_count") != 89
+            or [row.get("partial_fabric_plus_labour_plus_20_iqd_per_10m2")
+                for row in local_gfrp.get("scenarios", [])] != ["463800.00", "553800.00", "733800.00"]
+            or local_gfrp.get("complete_material_cost_iqd") is not None
+            or local_gfrp.get("complete_fabrication_cost_iqd") is not None
+            or local_gfrp.get("unknown_is_zero") is not False
+            or len(local_gfrp.get("local_resin_price_leads_not_applied", [])) != 3
+            or len(local_gfrp.get("historical_labour_references", [])) != 4
+            or local_gfrp.get("input_sha256", {}).get("local_catalogue_seed") != hashlib.sha256(LOCAL_COMPOSITE_SEED.read_bytes()).hexdigest()
+            or local_gfrp.get("input_sha256", {}).get("historical_labour_seed") != hashlib.sha256(HISTORICAL_LABOUR_SEED.read_bytes()).hexdigest()
+            or local_gfrp_manifest.get("files_sha256", {}).get(Path(LOCAL_GFRP).name) != hashlib.sha256((ROOT / LOCAL_GFRP).read_bytes()).hexdigest()
+            or local_gfrp_manifest.get("files_sha256", {}).get("README.md") != hashlib.sha256((ROOT / LOCAL_GFRP).with_name("README.md").read_bytes()).hexdigest()
+            or len(local_composite_records) != 9
+            or len(historical_labour_records) != 5):
+        raise ValueError("Current Iraqi retail composite screen or source identities differ")
     if len(import_rows) != 8 or import_screen["scenario_count"] != 12:
         raise ValueError("Imported-material benchmark or estimate count differs")
 
@@ -193,6 +223,34 @@ def build_validation():
                 "priced_offers": 0,
                 "lead_scope": "EPS panels; polyurethane foam; aluminium ingots/alloys/anode blocks",
                 "structural_core_or_body_qualification": None,
+            },
+            "local_composite_retail_cost_screen": {
+                "path": LOCAL_GFRP,
+                "manifest_path": LOCAL_GFRP_MANIFEST,
+                "packet_id": local_gfrp["packet_id"],
+                "manifest_id": local_gfrp_manifest["manifest_id"],
+                "source_candidate_id": local_gfrp["source_candidate_id"],
+                "reference_laminate_sample_candidate_id": local_gfrp["reference_laminate_sample_candidate_id"],
+                "material_hypothesis_id": local_gfrp["physical_hypothesis"]["material_hypothesis_id"],
+                "supplier_source_id": local_gfrp["source_supplier_id"],
+                "catalogue_product_count": sum(row["kind"] == "product" for row in local_composite_records),
+                "catalogue_offer_count": sum(row["kind"] == "offer" for row in local_composite_records),
+                "mass_equivalent_fabric_pack_count": local_gfrp["priced_material"]["purchased_bag_count"],
+                "scenario_count": len(local_gfrp["scenarios"]),
+                "partial_cost_iqd_per_10m2": [row["partial_fabric_plus_labour_plus_20_iqd_per_10m2"]
+                                               for row in local_gfrp["scenarios"]],
+                "resin_cost_included": False,
+                "complete_material_cost_iqd": local_gfrp["complete_material_cost_iqd"],
+                "complete_fabrication_cost_iqd": local_gfrp["complete_fabrication_cost_iqd"],
+                "physical_qualification": local_gfrp["physical_qualification"],
+            },
+            "historical_labour_earnings_reference": {
+                "seed_path": "engineering/sourcing/data/iraq-labour-force-survey-2021.json",
+                "seed_sha256": hashlib.sha256(HISTORICAL_LABOUR_SEED.read_bytes()).hexdigest(),
+                "source_id": next(row["record_id"] for row in historical_labour_records if row["kind"] == "source"),
+                "benchmark_count": sum(row["kind"] == "benchmark" for row in historical_labour_records),
+                "used_in_current_2025_2026_cost_scenarios": False,
+                "reason_not_used": "2021 national employee earnings are historical, not regional or inflation-normalized employer charge-out rates.",
             },
             "regional_cost_reference_2026_09": {
                 "path": REGIONAL,
