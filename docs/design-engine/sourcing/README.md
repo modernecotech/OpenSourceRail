@@ -258,6 +258,18 @@ The same assumptions are applied to the candidate-bound **1,804.8096 m³ nominal
 
 The three takeoff-mapped recipes, output packets, exact group/occurrence lists and source hashes are indexed in [validation.json](validation.json): [2-hour estimate](domestic-fabrication/estimates/current/concrete-takeoff-02h-v6.json), [4-hour estimate](domestic-fabrication/estimates/current/concrete-takeoff-04h-v6.json) and [8-hour estimate](domestic-fabrication/estimates/current/concrete-takeoff-08h-v6.json). Reproduce one scenario with the `./osr source estimate takeoff` command above. The six generic unit-rate screens and three takeoff-mapped estimates remain different evidence scopes. `validation.json` is retained as its original source-bound index; the latest 529-record epoch and regenerated packets are indexed by [validation-current.json](validation-current.json).
 
+### Additional domestic material leads
+
+Three new Iraqi supplier leads point to [Hemn Group EPS panels](https://www.hemngroup.com/factories/eps-factory/en), [Helal Group polyurethane foam](https://helal-group.com/foam/) and [Qatral aluminium ingots/alloys](https://qatral.com/about-us-2/). The company pages report (respectively) an EPS-panel line claiming 10 t/day, polyurethane foam at stated density ranges of 12–45 kg/m³, and aluminium ingots/alloys/anode blocks produced or supplied from Erbil. These are discovery leads only. They do not provide a compatible priced product, confirmed available capacity, railway structural/fire properties or an exact core alloy/grade. EPS and upholstery PU are not treated as structural sandwich core. The [current validation index](validation-current.json) retains their source IDs and confirms zero products, offers, benchmarks or candidate matches.
+
+### Iraqi trailer and crane rental sensitivity
+
+The official [Fa'o General Engineering Company Contracts Section](https://faoco.moch.gov.iq/ar/node/69) lists contract number 18 dated 27 September 2026: six trailers plus one crane, with IQD 1,150,000 per trailer trip and IQD 500,000 per crane-day. The source does not state trailer payload or dimensions, haul distance, crane configuration/rating/radius, mobilisation, fuel, tax or current availability. The record is stored as an optional, separate source seed at [`iraq-transport-rental-2026-09.json`](../../../engineering/sourcing/data/iraq-transport-rental-2026-09.json); it is not a compatible supplier product or a default catalogue price match.
+
+The new [candidate-bound logistics packet](domestic-fabrication/logistics-2026-september-v1/README.md) cross-references the exact v16 procurement packet's 81 nominal concrete span-stock packages and 486 occurrence IDs. Its first scale-check scenario assumes one trailer trip and one crane rental day per nominal package: `81 × (IQD 1,150,000 + IQD 500,000) = IQD 133,650,000`. Three further trip/day combinations expose sensitivity. These counts are assumptions, not a transport or lift plan; a nominal package is not evidence of one beam, payload fit, crane capacity or one-day erection.
+
+The logistics arithmetic is kept separate from the existing material + direct labour + 20% estimates. The 20% applies only to those declared material and wage subtotals; it is not applied again to the rental observations. Their conditional sums are partial material/labour/logistics subtotals only. Complete delivered/installed cost remains unknown.
+
 ### GFRP local fabrication: listed material + local labour + 20%
 
 The current [GFRP cost screen](domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v19.json) joins three 533-record source-bound 10 m² laminate hypotheses to September 2026 CSO governorate skilled-worker base wages and the dated CBI GBP/IQD reference. It retains Baghdad's 9,375 IQD/hour base-wage case and adds 15-governorate 8/16/32 person-hour sensitivities per 10 m². The formula is `(known listed UK material extensions converted at CBI reference + assumed local base-wage labour) × 1.20`.
@@ -349,6 +361,10 @@ From a repository checkout:
   --input docs/design-engine/sourcing/packets/federated-purchasing-groups-iraq-domestic-sources-v6/input.json.gz \
   --regional-cost-reference docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v6/iraq-domestic-cost-reference-2026-09.json \
   --output /tmp/osr-procurement-bom-2026-september.json.gz
+./osr source estimate iraq-logistics \
+  --procurement-bom docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v16.json.gz \
+  --regional-cost-reference docs/design-engine/sourcing/domestic-fabrication/regional-estimates-2026-september-v6/iraq-domestic-cost-reference-2026-09.json \
+  --output /tmp/osr-iraq-span-logistics
 ./tools/automation/osr-python -m engineering.sourcing.iraq_import_fabrication_scenarios \
   --output /tmp/osr-imported-aluminium-fabrication-sensitivity.json
 ./tools/automation/osr-python -m engineering.sourcing.current_validation

@@ -34,7 +34,12 @@ Usage: ./osr [COMMAND] [arguments]
   book [--check]    Build/check the selected-design reader
   test              Run current contracts, publication and browser checks
   cycle             Restartable cached refresh of the current design
-  legacy [...]      Read-only historical status, verification and audit
+  legacy [...]      Verify history or create a pinned external checkout
+
+For the restored v0.4 applications or v0.5.1 historical command contracts,
+create a detached checkout with `./osr legacy checkout v0.4.0|v0.5.1 --path
+/absolute/path`. See docs/releases/v0.6-functionality-reconciliation.md. The
+later v0.5-maglev snapshot does not preserve the v0.5.1 ./osr front door.
 
 The default is a development selection. Physical and operating acceptance remain
 open. Historical regeneration requires an isolated checkout; no silent fallback.

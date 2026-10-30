@@ -120,6 +120,13 @@ def _parser():
                       help="Directory containing the exact solid, sandwich and higher-fibre laminate packets")
     gfrp.add_argument("--output", required=True, type=Path,
                       help="Fresh source-bound JSON output path")
+    logistics = estimate_sub.add_parser("iraq-logistics", help="Add Iraqi trailer/crane rental sensitivities to exact span packages")
+    logistics.add_argument("--procurement-bom", required=True, type=Path,
+                           help="Exact candidate-bound procurement package BOM JSON or .json.gz")
+    logistics.add_argument("--regional-cost-reference", required=True, type=Path,
+                           help="Exact candidate-bound Iraqi material/labour estimate JSON")
+    logistics.add_argument("--output", required=True, type=Path,
+                          help="Fresh output directory for the logistics packet")
 
     takeoff = sub.add_parser("takeoff", help="Build traceable stock material quantity roll-ups")
     takeoff_sub = takeoff.add_subparsers(dest="takeoff_command", required=True)
@@ -626,6 +633,15 @@ def main(argv=None):
             return 0
 
         if args.command == "estimate":
+            if args.estimate_command == "iraq-logistics":
+                from .iraq_logistics_scenarios import SEED, build_packet, publish_packet
+                procurement = inputs.read_json(args.procurement_bom)
+                regional = inputs.read_json(args.regional_cost_reference)
+                packet = build_packet(catalogue.load_catalogue([SEED]), procurement, regional,
+                    procurement_path=args.procurement_bom,
+                    regional_cost_path=args.regional_cost_reference)
+                _emit(publish_packet(packet, args.output))
+                return 0
             if args.estimate_command == "gfrp-laminate":
                 from .iraq_gfrp_cost_scenarios import _build
                 payload = _build(catalogue.load_catalogue(), args.packet_root.expanduser().resolve())

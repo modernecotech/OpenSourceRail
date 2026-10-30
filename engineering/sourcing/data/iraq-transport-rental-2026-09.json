@@ -1,0 +1,56 @@
+{
+  "schema": "osr-sourcing-seed/1",
+  "notes": [
+    "Separate Iraqi awarded-contract rental evidence for conditional transport/lifting sensitivities. This optional seed is intentionally not in the default catalogue epoch; it has no candidate-compatible supplier product."
+  ],
+  "sources": {
+    "iraq.fao.contracts-rental-2026-09": {
+      "publisher": "General Company for Engineering (Fa’o) / Ministry of Construction, Housing, Municipalities and Public Works, Contracts Section",
+      "url": "https://faoco.moch.gov.iq/ar/node/69",
+      "retrieved_at": "2026-10-30",
+      "access": "Official subcontract table entry for contract number 18 (serial entry 9), dated 2026-09-27, lists rental of six trailers and one crane: IQD 1,150,000 per trailer trip and IQD 500,000 per crane per day. The page does not state trailer payload or dimensions, haul distance, crane model/capacity/radius, mobilisation, fuel, taxes, working hours, current availability, or railway suitability. Retain as a historical awarded-contract rate observation for conditional screening, not a supplier quotation or capacity proof.",
+      "document_sha256": null,
+      "source_kind": "awarded_bid",
+      "licence": "Public page; reuse and redistribution terms unassessed",
+      "contract_number": "18",
+      "contract_date": "2026-09-27",
+      "contractor": "Najm al-Din Muhyi al-Din Rashah Sur General Trading and Real Estate Investment (transliteration; verify legal name before procurement)",
+      "product_groups": [
+        "trailer rental",
+        "mobile crane rental"
+      ]
+    }
+  },
+  "benchmarks": [
+    {
+      "benchmark_key": "iraq-fao-contract-2026-09:trailer-trip",
+      "source_key": "iraq.fao.contracts-rental-2026-09",
+      "observation_date": "2026-09-27",
+      "quantity_unit": "each",
+      "unit_price": "1150000",
+      "currency": "IQD",
+      "is_manufactured_product_price": false,
+      "supplier_quote": false,
+      "target_installed_rate": false,
+      "contract_number": "18",
+      "source_table_row": "subcontractors table contract number 18 (serial entry 9); Arabic item text: rent 6 trailers + 1 crane",
+      "source_published_unit": "IQD per one trailer trip",
+      "cost_scope": "Rental rate observation only. Trip route, trailer payload/dimensions, load restraint, fuel, mobilisation, tax and availability are unspecified; not matched to guideway package transport."
+    },
+    {
+      "benchmark_key": "iraq-fao-contract-2026-09:crane-day",
+      "source_key": "iraq.fao.contracts-rental-2026-09",
+      "observation_date": "2026-09-27",
+      "quantity_unit": "each",
+      "unit_price": "500000",
+      "currency": "IQD",
+      "is_manufactured_product_price": false,
+      "supplier_quote": false,
+      "target_installed_rate": false,
+      "contract_number": "18",
+      "source_table_row": "subcontractors table contract number 18 (serial entry 9); Arabic item text: rent 6 trailers + 1 crane",
+      "source_published_unit": "IQD per one crane per day",
+      "cost_scope": "Rental rate observation only. Crane make/model, capacity chart, boom, working radius, mobilisation, fuel, tax, working hours and availability are unspecified; not a lift-capacity or guideway erection proof."
+    }
+  ]
+}

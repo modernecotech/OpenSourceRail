@@ -1,11 +1,13 @@
 """Index current sourcing evidence without editing source-bound historical packets."""
 import gzip
+import hashlib
 import json
 from pathlib import Path
 from decimal import Decimal
 
 from .catalogue import load_catalogue
 from .model import identity
+from .iraq_logistics_scenarios import SEED as LOGISTICS_SEED
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -17,6 +19,8 @@ REGIONAL = "docs/design-engine/sourcing/domestic-fabrication/regional-estimates-
 GFRP = "docs/design-engine/sourcing/domestic-fabrication/estimates/current/gfrp-laminate-local-2026-v19.json"
 IMPORT_SCREEN = "docs/design-engine/sourcing/domestic-fabrication/cso-imported-aluminium-fabrication-sensitivity-2025-2026.json"
 PROCUREMENT = "docs/design-engine/sourcing/procurement-bom/federated-v06-research-packages-v16.json.gz"
+LOGISTICS = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v1/iraq-span-logistics-sensitivity.json"
+LOGISTICS_MANIFEST = "docs/design-engine/sourcing/domestic-fabrication/logistics-2026-september-v1/manifest.json"
 
 
 def read_json(path):
@@ -70,6 +74,13 @@ def build_validation():
     gfrp = read_json(GFRP)
     import_screen = read_json(IMPORT_SCREEN)
     procurement = read_gzip_json(PROCUREMENT)
+    logistics = read_json(LOGISTICS)
+    logistics_manifest = read_json(LOGISTICS_MANIFEST)
+    logistics_records = load_catalogue([LOGISTICS_SEED])
+    domestic_material_seed = ROOT / "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json"
+    domestic_material_records = load_catalogue([domestic_material_seed])
+    domestic_material_sources = {row["source_key"]: row for row in domestic_material_records
+                                 if row["kind"] == "source"}
     import_source = sources["iraq.cosit.import-report-2025"]
     import_rows = []
     for hs_code in ("39073000", "70191200", "74081100", "76042100",
@@ -95,6 +106,26 @@ def build_validation():
                             for kind in ("benchmark", "fx", "offer", "product", "source")}
     if len(records) != 533 or direct_source_counts["benchmark"] != 426:
         raise ValueError("Current offline catalogue is not the declared 533-record epoch")
+    if (logistics.get("packet_id") != identity({key: value for key, value in logistics.items()
+                                                  if key != "packet_id"})
+            or logistics_manifest.get("packet_id") != logistics.get("packet_id")
+            or logistics_manifest.get("manifest_id") != identity({key: value for key, value in logistics_manifest.items()
+                                                                   if key != "manifest_id"})
+            or logistics.get("candidate_id") != procurement.get("candidate_id")
+            or logistics.get("source_input_id") != procurement.get("source_input_id")
+            or logistics.get("procurement_bom_packet_id") != procurement.get("packet_id")
+            or logistics.get("regional_cost_packet_id") != regional.get("packet_id")
+            or logistics.get("takeoff_id") != regional.get("takeoff_id")
+            or logistics.get("rental_source_epoch_id") != identity(logistics_records)
+            or logistics.get("input_sha256", {}).get("rental_seed") != hashlib.sha256(LOGISTICS_SEED.read_bytes()).hexdigest()
+            or logistics.get("input_sha256", {}).get("procurement_bom") != hashlib.sha256((ROOT / PROCUREMENT).read_bytes()).hexdigest()
+            or logistics.get("input_sha256", {}).get("regional_cost_reference") != hashlib.sha256((ROOT / REGIONAL).read_bytes()).hexdigest()
+            or logistics_manifest.get("files_sha256", {}).get(Path(LOGISTICS).name) != hashlib.sha256((ROOT / LOGISTICS).read_bytes()).hexdigest()
+            or logistics_manifest.get("files_sha256", {}).get("README.md") != hashlib.sha256((ROOT / LOGISTICS).with_name("README.md").read_bytes()).hexdigest()
+            or len(logistics.get("logistics_scenarios", [])) != 4
+            or logistics.get("span_package_count") != 81
+            or logistics.get("engineering_occurrence_count") != 486):
+        raise ValueError("Current Iraqi logistics packet identity or candidate binding differs")
     if len(import_rows) != 8 or import_screen["scenario_count"] != 12:
         raise ValueError("Imported-material benchmark or estimate count differs")
 
@@ -149,6 +180,20 @@ def build_validation():
             "laminate_material_studies": laminate_rows,
         },
         "domestic_fabrication": {
+            "additional_local_material_leads": {
+                "seed_path": "engineering/sourcing/data/iraq-domestic-material-leads-2026-10.json",
+                "seed_sha256": hashlib.sha256(domestic_material_seed.read_bytes()).hexdigest(),
+                "source_count": len(domestic_material_sources),
+                "source_epoch_id": identity(domestic_material_records),
+                "source_ids": {key: value["record_id"] for key, value in sorted(domestic_material_sources.items())},
+                "product_count": sum(row["kind"] == "product" for row in domestic_material_records),
+                "offer_count": sum(row["kind"] == "offer" for row in domestic_material_records),
+                "benchmark_count": sum(row["kind"] == "benchmark" for row in domestic_material_records),
+                "candidate_product_matches": 0,
+                "priced_offers": 0,
+                "lead_scope": "EPS panels; polyurethane foam; aluminium ingots/alloys/anode blocks",
+                "structural_core_or_body_qualification": None,
+            },
             "regional_cost_reference_2026_09": {
                 "path": REGIONAL,
                 "packet_id": regional["packet_id"],
@@ -163,6 +208,26 @@ def build_validation():
                 "mapped_concrete_occurrences": 486,
                 "complete_installed_cost": regional["complete_installed_cost"],
                 "physical_qualification": regional["physical_qualification"],
+            },
+            "iraq_span_logistics_sensitivity": {
+                "path": LOGISTICS,
+                "manifest_path": LOGISTICS_MANIFEST,
+                "packet_id": logistics["packet_id"],
+                "manifest_id": logistics_manifest["manifest_id"],
+                "candidate_id": logistics["candidate_id"],
+                "source_input_id": logistics["source_input_id"],
+                "takeoff_id": logistics["takeoff_id"],
+                "procurement_bom_packet_id": logistics["procurement_bom_packet_id"],
+                "rental_source_id": logistics["rental_source_id"],
+                "rental_benchmark_ids": logistics["rental_benchmark_ids"],
+                "span_package_count": logistics["span_package_count"],
+                "engineering_occurrence_count": logistics["engineering_occurrence_count"],
+                "scenario_count": len(logistics["logistics_scenarios"]),
+                "one_trip_one_day_per_span_conditional_iqd": logistics["logistics_scenarios"][0]["conditional_logistics_subtotal_iqd"],
+                "material_labour_20_scenario_count": len(logistics["separate_material_labour_20_scenarios"]),
+                "combined_partial_subtotal_count": len(logistics["combined_partial_subtotals"]),
+                "complete_installed_cost": logistics["complete_installed_cost"],
+                "physical_qualification": logistics["physical_qualification"],
             },
             "gfrp_local_fabrication_screen": {
                 "path": GFRP,

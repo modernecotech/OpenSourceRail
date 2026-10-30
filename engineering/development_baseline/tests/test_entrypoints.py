@@ -83,6 +83,29 @@ def test_missing_current_packet_reports_hold_without_legacy(packet, capsys):
     assert 'run ./osr build' in value['hold_reason']
 
 
+
+def test_root_help_documents_pinned_historical_checkout():
+    root = Path(__file__).resolve().parents[3]
+    result = subprocess.run([str(root / 'osr'), '--help'], cwd=root,
+                            capture_output=True, text=True, check=True)
+    assert 'create a pinned external checkout' in result.stdout
+    assert 'restored v0.4 applications' in result.stdout
+    assert 'legacy checkout v0.4.0|v0.5.1' in result.stdout
+    assert 'v0.5.1 historical command contracts' in result.stdout
+    assert 'v0.5-maglev snapshot does not preserve the v0.5.1 ./osr front door' in result.stdout
+
+
+def test_v05_restoration_docs_pin_the_frontdoor_and_runtime():
+    root = Path(__file__).resolve().parents[3]
+    guide = (root / 'docs/releases/v0.6-functionality-reconciliation.md').read_text()
+    archive = (root / 'docs/archives/v0.5-maglev/README.md').read_text()
+    assert 'formal v0.5.1 tag' in guide
+    assert 'does not reproduce those v0.5.1 front-door commands' in guide
+    assert 'ignored `.venv` is not copied' in guide
+    assert 'formal `v0.5.1` tag to reproduce the old' in archive
+    assert 'requirements.txt' in archive
+    assert 'or the later `v0.5-maglev` research snapshot using the same command' not in guide
+
 def test_legacy_checkout_creates_only_a_pinned_external_detached_worktree(tmp_path, monkeypatch):
     from types import SimpleNamespace
     from engineering.development_baseline import legacy
