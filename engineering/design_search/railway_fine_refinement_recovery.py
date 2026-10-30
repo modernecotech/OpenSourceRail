@@ -99,8 +99,9 @@ def _verify_frd_mesh(path: Path, definition: dict, elements: list) -> None:
                               for value in coordinate_fields)
                 expected = expected_nodes[node_id]
                 for actual, target, token in zip(saved, expected, coordinate_fields):
-                    exponent_text = token.strip().replace("D", "E").replace("d", "e").split("e")[-1]
-                    precision = len(token.strip().lower().split("e")[0].split(".")[-1])
+                    mantissa, exponent_text = (token.strip().replace("D", "E").replace("d", "E")
+                                               .lower().rsplit("e", 1))
+                    precision = len(mantissa.split(".", 1)[1]) if "." in mantissa else 0
                     rounding_tolerance = 0.5 * (10.0 ** (int(exponent_text) - precision))
                     if not math.isfinite(actual) or abs(actual - target) > max(rounding_tolerance, 1e-12):
                         raise ValueError(f"FRD coordinate for node {node_id} differs from the regenerated mesh")
