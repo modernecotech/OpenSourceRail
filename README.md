@@ -217,7 +217,7 @@ The coordinated run is bounded and restartable; it preserves pending work and fa
 | Business and equipment integration | [ERPNext app](deployment/erpnext/), [supervision deployment](deployment/supervision/), [integration service](services/integration/osr_integration/) |
 | System boundaries and remaining work | [Architecture](docs/ARCHITECTURE.md), [roadmap](docs/ROADMAP.md), [engineering instructions](AGENTS.md) |
 
-Regenerate derived artifacts from their sources. Physical candidate, evaluation and selection identities are distinct; a source hash identifies bytes and does not approve engineering. Historical results remain tied to their original revision. `./osr legacy verify` checks the retained archives; reproduce old calculations in a separate checkout.
+Regenerate derived artifacts from their sources. Physical candidate, evaluation and selection identities are distinct; a source hash identifies bytes and does not approve engineering. Historical results remain tied to their original revision. `./osr legacy verify` checks the retained archives; `./osr legacy checkout RELEASE --path /absolute/path` creates detached worktrees for the `pre-comfort-default`, `v0.4.0`, `v0.5.1` and `v0.5-maglev` sources. Keep old outputs in those worktrees; they do not become current v0.6 evidence. See the [historical feature reconciliation](docs/releases/v0.6-functionality-reconciliation.md).
 
 Contributions can improve supplier/material evidence, structural and motor models, complete equipment, manufacturing and repair methods, city data, controls, tests and documentation. Follow [CONTRIBUTING.md](CONTRIBUTING.md) and [GOVERNANCE.md](GOVERNANCE.md). The [documentation index](docs/INDEX.md) is a search aid; it is not another engineering authority.
 

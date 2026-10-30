@@ -3,12 +3,19 @@ from hashlib import sha256
 import argparse
 import json
 from pathlib import Path
+import shutil
 import subprocess
 from . import ROOT
 from .selection import encoded
 
 REVISION='578ee3950b872bf30fbf9e4207b2bda85951bdd7'
 OUTPUT='docs/archives/pre-comfort-default'
+LEGACY_CHECKOUTS={
+    'pre-comfort-default':REVISION,
+    'v0.4.0':'205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e',
+    'v0.5.1':'2617b04e722ca24b7ad9120f94610fe869f27053',
+    'v0.5-maglev':'92e1385e03dcd5c6f76a5b0a9dd5ba348f50d164',
+}
 PACKETS=('docs/design-engine/ferrite-maglev/reference',
          'docs/design-engine/ferrite-maglev/engineering-readiness',
          'docs/design-engine/ferrite-maglev/comfort-options',
@@ -80,17 +87,76 @@ def verify(root=ROOT):
     return dict(current=True,scope='Historical source and payload integrity against Git',source_revision=REVISION,
         blobs_verified=len(expected),numerical_calculations_reexecuted=False,physical_accepted=False)
 
+def checkout(root, release, destination):
+    """Create a detached historical worktree outside the active checkout."""
+    root=Path(root).resolve()
+    if release not in LEGACY_CHECKOUTS:
+        raise ValueError('Choose one of: '+', '.join(LEGACY_CHECKOUTS))
+    target=Path(destination).expanduser()
+    if not target.is_absolute():
+        raise ValueError('Historical worktree path must be absolute')
+    target=target.resolve(strict=False)
+    if target == root or root in target.parents:
+        raise ValueError('Historical worktree must be outside the active repository')
+    if target.exists() or target.is_symlink():
+        raise ValueError('Refusing to replace an existing historical worktree path')
+    if not target.parent.is_dir():
+        raise ValueError('Historical worktree parent directory must already exist')
+    revision=LEGACY_CHECKOUTS[release]
+    resolved=subprocess.check_output(['git','rev-parse','--verify',revision+'^{commit}'],
+                                     cwd=root,text=True).strip()
+    if resolved != revision:
+        raise ValueError('Pinned historical revision does not resolve exactly')
+    result=subprocess.run(['git','worktree','add','--detach',str(target),revision],
+                          cwd=root,text=True,capture_output=True)
+    if result.returncode:
+        # The target did not exist before this call. Remove only a partial tree
+        # created by Git; leave every pre-existing path untouched.
+        subprocess.run(['git','worktree','remove','--force',str(target)],
+                       cwd=root,text=True,capture_output=True)
+        if target.exists() and target.is_dir() and not target.is_symlink():
+            shutil.rmtree(target)
+        raise RuntimeError((result.stderr or result.stdout or 'git worktree add failed').strip())
+    actual=subprocess.check_output(['git','-C',str(target),'rev-parse','HEAD'],
+                                   cwd=root,text=True).strip()
+    if actual != revision:
+        raise RuntimeError('Created historical checkout does not match the pinned revision')
+    return dict(release=release,revision=revision,path=str(target),detached=True,
+        physical_accepted=False,current_candidate_data_imported=False,
+        next_step='Run the historical tools from this worktree; keep generated outputs inside it.')
+
 def main(argv=None,root=ROOT):
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('action',nargs='?',default='status')
+    p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('action',nargs='?',default='status',
+                   help='status, verify, or checkout a pinned historical release')
+    p.add_argument('release',nargs='?',help='v0.4.0, v0.5.1, or v0.5-maglev')
+    p.add_argument('--path',type=Path,help='new absolute worktree path outside this repository')
     a=p.parse_args(argv)
     if a.action in ('verify','audit'):
+        if a.release is not None or a.path is not None:
+            p.error('verify accepts no release or path')
         from engineering.station_rail.history import verify as verify_v05
         result=dict(pre_comfort=verify(root),v05_maglev=verify_v05(root))
     elif a.action in ('status','readiness'):
+        if a.release is not None or a.path is not None:
+            p.error('status accepts no release or path')
         result=dict(source_revision=REVISION,role='Historical comparison only',current_default='engineering/development-baseline.toml',
-            archive=OUTPUT+'/README.md',historical_writers_in_current_tree=False,physical_accepted=False)
+            archive=OUTPUT+'/README.md',historical_writers_in_current_tree=False,
+            reproducible_checkouts=list(LEGACY_CHECKOUTS),physical_accepted=False)
+    elif a.action == 'checkout':
+        if a.release is None or a.path is None:
+            p.error('checkout requires RELEASE and --path ABSOLUTE_PATH')
+        try:
+            result=checkout(root,a.release,a.path)
+        except ValueError as error:
+            p.error(str(error))
+        except (OSError,RuntimeError) as error:
+            print(json.dumps(dict(checkout='failed',release=a.release,path=str(a.path),
+                error=str(error),historical_source_changed=False,
+                current_candidate_data_imported=False,physical_accepted=False),indent=2))
+            return 2
     else:
-        print('Historical writer refused in the active checkout. Create an isolated Git worktree at '+REVISION+' and run its original tools there.')
+        print('Historical writer refused in the active checkout. Use `./osr legacy checkout RELEASE --path /absolute/path` for a pinned detached worktree.')
         return 2
     print(json.dumps(result,indent=2));return 0
 

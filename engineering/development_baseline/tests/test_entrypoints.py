@@ -83,6 +83,83 @@ def test_missing_current_packet_reports_hold_without_legacy(packet, capsys):
     assert 'run ./osr build' in value['hold_reason']
 
 
+def test_legacy_checkout_creates_only_a_pinned_external_detached_worktree(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from engineering.development_baseline import legacy
+
+    destination=tmp_path.parent/(tmp_path.name+'-legacy-v051')
+    revision=legacy.LEGACY_CHECKOUTS['v0.5.1']
+    assert legacy.LEGACY_CHECKOUTS['pre-comfort-default'] == legacy.REVISION
+    calls=[]
+
+    def check_output(args, *, cwd, text):
+        calls.append((args,cwd,text))
+        if args[:2] == ['git','rev-parse']:
+            return revision+'\n'
+        if args[:2] == ['git','-C']:
+            return revision+'\n'
+        raise AssertionError(args)
+
+    def run(args, *, cwd, text, capture_output):
+        calls.append((args,cwd,text,capture_output))
+        assert args == ['git','worktree','add','--detach',str(destination),revision]
+        destination.mkdir()
+        return SimpleNamespace(returncode=0,stdout='',stderr='')
+
+    monkeypatch.setattr(legacy.subprocess,'check_output',check_output)
+    monkeypatch.setattr(legacy.subprocess,'run',run)
+    result=legacy.checkout(tmp_path,'v0.5.1',destination)
+
+    assert result['revision'] == revision
+    assert result['detached'] is True
+    assert result['current_candidate_data_imported'] is False
+    assert result['physical_accepted'] is False
+    assert [call[0][:3] for call in calls] == [
+        ['git','rev-parse','--verify'],['git','worktree','add'],['git','-C',str(destination)]]
+
+
+@pytest.mark.parametrize('release,path',[
+    ('v0.6', '/tmp/not-a-historical-release'),
+    ('v0.5.1', 'relative/path'),
+    ('v0.5.1', '.'),
+])
+def test_legacy_checkout_refuses_unknown_or_unsafe_worktree_scope(tmp_path, release, path):
+    from engineering.development_baseline import legacy
+    with pytest.raises(ValueError):
+        legacy.checkout(tmp_path,release,path)
+
+
+def test_legacy_checkout_refuses_existing_destination(tmp_path):
+    from engineering.development_baseline import legacy
+    destination=tmp_path.parent/(tmp_path.name+'-occupied')
+    destination.mkdir()
+    with pytest.raises(ValueError,match='Refusing to replace'):
+        legacy.checkout(tmp_path,'v0.4.0',destination)
+
+
+def test_failed_legacy_checkout_removes_only_its_partial_target(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    from engineering.development_baseline import legacy
+
+    destination=tmp_path.parent/(tmp_path.name+'-partial-legacy')
+    revision=legacy.LEGACY_CHECKOUTS['v0.4.0']
+
+    def check_output(args, *, cwd, text):
+        return revision+'\n'
+
+    def run(args, *, cwd, text, capture_output):
+        if args[1:3] == ['worktree','add']:
+            destination.mkdir()
+            return SimpleNamespace(returncode=128,stdout='',stderr='disk quota exceeded')
+        return SimpleNamespace(returncode=1,stdout='',stderr='not registered')
+
+    monkeypatch.setattr(legacy.subprocess,'check_output',check_output)
+    monkeypatch.setattr(legacy.subprocess,'run',run)
+    with pytest.raises(RuntimeError,match='disk quota exceeded'):
+        legacy.checkout(tmp_path,'v0.4.0',destination)
+    assert not destination.exists()
+
+
 @pytest.mark.parametrize('mutation', ['source', 'summary', 'identity', 'acceptance', 'symlink'])
 def test_mixed_or_modified_packets_are_rejected(packet, mutation):
     root, summary, manifest = packet

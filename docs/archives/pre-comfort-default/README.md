@@ -6,4 +6,4 @@ Historical source hashes are checked against the recorded Git revision. They are
 
 [Former reader](OpenSourceRail-Book.pdf) · [Former roadmap](ROADMAP.md) · [Archive receipt](manifest.json).
 
-Use `./osr legacy verify` for historical source/payload integrity. This does not rerun numerical solvers or grant physical acceptance. Historical writers require a separate checkout of the recorded revision; they cannot overwrite current publications.
+Use `./osr legacy verify` for historical source/payload integrity. This does not rerun numerical solvers or grant physical acceptance. To reproduce these pre-comfort publications, create a detached checkout at their exact recorded source with `./osr legacy checkout pre-comfort-default --path /tmp/opensourcerail-pre-comfort`; run the historical tools from that directory and keep outputs there. To run the original v0.4 applications, use `./osr legacy checkout v0.4.0 --path /tmp/opensourcerail-v04`. Remove each worktree when finished. Historical quantities and results remain separate from the current v0.6 candidate.
