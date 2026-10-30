@@ -206,6 +206,14 @@ The coordinated run is bounded and restartable; it preserves pending work and fa
 | Recover older project details | [v0.4 full introduction](https://github.com/modernecotech/OpenSourceRail/blob/205e8dc158c83fcdc2dca9ceb8bad0a7e8b3f61e/README.md), [v0.5.1 introduction](https://github.com/modernecotech/OpenSourceRail/blob/2617b04e722ca24b7ad9120f94610fe869f27053/README.md), [v0.5 source/payload archive](docs/archives/v0.5-maglev/README.md) |
 | Run retained v0.4 City Studio, simulation or OCC tools | [Isolated historical workspace and commands](legacy/v0.4/README.md) |
 
+## About the author
+
+**Hayder Aziz** initiated OpenSourceRail. His published work on engineering design systems dates back more than 20 years. Beginning in the early 2000s, he researched how product data management, manufacturing knowledge, open standards and collaborative software could be joined into a coherent design process, enabling engineering teams to assess manufacturability and exchange design knowledge from the conceptual stage rather than treating design and production as separate activities.
+
+Among his research publications are *[New Technologies and Standards for Design Knowledge Management in Collaborative Conceptual Design](https://researchportal.northumbria.ac.uk/en/publications/new-technologies-and-standards-for-design-knowledge-management-in)* (2003, with James Gao, Paul Maropoulos and Wai Ming Cheung), *[Open standard, open source and peer-to-peer tools and methods for collaborative product development](https://gala.gre.ac.uk/id/eprint/17781/)* (2005, *Computers in Industry*), and *[Engineering design knowledge management in de-centralised virtual enterprises](https://gala.gre.ac.uk/id/eprint/2623/)* (2008, *Computer-Aided Design and Applications*). These works investigated reusable engineering knowledge, distributed product-development systems and the integration and automation of design-related workflows.
+
+OpenSourceRail carries that research direction into an ambitious open transport-system project. The aim is to connect requirements, alternative generation, material selection, CAD/BIM, weight and cost calculations, supplier evidence, assembly methods, operational simulation and safety analysis in a traceable toolchain. This is the project's design philosophy and research ambition; the current railway candidates remain in development, without completed physical validation or certification for passenger operation.
+
 ## Sources, revisions and contributions
 
 | Concern | Source to change |
