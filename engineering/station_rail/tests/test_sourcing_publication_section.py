@@ -20,7 +20,7 @@ def test_current_readme_sourcing_section_checks_current_regional_cost_evidence()
     assert "137 evaluated, 6,905 pending" in report
     assert "nine RFQ drafts remain unsent" in report
     assert "191 draft packages and 8 purchasing/material lines" in report
-    assert "44 domestic-source lead associations across seven families" in report
+    assert "52 domestic-source lead associations across seven families" in report
     assert "Hadeed Iraq also provides a rebar marketplace/RFQ directory" in report
     assert "displayed figures are indicative seller listings, not a binding Hadeed offer" in report
     assert "materials + labour + 20%" in report
@@ -44,5 +44,8 @@ def test_current_readme_sourcing_section_checks_current_regional_cost_evidence()
     assert "IQD 90.19/91.03/92.72 million" in report
     assert "do not establish winding-conductor compatibility" in report
     assert "approximately 900 m winding allocation" in report
+    assert "Five source-bound unsent bank scopes" in report
+    assert "station-drive RFQ draft" in report
+    assert "validation-current.json" in report
     assert "CSO 2024 construction-wage archive" in report
     assert "not used in current 2025/2026 estimates" in report
