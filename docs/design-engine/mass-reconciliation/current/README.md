@@ -2,7 +2,7 @@
 
 Physical candidate `756a68870162f7559b052b05c9b201728c9f448e3bb61114f287848c02f2d3a3`; body `9489e4f2666fd3b3c73232c86df3f12adf42a5531eb27373834cf3fecb1a3117`; selection `8e5905bc7c81d6177bbaafde81ab3a5f8cc54947c4923eb4493949566ac85cdc`.
 
-This report preserves every retained source-account occurrence in its system account, then assigns each candidate geometry occurrence to one parent account using explicit component-family rules. Inherited source occurrences and current geometry do not have a row-to-row identity join, so the report does not claim one. Newly modelled underframe, bogie, and passive-secondary geometry is assigned once. This is an accounting reconciliation, not a complete installed-mass claim.
+This report preserves every retained source-account occurrence in its system account, then assigns each candidate geometry occurrence to one parent account using explicit component-family rules. Where a candidate comfort-shell geometry ID resolves to exactly one retained source occurrence's nested geometry part and the masses agree, the report records that source-geometry link. The link traces model origin only; it does not establish physical installation, assembly completeness, or measured mass. Newly modelled underframe, bogie, and passive-secondary geometry is assigned once. This is an accounting reconciliation, not a complete installed-mass claim.
 
 | Ledger result | Value |
 |---|---:|
@@ -11,6 +11,8 @@ This report preserves every retained source-account occurrence in its system acc
 | Reference or unlocated account residual | 10,090.200 kg/car |
 | Account rows | 12 |
 | Located geometry occurrences assigned once | 2,482 |
+| Exact inherited source-geometry links (geometry parts / source occurrences) | 1,516 / 28 |
+| Mass under those exact source-geometry links | 1,162.040 kg/car |
 | Closure worksheet rows (source / geometry / account) | 5,418 (2,924 / 2,482 / 12) |
 | Complete installed mass, CG, inertia, axle reactions | Unknown |
 
@@ -33,6 +35,7 @@ This report preserves every retained source-account occurrence in its system acc
 
 The located-material centre of gravity is calculated from the represented geometry subset only. It excludes all residual accounts, including the service pack, HVAC, unlocated bogie balance, roof coating takeoff, attachment allowance, and source-account mass without candidate geometry. It is not the installed vehicle CG. Average axle masses are not axle reactions; longitudinal balance and dynamic wheel loads remain unresolved.
 
+Exact nested source geometry IDs link 1,516 candidate geometry occurrences (1,162.040 kg/car) to 28 retained source occurrences, with each linked candidate/source geometry mass checked equal. This is identity-level traceability for geometry definitions only. The remaining 966 candidate geometry occurrences have no exact nested source-geometry ID link. Neither result establishes that a part was manufactured or installed as modelled.
 The [mass closure worksheet](mass-closure-worksheet.json.gz) has one row for every retained source-account occurrence, candidate geometry occurrence, and account closure. It keeps source-accounted mass, CAD-derived mass, and account residuals in separate fields. Every row's physically installed mass and installed position remain null; a candidate geometry centroid is not an installed position, and a positive accounting residual is not a physical part.
 
 Source occurrences keep their source IDs and occurrence-definition IDs in [mass-ledger.json.gz](mass-ledger.json.gz). The report is bound by [manifest.json](manifest.json). Regenerate with `python3 -m engineering.mass_ledger_audit build` and verify with `python3 -m engineering.mass_ledger_audit verify`.

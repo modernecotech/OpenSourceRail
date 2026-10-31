@@ -12,7 +12,7 @@ OpenSourceRail aims for simple, affordable urban transport, repeated precast civ
 | Accounted tare / normal load | 19.222 / 22.672 t/car at 75 kg/person |
 | Located material / remaining reference accounts | 9.132 / 10.090 t/car |
 | Complete installed mass, CG and inertia | Unknown; inherited service allocations may overlap new equipment and must be disaggregated |
-| Mass reconciliation | [Occurrence-level ledger](../mass-reconciliation/current/README.md) and [closure worksheet](../mass-reconciliation/current/mass-closure-worksheet.json.gz) — 5,418 source, candidate-geometry and account-closure rows; installed mass remains unknown |
+| Mass reconciliation | [Occurrence-level ledger](../mass-reconciliation/current/README.md) and [closure worksheet](../mass-reconciliation/current/mass-closure-worksheet.json.gz) — 5,418 source, candidate-geometry and account-closure rows; 1,516 candidate geometry parts trace to 28 source occurrences (1,162.040 kg/car); installed mass remains unknown |
 | Service-only battery | 82.8 kWh, 1345 kg/car reference account; cooled installation and rail approval open |
 | Service targets | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² braking, 35 s dwell, 120 s headway; 8,280 pphpd arithmetic |
 

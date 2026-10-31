@@ -678,7 +678,7 @@ def readme(record,summary,root=ROOT):
       f"| Accounted tare / normal load | {m['accounted_tare_kg_per_car']/1000:.3f} / {m['accounted_cap_loaded_kg_per_car']/1000:.3f} t/car at 75 kg/person |",
       f"| Located material / remaining reference accounts | {m['located_material_kg']/1000:.3f} / {m['unlocated_or_reference_account_kg']/1000:.3f} t/car |",
       '| Complete installed mass, CG and inertia | Unknown; inherited service allocations may overlap new equipment and must be disaggregated |',
-      f"| Mass reconciliation | [Occurrence-level ledger](../mass-reconciliation/current/README.md) and [closure worksheet](../mass-reconciliation/current/mass-closure-worksheet.json.gz) — {mass_ledger['closure_worksheet_record_count']:,} source, candidate-geometry and account-closure rows; installed mass remains unknown |",
+      f"| Mass reconciliation | [Occurrence-level ledger](../mass-reconciliation/current/README.md) and [closure worksheet](../mass-reconciliation/current/mass-closure-worksheet.json.gz) — {mass_ledger['closure_worksheet_record_count']:,} source, candidate-geometry and account-closure rows; {mass_ledger['closure_worksheet_exact_source_geometry_link_count']:,} candidate geometry parts trace to {mass_ledger['source_occurrence_with_candidate_geometry_link_count']:,} source occurrences ({mass_ledger['closure_worksheet_exact_source_geometry_link_mass_kg']:,.3f} kg/car); installed mass remains unknown |",
       f"| Service-only battery | {b['gross_energy_kWh']:.1f} kWh, {b['mass_kg']:.0f} kg/car reference account; cooled installation and rail approval open |",
       '| Service targets | 72 km/h, 0.4 m/s² acceleration, 0.6 m/s² braking, 35 s dwell, 120 s headway; 8,280 pphpd arithmetic |','',
       '## Reference journey and power','',

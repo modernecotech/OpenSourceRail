@@ -55,6 +55,20 @@ def _retained_source_rows(parent):
     ]
 
 
+def _source_geometry_index(retained):
+    """Index geometry parts nested under retained source occurrence records."""
+    by_part_id = {}
+    for source in retained:
+        for part in source.get("geometry_parts") or []:
+            part_id = part.get("id")
+            if not isinstance(part_id, str) or not part_id:
+                raise ValueError("Retained source geometry requires an exact part ID")
+            if part_id in by_part_id:
+                raise ValueError("Retained source geometry part ID is owned more than once: " + part_id)
+            by_part_id[part_id] = (source, part)
+    return by_part_id
+
+
 def reconcile(candidate, parent):
     """Map source accounts and candidate geometry by explicit parent account."""
     geometry = candidate["geometry_parts"]
@@ -68,12 +82,28 @@ def reconcile(candidate, parent):
     retained_accounts = defaultdict(list)
     for source in retained:
         retained_accounts[source["system"]].append(source)
+    source_geometry_by_id = _source_geometry_index(retained)
+    parent_geometry_by_id = {part["id"]: part for part in parent["geometry_parts"]}
+    if len(parent_geometry_by_id) != len(parent["geometry_parts"]):
+        raise ValueError("Parent source geometry part IDs must be unique")
+    source_to_candidate_geometry = defaultdict(list)
+    source_geometry_links = {}
     retained_geometry = defaultdict(list)
     new_geometry = defaultdict(list)
     geometry_parent = {}
     for part in geometry:
         part_id = part["id"]
+        source_geometry_link = None
         if part_id.startswith("comfort-shell/"):
+            source_geometry_part_id = part_id[len("comfort-shell/"):]
+            source_geometry_link = source_geometry_by_id.get(source_geometry_part_id)
+            if source_geometry_link is not None:
+                source, source_geometry = source_geometry_link
+                mass_difference = float(part["mass_kg"]) - float(source_geometry["mass_kg"])
+                if abs(mass_difference) > 1e-7:
+                    raise ValueError("Candidate comfort geometry mass differs from its exact source geometry part: " + part_id)
+                source_to_candidate_geometry[source["id"]].append(part_id)
+                source_geometry_links[part_id] = (source, source_geometry)
             family = part_id[len("comfort-shell/"):].split("/", 1)[0]
             if family == "seat-unit":
                 system = "seating"
@@ -96,6 +126,15 @@ def reconcile(candidate, parent):
             new_geometry[group].append(part)
         else:
             raise ValueError("Candidate geometry is not assigned to a mass account: " + part_id)
+        if source_geometry_link is not None:
+            source, source_geometry = source_geometry_link
+            parent_geometry = parent_geometry_by_id.get(source_geometry["id"])
+            if parent_geometry is None:
+                raise ValueError("Linked source geometry part is absent from the pinned parent geometry: " + part_id)
+            if source["system"] != group.removeprefix("retained-comfort/"):
+                raise ValueError("Linked source occurrence and candidate geometry belong to different mass accounts: " + part_id)
+            if abs(float(parent_geometry["mass_kg"]) - float(source_geometry["mass_kg"])) > 1e-7:
+                raise ValueError("Nested source geometry mass differs from the pinned parent geometry: " + part_id)
         geometry_parent[part_id] = group
 
     source_occurrences = []
@@ -119,10 +158,14 @@ def reconcile(candidate, parent):
             residual_account_mass_kg=residual,
             source_occurrence_ids=[row["id"] for row in source_rows],
             candidate_geometry_occurrence_ids=[part["id"] for part in parts],
-            mapping_method="system-account plus explicit geometry-family classification; no row-to-row match is claimed",
+            source_geometry_linked_occurrence_ids=sorted(
+                part_id for part_id in (part["id"] for part in parts) if part_id in source_geometry_links
+            ),
+            mapping_method="system account with exact nested source-geometry IDs linked where candidate IDs and masses match; remaining rows stay account-level",
             disposition="retained-source-account-with-candidate-geometry-subset" if parts else "retained-source-account-without-candidate-geometry",
         ))
         for source in source_rows:
+            source_parts = source.get("geometry_parts") or []
             source_occurrences.append(dict(
                 account_id=account_id,
                 occurrence_id=source["id"],
@@ -133,6 +176,8 @@ def reconcile(candidate, parent):
                 evidence_class=source.get("evidence_class"),
                 source_location_known=source.get("global_installation_location_known"),
                 mass_kg=float(source["mass_kg"]),
+                source_geometry_part_ids=sorted(part["id"] for part in source_parts),
+                candidate_geometry_occurrence_ids=sorted(source_to_candidate_geometry.get(source["id"], [])),
             ))
 
     inventory = {item["id"]: item for item in candidate["inventory"]}
@@ -188,6 +233,8 @@ def reconcile(candidate, parent):
             evidence_class=evidence,
             source_location_known=False,
             mass_kg=mass,
+            source_geometry_part_ids=[],
+            candidate_geometry_occurrence_ids=[],
         ))
 
     accounts.extend([
@@ -207,6 +254,9 @@ def reconcile(candidate, parent):
     geometry_occurrences = []
     for part in geometry:
         group = geometry_parent[part["id"]]
+        source_link = source_geometry_links.get(part["id"])
+        source = None if source_link is None else source_link[0]
+        source_geometry = None if source_link is None else source_link[1]
         geometry_occurrences.append(dict(
             occurrence_id=part["id"],
             account_id=group,
@@ -215,7 +265,21 @@ def reconcile(candidate, parent):
             system=part.get("system"),
             mass_kg=float(part["mass_kg"]),
             cg_m=part.get("cg_m"),
-            mapping_method="geometry-family-to-system-account" if group.startswith("retained-comfort/") else "exact-candidate-component-account",
+            source_occurrence_id=None if source is None else source["id"],
+            source_occurrence_definition_id=None if source is None else source.get("occurrence_definition_id"),
+            source_part_id=None if source is None else source.get("source_part_id"),
+            source_geometry_part_id=None if source_geometry is None else source_geometry["id"],
+            source_geometry_mass_kg=None if source_geometry is None else float(source_geometry["mass_kg"]),
+            source_geometry_cg_m=None if source_geometry is None else source_geometry.get("cg_m"),
+            candidate_to_source_geometry_mass_difference_kg=(
+                None if source_geometry is None else float(part["mass_kg"]) - float(source_geometry["mass_kg"])
+            ),
+            mapping_method=(
+                "exact-inherited-source-geometry-part-id-and-mass"
+                if source_geometry is not None else
+                "geometry-family-to-system-account" if group.startswith("retained-comfort/")
+                else "exact-candidate-component-account"
+            ),
         ))
     accounted = sum(float(account["accounted_mass_kg"]) for account in accounts)
     located = sum(float(part["mass_kg"]) for part in geometry_occurrences)
@@ -251,6 +315,18 @@ def reconcile(candidate, parent):
             source_account_occurrence_count=len(source_occurrences),
             retained_source_occurrence_count=len(retained),
             located_geometry_occurrence_count=len(geometry),
+            candidate_geometry_with_exact_source_geometry_link_count=len(source_geometry_links),
+            source_occurrence_with_candidate_geometry_link_count=sum(
+                bool(occurrence_ids) for occurrence_ids in source_to_candidate_geometry.values()
+            ),
+            candidate_geometry_with_exact_source_geometry_link_mass_kg=sum(
+                float(part["mass_kg"]) for part in geometry if part["id"] in source_geometry_links
+            ),
+            candidate_geometry_without_exact_source_geometry_link_count=len(geometry) - len(source_geometry_links),
+            candidate_geometry_without_exact_source_geometry_link_mass_kg=sum(
+                float(part["mass_kg"]) for part in geometry if part["id"] not in source_geometry_links
+            ),
+            exact_source_geometry_links_mass_checked=True,
             accounted_tare_kg_per_car=accounted,
             located_geometry_mass_kg=located,
             residual_reference_or_unlocated_mass_kg=residual,
@@ -275,7 +351,7 @@ def _readme(ledger, selected):
         "",
         f"Physical candidate `{ledger['candidate_id']}`; body `{ledger['body_candidate_id']}`; selection `{selected['selection_id']}`.",
         "",
-        "This report preserves every retained source-account occurrence in its system account, then assigns each candidate geometry occurrence to one parent account using explicit component-family rules. Inherited source occurrences and current geometry do not have a row-to-row identity join, so the report does not claim one. Newly modelled underframe, bogie, and passive-secondary geometry is assigned once. This is an accounting reconciliation, not a complete installed-mass claim.",
+        "This report preserves every retained source-account occurrence in its system account, then assigns each candidate geometry occurrence to one parent account using explicit component-family rules. Where a candidate comfort-shell geometry ID resolves to exactly one retained source occurrence's nested geometry part and the masses agree, the report records that source-geometry link. The link traces model origin only; it does not establish physical installation, assembly completeness, or measured mass. Newly modelled underframe, bogie, and passive-secondary geometry is assigned once. This is an accounting reconciliation, not a complete installed-mass claim.",
         "",
         "| Ledger result | Value |",
         "|---|---:|",
@@ -284,6 +360,8 @@ def _readme(ledger, selected):
         f"| Reference or unlocated account residual | {summary['residual_reference_or_unlocated_mass_kg']:,.3f} kg/car |",
         f"| Account rows | {summary['account_row_count']:,} |",
         f"| Located geometry occurrences assigned once | {summary['located_geometry_occurrence_count']:,} |",
+        f"| Exact inherited source-geometry links (geometry parts / source occurrences) | {summary['candidate_geometry_with_exact_source_geometry_link_count']:,} / {summary['source_occurrence_with_candidate_geometry_link_count']:,} |",
+        f"| Mass under those exact source-geometry links | {summary['candidate_geometry_with_exact_source_geometry_link_mass_kg']:,.3f} kg/car |",
         f"| Closure worksheet rows (source / geometry / account) | {closure['record_count']:,} ({closure['source_account_occurrence_count']:,} / {closure['candidate_geometry_occurrence_count']:,} / {summary['account_row_count']:,}) |",
         "| Complete installed mass, CG, inertia, axle reactions | Unknown |",
         "",
@@ -302,6 +380,7 @@ def _readme(ledger, selected):
         "",
         "The located-material centre of gravity is calculated from the represented geometry subset only. It excludes all residual accounts, including the service pack, HVAC, unlocated bogie balance, roof coating takeoff, attachment allowance, and source-account mass without candidate geometry. It is not the installed vehicle CG. Average axle masses are not axle reactions; longitudinal balance and dynamic wheel loads remain unresolved.",
         "",
+        f"Exact nested source geometry IDs link {summary['candidate_geometry_with_exact_source_geometry_link_count']:,} candidate geometry occurrences ({summary['candidate_geometry_with_exact_source_geometry_link_mass_kg']:,.3f} kg/car) to {summary['source_occurrence_with_candidate_geometry_link_count']:,} retained source occurrences, with each linked candidate/source geometry mass checked equal. This is identity-level traceability for geometry definitions only. The remaining {summary['candidate_geometry_without_exact_source_geometry_link_count']:,} candidate geometry occurrences have no exact nested source-geometry ID link. Neither result establishes that a part was manufactured or installed as modelled.",
         "The [mass closure worksheet](mass-closure-worksheet.json.gz) has one row for every retained source-account occurrence, candidate geometry occurrence, and account closure. It keeps source-accounted mass, CAD-derived mass, and account residuals in separate fields. Every row's physically installed mass and installed position remain null; a candidate geometry centroid is not an installed position, and a positive accounting residual is not a physical part.",
         "",
         "Source occurrences keep their source IDs and occurrence-definition IDs in [mass-ledger.json.gz](mass-ledger.json.gz). The report is bound by [manifest.json](manifest.json). Regenerate with `python3 -m engineering.mass_ledger_audit build` and verify with `python3 -m engineering.mass_ledger_audit verify`.",
@@ -368,6 +447,8 @@ def _payloads(root):
                    closure_worksheet_record_count=worksheet["summary"]["record_count"],
                    closure_worksheet_source_account_occurrence_count=worksheet["summary"]["source_account_occurrence_count"],
                    closure_worksheet_geometry_occurrence_count=worksheet["summary"]["candidate_geometry_occurrence_count"],
+                   closure_worksheet_exact_source_geometry_link_count=worksheet["summary"]["exact_source_geometry_link_count"],
+                   closure_worksheet_exact_source_geometry_link_mass_kg=worksheet["summary"]["exact_source_geometry_link_mass_kg"],
                    closure_worksheet_account_residual_count=worksheet["summary"]["account_residual_count"],
                    **FLAGS)
     return {
@@ -385,6 +466,7 @@ def build_closure_worksheet(ledger):
     selection_id = ledger["selection_id"]
     rows = []
     for source in ledger["source_account_occurrences"]:
+        linked_geometry_ids = list(source.get("candidate_geometry_occurrence_ids", []))
         rows.append(_row(
             record_kind="source-account-occurrence",
             candidate_id=candidate_id,
@@ -394,6 +476,8 @@ def build_closure_worksheet(ledger):
             occurrence_id=source["occurrence_id"],
             occurrence_definition_id=source.get("occurrence_definition_id"),
             source_part_id=source.get("source_part_id"),
+            source_geometry_part_ids=list(source.get("source_geometry_part_ids", [])),
+            candidate_geometry_occurrence_ids=linked_geometry_ids,
             mass_evidence_class=source.get("evidence_class"),
             accounted_source_mass_kg=source["mass_kg"],
             candidate_geometry_mass_kg=None,
@@ -404,8 +488,15 @@ def build_closure_worksheet(ledger):
             upper_mass_bound_kg=None,
             installation_status="not-physically-verified",
             source_location_known=source.get("source_location_known"),
-            overlap_or_replacement_status="unresolved",
-            accounting_mapping="source occurrence retained in its parent system account; no row-to-row match with candidate geometry is claimed",
+            overlap_or_replacement_status=(
+                "source-geometry-origin-linked; physical installation and assembly completeness unverified"
+                if linked_geometry_ids else "unresolved"
+            ),
+            accounting_mapping=(
+                "retained source occurrence owns the listed source geometry IDs; exact candidate geometry IDs and masses are linked"
+                if linked_geometry_ids else
+                "source occurrence retained in its parent system account; no exact candidate geometry-part link is available"
+            ),
             evidence_needed=[
                 "supplier or measurement evidence for installed mass",
                 "reviewed installation location in the candidate vehicle coordinate frame",
@@ -413,6 +504,7 @@ def build_closure_worksheet(ledger):
             ],
         ))
     for geometry in ledger["candidate_geometry_occurrences"]:
+        source_geometry_linked = geometry.get("source_occurrence_id") is not None
         rows.append(_row(
             record_kind="candidate-geometry-occurrence",
             candidate_id=candidate_id,
@@ -420,8 +512,13 @@ def build_closure_worksheet(ledger):
             selection_id=selection_id,
             account_id=geometry["account_id"],
             occurrence_id=geometry["occurrence_id"],
-            occurrence_definition_id=None,
-            source_part_id=None,
+            occurrence_definition_id=geometry.get("source_occurrence_definition_id"),
+            source_part_id=geometry.get("source_part_id"),
+            source_occurrence_id=geometry.get("source_occurrence_id"),
+            source_geometry_part_id=geometry.get("source_geometry_part_id"),
+            source_geometry_mass_kg=geometry.get("source_geometry_mass_kg"),
+            source_geometry_centroid_m=geometry.get("source_geometry_cg_m"),
+            candidate_to_source_geometry_mass_difference_kg=geometry.get("candidate_to_source_geometry_mass_difference_kg"),
             mass_evidence_class="candidate-geometry-derived",
             accounted_source_mass_kg=None,
             candidate_geometry_mass_kg=geometry["mass_kg"],
@@ -432,7 +529,10 @@ def build_closure_worksheet(ledger):
             upper_mass_bound_kg=None,
             installation_status="not-physically-verified",
             source_location_known=False,
-            overlap_or_replacement_status="unresolved",
+            overlap_or_replacement_status=(
+                "source-geometry-origin-linked; physical installation and assembly completeness unverified"
+                if source_geometry_linked else "unresolved"
+            ),
             accounting_mapping=geometry["mapping_method"],
             evidence_needed=[
                 "manufactured-part weigh record or supplier-documented mass",
@@ -442,6 +542,11 @@ def build_closure_worksheet(ledger):
         ))
     for account in ledger["accounts"]:
         residual = float(account["residual_account_mass_kg"])
+        source_geometry_linked_ids = [
+            row["occurrence_id"] for row in ledger["candidate_geometry_occurrences"]
+            if row["occurrence_id"] in account["candidate_geometry_occurrence_ids"]
+            and row.get("source_occurrence_id") is not None
+        ]
         rows.append(_row(
             record_kind="account-closure",
             candidate_id=candidate_id,
@@ -463,9 +568,13 @@ def build_closure_worksheet(ledger):
             upper_mass_bound_kg=None,
             installation_status="not-physically-verified",
             source_location_known=False,
-            overlap_or_replacement_status="unresolved",
+            overlap_or_replacement_status=(
+                "partial-source-geometry-origin-links; residual remains an accounting amount, not a physical component"
+                if source_geometry_linked_ids else "unresolved"
+            ),
             source_occurrence_ids=list(account["source_occurrence_ids"]),
             candidate_geometry_occurrence_ids=list(account["candidate_geometry_occurrence_ids"]),
+            exact_source_geometry_linked_occurrence_ids=source_geometry_linked_ids,
             accounting_mapping=account["mapping_method"],
             evidence_needed=[
                 "disaggregate the account into exact physical component identities",
@@ -497,6 +606,11 @@ def build_closure_worksheet(ledger):
             record_count=len(rows),
             source_account_occurrence_count=len(ledger["source_account_occurrences"]),
             candidate_geometry_occurrence_count=len(ledger["candidate_geometry_occurrences"]),
+            exact_source_geometry_link_count=ledger["summary"]["candidate_geometry_with_exact_source_geometry_link_count"],
+            exact_source_geometry_link_mass_kg=ledger["summary"]["candidate_geometry_with_exact_source_geometry_link_mass_kg"],
+            source_occurrence_with_candidate_geometry_link_count=ledger["summary"]["source_occurrence_with_candidate_geometry_link_count"],
+            candidate_geometry_without_exact_source_geometry_link_count=ledger["summary"]["candidate_geometry_without_exact_source_geometry_link_count"],
+            candidate_geometry_without_exact_source_geometry_link_mass_kg=ledger["summary"]["candidate_geometry_without_exact_source_geometry_link_mass_kg"],
             account_residual_count=sum(float(row["accounting_residual_kg"]) > 1e-9 for row in rows
                                        if row["record_kind"] == "account-closure"),
             accounted_tare_kg_per_car=ledger["summary"]["accounted_tare_kg_per_car"],
