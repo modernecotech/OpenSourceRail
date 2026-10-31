@@ -72,6 +72,21 @@ def viewport(design, geojson):
     return bounds, zoom
 
 
+def viewport_matches(bounds, zoom, context, *, tolerance=1e-8):
+    """Compare a recomputed viewport with its stored context robustly.
+
+    Longitude/latitude bounds are derived through Web Mercator trigonometry;
+    exact float equality can vary by a few ULPs between Python/libm builds.
+    The tolerance is shared by map rendering and repository-wide validation.
+    """
+    stored_bounds = context.get('bounds_wsen')
+    stored_zoom = context.get('zoom')
+    return (zoom == stored_zoom and isinstance(stored_bounds, list)
+            and len(bounds) == len(stored_bounds) == 4
+            and all(abs(float(actual) - float(stored)) <= tolerance
+                    for actual, stored in zip(bounds, stored_bounds)))
+
+
 def _simplify(points, tolerance=.3):
     if len(points) < 3:
         return points
@@ -139,7 +154,7 @@ def render(design, geojson, output, *, context_path=None):
         raise ValueError('retained city basemap required: '+str(context_path))
     context = load(context_path)
     bounds, zoom = viewport(design, geojson)
-    if zoom != context['zoom'] or any(abs(a-b) > 1e-8 for a,b in zip(bounds, context['bounds_wsen'])):
+    if not viewport_matches(bounds, zoom, context):
         raise ValueError('basemap viewport differs from current corridors/stops; extract again')
     layers = context['layers']
     if not layers.get('roads') or not layers.get('places'):

@@ -51,7 +51,7 @@ def test_plan_cli_compiles_and_verifies_current_candidate_handoff(tmp_path, monk
                    dict(id="stop-mid", chainage_m=length_m / 2, lon=0.005, lat=0.0, dwell_s=45.0),
                    dict(id="stop-b", chainage_m=length_m, lon=0.01, lat=0.0, dwell_s=45.0)])],
         od=[dict(origin="stop-a", destination="stop-mid", trips_per_day=120, basis="synthetic")],
-        **{key: False for key in planning.RETAINED_PLAN_DISPOSITIONS})
+        **{key: False for key in planning.PLAN_DISPOSITIONS})
     base["revision_sha256"] = planning.digest_json(base)
     monkeypatch.setattr(planning, "_load_base", lambda _root, city: (deepcopy(base), source_sha256))
     monkeypatch.setattr(entrypoint, "selected", lambda _root: baseline)

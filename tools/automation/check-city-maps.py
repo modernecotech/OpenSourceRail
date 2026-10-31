@@ -23,7 +23,7 @@ def main():
         design['stations']=[dict(s,line=line['line']) for line in report['lines'] for s in line['stations']]
         geo=path.with_name(design['city']['slug']+'.corridor.geojson')
         bounds,zoom=render.viewport(design,geo)
-        if bounds!=context['bounds_wsen'] or zoom!=context['zoom']:raise ValueError('stale city viewport: '+str(path))
+        if not render.viewport_matches(bounds,zoom,context):raise ValueError('stale city viewport: '+str(path))
         relative=context_path.relative_to(ROOT).as_posix()
         if report['source_sha256'].get(relative)!=sha256(context_path.read_bytes()).hexdigest():raise ValueError('unbound basemap: '+str(path))
         svg=ET.parse(path.parent/'engineering/maglev/network.svg');ns={'s':'http://www.w3.org/2000/svg'}

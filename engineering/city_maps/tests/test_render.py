@@ -68,6 +68,15 @@ def test_viewport_keeps_stops_and_routes_inside_and_bounds_download(tmp_path,mon
         assert bounds[0]<s['lon']<bounds[2] and bounds[1]<s['lat']<bounds[3]
 
 
+def test_viewport_context_comparison_allows_float_roundoff_only():
+    bounds=[13.265479425189284,-12.649215806429678,13.556420204544082,-12.479205381245174]
+    context=dict(bounds_wsen=[x+1e-12 for x in bounds],zoom=13)
+    assert render.viewport_matches(bounds,13,context)
+    assert not render.viewport_matches(bounds,12,context)
+    context['bounds_wsen'][0]+=2e-8
+    assert not render.viewport_matches(bounds,13,context)
+
+
 def test_static_names_use_source_supported_script_without_fake_translation():
     assert render._name({'name':'लखनऊ','name:en':'Lucknow'})=='Lucknow'
     assert render._name({'name':'लखनऊ'}) is None

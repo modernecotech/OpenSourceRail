@@ -15,11 +15,11 @@ def test_current_entrypoints_describe_wheel_lim_without_historical_hardware_labe
     assert context.render(updated, 'tools/README.md') == updated
 
 
-def test_retained_method_entrypoints_keep_explicit_history_and_exact_archive_route():
+def test_separate_magnetic_method_entrypoint_uses_current_context_without_archive_route():
     name = 'engineering/ferrite_maglev/README.md'
     updated = context.render('# Retained method\n\nOriginal method details.\n', name)
-    assert 'historical magnetic-suspension research' in updated
-    assert '../../docs/archives/v0.5-maglev/README.md' in updated
+    assert 'OpenSourceRail v0.6 develops' in updated
+    assert 'docs/archives/v0.5-maglev/README.md' not in updated
     assert context.category(name) == 'historical-method-entrypoint'
     assert updated.endswith('Original method details.\n')
 
@@ -31,7 +31,7 @@ def test_legacy_import_is_the_same_module_and_keeps_monkeypatch_compatibility(mo
     assert context.inventory(None) == ['README.md']
 
 
-def test_coverage_binds_neutral_publisher_and_labels_city_history(tmp_path, monkeypatch):
+def test_coverage_binds_neutral_publisher_and_lists_current_entrypoints(tmp_path, monkeypatch):
     (tmp_path / 'README.md').write_text('# Project\n')
     monkeypatch.setattr(context, 'inventory', lambda root: ['README.md'])
     result = context.audit(tmp_path)
@@ -41,7 +41,7 @@ def test_coverage_binds_neutral_publisher_and_labels_city_history(tmp_path, monk
     }
     rendered = context.markdown(result)
     assert '-m engineering.readme_context --check' in rendered
-    assert 'city performance packages remain historical' in rendered
+    assert 'maintained v0.6 entrypoints' in rendered
     assert 'engineering.maglev_research' not in rendered
 
 
