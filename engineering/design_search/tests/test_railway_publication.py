@@ -1,5 +1,6 @@
 """Published native evidence is usable without dispatching local solvers."""
 import json
+import gzip
 import shutil
 import pytest
 from engineering.station_rail import ROOT
@@ -10,7 +11,7 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     result = publication.verify()
     assert result['body_count'] == 14
     assert result['evaluated_bundle_count'] == 112
-    assert result['native_body_case_count'] == 8
+    assert result['native_body_case_count'] == 9
     assert result['physical_journeys'] == result['complete_installed_masses'] == 0
     assert result['physical_accepted'] is False
     summary=json.loads((ROOT/publication.OUTPUT/'summary.json').read_bytes())
@@ -22,7 +23,15 @@ def test_coordinated_publication_retains_execution_and_unknowns():
     assert summary['current_source_refinement']['execution']=='completed'
     assert summary['current_source_refinement']['numerical_validity']=='equilibrium_energy_confirmed_only'
     assert summary['current_source_refinement']['physical_and_engineering_acceptance'] is False
+    assert summary['current_source_fine_refinement']['mesh_m']==0.10625
+    assert summary['current_source_fine_refinement']['reconciliation_state']=='reconciled-from-immutable-native-result'
+    assert summary['current_source_fine_refinement']['physical_and_engineering_acceptance'] is False
     assert summary['frontier_tasks']==46
+    frontier=json.loads(gzip.decompress((ROOT/publication.OUTPUT/'frontier.json.gz').read_bytes()))
+    continuation=next(x for x in frontier if x['kind']=='unresolved-numerical-refinement'
+        and x['body_candidate_id']=='8db92b830fda54c81ec231c541f811b24f938f2471b559448d2ed2683754f78b')
+    assert continuation['proposed_next_mesh_m']==0.053125
+    assert continuation['computational_cell_estimate']['solid_cells']==290660
 
 
 def _declared_cost_row():

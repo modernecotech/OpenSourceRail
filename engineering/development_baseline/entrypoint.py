@@ -210,6 +210,7 @@ def main(argv=None, root=ROOT):
                       '  refine/refine-verify --parent-result PATH --candidate-id ID\n'
                       '  refine-current/refine-current-verify --parent-result PATH --candidate-id ID\n'
                       '  refine-current-fine/refine-current-fine-verify --parent-result PATH --candidate-id ID\n'
+                      '  refine-current-fine-reconcile --parent-result PATH --candidate-id ID --request-id ID\n'
                       '  refine-next/refine-next-verify --parent-result PATH --candidate-id ID\n'
                       '  refine-next-resource/refine-next-resource-verify/refine-next-resource-reconcile --parent-result PATH --candidate-id ID\n'
                       '  demonstration-plan, demonstrate [--max-bundles N], demonstration-publish, demonstration-verify')
@@ -236,13 +237,21 @@ def main(argv=None, root=ROOT):
                 emit(dict(specification=railway_campaign.specification(root),remit=remit.default(),dependency_graph=railway_campaign.EDGES,physical_accepted=False));return 0
             if rest==['publish']:emit(railway_publication.build(root));return 0
             if rest==['verify']:emit(railway_publication.verify(root));return 0
-            if rest and rest[0] in ('refine','refine-verify','refine-current','refine-current-verify','refine-current-fine','refine-current-fine-verify','refine-next','refine-next-verify','refine-next-resource','refine-next-resource-verify','refine-next-resource-reconcile'):
+            if rest and rest[0] in ('refine','refine-verify','refine-current','refine-current-verify','refine-current-fine','refine-current-fine-verify','refine-current-fine-reconcile','refine-next','refine-next-verify','refine-next-resource','refine-next-resource-verify','refine-next-resource-reconcile'):
                 action=rest[0]
                 options=argparse.ArgumentParser(prog='./osr design railway '+action)
                 options.add_argument('--parent-result',type=Path,required=True)
                 options.add_argument('--candidate-id',required=True)
+                options.add_argument('--request-id',required=action=='refine-current-fine-reconcile')
                 parsed=options.parse_args(rest[1:])
                 parent_result=parsed.parent_result if parsed.parent_result.is_absolute() else root/parsed.parent_result
+                if action=='refine-current-fine-reconcile' or action=='refine-current-fine-verify' and parsed.request_id:
+                    from engineering.design_search import railway_refinement_current_fine_reconcile as reconcile
+                    if action=='refine-current-fine-reconcile':
+                        emit(reconcile.reconcile(root,parent_result=parent_result,candidate_id=parsed.candidate_id,request_id=parsed.request_id))
+                    else:
+                        emit(reconcile.verify(root,parent_result=parent_result,candidate_id=parsed.candidate_id,request_id=parsed.request_id))
+                    return 0
                 if action in ('refine','refine-verify'):
                     evaluator=railway_refinement
                 elif action in ('refine-current','refine-current-verify'):

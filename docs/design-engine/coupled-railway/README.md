@@ -33,7 +33,7 @@ These are exact generated nominal/net stock quantities plus retained source acco
 
 ## Three-dimensional structural method
 
-Four independent fixtures check bending/shear refinement, intact finite-face transfer and orthotropic axial/shear constitutive patches. The two new metal bodies have **7 exact native body cases** across normal, normal-fine and crowd loading: 7 dispatched in this coordinated run and 0 carried forward from byte-verified prior publications after matching candidate, load, mesh, solver, resources and source hashes. Reuse is provenance-preserving and does not count as a new solve. C3D8I solids resolve the declared actual metal geometry; no invisible gap ties or arbitrary rigid offsets create the load path. Intact autogenous weld/continuous-face transfer is an unqualified numerical hypothesis.
+Four independent fixtures check bending/shear refinement, intact finite-face transfer and orthotropic axial/shear constitutive patches. The two new metal bodies have **9 exact native body cases** across normal, normal-fine and crowd loading: 9 dispatched in this coordinated run and 0 carried forward from byte-verified prior publications after matching candidate, load, mesh, solver, resources and source hashes. Reuse is provenance-preserving and does not count as a new solve. C3D8I solids resolve the declared actual metal geometry; no invisible gap ties or arbitrary rigid offsets create the load path. Intact autogenous weld/continuous-face transfer is an unqualified numerical hypothesis.
 
 | New solid body | Normal 1.7 m target | Finer 0.85 m | Extra 0.425 m | Last-step change |
 |---|---:|---:|---:|---:|
@@ -45,6 +45,8 @@ The source-bound resource revision uses 1.7/0.85 m global subdivision targets; t
 The first baseline metal-frame job produced 152,004 cells and exceeded its 5 GiB allocation while factoring. It yielded no structural verdict. The generator then standardized and aligned floor/roof extrusion profiles, preserving openings, support pads and actual load paths. These are new physical children with different identities, fewer profile families and roughly 71% fewer conformal cells. The original failed execution, source epoch and CAD remain retained. A 60,000-cell dispatch budget is a computational control, not a railway acceptance rule or proof that the baseline body cannot work.
 
 The frame's first refinement changed the three displacement maxima by about 10-12%. The coordinator therefore requested another unchanged-candidate numerical experiment at a 0.425 m target. Its 61,352-cell estimate justified an explicit computational budget revision to 65,000 cells under the same 5 GiB/150 s limits. Exact unchanged prior solves/CAD are reused across coordinator epochs, with new context records. A 5% refinement trigger requests work; it does not qualify a body. Whole-field, stress, torsion and physical convergence remain separate questions.
+
+The current-source continuation ran the same P1 body and normal-load basis at **0.2125 m** under its 90,000-cell budget. It completed with equilibrium/energy consistency only. The next 0.10625 m solve used 128,382 C3D8I cells with an 8 GiB/240 s request; its report was reconstructed from the preserved native output after a post-processing indexing exception. The raw solver package was left unchanged. The matched-point changes from 0.2125 m are included with the reconciliation receipt; numerical convergence and physical acceptance remain open.
 
 Original foam/honeycomb and GFRP bodies remain non-admitted to this whole-body solver until their own complete directional material laws, attachment stock and joint models are provided. Orthotropic method patches demonstrate implementation, not purchased composite properties.
 
@@ -76,6 +78,6 @@ Immutable stage requests include candidate and upstream evidence IDs. Native cac
 ./osr design railway verify
 ```
 
-[Summary](summary.json) · [Body definitions](bodies.json.gz) · [Canonical bundles](bundles.json.gz) · [Coupled evaluations](comparison.json.gz) · [Inventory/manufacturing records](inventories.json.gz) · [Delivery/IFC/ERP drafts](delivery-index.json) · [Native/CAD index](native-index.json) · [Transient method controls](magnetic-method.json.gz) · [Pending work](frontier.json.gz) · [Source epochs](source-epochs.json) · [Source/payload manifest](manifest.json)
+[Summary](summary.json) · [Body definitions](bodies.json.gz) · [Canonical bundles](bundles.json.gz) · [Coupled evaluations](comparison.json.gz) · [Inventory/manufacturing records](inventories.json.gz) · [Delivery/IFC/ERP drafts](delivery-index.json) · [Native/CAD index](native-index.json) · [Current refinements](current-refinement.json.gz) · [Fine-refinement reconciliation](fine-refinement.json.gz) · [Transient method controls](magnetic-method.json.gz) · [Pending work](frontier.json.gz) · [Source epochs](source-epochs.json) · [Source/payload manifest](manifest.json)
 
 Large fields and CAD solids stay local or regenerate with exact sources and indexed inputs; no remote artifact object or complete manufacturing/operating release is claimed. The selected reference and all 266 city performance packages remain unchanged.

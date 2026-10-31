@@ -1,6 +1,7 @@
 """The next mesh is a separately budgeted unchanged-candidate numerical study."""
 import gzip
 import json
+from pathlib import Path
 from engineering.station_rail import ROOT
 from engineering.design_search import railway_native, railway_refinement_current_fine as refinement
 
@@ -19,3 +20,14 @@ def test_current_fine_preflight_is_explicit_and_stays_within_its_resource_revisi
     assert refinement.MEMORY_MB==8192
     assert refinement.TIMEOUT_S==240
     assert refinement.ELEMENT_KIND=='C3D8I'
+
+
+def test_prior_context_selects_the_exact_0425_m_packet():
+    prior_02125=(0.2125,'eval-02125',Path('/run/02125'),{'mesh_m':0.2125},{'evaluation_id':'eval-02125'})
+    prior_0425=(0.425,'eval-0425',Path('/run/0425'),{'mesh_m':0.425},{'evaluation_id':'eval-0425'})
+    context=(None,None,None,None,None,None,[prior_02125,prior_0425],None)
+
+    selected=refinement._prior_0425(context)
+
+    assert selected==dict(evaluation_id='eval-0425',raw=Path('/run/0425'),
+        request={'mesh_m':0.425},result={'evaluation_id':'eval-0425'})

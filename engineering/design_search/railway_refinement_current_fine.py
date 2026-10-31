@@ -39,6 +39,14 @@ def _context(root=ROOT, *, parent_result: Path, candidate_id: str):
     return base,request_02125,base_folder,base_result,base_manifest
 
 
+def _prior_0425(base):
+    """Extract the 0.425 m row from the canonical current-context tuple."""
+    prior=base[6][1]
+    if prior[0]!=0.425 or not isinstance(prior[2],Path):
+        raise ValueError("Current context does not contain its exact 0.425 m normal-load packet")
+    return dict(evaluation_id=prior[1],raw=prior[2],request=prior[3],result=prior[4])
+
+
 def _request(root,base,request_02125,base_result,base_manifest):
     _root,parent_path,parent,body,bundle,frontier,prior,parent_sha=base
     estimate=railway_native.cell_estimate(body,MESH_M)
@@ -118,16 +126,16 @@ def run(root=ROOT, *, parent_result: Path, candidate_id: str):
             metric='Cauchy von Mises stress',unit='Pa',physical_allowable=None))
     result['stress_summary']=stress;result['evaluation_id']=identity(result)
     (native/'candidate.json').write_bytes(encoded(body));(native/'result.json').write_bytes(encoded(result))
-    old_0425=base[0][6][1][2]
+    prior_0425=_prior_0425(base)
     rows=[]
     for mesh,evaluation_id,raw_dir,prior_result in (
-            (0.425,base[0][6][1][1],old_0425,base[0][6][1][4]),
+            (0.425,prior_0425['evaluation_id'],prior_0425['raw'],prior_0425['result']),
             (0.2125,base_result['evaluation_id'],base_folder/'native',base_result)):
         delta=(railway_refinement._matched_point_delta(raw_dir,native)
             if result.get('execution')=='completed' else dict(status='unavailable',reason='Finer solve did not complete'))
         rows.append(dict(from_mesh_m=mesh,to_mesh_m=MESH_M,from_evaluation_id=evaluation_id,**delta))
     trend=[]
-    for mesh,evaluation_id,old_result in ((0.425,base[0][6][1][1],base[0][6][1][4]),
+    for mesh,evaluation_id,old_result in ((0.425,prior_0425['evaluation_id'],prior_0425['result']),
                                          (0.2125,base_result['evaluation_id'],base_result),
                                          (MESH_M,result['evaluation_id'],result)):
         trend.append(dict(mesh_m=mesh,evaluation_id=evaluation_id,
@@ -138,8 +146,8 @@ def run(root=ROOT, *, parent_result: Path, candidate_id: str):
             force_relative_residual=old_result.get('force_relative_residual'),
             moment_relative_residual=old_result.get('moment_relative_residual')))
     report=dict(schema='osr-current-source-fine-refinement-report/1',request_id=identity(request),
-        evaluation_id=result['evaluation_id'],parent_campaign_id=base[0][2]['campaign_id'],
-        parent_contract_id=base[0][2]['contract_id'],body_candidate_id=body['candidate_id'],
+        evaluation_id=result['evaluation_id'],parent_campaign_id=base[2]['campaign_id'],
+        parent_contract_id=base[2]['contract_id'],body_candidate_id=body['candidate_id'],
         body_definition_id=body['definition_id'],bundle_id=bundle['candidate_id'],
         bundle_definition_id=bundle['definition_id'],preceding_refinement= request['preceding_refinement'],
         generated_mesh=dict(mesh_m=MESH_M,element_kind=ELEMENT_KIND,solid_elements=len(elements),
@@ -195,7 +203,7 @@ def _verify_package(root=ROOT, *, parent_result: Path, candidate_id: str):
             or not 0<result.get('tool',{}).get('RLIMIT_AS_bytes',0)<=MEMORY_MB*1024**2):
         raise ValueError("Current fine-refinement result/mesh/resource context differs")
     current._checked_hashes(root,request['source_sha256'])
-    raw,regenerated,elements=railway_fine_refinement._fine_deck(base[0][3],base[0][4],mesh_m=MESH_M)
+    raw,regenerated,elements=railway_fine_refinement._fine_deck(base[3],base[4],mesh_m=MESH_M)
     if ((folder/'native/model.inp').read_bytes()!=raw.encode()
             or definition!=json.loads(encoded(regenerated))
             or len(elements)!=request['computational_cell_estimate']['solid_cells']):
