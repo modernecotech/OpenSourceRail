@@ -54,7 +54,7 @@ def catalogue():
       _criterion('physical.clearance','mandatory_obligation','maximum_interface_displacement_m','m','max',kind='physical-interface',interfaces=('structure','runninggear','motor-gap','doors','platform','thermal-movement')),
       _criterion('physical.temperature','mandatory_obligation','maximum_material_temperature_C','degC','max',kind='physical-material',interfaces=('material-lot','roof','HVAC','electrical','fire')),
       _criterion('target.global_deflection','project_preference','body_vertical_displacement_m','m','max',.0256,interfaces=('body','clearance','ride-response','doors','joints')),
-      _criterion('target.whole_life_cost','project_preference','whole_life_cost_USD','USD','minimize',interfaces=('vehicle','guideway','stations','energy','renewals','service')),
+      _criterion('target.whole_life_cost','project_preference','model_based_whole_life_NPV_iqd','IQD-NPV-per-declared-corridor','minimize',interfaces=('vehicle','guideway','stations','energy','operations','renewals','service')),
       _criterion('assumption.speed_cap','revisable_assumption','speed_cap_m_s','m/s','max',20.,interfaces=('propulsion','brakes','ride-response','route','fleet','power')),
       _criterion('assumption.headway','revisable_assumption','headway_s','s','max',120.,interfaces=('capacity','dwell','receiving-berth','protection','fleet')),
       _criterion('model.linear_steel','numerical_validity_domain','maximum_linear_model_steel_B_T','T','max',1.3,model_id='linear-steel-mu1000/1',interfaces=('field-model','native-adapter','material-data','benchmark')),

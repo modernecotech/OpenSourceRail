@@ -1,5 +1,6 @@
 """Portable comparison of one coordinated railway experiment and its holds."""
 from pathlib import Path
+from copy import deepcopy
 from hashlib import sha256
 import gzip,json,shutil,tarfile,io
 from engineering.station_rail import ROOT
@@ -53,7 +54,115 @@ def _body_response(native,body_id):
         engineering_screen='unknown',full_body_qualified=False)
 
 
-def summary(value,magnetic=None):
+def _retain_exact_prior_body_cases(root,value,out,native_index):
+    """Carry forward prior solves only when their exact physical request matches."""
+    root=Path(root);out=Path(out)
+    body_by_id={b['candidate_id']:b for b in value['bodies']}
+    bundle_by_id={b['candidate_id']:b for b in value['bundles']}
+    spec=value['specification'];cases=dict(zip(spec['body_cases'],spec['body_mesh_m']))
+    expected={
+        'normal':('normal',cases['normal']),
+        'normal-fine':('normal',cases['normal-fine']),
+        'crowd':('crowd',cases['crowd']),
+        'normal-refined':('normal',cases['normal-fine']*spec['numerical_refinement']['factor']),
+    }
+    seen={r['raw_result']['evaluation_id'] for r in native_index if r.get('kind') in ('body','body-refinement','body-exact-cache-reuse')}
+    reused=[];rejections=[]
+    previous_root=root/'build/coupled-railway/replaced-publications'
+    for publication in sorted(previous_root.glob('*/native-index.json')):
+        folder=publication.parent
+        try:
+            receipt=json.loads((folder/'manifest.json').read_bytes())
+            if receipt['manifest_id']!=identity({k:v for k,v in receipt.items() if k!='manifest_id'}):
+                raise ValueError('prior publication receipt identity differs')
+            indexed=json.loads(publication.read_bytes())
+            if receipt['files_sha256'].get('native-index.json')!=digest(publication):
+                raise ValueError('prior native index hash differs')
+        except (OSError,KeyError,ValueError) as error:
+            rejections.append(dict(publication=folder.name,reason=str(error)));continue
+        for item in indexed:
+            if item.get('kind') not in ('body','body-refinement'):
+                continue
+            raw_result=item.get('raw_result',{});evaluation_id=raw_result.get('evaluation_id')
+            if evaluation_id in seen:
+                continue
+            try:
+                archive_path=folder/item['archive']
+                if receipt['files_sha256'].get(item['archive'])!=digest(archive_path):
+                    raise ValueError('prior native archive hash differs')
+                with tarfile.open(archive_path) as tar:
+                    names=set(tar.getnames())
+                    if not {'archive-index.json','manifest.json','result.json'}<=names:
+                        raise ValueError('prior native archive is incomplete')
+                    archive_index=json.loads(tar.extractfile('archive-index.json').read())
+                    manifest=json.loads(tar.extractfile('manifest.json').read())
+                    result=json.loads(tar.extractfile('result.json').read())
+                    if manifest!=item['raw_manifest'] or result!=raw_result:
+                        raise ValueError('prior index and archived native records differ')
+                    if manifest['manifest_id']!=identity({k:v for k,v in manifest.items() if k!='manifest_id'}):
+                        raise ValueError('prior native receipt identity differs')
+                    if result.get('evaluation_id')!=identity({k:v for k,v in result.items() if k!='evaluation_id'}):
+                        raise ValueError('prior native result identity differs')
+                    archived_hashes={**archive_index['retained_sha256'],**archive_index['omitted_sha256']}
+                    if manifest['files_sha256']!={k:v for k,v in archived_hashes.items() if k!='manifest.json'}:
+                        raise ValueError('prior native archive index differs from its receipt')
+                    for name,expected_hash in archive_index['retained_sha256'].items():
+                        if sha256(tar.extractfile(name).read()).hexdigest()!=expected_hash:
+                            raise ValueError('prior archived native payload differs: '+name)
+                if manifest.get('source_sha256')!=result.get('source_sha256'):
+                    raise ValueError('prior native source receipt differs')
+                if any(digest(root/name)!=h for name,h in result['source_sha256'].items()):
+                    raise ValueError('prior native physics source is no longer exact')
+                tool=result['tool']
+                if digest(tool['ccx_path'])!=tool['ccx_sha256']:
+                    raise ValueError('prior native solver executable differs')
+                if (tool.get('requested_memory_mb')!=spec['maximum_native_memory_mb']
+                        or tool.get('timeout_s')!=spec['body_timeout_s']):
+                    raise ValueError('prior native resource request differs')
+                body_id=result['candidate_id'];body=body_by_id.get(body_id)
+                mesh_summary=result['mesh_summary'];basis=mesh_summary['load_basis']
+                bundle=bundle_by_id.get(basis.get('bundle_id'))
+                if body is None or bundle is None or bundle['body_candidate_id']!=body_id:
+                    raise ValueError('prior native physical candidate is not in this campaign')
+                if basis.get('bundle_definition_id')!=bundle['definition_id'] or mesh_summary.get('candidate_id')!=body_id:
+                    raise ValueError('prior native body/bundle identity differs')
+                if basis.get('scope')!=bundle['mass_scope']:
+                    raise ValueError('prior native mass scope differs')
+                load_case=mesh_summary['load_case'];mesh=float(mesh_summary['mesh_m'])
+                if load_case=='crowd':case='crowd'
+                elif abs(mesh-cases['normal'])<1e-10:case='normal'
+                elif abs(mesh-cases['normal-fine'])<1e-10:case='normal-fine'
+                elif abs(mesh-cases['normal-fine']*spec['numerical_refinement']['factor'])<1e-10:case='normal-refined'
+                else:raise ValueError('prior native load/mesh pair is outside the current request set')
+                if expected[case]!=(load_case,mesh):
+                    raise ValueError('prior native case label and requested mesh differ')
+                expected_mass=(bundle['crowd_sprung_mass_hypothesis_kg'] if case=='crowd'
+                               else bundle['normal_sprung_mass_hypothesis_kg'])
+                if abs(mesh_summary['load_mass_kg']-expected_mass)>1e-7:
+                    raise ValueError('prior native load mass differs from this exact bundle')
+                target=out/item['archive'].replace('native/','native/reused-',1)
+                target.parent.mkdir(parents=True,exist_ok=True)
+                if target.exists() and digest(target)!=digest(archive_path):
+                    raise ValueError('reused native archive target already has different bytes')
+                if not target.exists():shutil.copyfile(archive_path,target)
+                native_index.append(dict(kind='body-exact-cache-reuse',job_id=item.get('job_id'),archive=target.relative_to(out).as_posix(),
+                    source_publication=folder.relative_to(root).as_posix(),source_manifest_id=receipt['manifest_id'],
+                    raw_manifest=manifest,raw_result=result,
+                    reuse_basis='Exact body candidate, physical definition, bundle/load basis, mesh, solver executable, resource request and native physics source hashes match; no new solve was dispatched.'))
+                reused.append(dict(body_candidate_id=body_id,bundle_id=bundle['candidate_id'],case=case,mesh_m=mesh,
+                    evaluation_id=evaluation_id,raw=result,exact_prior_reuse=dict(source_manifest_id=receipt['manifest_id'],
+                        source_archive=item['archive'],native_job_id=item.get('job_id'))))
+                seen.add(evaluation_id)
+            except (OSError,KeyError,ValueError,TypeError) as error:
+                rejections.append(dict(publication=folder.name,evaluation_id=evaluation_id,reason=str(error)))
+    return reused,rejections
+
+
+def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=()):
+    new_native_body_case_count=len(value['native']['body_results'])
+    if reused_body_cases:
+        value=deepcopy(value)
+        value['native']['body_results']=value['native']['body_results']+list(reused_body_cases)
     rows=[]
     for b in value['bodies']:
         cases=[r for r in value['rows'] if r['body_candidate_id']==b['candidate_id']]
@@ -62,11 +171,18 @@ def summary(value,magnetic=None):
             known_structure_stock_kg=b['known_structure_stock_kg'],accounted_empty_mass_kg=None if baseline is None else baseline['accounted_mass']['accounted_tare_kg_per_car'],
             architecture_cases=len(cases),structural_status=response['numerical_status'],response=response,complete_installed_mass_kg=None))
     magnetic=[] if magnetic is None else magnetic
+    model_costs=[r['economics']['model_cost'] for r in value['rows'] if isinstance(r.get('economics',{}).get('model_cost'),dict)]
     result=dict(schema='osr-coupled-railway-summary/1',campaign_id=value['campaign_id'],contract_id=value['contract_id'],body_count=len(rows),
         initial_body_count=value['specification']['initial_structural_recipes'],body_rewrite_count=len(value['executed_body_revisions']),
         bundle_count=len(value['bundles']),evaluated_bundle_count=len(value['rows']),downstream_stage_count=sum(len(r['stages']) for r in value['rows']),
         body_rows=rows,method_fixture_count=len(value['native']['independent_fixtures']),native_body_case_count=len(value['native']['body_results']),
         CAD_case_count=len(value['native']['CAD_results']),magnetic_method_cases=len(magnetic),magnetic_completed=sum(r['result']['execution']=='completed' for r in magnetic),
+        native_new_body_case_count=new_native_body_case_count,
+        native_reused_body_case_count=len(reused_body_cases),native_prior_reuse_rejections=list(reuse_rejections),
+        model_cost_summary=dict(candidate_estimates=len(model_costs),complete_for_declared_case=sum(r['model_cost_complete_for_declared_case'] is True for r in model_costs),
+            currency='IQD',estimate_class='C',required_scope_count=len(engine.model_cost.SCOPES),
+            comparison_context_count=len(value.get('model_cost_comparisons',[])),supplier_quotes=0,
+            procurement_ready=False,physical_or_safety_accepted=False,integrated_winner=None),
         actual_force_driven_journeys=0,complete_installed_vehicle_masses=0,complete_lifecycle_costs=0,
         frontier_tasks=len(value['frontier']),dependency_graph=value['dependency_graph'],selection=value['partial_quantity_comparison'],
         integrated_selection=None,selected_reference_changed=False,city_performance_packages_written=0,**FLAGS)
@@ -76,7 +192,7 @@ def summary(value,magnetic=None):
 def readme(s):
     lines=['# One coordinated railway experiment','',
         'Architecture, adaptive revision planning and physical body generation now share one coordinator, one explicit railway bundle and one dependency graph. A body edit creates new body/railway identities and automatically reevaluates inventory, interfaces, architecture, motor requirements, independent braking, civil loads, manufacture and economic coverage. The earlier campaigns remain reproducible component/historical tools. New coordinated work starts with `./osr design railway`.','',
-        f"The executed comparison starts with **{s['initial_body_count']} structural recipes**, makes **{s['body_rewrite_count']} physical revisions**, and evaluates **{s['evaluated_bundle_count']} railway bundles through {s['downstream_stage_count']} downstream stage records**. Two primary-iron alternatives share unchanged onboard fin stock. Seven architecture families retain their own changed interfaces and unweighed equipment. **No complete installed mass, available operating LIM map, physical journey or whole-life-cost winner is demonstrated.**",'',
+        f"The executed comparison starts with **{s['initial_body_count']} structural recipes**, makes **{s['body_rewrite_count']} physical revisions**, and evaluates **{s['evaluated_bundle_count']} railway bundles through {s['downstream_stage_count']} downstream stage records**. Two primary-iron alternatives share unchanged onboard fin stock. Seven architecture families retain their own changed interfaces and unweighed equipment. **Class C model-cost estimates cover {s['model_cost_summary']['complete_for_declared_case']} of {s['model_cost_summary']['candidate_estimates']} executed bundles across {s['model_cost_summary']['required_scope_count']} cost scopes. Installed mass, available operating LIM maps, physical journeys, supplier-priced budgets and a qualified whole-life-cost winner remain open.**",'',
         '## Closed-loop physical and system changes','',
         'The existing adaptive planner diagnoses each declared pin-graph mechanism; the grammar produces a braced physical child instead of changing a pass threshold. A separate assembly-completion operator closes quantified frame/floor/roof gaps using counted metal stock and finite shared-face weld hypotheses. It generates an aluminium frame and an aluminium stressed-skin body, preserving passenger openings and required roof/PV/channel/drain functions. Missing composite laws are not replaced by isotropic GFRP.','',
         '| Body / physical revision | Known structure stock | Empty-mass account | 3D evidence | Architecture cases |',
@@ -87,7 +203,7 @@ def readme(s):
     lines += ['',
         'These are exact generated nominal/net stock quantities plus retained source accounts. They are not complete vehicle tare or certified lower bounds: original gross-stock overlaps/cuts and missing installed hardware have different boundaries. The new welded children count net disjoint metal, retained covers, PV rails/spacers, trays/gutter/hangers and unknown weld/joint realization separately. Whole installed CG, inertia, clearances, hardware and repair access remain open.','',
         '## Three-dimensional structural method','',
-        f"Four independent fixtures check bending/shear refinement, intact finite-face transfer and orthotropic axial/shear constitutive patches. The two new metal bodies have **{s['native_body_case_count']} native body cases** across normal, normal-fine and crowd loading. C3D8I solids resolve the declared actual metal geometry; no invisible gap ties or arbitrary rigid offsets create the load path. Intact autogenous weld/continuous-face transfer is an unqualified numerical hypothesis.",'',
+        f"Four independent fixtures check bending/shear refinement, intact finite-face transfer and orthotropic axial/shear constitutive patches. The two new metal bodies have **{s['native_body_case_count']} exact native body cases** across normal, normal-fine and crowd loading: {s['native_new_body_case_count']} dispatched in this coordinated run and {s['native_reused_body_case_count']} carried forward from byte-verified prior publications after matching candidate, load, mesh, solver, resources and source hashes. Reuse is provenance-preserving and does not count as a new solve. C3D8I solids resolve the declared actual metal geometry; no invisible gap ties or arbitrary rigid offsets create the load path. Intact autogenous weld/continuous-face transfer is an unqualified numerical hypothesis.",'',
         '| New solid body | Normal 1.7 m target | Finer 0.85 m | Extra 0.425 m | Last-step change |',
         '|---|---:|---:|---:|---:|']
     for r in s['body_rows']:
@@ -107,8 +223,9 @@ def readme(s):
         'The forward-motion method has independent synthetic tests for constant-force energy, finite powered windows, zero entry force, thermal/bus limits and stopping. Actual railway journeys remain not-run because available propulsion and complete installed inputs are missing. The receiving drive receives no safety credit in independent-braking screens.','',
         '## Manufacturing, economics and evidence','',
         'Each shared bundle produces an EBOM of actual stock, retained accounts and unresolved joints; MBOM cuts/blanks and process groups; assembly/inspection dependencies; material, supplier, access, repair and QA tasks; and source-bound price/lead-time coverage. Missing equipment is neither a box invented for an animation nor a zero-mass part. Quotes require the exact bundle/component/quantity/unit/currency context.','',
+        f"The campaign now also produces **{s['model_cost_summary']['required_scope_count']} low/base/high IQD model-cost scopes** per executed candidate: rolling stock, guideway, stations/power, factory/tooling, construction, land/utilities/depot, fleet, energy, operations, maintenance, renewals, recovery, reliability and decommissioning. Dated July 2026 Iraqi CSO materials/wages are used where matched; the remaining rates and missing site/asset quantities are explicit Class C assumptions. See the [model-based cost and delivery plan](../model-based-cost-and-delivery.md). These are design-stage estimates with zero supplier quotations, not procurement-ready prices or accepted city budgets.", '',
         'The two executed new body CADs also compile candidate-bound delivery packages: the same stock IDs feed EBOM/MBOM, disabled research ERPNext Item/BOM drafts, assembly and procurement tasks, and reopened IFC body-stock geometry. Drafts are not posted to ERPNext and cannot release purchasing or manufacture. Unlocated equipment, unknown joint realization and missing commercial/process evidence remain explicit.','',
-        'Partial Pareto comparisons retain unknown or differently scoped alternatives. Installed prices, energy purchase, tooling, labour, maintenance lives, renewals and downtime remain missing. The system cannot choose a cheapest qualified railway from gross stock. Civil results count axle envelopes, section/tendon quantities and preliminary foundation/erection hypotheses; site/geotechnical, torsional and construction qualification remain open.','',
+        'Candidate cost ranges are compared only where currency, rate assumptions, corridor length, trackways, station count, headway and offered capacity match. Overlapping low/base/high whole-life scenarios remain incomparable; cost dominance does not select a candidate or change the v0.6 reference. Cost inputs include declared energy, staffing, maintenance, replacement, recovery, reliability and end-of-life scenarios. City alignment/site surveys, tariffs, staffing rules, failures, supplier quotes, tax/finance and physical performance are not established. Civil results count axle envelopes, section/tendon quantities and preliminary foundation/erection hypotheses; geotechnical, torsional and construction qualification remain open.','',
         'Immutable stage requests include candidate and upstream evidence IDs. Native cache admission checks source/executable/payload plus exact body, load, mesh, method and resource request. New structural evidence invalidates dependent case evaluations even if geometry is unchanged. Stable experiment identity is separate from invocation cache counters; interrupted/pending work remains in the frontier. Native/CAD packets retain their original receipts.','',
         '```bash','./osr design railway plan','./osr design railway run --max-bundles 2 --native-jobs 1','./osr design railway run --native-jobs 12','./osr design railway publish','./osr design railway verify','```','',
         '[Summary](summary.json) · [Body definitions](bodies.json.gz) · [Canonical bundles](bundles.json.gz) · [Coupled evaluations](comparison.json.gz) · [Inventory/manufacturing records](inventories.json.gz) · [Delivery/IFC/ERP drafts](delivery-index.json) · [Native/CAD index](native-index.json) · [Transient method controls](magnetic-method.json.gz) · [Pending work](frontier.json.gz) · [Source epochs](source-epochs.json) · [Source/payload manifest](manifest.json)','',
@@ -118,10 +235,15 @@ def readme(s):
 
 def build(root=ROOT,output=None):
     root=Path(root);out=root/OUTPUT if output is None else Path(output)
+    folder,value=current(root)
     if (out/'manifest.json').is_file():
         m=json.loads((out/'manifest.json').read_bytes())
-        if all(digest(root/n)==h for n,h in m['source_sha256'].items()):return verify(root,out)
-    folder,value=current(root)
+        if all(digest(root/n)==h for n,h in m['source_sha256'].items()):
+            execution=json.loads((out/'execution.json').read_bytes())
+            if (execution.get('contract_id')==value['contract_id']
+                    and execution.get('run_id')==value['run_id']
+                    and execution.get('campaign_id')==value['campaign_id']):
+                return verify(root,out)
     if out.exists():
         retained=root/'build/coupled-railway/replaced-publications'/digest(out/'manifest.json');retained.parent.mkdir(parents=True,exist_ok=True)
         if retained.exists():raise ValueError('Previous coordinated publication already retained')
@@ -151,6 +273,7 @@ def build(root=ROOT,output=None):
         if r.get('evaluation_id') in seen or r.get('execution')=='completed':continue
         target='native/historical-failed-'+r['evaluation_id'][:12]+'.tar.gz';(out/target).write_bytes(compact_native_archive(p.parent));seen.add(r['evaluation_id'])
         native.append(dict(kind='historical-resource-or-numerical-failure',archive=target,raw_manifest=json.loads((p.parent/'manifest.json').read_bytes()),raw_result=r))
+    reused_body_cases,reuse_rejections=_retain_exact_prior_body_cases(root,value,out,native)
     for r in native:
         result=r['raw_result'];manifest=r['raw_manifest']
         for name,h in result.get('source_sha256',manifest.get('source_sha256',{})).items():
@@ -175,12 +298,14 @@ def build(root=ROOT,output=None):
             for name in ('delivery.json.gz','ERPNext-draft.json.gz','bim.json','body-stock.ifc.gz'):
                 if (target/name).is_file():shutil.copyfile(target/name,out/prefix/name)
             deliveries.append(dict(candidate_id=bundle['candidate_id'],body_candidate_id=b['candidate_id'],prefix=prefix,raw_manifest=manifest))
-    s=summary(value,magnetic)
+    s=summary(value,magnetic,reused_body_cases=reused_body_cases,reuse_rejections=reuse_rejections)
     files={'summary.json':encoded(s),'bodies.json.gz':gzip.compress(encoded(value['bodies']),mtime=0),'bundles.json.gz':gzip.compress(encoded(value['bundles']),mtime=0),
         'comparison.json.gz':gzip.compress(encoded(value['rows']),mtime=0),'inventories.json.gz':gzip.compress(encoded(inventories),mtime=0),
         'frontier.json.gz':gzip.compress(encoded(value['frontier']),mtime=0),'magnetic-method.json.gz':gzip.compress(encoded(magnetic),mtime=0),
         'native-index.json':encoded(native),'source-epochs.json':encoded(epochs),'delivery-index.json':encoded(deliveries),'execution.json':encoded(dict(campaign_id=value['campaign_id'],run_id=value['run_id'],contract_id=value['contract_id'],
-            new_bundles=value['new_bundles'],reused_bundles=value['reused_bundles'],native=value['native'],executed_body_revisions=value['executed_body_revisions'])),
+            new_bundles=value['new_bundles'],reused_bundles=value['reused_bundles'],native=value['native'],
+            exact_prior_body_case_reuse=[dict(evaluation_id=r['evaluation_id'],body_candidate_id=r['body_candidate_id'],case=r['case'],source=r['exact_prior_reuse']) for r in reused_body_cases],
+            executed_body_revisions=value['executed_body_revisions'])),
         'README.md':readme(s).encode()}
     for name,raw in files.items():(out/name).write_bytes(raw)
     m=dict(schema='osr-coupled-railway-publication/1',source_sha256={**value['source_sha256'],PRODUCER:digest(root/PRODUCER),
@@ -204,11 +329,32 @@ def verify(root=ROOT,output=None):
         if row['row_id']!=identity({k:v for k,v in row.items() if k!='row_id'}) or row['bundle_definition_id']!=index[row['candidate_id']]['definition_id']:raise ValueError('Coupled case identity differs')
         if row['body_candidate_id']!=index[row['candidate_id']]['body_candidate_id'] or row['accounted_mass']!=index[row['candidate_id']]['mass']:raise ValueError('Coupled body/mass mismatch')
         if row['motion']['forward_motion']['execution']!='not-run' or row['physical_journey_completed'] is not False:raise ValueError('Required motion cannot become an available physical journey')
+        estimate=row.get('economics',{}).get('model_cost',{})
+        if (estimate.get('candidate_id')!=row['candidate_id']
+                or estimate.get('evaluation_id')!=identity({k:v for k,v in estimate.items() if k!='evaluation_id'})
+                or estimate.get('model_cost_complete_for_declared_case') is not True
+                or estimate.get('model_cost_missing_scopes')
+                or estimate.get('procurement_ready') is not False
+                or estimate.get('physical_or_safety_accepted') is not False):
+            raise ValueError('Candidate model-cost receipt incomplete, mixed or improperly accepted')
+    expected_cost_count=sum(isinstance(r.get('economics',{}).get('model_cost'),dict) for r in rows)
+    cost_summary=s['model_cost_summary']
+    if (cost_summary.get('candidate_estimates')!=expected_cost_count
+            or cost_summary.get('complete_for_declared_case')!=expected_cost_count
+            or cost_summary.get('integrated_winner') is not None):
+        raise ValueError('Published model-cost summary differs from candidate estimates')
     if any(s.get(k) is not False for k in FLAGS) or s['integrated_selection'] is not None:raise ValueError('Research comparison cannot release a railway')
+    native_index=json.loads((out/'native-index.json').read_bytes())
+    native_body_count=sum(item.get('kind') in ('body','body-refinement','body-exact-cache-reuse') for item in native_index)
+    reused_body_count=sum(item.get('kind')=='body-exact-cache-reuse' for item in native_index)
+    if (native_body_count!=s.get('native_body_case_count')
+            or s.get('native_body_case_count')!=s.get('native_new_body_case_count',0)+s.get('native_reused_body_case_count',0)
+            or reused_body_count!=s.get('native_reused_body_case_count')):
+        raise ValueError('Native body summary differs from its indexed cases')
     epochs=json.loads((out/'source-epochs.json').read_bytes())
     for h,r in epochs.items():
         if digest(out/r['artifact'])!=h:raise ValueError('Historical producer bytes differ')
-    for item in json.loads((out/'native-index.json').read_bytes()):
+    for item in native_index:
         with tarfile.open(out/item['archive']) as tar:
             ai=json.loads(tar.extractfile('archive-index.json').read());manifest=json.loads(tar.extractfile('manifest.json').read());result=json.loads(tar.extractfile('result.json').read())
             if manifest!=item['raw_manifest'] or result!=item['raw_result']:raise ValueError('Native index differs from raw receipt')

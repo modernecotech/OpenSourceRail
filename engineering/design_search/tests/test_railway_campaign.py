@@ -44,6 +44,11 @@ def test_resume_and_new_structural_evidence_trigger_dependent_case_evaluation(tm
     context=dict(method_status='not-run',body_admission={},body_results=[],pending=[])
     monkeypatch.setattr(c,'_native_campaign',lambda *args,**kwargs:deepcopy(context))
     a=c.run(state=tmp_path,maximum_new_bundles=1);assert len(a['rows'])==1 and a['new_bundles']==1
+    estimate=a['rows'][0]['economics']['model_cost']
+    assert estimate['model_cost_complete_for_declared_case'] is True
+    assert estimate['procurement_ready'] is False and estimate['physical_or_safety_accepted'] is False
+    assert a['rows'][0]['economics']['model_based_whole_life_NPV_IQD']==estimate['model_based_whole_life_NPV_iqd']
+    assert len(a['model_cost_comparisons'])==1 and a['model_cost_comparisons'][0]['comparison']['integrated_winner'] is None
     b=c.run(state=tmp_path,maximum_new_bundles=0);assert b['campaign_id']==a['campaign_id'] and b['reused_bundles']==1
     context['body_results']=[dict(body_candidate_id=body['candidate_id'],evaluation_id='c'*64,case='normal',mesh_m=1.,raw={'numerical_validity':'unknown'})]
     d=c.run(state=tmp_path,maximum_new_bundles=1)

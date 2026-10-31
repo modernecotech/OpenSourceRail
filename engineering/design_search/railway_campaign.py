@@ -11,7 +11,7 @@ import fcntl,json,time,tomllib
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import encoded,identity,digest
 from . import design_grammar as grammar,grammar_geometry,grammar_structure
-from . import failure_diagnosis,redesign_engine,revision_planner,design_variables,railway_bundle as bundle_adapter
+from . import failure_diagnosis,redesign_engine,revision_planner,design_variables,railway_bundle as bundle_adapter,model_cost
 
 PRODUCER='engineering/design_search/railway_campaign.py'
 SPEC='campaigns/coupled-railway-design.toml'
@@ -35,14 +35,15 @@ def specification(root=ROOT):
 def source_epoch(root=ROOT):
     root=Path(root)
     names=['railway_campaign','railway_bundle','railway_native','system_inventory','system_selection','system_motion','system_body','grammar_shell',
-        'design_grammar','grammar_structure','grammar_geometry','interface_graph','failure_diagnosis','redesign_engine','revision_planner','design_variables',
+        'design_grammar','grammar_structure','grammar_geometry','interface_graph','failure_diagnosis','redesign_engine','revision_planner','design_variables','model_cost',
         'railway_architecture','architecture_demand','capabilities','requirement_policy','material_database','dfma','structural_families','joining_catalogue','wheel_motor']
     paths=[SPEC,'campaigns/whole-railway-architecture-search.toml',*[f'engineering/design_search/{n}.py' for n in names],
         'engineering/station_rail/common.py','engineering/station_rail/braking.py','engineering/station_rail/civil.py','engineering/station_rail/vehicle.py',
         'engineering/station_rail/electrical.py','engineering/station_rail/brief.toml','engineering/station_rail/__init__.py',
         'engineering/design_search/transient_lim.py','engineering/design_search/lim_materials.py','engineering/design_search/data/getdp-steel-generic.json',
         'engineering/station_rail/long_motor.py','engineering/station_rail/station_motor.py','engineering/station_rail/body_solid_frame.py',
-        'docs/design-engine/ferrite-maglev/comfort-design/design.json.gz','docs/design-engine/ferrite-maglev/comfort-design/manifest.json']
+        'docs/design-engine/ferrite-maglev/comfort-design/design.json.gz','docs/design-engine/ferrite-maglev/comfort-design/manifest.json',
+        model_cost.RATE_DATA]
     return {n:digest(root/n) for n in paths}
 
 
@@ -124,15 +125,25 @@ def propulsion(bundle,architecture_result):
     result['evaluation_id']=identity(result);return result
 
 
-def economics(bundle,inventory,architecture_result,propulsion_result,motion_result,civil_result):
+def economics(bundle,inventory,architecture_result,propulsion_result,motion_result,civil_result,*,root=ROOT):
     quantities=architecture_result['quantity_coefficients']
+    estimate=model_cost.evaluate(bundle,inventory,architecture_result,propulsion_result,motion_result,civil_result,root=root)
     result=dict(candidate_id=bundle['candidate_id'],body_candidate_id=bundle['body_candidate_id'],
         source_evaluation_ids=[r.get('evaluation_id',identity(r)) for r in (inventory,architecture_result,propulsion_result,motion_result,civil_result)],
         coefficients=quantities,vehicle_installed_cost_USD=None,wayside_installed_cost_USD=None,civil_installed_cost_USD=None,
         actual_energy_purchase_kWh=None,maintenance_renewal_downtime_cost_USD=None,whole_life_cost_USD=None,
-        tasks=['Installed equipment and manufacturing labour/tooling/scrap/inspection quotes','Civil site, foundation, transport and erection quantities/prices',
-            'Station motor/inverter/supply/installation and actual energy duty','Maintenance lives, repair access, spares, downtime and discount/design-life basis'],
-        economic_winner=None,scope='Shared candidate-linked quantities and price coverage; no unpriced item is zero and no required mechanical energy becomes purchased electricity',**FLAGS)
+        estimated_factory_gate_IQD=estimate['factory_gate_cost_iqd'],estimated_delivered_IQD=estimate['delivered_cost_iqd'],
+        model_based_installed_CAPEX_IQD=estimate['model_based_installed_CAPEX_iqd'],
+        model_based_whole_life_NPV_IQD=estimate['model_based_whole_life_NPV_iqd'],
+        model_cost=estimate,
+        tasks=['Replace Class C labour, plant, equipment and life assumptions with source-bound supplier/process evidence',
+            'Replace right-of-way, foundation, utility, access, depot, transport and installation proxies with surveyed site quantities',
+            'Validate propulsion electrical duty, available thrust, measured energy use, maintenance and failure rates',
+            'Compare model-cost ranges at equal service; do not use this estimate as procurement approval or an integrated winner'],
+        model_cost_complete_for_declared_case=estimate['model_cost_complete_for_declared_case'],
+        procurement_ready=False,physical_or_safety_accepted=False,economic_winner=None,
+        currency='IQD',estimate_class='C',
+        scope='Candidate-bound model-based cost completion for the declared corridor; supplier/procurement evidence and physical acceptance remain separate.',**FLAGS)
     result['evaluation_id']=identity(result);return result
 
 
@@ -188,7 +199,7 @@ def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None):
             motor=stage('propulsion',dict(bundle_definition_id=bundle['definition_id'],architecture_evaluation_id=arch['evaluation_id']),lambda:propulsion(bundle,arch))
             motion=stage('motion_and_braking',dict(bundle_definition_id=bundle['definition_id'],propulsion_evaluation_id=motor['evaluation_id']),lambda:system_motion.evaluate(bundle,available_map=None))
             civil=stage('civil',dict(bundle_definition_id=bundle['definition_id'],structure_context=structure_context),lambda:bundle_adapter.assess_civil(bundle))
-            cost=stage('manufacturing_and_economics',dict(bundle_definition_id=bundle['definition_id'],upstream=[r['record_id'] for r in records]),lambda:economics(bundle,inv,arch,motor,motion,civil))
+            cost=stage('manufacturing_and_economics',dict(bundle_definition_id=bundle['definition_id'],upstream=[r['record_id'] for r in records]),lambda:economics(bundle,inv,arch,motor,motion,civil,root=root))
             row=dict(candidate_id=bundle['candidate_id'],body_candidate_id=body['candidate_id'],bundle_definition_id=bundle['definition_id'],case_context_id=case_context,structure_context=structure_context,family_id=bundle['family_id'],
                 motor_component_id=bundle['propulsion_component_id'],accounted_mass=bundle['mass'],architecture_added_mass_unknown=bundle['unweighed_architecture_equipment'],
                 stages=records,inventory_summary=_inventory_summary(inv),interfaces=interfaces,architecture=arch,propulsion=motor,motion=_compact_motion(motion),
@@ -197,10 +208,11 @@ def run(root=ROOT,*,maximum_new_bundles=None,native_jobs=0,state=None):
             _write(folder/'journal.json',dict(contract_id=contract,completed_rows=[r['row_id'] for r in rows],new_bundles=new,reused_bundles=reused,pending_count=len(bundles)-len(rows),**FLAGS))
             if source_epoch(root)!=epoch:raise ValueError('Coupled physical sources changed during execution')
         partial=_partial_selection(rows,bodies,root)
+        cost_comparisons=_cost_comparisons(rows)
         frontier=_frontier(rows,bodies,native)+pending+native.get('pending',[])
         result=dict(schema='osr-coupled-railway-campaign/1',contract_id=contract,specification=spec,source_sha256=epoch,bodies=bodies,
             bundles=bundles,rows=rows,executed_body_revisions=decisions,native=native,dependency_graph=EDGES,
-            partial_quantity_comparison=partial,frontier=frontier,search_status='work-remaining',new_bundles=new,reused_bundles=reused,
+            partial_quantity_comparison=partial,model_cost_comparisons=cost_comparisons,frontier=frontier,search_status='work-remaining',new_bundles=new,reused_bundles=reused,
             integrated_selection=None,selected_reference_changed=False,city_performance_packages_written=0,**FLAGS)
         if source_epoch(root)!=epoch:raise ValueError('Coupled source epoch changed before final sealing')
         result['campaign_id']=semantic_id(result);result['run_id']=identity(result);_write(folder/'invocations'/(result['run_id']+'.json'),result);_write(folder/'result.json',result);return result
@@ -244,7 +256,25 @@ def _partial_selection(rows,bodies,root):
         values.append(system_inventory.evaluate(body,bundle_id=case['candidate_id'],source_root=root,comparison_context=specification(root)['experiment']))
     return dict(known_stock_operations=system_inventory.pareto(values,objectives={'known_gross_structure_stock_kg':'min','manufacturing_occurrences':'min'}),
         lifecycle=system_inventory.pareto(values,objectives={'known_gross_structure_stock_kg':'min','installed_CAPEX_USD':'min'}),
-        selection_purpose='Partial research alternatives; unknown lifecycle prices prevent an economic winner')
+        selection_purpose='Partial inventory comparison only; candidate model-cost ranges are reported separately and do not constitute an integrated selection')
+
+
+def _cost_comparisons(rows):
+    groups={}
+    for row in rows:
+        cost=row.get('economics',{}).get('model_cost')
+        if not isinstance(cost,dict):continue
+        basis=cost['corridor_basis']
+        key=(cost['currency'],cost['estimate_date'],cost['assumption_id'],basis['offered_capacity_pphpd'],
+            basis['target_headway_s'],basis['directional_route_m'],basis['trackways'],basis['stations'])
+        groups.setdefault(key,[]).append(cost)
+    result=[]
+    for key,values in sorted(groups.items(),key=lambda item:str(item[0])):
+        comparison=model_cost.compare(values)
+        result.append(dict(common_service_context=dict(currency=key[0],estimate_date=key[1],assumption_id=key[2],
+            offered_capacity_pphpd=key[3],target_headway_s=key[4],directional_route_m=key[5],trackways=key[6],stations=key[7]),
+            comparison=comparison))
+    return result
 
 
 def _frontier(rows,bodies,native):
@@ -269,5 +299,11 @@ def _frontier(rows,bodies,native):
         if row['family_id']!='P1':continue
         tasks.append(dict(kind='available-propulsion-and-journey',bundle_id=row['candidate_id'],state='open',motor_component_id=row['motor_component_id'],
             required=['Validated nonlinear moving force/normal-force/loss/current/voltage/thermal map','Measured independent brake/WSP/adhesion model','Same-bundle forward journey and faults']))
-    tasks.append(dict(kind='whole-life-economics',state='open',required=['Complete installed and maintenance quantities','Source-bound supplier/process/site/energy prices and evidence','Qualified common-service comparison']))
+    tasks.append(dict(kind='whole-life-economics',state='model-cost-complete-for-declared-cases; evidence-replacement-open',
+        completed=['Generate low/base/high Class C factory-gate, delivered, installed, energy, maintenance, renewal, recovery and reliability estimates in IQD for every executed candidate',
+            'Calculate production-cell, tooling, civil support, haul and erection quantities from the same candidate bundle'],
+        required=['Replace provisional unit rates with source-bound Iraqi supplier, process and site evidence as it becomes available',
+            'Add surveyed alignment, geotechnical, access, land, utility and depot quantities before city budgeting',
+            'Validate propulsion energy, operating duty, maintenance intervals, failures and replacement lives',
+            'Review equal-service Pareto ranges; retain uncertainty and do not promote a candidate from model-cost ranking alone']))
     return tasks

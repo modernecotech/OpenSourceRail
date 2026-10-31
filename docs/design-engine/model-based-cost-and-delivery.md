@@ -1,6 +1,12 @@
 # Model-based cost and end-to-end delivery closure
 
-**Implementation plan — 31 October 2026.** This document describes the proposed next integration, not an assertion that all stages already run. The selected v0.6 reference remains the six-car, passive-wheel, station-LIM train. Research alternatives retain their own physical/evaluation/selection identities. Safety, accessibility and engineering qualification are never waived by a cheap cost estimate.
+**Implementation status — 31 October 2026.** The first candidate-bound Class C cost path is now executable in `engineering/design_search/model_cost.py` and runs as the coupled railway campaign's `manufacturing_and_economics` stage. The plan below records the broader integration still to do. The selected v0.6 reference remains the six-car, passive-wheel, station-LIM train. Research alternatives retain their own physical/evaluation/selection identities. Safety, accessibility and engineering qualification are never waived by a cheap cost estimate.
+
+### First executable model-cost milestone
+
+For each executed bundle, the campaign now prices occurrence-level body stock and retained equipment accounts, unknown joints and architecture packages, propulsion primary/conversion and installation, generated civil span quantities, bounded foundations/piers, transport, erection, rail installation, stations, utilities/depot, fleet, factory tooling/cells, electricity, operating staff, maintenance, renewals, recovery, reliability and end-of-life decommissioning. It emits low/base/high IQD estimates, cost-line identities, source evidence, a production-cell/tooling plan and construction-duration estimate. Seven dated July 2026 Iraqi CSO material/wage records are used where their units match; the remaining rates and missing site/asset quantities are explicit Class C assumptions.
+
+This is **model-cost complete for the declared synthetic corridor**, not complete as a city budget. Unknown installed mass, equipment locations, geotechnical/site quantities, material qualification, actual LIM electrical/thermal performance, supplier prices and observed operating costs remain explicit. Supplier/procurement, integrated engineering selection and physical/safety acceptance remain false. Equal-service comparisons report only robust cost-range dominance and never select or change the reference. The implementation is not yet a shared adapter for the historical Workbench, procurement and reference-cell APIs; increments C1–C3 and the full city/business-system delivery flow remain broader work.
 
 ## Why calculated costs are enough for design exploration
 

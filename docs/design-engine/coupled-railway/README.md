@@ -2,7 +2,7 @@
 
 Architecture, adaptive revision planning and physical body generation now share one coordinator, one explicit railway bundle and one dependency graph. A body edit creates new body/railway identities and automatically reevaluates inventory, interfaces, architecture, motor requirements, independent braking, civil loads, manufacture and economic coverage. The earlier campaigns remain reproducible component/historical tools. New coordinated work starts with `./osr design railway`.
 
-The executed comparison starts with **5 structural recipes**, makes **9 physical revisions**, and evaluates **112 railway bundles through 784 downstream stage records**. Two primary-iron alternatives share unchanged onboard fin stock. Seven architecture families retain their own changed interfaces and unweighed equipment. **No complete installed mass, available operating LIM map, physical journey or whole-life-cost winner is demonstrated.**
+The executed comparison starts with **5 structural recipes**, makes **9 physical revisions**, and evaluates **112 railway bundles through 784 downstream stage records**. Two primary-iron alternatives share unchanged onboard fin stock. Seven architecture families retain their own changed interfaces and unweighed equipment. **Class C model-cost estimates cover 112 of 112 executed bundles across 14 cost scopes. Installed mass, available operating LIM maps, physical journeys, supplier-priced budgets and a qualified whole-life-cost winner remain open.**
 
 ## Closed-loop physical and system changes
 
@@ -29,7 +29,7 @@ These are exact generated nominal/net stock quantities plus retained source acco
 
 ## Three-dimensional structural method
 
-Four independent fixtures check bending/shear refinement, intact finite-face transfer and orthotropic axial/shear constitutive patches. The two new metal bodies have **7 native body cases** across normal, normal-fine and crowd loading. C3D8I solids resolve the declared actual metal geometry; no invisible gap ties or arbitrary rigid offsets create the load path. Intact autogenous weld/continuous-face transfer is an unqualified numerical hypothesis.
+Four independent fixtures check bending/shear refinement, intact finite-face transfer and orthotropic axial/shear constitutive patches. The two new metal bodies have **7 exact native body cases** across normal, normal-fine and crowd loading: 7 dispatched in this coordinated run and 0 carried forward from byte-verified prior publications after matching candidate, load, mesh, solver, resources and source hashes. Reuse is provenance-preserving and does not count as a new solve. C3D8I solids resolve the declared actual metal geometry; no invisible gap ties or arbitrary rigid offsets create the load path. Intact autogenous weld/continuous-face transfer is an unqualified numerical hypothesis.
 
 | New solid body | Normal 1.7 m target | Finer 0.85 m | Extra 0.425 m | Last-step change |
 |---|---:|---:|---:|---:|
@@ -56,9 +56,11 @@ The forward-motion method has independent synthetic tests for constant-force ene
 
 Each shared bundle produces an EBOM of actual stock, retained accounts and unresolved joints; MBOM cuts/blanks and process groups; assembly/inspection dependencies; material, supplier, access, repair and QA tasks; and source-bound price/lead-time coverage. Missing equipment is neither a box invented for an animation nor a zero-mass part. Quotes require the exact bundle/component/quantity/unit/currency context.
 
+The campaign now also produces **14 low/base/high IQD model-cost scopes** per executed candidate: rolling stock, guideway, stations/power, factory/tooling, construction, land/utilities/depot, fleet, energy, operations, maintenance, renewals, recovery, reliability and decommissioning. Dated July 2026 Iraqi CSO materials/wages are used where matched; the remaining rates and missing site/asset quantities are explicit Class C assumptions. See the [model-based cost and delivery plan](../model-based-cost-and-delivery.md). These are design-stage estimates with zero supplier quotations, not procurement-ready prices or accepted city budgets.
+
 The two executed new body CADs also compile candidate-bound delivery packages: the same stock IDs feed EBOM/MBOM, disabled research ERPNext Item/BOM drafts, assembly and procurement tasks, and reopened IFC body-stock geometry. Drafts are not posted to ERPNext and cannot release purchasing or manufacture. Unlocated equipment, unknown joint realization and missing commercial/process evidence remain explicit.
 
-Partial Pareto comparisons retain unknown or differently scoped alternatives. Installed prices, energy purchase, tooling, labour, maintenance lives, renewals and downtime remain missing. The system cannot choose a cheapest qualified railway from gross stock. Civil results count axle envelopes, section/tendon quantities and preliminary foundation/erection hypotheses; site/geotechnical, torsional and construction qualification remain open.
+Candidate cost ranges are compared only where currency, rate assumptions, corridor length, trackways, station count, headway and offered capacity match. Overlapping low/base/high whole-life scenarios remain incomparable; cost dominance does not select a candidate or change the v0.6 reference. Cost inputs include declared energy, staffing, maintenance, replacement, recovery, reliability and end-of-life scenarios. City alignment/site surveys, tariffs, staffing rules, failures, supplier quotes, tax/finance and physical performance are not established. Civil results count axle envelopes, section/tendon quantities and preliminary foundation/erection hypotheses; geotechnical, torsional and construction qualification remain open.
 
 Immutable stage requests include candidate and upstream evidence IDs. Native cache admission checks source/executable/payload plus exact body, load, mesh, method and resource request. New structural evidence invalidates dependent case evaluations even if geometry is unchanged. Stable experiment identity is separate from invocation cache counters; interrupted/pending work remains in the frontier. Native/CAD packets retain their original receipts.
 

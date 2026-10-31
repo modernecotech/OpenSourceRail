@@ -26,8 +26,8 @@ def test_publication_payload_cannot_promote_an_unqualified_winner(tmp_path):
         publication.verify(output=out)
 
 
-def test_publishing_current_evidence_needs_no_local_solver_folders(monkeypatch):
+def test_publishing_current_evidence_does_not_rerun_campaign(monkeypatch):
     def refused(*args, **kwargs):
-        raise AssertionError('Current publication must reuse its sealed evidence')
-    monkeypatch.setattr(publication, 'current', refused)
+        raise AssertionError('Publication refresh must not launch a campaign or solver')
+    monkeypatch.setattr(publication.engine, 'run', refused)
     assert publication.build()['verified']
