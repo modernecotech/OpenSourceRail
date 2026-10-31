@@ -51,6 +51,90 @@ function readable(value) {
   if (value === null || value === undefined) return "Unknown";
   return typeof value === "object" ? JSON.stringify(value) : String(value);
 }
+function billions(value) {
+  return (Number(value) / 1e9).toLocaleString("en-GB", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+async function renderVehicleCost(expected) {
+  const cost = validated(
+    await request("/docs/design-engine/current/exports/selected-vehicle-cost.json"),
+    expected,
+  );
+  if (
+    cost.schema !== "osr-v06-selected-vehicle-class-c-cost/1" ||
+    cost.evaluation_id !==
+      (expected.publication?.evaluation_id || expected.evaluation_id) ||
+    cost.whole_life_cost_iqd !== null ||
+    cost.city_cost_iqd !== null
+  )
+    throw Error("Selected vehicle cost record or scope disposition differs.");
+  const train = cost.total_vehicle_factory_delivery_assembly_iqd_per_train;
+  const car = cost.unit_iqd_per_car;
+  const tooling = cost.separate_unamortized_factory_tooling_capital_iqd;
+  for (const scenarios of [train, car, tooling]) {
+    const values = [scenarios.low, scenarios.base, scenarios.high];
+    if (
+      values.some((value) => !Number.isFinite(value) || value < 0) ||
+      values[0] > values[1] ||
+      values[1] > values[2]
+    )
+      throw Error("Cost scenarios must be finite and ordered low/base/high.");
+  }
+  byId("vehicle-cost-train").textContent = billions(train.base);
+  byId("vehicle-cost-car").textContent = billions(car.base);
+  byId("vehicle-tooling").textContent = billions(tooling.base);
+  byId("vehicle-cost-status").textContent =
+    `Class C provisional estimate · ${cost.currency} · ${cost.estimate_date} · assumptions ${cost.assumptions_id.slice(0, 12)}.`;
+  const facts = byId("vehicle-cost-facts");
+  fact(
+    facts,
+    "Per train, low / base / high",
+    `${billions(train.low)} / ${billions(train.base)} / ${billions(train.high)} billion IQD`,
+  );
+  fact(
+    facts,
+    "Per car, low / base / high",
+    `${billions(car.low)} / ${billions(car.base)} / ${billions(car.high)} billion IQD`,
+  );
+  fact(
+    facts,
+    "Accounted / located / residual mass per car",
+    `${format(cost.vehicle_account.accounted_tare_kg_per_car / 1000)} / ${format(cost.vehicle_account.located_geometry_kg_per_car / 1000)} / ${format(cost.vehicle_account.residual_account_kg_per_car / 1000)} t`,
+  );
+  fact(
+    facts,
+    "Production and civil shifts",
+    `${cost.shifts.production_per_day.shifts} × ${cost.shifts.production_per_day.hours_per_shift} h; ${cost.shifts.civil_per_day.shifts} × ${cost.shifts.civil_per_day.hours_per_shift} h`,
+  );
+  fact(
+    facts,
+    "Operating cases",
+    cost.shifts.operations_cases
+      .map((row) => `${row.hours_per_day} h/day (${row.shifts_per_day} shifts)`)
+      .join(" · "),
+  );
+  fact(
+    facts,
+    "Reference delivery",
+    `${format(cost.reference_delivery_distance_km)} km · ${billions(cost.reference_delivery_cost_iqd_per_train.base)} billion IQD/train base`,
+  );
+  const body = byId("vehicle-cost-lines");
+  body.replaceChildren();
+  for (const line of cost.lines) {
+    const tr = document.createElement("tr");
+    const label = document.createElement("td");
+    label.textContent = line.line_key.replaceAll("/", " · ");
+    tr.append(label);
+    for (const scenario of ["low", "base", "high"]) {
+      const cell = document.createElement("td");
+      cell.textContent = format(line.cost_iqd[scenario]);
+      tr.append(cell);
+    }
+    body.append(tr);
+  }
+}
 function renderGates(gates) {
   const rows = Array.isArray(gates)
     ? gates
@@ -159,6 +243,12 @@ async function start() {
     const packet = validated(current.publication, current),
       v = current.vehicle,
       s = current.service;
+    try {
+      await renderVehicleCost(current);
+    } catch (error) {
+      byId("vehicle-cost-status").textContent = "Held: " + error.message;
+      byId("vehicle-cost-lines").replaceChildren();
+    }
     const speed = s.launch_speed_cap_m_s * 3.6,
       capacity = (v.cars * v.normal_passengers_per_car * 3600) / s.headway_s;
     if (

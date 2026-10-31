@@ -9,6 +9,8 @@ def compile(record,root=ROOT,city_index=None):
     if city_index is not None and any(city_index.get(k)!=record[k] for k in IDS):raise ValueError('city index belongs to another physical candidate')
     stamp=dict(**{k:record[k] for k in IDS},evaluation_id=record['evaluation_id'],development_default=True,purpose='research and requests for evidence',**FLAGS)
     common=lambda schema,**value:dict(schema=schema,**stamp,**value)
+    from engineering.development_baseline import vehicle_cost
+    selected_vehicle_cost=vehicle_cost.evaluate(record,root)
     car=record['vehicle'];s=record['service'];z=s['selected_station'];battery=s['electrical']['battery']
     bom=common('osr-v06-engineering-bom/1',mass=car['mass'],stock_inventory_per_car=car['inventory'],
         formation=dict(cars=6,bogies=12,axles=24,wheels=48),onboard_traction_motors=0,onboard_traction_battery_kWh=0.,
@@ -48,12 +50,13 @@ def compile(record,root=ROOT,city_index=None):
         station_converter_rating=None,qualified_braking_floor_m_s2=None,actual_physical_headway_s=None,
         wheel_suspension_independent_of_station_power=True,magnetic_suspension_inputs=False,
         contract_fixture='crates/osr-atp/examples/wheel_station_contract.rs',qualified_GoA4_product=False)
-    return dict(bom=bom,manufacturing=manufacturing,procurement=procurement,assembly=assembly,civil=civil,controls=controls)
+    return dict(bom=bom,manufacturing=manufacturing,procurement=procurement,assembly=assembly,civil=civil,controls=controls,
+        selected_vehicle_cost=selected_vehicle_cost)
 
 def write(output,record,root=ROOT,city_index=None,native=None):
     output=Path(output);output.mkdir(parents=True,exist_ok=True);values=compile(record,root,city_index)
     for key,value in values.items():
-        name='engineering-bom' if key=='bom' else key
+        name='engineering-bom' if key=='bom' else 'selected-vehicle-cost' if key=='selected_vehicle_cost' else key
         raw=encoded(value);(output/(name+'.json.gz' if key in ('bom','procurement') else name+'.json')).write_bytes(gzip.compress(raw,mtime=0) if key in ('bom','procurement') else raw)
     cad=dict(schema='osr-v06-cad-reference/1',**{k:record[k] for k in IDS},development_default=True,
         execution='not-run' if native is None else native.get('execution','completed'),
@@ -61,8 +64,10 @@ def write(output,record,root=ROOT,city_index=None,native=None):
     (output/'cad.json').write_bytes(encoded(cad))
     from . import bim
     (output/'bim.json').write_bytes(encoded(bim.write(output,record)))
+    from engineering.development_baseline import vehicle_cost
     m=dict(schema='osr-v06-delivery-manifest/1',**{k:record[k] for k in IDS},evaluation_id=record['evaluation_id'],
-        development_default=True,source_sha256=source_map(root,('engineering/station_rail/exports.py','engineering/station_rail/bim.py')),
+        development_default=True,source_sha256=source_map(root,('engineering/station_rail/exports.py','engineering/station_rail/bim.py',
+            *vehicle_cost.sources(root).keys())),
         files_sha256={p.name:digest(p) for p in sorted(output.iterdir()) if p.is_file() and p.name!='manifest.json'},**FLAGS)
     m['manifest_id']=identity(m);(output/'manifest.json').write_bytes(encoded(m));return m
 
@@ -70,10 +75,12 @@ def verify(output,record,root=ROOT,city_index=None):
     output=Path(output);m=json.loads((output/'manifest.json').read_bytes())
     if any(m.get(k)!=record[k] for k in (*IDS,'evaluation_id')):raise ValueError('delivery candidate differs')
     if m['manifest_id']!=identity({k:v for k,v in m.items() if k!='manifest_id'}):raise ValueError('delivery manifest identity differs')
-    if m['source_sha256']!=source_map(root,('engineering/station_rail/exports.py','engineering/station_rail/bim.py')):raise ValueError('delivery source differs')
+    from engineering.development_baseline import vehicle_cost
+    if m['source_sha256']!=source_map(root,('engineering/station_rail/exports.py','engineering/station_rail/bim.py',
+        *vehicle_cost.sources(root).keys())):raise ValueError('delivery source differs')
     if {p.name:digest(p) for p in output.iterdir() if p.is_file() and p.name!='manifest.json'}!=m['files_sha256']:raise ValueError('delivery payload differs')
     for key,value in compile(record,root,city_index).items():
-        name='engineering-bom' if key=='bom' else key;compressed=key in ('bom','procurement')
+        name='engineering-bom' if key=='bom' else 'selected-vehicle-cost' if key=='selected_vehicle_cost' else key;compressed=key in ('bom','procurement')
         raw=(output/(name+'.json.gz' if compressed else name+'.json')).read_bytes()
         if (gzip.decompress(raw) if compressed else raw)!=encoded(value):raise ValueError('delivery calculation differs')
     from . import bim

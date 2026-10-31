@@ -107,6 +107,39 @@ try {
   await page.goto(origin + "/", { waitUntil: "networkidle" });
   await page.locator("#design").waitFor({ state: "visible" });
   assert(page.url().endsWith("/docs/workbench/current/"));
+  const costResponse = await context.request.get(
+    origin + "/docs/design-engine/current/exports/selected-vehicle-cost.json",
+  );
+  assert.equal(costResponse.status(), 200, await costResponse.text());
+  const vehicleCost = await costResponse.json();
+  assert.equal(vehicleCost.schema, "osr-v06-selected-vehicle-class-c-cost/1");
+  assert.equal(vehicleCost.selection_id, current.selection_id);
+  assert.equal(vehicleCost.candidate_id, current.candidate_id);
+  assert.equal(vehicleCost.evaluation_id, current.publication.evaluation_id);
+  assert.equal(vehicleCost.estimate_class, "C");
+  assert.equal(vehicleCost.whole_life_cost_iqd, null);
+  assert.equal(vehicleCost.city_cost_iqd, null);
+  assert.equal(vehicleCost.accounting_overlap.overlap_mass_kg, null);
+  assert.equal(vehicleCost.accounting_overlap.total_assumes_gross_accounts_are_distinct, true);
+  assert.deepEqual(
+    vehicleCost.shifts.operations_cases.map((row) => [row.hours_per_day, row.shifts_per_day]),
+    [[16, 2], [18, 2], [24, 3]],
+  );
+  for (const key of [
+    "engineering_accepted",
+    "physical_accepted",
+    "installed_mass_complete",
+    "manufacturing_release",
+    "operating_release",
+  ])
+    assert.equal(vehicleCost[key], false);
+  await page.locator("#vehicle-cost-status").waitFor({ state: "visible" });
+  assert.match(await page.locator("#vehicle-cost-status").innerText(), /Class C provisional estimate/);
+  assert.match(await page.locator("#vehicle-cost-facts").innerText(), /16 h\/day \(2 shifts\).*18 h\/day \(2 shifts\).*24 h\/day \(3 shifts\)/s);
+  assert((await page.locator("#vehicle-cost-lines tr").count()) > 0);
+  assert.match(await page.locator("#vehicle-cost-heading").innerText(), /Selected vehicle cost estimate/);
+  report.vehicle_cost_estimate_id = vehicleCost.cost_estimate_id;
+  report.vehicle_cost_train_iqd = vehicleCost.total_vehicle_factory_delivery_assembly_iqd_per_train;
   assert.equal(await page.locator("#speed").innerText(), "72");
   assert.equal(await page.locator("#headway").innerText(), "120");
   assert.equal(await page.locator("#capacity").innerText(), "8,280");
@@ -441,6 +474,7 @@ try {
     "wheel support and passive secondary identities",
     "266 geographic contexts held without reusing historical fleet",
     "current city source bindings",
+    "selected-candidate Class C vehicle cost and 2/3-shift operating cases",
     "desktop/mobile rendering",
     "read-only API",
     "coordinated research counts and unknown installed mass",

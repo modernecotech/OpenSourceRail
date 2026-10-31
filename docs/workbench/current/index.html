@@ -92,6 +92,40 @@
             </p>
           </article>
         </section>
+        <section class="panel" aria-labelledby="vehicle-cost-heading">
+          <h2 id="vehicle-cost-heading">Selected vehicle cost estimate</h2>
+          <p id="vehicle-cost-status" role="status">
+            Checking the selected candidate's source-bound Class C estimate…
+          </p>
+          <section class="metrics" aria-label="Vehicle cost scenarios">
+            <article>
+              <strong id="vehicle-cost-train"></strong><span>six-car factory, delivery and assembly · base · billion IQD</span>
+            </article>
+            <article>
+              <strong id="vehicle-cost-car"></strong><span>per car · base · billion IQD</span>
+            </article>
+            <article>
+              <strong id="vehicle-tooling"></strong><span>separate unamortized tooling capital · base · billion IQD</span>
+            </article>
+          </section>
+          <dl id="vehicle-cost-facts"></dl>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Cost line</th><th>Low · IQD/train</th><th>Base · IQD/train</th><th>High · IQD/train</th></tr></thead>
+              <tbody id="vehicle-cost-lines"></tbody>
+            </table>
+          </div>
+          <p class="note">
+            This prices the selected vehicle account and its declared production,
+            assembly and reference-delivery assumptions. The 10.09 t/car
+            residual is priced as an allowance but remains unlocated; possible
+            account overlap is unknown and receives no cost credit. Civil,
+            station, route, fleet, operations and whole-life costs remain held.
+            This estimate does not establish installed mass or engineering
+            acceptance.
+          </p>
+          <a href="../../design-engine/current/exports/selected-vehicle-cost.json">Source-bound cost record</a>
+        </section>
         <section class="panel">
           <h2>Engineering readiness</h2>
           <p>
