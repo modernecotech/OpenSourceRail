@@ -1,4 +1,4 @@
-# Executed continuing-cell results — 28 October 2026
+# Executed continuing-cell results — 31 October 2026
 
 These are numerical research records. No authenticated prototype measurements, accepted operating maps, qualified structural margins, installed whole-life price or operating approval have been established.
 
@@ -16,8 +16,8 @@ Source development used an isolated Git worktree. Numerical jobs used private pe
 
 | Package | Identity |
 |---|---|
-| Ten-cell run | `6490e412fd4c678bf2813b71942aee24c019052988f716ab239fe1e6b6212e30` |
-| Cell publication | `8f4d97ba36799922760c8efd5e218f0c5dfc7af455f3652b3ed995dfcdd8de82` |
+| Ten-cell run | `952d54e8b465b0a903609200a227d3f825b5a0ae6f0a0321db300a2289dab752` |
+| Cell publication | `2dfe56e51be7a3f805dc61eb787bb7f5170d72ee05eb20bb107cc7a2091a0364` |
 | Five native packages | `7306491795f7aa6ca893e3528ccbddf2700370a2cb39b0f36ae431e5ac42dfc3` |
 | Matched motor comparison | `1c0a219e3a012b2fdf7169f160399fa57deeb0a638df9370c2037a32854b55c8` |
 

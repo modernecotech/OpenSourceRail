@@ -1,4 +1,4 @@
-# Executed sourced reference-cell validation — 28 October 2026
+# Executed sourced reference-cell validation — 31 October 2026
 
 This is software, geometry and bounded numerical evidence. None establishes a complete installed/qualified railway, accepted price, protected operating service, manufactured article or operating pilot.
 
@@ -6,7 +6,7 @@ This is software, geometry and bounded numerical evidence. None establishes a co
 
 [Publication](manifest.json), [immutable run archive](reference-cell.tar.gz), [Workbench index](summary.json).
 
-Run `7aaecd88192a196afd76bba4a6b1a044f11bb8eb7ad56000ee9b5187cb45053b`: **ten** same-candidate vehicle/distance evaluations, **five** physically different equipped proposals, **zero** pending generation requests. Each has 27 defined coupled nominal/environment/fault contexts and ten newly bound physical-test requests. Platform position follows each generated floor surface and door side; the declared rail/TOR and boarding gap still require actual section/interface/accessibility verification. All production journeys remain held: **zero admitted operating maps, zero production arrivals and zero physical tests**. A generated case is not an executed journey.
+Current-source run `61b676e43eec8d4b6571adb1d8ca1e9fca1003886e8f965662a2785972fa41de`, publication `ad26e408e62587a3bcf12208b2080c4c398777b1d913dd326a11067ee80ab7b4`: **ten** same-candidate vehicle/distance evaluations, **five** physically different equipped proposals, **zero** pending generation requests. The regenerated numerical payload matches the prior publication after excluding source-bound identity fields. Each has 27 defined coupled nominal/environment/fault contexts and ten newly bound physical-test requests. Platform position follows each generated floor surface and door side; the declared rail/TOR and boarding gap still require actual section/interface/accessibility verification. All production journeys remain held: **zero admitted operating maps, zero production arrivals and zero physical tests**. A generated case is not an executed journey.
 
 | Two-kilometre cell | Physical cell identity | Located occurrences in six cars | Declared six-car tare interval kg |
 |---|---|---:|---:|
