@@ -7,6 +7,7 @@ import pytest
 
 from engineering.station_rail.common import identity
 from engineering.railway_completion import variant_design as v
+from engineering.railway_twin import pipeline as twin_pipeline
 
 
 @pytest.fixture(scope='module')
@@ -20,6 +21,8 @@ def test_two_physical_motor_rewrites_have_distinct_candidate_motor_and_brake_ids
     assert len({r['brake_definition_id'] for r in results.values()})==3
     assert len({r['body_candidate_id'] for r in results.values()})==1
     assert len({r['support_component_id'] for r in results.values()})==1
+    assert all(results['reference']['source_sha256'].get(name)==digest
+               for name,digest in twin_pipeline.sources().items())
     reference=results['reference']
     assert reference['candidate_id']==reference['parent_reference_bundle_id']
     for kind in ('wide-return','rewound'):

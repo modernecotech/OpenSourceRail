@@ -8,6 +8,7 @@ from pathlib import Path
 import pytest
 
 from engineering.railway_completion import experiments as e
+from engineering.railway_twin import pipeline as twin_pipeline
 from engineering.station_rail.common import encoded, identity
 
 
@@ -81,6 +82,12 @@ def test_eight_case_matrix_keeps_controls_separate_from_candidate_screens(matrix
     assert matrix['inside-forward']['request']['motor_component_id'] == matrix['inside-reverse']['request']['motor_component_id']
     for row in matrix.values():
         e.motor.validate(row['request'])
+
+
+def test_experiment_source_epoch_covers_all_twin_candidate_materialization_inputs():
+    epoch=e.source_epoch()
+    assert all(epoch.get(name)==digest for name,digest in twin_pipeline.sources().items())
+    assert epoch[e.PRODUCER]
 
 
 @pytest.fixture

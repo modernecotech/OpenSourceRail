@@ -115,7 +115,10 @@ def evaluate(kind='reference',root=ROOT):
         twin_pipeline.PRODUCER:Path(twin_pipeline.__file__),wheel_motor.PRODUCER:Path(wheel_motor.__file__),
         system_inventory.PRODUCER:Path(system_inventory.__file__),system_motion.PRODUCER:Path(system_motion.__file__),
         railway_bundle.PRODUCER:Path(railway_bundle.__file__),railway_delivery.PRODUCER:Path(railway_delivery.__file__)}
-    sources={**bundle['source_sha256'],**inventory['source_sha256']}
+    # The source set must cover the full twin materialization path. A candidate
+    # can keep its physical ID while its source-bound definition/evaluation ID
+    # changes, so bundle-local hashes alone are not a complete replay contract.
+    sources={**twin_pipeline.sources(root),**bundle['source_sha256'],**inventory['source_sha256']}
     for name,loaded in producers.items():
         sources[name]=digest(root/name)
         if sources[name]!=digest(loaded):raise ValueError('Executing variant producer differs from declared source root')

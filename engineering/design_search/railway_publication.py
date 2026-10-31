@@ -2,6 +2,7 @@
 from pathlib import Path
 from copy import deepcopy
 from hashlib import sha256
+from math import isfinite
 import gzip,json,shutil,tarfile,io
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import encoded,identity,digest
@@ -52,6 +53,57 @@ def _body_response(native,body_id):
         mesh_levels=[dict(case=r['case'],mesh_m=r['mesh_m'],evaluation_id=r['evaluation_id'],maximum_displacements=r['raw'].get('maximum_displacements')) for r in cases],
         numerical_status='equilibrium/energy checked; maxima refinement reported' if valid else 'unconfirmed' if cases else 'computational resource hold' if hold else 'full-body model not admitted',
         engineering_screen='unknown',full_body_qualified=False)
+
+
+def _cost_simulation_completion(row):
+    """Audit the declared cost simulation without promoting physical evidence."""
+    estimate=row.get('economics',{}).get('model_cost',{})
+    candidate_id=row['candidate_id']
+    required=set(engine.model_cost.SCOPES)
+    totals=estimate.get('scope_totals_iqd',{})
+    lines=estimate.get('cost_line_items',[])
+    assumptions_id=estimate.get('assumption_id')
+    complete=(estimate.get('candidate_id')==candidate_id
+        and estimate.get('model_cost_complete_for_declared_case') is True
+        and estimate.get('model_cost_missing_scopes')==[]
+        and set(estimate.get('required_cost_scopes',[]))==required
+        and set(totals)==required
+        and all(isinstance(totals.get(scope),list) and len(totals[scope])==3
+                and all(isinstance(x,(int,float)) and isfinite(x) and x>=0 for x in totals[scope])
+                and totals[scope][0]<=totals[scope][1]<=totals[scope][2] and totals[scope][1]>0
+                for scope in required)
+        and bool(assumptions_id) and bool(estimate.get('source_sha256'))
+        and bool(lines) and all(line.get('candidate_id')==candidate_id
+            and line.get('scope') in required and line.get('source_ids')
+            and isinstance(line.get('calculation_basis'),str) and line['calculation_basis'].strip()
+            and set(line.get('scenario_iqd',{}))=={'low','base','high'}
+            and all(isinstance(x,(int,float)) and isfinite(x) and x>=0
+                    for x in line.get('scenario_iqd',{}).values())
+            for line in lines)
+        and {line.get('scope') for line in lines}==required)
+    return dict(candidate_id=candidate_id,
+        simulation_complete=complete,
+        simulation_scope='Candidate-bound Class C manufacturing, delivery, civil and lifecycle cost scenario; 14 declared cost scopes.',
+        simulation_input_basis='Source-linked quantities and explicitly identified Class C assumptions; supplier quotations are not required for this provisional calculation.',
+        assumption_id=assumptions_id,
+        integrated_force_driven_journey_complete=row.get('physical_journey_completed') is True,
+        engineering_validated=False,
+        engineering_validation_state='open',
+        engineering_validation_basis='Cost estimates and numerical screens do not supply independently reviewed physical qualification evidence.',
+        approved_for_manufacture_or_operation=False,
+        approval_state='not-approved',
+        approval_basis='Requires completed engineering and safety evidence plus independent release approval.')
+
+
+def completion_summary(rows):
+    records=[_cost_simulation_completion(row) for row in rows]
+    return dict(candidate_count=len(records),
+        simulation_scope='The simulation-complete flag applies to the declared 14-scope Class C cost scenario only. Integrated force-driven journey simulation is reported separately.',
+        simulation_complete=sum(r['simulation_complete'] for r in records),
+        integrated_force_driven_journey_complete=sum(r['integrated_force_driven_journey_complete'] for r in records),
+        engineering_validated=sum(r['engineering_validated'] for r in records),
+        approved_for_manufacture_or_operation=sum(r['approved_for_manufacture_or_operation'] for r in records),
+        candidate_states=records)
 
 
 def _retain_exact_prior_body_cases(root,value,out,native_index):
@@ -172,6 +224,7 @@ def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=()):
             architecture_cases=len(cases),structural_status=response['numerical_status'],response=response,complete_installed_mass_kg=None))
     magnetic=[] if magnetic is None else magnetic
     model_costs=[r['economics']['model_cost'] for r in value['rows'] if isinstance(r.get('economics',{}).get('model_cost'),dict)]
+    completion=completion_summary(value['rows'])
     result=dict(schema='osr-coupled-railway-summary/1',campaign_id=value['campaign_id'],contract_id=value['contract_id'],body_count=len(rows),
         initial_body_count=value['specification']['initial_structural_recipes'],body_rewrite_count=len(value['executed_body_revisions']),
         bundle_count=len(value['bundles']),evaluated_bundle_count=len(value['rows']),downstream_stage_count=sum(len(r['stages']) for r in value['rows']),
@@ -183,6 +236,7 @@ def summary(value,magnetic=None,*,reused_body_cases=(),reuse_rejections=()):
             currency='IQD',estimate_class='C',required_scope_count=len(engine.model_cost.SCOPES),
             comparison_context_count=len(value.get('model_cost_comparisons',[])),supplier_quotes=0,
             procurement_ready=False,physical_or_safety_accepted=False,integrated_winner=None),
+        completion_status=completion,
         actual_force_driven_journeys=0,complete_installed_vehicle_masses=0,complete_lifecycle_costs=0,
         frontier_tasks=len(value['frontier']),dependency_graph=value['dependency_graph'],selection=value['partial_quantity_comparison'],
         integrated_selection=None,selected_reference_changed=False,city_performance_packages_written=0,**FLAGS)
@@ -193,6 +247,8 @@ def readme(s):
     lines=['# One coordinated railway experiment','',
         'Architecture, adaptive revision planning and physical body generation now share one coordinator, one explicit railway bundle and one dependency graph. A body edit creates new body/railway identities and automatically reevaluates inventory, interfaces, architecture, motor requirements, independent braking, civil loads, manufacture and economic coverage. The earlier campaigns remain reproducible component/historical tools. New coordinated work starts with `./osr design railway`.','',
         f"The executed comparison starts with **{s['initial_body_count']} structural recipes**, makes **{s['body_rewrite_count']} physical revisions**, and evaluates **{s['evaluated_bundle_count']} railway bundles through {s['downstream_stage_count']} downstream stage records**. Two primary-iron alternatives share unchanged onboard fin stock. Seven architecture families retain their own changed interfaces and unweighed equipment. **Class C model-cost estimates cover {s['model_cost_summary']['complete_for_declared_case']} of {s['model_cost_summary']['candidate_estimates']} executed bundles across {s['model_cost_summary']['required_scope_count']} cost scopes. Installed mass, available operating LIM maps, physical journeys, supplier-priced budgets and a qualified whole-life-cost winner remain open.**",'',
+        '## Completion levels','',
+        f"Each candidate reports three separate completion levels. The declared cost scenario is simulation-complete for **{s['completion_status']['simulation_complete']} of {s['completion_status']['candidate_count']} candidates**, using source-linked quantities and explicit Class C assumptions across 14 scopes. This flag covers that cost scenario only; it does not claim an integrated journey simulation. **{s['completion_status']['integrated_force_driven_journey_complete']}** candidates have a completed force-driven journey, **{s['completion_status']['engineering_validated']}** are engineering-validated, and **{s['completion_status']['approved_for_manufacture_or_operation']}** are approved for manufacture or operation. Engineering validation requires independent physical evidence and review; release requires a separate approval record.",'',
         '## Closed-loop physical and system changes','',
         'The existing adaptive planner diagnoses each declared pin-graph mechanism; the grammar produces a braced physical child instead of changing a pass threshold. A separate assembly-completion operator closes quantified frame/floor/roof gaps using counted metal stock and finite shared-face weld hypotheses. It generates an aluminium frame and an aluminium stressed-skin body, preserving passenger openings and required roof/PV/channel/drain functions. Missing composite laws are not replaced by isotropic GFRP.','',
         '| Body / physical revision | Known structure stock | Empty-mass account | 3D evidence | Architecture cases |',
@@ -343,6 +399,8 @@ def verify(root=ROOT,output=None):
             or cost_summary.get('complete_for_declared_case')!=expected_cost_count
             or cost_summary.get('integrated_winner') is not None):
         raise ValueError('Published model-cost summary differs from candidate estimates')
+    if s.get('completion_status')!=completion_summary(rows):
+        raise ValueError('Published candidate completion levels differ from their calculation evidence')
     if any(s.get(k) is not False for k in FLAGS) or s['integrated_selection'] is not None:raise ValueError('Research comparison cannot release a railway')
     native_index=json.loads((out/'native-index.json').read_bytes())
     native_body_count=sum(item.get('kind') in ('body','body-refinement','body-exact-cache-reuse') for item in native_index)

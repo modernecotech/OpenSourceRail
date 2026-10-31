@@ -12,6 +12,16 @@ This is **model-cost complete for the declared synthetic corridor**, not complet
 
 A complete *planning scenario* does not require an actual vendor quotation for every manufactured panel, chassis, beam, pier or factory process. Given a dimensioned part, material, production route, quantity and explicitly assumed rates, the platform can calculate a transparent low/base/high engineering estimate and compare alternatives. A third-party quote improves confidence when procurement is imminent; it is not a prerequisite for calculating a provisional design cost.
 
+## Three separate completion levels
+
+OpenSourceRail records completion by scope and keeps three decisions independent:
+
+1. **Simulation complete:** every required calculation in the declared study scope has run, and each input is measured, benchmark-supported, or an explicitly identified bounded assumption. A cost scenario can reach this level without a supplier quote. The record names its scope so a complete cost simulation cannot be mistaken for a complete propulsion journey or vehicle model.
+2. **Engineering validated:** the relevant physical models and limits are supported by credible evidence, results meet their supported engineering requirements, and an independent review has accepted the evidence. Provisional assumptions can support exploration but cannot satisfy this level.
+3. **Approved for manufacture or operation:** the candidate has passed the separate safety, accessibility, manufacturing or operating requirements for the specific release, with the required independent approvals. Manufacturing and operating approvals remain separately scoped.
+
+For the current coordinated comparison, the Class C cost scenario is complete for 112/112 evaluated bundles across 14 cost scopes. Integrated force-driven journeys, engineering validation and manufacture/operation approval remain open. The current report states this scope explicitly and retains the open mass, propulsion and physical evidence items.
+
 The existing work already includes a component/material master (engineering/component_registry), gross/net takeoffs (engineering/sourcing/manufacturing.py), candidate-bound Iraqi material-plus-labour screens with a configurable uplift (engineering/sourcing/fabrication.py), geometric production hypotheses (engineering/railway_progress/production.py), conditional A/B/C manufacturing and lifecycle costs (engineering/reference_cell), and disabled ERPNext/Frappe handoffs (services/integration/osr_integration). **These are separate research adapters, not yet one complete, consistently priced city-delivery ledger.** The next work is to connect them without losing scope and evidence distinctions.
 
 There must be three distinct completion flags:

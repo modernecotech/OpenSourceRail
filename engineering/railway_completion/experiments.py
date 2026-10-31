@@ -13,6 +13,7 @@ from math import sqrt
 from engineering.station_rail import ROOT
 from engineering.station_rail.common import identity,digest,encoded
 from engineering.railway_twin import model
+from engineering.railway_twin import pipeline as twin_pipeline
 from . import motor,FLAGS
 from engineering.design_search.launch_options import bounds
 
@@ -62,7 +63,11 @@ def _held(request):
 
 
 def source_epoch(root=ROOT):
-    return dict(motor.sources(root),**{PRODUCER:digest(Path(root)/PRODUCER)})
+    # Motor requests are materialized from the complete twin candidate. Bind
+    # that source graph as well as the narrower solver-method sources so a
+    # changed body/bundle definition cannot retain an old request identity.
+    return dict(twin_pipeline.sources(root),**motor.sources(root),
+        **{PRODUCER:digest(Path(root)/PRODUCER)})
 
 
 def _summary(name,result):

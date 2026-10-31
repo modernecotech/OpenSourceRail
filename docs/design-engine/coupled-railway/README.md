@@ -4,6 +4,10 @@ Architecture, adaptive revision planning and physical body generation now share 
 
 The executed comparison starts with **5 structural recipes**, makes **9 physical revisions**, and evaluates **112 railway bundles through 784 downstream stage records**. Two primary-iron alternatives share unchanged onboard fin stock. Seven architecture families retain their own changed interfaces and unweighed equipment. **Class C model-cost estimates cover 112 of 112 executed bundles across 14 cost scopes. Installed mass, available operating LIM maps, physical journeys, supplier-priced budgets and a qualified whole-life-cost winner remain open.**
 
+## Completion levels
+
+Each candidate reports three separate completion levels. The declared cost scenario is simulation-complete for **112 of 112 candidates**, using source-linked quantities and explicit Class C assumptions across 14 scopes. This flag covers that cost scenario only; it does not claim an integrated journey simulation. **0** candidates have a completed force-driven journey, **0** are engineering-validated, and **0** are approved for manufacture or operation. Engineering validation requires independent physical evidence and review; release requires a separate approval record.
+
 ## Closed-loop physical and system changes
 
 The existing adaptive planner diagnoses each declared pin-graph mechanism; the grammar produces a braced physical child instead of changing a pass threshold. A separate assembly-completion operator closes quantified frame/floor/roof gaps using counted metal stock and finite shared-face weld hypotheses. It generates an aluminium frame and an aluminium stressed-skin body, preserving passenger openings and required roof/PV/channel/drain functions. Missing composite laws are not replaced by isotropic GFRP.
